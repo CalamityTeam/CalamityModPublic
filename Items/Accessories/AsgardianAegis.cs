@@ -58,6 +58,7 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
             player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
+            player.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = true;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             { player.endurance += 0.1f; }
         }
@@ -69,7 +70,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<ElysianAegis>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

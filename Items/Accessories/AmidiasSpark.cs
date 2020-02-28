@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Amidias' Spark");
             Tooltip.SetDefault("Taking damage releases a blast of sparks\n" +
-                               "Sparks do extra damage in Hardmode");
+                               "Sparks deal extra damage in Hardmode");
         }
 
         public override void SetDefaults()

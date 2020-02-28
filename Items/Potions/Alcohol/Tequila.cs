@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tequila");
-            Tooltip.SetDefault(@"Boosts damage, damage reduction, and knockback by 3%, crit chance by 2%, and defense by 5 during daytime
-Reduces life regen by 1
-Great for mixing up daytime drinks");
+            Tooltip.SetDefault(@"Great for mixing up daytime drinks
+Boosts damage, damage reduction, and knockback by 3%, crit chance by 2%, and defense by 5 during daytime
+Reduces life regen by 1");
         }
 
         public override void SetDefaults()

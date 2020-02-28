@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Old Die");
-            Tooltip.SetDefault("Increases randomness of attack damage \n" +
-                               "'Lucky for you, the curse doesn't affect you. Mostly.'");
+            Tooltip.SetDefault("Lucky for you, the curse doesn't affect you. Mostly.\n" +
+                               "Increases the randomness of attack damage");
         }
 
         public override void SetDefaults()

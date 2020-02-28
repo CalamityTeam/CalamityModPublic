@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Evergreen Gin");
-            Tooltip.SetDefault(@"Boosts nature-based weapon damage by 15% and damage reduction by 5%
-Reduces life regen by 1
-It tastes like a Christmas tree if you can imagine that");
+            Tooltip.SetDefault(@"It tastes like a Christmas tree if you can imagine that
+Boosts nature-based weapon damage by 15% and damage reduction by 5%
+Reduces life regen by 1");
         }
 
         public override void SetDefaults()

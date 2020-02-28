@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dark Sun Ring");
-            Tooltip.SetDefault("12% increase to damage, minion knockback, and melee speed\n" +
+            Tooltip.SetDefault("Contains the power of the dark sun\n" +
+				"12% increase to damage, minion knockback, and melee speed\n" +
                 "+1 life regen, 15% increased pick speed, and +2 max minions\n" +
                 "During the day the player has +3 life regen\n" +
-                "During the night the player has +30 defense\n" +
-                "Contains the power of the dark sun");
+                "During the night the player has +30 defense");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
         }
 

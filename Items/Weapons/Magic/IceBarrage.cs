@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ice Barrage");
-            Tooltip.SetDefault("Casts a deadly and powerful ice spell in the location of the cursor \n" +
-                               "Consumes 2 Blood Runes every time its used \n" +
-                               "Oh dear, you are dead!");
+            Tooltip.SetDefault("Oh dear, you are dead!\n" +
+							   "Casts a deadly and powerful ice spell in the location of the cursor \n" +
+                               "Consumes 2 Blood Runes every time its used");
         }
 
         public override void SetDefaults()

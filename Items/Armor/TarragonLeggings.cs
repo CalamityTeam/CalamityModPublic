@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tarragon Leggings");
-            Tooltip.SetDefault("20% increased movement speed; 35% increase when below half health\n" +
-                "6% increased damage and critical strike chance\n" +
-                "Leggings of a fabled explorer");
+            Tooltip.SetDefault("Leggings of a fabled explorer\n" +
+				"20% increased movement speed; 35% increase when below half health\n" +
+                "6% increased damage and critical strike chance");
         }
 
         public override void SetDefaults()

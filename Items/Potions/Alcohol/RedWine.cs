@@ -11,8 +11,8 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Red Wine");
-            Tooltip.SetDefault(@"Reduces life regen by 1
-Too dry for my taste");
+            Tooltip.SetDefault(@"Too dry for my taste
+Reduces life regen by 1");
         }
 
         public override void SetDefaults()

@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Everclear");
-            Tooltip.SetDefault(@"Boosts damage by 25%
-Reduces life regen by 10 and defense by 40
-This is the most potent booze I have, be careful with it");
+            Tooltip.SetDefault(@"This is the most potent booze I have, be careful with it
+Boosts damage by 25%
+Reduces life regen by 10 and defense by 40");
         }
 
         public override void SetDefaults()
