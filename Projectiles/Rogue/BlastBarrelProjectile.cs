@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
             for (int i = 0; i < projectileCount; i++)
             {
-                if (Main.rand.NextBool(4))
+                if (Main.rand.NextBool(3))
                 {
                     Vector2 shrapnelVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
                     Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity,
@@ -84,9 +84,9 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 fireVelocity = (Vector2.UnitY * (-16f + Main.rand.NextFloat(-3, 12f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
                     int fireIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + fireVelocity,
                         Main.rand.Next(ProjectileID.MolotovFire, ProjectileID.MolotovFire3 + 1),
-                        projectile.damage, 1f, projectile.owner);
+                        (int)(projectile.damage * 0.75f), 1f, projectile.owner);
                     Main.projectile[fireIndex].Calamity().forceRogue = true;
-                    Main.projectile[fireIndex].penetrate = -1;
+                    Main.projectile[fireIndex].timeLeft = 300;
                     Main.projectile[fireIndex].usesLocalNPCImmunity = true;
                     Main.projectile[fireIndex].localNPCHitCooldown = -1;
                 }

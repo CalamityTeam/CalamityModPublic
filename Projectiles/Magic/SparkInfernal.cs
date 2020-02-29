@@ -1,7 +1,8 @@
-﻿using CalamityMod.Projectiles.Magic;
-using Terraria;
+﻿using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Typeless
+using CalamityMod.Items.Weapons.Magic;
+namespace CalamityMod.Projectiles.Magic
 {
     public class SparkInfernal : ModProjectile
     {
@@ -17,6 +18,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 300;
+			projectile.magic = true;
         }
 
         public override void AI()
@@ -26,7 +28,14 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<InfernadoMarkFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			Player player = Main.player[projectile.owner];
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<InfernadoMarkFriendly>(), (int)(TheWand.BaseDamage * (player.allDamage + player.magicDamage - 1f)), projectile.knockBack, projectile.owner, 0f, 0f);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Daybreak, 900);
+            target.AddBuff(BuffID.OnFire, 900);
         }
     }
 }

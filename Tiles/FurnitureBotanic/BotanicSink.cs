@@ -14,7 +14,6 @@ namespace CalamityMod.Tiles.FurnitureBotanic
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Botanic Sink");
             AddMapEntry(new Color(191, 142, 111), name);
-            adjTiles = new int[] { TileID.Sinks };
         }
 
         public override bool CreateDust(int i, int j, ref int type)

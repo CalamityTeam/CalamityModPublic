@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plague Hive");
-            Tooltip.SetDefault("Summons a damaging plague aura around the player to destroy nearby enemies\n" +
+            Tooltip.SetDefault("The power of your bees and wasps will rival the Moon Lord himself\n" +
+				"Summons a damaging plague aura around the player to destroy nearby enemies\n" +
                 "Releases bees when damaged\n" +
                 "Friendly bees inflict the plague\n" +
                 "All of your attacks inflict the plague\n" +
                 "Makes you immune to the plague\n" +
-                "Projectiles spawn plague seekers on enemy hits\n" +
-                "The power of your bees and wasps will rival the Moon Lord himself");
+                "Projectiles spawn plague seekers on enemy hits");
         }
 
         public override void SetDefaults()

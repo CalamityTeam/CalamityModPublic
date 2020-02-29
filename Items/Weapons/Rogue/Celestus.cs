@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 20;
-            item.damage = 940;
+            item.damage = 1130;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 6f;
             item.UseSound = SoundID.Item1;
             item.height = 20;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<CelestusBoomerang>();
             item.shootSpeed = 25f;

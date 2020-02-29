@@ -138,12 +138,12 @@ namespace CalamityMod.NPCs.Bumblebirb
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 6, 11);
 
-                // Vanity
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BumblefuckMask>(), 7);
-
                 // Weapons
                 DropHelper.DropItemFromSet(npc, ModContent.ItemType<GildedProboscis>(), ModContent.ItemType<GoldenEagle>(), ModContent.ItemType<RougeSlash>());
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BumblefuckMask>(), 7);
             }
 
             // Mark Bumblebirb as dead

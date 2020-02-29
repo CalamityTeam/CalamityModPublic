@@ -9,7 +9,10 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Burden Breaker");
-            Tooltip.SetDefault("The good time\nGo fast\nWARNING: May have disastrous results");
+            Tooltip.SetDefault("The good time\n" +
+				"Go fast\n" +
+				"WARNING: May have disastrous results\n" +
+				"Increases horizontal movement speed beyond comprehension");
         }
 
         public override void SetDefaults()

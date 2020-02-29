@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Screwdriver");
-            Tooltip.SetDefault(@"Boosts piercing projectile damage by 10%
-Reduces life regen by 1
-Do you have a screw loose?");
+            Tooltip.SetDefault(@"Do you have a screw loose?
+Boosts piercing projectile damage by 10%
+Reduces life regen by 1");
         }
 
         public override void SetDefaults()

@@ -5114,11 +5114,11 @@ namespace CalamityMod.CalPlayer
                         }
                         else if (projectileType == 1)
                         {
-                            projectileType = 92;
+                            projectileType = ProjectileID.HallowStar;
                         }
                         else
                         {
-                            projectileType = 12;
+                            projectileType = ProjectileID.FallingStar;
                         }
                         float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
                         num16 = num15 / num16;
@@ -5141,7 +5141,7 @@ namespace CalamityMod.CalPlayer
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
                         int FUCKYOU = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
-                            value15.X, value15.Y, 206, (int)((double)damage * 0.25), 0f, player.whoAmI, 0f, 0f);
+                            value15.X, value15.Y, ProjectileID.Leaf, (int)((double)damage * 0.25), 0f, player.whoAmI, 0f, 0f);
                         Main.projectile[FUCKYOU].magic = false;
                         Main.projectile[FUCKYOU].netUpdate = true;
                     }
@@ -5182,7 +5182,7 @@ namespace CalamityMod.CalPlayer
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
                         int fire = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
-                            value15.X, value15.Y, 15, (int)(damage * 0.5), 0f, player.whoAmI, 0f, 0f);
+                            value15.X, value15.Y, ProjectileID.BallofFire, (int)(damage * 0.5), 0f, player.whoAmI, 0f, 0f);
                         Main.projectile[fire].magic = false;
                         Main.projectile[fire].netUpdate = true;
                     }

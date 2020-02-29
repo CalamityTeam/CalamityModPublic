@@ -658,7 +658,6 @@ namespace CalamityMod.NPCs.SlimeGod
                 DropHelper.DropItemChance(npc, ModContent.ItemType<EldritchTome>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CorroslimeStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CrimslimeStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GelDart>(), 4, 80, 100);
 
                 // Vanity
                 DropHelper.DropItemFromSetChance(npc, 7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());

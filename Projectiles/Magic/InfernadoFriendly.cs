@@ -24,7 +24,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.timeLeft = 500;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = 5;
+			projectile.magic = true;
         }
 
         public override void AI()
@@ -73,17 +74,17 @@ namespace CalamityMod.Projectiles.Magic
             if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.alpha -= 30;
-                if (projectile.alpha < 60)
+                if (projectile.alpha < 225)
                 {
-                    projectile.alpha = 60;
+                    projectile.alpha = 225;
                 }
             }
             else
             {
                 projectile.alpha += 30;
-                if (projectile.alpha > 150)
+                if (projectile.alpha > 245)
                 {
-                    projectile.alpha = 150;
+                    projectile.alpha = 245;
                 }
             }
             if (projectile.ai[0] > 0f)

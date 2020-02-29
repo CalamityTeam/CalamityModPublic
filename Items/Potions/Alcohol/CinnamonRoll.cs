@@ -10,11 +10,11 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinnamon Roll");
-            Tooltip.SetDefault(@"Boosts mana regeneration rate and all fire-based weapon damage by 15%
+            Tooltip.SetDefault(@"A great-tasting cinnamon whiskey with a touch of cream soda
+Boosts mana regeneration rate and all fire-based weapon damage by 15%
 Cursed flame, shadowflame, god slayer inferno, brimstone flame, and frostburn weapons will not receive this benefit
 The weapon must be more fire-related than anything else
-Reduces defense by 12
-A great-tasting cinnamon whiskey with a touch of cream soda");
+Reduces defense by 12");
         }
 
         public override void SetDefaults()

@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloody Mary");
-            Tooltip.SetDefault(@"Boosts damage, movement speed, and melee speed by 15% and crit chance by 7% during a Blood Moon
-Reduces life regen by 2 and defense by 6
-Extra spicy and bloody!");
+            Tooltip.SetDefault(@"Extra spicy and bloody!
+Boosts damage, movement speed, and melee speed by 15% and crit chance by 7% during a Blood Moon
+Reduces life regen by 2 and defense by 6");
         }
 
         public override void SetDefaults()

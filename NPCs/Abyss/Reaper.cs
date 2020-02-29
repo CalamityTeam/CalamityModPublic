@@ -666,42 +666,23 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Voidstone>(), Main.rand.Next(40, 51));
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CloakingGland>(), Main.rand.Next(2, 4));
-            if (Main.rand.NextBool(10000) && CalamityWorld.revenge)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
-            }
-            if (CalamityWorld.downedPolterghast)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<ReaperTooth>(), Main.rand.Next(3, 5));
-                if (Main.rand.NextBool(3))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DeepSeaDumbbell>());
-                }
-                if (Main.rand.NextBool(3))
-                {
-                    if (Main.rand.NextBool(33))
-                    {
-                        _ = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TheReaper>());
-                    }
-                    else
-                    {
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Valediction>());
-                    }
-                }
-            }
-            if (CalamityWorld.downedCalamitas)
-            {
-                if (Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(10, 18));
-                }
-                if (Main.expertMode && Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DepthCells>(), Main.rand.Next(4, 6));
-                }
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, 10000, 1, 1);
+            DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 40, 50);
+            DropHelper.DropItem(npc, ModContent.ItemType<CloakingGland>(), 2, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 10, 17);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 4, 5);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<ReaperTooth>(), CalamityWorld.downedPolterghast, 1f, 3, 4);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepSeaDumbbell>(), CalamityWorld.downedPolterghast, 3, 1, 1);
+			if (CalamityWorld.downedPolterghast)
+			{
+				float f = Main.rand.NextFloat();
+				bool replaceWithRare = f <= 0.01f; // 1/100 chance overall of getting The Reaper
+				if (Main.rand.NextBool(3)) // 1/3 chance of getting Valediction OR The Reaper replacing it
+				{
+					DropHelper.DropItemCondition(npc, ModContent.ItemType<Valediction>(), !replaceWithRare);
+					DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), replaceWithRare);
+				}
+			}
         }
 
         public override void HitEffect(int hitDirection, double damage)

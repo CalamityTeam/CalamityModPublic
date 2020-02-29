@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fearmonger Greathelm");
-            Tooltip.SetDefault("+60 max mana and 10% decreased mana usage\n" +
-			"10% increased minion damage and +2 max minions\n" +
-			"Pure terror radiates from your eyes");
+            Tooltip.SetDefault("Pure terror radiates from your eyes\n" +
+			"+60 max mana and 10% decreased mana usage\n" +
+			"10% increased minion damage and +2 max minions");
         }
 
         public override void SetDefaults()

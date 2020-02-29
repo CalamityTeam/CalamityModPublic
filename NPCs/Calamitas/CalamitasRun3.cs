@@ -162,59 +162,33 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(10))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CalamitasTrophy>());
-            }
-            if (CalamityWorld.armageddon)
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    npc.DropBossBags();
-                }
-            }
-            if (Main.expertMode)
-            {
-                npc.DropBossBags();
-            }
-            else
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>(), Main.rand.Next(4, 9));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CalamityDust>(), Main.rand.Next(9, 15));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlightedLens>(), Main.rand.Next(1, 3));
-                if (CalamityWorld.downedProvidence)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Bloodstone>(), Main.rand.Next(30, 41));
-                }
-                if (Main.rand.NextBool(10))
-                {
-                    npc.DropItemInstanced(npc.position, npc.Size, ModContent.ItemType<ChaosStone>(), 1, true);
-                }
-                if (Main.rand.NextBool(4))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CalamitasInferno>());
-                }
-                if (Main.rand.NextBool(7))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CalamitasMask>());
-                }
-                if (Main.rand.NextBool(4))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TheEyeofCalamitas>());
-                }
-                if (Main.rand.NextBool(4))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlightedEyeStaff>());
-                }
-                if (Main.rand.NextBool(4))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Animosity>());
-                }
-            }
+            DropHelper.DropBags(npc);
 
             DropHelper.DropItem(npc, ItemID.BrokenHeroSword, true);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
+
+            if (!Main.expertMode)
+            {
+				//Materials
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofChaos>(), 4, 8);
+                DropHelper.DropItem(npc, ModContent.ItemType<CalamityDust>(), 9, 14);
+                DropHelper.DropItem(npc, ModContent.ItemType<BlightedLens>(), 1, 2);
+				DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, ModContent.ItemType<TheEyeofCalamitas>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Animosity>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasInferno>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BlightedEyeStaff>(), 4);
+
+                // Equipment
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ChaosStone>(), 10);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasMask>(), 7);
+            }
 
             // Abyss awakens after killing Calamitas
             string key = "Mods.CalamityMod.PlantBossText";

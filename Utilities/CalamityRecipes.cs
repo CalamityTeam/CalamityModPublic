@@ -28,6 +28,7 @@ namespace CalamityMod
         {
             EditTerraBladeRecipe();
 			EditFireGauntletRecipe();
+            AstralAlternatives();
 
 			AddPotionRecipes();
             AddCookedFood();
@@ -93,13 +94,6 @@ namespace CalamityMod
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.LifeFruit);
             r.AddRecipe();
-
-            // Glass
-            r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<AstralSand>(), 2);
-            r.AddTile(TileID.Furnaces);
-            r.SetResult(ItemID.Glass);
-            r.AddRecipe();
         }
 
         // Change Terra Blade's recipe to require 7 Living Shards (forces the Blade to be post-Plantera)
@@ -145,6 +139,39 @@ namespace CalamityMod
 				s.createItem.stack = 1;
 			});
 		}
+
+        #region Astral Alternatives
+        private static void AstralAlternatives()
+        {
+            // Glass
+            ModRecipe r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<AstralSand>(), 2);
+            r.AddTile(TileID.Furnaces);
+            r.SetResult(ItemID.Glass);
+            r.AddRecipe();
+
+			//Bowl
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
+            r.AddTile(TileID.Furnaces);
+            r.SetResult(ItemID.Bowl);
+            r.AddRecipe();
+
+			//Clay Pot
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
+            r.AddTile(TileID.Furnaces);
+            r.SetResult(ItemID.ClayPot);
+            r.AddRecipe();
+
+			//Pink Vase
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
+            r.AddTile(TileID.Furnaces);
+            r.SetResult(ItemID.PinkVase);
+            r.AddRecipe();
+        }
+        #endregion
 
 		#region Potions
 		// Equivalent Blood Orb recipes for almost all vanilla potions
@@ -205,6 +232,14 @@ namespace CalamityMod
                 r.SetResult(potion);
                 r.AddRecipe();
             }
+
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.BottledWater);
+            r.AddIngredient(ItemID.Daybloom);
+            r.AddIngredient(ModContent.ItemType<BlightedLens>());
+            r.AddTile(TileID.Bottles);
+            r.SetResult(ItemID.ArcheryPotion);
+            r.AddRecipe();
         }
         #endregion
 

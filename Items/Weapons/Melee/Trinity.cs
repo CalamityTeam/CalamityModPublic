@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 54;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = 125;
+            item.shoot = ProjectileID.RubyBolt;
             item.shootSpeed = 11f;
         }
 
@@ -38,13 +38,13 @@ namespace CalamityMod.Items.Weapons.Melee
             switch (Main.rand.Next(3))
             {
                 case 0:
-                    type = 125;
+                    type = ProjectileID.RubyBolt;
                     break;
                 case 1:
-                    type = 123;
+                    type = ProjectileID.SapphireBolt;
                     break;
                 case 2:
-                    type = 121;
+                    type = ProjectileID.AmethystBolt;
                     break;
                 default:
                     break;

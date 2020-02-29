@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Ranged
                             case 3: //falling star projectile
                                 break;
                             case 4: //starfury projectile
-                                type = 9;
+                                type = ProjectileID.Starfury;
                                 break;
                         }
                         int star = Projectile.NewProjectile(position, speed, type, damage, knockBack, projectile.owner, 0f, 0f);

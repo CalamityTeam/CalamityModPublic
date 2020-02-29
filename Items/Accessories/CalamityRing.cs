@@ -12,7 +12,9 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Void of Calamity");
-            Tooltip.SetDefault("Cursed?\n15% increase to all damage\nBrimstone fire rains down while invincibility is active");
+            Tooltip.SetDefault("Cursed?\n" +
+			"15% increase to all damage\n" +
+			"Brimstone fire rains down while invincibility is active");
         }
 
         public override void SetDefaults()

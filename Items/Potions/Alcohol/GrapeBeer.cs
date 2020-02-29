@@ -12,8 +12,8 @@ namespace CalamityMod.Items.Potions.Alcohol
         {
             DisplayName.SetDefault("Grape Beer");
             Tooltip.SetDefault(@"Restores 100 mana
-Reduces defense by 2 and movement speed by 5%
-This crap is abhorrent but you might like it");
+This crap is abhorrent but you might like it
+Reduces defense by 2 and movement speed by 5%");
         }
 
         public override void SetDefaults()

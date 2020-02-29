@@ -13,9 +13,9 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Face Melter");
-            Tooltip.SetDefault("Fires music notes\n" +
-                               "Right click summons an amplifier that shoots towards your mouse\n" +
-                               "WOOO!! FAAAAAAANTASYY WORLDDDDD!");
+            Tooltip.SetDefault("WOOO!! FAAAAAAANTASYY WORLDDDDD!\n" +
+                               "Fires music notes\n" +
+                               "Right click summons an amplifier that shoots towards your mouse");
         }
 
         public override void SetDefaults()

@@ -50,10 +50,6 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
 
-					bool canHit = true;
-					if (extraDistance < maxDistance && !ignoreTiles)
-						canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
-
 					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
 					{
 						center = Main.npc[i].Center;

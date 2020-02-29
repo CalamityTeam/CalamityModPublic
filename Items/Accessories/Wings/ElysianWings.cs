@@ -10,11 +10,12 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elysian Wings");
-            Tooltip.SetDefault("Horizontal speed: 9.75\n" +
-                "Acceleration multiplier: 2.5\n" +
+            Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
+				"Horizontal speed: 9.75\n" +
+                "Acceleration multiplier: 2.7\n" +
                 "Great vertical speed\n" +
-                "Flight time: 180\n" +
-				"Temporary immunity to lava\n" +
+                "Flight time: 200\n" +
+				"Temporary immunity to lava and 40% increased movement speed\n" +
 				"Provides heat protection in Death Mode");
         }
 
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Accessories.Wings
             CalamityPlayer modPlayer = player.Calamity();
             player.moveSpeed += 0.4f;
             player.lavaMax += 240;
-            player.wingTimeMax = 180;
+            player.wingTimeMax = 200;
             modPlayer.elysianFire = true;
             if (hideVisual)
             {
@@ -53,7 +54,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void HorizontalWingSpeeds(Player player, ref float speed, ref float acceleration)
         {
             speed = 9.75f;
-            acceleration *= 2.5f;
+            acceleration *= 2.7f;
         }
     }
 }

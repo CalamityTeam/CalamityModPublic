@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Whiskey");
-            Tooltip.SetDefault(@"Boosts damage and knockback by 4% and critical strike chance by 2%
-Reduces defense by 8
-The burning sensation makes it tastier");
+            Tooltip.SetDefault(@"The burning sensation makes it tastier
+Boosts damage and knockback by 4% and critical strike chance by 2%
+Reduces defense by 8");
         }
 
         public override void SetDefaults()

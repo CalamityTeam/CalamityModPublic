@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Elysian Aegis");
-            Tooltip.SetDefault("Grants immunity to fire blocks, knockback, and Holy Flames\n" +
+            Tooltip.SetDefault("Blessed by the Profaned Flame\n" +
+							   "Grants immunity to fire blocks, knockback, and Holy Flames\n" +
                                "+40 max life and increased life regen\n" +
                                "Grants a supreme holy flame dash\n" +
                                "Can be used to ram enemies\n" +

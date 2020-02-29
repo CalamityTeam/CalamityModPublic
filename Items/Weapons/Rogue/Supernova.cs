@@ -21,7 +21,7 @@ Stealth strikes release energy as they fly");
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 1800;
+            item.damage = 2250;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 24;
@@ -31,7 +31,7 @@ Stealth strikes release energy as they fly");
             item.UseSound = SoundID.Item15;
             item.autoReuse = true;
             item.height = 36;
-            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<SupernovaBomb>();
             item.shootSpeed = 16f;

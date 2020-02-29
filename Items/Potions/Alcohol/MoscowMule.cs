@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Moscow Mule");
-            Tooltip.SetDefault(@"Boosts damage and knockback by 9% and critical strike chance by 3%
-Reduces life regen by 2
-I once heard the copper mug can be toxic and I told 'em 'listen dummy, I'm already poisoning myself'");
+            Tooltip.SetDefault(@"I once heard the copper mug can be toxic and I told 'em 'listen dummy, I'm already poisoning myself'
+Boosts damage and knockback by 9% and critical strike chance by 3%
+Reduces life regen by 2");
         }
 
         public override void SetDefaults()

@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Accessories.Vanity
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Magic Scarf and Hat");
-            Tooltip.SetDefault("Transforms the holder into a snowman\n" +
-				"Provides heat and cold protection in Death Mode\n" +
-                "Don't let the demons steal your nose");
+            Tooltip.SetDefault("Don't let the demons steal your nose\n" +
+				"Transforms the holder into a snowman\n" +
+				"Provides heat and cold protection in Death Mode");
         }
 
         public override void SetDefaults()

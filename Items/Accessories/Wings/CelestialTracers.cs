@@ -15,12 +15,12 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Celestial Tracers");
-            Tooltip.SetDefault("Counts as wings\n" +
+            Tooltip.SetDefault("Taking speed EVEN FURTHER BEYOND!\n" +
+				"Counts as wings\n" +
                 "Horizontal speed: 12\n" +
                 "Acceleration multiplier: 3\n" +
                 "Excellent vertical speed\n" +
                 "Flight time: 280\n" +
-                "Taking speed EVEN FURTHER BEYOND!\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
                 "Temporary immunity to lava\n" +

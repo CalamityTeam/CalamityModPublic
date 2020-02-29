@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                         type = ModContent.ProjectileType<FallenStarProj>();
                         break;
                     case 1:
-                        type = 9;
+                        type = ProjectileID.Starfury;
                         break;
                     case 2:
                         type = ModContent.ProjectileType<AstralStar>();

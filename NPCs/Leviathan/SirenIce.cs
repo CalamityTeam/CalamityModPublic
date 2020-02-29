@@ -62,7 +62,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (projectile.type != ModContent.ProjectileType<FlakKraken>())
+            if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
             {
                 if (projectile.penetrate == -1 && !projectile.minion)
                 {

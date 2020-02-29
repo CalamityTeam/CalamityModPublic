@@ -23,24 +23,5 @@ namespace CalamityMod.Items.Placeables
             item.height = 16;
             item.maxStack = 999;
         }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(this, 2);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(ItemID.Bowl);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(this, 2);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(ItemID.ClayPot);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(this, 2);
-            recipe.AddTile(TileID.Furnaces);
-            recipe.SetResult(ItemID.PinkVase);
-            recipe.AddRecipe();
-        }
     }
 }

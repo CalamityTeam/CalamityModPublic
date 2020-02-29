@@ -14,12 +14,12 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Seraph Tracers");
-            Tooltip.SetDefault("Counts as wings\n" +
+            Tooltip.SetDefault("Ludicrous speed!\n" +
+				"Counts as wings\n" +
                 "Horizontal speed: 9\n" +
                 "Acceleration multiplier: 2.5\n" +
                 "Good vertical speed\n" +
                 "Flight time: 120\n" +
-                "Ludicrous speed!\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
                 "Temporary immunity to lava\n" +

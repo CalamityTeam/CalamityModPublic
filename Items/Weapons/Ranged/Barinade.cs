@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.width = 30;
             item.height = 44;
-            item.useTime = 25;
-            item.useAnimation = 25;
+            item.useTime = 26;
+            item.useAnimation = 26;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 2f;
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BoltArrow>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BoltArrow>(), damage, knockBack, player.whoAmI, 1f, 0f);
             return false;
         }
     }
