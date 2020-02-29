@@ -95,6 +95,9 @@ namespace CalamityMod.Projectiles.Typeless
         {
             // Knockback has to be done manually to ensure the enemies are repelled from the aura as opposed to thrown to one side of it
 
+			if (target.knockBackResist <= 0f)
+				return;
+
             if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {
                 float knockbackMultiplier = knockback - target.knockBackResist;

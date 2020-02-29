@@ -69,6 +69,12 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(BuffID.Electrified, 300);
+            target.AddBuff(ModContent.BuffType<TeslaFreeze>(), 120);
+
+			if (target.knockBackResist <= 0f)
+				return;
+
             if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {
                 float knockbackMultiplier = knockback - target.knockBackResist;
@@ -80,9 +86,6 @@ namespace CalamityMod.Projectiles.Typeless
                 trueKnockback.Normalize();
                 target.velocity = trueKnockback * knockbackMultiplier;
             }
-
-            target.AddBuff(BuffID.Electrified, 300);
-            target.AddBuff(ModContent.BuffType<TeslaFreeze>(), 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
