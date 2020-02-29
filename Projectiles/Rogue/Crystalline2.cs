@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             //projectile.aiStyle = 113;
             projectile.timeLeft = 30;
-            //aiType = 598;
+            //aiType = ProjectileID.BoneJavelin;
             projectile.Calamity().rogue = true;
         }
 
@@ -32,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.rotation -= 1.57f;
             }
-            if(projectile.localAI[0] == 10f && projectile.ai[1] == 1f)
+            if (projectile.localAI[0] == 10f && projectile.ai[1] == 1f)
             {
                 int numProj = 2;
                 float rotation = MathHelper.ToRadians(50);
@@ -66,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
-                    Projectile.NewProjectile(projectile.Center, projspeed, 90, (int)(projectile.damage * 0.4f), 2f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(projectile.damage * 0.4f), 2f, projectile.owner, 0f, 0f);
                 }
             }
         }

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 9;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = 189;
+            item.shoot = ProjectileID.Wasp;
             item.shootSpeed = 12f;
         }
 

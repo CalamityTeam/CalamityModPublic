@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.alpha = 255;
             projectile.extraUpdates = 2;
             projectile.aiStyle = 93;
-            aiType = 514;
+            aiType = ProjectileID.NailFriendly;
             projectile.Calamity().rogue = true;
         }
 

@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 1;
             projectile.timeLeft = 180;
             projectile.tileCollide = false;
-            aiType = 132;
+            aiType = ProjectileID.TerraBeam;
         }
 
         public override void AI()

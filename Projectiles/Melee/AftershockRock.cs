@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
     public class AftershockRock : ModProjectile
@@ -17,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 6;
             projectile.melee = true;
             projectile.ignoreWater = true;
-            aiType = 261;
+            aiType = ProjectileID.BoulderStaffOfEarth;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }

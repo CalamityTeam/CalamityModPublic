@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.aiStyle = 3;
             projectile.timeLeft = 120;
             projectile.extraUpdates = 3;
-            aiType = 301;
+            aiType = ProjectileID.PaladinsHammerFriendly;
         }
 
         public override void AI()

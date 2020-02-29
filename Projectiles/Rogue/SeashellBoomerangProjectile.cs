@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class SeashellBoomerangProjectile : ModProjectile
@@ -16,7 +17,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 240;
-            aiType = 52;
+            aiType = ProjectileID.WoodenBoomerang;
             projectile.Calamity().rogue = true;
         }
     }

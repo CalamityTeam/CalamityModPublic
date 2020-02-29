@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -26,7 +27,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 5;
             projectile.timeLeft = 180;
             projectile.ignoreWater = true;
-            aiType = 274;
+            aiType = ProjectileID.DeathSickle;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
         }

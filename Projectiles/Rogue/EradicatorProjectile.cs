@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 180;
-            aiType = 52;
+            aiType = ProjectileID.WoodenBoomerang;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 3;
             projectile.Calamity().rogue = true;

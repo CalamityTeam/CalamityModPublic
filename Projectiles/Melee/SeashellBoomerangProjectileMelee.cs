@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
     public class SeashellBoomerangProjectileMelee : ModProjectile
@@ -17,7 +18,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 240;
-            aiType = 52;
+            aiType = ProjectileID.WoodenBoomerang;
         }
     }
 }
