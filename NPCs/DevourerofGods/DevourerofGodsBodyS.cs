@@ -95,7 +95,11 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 npc.dontTakeDamage = Main.npc[(int)npc.ai[2]].dontTakeDamage;
             }
-            if (npc.ai[3] > 0f)
+			if (Main.npc[(int)npc.ai[2]].dontTakeDamage)
+			{
+				invinceTime = 240;
+			}
+			if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
             }

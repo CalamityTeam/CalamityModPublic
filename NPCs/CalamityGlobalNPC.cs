@@ -3696,7 +3696,7 @@ namespace CalamityMod.NPCs
 			}
 			if (player.Calamity().zerg)
             {
-                spawnRate = (int)(spawnRate * 0.33);
+                spawnRate = (int)(spawnRate * 0.2);
                 maxSpawns = (int)(maxSpawns * 5f);
             }
 
@@ -3723,7 +3723,7 @@ namespace CalamityMod.NPCs
             }
 			if (player.Calamity().zen || (CalamityMod.CalamityConfig.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
 			{
-				spawnRate = (int)(spawnRate * 1.66);
+				spawnRate = (int)(spawnRate * 2.5);
 				maxSpawns = (int)(maxSpawns * 0.3f);
 			}
 			if (player.Calamity().bossZen || CalamityWorld.DoGSecondStageCountdown > 0)
@@ -4936,7 +4936,6 @@ namespace CalamityMod.NPCs
         #region Should Affect NPC
         public static bool ShouldAffectNPC(NPC target)
         {
-
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage && target.type != NPCID.Mothron &&
                 target.type != NPCID.Pumpking && target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 && target.type != NPCID.IceQueen &&

@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.Calamitas
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofChaos>(), 4, 8);
                 DropHelper.DropItem(npc, ModContent.ItemType<CalamityDust>(), 9, 14);
                 DropHelper.DropItem(npc, ModContent.ItemType<BlightedLens>(), 1, 2);
-				DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TheEyeofCalamitas>(), 4);

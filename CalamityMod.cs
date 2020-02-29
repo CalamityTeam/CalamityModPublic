@@ -440,7 +440,6 @@ namespace CalamityMod
         #region SetupLists
         public static void SetupLists()
         {
-
             donatorList = new List<string>()
             {
                 "Vorbis",
