@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.Potions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -58,6 +59,12 @@ namespace CalamityMod.Projectiles.Typeless
             Player player = Main.player[projectile.owner];
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
             projectile.Center = player.Center;
+			if (player.dead)
+			{
+                player.ClearBuff(ModContent.BuffType<TeslaBuff>());
+				player.Calamity().tesla = false;
+				projectile.Kill();
+			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
