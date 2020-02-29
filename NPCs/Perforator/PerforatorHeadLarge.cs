@@ -422,12 +422,22 @@ namespace CalamityMod.NPCs.Perforator
             potionType = ItemID.HealingPotion;
         }
 
+        public override bool SpecialNPCLoot()
+        {
+            int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+                ModContent.NPCType<PerforatorHeadLarge>(),
+                ModContent.NPCType<PerforatorBodyLarge>(),
+                ModContent.NPCType<PerforatorTailLarge>());
+            npc.position = Main.npc[closestSegmentID].position;
+            return false;
+        }
+
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BloodSample>(), Main.rand.Next(4, 9));
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Vertebrae, Main.rand.Next(3, 6));
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.CrimtaneBar, Main.rand.Next(2, 5));
-        }
+			DropHelper.DropItem(npc, ModContent.ItemType<BloodSample>(), 4, 8);
+			DropHelper.DropItem(npc, ItemID.CrimtaneBar, 3, 5);
+			DropHelper.DropItem(npc, ItemID.Vertebrae, 2, 4);
+		}
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

@@ -175,52 +175,31 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
         public override void NPCLoot()
         {
-            // redo the rest of this drop code later
-            if (Main.rand.NextBool(10))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BrimstoneElementalTrophy>());
-            }
-            if (CalamityWorld.armageddon)
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    npc.DropBossBags();
-                }
-            }
-            if (Main.expertMode)
-            {
-                npc.DropBossBags();
-            }
-            else
-            {
-                if (CalamityWorld.downedProvidence)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Bloodstone>(), Main.rand.Next(20, 31));
-                }
-                if (Main.rand.NextBool(10))
-                {
-                    npc.DropItemInstanced(npc.position, npc.Size, ModContent.ItemType<RoseStone>(), 1, true);
-                }
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SoulofFright, Main.rand.Next(20, 41));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>(), Main.rand.Next(4, 9));
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Abaddon>());
-                        break;
-                    case 1:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Brimlance>());
-                        break;
-                    case 2:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SeethingDischarge>());
-                        break;
-                }
-            }
+            DropHelper.DropBags(npc);
 
-            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneElementalTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneCrag>(), true, !CalamityWorld.downedBrimstoneElemental);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
+
+            if (!Main.expertMode)
+            {
+				//Materials
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofChaos>(), 4, 8);
+                DropHelper.DropItem(npc, ItemID.SoulofFright, 20, 40);
+				DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 20, 30);
+
+                // Weapons
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Brimlance>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SeethingDischarge>(), 4);
+
+                // Equipment
+                DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 10);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Abaddon>(), 2);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
+            }
 
             // if prime hasn't been killed and this is the first time killing brimmy, do the message
             string key = "Mods.CalamityMod.SteelSkullBossText";
