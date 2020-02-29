@@ -11966,6 +11966,8 @@ namespace CalamityMod.NPCs
         #region Buffed Moon Lord AI
         public static bool BuffedMoonLordAI(NPC npc, bool enraged, Mod mod)
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			int aggressionLevel = 4;
@@ -12533,8 +12535,6 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.MoonLordHead)
             {
-                CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
                 // Despawn
                 if (!Main.npc[(int)npc.ai[3]].active || Main.npc[(int)npc.ai[3]].type != NPCID.MoonLordCore)
                 {
@@ -12685,25 +12685,28 @@ namespace CalamityMod.NPCs
                     }
                     else if (num1207 < num1208 - 15f)
                     {
-                        float rotation = CalamityWorld.bossRushActive ? 390f : 420f;
-						if (death)
-							rotation -= 60f;
-
-						switch (aggressionLevel)
+						if (calamityGlobalNPC.newAI[1] == 0f)
 						{
-							case 4:
-								break;
-							case 3:
-								rotation += 120f;
-								break;
-							case 2:
-								rotation += 240f;
-								break;
-							case 1:
-								rotation += 360f;
-								break;
-							default:
-								break;
+							calamityGlobalNPC.newAI[1] = CalamityWorld.bossRushActive ? 390f : 420f;
+							if (death)
+								calamityGlobalNPC.newAI[1] -= 60f;
+
+							switch (aggressionLevel)
+							{
+								case 4:
+									break;
+								case 3:
+									calamityGlobalNPC.newAI[1] += 120f;
+									break;
+								case 2:
+									calamityGlobalNPC.newAI[1] += 240f;
+									break;
+								case 1:
+									calamityGlobalNPC.newAI[1] += 360f;
+									break;
+								default:
+									break;
+							}
 						}
 
 						int damage = 95;
@@ -12712,6 +12715,19 @@ namespace CalamityMod.NPCs
 
                         if (num1207 == 180f && Main.netMode != NetmodeID.MultiplayerClient)
                         {
+							int projectileType = ProjectileID.PhantasmalDeathray;
+							for (int i = 0; i < Main.maxProjectiles; i++)
+							{
+								if (Main.projectile[i].active)
+								{
+									if (Main.projectile[i].type == projectileType)
+									{
+										calamityGlobalNPC.newAI[1] *= 1.5f;
+										break;
+									}
+								}
+							}
+
                             npc.TargetClosest(false);
                             Vector2 vector200 = Main.player[npc.target].Center - npc.Center;
                             vector200.Normalize();
@@ -12721,7 +12737,7 @@ namespace CalamityMod.NPCs
                                 num1225 = 1f;
 
                             vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default);
-                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector200.X, vector200.Y, ProjectileID.PhantasmalDeathray, damage, 0f, Main.myPlayer, num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
+                            Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector200.X, vector200.Y, projectileType, damage, 0f, Main.myPlayer, num1225 * 6.28318548f / calamityGlobalNPC.newAI[1], (float)npc.whoAmI);
                             npc.ai[2] = (vector200.ToRotation() + 9.424778f) * num1225;
                             npc.netUpdate = true;
                         }
@@ -12736,13 +12752,15 @@ namespace CalamityMod.NPCs
                             num1227 *= -1f;
 
                         num1227 += -9.424778f;
-                        num1227 += num1226 * 6.28318548f / rotation;
+                        num1227 += num1226 * 6.28318548f / calamityGlobalNPC.newAI[1];
                         npc.localAI[0] = num1227;
                         npc.ai[2] = (num1227 + 9.424778f) * num1226;
                     }
                     else
                     {
-                        npc.localAI[1] -= 0.07f;
+						calamityGlobalNPC.newAI[1] = 0f;
+
+						npc.localAI[1] -= 0.07f;
                         if (npc.localAI[1] < 0f)
                             npc.localAI[1] = 0f;
 
@@ -12886,8 +12904,6 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.MoonLordHand)
             {
-                CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
-
                 // Start attack array
                 NPC.InitializeMoonLordAttacks();
 
@@ -13447,6 +13463,39 @@ namespace CalamityMod.NPCs
             }
 			else if (npc.type == NPCID.MoonLordFreeEye)
 			{
+				if (calamityGlobalNPC.newAI[0] == 0f)
+				{
+					int eyeCount = NPC.CountNPCS(npc.type);
+					if (eyeCount > 1)
+					{
+						int eyesSynced = 1;
+						for (int i = 0; i < Main.maxNPCs; i++)
+						{
+							if (Main.npc[i].active)
+							{
+								if (i != npc.whoAmI && Main.npc[i].type == npc.type)
+								{
+									Main.npc[i].ai[0] = 0f;
+									Main.npc[i].ai[1] = 0f;
+									Main.npc[i].ai[2] = 0f;
+									Main.npc[i].localAI[0] = 0f;
+									Main.npc[i].localAI[1] = 0f;
+									Main.npc[i].localAI[2] = 0f;
+									calamityGlobalNPC.newAI[0] = 1f;
+									calamityGlobalNPC.newAI[1] = 0f;
+									npc.netUpdate = true;
+
+									eyesSynced++;
+									if (eyesSynced >= eyeCount)
+										break;
+								}
+							}
+						}
+					}
+					else
+						calamityGlobalNPC.newAI[0] = 1f;
+				}
+
 				if (Main.rand.Next(420) == 0)
 					Main.PlaySound(29, (int)npc.Center.X, (int)npc.Center.Y, Main.rand.Next(100, 101), 1f, 0f);
 
@@ -13886,10 +13935,15 @@ namespace CalamityMod.NPCs
 					{
 						if (num1245 < num1241 - 15f)
 						{
-							float rotation = 600f;
+							if (calamityGlobalNPC.newAI[1] == 0f)
+								calamityGlobalNPC.newAI[1] = 600f;
 
 							if (num1245 == 180f && Main.netMode != NetmodeID.MultiplayerClient)
 							{
+								// If head is in deathray phase
+								if (Main.npc[(int)Main.npc[(int)npc.ai[3]].localAI[2]].ai[0] == 1f)
+									calamityGlobalNPC.newAI[1] *= 1.5f;
+
 								npc.TargetClosest(false);
 
 								Vector2 vector222 = Main.player[npc.target].Center - npc.Center;
@@ -13900,7 +13954,7 @@ namespace CalamityMod.NPCs
 									num1262 = 1f;
 
 								vector222 = vector222.RotatedBy((double)(-(double)num1262 * 6.28318548f / 6f), default(Vector2));
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector222.X, vector222.Y, ProjectileID.PhantasmalDeathray, 50, 0f, Main.myPlayer, num1262 * 6.28318548f / rotation, (float)npc.whoAmI);
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector222.X, vector222.Y, ProjectileID.PhantasmalDeathray, 50, 0f, Main.myPlayer, num1262 * 6.28318548f / calamityGlobalNPC.newAI[1], (float)npc.whoAmI);
 								npc.ai[2] = (vector222.ToRotation() + 9.424778f) * num1262;
 								npc.netUpdate = true;
 							}
@@ -13915,13 +13969,15 @@ namespace CalamityMod.NPCs
 								num1264 *= -1f;
 
 							num1264 += -9.424778f;
-							num1264 += num1263 * 6.28318548f / rotation;
+							num1264 += num1263 * 6.28318548f / calamityGlobalNPC.newAI[1];
 
 							npc.localAI[0] = num1264;
 							npc.ai[2] = (num1264 + 9.424778f) * num1263;
 
 							return false;
 						}
+
+						calamityGlobalNPC.newAI[1] = 0f;
 
 						npc.localAI[1] -= 0.07f;
 						if (npc.localAI[1] < 0f)
