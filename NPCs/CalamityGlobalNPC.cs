@@ -2359,6 +2359,19 @@ namespace CalamityMod.NPCs
 
                         break;
 
+                    case NPCID.Angler:
+                        switch (Main.rand.Next(23)) // 22 Nurse names
+                        {
+                            case 0:
+                                npc.GivenName = "Dazren";
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        break;
+
                     default:
                         break;
                 }
