@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.penetrate = 2;
             projectile.timeLeft = 600;
-            aiType = 114;
+            aiType = ProjectileID.UnholyTridentFriendly;
         }
 
         public override void AI()

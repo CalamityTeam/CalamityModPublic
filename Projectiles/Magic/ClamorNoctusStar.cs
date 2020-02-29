@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.magic = true;
             projectile.aiStyle = 93;
-            aiType = 514;
+            aiType = ProjectileID.NailFriendly;
 			projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;

@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -23,7 +24,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.tileCollide = false;
             projectile.penetrate = 3;
             projectile.timeLeft = 200;
-            aiType = 173;
+            aiType = ProjectileID.EnchantedBeam;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 3;
         }

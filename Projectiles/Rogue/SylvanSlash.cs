@@ -12,21 +12,21 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Slash");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
             projectile.width = 30;
             projectile.height = 30;
-            aiType = 348;
+            aiType = ProjectileID.FrostWave;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.Calamity().rogue = true;
             projectile.penetrate = 2;
             projectile.alpha = 120;
             projectile.timeLeft = 200;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
 			projectile.tileCollide = false;

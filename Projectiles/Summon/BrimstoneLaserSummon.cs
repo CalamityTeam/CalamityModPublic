@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.width = 32;
             projectile.height = 2;
             projectile.aiStyle = 1;
-            aiType = 100;
+            aiType = ProjectileID.DeathLaser;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.minion = true;

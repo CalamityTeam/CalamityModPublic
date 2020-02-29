@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.extraUpdates = 1;
             projectile.timeLeft = 600;
             projectile.alpha = 55;
-            aiType = 52;
+            aiType = ProjectileID.WoodenBoomerang;
             projectile.Calamity().rogue = true;
         }
 

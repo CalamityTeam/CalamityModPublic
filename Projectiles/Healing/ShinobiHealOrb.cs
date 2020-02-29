@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
@@ -15,7 +16,7 @@ namespace CalamityMod.Projectiles.Healing
         {
             projectile.width = 20;
             projectile.height = 20;
-            aiType = 348;
+            aiType = ProjectileID.FrostWave;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.tileCollide = false;

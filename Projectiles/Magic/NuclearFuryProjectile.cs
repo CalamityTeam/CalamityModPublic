@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.extraUpdates = 2;
             projectile.ignoreWater = true;
-            aiType = 409;
+            aiType = ProjectileID.Typhoon;
         }
 
         public override void Kill(int timeLeft)

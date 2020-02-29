@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 26;
             projectile.height = 26;
 			projectile.aiStyle = 27;
-			aiType = 156;
+			aiType = ProjectileID.LightBeam;
 			projectile.ignoreWater = true;
 			projectile.friendly = true;
             projectile.melee = true;

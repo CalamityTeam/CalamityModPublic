@@ -723,7 +723,7 @@ namespace CalamityMod
 				ModContent.NPCType<SlimeGodSplit>(),
 				ModContent.NPCType<SlimeGodRunSplit>(),
                 ModContent.NPCType<CalamitasRun>(),
-				ModContent.NPCType<CalamitasRun2>(), //brothers
+				ModContent.NPCType<CalamitasRun2>() //brothers
             };
 
             dungeonEnemyBuffList = new List<int>()

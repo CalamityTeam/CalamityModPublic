@@ -12,21 +12,21 @@ namespace CalamityMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wave");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
             projectile.width = 30;
             projectile.height = 30;
-            aiType = 348;
+            aiType = ProjectileID.FrostWave;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.melee = true;
             projectile.penetrate = 2;
             projectile.alpha = 120;
             projectile.timeLeft = 200;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void AI()

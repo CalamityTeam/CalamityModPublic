@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
-            aiType = 388;
+            aiType = ProjectileID.Spazmamini;
         }
 
         public override void AI()

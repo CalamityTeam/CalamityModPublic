@@ -21,14 +21,10 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.melee = true;
-            projectile.penetrate = NPC.downedMoonlord ? -1 : 3;
-            projectile.timeLeft = 1200;
+            projectile.penetrate = -1;
+            projectile.timeLeft = 900;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 20 -
-                (NPC.downedGolemBoss ? 5 : 0) -
-                (NPC.downedMoonlord ? 5 : 0) -
-                (CalamityWorld.downedDoG ? 4 : 0) -
-                (CalamityWorld.downedYharon ? 3 : 0);
+            projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()

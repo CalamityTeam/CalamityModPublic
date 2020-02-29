@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 10;
             item.UseSound = SoundID.Item39;
             item.autoReuse = true;
-            item.shoot = 336;
+            item.shoot = ProjectileID.PineNeedleFriendly;
             item.shootSpeed = 24f;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 speedX *= num84;
                 speedY *= num84;
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, (float)Main.rand.Next(0, 10 * (num107 + 1)), 0f);
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 206, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.Leaf, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             return false;
         }

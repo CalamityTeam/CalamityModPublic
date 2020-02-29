@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.extraUpdates = 1;
             projectile.timeLeft = 600;
             projectile.alpha = 55;
-            aiType = 52;
+            aiType = ProjectileID.WoodenBoomerang;
         }
 
         public override void AI()

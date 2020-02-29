@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 2;
             projectile.aiStyle = 2;
             projectile.timeLeft = 600;
-            aiType = 48;
+            aiType = ProjectileID.ThrowingKnife;
             projectile.Calamity().rogue = true;
         }
 

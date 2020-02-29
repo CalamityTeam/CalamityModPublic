@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 				//Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofChaos>(), 4, 8);
                 DropHelper.DropItem(npc, ItemID.SoulofFright, 20, 40);
-				DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 20, 30);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 20, 30);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Brimlance>(), 4);

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
-            aiType = 598;
+            aiType = ProjectileID.BoneJavelin;
             projectile.Calamity().rogue = true;
         }
 

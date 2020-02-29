@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-            aiType = 228;
+            aiType = ProjectileID.SporeCloud;
         }
 
         public override void AI()

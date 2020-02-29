@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 2;
             projectile.penetrate = 6;
             projectile.timeLeft = 600;
-            aiType = 48;
+            aiType = ProjectileID.ThrowingKnife;
             projectile.Calamity().rogue = true;
         }
 

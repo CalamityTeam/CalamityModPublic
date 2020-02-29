@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 3;
             projectile.timeLeft = 120;
             projectile.extraUpdates = 3;
-            aiType = 301;
+            aiType = ProjectileID.PaladinsHammerFriendly;
             projectile.Calamity().rogue = true;
         }
 

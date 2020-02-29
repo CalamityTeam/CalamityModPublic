@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item33;
             item.autoReuse = true;
             item.shootSpeed = 25f;
-            item.shoot = 440;
+            item.shoot = ProjectileID.LaserMachinegunLaser;
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
             int num6 = 3;
             for (int index = 0; index < num6; ++index)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 440, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

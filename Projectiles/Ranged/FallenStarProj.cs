@@ -64,21 +64,21 @@ namespace CalamityMod.Projectiles.Ranged
 		public override void Kill(int timeLeft)
 		{
 			Main.PlaySound(SoundID.Item10, projectile.position);
-			int num536 = 10;
-			int num537 = 3;
-			for (int i = 0; i < num536; i++)
+			int dustAmt = 10;
+			int goreAmt = 3;
+			for (int i = 0; i < dustAmt; i++)
 			{
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 58, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 150, default(Color), 1.2f);
 			}
-			for (int i = 0; i < num537; i++)
+			for (int i = 0; i < goreAmt; i++)
 			{
 				Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
 			}
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < dustAmt; i++)
 			{
 				Dust.NewDust(projectile.position, projectile.width, projectile.height, 57, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 150, default(Color), 1.2f);
 			}
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < goreAmt; i++)
 			{
 				Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
 			}
