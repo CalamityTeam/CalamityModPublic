@@ -791,6 +791,86 @@ namespace CalamityMod.Items
                     }
                 }
             }
+            if (item.type == ItemID.FlaskofVenom)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Melee and rogue attacks inflict Venom on enemies";
+                    }
+                }
+            }
+            if (item.type == ItemID.FlaskofCursedFlames)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Melee and rogue attacks inflict enemies with cursed flames";
+                    }
+                }
+            }
+            if (item.type == ItemID.FlaskofFire)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Melee and rogue attacks set enemies on fire";
+                    }
+                }
+            }
+            if (item.type == ItemID.FlaskofGold)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Melee and rogue attacks make enemies drop more gold";
+                    }
+                }
+            }
+            if (item.type == ItemID.FlaskofIchor)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Melee and rogue attacks decrease enemy defense";
+                    }
+                }
+            }
+            if (item.type == ItemID.FlaskofNanites)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Melee and rogue attacks confuse enemies";
+                    }
+                }
+            }
+            if (item.type == ItemID.FlaskofParty)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Melee and rogue attacks cause confetti to appear";
+                    }
+                }
+            }
+            if (item.type == ItemID.FlaskofNanites)
+            {
+                foreach (TooltipLine line2 in tooltips)
+                {
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    {
+                        line2.text = "Melee and rogue attacks poison enemies";
+                    }
+                }
+            }
             if (item.type == ItemID.WormScarf)
             {
                 foreach (TooltipLine line2 in tooltips)
