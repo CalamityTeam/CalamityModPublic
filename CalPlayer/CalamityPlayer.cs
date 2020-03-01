@@ -6179,7 +6179,7 @@ namespace CalamityMod.CalPlayer
             }
             if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Ranged.DrataliornusBow>()] != 0)
             {
-                for (int i = 0; i < 1000; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Ranged.DrataliornusBow>() && Main.projectile[i].owner == player.whoAmI)
                     {
@@ -7703,7 +7703,7 @@ namespace CalamityMod.CalPlayer
         private int ModCollideWithNPCs(Rectangle myRect, float Damage, float Knockback, int NPCImmuneTime, int PlayerImmuneTime)
         {
             int num = 0;
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC nPC = Main.npc[i];
                 if (nPC.active && !nPC.dontTakeDamage && !nPC.friendly && nPC.immune[player.whoAmI] == 0)
