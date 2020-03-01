@@ -65,10 +65,13 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-        }
+			if (projectile.ai[0] != 1f) //excludes (True) Ark of the Ancients
+			{
+				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+				target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+				target.AddBuff(ModContent.BuffType<Plague>(), 120);
+				target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+			}
+		}
     }
 }

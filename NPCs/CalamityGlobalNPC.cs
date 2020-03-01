@@ -4940,7 +4940,7 @@ namespace CalamityMod.NPCs
                 target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 &&
                 target.type != ModContent.NPCType<Reaper>() && target.type != ModContent.NPCType<Mauler>() && target.type != ModContent.NPCType<EidolonWyrmHead>() &&
-                target.type != ModContent.NPCType<EidolonWyrmHeadHuge>() && target.type != ModContent.NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityMod.enemyImmunityList.Contains(npc.type))
+                target.type != ModContent.NPCType<EidolonWyrmHeadHuge>() && target.type != ModContent.NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityMod.enemyImmunityList.Contains(target.type))
             {
                 return true;
             }

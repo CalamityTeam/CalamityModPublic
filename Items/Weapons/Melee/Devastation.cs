@@ -95,9 +95,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-40, 41) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-40, 41) * 0.02f;
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlast>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType2>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType3>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(1));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlast>(), damage / 2, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(5));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType2>(), damage / 2, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<GalaxyBlastType3>(), damage / 2, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(1));
             }
             return false;
         }

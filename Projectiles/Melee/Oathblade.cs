@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.tileCollide = true;
             projectile.penetrate = 3;
-            aiType = 45;
+            aiType = ProjectileID.DemonScythe;
         }
 
         public override void AI()
@@ -39,9 +39,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int immuneTime = 10 -
-                (NPC.downedMoonlord ? 8 : 0);
-            target.immune[projectile.owner] = immuneTime;
+            target.immune[projectile.owner] = 10;
             target.AddBuff(BuffID.OnFire, 180);
             target.AddBuff(BuffID.ShadowFlame, 180);
         }

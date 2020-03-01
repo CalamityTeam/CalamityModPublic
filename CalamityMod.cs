@@ -1293,7 +1293,8 @@ namespace CalamityMod
                 ItemID.PhoenixBlaster,
                 ItemID.VenusMagnum,
                 ItemID.BlizzardStaff,
-                ItemID.Phantasm
+                ItemID.Phantasm,
+                ItemID.StardustDragonStaff
             };
 
             pumpkinMoonBuffList = new List<int>()

@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 40;
             projectile.friendly = true;
             projectile.penetrate = 5;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
             projectile.tileCollide = false;
             projectile.magic = true;
         }
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Magic
 
             for (float i = 0; i < MathHelper.TwoPi; i += MathHelper.PiOver4 / 2f)
             {
-                Projectile.NewProjectile(projectile.Center, i.ToRotationVector2() * 9f, ModContent.ProjectileType<AstralCrystalInvisibleExplosion>(), 50, 4f, projectile.owner);
+                Projectile.NewProjectile(projectile.Center, i.ToRotationVector2() * 9f, ModContent.ProjectileType<AstralCrystalInvisibleExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
         }
 
