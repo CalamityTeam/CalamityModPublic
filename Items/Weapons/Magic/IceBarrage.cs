@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Ice Barrage");
             Tooltip.SetDefault("Oh dear, you are dead!\n" +
-							   "Casts a deadly and powerful ice spell in the location of the cursor \n" +
+							   "Casts a deadly and powerful ice spell in the location of the cursor\n" +
+							   "This ice spell locks itself to the position of nearby enemies\n" +
                                "Consumes 2 Blood Runes every time its used");
         }
 
@@ -27,11 +28,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.magic = true;
-            item.mana = 530;
+            item.mana = 180;
             item.noMelee = true;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/IceBarrageCast");
 
-            item.damage = 9000;
+            item.damage = 7000;
             item.knockBack = 6f;
             item.useTime = 300;
             item.useAnimation = 300;

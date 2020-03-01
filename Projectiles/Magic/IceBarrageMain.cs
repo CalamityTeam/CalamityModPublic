@@ -31,6 +31,33 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+			float maxDistance = 500f;
+			bool bossFound = false;
+
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				NPC npc = Main.npc[i];
+                if (!npc.active || npc.type == NPCID.TargetDummy)
+                    continue;
+
+                // If we've found a valid boss target, ignore ALL targets which aren't bosses.
+                if (bossFound && !npc.boss)
+                    continue;
+
+				if (npc.CanBeChasedBy(projectile, false))
+				{
+					float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
+
+					if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+					{
+                        if (npc.boss)
+                            bossFound = true;
+						projectile.Center = npc.Center;
+						break;
+					}
+				}
+			}
+
             projectile.ai[0]++;
             projectile.ai[1]++;
             for (int j = 0; j < 3; j++)

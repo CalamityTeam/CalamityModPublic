@@ -49,13 +49,13 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int i = 0; i < 20; i++)
             {
-                int num297 = Main.rand.NextBool(2) ? 68 : 67;
+                int dustType = Main.rand.NextBool(2) ? 68 : 67;
                 if (Main.rand.NextBool(4))
                 {
-                    num297 = 80;
+                    dustType = 80;
                 }
                 Vector2 direction = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, num297, direction.X, direction.Y, 50, default, 1.1f);
+                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, direction.X, direction.Y, 50, default, 1.1f);
                 Main.dust[dust].noGravity = true;
             }
             Main.PlaySound(SoundID.NPCHit5, projectile.Center);
