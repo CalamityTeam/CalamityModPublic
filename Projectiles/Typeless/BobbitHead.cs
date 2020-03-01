@@ -7,11 +7,11 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class SerpentsBiteHook : ModProjectile
+	public class BobbitHead : ModProjectile
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Serpent's Bite");
+			DisplayName.SetDefault("Bobbit Head");
 		}
 
 		public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Typeless
 					hooksOut++;
 				}
 			}
-			if (hooksOut > 2) // This hook can have 3 hooks out.
+			if (hooksOut > 1) // This hook can have 2 hooks out.
 			{
 				return false;
 			}
@@ -40,34 +40,39 @@ namespace CalamityMod.Projectiles.Typeless
 		// Amethyst Hook is 300, Static Hook is 600, 16f = 1 tile
 		public override float GrappleRange()
 		{
-			return 450f; //28.125 tiles
+			return 640f; //40 tiles
 		}
 
 		public override void NumGrappleHooks(Player player, ref int numHooks)
 		{
-			numHooks = 2;
+			numHooks = 1;
 		}
 
 		// default is 11, Lunar is 24
 		public override void GrappleRetreatSpeed(Player player, ref float speed)
 		{
-			speed = 14f;
+			speed = 28f;
 		}
 
 		public override void GrapplePullSpeed(Player player, ref float speed)
 		{
-			speed = 12;
+			speed = 24;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityUtils.DrawHook(projectile, GetTexture("CalamityMod/ExtraTextures/Chains/SerpentsBiteChain"));
+            CalamityUtils.DrawHook(projectile, GetTexture("CalamityMod/ExtraTextures/Chains/BobbitHookChain"));
 			return true;
 		}
 
         public override void AI()
         {
             projectile.spriteDirection = -projectile.direction;
+
+			if (projectile.ai[0] == 2f)
+				projectile.extraUpdates = 1;
+			else
+				projectile.extraUpdates = 0;
         }
     }
 }

@@ -245,6 +245,7 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, 1000000, 1, 1);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 5, 7);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 2, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<BobbitHook>(), CalamityWorld.downedPolterghast, 3, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)
