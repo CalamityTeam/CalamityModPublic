@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = 10;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = 1;
+            item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 17f;
             item.useAmmo = 40;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
@@ -65,7 +65,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     }
                     if (Main.rand.NextBool(25))
                     {
-                        type = 408;
+                        type = ProjectileID.MiniSharkron;
                     }
                     if (Main.rand.NextBool(100))
                     {
