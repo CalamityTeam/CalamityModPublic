@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool AltFunctionUse(Player player)
         {
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile p = Main.projectile[i];
                 if (p.type == ModContent.ProjectileType<NychthemeronProjectile>() && p.owner == player.whoAmI)
