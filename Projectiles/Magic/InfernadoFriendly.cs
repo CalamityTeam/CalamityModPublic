@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.timeLeft = 500;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 4;
 			projectile.magic = true;
         }
 
