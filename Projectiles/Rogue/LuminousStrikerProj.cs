@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
-			if(projectile.ai[0] == 0f && modPlayer.StealthStrikeAvailable())
+			if (projectile.ai[0] == 0f && modPlayer.StealthStrikeAvailable())
 			{
                 projectile.Calamity().stealthStrike = true;
 				stealthStrike = true;
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 
 			shardRainTimer--;
-        	if (Main.rand.Next(4) == 0)
+        	if (Main.rand.NextBool(4))
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 176, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
@@ -52,12 +52,12 @@ namespace CalamityMod.Projectiles.Rogue
 			{
         		if (projectile.owner == Main.myPlayer)
         		{
-					if(stealthStrike)
+					if (stealthStrike)
 					{
-						Projectile.NewProjectile(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
 					}
 					else
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, -2f, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, -2f, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
                 }
 				shardRainTimer = 4;
 			}
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					speed.Normalize();
 					speed *= ((float)Main.rand.Next(30, 61) * 0.1f) * 2f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
 				}
 			}
 		}
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					speed.Normalize();
 					speed *= ((float)Main.rand.Next(30, 61) * 0.1f) * 2f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
 				}
 			}
 		}

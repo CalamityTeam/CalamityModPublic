@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 60;
-            item.damage = 100;
+            item.damage = 98;
             item.melee = true;
             item.useAnimation = 25;
             item.useTime = 25;
@@ -74,8 +74,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num80 = num72 / num80;
             }
 
-            int num107 = 2;
-            for (int num108 = 0; num108 < num107; num108++)
+            for (int num108 = 0; num108 < Main.rand.Next(1,3); num108++)
             {
                 vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
