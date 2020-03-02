@@ -3263,7 +3263,7 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.3);
 				}
-				else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>())
+				else if (projectile.type == (ModContent.ProjectileType<SpikecragSpike>() | ModContent.ProjectileType<CosmicTentacle>() | ModContent.ProjectileType<BrimstoneTentacle>() | ModContent.ProjectileType<SolarBeam2>() | ProjectileID.Wasp | player.beeType()))
 				{
 					damage = (int)(damage * 0.5);
 				}
