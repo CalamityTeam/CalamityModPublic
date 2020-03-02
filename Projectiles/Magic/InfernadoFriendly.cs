@@ -74,17 +74,17 @@ namespace CalamityMod.Projectiles.Magic
             if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
                 projectile.alpha -= 30;
-                if (projectile.alpha < 225)
+                if (projectile.alpha < 60)
                 {
-                    projectile.alpha = 225;
+                    projectile.alpha = 60;
                 }
             }
             else
             {
                 projectile.alpha += 30;
-                if (projectile.alpha > 245)
+                if (projectile.alpha > 150)
                 {
-                    projectile.alpha = 245;
+                    projectile.alpha = 150;
                 }
             }
             if (projectile.ai[0] > 0f)
@@ -117,8 +117,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 255, 53, projectile.alpha);
-        }
+			if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+			{
+				return new Color(128, 128, 26, 255 - projectile.alpha);
+			}
+			return new Color(64, 64, 13, 255 - projectile.alpha);
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

@@ -16,6 +16,7 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -518,22 +519,30 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Ice shards, lightning and sharknadoes
-					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && !player.InSpace())
+					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && Main.invasionType == 0 && NPC.MoonLordCountdown == 0 && !player.InSpace())
 					{
 						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - (float)Main.rand.Next(300, 701), player.Center.Y - (float)Main.rand.Next(700, 801));
 						if (point.X > Main.maxTilesX / 2)
 							sharknadoSpawnPoint.X = player.Center.X + (float)Main.rand.Next(300, 701);
+
 						if (Main.raining)
 						{
 							float frequencyMult = 1f - Main.cloudAlpha; // 1 to 0.11
+
 							Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-1000, 1001), player.Center.Y - (float)Main.rand.Next(700, 801));
+							Tile tileSafely = Framing.GetTileSafely((int)(spawnPoint.X / 16f), (int)(spawnPoint.Y / 16f));
+
 							if (player.ZoneSnow)
 							{
-								int divisor = (int)((Main.hardMode ? 50f : 60f) * frequencyMult);
-								float windVelocity = (float)Math.Sqrt((double)Math.Abs(Main.windSpeed)) * (float)Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5f) * 25f + Main.rand.NextFloat() * 0.2f - 0.1f;
-								Vector2 velocity = new Vector2(windVelocity * 0.2f, 3f * Main.rand.NextFloat());
-								if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
-									Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 1f, 0f);
+								if (!tileSafely.active())
+								{
+									int divisor = (int)((Main.hardMode ? 50f : 60f) * frequencyMult);
+									float windVelocity = (float)Math.Sqrt((double)Math.Abs(Main.windSpeed)) * (float)Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5f) * 25f + Main.rand.NextFloat() * 0.2f - 0.1f;
+									Vector2 velocity = new Vector2(windVelocity * 0.2f, 3f * Main.rand.NextFloat());
+
+									if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
+										Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 1f, 0f);
+								}
 							}
 							else
 							{
@@ -570,18 +579,18 @@ namespace CalamityMod.CalPlayer
 										Main.projectile[num336].netUpdate = true;
 									}
 								}
+
 								int randomFrequency2 = (int)(20f * frequencyMult);
 								if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
 								{
-									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)spawnPoint.X, (int)spawnPoint.Y);
-									float randomVelocity = Main.rand.NextFloat() - 0.5f;
-									Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900);
-									Vector2 ai0 = fireTo - spawnPoint;
-									float ai = (float)Main.rand.Next(100);
-									Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 7f;
-									int proj = Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, 50, 0f, player.whoAmI, ai0.ToRotation(), ai);
-									Main.projectile[proj].extraUpdates += 6;
-									Main.projectile[proj].friendly = true;
+									if (!tileSafely.active())
+									{
+										float randomVelocity = Main.rand.NextFloat() - 0.5f;
+										Vector2 fireTo = new Vector2(spawnPoint.X + 100f * randomVelocity, spawnPoint.Y + 900f);
+										Vector2 ai0 = fireTo - spawnPoint;
+										Vector2 velocity = Vector2.Normalize(ai0) * 12f;
+										Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, 0f, velocity.Y, ModContent.ProjectileType<LightningMark>(), 0, 0f, player.whoAmI, 0f, 0f);
+									}
 								}
 							}
 						}

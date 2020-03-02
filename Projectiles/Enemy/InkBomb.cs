@@ -48,14 +48,12 @@ namespace CalamityMod.Projectiles.Enemy
             if (projectile.owner == Main.myPlayer)
             {
                 int num320 = Main.rand.Next(15, 21);
-                int num3;
-                for (int num321 = 0; num321 < num320; num321 = num3 + 1)
+                for (int num321 = 0; num321 < num320; num321++)
                 {
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<InkPoisonCloud>() + Main.rand.Next(3), (int)((double)projectile.damage * 0.66), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
-                    num3 = num321;
                 }
             }
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
