@@ -434,6 +434,7 @@ namespace CalamityMod.CalPlayer
 
         // Armor Set
         public bool eskimoSet = false; //vanilla armor
+        public bool meteorSet = false; //vanilla armor, for space gun nerf
         public bool victideSet = false;
         public bool sulfurSet = false;
         public bool aeroSet = false;
@@ -1247,6 +1248,7 @@ namespace CalamityMod.CalPlayer
             astralStarRain = false;
 
             eskimoSet = false; //vanilla armor
+            meteorSet = false; //vanilla armor, for Space Gun nerf
 
             victideSet = false;
 
@@ -1761,6 +1763,7 @@ namespace CalamityMod.CalPlayer
             ataxiaVolley = false;
             ataxiaBlaze = false;
             eskimoSet = false; //vanilla armor
+            meteorSet = false; //vanilla armor, for Space Gun nerf
             victideSet = false;
             aeroSet = false;
             statigelSet = false;
@@ -3485,9 +3488,45 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+		#region Modify Mana Cost
+        public override void ModifyManaCost(Item item, ref float reduce, ref float mult)
+        {
+            if (item.type == ItemID.SpaceGun && meteorSet)
+            {
+                mult /= 2;
+            }
+        }
+		#endregion
+
         #region Melee Effects
         public override void MeleeEffects(Item item, Rectangle hitbox)
         {
+			if (!item.melee && !item.noMelee && (!item.noUseGraphic && (int) player.meleeEnchant > 0))
+			{
+				if ((int) player.meleeEnchant == 7)
+				{
+					if (Main.rand.NextBool(20))
+					{
+						int Type = Main.rand.Next(139, 143);
+						int index = Dust.NewDust(new Vector2((float) r.X, (float) r.Y), r.Width, r.Height, Type, this.velocity.X, this.velocity.Y, 0, new Color(), 1.2f);
+						Main.dust[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+						Main.dust[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+						Main.dust[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
+						Main.dust[index].velocity.Y += (float) Main.rand.Next(-50, 51) * 0.05f;
+						Main.dust[index].scale *= (float) (1.0 + (double) Main.rand.Next(-30, 31) * 0.01);
+					}
+					if (Main.rand.NextBool(40))
+					{
+						int Type = Main.rand.Next(276, 283);
+						int index = Gore.NewGore(new Vector2((float) r.X, (float) r.Y), this.velocity, Type, 1f);
+						Main.gore[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+						Main.gore[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+						Main.gore[index].scale *= (float) (1.0 + (double) Main.rand.Next(-20, 21) * 0.01);
+						Main.gore[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
+						Main.gore[index].velocity.Y += (float) Main.rand.Next(-50, 51) * 0.05f;
+					}
+				}
+			}
             bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type) && ItemID.Sets.Yoyo[item.type] != true));
             if (isTrueMelee)
             {
@@ -3614,6 +3653,9 @@ namespace CalamityMod.CalPlayer
         #region On Hit NPC
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+			if (!item.melee && (int) player.meleeEnchant == 7)				
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
+
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
             if (sulfurSet)
@@ -4113,6 +4155,9 @@ namespace CalamityMod.CalPlayer
         #region PvP
         public override void OnHitPvp(Item item, Player target, int damage, bool crit)
         {
+			if (!item.melee && (int) player.meleeEnchant == 7)				
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
+
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
             if (sulfurSet)
@@ -4618,7 +4663,7 @@ namespace CalamityMod.CalPlayer
                 damage = (int)(damage * diceMult);
             }
             #endregion
-			
+
 			#region AdditiveBoosts
             if (item.melee && badgeOfBravery)
             {

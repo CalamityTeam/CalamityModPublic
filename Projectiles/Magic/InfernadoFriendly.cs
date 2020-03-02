@@ -7,6 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class InfernadoFriendly : ModProjectile
     {
+		bool intersectingSomething = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernado");
@@ -30,6 +31,36 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+			Rectangle rectangle = new Rectangle((int)((double)projectile.position.X + (double)projectile.velocity.X * 0.5 - 4.0), (int)((double)projectile.position.Y + (double)projectile.velocity.Y * 0.5 - 4.0), projectile.width + 8, projectile.height + 8);
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].active)
+				{
+					NPC nPC = Main.npc[i];
+					Rectangle rect = nPC.getRect();
+					if (rectangle.Intersects(rect))
+					{
+						intersectingSomething = true;
+						break;
+					}
+				}
+			}
+			for (int i = 0; i < Main.maxProjectiles; i++)
+			{
+				if (Main.projectile[i].active)
+				{
+					Projectile proj = Main.projectile[i];
+					Rectangle rect = proj.getRect();
+					if (rectangle.Intersects(rect))
+					{
+						intersectingSomething = true;
+						break;
+					}
+				}
+			}
+			if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+				intersectingSomething = true;
+
             int num613 = 22;
             int num614 = 22;
             float num615 = 2.5f;
@@ -71,20 +102,20 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.width = (int)((float)num616 * projectile.scale);
                 projectile.height = (int)((float)num617 * projectile.scale);
             }
-            if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+			if (!intersectingSomething)
             {
                 projectile.alpha -= 30;
-                if (projectile.alpha < 225)
+                if (projectile.alpha < 100)
                 {
-                    projectile.alpha = 225;
+                    projectile.alpha = 100;
                 }
             }
             else
             {
                 projectile.alpha += 30;
-                if (projectile.alpha > 245)
+                if (projectile.alpha > 200)
                 {
-                    projectile.alpha = 245;
+                    projectile.alpha = 200;
                 }
             }
             if (projectile.ai[0] > 0f)
@@ -115,9 +146,13 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
+		public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(255, 255, 53, projectile.alpha);
+            if (!intersectingSomething)
+            {
+                return new Color(95, 95, 19, 255 - projectile.alpha);
+            }
+            return new Color(64, 64, 13, 255 - projectile.alpha);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

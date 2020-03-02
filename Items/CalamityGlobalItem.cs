@@ -437,32 +437,6 @@ namespace CalamityMod.Items
                 }
                 return true;
             }
-            if (item.type == ItemID.SpaceGun && player.spaceGun)
-            {
-                if (player.statMana >= (int)((float)3 * player.manaCost))
-                {
-                    player.manaRegenDelay = (int)player.maxRegenDelay;
-                    player.statMana -= (int)((float)3 * player.manaCost);
-                }
-                else if (player.manaFlower)
-                {
-                    player.QuickMana();
-                    if (player.statMana >= (int)((float)3 * player.manaCost))
-                    {
-                        player.manaRegenDelay = (int)player.maxRegenDelay;
-                        player.statMana -= (int)((float)3 * player.manaCost);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    return false;
-                }
-                return true;
-            }
             if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(ModContent.BuffType<Cadence>()) > -1)
             {
                 return false;
@@ -857,7 +831,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Melee and rogue attacks cause confetti to appear";
+                        line2.text = "All attacks cause confetti to appear";
                     }
                 }
             }
@@ -2289,6 +2263,8 @@ Provides heat and cold protection in Death Mode";
 			// Normal and Pink Eskimo set can be mixed and matched
             if ((head.type == ItemID.EskimoHood || head.type == ItemID.PinkEskimoHood) && (body.type == ItemID.EskimoCoat || body.type == ItemID.PinkEskimoCoat) && (legs.type == ItemID.EskimoPants || legs.type == ItemID.PinkEskimoPants))
                 return "Eskimo";
+			if (head.type == ItemID.MeteorHelmet && body.type == ItemID.MeteorSuit && legs.type == ItemID.MeteorLeggings)
+				return "Meteor";
             return "";
         }
 
@@ -2357,6 +2333,11 @@ Provides heat and cold protection in Death Mode";
 				"Cold enemies will deal reduced contact damage to the player\n" +
 				"Provides immunity to the Frostburn and Glacial State debuffs\n" +
 				"Provides cold immunity in Death Mode";
+            }
+            else if (set == "Meteor")
+            {
+                player.spaceGun = false;
+                modPlayer.meteorSet = true;
             }
         }
         #endregion
