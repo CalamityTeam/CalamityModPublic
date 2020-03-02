@@ -461,6 +461,7 @@ namespace CalamityMod.Projectiles
             {
                 if (CalamityMod.dungeonProjectileBuffList.Contains(projectile.type))
                 {
+					//Prevents them being buffed in Skeletron, Skeletron Prime, or Golem fights
                     if (((projectile.type == ProjectileID.RocketSkeleton || projectile.type == ProjectileID.Shadowflames) && projectile.ai[1] == 1f) ||
                         (NPC.golemBoss > 0 && (projectile.type == ProjectileID.InfernoHostileBolt || projectile.type == ProjectileID.InfernoHostileBlast)))
                     {
@@ -474,12 +475,12 @@ namespace CalamityMod.Projectiles
             if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon))
             {
                 if (CalamityMod.eventProjectileBuffList.Contains(projectile.type))
-                    projectile.damage = defDamage + 90;
+                    projectile.damage = defDamage + 70;
             }
             else if (CalamityWorld.buffedEclipse && Main.eclipse)
             {
                 if (CalamityMod.eventProjectileBuffList.Contains(projectile.type))
-                    projectile.damage = defDamage + 120;
+                    projectile.damage = defDamage + 100;
             }
 
             // Iron Heart damage variable will scale with projectile.damage

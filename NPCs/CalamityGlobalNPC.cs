@@ -994,14 +994,14 @@ namespace CalamityMod.NPCs
                 if (CalamityMod.pumpkinMoonBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 7.5);
-                    npc.damage += 200;
+                    npc.damage += 160;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
                 else if (CalamityMod.frostMoonBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 6.0);
-                    npc.damage += 200;
+                    npc.damage += 160;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
@@ -1010,7 +1010,7 @@ namespace CalamityMod.NPCs
             if (CalamityMod.eclipseBuffList.Contains(npc.type) && CalamityWorld.buffedEclipse)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 32.5);
-                npc.damage += 250;
+                npc.damage += 210;
                 npc.life = npc.lifeMax;
                 npc.defDamage = npc.damage;
             }
