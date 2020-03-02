@@ -12,7 +12,6 @@ namespace CalamityMod.Tiles.Abyss
         public override void SetDefaults()
         {
             Main.tileSolid[Type] = true;
-            Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
@@ -20,9 +19,7 @@ namespace CalamityMod.Tiles.Abyss
 
             dustType = 32;
             drop = ModContent.ItemType<Items.Placeables.SulphurousSand>();
-            ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Sulphurous Sand");
-            AddMapEntry(new Color(150, 100, 50), name);
+            AddMapEntry(new Color(150, 100, 50));
             mineResist = 1f;
             minPick = 55;
             soundType = 0;
@@ -189,7 +186,7 @@ namespace CalamityMod.Tiles.Abyss
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<AbyssGravel>(), false, false, false, false, resetFrame);
+            TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<SulphurousSandstone>(), false, false, false, false, resetFrame);
             return false;
         }
     }

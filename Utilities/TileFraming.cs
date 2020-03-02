@@ -90,8 +90,9 @@ namespace CalamityMod
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<ChaoticOre>()] = true;
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<PlantyMush>()] = true;
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<Voidstone>()] = true;
-            tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<SulphurousSand>()] = true;
+            tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<SulphurousSandstone>()] = true;
             tileMergeTypes[ModContent.TileType<AbyssGravel>()][ModContent.TileType<Tenebris>()] = true;
+            tileMergeTypes[ModContent.TileType<SulphurousSandstone>()][ModContent.TileType<SulphurousSand>()] = true;
         }
 
         internal static void Unload()

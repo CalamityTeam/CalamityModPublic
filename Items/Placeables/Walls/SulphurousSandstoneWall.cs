@@ -1,24 +1,25 @@
 ﻿using Terraria.ModLoader;
-namespace CalamityMod.Items.Placeables
+using WallTiles = CalamityMod.Walls;
+namespace CalamityMod.Items.Placeables.Walls
 {
-    public class SulphurousSand : ModItem
+    public class SulphurousSandstoneWall : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sulphurous Sand");
+            DisplayName.SetDefault("Sulphurous Sandstone Wall");
         }
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.Abyss.SulphurousSand>();
+            item.createWall = ModContent.WallType<WallTiles.SulphurousSandstoneWallSafe>();
             item.useStyle = 1;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;
             item.autoReuse = true;
             item.consumable = true;
-            item.width = 13;
-            item.height = 10;
+            item.width = 16;
+            item.height = 16;
             item.maxStack = 999;
         }
 
@@ -26,8 +27,8 @@ namespace CalamityMod.Items.Placeables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddTile(18);
-            recipe.AddIngredient(ModContent.ItemType<Walls.SulphurousSandWall>(), 4);
-            recipe.SetResult(this);
+            recipe.AddIngredient(ModContent.ItemType<SulphurousSandstone>());
+            recipe.SetResult(this, 4);
             recipe.AddRecipe();
             base.AddRecipes();
         }
