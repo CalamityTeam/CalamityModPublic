@@ -957,6 +957,19 @@ namespace CalamityMod.NPCs
                 npc.width = npc.height = 36;
             }
 
+			//Reduce damage in Death Mode by the Beach
+			if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses && player.ZoneBeach && !modPlayer.ZoneSulphur)
+			{
+				if (npc.type == NPCID.Sharkron)
+				{
+					npc.damage = 25;
+				}
+				if (npc.type == NPCID.Sharkron2)
+				{
+					npc.damage = 50;
+				}
+			}
+
             if (npc.type == NPCID.CultistBoss)
             {
                 npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 2 : 1.2));
