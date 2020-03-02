@@ -3508,7 +3508,7 @@ namespace CalamityMod.CalPlayer
 					if (Main.rand.NextBool(20))
 					{
 						int Type = Main.rand.Next(139, 143);
-						int index = Dust.NewDust(new Vector2((float) r.X, (float) r.Y), r.Width, r.Height, Type, this.velocity.X, this.velocity.Y, 0, new Color(), 1.2f);
+						int index = Dust.NewDust(new Vector2((float) hitbox.X, (float) hitbox.Y), hitbox.Width, hitbox.Height, Type, player.velocity.X, player.velocity.Y, 0, new Color(), 1.2f);
 						Main.dust[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
 						Main.dust[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
 						Main.dust[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
@@ -3518,7 +3518,7 @@ namespace CalamityMod.CalPlayer
 					if (Main.rand.NextBool(40))
 					{
 						int Type = Main.rand.Next(276, 283);
-						int index = Gore.NewGore(new Vector2((float) r.X, (float) r.Y), this.velocity, Type, 1f);
+						int index = Gore.NewGore(new Vector2((float) hitbox.X, (float) hitbox.Y), player.velocity, Type, 1f);
 						Main.gore[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
 						Main.gore[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
 						Main.gore[index].scale *= (float) (1.0 + (double) Main.rand.Next(-20, 21) * 0.01);
