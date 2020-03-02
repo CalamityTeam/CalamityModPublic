@@ -775,6 +775,7 @@ namespace CalamityMod
         public static void MergeWithAbyss(int type) => MergeWithSet(type, new int[] {
             // Sulphurous Sea
             ModContent.TileType<SulphurousSand>(),
+            ModContent.TileType<SulphurousSandstone>(),
             // Abyss
             ModContent.TileType<AbyssGravel>(),
             ModContent.TileType<Voidstone>(),
