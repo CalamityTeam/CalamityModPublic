@@ -25,39 +25,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.timeLeft = 500;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 2;
 			projectile.magic = true;
         }
 
         public override void AI()
         {
-			Rectangle rectangle = new Rectangle((int)((double)projectile.position.X + (double)projectile.velocity.X * 0.5 - 4.0), (int)((double)projectile.position.Y + (double)projectile.velocity.Y * 0.5 - 4.0), projectile.width + 8, projectile.height + 8);
-			for (int i = 0; i < Main.maxNPCs; i++)
-			{
-				if (Main.npc[i].active)
-				{
-					NPC nPC = Main.npc[i];
-					Rectangle rect = nPC.getRect();
-					if (rectangle.Intersects(rect))
-					{
-						intersectingSomething = true;
-						break;
-					}
-				}
-			}
-			for (int i = 0; i < Main.maxProjectiles; i++)
-			{
-				if (Main.projectile[i].active)
-				{
-					Projectile proj = Main.projectile[i];
-					Rectangle rect = proj.getRect();
-					if (rectangle.Intersects(rect))
-					{
-						intersectingSomething = true;
-						break;
-					}
-				}
-			}
 			if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 				intersectingSomething = true;
 
