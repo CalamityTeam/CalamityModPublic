@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 5;
+            target.immune[projectile.owner] = 8;
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
 
