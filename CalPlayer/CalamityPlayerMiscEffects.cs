@@ -518,8 +518,7 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Ice shards, lightning and sharknadoes
-					bool nearPillar =  player.ZoneTowerStardust || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerSolar;
-					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && !player.InSpace() && !DD2Event.Ongoing && !nearPillar)
+					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && !player.InSpace())
 					{
 						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - (float)Main.rand.Next(300, 701), player.Center.Y - (float)Main.rand.Next(700, 801));
 						if (point.X > Main.maxTilesX / 2)
@@ -571,8 +570,8 @@ namespace CalamityMod.CalPlayer
 										Main.projectile[num336].netUpdate = true;
 									}
 								}
-								int randomFrequency2 = (int)(25f * frequencyMult);
-								if (player.miscCounter % (Main.hardMode ? 120 : 150) == 0 && Main.rand.NextBool(randomFrequency2))
+								int randomFrequency2 = (int)(20f * frequencyMult);
+								if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
 								{
 									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)spawnPoint.X, (int)spawnPoint.Y);
 									float randomVelocity = Main.rand.NextFloat() - 0.5f;
@@ -583,7 +582,6 @@ namespace CalamityMod.CalPlayer
 									int proj = Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, 50, 0f, player.whoAmI, ai0.ToRotation(), ai);
 									Main.projectile[proj].extraUpdates += 6;
 									Main.projectile[proj].friendly = true;
-									Main.projectile[proj].Calamity().lineColor = 1;
 								}
 							}
 						}
