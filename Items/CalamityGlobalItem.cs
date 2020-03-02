@@ -1552,10 +1552,9 @@ Provides heat and cold protection in Death Mode";
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                    if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "Allows flight and slow fall\n" +
-							"Hold DOWN and JUMP to hover\n" +
+                        line2.text = "Hold DOWN and JUMP to hover\n" +
                             "Horizontal speed: 6.25\n" +
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
