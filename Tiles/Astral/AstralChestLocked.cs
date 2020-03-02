@@ -23,8 +23,6 @@ namespace CalamityMod.Tiles.Astral
             chestDrop = ModContent.ItemType<AstralChest>();
         }
 
-        //public override ushort GetMapOption(int i, int j) => (ushort)(Main.tile[i, j].frameX / 36);
-
         public override bool HasSmartInteract() => true;
 
         public override bool IsLockedChest(int i, int j) => Main.tile[i, j].frameX / 36 == 1;

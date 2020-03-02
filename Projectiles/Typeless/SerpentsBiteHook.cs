@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Typeless
 		public override bool? CanUseGrapple(Player player)
 		{
 			int hooksOut = 0;
-			for (int l = 0; l < 1000; l++)
+			for (int l = 0; l < Main.maxProjectiles; l++)
 			{
 				if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type)
 				{
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Typeless
 			return true;
 		}
 
-		// Amethyst Hook is 300, Static Hook is 600
+		// Amethyst Hook is 300, Static Hook is 600, 16f = 1 tile
 		public override float GrappleRange()
 		{
 			return 450f; //28.125 tiles

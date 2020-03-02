@@ -461,6 +461,7 @@ namespace CalamityMod.Projectiles
             {
                 if (CalamityMod.dungeonProjectileBuffList.Contains(projectile.type))
                 {
+					//Prevents them being buffed in Skeletron, Skeletron Prime, or Golem fights
                     if (((projectile.type == ProjectileID.RocketSkeleton || projectile.type == ProjectileID.Shadowflames) && projectile.ai[1] == 1f) ||
                         (NPC.golemBoss > 0 && (projectile.type == ProjectileID.InfernoHostileBolt || projectile.type == ProjectileID.InfernoHostileBlast)))
                     {
@@ -474,12 +475,12 @@ namespace CalamityMod.Projectiles
             if (CalamityWorld.downedDoG && (Main.pumpkinMoon || Main.snowMoon))
             {
                 if (CalamityMod.eventProjectileBuffList.Contains(projectile.type))
-                    projectile.damage = defDamage + 90;
+                    projectile.damage = defDamage + 70;
             }
             else if (CalamityWorld.buffedEclipse && Main.eclipse)
             {
                 if (CalamityMod.eventProjectileBuffList.Contains(projectile.type))
-                    projectile.damage = defDamage + 120;
+                    projectile.damage = defDamage + 100;
             }
 
             // Iron Heart damage variable will scale with projectile.damage
@@ -739,6 +740,35 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
+				if (!projectile.melee && (int) player.meleeEnchant > 0 && !projectile.noEnchantments)
+				{
+					if ((int) player.meleeEnchant == 7) //flask of party affects all types of weapons
+					{
+						Vector2 velocity = projectile.velocity;
+						if ((double) velocity.Length() > 4.0)
+							velocity *= 4f / velocity.Length();
+						if (Main.rand.NextBool(20))
+						{
+							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.Next(139, 143), velocity.X, velocity.Y, 0, new Color(), 1.2f);
+							Main.dust[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+							Main.dust[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+							Main.dust[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
+							Main.dust[index].velocity.Y += (float) Main.rand.Next(-50, 51) * 0.05f;
+							Main.dust[index].scale *= (float) (1.0 + (double) Main.rand.Next(-30, 31) * 0.01);
+						}
+						if (Main.rand.NextBool(40))
+						{
+							int Type = Main.rand.Next(276, 283);
+							int index = Gore.NewGore(projectile.position, velocity, Type, 1f);
+							Main.gore[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+							Main.gore[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+							Main.gore[index].scale *= (float) (1.0 + (double) Main.rand.Next(-20, 21) * 0.01);
+							Main.gore[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
+							Main.gore[index].velocity.Y += (float) Main.rand.Next(-50, 51) * 0.05f;
+						}
+					}
+				}
+
 				if (rogue && (int) player.meleeEnchant > 0 && !projectile.noEnchantments)
 				{
 					if ((int) player.meleeEnchant == 1 && Main.rand.Next(3) == 0)
@@ -806,31 +836,6 @@ namespace CalamityMod.Projectiles
 							Main.dust[index].velocity.X += (float) projectile.direction;
 							Main.dust[index].velocity.Y += 0.2f;
 							Main.dust[index].noGravity = true;
-						}
-					}
-					else if ((int) player.meleeEnchant == 7)
-					{
-						Vector2 velocity = projectile.velocity;
-						if ((double) velocity.Length() > 4.0)
-							velocity *= 4f / velocity.Length();
-						if (Main.rand.NextBool(20))
-						{
-							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, Main.rand.Next(139, 143), velocity.X, velocity.Y, 0, new Color(), 1.2f);
-							Main.dust[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
-							Main.dust[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
-							Main.dust[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
-							Main.dust[index].velocity.Y += (float) Main.rand.Next(-50, 51) * 0.05f;
-							Main.dust[index].scale *= (float) (1.0 + (double) Main.rand.Next(-30, 31) * 0.01);
-						}
-						if (Main.rand.NextBool(40))
-						{
-							int Type = Main.rand.Next(276, 283);
-							int index = Gore.NewGore(projectile.position, velocity, Type, 1f);
-							Main.gore[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
-							Main.gore[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
-							Main.gore[index].scale *= (float) (1.0 + (double) Main.rand.Next(-20, 21) * 0.01);
-							Main.gore[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
-							Main.gore[index].velocity.Y += (float) Main.rand.Next(-50, 51) * 0.05f;
 						}
 					}
 					else if ((int) player.meleeEnchant == 8 && Main.rand.Next(4) == 0)
@@ -909,10 +914,11 @@ namespace CalamityMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-            if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
+            if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap && projectile.friendly)
             {
-                if (rogue && (int) player.meleeEnchant == 7)
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, 289, 0, 0f, projectile.owner, 0f, 0f);
+				//flask of party affects all types of weapons, !projectile.melee is to prevent double flask effects
+                if (!projectile.melee && (int) player.meleeEnchant == 7)
+					Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, projectile.owner, 0f, 0f);
 
                 if (rogue && stealthStrike && modPlayer.dragonScales && CalamityUtils.CountProjectiles(ModContent.ProjectileType<InfernadoFriendly>()) < 2)
                 {

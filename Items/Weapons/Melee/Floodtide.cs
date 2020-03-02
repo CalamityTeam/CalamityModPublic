@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 7;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.shoot = 408;
+            item.shoot = ProjectileID.MiniSharkron;
             item.shootSpeed = 7f;
         }
 

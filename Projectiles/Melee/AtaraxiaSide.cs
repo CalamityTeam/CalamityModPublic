@@ -24,8 +24,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
             projectile.extraUpdates = 2;
             projectile.timeLeft = 180;
         }
@@ -71,11 +69,11 @@ namespace CalamityMod.Projectiles.Melee
         {
             Main.PlaySound(SoundID.Item89, projectile.Center);
 
-            // Individual split projectiles deal 7.5% of the weapon's base damage per hit.
+            // Individual split projectiles deal 5% damage per hit.
             int numSplits = 6;
             int splitID = ModContent.ProjectileType<AtaraxiaSplit>();
-            int damage = (int)(0.075f * Ataraxia.BaseDamage);
-            float angleVariance = MathHelper.TwoPi / (float)numSplits;
+            int damage = (int)(projectile.damage * 0.05f);
+            float angleVariance = MathHelper.TwoPi / numSplits;
             Vector2 projVec = new Vector2(4.5f, 0f).RotatedByRandom(MathHelper.TwoPi);
 
             for (int i = 0; i < numSplits; ++i)

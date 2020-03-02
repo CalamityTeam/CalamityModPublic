@@ -93,8 +93,10 @@ namespace CalamityMod.Buffs
             else if (type == BuffID.NebulaUpDmg3)
                 tip = "22.5% increased damage";
             else if (type == BuffID.WeaponImbueVenom || type == BuffID.WeaponImbueCursedFlames || type == BuffID.WeaponImbueFire || type == BuffID.WeaponImbueGold ||
-                type == BuffID.WeaponImbueIchor || type == BuffID.WeaponImbueNanites || type == BuffID.WeaponImbueConfetti || type == BuffID.WeaponImbuePoison)
+                type == BuffID.WeaponImbueIchor || type == BuffID.WeaponImbueNanites || type == BuffID.WeaponImbuePoison)
                 tip = "Rogue and " + tip;
+            else if (type == BuffID.WeaponImbueConfetti)
+                tip = "All attacks cause confetti to appear";
             else if (type == BuffID.IceBarrier)
                 tip = "Damage taken is reduced by 15%";
             else if (type == BuffID.ChaosState && CalamityWorld.revenge)

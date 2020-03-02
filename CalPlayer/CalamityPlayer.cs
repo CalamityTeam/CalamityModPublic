@@ -434,6 +434,7 @@ namespace CalamityMod.CalPlayer
 
         // Armor Set
         public bool eskimoSet = false; //vanilla armor
+        public bool meteorSet = false; //vanilla armor, for space gun nerf
         public bool victideSet = false;
         public bool sulfurSet = false;
         public bool aeroSet = false;
@@ -1247,6 +1248,7 @@ namespace CalamityMod.CalPlayer
             astralStarRain = false;
 
             eskimoSet = false; //vanilla armor
+            meteorSet = false; //vanilla armor, for Space Gun nerf
 
             victideSet = false;
 
@@ -1761,6 +1763,7 @@ namespace CalamityMod.CalPlayer
             ataxiaVolley = false;
             ataxiaBlaze = false;
             eskimoSet = false; //vanilla armor
+            meteorSet = false; //vanilla armor, for Space Gun nerf
             victideSet = false;
             aeroSet = false;
             statigelSet = false;
@@ -3485,9 +3488,45 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
+		#region Modify Mana Cost
+        public override void ModifyManaCost(Item item, ref float reduce, ref float mult)
+        {
+            if (item.type == ItemID.SpaceGun && meteorSet)
+            {
+                mult /= 2;
+            }
+        }
+		#endregion
+
         #region Melee Effects
         public override void MeleeEffects(Item item, Rectangle hitbox)
         {
+			if (!item.melee && !item.noMelee && (!item.noUseGraphic && (int) player.meleeEnchant > 0))
+			{
+				if ((int) player.meleeEnchant == 7)
+				{
+					if (Main.rand.NextBool(20))
+					{
+						int Type = Main.rand.Next(139, 143);
+						int index = Dust.NewDust(new Vector2((float) hitbox.X, (float) hitbox.Y), hitbox.Width, hitbox.Height, Type, player.velocity.X, player.velocity.Y, 0, new Color(), 1.2f);
+						Main.dust[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+						Main.dust[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+						Main.dust[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
+						Main.dust[index].velocity.Y += (float) Main.rand.Next(-50, 51) * 0.05f;
+						Main.dust[index].scale *= (float) (1.0 + (double) Main.rand.Next(-30, 31) * 0.01);
+					}
+					if (Main.rand.NextBool(40))
+					{
+						int Type = Main.rand.Next(276, 283);
+						int index = Gore.NewGore(new Vector2((float) hitbox.X, (float) hitbox.Y), player.velocity, Type, 1f);
+						Main.gore[index].velocity.X *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+						Main.gore[index].velocity.Y *= (float) (1.0 + (double) Main.rand.Next(-50, 51) * 0.01);
+						Main.gore[index].scale *= (float) (1.0 + (double) Main.rand.Next(-20, 21) * 0.01);
+						Main.gore[index].velocity.X += (float) Main.rand.Next(-50, 51) * 0.05f;
+						Main.gore[index].velocity.Y += (float) Main.rand.Next(-50, 51) * 0.05f;
+					}
+				}
+			}
             bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type) && ItemID.Sets.Yoyo[item.type] != true));
             if (isTrueMelee)
             {
@@ -3614,6 +3653,9 @@ namespace CalamityMod.CalPlayer
         #region On Hit NPC
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+			if (!item.melee && (int) player.meleeEnchant == 7)				
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
+
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
             if (sulfurSet)
@@ -4113,6 +4155,9 @@ namespace CalamityMod.CalPlayer
         #region PvP
         public override void OnHitPvp(Item item, Player target, int damage, bool crit)
         {
+			if (!item.melee && (int) player.meleeEnchant == 7)				
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
+
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
             if (sulfurSet)
@@ -4618,7 +4663,7 @@ namespace CalamityMod.CalPlayer
                 damage = (int)(damage * diceMult);
             }
             #endregion
-			
+
 			#region AdditiveBoosts
             if (item.melee && badgeOfBravery)
             {
@@ -5613,7 +5658,8 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (proj.type == ProjectileID.CultistBossLightningOrbArc)
                 {
-                    player.AddBuff(BuffID.Electrified, 120);
+                    player.AddBuff(BuffID.Electrified, (proj.Calamity().lineColor == 1 ? 30 : 120));
+					//0.5 second for DM lightning, 2 seconds for Storm Weaver/Cultist lightning
                 }
             }
             if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))
@@ -6179,7 +6225,7 @@ namespace CalamityMod.CalPlayer
             }
             if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Ranged.DrataliornusBow>()] != 0)
             {
-                for (int i = 0; i < 1000; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Ranged.DrataliornusBow>() && Main.projectile[i].owner == player.whoAmI)
                     {
@@ -6762,10 +6808,10 @@ namespace CalamityMod.CalPlayer
         #region Dash Stuff
         public void ModDashMovement()
         {
-            if (dashMod == 6 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer)
+            if (dashMod == 6 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //cryo lore
             {
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && Main.npc[i].immune[player.whoAmI] <= 0)
                     {
@@ -6810,10 +6856,10 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (dashMod == 4 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer)
+            if (dashMod == 4 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Asgardian Aegis
             {
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && Main.npc[i].immune[player.whoAmI] <= 0)
                     {
@@ -6861,10 +6907,10 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (dashMod == 3 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer)
+            if (dashMod == 3 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Elysian Aegis
             {
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && Main.npc[i].immune[player.whoAmI] <= 0)
                     {
@@ -6911,10 +6957,10 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (dashMod == 2 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer)
+            if (dashMod == 2 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Asgard's Valor
             {
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && Main.npc[i].immune[player.whoAmI] <= 0)
                     {
@@ -6960,10 +7006,10 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (dashMod == 1 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer)
+            if (dashMod == 1 && player.dashDelay < 0 && player.whoAmI == Main.myPlayer) //Counter Scarf
             {
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[player.whoAmI] <= 0 && Main.npc[i].damage > 0)
                     {
@@ -6976,7 +7022,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                for (int i = 0; i < 1000; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].active && !Main.projectile[i].friendly && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
                     {
@@ -7001,7 +7047,7 @@ namespace CalamityMod.CalPlayer
                 float num9 = Math.Max(player.accRunSpeed, player.maxRunSpeed);
                 float num10 = 0.94f;
                 int num11 = 20;
-                if (dashMod == 1)
+                if (dashMod == 1) //Counter Scarf
                 {
                     for (int k = 0; k < 2; k++)
                     {
@@ -7019,7 +7065,7 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
                 }
-                else if (dashMod == 2)
+                else if (dashMod == 2) //Asgard's Valor
                 {
                     for (int m = 0; m < 4; m++)
                     {
@@ -7034,7 +7080,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 3)
+                else if (dashMod == 3) //Elysian Aegis
                 {
                     for (int m = 0; m < 12; m++)
                     {
@@ -7050,7 +7096,7 @@ namespace CalamityMod.CalPlayer
                     }
                     num7 = 14f; //14
                 }
-                else if (dashMod == 4)
+                else if (dashMod == 4) //Asgardian Aegis
                 {
                     for (int m = 0; m < 24; m++)
                     {
@@ -7066,7 +7112,7 @@ namespace CalamityMod.CalPlayer
                     }
                     num7 = 16f; //14
                 }
-                else if (dashMod == 5)
+                else if (dashMod == 5) //Deep Diver
                 {
                     for (int m = 0; m < 24; m++)
                     {
@@ -7082,7 +7128,7 @@ namespace CalamityMod.CalPlayer
                     }
                     num7 = 18f; //14
                 }
-                else if (dashMod == 6)
+                else if (dashMod == 6) //Cryogen Lore
                 {
                     for (int m = 0; m < 24; m++)
                     {
@@ -7126,10 +7172,12 @@ namespace CalamityMod.CalPlayer
             }
             else if (dashMod > 0 && !player.mount.Active)
             {
-                if (dashMod == 1)
+				float dashDistance;
+                if (dashMod == 1) //Counter Scarf
                 {
-                    int num16 = 0;
-                    bool flag = false;
+					dashDistance = 14.5f;
+                    int direction = 0;
+                    bool justDashed = false;
                     if (dashTimeMod > 0)
                     {
                         dashTimeMod--;
@@ -7142,8 +7190,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod > 0)
                         {
-                            num16 = 1;
-                            flag = true;
+                            direction = 1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7155,8 +7203,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod < 0)
                         {
-                            num16 = -1;
-                            flag = true;
+                            direction = -1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7164,11 +7212,11 @@ namespace CalamityMod.CalPlayer
                             dashTimeMod = -15;
                         }
                     }
-                    if (flag)
+                    if (justDashed)
                     {
-                        player.velocity.X = 14.5f * (float)num16; //eoc dash amount
-                        Point point = (player.Center + new Vector2((float)(num16 * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point2 = (player.Center + new Vector2((float)(num16 * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                        player.velocity.X = dashDistance * (float)direction; //eoc dash amount
+                        Point point = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+                        Point point2 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point.X, point.Y) || WorldGen.SolidOrSlopedTile(point2.X, point2.Y))
                         {
                             player.velocity.X = player.velocity.X / 2f;
@@ -7187,10 +7235,11 @@ namespace CalamityMod.CalPlayer
                         return;
                     }
                 }
-                else if (dashMod == 2)
+                else if (dashMod == 2) //Asgard's Valor
                 {
-                    int num23 = 0;
-                    bool flag3 = false;
+					dashDistance = 16.9f;
+                    int direction = 0;
+                    bool justDashed = false;
                     if (dashTimeMod > 0)
                     {
                         dashTimeMod--;
@@ -7203,8 +7252,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod > 0)
                         {
-                            num23 = 1;
-                            flag3 = true;
+                            direction = 1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7216,8 +7265,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod < 0)
                         {
-                            num23 = -1;
-                            flag3 = true;
+                            direction = -1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7225,11 +7274,11 @@ namespace CalamityMod.CalPlayer
                             dashTimeMod = -15;
                         }
                     }
-                    if (flag3)
+                    if (justDashed)
                     {
-                        player.velocity.X = 16.9f * (float)num23; //tabi dash amount
-                        Point point5 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                        player.velocity.X = dashDistance * (float)direction; //tabi dash amount
+                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
                         {
                             player.velocity.X = player.velocity.X / 2f;
@@ -7249,10 +7298,11 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 3)
+                else if (dashMod == 3) //Elysian Aegis
                 {
-                    int num23 = 0;
-                    bool flag3 = false;
+					dashDistance = 21.9f;
+                    int direction = 0;
+                    bool justDashed = false;
                     if (dashTimeMod > 0)
                     {
                         dashTimeMod--;
@@ -7265,8 +7315,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod > 0)
                         {
-                            num23 = 1;
-                            flag3 = true;
+                            direction = 1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7278,8 +7328,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod < 0)
                         {
-                            num23 = -1;
-                            flag3 = true;
+                            direction = -1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7287,11 +7337,11 @@ namespace CalamityMod.CalPlayer
                             dashTimeMod = -15;
                         }
                     }
-                    if (flag3)
+                    if (justDashed)
                     {
-                        player.velocity.X = 21.9f * (float)num23; //solar dash amount
-                        Point point5 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                        player.velocity.X = dashDistance * (float)direction; //solar dash amount
+                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
                         {
                             player.velocity.X = player.velocity.X / 2f;
@@ -7311,10 +7361,11 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 4)
+                else if (dashMod == 4) //Asgardian Aegis
                 {
-                    int num23 = 0;
-                    bool flag3 = false;
+					dashDistance = 23.9f;
+                    int direction = 0;
+                    bool justDashed = false;
                     if (dashTimeMod > 0)
                     {
                         dashTimeMod--;
@@ -7327,8 +7378,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod > 0)
                         {
-                            num23 = 1;
-                            flag3 = true;
+                            direction = 1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7340,8 +7391,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod < 0)
                         {
-                            num23 = -1;
-                            flag3 = true;
+                            direction = -1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7349,11 +7400,11 @@ namespace CalamityMod.CalPlayer
                             dashTimeMod = -15;
                         }
                     }
-                    if (flag3)
+                    if (justDashed)
                     {
-                        player.velocity.X = 23.9f * (float)num23; //slighty more powerful solar dash
-                        Point point5 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                        player.velocity.X = dashDistance * (float)direction; //slighty more powerful solar dash
+                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
                         {
                             player.velocity.X = player.velocity.X / 2f;
@@ -7373,10 +7424,11 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 5)
+                else if (dashMod == 5) //Deep Diver
                 {
-                    int num23 = 0;
-                    bool flag3 = false;
+					dashDistance = 25.9f;
+                    int direction = 0;
+                    bool justDashed = false;
                     if (dashTimeMod > 0)
                     {
                         dashTimeMod--;
@@ -7389,8 +7441,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod > 0)
                         {
-                            num23 = 1;
-                            flag3 = true;
+                            direction = 1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7402,8 +7454,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod < 0)
                         {
-                            num23 = -1;
-                            flag3 = true;
+                            direction = -1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7411,11 +7463,11 @@ namespace CalamityMod.CalPlayer
                             dashTimeMod = -15;
                         }
                     }
-                    if (flag3)
+                    if (justDashed)
                     {
-                        player.velocity.X = 25.9f * (float)num23;
-                        Point point5 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                        player.velocity.X = dashDistance * (float)direction;
+                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
                         {
                             player.velocity.X = player.velocity.X / 2f;
@@ -7435,10 +7487,11 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 6)
+                else if (dashMod == 6) //Cryogen Lore
                 {
-                    int num23 = 0;
-                    bool flag3 = false;
+					dashDistance = 15.7f;
+                    int direction = 0;
+                    bool justDashed = false;
                     if (dashTimeMod > 0)
                     {
                         dashTimeMod--;
@@ -7451,8 +7504,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod > 0)
                         {
-                            num23 = 1;
-                            flag3 = true;
+                            direction = 1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7464,8 +7517,8 @@ namespace CalamityMod.CalPlayer
                     {
                         if (dashTimeMod < 0)
                         {
-                            num23 = -1;
-                            flag3 = true;
+                            direction = -1;
+                            justDashed = true;
                             dashTimeMod = 0;
                         }
                         else
@@ -7473,11 +7526,11 @@ namespace CalamityMod.CalPlayer
                             dashTimeMod = -15;
                         }
                     }
-                    if (flag3)
+                    if (justDashed)
                     {
-                        player.velocity.X = 15.7f * (float)num23;
-                        Point point5 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(num23 * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                        player.velocity.X = dashDistance * (float)direction;
+                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
                         {
                             player.velocity.X = player.velocity.X / 2f;
@@ -7696,7 +7749,7 @@ namespace CalamityMod.CalPlayer
         private int ModCollideWithNPCs(Rectangle myRect, float Damage, float Knockback, int NPCImmuneTime, int PlayerImmuneTime)
         {
             int num = 0;
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC nPC = Main.npc[i];
                 if (nPC.active && !nPC.dontTakeDamage && !nPC.friendly && nPC.immune[player.whoAmI] == 0)

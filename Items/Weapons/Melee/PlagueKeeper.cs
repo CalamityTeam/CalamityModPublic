@@ -17,11 +17,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 74;
-            item.damage = 90;
+            item.damage = 80;
             item.melee = true;
-            item.useAnimation = 18;
+            item.useAnimation = 20;
             item.useStyle = 1;
-            item.useTime = 18;
+            item.useTime = 20;
             item.useTurn = true;
             item.knockBack = 6f;
             item.UseSound = SoundID.Item1;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int i = 0; i < 3; i++)
             {
                 int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
-                    player.beeDamage(item.damage / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
+                    player.beeDamage((int)(item.damage * (player.allDamage + player.meleeDamage - 1f)) / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
                 Main.projectile[bee].penetrate = 1;
                 Main.projectile[bee].Calamity().forceMelee = true;
             }
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int i = 0; i < 3; i++)
             {
                 int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
-                    player.beeDamage(item.damage / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
+                    player.beeDamage((int)(item.damage * (player.allDamage + player.meleeDamage - 1f)) / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
                 Main.projectile[bee].penetrate = 1;
                 Main.projectile[bee].Calamity().forceMelee = true;
             }

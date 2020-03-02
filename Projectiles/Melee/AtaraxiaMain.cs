@@ -23,8 +23,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
             projectile.extraUpdates = 2;
             projectile.timeLeft = 180;
         }
@@ -91,6 +89,12 @@ namespace CalamityMod.Projectiles.Melee
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 4.0f;
             }
+
+            // Make the projectile ignore iframes while exploding
+            projectile.maxPenetrate = -1;
+            projectile.penetrate = -1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
             projectile.Damage();
         }
     }

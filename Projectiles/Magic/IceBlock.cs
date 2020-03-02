@@ -37,7 +37,30 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.alpha = 20;
             }
-            switch(projectile.ai[0])
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+                Projectile proj = Main.projectile[i];
+                if (proj.type == ModContent.ProjectileType<IceBarrageMain>() && proj.owner == Main.myPlayer)
+                {
+					Vector2 pos1 = new Vector2(proj.Center.X, proj.Center.Y - (proj.height * 0.5f) - 44f);
+					Vector2 pos2 = new Vector2(proj.Center.X + (proj.width * 0.5f) + 48f, proj.Center.Y);
+					Vector2 pos3 = new Vector2(proj.Center.X, proj.Center.Y + (proj.height * 0.5f) + 44f);
+					Vector2 pos4 = new Vector2(proj.Center.X - (proj.width * 0.5f) - 49f, proj.Center.Y);
+					switch (projectile.ai[0])
+					{
+						case 0: projectile.Center = pos1;
+								break;
+						case 1: projectile.Center = pos2;
+								break;
+						case 2: projectile.Center = pos3;
+								break;
+						case 3: projectile.Center = pos4;
+								break;
+						default: break;
+					}
+                }
+            }
+            switch (projectile.ai[0])
             {
                 case 1: projectile.rotation = (MathHelper.Pi * 0.5f);
                         break;
@@ -53,13 +76,13 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int i = 0; i < 40; i++)
             {
-                int num297 = Main.rand.NextBool(2) ? 68 : 67;
+                int dustType = Main.rand.NextBool(2) ? 68 : 67;
                 if (Main.rand.NextBool(4))
                 {
-                    num297 = 80;
+                    dustType = 80;
                 }
                 Vector2 direction = new Vector2(Main.rand.NextFloat(-4f, 4f), Main.rand.NextFloat(-4f, 4f));
-                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, num297, direction.X, direction.Y, 50, default, 1.5f);
+                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, direction.X, direction.Y, 50, default, 1.5f);
                 Main.dust[dust].noGravity = true;
             }
             Main.PlaySound(SoundID.NPCHit5, projectile.Center);

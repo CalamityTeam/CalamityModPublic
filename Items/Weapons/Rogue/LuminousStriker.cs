@@ -16,17 +16,17 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Luminous Striker");
-			Tooltip.SetDefault("Throws a stardust javelin trailed by rising stardust shards\n"
+			Tooltip.SetDefault("Send the stars back to where they belong\n"
+							  +"Throws a stardust javelin trailed by rising stardust shards\n"
                               +"Explodes into additional stardust shards upon hitting enemies\n"
-							  +"Stealth Strikes cause the stardust shards to fly alongside the javelin instead of rising\n"
-                              +"'Send the stars back to where they belong'");
+							  +"Stealth Strikes cause the stardust shards to fly alongside the javelin instead of rising");
         }
 
         public override void SafeSetDefaults()
         {
             item.width = 86;
 			item.height = 102;
-            item.damage = 135;
+            item.damage = 149;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 30;

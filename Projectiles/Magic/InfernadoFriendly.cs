@@ -7,6 +7,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class InfernadoFriendly : ModProjectile
     {
+		bool intersectingSomething = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernado");
@@ -24,12 +25,15 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.timeLeft = 500;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 2;
 			projectile.magic = true;
         }
 
         public override void AI()
         {
+			if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+				intersectingSomething = true;
+
             int num613 = 22;
             int num614 = 22;
             float num615 = 2.5f;
@@ -71,20 +75,20 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.width = (int)((float)num616 * projectile.scale);
                 projectile.height = (int)((float)num617 * projectile.scale);
             }
-            if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+			if (!intersectingSomething)
             {
                 projectile.alpha -= 30;
-                if (projectile.alpha < 60)
+                if (projectile.alpha < 100)
                 {
-                    projectile.alpha = 60;
+                    projectile.alpha = 100;
                 }
             }
             else
             {
                 projectile.alpha += 30;
-                if (projectile.alpha > 150)
+                if (projectile.alpha > 200)
                 {
-                    projectile.alpha = 150;
+                    projectile.alpha = 200;
                 }
             }
             if (projectile.ai[0] > 0f)
@@ -115,14 +119,14 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
+		public override Color? GetAlpha(Color lightColor)
         {
-			if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-			{
-				return new Color(128, 128, 26, 255 - projectile.alpha);
-			}
-			return new Color(64, 64, 13, 255 - projectile.alpha);
-		}
+            if (!intersectingSomething)
+            {
+                return new Color(95, 95, 19, 255 - projectile.alpha);
+            }
+            return new Color(64, 64, 13, 255 - projectile.alpha);
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

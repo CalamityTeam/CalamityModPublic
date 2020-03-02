@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.damage *= 2;
             }
             projectile.ai[0]++;
-            if (projectile.ai[0] == 20)
+            if (projectile.ai[0] == 10)
             {
                 projectile.damage /= 2;
             }

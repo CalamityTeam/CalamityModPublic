@@ -21,5 +21,15 @@ namespace CalamityMod.Items.Placeables
             item.height = 10;
             item.maxStack = 999;
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddTile(18);
+            recipe.AddIngredient(ModContent.ItemType<Walls.SulphurousSandWall>(), 4);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            base.AddRecipes();
+        }
     }
 }

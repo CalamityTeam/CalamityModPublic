@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     type = ProjectileID.EnchantedBeam;
                     break;
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, Main.myPlayer, 1f);
             float num72 = Main.rand.Next(18, 25);
             damage = Main.rand.Next(40, 60);
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
