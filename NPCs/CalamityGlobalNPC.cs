@@ -958,7 +958,7 @@ namespace CalamityMod.NPCs
             }
 
 			//Reduce damage in Death Mode by the Beach
-			if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses && player.ZoneBeach && !modPlayer.ZoneSulphur)
+			if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses)
 			{
 				if (npc.type == NPCID.Sharkron)
 				{

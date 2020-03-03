@@ -1127,7 +1127,7 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						if (npc.ai[1] < 150f)
-							Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
 						else
 						{
 							if (npc.ai[1] == 150f)
@@ -1135,7 +1135,7 @@ namespace CalamityMod.NPCs
 								npc.localAI[0] = num743;
 								npc.localAI[1] = num744;
 							}
-							Projectile.NewProjectile(vector93.X, vector93.Y, npc.localAI[0], npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(vector93.X, vector93.Y, npc.localAI[0], npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
 						}
 					}
 				}
