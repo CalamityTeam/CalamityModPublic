@@ -94,34 +94,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            // DEFECT -- HiveExplosion does not exist.
-            // int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
-            // Main.projectile[explode].penetrate = 1;
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 5; num621++)
-            {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
-                {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                }
-            }
-            for (int num623 = 0; num623 < 10; num623++)
-            {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
-            }
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -144,66 +118,14 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            // DEFECT -- HiveExplosion does not exist.
-            // int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
-            // Main.projectile[explode].penetrate = 1;
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 1f, 0f);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 100;
-            projectile.height = 100;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 10; num621++)
-            {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
-                {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                }
-            }
-            for (int num623 = 0; num623 < 20; num623++)
-            {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
-            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 2;
-            // DEFECT -- HiveExplosion does not exist.
-            // int explode = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
-            // Main.projectile[explode].penetrate = 1;
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 50;
-            projectile.height = 50;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 5; num621++)
-            {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
-                if (Main.rand.NextBool(2))
-                {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
-                }
-            }
-            for (int num623 = 0; num623 < 10; num623++)
-            {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 160, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
-            }
+            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
         }
     }
 }

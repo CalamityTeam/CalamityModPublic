@@ -48,6 +48,7 @@ namespace CalamityMod.Projectiles.Enemy
 					int proj = Projectile.NewProjectile(fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, 50, 0f, projectile.owner, ai0.ToRotation(), ai);
 					Main.projectile[proj].extraUpdates += 6;
 					Main.projectile[proj].friendly = true;
+					Main.projectile[proj].Calamity().lineColor = 1;
 				}
 			}
 			else if (projectile.velocity.Y == 0f)

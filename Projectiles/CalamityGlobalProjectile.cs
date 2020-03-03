@@ -916,6 +916,10 @@ namespace CalamityMod.Projectiles
 
             if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap && projectile.friendly)
             {
+				if (projectile.type == (ProjectileID.StardustDragon1 | ProjectileID.StardustDragon2 | ProjectileID.StardustDragon3 | ProjectileID.StardustDragon4))
+				{
+					target.immune[projectile.owner] = 10;
+				}
 				//flask of party affects all types of weapons, !projectile.melee is to prevent double flask effects
                 if (!projectile.melee && (int) player.meleeEnchant == 7)
 					Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, projectile.owner, 0f, 0f);
@@ -953,6 +957,7 @@ namespace CalamityMod.Projectiles
                     int projectileIndex = Projectile.NewProjectile((float)(projTileX * 16 + 8), (float)(projTileY * 16 - 24), 0f, 0f, ModContent.ProjectileType<InfernadoFriendly>(), 420, 15f, Main.myPlayer, 16f, 16f);
                     Main.projectile[projectileIndex].Calamity().forceRogue = true;
                     Main.projectile[projectileIndex].netUpdate = true;
+                    Main.projectile[projectileIndex].localNPCHitCooldown = 1;
                 }
 
 				// Spectre Damage set and Nebula set work on enemies which are "immune to lifesteal"

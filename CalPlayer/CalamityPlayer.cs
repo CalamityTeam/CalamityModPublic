@@ -5658,7 +5658,8 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (proj.type == ProjectileID.CultistBossLightningOrbArc)
                 {
-                    player.AddBuff(BuffID.Electrified, 120);
+                    player.AddBuff(BuffID.Electrified, (proj.Calamity().lineColor == 1 ? 60 : 120));
+					//1 second for DM lightning, 2 seconds for Storm Weaver/Cultist lightning
                 }
             }
             if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))

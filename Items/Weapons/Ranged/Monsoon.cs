@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 63;
+            item.damage = 58;
             item.ranged = true;
             item.width = 46;
             item.height = 78;
-            item.useTime = 21;
-            item.useAnimation = 21;
+            item.useTime = 22;
+            item.useAnimation = 22;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 2.5f;
@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    if (Main.rand.NextBool(12))
+                    if (Main.rand.NextBool(10))
                     {
                         type = ProjectileID.MiniSharkron;
                     }
