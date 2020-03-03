@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useAnimation = 250;
             item.useTime = 250;
             item.useTurn = true;
-            item.useStyle = 1;
+            item.useStyle = 5;
             item.knockBack = 0.5f;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;
@@ -38,6 +38,11 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<SparkInfernal>();
             item.shootSpeed = 24f;
             item.Calamity().customRarity = CalamityRarity.Violet;
+        }
+
+        public override Vector2? HoldoutOrigin()
+        {
+            return new Vector2(10, 10);
         }
 
         public override void AddRecipes()
