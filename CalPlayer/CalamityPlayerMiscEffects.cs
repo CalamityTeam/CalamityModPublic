@@ -519,7 +519,8 @@ namespace CalamityMod.CalPlayer
 					}
 
 					// Ice shards, lightning and sharknadoes
-					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && Main.invasionType == 0 && NPC.MoonLordCountdown == 0 && !player.InSpace())
+					bool nearPillar =  player.ZoneTowerStardust || player.ZoneTowerVortex || player.ZoneTowerNebula || player.ZoneTowerSolar;
+					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && Main.invasionType == 0 && NPC.MoonLordCountdown == 0 && !player.InSpace() && !DD2Event.Ongoing && !nearPillar)
 					{
 						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - (float)Main.rand.Next(300, 701), player.Center.Y - (float)Main.rand.Next(700, 801));
 						if (point.X > Main.maxTilesX / 2)
