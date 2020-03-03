@@ -957,6 +957,7 @@ namespace CalamityMod.Projectiles
                     int projectileIndex = Projectile.NewProjectile((float)(projTileX * 16 + 8), (float)(projTileY * 16 - 24), 0f, 0f, ModContent.ProjectileType<InfernadoFriendly>(), 420, 15f, Main.myPlayer, 16f, 16f);
                     Main.projectile[projectileIndex].Calamity().forceRogue = true;
                     Main.projectile[projectileIndex].netUpdate = true;
+                    Main.projectile[projectileIndex].localNPCHitCooldown = 1;
                 }
 
 				// Spectre Damage set and Nebula set work on enemies which are "immune to lifesteal"
