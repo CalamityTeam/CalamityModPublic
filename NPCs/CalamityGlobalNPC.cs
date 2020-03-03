@@ -951,6 +951,8 @@ namespace CalamityMod.NPCs
         #region Other Stat Changes
         private void OtherStatChanges(NPC npc)
         {
+			Player player = Main.player[Main.myPlayer];
+			CalamityPlayer modPlayer = player.Calamity();
             // Fix Sharkron hitboxes
             if (npc.type == NPCID.Sharkron || npc.type == NPCID.Sharkron2)
             {
