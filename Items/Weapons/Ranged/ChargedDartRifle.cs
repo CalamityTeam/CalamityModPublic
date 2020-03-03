@@ -12,12 +12,13 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Charged Dart Blaster");
-            Tooltip.SetDefault("Right click to fire an exploding energy blast that bounces");
+            Tooltip.SetDefault("Fires a shotgun spread of darts and a splitting energy blast\n" +
+			"Right click to fire a more powerful exploding energy blast that bounces");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 126;
+            item.damage = 100;
             item.ranged = true;
             item.width = 60;
             item.height = 24;
@@ -49,11 +50,18 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ChargedBlast3>(), (int)((double)damage * 0.85), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ChargedBlast3>(), (int)((double)damage * 2), knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
             else
             {
+				int num6 = Main.rand.Next(3, 6);
+				for (int index = 0; index < num6; ++index)
+				{
+					float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
+					float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
+					int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+				}
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }

@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 20;
+            item.damage = 23;
             item.ranged = true;
             item.width = 46;
             item.height = 22;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item95;
             item.autoReuse = true;
             item.shootSpeed = 50f;
-            item.shoot = 444;
+            item.shoot = ProjectileID.Xenopopper;
             item.useAmmo = 97;
         }
 
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float scaleFactor2 = (float)Main.rand.NextDouble() * 0.2f + 0.05f;
                 Vector2 vector6 = new Vector2(num78, num79).RotatedBy((double)(num96 * (float)Main.rand.NextDouble() - num96 / 2f), default) * scaleFactor2;
-                int num99 = Projectile.NewProjectile(position.X, position.Y, vector6.X, vector6.Y, 444, damage, knockBack, player.whoAmI, ai, 0f);
+                int num99 = Projectile.NewProjectile(position.X, position.Y, vector6.X, vector6.Y, ProjectileID.Xenopopper, damage, knockBack, player.whoAmI, ai, 0f);
                 Main.projectile[num99].localAI[0] = (float)type;
                 Main.projectile[num99].localAI[1] = 12f;
             }
@@ -103,7 +103,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 num79 *= num80;
                 float speedX4 = num78 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
                 float speedY5 = num79 + (float)Main.rand.Next(-1000, 1001) * 0.02f;
-                int projectile = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, 444, damage, knockBack, player.whoAmI, ai, 0f);
+                int projectile = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ProjectileID.Xenopopper, damage, knockBack, player.whoAmI, ai, 0f);
                 Main.projectile[projectile].localAI[0] = (float)type;
                 Main.projectile[projectile].localAI[1] = 12f;
             }

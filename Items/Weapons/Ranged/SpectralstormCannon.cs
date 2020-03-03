@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.width = 66;
             item.height = 26;
-            item.useTime = 3;
-            item.useAnimation = 9;
+            item.useTime = 4;
+            item.useAnimation = 12;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 1.5f;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = 9;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = 163;
+            item.shoot = ProjectileID.Flare;
             item.shootSpeed = 9.5f;
             item.useAmmo = 931;
         }
@@ -53,11 +53,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[projectile].timeLeft = 200;
                 Main.projectile[projectile].Calamity().forceRanged = true;
             }
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 0f, 0f);
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.LostSoulFriendly, damage, knockBack, player.whoAmI, 0f, 0f);
+            Main.projectile[proj].timeLeft = 600;
             Main.projectile[proj].Calamity().forceRanged = true;
             return false;
         }

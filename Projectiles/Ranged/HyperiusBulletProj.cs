@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.owner == Main.myPlayer)
             {
-                int splitDamage = (int)(projectile.damage * 0.8f);
+                int splitDamage = (int)(projectile.damage * 0.6f);
                 float splitKB = 1f;
                 Projectile.NewProjectile(vector2, new Vector2(speedX, speedY), ModContent.ProjectileType<HyperiusSplit>(), splitDamage, splitKB, projectile.owner);
             }

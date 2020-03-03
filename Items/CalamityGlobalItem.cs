@@ -99,6 +99,8 @@ namespace CalamityMod.Items
                 item.damage = (int)((double)item.damage * 1.1);
             else if (item.type == ItemID.Razorpine)
                 item.damage = (int)((double)item.damage * 0.95);
+            else if (item.type == ItemID.Phantasm)
+                item.damage = (int)((double)item.damage * 0.9);
             else if (item.type == ItemID.LastPrism)
                 item.damage = (int)((double)item.damage * 0.85);
             else if (CalamityMod.quarterDamageNerfList?.Contains(item.type) ?? false)

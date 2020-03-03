@@ -1293,7 +1293,6 @@ namespace CalamityMod
                 ItemID.PhoenixBlaster,
                 ItemID.VenusMagnum,
                 ItemID.BlizzardStaff,
-                ItemID.Phantasm,
                 ItemID.StardustDragonStaff
             };
 
