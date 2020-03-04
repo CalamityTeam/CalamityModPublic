@@ -3666,13 +3666,13 @@ namespace CalamityMod.CalPlayer
 				case ItemID.Frostbrand:
 					target.AddBuff(BuffID.Frostburn, 600);
 					break;
-			}
-			if (item.type == ItemID.IceBlade)
-			{
-				if (Main.rand.NextBool(5))
-					target.AddBuff(BuffID.Frostburn, 360);
-				else if (Main.rand.NextBool(3))
-					target.AddBuff(BuffID.Frostburn, 120);
+
+				case ItemID.IceBlade:
+					if (Main.rand.NextBool(5))
+						target.AddBuff(BuffID.Frostburn, 360);
+					else if (Main.rand.NextBool(3))
+						target.AddBuff(BuffID.Frostburn, 120);
+					break;
 			}
 
 			if (item.melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
@@ -3895,20 +3895,22 @@ namespace CalamityMod.CalPlayer
 				case ProjectileID.NorthPoleSnowflake:
 					target.AddBuff(BuffID.Frostburn, 240);
 					break;
-			}
-			if (proj.type == ProjectileID.SnowBallFriendly)
-			{
-				if (Main.rand.NextBool(10))
-					target.AddBuff(BuffID.Frostburn, 120);
-				else if (Main.rand.NextBool(5))
-					target.AddBuff(BuffID.Frostburn, 60);
-			}
-			else if (proj.type == (ProjectileID.IceBoomerang | ProjectileID.IceBolt | ProjectileID.FrostDaggerfish))
-			{
-				if (Main.rand.NextBool(5))
-					target.AddBuff(BuffID.Frostburn, 240);
-				else if (Main.rand.NextBool(3))
-					target.AddBuff(BuffID.Frostburn, 120);
+
+				case ProjectileID.SnowBallFriendly:
+					if (Main.rand.NextBool(10))
+						target.AddBuff(BuffID.Frostburn, 120);
+					else if (Main.rand.NextBool(5))
+						target.AddBuff(BuffID.Frostburn, 60);
+					break;
+
+				case ProjectileID.IceBoomerang:
+				case ProjectileID.IceBolt:
+				case ProjectileID.FrostDaggerfish:
+					if (Main.rand.NextBool(5))
+						target.AddBuff(BuffID.Frostburn, 240);
+					else if (Main.rand.NextBool(3))
+						target.AddBuff(BuffID.Frostburn, 120);
+					break;
 			}
 
 			if (!proj.npcProj && !proj.trap)
