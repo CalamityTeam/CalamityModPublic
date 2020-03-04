@@ -15796,7 +15796,7 @@ namespace CalamityMod.NPCs
             float xAccel = 0.1f, float xAccelBoost1 = 0.06f, float xAccelBoost2 = 0.25f,
             float yAccel = 0.12f, float yAccelBoost1 = 0.07f, float yAccelBoost2 = 0.2f)
         {
-            if (npc.direction == -1 && npc.velocity.X > -maxXSpeed && npc.position.X > Main.player[npc.target].Center.X)
+            if (npc.direction == -1 && npc.velocity.X > -maxXSpeed)
             {
                 npc.velocity.X -= xAccel;
                 if (npc.velocity.X > maxXSpeed)
@@ -15812,7 +15812,7 @@ namespace CalamityMod.NPCs
                     npc.velocity.X = -maxXSpeed;
                 }
             }
-            else if (npc.direction == 1 && npc.velocity.X < maxXSpeed && npc.Center.X < Main.player[npc.target].position.X)
+            else if (npc.direction == 1 && npc.velocity.X < maxXSpeed)
             {
                 npc.velocity.X += xAccel;
                 if (npc.velocity.X < -maxXSpeed)
@@ -15828,7 +15828,7 @@ namespace CalamityMod.NPCs
                     npc.velocity.X = maxXSpeed;
                 }
             }
-            if (npc.directionY == -1 && npc.velocity.Y > -maxYSpeed && npc.position.Y > Main.player[npc.target].Center.Y)
+            if (npc.directionY == -1 && npc.velocity.Y > -maxYSpeed)
             {
                 npc.velocity.Y -= yAccel;
                 if (npc.velocity.Y > maxYSpeed)
@@ -15844,7 +15844,7 @@ namespace CalamityMod.NPCs
                     npc.velocity.Y = -maxYSpeed;
                 }
             }
-            else if (npc.directionY == 1 && npc.velocity.Y < maxYSpeed && npc.Center.X < Main.player[npc.target].position.Y)
+            else if (npc.directionY == 1 && npc.velocity.Y < maxYSpeed)
             {
                 npc.velocity.Y += yAccel;
                 if (npc.velocity.Y < -maxYSpeed)
@@ -15861,6 +15861,7 @@ namespace CalamityMod.NPCs
                 }
             }
         }
+
         public static bool BuffedDemonEyeAI(NPC npc, Mod mod)
         {
             // Subtypes of enemies with this AI. Made for programmer convenience.

@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
 		{
+			projectile.tileCollide = Collision.CanHitLine(Main.npc[(int)projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)projectile.ai[1]].target].Center, 1, 1);
+
 			if (Main.rand.NextBool(2))
 			{
 				Vector2 vector33 = projectile.position;
