@@ -10,9 +10,9 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Oracle : ModItem
     {
-        public const int YoyoBaseDamage = 420;
-		public const int AuraBaseDamage = 150;
-		public const int AuraMaxDamage = 450;
+        public const int YoyoBaseDamage = 380;
+		public const int AuraBaseDamage = 120;
+		public const int AuraMaxDamage = 400;
 		
 		public override void SetStaticDefaults()
         {

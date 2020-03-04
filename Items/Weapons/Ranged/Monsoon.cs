@@ -19,17 +19,17 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 58;
+            item.damage = 120;
             item.ranged = true;
             item.width = 46;
             item.height = 78;
-            item.useTime = 22;
-            item.useAnimation = 22;
+            item.useTime = 15;
+            item.useAnimation = 15;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 2.5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
-            item.rare = 9;
+            item.Calamity().customRarity = (CalamityRarity)13;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.WoodenArrowFriendly;
@@ -56,11 +56,11 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    if (Main.rand.NextBool(10))
+                    if (Main.rand.NextBool(8))
                     {
                         type = ProjectileID.MiniSharkron;
                     }
-                    if (Main.rand.NextBool(25))
+                    if (Main.rand.NextBool(20))
                     {
                         type = ModContent.ProjectileType<TyphoonArrow>();
                     }
@@ -68,6 +68,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     Main.projectile[num121].Calamity().forceRanged = true;
                     Main.projectile[num121].noDropItem = true;
                     Main.projectile[num121].arrow = true;
+                    Main.projectile[num121].extraUpdates++;
                 }
                 else
                 {
@@ -81,8 +82,9 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.FragmentVortex, 15);
+            recipe.AddIngredient(ModContent.ItemType<ReaperTooth>(), 6);
             recipe.AddIngredient(ItemID.Tsunami);
+            recipe.AddIngredient(ModContent.ItemType<FlarewingBow>());
             recipe.AddIngredient(ItemID.SharkFin, 2);
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 10);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 10);

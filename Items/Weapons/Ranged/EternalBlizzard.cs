@@ -11,11 +11,11 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternal Blizzard");
-            Tooltip.SetDefault("Wooden arrows turn into icicle arrows that shatter on impact");
+            Tooltip.SetDefault("Fires an additional icicle arrow that shatters on impact");
         }
         public override void SetDefaults()
         {
-            item.damage = 48;
+            item.damage = 50;
             item.ranged = true;
             item.width = 42;
             item.height = 62;
@@ -35,8 +35,10 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (type == ProjectileID.WoodenArrowFriendly)
-                type = ModContent.ProjectileType<IcicleArrowProj>();
+			float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
+			float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
+			int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<IcicleArrowProj>(), (int)(damage * 0.5f), knockBack, player.whoAmI, 0f, 0f);
+			Main.projectile[index].noDropItem = true;
 
             return true;
         }

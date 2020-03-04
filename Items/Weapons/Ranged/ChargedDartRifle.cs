@@ -55,12 +55,12 @@ namespace CalamityMod.Items.Weapons.Ranged
             }
             else
             {
-				int num6 = Main.rand.Next(3, 6);
+				int num6 = Main.rand.Next(2, 5);
 				for (int index = 0; index < num6; ++index)
 				{
 					float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
 					float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-					int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+					int projectile = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
 				}
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<ChargedBlast>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 return false;

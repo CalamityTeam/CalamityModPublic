@@ -9,14 +9,15 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Raider's Glory");
-            Tooltip.SetDefault("Fires ichor arrows");
+            Tooltip.SetDefault("Fires ichor arrows with increased velocity\n" +
+			"These arrows also cause enemies to drop more money");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 40;
+            item.damage = 50;
             item.ranged = true;
-            item.crit += 10;
+            item.crit += 15;
             item.width = 58;
             item.height = 22;
             item.useTime = 20;

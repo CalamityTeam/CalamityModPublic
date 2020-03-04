@@ -4601,6 +4601,10 @@ namespace CalamityMod.CalPlayer
 						target.AddBuff(BuffID.Venom, 120, false);
 					}
 				}
+				if (proj.type == ProjectileID.IchorArrow && player.inventory[player.selectedItem].type == ModContent.ItemType<RaidersGlory>())
+				{
+					target.AddBuff(BuffID.Midas, 300, false);
+				}
 			}
         }
         #endregion
