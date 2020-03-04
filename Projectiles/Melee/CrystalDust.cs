@@ -51,59 +51,6 @@ namespace CalamityMod.Projectiles.Melee
                     Main.dust[num469].velocity *= 0f;
                 }
             }
-            if (projectile.ai[0] == 1f)
-            {
-                if (projectile.owner == Main.myPlayer)
-                {
-                    int num814 = 3;
-                    int num815 = (int)(projectile.position.X / 16f - (float)num814);
-                    int num816 = (int)(projectile.position.X / 16f + (float)num814);
-                    int num817 = (int)(projectile.position.Y / 16f - (float)num814);
-                    int num818 = (int)(projectile.position.Y / 16f + (float)num814);
-                    if (num815 < 0)
-                    {
-                        num815 = 0;
-                    }
-                    if (num816 > Main.maxTilesX)
-                    {
-                        num816 = Main.maxTilesX;
-                    }
-                    if (num817 < 0)
-                    {
-                        num817 = 0;
-                    }
-                    if (num818 > Main.maxTilesY)
-                    {
-                        num818 = Main.maxTilesY;
-                    }
-                    AchievementsHelper.CurrentlyMining = true;
-                    for (int num824 = num815; num824 <= num816; num824++)
-                    {
-                        for (int num825 = num817; num825 <= num818; num825++)
-                        {
-                            float num826 = Math.Abs((float)num824 - projectile.position.X / 16f);
-                            float num827 = Math.Abs((float)num825 - projectile.position.Y / 16f);
-                            double num828 = Math.Sqrt((double)(num826 * num826 + num827 * num827));
-                            if (num828 < (double)num814)
-                            {
-                                if (Main.tile[num824, num825] != null && Main.tile[num824, num825].active())
-                                {
-                                    WorldGen.KillTile(num824, num825, false, false, false);
-                                    if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
-                                    {
-                                        NetMessage.SendData(17, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    AchievementsHelper.CurrentlyMining = false;
-                    if (Main.netMode != NetmodeID.SinglePlayer)
-                    {
-                        NetMessage.SendData(29, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
-                    }
-                }
-            }
         }
     }
 }
