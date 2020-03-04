@@ -3283,10 +3283,7 @@ namespace CalamityMod.NPCs
 
 				if (projectile.penetrate == -1 && !projectile.minion)
 				{
-					if (projectile.type == ModContent.ProjectileType<CosmicFire>())
-						damage = (int)(damage * 0.3);
-					else
-						damage = (int)(damage * 0.2);
+					damage = (int)(damage * 0.2);
 				}
 				else if (projectile.penetrate > 1 && projectile.type != ModContent.ProjectileType<BrinySpout>())
 				{
