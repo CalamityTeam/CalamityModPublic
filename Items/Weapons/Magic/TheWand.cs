@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class TheWand : ModItem
     {
-        public static int BaseDamage = 390;
+        public static int BaseDamage = 1234;
 
         public override void SetStaticDefaults()
         {

@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.width = 94;
             item.height = 92;
             item.melee = true;
-            item.damage = 5600;
+            item.damage = 4900;
             item.knockBack = 2.5f;
             item.useAnimation = 19;
             item.useTime = 19;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
             int centerID = ModContent.ProjectileType<AtaraxiaMain>();
             int centerDamage = damage;
             Vector2 centerVel = new Vector2(speedX, speedY);
-            Projectile.NewProjectile(position, centerVel, centerID, centerDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position, centerVel, centerID, centerDamage, knockBack, player.whoAmI, 0f, 0f);
 
             // Side projectiles (these deal 75% damage)
             int sideID = ModContent.ProjectileType<AtaraxiaSide>();
@@ -63,8 +63,8 @@ namespace CalamityMod.Items.Weapons.Melee
             Vector2 rightOffset = speed.RotatedBy(-MathHelper.PiOver4, default);
             leftOffset -= 1.4f * speed;
             rightOffset -= 1.4f * speed;
-            Projectile.NewProjectile(rrp.X + leftOffset.X, rrp.Y + leftOffset.Y, speedX, speedY, sideID, sideDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            Projectile.NewProjectile(rrp.X + rightOffset.X, rrp.Y + rightOffset.Y, speedX, speedY, sideID, sideDamage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(rrp.X + leftOffset.X, rrp.Y + leftOffset.Y, speedX, speedY, sideID, sideDamage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(rrp.X + rightOffset.X, rrp.Y + rightOffset.Y, speedX, speedY, sideID, sideDamage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 
