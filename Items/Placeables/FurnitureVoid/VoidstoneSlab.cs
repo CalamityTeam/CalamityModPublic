@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Placeables.FurnitureVoid
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<VoidstoneSlabWall>(), 4);
             recipe.SetResult(this);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddTile(ModContent.TileType<VoidCondenser>());
             recipe.AddRecipe();
         }
     }

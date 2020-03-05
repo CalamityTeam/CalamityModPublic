@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Placeables.Ores;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Placeables.Walls;
 using Terraria.ID;
 using Terraria.ModLoader;

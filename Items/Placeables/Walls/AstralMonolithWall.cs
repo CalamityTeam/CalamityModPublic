@@ -1,4 +1,5 @@
-﻿using Terraria.ID;
+﻿using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ID;
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls; // If you are using c# 6, you can use: "using static Terraria.Localization.GameCulture;" which would mean you could just write "DisplayName.AddTranslation(German, "");"
 
@@ -29,7 +30,7 @@ namespace CalamityMod.Items.Placeables.Walls
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 1);
             recipe.SetResult(this, 4);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddTile(ModContent.TileType<MonolithCrafting>());
             recipe.AddRecipe();
         }
     }

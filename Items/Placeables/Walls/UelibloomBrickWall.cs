@@ -1,3 +1,4 @@
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
 namespace CalamityMod.Items.Placeables.Walls
@@ -27,7 +28,7 @@ namespace CalamityMod.Items.Placeables.Walls
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<UelibloomBrick>());
             recipe.SetResult(this, 4);
-            recipe.AddTile(18);
+            recipe.AddTile(ModContent.TileType<BotanicPlanter>());
             recipe.AddRecipe();
         }
     }
