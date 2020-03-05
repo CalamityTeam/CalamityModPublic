@@ -101,7 +101,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<Alluvion>());
             recipe.AddIngredient(ModContent.ItemType<AstrealDefeat>());
             recipe.AddIngredient(ModContent.ItemType<ClockworkBow>());
-            recipe.AddIngredient(ModContent.ItemType<FlarewingBow>());
             recipe.AddIngredient(ModContent.ItemType<Galeforce>());
             recipe.AddIngredient(ModContent.ItemType<PlanetaryAnnihilation>());
             recipe.AddIngredient(ModContent.ItemType<TheBallista>());
