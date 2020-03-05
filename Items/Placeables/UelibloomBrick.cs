@@ -30,12 +30,17 @@ namespace CalamityMod.Items.Placeables
             recipe.AddIngredient(ModContent.ItemType<UelibloomOre>());
             recipe.AddIngredient(ItemID.StoneBlock);
             recipe.SetResult(this);
-            recipe.AddTile(TileID.Furnaces);
+            recipe.AddTile(TileID.AdamantiteForge);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<UelibloomBrickWall>(), 4);
             recipe.SetResult(this);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddTile(ModContent.TileType<BotanicPlanter>());
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<BotanicPlatform>(), 2);
+            recipe.SetResult(this);
+            recipe.AddTile(ModContent.TileType<BotanicPlanter>());
             recipe.AddRecipe();
         }
     }
