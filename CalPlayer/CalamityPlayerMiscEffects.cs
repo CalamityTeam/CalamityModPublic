@@ -3386,7 +3386,7 @@ namespace CalamityMod.CalPlayer
 		private static void RogueMirrors(Player player, CalamityPlayer modPlayer)
 		{
 			Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
-			for (int i = 0; i < 200; i++)
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[player.whoAmI] <= 0 && Main.npc[i].damage > 0)
 				{
@@ -3394,7 +3394,7 @@ namespace CalamityMod.CalPlayer
 					Rectangle rect = nPC.getRect();
 					if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
 					{
-						if (Main.rand.Next(10) == 0 && player.immuneTime <= 0)
+						if (Main.rand.NextBool(10) && player.immuneTime <= 0)
 						{
 							modPlayer.AbyssMirrorEvade();
 							modPlayer.EclipseMirrorEvade();
@@ -3404,7 +3404,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			for (int i = 0; i < 1000; i++)
+			for (int i = 0; i < Main.maxProjectiles; i++)
 			{
 				if (Main.projectile[i].active && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
 				{
@@ -3412,7 +3412,7 @@ namespace CalamityMod.CalPlayer
 					Rectangle rect = proj.getRect();
 					if (rectangle.Intersects(rect))
 					{
-						if (Main.rand.Next(10) == 0)
+						if (Main.rand.NextBool(10))
 						{
 							modPlayer.AbyssMirrorEvade();
 							modPlayer.EclipseMirrorEvade();
