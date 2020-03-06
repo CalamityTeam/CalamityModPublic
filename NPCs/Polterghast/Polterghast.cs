@@ -29,8 +29,8 @@ namespace CalamityMod.NPCs.Polterghast
     {
         private int despawnTimer = 600;
         private bool spawnGhost = false;
-        public static float phase1DR = 0.1f;
-        public static float phase2DR = 0.15f;
+        public static float phase1DR = 0.15f;
+        public static float phase2DR = 0.2f;
         public static float phase3DR = 0.5f;
 
         public override void SetStaticDefaults()

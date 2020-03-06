@@ -70,6 +70,7 @@ namespace CalamityMod.CalPlayer
 		public int actualMaxLife = 0;
 		public int deathModeUnderworldTime = 0;
 		public int deathModeBlizzardTime = 0;
+		public static int chaosStateDuration = 600;
 		public bool killSpikyBalls = false;
 		public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
@@ -2057,43 +2058,35 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.NormalityRelocatorHotKey.JustPressed && normalityRelocator && Main.myPlayer == player.whoAmI)
             {
-                Vector2 teleportLocation;
-                teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
-                if (player.gravDir == 1f)
-                {
-                    teleportLocation.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
-                }
-                else
-                {
-                    teleportLocation.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
-                }
-                teleportLocation.X -= (float)(player.width / 2);
-                if (teleportLocation.X > 50f && teleportLocation.X < (float)(Main.maxTilesX * 16 - 50) && teleportLocation.Y > 50f && teleportLocation.Y < (float)(Main.maxTilesY * 16 - 50))
-                {
-                    int x = (int)(teleportLocation.X / 16f);
-                    int y = (int)(teleportLocation.Y / 16f);
-                    if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
-                    {
-                        player.Teleport(teleportLocation, 4, 0);
-                        NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
-                        if (player.chaosState)
-                        {
-                            player.statLife -= player.statLifeMax2 / 4;
-                            PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
-                            if (Main.rand.NextBool(2))
-                            {
-                                damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
-                            }
-                            if (player.statLife <= 0)
-                            {
-                                player.KillMe(damageSource, 1.0, 0, false);
-                            }
-                            player.lifeRegenCount = 0;
-                            player.lifeRegenTime = 0;
-                        }
-                        player.AddBuff(BuffID.ChaosState, 360, true);
-                    }
-                }
+				if (!player.chaosState)
+				{
+					Vector2 teleportLocation;
+					teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
+					if (player.gravDir == 1f)
+					{
+						teleportLocation.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
+					}
+					else
+					{
+						teleportLocation.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
+					}
+					teleportLocation.X -= (float)(player.width / 2);
+					if (teleportLocation.X > 50f && teleportLocation.X < (float)(Main.maxTilesX * 16 - 50) && teleportLocation.Y > 50f && teleportLocation.Y < (float)(Main.maxTilesY * 16 - 50))
+					{
+						int x = (int)(teleportLocation.X / 16f);
+						int y = (int)(teleportLocation.Y / 16f);
+						if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
+						{
+							player.Teleport(teleportLocation, 4, 0);
+							NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
+
+							if (scarfCooldown)
+								player.AddBuff(BuffID.ChaosState, chaosStateDuration * 2, true);
+							else
+								player.AddBuff(BuffID.ChaosState, chaosStateDuration, true);
+						}
+					}
+				}
             }
             if (CalamityMod.SandCloakHotkey.JustPressed && sandCloak && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0 && !sandCloakCooldown)
@@ -2106,69 +2099,62 @@ namespace CalamityMod.CalPlayer
             if (CalamityMod.SpectralVeilHotKey.JustPressed && spectralVeil && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0)
             {
-                float teleportRange = 320f;
-                Vector2 teleportLocation;
-                teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
-                if (player.gravDir == 1f)
-                {
-                    teleportLocation.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
-                }
-                else
-                {
-                    teleportLocation.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
-                }
-                teleportLocation.X -= (float)(player.width / 2);
-                Vector2 playerToTeleport = teleportLocation - player.position;
-                if (playerToTeleport.Length() > teleportRange)
-                {
-                    playerToTeleport.Normalize();
-                    playerToTeleport *= teleportRange;
-                    teleportLocation = player.position + playerToTeleport;
-                }
-                if (teleportLocation.X > 50f && teleportLocation.X < (float)(Main.maxTilesX * 16 - 50) && teleportLocation.Y > 50f && teleportLocation.Y < (float)(Main.maxTilesY * 16 - 50))
-                {
-                    int x = (int)(teleportLocation.X / 16f);
-                    int y = (int)(teleportLocation.Y / 16f);
-                    if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
-                    {
-                        rogueStealth -= rogueStealthMax * 0.25f;
+				if (!player.chaosState)
+				{
+					float teleportRange = 320f;
+					Vector2 teleportLocation;
+					teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
+					if (player.gravDir == 1f)
+					{
+						teleportLocation.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
+					}
+					else
+					{
+						teleportLocation.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
+					}
+					teleportLocation.X -= (float)(player.width / 2);
+					Vector2 playerToTeleport = teleportLocation - player.position;
+					if (playerToTeleport.Length() > teleportRange)
+					{
+						playerToTeleport.Normalize();
+						playerToTeleport *= teleportRange;
+						teleportLocation = player.position + playerToTeleport;
+					}
+					if (teleportLocation.X > 50f && teleportLocation.X < (float)(Main.maxTilesX * 16 - 50) && teleportLocation.Y > 50f && teleportLocation.Y < (float)(Main.maxTilesY * 16 - 50))
+					{
+						int x = (int)(teleportLocation.X / 16f);
+						int y = (int)(teleportLocation.Y / 16f);
+						if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
+						{
+							rogueStealth -= rogueStealthMax * 0.25f;
 
-                        player.Teleport(teleportLocation, 1, 0);
-                        NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
-                        if (player.chaosState)
-                        {
-                            player.statLife -= player.statLifeMax2 / 7;
-                            PlayerDeathReason damageSource = PlayerDeathReason.ByOther(13);
-                            if (Main.rand.NextBool(2))
-                            {
-                                damageSource = PlayerDeathReason.ByOther(player.Male ? 14 : 15);
-                            }
-                            if (player.statLife <= 0)
-                            {
-                                player.KillMe(damageSource, 1.0, 0, false);
-                            }
-                        }
-                        player.AddBuff(BuffID.ChaosState, 360, true);
+							player.Teleport(teleportLocation, 1, 0);
+							NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
-                        int numDust = 40;
-                        Vector2 step = playerToTeleport / numDust;
-                        for (int i = 0; i < numDust; i++)
-                        {
-                            int dustIndex = Dust.NewDust(player.Center - (step * i), 1, 1, 21, step.X, step.Y);
-                            Main.dust[dustIndex].noGravity = true;
-                            Main.dust[dustIndex].noLight = true;
-                        }
+							if (scarfCooldown)
+								player.AddBuff(BuffID.ChaosState, chaosStateDuration * 2, true);
+							else
+								player.AddBuff(BuffID.ChaosState, chaosStateDuration, true);
 
-                        player.immune = true;
-                        player.immuneTime = 120;
-                        spectralVeilImmunity = 120;
-                        for (int k = 0; k < player.hurtCooldowns.Length; k++)
-                        {
-                            player.hurtCooldowns[k] = player.immuneTime;
-                        }
-                    }
-                }
+							int numDust = 40;
+							Vector2 step = playerToTeleport / numDust;
+							for (int i = 0; i < numDust; i++)
+							{
+								int dustIndex = Dust.NewDust(player.Center - (step * i), 1, 1, 21, step.X, step.Y);
+								Main.dust[dustIndex].noGravity = true;
+								Main.dust[dustIndex].noLight = true;
+							}
 
+							player.immune = true;
+							player.immuneTime = 120;
+							spectralVeilImmunity = 120;
+							for (int k = 0; k < player.hurtCooldowns.Length; k++)
+							{
+								player.hurtCooldowns[k] = player.immuneTime;
+							}
+						}
+					}
+				}
             }
             if (CalamityMod.PlaguePackHotKey.JustPressed && plaguedFuelPack && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
                 wearingRogueArmor && rogueStealthMax > 0 && plaguedFuelPackCooldown == 0 && !player.mount.Active)
@@ -5943,8 +5929,6 @@ namespace CalamityMod.CalPlayer
 
             if (CalamityWorld.revenge)
             {
-                if (player.chaosState)
-                    damageMult += 0.25;
                 if (player.ichor)
                     damageMult += 0.25;
                 else if (player.onFire2)

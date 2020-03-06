@@ -99,8 +99,6 @@ namespace CalamityMod.Buffs
                 tip = "All attacks cause confetti to appear";
             else if (type == BuffID.IceBarrier)
                 tip = "Damage taken is reduced by 15%";
-            else if (type == BuffID.ChaosState && CalamityWorld.revenge)
-                tip += ". All damage taken increased by 25%";
             else if (type == BuffID.Ichor)
             {
                 tip = "Defense reduced by 20";

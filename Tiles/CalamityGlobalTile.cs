@@ -502,7 +502,7 @@ namespace CalamityMod.Tiles
 					Tile tileAbove = Main.tile[i, j - 1];
 					if (tileAbove.liquidType() == 1 && !tileAbove.active())
 					{
-						bool shootFlames = Main.rand.NextBool(500);
+						bool shootFlames = Main.rand.NextBool(750);
 						if (shootFlames)
 						{
 							int lavaTilesAbove = 0;

@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -469,11 +470,14 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.RodofDiscord)
             {
-                if (modPlayer.scarfCooldown)
-                {
-                    player.AddBuff(BuffID.ChaosState, 720);
-                }
-            }
+				if (player.chaosState)
+					return false;
+
+				if (modPlayer.scarfCooldown)
+                    player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration * 2, true);
+				else
+					player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration, true);
+			}
             return true;
         }
         #endregion
@@ -544,7 +548,7 @@ namespace CalamityMod.Items
                 }
             }
 
-            /*if (item.ammo == 97)
+			/*if (item.ammo == 97)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -556,7 +560,18 @@ namespace CalamityMod.Items
                 }
             }*/
 
-            if (item.type == ItemID.SuperAbsorbantSponge)
+			if (item.type == ItemID.RodofDiscord)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text = "Teleports you to the position of the mouse\n" +
+							"Teleportation is disabled while Chaos State is active";
+					}
+				}
+			}
+			if (item.type == ItemID.SuperAbsorbantSponge)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {

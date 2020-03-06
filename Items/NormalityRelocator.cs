@@ -15,6 +15,7 @@ namespace CalamityMod.Items
             DisplayName.SetDefault("Normality Relocator");
             Tooltip.SetDefault("I'll be there in the blink of an eye\n" +
                 "Press Z to teleport to the position of the mouse\n" +
+				"Teleportation is disabled while Chaos State is active\n" +
                 "Boosts movement and fall speed by 10%\n" +
                 "Works while in the inventory");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 7));

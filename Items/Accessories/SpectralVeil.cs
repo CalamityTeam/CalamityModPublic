@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Spectral Veil");
             Tooltip.SetDefault("The inside of the cloak is full of teeth...\n" +
                 "Press Z to consume 25% of your maximum stealth to perform a short range teleport and render you momentarily invulnerable\n" +
+				"Teleportation is disabled while Chaos State is active\n" +
                 "If you dodge something while invulnerable, you instantly gain full stealth");
         }
 

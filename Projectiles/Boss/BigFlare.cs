@@ -155,6 +155,11 @@ namespace CalamityMod.Projectiles.Boss
                         break;
                     }
                 }
+				int spawnLimitY = (int)(Main.player[projectile.owner].Center.Y / 16f) + 50;
+				if (num231 > spawnLimitY)
+				{
+					num231 = spawnLimitY;
+				}
                 int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Infernado>(), 0, 4f, Main.myPlayer, 11f, 16f + (revenge ? 2f : 0f));
                 Main.projectile[num236].netUpdate = true;
             }

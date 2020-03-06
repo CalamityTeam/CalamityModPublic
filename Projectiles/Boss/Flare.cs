@@ -132,7 +132,12 @@ namespace CalamityMod.Projectiles.Boss
                         break;
                     }
                 }
-                int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), 0, 4f, Main.myPlayer, 11f, 10f + (revenge ? 1f : 0f));
+				int spawnLimitY = (int)(Main.player[projectile.owner].Center.Y / 16f) + 25;
+				if (num231 > spawnLimitY)
+				{
+					num231 = spawnLimitY;
+				}
+				int num236 = Projectile.NewProjectile((float)(num232 * 16 + 8), (float)(num231 * 16 - 24), 0f, 0f, ModContent.ProjectileType<Flarenado>(), 0, 4f, Main.myPlayer, 11f, 10f + (revenge ? 1f : 0f));
                 Main.projectile[num236].netUpdate = true;
             }
         }
