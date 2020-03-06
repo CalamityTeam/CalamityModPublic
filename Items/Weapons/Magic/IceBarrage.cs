@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/IceBarrageCast");
 
-            item.damage = 6500;
+            item.damage = 5800;
             item.knockBack = 6f;
             item.useTime = 300;
             item.useAnimation = 300;
