@@ -106,6 +106,8 @@ namespace CalamityMod.Items
                 item.damage = (int)((double)item.damage * 0.85);
             else if (CalamityMod.quarterDamageNerfList?.Contains(item.type) ?? false)
                 item.damage = (int)((double)item.damage * 0.75);
+            else if (item.type == ItemID.StardustDragonStaff)
+                item.damage = (int)((double)item.damage * 0.5);
 
             if (item.type == ItemID.BookStaff)
                 item.mana = 10;

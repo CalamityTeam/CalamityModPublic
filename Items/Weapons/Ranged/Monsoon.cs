@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 150;
+            item.damage = 142;
             item.ranged = true;
             item.width = 46;
             item.height = 78;
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     {
                         type = ModContent.ProjectileType<TyphoonArrow>();
                     }
-                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)(damage * 1.1f), knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[num121].Calamity().forceRanged = true;
                     Main.projectile[num121].noDropItem = true;
                     Main.projectile[num121].arrow = true;
