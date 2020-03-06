@@ -21,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.width = 58;
             item.height = 26;
-            item.useTime = 13;
-            item.useAnimation = 13;
+            item.useTime = 14;
+            item.useAnimation = 14;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 6.5f;
@@ -49,8 +49,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                item.useTime = 39;
-                item.useAnimation = 39;
+                item.useTime = 42;
+                item.useAnimation = 42;
             }
             else
             {
@@ -64,12 +64,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigNuke>(), (int)((double)damage * 2.5), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigNuke>(), (int)((double)damage * 2.2999), knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MiniRocket>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MiniRocket>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
         }

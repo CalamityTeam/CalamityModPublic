@@ -19,12 +19,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 120;
+            item.damage = 150;
             item.ranged = true;
             item.width = 46;
             item.height = 78;
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = 12;
+            item.useAnimation = 12;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 2.5f;
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ProjectileID.WoodenArrowFriendly;
-            item.shootSpeed = 10f;
+            item.shootSpeed = 15f;
             item.useAmmo = 40;
         }
 
@@ -56,11 +56,11 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    if (Main.rand.NextBool(8))
+                    if (Main.rand.NextBool(5))
                     {
                         type = ProjectileID.MiniSharkron;
                     }
-                    if (Main.rand.NextBool(20))
+                    if (Main.rand.NextBool(15))
                     {
                         type = ModContent.ProjectileType<TyphoonArrow>();
                     }
@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     Main.projectile[num121].Calamity().forceRanged = true;
                     Main.projectile[num121].noDropItem = true;
                     Main.projectile[num121].arrow = true;
-                    Main.projectile[num121].extraUpdates++;
+                    Main.projectile[num121].extraUpdates += 1;
                 }
                 else
                 {

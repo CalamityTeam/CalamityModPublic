@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
@@ -28,12 +29,12 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AbyssGravel>(), 1);
             recipe.SetResult(this);
-            recipe.AddTile(18);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SmoothAbyssGravelWall>(), 4);
             recipe.SetResult(this);
-            recipe.AddTile(18);
+            recipe.AddTile(ModContent.TileType<VoidCondenser>());
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SmoothAbyssGravelPlatform>(), 2);
