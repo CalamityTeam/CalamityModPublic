@@ -83,12 +83,16 @@ namespace CalamityMod.Projectiles.Boss
             {
                 speedAdd += 0.04f;
             }
+
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 3f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f);
+
+            Lighting.AddLight(projectile.Center, 3f, 0f, 0f);
+
             float num953 = (revenge ? 5f : 4.5f) + speedAdd; //100
             float scaleFactor12 = (revenge ? 1.5f : 1.35f) + (speedAdd * 0.25f); //5
-            float num954 = 40f;
-            if (projectile.timeLeft > 30 && projectile.alpha > 0)
+            float num954 = 160f;
+
+			if (projectile.timeLeft > 30 && projectile.alpha > 0)
             {
                 projectile.alpha -= 25;
             }
@@ -121,7 +125,31 @@ namespace CalamityMod.Projectiles.Boss
                     projectile.netUpdate = true;
                 }
             }
-        }
+
+			// Fly away from other brimstone monsters
+			float num1247 = 0.5f;
+			for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
+			{
+				if (Main.projectile[num1248].active)
+				{
+					if (num1248 != projectile.whoAmI && Main.projectile[num1248].type == projectile.type)
+					{
+						if (Vector2.Distance(projectile.Center, Main.projectile[num1248].Center) < 320f)
+						{
+							if (projectile.position.X < Main.projectile[num1248].position.X)
+								projectile.velocity.X -= num1247;
+							else
+								projectile.velocity.X += num1247;
+
+							if (projectile.position.Y < Main.projectile[num1248].position.Y)
+								projectile.velocity.Y -= num1247;
+							else
+								projectile.velocity.Y += num1247;
+						}
+					}
+				}
+			}
+		}
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {

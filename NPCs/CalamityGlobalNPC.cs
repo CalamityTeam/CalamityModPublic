@@ -975,6 +975,10 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * (CalamityWorld.revenge ? 2 : 1.2));
                 npc.npcSlots = 20f;
             }
+			else if (npc.type == NPCID.DungeonGuardian)
+			{
+				npc.lifeMax = (int)(npc.lifeMax * 0.1);
+			}
 
             if (npc.type >= NPCID.TombCrawlerHead && npc.type <= NPCID.TombCrawlerTail && !Main.hardMode)
             {

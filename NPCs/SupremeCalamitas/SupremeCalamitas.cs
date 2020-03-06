@@ -679,13 +679,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 1f, 0f);
                     }
-                    if (bulletHellCounter2 % 450 == 0) //giant homing fireballs
+                    if (bulletHellCounter2 % 225 == 0) //giant homing fireballs
                     {
                         Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 1f * uDieLul, ModContent.ProjectileType<BrimstoneMonster>(), damage, 0f, Main.myPlayer, 0f, passedVar);
                         passedVar += 1f;
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 13 : 15))
+                    if (bulletHellCounter > ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 10 : 12))
                     {
                         bulletHellCounter = 0;
                         if (bulletHellCounter2 < 3000) //blasts from below
@@ -760,10 +760,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     if (bulletHellCounter2 % 30 == 0) //projectiles that move in wave pattern
                     {
-                        Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-500, 500), -10f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-500, 500), -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 16 : 18))
+                    if (bulletHellCounter > ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 12 : 14))
                     {
                         bulletHellCounter = 0;
                         if (bulletHellCounter2 < 3900) //blasts from above
