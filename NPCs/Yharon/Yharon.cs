@@ -1374,7 +1374,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 14f) //charge
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = true;
                 int num1479 = 7;
                 for (int num1480 = 0; num1480 < num1479; num1480++)
                 {
@@ -1400,7 +1399,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 15f)
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = true;
                 if (npc.ai[2] == 0f)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
@@ -1433,7 +1431,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 16f)
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = true;
                 npc.velocity *= 0.98f;
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
                 if (npc.ai[2] == (float)(num1457 - 30))
@@ -1505,7 +1502,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 18f)
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = true;
                 int num1479 = 14;
                 for (int num1480 = 0; num1480 < num1479; num1480++)
                 {
@@ -1531,7 +1527,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 19f)
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = true;
                 if (npc.ai[2] == 0f)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
@@ -1569,7 +1564,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 20f)
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = true;
                 npc.velocity *= 0.98f;
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
                 if (npc.ai[2] == (float)(num1457 - 30))
@@ -1605,7 +1599,7 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 21f && !player.dead)
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = false;
+                npc.chaseable = true;
                 if (npc.alpha < 225)
                 {
                     npc.alpha += 25;
@@ -1743,7 +1737,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 23f)
             {
                 npc.dontTakeDamage = true;
-                npc.chaseable = false;
                 if (npc.alpha < 225)
                 {
                     npc.alpha += 17;
