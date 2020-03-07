@@ -86,35 +86,37 @@ namespace CalamityMod.Buffs
 
         public override void ModifyBuffTip(int type, ref string tip, ref int rare)
         {
-            if (type == BuffID.NebulaUpDmg1)
-                tip = "7.5% increased damage";
-            else if (type == BuffID.NebulaUpDmg2)
-                tip = "15% increased damage";
-            else if (type == BuffID.NebulaUpDmg3)
-                tip = "22.5% increased damage";
-            else if (type == BuffID.WeaponImbueVenom || type == BuffID.WeaponImbueCursedFlames || type == BuffID.WeaponImbueFire || type == BuffID.WeaponImbueGold ||
-                type == BuffID.WeaponImbueIchor || type == BuffID.WeaponImbueNanites || type == BuffID.WeaponImbuePoison)
-                tip = "Rogue and " + tip;
-            else if (type == BuffID.WeaponImbueConfetti)
-                tip = "All attacks cause confetti to appear";
-            else if (type == BuffID.IceBarrier)
-                tip = "Damage taken is reduced by 15%";
-            else if (type == BuffID.Ichor)
-            {
-                tip = "Defense reduced by 20";
-                if (CalamityWorld.revenge)
-                    tip += ". All damage taken increased by 25%";
-            }
-            else if (type == BuffID.CursedInferno && CalamityWorld.revenge)
-                tip += ". All damage taken increased by 20%";
-            else if (type == BuffID.Warmth)
+			if (type == BuffID.NebulaUpDmg1)
+				tip = "7.5% increased damage";
+			else if (type == BuffID.NebulaUpDmg2)
+				tip = "15% increased damage";
+			else if (type == BuffID.NebulaUpDmg3)
+				tip = "22.5% increased damage";
+			else if (type == BuffID.WeaponImbueVenom || type == BuffID.WeaponImbueCursedFlames || type == BuffID.WeaponImbueFire || type == BuffID.WeaponImbueGold ||
+				type == BuffID.WeaponImbueIchor || type == BuffID.WeaponImbueNanites || type == BuffID.WeaponImbuePoison)
+				tip = "Rogue and " + tip;
+			else if (type == BuffID.WeaponImbueConfetti)
+				tip = "All attacks cause confetti to appear";
+			else if (type == BuffID.IceBarrier)
+				tip = "Damage taken is reduced by 15%";
+			else if (type == BuffID.ChaosState)
+				tip = "Rod of Discord teleports are disabled";
+			else if (type == BuffID.Ichor)
 			{
-                tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
+				tip = "Defense reduced by 20";
+				if (CalamityWorld.revenge)
+					tip += ". All damage taken increased by 25%";
+			}
+			else if (type == BuffID.CursedInferno && CalamityWorld.revenge)
+				tip += ". All damage taken increased by 20%";
+			else if (type == BuffID.Warmth)
+			{
+				tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
 				if (CalamityWorld.death)
 					tip += ". Provides cold protection in Death Mode";
 			}
-            else if (type == BuffID.Invisibility)
-                tip += ". Grants rogue bonuses while holding certain rogue weapons";
+			else if (type == BuffID.Invisibility)
+				tip += ". Grants rogue bonuses while holding certain rogue weapons";
 			else if (type == BuffID.ObsidianSkin && CalamityWorld.death)
 				tip += ". Provides heat protection in Death Mode";
 			else if (type == BuffID.Inferno && CalamityWorld.death)
@@ -123,20 +125,20 @@ namespace CalamityMod.Buffs
 				tip += ". Provides cold protection in Death Mode";
 			else if (type == ModContent.BuffType<Molten>() && CalamityWorld.death)
 				tip += ". Provides cold protection in Death Mode";
-            else if (type == ModContent.BuffType<ProfanedBabs>())
-            {
-                Player player = Main.player[Main.myPlayer];
-                bool offense = player.Calamity().gOffense;
-                bool defense = player.Calamity().gDefense;
-                if (offense && defense)
-                {
-                    tip = "The Profaned Babs will fight for and defend you!";
-                }
-                else if (offense || defense)
-                {
-                    tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight for and heal you!" : "protect and heal you!");
-                }
-            }
+			else if (type == ModContent.BuffType<ProfanedBabs>())
+			{
+				Player player = Main.player[Main.myPlayer];
+				bool offense = player.Calamity().gOffense;
+				bool defense = player.Calamity().gDefense;
+				if (offense && defense)
+				{
+					tip = "The Profaned Babs will fight for and defend you!";
+				}
+				else if (offense || defense)
+				{
+					tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight for and heal you!" : "protect and heal you!");
+				}
+			}
         }
     }
 }
