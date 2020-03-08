@@ -161,7 +161,7 @@ namespace CalamityMod.NPCs.TownNPCs
             int tavernKeep = NPC.FindFirstNPC(NPCID.DD2Bartender);
             if (tavernKeep != -1)
             {
-                dialogue.Add("Tell " + Main.npc[tavernKeep].GivenName + " to stop calling me. He’s not wanted.");
+                dialogue.Add("Tell " + Main.npc[tavernKeep].GivenName + " to stop calling me. He's not wanted.");
                 dialogue.Add("My booze will always be better than " + Main.npc[tavernKeep].GivenName + "'s and nobody can convince me otherwise.");
             }
 

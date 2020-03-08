@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ProjectileID.SporeGas + Main.rand.Next(3), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ProjectileID.SporeGas + Main.rand.Next(3), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
                     Main.projectile[proj].Calamity().forceRanged = true;
                     Main.projectile[proj].usesLocalNPCImmunity = true;
                     Main.projectile[proj].localNPCHitCooldown = 30;
