@@ -190,37 +190,48 @@ namespace CalamityMod.NPCs.Perforator
 			}
 
 			npc.rotation = npc.velocity.X * 0.04f;
-			npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 
 			if (revenge)
 			{
 				if (wormsAlive == 1)
 				{
-					Movement(player, 4f, 1f, (CalamityWorld.bossRushActive ? 0.2f : 0.15f), 160f, 300f, 400f);
+					Movement(player, 4f, 1f, (CalamityWorld.bossRushActive ? 0.2f : 0.15f), 160f, 300f, 400f, false);
+					npc.ai[0] = 0f;
 				}
 				else
 				{
-					if (large || death)
+					if (npc.ai[0] == 1f)
 					{
-						Movement(player, 5f, 1.5f, (CalamityWorld.bossRushActive ? 0.195f : 0.13f), 360f, 10f, 50f);
-					}
-					else if (medium)
-					{
-						Movement(player, 6f, 2f, (CalamityWorld.bossRushActive ? 0.18f : 0.12f), 340f, 15f, 50f);
-					}
-					else if (small)
-					{
-						Movement(player, 7f, 2.5f, (CalamityWorld.bossRushActive ? 0.165f : 0.11f), 320f, 20f, 50f);
+						if (large || death)
+						{
+							Movement(player, 5f, 1.5f, (CalamityWorld.bossRushActive ? 0.195f : 0.13f), 360f, 10f, 50f, true);
+						}
+						else if (medium)
+						{
+							Movement(player, 6f, 2f, (CalamityWorld.bossRushActive ? 0.18f : 0.12f), 340f, 15f, 50f, true);
+						}
+						else if (small)
+						{
+							Movement(player, 7f, 2.5f, (CalamityWorld.bossRushActive ? 0.165f : 0.11f), 320f, 20f, 50f, true);
+						}
+						else
+						{
+							Movement(player, 8f, 3f, (CalamityWorld.bossRushActive ? 0.15f : 0.1f), 300f, 25f, 50f, true);
+						}
 					}
 					else
 					{
-						Movement(player, 8f, 3f, (CalamityWorld.bossRushActive ? 0.15f : 0.1f), 300f, 25f, 50f);
+						npc.velocity.X += (npc.Center.X <= player.Center.X ? -0.1f : 0.1f);
+						if (npc.Center.X > player.Center.X + 320f || npc.Center.X < player.Center.X - 320f)
+						{
+							npc.ai[0] = 1f;
+						}
 					}
 				}
 			}
 			else
 			{
-				Movement(player, 4f, 1f, 0.1f, 160f, 300f, 400f);
+				Movement(player, 4f, 1f, 0.1f, 160f, 300f, 400f, false);
 			}
 
 			if (npc.ai[3] == 0f && npc.life > 0)
@@ -256,7 +267,7 @@ namespace CalamityMod.NPCs.Perforator
 			}
 		}
 
-		private void Movement(Player target, float velocityX, float velocityY, float acceleration, float x, float y, float y2)
+		private void Movement(Player target, float velocityX, float velocityY, float acceleration, float x, float y, float y2, bool charging)
 		{
 			if (npc.position.Y > target.position.Y - y) //200
 			{
@@ -282,7 +293,8 @@ namespace CalamityMod.NPCs.Perforator
 					npc.velocity.Y = -velocityY;
 				}
 			}
-			if (npc.position.X + (float)(npc.width / 2) > target.position.X + (float)(target.width / 2) + x)
+
+			if (npc.Center.X > target.Center.X + x)
 			{
 				if (npc.velocity.X > 0f)
 				{
@@ -294,7 +306,7 @@ namespace CalamityMod.NPCs.Perforator
 					npc.velocity.X = velocityX;
 				}
 			}
-			if (npc.position.X + (float)(npc.width / 2) < target.position.X + (float)(target.width / 2) - x)
+			else if (npc.Center.X < target.Center.X - x)
 			{
 				if (npc.velocity.X < 0f)
 				{
@@ -304,6 +316,14 @@ namespace CalamityMod.NPCs.Perforator
 				if (npc.velocity.X < -velocityX)
 				{
 					npc.velocity.X = -velocityX;
+				}
+			}
+
+			if (charging)
+			{
+				if (npc.Center.X <= target.Center.X + x && npc.Center.X >= target.Center.X - x)
+				{
+					npc.velocity.X += (npc.Center.X <= target.Center.X ? acceleration : -acceleration) * 0.25f;
 				}
 			}
 		}

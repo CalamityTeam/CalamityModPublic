@@ -753,11 +753,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 1f, 0f);
                     }
-                    if (bulletHellCounter2 % 450 == 0) //giant homing fireballs
-                    {
-                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 1f * uDieLul, ModContent.ProjectileType<BrimstoneMonster>(), damage, 0f, Main.myPlayer, 0f, passedVar);
-                        passedVar += 1f;
-                    }
                     if (bulletHellCounter2 % 30 == 0) //projectiles that move in wave pattern
                     {
                         Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-500, 500), -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), damage, 0f, Main.myPlayer, 0f, 0f);
