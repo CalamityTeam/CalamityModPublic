@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SporeBomb>(), (int)((double)damage * 6.0), knockBack * 60f, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SporeBomb>(), (int)((double)damage * 4.0), knockBack * 60f, player.whoAmI, 0.0f, 0.0f);
             }
             else
             {
