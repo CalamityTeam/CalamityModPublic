@@ -41,7 +41,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Main.time = 120 * 120;
             Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.15f, 0.01f, 0.15f);
             Player player9 = Main.player[projectile.owner];
             if (dust > 0)
