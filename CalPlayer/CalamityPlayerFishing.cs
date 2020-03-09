@@ -555,7 +555,7 @@ namespace CalamityMod.CalPlayer
 							}
 						}
 					}
-					else if (player.cratePotion && Main.rand.NextBool(5)) // 20%
+					if (player.cratePotion && Main.rand.NextBool(5)) // 20%
 					{
 						caughtType = ModContent.ItemType<AbyssalCrate>();
 					}
