@@ -475,10 +475,27 @@ namespace CalamityMod.Items
 				if (player.chaosState)
 					return false;
 
-				if (modPlayer.scarfCooldown)
-                    player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration * 2, true);
+				Vector2 teleportLocation;
+				teleportLocation.X = (float)Main.mouseX + Main.screenPosition.X;
+				if (player.gravDir == 1f)
+				{
+					teleportLocation.Y = (float)Main.mouseY + Main.screenPosition.Y - (float)player.height;
+				}
 				else
-					player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration, true);
+				{
+					teleportLocation.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY;
+				}
+				teleportLocation.X -= (float)(player.width / 2);
+				if (teleportLocation.X > 50f && teleportLocation.X < (float)(Main.maxTilesX * 16 - 50) && teleportLocation.Y > 50f && teleportLocation.Y < (float)(Main.maxTilesY * 16 - 50))
+				{
+					if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
+					{
+						if (modPlayer.scarfCooldown)
+							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration * 2, true);
+						else
+							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration, true);
+					}
+				}
 			}
             return true;
         }

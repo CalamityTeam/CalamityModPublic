@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.localAI[0] = Main.rand.NextFloat() * 0.8f + 0.8f;
                 projectile.direction = (Main.rand.Next(2) > 0) ? 1 : -1;
             }
-            projectile.rotation = projectile.localAI[1] / 40f * 6.28318548f * (float)projectile.direction;
+            projectile.rotation = projectile.localAI[1] / 20f * 6.28318548f * (float)projectile.direction;
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 8;
@@ -127,10 +127,9 @@ namespace CalamityMod.Projectiles.Summon
             projectile.scale = projectile.Opacity / 2f * projectile.localAI[0];
             projectile.velocity = Vector2.Zero;
             projectile.localAI[1] += 1f;
-            if (projectile.localAI[1] >= 60f)
+            if (projectile.localAI[1] >= 30f)
             {
                 projectile.Kill();
-                return;
             }
         }
 
@@ -150,7 +149,7 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 vector61 = Main.projectile[(int)projectile.ai[1]].Center - projectile.Center;
                 Vector2 vector62 = new Vector2(1f, vector61.Length() / (float)texture2D34.Height);
                 float rotation27 = vector61.ToRotation() + 1.57079637f;
-                float num279 = MathHelper.Distance(30f, projectile.localAI[1]) / 20f;
+                float num279 = MathHelper.Distance(15f, projectile.localAI[1]) / 20f;
                 num279 = MathHelper.Clamp(num279, 0f, 1f);
                 if (num279 > 0f)
                 {

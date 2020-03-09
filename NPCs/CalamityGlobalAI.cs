@@ -16047,7 +16047,7 @@ namespace CalamityMod.NPCs
 
         // Methods for AIs that are always terminated via a return in the Fighter AI code. More specialized and general
         // functions are given summaries of their specifics
-        public static bool BuffedPsychoAI(NPC npc)
+        public static void BuffedPsychoAI(NPC npc)
         {
             int psychoAlphaMax = 200;
             // Standing still
@@ -16082,9 +16082,8 @@ namespace CalamityMod.NPCs
                     npc.velocity.X = (float)(npc.direction * 2);
                 }
             }
-            return false;
         }
-        public static bool BuffedSwampThingAI(NPC npc)
+        public static void BuffedSwampThingAI(NPC npc)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.Next(240) == 0)
             {
@@ -16116,7 +16115,6 @@ namespace CalamityMod.NPCs
                     npc.velocity.X = (float)npc.direction * 0.1f;
                 }
             }
-            return false;
         }
         // Misc effects used more than once in the Fighter AI
         public static void MedusaHeadDustEffect(NPC npc, float time)
@@ -16249,11 +16247,11 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.Psycho)
             {
-                return BuffedPsychoAI(npc);
+                BuffedPsychoAI(npc);
             }
             if (npc.type == NPCID.SwampThing)
             {
-                return BuffedSwampThingAI(npc);
+                BuffedSwampThingAI(npc);
             }
             if (npc.type == NPCID.CreatureFromTheDeep)
             {

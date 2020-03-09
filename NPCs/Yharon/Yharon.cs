@@ -122,10 +122,7 @@ namespace CalamityMod.NPCs.Yharon
             bb[5] = useTornado;
             bb[6] = startSecondAI;
             bb[7] = npc.dontTakeDamage;
-            BitsByte bb2 = new BitsByte();
-            bb2[0] = npc.chaseable;
             writer.Write(bb);
-            writer.Write(bb2);
             writer.Write(healCounter);
             writer.Write(secondPhasePhase);
             writer.Write(teleportLocation);
@@ -148,7 +145,6 @@ namespace CalamityMod.NPCs.Yharon
             startSecondAI = bb[6];
             npc.dontTakeDamage = bb[7];
             BitsByte bb2 = reader.ReadByte();
-            npc.chaseable = bb2[0];
             healCounter = reader.ReadInt32();
             secondPhasePhase = reader.ReadInt32();
             teleportLocation = reader.ReadInt32();
@@ -177,7 +173,6 @@ namespace CalamityMod.NPCs.Yharon
 
                     npc.DeathSound = null;
                     npc.dontTakeDamage = true;
-                    npc.chaseable = false;
 
                     npc.velocity.Y -= 0.4f;
 
@@ -495,7 +490,6 @@ namespace CalamityMod.NPCs.Yharon
             if (npc.ai[0] == -1f)
             {
                 npc.dontTakeDamage = true;
-                npc.chaseable = false;
 
                 npc.velocity *= 0.98f;
 
@@ -553,7 +547,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 0f && !player.dead)
             {
                 npc.dontTakeDamage = false;
-                npc.chaseable = true;
                 if (npc.ai[1] == 0f)
                 {
                     npc.ai[1] = (float)(300 * Math.Sign((vectorCenter - player.Center).X));
@@ -816,7 +809,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 4f) //enter phase 2
             {
                 npc.dontTakeDamage = true;
-                npc.chaseable = false;
                 npc.velocity *= 0.98f;
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
                 if (npc.ai[2] == (float)(num1458 - 60))
@@ -863,7 +855,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 6f && !player.dead) //phase 2
             {
                 npc.dontTakeDamage = false;
-                npc.chaseable = true;
                 if (npc.ai[1] == 0f)
                 {
                     npc.ai[1] = (float)(300 * Math.Sign((vectorCenter - player.Center).X));
@@ -1110,7 +1101,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 10f) //start phase 3
             {
                 npc.dontTakeDamage = true;
-                npc.chaseable = false;
                 npc.velocity *= 0.98f;
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
                 if (npc.ai[2] == (float)(num1459 - 60))
@@ -1193,7 +1183,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 13f && !player.dead)
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = true;
                 if (npc.ai[1] == 0f)
                 {
                     npc.ai[1] = (float)(300 * Math.Sign((vectorCenter - player.Center).X));
@@ -1454,7 +1443,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 17f)
             {
                 npc.dontTakeDamage = true;
-                npc.chaseable = false;
                 if (npc.ai[2] < (float)(num1459 - 90))
                 {
                     bool colliding = Collision.SolidCollision(npc.position, npc.width, npc.height);
@@ -1599,7 +1587,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 21f && !player.dead)
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = true;
                 if (npc.alpha < 225)
                 {
                     npc.alpha += 25;
@@ -1706,7 +1693,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 22f)
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = true;
                 npc.alpha -= 25;
                 if (npc.alpha < 0)
                 {
@@ -1795,7 +1781,6 @@ namespace CalamityMod.NPCs.Yharon
             else if (npc.ai[0] == 24f)
             {
                 npc.dontTakeDamage = phase5Check;
-                npc.chaseable = true;
                 if (npc.ai[2] == 0f)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
@@ -1816,7 +1801,6 @@ namespace CalamityMod.NPCs.Yharon
             {
                 npc.alpha = 0;
                 npc.dontTakeDamage = true;
-                npc.chaseable = false;
                 npc.velocity *= 0.98f;
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
                 if (npc.ai[2] == (float)(num1459 - 60))
@@ -1901,7 +1885,6 @@ namespace CalamityMod.NPCs.Yharon
             else
             {
                 npc.dontTakeDamage = npc.ai[0] == 9f;
-                npc.chaseable = npc.ai[0] < 8f;
             }
 
 			// Acquire target and determine enrage state
@@ -2615,7 +2598,6 @@ namespace CalamityMod.NPCs.Yharon
             }
             else if (npc.ai[0] == 9f) //enter next phase
             {
-                npc.chaseable = false;
                 npc.velocity *= 0.95f;
                 Vector2 vector = npc.DirectionTo(targetData.Center);
                 npc.spriteDirection = (vector.X > 0f) ? 1 : -1;
