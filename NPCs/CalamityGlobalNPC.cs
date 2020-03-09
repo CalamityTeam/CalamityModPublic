@@ -3473,6 +3473,30 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            if (modPlayer.hallowedRune)
+            {
+                if (isSummon && npc.damage > 0)
+                {
+                    switch (Main.rand.Next(3))
+                    {
+                        case 0:
+                            player.AddBuff(ModContent.BuffType<HallowedRuneAtkBuff>(), 120);
+                            break;
+
+                        case 1:
+                            player.AddBuff(ModContent.BuffType<HallowedRuneRegenBuff>(), 120);
+                            break;
+
+                        case 2:
+                            player.AddBuff(ModContent.BuffType<HallowedRuneDefBuff>(), 120);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+
             if (modPlayer.bloodflareSet)
             {
                 if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life < npc.lifeMax * 0.5) &&

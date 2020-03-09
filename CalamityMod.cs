@@ -2,6 +2,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.ILEditing;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Fishing.AstralCatches;
@@ -231,6 +232,8 @@ namespace CalamityMod
             {
                 LoadClient();
             }
+
+            ILChanges.Initialize();
 
             thorium = ModLoader.GetMod("ThoriumMod");
 

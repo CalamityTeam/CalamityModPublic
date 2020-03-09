@@ -551,7 +551,10 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.sRegen)
 				player.lifeRegen += 2;
 
-			if (modPlayer.affliction || modPlayer.afflicted)
+            if (modPlayer.hallowedRegen)
+                player.lifeRegen += 3;
+
+            if (modPlayer.affliction || modPlayer.afflicted)
 				player.lifeRegen += 1;
 
 			if (modPlayer.absorber)

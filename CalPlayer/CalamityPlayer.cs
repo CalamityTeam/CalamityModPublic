@@ -28,6 +28,7 @@ using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -432,6 +433,13 @@ namespace CalamityMod.CalPlayer
         public int plaguedFuelPackDirection = 0;
         public bool veneratedLocket = false;
         public bool camper = false;
+        public bool corrosiveSpine = false;
+        public bool miniOldDuke = false;
+        public bool starbusterCore = false;
+        public bool hallowedRune = false;
+        public bool hallowedDefense = false;
+        public bool hallowedPower = false;
+        public bool hallowedRegen = false;
 
         // Armor Set
         public bool eskimoSet = false; //vanilla armor
@@ -706,6 +714,13 @@ namespace CalamityMod.CalPlayer
         public bool cSpirit = false;
         public bool rOrb = false;
         public bool dCrystal = false;
+        public bool endoHydra = false;
+        public bool powerfulRaven = false;
+        public bool dragonFamily = false;
+        public bool providenceStabber = false;
+        public bool radiantResolution = false;
+        public bool plaguebringerMK2 = false;
+        public bool igneousExaltation = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1211,6 +1226,9 @@ namespace CalamityMod.CalPlayer
             sDefense = false;
             sRegen = false;
             sPower = false;
+            hallowedDefense = false;
+            hallowedRegen = false;
+            hallowedPower = false;
             IBoots = false;
             elysianFire = false;
             sTracers = false;
@@ -1498,6 +1516,15 @@ namespace CalamityMod.CalPlayer
             shellfish = false;
             hCrab = false;
             tDime = false;
+            endoHydra = false;
+            powerfulRaven = false;
+            dragonFamily = false;
+            providenceStabber = false;
+            hallowedRune = false;
+            starbusterCore = false;
+            plaguebringerMK2 = false;
+            igneousExaltation = false;
+            radiantResolution = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -1620,6 +1647,9 @@ namespace CalamityMod.CalPlayer
             sDefense = false;
             sRegen = false;
             sPower = false;
+            hallowedDefense = false;
+            hallowedRegen = false;
+            hallowedPower = false;
             onyxExcavator = false;
             angryDog = false;
             fab = false;

@@ -20,7 +20,6 @@ namespace CalamityMod.Tiles
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.StyleHorizontal = true;
 			TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide | AnchorType.SolidBottom, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.StyleWrapLimit = 111;
             TileObjectData.addTile(Type);
             dustType = -1;
             disableSmartCursor = true;
@@ -368,6 +367,24 @@ namespace CalamityMod.Tiles
                     break;
                 case 110:
                     item = "RadiatorBanner";
+                    break;
+                case 111:
+                    item = "TrilobiteBanner";
+                    break;
+                case 112:
+                    item = "OrthoceraBanner";
+                    break;
+                case 113:
+                    item = "SkyfinBanner";
+                    break;
+                case 114:
+                    item = "WaterLeechBanner";
+                    break;
+                case 115:
+                    item = "AcidEelBanner";
+                    break;
+                case 116:
+                    item = "NuclearToadBanner";
                     break;
                 default:
                     return;
@@ -719,6 +736,24 @@ namespace CalamityMod.Tiles
                     break;
                 case 110:
                     type = "Radiator";
+                    break;
+                case 111:
+                    type = "Trilobite";
+                    break;
+                case 112:
+                    type = "Orthocera";
+                    break;
+                case 113:
+                    type = "Skyfin";
+                    break;
+                case 114:
+                    type = "WaterLeech";
+                    break;
+                case 115:
+                    type = "AcidEel";
+                    break;
+                case 116:
+                    type = "NuclearToad";
                     break;
                 default:
                     return;

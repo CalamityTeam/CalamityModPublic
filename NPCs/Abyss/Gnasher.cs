@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -113,6 +114,7 @@ namespace CalamityMod.NPCs.Abyss
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TurtleShell);
             }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<SulfuricScale>(), false, Main.rand.NextBool(2), 1, 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

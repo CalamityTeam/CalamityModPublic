@@ -17,6 +17,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -402,10 +403,26 @@ namespace CalamityMod.CalPlayer
             if (modPlayer.ZoneCalamity && player.lavaWet)
             {
 				player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
-			}
+            }
 
-			// Death Mode effects
-			modPlayer.caveDarkness = 0f;
+            // Acid rain droplets
+            if (player.whoAmI == Main.myPlayer)
+            {
+                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses)
+                {
+                    int acidRainDropRate = (int)MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50);
+                    Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
+
+                    if (player.miscCounter % acidRainDropRate == 0f && Main.rand.NextBool(2))
+                    {
+                        Projectile.NewProjectile(spawnPoint, Vector2.UnitY * Main.rand.NextFloat(7f, 11f),
+                            ModContent.ProjectileType<AcidDrop>(), 28, 0f);
+                    }
+                }
+            }
+
+            // Death Mode effects
+            modPlayer.caveDarkness = 0f;
 			if (CalamityWorld.death)
 			{
 				if (player.whoAmI == Main.myPlayer)
@@ -582,7 +599,9 @@ namespace CalamityMod.CalPlayer
 								}
 
 								int randomFrequency2 = (int)(20f * frequencyMult);
-								if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
+                                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur)
+                                    randomFrequency2 = (int)(randomFrequency2 * 3.75);
+                                if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
 								{
 									if (!tileSafely.active())
 									{
