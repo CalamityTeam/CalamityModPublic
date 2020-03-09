@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Summon
 
             Projectile mother = Main.projectile[(int)projectile.ai[0]];
 
-            if (!mother.active)
+            if (!mother.active || mother.type != ModContent.ProjectileType<SkeletalDragonMother>())
             {
                 projectile.Kill();
                 return;
