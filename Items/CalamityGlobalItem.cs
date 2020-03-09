@@ -1626,8 +1626,8 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 0\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "+10 defense, 10% increased damage," +
-                            "5% increased critical strike chance," +
+                            "+10 defense, 10% increased damage, " +
+                            "5% increased critical strike chance, " +
                             "10% increased movement speed and 120% increased jump speed";
                     }
                 }

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -91,6 +92,12 @@ namespace CalamityMod.Projectiles.Boss
             float num953 = (revenge ? 5f : 4.5f) + speedAdd; //100
             float scaleFactor12 = (revenge ? 1.5f : 1.35f) + (speedAdd * 0.25f); //5
             float num954 = 160f;
+
+			if (NPC.AnyNPCs(ModContent.NPCType<SoulSeekerSupreme>()))
+			{
+				num953 *= 0.5f;
+				scaleFactor12 *= 0.5f;
+			}
 
 			if (projectile.timeLeft > 30 && projectile.alpha > 0)
             {

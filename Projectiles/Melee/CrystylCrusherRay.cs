@@ -67,8 +67,10 @@ namespace CalamityMod.Projectiles.Melee
 			// We start drawing the laser if we have charged up
 			if (IsAtMaxCharge)
 			{
+				Vector2 maxLength = Main.MouseWorld - Main.player[projectile.owner].Center;
+
 				DrawLaser(spriteBatch, Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center,
-					projectile.velocity, 15f, projectile.damage, -1.57f, projectile.scale, 1000f, new Color(Main.DiscoR, 0, 255), (int)MOVE_DISTANCE);
+					projectile.velocity, 15f, projectile.damage, -1.57f, projectile.scale, maxLength.Length(), new Color(Main.DiscoR, 0, 255), (int)MOVE_DISTANCE);
 			}
 			return false;
 		}
@@ -184,7 +186,8 @@ namespace CalamityMod.Projectiles.Melee
 		 */
 		private void SetLaserPosition(Player player)
 		{
-			for (Distance = MOVE_DISTANCE; Distance <= 2200f; Distance += 5f)
+			Vector2 maxLength = Main.MouseWorld - Main.player[projectile.owner].Center;
+			for (Distance = MOVE_DISTANCE; Distance <= maxLength.Length(); Distance += 5f)
 			{
 				var start = player.Center + projectile.velocity * Distance;
 				if (!Collision.CanHit(player.Center, 1, 1, start, 1, 1))
