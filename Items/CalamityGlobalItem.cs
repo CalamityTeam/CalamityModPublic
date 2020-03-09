@@ -871,7 +871,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.FlaskofNanites)
+            if (item.type == ItemID.FlaskofPoison)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
