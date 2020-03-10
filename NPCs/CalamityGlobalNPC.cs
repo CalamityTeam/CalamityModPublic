@@ -3473,6 +3473,30 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            if (modPlayer.hallowedRune)
+            {
+                if (isSummon && npc.damage > 0)
+                {
+                    switch (Main.rand.Next(3))
+                    {
+                        case 0:
+                            player.AddBuff(ModContent.BuffType<HallowedRuneAtkBuff>(), 120);
+                            break;
+
+                        case 1:
+                            player.AddBuff(ModContent.BuffType<HallowedRuneRegenBuff>(), 120);
+                            break;
+
+                        case 2:
+                            player.AddBuff(ModContent.BuffType<HallowedRuneDefBuff>(), 120);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+
             if (modPlayer.bloodflareSet)
             {
                 if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life < npc.lifeMax * 0.5) &&
@@ -4494,7 +4518,17 @@ namespace CalamityMod.NPCs
                             chat = Main.npc[fapsol].GivenName + " is always trying to brighten my mood...even if, deep down, I know she's sad.";
                         }
                     }
-
+                    if ((npc.GivenName == "Amber" ? Main.rand.NextBool(10) : Main.rand.NextBool(15)) && Main.LocalPlayer.Calamity().pArtifact)
+                    {
+                        if (Main.LocalPlayer.Calamity().profanedCrystalBuffs)
+                        {
+                            chat = Main.rand.NextBool(2) ? "They look so cute and yet, I can feel their immense power just by being near them. What are you?" : "I hate to break it to you, but you don't have hair to cut or style, hun.";
+                        }
+                        else if (Main.LocalPlayer.Calamity().gDefense && Main.LocalPlayer.Calamity().gOffense)
+                        {
+                            chat = "Aww, they're so cute, do they have names?"; 
+                        }
+                    }
                     break;
 
                 case NPCID.GoblinTinkerer:

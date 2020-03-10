@@ -17,6 +17,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -35,10 +36,10 @@ using Terraria.ModLoader;
 namespace CalamityMod.CalPlayer
 {
 	public class CalamityPlayerMiscEffects
-    {
-        #region Post Update Misc Effects
-        public static void CalamityPostUpdateMiscEffects(Player player, Mod mod)
-        {
+	{
+		#region Post Update Misc Effects
+		public static void CalamityPostUpdateMiscEffects(Player player, Mod mod)
+		{
 			CalamityPlayer modPlayer = player.Calamity();
 
 			// No category
@@ -397,15 +398,31 @@ namespace CalamityMod.CalPlayer
 						player.breath--;
 				}
 			}
-			
-			//extra DoT in the lava of the crags			
-            if (modPlayer.ZoneCalamity && player.lavaWet)
-            {
-				player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
-			}
 
-			// Death Mode effects
-			modPlayer.caveDarkness = 0f;
+			//extra DoT in the lava of the crags			
+			if (modPlayer.ZoneCalamity && player.lavaWet)
+			{
+				player.AddBuff(ModContent.BuffType<CragsLava>(), 2, false);
+            }
+
+            // Acid rain droplets
+            if (player.whoAmI == Main.myPlayer)
+            {
+                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses)
+                {
+                    int acidRainDropRate = (int)MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50);
+                    Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
+
+                    if (player.miscCounter % acidRainDropRate == 0f && Main.rand.NextBool(2))
+                    {
+                        Projectile.NewProjectile(spawnPoint, Vector2.UnitY * Main.rand.NextFloat(7f, 11f),
+                            ModContent.ProjectileType<AcidDrop>(), 28, 0f);
+                    }
+                }
+            }
+
+            // Death Mode effects
+            modPlayer.caveDarkness = 0f;
 			if (CalamityWorld.death)
 			{
 				if (player.whoAmI == Main.myPlayer)
@@ -457,7 +474,7 @@ namespace CalamityMod.CalPlayer
 					bool hasMoltenSet = player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves;
 
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
-						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore || modPlayer.permafrostsConcoction;
+						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore || modPlayer.permafrostsConcoction || modPlayer.profanedCrystalBuffs;
 
 					bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || modPlayer.eskimoSet || player.buffImmune[BuffID.Frozen] ||
 						player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;
@@ -582,7 +599,9 @@ namespace CalamityMod.CalPlayer
 								}
 
 								int randomFrequency2 = (int)(20f * frequencyMult);
-								if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
+                                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur)
+                                    randomFrequency2 = (int)(randomFrequency2 * 3.75);
+                                if (player.miscCounter % (Main.hardMode ? 90 : 120) == 0 && Main.rand.NextBool(randomFrequency2))
 								{
 									if (!tileSafely.active())
 									{
@@ -764,23 +783,27 @@ namespace CalamityMod.CalPlayer
 				player.allDamage += damageUp;
 				modPlayer.AllCritBoost(critUp);
 			}
-
+			bool canProvideBuffs = player.Calamity().profanedCrystalBuffs || (!modPlayer.profanedCrystal && modPlayer.pArtifact) || (player.Calamity().profanedCrystal && CalamityWorld.downedSCal);
+			bool attack = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] > 0;
 			// Guardian bonuses if not burnt out
-			if (!modPlayer.bOut)
+			if (!modPlayer.bOut && canProvideBuffs)
 			{
-				if (modPlayer.gHealer)
+				bool healer = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] > 0;
+				bool defend = player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] > 0;
+				if (healer)
 				{
 					if (modPlayer.healCounter > 0)
 						modPlayer.healCounter--;
 
 					if (modPlayer.healCounter <= 0)
 					{
-						modPlayer.healCounter = 300;
+						bool enrage = player.statLife <= (int)((double)player.statLifeMax2 * 0.5);
+						modPlayer.healCounter = (!enrage && player.Calamity().profanedCrystalBuffs) ? 360 : 300;
 						if (player.whoAmI == Main.myPlayer)
 						{
 							int healAmount = 5 +
-								(modPlayer.gDefense ? 5 : 0) +
-								(modPlayer.gOffense ? 5 : 0);
+								(defend ? 5 : 0) +
+								(attack ? 5 : 0);
 
 							player.statLife += healAmount;
 							player.HealEffect(healAmount);
@@ -788,23 +811,23 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				if (modPlayer.gDefense)
+				if (defend)
 				{
 					player.moveSpeed += 0.1f +
-						(modPlayer.gOffense ? 0.1f : 0f);
+						(attack ? 0.1f : 0f);
 					player.endurance += 0.025f +
-						(modPlayer.gOffense ? 0.025f : 0f);
+						(attack ? 0.025f : 0f);
 				}
 
-				if (modPlayer.gOffense)
+				if (attack)
 				{
 					player.minionDamage += 0.1f +
-						(modPlayer.gDefense ? 0.05f : 0f);
+						(defend ? 0.05f : 0f);
 				}
 			}
 
 			// You always get the max minions, even during the effect of the burnout debuff
-			if (modPlayer.gOffense)
+			if (attack && canProvideBuffs)
 				player.maxMinions++;
 
 			// Cooldowns and timers
@@ -828,8 +851,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.featherCrownCooldown--;
 			if (modPlayer.moonCrownCooldown > 0)
 				modPlayer.moonCrownCooldown--;
-            if (modPlayer.nanoFlareCooldown > 0)
-                modPlayer.nanoFlareCooldown--;
+			if (modPlayer.nanoFlareCooldown > 0)
+				modPlayer.nanoFlareCooldown--;
 			if (modPlayer.spectralVeilImmunity > 0)
 				modPlayer.spectralVeilImmunity--;
 			if (modPlayer.plaguedFuelPackCooldown > 0)
@@ -860,6 +883,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gaelRageCooldown--;
 			if (modPlayer.projRefRareLifeRegenCounter > 0)
 				modPlayer.projRefRareLifeRegenCounter--;
+			if (modPlayer.hurtSoundTimer > 0)
+				modPlayer.hurtSoundTimer--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -1635,17 +1660,17 @@ namespace CalamityMod.CalPlayer
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X, player.velocity.Y, ModContent.ProjectileType<SabatonSlam>(), 0, 0, player.whoAmI);
 					}
 				}
-                if (modPlayer.gSabatonCooldown == 1) //dust when ready to use again
-                {
-                    for (int i = 0; i < 66; i++)
-                    {
-                        int d = Dust.NewDust(player.position, player.width, player.height, Main.rand.NextBool(2) ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), 0, 0, 100, default, 2.6f);
-                        Main.dust[d].noGravity = true;
-                        Main.dust[d].noLight = true;
-                        Main.dust[d].fadeIn = 1f;
-                        Main.dust[d].velocity *= 6.6f;
-                    }
-                }
+				if (modPlayer.gSabatonCooldown == 1) //dust when ready to use again
+				{
+					for (int i = 0; i < 66; i++)
+					{
+						int d = Dust.NewDust(player.position, player.width, player.height, Main.rand.NextBool(2) ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), 0, 0, 100, default, 2.6f);
+						Main.dust[d].noGravity = true;
+						Main.dust[d].noLight = true;
+						Main.dust[d].fadeIn = 1f;
+						Main.dust[d].velocity *= 6.6f;
+					}
+				}
 			}
 		}
 		#endregion
@@ -3140,7 +3165,7 @@ namespace CalamityMod.CalPlayer
 				player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
 			}
 
-			/*if (modPlayer.dukeScales)
+			if (modPlayer.dukeScales)
             {
 				player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
 				player.buffImmune[BuffID.Poisoned] = true;
@@ -3160,7 +3185,7 @@ namespace CalamityMod.CalPlayer
                     player.allDamage += 0.1f;
 					modPlayer.AllCritBoost(5);
                 }
-            }*/
+            }
 
 			if (modPlayer.auricSet && modPlayer.silvaMelee)
 			{
@@ -3193,35 +3218,83 @@ namespace CalamityMod.CalPlayer
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * (player.allDamage + player.minionDamage - 1f)), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
-
 			if (modPlayer.pArtifact)
 			{
 				if (player.whoAmI == Main.myPlayer)
 				{
-					if (player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1)
+					if (player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1 && !player.Calamity().profanedCrystalBuffs)
 						player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < 1)
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
 
-					float baseDamage = 100f +
+					float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : 100f +
 						(CalamityWorld.downedDoG ? 100f : 0f) +
-						(CalamityWorld.downedYharon ? 100f : 0f);
+						(CalamityWorld.downedYharon ? 100f : 0f) +
+						(modPlayer.profanedCrystalBuffs ? 700f : 0f);
 
-					if (player.Calamity().minionSlotStat >= 10)
+					if (modPlayer.profanedCrystal || player.Calamity().minionSlotStat >= 10)
 					{
 						player.Calamity().gDefense = true;
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < 1)
-							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), baseDamage == 0 ? 0 : (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
 					}
 
-					if (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet)
+					if (modPlayer.profanedCrystal || (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet))
 					{
 						player.Calamity().gOffense = true;
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < 1)
-							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), baseDamage == 0 ? 0 : (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
+					}
+				}
+			}
+			if (modPlayer.profanedCrystalBuffs && modPlayer.gOffense && modPlayer.gDefense)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					player.scope = false; //this is so it doesn't mess with the balance of ranged transform attacks over the others
+					player.lavaImmune = true;
+					player.lavaMax += 420;
+					player.lavaRose = true;
+					player.fireWalk = true;
+					player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
+					player.buffImmune[BuffID.OnFire] = true;
+					player.buffImmune[BuffID.Burning] = true;
+					player.buffImmune[BuffID.Daybreak] = true;
+					bool offenseBuffs = (Main.dayTime && !player.wet) || player.lavaWet;
+					if (offenseBuffs)
+					{
+						player.minionDamage += 0.15f;
+						player.minionKB += 0.15f;
+						player.moveSpeed += 0.25f;
+						player.statDefense -= 15;
+						if (!player.Calamity().yharonLore)
+							player.wingTimeMax = (int)((float)player.wingTimeMax * 1.1f);
+						player.ignoreWater = true;
+					}
+					else
+					{
+						player.moveSpeed -= 0.15f;
+						player.endurance += 0.05f;
+						player.statDefense += 15;
+						player.lifeRegen += 5;
+					}
+					bool enrage = player.statLife <= (int)((double)player.statLifeMax2 * 0.5);
+					bool notRetro = Lighting.NotRetro;
+					if (!modPlayer.ZoneAbyss) //No abyss memes.
+						Lighting.AddLight(player.Center, enrage ? 60 : offenseBuffs ? 50 : 10, enrage ? 12 : offenseBuffs ? 10 : 2, 0);
+					if (enrage)
+					{
+						bool special = player.name == "Amber" || player.name == "Nincity" || player.name == "IbanPlay" || player.name == "Chen"; //People who either helped create the item or test it.
+						for (int i = 0; i < 3; i++)
+						{
+							int num469 = Dust.NewDust(player.position, player.width, player.height, special ? 231 : 244, 0f, 0f, 100, special ? Color.DarkRed : default, 1f);
+							Main.dust[num469].scale = special ? 1.169f : 2f;
+							Main.dust[num469].noGravity = true;
+							Main.dust[num469].velocity *= special ? 10f : 6.9f;
+						}
 					}
 				}
 			}
@@ -3253,10 +3326,10 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 			else if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)
-            {
+			{
 				if (player.whoAmI == Main.myPlayer)
 				{
-					for (int i = 0; i < 1000; i++)
+					for (int i = 0; i < Main.projectile.Length; i++)
 					{
 						if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<TeslaAura>() && Main.projectile[i].owner == player.whoAmI)
 						{

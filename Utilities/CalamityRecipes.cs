@@ -143,15 +143,8 @@ namespace CalamityMod
         #region Astral Alternatives
         private static void AstralAlternatives()
         {
-            // Glass
-            ModRecipe r = GetNewRecipe();
-            r.AddIngredient(ModContent.ItemType<AstralSand>(), 2);
-            r.AddTile(TileID.Furnaces);
-            r.SetResult(ItemID.Glass);
-            r.AddRecipe();
-
 			//Bowl
-            r = GetNewRecipe();
+            ModRecipe r = GetNewRecipe();
             r.AddIngredient(ModContent.ItemType<AstralClay>(), 2);
             r.AddTile(TileID.Furnaces);
             r.SetResult(ItemID.Bowl);
@@ -866,6 +859,14 @@ namespace CalamityMod
 
         public static void AddRecipeGroups()
         {
+			//Modify Vanilla Recipe Groups
+			RecipeGroup firefly = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Fireflies"]];
+			firefly.ValidItems.Add(ModContent.ItemType<TwinklerItem>());
+
+			RecipeGroup sand = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Sand"]];
+			sand.ValidItems.Add(ModContent.ItemType<AstralSand>());
+
+			//New Groups
             RecipeGroup group = new RecipeGroup(() => "Any Copper Bar", new int[]
             {
                 ItemID.CopperBar,

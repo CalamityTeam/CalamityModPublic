@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			for (int j = 0; j < Main.projectile.Length; j++)
 			{
                 Projectile projectile = Main.projectile[j];
-				if (projectile.active && projectile.owner == player.whoAmI && projectile.minion && projectile.type != ModContent.ProjectileType<SiriusMinion>())
+				if (projectile.active && projectile.owner == player.whoAmI && projectile.minion && projectile.type != ModContent.ProjectileType<SiriusMinion>() && projectile.type != ModContent.ProjectileType<RadiantResolutionAura>())
 				{
 					minionCount += projectile.minionSlots;
 				}
@@ -66,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Summon
             for (int x = 0; x < Main.projectile.Length; x++)
             {
                 Projectile projectile2 = Main.projectile[x];
-                if (projectile2.active && projectile2.owner == player.whoAmI && projectile2.type == ModContent.ProjectileType<SiriusMinion>())
+                if (projectile2.active && projectile2.owner == player.whoAmI && projectile2.type == ModContent.ProjectileType<SiriusMinion>() && projectile2.type != ModContent.ProjectileType<RadiantResolutionAura>())
                 {
                     projectile2.Kill();
                 }

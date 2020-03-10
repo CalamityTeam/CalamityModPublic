@@ -32,6 +32,11 @@ namespace CalamityMod.Items.Accessories
             item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
+        public override bool CanEquipAccessory(Player player, int slot)
+        {
+            return !player.Calamity().pArtifact;
+        }
+
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();

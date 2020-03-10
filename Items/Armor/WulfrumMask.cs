@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             player.setBonus = "+3 defense\n" +
                 "+5 defense when below 50% life\n" +
-                "Rogue stealth builds while not attacking and not moving, up to a max of 50\n" +
+                "Rogue stealth builds while not attacking and slower while moving, up to a max of 50\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";

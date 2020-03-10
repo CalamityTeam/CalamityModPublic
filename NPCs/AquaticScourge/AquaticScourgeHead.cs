@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
-            if (projectile.minion)
+            if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
             {
                 return npc.Calamity().newAI[0] == 1f;
             }

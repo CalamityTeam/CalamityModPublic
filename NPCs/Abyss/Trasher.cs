@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Pets;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -291,7 +292,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
-            if (projectile.minion)
+            if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
             {
                 return hasBeenHit;
             }
@@ -366,6 +367,7 @@ namespace CalamityMod.NPCs.Abyss
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gatligator);
             }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<SulfuricScale>(), false, Main.rand.NextBool(2), 1, 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)

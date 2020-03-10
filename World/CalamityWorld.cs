@@ -1,6 +1,7 @@
 using CalamityMod;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
@@ -101,6 +102,7 @@ namespace CalamityMod.World
         public static int abyssTiles = 0;
         public static bool abyssSide = false;
         public static int abyssChasmBottom = 0;
+        public static bool rainingAcid;
 
         //Astral
         public static int astralTiles = 0;
@@ -227,6 +229,7 @@ namespace CalamityMod.World
             armageddon = false;
             ironHeart = false;
             dragonScalesBought = false;
+            rainingAcid = false;
         }
         #endregion
 
@@ -318,6 +321,8 @@ namespace CalamityMod.World
                 downed.Add("clam");
             if (dragonScalesBought)
                 downed.Add("scales");
+            if (rainingAcid)
+                downed.Add("acidRain");
 
             return new TagCompound
             {
@@ -377,6 +382,7 @@ namespace CalamityMod.World
             bossRushActive = downed.Contains("bossRushActive");
             downedCLAM = downed.Contains("clam");
             dragonScalesBought = downed.Contains("scales");
+            rainingAcid = downed.Contains("acidRain");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
         }
@@ -457,6 +463,7 @@ namespace CalamityMod.World
                 downedOldDuke = flags7[1];
                 downedCLAM = flags7[2];
                 dragonScalesBought = flags7[3];
+                rainingAcid = flags7[4];
             }
             else
             {
@@ -535,6 +542,7 @@ namespace CalamityMod.World
             flags7[1] = downedOldDuke;
             flags7[2] = downedCLAM;
             flags7[3] = dragonScalesBought;
+            flags7[4] = rainingAcid;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -617,6 +625,7 @@ namespace CalamityMod.World
             downedOldDuke = flags7[1];
             downedCLAM = flags7[2];
             dragonScalesBought = flags7[3];
+            rainingAcid = flags7[4];
 
             abyssChasmBottom = reader.ReadInt32();
         }
@@ -701,7 +710,7 @@ namespace CalamityMod.World
 				WorldGenerationMethods.NewJungleTemple();
 			});
 
-			int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
+            int JungleTempleIndex2 = tasks.FindIndex(genpass => genpass.Name.Equals("Temple"));
 			tasks[JungleTempleIndex2] = new PassLegacy("Temple", delegate (GenerationProgress progress)
 			{
 				progress.Message = "Building the jungle temple (Calamity)";
@@ -717,16 +726,6 @@ namespace CalamityMod.World
 				progress.Message = "Placing a Lihzahrd altar (Calamity)";
 				WorldGenerationMethods.NewJungleTempleLihzahrdAltar();
 			});
-
-			int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
-            if (SulphurIndex != -1)
-            {
-                tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur", delegate (GenerationProgress progress)
-                {
-                    progress.Message = "Sulphur Sea";
-                    Abyss.PlaceSulphurSea();
-                }));
-            }
 
             int FinalIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Final Cleanup"));
             if (FinalIndex != -1)
@@ -781,6 +780,17 @@ namespace CalamityMod.World
                     Abyss.PlaceAbyss();
                 }));
 
+                // Moved to prevent the sulf sea caverns from being swallowed by the abyss opening
+                int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
+                if (SulphurIndex != -1)
+                {
+                    tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur", delegate (GenerationProgress progress)
+                    {
+                        progress.Message = "Sulphur Sea";
+                        Abyss.PlaceSulphurSea();
+                    }));
+                }
+
                 tasks.Insert(FinalIndex + 4, new PassLegacy("IWannaRock", delegate (GenerationProgress progress)
                 {
                     progress.Message = "I Wanna Rock";
@@ -823,6 +833,21 @@ namespace CalamityMod.World
                 deactivateStupidFuckingBullshit = true;
                 bossRushActive = false;
                 CalamityMod.UpdateServerBoolean();
+            }
+
+            if (rainingAcid)
+            {
+                // Makes rain pour at its maximum intensity
+                // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
+                Main.raining = true;
+                Main.cloudBGActive = 1f;
+                Main.numCloudsTemp = Main.cloudLimit;
+                Main.numClouds = Main.numCloudsTemp;
+                Main.windSpeedTemp = 0.72f;
+                Main.windSpeedSet = Main.windSpeedTemp;
+                Main.weatherCounter = 600;
+                Main.maxRaining = 0.89f;
+                Main.invasionProgressNearInvasion = true;
             }
 
             // Boss Rush shit
