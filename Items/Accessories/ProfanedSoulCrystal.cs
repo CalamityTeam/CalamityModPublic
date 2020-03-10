@@ -104,7 +104,6 @@ namespace CalamityMod.Items.Accessories
 
             modPlayer.pArtifact = true;
             modPlayer.profanedCrystal = true;
-            //modPlayer.rDevil = false;
 
             if (hideVisual)
                 modPlayer.profanedCrystalHide = true;
