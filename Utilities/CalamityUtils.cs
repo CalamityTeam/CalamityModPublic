@@ -155,7 +155,7 @@ namespace CalamityMod
             {
                 for (int index = 0; index < Main.npc.Length; index++)
                 {
-                    if (Main.npc[index].CanBeChasedBy(null, false) && Collision.CanHit(origin, 1, 1, Main.npc[index].Center, 1, 1))
+                    if (Main.npc[index].CanBeChasedBy(null, false))
                     {
                         if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
                         {
