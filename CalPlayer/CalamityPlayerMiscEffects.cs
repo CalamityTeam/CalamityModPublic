@@ -3165,7 +3165,7 @@ namespace CalamityMod.CalPlayer
 				player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
 			}
 
-			/*if (modPlayer.dukeScales)
+			if (modPlayer.dukeScales)
             {
 				player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
 				player.buffImmune[BuffID.Poisoned] = true;
@@ -3185,7 +3185,7 @@ namespace CalamityMod.CalPlayer
                     player.allDamage += 0.1f;
 					modPlayer.AllCritBoost(5);
                 }
-            }*/
+            }
 
 			if (modPlayer.auricSet && modPlayer.silvaMelee)
 			{
