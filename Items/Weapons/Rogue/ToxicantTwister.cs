@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -50,17 +49,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Main.projectile[stealth].localNPCHitCooldown = 6;
             }
             return false;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 5);
-            recipe.AddIngredient(ItemID.SunplateBlock, 3);
-            recipe.AddIngredient(ItemID.Cloud, 4);
-            recipe.AddTile(TileID.SkyMill);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
         }
     }
 }

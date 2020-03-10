@@ -190,6 +190,7 @@ namespace CalamityMod.CalPlayer
         public bool akato = false;
         public bool leviPet = false;
         public bool rotomPet = false;
+        public bool sparks = false;
         public bool sirenPet = false;
         public bool fox = false;
         public bool chibii = false;
@@ -1031,6 +1032,7 @@ namespace CalamityMod.CalPlayer
             akato = false;
             leviPet = false;
             rotomPet = false;
+            sparks = false;
             sirenPet = false;
             fox = false;
             chibii = false;
@@ -9955,6 +9957,8 @@ namespace CalamityMod.CalPlayer
             if (giantPearl)
                 light += 1;
             if (radiator)
+                light += 1;
+            if (sparks)
                 light += 1;
             if (sirenBoobs || sirenBoobsAlt)
                 light += 1;

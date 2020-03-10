@@ -12,6 +12,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles.FurnitureProfaned;
 using CalamityMod.Tiles.Ores;
@@ -1156,6 +1157,7 @@ namespace CalamityMod.NPCs.Providence
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BlissfulBombardier>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PurgeGuzzler>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<MoltenAmputator>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DazzlingStabberStaff>(), 4);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
