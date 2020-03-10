@@ -1589,6 +1589,7 @@ namespace CalamityMod.NPCs
             {
                 Main.invasionSize -= AcidRainEvent.PossibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
             }
+            AcidRainEvent.UpdateInvasion();
         }
         #endregion
 
