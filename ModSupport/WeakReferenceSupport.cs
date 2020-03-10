@@ -418,7 +418,7 @@ namespace CalamityMod
 				calamity, 
 				"Devourer of Gods", 
 				(Func<bool>)(() => CalamityWorld.downedDoG), ModContent.ItemType<CosmicWorm>(), 
-				new List<int>() {ModContent.ItemType<DevourerofGodsTrophy>(), ModContent.ItemType<KnowledgeDevourerofGods>()}, 
+				new List<int>() {ModContent.ItemType<DevourerofGodsTrophy>(), ModContent.ItemType<DevourerofGodsMask>(), ModContent.ItemType<KnowledgeDevourerofGods>()}, 
 				new List<int>() {ModContent.ItemType<DevourerofGodsBag>(), ModContent.ItemType<CosmiliteBar>(), ModContent.ItemType<CosmiliteBrick>(), ModContent.ItemType<Excelsus>(), ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<TheObliterator>(), ModContent.ItemType<Deathwind>(), ModContent.ItemType<DeathhailStaff>(), ModContent.ItemType<StaffoftheMechworm>(), ModContent.ItemType<Eradicator>(), ModContent.ItemType<Skullmasher>(), ModContent.ItemType<Norfleet>(), ModContent.ItemType<CosmicDischarge>(), ModContent.ItemType<NebulousCore>(), ModContent.ItemType<Fabsol>(), ModContent.ItemType<SupremeHealingPotion>()}, 
 				"Use a [i:" + ModContent.ItemType<CosmicWorm>() + "]", 
 				"[c/00FFFF:The Devourer of Gods has slain everyone and feasted on their essence.]", 
