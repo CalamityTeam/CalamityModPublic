@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.timeLeft = int.MaxValue; //Killed manually
             projectile.extraUpdates = extraUpdateCount;
+            projectile.alpha = 255;
         }
         public override void AI()
         {
@@ -38,9 +39,35 @@ namespace CalamityMod.Projectiles.Magic
 
             if (!target.active)
             {
-                DeathDust();
-                projectile.Kill();
-                return;
+                NPC potentialNPC = projectile.Center.ClosestNPCAt(4400f, true);
+                if (potentialNPC != null)
+                {
+                    projectile.ai[0] = potentialNPC.whoAmI;
+                    target = Main.npc[(int)projectile.ai[0]];
+                    for (int i = 0; i < Main.projectile.Length; i++)
+                    {
+                        Projectile proj = Main.projectile[i];
+                        if ((proj.whoAmI == projectile.whoAmI ||
+                            proj.type == ModContent.ProjectileType<EternityCrystal>()) &&
+                            proj.active && proj.owner == projectile.owner)
+                        {
+                            if (proj.type == ModContent.ProjectileType<EternityCrystal>())
+                                proj.ai[0] = projectile.ai[0];
+                            for (int j = 0; j < 44; j++)
+                            {
+                                Dust dust = Dust.NewDustPerfect(proj.Center, Eternity.dustID, newColor: new Color(245, 112, 218));
+                                dust.velocity = Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(2f, 6f);
+                                dust.noGravity = true;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    DeathDust();
+                    projectile.Kill();
+                    return;
+                }
             }
 
             if (projectile.localAI[1] >= Main.projectile.Length || projectile.localAI[0] < 0)
