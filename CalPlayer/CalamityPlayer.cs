@@ -454,6 +454,7 @@ namespace CalamityMod.CalPlayer
 
 
         // Armor Set
+        public bool snowRuffianSet = false;
         public bool eskimoSet = false; //vanilla armor
         public bool meteorSet = false; //vanilla armor, for space gun nerf
         public bool victideSet = false;
@@ -1285,6 +1286,8 @@ namespace CalamityMod.CalPlayer
 
             astralStarRain = false;
 
+            snowRuffianSet = false;
+
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
 
@@ -1815,6 +1818,7 @@ namespace CalamityMod.CalPlayer
             ataxiaFire = false;
             ataxiaVolley = false;
             ataxiaBlaze = false;
+            snowRuffianSet = false;
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
             victideSet = false;
@@ -5882,10 +5886,19 @@ namespace CalamityMod.CalPlayer
 
         public override void FrameEffects()
         {
-            bool psc = false;
-            if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
+            if (snowRuffianSet)
             {
-                psc = true;
+                player.wings = mod.GetEquipSlot("SnowRuffWings", EquipType.Wings);
+                bool falling = player.gravDir == -1 ? player.velocity.Y < 0.05f : player.velocity.Y > 0.05f;
+                if (player.controlJump && falling)
+                {
+                    player.velocity.Y *= 0.9f;
+                    player.wingFrame = 3;
+                }
+                
+            }
+            else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
+            {
                 player.legs = mod.GetEquipSlot("ProviLegs", EquipType.Legs);
                 player.body = mod.GetEquipSlot("ProviBody", EquipType.Body);
                 player.head = mod.GetEquipSlot("ProviHead", EquipType.Head);
@@ -5935,7 +5948,7 @@ namespace CalamityMod.CalPlayer
                 player.body = mod.GetEquipSlot("SirenBodyAlt", EquipType.Body);
                 player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
             }
-            else if (!psc)
+            else
             {
                 if (profanedCrystalWingCounter.Key != 1)
                     profanedCrystalWingCounter = new KeyValuePair<int, int>(1, 7);

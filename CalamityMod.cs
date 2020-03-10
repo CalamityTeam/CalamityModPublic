@@ -88,6 +88,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Items.Armor;
 
 namespace CalamityMod
 {
@@ -268,6 +269,7 @@ namespace CalamityMod
             AddEquipTexture(new ProfanedCrystalLegs(), null, EquipType.Legs, "ProviLegs", "CalamityMod/Items/Accessories/ProfanedSoulTransLegs");
             AddEquipTexture(new ProfanedCrystalWings(), null, EquipType.Wings, "ProviWings", "CalamityMod/Items/Accessories/Wings/ProfanedSoulTransWings");
 
+            AddEquipTexture(new SnowRuffianWings(), null, EquipType.Wings, "SnowRuffWings", "CalamityMod/Items/Armor/SnowRuffianWings");
 
             AstralCactusTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactus");
             AstralCactusGlowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
