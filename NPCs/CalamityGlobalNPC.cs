@@ -7,6 +7,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
@@ -56,6 +57,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -3666,6 +3668,12 @@ namespace CalamityMod.NPCs
                 {
                     spawnRate = (int)(spawnRate * 0.7);
                     maxSpawns = (int)(maxSpawns * 1.2f);
+
+                    if (player.Calamity().ZoneSulphur && !player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
+                    {
+                        spawnRate = 23;
+                        maxSpawns = 20;
+                    }
                 }
             }
             else if (player.Calamity().ZoneAbyss)
@@ -3793,6 +3801,14 @@ namespace CalamityMod.NPCs
                 (spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp))
             {
                 pool[0] = 0f;
+            }
+            if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
+            {
+                pool.Clear();
+                foreach (int enemy in AcidRainEvent.PossibleEnemies.Select(enemyType => enemyType.Item1))
+                {
+                    pool.Add(enemy, 1f);
+                }
             }
         }
         #endregion
