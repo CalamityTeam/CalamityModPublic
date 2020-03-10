@@ -102,9 +102,12 @@ namespace CalamityMod
                 case "the plaguebringer goliath":
                     return CalamityWorld.downedPlaguebringer;
 
+                case "scavenger": // backwards compatibility
                 case "ravager":
                     return CalamityWorld.downedScavenger;
 
+                case "stargod": // backwards compatibility
+                case "star god": // backwards compatibility
                 case "astrumdeus":
                 case "astrum deus":
                     return CalamityWorld.downedStarGod;

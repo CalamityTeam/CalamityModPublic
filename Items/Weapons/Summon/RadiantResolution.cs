@@ -13,11 +13,11 @@ namespace CalamityMod.Items.Weapons.Summon
 		int radianceSlots;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Radiant Resolution");
-            Tooltip.SetDefault("Summons a radiant aura\n" +
+            DisplayName.SetDefault("Saros Possession");
+            Tooltip.SetDefault("Gain absolute control over light itself\n" +
+							   "Summons a radiant aura\n" +
                                "Consumes all of the remaining minion slots on use\n" +
-                               "Increased power based on the number of minion slots used\n" +
-                               "'Gain absolute control over light itself'");
+                               "Increased power based on the number of minion slots used");
         }
 
         public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.summon = true;
             item.mana = 100;
-            item.damage = 555;
+            item.damage = 666;
             item.knockBack = 3f;
             item.autoReuse = true;
             item.useTime = item.useAnimation = 36;

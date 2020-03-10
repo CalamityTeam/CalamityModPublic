@@ -36,6 +36,7 @@ namespace CalamityMod.Localization
                 new [] { "ProfanedBossText", "The air is burning..." },
                 new [] { "ProfanedBossText2", "Shrieks are echoing from the dungeon." },
                 new [] { "ProfanedBossText3", "The calamitous beings have been inundated with bloodstone." },
+                new [] { "ProfanedBossText4", "The Profaned Goddess has recognised your devotion to purity!" },
 
                 new [] { "GhostBossText", "The abyssal spirits have been disturbed." },
                 new [] { "GhostBossText2", "Wails echo through the dilapidated dungeon halls..." },

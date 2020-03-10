@@ -6,6 +6,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Providence;
 using Terraria;
 using Terraria.ModLoader;
@@ -52,6 +53,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<BlissfulBombardier>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<PurgeGuzzler>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<MoltenAmputator>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DazzlingStabberStaff>(), 3);
 
             // Equipment
             DropHelper.DropItemChance(player, ModContent.ItemType<SamuraiBadge>(), DropHelper.RareVariantDropRateInt);

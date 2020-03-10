@@ -2151,6 +2151,13 @@ namespace CalamityMod
                     break;
             }
         }
+
+        public static string ColorMessage(string msg, Color color)
+        {
+            StringBuilder sb = new StringBuilder(msg.Length + 12);
+            sb.Append("[c/").Append(color.Hex3()).Append(':').Append(msg).Append(']');
+            return sb.ToString();
+        }
         #endregion
 
         #region Miscellaneous Utilities

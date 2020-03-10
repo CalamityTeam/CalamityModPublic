@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "5% increased movement speed and rogue critical strike chance\n" +
                     "Taking over 25 damage in one hit will cause a spread of homing feathers to fall\n" +
                     "Allows you to fall more quickly and disables fall damage\n" +
-                    "Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+                    "Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
                     "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                     "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                     "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";

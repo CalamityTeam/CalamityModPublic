@@ -21,11 +21,11 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 333;
+            item.damage = 300;
             item.mana = 30;
             item.width = 64;
             item.height = 62;
-            item.useTime = item.useAnimation = 21;
+            item.useTime = item.useAnimation = 36;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 4f;

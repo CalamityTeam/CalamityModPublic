@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             float num637 = 0.05f;
-            for (int num638 = 0; num638 < 1000; num638++)
+            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
             {
                 bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<PurpleButterfly>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner &&

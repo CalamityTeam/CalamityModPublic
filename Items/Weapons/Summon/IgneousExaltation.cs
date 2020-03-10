@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Igneous Exaltation");
             Tooltip.SetDefault("Summons an orbiting blade\n" +
-                               "If this item is used but you have no free minion slots, all knives are launched towards the mouse");
+                               "If this item is used when you have no free minion slots, all knives are launched towards the cursor");
             Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 47;
+            item.damage = 39;
             item.mana = 19;
             item.width = 52;
             item.height = 50;

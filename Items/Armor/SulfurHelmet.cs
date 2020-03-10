@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Attacking and being attacked by enemies inflicts poison\n" +
                 "Grants a sulphurous bubble jump that applies venom on hit\n" +
                 "Slightly reduces breath loss in the abyss\n" +
-                "Rogue stealth builds while not attacking and not moving, up to a max of 100\n" +
+                "Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";

@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Pets
             num19 -= 60f;
             float num20 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
             float num21 = 18f;
-            if (num20 < (float)num17 && Main.player[projectile.owner].velocity.Y == 0f &&
+            if (num20 < (float)num17 && player.velocity.Y == 0f &&
                 projectile.position.Y + (float)projectile.height <= player.position.Y + (float)player.height &&
                 !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
