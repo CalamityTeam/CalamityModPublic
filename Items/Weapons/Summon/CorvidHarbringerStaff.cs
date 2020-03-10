@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corvid Harbringer Staff");
-            Tooltip.SetDefault("Summons a powerful raven which teleports and dashes\n" +
-                               "'Nevermore'");
+            Tooltip.SetDefault("Nevermore\n" +
+                               "Summons a powerful raven which teleports and dashes");
         }
 
         public override void SetDefaults()
@@ -26,10 +26,10 @@ namespace CalamityMod.Items.Weapons.Summon
             item.UseSound = SoundID.DD2_BetsyFlyingCircleAttack;
             item.summon = true;
             item.mana = 11;
-            item.damage = 999;
+            item.damage = 456;
             item.knockBack = 2f;
             item.autoReuse = true;
-            item.useTime = item.useAnimation = 21;
+            item.useTime = item.useAnimation = 36;
             item.shoot = ModContent.ProjectileType<PowerfulRaven>();
             item.shootSpeed = 13f;
 

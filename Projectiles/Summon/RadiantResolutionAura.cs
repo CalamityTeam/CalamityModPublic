@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Summon
         public const float DistanceToCheck = 1600f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Radiant Resolution Aura");
+            DisplayName.SetDefault("Saros Possession");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
