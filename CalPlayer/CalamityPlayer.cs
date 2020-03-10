@@ -5901,6 +5901,7 @@ namespace CalamityMod.CalPlayer
 
                 player.wingFrame = profanedCrystalWingCounter.Key;
                 profanedCrystalWingCounter = new KeyValuePair<int, int>(profanedCrystalWingCounter.Key, profanedCrystalWingCounter.Value - 1);
+                player.armorEffectDrawOutlines = true;
                 if (profanedCrystalBuffs)
                 {
                     player.armorEffectDrawShadow = true;
