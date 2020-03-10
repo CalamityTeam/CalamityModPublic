@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 0f;
             item.value = Item.buyPrice(5, 0, 0, 0);
-            item.Calamity().postMoonLordRarity = 16;
+            item.Calamity().customRarity = CalamityRarity.Developer;
             item.rare = 10;
             item.UseSound = SoundID.Item68;
             item.autoReuse = true;
