@@ -31,6 +31,15 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
         }
 
+        public override bool? CanCutTiles()
+        {
+            CalamityPlayer modPlayer = Main.player[projectile.owner].Calamity();
+            bool psa = modPlayer.pArtifact && !modPlayer.profanedCrystal;
+            if (!psa && !modPlayer.profanedCrystalBuffs)
+                return false;
+            return null;
+        }
+
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
@@ -43,7 +52,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.timeLeft = 2;
             }
-            if (!modPlayer.pArtifact)
+            if (!modPlayer.pArtifact || player.dead)
             {
                 projectile.active = false;
                 return;

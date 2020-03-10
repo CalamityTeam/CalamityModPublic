@@ -62,6 +62,8 @@ namespace CalamityMod.Projectiles
         public int lineColor = 0; //holy mother of god, Eater of Shoals was a pain in the ass
         public bool extorterBoost = false;
 
+        public bool overridesMinionDamagePrevention = false;
+
         #region SetDefaults
         public override void SetDefaults(Projectile projectile)
         {
@@ -1645,9 +1647,9 @@ namespace CalamityMod.Projectiles
                 }
                 else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
                 {
-                    if (modPlayer.pArtifact)
+                    if (modPlayer.profanedCrystalBuffs || (modPlayer.pArtifact && !modPlayer.profanedCrystal))
                     {
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+                        target.AddBuff(ModContent.BuffType<HolyFlames>(), modPlayer.profanedCrystalBuffs ? 600 : 300);
                     }
 
                     if (modPlayer.tearMinions)

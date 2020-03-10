@@ -128,7 +128,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 30;
+				lifeRegenLost += modPlayer.profanedCrystalBuffs ? 35 : 30;
             }
 
             if (modPlayer.astralInfection)

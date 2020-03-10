@@ -4518,7 +4518,17 @@ namespace CalamityMod.NPCs
                             chat = Main.npc[fapsol].GivenName + " is always trying to brighten my mood...even if, deep down, I know she's sad.";
                         }
                     }
-
+                    if ((npc.GivenName == "Amber" ? Main.rand.NextBool(10) : Main.rand.NextBool(15)) && Main.LocalPlayer.Calamity().pArtifact)
+                    {
+                        if (Main.LocalPlayer.Calamity().profanedCrystalBuffs)
+                        {
+                            chat = Main.rand.NextBool(2) ? "They look so cute and yet, I can feel their immense power just by being near them. What are you?" : "I hate to break it to you, but you don't have hair to cut or style, hun.";
+                        }
+                        else if (Main.LocalPlayer.Calamity().gDefense && Main.LocalPlayer.Calamity().gOffense)
+                        {
+                            chat = "Aww, they're so cute, do they have names?"; 
+                        }
+                    }
                     break;
 
                 case NPCID.GoblinTinkerer:

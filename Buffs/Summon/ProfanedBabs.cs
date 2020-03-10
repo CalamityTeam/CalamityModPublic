@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (!modPlayer.gHealer)
+            if (!modPlayer.gHealer || modPlayer.profanedCrystalBuffs)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

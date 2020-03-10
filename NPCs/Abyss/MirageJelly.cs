@@ -159,6 +159,13 @@ namespace CalamityMod.NPCs.Abyss
             }
         }
 
+        public override bool? CanBeHitByProjectile(Projectile projectile)
+        {
+            if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
+                return false;
+            return null;
+        }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             SpriteEffects spriteEffects = SpriteEffects.None;
