@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.Calamity().stealthStrike)
             {
-                if (projectile.timeLeft % 18f == 0f)
+                if (projectile.timeLeft % 25f == 0f)
                 {
                     for (int i = 0; i < 2; i++)
                     {

@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.miniOldDuke = true;
             if (player.whoAmI == Main.myPlayer)
             {
-                const int damage = 2000;
+                const int damage = 1750;
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] < 1)
                 {
                     Projectile.NewProjectile(player.Center, Vector2.Zero, 

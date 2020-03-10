@@ -115,6 +115,18 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.ai[1] = 0f;
                 projectile.velocity = (projectile.velocity * 24f + projectile.DirectionTo(player.Center) * 13f) / 25f;
+                if (projectile.Distance(player.Center) > 3250f)
+                {
+                    projectile.Center = player.Center;
+                    for (int i = 0; i < Main.projectile.Length; i++)
+                    {
+                        if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner &&
+                            Main.projectile[i].type == ModContent.ProjectileType<SkeletalDragonChild>())
+                        {
+                            Main.projectile[i].Center = player.Center;
+                        }
+                    }
+                }
             }
             projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
 

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.UseSound = SoundID.DD2_BetsyFlyingCircleAttack;
             item.summon = true;
             item.mana = 11;
-            item.damage = 456;
+            item.damage = 200;
             item.knockBack = 2f;
             item.autoReuse = true;
             item.useTime = item.useAnimation = 36;

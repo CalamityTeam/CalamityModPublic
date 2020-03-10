@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Vector2 spawnPosition = target.Center - new Vector2(0f, 550f).RotatedByRandom(MathHelper.ToRadians(8f));
                     Projectile.NewProjectile(spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * 24f, ModContent.ProjectileType<IgneousBladeStrike>(),
-                        projectile.damage, projectile.knockBack, projectile.owner);
+                        (int)(projectile.damage * 0.666), projectile.knockBack, projectile.owner);
                 }
                 for (int i = 0; i < Main.rand.Next(28, 41); i++)
                 {
