@@ -117,7 +117,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, 20, 4, 0);
+            int num469 = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+            Main.dust[num469].noGravity = true;
+            Main.dust[num469].velocity *= 0f;
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -131,7 +133,6 @@ namespace CalamityMod.Projectiles.Summon
             int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y6 = num214 * projectile.frame;
             Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
 
@@ -657,7 +658,9 @@ namespace CalamityMod.Projectiles.Summon
 
             projectile.velocity *= boomerSwarm ? 1.03f : 1.02f;
 
-            Lighting.AddLight(projectile.Center, 0.7f, 0.3f, 0f);
+            int num469 = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
+            Main.dust[num469].noGravity = true;
+            Main.dust[num469].velocity *= 0f;
             if (boomerSwarm)
                 swarmAI();
         }
