@@ -11,6 +11,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Bloodworm");
             Main.npcFrameCount[npc.type] = 7;
+            Main.npcCatchable[npc.type] = true;
         }
 
         public override void SetDefaults()
