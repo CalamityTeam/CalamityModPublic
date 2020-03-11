@@ -84,13 +84,13 @@ namespace CalamityMod.Projectiles.Summon
                     Projectile.NewProjectile(projectile.Center,
                         projectile.DirectionTo(potentialTarget.Center) * 14f,
                         ModContent.ProjectileType<MK2RocketNormal>(),
-                        (int)(projectile.damage / 0.3),
+                        (int)(projectile.damage * 0.4),
                         3f,
                         projectile.owner);
                     Projectile.NewProjectile(projectile.Center,
                         projectile.DirectionTo(potentialTarget.Center) * 11.5f,
                         ModContent.ProjectileType<MK2RocketHoming>(),
-                        (int)(projectile.damage / 0.3),
+                        (int)(projectile.damage * 0.4),
                         3f,
                         projectile.owner);
                     projectile.ai[0] = 0;
