@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -54,9 +55,17 @@ namespace CalamityMod.Projectiles.Summon
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 180);
         }
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
         }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+			if (projectile.timeLeft > 599)
+				return false;
+			return true;
+		}
     }
 }

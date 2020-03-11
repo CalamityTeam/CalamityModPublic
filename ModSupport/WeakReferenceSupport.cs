@@ -347,7 +347,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("PlaguebringerGoliath", out float order);
 				int type = NPCType<PlaguebringerGoliath>();
 				int summon = ItemType<Abomination>();
-				List<int> loot = new List<int>() { ItemType<PlaguebringerGoliathBag>(), ItemType<PlagueCellCluster>(), ItemType<VirulentKatana>(), ItemType<DiseasedPike>(), ItemType<ThePlaguebringer>(), ItemType<Malevolence>(), ItemType<PestilentDefiler>(), ItemType<TheHive>(), ItemType<MepheticSprayer>(), ItemType<PlagueStaff>(), ItemType<TheSyringe>(), ItemType<Malachite>(), ItemType<BloomStone>(), ItemType<ToxicHeart>(), ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<PlaguebringerGoliathBag>(), ItemType<PlagueCellCluster>(), ItemType<VirulentKatana>(), ItemType<DiseasedPike>(), ItemType<ThePlaguebringer>(), ItemType<Malevolence>(), ItemType<PestilentDefiler>(), ItemType<TheHive>(), ItemType<MepheticSprayer>(), ItemType<PlagueStaff>(), ItemType<TheSyringe>(), ItemType<FuelCellBundle>(), ItemType<Malachite>(), ItemType<BloomStone>(), ItemType<ToxicHeart>(), ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<PlaguebringerGoliathTrophy>(), ItemType<PlaguebringerGoliathMask>(), ItemType<KnowledgePlaguebringerGoliath>() };
 				string instructions = $"Use an [i:{summon}] in the Jungle Biome";
 				string despawn = CalamityUtils.ColorMessage("HOSTILE SPECIMENS TERMINATED. INITIATE RECALL TO HOME BASE.", new Color(0x00, 0xFF, 0x00));
@@ -410,7 +410,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Providence", out float order);
 				List<int> bosses = new List<int>() { NPCType<Providence>(), NPCType<ProvSpawnOffense>(), NPCType<ProvSpawnDefense>(), NPCType<ProvSpawnHealer>() };
 				List<int> summons = new List<int>() { ItemType<ProfanedCore>(), ItemType<ProfanedCoreUnlimited>() };
-				List<int> loot = new List<int>() { ItemType<ProvidenceBag>(), ItemType<UnholyEssence>(), ItemType<DivineGeode>(), ItemType<HolyCollider>(), ItemType<SolarFlare>(), ItemType<TelluricGlare>(), ItemType<BlissfulBombardier>(), ItemType<PurgeGuzzler>(), ItemType<MoltenAmputator>(), ItemType<ElysianWings>(), ItemType<ElysianAegis>(), ItemType<SamuraiBadge>(), ItemType<BlazingCore>(), ItemType<RuneofCos>(), ItemID.SuperHealingPotion };
+				List<int> loot = new List<int>() { ItemType<ProvidenceBag>(), ItemType<UnholyEssence>(), ItemType<DivineGeode>(), ItemType<HolyCollider>(), ItemType<SolarFlare>(), ItemType<TelluricGlare>(), ItemType<BlissfulBombardier>(), ItemType<PurgeGuzzler>(), ItemType<MoltenAmputator>(), ItemType<DazzlingStabberStaff>(), ItemType<ElysianWings>(), ItemType<ElysianAegis>(), ItemType<SamuraiBadge>(), ItemType<BlazingCore>(), ItemType<RuneofCos>(), ItemID.SuperHealingPotion };
 				List<int> collection = new List<int>() { ItemType<ProvidenceTrophy>(), ItemType<ProvidenceMask>(), ItemType<KnowledgeProvidence>() };
 				string instructions = $"Use either [i:{ItemType<ProfanedCore>()}] or [i:{ItemType<ProfanedCoreUnlimited>()}] in the Hallow or Underworld Biomes";
 				string despawn = CalamityUtils.ColorMessage("The Profaned Goddess vanishes in a burning blaze.", new Color(0xFF, 0xA5, 0x00));
@@ -697,37 +697,45 @@ namespace CalamityMod
 
 		private static void SummonersAssociationSupport()
 		{
-			Mod SummonersAssociation = ModLoader.GetMod("SummonersAssociation");
-			if(SummonersAssociation != null)
+			Mod sAssociation = ModLoader.GetMod("SummonersAssociation");
+			if(sAssociation != null)
 			{
-				SummonersAssociation.Call("AddMinionInfo", ItemType<SquirrelSquireStaff>(), BuffType<SquirrelSquireBuff>(), ProjectileType<SquirrelSquireMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<WulfrumController>(), BuffType<WulfrumDroidBuff>(), ProjectileType<WulfrumDroid>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<SunSpiritStaff>(), BuffType<SolarSpirit>(), ProjectileType<SolarPixie>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<SeaboundStaff>(), BuffType<BrittleStar>(), ProjectileType<BrittleStarMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<MagicalConch>(), BuffType<HermitCrab>(), ProjectileType<HermitCrabMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<BloodClotStaff>(), BuffType<BloodClot>(), ProjectileType<BloodClotMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<DankStaff>(), BuffType<DankCreeperBuff>(), ProjectileType<DankCreeperMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<HerringStaff>(), BuffType<Herring>(), ProjectileType<HerringMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<CorroslimeStaff>(), BuffType<Corroslime>(), ProjectileType<CorroslimeMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<CrimslimeStaff>(), BuffType<Crimslime>(), ProjectileType<CrimslimeMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<AncientIceChunk>(), BuffType<IceClasper>(), ProjectileType<IceClasperMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<BlackHawkRemote>(), BuffType<BlackHawkBuff>(), ProjectileType<BlackHawkSummon>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<ShellfishStaff>(), BuffType<ShellfishBuff>(), ProjectileType<Shellfish>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<DeepseaStaff>(), BuffType<AquaticStar>(), ProjectileType<AquaticStarMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<SunGodStaff>(), BuffType<SolarSpiritGod>(), ProjectileType<SolarGod>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<BlightedEyeStaff>(), BuffType<CalamitasEyes>(), new List<int>() { ProjectileType<Calamitamini>(), ProjectileType<Cataclymini>(), ProjectileType<Catastromini>()}, new List<float>() {1f-0.6666666f, 0.3333333f, 0.3333333f}); //Entropy's Vigil is a bruh moment
-				SummonersAssociation.Call("AddMinionInfo", ItemType<PlantationStaff>(), BuffType<PlantationBuff>(), ProjectileType<PlantSummon>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<ResurrectionButterfly>(), BuffType<ResurrectionButterflyBuff>(), new List<int>() { ProjectileType<PinkButterfly>(), ProjectileType<PurpleButterfly>()});
-				SummonersAssociation.Call("AddMinionInfo", ItemType<SandSharknadoStaff>(), BuffType<Sandnado>(), ProjectileType<SandnadoMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<GodspawnHelixStaff>(), BuffType<AstralProbeBuff>(), ProjectileType<AstralProbeSummon>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<ElementalAxe>(), BuffType<ElementalAxeBuff>(), ProjectileType<ElementalAxeMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<Cosmilamp>(), BuffType<CosmilampBuff>(), ProjectileType<CosmilampMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<EtherealSubjugator>(), BuffType<Phantom>(), ProjectileType<PhantomGuy>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<CalamarisLament>(), BuffType<Calamari>(), ProjectileType<CalamariMinion>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<StaffoftheMechworm>(), BuffType<Mechworm>(), ProjectileType<MechwormBody>(), 1f);
-				SummonersAssociation.Call("AddMinionInfo", ItemType<AngryChickenStaff>(), BuffType<YharonKindleBuff>(), ProjectileType<SonOfYharon>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<CosmicImmaterializer>(), BuffType<CosmicEnergy>(), ProjectileType<CosmicEnergySpiral>());
-				SummonersAssociation.Call("AddMinionInfo", ItemType<Endogenesis>(), BuffType<EndoCooperBuff>(), ProjectileType<EndoCooperBody>());
+				sAssociation.Call("AddMinionInfo", ItemType<SquirrelSquireStaff>(), BuffType<SquirrelSquireBuff>(), ProjectileType<SquirrelSquireMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<WulfrumController>(), BuffType<WulfrumDroidBuff>(), ProjectileType<WulfrumDroid>());
+				sAssociation.Call("AddMinionInfo", ItemType<SunSpiritStaff>(), BuffType<SolarSpirit>(), ProjectileType<SolarPixie>());
+				sAssociation.Call("AddMinionInfo", ItemType<SeaboundStaff>(), BuffType<BrittleStar>(), ProjectileType<BrittleStarMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<MagicalConch>(), BuffType<HermitCrab>(), ProjectileType<HermitCrabMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<BloodClotStaff>(), BuffType<BloodClot>(), ProjectileType<BloodClotMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<DankStaff>(), BuffType<DankCreeperBuff>(), ProjectileType<DankCreeperMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<HerringStaff>(), BuffType<Herring>(), ProjectileType<HerringMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<CorroslimeStaff>(), BuffType<Corroslime>(), ProjectileType<CorroslimeMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<CrimslimeStaff>(), BuffType<Crimslime>(), ProjectileType<CrimslimeMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<AncientIceChunk>(), BuffType<IceClasper>(), ProjectileType<IceClasperMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<BlackHawkRemote>(), BuffType<BlackHawkBuff>(), ProjectileType<BlackHawkSummon>());
+				sAssociation.Call("AddMinionInfo", ItemType<ShellfishStaff>(), BuffType<ShellfishBuff>(), ProjectileType<Shellfish>());
+				sAssociation.Call("AddMinionInfo", ItemType<DeepseaStaff>(), BuffType<AquaticStar>(), ProjectileType<AquaticStarMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<SunGodStaff>(), BuffType<SolarSpiritGod>(), ProjectileType<SolarGod>());
+				sAssociation.Call("AddMinionInfo", ItemType<IgneousExaltation>(), BuffType<IgneousExaltationBuff>(), ProjectileType<IgneousBlade>());
+				sAssociation.Call("AddMinionInfo", ItemType<BlightedEyeStaff>(), BuffType<CalamitasEyes>(), new List<int>() { ProjectileType<Calamitamini>(), ProjectileType<Cataclymini>(), ProjectileType<Catastromini>()}, new List<float>() {1f-0.6666666f, 0.3333333f, 0.3333333f});
+				//Entropy's Vigil is a bruh moment
+				sAssociation.Call("AddMinionInfo", ItemType<PlantationStaff>(), BuffType<PlantationBuff>(), ProjectileType<PlantSummon>());
+				sAssociation.Call("AddMinionInfo", ItemType<SandSharknadoStaff>(), BuffType<Sandnado>(), ProjectileType<SandnadoMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<ResurrectionButterfly>(), BuffType<ResurrectionButterflyBuff>(), new List<int>() { ProjectileType<PinkButterfly>(), ProjectileType<PurpleButterfly>()});
+				sAssociation.Call("AddMinionInfo", ItemType<FuelCellBundle>(), BuffType<FuelCellBundleBuff>(), ProjectileType<PlaguebringerMK2>());
+				sAssociation.Call("AddMinionInfo", ItemType<GodspawnHelixStaff>(), BuffType<AstralProbeBuff>(), ProjectileType<AstralProbeSummon>());
+				sAssociation.Call("AddMinionInfo", ItemType<ElementalAxe>(), BuffType<ElementalAxeBuff>(), ProjectileType<ElementalAxeMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<DazzlingStabberStaff>(), BuffType<DazzlingStabberBuff>(), ProjectileType<DazzlingStabber>());
+				sAssociation.Call("AddMinionInfo", ItemType<DragonbloodDisgorger>(), BuffType<BloodDragonsBuff>(), ProjectileType<SkeletalDragonMother>());
+				sAssociation.Call("AddMinionInfo", ItemType<Cosmilamp>(), BuffType<CosmilampBuff>(), ProjectileType<CosmilampMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<EtherealSubjugator>(), BuffType<Phantom>(), ProjectileType<PhantomGuy>());
+				sAssociation.Call("AddMinionInfo", ItemType<CalamarisLament>(), BuffType<Calamari>(), ProjectileType<CalamariMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<StaffoftheMechworm>(), BuffType<Mechworm>(), ProjectileType<MechwormBody>(), 1f);
+				sAssociation.Call("AddMinionInfo", ItemType<CorvidHarbringerStaff>(), BuffType<CorvidHarbringerBuff>(), ProjectileType<PowerfulRaven>());
+				sAssociation.Call("AddMinionInfo", ItemType<EndoHydraStaff>(), BuffType<EndoHydraBuff>(), ProjectileType<EndoHydraHead>());
+				sAssociation.Call("AddMinionInfo", ItemType<AngryChickenStaff>(), BuffType<YharonKindleBuff>(), ProjectileType<SonOfYharon>());
+				sAssociation.Call("AddMinionInfo", ItemType<CosmicImmaterializer>(), BuffType<CosmicEnergy>(), ProjectileType<CosmicEnergySpiral>());
+				sAssociation.Call("AddMinionInfo", ItemType<BensUmbrella>(), BuffType<MagicHatBuff>(), ProjectileType<MagicHat>());
+				sAssociation.Call("AddMinionInfo", ItemType<Endogenesis>(), BuffType<EndoCooperBuff>(), ProjectileType<EndoCooperBody>());
 			}
 		}
 	}
