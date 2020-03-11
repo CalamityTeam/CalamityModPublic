@@ -1786,6 +1786,12 @@ namespace CalamityMod.Projectiles
                         num9 *= num10;
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<GodSlayerPhantom>(), (int)((double)num * 2.0), 0f, projectile.owner, 0f, ai1);
                     }
+
+                    if (modPlayer.starbusterCore && Main.rand.NextBool(3))
+                    {
+                        Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
+                            projectile.damage, 3f, projectile.owner);
+                    }
                 }
 
                 if (projectile.ranged)
