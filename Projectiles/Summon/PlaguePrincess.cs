@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Viruli");
+            DisplayName.SetDefault("Virili");
             Main.projFrames[projectile.type] = 6;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -56,9 +56,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (player.dead)
                 {
-                    modPlayer.viruli = false;
+                    modPlayer.virili = false;
                 }
-                if (modPlayer.viruli)
+                if (modPlayer.virili)
                 {
                     projectile.timeLeft = 2;
                 }

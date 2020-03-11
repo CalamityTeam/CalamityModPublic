@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Plague Princess Virili");
+            DisplayName.SetDefault("Virili");
             Description.SetDefault("It’s a shame you can’t hug her");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
@@ -20,9 +20,9 @@ namespace CalamityMod.Buffs.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (player.ownedProjectileCounts[ModContent.ProjectileType<PlaguePrincess>()] > 0)
             {
-                modPlayer.viruli = true;
+                modPlayer.virili = true;
             }
-            if (!modPlayer.viruli)
+            if (!modPlayer.virili)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;
