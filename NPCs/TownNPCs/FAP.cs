@@ -44,9 +44,17 @@ namespace CalamityMod.NPCs.TownNPCs
             animationType = NPCID.Guide;
         }
 
+		public override void AI()
+		{
+			if (!CalamityWorld.spawnedCirrus)
+			{
+				CalamityWorld.spawnedCirrus = true;
+			}
+		}
+
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
-            for (int k = 0; k < 255; k++)
+            for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
                 if (player.active)
@@ -60,7 +68,7 @@ namespace CalamityMod.NPCs.TownNPCs
                     }
                 }
             }
-            return false;
+            return CalamityWorld.spawnedCirrus;
         }
 
         public override string TownNPCName()

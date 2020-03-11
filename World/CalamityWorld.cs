@@ -116,6 +116,10 @@ namespace CalamityMod.World
         public static int[] SChestY = new int[10];
         public static bool roxShrinePlaced = false;
 
+		//Spawned NPCs
+        public static bool spawnedBandit = false;
+        public static bool spawnedCirrus = false;
+
         #region Downed Bools
         public static bool downedBossAny = false; //Any boss
         public static bool downedDesertScourge = false;
@@ -189,6 +193,8 @@ namespace CalamityMod.World
 			newAltarY = 0;
             abyssChasmBottom = 0;
             abyssSide = false;
+			spawnedBandit = false;
+			spawnedCirrus = false;
             downedDesertScourge = false;
             downedAquaticScourge = false;
             downedHiveMind = false;
@@ -323,6 +329,10 @@ namespace CalamityMod.World
                 downed.Add("scales");
             if (rainingAcid)
                 downed.Add("acidRain");
+            if (spawnedBandit)
+                downed.Add("bandit");
+            if (spawnedCirrus)
+                downed.Add("drunkPrincess");
 
             return new TagCompound
             {
@@ -383,6 +393,8 @@ namespace CalamityMod.World
             downedCLAM = downed.Contains("clam");
             dragonScalesBought = downed.Contains("scales");
             rainingAcid = downed.Contains("acidRain");
+            spawnedBandit = downed.Contains("bandit");
+            spawnedCirrus = downed.Contains("drunkPrincess");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
         }
@@ -437,11 +449,11 @@ namespace CalamityMod.World
                 onionMode = flags4[6];
                 revenge = flags4[7];
 
-                // These 3 bits are currently unused, they used to be astral meteor drops
+                // 1 bit is currently unused, it used to be astral meteor drops
                 BitsByte flags5 = reader.ReadByte();
                 downedStarGod = flags5[0];
-                _ = flags5[1];
-                _ = flags5[2];
+                spawnedBandit = flags5[1];
+                spawnedCirrus = flags5[2];
                 _ = flags5[3];
                 spawnedHardBoss = flags5[4];
                 downedPolterghast = flags5[5];
@@ -516,11 +528,11 @@ namespace CalamityMod.World
             flags4[6] = onionMode;
             flags4[7] = revenge;
 
-            // These 3 bits are currently unused, they used to be astral meteor drops
+            // 1 bits is currently unused, it used to be astral meteor drops
             BitsByte flags5 = new BitsByte();
             flags5[0] = downedStarGod;
-            flags5[1] = false;
-            flags5[2] = false;
+            flags5[1] = spawnedBandit;
+            flags5[2] = spawnedCirrus;
             flags5[3] = false;
             flags5[4] = spawnedHardBoss;
             flags5[5] = downedPolterghast;
@@ -599,11 +611,11 @@ namespace CalamityMod.World
             onionMode = flags4[6];
             revenge = flags4[7];
 
-            // These 3 bits are currently unused, they used to be astral meteor drops
+            // 1 bits is currently unused, it used to be astral meteor drops
             BitsByte flags5 = reader.ReadByte();
             downedStarGod = flags5[0];
-            _ = flags5[1];
-            _ = flags5[2];
+            spawnedBandit = flags5[1];
+            spawnedCirrus = flags5[2];
             _ = flags5[3];
             spawnedHardBoss = flags5[4];
             downedPolterghast = flags5[5];
