@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
@@ -30,6 +31,10 @@ namespace CalamityMod.Items.Accessories
             modPlayer.miniOldDuke = true;
             if (player.whoAmI == Main.myPlayer)
             {
+                if (player.FindBuffIndex(ModContent.BuffType<MutatedTruffleBuff>()) == -1)
+                {
+                    player.AddBuff(ModContent.BuffType<MutatedTruffleBuff>(), 3600, true);
+                }
                 const int damage = 1800;
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] < 1)
                 {
