@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 15;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 0;
             projectile.minionSlots = 0f;
             projectile.timeLeft = 360;
             projectile.penetrate = 3;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[0] == 2f)
             {
                 projectile.ai[1] += 1f;
-                projectile.extraUpdates = 2;
+                projectile.extraUpdates = 1;
                 projectile.frameCounter++;
                 if (projectile.frameCounter > 3)
                 {
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.ai[1] = 1f;
                     projectile.ai[0] = 0f;
-                    projectile.extraUpdates = 1;
+                    projectile.extraUpdates = 0;
                     projectile.numUpdates = 0;
                     projectile.netUpdate = true;
                 }
