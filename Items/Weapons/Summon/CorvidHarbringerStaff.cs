@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.damage = 456;
             item.knockBack = 2f;
             item.autoReuse = true;
-            item.useTime = item.useAnimation = 36;
+            item.useTime = item.useAnimation = 10;
             item.shoot = ModContent.ProjectileType<PowerfulRaven>();
             item.shootSpeed = 13f;
 

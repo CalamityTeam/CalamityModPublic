@@ -30,14 +30,12 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = 1;
             item.width = 74;
             item.height = 72;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = item.useAnimation = 10;
             item.noMelee = true;
             item.knockBack = 0f;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item60;
-            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CosmicEnergySpiral>();
             item.shootSpeed = 10f;
             item.summon = true;

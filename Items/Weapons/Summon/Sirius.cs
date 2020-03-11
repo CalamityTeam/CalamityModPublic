@@ -31,9 +31,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.mana = 60;
             item.damage = 275;
             item.knockBack = 3f;
-            item.autoReuse = true;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = item.useAnimation = 10;
             item.shoot = ModContent.ProjectileType<SiriusMinion>();
             item.shootSpeed = 10f;
 

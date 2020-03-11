@@ -26,15 +26,13 @@ namespace CalamityMod.Items.Weapons.Summon
             item.mana = 10;
             item.width = 66;
             item.height = 70;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = item.useAnimation = 20;
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.UseSound = SoundID.Item76;
-            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<PlantSummon>();
             item.shootSpeed = 10f;
             item.summon = true;
