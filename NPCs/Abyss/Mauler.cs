@@ -350,13 +350,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            if (CalamityWorld.downedPolterghast)
-            {
-                if (Main.rand.NextBool(3))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SulphuricAcidCannon>());
-                }
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<SulphuricAcidCannon>(), CalamityWorld.downedPolterghast, 3, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
             int item = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SharkFin, Main.rand.Next(2, 5), false, 0, false, false);
             Main.item[item].color = new Color(151, 115, 57, 255);
             NetMessage.SendData(88, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);

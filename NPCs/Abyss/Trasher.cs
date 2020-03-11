@@ -355,19 +355,10 @@ namespace CalamityMod.NPCs.Abyss
                 NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Angler, 0, 0f, 0f, 0f, 0f, 255);
                 NPC.savedAngler = true;
             }
-            if (Main.rand.NextBool(25))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.DivingHelmet);
-            }
-            if (Main.rand.NextBool(20))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TrashmanTrashcan>());
-            }
-            if (Main.rand.NextBool(10) && Main.hardMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Gatligator);
-            }
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<SulfuricScale>(), false, Main.rand.NextBool(2), 1, 3);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
+            DropHelper.DropItemChance(npc, ItemID.DivingHelmet, 20);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<TrashmanTrashcan>(), 20);
+            DropHelper.DropItemCondition(npc, ItemID.Gatligator, Main.hardMode, 10, 1, 1);
         }
 
         public override void HitEffect(int hitDirection, double damage)

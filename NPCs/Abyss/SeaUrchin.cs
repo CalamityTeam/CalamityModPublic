@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UrchinStinger>(), Main.rand.Next(15, 26));
+            DropHelper.DropItem(npc, ModContent.ItemType<UrchinStinger>(), 15, 25);
         }
 
         public override void HitEffect(int hitDirection, double damage)

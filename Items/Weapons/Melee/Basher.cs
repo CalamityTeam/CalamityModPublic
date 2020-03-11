@@ -38,6 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
         }
+
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120);

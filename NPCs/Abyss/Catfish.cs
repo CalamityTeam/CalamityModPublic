@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using System;
 using System.IO;
@@ -251,7 +252,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ItemID.DivingHelmet, 25);
+            DropHelper.DropItemChance(npc, ItemID.DivingHelmet, 20);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)
