@@ -7,6 +7,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
@@ -56,6 +57,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -3473,6 +3475,30 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            if (modPlayer.hallowedRune)
+            {
+                if (isSummon && npc.damage > 0)
+                {
+                    switch (Main.rand.Next(3))
+                    {
+                        case 0:
+                            player.AddBuff(ModContent.BuffType<HallowedRuneAtkBuff>(), 120);
+                            break;
+
+                        case 1:
+                            player.AddBuff(ModContent.BuffType<HallowedRuneRegenBuff>(), 120);
+                            break;
+
+                        case 2:
+                            player.AddBuff(ModContent.BuffType<HallowedRuneDefBuff>(), 120);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            }
+
             if (modPlayer.bloodflareSet)
             {
                 if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life < npc.lifeMax * 0.5) &&
@@ -3642,6 +3668,12 @@ namespace CalamityMod.NPCs
                 {
                     spawnRate = (int)(spawnRate * 0.7);
                     maxSpawns = (int)(maxSpawns * 1.2f);
+
+                    if (player.Calamity().ZoneSulphur && !player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
+                    {
+                        spawnRate = 23;
+                        maxSpawns = 20;
+                    }
                 }
             }
             else if (player.Calamity().ZoneAbyss)
@@ -3769,6 +3801,14 @@ namespace CalamityMod.NPCs
                 (spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp))
             {
                 pool[0] = 0f;
+            }
+            if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
+            {
+                pool.Clear();
+                foreach (int enemy in AcidRainEvent.PossibleEnemies.Select(enemyType => enemyType.Item1))
+                {
+                    pool.Add(enemy, 1f);
+                }
             }
         }
         #endregion
@@ -4494,7 +4534,17 @@ namespace CalamityMod.NPCs
                             chat = Main.npc[fapsol].GivenName + " is always trying to brighten my mood...even if, deep down, I know she's sad.";
                         }
                     }
-
+                    if ((npc.GivenName == "Amber" ? Main.rand.NextBool(10) : Main.rand.NextBool(15)) && Main.LocalPlayer.Calamity().pArtifact)
+                    {
+                        if (Main.LocalPlayer.Calamity().profanedCrystalBuffs)
+                        {
+                            chat = Main.rand.NextBool(2) ? "They look so cute and yet, I can feel their immense power just by being near them. What are you?" : "I hate to break it to you, but you don't have hair to cut or style, hun.";
+                        }
+                        else if (Main.LocalPlayer.Calamity().gDefense && Main.LocalPlayer.Calamity().gOffense)
+                        {
+                            chat = "Aww, they're so cute, do they have names?"; 
+                        }
+                    }
                     break;
 
                 case NPCID.GoblinTinkerer:

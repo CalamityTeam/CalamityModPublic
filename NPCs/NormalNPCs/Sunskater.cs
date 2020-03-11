@@ -202,7 +202,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
-            if (projectile.minion)
+            if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
             {
                 return hasBeenHit;
             }

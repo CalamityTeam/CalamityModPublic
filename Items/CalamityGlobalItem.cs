@@ -427,10 +427,186 @@ namespace CalamityMod.Items
         }
         #endregion
 
+        #region Profaned Soul Crystal Attacks
+
+        private bool HandleAttackTransforms(Item item, Player player)
+        {
+            if (player.whoAmI != Main.myPlayer)
+                return false;
+            int weaponType = item.melee ? 1 : item.ranged ? 2 : item.magic ? 3 : item.Calamity().rogue ? 4 : -1;
+            if (weaponType > 0)
+            {
+                if (player.Calamity().profanedSoulWeaponType != weaponType || player.Calamity().profanedSoulWeaponUsage >= 300)
+                {
+                    player.Calamity().profanedSoulWeaponType = weaponType;
+                    player.Calamity().profanedSoulWeaponUsage = 0;
+                }
+                Vector2 correctedVelocity = Main.MouseWorld - player.Center;
+                correctedVelocity.Normalize();
+                bool shouldNerf = player.Calamity().endoCooper || player.Calamity().magicHat; //No bonkers damage memes thank you very much.
+                bool enrage = player.statLife <= (int)((double)player.statLifeMax2 * 0.5);
+                if (item.melee)
+                {
+                    if (player.Calamity().profanedSoulWeaponUsage % (enrage ? 4 : 6) == 0)
+                    {
+                        if (player.Calamity().profanedSoulWeaponUsage > 0 && player.Calamity().profanedSoulWeaponUsage % (enrage ? 20 : 30) == 0) //every 5 shots is a shotgun spread
+                        {
+                            int numProj = 5;
+
+                            correctedVelocity *= 12f;
+                            int spread = 3;
+                            for (int i = 0; i < numProj; i++)
+                            {
+                                Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
+
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 500 : 1750) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
+                                spread -= Main.rand.Next(2, 4);
+                                Main.PlaySound(SoundID.Item20, player.Center);
+                            }
+                            player.Calamity().profanedSoulWeaponUsage = 0;
+                        }
+                        else
+                        {
+                            Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 250 : 1250) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
+                            Main.PlaySound(SoundID.Item20, player.Center);
+                        }
+
+                    }
+                    player.Calamity().profanedSoulWeaponUsage++;
+
+                }
+                else if (item.ranged)
+                {
+                    
+                    if (enrage || Main.rand.NextBool(2)) //100% chance if 50% or lower, else 1 in 2 chance
+                    {
+                        correctedVelocity *= 20f;
+                        Vector2 perturbedspeed = new Vector2(correctedVelocity.X + Main.rand.Next(-3, 4), correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(3));
+                        bool isSmallBoomer = Main.rand.NextDouble() <= (enrage ? 0.2 : 0.3); // 20% chance if enraged, else 30% This is intentional due to literally doubling the amount of projectiles fired.
+                        bool isThiccBoomer = isSmallBoomer && Main.rand.NextDouble() <= 0.05; // 5%
+                        int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
+                        int dam = (int)((shouldNerf ? 250 : 1000) * (player.allDamage + player.minionDamage - 1f));
+                        switch (projType)
+                        {
+                            case 1: //big boomer
+                            case 2: //boomer
+                                int proj = Projectile.NewProjectile(player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedHuges>(), dam, 0f, player.whoAmI, projType == 1 ? 1f : 0f);
+                                Main.projectile[proj].Calamity().forceMinion = true;
+                                break;
+                            case 3: //bab boomer
+                                int proj2 = Projectile.NewProjectile(player.Center, perturbedspeed, ModContent.ProjectileType<ProfanedCrystalRangedSmalls>(), dam, 0f, player.whoAmI, 0f);
+                                Main.projectile[proj2].Calamity().forceMinion = true;
+                                break;
+                        }
+                        if (projType > 1)
+                        {
+                            Main.PlaySound(SoundID.Item20, player.Center);
+                        }
+                    }
+                }
+                else if (item.magic)
+                {
+                    if (player.ownedProjectileCounts[ModContent.ProjectileType<ProfanedCrystalMageFireball>()] == 0 && player.ownedProjectileCounts[ModContent.ProjectileType<ProfanedCrystalMageFireballSplit>()] == 0)
+                    {
+                        player.Calamity().profanedSoulWeaponUsage = 0;
+                    }
+                    int manaCost = (int)((float)100 * player.manaCost);
+                    if (player.statMana < manaCost && player.Calamity().profanedSoulWeaponUsage == 0)
+                    {
+                        if (player.manaFlower)
+                        {
+                            player.QuickMana();
+                        }
+                    }
+                    if (player.statMana >= manaCost && player.Calamity().profanedSoulWeaponUsage == 0)
+                    {
+                        player.manaRegenDelay = (int)player.maxRegenDelay;
+                        player.statMana -= manaCost;
+                        correctedVelocity *= 25f;
+                        Main.PlaySound(SoundID.Item20, player.Center);
+                        int dam = (int)((shouldNerf ? 900 : 4500) * (player.allDamage + player.minionDamage - 1f));
+                        if (player.HasBuff(BuffID.ManaSickness))
+                        {
+                            int sickPenalty = (int)(dam * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
+                            dam -= sickPenalty;
+                        }
+                        int proj = Projectile.NewProjectile(player.position, correctedVelocity, ModContent.ProjectileType<ProfanedCrystalMageFireball>(), dam, 1f, player.whoAmI, enrage ? 1f : 0f);
+                        Main.projectile[proj].Calamity().forceMinion = true;
+                        player.Calamity().profanedSoulWeaponUsage = enrage ? 20 : 25;
+                    }
+                    if (player.Calamity().profanedSoulWeaponUsage > 0)
+                        player.Calamity().profanedSoulWeaponUsage--;
+                }
+                else if (item.Calamity().rogue)
+                {
+                    if (player.ownedProjectileCounts[ModContent.ProjectileType<ProfanedCrystalRogueShard>()] == 0)
+                    {
+                        player.Calamity().profanedSoulWeaponUsage = 0;
+                    }
+                    if (player.Calamity().profanedSoulWeaponUsage >= (enrage ? 69 : 180))
+                    {
+                        float crystalCount = 36f;
+                        for (float i = 0; i < crystalCount; i++)
+                        {
+                            float angle = MathHelper.TwoPi / crystalCount * i;
+                            int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 169 : 880) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, 0f, 0f);
+                            Main.projectile[proj].Calamity().forceMinion = true;
+                            Main.PlaySound(SoundID.Item20, player.Center);
+                        }
+                        player.Calamity().profanedSoulWeaponUsage = 0;
+                    }
+                    else if (player.Calamity().profanedSoulWeaponUsage % (enrage ? 5 : 10) == 0)
+                    {
+                        float angle = MathHelper.TwoPi / (enrage ? 9 : 18) * (player.Calamity().profanedSoulWeaponUsage / (enrage ? 1 : 10));
+                        int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 220 : 1100) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, 1f, 0f);
+                        Main.projectile[proj].Calamity().forceMinion = true;
+                        Main.PlaySound(SoundID.Item20, player.Center);
+                    }
+                    player.Calamity().profanedSoulWeaponUsage += enrage ? 1 : 2;
+                    if (!enrage && player.Calamity().profanedSoulWeaponUsage % 2 != 0)
+                        player.Calamity().profanedSoulWeaponUsage--;
+                }
+            }
+            return false;
+        }
+
+        #endregion
+
         #region Use Item Changes
+
+        public override bool AltFunctionUse(Item item, Player player)
+        {
+            if (player.Calamity().profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
+            {
+                NPC closest = Main.MouseWorld.ClosestNPCAt(1000f, true);
+                if (closest != null)
+                {
+                    player.MinionAttackTargetNPC = closest.whoAmI;
+                    player.UpdateMinionTarget();
+                }
+                return false;
+            }
+            return base.AltFunctionUse(item, player);
+        }
+
         public override bool CanUseItem(Item item, Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
+            if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
+            {   
+                if (player.altFunctionUse == 0)
+                {
+                    return HandleAttackTransforms(item, player);
+                }
+                else
+                {
+                    return AltFunctionUse(item, player);
+                }
+            }
+            else if (modPlayer.profanedCrystalBuffs && item.summon)
+            {
+                
+            }
             if (item.type == ItemID.MonkStaffT1)
             {
                 for (int i = 0; i < 1000; ++i)
@@ -545,6 +721,8 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(0, 0, 255);
                         if (item.type == ModContent.ItemType<NanoblackReaperMelee>() || item.type == ModContent.ItemType<NanoblackReaperRogue>())
                             tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
+                        if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
+                            tt2.overrideColor = new Color(255 - Main.DiscoG < 80 ? 80 : Main.DiscoG < 50 ? 255 : 255 - Main.DiscoG, Main.DiscoG < 126 ? 126 : Main.DiscoG, 0); //alternates between emerald green and amber (BanditHueh)
 
                         // Uniquely colored legendary weapons
                         if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
@@ -871,7 +1049,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.FlaskofNanites)
+            if (item.type == ItemID.FlaskofPoison)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {

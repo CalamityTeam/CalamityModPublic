@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             float num637 = 0.05f;
-            for (int num638 = 0; num638 < 1000; num638++)
+            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
             {
                 bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<PurpleButterfly>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner &&
@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Summon
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false) || npc.type == NPCID.DukeFishron)
+                if ((npc.CanBeChasedBy(projectile, false) || npc.type == NPCID.DukeFishron) && npc.active)
                 {
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
                     if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Summon
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
                     NPC nPC2 = Main.npc[num645];
-                    if (nPC2.CanBeChasedBy(projectile, false) || nPC2.type == NPCID.DukeFishron)
+                    if ((nPC2.CanBeChasedBy(projectile, false) || nPC2.type == NPCID.DukeFishron) && nPC2.active)
                     {
                         float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
                         if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)

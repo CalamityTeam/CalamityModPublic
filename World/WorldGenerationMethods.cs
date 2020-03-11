@@ -4047,7 +4047,7 @@ namespace CalamityMod.World
             vector2.X = (float)WorldGen.genRand.Next(-1, 2) * 0.1f;
             vector2.Y = (float)WorldGen.genRand.Next(3, 8) * 0.2f + 0.5f;
             int num2 = 5;
-            double num3 = (double)(WorldGen.genRand.Next(5, 7) + 40); //start width
+            double num3 = (double)(WorldGen.genRand.Next(5, 7) + 20); //start width
             while (num3 > 0.0)
             {
                 if (num > 0f)
@@ -4074,13 +4074,13 @@ namespace CalamityMod.World
                         {
                             num3 = ocean ? 42.0 : 14.0; //min width
                         }
-                        if (num3 > (ocean ? 60.0 : 40.0)) //max width
+                        if (num3 > (ocean ? 50.0 : 30.0)) //max width
                         {
-                            num3 = ocean ? 60.0 : 40.0; //max width
+                            num3 = ocean ? 50.0 : 30.0; //max width
                         }
-                        if (num == 1f && num3 < (ocean ? 50.0 : 20.0))
+                        if (num == 1f && num3 < (ocean ? 40.0 : 15.0))
                         {
-                            num3 = ocean ? 50.0 : 20.0;
+                            num3 = ocean ? 40.0 : 15.0;
                         }
                     }
                 }

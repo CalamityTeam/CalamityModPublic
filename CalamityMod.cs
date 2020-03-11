@@ -2,11 +2,13 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.ILEditing;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
-using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Fishing.FishingRods;
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Tools;
@@ -48,9 +50,8 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
@@ -75,22 +76,18 @@ using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.GameContent.Events;
-using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
-using Terraria.UI.Chat;
 
 namespace CalamityMod
 {
@@ -200,7 +197,9 @@ namespace CalamityMod
         public static List<int> hornetList;
         public static List<int> mossHornetList;
 
-        private Mod thorium = null;
+        // TODO -- Calamity should check for other mods existing in exactly one place
+        internal Mod thorium = null;
+        public bool fargosMutant = false;
 
 		internal static Configs CalamityConfig;
 		internal static CalamityMod instance;
@@ -231,6 +230,8 @@ namespace CalamityMod
             {
                 LoadClient();
             }
+
+            ILChanges.Initialize();
 
             thorium = ModLoader.GetMod("ThoriumMod");
 
@@ -263,6 +264,13 @@ namespace CalamityMod
             AddEquipTexture(new PopoNoselessHead(), null, EquipType.Head, "PopoNoselessHead", "CalamityMod/Items/Accessories/Vanity/PopoNoseless_Head");
             AddEquipTexture(new PopoBody(), null, EquipType.Body, "PopoBody", "CalamityMod/Items/Accessories/Vanity/Popo_Body", "CalamityMod/Items/Accessories/Vanity/Popo_Arms");
             AddEquipTexture(new PopoLegs(), null, EquipType.Legs, "PopoLeg", "CalamityMod/Items/Accessories/Vanity/Popo_Legs");
+
+            AddEquipTexture(new ProfanedCrystalHead(), null, EquipType.Head, "ProviHead", "CalamityMod/Items/Accessories/ProfanedSoulTransHead");
+            AddEquipTexture(new ProfanedCrystalBody(), null, EquipType.Body, "ProviBody", "CalamityMod/Items/Accessories/ProfanedSoulTransBody", "CalamityMod/Items/Accessories/ProfanedSoulTransArms");
+            AddEquipTexture(new ProfanedCrystalLegs(), null, EquipType.Legs, "ProviLegs", "CalamityMod/Items/Accessories/ProfanedSoulTransLegs");
+            AddEquipTexture(new ProfanedCrystalWings(), null, EquipType.Wings, "ProviWings", "CalamityMod/Items/Accessories/Wings/ProfanedSoulTransWings");
+
+            AddEquipTexture(new SnowRuffianWings(), null, EquipType.Wings, "SnowRuffWings", "CalamityMod/Items/Armor/SnowRuffianWings");
 
             AstralCactusTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactus");
             AstralCactusGlowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
@@ -395,6 +403,7 @@ namespace CalamityMod
             mossHornetList = null;
 
             thorium = null;
+            fargosMutant = false;
 
 			CalamityConfig = null;
 			instance = null;

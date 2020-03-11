@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "9% increased rogue damage and velocity\n" +
                 "Rogue projectiles have special effects on enemy hits\n" +
                 "Imbued with cosmic wrath and rage when you are damaged\n" +
-                "Rogue stealth builds while not attacking and not moving, up to a max of 115\n" +
+                "Rogue stealth builds while not attacking and slower while moving, up to a max of 115\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";

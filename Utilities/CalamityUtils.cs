@@ -155,7 +155,7 @@ namespace CalamityMod
             {
                 for (int index = 0; index < Main.npc.Length; index++)
                 {
-                    if (Main.npc[index].CanBeChasedBy(null, false) && Collision.CanHit(origin, 1, 1, Main.npc[index].Center, 1, 1))
+                    if (Main.npc[index].CanBeChasedBy(null, false))
                     {
                         if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
                         {
@@ -2150,6 +2150,13 @@ namespace CalamityMod
                     c = Color.Red;
                     break;
             }
+        }
+
+        public static string ColorMessage(string msg, Color color)
+        {
+            StringBuilder sb = new StringBuilder(msg.Length + 12);
+            sb.Append("[c/").Append(color.Hex3()).Append(':').Append(msg).Append(']');
+            return sb.ToString();
         }
         #endregion
 

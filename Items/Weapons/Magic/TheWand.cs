@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("The Wand");
             Tooltip.SetDefault("The ultimate wand");
+            Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()

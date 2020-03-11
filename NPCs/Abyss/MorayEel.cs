@@ -216,7 +216,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
-            if (projectile.minion)
+            if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
             {
                 return hasBeenHit;
             }
@@ -253,7 +253,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<DepthBlade>(), Main.expertMode ? 10 : 15);
-            DropHelper.DropItemChance(npc, ItemID.Flipper, 25);
+            DropHelper.DropItemChance(npc, ItemID.Flipper, 20);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -144,7 +144,6 @@ namespace CalamityMod.NPCs.Yharon
             useTornado = bb[5];
             startSecondAI = bb[6];
             npc.dontTakeDamage = bb[7];
-            BitsByte bb2 = reader.ReadByte();
             healCounter = reader.ReadInt32();
             secondPhasePhase = reader.ReadInt32();
             teleportLocation = reader.ReadInt32();

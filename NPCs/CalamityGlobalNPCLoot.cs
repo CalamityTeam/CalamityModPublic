@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.DifficultyItems;
@@ -32,6 +33,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -755,6 +757,7 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.armageddon)
                 ArmageddonLoot(npc);
 
+            AcidRainProgression(npc);
             CheckBossSpawn(npc);
             ArmorSetLoot(npc);
             RareLoot(npc);
@@ -1576,6 +1579,17 @@ namespace CalamityMod.NPCs
                 default:
                     break;
             }
+        }
+        #endregion
+
+        #region Acid Rain
+        private void AcidRainProgression(NPC npc)
+        {
+            if (AcidRainEvent.PossibleEnemies.Select(enemy => enemy.Item1).Contains(npc.type) && CalamityWorld.rainingAcid)
+            {
+                Main.invasionSize -= AcidRainEvent.PossibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
+            }
+            AcidRainEvent.UpdateInvasion();
         }
         #endregion
 
