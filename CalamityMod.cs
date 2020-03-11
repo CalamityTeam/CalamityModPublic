@@ -5,9 +5,10 @@ using CalamityMod.CalPlayer;
 using CalamityMod.ILEditing;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
-using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Fishing.FishingRods;
+using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Tools;
@@ -49,8 +50,8 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
@@ -87,8 +88,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
-using CalamityMod.Projectiles.Summon;
-using CalamityMod.Items.Armor;
 
 namespace CalamityMod
 {
@@ -198,7 +197,9 @@ namespace CalamityMod
         public static List<int> hornetList;
         public static List<int> mossHornetList;
 
-        private Mod thorium = null;
+        // TODO -- Calamity should check for other mods existing in exactly one place
+        internal Mod thorium = null;
+        public bool fargosMutant = false;
 
 		internal static Configs CalamityConfig;
 		internal static CalamityMod instance;
@@ -402,6 +403,7 @@ namespace CalamityMod
             mossHornetList = null;
 
             thorium = null;
+            fargosMutant = false;
 
 			CalamityConfig = null;
 			instance = null;

@@ -51,10 +51,10 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -71,7 +71,7 @@ namespace CalamityMod
 			{ "GiantClam", 1.6f },
 			{ "Crabulon", 2.5f },
 			{ "HiveMind", 3.5f },
-			{ "Perforators", 3.5f },
+			{ "Perforators", 3.51f },
 			{ "SlimeGod", 5.5f },
 			{ "Cryogen", 6.5f },
 			{ "BrimstoneElemental", 7.5f },
@@ -680,7 +680,25 @@ namespace CalamityMod
 			if (fargos is null)
 				return;
 
-			// fargos.Call...
+			// Mark Fargo's Mutant Mod as loaded so that Calamity doesn't add ANY boss summons to vanilla NPCs, even for its own bosses
+			GetInstance<CalamityMod>().fargosMutant = true;
+
+			void AddToMutantShop(string bossName, string summonItemName, Func<bool> downed, int price)
+			{
+				BossDifficulty.TryGetValue(bossName, out float order);
+				fargos.Call("AddSummon", order, "CalamityMod", summonItemName, downed, price);
+			}
+
+			AddToMutantShop("Crabulon", "DecapoditaSprout", DownedCrabulon, Item.buyPrice(gold: 4));
+			AddToMutantShop("HiveMind", "Teratoma", DownedHiveMind, Item.buyPrice(gold: 10));
+			AddToMutantShop("Perforators", "BloodyWormFood", DownedPerfs, Item.buyPrice(gold: 10));
+			AddToMutantShop("SlimeGod", "OverloadedSludge", DownedSlimeGod, Item.buyPrice(gold: 15));
+			AddToMutantShop("BrimstoneElemental", "CharredIdol", DownedBrimstoneElemental, Item.buyPrice(gold: 20));
+			AddToMutantShop("AstrumAureus", "AstralChunk", DownedAureus, Item.buyPrice(gold: 25));
+			AddToMutantShop("PlaguebringerGoliath", "Abombination", DownedPBG, Item.buyPrice(gold: 50));
+			AddToMutantShop("Ravager", "AncientMedallion", DownedRavager, Item.buyPrice(gold: 50));
+			AddToMutantShop("ProfanedGuardians", "ProfanedShard", DownedGuardians, Item.buyPrice(platinum: 5));
+			AddToMutantShop("Bumblebirb", "BirbPheromones", DownedBirb, Item.buyPrice(platinum: 5));
 		}
 		
 		private static void CensusSupport()
