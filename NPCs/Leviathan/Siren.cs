@@ -604,7 +604,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
 
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= 30f)
+                if (npc.ai[1] >= (leviAlive ? 45f : 35f))
                 {
                     npc.ai[0] = 3f;
                     npc.ai[1] = 0f;

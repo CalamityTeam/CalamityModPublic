@@ -8369,100 +8369,103 @@ namespace CalamityMod.NPCs
                     npc.localAI[1] = 0f;
                 }
 
-                // Fire spread of poison seeds
-                if (tentacleCount < 8)
-                {
-                    int tentacleScale = 8 - tentacleCount; // 1 to 8
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					// Fire spread of poison seeds
+					if (tentacleCount < 8)
+					{
+						int tentacleScale = 8 - tentacleCount; // 1 to 8
 
-                    if (nearbyActiveTiles > 600)
-                        npc.localAI[3] += 0.5f + ((float)(tentacleScale - 1) * 0.5f);
-                    else
-                        npc.localAI[3] += (nearbyActiveTiles > 300 ? 1f : 5f) + (float)(tentacleScale - 1);
+						if (nearbyActiveTiles > 600)
+							npc.localAI[3] += 0.5f + ((float)(tentacleScale - 1) * 0.5f);
+						else
+							npc.localAI[3] += (nearbyActiveTiles > 300 ? 1f : 5f) + (float)(tentacleScale - 1);
 
-                    if (npc.localAI[3] >= 360f)
-                    {
-                        Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
+						if (npc.localAI[3] >= 360f)
+						{
+							Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
 
-                        float num742 = 8f - ((float)tentacleScale * 0.25f); // 7.75f to 6f, slower projectiles are harder to avoid
-                        if (nearbyActiveTiles < 300)
-                            num742 = 8.5f;
-                        if (CalamityWorld.bossRushActive)
-                            num742 *= 1.5f;
+							float num742 = 8f - ((float)tentacleScale * 0.25f); // 7.75f to 6f, slower projectiles are harder to avoid
+							if (nearbyActiveTiles < 300)
+								num742 = 8.5f;
+							if (CalamityWorld.bossRushActive)
+								num742 *= 1.5f;
 
-                        float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
-                        float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
-                        float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
-                        num745 = num742 / num745;
-                        num743 *= num745;
-                        num744 *= num745;
-                        vector93.X += num743 * 3f;
-                        vector93.Y += num744 * 3f;
+							float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
+							float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
+							float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+							num745 = num742 / num745;
+							num743 *= num745;
+							num744 *= num745;
+							vector93.X += num743 * 3f;
+							vector93.Y += num744 * 3f;
 
-                        int damage = 30;
-						if (death)
-							damage += 3;
-                        int numProj = 2;
+							int damage = 30;
+							if (death)
+								damage += 3;
+							int numProj = 2;
 
-                        int spread = 2 + tentacleScale; // 3 to 10, wider spread is harder to avoid
-                        if (nearbyActiveTiles < 300)
-                            spread = (Main.rand.NextBool(2) ? 3 : 6) + (tentacleScale / 2);
+							int spread = 2 + tentacleScale; // 3 to 10, wider spread is harder to avoid
+							if (nearbyActiveTiles < 300)
+								spread = (Main.rand.NextBool(2) ? 3 : 6) + (tentacleScale / 2);
 
-                        float rotation = MathHelper.ToRadians(spread);
-                        for (int i = 0; i < numProj + 1; i++)
-                        {
-                            Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                            Projectile.NewProjectile(vector93.X, vector93.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.PoisonSeedPlantera, damage, 0f, Main.myPlayer, 0f, 0f);
-                        }
-                        npc.localAI[3] = 0f;
-                    }
-                }
+							float rotation = MathHelper.ToRadians(spread);
+							for (int i = 0; i < numProj + 1; i++)
+							{
+								Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+								Projectile.NewProjectile(vector93.X, vector93.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.PoisonSeedPlantera, damage, 0f, Main.myPlayer, 0f, 0f);
+							}
+							npc.localAI[3] = 0f;
+						}
+					}
 
-                // Fire spread of spore clouds
-                if (tentaclesDead)
-                {
-					float shootBoost = death ? 1f : 2f * (0.5f - lifeRatio);
-                    calamityGlobalNPC.newAI[0] += 1f + shootBoost;
+					// Fire spread of spore clouds
+					if (tentaclesDead)
+					{
+						float shootBoost = death ? 1f : 2f * (0.5f - lifeRatio);
+						calamityGlobalNPC.newAI[0] += 1f + shootBoost;
 
-                    if (calamityGlobalNPC.newAI[0] >= 300f)
-                    {
-                        Main.PlaySound(SoundID.Item20, npc.position);
+						if (calamityGlobalNPC.newAI[0] >= 300f)
+						{
+							Main.PlaySound(SoundID.Item20, npc.position);
 
-                        Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
-                        float num742 = CalamityWorld.bossRushActive ? 10f : 7f;
-                        float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
-                        float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
-                        float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
-                        num745 = num742 / num745;
-                        num743 *= num745;
-                        num744 *= num745;
-                        vector93.X += num743 * 3f;
-                        vector93.Y += num744 * 3f;
+							Vector2 vector93 = new Vector2(npc.Center.X, npc.Center.Y);
+							float num742 = CalamityWorld.bossRushActive ? 10f : 7f;
+							float num743 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector93.X;
+							float num744 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector93.Y;
+							float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+							num745 = num742 / num745;
+							num743 *= num745;
+							num744 *= num745;
+							vector93.X += num743 * 3f;
+							vector93.Y += num744 * 3f;
 
-                        int damage = 35;
-						if (death)
-							damage += 3;
-						int numProj = 4;
+							int damage = 35;
+							if (death)
+								damage += 3;
+							int numProj = 4;
 
-                        int spread = 30;
-                        if (nearbyActiveTiles <= 300)
-                            spread = Main.rand.NextBool(2) ? 30 : 45;
+							int spread = 30;
+							if (nearbyActiveTiles <= 300)
+								spread = Main.rand.NextBool(2) ? 30 : 45;
 
-                        float rotation = MathHelper.ToRadians(spread);
-                        float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-                        double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-                        double deltaAngle = rotation / (float)numProj;
-                        double offsetAngle;
+							float rotation = MathHelper.ToRadians(spread);
+							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+							double deltaAngle = rotation / (float)numProj;
+							double offsetAngle;
 
-                        for (int i = 0; i < numProj; i++)
-                        {
-                            offsetAngle = startAngle + deltaAngle * i;
-                            float ai0 = (float)Main.rand.Next(3);
-                            Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<SporeGasPlantera>(), damage, 0f, Main.myPlayer, ai0, 0f);
-                        }
+							for (int i = 0; i < numProj; i++)
+							{
+								offsetAngle = startAngle + deltaAngle * i;
+								float ai0 = (float)Main.rand.Next(3);
+								Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<SporeGasPlantera>(), damage, 0f, Main.myPlayer, ai0, 0f);
+							}
 
-                        calamityGlobalNPC.newAI[0] = 0f;
-                    }
-                }
+							calamityGlobalNPC.newAI[0] = 0f;
+						}
+					}
+				}
             }
 
             // Heal if on surface and it's daytime, else, gain defense
