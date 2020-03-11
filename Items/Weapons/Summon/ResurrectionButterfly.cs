@@ -84,7 +84,7 @@ namespace CalamityMod.Items.Weapons.Summon
             r.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
             r.AddIngredient(ItemID.ButterflyDust, 2);
             r.AddIngredient(ModContent.ItemType<GypsyPowder>());
-            r.AddIngredient(ModContent.ItemType<SpiritGenerator>());
+            //r.AddIngredient(ModContent.ItemType<SpiritGenerator>());
             r.AddTile(TileID.Loom);
             r.SetResult(this);
             r.AddRecipe();
