@@ -609,7 +609,7 @@ namespace CalamityMod
 				new List<int>() { ItemType<KnowledgeMoonLord>() }
 			);
 		}
-		
+
 		private static void AddCalamityEventLoot(Mod bossChecklist)
 		{
 			// Blood Moon
@@ -673,7 +673,7 @@ namespace CalamityMod
 				null
 			);
 		}
-		
+
 		private static void FargosSupport()
 		{
 			Mod fargos = ModLoader.GetMod("Fargowiltas");
@@ -700,7 +700,7 @@ namespace CalamityMod
 			AddToMutantShop("ProfanedGuardians", "ProfanedShard", DownedGuardians, Item.buyPrice(platinum: 5));
 			AddToMutantShop("Bumblebirb", "BirbPheromones", DownedBirb, Item.buyPrice(platinum: 5));
 		}
-		
+
 		private static void CensusSupport()
 		{
 			Mod censusMod = ModLoader.GetMod("Census");
