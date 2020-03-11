@@ -5,9 +5,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles.Summon
 {
-    public class HiveBombGoliath : ModProjectile
+    public class PrincessMissile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,23 +15,22 @@ namespace CalamityMod.Projectiles.Boss
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
             projectile.width = 14;
             projectile.height = 14;
-            projectile.hostile = true;
-            projectile.tileCollide = false;
+            projectile.friendly = true;
+			projectile.minion = true;
+            projectile.tileCollide = true;
             projectile.penetrate = 1;
         }
 
         public override void AI()
         {
             projectile.velocity *= 1.01f;
-
-            if (projectile.position.Y > projectile.ai[1])
-                projectile.tileCollide = true;
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
@@ -93,6 +92,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.width = projectile.height = 64;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
             projectile.Damage();
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
             for (int num621 = 0; num621 < 8; num621++)
@@ -144,9 +145,14 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Plague>(), 300);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
         }
     }
 }

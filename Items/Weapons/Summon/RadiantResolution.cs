@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Tooltip.SetDefault("Gain absolute control over light itself\n" +
 							   "Summons a radiant aura\n" +
                                "Consumes all of the remaining minion slots on use\n" +
+							   "Must be used from the hotbar\n" +
                                "Increased power based on the number of minion slots used");
         }
 

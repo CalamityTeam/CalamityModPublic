@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Abandoned Slime Staff");
             Tooltip.SetDefault("Cast down from the heavens in disgust, this relic sings a song of quiet tragedy...\n" +
                                "Consumes all of the remaining minion slots on use\n" +
+							   "Must be used from the hotbar\n" +
                                "Increased power and size based on the number of minion slots used");
         }
 

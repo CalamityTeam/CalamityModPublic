@@ -736,6 +736,7 @@ namespace CalamityMod.CalPlayer
         public bool plaguebringerMK2 = false;
         public bool igneousExaltation = false;
         public bool youngDuke = false;
+        public bool viruli = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1552,6 +1553,7 @@ namespace CalamityMod.CalPlayer
             plaguebringerMK2 = false;
             igneousExaltation = false;
             radiantResolution = false;
+            viruli = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
