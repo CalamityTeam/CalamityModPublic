@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().sRegen = true;
+            player.Calamity().hallowedRegen = true;
         }
     }
 }
