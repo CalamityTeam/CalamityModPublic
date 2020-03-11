@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.summon = true;
             item.mana = 80;
-            item.damage = 7000;
+            item.damage = 6500;
             item.knockBack = 4f;
             item.crit += 18;
             item.autoReuse = true;

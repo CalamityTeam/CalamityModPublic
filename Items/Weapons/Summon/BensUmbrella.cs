@@ -27,13 +27,13 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             item.mana = 99;
-            item.damage = 1234;
+            item.damage = 1003;
             item.useStyle = 1;
             item.width = 74;
             item.height = 72;
             item.useTime = item.useAnimation = 10;
             item.noMelee = true;
-            item.knockBack = 0f;
+            item.knockBack = 1f;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.Calamity().customRarity = CalamityRarity.Developer;
             item.rare = 10;
