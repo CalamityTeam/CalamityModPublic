@@ -194,9 +194,9 @@ namespace CalamityMod.Projectiles.Summon
                 int projType = ModContent.ProjectileType<MagicBullet>();
                 if (flag25 && projectile.ai[1] == 0f)
                 {
-					if (Main.rand.NextBool(5))
+					if (Main.rand.NextBool(6))
 					{
-						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20, 0.25f);
+						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20, 0.1f);
 					}
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner)

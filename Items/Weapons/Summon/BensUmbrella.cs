@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ben's Umbrella");
+            DisplayName.SetDefault("Temporal Umbrella");
             Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
 							   "Summons a magic hat to hover above your head\n" +
                                "The hat will release a variety of objects to assault your foes\n" +
