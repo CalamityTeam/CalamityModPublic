@@ -88,10 +88,6 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.timeLeft = 2;
                 }
-				else
-				{
-					projectile.Kill();
-				}
             }
             NPC potentialTarget = projectile.Center.ClosestNPCAt(1600f);
             if (potentialTarget != null)

@@ -1068,6 +1068,7 @@ namespace CalamityMod.CalPlayer
             angryDog = false;
             fab = false;
             crysthamyr = false;
+            miniOldDuke = false;
 
             abyssalDivingSuitPlates = false;
             abyssalDivingSuitCooldown = false;
