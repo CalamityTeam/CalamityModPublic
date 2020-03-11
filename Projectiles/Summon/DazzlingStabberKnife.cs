@@ -23,8 +23,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 8;
         }
         public override void AI()
         {
