@@ -665,7 +665,10 @@ namespace CalamityMod
             TileID.SnowBlock,
             // Calamity Tiles
             ModContent.TileType<AstralDirt>(),
+            ModContent.TileType<AstralClay>(),
             ModContent.TileType<AstralStone>(),
+            ModContent.TileType<AstralSand>(),
+            ModContent.TileType<AstralSnow>(),
             ModContent.TileType<Navystone>(),
             ModContent.TileType<EutrophicSand>(),
             ModContent.TileType<AbyssGravel>(),
@@ -733,6 +736,7 @@ namespace CalamityMod
             ModContent.TileType<AstralSand>(),
             ModContent.TileType<HardenedAstralSand>(),
             ModContent.TileType<AstralSandstone>(),
+            ModContent.TileType<AstralFossil>(),
             // Sunken Sea
             ModContent.TileType<EutrophicSand>(),
             ModContent.TileType<Navystone>(),
@@ -754,6 +758,7 @@ namespace CalamityMod
             // Astral Snow
             ModContent.TileType<AstralIce>(),
             ModContent.TileType<AstralSnow>(),
+            ModContent.TileType<AstralSilt>(),
         });
 
         /// <summary>
@@ -794,10 +799,12 @@ namespace CalamityMod
             SetMerge(type, ModContent.TileType<AstralDirt>());
             SetMerge(type, ModContent.TileType<AstralStone>());
             SetMerge(type, ModContent.TileType<AstralMonolith>());
+            SetMerge(type, ModContent.TileType<AstralClay>());
             //Astral Desert
             SetMerge(type, ModContent.TileType<AstralSand>());
             SetMerge(type, ModContent.TileType<HardenedAstralSand>());
             SetMerge(type, ModContent.TileType<AstralSandstone>());
+            SetMerge(type, ModContent.TileType<AstralFossil>());
             //Astral Snow
             SetMerge(type, ModContent.TileType<AstralIce>());
             SetMerge(type, ModContent.TileType<AstralSnow>());
