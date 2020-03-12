@@ -58,11 +58,11 @@ namespace CalamityMod.Items
         public int timesUsed = 0;
 
         // Rarity is provided both as the classic int and the new enum.
-        public CalamityRarity CustomRarity = CalamityRarity.NoEffect;
+        public CalamityRarity customRarity = CalamityRarity.NoEffect;
         public int postMoonLordRarity 
         {
-            get => (int)CustomRarity;
-            set => CustomRarity = (CalamityRarity)value;
+            get => (int)customRarity;
+            set => customRarity = (CalamityRarity)value;
         }
 
         #region SetDefaults
