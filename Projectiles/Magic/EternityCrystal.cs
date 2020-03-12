@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (projectile.Hitbox.Intersects(Main.npc[(int)projectile.ai[0]].Hitbox))
             {
-                int damage = (int)(Eternity.ExplosionDamage * Main.rand.NextFloat(0.9f, 1.1f));
+                int damage = (int)(Eternity.ExplosionDamage * player.MagicDamage() * Main.rand.NextFloat(0.9f, 1.1f));
                 Main.player[projectile.owner].addDPS(damage);
                 Main.npc[(int)projectile.ai[0]].StrikeNPC(damage, 0f, 0, false);
                 Vector2 randomCirclePointVector = Vector2.One.RotatedBy(projectile.rotation);
