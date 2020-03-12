@@ -607,8 +607,11 @@ namespace CalamityMod.Items
                 {
                     for (int i = 0; i < Main.projectile.Length; i++)
                     {
-                        if ((Main.projectile[i].modProjectile as IgneousBlade).Firing)
-                            continue;
+                        if (Main.projectile[i].modProjectile is IgneousBlade)
+                        {
+                            if ((Main.projectile[i].modProjectile as IgneousBlade).Firing)
+                                continue;
+                        }
                         if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<IgneousBlade>() && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].localAI[1] == 0f)
                         {
                             Main.projectile[i].rotation = MathHelper.PiOver2 + MathHelper.PiOver4;

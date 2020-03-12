@@ -1040,8 +1040,15 @@ namespace CalamityMod.CalPlayer
 				player.endurance += 0.05f;
 			}
 
-			// Absorber bonus
-			if (modPlayer.absorber)
+            // Hallowed Rune defense buff
+            if (modPlayer.hallowedDefense)
+            {
+                player.statDefense += 7;
+                player.endurance += 0.07f;
+            }
+
+            // Absorber bonus
+            if (modPlayer.absorber)
 			{
 				player.moveSpeed += 0.12f;
 				player.jumpSpeedBoost += 1.2f;

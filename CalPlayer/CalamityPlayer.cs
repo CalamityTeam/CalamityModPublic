@@ -4943,6 +4943,11 @@ namespace CalamityMod.CalPlayer
                 if (isSummon)
                     damageMult += 0.1;
             }
+            if (hallowedPower)
+            {
+                if (isSummon)
+                    damageMult += 0.15;
+            }
             if (providenceLore && hasClassType)
             {
                 damageMult += 0.1;

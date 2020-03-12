@@ -25,8 +25,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.hallowedRune = true;
+            player.Calamity().hallowedRune = true;
         }
 
         public override void AddRecipes()
