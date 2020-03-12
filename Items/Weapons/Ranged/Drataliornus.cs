@@ -35,7 +35,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             item.height = 84;
             item.UseSound = SoundID.Item5;
             item.shoot = ModContent.ProjectileType<DrataliornusBow>();
-            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
             item.rare = 10;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -44,7 +44,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             item.useTurn = false;
             item.useAmmo = AmmoID.Arrow;
             item.autoReuse = true;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override bool AltFunctionUse(Player player)
@@ -67,14 +67,14 @@ Right click to fire two devastating barrages of five empowered fireballs.
                 item.useTime = 9;
                 item.reuseDelay = 0;
                 item.noUseGraphic = true;
-				for (int i = 0; i < Main.projectile.Length; i++)
-				{
-					Projectile p = Main.projectile[i];
-					if (p.active && p.type == ModContent.ProjectileType<DrataliornusBow>() && p.owner == player.whoAmI)
-					{
-						return false;
-					}
-				}
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    Projectile p = Main.projectile[i];
+                    if (p.active && p.type == ModContent.ProjectileType<DrataliornusBow>() && p.owner == player.whoAmI)
+                    {
+                        return false;
+                    }
+                }
             }
             return base.CanUseItem(player);
         }
@@ -119,8 +119,8 @@ Right click to fire two devastating barrages of five empowered fireballs.
             recipe.AddIngredient(ModContent.ItemType<ChickenCannon>(), 2);
             recipe.AddIngredient(ModContent.ItemType<AngryChickenStaff>(), 2);
             recipe.AddIngredient(ModContent.ItemType<YharimsGift>(), 3);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
-			recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 60);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 60);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
