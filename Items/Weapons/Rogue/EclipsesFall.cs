@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 72;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Violet;
             item.shoot = ModContent.ProjectileType<EclipsesFallMain>();

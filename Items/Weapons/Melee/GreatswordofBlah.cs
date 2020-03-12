@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 110;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<JudgementBlah>();
             item.shootSpeed = 6f;

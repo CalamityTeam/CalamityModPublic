@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Violet;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = Item.buyPrice(2, 50, 0, 0);
 
             item.UseSound = SoundID.Item84;
             item.shoot = ModContent.ProjectileType<EventHorizonStar>();

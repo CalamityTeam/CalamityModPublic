@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noUseGraphic = true;
             item.channel = true;
             item.knockBack = 0f;
-            item.value = Item.buyPrice(platinum: 1, gold: 80);
+            item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<YharimsCrystalPrism>();
             item.shootSpeed = 30f;
