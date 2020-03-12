@@ -65,8 +65,6 @@ namespace CalamityMod.Projectiles.Pets
 
             if (dust == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
-                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num501 = 25;
                 for (int num502 = 0; num502 < num501; num502++)
                 {
@@ -76,127 +74,8 @@ namespace CalamityMod.Projectiles.Pets
                 }
                 dust += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
-            {
-                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
-                projectile.damage = damage2;
-            }
 
-            float SAImovement = 0.05f;
-            for (int index = 0; index < Main.projectile.Length; index++)
-            {
-				Projectile proj = Main.projectile[index];
-                bool flag23 = Main.projPet[proj.type];
-                if (index != projectile.whoAmI && proj.active && proj.owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X -= SAImovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += SAImovement;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y -= SAImovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += SAImovement;
-                    }
-                }
-            }
-
-            float num16 = 0.5f;
-            projectile.tileCollide = false;
-            int num17 = 100;
-            Vector2 vector3 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-            float num18 = player.position.X + (float)(player.width / 2) - vector3.X;
-            float num19 = player.position.Y + (float)(player.height / 2) - vector3.Y;
-            num19 += (float)Main.rand.Next(-10, 21);
-            num18 += (float)Main.rand.Next(-10, 21);
-            num18 += (float)(60 * -(float)Main.player[projectile.owner].direction);
-            num19 -= 60f;
-            float num20 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
-            float num21 = 18f;
-            if (num20 < (float)num17 && Main.player[projectile.owner].velocity.Y == 0f &&
-                projectile.position.Y + (float)projectile.height <= Main.player[projectile.owner].position.Y + (float)Main.player[projectile.owner].height &&
-                !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-            {
-                if (projectile.velocity.Y < -6f)
-                {
-                    projectile.velocity.Y = -6f;
-                }
-            }
-            if (num20 > 2000f)
-            {
-                projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
-                projectile.netUpdate = true;
-            }
-            if (num20 < 50f)
-            {
-                if (Math.Abs(projectile.velocity.X) > 2f || Math.Abs(projectile.velocity.Y) > 2f)
-                {
-                    projectile.velocity *= 0.99f;
-                }
-                num16 = 0.01f;
-            }
-            else
-            {
-                if (num20 < 100f)
-                {
-                    num16 = 0.1f;
-                }
-                if (num20 > 300f)
-                {
-                    num16 = 1f;
-                }
-                num20 = num21 / num20;
-                num18 *= num20;
-                num19 *= num20;
-            }
-            if (projectile.velocity.X < num18)
-            {
-                projectile.velocity.X = projectile.velocity.X + num16;
-                if (num16 > 0.05f && projectile.velocity.X < 0f)
-                {
-                    projectile.velocity.X = projectile.velocity.X + num16;
-                }
-            }
-            if (projectile.velocity.X > num18)
-            {
-                projectile.velocity.X = projectile.velocity.X - num16;
-                if (num16 > 0.05f && projectile.velocity.X > 0f)
-                {
-                    projectile.velocity.X = projectile.velocity.X - num16;
-                }
-            }
-            if (projectile.velocity.Y < num19)
-            {
-                projectile.velocity.Y = projectile.velocity.Y + num16;
-                if (num16 > 0.05f && projectile.velocity.Y < 0f)
-                {
-                    projectile.velocity.Y = projectile.velocity.Y + num16 * 2f;
-                }
-            }
-            if (projectile.velocity.Y > num19)
-            {
-                projectile.velocity.Y = projectile.velocity.Y - num16;
-                if (num16 > 0.05f && projectile.velocity.Y > 0f)
-                {
-                    projectile.velocity.Y = projectile.velocity.Y - num16 * 2f;
-                }
-            }
-
-			projectile.rotation = projectile.velocity.X * 0.05f;
-			if ((double) projectile.velocity.X > 0.25)
-				projectile.spriteDirection = projectile.direction = 1;
-			else if ((double) projectile.velocity.X < -0.25)
-				projectile.spriteDirection = projectile.direction = -1;
+			CalamityGlobalProjectile.FloatingPetAI(projectile, false, true);
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)

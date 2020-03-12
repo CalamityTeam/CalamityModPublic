@@ -168,7 +168,6 @@ namespace CalamityMod.Projectiles.Pets
             else
             {
                 if (projectile.frameCounter > 5)
-
                 {
                     projectile.frame++;
                     projectile.frameCounter = 0;
