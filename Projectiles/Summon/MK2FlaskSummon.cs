@@ -32,15 +32,18 @@ namespace CalamityMod.Projectiles.Summon
 		}
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < Main.rand.Next(18, 21); i++)
+            if (Main.myPlayer == projectile.whoAmI)
             {
-                Dust.NewDustPerfect(projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
-                    (int)CalamityDusts.Plague,
-                    Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 4f));
+                for (int i = 0; i < Main.rand.Next(18, 21); i++)
+                {
+                    Dust.NewDustPerfect(projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
+                        (int)CalamityDusts.Plague,
+                        Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 4f));
+                }
+                Main.PlaySound(SoundID.Item107, projectile.Center);
+                int idx = Projectile.NewProjectile(projectile.Center, Vector2.UnitY * 6f, ModContent.ProjectileType<PlaguebringerMK2>(), projectile.damage, 4f, projectile.owner);
+                Main.projectile[idx].ai[1] = CalamityUtils.CountProjectiles(ModContent.ProjectileType<PlaguebringerMK2>());
             }
-            Main.PlaySound(SoundID.Item107, projectile.Center);
-            int idx = Projectile.NewProjectile(projectile.Center, Vector2.UnitY * 6f, ModContent.ProjectileType<PlaguebringerMK2>(), projectile.damage, 4f, projectile.owner);
-            Main.projectile[idx].ai[1] = CalamityUtils.CountProjectiles(ModContent.ProjectileType<PlaguebringerMK2>());
         }
         public override bool CanDamage() => false;
     }

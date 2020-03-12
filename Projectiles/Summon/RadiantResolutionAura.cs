@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon
 
             projectile.ai[1]++;
             NPC potentialTarget = projectile.Center.MinionHoming(DistanceToCheck, player);
-            if (potentialTarget != null)
+            if (potentialTarget != null && Main.myPlayer == projectile.whoAmI)
             {
                 if (projectile.ai[1] % 35 == 34)
                 {

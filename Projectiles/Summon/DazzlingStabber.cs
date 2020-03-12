@@ -132,9 +132,9 @@ namespace CalamityMod.Projectiles.Summon
                             positionDelta = Utils.RandomVector2(Main.rand, -12f, 12f);
 
                         projectile.Center = potentialTarget.Center + positionDelta;
-                        projectile.rotation = projectile.AngleTo(potentialTarget.Center) + MathHelper.PiOver2;
-                        projectile.rotation += angleMax;
+                        projectile.rotation = projectile.AngleTo(potentialTarget.Center) + MathHelper.PiOver2 + angleMax;
                         projectile.velocity = Vector2.Zero;
+                        projectile.netUpdate = true;
                     }
                     if (projectile.ai[0] % 160f > 120f)
                     {

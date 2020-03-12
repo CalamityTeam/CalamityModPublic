@@ -124,8 +124,10 @@ namespace CalamityMod.Projectiles.Summon
                             Main.projectile[i].type == ModContent.ProjectileType<SkeletalDragonChild>())
                         {
                             Main.projectile[i].Center = player.Center;
+                            Main.projectile[i].netUpdate = true;
                         }
                     }
+                    projectile.netUpdate = true;
                 }
             }
             projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
