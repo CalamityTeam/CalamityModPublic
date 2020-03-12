@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Pets
             float num19 = player.position.Y + (float)(player.height / 2) - vector3.Y;
             num19 += (float)Main.rand.Next(-10, 21);
             num18 += (float)Main.rand.Next(-10, 21);
-            num18 += (float)(60 * -(float)player.direction);
+            num18 += (float)(60 * (float)player.direction);
             num19 -= 60f;
             float num20 = (float)Math.Sqrt((double)(num18 * num18 + num19 * num19));
             float num21 = 18f;

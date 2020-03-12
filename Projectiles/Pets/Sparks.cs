@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Pets
 			float yDist = player.position.Y + (float)(player.height / 2) - vector3.Y;
 			yDist += (float)Main.rand.Next(-10, 21);
 			xDist += (float)Main.rand.Next(-10, 21);
-			xDist += (float)(60 * -(float)player.direction);
+			xDist += (float)(60 * (float)player.direction);
 			yDist -= 60f;
 			float playerDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
 			float num21 = 18f;
