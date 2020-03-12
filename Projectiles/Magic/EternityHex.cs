@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
             if (projectile.ai[0] >= Main.npc.Length || projectile.ai[0] < 0)
             {
                 DeathDust();
