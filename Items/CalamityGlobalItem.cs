@@ -586,6 +586,37 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
+            if (player.HeldItem.type == ModContent.ItemType<IgneousExaltation>())
+            {
+                bool hasBlades = false;
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<IgneousBlade>() && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].localAI[1] == 0f)
+                    {
+                        hasBlades = true;
+                        break;
+                    }
+                }
+                if (hasBlades)
+                {
+                    for (int i = 0; i < Main.projectile.Length; i++)
+                    {
+                        if ((Main.projectile[i].modProjectile as IgneousBlade).Firing)
+                            continue;
+                        if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<IgneousBlade>() && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].localAI[1] == 0f)
+                        {
+                            Main.projectile[i].rotation = MathHelper.PiOver2 + MathHelper.PiOver4;
+                            Main.projectile[i].velocity = Main.projectile[i].DirectionTo(Main.MouseWorld) * 16f;
+                            Main.projectile[i].rotation += Main.projectile[i].velocity.ToRotation();
+                            Main.projectile[i].ai[0] = 180f;
+                            (Main.projectile[i].modProjectile as IgneousBlade).Firing = true;
+                            Main.projectile[i].tileCollide = true;
+                            Main.projectile[i].netUpdate = true;
+                        }
+                    }
+                }
+                return false;
+            }
             return base.AltFunctionUse(item, player);
         }
 

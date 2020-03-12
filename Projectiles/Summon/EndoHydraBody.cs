@@ -75,6 +75,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.ai[0] = potentialTarget.whoAmI;
                     Main.PlaySound(SoundID.Zombie, projectile.Center, 53); // Ethereal whisper indicating a new target has been spotted.
+                    projectile.netUpdate = true;
                 }
             }
 
