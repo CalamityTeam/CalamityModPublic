@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
             if (projectile.ai[0] >= Main.npc.Length || projectile.ai[0] < 0)
             {
                 DeathDust();
@@ -150,7 +151,7 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     int homerCount = 6;
                     int trueMeleeID = ModContent.ProjectileType<EternityHoming>();
-                    int trueMeleeDamage = Eternity.BaseDamage * player.MagicDamage();
+                    int trueMeleeDamage = (int)(Eternity.BaseDamage * player.MagicDamage());
                     float angleVariance = MathHelper.TwoPi / homerCount;
                     float spinOffsetAngle = MathHelper.Pi / (2f * homerCount);
                     Vector2 posVec = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * 10f;

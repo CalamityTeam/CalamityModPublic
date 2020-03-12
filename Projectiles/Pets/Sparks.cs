@@ -144,6 +144,31 @@ namespace CalamityMod.Projectiles.Pets
 		private void PassiveAI()
 		{
 			Player player = Main.player[projectile.owner];
+            float SAImovement = 0.05f;
+            for (int index = 0; index < Main.projectile.Length; index++)
+            {
+				Projectile proj = Main.projectile[index];
+                bool flag23 = Main.projPet[proj.type];
+                if (index != projectile.whoAmI && proj.active && proj.owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < (float)projectile.width)
+                {
+                    if (projectile.position.X < proj.position.X)
+                    {
+                        projectile.velocity.X -= SAImovement;
+                    }
+                    else
+                    {
+                        projectile.velocity.X += SAImovement;
+                    }
+                    if (projectile.position.Y < proj.position.Y)
+                    {
+                        projectile.velocity.Y -= SAImovement;
+                    }
+                    else
+                    {
+                        projectile.velocity.Y += SAImovement;
+                    }
+                }
+            }
 			float num16 = 0.5f;
 			projectile.tileCollide = false;
 			Vector2 vector3 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
@@ -151,7 +176,7 @@ namespace CalamityMod.Projectiles.Pets
 			float yDist = player.position.Y + (float)(player.height / 2) - vector3.Y;
 			yDist += (float)Main.rand.Next(-10, 21);
 			xDist += (float)Main.rand.Next(-10, 21);
-			xDist += (float)(60 * -(float)player.direction);
+			xDist += (float)(60 * (float)player.direction);
 			yDist -= 60f;
 			float playerDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
 			float num21 = 18f;
