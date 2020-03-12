@@ -3705,7 +3705,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.ai[2] == 2f)
             {
-                if (npc.position.Y > Main.player[npc.target].position.Y || npc.velocity.Y < 0f)
+                if (npc.position.Y > Main.player[npc.target].position.Y || npc.velocity.Y < 0f || npc.velocity == Vector2.Zero)
                     npc.ai[2] = 3f;
             }
             else if (npc.ai[2] == 4f)
@@ -3741,7 +3741,7 @@ namespace CalamityMod.NPCs
                     npc.netUpdate = true;
                 }
             }
-            else if (npc.ai[2] == 5f && ((npc.velocity.X > 0f && npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2)) || (npc.velocity.X < 0f && npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))))
+            else if (npc.ai[2] == 5f && ((npc.velocity.X > 0f && npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2)) || (npc.velocity.X < 0f && npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2)) || npc.velocity == Vector2.Zero))
                 npc.ai[2] = 0f;
 
             if (ModLoader.GetMod("FargowiltasSouls") != null)

@@ -65,33 +65,28 @@ namespace CalamityMod.NPCs
 				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
 				if (doSpiral)
 				{
+					int npcPosX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+					int npcPosY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+
 					// Barf out enemies
-					if (calamityGlobalNPC.newAI[3] % 60f == 0f)
+					int variable = 5;
+					if (calamityGlobalNPC.newAI[3] % 60f == 0f && npcPosX > variable && npcPosY > variable && npcPosX < Main.maxTilesX - variable && npcPosY < Main.maxTilesY - variable)
 					{
 						Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
 
-						int npcPosX = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-						int npcPosY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
-
-						if (npcPosX < 0)
-							npcPosX = 0;
-						if (npcPosX > Main.maxTilesX)
-							npcPosX = Main.maxTilesX;
-						if (npcPosY < 0)
-							npcPosY = 0;
-						if (npcPosY > Main.maxTilesY)
-							npcPosY = Main.maxTilesY;
-
 						Vector2 spawnPosition = new Vector2((float)(npcPosX * 16), (float)(npcPosY * 16));
 
-						if (!Main.tile[npcPosX, npcPosY].active() && Main.netMode != NetmodeID.MultiplayerClient)
+						if (Main.tile[npcPosX, npcPosY] != null)
 						{
-							if (NPC.CountNPCS(ModContent.NPCType<AquaticSeekerHead>()) < 1)
-								NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticSeekerHead>());
-							if (NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 4)
-								NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticUrchin>());
-							if (NPC.CountNPCS(ModContent.NPCType<AquaticParasite>()) < 8)
-								NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticParasite>());
+							if (!Main.tile[npcPosX, npcPosY].active() && Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								if (NPC.CountNPCS(ModContent.NPCType<AquaticSeekerHead>()) < 1)
+									NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticSeekerHead>());
+								if (NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 4)
+									NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticUrchin>());
+								if (NPC.CountNPCS(ModContent.NPCType<AquaticParasite>()) < 8)
+									NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticParasite>());
+							}
 						}
 					}
 
