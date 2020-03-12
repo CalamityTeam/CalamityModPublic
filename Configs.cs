@@ -13,6 +13,44 @@ namespace CalamityMod
 		public override ConfigScope Mode => ConfigScope.ClientSide;
 		public override void OnLoaded() => CalamityMod.CalamityConfig = this;
 
+		[Header("General Changes")]
+
+		[DefaultValue(true)]
+		[Label("Proficiency")]
+		[Tooltip("Enables the Proficiency stat that rewards the player based on the attack type they use")]
+		public bool ProficiencyEnabled { get; set; }
+
+		[DefaultValue(true)]
+		[Label("Lethal Lava")]
+		[Tooltip("Increases the severity of lava with a new debuff to punish those who stay in lava for too long\nEnabled in Death Mode regardless of this configuration setting")]
+		public bool LethalLava { get; set; }
+
+		[DefaultValue(true)]
+		[Label("Boss Health Bar")]
+		[Tooltip("Enables the Boss Health Bar to show while a boss or miniboss is alive")]
+		public bool DrawBossBar { get; set; }
+
+		[DefaultValue(true)]
+		[Label("Boss Health Bar Small Text")]
+		[Tooltip("Enables the small text below the health bar\nThis displays the exact health amount or remaining boss parts")]
+		public bool DrawSmallText { get; set; }
+
+		[DefaultValue(true)]
+		[Label("Selling Vanilla Boss Summons")]
+		[Tooltip("Enables certain town NPCs to sell boss summoning items after the defeat of their respective boss\nThis does not affect Calamity's boss summoning items, which are always sold\nThe shop will need to be refreshed if the config is adjusted while the shop is open")]
+		public bool SellBossSummons { get; set; }
+
+		[DefaultValue(false)]
+		[Label("Mining Speed Boost")]
+		[Tooltip("Boosts the player's mining speed by 75%")]
+		public bool MiningSpeedBoost { get; set; }
+
+		[Label("Boss Health Percentage Boost")]
+		[Tooltip("Boosts the health of bosses to a maximum of +900% health")]
+		[Range(0f, 900f)]
+		[DefaultValue(0f)]
+		public float BossHealthPercentageBoost { get; set; }
+
 		[Header("Expert Changes")]
 
 		[DefaultValue(true)]
@@ -102,44 +140,6 @@ namespace CalamityMod
 		[Label("Boss Rush Immunity Frame Curse")]
 		[Tooltip("Getting hit more than once in the span of five seconds will instantly kill you if the Boss Rush is active")]
 		public bool BossRushImmunityFrameCurse { get; set; }
-
-		[Header("Other")]
-
-		[DefaultValue(true)]
-		[Label("Proficiency")]
-		[Tooltip("Enables the Proficiency stat that rewards the player based on the attack type they use")]
-		public bool ProficiencyEnabled { get; set; }
-
-		[DefaultValue(true)]
-		[Label("Lethal Lava")]
-		[Tooltip("Increases the severity of lava with a new debuff to punish those who stay in lava for too long\nEnabled in Death Mode regardless of this configuration setting")]
-		public bool LethalLava { get; set; }
-
-		[DefaultValue(true)]
-		[Label("Boss Health Bar")]
-		[Tooltip("Enables the Boss Health Bar to show while a boss or miniboss is alive")]
-		public bool DrawBossBar { get; set; }
-
-		[DefaultValue(true)]
-		[Label("Boss Health Bar Small Text")]
-		[Tooltip("Enables the small text below the health bar\nThis displays the exact health amount or remaining boss parts")]
-		public bool DrawSmallText { get; set; }
-
-		[DefaultValue(true)]
-		[Label("Selling Vanilla Boss Summons")]
-		[Tooltip("Enables certain town NPCs to sell boss summoning items after the defeat of their respective boss\nThis does not affect Calamity's boss summoning items, which are always sold\nThe shop will need to be refreshed if the config is adjusted while the shop is open")]
-		public bool SellBossSummons { get; set; }
-
-		[DefaultValue(false)]
-		[Label("Mining Speed Boost")]
-		[Tooltip("Boosts the player's mining speed by 75%")]
-		public bool MiningSpeedBoost { get; set; }
-
-		[Label("Boss Health Percentage Boost")]
-		[Tooltip("Boosts the health of bosses to a maximum of +900% health")]
-		[Range(0f, 900f)]
-		[DefaultValue(0f)]
-		public float BossHealthPercentageBoost { get; set; }
 
 		public override bool AcceptClientChanges(ModConfig pendingConfig, int whoAmI, ref string message)
 		{

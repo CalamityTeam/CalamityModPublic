@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
             Tooltip.SetDefault("Gain absolute control over light itself\n" +
 							   "Summons a radiant aura\n" +
                                "Consumes all of the remaining minion slots on use\n" +
+							   "Must be used from the hotbar\n" +
                                "Increased power based on the number of minion slots used");
         }
 
@@ -30,10 +31,9 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.summon = true;
             item.mana = 100;
-            item.damage = 666;
-            item.knockBack = 3f;
-            item.autoReuse = true;
-            item.useTime = item.useAnimation = 36;
+            item.damage = 681;
+            item.knockBack = 4f;
+            item.useTime = item.useAnimation = 10;
             item.shoot = ModContent.ProjectileType<RadiantResolutionAura>();
             item.shootSpeed = 10f;
 

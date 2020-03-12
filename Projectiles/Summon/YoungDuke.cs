@@ -39,6 +39,24 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
+            if (!modPlayer.miniOldDuke)
+            {
+                projectile.active = false;
+                return;
+            }
+
+            bool correctMinion = projectile.type == ModContent.ProjectileType<YoungDuke>();
+            if (correctMinion)
+            {
+                if (player.dead)
+                {
+                    modPlayer.youngDuke = false;
+                }
+                if (modPlayer.youngDuke)
+                {
+                    projectile.timeLeft = 2;
+                }
+            }
 
             // Adjust damage as needed
             if (projectile.localAI[0] == 0f)
@@ -77,18 +95,6 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame -= Main.projFrames[projectile.type] / 2;
             }
 
-            bool correctMinion = projectile.type == ModContent.ProjectileType<YoungDuke>();
-            if (correctMinion)
-            {
-                if (player.dead)
-                {
-                    modPlayer.miniOldDuke = false;
-                }
-                if (modPlayer.miniOldDuke)
-                {
-                    projectile.timeLeft = 2;
-                }
-            }
             NPC potentialTarget = projectile.Center.ClosestNPCAt(1600f);
             if (potentialTarget != null)
             {

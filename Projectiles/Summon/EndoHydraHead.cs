@@ -79,28 +79,29 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 bodyTop = body.Center + new Vector2(body.spriteDirection == 1 ? 12 : -14, -50f) + DeltaPosition;
 
             // Beam shooting
-            if (body.ai[0] != -1)
+            if (body.ai[0] >= 0 && body.ai[0] < Main.projectile.Length)
             {
                 if (Main.npc[(int)body.ai[0]].active &&
                     Main.npc[(int)body.ai[0]].CanBeChasedBy(null, false) &&
                     projectile.Distance(Main.npc[(int)body.ai[0]].Center) < EndoHydraBody.DistanceToCheck &&
-                    Collision.CanHit(projectile.Center, projectile.width, projectile.height, Main.npc[(int)body.ai[0]].Center, Main.npc[(int)body.ai[0]].width, Main.npc[(int)body.ai[0]].height) &&
+                    Collision.CanHit(projectile.Center, 1, 1, Main.npc[(int)body.ai[0]].Center, 1, 1) &&
                     Main.myPlayer == projectile.owner)
                 {
-                    if (projectile.timeLeft % 40f == 24f)
+                    projectile.ai[1]++;
+                    if (projectile.ai[1] % 40f == 24f)
                     {
                         Projectile.NewProjectile(projectile.Center,
                             6f * projectile.DirectionTo(Main.npc[(int)body.ai[0]].Center),
                             ModContent.ProjectileType<EndoRay>(), projectile.damage, 2f, projectile.owner);
                     }
 
-                    if (projectile.timeLeft % 40f >= 33f)
+                    if (projectile.ai[1] % 40f >= 33f)
                         projectile.frame = Main.projFrames[projectile.type] - 1;
-                    else if (projectile.timeLeft % 40f >= 27f)
+                    else if (projectile.ai[1] % 40f >= 27f)
                         projectile.frame = Main.projFrames[projectile.type] - 2;
-                    else if (projectile.timeLeft % 40f >= 22f)
+                    else if (projectile.ai[1] % 40f >= 22f)
                         projectile.frame = Main.projFrames[projectile.type] - 3;
-                    else if (projectile.timeLeft % 40f >= 17f)
+                    else if (projectile.ai[1] % 40f >= 17f)
                         projectile.frame = Main.projFrames[projectile.type] - 4;
 
                     projectile.direction = projectile.spriteDirection = (Main.npc[(int)body.ai[0]].Center.X - projectile.Center.X > 0).ToDirectionInt();

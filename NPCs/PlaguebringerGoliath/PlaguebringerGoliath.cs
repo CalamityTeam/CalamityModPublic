@@ -1075,6 +1075,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TheSyringe>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<FuelCellBundle>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<InfectedRemote>(), 4);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 10);

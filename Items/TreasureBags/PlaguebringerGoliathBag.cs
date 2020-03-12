@@ -56,6 +56,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<PlagueStaff>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<TheSyringe>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<FuelCellBundle>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<InfectedRemote>(), 3);
             float malachiteChance = DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<Malachite>(), CalamityWorld.revenge, malachiteChance);
 

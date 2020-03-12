@@ -55,9 +55,17 @@ namespace CalamityMod.NPCs.TownNPCs
             animationType = NPCID.PartyGirl;
         }
 
+		public override void AI()
+		{
+			if (!CalamityWorld.spawnedBandit)
+			{
+				CalamityWorld.spawnedBandit = true;
+			}
+		}
+
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)
         {
-            for (int k = 0; k < 255; k++)
+            for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
                 if (player.active && player.InventoryHas(ItemID.PlatinumCoin))
@@ -65,7 +73,7 @@ namespace CalamityMod.NPCs.TownNPCs
                     return NPC.downedBoss3;
                 }
             }
-            return false;
+            return CalamityWorld.spawnedBandit;
         }
 
         public override string TownNPCName()

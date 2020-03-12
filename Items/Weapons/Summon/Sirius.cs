@@ -16,6 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Sirius");
             Tooltip.SetDefault("Summons the brightest star in the night sky to shine upon your foes\n" +
                                "Consumes all of the remaining minion slots on use\n" +
+							   "Must be used from the hotbar\n" +
                                "Increased power based on the number of minion slots used");
         }
 
@@ -31,9 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.mana = 60;
             item.damage = 275;
             item.knockBack = 3f;
-            item.autoReuse = true;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = item.useAnimation = 10;
             item.shoot = ModContent.ProjectileType<SiriusMinion>();
             item.shootSpeed = 10f;
 

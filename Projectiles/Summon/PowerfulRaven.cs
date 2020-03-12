@@ -79,6 +79,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (projectile.Distance(potentialTarget.Center) > TeleportDistance)
                 {
                     projectile.Center = potentialTarget.Center + Utils.NextVector2Unit(Main.rand) * potentialTarget.Size * 1.3f;
+                    projectile.netUpdate = true;
                 }
                 else
                 {
@@ -87,9 +88,10 @@ namespace CalamityMod.Projectiles.Summon
                         if (Main.rand.NextBool(6))
                         {
                             projectile.Center = potentialTarget.Center + Utils.NextVector2Unit(Main.rand) * potentialTarget.Size * 1.3f;
+                            projectile.netUpdate = true;
                             for (int i = 0; i < 40; i++)
                             {
-                                float angle = MathHelper.TwoPi / 20f * i;
+                                float angle = MathHelper.TwoPi / 40f * i;
                                 float lerp = MathHelper.Lerp(0f, 1f, (float)Math.Sin(i / 8f * MathHelper.TwoPi) * 0.5f + 0.5f);
                                 Dust dust = Dust.NewDustPerfect(projectile.position, DustID.Fire);
                                 dust.velocity = Vector2.Lerp(Vector2.Zero, angle.ToRotationVector2() * 6f, lerp);
@@ -148,6 +150,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.Center = player.Center;
                     projectile.velocity = Utils.NextVector2Unit(Main.rand) * 12f;
+                    projectile.netUpdate = true;
                 }
                 else if (projectile.Distance(player.Center) > 90f)
                 {

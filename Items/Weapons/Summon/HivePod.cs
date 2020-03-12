@@ -22,8 +22,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.sentry = true;
             item.width = 46;
             item.height = 50;
-            item.useTime = 30;
-            item.useAnimation = 30;
+            item.useTime = item.useAnimation = 20;
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 4f;

@@ -12,16 +12,16 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxibow");
-            Tooltip.SetDefault("Fires slow arrows that inflict sulfuric poisoning");
+            Tooltip.SetDefault("Fires slow arrows that occasionally inflict sulfuric poisoning");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 12;
+            item.damage = 9;
             item.ranged = true;
             item.width = 20;
             item.height = 54;
-            item.useTime = item.useAnimation = 29;
+            item.useTime = item.useAnimation = 30;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3f;

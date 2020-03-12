@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.mana = 10;
             item.width = 10;
             item.height = 32;
-            item.useTime = item.useAnimation = 36;
+            item.useTime = item.useAnimation = 35;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 0f;

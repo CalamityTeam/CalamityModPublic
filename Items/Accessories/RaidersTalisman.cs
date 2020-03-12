@@ -11,7 +11,10 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Raider's Talisman");
-            Tooltip.SetDefault("Whenever you crit an enemy with a rogue weapon your rogue damage increases");
+            Tooltip.SetDefault("Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
+                "This effect can stack up to 150 times\n" +
+				"Max rogue damage boost is 15%\n" +
+                "This line is modified below");
         }
 
         public override void SetDefaults()
@@ -28,12 +31,9 @@ namespace CalamityMod.Items.Accessories
             int critLevel = Main.player[Main.myPlayer].Calamity().raiderStack;
             foreach (TooltipLine line2 in list)
             {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+                if (line2.mod == "Terraria" && line2.Name == "Tooltip3")
                 {
-                    line2.text = "Whenever you crit an enemy with a rogue weapon your rogue damage increases\n" +
-                "This effect can stack up to 150 times\n" +
-                "Max rogue damage boost is 15%\n" +
-                "Rogue Crit Level: " + critLevel;
+                    line2.text = "Rogue Crit Level: " + critLevel;
                 }
             }
         }

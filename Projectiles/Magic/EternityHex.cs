@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
             if (projectile.ai[0] >= Main.npc.Length || projectile.ai[0] < 0)
             {
                 DeathDust();
@@ -138,7 +139,7 @@ namespace CalamityMod.Projectiles.Magic
                         damage += target.damage * 5;
                         //The same damage value on each hit could cause the bugs channel to go apeshit lol
                         damage = (int)(damage * Main.rand.NextFloat(0.9f, 1.1f));
-                        damage = (int)MathHelper.Clamp(damage, 1f, Eternity.BaseDamage * 3);
+                        damage = (int)MathHelper.Clamp(damage, 1f, Eternity.BaseDamage * player.MagicDamage() * 3);
                         RegisterDPS(damage);
 
                         target.StrikeNPC(damage, 0f, 0, false);
@@ -150,7 +151,7 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     int homerCount = 6;
                     int trueMeleeID = ModContent.ProjectileType<EternityHoming>();
-                    int trueMeleeDamage = Eternity.BaseDamage;
+                    int trueMeleeDamage = (int)(Eternity.BaseDamage * player.MagicDamage());
                     float angleVariance = MathHelper.TwoPi / homerCount;
                     float spinOffsetAngle = MathHelper.Pi / (2f * homerCount);
                     Vector2 posVec = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * 10f;
@@ -168,7 +169,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 if (Main.rand.NextBool(3))
                 {
-                    int damage = 4000;
+                    int damage = (int)(Eternity.BaseDamage * 0.5f * player.MagicDamage());
                     damage = (int)(damage * Main.rand.NextFloat(0.9f, 1.1f));
                     RegisterDPS(damage);
                     target.StrikeNPC(damage, 0f, 0, false);

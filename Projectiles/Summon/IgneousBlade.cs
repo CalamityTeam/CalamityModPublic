@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -11,10 +12,12 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class IgneousBlade : ModProjectile
     {
+        public bool Firing = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Igneous Blade");
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
         }
 
         public override void SetDefaults()
@@ -35,11 +38,11 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(projectile.localAI[1]);
+            writer.Write(Firing);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            projectile.localAI[1] = reader.ReadSingle();
+            Firing = reader.ReadBoolean();
         }
         public override void AI()
         {
@@ -73,7 +76,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             // Orbiting. 1 = Shooting
-            if (projectile.localAI[1] == 0f)
+            if (!Firing)
             {
                 const float outwardPosition = 180f;
                 projectile.Center = player.Center + projectile.ai[0].ToRotationVector2() * outwardPosition;
@@ -85,27 +88,41 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[0]--;
                 if (projectile.ai[0] == 1)
                     projectile.Kill();
+
+                if (projectile.ai[0] % 10f == 9f)
+                {
+                    for (int i = 0; i < 20; i++)
+                    {
+                        float angle = MathHelper.TwoPi / 20f * i;
+                        Dust dust = Dust.NewDustPerfect(projectile.position + angle.ToRotationVector2().RotatedBy(projectile.rotation) * new Vector2(14f, 21f), DustID.Fire);
+                        dust.velocity = angle.ToRotationVector2().RotatedBy(projectile.rotation) * 2f;
+                        dust.noGravity = true;
+                    }
+                }
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.localAI[1] == 1f)
+            if (Firing)
             {
-                projectile.ai[0] = 50;
-                for (int i = 0; i < 3; i++)
+                if (Main.myPlayer == projectile.owner)
                 {
-                    Vector2 spawnPosition = target.Center - new Vector2(0f, 550f).RotatedByRandom(MathHelper.ToRadians(8f));
-                    Projectile.NewProjectile(spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * 24f, ModContent.ProjectileType<IgneousBladeStrike>(),
-                        (int)(projectile.damage * 0.666), projectile.knockBack, projectile.owner);
+                    projectile.ai[0] = 50;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Vector2 spawnPosition = target.Center - new Vector2(0f, 550f).RotatedByRandom(MathHelper.ToRadians(8f));
+                        Projectile.NewProjectile(spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * 24f, ModContent.ProjectileType<IgneousBladeStrike>(),
+                            (int)(projectile.damage * 0.666), projectile.knockBack, projectile.owner);
+                    }
+                    for (int i = 0; i < Main.rand.Next(28, 41); i++)
+                    {
+                        Dust.NewDustPerfect(
+                            projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
+                            6,
+                            Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 4f));
+                    }
+                    projectile.netUpdate = true;
                 }
-                for (int i = 0; i < Main.rand.Next(28, 41); i++)
-                {
-                    Dust.NewDustPerfect(
-                        projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(10f),
-                        6,
-                        Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(1f, 4f));
-                }
-                projectile.netUpdate = true;
             }
         }
         public override void Kill(int timeLeft)
@@ -116,6 +133,35 @@ namespace CalamityMod.Projectiles.Summon
                 dust.velocity = Vector2.UnitY * Main.rand.NextFloat(3f, 5.5f) * Main.rand.NextBool(2).ToDirectionInt();
                 dust.noGravity = true;
             }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (Firing)
+            {
+                Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/IgneousBlade");
+
+                Rectangle rectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+
+                SpriteEffects spriteEffects = SpriteEffects.None;
+                if (projectile.spriteDirection == -1)
+                    spriteEffects = SpriteEffects.FlipHorizontally;
+
+                if (Lighting.NotRetro)
+                {
+                    for (int i = 0; i < projectile.oldPos.Length; i++)
+                    {
+                        Vector2 drawPos = projectile.oldPos[i] + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+                        Color color = Color.Lerp(Color.White, Color.Red, i / (float)projectile.oldPos.Length) *
+                            ((projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
+                        float scale = MathHelper.Lerp(projectile.scale * 1.35f, projectile.scale * 0.6f, i / (float)projectile.oldPos.Length);
+                        Main.spriteBatch.Draw(texture, drawPos, new Rectangle?(rectangle), color,
+                            projectile.rotation,
+                            rectangle.Size() / 2f, scale, spriteEffects, 0f);
+                    }
+                }
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -347,7 +347,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("PlaguebringerGoliath", out float order);
 				int type = NPCType<PlaguebringerGoliath>();
 				int summon = ItemType<Abomination>();
-				List<int> loot = new List<int>() { ItemType<PlaguebringerGoliathBag>(), ItemType<PlagueCellCluster>(), ItemType<VirulentKatana>(), ItemType<DiseasedPike>(), ItemType<ThePlaguebringer>(), ItemType<Malevolence>(), ItemType<PestilentDefiler>(), ItemType<TheHive>(), ItemType<MepheticSprayer>(), ItemType<PlagueStaff>(), ItemType<TheSyringe>(), ItemType<FuelCellBundle>(), ItemType<Malachite>(), ItemType<BloomStone>(), ItemType<ToxicHeart>(), ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<PlaguebringerGoliathBag>(), ItemType<PlagueCellCluster>(), ItemType<VirulentKatana>(), ItemType<DiseasedPike>(), ItemType<ThePlaguebringer>(), ItemType<Malevolence>(), ItemType<PestilentDefiler>(), ItemType<TheHive>(), ItemType<MepheticSprayer>(), ItemType<PlagueStaff>(), ItemType<TheSyringe>(), ItemType<FuelCellBundle>(), ItemType<InfectedRemote>(), ItemType<Malachite>(), ItemType<BloomStone>(), ItemType<ToxicHeart>(), ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<PlaguebringerGoliathTrophy>(), ItemType<PlaguebringerGoliathMask>(), ItemType<KnowledgePlaguebringerGoliath>() };
 				string instructions = $"Use an [i:{summon}] in the Jungle Biome";
 				string despawn = CalamityUtils.ColorMessage("HOSTILE SPECIMENS TERMINATED. INITIATE RECALL TO HOME BASE.", new Color(0x00, 0xFF, 0x00));
@@ -609,7 +609,7 @@ namespace CalamityMod
 				new List<int>() { ItemType<KnowledgeMoonLord>() }
 			);
 		}
-		
+
 		private static void AddCalamityEventLoot(Mod bossChecklist)
 		{
 			// Blood Moon
@@ -673,7 +673,7 @@ namespace CalamityMod
 				null
 			);
 		}
-		
+
 		private static void FargosSupport()
 		{
 			Mod fargos = ModLoader.GetMod("Fargowiltas");
@@ -700,7 +700,7 @@ namespace CalamityMod
 			AddToMutantShop("ProfanedGuardians", "ProfanedShard", DownedGuardians, Item.buyPrice(platinum: 5));
 			AddToMutantShop("Bumblebirb", "BirbPheromones", DownedBirb, Item.buyPrice(platinum: 5));
 		}
-		
+
 		private static void CensusSupport()
 		{
 			Mod censusMod = ModLoader.GetMod("Census");

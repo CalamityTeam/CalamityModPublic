@@ -20,8 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.mana = 10;
             item.width = 46;
             item.height = 28;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = item.useAnimation = 25;
             item.useStyle = 4;
             item.noMelee = true;
             item.knockBack = 1f;
@@ -43,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Summon
 					position = Main.MouseWorld;
 					speedX = 0;
 					speedY = 0;
-					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
 				}
             }
             return false;

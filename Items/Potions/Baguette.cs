@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baguette");
-            Tooltip.SetDefault("Minor improvements to all stats for 20 minutes\n" +
+            Tooltip.SetDefault("Minor improvements to all stats\n" +
 			"Boosts the effects of Red Wine\n" +
 			"[c/FCE391:je suis Monte]");
         }
@@ -29,13 +29,8 @@ namespace CalamityMod.Items.Potions
             item.consumable = true;
             item.value = Item.buyPrice(0, 0, 50, 0);
             item.buffType = ModContent.BuffType<BaguetteBuff>();
-            item.buffTime = 18000;
+            item.buffTime = 72000;
             item.Calamity().customRarity = CalamityRarity.Dedicated;
-        }
-
-        public override void OnConsumeItem(Player player)
-        {
-            player.AddBuff(BuffID.WellFed, 288000);
         }
 
         public override void AddRecipes()

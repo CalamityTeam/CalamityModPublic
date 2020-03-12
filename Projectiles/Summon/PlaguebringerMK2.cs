@@ -79,18 +79,18 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.velocity = velocity;
                 }
                 int timeNeeded = (int)MathHelper.Lerp(60f, 18f, MathHelper.Clamp(projectile.localAI[1] / 320f, 0f, 1f));
-                if (projectile.ai[0] >= timeNeeded)
+                if (projectile.ai[0] >= timeNeeded && Main.myPlayer == projectile.owner)
                 {
                     Projectile.NewProjectile(projectile.Center,
                         projectile.DirectionTo(potentialTarget.Center) * 14f,
                         ModContent.ProjectileType<MK2RocketNormal>(),
-                        (int)(projectile.damage / 0.3),
+                        (int)(projectile.damage * 0.4),
                         3f,
                         projectile.owner);
                     Projectile.NewProjectile(projectile.Center,
                         projectile.DirectionTo(potentialTarget.Center) * 11.5f,
                         ModContent.ProjectileType<MK2RocketHoming>(),
-                        (int)(projectile.damage / 0.3),
+                        (int)(projectile.damage * 0.4),
                         3f,
                         projectile.owner);
                     projectile.ai[0] = 0;
@@ -117,7 +117,10 @@ namespace CalamityMod.Projectiles.Summon
                     Vector2 velocity = distanceToDestination.SafeNormalize(projectile.direction * Vector2.UnitX) * speed;
                     projectile.velocity = (projectile.velocity * 20f + velocity) / 21f;
                     if (distance > 2250f)
+                    {
                         projectile.Center = player.Center;
+                        projectile.netUpdate = true;
+                    }
                 }
                 else
                 {
@@ -137,8 +140,6 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-
-            Lighting.AddLight(projectile.Center - Vector2.UnitY * 21f, 0.25f, 0.865f, 0.825f);
         }
     }
 }

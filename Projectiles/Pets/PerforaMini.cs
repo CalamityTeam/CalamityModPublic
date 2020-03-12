@@ -54,94 +54,7 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.timeLeft = 2;
             }
 
-            float num16 = 0.5f;
-            projectile.tileCollide = false;
-            int num17 = 100;
-            Vector2 vector3 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
-            float num18 = Main.player[projectile.owner].position.X + (Main.player[projectile.owner].width / 2) - vector3.X;
-            float num19 = Main.player[projectile.owner].position.Y + (Main.player[projectile.owner].height / 2) - vector3.Y;
-            num18 += 60 * -(float)Main.player[projectile.owner].direction;
-            num19 -= 60f;
-            float num20 = (float)Math.Sqrt(num18 * num18 + num19 * num19);
-            float num21 = 18f;
-            if (num20 < num17 && Main.player[projectile.owner].velocity.Y == 0f &&
-                projectile.position.Y + projectile.height <= Main.player[projectile.owner].position.Y + Main.player[projectile.owner].height &&
-                !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
-            {
-                projectile.ai[0] = 0f;
-                if (projectile.velocity.Y < -6f)
-                {
-                    projectile.velocity.Y = -6f;
-                }
-            }
-            if (num20 > 2000f)
-            {
-                projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width / 2);
-                projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.height / 2);
-                projectile.netUpdate = true;
-            }
-            if (num20 < 50f)
-            {
-                if (Math.Abs(projectile.velocity.X) > 2f || Math.Abs(projectile.velocity.Y) > 2f)
-                {
-                    projectile.velocity *= 0.99f;
-                }
-                num16 = 0.01f;
-            }
-            else
-            {
-                if (num20 < 100f)
-                {
-                    num16 = 0.1f;
-                }
-                if (num20 > 300f)
-                {
-                    num16 = 1f;
-                }
-                num20 = num21 / num20;
-                num18 *= num20;
-                num19 *= num20;
-            }
-            if (projectile.velocity.X < num18)
-            {
-                projectile.velocity.X = projectile.velocity.X + num16;
-                if (num16 > 0.05f && projectile.velocity.X < 0f)
-                {
-                    projectile.velocity.X = projectile.velocity.X + num16;
-                }
-            }
-            if (projectile.velocity.X > num18)
-            {
-                projectile.velocity.X = projectile.velocity.X - num16;
-                if (num16 > 0.05f && projectile.velocity.X > 0f)
-                {
-                    projectile.velocity.X = projectile.velocity.X - num16;
-                }
-            }
-            if (projectile.velocity.Y < num19)
-            {
-                projectile.velocity.Y = projectile.velocity.Y + num16;
-                if (num16 > 0.05f && projectile.velocity.Y < 0f)
-                {
-                    projectile.velocity.Y = projectile.velocity.Y + num16 * 2f;
-                }
-            }
-            if (projectile.velocity.Y > num19)
-            {
-                projectile.velocity.Y = projectile.velocity.Y - num16;
-                if (num16 > 0.05f && projectile.velocity.Y > 0f)
-                {
-                    projectile.velocity.Y = projectile.velocity.Y - num16 * 2f;
-                }
-            }
-            if (projectile.velocity.X >= 0.25)
-            {
-                projectile.direction = 1;
-            }
-            else if (projectile.velocity.X < -0.25)
-            {
-                projectile.direction = -1;
-            }
+			CalamityGlobalProjectile.FloatingPetAI(projectile, false, true, 0.1f);
 
             //Dust
             if (Main.rand.NextBool(50))
@@ -152,10 +65,6 @@ namespace CalamityMod.Projectiles.Pets
                 Main.dust[d1].position = projectile.Center;
                 Main.dust[d2].position = projectile.Center;
             }
-
-            //Tilting and change directions
-            projectile.spriteDirection = projectile.direction;
-            projectile.rotation = projectile.velocity.X * 0.1f;
 
             //Animation
             projectile.frameCounter++;

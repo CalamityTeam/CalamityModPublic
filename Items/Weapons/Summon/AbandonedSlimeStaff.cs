@@ -17,6 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
             DisplayName.SetDefault("Abandoned Slime Staff");
             Tooltip.SetDefault("Cast down from the heavens in disgust, this relic sings a song of quiet tragedy...\n" +
                                "Consumes all of the remaining minion slots on use\n" +
+							   "Must be used from the hotbar\n" +
                                "Increased power and size based on the number of minion slots used");
         }
 
@@ -32,9 +33,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.mana = 40;
             item.damage = 56;
             item.knockBack = 3f;
-            item.autoReuse = true;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = item.useAnimation = 20;
             item.shoot = ModContent.ProjectileType<AstrageldonSummon>();
             item.shootSpeed = 10f;
 

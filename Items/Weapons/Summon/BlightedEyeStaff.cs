@@ -21,8 +21,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.mana = 10;
             item.width = 62;
             item.height = 62;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = item.useAnimation = 25;
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 2f;
@@ -66,11 +65,11 @@ namespace CalamityMod.Items.Weapons.Summon
             vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
             Vector2 spinningpoint = new Vector2(num78, num79);
             spinningpoint = spinningpoint.RotatedBy(1.5707963705062866, default);
-            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Calamitamini>(), damage, num74, i, 0f, 0f);
+            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Calamitamini>(), damage, num74, i, 0f, 1f);
             spinningpoint = spinningpoint.RotatedBy(-3.1415927410125732, default);
             Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Catastromini>(), damage, num74, i, 0f, 0f);
             spinningpoint = spinningpoint.RotatedBy(-5.1415927410125732, default);
-            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Cataclymini>(), damage, num74, i, 0f, 0f);
+            Projectile.NewProjectile(vector2.X + spinningpoint.X, vector2.Y + spinningpoint.Y, spinningpoint.X, spinningpoint.Y, ModContent.ProjectileType<Cataclymini>(), damage, num74, i, 0f, 1f);
             return false;
         }
     }

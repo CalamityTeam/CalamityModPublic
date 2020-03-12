@@ -30,6 +30,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
             if (projectile.localAI[1] >= Main.projectile.Length || projectile.localAI[0] < 0)
             {
                 DeathDust();
@@ -90,8 +91,8 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (projectile.Hitbox.Intersects(Main.npc[(int)projectile.ai[0]].Hitbox))
             {
-                int damage = (int)(Eternity.ExplosionDamage * Main.rand.NextFloat(0.9f, 1.1f));
-                Main.player[projectile.owner].addDPS(damage);
+                int damage = (int)(Eternity.ExplosionDamage * player.MagicDamage() * Main.rand.NextFloat(0.9f, 1.1f));
+                player.addDPS(damage);
                 Main.npc[(int)projectile.ai[0]].StrikeNPC(damage, 0f, 0, false);
                 Vector2 randomCirclePointVector = Vector2.One.RotatedBy(projectile.rotation);
                 float lerpStart = Main.rand.Next(12, 17);

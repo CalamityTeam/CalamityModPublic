@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.mana = 30;
             item.width = 64;
             item.height = 62;
-            item.useTime = item.useAnimation = 36;
+            item.useTime = item.useAnimation = 15;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 4f;
@@ -33,7 +33,6 @@ namespace CalamityMod.Items.Weapons.Summon
             item.rare = 8;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.UseSound = SoundID.DD2_SkeletonDeath;
-            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SkeletalDragonMother>();
             item.shootSpeed = 10f;
             item.summon = true;

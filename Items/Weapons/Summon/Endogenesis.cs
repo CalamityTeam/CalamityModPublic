@@ -37,12 +37,11 @@ namespace CalamityMod.Items.Weapons.Summon
 
             item.summon = true;
             item.mana = 80;
-            item.damage = 7000;
+            item.damage = 6500;
             item.knockBack = 4f;
             item.crit += 18;
             item.autoReuse = true;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = item.useAnimation = 10;
             item.shoot = ModContent.ProjectileType<EndoCooperBody>();
             item.shootSpeed = 10f;
 

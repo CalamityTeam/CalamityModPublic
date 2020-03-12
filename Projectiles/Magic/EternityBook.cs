@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Visage");
+            DisplayName.SetDefault("Eternity");
             Main.projFrames[projectile.type] = 8;
         }
 
