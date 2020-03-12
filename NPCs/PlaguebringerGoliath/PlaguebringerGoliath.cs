@@ -261,7 +261,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             // Charge phase
             else if (npc.ai[0] == 0f)
             {
-                int num1043 = 2;
+				float num1044 = revenge ? 28f : 26f;
+				if (aboveGroundEnrage)
+					num1044 += 6f;
+				if ((double)npc.life < (double)npc.lifeMax * 0.66 || death)
+					num1044 += 2f;
+				if ((double)npc.life < (double)npc.lifeMax * 0.33 || death)
+					num1044 += 2f;
+				if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					num1044 += 2f;
+
+				int num1043 = 2;
                 if ((npc.ai[1] > (float)(2 * num1043) && npc.ai[1] % 2f == 0f) || distFromPlayer.Length() > 1800f)
                 {
                     npc.ai[0] = -1f;
@@ -301,16 +311,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.ai[1] += 1f;
                         npc.ai[2] = 0f;
 
-                        float num1044 = revenge ? 28f : 26f;
-                        if (aboveGroundEnrage)
-                            num1044 += 6f;
-                        if ((double)npc.life < (double)npc.lifeMax * 0.66 || death)
-                            num1044 += 2f;
-                        if ((double)npc.life < (double)npc.lifeMax * 0.33 || death)
-                            num1044 += 2f;
-                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                            num1044 += 2f;
-
                         float num1045 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
                         float num1046 = player.position.Y + (float)(player.height / 2) - vectorCenter.Y;
                         float num1047 = (float)Math.Sqrt((double)(num1045 * num1045 + num1046 * num1046));
@@ -319,7 +319,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.velocity.X = num1045 * num1047;
                         npc.velocity.Y = num1046 * num1047;
 
-                        npc.direction = playerLocation < 0 ? 1 : -1;
+						npc.Calamity().newAI[1] = npc.velocity.X;
+						npc.Calamity().newAI[2] = npc.velocity.Y;
+
+						npc.direction = playerLocation < 0 ? 1 : -1;
                         npc.spriteDirection = npc.direction;
 
                         Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
@@ -400,6 +403,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     int num1051 = 1;
                     if (vectorCenter.X < player.Center.X)
                         num1051 = -1;
+
 					if (npc.direction == num1051 && (Math.Abs(vectorCenter.X - player.Center.X) > (float)num1050 || Math.Abs(vectorCenter.Y - player.Center.Y) > (float)num1050))
 					{
 						npc.ai[2] = 1f;
@@ -408,7 +412,16 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (npc.ai[2] != 1f)
                     {
                         charging = true;
-                        return;
+
+						// Velocity fix if PBG slowed
+						if (npc.velocity.Length() < num1044)
+							npc.velocity = new Vector2(npc.Calamity().newAI[1], npc.Calamity().newAI[2]);
+
+						npc.Calamity().newAI[0] += 1f;
+						if (npc.Calamity().newAI[0] > 90f)
+							npc.velocity *= 1.01f;
+
+						return;
                     }
 
                     npc.TargetClosest(true);
@@ -439,6 +452,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         npc.ai[2] = 0f;
                         npc.ai[1] += 1f;
+						npc.Calamity().newAI[0] = 0f;
                     }
 
 					npc.netUpdate = true;
@@ -709,7 +723,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             // Missile charge
             else if (npc.ai[0] == 4f)
             {
-                int num1043 = 2;
+				float num1044 = revenge ? 28f : 26f;
+				if (CalamityWorld.bossRushActive)
+					num1044 = 32f;
+
+				int num1043 = 2;
                 if (npc.ai[1] > (float)(2 * num1043) && npc.ai[1] % 2f == 0f)
                 {
                     MissileCountdown = 0;
@@ -760,10 +778,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                         npc.ai[1] += 1f;
                         npc.ai[2] = 0f;
-
-                        float num1044 = revenge ? 28f : 26f;
-                        if (CalamityWorld.bossRushActive)
-                            num1044 = 32f;
 
                         float num1045 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
                         float num1046 = player.position.Y - 500f + (float)(player.height / 2) - vectorCenter.Y;
@@ -840,7 +854,16 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (npc.ai[2] != 1f)
                     {
                         charging = true;
-                        return;
+
+						// Velocity fix if PBG slowed
+						if (npc.velocity.Length() < num1044)
+							npc.velocity.X = num1044 * npc.direction;
+
+						npc.Calamity().newAI[0] += 1f;
+						if (npc.Calamity().newAI[0] > 90f)
+							npc.velocity.X *= 1.01f;
+
+						return;
                     }
 
                     npc.TargetClosest(true);
@@ -871,6 +894,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         npc.ai[2] = 0f;
                         npc.ai[1] += 1f;
+						npc.Calamity().newAI[0] = 0f;
                     }
 
 					npc.netUpdate = true;

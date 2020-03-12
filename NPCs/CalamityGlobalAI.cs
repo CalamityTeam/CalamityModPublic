@@ -2598,8 +2598,26 @@ namespace CalamityMod.NPCs
                 if (npc.life < npc.lifeMax / 3 || death || enrage)
                     chargeAmt++;
 
-                // Switch to a random phase if chargeAmt has been exceeded
-                if (npc.ai[1] > (float)(2 * chargeAmt) && npc.ai[1] % 2f == 0f)
+				// Charge velocity
+				float speed = 16f;
+				if (CalamityWorld.bossRushActive)
+					speed += 12f;
+				else if (enrage)
+					speed += 8f;
+				else
+				{
+					if ((double)npc.life < (double)npc.lifeMax * 0.75 || death)
+						speed += 2f;
+					if ((double)npc.life < (double)npc.lifeMax * 0.5 || death)
+						speed += 2f;
+					if ((double)npc.life < (double)npc.lifeMax * 0.25 || death)
+						speed += 2f;
+				}
+				if ((double)npc.life < (double)npc.lifeMax * 0.1 || death)
+					speed += 2f;
+
+				// Switch to a random phase if chargeAmt has been exceeded
+				if (npc.ai[1] > (float)(2 * chargeAmt) && npc.ai[1] % 2f == 0f)
                 {
                     npc.ai[0] = -1f;
                     npc.ai[1] = 0f;
@@ -2607,9 +2625,11 @@ namespace CalamityMod.NPCs
                     npc.netUpdate = true;
                     return false;
                 }
+
+				// Line up and initiate charge
                 if (npc.ai[1] % 2f == 0f)
                 {
-                    // Get target and charge
+                    // Get target and initiate charge
                     npc.TargetClosest(true);
                     if (Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))) < 20f)
                     {
@@ -2617,23 +2637,6 @@ namespace CalamityMod.NPCs
                         npc.localAI[0] = 1f;
                         npc.ai[1] += 1f;
                         npc.ai[2] = 0f;
-
-                        float speed = 16f;
-						if (CalamityWorld.bossRushActive)
-							speed += 12f;
-						else if (enrage)
-							speed += 8f;
-						else
-						{
-							if ((double)npc.life < (double)npc.lifeMax * 0.75 || death)
-								speed += 2f;
-							if ((double)npc.life < (double)npc.lifeMax * 0.5 || death)
-								speed += 2f;
-							if ((double)npc.life < (double)npc.lifeMax * 0.25 || death)
-								speed += 2f;
-						}
-                        if ((double)npc.life < (double)npc.lifeMax * 0.1 || death)
-                            speed += 2f;
 
                         // Get target location
                         Vector2 vector74 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
@@ -2741,9 +2744,19 @@ namespace CalamityMod.NPCs
                     // If boss is in correct position, slow down, if not, reset
                     if (npc.direction == num605 && Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) > (float)num604)
                         npc.ai[2] = 1f;
+
+					// Keep moving
                     if (npc.ai[2] != 1f)
                     {
-                        npc.localAI[0] = 1f;
+						// Velocity fix if Queen Bee is slowed
+						if (npc.velocity.Length() < speed)
+							npc.velocity.X = speed * npc.direction;
+
+						calamityGlobalNPC.newAI[0] += 1f;
+						if (calamityGlobalNPC.newAI[0] > 90f)
+							npc.velocity.X *= 1.01f;
+
+						npc.localAI[0] = 1f;
                         return false;
                     }
 
@@ -2773,7 +2786,8 @@ namespace CalamityMod.NPCs
                     {
                         npc.ai[2] = 0f;
                         npc.ai[1] += 1f;
-                    }
+						calamityGlobalNPC.newAI[0] = 0f;
+					}
 
 					npc.netUpdate = true;
 
