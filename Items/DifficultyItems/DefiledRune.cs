@@ -13,7 +13,7 @@ namespace CalamityMod.Items.DifficultyItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Defiled Rune");
-            Tooltip.SetDefault("Wings do nothing and enemies can critically hit you\n" +
+            Tooltip.SetDefault("Wing flight is disabled and enemies can critically hit you\n" +
                 "Increases most rare item drop chances and enemies drop 50% more cash\n" +
                 "Using this while a boss is alive will instantly kill you and despawn the boss\n" +
                 "Can only be used in revengeance and death mode\n" +
