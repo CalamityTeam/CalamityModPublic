@@ -1556,10 +1556,6 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), NPC.downedBoss3 && !npc.SpawnedFromStatue, 200, 1, 1);
                     break;
 
-                case NPCID.TacticalSkeleton:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<TrueConferenceCall>(), 200);
-                    break;
-
                 case NPCID.DesertBeast:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<EvilSmasher>(), 200);
                     break;

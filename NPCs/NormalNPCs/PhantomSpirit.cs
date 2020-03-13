@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -93,6 +94,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void NPCLoot()
         {
             DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>());
+            DropHelper.DropItemChance(npc, ModContent.ItemType<TrueConferenceCall>(), 200);
         }
     }
 }
