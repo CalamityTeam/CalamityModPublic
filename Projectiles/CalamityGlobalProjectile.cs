@@ -1677,7 +1677,7 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.starTaintedGenerator)
                     {
-                        target.AddBuff(BuffID.Electrified, 180);
+                        target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
                     }
 
 					if (modPlayer.jellyChargedBattery)
