@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 4.5f;
-            item.value = Item.buyPrice(1, 80, 0, 0);
+            item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item36;
             item.autoReuse = true;

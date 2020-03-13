@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Summon
 		}
         public override void Kill(int timeLeft)
         {
-            if (Main.myPlayer == projectile.whoAmI)
+            if (Main.myPlayer == projectile.owner)
             {
                 for (int i = 0; i < Main.rand.Next(18, 21); i++)
                 {

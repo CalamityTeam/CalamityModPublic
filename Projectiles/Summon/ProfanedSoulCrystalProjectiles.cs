@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Summon
             DisplayName.SetDefault("Holy Bab Fireball");
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if ((double)Math.Abs(projectile.velocity.X) > 0.2)
             {
-                projectile.spriteDirection = -projectile.direction;
+                projectile.rotation = projectile.direction;
             }
             if (projectile.velocity.X < 0f)
             {
@@ -122,17 +122,13 @@ namespace CalamityMod.Projectiles.Summon
             Main.dust[num469].velocity *= 0f;
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(250, 150, 0, projectile.alpha);
-        }
-
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture2D13 = Main.projectileTexture[projectile.type];
             int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y6 = num214 * projectile.frame;
             Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 3, texture2D13);
             return false;
         }
 
@@ -596,7 +592,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Bab Boomer");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             Main.projFrames[projectile.type] = 3;
         }
@@ -606,7 +602,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.width = 60;
             projectile.height = 50;
             projectile.friendly = true;
-            //projectile.minion = true;
+            projectile.minion = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.extraUpdates = 1;
@@ -667,7 +663,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
             return false;
         }
 
@@ -733,23 +729,20 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     scaleFactor10 = 1f;
                 }
-                int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Gore gore = Main.gore[num626];
-                gore.velocity *= scaleFactor10;
-                gore.velocity.X += 1f;
-                gore.velocity.Y += 1f;
-                num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                gore.velocity *= scaleFactor10;
-                gore.velocity.X -= 1f;
-                gore.velocity.Y += 1f;
-                num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                gore.velocity *= scaleFactor10;
-                gore.velocity.X += 1f;
-                gore.velocity.Y -= 1f;
-                num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                gore.velocity *= scaleFactor10;
-                gore.velocity.X -= 1f;
-                gore.velocity.Y -= 1f;
+                for (int i = 0; i < 4; i++)
+                {
+                    int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+                    Gore gore = Main.gore[num626];
+                    gore.velocity *= scaleFactor10;
+                    if (i == 0 || i == 2)
+                        gore.velocity.X += 1f;
+                    else
+                        gore.velocity.X -= 1f;
+                    if (i < 2)
+                        gore.velocity.Y += 1f;
+                    else
+                        gore.velocity.Y -= 1f;
+                }
             }
         }
     }
@@ -775,7 +768,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.timeLeft = 240;
-            //projectile.minion = true;
+            projectile.minion = true;
         }
 
         public override bool PreAI()
@@ -802,11 +795,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.velocity.Y *= 1.01f;
             if (projectile.timeLeft == 210)
                 projectile.tileCollide = true;
-        }
-
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(250, 150, 0, projectile.alpha);
         }
 
         public override bool? CanHitNPC(NPC target)

@@ -448,6 +448,7 @@ namespace CalamityMod.CalPlayer
         public bool corrosiveSpine = false;
         public bool miniOldDuke = false;
         public bool starbusterCore = false;
+        public bool starTaintedGenerator = false;
         public bool hallowedRune = false;
         public bool hallowedDefense = false;
         public bool hallowedPower = false;
@@ -1550,6 +1551,7 @@ namespace CalamityMod.CalPlayer
             providenceStabber = false;
             hallowedRune = false;
             starbusterCore = false;
+            starTaintedGenerator = false;
             plaguebringerMK2 = false;
             igneousExaltation = false;
             radiantResolution = false;
@@ -4942,6 +4944,11 @@ namespace CalamityMod.CalPlayer
             {
                 if (isSummon)
                     damageMult += 0.1;
+            }
+            if (hallowedPower)
+            {
+                if (isSummon)
+                    damageMult += 0.15;
             }
             if (providenceLore && hasClassType)
             {

@@ -46,6 +46,7 @@ namespace CalamityMod.Items
                         Main.npc[i].life = 0;
                         Main.npc[i].lifeRegen = 0;
                         Main.npc[i].checkDead();
+                        Main.npc[i].netUpdate = true;
                     }
                 }
             }

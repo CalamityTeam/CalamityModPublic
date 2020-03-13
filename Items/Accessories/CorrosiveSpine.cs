@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (Main.rand.NextBool(9))
                 {
-                    for (int i = 0; i < 9; i++)
+                    for (int i = 0; i < 6; i++)
                     {
                         int type = -1;
                         switch (Main.rand.Next(3))

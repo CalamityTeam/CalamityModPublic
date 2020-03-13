@@ -41,7 +41,17 @@ namespace CalamityMod.Projectiles.Rogue
             else
             {
 				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi) + MathHelper.ToRadians(45) * projectile.direction;
+				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.PiOver2);
+                //Rotating 45 degrees if shooting right
+                if (projectile.spriteDirection == 1)
+                {
+                    projectile.rotation += MathHelper.ToRadians(45f);
+                }
+                //Rotating 45 degrees if shooting left
+                if (projectile.spriteDirection == -1)
+                {
+                    projectile.rotation -= MathHelper.ToRadians(45f);
+                }
             }
 
             if (!projectile.Calamity().stealthStrike && projectile.timeLeft < 575)

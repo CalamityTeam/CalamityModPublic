@@ -60,11 +60,11 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 9;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.value = Item.buyPrice(platinum: 2, gold: 50);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<GaelSkull>();
             item.shootSpeed = 15f;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.Violet;
             item.useStyle = ItemUseStyleID.SwingThrow;
         }
         public override void HoldItem(Player player)

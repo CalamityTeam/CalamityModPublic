@@ -1280,7 +1280,8 @@ namespace CalamityMod
                 ItemID.ChainGuillotines,
                 ItemID.FlowerofFrost,
                 ItemID.PoisonStaff,
-                ItemID.Gungnir
+                ItemID.Gungnir,
+                ItemID.TacticalShotgun
             };
 
             weaponAutoreuseList = new List<int>()

@@ -1675,6 +1675,11 @@ namespace CalamityMod.Projectiles
                         target.AddBuff(BuffID.Electrified, 60);
                     }
 
+                    if (modPlayer.starTaintedGenerator)
+                    {
+                        target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+                    }
+
 					if (modPlayer.jellyChargedBattery)
 					{
 						if (modPlayer.jellyDmg <= 0)
@@ -1789,8 +1794,13 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.starbusterCore && Main.rand.NextBool(3))
                     {
-                        Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
+                        int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
                             projectile.damage, 3f, projectile.owner);
+						if (modPlayer.starTaintedGenerator)
+						{
+							Main.projectile[boom].localNPCHitCooldown = 10;
+							Main.projectile[boom].penetrate = 3;
+						}
                     }
                 }
 

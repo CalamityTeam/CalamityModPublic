@@ -669,7 +669,7 @@ namespace CalamityMod
 
 			// Lunar Events
 			AddLoot(bossChecklist, "Lunar Event",
-				new List<int>() { ItemType<MeldBlob>() },
+				new List<int>() { ItemType<MeldBlob>(), ItemType<TrueConferenceCall>() },
 				null
 			);
 		}
