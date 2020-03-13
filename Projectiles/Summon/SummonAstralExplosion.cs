@@ -20,15 +20,17 @@ namespace CalamityMod.Projectiles.Summon
             projectile.height = 150;
             projectile.friendly = true;
             projectile.minion = true;
-            projectile.penetrate = 3;
-            projectile.timeLeft = 60;
+            projectile.penetrate = 2;
+            projectile.timeLeft = 30;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
         {
             // Bluish cyan light
             Lighting.AddLight(projectile.Center, 66f / 255f, 189f / 255f, 181f / 255f);
-            float dustCount = 25f;
+            float dustCount = 15f;
             dustCount *= 0.7f;
             projectile.ai[0] += 4f;
             int counter = 0;
