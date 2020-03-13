@@ -1792,7 +1792,7 @@ namespace CalamityMod.Projectiles
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<GodSlayerPhantom>(), (int)((double)num * 2.0), 0f, projectile.owner, 0f, ai1);
                     }
 
-                    if (modPlayer.starbusterCore && Main.rand.NextBool(3))
+                    if (modPlayer.starbusterCore && Main.rand.NextBool(3) && projectile.type != ModContent.ProjectileType<SummonAstralExplosion>() && projectile.type != ModContent.ProjectileType<HallowedStarSummon>())
                     {
                         int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
                             projectile.damage, 3f, projectile.owner);
