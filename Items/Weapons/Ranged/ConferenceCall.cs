@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 30;
+            item.damage = 35;
             item.ranged = true;
             item.width = 66;
             item.height = 26;
@@ -107,8 +107,8 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TacticalShotgun);
-            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>(), 7);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.FragmentVortex, 7);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
