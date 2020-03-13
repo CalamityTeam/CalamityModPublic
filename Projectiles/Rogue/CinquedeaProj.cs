@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     projectile.rotation += MathHelper.ToRadians(45f);
                 }
-                //Rotating 45 degrees if shooting right
+                //Rotating 45 degrees if shooting left
                 if (projectile.spriteDirection == -1)
                 {
                     projectile.rotation -= MathHelper.ToRadians(45f);
