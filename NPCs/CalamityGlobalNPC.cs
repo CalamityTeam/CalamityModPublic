@@ -3510,7 +3510,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (modPlayer.corrosiveSpine)
+            if (modPlayer.corrosiveSpine && projectile.Calamity().rogue)
             {
                 for (int i = 0; i < 3; i++)
                 {
