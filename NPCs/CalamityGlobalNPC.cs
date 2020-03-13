@@ -3498,6 +3498,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+
             if (modPlayer.hallowedPower)
             {
                 if (Main.rand.NextBool(4))
@@ -3507,6 +3508,37 @@ namespace CalamityMod.NPCs
                     Projectile.NewProjectile(spawnPosition, Vector2.Normalize(npc.Center - spawnPosition) * speed,
                         ModContent.ProjectileType<HallowedStarSummon>(), projectile.damage, 3f, projectile.owner);
                 }
+            }
+
+            if (modPlayer.corrosiveSpine)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (Main.rand.NextBool(2))
+                    {
+                        int type = -1;
+                        switch (Main.rand.Next(15))
+                        {
+                            case 0:
+                                type = ModContent.ProjectileType<Corrocloud1>();
+                                break;
+                            case 1:
+                                type = ModContent.ProjectileType<Corrocloud2>();
+                                break;
+                            case 2:
+                                type = ModContent.ProjectileType<Corrocloud3>();
+                                break;
+                        }
+                        // Should never happen, but just in case-
+                        if (type != -1)
+                        {
+                            float speed = Main.rand.NextFloat(5f, 11f);
+                            Projectile.NewProjectile(npc.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
+                                type, (int)(projectile.damage * 0.6), projectile.knockBack, player.whoAmI);
+                        }
+                    }
+                }
+                npc.AddBuff(BuffID.Venom, 240);
             }
 
             if (modPlayer.bloodflareSet)
