@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.width = 74;
             npc.height = 74;
 			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
-			npc.LifeMaxNERB(notDoGFight ? 600000 : 100000, notDoGFight ? 600000 : 100000, 3500000);
+			npc.LifeMaxNERB(notDoGFight ? 900000 : 150000, notDoGFight ? 900000 : 150000, 3500000);
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
@@ -295,8 +295,8 @@ namespace CalamityMod.NPCs.StormWeaver
                     break;
                 }
             }
-            float num188 = revenge ? 14f : 13f;
-            float num189 = revenge ? 0.44f : 0.4f;
+            float num188 = revenge ? 13f : 12f;
+            float num189 = revenge ? 0.41f : 0.38f;
             if (!Main.player[npc.target].ZoneSkyHeight && CalamityWorld.DoGSecondStageCountdown <= 0)
             {
                 num188 *= 2f;
