@@ -141,5 +141,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
         }
+
+        public override bool CanDamage() => false;
     }
 }

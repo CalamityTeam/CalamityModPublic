@@ -26,13 +26,13 @@ namespace CalamityMod.Projectiles.Summon
             projectile.alpha = 255;
             projectile.friendly = true;
             projectile.minion = true;
-            projectile.penetrate = 10;
+            projectile.penetrate = 6;
             projectile.timeLeft = 180;
             projectile.tileCollide = false;
             projectile.extraUpdates = 1;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 6;
         }
 
         public override void AI()

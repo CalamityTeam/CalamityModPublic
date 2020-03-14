@@ -31,12 +31,12 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.minionSlots = 0;
             projectile.timeLeft = 180;
-            projectile.penetrate = -1;
+            projectile.penetrate = 5;
             projectile.minion = true;
             projectile.tileCollide = false;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
+            projectile.localNPCHitCooldown = 8;
 			projectile.alpha = 255;
         }
 
