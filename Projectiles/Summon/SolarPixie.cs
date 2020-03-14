@@ -141,9 +141,10 @@ namespace CalamityMod.Projectiles.Summon
                     num406 = num403 / num406;
                     num404 *= num406;
                     num405 *= num406;
-                    int beam = Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, 260, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    int beam = Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, ProjectileID.HeatRay, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     Main.projectile[beam].magic = false;
                     Main.projectile[beam].minion = true;
+					ProjectileID.Sets.MinionShot[Main.projectile[beam].type] = true;
                     projectile.ai[0] = 50f;
                 }
             }

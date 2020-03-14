@@ -106,12 +106,6 @@ namespace CalamityMod.Projectiles
 
             // Disable Lunatic Cultist's homing resistance globally
             ProjectileID.Sets.Homing[projectile.type] = false;
-
-			if (projectile.minion && (projectile.type == 260 || projectile.type == ModContent.ProjectileType<WulfrumBolt>() || projectile.type == ModContent.ProjectileType<BrimstoneHellfireballFriendly>() || projectile.type == ModContent.ProjectileType<HellfireExplosionFriendly>()))
-				ProjectileID.Sets.MinionShot[projectile.type] = true;
-
-			if (projectile.minion && (projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<FrostBoltProjectile>()))
-				ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
         #endregion
 

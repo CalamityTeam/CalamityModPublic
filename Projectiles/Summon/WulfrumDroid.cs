@@ -230,6 +230,7 @@ namespace CalamityMod.Projectiles.Summon
 			Main.projectile[bolt].netUpdate = true;
 			Main.projectile[bolt].penetrate = 1;
 			Main.projectile[bolt].extraUpdates = 1;
+			ProjectileID.Sets.MinionShot[Main.projectile[bolt].type] = true;
 			projectile.netUpdate = true;
         }
 
