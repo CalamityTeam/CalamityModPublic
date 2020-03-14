@@ -30,8 +30,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             // Bluish cyan light
             Lighting.AddLight(projectile.Center, 66f / 255f, 189f / 255f, 181f / 255f);
-            float dustCount = 15f;
-            dustCount *= 0.7f;
+            float dustCount = 4f;
             projectile.ai[0] += 4f;
             int counter = 0;
             while (counter < dustCount)
