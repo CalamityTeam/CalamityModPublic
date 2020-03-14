@@ -16178,9 +16178,9 @@ namespace CalamityMod.NPCs
                 if (extraDeceleration && npc.velocity.Y == 0f && npc.velocity.X < 0f)
                     npc.velocity.X *= extraDecelerationFactor;
 
-                if (npc.velocity.X > 3f)
+                if (npc.velocity.X > velocityMax)
                 {
-                    npc.velocity.X = 3f;
+                    npc.velocity.X = velocityMax;
                 }
             }
             else if (npc.velocity.X > -velocityMax && npc.direction == -1)
