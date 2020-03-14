@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.minionSlots = 0f;
             projectile.timeLeft = 180;
-            projectile.penetrate = -1;
+            projectile.penetrate = 5;
             projectile.tileCollide = false;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
@@ -253,7 +253,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (Main.rand.NextBool(3))
+			if (Main.rand.NextBool(4))
 			{
 				for (int n = 0; n < Main.rand.Next(1, 3); n++) //1 to 2 baseball bats
 				{
@@ -268,14 +268,14 @@ namespace CalamityMod.Projectiles.Summon
 					num16 = (float)num15 / num16;
 					num13 *= num16;
 					num14 *= num16;
-					Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<MagicBat>(), (int)((double)projectile.damage * 0.1 * Main.rand.Next(4, 7)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<MagicBat>(), (int)((float)projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner, 0f, 0f);
 				}
 			}
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			if (Main.rand.NextBool(3))
+			if (Main.rand.NextBool(4))
 			{
 				for (int n = 0; n < Main.rand.Next(1, 3); n++) //1 to 2 baseball bats
 				{
@@ -290,7 +290,7 @@ namespace CalamityMod.Projectiles.Summon
 					num16 = (float)num15 / num16;
 					num13 *= num16;
 					num14 *= num16;
-					Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<MagicBat>(), (int)((double)projectile.damage * 0.1 * Main.rand.Next(4, 7)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<MagicBat>(), (int)((float)projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner, 0f, 0f);
 				}
 			}
         }
