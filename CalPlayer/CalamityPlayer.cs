@@ -741,6 +741,7 @@ namespace CalamityMod.CalPlayer
         public bool virili = false;
         public bool frostBlossom = false;
         public bool cinderBlossom = false;
+        public bool belladonaSpirit = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1562,6 +1563,7 @@ namespace CalamityMod.CalPlayer
             virili = false;
             frostBlossom = false;
             cinderBlossom = false;
+            belladonaSpirit = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;

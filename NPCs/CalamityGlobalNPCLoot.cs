@@ -164,13 +164,17 @@ namespace CalamityMod.NPCs
                 {
                     string key2 = "Mods.CalamityMod.UglyBossText";
                     Color messageColor2 = Color.Aquamarine;
+                    string sulfSeaBoostMessage = "Mods.CalamityMod.UglyBossText2";
+                    Color sulfSeaBoostColor = AcidRainEvent.TextColor;
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
                         Main.NewText(Language.GetTextValue(key2), messageColor2);
+                        Main.NewText(Language.GetTextValue(sulfSeaBoostMessage), sulfSeaBoostColor);
                     }
                     else if (Main.netMode == NetmodeID.Server)
                     {
                         NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(sulfSeaBoostMessage), sulfSeaBoostColor);
                     }
                 }
             }

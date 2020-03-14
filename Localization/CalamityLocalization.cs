@@ -18,6 +18,7 @@ namespace CalamityMod.Localization
                 new [] { "FutureOreText", "A cold and dark energy has materialized in space." },
 
                 new [] { "UglyBossText", "The Sunken Sea trembles..." },
+                new [] { "UglyBossText2", "The sulfuric sky darkens..." },
 
                 new [] { "SteelSkullBossText", "A blood red inferno lingers in the night..." },
 
