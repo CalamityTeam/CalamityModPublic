@@ -25,8 +25,10 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 36;
             npc.height = 38;
             npc.defense = 20;
-            npc.damage = 47;
-            npc.lifeMax = 405;
+
+            npc.damage = Main.hardMode ? 80 : 60;
+            npc.lifeMax = Main.hardMode ? 500 : 280;
+
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 4, 0);
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -40,10 +42,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath27;
             banner = npc.type;
             bannerItem = ModContent.ItemType<TrilobiteBanner>();
-        }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = 450;
         }
         public override void AI()
         {
@@ -94,15 +92,23 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+
+            npc.damage = Main.hardMode ? 88 : 73;
+            npc.lifeMax = Main.hardMode ? 550 : 360;
+        }
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (npc.ai[0] <= 0f)
                 {
+                    Main.PlaySound(SoundID.NPCDeath11, npc.Center);
+                    int projDamage = Main.hardMode ? 29 : 21;
                     Projectile.NewProjectile(npc.Center + Utils.NextVector2Unit(Main.rand) * npc.Size * 0.7f,
                         -npc.velocity.RotatedByRandom(MathHelper.ToRadians(10f)), ModContent.ProjectileType<TrilobiteSpike>(),
-                        24, 3f);
+                        projDamage, 3f);
                     npc.ai[0] = Main.rand.Next(50, 65);
                     npc.netUpdate = true;
                 }

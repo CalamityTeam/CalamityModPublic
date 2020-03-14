@@ -23,8 +23,10 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 62;
             npc.height = 34;
             npc.defense = 10;
-            npc.damage = 60;
-            npc.lifeMax = 380;
+
+            npc.damage = Main.hardMode ? 70 : 60;
+            npc.lifeMax = Main.hardMode ? 420 : 280;
+
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -38,10 +40,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath13;
             banner = npc.type;
             bannerItem = ModContent.ItemType<OrthoceraBanner>();
-        }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = 500;
         }
         public override void AI()
         {
@@ -121,8 +119,8 @@ namespace CalamityMod.NPCs.AcidRain
                         float rotation = npc.rotation - MathHelper.Pi - MathHelper.PiOver2 - MathHelper.PiOver4;
                         if (npc.spriteDirection == -1)
                             rotation += MathHelper.PiOver2;
-
-                        Projectile.NewProjectile(npc.Center, rotation.ToRotationVector2() * 12f, ModContent.ProjectileType<OrthoceraStream>(), 27, 2f);
+                        int damage = Main.hardMode ? 26 : 18;
+                        Projectile.NewProjectile(npc.Center, rotation.ToRotationVector2() * 12f, ModContent.ProjectileType<OrthoceraStream>(), damage, 2f);
                     }
                 }
                 // Prevent yeeting into the sky at the speed of light
@@ -142,7 +140,11 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
-
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.damage = Main.hardMode ? 80 : 69;
+            npc.lifeMax = Main.hardMode ? 480 : 335;
+        }
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)

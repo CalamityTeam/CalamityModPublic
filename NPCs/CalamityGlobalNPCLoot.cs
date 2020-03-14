@@ -33,6 +33,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -1585,9 +1586,10 @@ namespace CalamityMod.NPCs
         #region Acid Rain
         private void AcidRainProgression(NPC npc)
         {
-            if (AcidRainEvent.PossibleEnemies.Select(enemy => enemy.Item1).Contains(npc.type) && CalamityWorld.rainingAcid)
+            List<(int, int)> PossibleEnemies = Main.hardMode ? AcidRainEvent.PossibleEnemiesHM : AcidRainEvent.PossibleEnemiesPreHM;
+            if (PossibleEnemies.Select(enemy => enemy.Item1).Contains(npc.type) && CalamityWorld.rainingAcid)
             {
-                Main.invasionSize -= AcidRainEvent.PossibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
+                Main.invasionSize -= PossibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
             }
             AcidRainEvent.UpdateInvasion();
         }

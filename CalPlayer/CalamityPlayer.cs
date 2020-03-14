@@ -739,6 +739,8 @@ namespace CalamityMod.CalPlayer
         public bool igneousExaltation = false;
         public bool youngDuke = false;
         public bool virili = false;
+        public bool frostBlossom = false;
+        public bool cinderBlossom = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1558,6 +1560,8 @@ namespace CalamityMod.CalPlayer
             igneousExaltation = false;
             radiantResolution = false;
             virili = false;
+            frostBlossom = false;
+            cinderBlossom = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;

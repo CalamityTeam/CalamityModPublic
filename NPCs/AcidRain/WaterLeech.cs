@@ -20,8 +20,10 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 26;
             npc.height = 14;
             npc.defense = 10;
-            npc.damage = 55;
-            npc.lifeMax = 75;
+
+            npc.damage = Main.hardMode ? 85 : 60;
+            npc.lifeMax = Main.hardMode ? 160 : 90;
+
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 2, 5);
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -35,10 +37,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WaterLeechBanner>();
-        }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = 100;
         }
         public override void AI()
         {
@@ -116,6 +114,11 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.frame.Y = 0;
                 }
             }
+        }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.damage = Main.hardMode ? 90 : 75;
+            npc.lifeMax = Main.hardMode ? 185 : 115;
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
