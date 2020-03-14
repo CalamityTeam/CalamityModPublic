@@ -26,13 +26,10 @@ namespace CalamityMod.Events
         public static List<(int, int)> PossibleEnemiesPreHM = new List<(int, int)>()
         {
             ( ModContent.NPCType<Radiator>(), 0 ),
-            ( ModContent.NPCType<NuclearToad>(), 0 ),
-            ( ModContent.NPCType<AcidEel>(), 0 ),
-            ( ModContent.NPCType<Orthocera>(), 1 ),
-            ( ModContent.NPCType<IrradiatedSlime>(), 1 ),
-            ( ModContent.NPCType<WaterLeech>(), 1 ),
+            ( ModContent.NPCType<NuclearToad>(), 1 ),
+            ( ModContent.NPCType<AcidEel>(), 1 ),
             ( ModContent.NPCType<Skyfin>(), 1 ),
-            ( ModContent.NPCType<Trilobite>(), 1 )
+            ( ModContent.NPCType<WaterLeech>(), 1 )
         };
 
         // Not readonly so that if anyone else wants to add stuff in here with their own mod, they can.
@@ -40,10 +37,13 @@ namespace CalamityMod.Events
         public static List<(int, int)> PossibleEnemiesHM = new List<(int, int)>()
         {
             ( ModContent.NPCType<Radiator>(), 0 ),
-            ( ModContent.NPCType<NuclearToad>(), 1 ),
-            ( ModContent.NPCType<AcidEel>(), 1 ),
+            ( ModContent.NPCType<NuclearToad>(), 0 ),
+            ( ModContent.NPCType<AcidEel>(), 0 ),
+            ( ModContent.NPCType<Orthocera>(), 1 ),
+            ( ModContent.NPCType<IrradiatedSlime>(), 1 ),
+            ( ModContent.NPCType<WaterLeech>(), 1 ),
             ( ModContent.NPCType<Skyfin>(), 1 ),
-            ( ModContent.NPCType<WaterLeech>(), 1 )
+            ( ModContent.NPCType<Trilobite>(), 1 )
         };
 
         // Temporary variable. Remove when Old Duke is added.
