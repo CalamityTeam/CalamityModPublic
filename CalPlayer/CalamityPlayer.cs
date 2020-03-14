@@ -450,9 +450,7 @@ namespace CalamityMod.CalPlayer
         public bool starbusterCore = false;
         public bool starTaintedGenerator = false;
         public bool hallowedRune = false;
-        public bool hallowedDefense = false;
-        public bool hallowedPower = false;
-        public bool hallowedRegen = false;
+		public bool silvaWings = false;
 
 
         // Armor Set
@@ -674,6 +672,9 @@ namespace CalamityMod.CalPlayer
         public bool polarisBoostThree = false;
         public bool bloodfinBoost = false;
         public int bloodfinTimer = 30;
+        public bool hallowedDefense = false;
+        public bool hallowedPower = false;
+        public bool hallowedRegen = false;
 
         // Minion
         public bool wDroid = false;
@@ -1278,6 +1279,7 @@ namespace CalamityMod.CalPlayer
             starbusterCore = false;
             starTaintedGenerator = false;
             camper = false;
+			silvaWings = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -3311,6 +3313,15 @@ namespace CalamityMod.CalPlayer
                             player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), 1800);
                         }
                     }
+					else if (silvaWings)
+					{
+                        player.statLife += (int)(player.statLifeMax2 / 2);
+                        player.HealEffect((int)(player.statLifeMax2 / 2));
+                        if (player.statLife > player.statLifeMax2)
+                        {
+                            player.statLife = player.statLifeMax2;
+                        }
+					}
                 }
                 hasSilvaEffect = true;
                 if (player.statLife < 1)
