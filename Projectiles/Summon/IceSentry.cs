@@ -76,7 +76,8 @@ namespace CalamityMod.Projectiles.Summon
                         Vector2 speed = new Vector2(Main.rand.Next(-1000, 1001), Main.rand.Next(-1000, 1001));
                         speed.Normalize();
                         speed *= 15f;
-                        Projectile.NewProjectile(projectile.Center + speed, speed, ModContent.ProjectileType<FrostShardFriendly>(), projectile.damage / 2, projectile.knockBack / 2, Main.myPlayer);
+                        int shard = Projectile.NewProjectile(projectile.Center + speed, speed, ModContent.ProjectileType<FrostShardFriendly>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
+						ProjectileID.Sets.SentryShot[Main.projectile[shard].type] = true;
                     }
                 }
             }
@@ -123,6 +124,7 @@ namespace CalamityMod.Projectiles.Summon
                             {
                                 Main.projectile[p].magic = false;
                                 Main.projectile[p].minion = true;
+								ProjectileID.Sets.SentryShot[Main.projectile[p].type] = true;
                             }
                         }
 

@@ -43,7 +43,14 @@ namespace CalamityMod.Items.Weapons.Summon
             Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
             return false;
         }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+
+        public override bool CanUseItem(Player player)
+        {
+			if (player.maxMinions < 5)
+				return false;
+			return player.ownedProjectileCounts[item.shoot] <= 0;
+		}
+
         public override void AddRecipes()
         {
             ModRecipe r = new ModRecipe(mod);

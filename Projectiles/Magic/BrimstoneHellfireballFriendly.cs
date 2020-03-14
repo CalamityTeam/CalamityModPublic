@@ -2,6 +2,7 @@
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -52,6 +53,7 @@ namespace CalamityMod.Projectiles.Magic
 				if (projectile.minion && fire < Main.maxProjectiles)
 				{
 					Main.projectile[fire].Calamity().forceMinion = true;
+					ProjectileID.Sets.MinionShot[Main.projectile[fire].type] = true;
 				}
             }
         }

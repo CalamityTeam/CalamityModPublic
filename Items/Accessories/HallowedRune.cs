@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Hallowed Rune");
             Tooltip.SetDefault("Whenever your minions hit an enemy you will gain a random buff\n" +
-                "These buffs will either boost your defense, summon damage, or life regen for a while");
+                "These buffs will either boost your defense, summon damage, or life regen for a while\n" +
+                "If you have the offensive boost, enemies hit by minions will sometimes be hit by stars");
         }
 
         public override void SetDefaults()

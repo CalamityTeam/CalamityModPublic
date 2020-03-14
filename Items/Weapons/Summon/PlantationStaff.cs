@@ -40,16 +40,10 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool CanUseItem(Player player)
         {
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-                Projectile p = Main.projectile[i];
-                if (p.active && p.type == ModContent.ProjectileType<PlantSummon>() && p.owner == player.whoAmI)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+			if (player.maxMinions < 2)
+				return false;
+			return player.ownedProjectileCounts[item.shoot] <= 0;
+		}
 
         public override void AddRecipes()
         {
