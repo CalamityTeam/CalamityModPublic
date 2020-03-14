@@ -847,6 +847,13 @@ namespace CalamityMod.World
                 CalamityMod.UpdateServerBoolean();
             }
 
+            // Attempt to start the acid rain
+            if (Main.rand.NextBool(144000))
+            {
+                AcidRainEvent.TryStartEvent();
+                CalamityMod.UpdateServerBoolean();
+            }
+
             if (rainingAcid)
             {
                 // Makes rain pour at its maximum intensity
