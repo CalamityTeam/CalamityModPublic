@@ -87,12 +87,12 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[0] == 0f)
             {
 				//lineColor == 1 means it is spawned from Mollusk Armor rather than the weapon
-                projectile.damage = (int)((modProj.lineColor == 1 ? 1500f : 70f) * (player.allDamage + player.minionDamage - 1f));
-                if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+                projectile.damage = (int)((modProj.lineColor == 1 ? 1500f : 70f) * player.MinionDamage());
+                if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
                 {
                     int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
                         modProj.spawnedPlayerMinionDamageValue *
-                        (player.allDamage + player.minionDamage - 1f));
+                        player.MinionDamage());
                     projectile.damage = damage2;
                 }
                 projectile.ai[1] += 1f;
@@ -394,7 +394,7 @@ namespace CalamityMod.Projectiles.Summon
             Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && Main.npc[i].defense < 9999 &&
                         ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||

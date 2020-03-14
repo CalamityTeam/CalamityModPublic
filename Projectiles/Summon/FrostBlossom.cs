@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.Opacity = 1f - (float)Math.Sin(projectile.ai[1] / 45f) * 0.075f - 0.075f; // Range of 1f to 0.85f
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 for (int i = 0; i < 36; i++)
                 {
@@ -74,11 +74,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[0] += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = trueDamage;
             }
             if (projectile.owner == Main.myPlayer)
