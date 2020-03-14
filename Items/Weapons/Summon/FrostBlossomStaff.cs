@@ -45,7 +45,9 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ItemID.Shiverthorn, 5);
             recipe.AddIngredient(ItemID.SnowBlock, 50);
             recipe.AddIngredient(ItemID.IceBlock, 50);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

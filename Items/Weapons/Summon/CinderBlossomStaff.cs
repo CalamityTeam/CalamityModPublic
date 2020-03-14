@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
-            item.UseSound = SoundID.Item21;
+            item.UseSound = SoundID.Item34;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CinderBlossom>();
             item.shootSpeed = 10f;
@@ -44,7 +44,9 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ItemID.Fireblossom, 5);
             recipe.AddIngredient(ItemID.LavaBucket, 10);
             recipe.AddIngredient(ItemID.HellstoneBar, 10);
-            recipe.AddTile(TileID.WorkBenches);
+            recipe.SetResult(this);
+            recipe.AddTile(TileID.Anvils);
+            recipe.AddRecipe();
         }
     }
 }
