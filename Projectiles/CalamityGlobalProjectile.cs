@@ -106,12 +106,6 @@ namespace CalamityMod.Projectiles
 
             // Disable Lunatic Cultist's homing resistance globally
             ProjectileID.Sets.Homing[projectile.type] = false;
-
-			if (projectile.minion && (projectile.type == 260 || projectile.type == ModContent.ProjectileType<WulfrumBolt>() || projectile.type == ModContent.ProjectileType<BrimstoneHellfireballFriendly>() || projectile.type == ModContent.ProjectileType<HellfireExplosionFriendly>()))
-				ProjectileID.Sets.MinionShot[projectile.type] = true;
-
-			if (projectile.minion && (projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<FrostBoltProjectile>()))
-				ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
         #endregion
 
@@ -1792,7 +1786,7 @@ namespace CalamityMod.Projectiles
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<GodSlayerPhantom>(), (int)((double)num * 2.0), 0f, projectile.owner, 0f, ai1);
                     }
 
-                    if (modPlayer.starbusterCore && Main.rand.NextBool(3))
+                    if (modPlayer.starbusterCore && Main.rand.NextBool(3) && projectile.type != ModContent.ProjectileType<SummonAstralExplosion>() && projectile.type != ModContent.ProjectileType<HallowedStarSummon>())
                     {
                         int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
                             projectile.damage, 3f, projectile.owner);

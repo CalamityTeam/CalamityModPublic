@@ -56,6 +56,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ModContent.ItemType<PlantationStaff>());
+            recipe.AddIngredient(ModContent.ItemType<HauntedScroll>());
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

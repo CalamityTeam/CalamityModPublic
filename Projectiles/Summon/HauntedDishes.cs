@@ -9,22 +9,22 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class SquirrelSquireMinion : ModProjectile
+    public class HauntedDishes : ModProjectile
     {
         public float dust = 0f;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Squirrel Squire");
+            DisplayName.SetDefault("HauntedDishes");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-            Main.projFrames[projectile.type] = 17;
+            Main.projFrames[projectile.type] = 19;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 64;
-            projectile.height = 64;
+            projectile.width = 40;
+            projectile.height = 40;
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
 			CalamityGlobalProjectile modProj = projectile.Calamity();
             if (dust == 0f)
             {
-                modProj.spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
                 modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int dustAmt = 36;
                 for (int num227 = 0; num227 < dustAmt; num227++)
@@ -58,22 +58,21 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != modProj.spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
-                    modProj.spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
                 projectile.damage = damage2;
             }
-            bool projTypeCheck = projectile.type == ModContent.ProjectileType<SquirrelSquireMinion>();
-            player.AddBuff(ModContent.BuffType<SquirrelSquireBuff>(), 3600);
+            bool projTypeCheck = projectile.type == ModContent.ProjectileType<HauntedDishes>();
+            player.AddBuff(ModContent.BuffType<HauntedDishesBuff>(), 3600);
             if (projTypeCheck)
             {
                 if (player.dead)
                 {
-                    modPlayer.squirrel = false;
+                    modPlayer.hauntedDishes = false;
                 }
-                if (modPlayer.squirrel)
+                if (modPlayer.hauntedDishes)
                 {
                     projectile.timeLeft = 2;
                 }
@@ -224,9 +223,9 @@ namespace CalamityMod.Projectiles.Summon
 						projectile.velocity.Y = projectile.velocity.Y - conflict2 * 2f;
 					}
 				}
-				if (projectile.frame < 12 || projectile.frame == 16)
+				if (projectile.frame < 15)
 				{
-					projectile.frame = 12;
+					projectile.frame = 15;
 				}
 				else
 				{
@@ -236,9 +235,9 @@ namespace CalamityMod.Projectiles.Summon
 						projectile.frame++;
 						projectile.frameCounter = 0;
 					}
-					if (projectile.frame >= 16)
+					if (projectile.frame >= 19)
 					{
-						projectile.frame = 13;
+						projectile.frame = 15;
 					}
 				}
 				if (projectile.velocity.X > 0.5f)
@@ -366,7 +365,7 @@ namespace CalamityMod.Projectiles.Summon
 							float SpeedX = num12 * num17;
 							float SpeedY = num15 * num17;
 							int damage = projectile.damage;
-							int Type = ModContent.ProjectileType<SquirrelSquireAcorn>();
+							int Type = ModContent.ProjectileType<PlateProjectile>();
 							int index = Projectile.NewProjectile(vector2.X, vector2.Y, SpeedX, SpeedY, Type, damage, projectile.knockBack, projectile.owner, 0f, 0f);
 							if (SpeedX < 0f)
 								projectile.direction = -1;
@@ -506,9 +505,9 @@ namespace CalamityMod.Projectiles.Summon
 					if (projectile.localAI[1] == 0f)
 					{
 						projectile.localAI[1] = 1f;
-						projectile.frame = 8;
+						projectile.frame = 9;
 					}
-					if (projectile.frame >= 8 || projectile.frame <= 11)
+					if (projectile.frame >= 9 || projectile.frame <= 14)
 					{
 						projectile.frameCounter++;
 						if (projectile.frameCounter > 8)
@@ -516,8 +515,8 @@ namespace CalamityMod.Projectiles.Summon
 							projectile.frame++;
 							projectile.frameCounter = 0;
 						}
-						if (projectile.frame == 11)
-							projectile.frame = 8;
+						if (projectile.frame == 14)
+							projectile.frame = 9;
 					}
 				}
 				else if (projectile.velocity.Y == 0f)
@@ -531,7 +530,7 @@ namespace CalamityMod.Projectiles.Summon
 							projectile.frame++;
 							projectile.frameCounter = 0;
 						}
-						if (projectile.frame >= 4)
+						if (projectile.frame >= 3)
 						{
 							projectile.frame = 0;
 						}
@@ -546,9 +545,9 @@ namespace CalamityMod.Projectiles.Summon
 							projectile.frameCounter = 0;
 						}
 						if (projectile.frame < 4)
-							projectile.frame = 4;
-						if (projectile.frame >= 8)
-							projectile.frame = 4;
+							projectile.frame = 3;
+						if (projectile.frame >= 9)
+							projectile.frame = 3;
 					}
 					else
 					{
@@ -558,7 +557,7 @@ namespace CalamityMod.Projectiles.Summon
 							projectile.frame++;
 							projectile.frameCounter = 0;
 						}
-						if (projectile.frame >= 4)
+						if (projectile.frame >= 3)
 						{
 							projectile.frame = 0;
 						}
@@ -567,12 +566,12 @@ namespace CalamityMod.Projectiles.Summon
 				else if (projectile.velocity.Y < 0f)
 				{
 					projectile.frameCounter = 0;
-					projectile.frame = 16;
+					projectile.frame = 3;
 				}
 				else if (projectile.velocity.Y > 0f)
 				{
 					projectile.frameCounter = 0;
-					projectile.frame = 16;
+					projectile.frame = 3;
 				}
 				projectile.velocity.Y += 0.4f;
 				if (projectile.velocity.Y > 10f)

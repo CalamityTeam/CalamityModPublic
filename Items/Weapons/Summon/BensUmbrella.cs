@@ -45,6 +45,8 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool CanUseItem(Player player)
         {
+			if (player.maxMinions < 5)
+				return false;
             for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 Projectile p = Main.projectile[i];
