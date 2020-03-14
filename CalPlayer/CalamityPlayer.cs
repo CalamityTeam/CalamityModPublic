@@ -742,6 +742,7 @@ namespace CalamityMod.CalPlayer
         public bool frostBlossom = false;
         public bool cinderBlossom = false;
         public bool belladonaSpirit = false;
+        public bool vileFeeder = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1256,6 +1257,7 @@ namespace CalamityMod.CalPlayer
             sDefense = false;
             sRegen = false;
             sPower = false;
+            hallowedRune = false;
             hallowedDefense = false;
             hallowedRegen = false;
             hallowedPower = false;
@@ -1273,7 +1275,9 @@ namespace CalamityMod.CalPlayer
             blazingCore = false;
             voltaicJelly = false;
             jellyChargedBattery = false;
-            veneratedLocket = false;
+            starbusterCore = false;
+            starTaintedGenerator = false;
+            camper = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1360,7 +1364,7 @@ namespace CalamityMod.CalPlayer
             sandCloakCooldown = false;
             spectralVeil = false;
             plaguedFuelPack = false;
-            camper = false;
+            veneratedLocket = false;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -1554,9 +1558,6 @@ namespace CalamityMod.CalPlayer
             powerfulRaven = false;
             dragonFamily = false;
             providenceStabber = false;
-            hallowedRune = false;
-            starbusterCore = false;
-            starTaintedGenerator = false;
             plaguebringerMK2 = false;
             igneousExaltation = false;
             radiantResolution = false;
@@ -1564,6 +1565,7 @@ namespace CalamityMod.CalPlayer
             frostBlossom = false;
             cinderBlossom = false;
             belladonaSpirit = false;
+            vileFeeder = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
