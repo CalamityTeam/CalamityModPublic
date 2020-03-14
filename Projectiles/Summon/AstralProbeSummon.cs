@@ -114,12 +114,12 @@ namespace CalamityMod.Projectiles.Summon
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             if (flag25)
             {
-                projectile.rotation = (vector46 - projectile.Center).ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.ToRadians(180) * projectile.direction);
+                projectile.rotation = projectile.rotation.AngleLerp((vector46 - projectile.Center).ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.ToRadians(180) * projectile.direction), 0.1f);
 				projectile.spriteDirection *= -1;
             }
 			else
 			{
-				projectile.rotation = vector.ToRotation() - (projectile.spriteDirection == 1 ? 0f : MathHelper.ToRadians(180) * projectile.direction);
+                projectile.rotation = projectile.rotation.AngleLerp(vector.ToRotation() - (projectile.spriteDirection == 1 ? 0f : MathHelper.ToRadians(180) * projectile.direction), 0.1f);
 			}
             projectile.Center = player.Center + new Vector2(80, 0).RotatedBy(rotation);
             rotation += 0.03;
@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 float scaleFactor3 = 6f;
                 int num658 = ModContent.ProjectileType<AstralProbeRound>();
-                if (flag25 && projectile.ai[1] == 0f)
+                if (flag25 && projectile.ai[1] == 0f && vector46 != projectile.position)
                 {
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 12, 0.5f, 0f);
                     projectile.ai[1] += 1f;

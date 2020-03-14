@@ -140,30 +140,30 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -12f, 12f);
                 }
                 projectile.velocity.Y = (targetPosition.Y - projectile.Center.Y + potentialTarget.spriteDirection * 75f) / 90f;
-                float SAImovement = 0.05f;
-                for (int index = 0; index < Main.projectile.Length; index++)
+            }
+            float SAImovement = 0.05f;
+            for (int index = 0; index < Main.projectile.Length; index++)
+            {
+                Projectile proj = Main.projectile[index];
+                if (index != projectile.whoAmI &&
+                    proj.active && proj.owner == projectile.owner &&
+                    proj.type == projectile.type && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
                 {
-                    Projectile proj = Main.projectile[index];
-                    if (index != projectile.whoAmI &&
-                        proj.active && proj.owner == projectile.owner && 
-                        proj.type == projectile.type && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
+                    if (projectile.position.X < proj.position.X)
                     {
-                        if (projectile.position.X < proj.position.X)
-                        {
-                            projectile.velocity.X -= SAImovement;
-                        }
-                        else
-                        {
-                            projectile.velocity.X += SAImovement;
-                        }
-                        if (projectile.position.Y < proj.position.Y)
-                        {
-                            projectile.velocity.Y -= SAImovement;
-                        }
-                        else
-                        {
-                            projectile.velocity.Y += SAImovement;
-                        }
+                        projectile.velocity.X -= SAImovement;
+                    }
+                    else
+                    {
+                        projectile.velocity.X += SAImovement;
+                    }
+                    if (projectile.position.Y < proj.position.Y)
+                    {
+                        projectile.velocity.Y -= SAImovement;
+                    }
+                    else
+                    {
+                        projectile.velocity.Y += SAImovement;
                     }
                 }
             }

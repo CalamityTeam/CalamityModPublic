@@ -15434,7 +15434,7 @@ namespace CalamityMod.NPCs
                 Main.dust[idx].noGravity = true;
                 Main.dust[idx].velocity *= 0.1f;
             }
-            if (npc.type == NPCID.IceSlime)
+            if (npc.type == NPCID.SpikedIceSlime)
             {
                 if (Main.rand.Next(8) == 0)
                 {
@@ -16262,15 +16262,21 @@ namespace CalamityMod.NPCs
 
         public static bool BuffedFighterAI(NPC npc, Mod mod)
         {
-            if (npc.type == NPCID.Psycho)
+            int npcType = npc.type;
+            if (npc.modNPC != null)
+            {
+                if (npc.modNPC.aiType != 0)
+                    npcType = npc.modNPC.aiType;
+            }
+            if (npcType == NPCID.Psycho)
             {
                 BuffedPsychoAI(npc);
             }
-            if (npc.type == NPCID.SwampThing)
+            if (npcType == NPCID.SwampThing)
             {
                 BuffedSwampThingAI(npc);
             }
-            if (npc.type == NPCID.CreatureFromTheDeep)
+            if (npcType == NPCID.CreatureFromTheDeep)
             {
                 // Swimming
                 if (npc.wet)
@@ -16345,7 +16351,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite)
+            if (npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite)
             {
                 // Pissed off 
                 if (npc.ai[3] < 0f)
@@ -16387,7 +16393,7 @@ namespace CalamityMod.NPCs
                 }
                 npc.damage = npc.defDamage;
             }
-            if (npc.type == NPCID.MartianOfficer && npc.ai[2] == 0f && npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+            if (npcType == NPCID.MartianOfficer && npc.ai[2] == 0f && npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 // If Martian Officer is ready to generate shield, generate it.
                 int shield = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.ForceBubble, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
@@ -16397,7 +16403,7 @@ namespace CalamityMod.NPCs
                 Main.npc[shield].ai[0] = (float)npc.whoAmI;
                 Main.npc[shield].netUpdate = true;
             }
-            if (npc.type == NPCID.MartianOfficer)
+            if (npcType == NPCID.MartianOfficer)
             {
                 int shield = (int)npc.ai[2] - 1;
                 if (shield != -1 && Main.npc[shield].active && Main.npc[shield].type == NPCID.ForceBubble)
@@ -16418,7 +16424,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.type == NPCID.GraniteGolem)
+            if (npcType == NPCID.GraniteGolem)
             {
                 int activeTime = 300;
                 int defendTime = 120;
@@ -16457,7 +16463,7 @@ namespace CalamityMod.NPCs
                     npc.netUpdate = true;
                 }
             }
-            if (npc.type == NPCID.Medusa)
+            if (npcType == NPCID.Medusa)
             {
                 int afterHitTime = 90;
                 int afterWaitTime = 210;
@@ -16559,7 +16565,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.type == NPCID.GoblinSummoner)
+            if (npcType == NPCID.GoblinSummoner)
             {
                 // Shit out minion things
                 if (npc.ai[3] < 0f)
@@ -16788,7 +16794,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.type == NPCID.SolarSolenian)
+            if (npcType == NPCID.SolarSolenian)
             {
                 npc.reflectingProjectiles = false;
                 npc.takenDamageMultiplier = 1f;
@@ -16855,7 +16861,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.type == NPCID.SolarDrakomire)
+            if (npcType == NPCID.SolarDrakomire)
             {
                 int timeToReset = 42;
                 int timeToBreathFire = 18;
@@ -16923,7 +16929,7 @@ namespace CalamityMod.NPCs
                     return false;
                 }
             }
-            if (npc.type == NPCID.VortexLarva)
+            if (npcType == NPCID.VortexLarva)
             {
                 npc.localAI[0] += 1f;
                 if (npc.localAI[0] >= 150f)
@@ -16975,7 +16981,7 @@ namespace CalamityMod.NPCs
                     dust.position.Y += 4f;
                 }
             }
-            if (npc.type == NPCID.VortexHornet)
+            if (npcType == NPCID.VortexHornet)
             {
                 npc.localAI[0] += 1f;
                 npc.localAI[0] += Math.Abs(npc.velocity.X) / 2f;
@@ -17033,18 +17039,18 @@ namespace CalamityMod.NPCs
             {
                 jump = false;
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.Lihzahrd && (double)npc.life <= (double)npc.lifeMax * 0.9)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npcType == NPCID.Lihzahrd && (double)npc.life <= (double)npc.lifeMax * 0.9)
             {
                 npc.Transform(NPCID.LihzahrdCrawler);
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.Nutcracker && (double)npc.life <= (double)npc.lifeMax * 0.9)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npcType == NPCID.Nutcracker && (double)npc.life <= (double)npc.lifeMax * 0.9)
             {
                 npc.Transform(NPCID.NutcrackerSpinning);
             }
             // This variable seems to have a lot of purposes.
             // I wasn't sure what I could name it that isn't very vague
             int aiGateValue = 60;
-            if (npc.type == NPCID.ChaosElemental)
+            if (npcType == NPCID.ChaosElemental)
             {
                 aiGateValue = 180;
                 if (npc.ai[3] == -30f)
@@ -17076,23 +17082,23 @@ namespace CalamityMod.NPCs
             }
             bool canIncrementAI3 = false;
             bool reset = true;
-            if (npc.type == NPCID.Yeti || npc.type == NPCID.CorruptBunny || npc.type == NPCID.Crab || npc.type == NPCID.Clown || npc.type == NPCID.SkeletonArcher || npc.type == NPCID.GoblinArcher || npc.type == NPCID.ChaosElemental
-                || npc.type == NPCID.BlackRecluse || npc.type == NPCID.WallCreeper || npc.type == NPCID.BloodCrawler || npc.type == NPCID.CorruptPenguin || npc.type == NPCID.LihzahrdCrawler || npc.type == NPCID.IcyMerman || npc.type == NPCID.PirateDeadeye
-                || npc.type == NPCID.PirateCrossbower || npc.type == NPCID.PirateCaptain || npc.type == NPCID.CochinealBeetle || npc.type == NPCID.CyanBeetle || npc.type == NPCID.LacBeetle || npc.type == NPCID.SeaSnail || npc.type == NPCID.FlyingSnake
-                || npc.type == NPCID.IceGolem || npc.type == NPCID.Eyezor || npc.type == NPCID.AnomuraFungus || npc.type == NPCID.MushiLadybug || npc.type == NPCID.Paladin || npc.type == NPCID.SkeletonSniper || npc.type == NPCID.TacticalSkeleton
-                || npc.type == NPCID.SkeletonCommando || npc.type == NPCID.Scarecrow1 || npc.type == NPCID.Scarecrow2 || npc.type == NPCID.Scarecrow3 || npc.type == NPCID.Scarecrow4 || npc.type == NPCID.Scarecrow5 || npc.type == NPCID.Nutcracker
-                || npc.type == NPCID.NutcrackerSpinning || npc.type == NPCID.ElfArcher || npc.type == NPCID.Krampus || npc.type == NPCID.CultistArcherBlue || (npc.type >= 430 && npc.type <= 436)
-                || (npc.type == NPCID.CultistArcherWhite || npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner || npc.type == NPCID.MartianOfficer || npc.type == NPCID.MartianEngineer || npc.type == NPCID.Scutlix
-                || (npc.type >= NPCID.BoneThrowingSkeleton && npc.type <= NPCID.BoneThrowingSkeleton4)) || (npc.type == NPCID.Psycho || npc.type == NPCID.CrimsonBunny || npc.type == NPCID.SwampThing || npc.type == NPCID.ThePossessed || npc.type == NPCID.DrManFly
-                || npc.type == NPCID.GoblinSummoner || npc.type == NPCID.CrimsonPenguin || npc.type == NPCID.Medusa || npc.type == NPCID.GreekSkeleton || npc.type == NPCID.GraniteGolem || npc.type == NPCID.StardustSoldier || npc.type == NPCID.NebulaSoldier
-                || npc.type == NPCID.StardustSpiderBig || (npc.type >= 494 && npc.type <= 506)) || (npc.type == NPCID.VortexRifleman || npc.type == NPCID.VortexHornet || npc.type == NPCID.VortexHornetQueen || npc.type == NPCID.VortexLarva
-                || npc.type == NPCID.WalkingAntlion || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarSolenian || npc.type == NPCID.MartianWalker || (npc.type >= 524 && npc.type <= 527)) || npc.type == NPCID.DesertLamiaLight
-                || npc.type == NPCID.DesertLamiaDark || npc.type == NPCID.DesertScorpionWalk || npc.type == NPCID.DesertBeast)
+            if (npcType == NPCID.Yeti || npcType == NPCID.CorruptBunny || npcType == NPCID.Crab || npcType == NPCID.Clown || npcType == NPCID.SkeletonArcher || npcType == NPCID.GoblinArcher || npcType == NPCID.ChaosElemental
+                || npcType == NPCID.BlackRecluse || npcType == NPCID.WallCreeper || npcType == NPCID.BloodCrawler || npcType == NPCID.CorruptPenguin || npcType == NPCID.LihzahrdCrawler || npcType == NPCID.IcyMerman || npcType == NPCID.PirateDeadeye
+                || npcType == NPCID.PirateCrossbower || npcType == NPCID.PirateCaptain || npcType == NPCID.CochinealBeetle || npcType == NPCID.CyanBeetle || npcType == NPCID.LacBeetle || npcType == NPCID.SeaSnail || npcType == NPCID.FlyingSnake
+                || npcType == NPCID.IceGolem || npcType == NPCID.Eyezor || npcType == NPCID.AnomuraFungus || npcType == NPCID.MushiLadybug || npcType == NPCID.Paladin || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton
+                || npcType == NPCID.SkeletonCommando || npcType == NPCID.Scarecrow1 || npcType == NPCID.Scarecrow2 || npcType == NPCID.Scarecrow3 || npcType == NPCID.Scarecrow4 || npcType == NPCID.Scarecrow5 || npcType == NPCID.Nutcracker
+                || npcType == NPCID.NutcrackerSpinning || npcType == NPCID.ElfArcher || npcType == NPCID.Krampus || npcType == NPCID.CultistArcherBlue || (npcType >= 430 && npcType <= 436)
+                || (npcType == NPCID.CultistArcherWhite || npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner || npcType == NPCID.MartianOfficer || npcType == NPCID.MartianEngineer || npcType == NPCID.Scutlix
+                || (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4)) || (npcType == NPCID.Psycho || npcType == NPCID.CrimsonBunny || npcType == NPCID.SwampThing || npcType == NPCID.ThePossessed || npcType == NPCID.DrManFly
+                || npcType == NPCID.GoblinSummoner || npcType == NPCID.CrimsonPenguin || npcType == NPCID.Medusa || npcType == NPCID.GreekSkeleton || npcType == NPCID.GraniteGolem || npcType == NPCID.StardustSoldier || npcType == NPCID.NebulaSoldier
+                || npcType == NPCID.StardustSpiderBig || (npcType >= 494 && npcType <= 506)) || (npcType == NPCID.VortexRifleman || npcType == NPCID.VortexHornet || npcType == NPCID.VortexHornetQueen || npcType == NPCID.VortexLarva
+                || npcType == NPCID.WalkingAntlion || npcType == NPCID.SolarDrakomire || npcType == NPCID.SolarSolenian || npcType == NPCID.MartianWalker || (npcType >= 524 && npcType <= 527)) || npcType == NPCID.DesertLamiaLight
+                || npcType == NPCID.DesertLamiaDark || npcType == NPCID.DesertScorpionWalk || npcType == NPCID.DesertBeast)
             {
                 reset = false;
             }
             bool ableToAlterAI3 = false;
-            if (npc.type == NPCID.VortexRifleman || npc.type == NPCID.GoblinSummoner)
+            if (npcType == NPCID.VortexRifleman || npcType == NPCID.GoblinSummoner)
             {
                 ableToAlterAI3 = true;
             }
@@ -17102,35 +17108,35 @@ namespace CalamityMod.NPCs
             // As a result, I'll just leave this as flag7. If anyone has 
             // Ideas for a better variable name, please change it
             bool flag7 = npc.ai[2] <= 0f;
-            if (npc.type <= NPCID.RayGunner)
+            if (npcType <= NPCID.RayGunner)
             {
-                if (npc.type <= NPCID.PirateCaptain)
+                if (npcType <= NPCID.PirateCaptain)
                 {
-                    if (npc.type - 110 > 1 && npc.type != NPCID.IcyMerman && npc.type - NPCID.PirateDeadeye > 2)
+                    if (npcType - 110 > 1 && npcType != NPCID.IcyMerman && npcType - NPCID.PirateDeadeye > 2)
                     {
                         goto PrepareToShoot;
                     }
                 }
-                else if (npc.type - NPCID.SkeletonSniper > 2 && npc.type != NPCID.ElfArcher && npc.type - NPCID.CultistArcherBlue > 3)
+                else if (npcType - NPCID.SkeletonSniper > 2 && npcType != NPCID.ElfArcher && npcType - NPCID.CultistArcherBlue > 3)
                 {
                     goto PrepareToShoot;
                 }
             }
-            else if (npc.type <= NPCID.NebulaSoldier)
+            else if (npcType <= NPCID.NebulaSoldier)
             {
-                if (npc.type != NPCID.StardustSpiderSmall && npc.type != NPCID.StardustSoldier && npc.type != NPCID.NebulaSoldier)
+                if (npcType != NPCID.StardustSpiderSmall && npcType != NPCID.StardustSoldier && npcType != NPCID.NebulaSoldier)
                 {
                     goto PrepareToShoot;
                 }
             }
-            else if (npc.type <= NPCID.Psycho)
+            else if (npcType <= NPCID.Psycho)
             {
-                if (npc.type != NPCID.VortexHornetQueen && npc.type != NPCID.Psycho)
+                if (npcType != NPCID.VortexHornetQueen && npcType != NPCID.Psycho)
                 {
                     goto PrepareToShoot;
                 }
             }
-            else if (npc.type - 498 > 8 && npc.type != 520)
+            else if (npcType - 498 > 8 && npcType != 520)
             {
                 goto PrepareToShoot;
             }
@@ -17165,7 +17171,7 @@ namespace CalamityMod.NPCs
                     npc.netUpdate = true;
                 }
             }
-            if (npc.type == NPCID.Nailhead && Main.netMode != NetmodeID.MultiplayerClient)
+            if (npcType == NPCID.Nailhead && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (npc.localAI[3] > 0f)
                 {
@@ -17226,7 +17232,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.type == NPCID.Butcher)
+            if (npcType == NPCID.Butcher)
             {
                 if (npc.velocity.Y < -0.3f || npc.velocity.Y > 0.3f)
                 {
@@ -17237,7 +17243,7 @@ namespace CalamityMod.NPCs
                     npc.knockBackResist = 0.1f * Main.knockBackMultiplier;
                 }
             }
-            if (npc.type == NPCID.ThePossessed)
+            if (npcType == NPCID.ThePossessed)
             {
                 npc.knockBackResist = 0.25f * Main.knockBackMultiplier;
                 if (npc.ai[2] == 1f)
@@ -17288,7 +17294,7 @@ namespace CalamityMod.NPCs
                 npc.noGravity = false;
                 npc.ai[2] = 0f;
             }
-            if (npc.type == NPCID.Fritz && npc.velocity.Y == 0f && (Main.player[npc.target].Center - npc.Center).Length() < 150f && Math.Abs(npc.velocity.X) > 3f && ((npc.velocity.X < 0f && npc.Center.X > Main.player[npc.target].Center.X) || (npc.velocity.X > 0f && npc.Center.X < Main.player[npc.target].Center.X)))
+            if (npcType == NPCID.Fritz && npc.velocity.Y == 0f && (Main.player[npc.target].Center - npc.Center).Length() < 150f && Math.Abs(npc.velocity.X) > 3f && ((npc.velocity.X < 0f && npc.Center.X > Main.player[npc.target].Center.X) || (npc.velocity.X > 0f && npc.Center.X < Main.player[npc.target].Center.X)))
             {
                 npc.velocity.X *= 2f;
                 npc.velocity.Y -= 4.5f;
@@ -17320,68 +17326,68 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.ai[3] < (float)aiGateValue && (Main.eclipse || !Main.dayTime || (double)npc.position.Y > Main.worldSurface * 16.0 || (Main.invasionType == 1 && (npc.type == NPCID.Yeti || npc.type == NPCID.ElfArcher)) || (Main.invasionType == 1 && (npc.type == NPCID.GoblinPeon || npc.type == NPCID.GoblinThief || npc.type == NPCID.GoblinWarrior || npc.type == NPCID.GoblinArcher || npc.type == NPCID.GoblinSummoner)) || (npc.type == NPCID.GoblinScout || (Main.invasionType == 3 && npc.type >= 212 && npc.type <= 216)) || (Main.invasionType == 4 && (npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner || npc.type == NPCID.MartianOfficer || npc.type == NPCID.GrayGrunt || npc.type == NPCID.MartianEngineer || npc.type == NPCID.GigaZapper || npc.type == NPCID.Scutlix || npc.type == NPCID.MartianWalker)) || (npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle || npc.type == NPCID.AngryBonesBigHelmet || npc.type == NPCID.CorruptBunny || npc.type == NPCID.Crab || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.Mummy || npc.type == NPCID.DarkMummy || npc.type == NPCID.LightMummy || npc.type == NPCID.SkeletonArcher || npc.type == NPCID.ChaosElemental || npc.type == NPCID.CorruptPenguin || npc.type == NPCID.FaceMonster || npc.type == NPCID.SnowFlinx || npc.type == NPCID.Lihzahrd || npc.type == NPCID.LihzahrdCrawler || npc.type == NPCID.IcyMerman || npc.type == NPCID.CochinealBeetle || npc.type == NPCID.CyanBeetle || npc.type == NPCID.LacBeetle || npc.type == NPCID.SeaSnail || npc.type == NPCID.BloodCrawler || npc.type == NPCID.IceGolem || npc.type == NPCID.ZombieMushroom || npc.type == NPCID.ZombieMushroomHat || npc.type == NPCID.AnomuraFungus || npc.type == NPCID.MushiLadybug || npc.type == NPCID.SkeletonSniper || npc.type == NPCID.TacticalSkeleton || npc.type == NPCID.SkeletonCommando || npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite || npc.type == NPCID.CrimsonBunny || npc.type == NPCID.CrimsonPenguin || npc.type == NPCID.NebulaSoldier || (npc.type == NPCID.StardustSoldier && (npc.ai[1] >= 180f || npc.ai[1] < 90f))) || (npc.type == NPCID.StardustSpiderBig || npc.type == NPCID.VortexRifleman || npc.type == NPCID.VortexSoldier || npc.type == NPCID.VortexHornet || npc.type == NPCID.VortexLarva || npc.type == NPCID.WalkingAntlion || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarSolenian || (npc.type >= 524 && npc.type <= 527)) || npc.type == NPCID.DesertLamiaLight || npc.type == NPCID.DesertLamiaDark || npc.type == NPCID.DesertScorpionWalk || npc.type == NPCID.DesertBeast))
+            if (npc.ai[3] < (float)aiGateValue && (Main.eclipse || !Main.dayTime || (double)npc.position.Y > Main.worldSurface * 16.0 || (Main.invasionType == 1 && (npcType == NPCID.Yeti || npcType == NPCID.ElfArcher)) || (Main.invasionType == 1 && (npcType == NPCID.GoblinPeon || npcType == NPCID.GoblinThief || npcType == NPCID.GoblinWarrior || npcType == NPCID.GoblinArcher || npcType == NPCID.GoblinSummoner)) || (npcType == NPCID.GoblinScout || (Main.invasionType == 3 && npcType >= 212 && npcType <= 216)) || (Main.invasionType == 4 && (npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner || npcType == NPCID.MartianOfficer || npcType == NPCID.GrayGrunt || npcType == NPCID.MartianEngineer || npcType == NPCID.GigaZapper || npcType == NPCID.Scutlix || npcType == NPCID.MartianWalker)) || (npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.CorruptBunny || npcType == NPCID.Crab || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy || npcType == NPCID.SkeletonArcher || npcType == NPCID.ChaosElemental || npcType == NPCID.CorruptPenguin || npcType == NPCID.FaceMonster || npcType == NPCID.SnowFlinx || npcType == NPCID.Lihzahrd || npcType == NPCID.LihzahrdCrawler || npcType == NPCID.IcyMerman || npcType == NPCID.CochinealBeetle || npcType == NPCID.CyanBeetle || npcType == NPCID.LacBeetle || npcType == NPCID.SeaSnail || npcType == NPCID.BloodCrawler || npcType == NPCID.IceGolem || npcType == NPCID.ZombieMushroom || npcType == NPCID.ZombieMushroomHat || npcType == NPCID.AnomuraFungus || npcType == NPCID.MushiLadybug || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite || npcType == NPCID.CrimsonBunny || npcType == NPCID.CrimsonPenguin || npcType == NPCID.NebulaSoldier || (npcType == NPCID.StardustSoldier && (npc.ai[1] >= 180f || npc.ai[1] < 90f))) || (npcType == NPCID.StardustSpiderBig || npcType == NPCID.VortexRifleman || npcType == NPCID.VortexSoldier || npcType == NPCID.VortexHornet || npcType == NPCID.VortexLarva || npcType == NPCID.WalkingAntlion || npcType == NPCID.SolarDrakomire || npcType == NPCID.SolarSolenian || (npcType >= 524 && npcType <= 527)) || npcType == NPCID.DesertLamiaLight || npcType == NPCID.DesertLamiaDark || npcType == NPCID.DesertScorpionWalk || npcType == NPCID.DesertBeast))
             {
-                if ((npc.type == NPCID.Zombie || npc.type == NPCID.ZombieXmas || npc.type == NPCID.ZombieSweater || npc.type == NPCID.Skeleton || (npc.type >= NPCID.BoneThrowingSkeleton && npc.type <= NPCID.BoneThrowingSkeleton4) || npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigHelmet || npc.type == NPCID.AngryBonesBigMuscle || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.SkeletonArcher || npc.type == NPCID.BaldZombie || npc.type == NPCID.UndeadViking || npc.type == NPCID.ZombieEskimo || npc.type == NPCID.Frankenstein || npc.type == NPCID.PincushionZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.ArmoredViking || npc.type == NPCID.FemaleZombie || npc.type == NPCID.HeadacheSkeleton || npc.type == NPCID.MisassembledSkeleton || npc.type == NPCID.PantlessSkeleton || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.SkeletonSniper || npc.type == NPCID.TacticalSkeleton || npc.type == NPCID.SkeletonCommando || npc.type == NPCID.ZombieSuperman || npc.type == NPCID.ZombiePixie || npc.type == NPCID.ZombieDoctor || npc.type == NPCID.GreekSkeleton) && Main.rand.Next(1000) == 0)
+                if ((npcType == NPCID.Zombie || npcType == NPCID.ZombieXmas || npcType == NPCID.ZombieSweater || npcType == NPCID.Skeleton || (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4) || npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.SkeletonArcher || npcType == NPCID.BaldZombie || npcType == NPCID.UndeadViking || npcType == NPCID.ZombieEskimo || npcType == NPCID.Frankenstein || npcType == NPCID.PincushionZombie || npcType == NPCID.SlimedZombie || npcType == NPCID.SwampZombie || npcType == NPCID.TwiggyZombie || npcType == NPCID.ArmoredViking || npcType == NPCID.FemaleZombie || npcType == NPCID.HeadacheSkeleton || npcType == NPCID.MisassembledSkeleton || npcType == NPCID.PantlessSkeleton || npcType == NPCID.ZombieRaincoat || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.ZombieSuperman || npcType == NPCID.ZombiePixie || npcType == NPCID.ZombieDoctor || npcType == NPCID.GreekSkeleton) && Main.rand.Next(1000) == 0)
                 {
                     Main.PlaySound(14, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                 }
-                if (npc.type == NPCID.BloodZombie && Main.rand.Next(800) == 0)
+                if (npcType == NPCID.BloodZombie && Main.rand.Next(800) == 0)
                 {
-                    Main.PlaySound(14, (int)npc.position.X, (int)npc.position.Y, npc.type, 1f, 0f);
+                    Main.PlaySound(14, (int)npc.position.X, (int)npc.position.Y, npcType, 1f, 0f);
                 }
-                if ((npc.type == NPCID.Mummy || npc.type == NPCID.DarkMummy || npc.type == NPCID.LightMummy) && Main.rand.Next(500) == 0)
+                if ((npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy) && Main.rand.Next(500) == 0)
                 {
                     Main.PlaySound(26, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                 }
-                if (npc.type == NPCID.Vampire && Main.rand.Next(500) == 0)
+                if (npcType == NPCID.Vampire && Main.rand.Next(500) == 0)
                 {
                     Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 7, 1f, 0f);
                 }
-                if (npc.type == NPCID.Frankenstein && Main.rand.Next(500) == 0)
+                if (npcType == NPCID.Frankenstein && Main.rand.Next(500) == 0)
                 {
                     Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 6, 1f, 0f);
                 }
-                if (npc.type == NPCID.FaceMonster && Main.rand.Next(500) == 0)
+                if (npcType == NPCID.FaceMonster && Main.rand.Next(500) == 0)
                 {
                     Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 8, 1f, 0f);
                 }
-                if (npc.type >= 269 && npc.type <= 280 && Main.rand.Next(1000) == 0)
+                if (npcType >= 269 && npcType <= 280 && Main.rand.Next(1000) == 0)
                 {
                     Main.PlaySound(14, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                 }
                 npc.TargetClosest(true);
             }
             else if (npc.ai[2] <= 0f ||
-                (npc.type != NPCID.SkeletonArcher &&
-                npc.type != NPCID.GoblinArcher &&
-                npc.type != NPCID.IcyMerman &&
-                npc.type != NPCID.PirateDeadeye &&
-                npc.type != NPCID.PirateCrossbower &&
-                npc.type != NPCID.PirateCaptain &&
-                npc.type != NPCID.SkeletonSniper &&
-                npc.type != NPCID.TacticalSkeleton &&
-                npc.type != NPCID.SkeletonCommando &&
-                npc.type != NPCID.ElfArcher &&
-                npc.type != NPCID.BrainScrambler &&
-                npc.type != NPCID.RayGunner &&
-                npc.type != NPCID.MartianOfficer &&
-                npc.type != NPCID.GrayGrunt &&
-                npc.type != NPCID.MartianEngineer &&
-                npc.type != NPCID.GigaZapper &&
-                npc.type != NPCID.Scutlix &&
-                npc.type != NPCID.ThePossessed &&
-                npc.type != NPCID.SwampThing &&
-                npc.type != NPCID.Psycho &&
-                npc.type != NPCID.GoblinSummoner &&
-                npc.type != NPCID.StardustSoldier &&
-                npc.type != NPCID.StardustSpiderSmall &&
-                npc.type != NPCID.NebulaSoldier &&
-                npc.type != NPCID.VortexRifleman &&
-                npc.type != NPCID.VortexHornetQueen &&
-                npc.type != NPCID.SolarDrakomire &&
-                npc.type != NPCID.SolarSolenian &&
-                npc.type != NPCID.MartianWalker))
+                (npcType != NPCID.SkeletonArcher &&
+                npcType != NPCID.GoblinArcher &&
+                npcType != NPCID.IcyMerman &&
+                npcType != NPCID.PirateDeadeye &&
+                npcType != NPCID.PirateCrossbower &&
+                npcType != NPCID.PirateCaptain &&
+                npcType != NPCID.SkeletonSniper &&
+                npcType != NPCID.TacticalSkeleton &&
+                npcType != NPCID.SkeletonCommando &&
+                npcType != NPCID.ElfArcher &&
+                npcType != NPCID.BrainScrambler &&
+                npcType != NPCID.RayGunner &&
+                npcType != NPCID.MartianOfficer &&
+                npcType != NPCID.GrayGrunt &&
+                npcType != NPCID.MartianEngineer &&
+                npcType != NPCID.GigaZapper &&
+                npcType != NPCID.Scutlix &&
+                npcType != NPCID.ThePossessed &&
+                npcType != NPCID.SwampThing &&
+                npcType != NPCID.Psycho &&
+                npcType != NPCID.GoblinSummoner &&
+                npcType != NPCID.StardustSoldier &&
+                npcType != NPCID.StardustSpiderSmall &&
+                npcType != NPCID.NebulaSoldier &&
+                npcType != NPCID.VortexRifleman &&
+                npcType != NPCID.VortexHornetQueen &&
+                npcType != NPCID.SolarDrakomire &&
+                npcType != NPCID.SolarSolenian &&
+                npcType != NPCID.MartianWalker))
             {
                 if (Main.dayTime && (double)(npc.position.Y / 16f) < Main.worldSurface && npc.timeLeft > 10)
                 {
@@ -17396,7 +17402,7 @@ namespace CalamityMod.NPCs
                         {
                             npc.direction *= -1;
 
-                            if (npc.type == ModContent.NPCType<WulfrumDrone>())
+                            if (npcType == ModContent.NPCType<WulfrumDrone>())
                                 npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
                             else
                                 npc.spriteDirection = npc.direction;
@@ -17414,9 +17420,9 @@ namespace CalamityMod.NPCs
                     npc.direction = 1;
                 }
             }
-            if (npc.type == NPCID.Vampire || npc.type == NPCID.NutcrackerSpinning)
+            if (npcType == NPCID.Vampire || npcType == NPCID.NutcrackerSpinning)
             {
-                if (npc.type == NPCID.Vampire && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
+                if (npcType == NPCID.Vampire && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
                 {
                     npc.velocity.X *= 0.95f;
                 }
@@ -17452,153 +17458,153 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            else if (npc.type == NPCID.LihzahrdCrawler)
+            else if (npcType == NPCID.LihzahrdCrawler)
             {
                 FighterRunningAI(npc, 6f, 0.12f, 0.8f, true, 0.8f);
             }
-            else if (npc.type == NPCID.ChaosElemental || npc.type == NPCID.SwampThing || npc.type == NPCID.PirateCorsair || npc.type == NPCID.MushiLadybug || npc.type == NPCID.DesertLamiaLight || npc.type == NPCID.DesertLamiaDark)
+            else if (npcType == NPCID.ChaosElemental || npcType == NPCID.SwampThing || npcType == NPCID.PirateCorsair || npcType == NPCID.MushiLadybug || npcType == NPCID.DesertLamiaLight || npcType == NPCID.DesertLamiaDark)
             {
                 FighterRunningAI(npc, 4f, 0.09f, 0.8f, true, 0.8f);
             }
-            else if (npc.type == NPCID.CreatureFromTheDeep || npc.type == NPCID.GoblinThief || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.Werewolf || npc.type == NPCID.BlackRecluse || npc.type == NPCID.Frankenstein || npc.type == NPCID.Nymph || npc.type == NPCID.ArmoredViking || npc.type == NPCID.PirateDeckhand || npc.type == NPCID.AnomuraFungus || npc.type == NPCID.Splinterling || npc.type == NPCID.Yeti || npc.type == NPCID.Nutcracker || npc.type == NPCID.Krampus || (npc.type >= 524 && npc.type <= 527) || npc.type == NPCID.DesertScorpionWalk)
+            else if (npcType == NPCID.CreatureFromTheDeep || npcType == NPCID.GoblinThief || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.Werewolf || npcType == NPCID.BlackRecluse || npcType == NPCID.Frankenstein || npcType == NPCID.Nymph || npcType == NPCID.ArmoredViking || npcType == NPCID.PirateDeckhand || npcType == NPCID.AnomuraFungus || npcType == NPCID.Splinterling || npcType == NPCID.Yeti || npcType == NPCID.Nutcracker || npcType == NPCID.Krampus || (npcType >= 524 && npcType <= 527) || npcType == NPCID.DesertScorpionWalk)
             {
                 FighterRunningAI(npc, 3f, 0.09f, 0.8f);
             }
-            else if (npc.type == NPCID.Clown)
+            else if (npcType == NPCID.Clown)
             {
                 FighterRunningAI(npc, 4f, 0.06f, 0.8f);
             }
-            else if (npc.type == NPCID.Skeleton || npc.type == NPCID.GoblinPeon || npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle || npc.type == NPCID.AngryBonesBigHelmet || npc.type == NPCID.CorruptBunny || npc.type == NPCID.GoblinScout || npc.type == NPCID.PossessedArmor || npc.type == NPCID.WallCreeper || npc.type == NPCID.BloodCrawler || npc.type == NPCID.UndeadViking || npc.type == NPCID.CorruptPenguin || npc.type == NPCID.SnowFlinx || npc.type == NPCID.Lihzahrd || npc.type == NPCID.HeadacheSkeleton || npc.type == NPCID.MisassembledSkeleton || npc.type == NPCID.PantlessSkeleton || npc.type == NPCID.CochinealBeetle || npc.type == NPCID.CyanBeetle || npc.type == NPCID.LacBeetle || npc.type == NPCID.FlyingSnake || npc.type == NPCID.FaceMonster || npc.type == NPCID.ZombieMushroom || npc.type == NPCID.ZombieElf || npc.type == NPCID.ZombieElfBeard || npc.type == NPCID.ZombieElfGirl || npc.type == NPCID.GingerbreadMan || npc.type == NPCID.GrayGrunt || npc.type == NPCID.GigaZapper || npc.type == NPCID.Fritz || npc.type == NPCID.Nailhead || npc.type == NPCID.Psycho || npc.type == NPCID.CrimsonBunny || npc.type == NPCID.ThePossessed || npc.type == NPCID.CrimsonPenguin || npc.type == NPCID.Medusa || npc.type == NPCID.GraniteGolem || npc.type == NPCID.VortexRifleman || npc.type == NPCID.VortexSoldier)
+            else if (npcType == NPCID.Skeleton || npcType == NPCID.GoblinPeon || npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.CorruptBunny || npcType == NPCID.GoblinScout || npcType == NPCID.PossessedArmor || npcType == NPCID.WallCreeper || npcType == NPCID.BloodCrawler || npcType == NPCID.UndeadViking || npcType == NPCID.CorruptPenguin || npcType == NPCID.SnowFlinx || npcType == NPCID.Lihzahrd || npcType == NPCID.HeadacheSkeleton || npcType == NPCID.MisassembledSkeleton || npcType == NPCID.PantlessSkeleton || npcType == NPCID.CochinealBeetle || npcType == NPCID.CyanBeetle || npcType == NPCID.LacBeetle || npcType == NPCID.FlyingSnake || npcType == NPCID.FaceMonster || npcType == NPCID.ZombieMushroom || npcType == NPCID.ZombieElf || npcType == NPCID.ZombieElfBeard || npcType == NPCID.ZombieElfGirl || npcType == NPCID.GingerbreadMan || npcType == NPCID.GrayGrunt || npcType == NPCID.GigaZapper || npcType == NPCID.Fritz || npcType == NPCID.Nailhead || npcType == NPCID.Psycho || npcType == NPCID.CrimsonBunny || npcType == NPCID.ThePossessed || npcType == NPCID.CrimsonPenguin || npcType == NPCID.Medusa || npcType == NPCID.GraniteGolem || npcType == NPCID.VortexRifleman || npcType == NPCID.VortexSoldier)
             {
                 float maxVelocity = 1.5f;
-                if (npc.type == NPCID.AngryBonesBig)
+                if (npcType == NPCID.AngryBonesBig)
                 {
                     maxVelocity = 2f;
                 }
-                else if (npc.type == NPCID.AngryBonesBigMuscle)
+                else if (npcType == NPCID.AngryBonesBigMuscle)
                 {
                     maxVelocity = 1.75f;
                 }
-                else if (npc.type == NPCID.AngryBonesBigHelmet)
+                else if (npcType == NPCID.AngryBonesBigHelmet)
                 {
                     maxVelocity = 1.25f;
                 }
-                else if (npc.type == NPCID.HeadacheSkeleton)
+                else if (npcType == NPCID.HeadacheSkeleton)
                 {
                     maxVelocity = 1.1f;
                 }
-                else if (npc.type == NPCID.MisassembledSkeleton)
+                else if (npcType == NPCID.MisassembledSkeleton)
                 {
                     maxVelocity = 0.9f;
                 }
-                else if (npc.type == NPCID.PantlessSkeleton)
+                else if (npcType == NPCID.PantlessSkeleton)
                 {
                     maxVelocity = 1.2f;
                 }
-                else if (npc.type == NPCID.ZombieElf)
+                else if (npcType == NPCID.ZombieElf)
                 {
                     maxVelocity = 1.75f;
                 }
-                else if (npc.type == NPCID.ZombieElfBeard)
+                else if (npcType == NPCID.ZombieElfBeard)
                 {
                     maxVelocity = 1.25f;
                 }
-                else if (npc.type == NPCID.ZombieElfGirl)
+                else if (npcType == NPCID.ZombieElfGirl)
                 {
                     maxVelocity = 2f;
                 }
-                else if (npc.type == NPCID.GrayGrunt)
+                else if (npcType == NPCID.GrayGrunt)
                 {
                     maxVelocity = 1.8f;
                 }
-                else if (npc.type == NPCID.GigaZapper)
+                else if (npcType == NPCID.GigaZapper)
                 {
                     maxVelocity = 2.25f;
                 }
-                else if (npc.type == NPCID.Fritz)
+                else if (npcType == NPCID.Fritz)
                 {
                     maxVelocity = 4f;
                 }
-                else if (npc.type == NPCID.Nailhead)
+                else if (npcType == NPCID.Nailhead)
                 {
                     maxVelocity = 0.75f;
                 }
-                else if (npc.type == NPCID.Psycho)
+                else if (npcType == NPCID.Psycho)
                 {
                     maxVelocity = 3.75f;
                 }
-                else if (npc.type == NPCID.ThePossessed)
+                else if (npcType == NPCID.ThePossessed)
                 {
                     maxVelocity = 3.25f;
                 }
-                else if (npc.type == NPCID.Medusa)
+                else if (npcType == NPCID.Medusa)
                 {
                     maxVelocity = 1.5f + (1f - (float)npc.life / (float)npc.lifeMax) * 2f;
                 }
-                else if (npc.type == NPCID.VortexRifleman)
+                else if (npcType == NPCID.VortexRifleman)
                 {
                     maxVelocity = 6f;
                 }
-                else if (npc.type == NPCID.VortexSoldier)
+                else if (npcType == NPCID.VortexSoldier)
                 {
                     maxVelocity = 4f;
                 }
-                if (npc.type == NPCID.Skeleton || npc.type == NPCID.HeadacheSkeleton || npc.type == NPCID.MisassembledSkeleton || npc.type == NPCID.PantlessSkeleton || npc.type == NPCID.GingerbreadMan)
+                if (npcType == NPCID.Skeleton || npcType == NPCID.HeadacheSkeleton || npcType == NPCID.MisassembledSkeleton || npcType == NPCID.PantlessSkeleton || npcType == NPCID.GingerbreadMan)
                 {
                     maxVelocity *= 1f + (1f - npc.scale);
                 }
                 maxVelocity *= 1.5f;
-                bool extraSlowdown = npc.velocity.Y == 0f && npc.type == NPCID.Fritz && ((npc.direction > 0 && npc.velocity.X < 0f) || (npc.direction < 0 && npc.velocity.X > 0f));
+                bool extraSlowdown = npc.velocity.Y == 0f && npcType == NPCID.Fritz && ((npc.direction > 0 && npc.velocity.X < 0f) || (npc.direction < 0 && npc.velocity.X > 0f));
                 FighterRunningAI(npc, maxVelocity, 0.09f, 0.9f, extraSlowdown, 0.9f);
             }
-            else if (npc.type >= NPCID.RustyArmoredBonesAxe && npc.type <= NPCID.HellArmoredBonesSword)
+            else if (npcType >= NPCID.RustyArmoredBonesAxe && npcType <= NPCID.HellArmoredBonesSword)
             {
                 float maxVelocity = 1.5f;
-                if (npc.type == NPCID.RustyArmoredBonesAxe)
+                if (npcType == NPCID.RustyArmoredBonesAxe)
                 {
                     maxVelocity = 2f;
                 }
-                if (npc.type == NPCID.RustyArmoredBonesFlail)
+                if (npcType == NPCID.RustyArmoredBonesFlail)
                 {
                     maxVelocity = 1f;
                 }
-                if (npc.type == NPCID.RustyArmoredBonesSword)
+                if (npcType == NPCID.RustyArmoredBonesSword)
                 {
                     maxVelocity = 1.5f;
                 }
-                if (npc.type == NPCID.RustyArmoredBonesSwordNoArmor)
+                if (npcType == NPCID.RustyArmoredBonesSwordNoArmor)
                 {
                     maxVelocity = 3f;
                 }
-                if (npc.type == NPCID.BlueArmoredBones)
+                if (npcType == NPCID.BlueArmoredBones)
                 {
                     maxVelocity = 1.25f;
                 }
-                if (npc.type == NPCID.BlueArmoredBonesMace)
+                if (npcType == NPCID.BlueArmoredBonesMace)
                 {
                     maxVelocity = 3f;
                 }
-                if (npc.type == NPCID.BlueArmoredBonesNoPants)
+                if (npcType == NPCID.BlueArmoredBonesNoPants)
                 {
                     maxVelocity = 3.25f;
                 }
-                if (npc.type == NPCID.BlueArmoredBonesSword)
+                if (npcType == NPCID.BlueArmoredBonesSword)
                 {
                     maxVelocity = 2f;
                 }
-                if (npc.type == NPCID.HellArmoredBones)
+                if (npcType == NPCID.HellArmoredBones)
                 {
                     maxVelocity = 2.75f;
                 }
-                if (npc.type == NPCID.HellArmoredBonesSpikeShield)
+                if (npcType == NPCID.HellArmoredBonesSpikeShield)
                 {
                     maxVelocity = 1.8f;
                 }
-                if (npc.type == NPCID.HellArmoredBonesMace)
+                if (npcType == NPCID.HellArmoredBonesMace)
                 {
                     maxVelocity = 1.3f;
                 }
-                if (npc.type == NPCID.HellArmoredBonesSword)
+                if (npcType == NPCID.HellArmoredBonesSword)
                 {
                     maxVelocity = 2.5f;
                 }
@@ -17606,31 +17612,31 @@ namespace CalamityMod.NPCs
                 maxVelocity *= 1.5f;
                 FighterRunningAI(npc, maxVelocity, 0.09f, 0.8f, false);
             }
-            else if (npc.type >= 305 && npc.type <= 314)
+            else if (npcType >= 305 && npcType <= 314)
             {
                 float maxVelocity = 1.5f;
-                if (npc.type == NPCID.Scarecrow1 || npc.type == NPCID.Scarecrow6)
+                if (npcType == NPCID.Scarecrow1 || npcType == NPCID.Scarecrow6)
                 {
                     maxVelocity = 2f;
                 }
-                if (npc.type == NPCID.Scarecrow2 || npc.type == NPCID.Scarecrow7)
+                if (npcType == NPCID.Scarecrow2 || npcType == NPCID.Scarecrow7)
                 {
                     maxVelocity = 1.25f;
                 }
-                if (npc.type == NPCID.Scarecrow3 || npc.type == NPCID.Scarecrow8)
+                if (npcType == NPCID.Scarecrow3 || npcType == NPCID.Scarecrow8)
                 {
                     maxVelocity = 2.25f;
                 }
-                if (npc.type == NPCID.Scarecrow4 || npc.type == NPCID.Scarecrow9)
+                if (npcType == NPCID.Scarecrow4 || npcType == NPCID.Scarecrow9)
                 {
                     maxVelocity = 1.5f;
                 }
-                if (npc.type == NPCID.Scarecrow5 || npc.type == NPCID.Scarecrow10)
+                if (npcType == NPCID.Scarecrow5 || npcType == NPCID.Scarecrow10)
                 {
                     maxVelocity = 1f;
                 }
                 maxVelocity *= 1.5f;
-                if (npc.type < 310)
+                if (npcType < 310)
                 {
                     if (npc.velocity.Y == 0f)
                     {
@@ -17651,33 +17657,33 @@ namespace CalamityMod.NPCs
                     FighterRunningAI(npc, maxVelocity, 0.09f, 0.8f, false);
                 }
             }
-            else if (npc.type == NPCID.Crab || npc.type == NPCID.SeaSnail || npc.type == NPCID.VortexLarva)
+            else if (npcType == NPCID.Crab || npcType == NPCID.SeaSnail || npcType == NPCID.VortexLarva)
             {
                 FighterRunningAI(npc, 1f, 0.06f, 0.7f);
             }
-            else if (npc.type == NPCID.Mummy || npc.type == NPCID.DarkMummy || npc.type == NPCID.LightMummy)
+            else if (npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy)
             {
                 float maxVelocity = 3f;
                 float acceleration = 0.15f;
-                if (npc.type == NPCID.DarkMummy)
+                if (npcType == NPCID.DarkMummy)
                 {
                     maxVelocity *= 1.5f;
                 }
                 FighterRunningAI(npc, maxVelocity, acceleration, 0.7f);
             }
-            else if (npc.type == NPCID.BoneLee)
+            else if (npcType == NPCID.BoneLee)
             {
                 FighterRunningAI(npc, 7f, 0.3f, 0.7f);
             }
-            else if (npc.type == NPCID.IceGolem)
+            else if (npcType == NPCID.IceGolem)
             {
                 FighterRunningAI(npc, 3f, 0.3f, 0.7f);
             }
-            else if (npc.type == NPCID.Eyezor)
+            else if (npcType == NPCID.Eyezor)
             {
                 FighterRunningAI(npc, 3.5f, 0.3f, 0.8f);
             }
-            else if (npc.type == NPCID.MartianEngineer)
+            else if (npcType == NPCID.MartianEngineer)
             {
                 if (npc.ai[2] > 0f)
                 {
@@ -17691,7 +17697,7 @@ namespace CalamityMod.NPCs
                     FighterRunningAI(npc, 3.5f, 0.2f, 0.8f);
                 }
             }
-            else if (npc.type == NPCID.Butcher)
+            else if (npcType == NPCID.Butcher)
             {
                 float acceleration = 0.2f;
                 if (Math.Abs(npc.velocity.X) > 2f)
@@ -17728,7 +17734,7 @@ namespace CalamityMod.NPCs
                 }
                 FighterRunningAI(npc, 7f, acceleration, 0.8f);
             }
-            else if (npc.type == NPCID.WalkingAntlion)
+            else if (npcType == NPCID.WalkingAntlion)
             {
                 float xAdditive = 3.5f;
                 float turnValue = 90f;
@@ -17772,36 +17778,36 @@ namespace CalamityMod.NPCs
                     npc.velocity.X += npc.direction * 0.025f;
                 }
             }
-            else if (npc.type == NPCID.Scutlix || npc.type == NPCID.VortexHornet || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.SolarSolenian || npc.type == NPCID.SolarSpearman || npc.type == NPCID.DesertBeast)
+            else if (npcType == NPCID.Scutlix || npcType == NPCID.VortexHornet || npcType == NPCID.SolarDrakomire || npcType == NPCID.SolarSolenian || npcType == NPCID.SolarSpearman || npcType == NPCID.DesertBeast)
             {
                 float maxVelocity = 5f;
                 float acceleration = 0.25f;
                 float turnMultiplier = 0.7f;
-                if (npc.type == NPCID.VortexHornet)
+                if (npcType == NPCID.VortexHornet)
                 {
                     maxVelocity = 6f;
                     acceleration = 0.2f;
                     turnMultiplier = 0.8f;
                 }
-                else if (npc.type == NPCID.SolarDrakomire)
+                else if (npcType == NPCID.SolarDrakomire)
                 {
                     maxVelocity = 4f;
                     acceleration = 0.1f;
                     turnMultiplier = 0.95f;
                 }
-                else if (npc.type == NPCID.SolarSolenian)
+                else if (npcType == NPCID.SolarSolenian)
                 {
                     maxVelocity = 6f;
                     acceleration = 0.15f;
                     turnMultiplier = 0.85f;
                 }
-                else if (npc.type == NPCID.SolarSpearman)
+                else if (npcType == NPCID.SolarSpearman)
                 {
                     maxVelocity = 5f;
                     acceleration = 0.1f;
                     turnMultiplier = 0.95f;
                 }
-                else if (npc.type == NPCID.DesertBeast)
+                else if (npcType == NPCID.DesertBeast)
                 {
                     maxVelocity = 5f;
                     acceleration = 0.15f;
@@ -17811,7 +17817,7 @@ namespace CalamityMod.NPCs
                 acceleration *= 1.5f;
                 FighterRunningAI(npc, maxVelocity, acceleration, turnMultiplier);
             }
-            else if ((npc.type >= NPCID.ArmedZombie && npc.type <= NPCID.ArmedZombieCenx) || npc.type == NPCID.Crawdad || npc.type == NPCID.Crawdad2)
+            else if ((npcType >= NPCID.ArmedZombie && npcType <= NPCID.ArmedZombieCenx) || npcType == NPCID.Crawdad || npcType == NPCID.Crawdad2)
             {
                 if (npc.ai[2] == 0f)
                 {
@@ -17823,7 +17829,7 @@ namespace CalamityMod.NPCs
                     {
                         Vector2 playerDistance = npc.Center - Main.player[npc.target].Center;
                         int slowdownDistance = 50;
-                        if (npc.type >= NPCID.Crawdad && npc.type <= NPCID.Crawdad2)
+                        if (npcType >= NPCID.Crawdad && npcType <= NPCID.Crawdad2)
                         {
                             slowdownDistance = 42;
                         }
@@ -17850,61 +17856,61 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            else if (npc.type != NPCID.SkeletonArcher &&
-                npc.type != NPCID.GoblinArcher &&
-                npc.type != NPCID.IcyMerman &&
-                npc.type != NPCID.PirateDeadeye &&
-                npc.type != NPCID.PirateCrossbower &&
-                npc.type != NPCID.PirateCaptain &&
-                npc.type != NPCID.Paladin &&
-                npc.type != NPCID.SkeletonSniper &&
-                npc.type != NPCID.TacticalSkeleton &&
-                npc.type != NPCID.SkeletonCommando &&
-                npc.type != NPCID.ElfArcher &&
-                npc.type != NPCID.CultistArcherBlue &&
-                npc.type != NPCID.CultistArcherWhite &&
-                npc.type != NPCID.BrainScrambler &&
-                npc.type != NPCID.RayGunner &&
-                (npc.type < NPCID.BoneThrowingSkeleton || npc.type > NPCID.BoneThrowingSkeleton4) &&
-                npc.type != NPCID.DrManFly &&
-                npc.type != NPCID.GreekSkeleton &&
-                npc.type != NPCID.StardustSoldier &&
-                npc.type != NPCID.StardustSpiderSmall &&
-                (npc.type < NPCID.Salamander || npc.type > NPCID.Salamander9) &&
-                npc.type != NPCID.NebulaSoldier &&
-                npc.type != NPCID.VortexSoldier &&
-                npc.type != NPCID.MartianWalker)
+            else if (npcType != NPCID.SkeletonArcher &&
+                npcType != NPCID.GoblinArcher &&
+                npcType != NPCID.IcyMerman &&
+                npcType != NPCID.PirateDeadeye &&
+                npcType != NPCID.PirateCrossbower &&
+                npcType != NPCID.PirateCaptain &&
+                npcType != NPCID.Paladin &&
+                npcType != NPCID.SkeletonSniper &&
+                npcType != NPCID.TacticalSkeleton &&
+                npcType != NPCID.SkeletonCommando &&
+                npcType != NPCID.ElfArcher &&
+                npcType != NPCID.CultistArcherBlue &&
+                npcType != NPCID.CultistArcherWhite &&
+                npcType != NPCID.BrainScrambler &&
+                npcType != NPCID.RayGunner &&
+                (npcType < NPCID.BoneThrowingSkeleton || npcType > NPCID.BoneThrowingSkeleton4) &&
+                npcType != NPCID.DrManFly &&
+                npcType != NPCID.GreekSkeleton &&
+                npcType != NPCID.StardustSoldier &&
+                npcType != NPCID.StardustSpiderSmall &&
+                (npcType < NPCID.Salamander || npcType > NPCID.Salamander9) &&
+                npcType != NPCID.NebulaSoldier &&
+                npcType != NPCID.VortexSoldier &&
+                npcType != NPCID.MartianWalker)
             {
                 float velocityMax = 1f;
-                if (npc.type == NPCID.PincushionZombie)
+                if (npcType == NPCID.PincushionZombie)
                 {
                     velocityMax = 1.1f;
                 }
-                if (npc.type == NPCID.SlimedZombie)
+                if (npcType == NPCID.SlimedZombie)
                 {
                     velocityMax = 0.9f;
                 }
-                if (npc.type == NPCID.SwampZombie)
+                if (npcType == NPCID.SwampZombie)
                 {
                     velocityMax = 1.2f;
                 }
-                if (npc.type == NPCID.TwiggyZombie)
+                if (npcType == NPCID.TwiggyZombie)
                 {
                     velocityMax = 0.8f;
                 }
-                if (npc.type == NPCID.BaldZombie)
+                if (npcType == NPCID.BaldZombie)
                 {
                     velocityMax = 0.95f;
                 }
-                if (npc.type == NPCID.FemaleZombie)
+                if (npcType == NPCID.FemaleZombie)
                 {
                     velocityMax = 0.87f;
                 }
-                if (npc.type == NPCID.ZombieRaincoat)
+                if (npcType == NPCID.ZombieRaincoat)
                 {
                     velocityMax = 1.05f;
                 }
-                if (npc.type == NPCID.BloodZombie)
+                if (npcType == NPCID.BloodZombie)
                 {
                     float playerDistance = (Main.player[npc.target].Center - npc.Center).Length();
                     playerDistance *= 0.0025f;
@@ -17922,37 +17928,37 @@ namespace CalamityMod.NPCs
                     }
                     velocityMax *= 0.8f;
                 }
-                if (npc.type == NPCID.BloodZombie || npc.type == NPCID.Zombie || npc.type == NPCID.BaldZombie || npc.type == NPCID.PincushionZombie || npc.type == NPCID.SlimedZombie || npc.type == NPCID.SwampZombie || npc.type == NPCID.TwiggyZombie || npc.type == NPCID.FemaleZombie || npc.type == NPCID.ZombieRaincoat || npc.type == NPCID.ZombieXmas || npc.type == NPCID.ZombieSweater)
+                if (npcType == NPCID.BloodZombie || npcType == NPCID.Zombie || npcType == NPCID.BaldZombie || npcType == NPCID.PincushionZombie || npcType == NPCID.SlimedZombie || npcType == NPCID.SwampZombie || npcType == NPCID.TwiggyZombie || npcType == NPCID.FemaleZombie || npcType == NPCID.ZombieRaincoat || npcType == NPCID.ZombieXmas || npcType == NPCID.ZombieSweater)
                 {
                     velocityMax *= 1f + (1f - npc.scale);
                 }
                 velocityMax *= 1.5f;
                 FighterRunningAI(npc, velocityMax, 0.09f, 0.8f, true, 0.8f);
             }
-            if (npc.type >= 277 && npc.type <= 280)
+            if (npcType >= 277 && npcType <= 280)
             {
                 Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0.2f, 0.1f, 0f);
             }
-            else if (npc.type == NPCID.MartianWalker)
+            else if (npcType == NPCID.MartianWalker)
             {
                 Lighting.AddLight(npc.Top + new Vector2(0f, 20f), 0.3f, 0.3f, 0.7f);
             }
-            else if (npc.type == NPCID.DesertGhoulCorruption)
+            else if (npcType == NPCID.DesertGhoulCorruption)
             {
                 Vector3 rgb = new Vector3(0.7f, 1f, 0.2f) * 0.5f;
                 Lighting.AddLight(npc.Top + new Vector2(0f, 15f), rgb);
             }
-            else if (npc.type == NPCID.DesertGhoulCrimson)
+            else if (npcType == NPCID.DesertGhoulCrimson)
             {
                 Vector3 rgb2 = new Vector3(1f, 1f, 0.5f) * 0.4f;
                 Lighting.AddLight(npc.Top + new Vector2(0f, 15f), rgb2);
             }
-            else if (npc.type == NPCID.DesertGhoulHallow)
+            else if (npcType == NPCID.DesertGhoulHallow)
             {
                 Vector3 rgb3 = new Vector3(0.6f, 0.3f, 1f) * 0.4f;
                 Lighting.AddLight(npc.Top + new Vector2(0f, 15f), rgb3);
             }
-            else if (npc.type == NPCID.SolarDrakomire)
+            else if (npcType == NPCID.SolarDrakomire)
             {
                 npc.hide = false;
                 // I'd assume the Drakomire is drawn by the rider if it's present
@@ -17965,7 +17971,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            else if (npc.type == NPCID.MushiLadybug)
+            else if (npcType == NPCID.MushiLadybug)
             {
                 if (npc.velocity.Y != 0f)
                 {
@@ -17993,7 +17999,7 @@ namespace CalamityMod.NPCs
                     npc.velocity.Y = -9f;
                 }
             }
-            else if (npc.type == NPCID.VortexRifleman)
+            else if (npcType == NPCID.VortexRifleman)
             {
                 if (npc.velocity.Y == 0f)
                 {
@@ -18060,7 +18066,7 @@ namespace CalamityMod.NPCs
                     // Adjust velocity based on the other storm drivers who want to pump your face full of bullets
                     for (int i = 0; i < Main.npc.Length; i++)
                     {
-                        if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
+                        if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npcType && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
                         {
                             if (npc.position.X < Main.npc[i].position.X)
                             {
@@ -18107,7 +18113,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            else if (npc.type == NPCID.VortexHornet)
+            else if (npcType == NPCID.VortexHornet)
             {
                 if (npc.velocity.Y == 0f)
                 {
@@ -18169,7 +18175,7 @@ namespace CalamityMod.NPCs
                     }
                     for (int i = 0; i < Main.npc.Length; i++)
                     {
-                        if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
+                        if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npcType && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
                         {
                             if (npc.position.X < Main.npc[i].position.X)
                             {
@@ -18196,7 +18202,7 @@ namespace CalamityMod.NPCs
                     npc.ai[2] = 1f;
                 }
             }
-            else if (npc.type == NPCID.VortexHornetQueen)
+            else if (npcType == NPCID.VortexHornetQueen)
             {
                 if (npc.ai[1] > 0f && npc.velocity.Y > 0f)
                 {
@@ -18245,7 +18251,7 @@ namespace CalamityMod.NPCs
                 }
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
-                    if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
+                    if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npcType && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
                     {
                         if (npc.position.X < Main.npc[i].position.X)
                         {
@@ -18298,7 +18304,7 @@ namespace CalamityMod.NPCs
                     dust.noLight = true;
                 }
             }
-            else if (npc.type == NPCID.SnowFlinx)
+            else if (npcType == NPCID.SnowFlinx)
             {
                 if (npc.velocity.Y == 0f)
                 {
@@ -18310,7 +18316,7 @@ namespace CalamityMod.NPCs
                     npc.rotation += npc.velocity.X * 0.05f;
                 }
             }
-            else if (npc.type == NPCID.VortexLarva)
+            else if (npcType == NPCID.VortexLarva)
             {
                 if (npc.velocity.Y == 0f)
                 {
@@ -18322,7 +18328,7 @@ namespace CalamityMod.NPCs
                 }
             }
             // Turn into a bat
-            if (npc.type == NPCID.Vampire && Main.netMode != NetmodeID.MultiplayerClient)
+            if (npcType == NPCID.Vampire && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (npc.Distance(Main.player[npc.target].Center) > 300f)
                 {
@@ -18332,7 +18338,7 @@ namespace CalamityMod.NPCs
             if (Main.netMode != 1 && npc.velocity.Y == 0f)
                 TryConvertToWallClimber(npc);
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && Main.expertMode && npc.target >= 0 && (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+            if (Main.netMode != NetmodeID.MultiplayerClient && Main.expertMode && npc.target >= 0 && (npcType == NPCID.BlackRecluse || npcType == NPCID.BlackRecluseWall) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
             {
                 npc.localAI[0] += 1f;
                 if (npc.justHit)
@@ -18349,7 +18355,7 @@ namespace CalamityMod.NPCs
                     Projectile.NewProjectile(npc.Center, npc.DirectionTo(Main.player[npc.target].Center) * 10f, ProjectileID.WebSpit, 18, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
-            if (npc.type == NPCID.IceGolem)
+            if (npcType == NPCID.IceGolem)
             {
                 if (npc.justHit && Main.rand.Next(3) == 0)
                 {
@@ -18372,7 +18378,7 @@ namespace CalamityMod.NPCs
                     npc.ai[2] = 0f;
                 }
             }
-            if (npc.type == NPCID.Eyezor)
+            if (npcType == NPCID.Eyezor)
             {
                 if (npc.justHit)
                 {
@@ -18396,7 +18402,7 @@ namespace CalamityMod.NPCs
                     npc.ai[2] = 0f;
                 }
             }
-            if (npc.type == NPCID.MartianEngineer)
+            if (npcType == NPCID.MartianEngineer)
             {
                 if (npc.confused)
                 {
@@ -18457,7 +18463,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.type == NPCID.GigaZapper)
+            if (npcType == NPCID.GigaZapper)
             {
                 if (npc.confused)
                 {
@@ -18480,37 +18486,37 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.type == NPCID.SkeletonArcher ||
-                npc.type == NPCID.GoblinArcher ||
-                npc.type == NPCID.IcyMerman ||
-                npc.type == NPCID.PirateDeadeye ||
-                npc.type == NPCID.PirateCrossbower ||
-                npc.type == NPCID.PirateCaptain ||
-                npc.type == NPCID.Paladin ||
-                npc.type == NPCID.SkeletonSniper ||
-                npc.type == NPCID.TacticalSkeleton ||
-                npc.type == NPCID.SkeletonCommando ||
-                npc.type == NPCID.ElfArcher ||
-                npc.type == NPCID.CultistArcherBlue ||
-                npc.type == NPCID.CultistArcherWhite ||
-                npc.type == NPCID.BrainScrambler ||
-                npc.type == NPCID.RayGunner ||
-                (npc.type >= NPCID.BoneThrowingSkeleton && npc.type <= NPCID.BoneThrowingSkeleton4) ||
-                (npc.type == NPCID.DrManFly ||
-                npc.type == NPCID.GreekSkeleton ||
-                npc.type == NPCID.StardustSoldier ||
-                npc.type == NPCID.StardustSpiderBig ||
-                (npc.type >= NPCID.Salamander && npc.type <= NPCID.Salamander9)) ||
-                npc.type == NPCID.NebulaSoldier ||
-                npc.type == NPCID.VortexHornetQueen ||
-                npc.type == NPCID.MartianWalker)
+            if (npcType == NPCID.SkeletonArcher ||
+                npcType == NPCID.GoblinArcher ||
+                npcType == NPCID.IcyMerman ||
+                npcType == NPCID.PirateDeadeye ||
+                npcType == NPCID.PirateCrossbower ||
+                npcType == NPCID.PirateCaptain ||
+                npcType == NPCID.Paladin ||
+                npcType == NPCID.SkeletonSniper ||
+                npcType == NPCID.TacticalSkeleton ||
+                npcType == NPCID.SkeletonCommando ||
+                npcType == NPCID.ElfArcher ||
+                npcType == NPCID.CultistArcherBlue ||
+                npcType == NPCID.CultistArcherWhite ||
+                npcType == NPCID.BrainScrambler ||
+                npcType == NPCID.RayGunner ||
+                (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4) ||
+                (npcType == NPCID.DrManFly ||
+                npcType == NPCID.GreekSkeleton ||
+                npcType == NPCID.StardustSoldier ||
+                npcType == NPCID.StardustSpiderBig ||
+                (npcType >= NPCID.Salamander && npcType <= NPCID.Salamander9)) ||
+                npcType == NPCID.NebulaSoldier ||
+                npcType == NPCID.VortexHornetQueen ||
+                npcType == NPCID.MartianWalker)
             {
-                bool npcAllowedToShoot = npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner || npc.type == NPCID.MartianWalker;
-                bool isAlienQueen = npc.type == NPCID.VortexHornetQueen;
+                bool npcAllowedToShoot = npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner || npcType == NPCID.MartianWalker;
+                bool isAlienQueen = npcType == NPCID.VortexHornetQueen;
                 bool flag18 = true;
                 int num136 = -1;
                 int num137 = -1;
-                if (npc.type == NPCID.StardustSoldier)
+                if (npcType == NPCID.StardustSoldier)
                 {
                     npcAllowedToShoot = true;
                     num136 = 90;
@@ -18536,76 +18542,76 @@ namespace CalamityMod.NPCs
                         npc.ai[2] = 0f;
                     }
                     int attackTimeMax = 70;
-                    if (npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite)
+                    if (npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite)
                     {
                         attackTimeMax = 80;
                     }
-                    if (npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner)
+                    if (npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner)
                     {
                         attackTimeMax = 80;
                     }
-                    if (npc.type == NPCID.MartianWalker)
+                    if (npcType == NPCID.MartianWalker)
                     {
                         attackTimeMax = 15;
                     }
-                    if (npc.type == NPCID.ElfArcher)
+                    if (npcType == NPCID.ElfArcher)
                     {
                         attackTimeMax = 110;
                     }
-                    if (npc.type == NPCID.SkeletonSniper)
+                    if (npcType == NPCID.SkeletonSniper)
                     {
                         attackTimeMax = 200;
                     }
-                    if (npc.type == NPCID.TacticalSkeleton)
+                    if (npcType == NPCID.TacticalSkeleton)
                     {
                         attackTimeMax = 120;
                     }
-                    if (npc.type == NPCID.SkeletonCommando)
+                    if (npcType == NPCID.SkeletonCommando)
                     {
                         attackTimeMax = 90;
                     }
-                    if (npc.type == NPCID.GoblinArcher)
+                    if (npcType == NPCID.GoblinArcher)
                     {
                         attackTimeMax = 180;
                     }
-                    if (npc.type == NPCID.IcyMerman)
+                    if (npcType == NPCID.IcyMerman)
                     {
                         attackTimeMax = 50;
                     }
-                    if (npc.type == NPCID.GreekSkeleton)
+                    if (npcType == NPCID.GreekSkeleton)
                     {
                         attackTimeMax = 100;
                     }
-                    if (npc.type == NPCID.PirateDeadeye)
+                    if (npcType == NPCID.PirateDeadeye)
                     {
                         attackTimeMax = 40;
                     }
-                    if (npc.type == NPCID.PirateCrossbower)
+                    if (npcType == NPCID.PirateCrossbower)
                     {
                         attackTimeMax = 80;
                     }
-                    if (npc.type == NPCID.Paladin)
+                    if (npcType == NPCID.Paladin)
                     {
                         attackTimeMax = 30;
                     }
-                    if (npc.type == NPCID.StardustSoldier)
+                    if (npcType == NPCID.StardustSoldier)
                     {
                         attackTimeMax = 300;
                     }
-                    if (npc.type == NPCID.StardustSpiderBig)
+                    if (npcType == NPCID.StardustSpiderBig)
                     {
                         attackTimeMax = 60;
                     }
-                    if (npc.type == NPCID.NebulaSoldier)
+                    if (npcType == NPCID.NebulaSoldier)
                     {
                         attackTimeMax = 180;
                     }
-                    if (npc.type == NPCID.VortexHornetQueen)
+                    if (npcType == NPCID.VortexHornetQueen)
                     {
                         attackTimeMax = 60;
                     }
                     bool priateCaptainBoost = false;
-                    if (npc.type == NPCID.PirateCaptain)
+                    if (npcType == NPCID.PirateCaptain)
                     {
                         if (npc.localAI[2] >= 20f)
                         {
@@ -18622,11 +18628,11 @@ namespace CalamityMod.NPCs
                     }
                     attackTimeMax = (int)(attackTimeMax * 0.75);
                     int num139 = attackTimeMax / 2;
-                    if (npc.type == NPCID.NebulaSoldier)
+                    if (npcType == NPCID.NebulaSoldier)
                     {
                         num139 = attackTimeMax - 1;
                     }
-                    if (npc.type == NPCID.VortexHornetQueen)
+                    if (npcType == NPCID.VortexHornetQueen)
                     {
                         num139 = attackTimeMax - 1;
                     }
@@ -18638,128 +18644,128 @@ namespace CalamityMod.NPCs
                         }
                         if (npc.ai[1] == (float)num139)
                         {
-                            if (npc.type == NPCID.PirateCaptain)
+                            if (npcType == NPCID.PirateCaptain)
                             {
                                 npc.localAI[2] += 1f;
                             }
                             float num140 = 11f;
-                            if (npc.type == NPCID.GoblinArcher)
+                            if (npcType == NPCID.GoblinArcher)
                             {
                                 num140 = 9f;
                             }
-                            if (npc.type == NPCID.IcyMerman)
+                            if (npcType == NPCID.IcyMerman)
                             {
                                 num140 = 7f;
                             }
-                            if (npc.type == NPCID.Paladin)
+                            if (npcType == NPCID.Paladin)
                             {
                                 num140 = 9f;
                             }
-                            if (npc.type == NPCID.SkeletonCommando)
+                            if (npcType == NPCID.SkeletonCommando)
                             {
                                 num140 = 4f;
                             }
-                            if (npc.type == NPCID.PirateDeadeye)
+                            if (npcType == NPCID.PirateDeadeye)
                             {
                                 num140 = 14f;
                             }
-                            if (npc.type == NPCID.PirateCrossbower)
+                            if (npcType == NPCID.PirateCrossbower)
                             {
                                 num140 = 16f;
                             }
-                            if (npc.type == NPCID.RayGunner)
+                            if (npcType == NPCID.RayGunner)
                             {
                                 num140 = 7f;
                             }
-                            if (npc.type == NPCID.MartianWalker)
+                            if (npcType == NPCID.MartianWalker)
                             {
                                 num140 = 8f;
                             }
-                            if (npc.type == NPCID.StardustSpiderBig)
+                            if (npcType == NPCID.StardustSpiderBig)
                             {
                                 num140 = 4f;
                             }
-                            if (npc.type >= 449 && npc.type <= 452)
+                            if (npcType >= 449 && npcType <= 452)
                             {
                                 num140 = 7f;
                             }
-                            if (npc.type == NPCID.GreekSkeleton)
+                            if (npcType == NPCID.GreekSkeleton)
                             {
                                 num140 = 8f;
                             }
-                            if (npc.type == NPCID.DrManFly)
+                            if (npcType == NPCID.DrManFly)
                             {
                                 num140 = 7.5f;
                             }
-                            if (npc.type == NPCID.StardustSoldier)
+                            if (npcType == NPCID.StardustSoldier)
                             {
                                 num140 = 1f;
                             }
-                            if (npc.type >= 498 && npc.type <= 506)
+                            if (npcType >= 498 && npcType <= 506)
                             {
                                 num140 = 7f;
                             }
                             num140 *= 1.25f;
                             Vector2 spawnPosition = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            if (npc.type == NPCID.GreekSkeleton)
+                            if (npcType == NPCID.GreekSkeleton)
                             {
                                 spawnPosition.Y -= 14f;
                             }
-                            if (npc.type == NPCID.IcyMerman)
+                            if (npcType == NPCID.IcyMerman)
                             {
                                 spawnPosition.Y -= 10f;
                             }
-                            if (npc.type == NPCID.Paladin)
+                            if (npcType == NPCID.Paladin)
                             {
                                 spawnPosition.Y -= 10f;
                             }
-                            if (npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner)
+                            if (npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner)
                             {
                                 spawnPosition.Y += 6f;
                             }
-                            if (npc.type == NPCID.MartianWalker)
+                            if (npcType == NPCID.MartianWalker)
                             {
                                 spawnPosition.Y = npc.position.Y + 20f;
                             }
-                            if (npc.type >= 498 && npc.type <= 506)
+                            if (npcType >= 498 && npcType <= 506)
                             {
                                 spawnPosition.Y -= 8f;
                             }
-                            if (npc.type == NPCID.VortexHornetQueen)
+                            if (npcType == NPCID.VortexHornetQueen)
                             {
                                 spawnPosition += new Vector2((float)(npc.spriteDirection * 2), -12f);
                             }
                             float distX = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - spawnPosition.X;
                             float num142 = Math.Abs(distX) * 0.1f;
-                            if (npc.type == NPCID.SkeletonSniper || npc.type == NPCID.TacticalSkeleton)
+                            if (npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton)
                             {
                                 num142 = 0f;
                             }
-                            if (npc.type == NPCID.PirateCrossbower)
+                            if (npcType == NPCID.PirateCrossbower)
                             {
                                 num142 = Math.Abs(distX) * 0.08f;
                             }
-                            if (npc.type == NPCID.PirateDeadeye || (npc.type == NPCID.PirateCaptain && !priateCaptainBoost))
+                            if (npcType == NPCID.PirateDeadeye || (npcType == NPCID.PirateCaptain && !priateCaptainBoost))
                             {
                                 num142 = 0f;
                             }
-                            if (npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner || npc.type == NPCID.MartianWalker)
+                            if (npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner || npcType == NPCID.MartianWalker)
                             {
                                 num142 = 0f;
                             }
-                            if (npc.type >= 449 && npc.type <= 452)
+                            if (npcType >= 449 && npcType <= 452)
                             {
                                 num142 = Math.Abs(distX) * (float)Main.rand.Next(10, 50) * 0.01f;
                             }
-                            if (npc.type == NPCID.DrManFly)
+                            if (npcType == NPCID.DrManFly)
                             {
                                 num142 = Math.Abs(distX) * (float)Main.rand.Next(10, 50) * 0.01f;
                             }
-                            if (npc.type == NPCID.GreekSkeleton)
+                            if (npcType == NPCID.GreekSkeleton)
                             {
                                 num142 = Math.Abs(distX) * (float)Main.rand.Next(-10, 11) * 0.0035f;
                             }
-                            if (npc.type >= 498 && npc.type <= 506)
+                            if (npcType >= 498 && npcType <= 506)
                             {
                                 num142 = Math.Abs(distX) * (float)Main.rand.Next(1, 11) * 0.0025f;
                             }
@@ -18771,118 +18777,118 @@ namespace CalamityMod.NPCs
                             distY *= magnitude;
                             int damage = 35;
                             int projectileType = 82;
-                            if (npc.type == NPCID.GoblinArcher)
+                            if (npcType == NPCID.GoblinArcher)
                             {
                                 damage = 11;
                             }
-                            if (npc.type == NPCID.IcyMerman)
+                            if (npcType == NPCID.IcyMerman)
                             {
                                 damage = 37;
                             }
-                            if (npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite)
+                            if (npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite)
                             {
                                 damage = 40;
                             }
-                            if (npc.type == NPCID.ElfArcher)
+                            if (npcType == NPCID.ElfArcher)
                             {
                                 damage = 45;
                             }
-                            if (npc.type == NPCID.DrManFly)
+                            if (npcType == NPCID.DrManFly)
                             {
                                 damage = 50;
                             }
-                            if (npc.type == NPCID.GoblinArcher)
+                            if (npcType == NPCID.GoblinArcher)
                             {
                                 projectileType = ProjectileID.WoodenArrowHostile;
                             }
-                            if (npc.type == NPCID.CultistArcherBlue || npc.type == NPCID.CultistArcherWhite)
+                            if (npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite)
                             {
                                 projectileType = ProjectileID.WoodenArrowHostile;
                             }
-                            if (npc.type == NPCID.BrainScrambler)
+                            if (npcType == NPCID.BrainScrambler)
                             {
                                 projectileType = ProjectileID.BrainScramblerBolt;
                                 damage = 24;
                             }
-                            if (npc.type == NPCID.RayGunner)
+                            if (npcType == NPCID.RayGunner)
                             {
                                 projectileType = ProjectileID.RayGunnerLaser;
                                 damage = 30;
                             }
-                            if (npc.type == NPCID.MartianWalker)
+                            if (npcType == NPCID.MartianWalker)
                             {
                                 projectileType = ProjectileID.MartianWalkerLaser;
                                 damage = 35;
                             }
-                            if (npc.type >= NPCID.BoneThrowingSkeleton && npc.type <= NPCID.BoneThrowingSkeleton4)
+                            if (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4)
                             {
                                 projectileType = ProjectileID.SkeletonBone;
                                 damage = 20;
                             }
-                            if (npc.type >= NPCID.Salamander && npc.type <= NPCID.Salamander9)
+                            if (npcType >= NPCID.Salamander && npcType <= NPCID.Salamander9)
                             {
                                 projectileType = ProjectileID.SalamanderSpit;
                                 damage = 14;
                             }
-                            if (npc.type == NPCID.GreekSkeleton)
+                            if (npcType == NPCID.GreekSkeleton)
                             {
                                 projectileType = ProjectileID.JavelinHostile;
                                 damage = 18;
                             }
-                            if (npc.type == NPCID.IcyMerman)
+                            if (npcType == NPCID.IcyMerman)
                             {
                                 projectileType = ProjectileID.IcewaterSpit;
                             }
-                            if (npc.type == NPCID.DrManFly)
+                            if (npcType == NPCID.DrManFly)
                             {
                                 projectileType = ProjectileID.DrManFlyFlask;
                             }
-                            if (npc.type == NPCID.StardustSoldier)
+                            if (npcType == NPCID.StardustSoldier)
                             {
                                 projectileType = ProjectileID.StardustSoldierLaser;
                                 damage = (Main.expertMode ? 45 : 60);
                             }
-                            if (npc.type == NPCID.NebulaSoldier)
+                            if (npcType == NPCID.NebulaSoldier)
                             {
                                 projectileType = ProjectileID.NebulaBolt;
                                 damage = (Main.expertMode ? 45 : 60);
                             }
-                            if (npc.type == NPCID.VortexHornetQueen)
+                            if (npcType == NPCID.VortexHornetQueen)
                             {
                                 projectileType = ProjectileID.VortexAcid;
                                 damage = (Main.expertMode ? 45 : 60);
                             }
-                            if (npc.type == NPCID.SkeletonSniper)
+                            if (npcType == NPCID.SkeletonSniper)
                             {
                                 projectileType = ProjectileID.SniperBullet;
                                 damage = 100;
                             }
-                            if (npc.type == NPCID.Paladin)
+                            if (npcType == NPCID.Paladin)
                             {
                                 projectileType = ProjectileID.PaladinsHammerHostile;
                                 damage = 60;
                             }
-                            if (npc.type == NPCID.SkeletonCommando)
+                            if (npcType == NPCID.SkeletonCommando)
                             {
                                 projectileType = ProjectileID.RocketSkeleton;
                                 damage = 60;
                             }
-                            if (npc.type == NPCID.PirateDeadeye)
+                            if (npcType == NPCID.PirateDeadeye)
                             {
                                 projectileType = ProjectileID.BulletDeadeye;
                                 damage = 25;
                             }
-                            if (npc.type == NPCID.PirateCrossbower)
+                            if (npcType == NPCID.PirateCrossbower)
                             {
                                 projectileType = ProjectileID.FlamingArrow;
                                 damage = 40;
                             }
-                            if (npc.type == NPCID.TacticalSkeleton)
+                            if (npcType == NPCID.TacticalSkeleton)
                             {
                                 damage = 50;
                                 projectileType = ProjectileID.BulletDeadeye;
                             }
-                            if (npc.type == NPCID.PirateCaptain)
+                            if (npcType == NPCID.PirateCaptain)
                             {
                                 projectileType = ProjectileID.BulletDeadeye;
                                 damage = 30;
@@ -18895,17 +18901,17 @@ namespace CalamityMod.NPCs
                             }
                             spawnPosition.X += distX;
                             spawnPosition.Y += distY;
-                            if (Main.expertMode && npc.type == NPCID.Paladin)
+                            if (Main.expertMode && npcType == NPCID.Paladin)
                             {
                                 damage = (int)(damage * 0.75);
                             }
-                            if (Main.expertMode && npc.type >= 381 && npc.type <= 392)
+                            if (Main.expertMode && npcType >= 381 && npcType <= 392)
                             {
                                 damage = (int)(damage * 0.8);
                             }
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                if (npc.type == NPCID.TacticalSkeleton)
+                                if (npcType == NPCID.TacticalSkeleton)
                                 {
                                     for (int num147 = 0; num147 < 4; num147++)
                                     {
@@ -18920,18 +18926,18 @@ namespace CalamityMod.NPCs
                                         Projectile.NewProjectile(npc.Center.X, npc.Center.Y, distX, distY, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                                     }
                                 }
-                                else if (npc.type == NPCID.StardustSoldier)
+                                else if (npcType == NPCID.StardustSoldier)
                                 {
                                     Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, distX, distY, projectileType, damage, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
                                 }
-                                else if (npc.type == NPCID.NebulaSoldier)
+                                else if (npcType == NPCID.NebulaSoldier)
                                 {
                                     for (int i = 0; i < 4; i++)
                                     {
                                         Projectile.NewProjectile(npc.Center.X - (float)(npc.spriteDirection * 4), npc.Center.Y + 6f, (float)(-3 + 2 * i) * 0.15f, (float)(-(float)Main.rand.Next(0, 3)) * 0.2f - 0.1f, projectileType, damage, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
                                     }
                                 }
-                                else if (npc.type == NPCID.StardustSpiderBig)
+                                else if (npcType == NPCID.StardustSpiderBig)
                                 {
                                     int idx = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 410, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                                     Main.npc[idx].velocity = new Vector2(distX, -6f + distY);
@@ -18976,14 +18982,14 @@ namespace CalamityMod.NPCs
                             npc.spriteDirection = npc.direction;
                         }
                     }
-                    if (npc.type == NPCID.DrManFly && !Main.eclipse)
+                    if (npcType == NPCID.DrManFly && !Main.eclipse)
                     {
                         npcAllowedToShoot = true;
                     }
                     else if ((npc.ai[2] <= 0f | npcAllowedToShoot) && (npc.velocity.Y == 0f | isAlienQueen) && npc.ai[1] <= 0f && !Main.player[npc.target].dead)
                     {
                         bool canAttack = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
-                        if (npc.type == NPCID.MartianWalker)
+                        if (npcType == NPCID.MartianWalker)
                         {
                             canAttack = Collision.CanHitLine(npc.Top + new Vector2(0f, 20f), 0, 0, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
                         }
@@ -19001,27 +19007,27 @@ namespace CalamityMod.NPCs
                             distY += (float)Main.rand.Next(-40, 41);
                             float playerDistance = (float)Math.Sqrt(distX * distX + distY * distY);
                             float maxAttackDistance = 700f;
-                            if (npc.type == NPCID.PirateDeadeye)
+                            if (npcType == NPCID.PirateDeadeye)
                             {
                                 maxAttackDistance = 550f;
                             }
-                            if (npc.type == NPCID.PirateCrossbower)
+                            if (npcType == NPCID.PirateCrossbower)
                             {
                                 maxAttackDistance = 800f;
                             }
-                            if (npc.type >= NPCID.Salamander && npc.type <= NPCID.Salamander9)
+                            if (npcType >= NPCID.Salamander && npcType <= NPCID.Salamander9)
                             {
                                 maxAttackDistance = 190f;
                             }
-                            if (npc.type >= NPCID.BoneThrowingSkeleton && npc.type <= NPCID.BoneThrowingSkeleton4)
+                            if (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4)
                             {
                                 maxAttackDistance = 200f;
                             }
-                            if (npc.type == NPCID.GreekSkeleton)
+                            if (npcType == NPCID.GreekSkeleton)
                             {
                                 maxAttackDistance = 400f;
                             }
-                            if (npc.type == NPCID.DrManFly)
+                            if (npcType == NPCID.DrManFly)
                             {
                                 maxAttackDistance = 400f;
                             }
@@ -19065,33 +19071,33 @@ namespace CalamityMod.NPCs
                         float maxVelocity = 1f;
                         float acceleration = 0.07f;
                         float decelerationFactor = 0.8f;
-                        if (npc.type == NPCID.PirateDeadeye)
+                        if (npcType == NPCID.PirateDeadeye)
                         {
                             maxVelocity = 2f;
                             acceleration = 0.09f;
                         }
-                        else if (npc.type == NPCID.PirateCrossbower)
+                        else if (npcType == NPCID.PirateCrossbower)
                         {
                             maxVelocity = 1.5f;
                             acceleration = 0.08f;
                         }
-                        else if (npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner)
+                        else if (npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner)
                         {
                             maxVelocity = 2f;
                             acceleration = 0.5f;
                         }
-                        else if (npc.type == NPCID.MartianWalker)
+                        else if (npcType == NPCID.MartianWalker)
                         {
                             maxVelocity = 4f;
                             acceleration = 1f;
                             decelerationFactor = 0.7f;
                         }
-                        else if (npc.type == NPCID.StardustSoldier)
+                        else if (npcType == NPCID.StardustSoldier)
                         {
                             maxVelocity = 2f;
                             acceleration = 0.5f;
                         }
-                        else if (npc.type == NPCID.StardustSpiderBig)
+                        else if (npcType == NPCID.StardustSpiderBig)
                         {
                             maxVelocity = 2f;
                             acceleration = 0.5f;
@@ -19099,12 +19105,12 @@ namespace CalamityMod.NPCs
                         maxVelocity *= 1.5f;
                         acceleration *= 1.5f;
                         bool forceDeceleration = false;
-                        if ((npc.type == NPCID.BrainScrambler || npc.type == NPCID.RayGunner) && Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 300f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                        if ((npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner) && Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 300f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
                         {
                             forceDeceleration = true;
                             npc.ai[3] = 0f;
                         }
-                        if (npc.type == NPCID.MartianWalker && Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 400f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+                        if (npcType == NPCID.MartianWalker && Vector2.Distance(npc.Center, Main.player[npc.target].Center) < 400f && Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
                         {
                             forceDeceleration = true;
                             npc.ai[3] = 0f;
@@ -19135,7 +19141,7 @@ namespace CalamityMod.NPCs
                             }
                         }
                     }
-                    if (npc.type == NPCID.MartianWalker)
+                    if (npcType == NPCID.MartianWalker)
                     {
                         npc.localAI[2] += 1f;
                         if (npc.localAI[2] >= 6f)
@@ -19146,7 +19152,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.type == NPCID.Clown && Main.netMode != NetmodeID.MultiplayerClient && !Main.player[npc.target].dead)
+            if (npcType == NPCID.Clown && Main.netMode != NetmodeID.MultiplayerClient && !Main.player[npc.target].dead)
             {
                 npc.ai[2] += 1f;
                 if (npc.ai[2] > 180f)
@@ -19178,7 +19184,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.type == NPCID.VortexLarva)
+            if (npcType == NPCID.VortexLarva)
             {
                 canOpenDoors = false;
             }
@@ -19256,7 +19262,7 @@ namespace CalamityMod.NPCs
                     {
                         float gfxOffRelativeToDelta = positionDelta.Y + (float)npc.height - yAdjust;
                         float yOffsetFloor = 16.1f;
-                        if (npc.type == NPCID.BlackRecluse || npc.type == NPCID.WallCreeper || npc.type == NPCID.JungleCreeper || npc.type == NPCID.BloodCrawler || npc.type == NPCID.DesertScorpionWalk)
+                        if (npcType == NPCID.BlackRecluse || npcType == NPCID.WallCreeper || npcType == NPCID.JungleCreeper || npcType == NPCID.BloodCrawler || npcType == NPCID.DesertScorpionWalk)
                         {
                             yOffsetFloor += 8f;
                         }
@@ -19280,7 +19286,7 @@ namespace CalamityMod.NPCs
             {
                 int x = (int)((npc.position.X + (float)(npc.width / 2) + (float)(15 * npc.direction)) / 16f);
                 int y = (int)((npc.position.Y + (float)npc.height - 15f) / 16f);
-                if (npc.type == NPCID.Clown || npc.type == NPCID.BlackRecluse || npc.type == NPCID.WallCreeper || npc.type == NPCID.LihzahrdCrawler || npc.type == NPCID.JungleCreeper || npc.type == NPCID.BloodCrawler || npc.type == NPCID.AnomuraFungus || npc.type == NPCID.MushiLadybug || npc.type == NPCID.Paladin || npc.type == NPCID.Scutlix || npc.type == NPCID.VortexRifleman || npc.type == NPCID.VortexHornet || npc.type == NPCID.VortexHornetQueen || npc.type == NPCID.WalkingAntlion || npc.type == NPCID.SolarDrakomire || npc.type == NPCID.DesertScorpionWalk || npc.type == NPCID.DesertBeast)
+                if (npcType == NPCID.Clown || npcType == NPCID.BlackRecluse || npcType == NPCID.WallCreeper || npcType == NPCID.LihzahrdCrawler || npcType == NPCID.JungleCreeper || npcType == NPCID.BloodCrawler || npcType == NPCID.AnomuraFungus || npcType == NPCID.MushiLadybug || npcType == NPCID.Paladin || npcType == NPCID.Scutlix || npcType == NPCID.VortexRifleman || npcType == NPCID.VortexHornet || npcType == NPCID.VortexHornetQueen || npcType == NPCID.WalkingAntlion || npcType == NPCID.SolarDrakomire || npcType == NPCID.DesertScorpionWalk || npcType == NPCID.DesertBeast)
                 {
                     x = (int)((npc.position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 16) * npc.direction)) / 16f);
                 }
@@ -19333,11 +19339,11 @@ namespace CalamityMod.NPCs
                         }
                         npc.ai[1] += timerIncrement;
                         // Special increments
-                        if (npc.type == NPCID.GoblinThief)
+                        if (npcType == NPCID.GoblinThief)
                         {
                             npc.ai[1] += 1f;
                         }
-                        if (npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle || npc.type == NPCID.AngryBonesBigHelmet)
+                        if (npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.AngryBonesBigHelmet)
                         {
                             npc.ai[1] += 6f;
                         }
@@ -19348,14 +19354,14 @@ namespace CalamityMod.NPCs
                             readyToOpenDoor = true;
                             npc.ai[1] = 10f;
                         }
-                        if (npc.type == NPCID.Butcher)
+                        if (npcType == NPCID.Butcher)
                         {
                             readyToOpenDoor = true;
                         }
                         WorldGen.KillTile(x, y - 1, true, false, false);
                         if ((Main.netMode != NetmodeID.MultiplayerClient || !readyToOpenDoor) && readyToOpenDoor && Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            if (npc.type == NPCID.GoblinPeon)
+                            if (npcType == NPCID.GoblinPeon)
                             {
                                 WorldGen.KillTile(x, y - 1, false, false, false);
                                 if (Main.netMode == 2)
@@ -19398,7 +19404,7 @@ namespace CalamityMod.NPCs
                 else
                 {
                     int alteredDirection = npc.spriteDirection;
-                    if (npc.type == NPCID.VortexRifleman || npc.type == ModContent.NPCType<WulfrumDrone>())
+                    if (npcType == NPCID.VortexRifleman || npcType == ModContent.NPCType<WulfrumDrone>())
                     {
                         alteredDirection *= -1;
                     }
@@ -19427,7 +19433,7 @@ namespace CalamityMod.NPCs
                             npc.velocity.Y = -6f;
                             npc.netUpdate = true;
                         }
-                        else if (npc.directionY < 0 && npc.type != 67 && (!Main.tile[x, y + 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y + 1].type]) && (!Main.tile[x + npc.direction, y + 1].nactive() || !Main.tileSolid[(int)Main.tile[x + npc.direction, y + 1].type]))
+                        else if (npc.directionY < 0 && npcType != 67 && (!Main.tile[x, y + 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y + 1].type]) && (!Main.tile[x + npc.direction, y + 1].nactive() || !Main.tileSolid[(int)Main.tile[x + npc.direction, y + 1].type]))
                         {
                             npc.velocity.Y = -9f;
                             npc.velocity.X *= 2f;
@@ -19443,7 +19449,7 @@ namespace CalamityMod.NPCs
                             npc.velocity.Y = -6f;
                         }
                     }
-                    if ((npc.type == NPCID.AngryBones || npc.type == NPCID.AngryBonesBig || npc.type == NPCID.AngryBonesBigMuscle || npc.type == NPCID.AngryBonesBigHelmet || npc.type == NPCID.CorruptBunny || npc.type == NPCID.ArmoredSkeleton || npc.type == NPCID.Werewolf || npc.type == NPCID.CorruptPenguin || npc.type == NPCID.Nymph || npc.type == NPCID.GrayGrunt || npc.type == NPCID.GigaZapper || npc.type == NPCID.CrimsonBunny || npc.type == NPCID.CrimsonPenguin || (npc.type >= 524 && npc.type <= 527)) && npc.velocity.Y == 0f && Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) < 100f && Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))) < 50f && ((npc.direction > 0 && npc.velocity.X >= 1f) || (npc.direction < 0 && npc.velocity.X <= -1f)))
+                    if ((npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.CorruptBunny || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.Werewolf || npcType == NPCID.CorruptPenguin || npcType == NPCID.Nymph || npcType == NPCID.GrayGrunt || npcType == NPCID.GigaZapper || npcType == NPCID.CrimsonBunny || npcType == NPCID.CrimsonPenguin || (npcType >= 524 && npcType <= 527)) && npc.velocity.Y == 0f && Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) < 100f && Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))) < 50f && ((npc.direction > 0 && npc.velocity.X >= 1f) || (npc.direction < 0 && npc.velocity.X <= -1f)))
                     {
                         npc.velocity.X *= 3f;
                         if (npc.velocity.X > 4f)
@@ -19457,22 +19463,22 @@ namespace CalamityMod.NPCs
                         npc.velocity.Y = -5f;
                         npc.netUpdate = true;
                     }
-                    if (npc.type == NPCID.ChaosElemental && npc.velocity.Y < 0f)
+                    if (npcType == NPCID.ChaosElemental && npc.velocity.Y < 0f)
                     {
                         npc.velocity.Y *= 1.1f;
                     }
-                    if (npc.type == NPCID.BoneLee && npc.velocity.Y == 0f && Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) < 150f && Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))) < 50f && ((npc.direction > 0 && npc.velocity.X >= 1f) || (npc.direction < 0 && npc.velocity.X <= -1f)))
+                    if (npcType == NPCID.BoneLee && npc.velocity.Y == 0f && Math.Abs(npc.position.X + (float)(npc.width / 2) - (Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2))) < 150f && Math.Abs(npc.position.Y + (float)(npc.height / 2) - (Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2))) < 50f && ((npc.direction > 0 && npc.velocity.X >= 1f) || (npc.direction < 0 && npc.velocity.X <= -1f)))
                     {
                         npc.velocity.X = (float)(9 * npc.direction);
                         npc.velocity.Y = -5f;
                         npc.netUpdate = true;
                     }
-                    if (npc.type == NPCID.BoneLee && npc.velocity.Y < 0f)
+                    if (npcType == NPCID.BoneLee && npc.velocity.Y < 0f)
                     {
                         npc.velocity.X *= 1.25f;
                         npc.velocity.Y *= 1.15f;
                     }
-                    if (npc.type == NPCID.Butcher && npc.velocity.Y < 0f)
+                    if (npcType == NPCID.Butcher && npc.velocity.Y < 0f)
                     {
                         npc.velocity.X *= 1.35f;
                         npc.velocity.Y *= 1.15f;
@@ -19485,7 +19491,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] = 0f;
             }
             // Teleport (Chaos elementals)
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.type == NPCID.ChaosElemental && npc.ai[3] >= (float)aiGateValue)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npcType == NPCID.ChaosElemental && npc.ai[3] >= (float)aiGateValue)
             {
                 int tileCoordsX = (int)Main.player[npc.target].position.X / 16;
                 int tileCoordsY = (int)Main.player[npc.target].position.Y / 16;
@@ -19510,7 +19516,7 @@ namespace CalamityMod.NPCs
                             bool foundGoodTeleport = true;
                             // I don't understand why the hell this exists if it's only for Chaos Elementals, but I suppose I'll
                             // Leave it here
-                            if (npc.type == NPCID.DarkCaster && Main.tile[randX, num181 - 1].wall == 0)
+                            if (npcType == NPCID.DarkCaster && Main.tile[randX, num181 - 1].wall == 0)
                             {
                                 foundGoodTeleport = false;
                             }
