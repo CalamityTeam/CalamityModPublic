@@ -744,6 +744,7 @@ namespace CalamityMod.CalPlayer
         public bool cinderBlossom = false;
         public bool belladonaSpirit = false;
         public bool vileFeeder = false;
+        public bool scabRipper = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1280,6 +1281,7 @@ namespace CalamityMod.CalPlayer
             starTaintedGenerator = false;
             camper = false;
 			silvaWings = false;
+			corrosiveSpine = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1568,6 +1570,7 @@ namespace CalamityMod.CalPlayer
             cinderBlossom = false;
             belladonaSpirit = false;
             vileFeeder = false;
+            scabRipper = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
