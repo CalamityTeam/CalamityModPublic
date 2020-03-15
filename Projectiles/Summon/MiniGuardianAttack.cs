@@ -1,4 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -10,8 +11,23 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MiniGuardianAttack : ModProjectile
     {
-        private void ai(int type, float num535, float num536, Player player)
+        private int ai = -1;
+        private void updateDamage(int type)
         {
+            Player player = Main.player[Main.myPlayer];
+            CalamityPlayer modPlayer = player.Calamity();
+            float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : 100f +
+                        (CalamityWorld.downedDoG ? 100f : 0f) +
+                        (CalamityWorld.downedYharon ? 100f : 0f) +
+                        (modPlayer.profanedCrystalBuffs ? 700f : 0f);
+            projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage());
+            ai = type;
+        }
+
+        private void AI(int type, float num535, float num536, Player player)
+        {
+            if (ai != type)
+                updateDamage(type);
             switch (type)
             {
                 case 1: //offensive bab (profaned soul artifact)
@@ -202,8 +218,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.timeLeft = 2;
             }
-            bool shouldKill = projectile.damage == 0 && (!modPlayer.profanedCrystal || modPlayer.profanedCrystalBuffs);
-            if (shouldKill || !modPlayer.pArtifact || (!modPlayer.profanedCrystal && !modPlayer.tarraSummon && !modPlayer.bloodflareSummon &&
+            if (!modPlayer.pArtifact || (!modPlayer.profanedCrystal && !modPlayer.tarraSummon && !modPlayer.bloodflareSummon &&
                 !modPlayer.godSlayerSummon && !modPlayer.silvaSummon && !modPlayer.dsSetBonus && !modPlayer.omegaBlueSet && !modPlayer.fearmongerSet))
             {
                 modPlayer.gOffense = false;
@@ -251,14 +266,14 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (!flag19 || projectile.damage == 0)
             {
-                ai(3, num535, num536, player);
+                AI(3, num535, num536, player);
             }
             else
             {
                 if (player.Calamity().profanedCrystalBuffs)
-                    ai(2, num535, num536, player);
+                    AI(2, num535, num536, player);
                 else
-                    ai(1, num535, num536, player);
+                    AI(1, num535, num536, player);
             }
             if ((double)projectile.velocity.X > 0.25)
             {
