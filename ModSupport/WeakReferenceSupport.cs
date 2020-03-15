@@ -726,6 +726,7 @@ namespace CalamityMod
 				sAssociation.Call("AddMinionInfo", ItemType<SeaboundStaff>(), BuffType<BrittleStar>(), ProjectileType<BrittleStarMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<MagicalConch>(), BuffType<HermitCrab>(), ProjectileType<HermitCrabMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<VileFeeder>(), BuffType<VileFeederBuff>(), ProjectileType<VileFeederSummon>());
+				sAssociation.Call("AddMinionInfo", ItemType<ScabRipper>(), BuffType<ScabRipperBuff>(), ProjectileType<BabyBloodCrawler>());
 				sAssociation.Call("AddMinionInfo", ItemType<CinderBlossomStaff>(), BuffType<CinderBlossomBuff>(), ProjectileType<CinderBlossom>());
 				sAssociation.Call("AddMinionInfo", ItemType<BloodClotStaff>(), BuffType<BloodClot>(), ProjectileType<BloodClotMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<DankStaff>(), BuffType<DankCreeperBuff>(), ProjectileType<DankCreeperMinion>());
