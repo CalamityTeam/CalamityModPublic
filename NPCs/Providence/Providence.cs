@@ -1337,7 +1337,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
-			if (Main.netMode != NetmodeID.Server)
+			if (challenge)
 			{
 				bool goldenGun = projectile.type == ModContent.ProjectileType<GoldenGunProj>();
 				if (!goldenGun && (projectile.type != ModContent.ProjectileType<MiniGuardianDefense>() && projectile.type != ModContent.ProjectileType<MiniGuardianAttack>()) && !Main.player[projectile.owner].Calamity().profanedCrystal)
@@ -1349,10 +1349,8 @@ namespace CalamityMod.NPCs.Providence
 
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
         {
-			if (Main.netMode != NetmodeID.Server)
-			{
+			if (challenge)
 				challenge = false;
-			}
         }
 
         public override void HitEffect(int hitDirection, double damage)
