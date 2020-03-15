@@ -83,15 +83,14 @@ namespace CalamityMod.Items.Accessories.Wings
                         num68 += player.velocity.Y;
                     }
                     int num69 = Dust.NewDust(new Vector2(x, num68), 8, 8, type, 0f, 0f, alpha, default, scale);
-                    Dust expr_5A11_cp_0_cp_0 = Main.dust[num69];
-                    expr_5A11_cp_0_cp_0.velocity.X *= 0.1f;
-                    Main.dust[num69].velocity.Y = Main.dust[num69].velocity.Y * 1f + 2f * player.gravDir - player.velocity.Y * 0.3f;
-                    Main.dust[num69].noGravity = true;
-                    Main.dust[num69].shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
+                    Dust dust = Main.dust[num69];
+                    dust.velocity.X *= 0.1f;
+                    dust.velocity.Y = Main.dust[num69].velocity.Y * 1f + 2f * player.gravDir - player.velocity.Y * 0.3f;
+                    dust.noGravity = true;
+                    dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
                     if (num66 == 4)
                     {
-                        Dust expr_5AA6_cp_0_cp_0 = Main.dust[num69];
-                        expr_5AA6_cp_0_cp_0.velocity.Y += 6f;
+                        dust.velocity.Y += 6f;
                     }
                 }
             }
