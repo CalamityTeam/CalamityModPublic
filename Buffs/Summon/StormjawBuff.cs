@@ -5,12 +5,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class SiriusBuff : ModBuff
+    public class StormjawBuff : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Sirius");
-            Description.SetDefault("A bit too bright, but it helps you");
+            DisplayName.SetDefault("Baby Stormlion");
+            Description.SetDefault("The baby stormlion will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }
@@ -18,11 +18,11 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<SiriusMinion>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<StormjawBaby>()] > 0)
             {
-                modPlayer.sirius = true;
+                modPlayer.stormjaw = true;
             }
-            if (!modPlayer.sirius)
+            if (!modPlayer.stormjaw)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;
