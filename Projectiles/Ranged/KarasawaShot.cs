@@ -82,7 +82,6 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 float angleRandom = 0.1f;
 
-                int num3;
                 for (int num53 = 0; num53 < 40; num53++)
                 {
                     float dustSpeed = Main.rand.NextFloat(6.0f, 12.0f);

@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.idStaticNPCHitCooldown = 5;
             projectile.timeLeft = 300;
             projectile.tileCollide = false;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

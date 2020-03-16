@@ -451,6 +451,7 @@ namespace CalamityMod.CalPlayer
         public bool starTaintedGenerator = false;
         public bool hallowedRune = false;
 		public bool silvaWings = false;
+		public int icicleCooldown = 0;
 
 
         // Armor Set
@@ -1633,6 +1634,7 @@ namespace CalamityMod.CalPlayer
             nanoFlareCooldown = 0;
             fleshTotemCooldown = false;
             sandCloakCooldown = false;
+			icicleCooldown = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;

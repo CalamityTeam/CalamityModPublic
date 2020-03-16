@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = 1;
             projectile.extraUpdates = 220;
             projectile.timeLeft = 200;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

@@ -39,6 +39,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.extraUpdates = 1;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

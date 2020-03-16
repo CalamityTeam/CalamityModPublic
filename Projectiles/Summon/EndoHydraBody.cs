@@ -30,6 +30,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
+			projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -38,16 +39,16 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.ai[0] = -1f;
                 projectile.localAI[0] = 1f;
 			}
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = trueDamage;
             }
             bool isProperProjectile = projectile.type == ModContent.ProjectileType<EndoHydraBody>();

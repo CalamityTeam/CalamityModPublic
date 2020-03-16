@@ -35,6 +35,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
+			projectile.coldDamage = true;
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -65,15 +66,15 @@ namespace CalamityMod.Projectiles.Summon
                 DeltaPosition = new Vector2(Main.rand.NextFloat(-72f - 8f * totalHeads, 72f + 8f * totalHeads), -Main.rand.NextFloat(8f, 84f + 4f * totalHeads));
                 projectile.netUpdate = true;
 
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 				projectile.localAI[0] = 1f;
 			}
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = trueDamage;
             }
             Vector2 bodyTop = body.Center + new Vector2(body.spriteDirection == 1 ? 12 : -14, -50f) + DeltaPosition;

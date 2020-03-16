@@ -41,6 +41,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.extraUpdates = 1;
+			projectile.coldDamage = true;
         }
 
         public override void AI()
@@ -77,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
             //Spawn effects
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 AttackMode = (int)projectile.ai[0];
                 LimbID = (int)projectile.ai[1];
@@ -99,10 +100,10 @@ namespace CalamityMod.Projectiles.Summon
             projectile.localAI[1] = AttackMode;
 
             //Damage Update
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue * (player.allDamage + player.minionDamage - 1f));
+                    projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
                 projectile.damage = damage2;
             }
             //Variables

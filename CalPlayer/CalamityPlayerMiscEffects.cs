@@ -885,6 +885,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.projRefRareLifeRegenCounter--;
 			if (modPlayer.hurtSoundTimer > 0)
 				modPlayer.hurtSoundTimer--;
+			if (modPlayer.icicleCooldown > 0)
+				modPlayer.icicleCooldown--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)

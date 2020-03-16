@@ -5,6 +5,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.ILEditing;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
@@ -1064,6 +1065,7 @@ namespace CalamityMod
                 ModContent.ItemType<Hypothermia>(),
                 ModContent.ItemType<IceBarrage>(),
                 ModContent.ItemType<FrostBlossomStaff>(),
+                ModContent.ItemType<EndoHydraStaff>(),
 				//Cryonic Bar set stuff, could potentially be removed
                 ModContent.ItemType<Trinity>(),
                 ModContent.ItemType<Shimmerspark>(),
@@ -2182,6 +2184,7 @@ namespace CalamityMod
                 ModContent.ItemType<GalacticaSingularity>(),
                 ModContent.ItemType<NightmareFuel>(),
                 ModContent.ItemType<EndothermicEnergy>(),
+                ModContent.ItemType<SoulofCryogen>(),
 
                 ModContent.ItemType<KnowledgeAquaticScourge>(),
                 ModContent.ItemType<KnowledgeAstralInfection>(),
