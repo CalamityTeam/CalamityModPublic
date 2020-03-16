@@ -2930,11 +2930,16 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
+                            bool acidRain = CalamityWorld.rainingAcid;
                             if (calamityModMusic != null)
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Sulphur");
+                            {
+                                string musicChoice = acidRain ? CalamityWorld.downedPolterghast ? "Sounds/Music/AcidRain1" : "Sounds/Music/AcidRain1" : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, musicChoice);
+                                
+                            }
                             else
-                                music = MusicID.Desert;
-                            priority = MusicPriority.BiomeHigh;
+                                music = acidRain ? CalamityWorld.downedPolterghast ? MusicID.Eclipse : MusicID.OldOnesArmy : MusicID.Desert; //if you have a better choice of music, feel free to change, it was pretty random choosing ngl
+                            priority = acidRain ? MusicPriority.Event : MusicPriority.BiomeHigh;
                         }
                     }
                     if (CalamityWorld.DoGSecondStageCountdown <= 540 && CalamityWorld.DoGSecondStageCountdown > 60) //8 seconds before DoG spawns
