@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 1\n" +
                 "Average vertical speed\n" +
                 "Flight time: 100\n" +
-                "5% increase to all damage and pick speed\n" +
+                "7% increase to all damage\n" +
                 "All melee attacks and projectiles inflict frostburn\n" +
                 "Icicles rain down as you fly\n" +
 				"Provides heat and cold protection in Death Mode");
@@ -61,8 +61,7 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.cryogenSoul = true;
-            player.pickSpeed -= 0.05f;
-            player.allDamage += 0.05f;
+            player.allDamage += 0.07f;
             player.wingTimeMax = 100;
             player.noFallDmg = true;
 			if (modPlayer.icicleCooldown <= 0)
