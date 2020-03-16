@@ -8,6 +8,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 
