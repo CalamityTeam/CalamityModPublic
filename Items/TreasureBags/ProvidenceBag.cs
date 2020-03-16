@@ -54,6 +54,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<PurgeGuzzler>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<MoltenAmputator>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<DazzlingStabberStaff>(), 3);
+            float pristineFuryChance = DropHelper.LegendaryDropRateFloat;
+            DropHelper.DropItemCondition(player, ModContent.ItemType<PristineFury>(), CalamityWorld.revenge, pristineFuryChance);
 
             // Equipment
             DropHelper.DropItemChance(player, ModContent.ItemType<SamuraiBadge>(), DropHelper.RareVariantDropRateInt);

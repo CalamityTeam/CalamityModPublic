@@ -764,7 +764,7 @@ namespace CalamityMod.Items
                         if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
                             tt2.overrideColor = new Color(255 - Main.DiscoG < 80 ? 80 : Main.DiscoG < 50 ? 255 : 255 - Main.DiscoG, Main.DiscoG < 126 ? 126 : Main.DiscoG, 0); //alternates between emerald green and amber (BanditHueh)
 
-                        // Uniquely colored legendary weapons
+                        // Uniquely colored legendary weapons  and Yharim's Crystal
                         if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 53);
                         if (item.type == ModContent.ItemType<BlossomFlux>())
@@ -781,6 +781,8 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(255, Main.DiscoG, 155);
                         if (item.type == ModContent.ItemType<Vesuvius>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 0);
+                        if (item.type == ModContent.ItemType<PristineFury>())
+                            tt2.overrideColor = new Color(255, 255, Main.DiscoB);
                         break;
                 }
             }
