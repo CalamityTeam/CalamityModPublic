@@ -42,13 +42,13 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[1] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
                 {
                     Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;
-                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + projectile.Center;
+                    vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / (float)num226), default) + projectile.Center;
                     Vector2 vector7 = vector6 - projectile.Center;
                     int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 85, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                     Main.dust[num228].noGravity = true;
@@ -57,11 +57,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[1] += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             bool flag64 = projectile.type == ModContent.ProjectileType<SandnadoMinion>();
@@ -287,7 +287,6 @@ namespace CalamityMod.Projectiles.Summon
                                 vector9.Normalize();
                                 vector9 *= scaleFactor4;
                                 int num32 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector9.X, vector9.Y, num28, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[num32].timeLeft = 300;
                                 Main.projectile[num32].netUpdate = true;
                                 projectile.netUpdate = true;
                             }
