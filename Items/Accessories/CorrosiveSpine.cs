@@ -30,9 +30,9 @@ namespace CalamityMod.Items.Accessories
             player.Calamity().corrosiveSpine = true;
             if (player.immune)
             {
-                if (Main.rand.NextBool(9))
+                if (Main.rand.NextBool(15))
                 {
-                    for (int i = 0; i < 6; i++)
+                    for (int i = 0; i < Main.rand.Next(3,7); i++)
                     {
                         int type = -1;
                         switch (Main.rand.Next(3))

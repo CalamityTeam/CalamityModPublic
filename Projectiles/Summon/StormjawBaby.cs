@@ -272,6 +272,9 @@ namespace CalamityMod.Projectiles.Summon
 							Main.projectile[spark].timeLeft = 120;
 							Main.projectile[spark].penetrate = 3;
 							ProjectileID.Sets.MinionShot[Main.projectile[spark].type] = true;
+							Main.projectile[spark].usesIDStaticNPCImmunity = true;
+							Main.projectile[spark].idStaticNPCHitCooldown = 10;
+							Main.projectile[spark].usesLocalNPCImmunity = false;
 						}
 						sparkCounter = 0;
 					}

@@ -948,6 +948,7 @@ namespace CalamityMod
                 ItemID.DD2FlameburstTowerT2Popper,
                 ItemID.DD2FlameburstTowerT3Popper,
                 ItemID.MolotovCocktail,
+                ItemID.WandofSparking,
                 ModContent.ItemType<AegisBlade>(),
                 ModContent.ItemType<BalefulHarvester>(),
                 ModContent.ItemType<Chaotrix>(),
@@ -1008,7 +1009,11 @@ namespace CalamityMod
                 ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<HeliumFlash>(),
                 ModContent.ItemType<ShatteredSun>(),
-                ModContent.ItemType<DivineHatchet>()
+                ModContent.ItemType<DivineHatchet>(),
+                ModContent.ItemType<DazzlingStabberStaff>(),
+                ModContent.ItemType<PristineFury>(),
+                ModContent.ItemType<RadiantResolution>(),
+                ModContent.ItemType<CinderBlossomStaff>()
             };
 
             iceWeaponList = new List<int>()
@@ -1058,6 +1063,7 @@ namespace CalamityMod
                 ModContent.ItemType<FlurrystormCannon>(),
                 ModContent.ItemType<Hypothermia>(),
                 ModContent.ItemType<IceBarrage>(),
+                ModContent.ItemType<FrostBlossomStaff>(),
 				//Cryonic Bar set stuff, could potentially be removed
                 ModContent.ItemType<Trinity>(),
                 ModContent.ItemType<Shimmerspark>(),
@@ -1181,7 +1187,8 @@ namespace CalamityMod
                 ModContent.ItemType<SeasSearing>(),
                 ModContent.ItemType<YateveoBloom>(),
                 ModContent.ItemType<TerraDisk>(),
-                ModContent.ItemType<TerraDiskMelee>()
+                ModContent.ItemType<TerraDiskMelee>(),
+                ModContent.ItemType<BelladonnaSpiritStaff>()
             };
 
             alcoholList = new List<int>()
@@ -1227,7 +1234,6 @@ namespace CalamityMod
             sixtySixDamageBuffList = new List<int>()
             {
                 ItemID.TrueNightsEdge,
-                ItemID.WandofSparking,
                 ItemID.MedusaHead,
                 ItemID.StaffofEarth,
                 ItemID.ChristmasTreeSword,
@@ -1250,6 +1256,7 @@ namespace CalamityMod
 
             thirtyThreeDamageBuffList = new List<int>()
             {
+                ItemID.WandofSparking,
 				ItemID.IceBow,
 				ItemID.Marrow,
                 ItemID.CrystalVileShard,

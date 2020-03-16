@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = 2;
             projectile.timeLeft = Main.projFrames[projectile.type] * 5;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
+            projectile.localNPCHitCooldown = 30;
         }
 
         public override void AI()

@@ -19,10 +19,10 @@ namespace CalamityMod.Projectiles.Summon
             projectile.width = 6;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.penetrate = -1;
+            projectile.penetrate = 3;
             projectile.timeLeft = 300;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 10;
             projectile.minion = true;
         }
 

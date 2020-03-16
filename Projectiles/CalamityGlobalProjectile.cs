@@ -1792,7 +1792,7 @@ namespace CalamityMod.Projectiles
                             projectile.damage, 3f, projectile.owner);
 						if (modPlayer.starTaintedGenerator)
 						{
-							Main.projectile[boom].localNPCHitCooldown = 10;
+							Main.projectile[boom].localNPCHitCooldown = 15;
 							Main.projectile[boom].penetrate = 3;
 						}
                     }

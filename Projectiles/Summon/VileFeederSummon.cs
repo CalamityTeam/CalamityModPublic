@@ -333,7 +333,7 @@ namespace CalamityMod.Projectiles.Summon
 							float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
 							xVector *= 10f;
 							yVector *= 10f;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<VileFeederProjectile>(), (int)(VileFeeder.BaseDamage * player.MinionDamage() * 2f), projectile.knockBack, projectile.owner, 0f, 0f);
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<VileFeederProjectile>(), (int)(VileFeeder.BaseDamage * player.MinionDamage() * 1.7f), projectile.knockBack, projectile.owner, 0f, 0f);
 						}
 						eaterCooldown = 60;
 					}

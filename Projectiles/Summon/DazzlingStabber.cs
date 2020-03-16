@@ -44,15 +44,15 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[0] = 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = trueDamage;
             }
             bool isProperProjectile = projectile.type == ModContent.ProjectileType<DazzlingStabber>();
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < 3; i++)
                         {
                             float angle = MathHelper.Lerp(-0.3f, 0.3f, i / 3f);
-                            Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(angle), ModContent.ProjectileType<DazzlingStabberKnife>(), (int)(projectile.damage * 0.4), 1f, projectile.owner);
+                            Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(angle), ModContent.ProjectileType<DazzlingStabberKnife>(), (int)(projectile.damage * 0.3), 1f, projectile.owner);
                         }
                     }
                     else projectile.velocity *= 0.99f;

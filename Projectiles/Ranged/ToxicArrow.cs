@@ -37,6 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.damage /= 2;
             projectile.Damage();
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
             int count = Main.rand.Next(6, 15);
@@ -51,7 +52,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			if (Main.rand.NextBool(3))
-				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
+				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 30);
         }
     }
 }
