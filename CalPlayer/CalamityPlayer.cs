@@ -3519,7 +3519,7 @@ namespace CalamityMod.CalPlayer
             {
                 add += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
             }
-            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || item.type == ModContent.ItemType<DragoonDrizzlefish>()))
+            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || CalamityMod.flamethrowerList.Contains(item.type)))
             {
                 add += hoverboardBoost ? 0.35f : 0.25f;
             }
@@ -8152,7 +8152,7 @@ namespace CalamityMod.CalPlayer
                 !item.noUseGraphic &&
                 (!drawPlayer.wet || !item.noWet))
             {
-                if (item.type == ModContent.ItemType<FlurrystormCannon>() || item.type == ModContent.ItemType<MepheticSprayer>() || item.type == ModContent.ItemType<BrimstoneFlameblaster>() || item.type == ModContent.ItemType<BrimstoneFlamesprayer>() || item.type == ModContent.ItemType<SparkSpreader>() || item.type == ModContent.ItemType<HalleysInferno>() || item.type == ModContent.ItemType<CleansingBlaze>() || item.type == ModContent.ItemType<ElementalEruption>() || item.type == ModContent.ItemType<TheEmpyrean>() || item.type == ModContent.ItemType<Meowthrower>() || item.type == ModContent.ItemType<OverloadedBlaster>() || item.type == ModContent.ItemType<TerraFlameburster>() || item.type == ModContent.ItemType<Photoviscerator>() || item.type == ModContent.ItemType<Shadethrower>())
+                if (item.type == ModContent.ItemType<FlurrystormCannon>() || item.type == ModContent.ItemType<MepheticSprayer>() || item.type == ModContent.ItemType<BrimstoneFlameblaster>() || item.type == ModContent.ItemType<BrimstoneFlamesprayer>() || item.type == ModContent.ItemType<SparkSpreader>() || item.type == ModContent.ItemType<HalleysInferno>() || item.type == ModContent.ItemType<CleansingBlaze>() || item.type == ModContent.ItemType<ElementalEruption>() || item.type == ModContent.ItemType<TheEmpyrean>() || item.type == ModContent.ItemType<Meowthrower>() || item.type == ModContent.ItemType<OverloadedBlaster>() || item.type == ModContent.ItemType<TerraFlameburster>() || item.type == ModContent.ItemType<Photoviscerator>() || item.type == ModContent.ItemType<Shadethrower>() || item.type == ModContent.ItemType<BloodBoiler>())
                 {
                     Color color89 = drawInfo.middleArmorColor = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)(drawPlayer.position.X + drawPlayer.width * 0.5) / 16, (int)(drawPlayer.position.Y + drawPlayer.height * 0.5) / 16, Color.White), drawInfo.shadow);
                     SpriteEffects spriteEffects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -8164,6 +8164,8 @@ namespace CalamityMod.CalPlayer
                         thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster");
                     else if (item.type == ModContent.ItemType<BrimstoneFlamesprayer>())
                         thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath");
+                    else if (item.type == ModContent.ItemType<BloodBoiler>())
+                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BloodBoiler");
                     else if (item.type == ModContent.ItemType<SparkSpreader>())
                         thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader");
                     else if (item.type == ModContent.ItemType<HalleysInferno>())

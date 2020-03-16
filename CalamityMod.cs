@@ -7,6 +7,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.LoreItems;
@@ -189,6 +190,7 @@ namespace CalamityMod
         public static List<int> noGravityList;
         public static List<int> lavaFishList;
         public static List<int> highTestFishList;
+        public static List<int> flamethrowerList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -394,6 +396,7 @@ namespace CalamityMod
             noGravityList = null;
             lavaFishList = null;
             highTestFishList = null;
+            flamethrowerList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -2233,6 +2236,12 @@ namespace CalamityMod
                 ItemID.GoldenFishingRod,
                 ModContent.ItemType<EarlyBloomRod>(),
                 ModContent.ItemType<TheDevourerofCods>()
+            };
+
+            flamethrowerList = new List<int>()
+            {
+                ModContent.ItemType<DragoonDrizzlefish>(),
+                ModContent.ItemType<BloodBoiler>()
             };
 
             tableList = new List<int>()
