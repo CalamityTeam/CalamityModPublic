@@ -213,8 +213,10 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-			int abyssShockerChance = CalamityWorld.defiled ? 20 : Main.expertMode ? 40 : 50;
+			int abyssShockerChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 40 : 50;
             DropHelper.DropItemCondition(npc, ModContent.ItemType<AbyssShocker>(), NPC.downedBoss3, abyssShockerChance, 1, 1);
+			float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
+			DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, necklaceDropRate);
 		}
     }
 }

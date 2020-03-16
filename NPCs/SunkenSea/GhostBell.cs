@@ -164,6 +164,8 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void NPCLoot()
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<VoltaicJelly>(), CalamityWorld.downedDesertScourge, 0.2f);
+			float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
+			DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, necklaceDropRate);
         }
     }
 }
