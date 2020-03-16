@@ -2884,7 +2884,10 @@ namespace CalamityMod
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
                             if (calamityModMusic != null)
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral");
+                            {
+                                string sound = "Sounds/Music/Astral";
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, sound + (p.ZoneOverworldHeight ? "" : "Underground"));
+                            }
                             else
                                 music = MusicID.Space;
                             priority = MusicPriority.Environment;
