@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.height = 48;
             projectile.netImportant = true;
             projectile.friendly = true;
+            projectile.minion = true;
             projectile.ignoreWater = true;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
@@ -270,6 +271,7 @@ namespace CalamityMod.Projectiles.Summon
                         Main.projectile[num659].timeLeft = 300;
                         Main.projectile[num659].usesLocalNPCImmunity = true;
                         Main.projectile[num659].localNPCHitCooldown = 10;
+                        Main.projectile[num659].magic = false; //typeless
                         projectile.netUpdate = true;
                     }
                 }
