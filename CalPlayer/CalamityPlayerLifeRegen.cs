@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -424,7 +425,7 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen /= 2;
 			}
 
-			if (modPlayer.omegaBlueChestplate)
+			if (modPlayer.omegaBlueChestplate || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -664,7 +665,7 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen += 2;
 			}
 
-            if(modPlayer.fearmongerSet && modPlayer.fearmongerRegenFrames > 0)
+            if (modPlayer.fearmongerSet && modPlayer.fearmongerRegenFrames > 0)
             {
                 player.lifeRegen += 14;
                 player.lifeRegenTime += 7;

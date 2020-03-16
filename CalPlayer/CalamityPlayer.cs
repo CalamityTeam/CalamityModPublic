@@ -6390,11 +6390,11 @@ namespace CalamityMod.CalPlayer
                     { player.ClearBuff(ModContent.BuffType<PolarisBuff>()); }
                 }
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Ranged.DrataliornusBow>()] != 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<DrataliornusBow>()] != 0)
             {
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Ranged.DrataliornusBow>() && Main.projectile[i].owner == player.whoAmI)
+                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<DrataliornusBow>() && Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
                         break;

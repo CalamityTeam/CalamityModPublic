@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.Ranged
             Player player = Main.player[projectile.owner];
             if (Main.rand.NextBool(2))
             {
-				int healAmt = Main.rand.Next(1,3);
+				int healAmt = Main.rand.Next(1,4);
                 player.statLife += healAmt;
                 player.HealEffect(healAmt);
             }
