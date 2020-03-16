@@ -64,9 +64,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<StormjawStaff>(), 0.2f, 1, 1);
-			//100% chance if DS isn't dead yet, otherwise 50%
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<StormlionMandible>(), !CalamityWorld.downedDesertScourge, 1f, 1, 1);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<StormlionMandible>(), CalamityWorld.downedDesertScourge, 0.5f, 1, 1);
+            //100% chance if DS isn't dead yet, otherwise 50%
+            DropHelper.DropItemChance(npc, ModContent.ItemType<StormlionMandible>(), !CalamityWorld.downedDesertScourge ? 1f : 0.5f, 1, 1);
         }
     }
 }
