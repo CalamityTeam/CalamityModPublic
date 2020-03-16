@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class BloodBoilerFire : ModProjectile
     {
+		private bool playedSound = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blood");
@@ -32,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
 			if (!playedSound)
 			{
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundID.Item34, (int)projectile.position.X, (int)projectile.position.Y);
+                Main.PlaySound(SoundID.Item34, (int)projectile.position.X, (int)projectile.position.Y);
 				playedSound = true;
 			}
 
