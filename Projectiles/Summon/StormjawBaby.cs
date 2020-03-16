@@ -223,7 +223,6 @@ namespace CalamityMod.Projectiles.Summon
 			}
 			if (projectile.ai[0] == 2f) //attack target
 			{
-				projectile.friendly = true;
 				projectile.spriteDirection = -projectile.direction;
 				projectile.rotation = 0f;
 				if (projectile.velocity.Y == 0f)
@@ -283,7 +282,6 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					projectile.ai[1] = 0f;
 					projectile.ai[0] = 0f;
-					projectile.friendly = false;
 					projectile.netUpdate = true;
 					return;
 				}

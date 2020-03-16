@@ -59,7 +59,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<Excelsus>(), 3);
-            float dischargeChance = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : DropHelper.LegendaryDropRateFloat;
+            float dischargeChance = DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicDischarge>(), CalamityWorld.revenge, dischargeChance);
             DropHelper.DropItemChance(player, ModContent.ItemType<TheObliterator>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<Deathwind>(), 3);
