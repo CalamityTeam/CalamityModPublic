@@ -690,6 +690,7 @@ namespace CalamityMod.CalPlayer
         public bool magicHat = false;
         public bool herring = false;
         public bool blackhawk = false;
+        public bool cosmicViper = false;
         public bool calamari = false;
         public bool cEyes = false;
         public bool cSlime = false;
@@ -1507,6 +1508,7 @@ namespace CalamityMod.CalPlayer
             magicHat = false;
             herring = false;
             blackhawk = false;
+            cosmicViper = false;
             calamari = false;
             cEyes = false;
             cSlime = false;

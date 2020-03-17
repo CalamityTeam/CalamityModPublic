@@ -56,8 +56,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.frame = 0;
             }
-            int num3;
-            for (int num369 = 0; num369 < 1; num369 = num3 + 1)
+            for (int num369 = 0; num369 < 1; num369++)
             {
                 int dustType = Main.rand.NextBool(3) ? 56 : 242;
                 float num370 = projectile.velocity.X / 3f * (float)num369;
@@ -68,7 +67,6 @@ namespace CalamityMod.Projectiles.Melee
                 Dust dust = Main.dust[num372];
                 dust.velocity *= 0f;
                 Main.dust[num372].scale = 0.5f;
-                num3 = num369;
             }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - 1.57f;
             float num373 = projectile.position.X;
@@ -79,8 +77,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.ai[0] > 30f)
             {
                 projectile.ai[0] = 30f;
-                int num4;
-                for (int num376 = 0; num376 < 200; num376 = num4 + 1)
+                for (int num376 = 0; num376 < Main.maxNPCs; num376++)
                 {
                     if (Main.npc[num376].CanBeChasedBy(projectile, false) && (!Main.npc[num376].wet || projectile.type == 307))
                     {
@@ -95,7 +92,6 @@ namespace CalamityMod.Projectiles.Melee
                             flag10 = true;
                         }
                     }
-                    num4 = num376;
                 }
             }
             if (!flag10)
