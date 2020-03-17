@@ -58,8 +58,8 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.melee = true;
 			projectile.hide = true;
 			projectile.timeLeft = 300;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 5;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 1;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
