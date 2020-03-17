@@ -516,8 +516,12 @@ namespace CalamityMod.CalPlayer
         public bool umbraphileSet = false;
         public bool reaverBlast = false;
         public bool reaverBurst = false;
-        //public bool fathomSwarmer = false;
-        //public bool fathomSwarmerVisage = false;
+        public bool fathomSwarmer = false;
+        public bool fathomSwarmerVisage = false;
+        public bool fathomSwarmerBreastplate = false;
+        public bool fathomSwarmerTail = false;
+		int tailFrameUp = 0;
+		int tailFrame = 0;
         public bool astralStarRain = false;
         public int astralStarRainCooldown = 0;
         public bool plagueReaper = false;
@@ -1321,8 +1325,10 @@ namespace CalamityMod.CalPlayer
 
             umbraphileSet = false;
             plagueReaper = false;
-            //fathomSwarmer = false;
-            //fathomSwarmerVisage = false;
+            fathomSwarmer = false;
+            fathomSwarmerVisage = false;
+            fathomSwarmerBreastplate = false;
+            fathomSwarmerTail = false;
 
             tarraSet = false;
             tarraMelee = false;
@@ -1835,8 +1841,10 @@ namespace CalamityMod.CalPlayer
             umbraphileSet = false;
             reaverBlast = false;
             reaverBurst = false;
-            //fathomSwarmer = false;
-            //fathomSwarmerVisage = false;
+            fathomSwarmer = false;
+            fathomSwarmerVisage = false;
+            fathomSwarmerBreastplate = false;
+            fathomSwarmerTail = false;
             astralStarRain = false;
             plagueReaper = false;
             plagueReaperCooldown = 0;
@@ -8208,6 +8216,46 @@ namespace CalamityMod.CalPlayer
             }
         }
 
+		public override void PreUpdate()
+		{
+			tailFrameUp++;
+			
+			if (tailFrameUp == 8)
+			{
+				tailFrame++;
+				if (tailFrame == 20)
+				{
+					tailFrame = 0;
+				}
+				tailFrameUp = 0;
+			}
+		}
+
+		public static readonly PlayerLayer Tail = new PlayerLayer("CalamityMod", "Tail", PlayerLayer.BackAcc, delegate (PlayerDrawInfo drawInfo)
+		{
+			Player drawPlayer = drawInfo.drawPlayer;
+			CalamityPlayer modPlayer = drawPlayer.Calamity();
+			if (drawInfo.shadow != 0f || drawPlayer.dead)
+			{
+				return;
+			}
+			Rectangle? frame = new Rectangle(0, (int)(modPlayer.tailFrame * 56), 46, 56);
+			if (modPlayer.fathomSwarmerTail)
+			{
+				Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Armor/FathomSwarmerArmor_Tail");
+
+				int frameSize = texture.Height / 20;
+				int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X - (3 * drawPlayer.direction));
+				int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y - 3);
+				DrawData data = new DrawData(texture, new Vector2(drawX, drawY), frame,
+					Lighting.GetColor((int)((drawInfo.position.X + drawPlayer.width / 2f) / 16f),
+						(int)((drawInfo.position.Y + drawPlayer.height / 2f) / 16f)),
+					0f, new Vector2(texture.Width / 2f, frameSize / 2f), 1f,
+					drawInfo.spriteEffects, 0);
+				Main.playerDrawData.Add(data);
+			}
+		});
+
         public override void ModifyDrawLayers(List<PlayerLayer> list)
         {
             MiscEffectsBack.visible = true;
@@ -8216,6 +8264,12 @@ namespace CalamityMod.CalPlayer
             list.Add(MiscEffects);
             if (fab || crysthamyr || onyxExcavator)
             { AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); }
+
+			if (fathomSwarmerTail)
+			{
+				int legsIndex = list.IndexOf(PlayerLayer.Skin);
+				list.Insert(legsIndex - 1, Tail);
+			}
         }
 
         public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo edi)
@@ -10206,6 +10260,8 @@ namespace CalamityMod.CalPlayer
             if (radiator)
                 light += 1;
             if (sparks)
+                light += 1;
+            if (fathomSwarmerVisage)
                 light += 1;
             if (sirenBoobs || sirenBoobsAlt)
                 light += 1;

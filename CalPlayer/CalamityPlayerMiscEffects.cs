@@ -1779,8 +1779,14 @@ namespace CalamityMod.CalPlayer
 					int defenseLoss = (int)(120D * depthRatio);
 
 					// Anechoic Plating reduces defense loss by 66%
-					if (modPlayer.anechoicPlating)
+					// Fathom Swarmer Breastplate reduces defense loss by 40%
+					// In tandem, reduces defense loss by 80%
+					if (modPlayer.anechoicPlating && modPlayer.fathomSwarmerBreastplate)
+						defenseLoss = (int)(defenseLoss * 0.2f);
+					else if (modPlayer.anechoicPlating)
 						defenseLoss /= 3;
+					else if (modPlayer.fathomSwarmerBreastplate)
+						defenseLoss = (int)(defenseLoss * 0.6f);
 
 					// Reduce defense
 					player.statDefense -= defenseLoss;
