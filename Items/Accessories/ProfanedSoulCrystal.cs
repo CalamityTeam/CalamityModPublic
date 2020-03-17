@@ -131,9 +131,6 @@ namespace CalamityMod.Items.Accessories
 
         public PSCRecipe(Mod mod) : base(mod) { }
 
-
-        public override int ConsumeItem(int type, int numRequired) => type == ModContent.ItemType<ShadowspecBar>() ? 5 : numRequired;
-
         public override bool RecipeAvailable() => Main.LocalPlayer.ZoneHoly || Main.LocalPlayer.ZoneUnderworldHeight;
     }
 
