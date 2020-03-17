@@ -919,6 +919,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.PinkJellyfish:
+                case NPCID.BlueJellyfish:
                     DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
                     break;
 
@@ -947,6 +948,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.GreenJellyfish:
                     DropHelper.DropItemChance(npc, ItemID.Megaphone, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
                     break;
 
                 case NPCID.CursedSkull:
@@ -1530,6 +1532,12 @@ namespace CalamityMod.NPCs
                 case NPCID.DeadlySphere:
                     float defectiveDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : Main.expertMode ? 0.0375f : 0.025f;
                     DropHelper.DropItemChance(npc, ModContent.ItemType<DefectiveSphere>(), defectiveDropRate); //same as deadly sphere staff
+                    break;
+
+                case NPCID.BloodJelly:
+                case NPCID.FungoFish:
+                    float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
+                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, necklaceDropRate);
                     break;
 
                 default:

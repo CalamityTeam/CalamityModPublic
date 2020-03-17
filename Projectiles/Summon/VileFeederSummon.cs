@@ -238,8 +238,8 @@ namespace CalamityMod.Projectiles.Summon
 					}
 					if (playerDist > 2000f)
 					{
-						projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-						projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+						projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+						projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
 						projectile.netUpdate = true;
 					}
 					if (playerDist > 70f)
@@ -333,7 +333,7 @@ namespace CalamityMod.Projectiles.Summon
 							float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
 							xVector *= 10f;
 							yVector *= 10f;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<VileFeederProjectile>(), (int)(VileFeeder.BaseDamage * player.MinionDamage() * 1.7f), projectile.knockBack, projectile.owner, 0f, 0f);
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<VileFeederProjectile>(), (int)(VileFeeder.BaseDamage * player.MinionDamage() * 1.5f), projectile.knockBack, projectile.owner, 0f, 0f);
 						}
 						eaterCooldown = 60;
 					}

@@ -522,6 +522,10 @@ namespace CalamityMod
 
 			// LATER -- no summon set bonuses are written well. all use two bools, neither of which actually controls the function
 
+			// Snow Ruffian
+			if (setBonus == "snowruffian" || setBonus == "snow ruffian")
+				return mp.snowRuffianSet;
+
 			// Victide
 			if (setBonus == "victide_summon" || setBonus == "victide summon")
 				return mp.urchin; // the bool set directly by VictideHelmet.UpdateArmorSet
@@ -591,6 +595,10 @@ namespace CalamityMod
 				case "reaver rogue":
 					return mp.reaverSpore;
 			}
+
+			// Fathom Swarmer
+			if (setBonus == "fathomswarmer" || setBonus == "fathom swarmer")
+				return mp.fathomSwarmer;
 
 			// Umbraphile
 			if (setBonus == "umbraphile")
@@ -765,6 +773,13 @@ namespace CalamityMod
 			CalamityPlayer mp = p.Calamity();
 			setBonus = setBonus.ToLower();
 
+			// Snow Ruffian
+			if (setBonus == "snowruffian" || setBonus == "snow ruffian")
+			{
+				mp.snowRuffianSet = enabled;
+				return true;
+			}
+
 			// Victide
 			if (setBonus == "victide_summon" || setBonus == "victide summon")
 			{
@@ -863,6 +878,13 @@ namespace CalamityMod
 				case "reaver rogue":
 					mp.reaverSpore = enabled;
 					return true;
+			}
+
+			// Fathom Swarmer
+			if (setBonus == "fathomswarmer" || setBonus == "fathom swarmer")
+			{
+				mp.fathomSwarmer = enabled;
+				return true;
 			}
 
 			// Umbraphile
