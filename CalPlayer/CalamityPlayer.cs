@@ -8219,11 +8219,10 @@ namespace CalamityMod.CalPlayer
 		public override void PreUpdate()
 		{
 			tailFrameUp++;
-			
 			if (tailFrameUp == 8)
 			{
 				tailFrame++;
-				if (tailFrame == 20)
+				if (tailFrame >= 4)
 				{
 					tailFrame = 0;
 				}
@@ -8244,9 +8243,9 @@ namespace CalamityMod.CalPlayer
 			{
 				Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Armor/FathomSwarmerArmor_Tail");
 
-				int frameSize = texture.Height / 20;
+				int frameSize = texture.Height / 4;
 				int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X - (3 * drawPlayer.direction));
-				int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y - 3);
+				int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
 				DrawData data = new DrawData(texture, new Vector2(drawX, drawY), frame,
 					Lighting.GetColor((int)((drawInfo.position.X + drawPlayer.width / 2f) / 16f),
 						(int)((drawInfo.position.Y + drawPlayer.height / 2f) / 16f)),
