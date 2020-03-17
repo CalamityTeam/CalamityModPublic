@@ -117,7 +117,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 25);
             recipe.AddIngredient(ModContent.ItemType<ProfanedSoulArtifact>());
             recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 50);
-            recipe.AddIngredient(ModContent.ItemType<KnowledgeProvidence>()); //this is NOT consumed during crafting
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 100);
             recipe.AddIngredient(ItemID.ObsidianRose);
             recipe.AddTile(ModContent.TileType<ProfanedBasin>());
@@ -133,9 +132,9 @@ namespace CalamityMod.Items.Accessories
         public PSCRecipe(Mod mod) : base(mod) { }
 
 
-        public override int ConsumeItem(int type, int numRequired) => type == ModContent.ItemType<KnowledgeProvidence>() ? 0 : numRequired;
+        public override int ConsumeItem(int type, int numRequired) => type == ModContent.ItemType<ShadowspecBar>() ? 5 : numRequired;
 
-        public override bool RecipeAvailable() => Main.dayTime && (Main.LocalPlayer.ZoneHoly || Main.LocalPlayer.ZoneUnderworldHeight);
+        public override bool RecipeAvailable() => Main.LocalPlayer.ZoneHoly || Main.LocalPlayer.ZoneUnderworldHeight;
     }
 
     public class ProfanedCrystalHead : EquipTexture
