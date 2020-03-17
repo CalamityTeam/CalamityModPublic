@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class StormjawStaff : ModItem
     {
+        public static int BaseDamage = 8;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stormjaw Staff");
@@ -16,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 8;
+            item.damage = BaseDamage;
             item.mana = 10;
             item.width = 32;
             item.height = 32;
@@ -41,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 position = Main.MouseWorld;
                 speedX = 0;
                 speedY = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, 0, knockBack, player.whoAmI);
             }
             return false;
         }

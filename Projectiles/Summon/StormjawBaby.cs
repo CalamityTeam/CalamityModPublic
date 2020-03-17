@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -216,9 +217,9 @@ namespace CalamityMod.Projectiles.Summon
 					}
 				}
 				if (projectile.velocity.X > 0.5f)
-					projectile.spriteDirection = 1;
-				else if (projectile.velocity.X < -0.5f)
 					projectile.spriteDirection = -1;
+				else if (projectile.velocity.X < -0.5f)
+					projectile.spriteDirection = 1;
 				projectile.rotation = projectile.spriteDirection != 1 ? (float) Math.Atan2((double) projectile.velocity.Y, (double) projectile.velocity.X) + 3.14f : (float) Math.Atan2((double) projectile.velocity.Y, (double) projectile.velocity.X);
 			}
 			if (projectile.ai[0] == 2f) //attack target
@@ -267,7 +268,7 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < Main.rand.Next(1,4); i++)
                         {
 							Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-							int spark = Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), projectile.damage, projectile.knockBack, projectile.owner);
+							int spark = Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), (int)(StormjawStaff.BaseDamage * player.MinionDamage()), projectile.knockBack, projectile.owner);
 							Main.projectile[spark].Calamity().forceMinion = true;
 							Main.projectile[spark].timeLeft = 120;
 							Main.projectile[spark].penetrate = 3;
@@ -493,12 +494,42 @@ namespace CalamityMod.Projectiles.Summon
 				if ((double) projectile.velocity.Y > 10.0)
 					projectile.velocity.Y = 10f;
 			}
+			if (projectile.ai[0] != 2f)
+			{
+                Rectangle rectangle = new Rectangle((int)((double)projectile.position.X + (double)projectile.velocity.X * 0.5 - 4.0), (int)((double)projectile.position.Y + (double)projectile.velocity.Y * 0.5 - 4.0), projectile.width + 8, projectile.height + 8);
+                for (int i = 0; i < Main.maxNPCs; i++)
+                {
+                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[projectile.owner] <= 0)
+                    {
+                        NPC nPC = Main.npc[i];
+                        Rectangle rect = nPC.getRect();
+                        if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
+                        {
+							sparkCounter += Main.rand.Next(1,3);
+							if (sparkCounter >= 20)
+							{
+								if (Main.myPlayer == projectile.owner)
+								{
+									for (int j = 0; j < Main.rand.Next(1,4); j++)
+									{
+										Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
+										int spark = Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), (int)(StormjawStaff.BaseDamage * player.MinionDamage()), projectile.knockBack, projectile.owner);
+										Main.projectile[spark].Calamity().forceMinion = true;
+										Main.projectile[spark].timeLeft = 120;
+										Main.projectile[spark].penetrate = 3;
+										ProjectileID.Sets.MinionShot[Main.projectile[spark].type] = true;
+										Main.projectile[spark].usesIDStaticNPCImmunity = true;
+										Main.projectile[spark].idStaticNPCHitCooldown = 10;
+										Main.projectile[spark].usesLocalNPCImmunity = false;
+									}
+									sparkCounter = 0;
+								}
+							}
+                        }
+                    }
+                }
+			}
 		}
-
-        public override bool CanDamage()
-        {
-            return false;
-        }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
@@ -513,7 +544,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-			int index = Gore.NewGore(new Vector2(projectile.position.X - (float) (projectile.width / 2), projectile.position.Y - (float) (projectile.height / 2)), new Vector2(0.0f, 0.0f), Main.rand.Next(61, 64), projectile.scale);
+			int index = Gore.NewGore(new Vector2(projectile.position.X - (float) (projectile.width / 2), projectile.position.Y - (float) (projectile.height / 2)), new Vector2(0f, 0f), Main.rand.Next(61, 64), projectile.scale);
 			Main.gore[index].velocity *= 0.1f;
         }
     }
