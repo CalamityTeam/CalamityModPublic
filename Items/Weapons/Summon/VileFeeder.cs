@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Summon
 {
     public class VileFeeder : ModItem
     {
-        public static int BaseDamage = 8;
+        public static int BaseDamage = 7;
 
         public override void SetStaticDefaults()
         {
