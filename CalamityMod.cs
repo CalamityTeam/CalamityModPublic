@@ -1276,7 +1276,8 @@ namespace CalamityMod
                 ItemID.PurplePhasesaber,
                 ItemID.TheRottedFork,
                 ItemID.VampireKnives,
-                ItemID.Cascade
+                ItemID.Cascade,
+                ItemID.TrueExcalibur
             };
 
             twentyFiveDamageBuffList = new List<int>()
