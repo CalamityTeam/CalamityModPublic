@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Placeables;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Weapons.Rogue;
 using Terraria;
 using Terraria.ID;
@@ -36,16 +37,15 @@ namespace CalamityMod.Items.Armor
 
         public override void AddRecipes()
         {
-            //todo when acidwood is added
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddRecipeGroup("AnyEvilOre", 15);
             recipe.AddIngredient(ModContent.ItemType<UrchinStinger>(), 30);
-            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 20);
-            //recipe.AddIngredient(ModContent.ItemType<AcidWood>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 15);
 
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
-            //recipe.AddRecipe();
+            recipe.AddRecipe();
         }
     }
 }
