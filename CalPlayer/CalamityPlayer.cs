@@ -752,6 +752,8 @@ namespace CalamityMod.CalPlayer
         public bool belladonaSpirit = false;
         public bool vileFeeder = false;
         public bool scabRipper = false;
+        public bool midnightUFO = false;
+        public bool plagueEngine = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1582,6 +1584,8 @@ namespace CalamityMod.CalPlayer
             belladonaSpirit = false;
             vileFeeder = false;
             scabRipper = false;
+            midnightUFO = false;
+            plagueEngine = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;

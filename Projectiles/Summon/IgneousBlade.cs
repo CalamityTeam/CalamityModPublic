@@ -159,6 +159,9 @@ namespace CalamityMod.Projectiles.Summon
                             rectangle.Size() / 2f, scale, spriteEffects, 0f);
                     }
                 }
+                Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Rectangle?(rectangle), Color.White,
+                           projectile.rotation,
+                           rectangle.Size() / 2f, 1.35f, spriteEffects, 0f);
                 return false;
             }
             return true;

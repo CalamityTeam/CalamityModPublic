@@ -68,8 +68,10 @@ namespace CalamityMod.Projectiles.Summon
             if (potentialTarget != null)
             {
                 int sign = (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
-                Vector2 destination = potentialTarget.Center + new Vector2((125f + 40f * projectile.ai[1]) * sign, -160f);
-                if (projectile.Distance(destination) < 65f)
+                float x = (125f + 40f * (int)(projectile.ai[1] % 10f)) * sign;
+                int y = -160 - 50 * (int)(projectile.ai[1] / 10);
+                Vector2 destination = potentialTarget.Center + new Vector2(x, y);
+                if (projectile.Distance(destination) < 6f)
                 {
                     projectile.velocity *= 0.9f;
                 }
@@ -102,10 +104,9 @@ namespace CalamityMod.Projectiles.Summon
             else
             {
                 projectile.localAI[1] = 0;
-                Vector2 distanceToDestination = player.Center - projectile.Center;
-                distanceToDestination.X -= 10f * player.direction;
-                distanceToDestination.X -= projectile.ai[1] * 40 * player.direction;
-                distanceToDestination.Y -= 10f;
+                float x = (45f + 35f * (int)(projectile.ai[1] % 10f)) * -player.direction;
+                int y = -60 - 50 * (int)(projectile.ai[1] / 10);
+                Vector2 distanceToDestination = player.Center - projectile.Center + new Vector2(x, y);
                 float distance = distanceToDestination.Length();
                 if (distance > 10f)
                 {

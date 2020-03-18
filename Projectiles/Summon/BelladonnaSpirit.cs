@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = -1;
             projectile.timeLeft *= 5;
             projectile.minion = true;
+            projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }
@@ -90,7 +91,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 targetPosition = player.Bottom;
             if (potentialTarget == null)
             {
-                projectile.velocity.X = (player.Center.X + player.direction * 75f - projectile.Center.X) / 110f;
+                projectile.velocity.X = (player.Center.X + player.direction * 75f - projectile.Center.X) / 60f;
                 if (projectile.Distance(player.Center) > 2500f ||
                     targetPosition.Y - projectile.Top.Y > 360f)
                 {
@@ -99,11 +100,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else if (targetPosition.Y - projectile.Top.Y < -550f)
                 {
-                    projectile.velocity.Y += Math.Sign(targetPosition.Y - targetPosition.Y) * 0.05f;
+                    projectile.velocity.Y += Math.Sign(targetPosition.Y - targetPosition.Y) * 0.08f;
                 }
                 else
                 {
-                    projectile.velocity.Y = (targetPosition.Y - projectile.Center.Y) / 110f;
+                    projectile.velocity.Y = (targetPosition.Y - projectile.Center.Y) / 60f;
                 }
             }
             else
@@ -167,14 +168,6 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-        }
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
         }
     }
 }
