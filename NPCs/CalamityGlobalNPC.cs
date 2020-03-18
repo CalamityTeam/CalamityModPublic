@@ -279,6 +279,13 @@ namespace CalamityMod.NPCs
 			ModContent.NPCType<AquaticScourgeTail>()
 		};
 
+		public static List<int> DesertScourgeIDs = new List<int>
+		{
+			ModContent.NPCType<DesertScourgeHead>(),
+			ModContent.NPCType<DesertScourgeBody>(),
+			ModContent.NPCType<DesertScourgeTail>()
+		};
+
 		public static List<int> EaterofWorldsIDs = new List<int>
 		{
 			NPCID.EaterofWorldsHead,
@@ -3355,6 +3362,13 @@ namespace CalamityMod.NPCs
                     damage = (int)(damage * 0.6);
                 }
                 if (projectile.type == ModContent.ProjectileType<SparklingBeam>())
+                {
+                    damage = (int)(damage * 0.7);
+                }
+            }
+            else if (DesertScourgeIDs.Contains(npc.type))
+            {
+                if (projectile.type == ModContent.ProjectileType<Spark>())
                 {
                     damage = (int)(damage * 0.7);
                 }
