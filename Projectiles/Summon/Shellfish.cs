@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[0] == 0f)
             {
 				//lineColor == 1 means it is spawned from Mollusk Armor rather than the weapon
-                projectile.damage = (int)((modProj.lineColor == 1 ? 1500f : 70f) * player.MinionDamage());
+                projectile.damage = (int)((modProj.lineColor == 1 ? 200f : 70f) * player.MinionDamage());
                 if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
                 {
                     int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
