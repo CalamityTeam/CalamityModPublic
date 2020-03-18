@@ -3,6 +3,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,7 +15,9 @@ namespace CalamityMod.Projectiles.Summon
         private int ai = -1;
         private void updateDamage(int type)
         {
-            Player player = Main.player[Main.myPlayer];
+            if (Main.myPlayer != projectile.owner)
+                return;
+            Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : 100f +
                         (CalamityWorld.downedDoG ? 100f : 0f) +
@@ -22,6 +25,16 @@ namespace CalamityMod.Projectiles.Summon
                         (modPlayer.profanedCrystalBuffs ? 700f : 0f);
             projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage());
             ai = type;
+        }
+
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(ai);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            ai = reader.ReadInt32();
         }
 
         private void AI(int type, float num535, float num536, Player player)
