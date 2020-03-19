@@ -1,6 +1,7 @@
 using CalamityMod;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -4287,6 +4288,14 @@ namespace CalamityMod.NPCs
 
 				if (npc.timeLeft > 10)
 					npc.timeLeft = 10;
+
+				if (npc.timeLeft == 1)
+				{
+					CalamityWorld.acidRainPoints = 0;
+					CalamityWorld.rainingAcid = false;
+					AcidRainEvent.UpdateInvasion();
+					npc.timeLeft = 0;
+				}
 
 				if (npc.ai[0] > 4f)
 					npc.ai[0] = 5f;

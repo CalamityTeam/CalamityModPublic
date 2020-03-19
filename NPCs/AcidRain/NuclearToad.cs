@@ -1,6 +1,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -10,8 +11,6 @@ namespace CalamityMod.NPCs.AcidRain
 {
     public class NuclearToad : ModNPC
     {
-        public const float ExplodeDistanceHM = 185f;
-        public const float ExplodeDistancePreHM = 295f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nuclear Toad");
@@ -23,19 +22,25 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 62;
             npc.height = 34;
             npc.defense = 4;
-            if (Main.hardMode)
+
+            npc.aiStyle = aiType = -1;
+
+            npc.damage = 20;
+            npc.lifeMax = 250;
+            npc.defense = 3;
+
+            if (CalamityWorld.downedPolterghast)
             {
-                npc.lifeMax = Main.expertMode ? 400 : 350;
-                npc.damage = 75;
+                npc.damage = 200;
+                npc.lifeMax = 5750;
+                npc.defense = 33;
             }
-            else
+            else if (Main.hardMode)
             {
-                npc.lifeMax = Main.expertMode ? 255 : 200;
-                npc.damage = 45;
+                npc.damage = 80;
+                npc.lifeMax = 420;
             }
 
-            npc.damage = Main.hardMode ? 75 : 45;
-            npc.lifeMax = Main.hardMode ? 350 : 180;
 
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
@@ -83,16 +88,24 @@ namespace CalamityMod.NPCs.AcidRain
             }
             if (Main.rand.NextBool(480))
                 Main.PlaySound(SoundID.Zombie, npc.Center, 13); // Ribbit sound
-            float explodeDistance = Main.hardMode ? ExplodeDistanceHM : ExplodeDistancePreHM;
+            float explodeDistance = Main.hardMode ? 295f : 195f;
+            if (CalamityWorld.downedPolterghast)
+                explodeDistance = 470f;
             if (npc.Distance(player.Center) < explodeDistance)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int damage = Main.hardMode ? 27 : 17;
+                    float speed = Main.rand.NextFloat(6f, 9f);
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        speed *= 1.8f;
+                        damage = 45;
+                    }
                     for (int i = 0; i < 7; i++)
                     {
                         float angle = Main.rand.NextFloat(MathHelper.TwoPi);
-                        Projectile.NewProjectile(npc.Center, angle.ToRotationVector2() * Main.rand.NextFloat(6f, 9f), ModContent.ProjectileType<NuclearToadGoo>(), damage, 1f);
+                        Projectile.NewProjectile(npc.Center, angle.ToRotationVector2() * speed, ModContent.ProjectileType<NuclearToadGoo>(), damage, 1f);
                     }
                 }
                 Main.PlaySound(SoundID.DD2_KoboldExplosion, npc.Center);
@@ -101,6 +114,11 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.active = false;
                 npc.netUpdate = true;
             }
+        }
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.85f);
         }
         public override void FindFrame(int frameHeight)
         {
@@ -114,11 +132,6 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.frame.Y = 0;
                 }
             }
-        }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.damage = Main.hardMode ? 76 : 52;
-            npc.lifeMax = Main.hardMode ? 420 : 215;
         }
 
         public override void HitEffect(int hitDirection, double damage)

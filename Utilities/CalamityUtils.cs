@@ -613,6 +613,36 @@ namespace CalamityMod
                 Main.spriteBatch.Draw(flameTexture, new Vector2(item.position.X - Main.screenPosition.X + item.width * 0.5f + shakeX, item.position.Y - Main.screenPosition.Y + item.height - flameTexture.Height * 0.5f + 2f + shakeY), new Rectangle(0, 0, width, height), new Color(100, 100, 100, 0), 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
             }
         }
+        public static Tile ParanoidTileRetrieval(int x, int y)
+        {
+            if (!WorldGen.InWorld(x, y))
+                return new Tile();
+            Tile tile = Main.tile[x, y];
+            if (tile == null)
+            {
+                tile = new Tile();
+                Main.tile[x, y] = tile;
+            }
+            return tile;
+        }
+        public static bool TileSelectionSolid(int x, int y, int width, int height)
+        {
+            for (int i = x; i != x + width; i += Math.Sign(width))
+            {
+                for (int j = y; y != y + height; j += Math.Sign(height))
+                {
+                    if (!WorldGen.InWorld(i, j))
+                        return false;
+                    if (!WorldGen.SolidTile(Framing.GetTileSafely(i, j)))
+                        return false;
+                }
+            }
+            return true;
+        }
+        public static bool TileActiveAndOfType(int x, int y, int type)
+        {
+            return ParanoidTileRetrieval(x, y).active() && ParanoidTileRetrieval(x, y).type == type;
+        }
 
         #region Tile Merge Utilities
         /// <summary>

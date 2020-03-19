@@ -25,6 +25,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Ravager;
@@ -1601,7 +1602,17 @@ namespace CalamityMod.NPCs
             List<(int, int)> PossibleEnemies = Main.hardMode ? AcidRainEvent.PossibleEnemiesHM : AcidRainEvent.PossibleEnemiesPreHM;
             if (PossibleEnemies.Select(enemy => enemy.Item1).Contains(npc.type) && CalamityWorld.rainingAcid)
             {
-                Main.invasionSize -= PossibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
+                CalamityWorld.acidRainPoints -= PossibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
+                if (CalamityWorld.downedPolterghast)
+                {
+                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
+                }
+            }
+            if (CalamityWorld.rainingAcid && CalamityWorld.downedPolterghast && 
+                npc.type == ModContent.NPCType<OldDuke.OldDuke>() &&
+                CalamityWorld.acidRainPoints <= 2f)
+            {
+                CalamityWorld.acidRainPoints = 0;
             }
             AcidRainEvent.UpdateInvasion();
         }

@@ -1,5 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -19,10 +20,22 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.width = 72;
             npc.height = 18;
+
+            npc.damage = 40;
+            npc.lifeMax = 260;
             npc.defense = 4;
 
-            npc.damage = Main.hardMode ? 58 : 41;
-            npc.lifeMax = Main.hardMode ? 430 : 180;
+            if (CalamityWorld.downedPolterghast)
+            {
+                npc.damage = 260;
+                npc.lifeMax = 6650;
+                npc.defense = 45;
+            }
+            else if (Main.hardMode)
+            {
+                npc.damage = 80;
+                npc.lifeMax = 705;
+            }
 
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 3, 32);
@@ -53,15 +66,26 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     npc.direction = (Main.player[npc.target].position.X > npc.position.X).ToDirectionInt();
                 }
-                npc.velocity.X += npc.direction * 0.3f;
+                float acceleration = 0.3f;
+                float yAcceleration = 0.08f;
+                float maxSpeedX = 15f;
+                float maxSpeedY = 4f;
+                if (CalamityWorld.downedPolterghast)
+                {
+                    acceleration = 0.75f;
+                    yAcceleration = 0.25f;
+                    maxSpeedX = 24f;
+                    maxSpeedY = 9f;
+                }
+                npc.velocity.X += npc.direction * acceleration;
 
                 if (npc.collideX)
                     npc.direction *= -1;
 
                 npc.spriteDirection = npc.direction;
 
-                npc.velocity.Y += (Main.player[npc.target].position.Y > npc.position.Y).ToDirectionInt() * 0.075f;
-                npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-15f, -3f), new Vector2(15f, 3f));
+                npc.velocity.Y += (Main.player[npc.target].position.Y > npc.position.Y).ToDirectionInt() * yAcceleration;
+                npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-maxSpeedX, -maxSpeedY), new Vector2(maxSpeedX, maxSpeedY));
                 npc.rotation = npc.velocity.X * 0.02f;
             }
             else
@@ -87,8 +111,8 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.damage = (int)(npc.damage * 1.2);
-            npc.lifeMax = Main.hardMode ? 500 : 230;
+            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.85f);
         }
         public override void HitEffect(int hitDirection, double damage)
         {

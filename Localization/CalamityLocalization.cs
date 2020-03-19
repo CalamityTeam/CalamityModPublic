@@ -18,7 +18,7 @@ namespace CalamityMod.Localization
                 new [] { "FutureOreText", "A cold and dark energy has materialized in space." },
 
                 new [] { "UglyBossText", "The Sunken Sea trembles..." },
-                new [] { "UglyBossText2", "The sulfuric sky darkens..." },
+                new [] { "UglyBossText2", "The sulphuric sky darkens..." },
 
                 new [] { "SteelSkullBossText", "A blood red inferno lingers in the night..." },
 
@@ -157,7 +157,7 @@ namespace CalamityMod.Localization
                 new [] { "AprilFools", "The LORDE is approaching..." },
 
                 new [] { "AcidRainStart", "A toxic downpour falls over the wasteland seas!" },
-                new [] { "AcidRainEnd", "The sulfuric skies begin to clear..." }
+                new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." }
             };
         }
 
