@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.StatDebuffs
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Acid Rain");
+            DisplayName.SetDefault("Irradiated");
             Description.SetDefault("Your skin is burning off");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
