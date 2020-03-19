@@ -6,6 +6,7 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.World;
 using Terraria;
@@ -51,6 +52,7 @@ namespace CalamityMod.Items.TreasureBags
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<Brimlance>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<SeethingDischarge>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<DormantBrimseeker>(), 3);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());

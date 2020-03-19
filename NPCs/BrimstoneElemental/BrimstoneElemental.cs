@@ -9,6 +9,7 @@ using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -192,6 +193,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Brimlance>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SeethingDischarge>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DormantBrimseeker>(), 4);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<RoseStone>(), 10);
