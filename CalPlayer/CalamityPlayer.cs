@@ -3003,7 +3003,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			if (boomerDukeLore)
-				player.buffImmune[ModContent.BuffType<AcidRain>()] = false;
+				player.buffImmune[ModContent.BuffType<Irradiated>()] = false;
         }
         #endregion
 
@@ -3029,7 +3029,7 @@ namespace CalamityMod.CalPlayer
             }
 
 			if (boomerDukeLore)
-				player.buffImmune[ModContent.BuffType<AcidRain>()] = false;
+				player.buffImmune[ModContent.BuffType<Irradiated>()] = false;
         }
         #endregion
 
