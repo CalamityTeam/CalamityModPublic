@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tactical Plague Engine");
-            Tooltip.SetDefault("Summons a plague engine to pummel your enemies into submission\n" +
+            Tooltip.SetDefault("Summons a plague jet to pummel your enemies into submission\n" +
                                "Consumes bullets\n" +
                                "Sometimes shoots a missile instead of a bullet");
         }

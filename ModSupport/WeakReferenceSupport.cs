@@ -37,6 +37,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
@@ -90,6 +91,7 @@ namespace CalamityMod
 			{ "StormWeaver", 15.51f },
 			{ "Signus", 15.52f },
 			{ "Polterghast", 16f },
+			{ "OldDuke", 16.5f },
 			{ "DevourerOfGods", 17f },
 			{ "Yharon", 18f },
 			// { "Draedon", 18.5f },
@@ -465,6 +467,18 @@ namespace CalamityMod
 				string instructions = $"Kill 30 phantom spirits or use a [i:{summon}] in the Dungeon";
 				string despawn = CalamityUtils.ColorMessage("The volatile spirits disperse throughout the depths of the dungeon.", new Color(0xB0, 0xE0, 0xE6));
 				AddBoss(bossChecklist, calamity, "Polterghast", order, bosses, DownedPolterghast, summon, loot, collection, instructions, despawn);
+			}
+
+			// Old Duke
+			{
+				BossDifficulty.TryGetValue("OldDuke", out float order);
+				List<int> bosses = new List<int>() { NPCType<OldDuke>() };
+				int summon = ItemType<BloodwormItem>();
+				List<int> loot = new List<int>() { ItemType<OldDukeBag>(), ItemType<InsidiousImpaler>(), ItemType<SepticSkewer>(), ItemType<FetidEmesis>(), ItemType<VitriolicViper>(), ItemType<Miasma>(), ItemType<CadaverousCarrion>(), ItemType<ToxicantTwister>(), ItemType<DukeScales>(), ItemType<MutatedTruffle>(), ItemID.SuperHealingPotion };
+				List<int> collection = new List<int>() { /*ItemType<OldDukeTrophy>(), */ItemType<OldDukeMask>(), ItemType<KnowledgeOldDuke>() };
+				string instructions = $"Reach a high percentage in the post-Polterghast Acid Rain event or fish using a [i:{summon}] in the Sulphurous Sea";
+				string despawn = CalamityUtils.ColorMessage("The old duke disappears amidst the acidic downpour.", new Color(0xF0, 0xE6, 0x8C));
+				AddBoss(bossChecklist, calamity, "OldDuke", order, bosses, DownedBoomerDuke, summon, loot, collection, instructions, despawn);
 			}
 
 			// Devourer of Gods

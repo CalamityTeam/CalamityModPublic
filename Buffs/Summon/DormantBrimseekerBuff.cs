@@ -9,7 +9,7 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Dormant Brimseeker");
+            DisplayName.SetDefault("Brimseeker");
             Description.SetDefault("Does it want something from you?");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
