@@ -102,8 +102,16 @@ namespace CalamityMod.Projectiles.Boss
 						float distance = Vector2.Distance(player.Center, projectile.Center);
 						if (distance < distanceRequired && player.grappling[0] == -1)
 						{
-							float multiplier = 1f - (distance / distanceRequired);
+							float distanceRatio = distance / distanceRequired;
+
+							float wingTimeSet = (float)Math.Ceiling((float)player.wingTimeMax * 0.5f * distanceRatio);
+							if (player.wingTime > wingTimeSet)
+							{
+								player.wingTime = wingTimeSet;
+							}
+
 							float succPower = 0.4f;
+							float multiplier = 1f - distanceRatio;
 							if (player.Center.X < projectile.Center.X)
 							{
 								player.velocity.X += succPower * multiplier;
