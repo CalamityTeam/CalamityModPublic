@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			projectile.velocity = Vector2.Normalize(new Vector2(projectile.ai[0], projectile.ai[1]) - projectile.Center) * 1.5f;
 
-			projectile.rotation += 0.1f * (float)(1D - (projectile.alpha / 255D));
+			projectile.rotation -= 0.1f * (float)(1D - (projectile.alpha / 255D));
 
 			float lightAmt = 2f * projectile.scale;
 			Lighting.AddLight(projectile.Center, lightAmt, lightAmt * 2f, lightAmt);
