@@ -2,6 +2,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +10,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.NPCs.AcidRain
 {
     public class Radiator : ModNPC
@@ -27,6 +29,20 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 24;
             npc.defense = 5;
             npc.lifeMax = 200;
+
+            if (CalamityWorld.downedPolterghast)
+            {
+                npc.damage = 200;
+                npc.lifeMax = 4000;
+                npc.defense = 20;
+            }
+            else if (CalamityWorld.downedAquaticScourge)
+            {
+                npc.damage = 75;
+                npc.lifeMax = 640;
+                npc.defense = 10;
+            }
+
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -39,7 +55,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
 			aiType = NPCID.GlowingSnail;
-			//animationType = NPCID.GlowingSnail;
             banner = npc.type;
             bannerItem = ModContent.ItemType<RadiatorBanner>();
         }
@@ -62,6 +77,11 @@ namespace CalamityMod.NPCs.AcidRain
 			{
 				player.AddBuff(ModContent.BuffType<Irradiated>(), 3, false);
 				player.AddBuff(BuffID.Poisoned, 2, false);
+				if (CalamityWorld.downedPolterghast)
+				{
+					player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 3, false);
+					player.AddBuff(BuffID.Venom, 2, false);
+				}
 			}
         }
 
@@ -77,15 +97,6 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.frame.Y = 0;
                 }
             }
-        }
-
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            if (spawnInfo.playerSafe || !spawnInfo.player.Calamity().ZoneSulphur || !Main.raining)
-            {
-                return 0f;
-            }
-            return 0.1f;
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -109,7 +120,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 20);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 50);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.lifeMax = 5700;
                 npc.defense = 65;
             }
-            else if (Main.hardMode)
+            else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 75;
                 npc.lifeMax = 605;
@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.AcidRain
                         float rotation = npc.rotation - MathHelper.Pi - MathHelper.PiOver2 - MathHelper.PiOver4;
                         if (npc.spriteDirection == -1)
                             rotation += MathHelper.PiOver2;
-                        int damage = Main.hardMode ? 26 : 18;
+                        int damage = CalamityWorld.downedPolterghast ? 40 : CalamityWorld.downedAquaticScourge ? 26 : 18;
                         if (CalamityWorld.downedPolterghast)
                         {
                             damage = 44;

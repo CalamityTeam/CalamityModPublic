@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.lifeMax = 5750;
                 npc.defense = 33;
             }
-            else if (Main.hardMode)
+            else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 80;
                 npc.lifeMax = 420;
@@ -88,14 +88,14 @@ namespace CalamityMod.NPCs.AcidRain
             }
             if (Main.rand.NextBool(480))
                 Main.PlaySound(SoundID.Zombie, npc.Center, 13); // Ribbit sound
-            float explodeDistance = Main.hardMode ? 295f : 195f;
+            float explodeDistance = CalamityWorld.downedAquaticScourge ? 295f : 195f;
             if (CalamityWorld.downedPolterghast)
                 explodeDistance = 470f;
             if (npc.Distance(player.Center) < explodeDistance)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int damage = Main.hardMode ? 27 : 17;
+                    int damage = CalamityWorld.downedAquaticScourge ? 27 : 17;
                     float speed = Main.rand.NextFloat(6f, 9f);
                     if (CalamityWorld.downedPolterghast)
                     {

@@ -18,9 +18,10 @@ namespace CalamityMod.Localization
                 new [] { "FutureOreText", "A cold and dark energy has materialized in space." },
 
                 new [] { "UglyBossText", "The Sunken Sea trembles..." },
-                new [] { "UglyBossText2", "The sulphuric sky darkens..." },
 
                 new [] { "SteelSkullBossText", "A blood red inferno lingers in the night..." },
+
+                new [] { "WetWormBossText", "The sulphuric sky darkens..." },
 
                 new [] { "PlantBossText", "The ocean depths are trembling." },
 
@@ -42,6 +43,7 @@ namespace CalamityMod.Localization
                 new [] { "GhostBossText", "The abyssal spirits have been disturbed." },
                 new [] { "GhostBossText2", "Wails echo through the dilapidated dungeon halls..." },
                 new [] { "GhostBossText3", "Long-dead prisoners seek their zealous revenge..." },
+                new [] { "GhostBossText4", "The souls released have stirred the acidic storms..." },
 
                 new [] { "SupremeBossText3", "Alright, let's get started. Not sure why you're bothering." }, // start
                 new [] { "SupremeBossText4", "You seem so confident, even though you are painfully ignorant of what has yet to transpire." }, //75%
@@ -155,6 +157,7 @@ namespace CalamityMod.Localization
                 new [] { "ThirdSageBlessingText", "You have been blessed by the Third Sage!" },
 
                 new [] { "AprilFools", "The LORDE is approaching..." },
+                new [] { "AprilFools2", "A boomer awaits..." }, //possible alternative to GhostBossText4
 
                 new [] { "AcidRainStart", "A toxic downpour falls over the wasteland seas!" },
                 new [] { "AcidRainEnd", "The sulphuric skies begin to clear..." }

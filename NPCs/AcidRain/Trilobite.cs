@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.lifeMax = 7200;
                 npc.defense = 78;
             }
-            else if (Main.hardMode)
+            else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 66;
                 npc.lifeMax = 850;
@@ -137,7 +137,7 @@ namespace CalamityMod.NPCs.AcidRain
                 if (npc.ai[0] <= 0f)
                 {
                     Main.PlaySound(SoundID.NPCDeath11, npc.Center);
-                    int projDamage = Main.hardMode ? 29 : 21;
+                    int projDamage = CalamityWorld.downedPolterghast ? 35 : CalamityWorld.downedAquaticScourge ? 29 : 21;
                     Projectile.NewProjectile(npc.Center + Utils.NextVector2Unit(Main.rand) * npc.Size * 0.7f,
                         -npc.velocity.RotatedByRandom(MathHelper.ToRadians(10f)), ModContent.ProjectileType<TrilobiteSpike>(),
                         projDamage, 3f);

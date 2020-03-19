@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -731,11 +732,19 @@ namespace CalamityMod.NPCs.Polterghast
 
                 string key = "Mods.CalamityMod.GhostBossText";
                 Color messageColor = Color.RoyalBlue;
+                string sulfSeaBoostMessage = "Mods.CalamityMod.GhostBossText4";
+                Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
                 if (Main.netMode == NetmodeID.SinglePlayer)
+				{
                     Main.NewText(Language.GetTextValue(key), messageColor);
+                    Main.NewText(Language.GetTextValue(sulfSeaBoostMessage), sulfSeaBoostColor);
+				}
                 else if (Main.netMode == NetmodeID.Server)
+				{
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(sulfSeaBoostMessage), sulfSeaBoostColor);
+				}
             }
 
             // Mark Polterghast as dead
