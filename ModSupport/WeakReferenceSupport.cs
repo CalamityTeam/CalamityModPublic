@@ -750,6 +750,7 @@ namespace CalamityMod
 				sAssociation.Call("AddMinionInfo", ItemType<ResurrectionButterfly>(), BuffType<ResurrectionButterflyBuff>(), new List<int>() { ProjectileType<PinkButterfly>(), ProjectileType<PurpleButterfly>()});
 				sAssociation.Call("AddMinionInfo", ItemType<FuelCellBundle>(), BuffType<FuelCellBundleBuff>(), ProjectileType<PlaguebringerMK2>());
 				sAssociation.Call("AddMinionInfo", ItemType<GodspawnHelixStaff>(), BuffType<AstralProbeBuff>(), ProjectileType<AstralProbeSummon>());
+				sAssociation.Call("AddMinionInfo", ItemType<TacticalPlagueEngine>(), BuffType<TacticalPlagueEngineBuff>(), ProjectileType<TacticalPlagueEngineSummon>());
 				sAssociation.Call("AddMinionInfo", ItemType<ElementalAxe>(), BuffType<ElementalAxeBuff>(), ProjectileType<ElementalAxeMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<DazzlingStabberStaff>(), BuffType<DazzlingStabberBuff>(), ProjectileType<DazzlingStabber>());
 				sAssociation.Call("AddMinionInfo", ItemType<DragonbloodDisgorger>(), BuffType<BloodDragonsBuff>(), ProjectileType<SkeletalDragonMother>());
@@ -759,7 +760,9 @@ namespace CalamityMod
 				sAssociation.Call("AddMinionInfo", ItemType<StaffoftheMechworm>(), BuffType<Mechworm>(), ProjectileType<MechwormBody>(), 1f);
 				sAssociation.Call("AddMinionInfo", ItemType<CorvidHarbringerStaff>(), BuffType<CorvidHarbringerBuff>(), ProjectileType<PowerfulRaven>());
 				sAssociation.Call("AddMinionInfo", ItemType<EndoHydraStaff>(), BuffType<EndoHydraBuff>(), ProjectileType<EndoHydraHead>());
+				sAssociation.Call("AddMinionInfo", ItemType<CosmicViperEngine>(), BuffType<CosmicViperBuff>(), ProjectileType<CosmicViperSummon>());
 				sAssociation.Call("AddMinionInfo", ItemType<AngryChickenStaff>(), BuffType<YharonKindleBuff>(), ProjectileType<SonOfYharon>());
+				sAssociation.Call("AddMinionInfo", ItemType<MidnightSunBeacon>(), BuffType<MidnightSunBuff>(), ProjectileType<MidnightSunBeaconProj>());
 				sAssociation.Call("AddMinionInfo", ItemType<CosmicImmaterializer>(), BuffType<CosmicEnergy>(), ProjectileType<CosmicEnergySpiral>());
 				sAssociation.Call("AddMinionInfo", ItemType<BensUmbrella>(), BuffType<MagicHatBuff>(), ProjectileType<MagicHat>());
 				sAssociation.Call("AddMinionInfo", ItemType<Endogenesis>(), BuffType<EndoCooperBuff>(), ProjectileType<EndoCooperBody>());
