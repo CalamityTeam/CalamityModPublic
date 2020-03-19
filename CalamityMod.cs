@@ -2218,6 +2218,7 @@ namespace CalamityMod
                 ModContent.ItemType<KnowledgeMechs>(),
                 ModContent.ItemType<KnowledgeMoonLord>(),
                 ModContent.ItemType<KnowledgeOcean>(),
+                ModContent.ItemType<KnowledgeOldDuke>(),
                 ModContent.ItemType<KnowledgePerforators>(),
                 ModContent.ItemType<KnowledgePlaguebringerGoliath>(),
                 ModContent.ItemType<KnowledgePlantera>(),

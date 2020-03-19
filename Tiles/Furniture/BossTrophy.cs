@@ -102,6 +102,9 @@ namespace CalamityMod.Tiles.Furniture
 				case 23:
 					item = ModContent.ItemType<AquaticScourgeTrophy>();
 					break;
+				case 24:
+					item = ModContent.ItemType<OldDukeTrophy>();
+					break;
 			}
             if (item > 0)
             {
