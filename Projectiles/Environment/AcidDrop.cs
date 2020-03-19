@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Environment
 {
@@ -46,8 +48,21 @@ namespace CalamityMod.Projectiles.Environment
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            // 1 to 3 seconds of poisoned
-            target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(1, 4));
+			if (Main.rand.NextBool(2))
+			{
+				// 1 to 3 seconds of poisoned
+				target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(1, 4));
+			}
+			else if (Main.rand.NextBool(4))
+			{
+				// 1 to 2 second of Sulphuric Poisoning
+				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60 * Main.rand.Next(1, 3));
+			}
+			else
+			{
+				// 3 to 5 seconds of Irradiated
+				target.AddBuff(ModContent.BuffType<Irradiated>(), 60 * Main.rand.Next(3, 6));
+			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -1017,13 +1017,6 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			// Acid Rain debuff
-			if (Main.raining && modPlayer.ZoneSulphur)
-			{
-				if (player.ZoneOverworldHeight || player.ZoneSkyHeight)
-					player.AddBuff(ModContent.BuffType<Irradiated>(), 2);
-			}
-
 			// Raider Talisman bonus
 			if (modPlayer.raiderTalisman)
 			{

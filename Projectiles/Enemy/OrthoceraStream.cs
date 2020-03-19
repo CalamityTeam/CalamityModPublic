@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.Projectiles.Enemy
 {
     public class OrthoceraStream : ModProjectile
@@ -58,6 +59,11 @@ namespace CalamityMod.Projectiles.Enemy
                 Main.dust[dustIdx].velocity *= 0.25f;
                 Main.dust[dustIdx].velocity += projectile.velocity * 0.5f;
             }
+        }
+
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
         }
     }
 }
