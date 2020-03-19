@@ -26,9 +26,9 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.Calamity().postMoonLordRarity = 13;
+			item.rare = 10;
             item.UseSound = SoundID.NPCDeath13;
             item.shoot = ModContent.ProjectileType<OldDukeHeadCorpse>();
         }

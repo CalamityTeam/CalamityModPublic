@@ -270,6 +270,7 @@ namespace CalamityMod.CalPlayer
         public bool golemLore = false;
         public bool plaguebringerGoliathLore = false;
         public bool dukeFishronLore = false;
+        public bool boomerDukeLore = false;
         public bool ravagerLore = false;
         public bool lunaticCultistLore = false;
         public bool moonLordLore = false;
@@ -1180,6 +1181,7 @@ namespace CalamityMod.CalPlayer
             golemLore = false;
             plaguebringerGoliathLore = false;
             dukeFishronLore = false;
+            boomerDukeLore = false;
             ravagerLore = false;
             lunaticCultistLore = false;
             moonLordLore = false;

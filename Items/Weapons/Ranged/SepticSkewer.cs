@@ -28,9 +28,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 7.5f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.Calamity().postMoonLordRarity = 13;
+			item.rare = 10;
             item.UseSound = SoundID.Item10;
             item.autoReuse = true;
             item.shootSpeed = 25f;

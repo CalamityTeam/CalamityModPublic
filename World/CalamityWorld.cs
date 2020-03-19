@@ -137,7 +137,7 @@ namespace CalamityMod.World
         public static bool downedStarGod = false;
         public static bool downedPlaguebringer = false;
         public static bool downedScavenger = false;
-        public static bool downedOldDuke = false;
+        public static bool downedBoomerDuke = false;
         public static bool downedGuardians = false;
         public static bool downedProvidence = false;
         public static bool downedSentinel1 = false; // Ceaseless Void
@@ -229,7 +229,7 @@ namespace CalamityMod.World
             downedPolterghast = false;
             downedGSS = false;
             downedBuffedMothron = false;
-            downedOldDuke = false;
+            downedBoomerDuke = false;
             death = false;
             defiled = false;
             armageddon = false;
@@ -309,7 +309,7 @@ namespace CalamityMod.World
                 downed.Add("greatSandShark");
             if (downedBuffedMothron)
                 downed.Add("moth");
-            if (downedOldDuke)
+            if (downedBoomerDuke)
                 downed.Add("oldDuke");
             if (death)
                 downed.Add("death");
@@ -383,7 +383,7 @@ namespace CalamityMod.World
             downedPolterghast = downed.Contains("polterghast");
             downedGSS = downed.Contains("greatSandShark");
             downedBuffedMothron = downed.Contains("moth");
-            downedOldDuke = downed.Contains("oldDuke");
+            downedBoomerDuke = downed.Contains("oldDuke");
             death = downed.Contains("death");
             defiled = downed.Contains("defiled");
             armageddon = downed.Contains("armageddon");
@@ -472,7 +472,7 @@ namespace CalamityMod.World
 
                 BitsByte flags7 = reader.ReadByte();
                 bossRushActive = flags7[0];
-                downedOldDuke = flags7[1];
+                downedBoomerDuke = flags7[1];
                 downedCLAM = flags7[2];
                 dragonScalesBought = flags7[3];
                 rainingAcid = flags7[4];
@@ -551,7 +551,7 @@ namespace CalamityMod.World
 
             BitsByte flags7 = new BitsByte();
             flags7[0] = bossRushActive;
-            flags7[1] = downedOldDuke;
+            flags7[1] = downedBoomerDuke;
             flags7[2] = downedCLAM;
             flags7[3] = dragonScalesBought;
             flags7[4] = rainingAcid;
@@ -634,7 +634,7 @@ namespace CalamityMod.World
 
             BitsByte flags7 = reader.ReadByte();
             bossRushActive = flags7[0];
-            downedOldDuke = flags7[1];
+            downedBoomerDuke = flags7[1];
             downedCLAM = flags7[2];
             dragonScalesBought = flags7[3];
             rainingAcid = flags7[4];

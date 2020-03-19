@@ -1,5 +1,15 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.LoreItems;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,6 +58,12 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.boss = true;
             npc.netAlways = true;
             npc.timeLeft = NPC.activeTime * 30;
+            /*Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            if (calamityModMusic != null)
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/OldDuke");
+            else
+                music = MusicID.Boss1;*/
+            bossBag = ModContent.ItemType<OldDukeBag>();
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
@@ -367,86 +383,34 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override void NPCLoot()
         {
-            if (Main.rand.Next(10) == 0)
+            DropHelper.DropBags(npc);
+
+            //DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBoomerDuke, 6, 3, 2);
+
+            // All other drops are contained in the bag, so they only drop directly on Normal
+            if (!Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2589, 1, false, 0, false, false);
+                // Weapons
+                DropHelper.DropItemChance(npc, ModContent.ItemType<InsidiousImpaler>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<SepticSkewer>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<FetidEmesis>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<Miasma>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<VitriolicViper>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<ToxicantTwister>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<CadaverousCarrion>(), 4);
+
+				//Equipment
+                DropHelper.DropItemChance(npc, ModContent.ItemType<DukeScales>(), 10);
+
+                // Vanity
+                DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeMask>(), 7);
             }
-            if (Main.expertMode)
-            {
-                npc.DropItemInstanced(npc.position, npc.Size, ItemID.FishronBossBag, 1, true);
-                if (Main.rand.Next(5) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2611, 1, false, -1, false, false);
-                }
-                if (Main.rand.Next(5) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2624, 1, false, -1, false, false);
-                }
-                if (Main.rand.Next(5) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2622, 1, false, -1, false, false);
-                }
-                if (Main.rand.Next(5) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2621, 1, false, -1, false, false);
-                }
-                if (Main.rand.Next(5) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2623, 1, false, -1, false, false);
-                }
-            }
-            else
-            {
-                if (Main.rand.Next(7) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2588, 1, false, -1, false, false);
-                }
-                if (Main.rand.Next(15) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2609, 1, false, -1, false, false);
-                }
-                if (Main.rand.Next(7) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2611, 1, false, -1, false, false);
-                }
-                if (Main.rand.Next(7) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2624, 1, false, -1, false, false);
-                }
-                if (Main.rand.Next(7) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2622, 1, false, -1, false, false);
-                }
-                if (Main.rand.Next(7) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2621, 1, false, -1, false, false);
-                }
-                if (Main.rand.Next(7) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2623, 1, false, -1, false, false);
-                }
-                int num23 = Main.rand.Next(5);
-                if (num23 == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2611, 1, false, -1, false, false);
-                }
-                else if (num23 == 1)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2624, 1, false, -1, false, false);
-                }
-                else if (num23 == 2)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2622, 1, false, -1, false, false);
-                }
-                else if (num23 == 3)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2621, 1, false, -1, false, false);
-                }
-                else if (num23 == 4)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 2623, 1, false, -1, false, false);
-                }
-            }
+
+            // Mark Old Duke as dead
+            CalamityWorld.downedBoomerDuke = true;
+            CalamityMod.UpdateServerBoolean();
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
