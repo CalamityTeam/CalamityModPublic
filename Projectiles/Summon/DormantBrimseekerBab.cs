@@ -132,6 +132,11 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
+                if (projectile.Distance(player.Center) > 2700f)
+                {
+                    projectile.Center = player.Center;
+                    projectile.netUpdate = true;
+                }
             }
             else
             {
