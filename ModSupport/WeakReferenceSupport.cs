@@ -170,9 +170,6 @@ namespace CalamityMod
 			Mod bossChecklist = ModLoader.GetMod("BossChecklist");
 			Mod calamity = GetInstance<CalamityMod>();
 
-			// TODO -- calamity music mod should call boss checklist to add loot to calamity bosses on its own
-			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-
 			if (bossChecklist is null)
 				return;
 
