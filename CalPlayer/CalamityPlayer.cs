@@ -754,6 +754,7 @@ namespace CalamityMod.CalPlayer
         public bool scabRipper = false;
         public bool midnightUFO = false;
         public bool plagueEngine = false;
+        public bool brimseeker = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1586,6 +1587,7 @@ namespace CalamityMod.CalPlayer
             scabRipper = false;
             midnightUFO = false;
             plagueEngine = false;
+            brimseeker = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
