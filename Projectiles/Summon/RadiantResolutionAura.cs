@@ -54,15 +54,15 @@ namespace CalamityMod.Projectiles.Summon
 
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[0] += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = trueDamage;
             }
             projectile.minionSlots = projectile.ai[0];
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Summon
             float allocatedSlots = projectile.ai[0];
             projectile.rotation += MathHelper.ToRadians(3f) + MathHelper.ToRadians(allocatedSlots * 0.85f);
 
-            int radiantOrbDamage = (int)(139 * Math.Log(allocatedSlots + 1f, 1.414214)) + 655;
+            int radiantOrbDamage = (int)(projectile.damage * Math.Log(allocatedSlots + 1f, 1.414214));
             int radiantOrbAppearRate = (int)(124 * Math.Pow(0.9, allocatedSlots));
 
             if (radiantOrbAppearRate < 7)

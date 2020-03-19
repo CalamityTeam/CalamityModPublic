@@ -1,6 +1,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +12,6 @@ namespace CalamityMod.NPCs.AcidRain
 {
     public class Orthocera : ModNPC
     {
-        public const float MaxSpeed = 10.5f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orthocera");
@@ -22,10 +22,23 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.width = 62;
             npc.height = 34;
-            npc.defense = 10;
+            npc.aiStyle = aiType = -1;
 
-            npc.damage = Main.hardMode ? 70 : 60;
-            npc.lifeMax = Main.hardMode ? 420 : 280;
+            npc.damage = 40;
+            npc.lifeMax = 360;
+            npc.defense = 8;
+
+            if (CalamityWorld.downedPolterghast)
+            {
+                npc.damage = 300;
+                npc.lifeMax = 5700;
+                npc.defense = 65;
+            }
+            else if (Main.hardMode)
+            {
+                npc.damage = 75;
+                npc.lifeMax = 605;
+            }
 
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -45,6 +58,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.TargetClosest(false);
             npc.ai[1] += 1f;
+            float maxSpeed = CalamityWorld.downedPolterghast ? 18f : 10.5f;
             if (npc.target >= 0 && npc.target < 255)
             {
                 Player player = Main.player[npc.target];
@@ -60,8 +74,12 @@ namespace CalamityMod.NPCs.AcidRain
                         // If we're close, simply resume our current movement.
                         if (npc.Distance(player.Center) > 150f)
                         {
-                            npc.velocity = (npc.velocity * 17f + npc.DirectionTo(player.Center) * MaxSpeed) / 18f;
-                            npc.ai[0] = 12f;
+                            npc.velocity = (npc.velocity * 17f + npc.DirectionTo(player.Center) * maxSpeed) / 18f;
+                            if (npc.ai[0] != 12f)
+                            {
+                                npc.ai[0] = 12f;
+                                npc.netUpdate = true;
+                            }
                         }
                         // Variable for X movement later.
                         // It seems to slow down for some dumb reason in the jump phase without this value
@@ -88,14 +106,15 @@ namespace CalamityMod.NPCs.AcidRain
                 }
                 // And jump/shoot
                 else if (npc.ai[1] % 220f > 180f)
-                {                    
+                {
+                    float yAcceleration = CalamityWorld.downedPolterghast ? 0.11f : 0.05f;
                     if (npc.ai[1] % 220f < 200f)
                     {
-                        npc.velocity.Y -= 0.05f;
+                        npc.velocity.Y -= yAcceleration;
                     }
                     else
                     {
-                        npc.velocity.Y += 0.05f;
+                        npc.velocity.Y += yAcceleration;
                     }
                     if (npc.ai[1] % 220f == 219f)
                         npc.ai[3] = 1f;
@@ -104,7 +123,10 @@ namespace CalamityMod.NPCs.AcidRain
                 }
                 // Don't jump mid-air
                 if (npc.ai[1] % 220f > 180f && npc.ai[3] == 1f)
+                {
                     npc.ai[1] = 0f;
+                    npc.netUpdate = true;
+                }
                 npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver4 + MathHelper.PiOver2 + MathHelper.Pi;
 
                 if (npc.spriteDirection == -1)
@@ -120,11 +142,20 @@ namespace CalamityMod.NPCs.AcidRain
                         if (npc.spriteDirection == -1)
                             rotation += MathHelper.PiOver2;
                         int damage = Main.hardMode ? 26 : 18;
+                        if (CalamityWorld.downedPolterghast)
+                        {
+                            damage = 44;
+                            for (int i = 0; i < 2; i++)
+                            {
+                                float angle = MathHelper.Lerp(-0.3f, 0.3f, i / 2f);
+                                Projectile.NewProjectile(npc.Center, (rotation + angle).ToRotationVector2() * 10f, ModContent.ProjectileType<OrthoceraStream>(), damage, 2f);
+                            }
+                        }
                         Projectile.NewProjectile(npc.Center, rotation.ToRotationVector2() * 12f, ModContent.ProjectileType<OrthoceraStream>(), damage, 2f);
                     }
                 }
                 // Prevent yeeting into the sky at the speed of light
-                npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-MaxSpeed), new Vector2(MaxSpeed));
+                npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-maxSpeed), new Vector2(maxSpeed));
             }
         }
         public override void FindFrame(int frameHeight)
@@ -142,8 +173,8 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.damage = Main.hardMode ? 80 : 69;
-            npc.lifeMax = Main.hardMode ? 480 : 335;
+            npc.damage = (int)(npc.damage * 1.2);
+            npc.lifeMax = (int)(npc.lifeMax * 1.3);
         }
         public override void HitEffect(int hitDirection, double damage)
         {

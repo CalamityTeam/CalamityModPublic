@@ -270,6 +270,7 @@ namespace CalamityMod.CalPlayer
         public bool golemLore = false;
         public bool plaguebringerGoliathLore = false;
         public bool dukeFishronLore = false;
+        public bool boomerDukeLore = false;
         public bool ravagerLore = false;
         public bool lunaticCultistLore = false;
         public bool moonLordLore = false;
@@ -754,6 +755,7 @@ namespace CalamityMod.CalPlayer
         public bool scabRipper = false;
         public bool midnightUFO = false;
         public bool plagueEngine = false;
+        public bool brimseeker = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1179,6 +1181,7 @@ namespace CalamityMod.CalPlayer
             golemLore = false;
             plaguebringerGoliathLore = false;
             dukeFishronLore = false;
+            boomerDukeLore = false;
             ravagerLore = false;
             lunaticCultistLore = false;
             moonLordLore = false;
@@ -1586,6 +1589,7 @@ namespace CalamityMod.CalPlayer
             scabRipper = false;
             midnightUFO = false;
             plagueEngine = false;
+            brimseeker = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -2997,6 +3001,9 @@ namespace CalamityMod.CalPlayer
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
             }
+
+			if (boomerDukeLore)
+				player.buffImmune[ModContent.BuffType<Irradiated>()] = false;
         }
         #endregion
 
@@ -3020,6 +3027,9 @@ namespace CalamityMod.CalPlayer
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
             }
+
+			if (boomerDukeLore)
+				player.buffImmune[ModContent.BuffType<Irradiated>()] = false;
         }
         #endregion
 

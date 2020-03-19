@@ -1,5 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -23,10 +24,24 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.width = 46;
             npc.height = 22;
+            npc.aiStyle = aiType = -1;
+
+            npc.damage = 40;
+            npc.lifeMax = 360;
             npc.defense = 6;
 
-            npc.damage = Main.hardMode ? 65 : 40;
-            npc.lifeMax = Main.hardMode ? 333 : 140;
+            if (CalamityWorld.downedPolterghast)
+            {
+                npc.damage = 285;
+                npc.lifeMax = 6300;
+                npc.defense = 58;
+            }
+            else if (Main.hardMode)
+            {
+                npc.damage = 85;
+                npc.lifeMax = 700;
+            }
+
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 3, 65);
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -59,7 +74,8 @@ namespace CalamityMod.NPCs.AcidRain
                     }
                     if ((Math.Abs(player.Center.Y - npc.Center.Y) > 50f && player.wet) || (!player.wet && npc.ai[1] <= 0f))
                     {
-                        npc.velocity.Y = (player.Center.Y - npc.Center.Y > 0).ToDirectionInt() * 6f;
+                        float speedY = CalamityWorld.downedPolterghast ? 15f : 6f;
+                        npc.velocity.Y = (player.Center.Y - npc.Center.Y > 0).ToDirectionInt() * speedY;
                     }
                     if (Math.Abs(npc.velocity.X) < 6f)
                         npc.velocity.X *= 1.04f;
@@ -78,7 +94,10 @@ namespace CalamityMod.NPCs.AcidRain
                 if (player.Center.Y < npc.Top.Y - 10f &&
                     npc.ai[1] <= 0f)
                 {
-                    npc.ai[1] = TotalTime;
+                    if (Main.rand.NextBool(10))
+                    {
+                        npc.ai[1] = TotalTime;
+                    }
                     npc.ai[2] = (player.Center.X - npc.Center.X > 0).ToDirectionInt() * 10f;
                 }
             }
@@ -89,7 +108,14 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     npc.velocity.X = npc.ai[2];
                     if (npc.ai[1] > TotalTime - DiveTime * 0.5f)
-                        npc.velocity.Y -= Main.hardMode ? 0.135f : 0.085f;
+                    {
+                        float flySpeed = Main.hardMode ? 0.135f : 0.085f;
+                        if (CalamityWorld.downedPolterghast)
+                        {
+                            flySpeed = 0.185f;
+                        }
+                        npc.velocity.Y -= flySpeed;
+                    }
                     else
                     {
                         npc.ai[1] = TotalTime - DiveTime;
@@ -103,7 +129,12 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.velocity.Y += 0.1f;
                 }
             }
-            npc.direction = npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
+            int idealDirection = (npc.velocity.X > 0).ToDirectionInt();
+            npc.direction = npc.spriteDirection = idealDirection;
+            if (idealDirection != npc.direction)
+            {
+                npc.netUpdate = true;
+            }
             // If sitting on land, rotate in a way that looks like we're stuck on the ground
             if (!npc.wet)
             {
@@ -127,8 +158,8 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.damage = Main.hardMode ? 70 : 45;
-            npc.lifeMax = Main.hardMode ? 360 : 200;
+            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.85f);
         }
         public override void HitEffect(int hitDirection, double damage)
         {

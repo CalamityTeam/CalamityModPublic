@@ -4070,17 +4070,17 @@ namespace CalamityMod.World
                     }
                     else //dig large hole
                     {
-                        if (num3 < (ocean ? 42.0 : 14.0)) //min width
+                        if (num3 < (ocean ? 30.0 : 8.0)) //min width
                         {
-                            num3 = ocean ? 42.0 : 14.0; //min width
+                            num3 = ocean ? 30.0 : 8.0; //min width
                         }
-                        if (num3 > (ocean ? 50.0 : 30.0)) //max width
+                        if (num3 > (ocean ? 35.0 : 20.0)) //max width
                         {
-                            num3 = ocean ? 50.0 : 30.0; //max width
+                            num3 = ocean ? 35.0 : 20.0; //max width
                         }
-                        if (num == 1f && num3 < (ocean ? 40.0 : 15.0))
+                        if (num == 1f && num3 < (ocean ? 30.0 : 15.0))
                         {
-                            num3 = ocean ? 40.0 : 15.0;
+                            num3 = ocean ? 30.0 : 15.0;
                         }
                     }
                 }

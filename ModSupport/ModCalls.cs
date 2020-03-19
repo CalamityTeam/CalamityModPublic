@@ -136,6 +136,18 @@ namespace CalamityMod
 				case "necroplasm":
 					return CalamityWorld.downedPolterghast;
 
+				case "oldduke":
+				case "old duke":
+				case "boomerduke":
+				case "boomer duke":
+				case "acidrainduke":
+				case "acid rain duke":
+				case "sulphurduke":
+				case "sulphur duke":
+				case "sulfurduke":
+				case "sulfur duke":
+					return CalamityWorld.downedBoomerDuke;
+
 				case "sentinel1": // backwards compatibility
 				case "void":
 				case "ceaselessvoid":

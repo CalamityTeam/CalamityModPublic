@@ -1,14 +1,16 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
+using System.IO;
+
 namespace CalamityMod.NPCs.AcidRain
 {
     public class WaterLeech : ModNPC
     {
-        public const float SwimIntertia = 24f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Leech");
@@ -19,10 +21,22 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.width = 26;
             npc.height = 14;
-            npc.defense = 10;
 
-            npc.damage = Main.hardMode ? 85 : 60;
-            npc.lifeMax = Main.hardMode ? 160 : 90;
+            npc.damage = 56;
+            npc.lifeMax = 130;
+            npc.defense = 0;
+
+            if (CalamityWorld.downedPolterghast)
+            {
+                npc.damage = 315;
+                npc.lifeMax = 4000;
+                npc.defense = 30;
+            }
+            else if (Main.hardMode)
+            {
+                npc.damage = 100;
+                npc.lifeMax = 320;
+            }
 
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 2, 5);
@@ -37,6 +51,14 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WaterLeechBanner>();
+        }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(npc.dontTakeDamage);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.dontTakeDamage = reader.ReadBoolean();
         }
         public override void AI()
         {
@@ -68,8 +90,8 @@ namespace CalamityMod.NPCs.AcidRain
                     }
                     npc.life = 0;
                     npc.HitEffect();
-                    npc.netUpdate = true;
                     npc.active = false;
+                    npc.netUpdate = true;
                 }
                 return;
             }
@@ -82,19 +104,26 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     npc.life = 0;
                     npc.HitEffect();
-                    npc.netUpdate = true;
                     npc.active = false;
+                    npc.netUpdate = true;
                 }
             }
             else if (player.wet)
             {
                 float speed = player.wet ? 23f : 15f;
+                float swimIntertia = 24f;
+                if (CalamityWorld.downedPolterghast)
+                {
+                    speed *= 1.6f;
+                    swimIntertia = 13f;
+                }
+
                 if (npc.Distance(player.Center) < 26f)
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 300f;
                 }
-                npc.velocity = (npc.velocity * (SwimIntertia - 1f) + npc.DirectionTo(player.Center) * speed) / SwimIntertia;
+                npc.velocity = (npc.velocity * (swimIntertia - 1f) + npc.DirectionTo(player.Center) * speed) / swimIntertia;
             }
             else if (!player.wet)
             {
@@ -117,8 +146,8 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.damage = Main.hardMode ? 90 : 75;
-            npc.lifeMax = Main.hardMode ? 185 : 115;
+            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.85f);
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {

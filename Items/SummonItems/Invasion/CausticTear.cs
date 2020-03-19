@@ -34,7 +34,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
             }
             else
             {
-                Main.invasionSize = 0;
+                CalamityWorld.acidRainPoints = 0;
                 AcidRainEvent.UpdateInvasion();
             }
             return true;

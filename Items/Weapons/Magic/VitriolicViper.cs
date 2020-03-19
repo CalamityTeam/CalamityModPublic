@@ -26,9 +26,9 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.Calamity().postMoonLordRarity = 13;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.UseSound = SoundID.Item46;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<VitriolicViperSpit>();

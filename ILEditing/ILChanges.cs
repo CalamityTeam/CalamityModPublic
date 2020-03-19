@@ -2,49 +2,88 @@
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoMod.Cil;
 using System;
+using System.Reflection;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using MonoMod.Cil;
 using static Mono.Cecil.Cil.OpCodes;
+
 namespace CalamityMod.ILEditing
 {
     public class ILChanges
     {
-		/// <summary>
-		/// Loads all IL Editing changes in the mod.
-		/// </summary>
+        /// <summary>
+        /// Loads all IL Editing changes in the mod.
+        /// </summary>
         public static void Initialize()
         {
             IL.Terraria.Main.DrawInvasionProgress += (il) =>
             {
-                // 201 was retrieved by searching the instructions in dnspy
                 var cursor = new ILCursor(il)
                 {
-                    Index = 201
+                    Index = 1
                 };
                 cursor.EmitDelegate<Action>(() =>
-				{
-					if ((CalamityWorld.rainingAcid && !Main.LocalPlayer.Calamity().ZoneSulphur) ||
-						(!CalamityWorld.rainingAcid && Main.LocalPlayer.Calamity().ZoneSulphur))
-						return;
+                {
+                    if (Main.invasionProgressMode == 2 && (Main.invasionProgressNearInvasion || AcidRainEvent.NearInvasionCheck(7500)) && Main.invasionProgressDisplayLeft < 160)
+                    {
+                        Main.invasionProgressDisplayLeft = 160;
+                    }
+                    if (!Main.gamePaused && Main.invasionProgressDisplayLeft > 0)
+                    {
+                        Main.invasionProgressDisplayLeft--;
+                    }
+                    if (Main.invasionProgressDisplayLeft > 0)
+                    {
+                        Main.invasionProgressAlpha += 0.05f;
+                    }
+                    else
+                    {
+                        Main.invasionProgressAlpha -= 0.05f;
+                    }
+                    if (Main.invasionProgressAlpha < 0f)
+                    {
+                        Main.invasionProgressAlpha = 0f;
+                    }
+                    if (Main.invasionProgressAlpha > 1f)
+                    {
+                        Main.invasionProgressAlpha = 1f;
+                    }
+                    if (CalamityWorld.rainingAcid)
+                    {
+                        Main.invasionProgressAlpha = 1f;
+                    }
+                    if (Main.invasionProgressAlpha <= 0f)
+                    {
+                        return;
+                    }
+                    bool draw = CalamityWorld.rainingAcid || CalamityWorld.acidRainExtraDrawTime > 0;
+                    if ((draw && !Main.LocalPlayer.Calamity().ZoneSulphur) ||
+                        (!draw && Main.LocalPlayer.Calamity().ZoneSulphur))
+                        return;
 
-					float progressAlpha = 0.5f + Main.invasionProgressAlpha * 0.5f;
+                    float progressAlpha = 0.5f + Main.invasionProgressAlpha * 0.5f;
+                    if (CalamityWorld.acidRainExtraDrawTime > 0)
+                    {
+                        progressAlpha = 0.5f + CalamityWorld.acidRainExtraDrawTime / 40f * 0.5f;
+                        CalamityWorld.acidRainExtraDrawTime--;
+                    }
                     Vector2 screenCoords = new Vector2(Main.screenWidth - 120, Main.screenHeight - 40);
                     int sizeX = (int)(200f * progressAlpha);
                     int sizeY = (int)(45f * progressAlpha);
-                    Rectangle screenCoordsRectangle = 
-                        new Rectangle((int)screenCoords.X - sizeX / 2, 
+                    Rectangle screenCoordsRectangle =
+                        new Rectangle((int)screenCoords.X - sizeX / 2,
                         (int)screenCoords.Y - sizeY / 2, sizeX, sizeY);
                     Texture2D barTexture = Main.colorBarTexture;
 
-                    if (CalamityWorld.rainingAcid && Main.LocalPlayer.Calamity().ZoneSulphur &&
-                        Main.LocalPlayer.Center.Y < (int)(Main.worldSurface * 16) + 1600)
+                    // If you touch the netcode behind this without a good reason your life will come to an abrupt end -Dominic
+                    if (CalamityWorld.rainingAcid || CalamityWorld.acidRainExtraDrawTime > 0)
                     {
                         Utils.DrawInvBG(Main.spriteBatch, screenCoordsRectangle, new Color(63, 65, 151, 255) * 0.785f);
 
-                        float progressRatio = 1f - MathHelper.Clamp(Main.invasionSize / (float)Main.invasionSizeStart, 0f, 1f);
+                        float progressRatio = 1f - CalamityWorld.AcidRainCompletionRatio;
                         string progressText = $"{((int)(100 * progressRatio)).ToString()}%";
                         progressText = Language.GetTextValue("Game.WaveCleared", progressText);
                         Main.spriteBatch.Draw(barTexture, screenCoords, null, Color.White * Main.invasionProgressAlpha, 0f, new Vector2(barTexture.Width / 2, 0f), progressAlpha, SpriteEffects.None, 0f);
@@ -73,11 +112,15 @@ namespace CalamityMod.ILEditing
                         Texture2D iconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AcidRainIcon");
                         Rectangle iconRectangle = Utils.CenteredRectangle(new Vector2(Main.screenWidth - x, Main.screenHeight - 80), (textMeasurement2 + new Vector2(iconTexture.Width + 12, 6f)) * progressAlpha);
                         Utils.DrawInvBG(Main.spriteBatch, iconRectangle, AcidRainEvent.TextColor * 0.5f);
-                        Main.spriteBatch.Draw(iconTexture, iconRectangle.Left() + Vector2.UnitX * progressAlpha * 8f, null, Color.White * Main.invasionProgressAlpha, 0f, new Vector2(0f, (float)(iconTexture.Height / 2)), progressAlpha * 0.8f, SpriteEffects.None, 0f);
+                        Main.spriteBatch.Draw(iconTexture, iconRectangle.Left() + Vector2.UnitX * progressAlpha * 8f, null, Color.White * Main.invasionProgressAlpha, 0f, new Vector2(0f, iconTexture.Height / 2), progressAlpha * 0.8f, SpriteEffects.None, 0f);
                         Utils.DrawBorderString(Main.spriteBatch, invasionNameText, iconRectangle.Right() + Vector2.UnitX * progressAlpha * -22f, Color.White * Main.invasionProgressAlpha, progressAlpha * 0.9f, 1f, 0.4f, -1);
                     }
                     else
                     {
+                        if (Main.invasionProgress == -1)
+                        {
+                            return;
+                        }
                         Texture2D iconTexture = Main.extraTexture[9];
                         string invasionNameText = "";
                         Color drawColor = Color.White;
@@ -123,6 +166,7 @@ namespace CalamityMod.ILEditing
                             invasionNameText = Language.GetTextValue("LegacyInterface.88");
                             drawColor = new Color(94, 72, 131) * 0.5f;
                         }
+                        else return;
                         if (Main.invasionProgressWave > 0)
                         {
                             Utils.DrawInvBG(Main.spriteBatch, screenCoordsRectangle, new Color(63, 65, 151, 255) * 0.785f);
@@ -197,9 +241,26 @@ namespace CalamityMod.ILEditing
                         Utils.DrawBorderString(Main.spriteBatch, invasionNameText, iconRectangle.Right() + Vector2.UnitX * progressAlpha * -22f, Color.White * Main.invasionProgressAlpha, progressAlpha * 0.9f, 1f, 0.4f, -1);
                     }
                 });
-				cursor.Emit(Pop);
-				cursor.Emit(Ret);
-			};
+                cursor.Emit(Pop);
+                cursor.Emit(Ret);
+            };
+
+            IL.Terraria.WorldGen.MakeDungeon += (il) =>
+            {
+                var cursor = new ILCursor(il)
+                {
+                    Index = 45
+                };
+                cursor.EmitDelegate<Action>(() =>
+                {
+                    WorldGen.dungeonX += (WorldGen.dungeonX < Main.maxTilesX / 2).ToDirectionInt() * 450;
+
+                    if (WorldGen.dungeonX < 200)
+                        WorldGen.dungeonX = 200;
+                    if (WorldGen.dungeonX > Main.maxTilesX - 200)
+                        WorldGen.dungeonX = Main.maxTilesX - 200;
+                });
+            };
         }
     }
 }

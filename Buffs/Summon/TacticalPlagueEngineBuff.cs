@@ -10,7 +10,7 @@ namespace CalamityMod.Buffs.Summon
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Tactical Plague Engine");
-            Description.SetDefault("A giant plague engine is following you");
+            Description.SetDefault("A giant plague jet is following you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

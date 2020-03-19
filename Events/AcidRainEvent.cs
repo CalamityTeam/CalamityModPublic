@@ -46,9 +46,6 @@ namespace CalamityMod.Events
             ( ModContent.NPCType<Trilobite>(), 1 )
         };
 
-        // Temporary variable. Remove when Old Duke is added.
-        internal const bool OldDukeExists = false;
-
         /// <summary>
         /// Broadcasts some text from a given localization key.
         /// </summary>
@@ -70,14 +67,13 @@ namespace CalamityMod.Events
         /// <param name="rectangleCheckSize">The area to check based on the screen.</param>
         /// <param name="iconID">The ID for the icon. For more info on how this works, check <see cref="ILChanges.Initialize"/>.</param>.
         /// <returns></returns>
-        public static bool NearInvasionCheck(int rectangleCheckSize, ref int iconID)
+        public static bool NearInvasionCheck(int rectangleCheckSize)
         {
             Rectangle screen = new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 if (Main.npc[i].active)
                 {
-                    iconID = InvasionID;
                     int type = Main.npc[i].type;
                     List<(int, int)> PossibleEnemies = Main.hardMode ? PossibleEnemiesHM : PossibleEnemiesPreHM;
                     if (PossibleEnemies.Select(enemy => enemy.Item2).Contains(type))
@@ -95,11 +91,11 @@ namespace CalamityMod.Events
             return false;
         }
         /// <summary>
-        /// Attempts to start the Acid Rain event. Will fail if there is another invasion going on.
+        /// Attempts to start the Acid Rain event. Will fail if there is another invasion going on or the EoC has not been killed yet.
         /// </summary>
         public static void TryStartEvent()
         {
-            if (CalamityWorld.rainingAcid)
+            if (CalamityWorld.rainingAcid || !NPC.downedBoss1)
                 return;
             int playerCount = 0;
             for (int i = 0; i < Main.player.Length; i++)
@@ -117,9 +113,9 @@ namespace CalamityMod.Events
                 CalamityWorld.rainingAcid = true;
                 // The E - 1 part is to ensure that we start at 1 as a multiple instead of 0
                 // At a maximum of 255 players, the max multiplier is 9.98, or 998 enemies that need to be killed.
-                Main.invasionSize = Main.invasionSizeStart = (int)(180 * Math.Log(playerCount + Math.E - 1));
+                CalamityWorld.acidRainPoints = (int)(180 * Math.Log(playerCount + Math.E - 1));
                 Main.invasionProgress = 0;
-                Main.invasionProgressIcon = 3;
+                Main.invasionProgressIcon = -1;
                 Main.invasionProgressWave = 0;
 
                 // Make it rain normally
@@ -129,6 +125,7 @@ namespace CalamityMod.Events
                 // If false, the right.
                 Main.invasionX = CalamityWorld.abyssSide ? 0 : Main.maxTilesX;
             }
+            UpdateInvasion();
             BroadcastEventText("Mods.CalamityMod.AcidRainStart"); // A toxic downpour falls over the wasteland seas!
         }
         /// <summary>
@@ -139,19 +136,15 @@ namespace CalamityMod.Events
             // If the custom invasion is up
             if (CalamityWorld.rainingAcid)
             {
-                foreach (Player p in Main.player)
-                {
-                    NetMessage.SendData(MessageID.InvasionProgressReport, p.whoAmI, -1, null, Main.invasionSizeStart - Main.invasionSize, (float)Main.invasionSizeStart, (float)(Main.invasionType + 3), 0f, 0, 0, 0);
-                }
                 // End invasion if we've defeated all the enemies, including Old Duke
-                if (Main.invasionSize <= 0)
+                if (CalamityWorld.acidRainPoints <= 0)
                 {
                     CalamityWorld.rainingAcid = false;
-                    BroadcastEventText("Mods.CalamityMod.AcidRainEnd"); // The sulfuric skies begin to clear...
+                    BroadcastEventText("Mods.CalamityMod.AcidRainEnd"); // The sulphuric skies begin to clear...
                     Main.invasionType = 0;
                     Main.invasionDelay = 0;
                     Main.invasionProgressNearInvasion = false;
-                    Main.invasionProgressDisplayLeft = 0;
+                    CalamityWorld.acidRainExtraDrawTime = 40;
 
                     // Turn off the rain from the event
                     Main.numCloudsTemp = Main.rand.Next(5, 20 + 1);
@@ -160,6 +153,23 @@ namespace CalamityMod.Events
                     Main.windSpeedSet = Main.windSpeedTemp;
                     Main.maxRaining = 0f;
                     CalamityMod.StopRain();
+                }
+                CalamityMod.UpdateServerBoolean();
+
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = CalamityMod.instance.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.AcidRainSync);
+                    netMessage.Write(CalamityWorld.rainingAcid);
+                    netMessage.Write(CalamityWorld.acidRainPoints);
+                    netMessage.Send();
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = CalamityMod.instance.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.AcidRainUIDrawFadeSync);
+                    netMessage.Write(CalamityWorld.acidRainExtraDrawTime);
+                    netMessage.Send();
                 }
             }
         }

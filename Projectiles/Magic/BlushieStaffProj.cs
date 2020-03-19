@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Magic
             Player player = Main.player[projectile.owner];
             if (Main.myPlayer == projectile.owner)
             {
-                if (!player.channel || player.noItems || player.CCed || projectile.ai[0] > 1800f)
+                if (!player.channel || player.noItems || player.CCed || projectile.ai[0] > 3600f)
                 {
                     projectile.Kill();
                 }
@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Magic
             player.itemAnimation = 2;
 
             projectile.ai[0] += 1f;
-            projectile.damage = ((int)projectile.ai[0] - 120) * 4;
+            projectile.damage = (int)((projectile.ai[0] - 120f) * 4.5f);
             if (projectile.damage >= 100 && Main.myPlayer == projectile.owner)
             {
                 if (player.statMana <= 0 && player.manaFlower)
@@ -93,6 +93,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             projectile.penetrate++;
+            target.AddBuff(BuffID.Daybreak, 300);
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.Frostburn, 300);
         }

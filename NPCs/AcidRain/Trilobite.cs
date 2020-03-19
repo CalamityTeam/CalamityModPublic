@@ -1,6 +1,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -24,10 +25,23 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.width = 36;
             npc.height = 38;
-            npc.defense = 20;
+            npc.aiStyle = aiType = -1;
 
-            npc.damage = Main.hardMode ? 80 : 60;
-            npc.lifeMax = Main.hardMode ? 500 : 280;
+            npc.damage = 40;
+            npc.lifeMax = 360;
+            npc.defense = 15;
+
+            if (CalamityWorld.downedPolterghast)
+            {
+                npc.damage = 233;
+                npc.lifeMax = 7200;
+                npc.defense = 78;
+            }
+            else if (Main.hardMode)
+            {
+                npc.damage = 66;
+                npc.lifeMax = 850;
+            }
 
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 4, 0);
@@ -46,8 +60,6 @@ namespace CalamityMod.NPCs.AcidRain
         public override void AI()
         {
             npc.TargetClosest(false);
-            if (npc.ai[0] > 0)
-                npc.ai[0]--;
             if (!npc.wet)
             {
                 if (npc.ai[0] > 0)
@@ -60,11 +72,13 @@ namespace CalamityMod.NPCs.AcidRain
                     {
                         npc.velocity.X = 0f;
                     }
+                    npc.netUpdate = true;
                 }
                 npc.velocity.Y += 0.3f;
                 if (npc.velocity.Y > 13f)
                 {
                     npc.velocity.Y = 13f;
+                    npc.netUpdate = true;
                 }
             }
             else
@@ -73,30 +87,48 @@ namespace CalamityMod.NPCs.AcidRain
                 if (npc.velocity.Length() < MinSpeedLungePrompt)
                 {
                     npc.TargetClosest(true);
-                    npc.velocity = npc.DirectionTo(player.Center) * 24f;
+                    float speed = 15f;
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        speed = 28.5f;
+                    }
+
+                    npc.velocity = npc.DirectionTo(player.Center) * speed;
                     npc.velocity.X *= 1.6f;
                     npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
+                    npc.netUpdate = true;
                 }
                 else
                 {
-                    npc.velocity.X += npc.direction * 0.02f;
+                    if (Math.Abs(npc.velocity.X) < 20f)
+                    {
+                        npc.velocity.X += npc.direction * 0.02f;
+                    }
                     npc.rotation = npc.velocity.X * 0.4f;
                     if (Math.Abs(npc.velocity.Y) < MinYDriftSpeed)
                     {
-                        npc.velocity.Y *= 0.9925f;
+                        npc.velocity.X *= 0.96f;
                     }
-                    else if (Math.Abs(npc.velocity.X) < 2f)
+                    else if (Math.Abs(npc.velocity.X) < 3.5f)
                     {
-                        npc.velocity = npc.DirectionTo(player.Center) * new Vector2(36f, 9f);
+                        float speedX = 18f;
+                        float speedY = 9f;
+                        if (CalamityWorld.downedPolterghast)
+                        {
+                            speedX = 27f;
+                            speedY = 25f;
+                        }
+                        npc.velocity = npc.DirectionTo(player.Center) * new Vector2(speedX, speedY);
+                        npc.netUpdate = true;
                     }
+                    npc.velocity.Y *= 0.98f;
                 }
             }
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-
-            npc.damage = Main.hardMode ? 88 : 73;
-            npc.lifeMax = Main.hardMode ? 550 : 360;
+            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.85f);
         }
         public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

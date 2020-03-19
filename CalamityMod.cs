@@ -2218,6 +2218,7 @@ namespace CalamityMod
                 ModContent.ItemType<KnowledgeMechs>(),
                 ModContent.ItemType<KnowledgeMoonLord>(),
                 ModContent.ItemType<KnowledgeOcean>(),
+                ModContent.ItemType<KnowledgeOldDuke>(),
                 ModContent.ItemType<KnowledgePerforators>(),
                 ModContent.ItemType<KnowledgePlaguebringerGoliath>(),
                 ModContent.ItemType<KnowledgePlantera>(),
@@ -3637,6 +3638,13 @@ namespace CalamityMod
                         byte npcIndex = reader.ReadByte();
                         Main.npc[npcIndex].lifeRegen = reader.ReadInt32();
                         break;
+                    case CalamityModMessageType.AcidRainSync:
+                        CalamityWorld.rainingAcid = reader.ReadBoolean();
+                        CalamityWorld.acidRainPoints = reader.ReadInt32();
+                        break;
+                    case CalamityModMessageType.AcidRainUIDrawFadeSync:
+                        CalamityWorld.acidRainExtraDrawTime = reader.ReadInt32();
+                        break;
                     default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
@@ -3713,6 +3721,8 @@ namespace CalamityMod
         NPCRegenerationSync,
 		DeathModeUnderworldTimeSync,
 		DeathModeBlizzardTimeSync,
-		DeathBossSpawnCountdownSync
-	}
+		DeathBossSpawnCountdownSync,
+        AcidRainSync,
+        AcidRainUIDrawFadeSync
+    }
 }

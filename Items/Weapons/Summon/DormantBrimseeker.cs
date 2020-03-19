@@ -11,8 +11,11 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dormant Brimseeker");
-            Tooltip.SetDefault("Summons a brimseeker to keep you company\n" +
-                               "'You could’ve sworn that they turned even scarier when you looked at their reflections in a mirror'");
+            Tooltip.SetDefault("You could've sworn that they turned even scarier when you looked at their reflections in a mirror\n" +
+                               "Summons a brimseeker to keep you company\n" +
+							   "Firing another brimseeker when all minion slots are filled summons a brimstone aura\n" +
+							   "The aura empowers your brimseeker summons and produces damaging fireballs\n" +
+							   "Only one aura can persist at a time");
         }
 
         public override void SetDefaults()
@@ -50,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Summon
             }
             else if (player.ownedProjectileCounts[ModContent.ProjectileType<DormantBrimseekerAura>()] <= 0f)
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<DormantBrimseekerAura>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<DormantBrimseekerAura>(), damage * 2, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

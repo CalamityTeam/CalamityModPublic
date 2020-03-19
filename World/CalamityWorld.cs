@@ -18,6 +18,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
@@ -103,6 +104,26 @@ namespace CalamityMod.World
         public static bool abyssSide = false;
         public static int abyssChasmBottom = 0;
         public static bool rainingAcid;
+        public static int acidRainPoints = 0;
+        public static int acidRainExtraDrawTime = 0;
+        public static float AcidRainCompletionRatio
+        {
+            get
+            {
+                int playerCount = 0;
+                for (int i = 0; i < Main.player.Length; i++)
+                {
+                    if (Main.player[i].active)
+                    {
+                        playerCount++;
+                    }
+                }
+                // The E - 1 part is to ensure that we start at 1 as a multiple instead of 0
+                // At a maximum of 255 players, the max multiplier is 9.98, or 998 enemies that need to be killed.
+                float totalKillsNeeded = (int)(180 * Math.Log(playerCount + Math.E - 1));
+                return MathHelper.Clamp(acidRainPoints / totalKillsNeeded, 0f, 1f);
+            }
+        }
 
         //Astral
         public static int astralTiles = 0;
@@ -137,7 +158,7 @@ namespace CalamityMod.World
         public static bool downedStarGod = false;
         public static bool downedPlaguebringer = false;
         public static bool downedScavenger = false;
-        public static bool downedOldDuke = false;
+        public static bool downedBoomerDuke = false;
         public static bool downedGuardians = false;
         public static bool downedProvidence = false;
         public static bool downedSentinel1 = false; // Ceaseless Void
@@ -229,7 +250,7 @@ namespace CalamityMod.World
             downedPolterghast = false;
             downedGSS = false;
             downedBuffedMothron = false;
-            downedOldDuke = false;
+            downedBoomerDuke = false;
             death = false;
             defiled = false;
             armageddon = false;
@@ -309,7 +330,7 @@ namespace CalamityMod.World
                 downed.Add("greatSandShark");
             if (downedBuffedMothron)
                 downed.Add("moth");
-            if (downedOldDuke)
+            if (downedBoomerDuke)
                 downed.Add("oldDuke");
             if (death)
                 downed.Add("death");
@@ -341,6 +362,9 @@ namespace CalamityMod.World
                 },
                 {
                     "abyssChasmBottom", abyssChasmBottom
+                },
+                {
+                    "acidRainPoints", acidRainPoints
                 }
             };
         }
@@ -383,7 +407,7 @@ namespace CalamityMod.World
             downedPolterghast = downed.Contains("polterghast");
             downedGSS = downed.Contains("greatSandShark");
             downedBuffedMothron = downed.Contains("moth");
-            downedOldDuke = downed.Contains("oldDuke");
+            downedBoomerDuke = downed.Contains("oldDuke");
             death = downed.Contains("death");
             defiled = downed.Contains("defiled");
             armageddon = downed.Contains("armageddon");
@@ -397,6 +421,7 @@ namespace CalamityMod.World
             spawnedCirrus = downed.Contains("drunkPrincess");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
+            acidRainPoints = tag.GetInt("acidRainPoints");
         }
         #endregion
 
@@ -405,6 +430,7 @@ namespace CalamityMod.World
         {
             int loadVersion = reader.ReadInt32();
             abyssChasmBottom = reader.ReadInt32();
+            acidRainPoints = reader.ReadInt32();
 
             if (loadVersion == 0)
             {
@@ -472,7 +498,7 @@ namespace CalamityMod.World
 
                 BitsByte flags7 = reader.ReadByte();
                 bossRushActive = flags7[0];
-                downedOldDuke = flags7[1];
+                downedBoomerDuke = flags7[1];
                 downedCLAM = flags7[2];
                 dragonScalesBought = flags7[3];
                 rainingAcid = flags7[4];
@@ -551,7 +577,7 @@ namespace CalamityMod.World
 
             BitsByte flags7 = new BitsByte();
             flags7[0] = bossRushActive;
-            flags7[1] = downedOldDuke;
+            flags7[1] = downedBoomerDuke;
             flags7[2] = downedCLAM;
             flags7[3] = dragonScalesBought;
             flags7[4] = rainingAcid;
@@ -564,6 +590,7 @@ namespace CalamityMod.World
             writer.Write(flags6);
             writer.Write(flags7);
             writer.Write(abyssChasmBottom);
+            writer.Write(acidRainPoints);
         }
         #endregion
 
@@ -634,12 +661,13 @@ namespace CalamityMod.World
 
             BitsByte flags7 = reader.ReadByte();
             bossRushActive = flags7[0];
-            downedOldDuke = flags7[1];
+            downedBoomerDuke = flags7[1];
             downedCLAM = flags7[2];
             dragonScalesBought = flags7[3];
             rainingAcid = flags7[4];
 
             abyssChasmBottom = reader.ReadInt32();
+            acidRainPoints = reader.ReadInt32();
         }
         #endregion
 
@@ -848,7 +876,7 @@ namespace CalamityMod.World
             }
 
             // Attempt to start the acid rain
-            if (Main.rand.NextBool(144000))
+            if (Main.rand.NextBool(360000))
             {
                 AcidRainEvent.TryStartEvent();
                 CalamityMod.UpdateServerBoolean();
@@ -867,6 +895,14 @@ namespace CalamityMod.World
                 Main.weatherCounter = 600;
                 Main.maxRaining = 0.89f;
                 Main.invasionProgressNearInvasion = true;
+
+                // Summon Old Duke post-Polter as needed
+                if (downedPolterghast && acidRainPoints <= 2f &&
+                    !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
+                {
+                    int playerClosestToAbyss = Player.FindClosest(new Vector2(abyssSide ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
+                    NPC.SpawnOnPlayer(playerClosestToAbyss, ModContent.NPCType<OldDuke>());
+                }
             }
 
             // Boss Rush shit

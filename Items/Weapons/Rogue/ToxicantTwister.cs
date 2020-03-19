@@ -27,9 +27,9 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(1, 20, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.Calamity().postMoonLordRarity = 13;
+			item.rare = 10;
             item.shoot = ModContent.ProjectileType<ToxicantTwisterProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;

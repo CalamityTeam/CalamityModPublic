@@ -28,6 +28,7 @@ namespace CalamityMod
 		public static readonly Func<bool> DownedStormWeaver = () => CalamityWorld.downedSentinel2;
 		public static readonly Func<bool> DownedSignus = () => CalamityWorld.downedSentinel3;
 		public static readonly Func<bool> DownedPolterghast = () => CalamityWorld.downedPolterghast;
+		public static readonly Func<bool> DownedBoomerDuke = () => CalamityWorld.downedBoomerDuke;
 		public static readonly Func<bool> DownedDoG = () => CalamityWorld.downedDoG;
 		public static readonly Func<bool> DownedYharon = () => CalamityWorld.downedYharon;
 		public static readonly Func<bool> DownedSCal = () => CalamityWorld.downedSCal;
