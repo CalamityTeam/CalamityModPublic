@@ -3001,6 +3001,9 @@ namespace CalamityMod.CalPlayer
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
             }
+
+			if (boomerDukeLore)
+				player.buffImmune[ModContent.BuffType<AcidRain>()] = false;
         }
         #endregion
 
@@ -3024,6 +3027,9 @@ namespace CalamityMod.CalPlayer
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
             }
+
+			if (boomerDukeLore)
+				player.buffImmune[ModContent.BuffType<AcidRain>()] = false;
         }
         #endregion
 

@@ -11,8 +11,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Old Duke");
             Tooltip.SetDefault("Strange, to find out that the mutant terror of the seas was not alone in its unique biology.\n" +
                 "Perhaps I was mistaken to classify the creature from its relation to pigrons alone.\n" +
-                "Place in your inventory for undetermined effects as of now.\n" +
-				"However, you're supposed to have negative effects due to acidic radiation.");
+                "Place in your inventory to convert negative effects from the Acid Rain debuff to positive effects.");
         }
 
         public override void SetDefaults()

@@ -2252,7 +2252,14 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.irradiated)
 			{
-				player.statDefense -= 10;
+				if (modPlayer.boomerDukeLore)
+				{
+					player.statDefense += 10;
+				}
+				else
+				{
+					player.statDefense -= 10;
+				}
 				player.allDamage += 0.05f;
 				player.minionKB += 0.5f;
 				player.moveSpeed += 0.05f;
@@ -3401,7 +3408,16 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.vHex)
 				player.endurance -= 0.3f;
 			if (modPlayer.irradiated)
-				player.endurance -= 0.1f;
+			{
+				if (modPlayer.boomerDukeLore)
+				{
+					player.endurance += 0.05f;
+				}
+				else
+				{
+					player.endurance -= 0.1f;
+				}
+			}
 			if (modPlayer.corrEffigy)
 				player.endurance -= 0.2f;
 			if (modPlayer.marked || modPlayer.reaperToothNecklace)
