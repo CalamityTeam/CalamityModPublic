@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("AnyEvilOre", 10);
+            recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 10);
             recipe.AddIngredient(ModContent.ItemType<UrchinStinger>(), 15);
             recipe.AddIngredient(ModContent.ItemType<SulphurousSand>(), 10);
             recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 10);
