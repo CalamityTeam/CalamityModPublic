@@ -760,7 +760,7 @@ namespace CalamityMod
 				sAssociation.Call("AddMinionInfo", ItemType<StaffoftheMechworm>(), BuffType<Mechworm>(), ProjectileType<MechwormBody>(), 1f);
 				sAssociation.Call("AddMinionInfo", ItemType<CorvidHarbringerStaff>(), BuffType<CorvidHarbringerBuff>(), ProjectileType<PowerfulRaven>());
 				sAssociation.Call("AddMinionInfo", ItemType<EndoHydraStaff>(), BuffType<EndoHydraBuff>(), ProjectileType<EndoHydraHead>());
-				sAssociation.Call("AddMinionInfo", ItemType<CosmicViperEngine>(), BuffType<CosmicViperBuff>(), ProjectileType<CosmicViperSummon>());
+				sAssociation.Call("AddMinionInfo", ItemType<CosmicViperEngine>(), BuffType<CosmicViperEngineBuff>(), ProjectileType<CosmicViperSummon>());
 				sAssociation.Call("AddMinionInfo", ItemType<AngryChickenStaff>(), BuffType<YharonKindleBuff>(), ProjectileType<SonOfYharon>());
 				sAssociation.Call("AddMinionInfo", ItemType<MidnightSunBeacon>(), BuffType<MidnightSunBuff>(), ProjectileType<MidnightSunBeaconProj>());
 				sAssociation.Call("AddMinionInfo", ItemType<CosmicImmaterializer>(), BuffType<CosmicEnergy>(), ProjectileType<CosmicEnergySpiral>());
