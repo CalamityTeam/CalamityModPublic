@@ -9,8 +9,8 @@ namespace CalamityMod.Items.LoreItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Old Duke");
-            Tooltip.SetDefault("Boomer duke moment.\n" +
-                "He wanted to eat your face off but then you murdered him.\n" +
+            Tooltip.SetDefault("Strange, to find out that the mutant terror of the seas was not alone in its unique biology.\n" +
+                "Perhaps I was mistaken to classify the creature from its relation to pigrons alone.\n" +
                 "Place in your inventory for undetermined effects as of now.\n" +
 				"However, you're supposed to have negative effects due to acidic radiation.");
         }
