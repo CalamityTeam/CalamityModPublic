@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 120;
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[0] == 0f)
             {
 				//lineColor == 1 means it is spawned from Mollusk Armor rather than the weapon
-                projectile.damage = (int)((modProj.lineColor == 1 ? 200f : 70f) * player.MinionDamage());
+                projectile.damage = (int)((modProj.lineColor == 1 ? 140f : 70f) * player.MinionDamage());
                 if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
                 {
                     int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Summon
 					}
 					else
 					{
-						for (int num645 = 0; num645 < 200; num645++)
+						for (int num645 = 0; num645 < Main.maxNPCs; num645++)
 						{
 							NPC npcTarget = Main.npc[num645];
 							if (npcTarget.CanBeChasedBy(projectile, false))
@@ -363,7 +363,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     flag54 = true;
                 }
-                else if (num989 < 0 || num989 >= 200)
+                else if (num989 < 0 || num989 >= Main.maxNPCs)
                 {
                     flag54 = true;
                 }
