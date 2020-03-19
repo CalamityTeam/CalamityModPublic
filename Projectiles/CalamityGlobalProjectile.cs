@@ -1789,10 +1789,10 @@ namespace CalamityMod.Projectiles
                     if (modPlayer.starbusterCore && Main.rand.NextBool(3) && projectile.type != ModContent.ProjectileType<SummonAstralExplosion>() && projectile.type != ModContent.ProjectileType<HallowedStarSummon>())
                     {
                         int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
-                            projectile.damage, 3f, projectile.owner);
+                            (int)(projectile.damage * 0.5f), 3f, projectile.owner);
 						if (modPlayer.starTaintedGenerator)
 						{
-							Main.projectile[boom].localNPCHitCooldown = 10;
+							Main.projectile[boom].localNPCHitCooldown = 15;
 							Main.projectile[boom].penetrate = 3;
 						}
                     }

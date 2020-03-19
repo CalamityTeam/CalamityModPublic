@@ -14,8 +14,6 @@ namespace CalamityMod.Projectiles.Summon
             DisplayName.SetDefault("Endo Ice Shard");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
             ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
@@ -31,6 +29,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.extraUpdates = 1;
             projectile.alpha = 255;
             projectile.timeLeft = 240;
+			projectile.coldDamage = true;
         }
 
         public override void AI()

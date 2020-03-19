@@ -279,6 +279,13 @@ namespace CalamityMod.NPCs
 			ModContent.NPCType<AquaticScourgeTail>()
 		};
 
+		public static List<int> DesertScourgeIDs = new List<int>
+		{
+			ModContent.NPCType<DesertScourgeHead>(),
+			ModContent.NPCType<DesertScourgeBody>(),
+			ModContent.NPCType<DesertScourgeTail>()
+		};
+
 		public static List<int> EaterofWorldsIDs = new List<int>
 		{
 			NPCID.EaterofWorldsHead,
@@ -3359,6 +3366,13 @@ namespace CalamityMod.NPCs
                     damage = (int)(damage * 0.7);
                 }
             }
+            else if (DesertScourgeIDs.Contains(npc.type))
+            {
+                if (projectile.type == ModContent.ProjectileType<Spark>())
+                {
+                    damage = (int)(damage * 0.7);
+                }
+            }
 
             if (modPlayer.eGauntlet)
             {
@@ -3713,8 +3727,8 @@ namespace CalamityMod.NPCs
 
                     if (player.Calamity().ZoneSulphur && !player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
                     {
-                        spawnRate = 23;
-                        maxSpawns = 20;
+                        spawnRate = Main.hardMode ? 36 : 33;
+                        maxSpawns = Main.hardMode ? 15 : 12;
                     }
                 }
             }
@@ -3847,7 +3861,8 @@ namespace CalamityMod.NPCs
             if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
             {
                 pool.Clear();
-                foreach (int enemy in AcidRainEvent.PossibleEnemies.Select(enemyType => enemyType.Item1))
+                List<(int, int)> PossibleEnemies = Main.hardMode ? AcidRainEvent.PossibleEnemiesHM : AcidRainEvent.PossibleEnemiesPreHM;
+                foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
                 {
                     pool.Add(enemy, 1f);
                 }

@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.alpha = 255;
             projectile.minionSlots = 0f;
             projectile.extraUpdates = 1;
+			projectile.timeLeft = 300;
         }
 
         public override void AI()

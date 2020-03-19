@@ -24,8 +24,9 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 46;
             npc.height = 22;
             npc.defense = 6;
-            npc.damage = 62;
-            npc.lifeMax = 280;
+
+            npc.damage = Main.hardMode ? 65 : 40;
+            npc.lifeMax = Main.hardMode ? 333 : 140;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 3, 65);
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -39,10 +40,6 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<SkyfinBanner>();
         }
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
-        {
-            npc.lifeMax = 333;
-        }
         public override void AI()
         {
             npc.TargetClosest(false);
@@ -53,29 +50,29 @@ namespace CalamityMod.NPCs.AcidRain
             if (npc.wet)
             {
                 // Swim around, moving towards the player
-                    bool canSwimToPlayer = Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
-                    if (canSwimToPlayer)
+                bool canSwimToPlayer = Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
+                if (canSwimToPlayer)
+                {
+                    if (npc.ai[0] % 55f == 54f)
                     {
-                        if (npc.ai[0] % 55f == 54f)
-                        {
-                            npc.velocity = Vector2.UnitX * (player.Center.X - npc.Center.X > 0).ToDirectionInt() * 27f;
-                        }
-                        if ((Math.Abs(player.Center.Y - npc.Center.Y) > 50f && player.wet) || (!player.wet && npc.ai[1] <= 0f))
-                        {
-                            npc.velocity.Y = (player.Center.Y - npc.Center.Y > 0).ToDirectionInt() * 6f;
-                        }
-                        if (Math.Abs(npc.velocity.X) < 6f)
-                            npc.velocity.X *= 1.04f;
+                        npc.velocity = Vector2.UnitX * (player.Center.X - npc.Center.X > 0).ToDirectionInt() * 27f;
                     }
-                    else if (!canSwimToPlayer && Math.Abs(npc.velocity.Y) < 4f)
+                    if ((Math.Abs(player.Center.Y - npc.Center.Y) > 50f && player.wet) || (!player.wet && npc.ai[1] <= 0f))
                     {
-                        npc.velocity.Y *= 0.97f;
+                        npc.velocity.Y = (player.Center.Y - npc.Center.Y > 0).ToDirectionInt() * 6f;
                     }
-                    // Turn around if we hit a tile on the X axis
-                    if (!canSwimToPlayer && npc.collideX)
-                    {
-                        npc.velocity.X *= -1f;
-                    }
+                    if (Math.Abs(npc.velocity.X) < 6f)
+                        npc.velocity.X *= 1.04f;
+                }
+                else if (!canSwimToPlayer && Math.Abs(npc.velocity.Y) < 4f)
+                {
+                    npc.velocity.Y *= 0.97f;
+                }
+                // Turn around if we hit a tile on the X axis
+                if (!canSwimToPlayer && npc.collideX)
+                {
+                    npc.velocity.X *= -1f;
+                }
 
                 // Check if we can dive
                 if (player.Center.Y < npc.Top.Y - 10f &&
@@ -92,13 +89,17 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     npc.velocity.X = npc.ai[2];
                     if (npc.ai[1] > TotalTime - DiveTime * 0.5f)
-                        npc.velocity.Y -= 0.135f;
+                        npc.velocity.Y -= Main.hardMode ? 0.135f : 0.085f;
                     else
+                    {
+                        npc.ai[1] = TotalTime - DiveTime;
                         npc.velocity.Y += 0.2f;
+                    }
                 }
                 else
                 {
                     // Don't fall too fast because of wings
+                    npc.ai[1] = TotalTime - DiveTime;
                     npc.velocity.Y += 0.1f;
                 }
             }
@@ -124,7 +125,11 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
-
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.damage = Main.hardMode ? 70 : 45;
+            npc.lifeMax = Main.hardMode ? 360 : 200;
+        }
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 8; k++)

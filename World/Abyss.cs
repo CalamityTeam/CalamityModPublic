@@ -107,7 +107,7 @@ namespace CalamityMod.World
             {
                 for (int x = 0; x < biomeWidth; x++)
                 {
-                    for (int y = yStart; y < yStart + 150; y++)
+                    for (int y = yStart + 18; y < yStart + 150; y++)
                     {
                         if (Main.tile[x, y].liquid == 0)
                         {
@@ -122,7 +122,7 @@ namespace CalamityMod.World
             {
                 for (int x = Main.maxTilesX - biomeWidth; x < Main.maxTilesX; x++)
                 {
-                    for (int y = yStart; y < yStart + 150; y++)
+                    for (int y = yStart + 18; y < yStart + 150; y++)
                     {
                         if (Main.tile[x, y].liquid == 0)
                         {
@@ -235,9 +235,9 @@ namespace CalamityMod.World
             {
                 int xStart;
                 if (CalamityWorld.abyssSide)
-                    xStart = (WorldGen.genRand.Next(-5, 5 + 1) + biomeWidth / 2 + (int)(biomeWidth / 2 / 3f * c * 0.7f) - 20);
+                    xStart = (WorldGen.genRand.Next(-5, 5 + 1) + biomeWidth / 2 + (int)(biomeWidth / 2 / 3f * c * 0.7f) - 32);
                 else
-                    xStart = Main.maxTilesX - (WorldGen.genRand.Next(-5, 5 + 1) + biomeWidth / 2 + (int)(biomeWidth / 2 / 3f * c * 0.7f) - 20);
+                    xStart = Main.maxTilesX - (WorldGen.genRand.Next(-5, 5 + 1) + biomeWidth / 2 + (int)(biomeWidth / 2 / 3f * c * 0.7f) - 32);
                 int dy = -20;
                 while (!Main.tile[xStart, yStart + dy].active() ||
                         Main.tile[xStart, yStart + dy].type != (ushort)ModContent.TileType<SulphurousSand>())

@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             // Circle around the enemy
-            if (!Main.npc[(int)projectile.ai[0]].active)
+            if (!Main.npc[(int)projectile.ai[0]].active || Main.npc[(int)projectile.ai[0]].dontTakeDamage)
             {
                 projectile.active = false;
             }

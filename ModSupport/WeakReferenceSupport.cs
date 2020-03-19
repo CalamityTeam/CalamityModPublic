@@ -273,7 +273,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("BrimstoneElemental", out float order);
 				int type = NPCType<BrimstoneElemental>();
 				int summon = ItemType<CharredIdol>();
-				List<int> loot = new List<int>() { ItemType<BrimstoneWaifuBag>(), ItemID.SoulofFright, ItemType<EssenceofChaos>(), ItemType<Bloodstone>(), ItemType<Brimlance>(), ItemType<SeethingDischarge>(), ItemType<Abaddon>(), ItemType<RoseStone>(), ItemType<Gehenna>(), ItemType<Brimrose>(), ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<BrimstoneWaifuBag>(), ItemID.SoulofFright, ItemType<EssenceofChaos>(), ItemType<Bloodstone>(), ItemType<Brimlance>(), ItemType<DormantBrimseeker>(), ItemType<SeethingDischarge>(), ItemType<Abaddon>(), ItemType<RoseStone>(), ItemType<Gehenna>(), ItemType<Brimrose>(), ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<BrimstoneElementalTrophy>(), ItemType<BrimstoneWaifuMask>(), ItemType<KnowledgeBrimstoneCrag>(), ItemType<KnowledgeBrimstoneElemental>(), ItemType<CharredRelic>() };
 				string instructions = $"Use a [i:{summon}] in the Brimstone Crag";
 				string despawn = CalamityUtils.ColorMessage("Brimstone Elemental withdraws to the ruins of her shrine.", new Color(0xDC, 0x14, 0x3C));
@@ -410,7 +410,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Providence", out float order);
 				List<int> bosses = new List<int>() { NPCType<Providence>(), NPCType<ProvSpawnOffense>(), NPCType<ProvSpawnDefense>(), NPCType<ProvSpawnHealer>() };
 				List<int> summons = new List<int>() { ItemType<ProfanedCore>(), ItemType<ProfanedCoreUnlimited>() };
-				List<int> loot = new List<int>() { ItemType<ProvidenceBag>(), ItemType<UnholyEssence>(), ItemType<DivineGeode>(), ItemType<HolyCollider>(), ItemType<SolarFlare>(), ItemType<TelluricGlare>(), ItemType<BlissfulBombardier>(), ItemType<PurgeGuzzler>(), ItemType<MoltenAmputator>(), ItemType<DazzlingStabberStaff>(), ItemType<ElysianWings>(), ItemType<ElysianAegis>(), ItemType<SamuraiBadge>(), ItemType<BlazingCore>(), ItemType<RuneofCos>(), ItemID.SuperHealingPotion };
+				List<int> loot = new List<int>() { ItemType<ProvidenceBag>(), ItemType<UnholyEssence>(), ItemType<DivineGeode>(), ItemType<HolyCollider>(), ItemType<SolarFlare>(), ItemType<TelluricGlare>(), ItemType<BlissfulBombardier>(), ItemType<PurgeGuzzler>(), ItemType<MoltenAmputator>(), ItemType<DazzlingStabberStaff>(), ItemType<PristineFury>(), ItemType<ElysianWings>(), ItemType<ElysianAegis>(), ItemType<SamuraiBadge>(), ItemType<BlazingCore>(), ItemType<RuneofCos>(), ItemID.SuperHealingPotion };
 				List<int> collection = new List<int>() { ItemType<ProvidenceTrophy>(), ItemType<ProvidenceMask>(), ItemType<KnowledgeProvidence>() };
 				string instructions = $"Use either [i:{ItemType<ProfanedCore>()}] or [i:{ItemType<ProfanedCoreUnlimited>()}] in the Hallow or Underworld Biomes";
 				string despawn = CalamityUtils.ColorMessage("The Profaned Goddess vanishes in a burning blaze.", new Color(0xFF, 0xA5, 0x00));
@@ -721,18 +721,27 @@ namespace CalamityMod
 				sAssociation.Call("AddMinionInfo", ItemType<SquirrelSquireStaff>(), BuffType<SquirrelSquireBuff>(), ProjectileType<SquirrelSquireMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<WulfrumController>(), BuffType<WulfrumDroidBuff>(), ProjectileType<WulfrumDroid>());
 				sAssociation.Call("AddMinionInfo", ItemType<SunSpiritStaff>(), BuffType<SolarSpirit>(), ProjectileType<SolarPixie>());
+				sAssociation.Call("AddMinionInfo", ItemType<FrostBlossomStaff>(), BuffType<FrostBlossomBuff>(), ProjectileType<FrostBlossom>());
+				sAssociation.Call("AddMinionInfo", ItemType<BelladonnaSpiritStaff>(), BuffType<BelladonnaSpiritBuff>(), ProjectileType<BelladonnaSpirit>());
+				sAssociation.Call("AddMinionInfo", ItemType<StormjawStaff>(), BuffType<StormjawBuff>(), ProjectileType<StormjawBaby>());
 				sAssociation.Call("AddMinionInfo", ItemType<SeaboundStaff>(), BuffType<BrittleStar>(), ProjectileType<BrittleStarMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<MagicalConch>(), BuffType<HermitCrab>(), ProjectileType<HermitCrabMinion>());
+				sAssociation.Call("AddMinionInfo", ItemType<VileFeeder>(), BuffType<VileFeederBuff>(), ProjectileType<VileFeederSummon>());
+				sAssociation.Call("AddMinionInfo", ItemType<ScabRipper>(), BuffType<ScabRipperBuff>(), ProjectileType<BabyBloodCrawler>());
+				sAssociation.Call("AddMinionInfo", ItemType<CinderBlossomStaff>(), BuffType<CinderBlossomBuff>(), ProjectileType<CinderBlossom>());
 				sAssociation.Call("AddMinionInfo", ItemType<BloodClotStaff>(), BuffType<BloodClot>(), ProjectileType<BloodClotMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<DankStaff>(), BuffType<DankCreeperBuff>(), ProjectileType<DankCreeperMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<HerringStaff>(), BuffType<Herring>(), ProjectileType<HerringMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<CorroslimeStaff>(), BuffType<Corroslime>(), ProjectileType<CorroslimeMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<CrimslimeStaff>(), BuffType<Crimslime>(), ProjectileType<CrimslimeMinion>());
-				sAssociation.Call("AddMinionInfo", ItemType<AncientIceChunk>(), BuffType<IceClasper>(), ProjectileType<IceClasperMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<BlackHawkRemote>(), BuffType<BlackHawkBuff>(), ProjectileType<BlackHawkSummon>());
+				sAssociation.Call("AddMinionInfo", ItemType<AncientIceChunk>(), BuffType<IceClasper>(), ProjectileType<IceClasperMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<ShellfishStaff>(), BuffType<ShellfishBuff>(), ProjectileType<Shellfish>());
+				sAssociation.Call("AddMinionInfo", ItemType<HauntedScroll>(), BuffType<HauntedDishesBuff>(), ProjectileType<HauntedDishes>());
+				sAssociation.Call("AddMinionInfo", ItemType<ForgottenApexWand>(), BuffType<ApexSharkBuff>(), ProjectileType<ApexShark>());
 				sAssociation.Call("AddMinionInfo", ItemType<DeepseaStaff>(), BuffType<AquaticStar>(), ProjectileType<AquaticStarMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<SunGodStaff>(), BuffType<SolarSpiritGod>(), ProjectileType<SolarGod>());
+				sAssociation.Call("AddMinionInfo", ItemType<DormantBrimseeker>(), BuffType<DormantBrimseekerBuff>(), ProjectileType<DormantBrimseekerBab>());
 				sAssociation.Call("AddMinionInfo", ItemType<IgneousExaltation>(), BuffType<IgneousExaltationBuff>(), ProjectileType<IgneousBlade>());
 				sAssociation.Call("AddMinionInfo", ItemType<BlightedEyeStaff>(), BuffType<CalamitasEyes>(), new List<int>() { ProjectileType<Calamitamini>(), ProjectileType<Cataclymini>(), ProjectileType<Catastromini>()}, new List<float>() {1f-0.6666666f, 0.3333333f, 0.3333333f});
 				//Entropy's Vigil is a bruh moment

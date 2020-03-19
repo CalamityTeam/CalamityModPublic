@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 DropHelper.DropItem(npc, ModContent.ItemType<DarkPlasma>(), true, 2, 3);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), Main.expertMode ? 3 : 4);
 
                 // Equipment
                 float f = Main.rand.NextFloat();

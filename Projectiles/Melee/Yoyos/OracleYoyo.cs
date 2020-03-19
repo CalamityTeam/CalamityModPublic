@@ -214,7 +214,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 
                 if (dist <= radius)
                 {
-                    int finalDamage = (int)(baseDamage * (owner.allDamage + owner.meleeDamage - 1f));
+                    int finalDamage = (int)(baseDamage * owner.MeleeDamage());
                     if (projectile.owner == Main.myPlayer)
                     {
                         Projectile p = Projectile.NewProjectileDirect(target.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), finalDamage, 0f, projectile.owner, i);

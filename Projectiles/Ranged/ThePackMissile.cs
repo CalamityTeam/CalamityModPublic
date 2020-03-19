@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -10,12 +12,14 @@ namespace CalamityMod.Projectiles.Ranged
         {
             DisplayName.SetDefault("Pack Missile");
             Main.projFrames[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 82;
-            projectile.height = 18;
+            projectile.width = 40;
+            projectile.height = 40;
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.tileCollide = false;
@@ -124,6 +128,12 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[num624].velocity *= 2f;
             }
             projectile.Damage();
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
     }
 }

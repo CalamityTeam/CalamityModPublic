@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             item.mana = 10;
-            item.damage = 25;
+            item.damage = 20;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 32;
             item.height = 32;
@@ -28,15 +28,16 @@ namespace CalamityMod.Items.Weapons.Summon
             item.UseSound = SoundID.Item106;
             item.autoReuse = true;
             item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<MK2FlaskSummon>();
+            item.shoot = ModContent.ProjectileType<PlaguebringerMK2>(); //not the flask, so this weapon works w/ minion targetting
             item.shootSpeed = 11f;
             item.summon = true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse != 2)
+            if (player.altFunctionUse != 2) //throws a flask
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<MK2FlaskSummon>(), damage, knockBack, player.whoAmI);
             }
             return false;
         }

@@ -36,6 +36,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = timeToExist;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.coldDamage = true;
         }
 
         // Netcode for sending and receiving shit

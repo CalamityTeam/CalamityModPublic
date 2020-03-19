@@ -23,7 +23,18 @@ namespace CalamityMod.Events
 
         // Not readonly so that if anyone else wants to add stuff in here with their own mod, they can.
         // The first value is the NPC type, the second is the value they're worth in the event
-        public static List<(int, int)> PossibleEnemies = new List<(int, int)>()
+        public static List<(int, int)> PossibleEnemiesPreHM = new List<(int, int)>()
+        {
+            ( ModContent.NPCType<Radiator>(), 0 ),
+            ( ModContent.NPCType<NuclearToad>(), 1 ),
+            ( ModContent.NPCType<AcidEel>(), 1 ),
+            ( ModContent.NPCType<Skyfin>(), 1 ),
+            ( ModContent.NPCType<WaterLeech>(), 1 )
+        };
+
+        // Not readonly so that if anyone else wants to add stuff in here with their own mod, they can.
+        // The first value is the NPC type, the second is the value they're worth in the event
+        public static List<(int, int)> PossibleEnemiesHM = new List<(int, int)>()
         {
             ( ModContent.NPCType<Radiator>(), 0 ),
             ( ModContent.NPCType<NuclearToad>(), 0 ),
@@ -68,17 +79,15 @@ namespace CalamityMod.Events
                 {
                     iconID = InvasionID;
                     int type = Main.npc[i].type;
-                    for (int j = 0; j < PossibleEnemies.Count; j++)
+                    List<(int, int)> PossibleEnemies = Main.hardMode ? PossibleEnemiesHM : PossibleEnemiesPreHM;
+                    if (PossibleEnemies.Select(enemy => enemy.Item2).Contains(type))
                     {
-                        if (PossibleEnemies.Select(enemy => enemy.Item2).Contains(type))
+                        Rectangle invasionCheckArea = new Rectangle((int)Main.npc[i].Center.X - rectangleCheckSize / 2, (int)Main.npc[i].Center.Y - rectangleCheckSize / 2,
+                            rectangleCheckSize, rectangleCheckSize);
+                        if (screen.Intersects(invasionCheckArea))
                         {
-                            Rectangle invasionCheckArea = new Rectangle((int)Main.npc[i].Center.X - rectangleCheckSize / 2, (int)Main.npc[i].Center.Y - rectangleCheckSize / 2,
-                                rectangleCheckSize, rectangleCheckSize);
-                            if (screen.Intersects(invasionCheckArea))
-                            {
-                                Main.invasionProgressDisplayLeft = 480;
-                                return true;
-                            }
+                            Main.invasionProgressDisplayLeft = 480;
+                            return true;
                         }
                     }
                 }
@@ -149,7 +158,8 @@ namespace CalamityMod.Events
                     Main.numClouds = Main.numCloudsTemp;
                     Main.windSpeedTemp = Main.rand.NextFloat(0.04f, 0.25f);
                     Main.windSpeedSet = Main.windSpeedTemp;
-                    Main.raining = false;
+                    Main.maxRaining = 0f;
+                    CalamityMod.StopRain();
                 }
             }
         }

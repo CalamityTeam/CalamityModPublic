@@ -54,14 +54,12 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-				item.damage = 73;
                 item.useTime = 30;
                 item.useAnimation = 30;
 				item.reuseDelay = 0;
             }
             else
             {
-				item.damage = BaseDamage;
                 item.useTime = 5;
                 item.useAnimation = 15;
 				item.reuseDelay = 20;
@@ -73,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             if (player.altFunctionUse == 2)
             {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SeasSearingSecondary>(), damage, knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<SeasSearingSecondary>(), (int)(damage * 1.22f), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {

@@ -885,6 +885,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.projRefRareLifeRegenCounter--;
 			if (modPlayer.hurtSoundTimer > 0)
 				modPlayer.hurtSoundTimer--;
+			if (modPlayer.icicleCooldown > 0)
+				modPlayer.icicleCooldown--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -1777,8 +1779,14 @@ namespace CalamityMod.CalPlayer
 					int defenseLoss = (int)(120D * depthRatio);
 
 					// Anechoic Plating reduces defense loss by 66%
-					if (modPlayer.anechoicPlating)
+					// Fathom Swarmer Breastplate reduces defense loss by 40%
+					// In tandem, reduces defense loss by 80%
+					if (modPlayer.anechoicPlating && modPlayer.fathomSwarmerBreastplate)
+						defenseLoss = (int)(defenseLoss * 0.2f);
+					else if (modPlayer.anechoicPlating)
 						defenseLoss /= 3;
+					else if (modPlayer.fathomSwarmerBreastplate)
+						defenseLoss = (int)(defenseLoss * 0.6f);
 
 					// Reduce defense
 					player.statDefense -= defenseLoss;
@@ -3222,7 +3230,7 @@ namespace CalamityMod.CalPlayer
 						player.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600, true);
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] < 2)
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * (player.allDamage + player.minionDamage - 1f)), 2f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 			if (modPlayer.pArtifact)
@@ -3232,28 +3240,24 @@ namespace CalamityMod.CalPlayer
 					if (player.FindBuffIndex(ModContent.BuffType<ProfanedBabs>()) == -1 && !player.Calamity().profanedCrystalBuffs)
 						player.AddBuff(ModContent.BuffType<ProfanedBabs>(), 3600, true);
 
+					bool crystal = modPlayer.profanedCrystal && !modPlayer.profanedCrystalForce;
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianHealer>()] < 1)
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -6f, ModContent.ProjectileType<MiniGuardianHealer>(), 0, 0f, Main.myPlayer, 0f, 0f);
 
-					float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : 100f +
-						(CalamityWorld.downedDoG ? 100f : 0f) +
-						(CalamityWorld.downedYharon ? 100f : 0f) +
-						(modPlayer.profanedCrystalBuffs ? 700f : 0f);
-
-					if (modPlayer.profanedCrystal || player.Calamity().minionSlotStat >= 10)
+					if (crystal || player.Calamity().minionSlotStat >= 10)
 					{
 						player.Calamity().gDefense = true;
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianDefense>()] < 1)
-							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), baseDamage == 0 ? 0 : (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -3f, ModContent.ProjectileType<MiniGuardianDefense>(), 1, 1f, Main.myPlayer, 0f, 0f);
 					}
 
-					if (modPlayer.profanedCrystal || (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet))
+					if (crystal || (modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet))
 					{
 						player.Calamity().gOffense = true;
 
 						if (player.ownedProjectileCounts[ModContent.ProjectileType<MiniGuardianAttack>()] < 1)
-							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), baseDamage == 0 ? 0 : (int)(baseDamage * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<MiniGuardianAttack>(), 1, 1f, Main.myPlayer, 0f, 0f);
 					}
 				}
 			}

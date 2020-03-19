@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Potions;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.World;
@@ -63,6 +64,12 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             if (CalamityWorld.downedPolterghast)
             {
                 DropHelper.DropItemChance(player, ModContent.ItemType<ReaperTooth>(), 0.25f, 5, 10);
+            }
+
+            // Acid Rain summoner
+            if (NPC.downedBoss1)
+            {
+                DropHelper.DropItemChance(player, ModContent.ItemType<CausticTear>(), 0.25f);
             }
 
             // Equipment

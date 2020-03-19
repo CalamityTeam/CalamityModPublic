@@ -52,33 +52,28 @@ namespace CalamityMod.Projectiles.Ranged
                     for (int num298 = 0; num298 < 1; num298++)
                     {
                         int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                        Dust dust = Main.dust[num299];
                         if (Main.rand.NextBool(3))
                         {
-                            Main.dust[num299].noGravity = true;
-                            Main.dust[num299].scale *= 2.5f;
-                            Dust expr_DBEF_cp_0 = Main.dust[num299];
-                            expr_DBEF_cp_0.velocity.X *= 2f;
-                            Dust expr_DC0F_cp_0 = Main.dust[num299];
-                            expr_DC0F_cp_0.velocity.Y *= 2f;
+                            dust.noGravity = true;
+                            dust.scale *= 2.5f;
+                            dust.velocity.X *= 2f;
+                            dust.velocity.Y *= 2f;
                         }
                         if (Main.rand.NextBool(6))
                         {
-                            Main.dust[num299].noGravity = true;
-                            Main.dust[num299].scale *= 3f;
-                            Dust expr_DBEF_cp_0 = Main.dust[num299];
-                            expr_DBEF_cp_0.velocity.X *= 2f;
-                            Dust expr_DC0F_cp_0 = Main.dust[num299];
-                            expr_DC0F_cp_0.velocity.Y *= 2f;
+                            dust.noGravity = true;
+                            dust.scale *= 3f;
+                            dust.velocity.X *= 2f;
+                            dust.velocity.Y *= 2f;
                         }
                         else
                         {
-                            Main.dust[num299].scale *= 2f;
+                            dust.scale *= 2f;
                         }
-                        Dust expr_DC74_cp_0 = Main.dust[num299];
-                        expr_DC74_cp_0.velocity.X *= 1.2f;
-                        Dust expr_DC94_cp_0 = Main.dust[num299];
-                        expr_DC94_cp_0.velocity.Y *= 1.2f;
-                        Main.dust[num299].scale *= num296;
+                        dust.velocity.X *= 1.2f;
+                        dust.velocity.Y *= 1.2f;
+                        dust.scale *= num296;
                     }
                 }
             }

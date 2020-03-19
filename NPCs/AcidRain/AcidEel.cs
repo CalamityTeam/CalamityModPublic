@@ -20,8 +20,10 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 72;
             npc.height = 18;
             npc.defense = 4;
-            npc.damage = 58;
-            npc.LifeMaxNERB(Main.expertMode ? 500 : 455, 500);
+
+            npc.damage = Main.hardMode ? 58 : 41;
+            npc.lifeMax = Main.hardMode ? 430 : 180;
+
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 3, 32);
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -40,6 +42,9 @@ namespace CalamityMod.NPCs.AcidRain
         public override void AI()
         {
             npc.TargetClosest(false);
+
+            if (Main.rand.NextBool(480))
+                Main.PlaySound(SoundID.Zombie, npc.Center, 32); // Slither sound
 
             if (npc.wet)
             {
@@ -80,7 +85,11 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
-
+        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+        {
+            npc.damage = (int)(npc.damage * 1.2);
+            npc.lifeMax = Main.hardMode ? 500 : 230;
+        }
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 8; k++)

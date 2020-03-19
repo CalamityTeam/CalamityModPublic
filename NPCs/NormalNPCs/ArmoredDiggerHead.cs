@@ -411,17 +411,21 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
         }
 
+        public override bool SpecialNPCLoot()
+        {
+            int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+                ModContent.NPCType<ArmoredDiggerHead>(),
+                ModContent.NPCType<ArmoredDiggerBody>(),
+                ModContent.NPCType<ArmoredDiggerTail>());
+            npc.position = Main.npc[closestSegmentID].position;
+            return false;
+        }
+
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(40))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<LeadWizard>());
-            }
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DraedonsRemote>());
-            }
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<DemonicBoneAsh>(), Main.rand.Next(2, 5));
+            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadWizard>(), 40);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonsRemote>(), 3);
+            DropHelper.DropItem(npc, ModContent.ItemType<DemonicBoneAsh>(), Main.rand.Next(2, 5));
         }
     }
 }

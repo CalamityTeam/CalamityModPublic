@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.Providence
         private int immuneTimer = 300;
         private int frameUsed = 0;
         private int healTimer = 0;
-        private bool challenge = true; //Used to determine if Profaned Soul Crystal should drop.
+        private bool challenge = Main.expertMode && Main.netMode == NetmodeID.SinglePlayer; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
 
         public static float normalDR = 0.35f;
         public static float cocoonDR = 0.9f;
@@ -1144,10 +1144,13 @@ namespace CalamityMod.NPCs.Providence
 			//Accessories clientside only in Expert
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), true, biomeType != 2 && Main.expertMode);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), true, biomeType == 2 && Main.expertMode);
-			bool psc = challenge && Main.expertMode;
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, psc); //drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+			//drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
+			if (Main.netMode == NetmodeID.SinglePlayer)
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedSoulCrystal>(), challenge);
+			else if (Main.expertMode)
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, 100);
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
             {
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<UnholyEssence>(), 20, 30);
@@ -1198,16 +1201,12 @@ namespace CalamityMod.NPCs.Providence
                 }
             }
 
-			if (psc)
+			if (challenge)
 			{
 				if (Main.netMode == NetmodeID.SinglePlayer)
 				{
 					Main.NewText(Language.GetTextValue("Mods.CalamityMod.ProfanedBossText4"), Color.DarkOrange);
 				} 
-				else if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey("Mods.CalamityMod.ProfanedBossText4"), Color.DarkOrange);
-				}
 			}
 
             // Mark Providence as dead
@@ -1338,14 +1337,20 @@ namespace CalamityMod.NPCs.Providence
 
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
-			bool goldenGun = projectile.type == ModContent.ProjectileType<GoldenGunProj>();
-            if (challenge && (!goldenGun && (projectile.type != ModContent.ProjectileType<MiniGuardianDefense>() && projectile.type != ModContent.ProjectileType<MiniGuardianAttack>()) || Main.player[projectile.owner].Calamity().profanedCrystal))
-                challenge = false;
+			if (challenge)
+			{
+				bool goldenGun = projectile.type == ModContent.ProjectileType<GoldenGunProj>();
+				if (!goldenGun && (projectile.type != ModContent.ProjectileType<MiniGuardianDefense>() && projectile.type != ModContent.ProjectileType<MiniGuardianAttack>()) && !Main.player[projectile.owner].Calamity().profanedCrystal)
+				{
+					challenge = false;
+				}
+			}
         }
 
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
         {
-            challenge = false;
+			if (challenge)
+				challenge = false;
         }
 
         public override void HitEffect(int hitDirection, double damage)

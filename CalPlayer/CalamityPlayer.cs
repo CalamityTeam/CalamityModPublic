@@ -450,9 +450,8 @@ namespace CalamityMod.CalPlayer
         public bool starbusterCore = false;
         public bool starTaintedGenerator = false;
         public bool hallowedRune = false;
-        public bool hallowedDefense = false;
-        public bool hallowedPower = false;
-        public bool hallowedRegen = false;
+		public bool silvaWings = false;
+		public int icicleCooldown = 0;
 
 
         // Armor Set
@@ -517,8 +516,12 @@ namespace CalamityMod.CalPlayer
         public bool umbraphileSet = false;
         public bool reaverBlast = false;
         public bool reaverBurst = false;
-        //public bool fathomSwarmer = false;
-        //public bool fathomSwarmerVisage = false;
+        public bool fathomSwarmer = false;
+        public bool fathomSwarmerVisage = false;
+        public bool fathomSwarmerBreastplate = false;
+        public bool fathomSwarmerTail = false;
+		int tailFrameUp = 0;
+		int tailFrame = 0;
         public bool astralStarRain = false;
         public int astralStarRainCooldown = 0;
         public bool plagueReaper = false;
@@ -674,6 +677,9 @@ namespace CalamityMod.CalPlayer
         public bool polarisBoostThree = false;
         public bool bloodfinBoost = false;
         public int bloodfinTimer = 30;
+        public bool hallowedDefense = false;
+        public bool hallowedPower = false;
+        public bool hallowedRegen = false;
 
         // Minion
         public bool wDroid = false;
@@ -684,6 +690,7 @@ namespace CalamityMod.CalPlayer
         public bool magicHat = false;
         public bool herring = false;
         public bool blackhawk = false;
+        public bool cosmicViper = false;
         public bool calamari = false;
         public bool cEyes = false;
         public bool cSlime = false;
@@ -725,6 +732,7 @@ namespace CalamityMod.CalPlayer
         public bool apexShark = false;
         public bool squirrel = false;
         public bool hauntedDishes = false;
+        public bool stormjaw = false;
         public bool sGod = false;
         public bool vUrchin = false;
         public bool cSpirit = false;
@@ -739,6 +747,13 @@ namespace CalamityMod.CalPlayer
         public bool igneousExaltation = false;
         public bool youngDuke = false;
         public bool virili = false;
+        public bool frostBlossom = false;
+        public bool cinderBlossom = false;
+        public bool belladonaSpirit = false;
+        public bool vileFeeder = false;
+        public bool scabRipper = false;
+        public bool midnightUFO = false;
+        public bool plagueEngine = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1253,6 +1268,7 @@ namespace CalamityMod.CalPlayer
             sDefense = false;
             sRegen = false;
             sPower = false;
+            hallowedRune = false;
             hallowedDefense = false;
             hallowedRegen = false;
             hallowedPower = false;
@@ -1270,7 +1286,11 @@ namespace CalamityMod.CalPlayer
             blazingCore = false;
             voltaicJelly = false;
             jellyChargedBattery = false;
-            veneratedLocket = false;
+            starbusterCore = false;
+            starTaintedGenerator = false;
+            camper = false;
+			silvaWings = false;
+			corrosiveSpine = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1308,8 +1328,10 @@ namespace CalamityMod.CalPlayer
 
             umbraphileSet = false;
             plagueReaper = false;
-            //fathomSwarmer = false;
-            //fathomSwarmerVisage = false;
+            fathomSwarmer = false;
+            fathomSwarmerVisage = false;
+            fathomSwarmerBreastplate = false;
+            fathomSwarmerTail = false;
 
             tarraSet = false;
             tarraMelee = false;
@@ -1357,7 +1379,7 @@ namespace CalamityMod.CalPlayer
             sandCloakCooldown = false;
             spectralVeil = false;
             plaguedFuelPack = false;
-            camper = false;
+            veneratedLocket = false;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -1488,6 +1510,7 @@ namespace CalamityMod.CalPlayer
             magicHat = false;
             herring = false;
             blackhawk = false;
+            cosmicViper = false;
             calamari = false;
             cEyes = false;
             cSlime = false;
@@ -1503,6 +1526,7 @@ namespace CalamityMod.CalPlayer
             apexShark = false;
             squirrel = false;
             hauntedDishes = false;
+            stormjaw = false;
             SPG = false;
             sirius = false;
             aChicken = false;
@@ -1551,13 +1575,17 @@ namespace CalamityMod.CalPlayer
             powerfulRaven = false;
             dragonFamily = false;
             providenceStabber = false;
-            hallowedRune = false;
-            starbusterCore = false;
-            starTaintedGenerator = false;
             plaguebringerMK2 = false;
             igneousExaltation = false;
             radiantResolution = false;
             virili = false;
+            frostBlossom = false;
+            cinderBlossom = false;
+            belladonaSpirit = false;
+            vileFeeder = false;
+            scabRipper = false;
+            midnightUFO = false;
+            plagueEngine = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -1618,6 +1646,7 @@ namespace CalamityMod.CalPlayer
             nanoFlareCooldown = 0;
             fleshTotemCooldown = false;
             sandCloakCooldown = false;
+			icicleCooldown = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -1818,8 +1847,10 @@ namespace CalamityMod.CalPlayer
             umbraphileSet = false;
             reaverBlast = false;
             reaverBurst = false;
-            //fathomSwarmer = false;
-            //fathomSwarmerVisage = false;
+            fathomSwarmer = false;
+            fathomSwarmerVisage = false;
+            fathomSwarmerBreastplate = false;
+            fathomSwarmerTail = false;
             astralStarRain = false;
             plagueReaper = false;
             plagueReaperCooldown = 0;
@@ -3303,6 +3334,15 @@ namespace CalamityMod.CalPlayer
                             player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), 1800);
                         }
                     }
+					else if (silvaWings)
+					{
+                        player.statLife += (int)(player.statLifeMax2 / 2);
+                        player.HealEffect((int)(player.statLifeMax2 / 2));
+                        if (player.statLife > player.statLifeMax2)
+                        {
+                            player.statLife = player.statLifeMax2;
+                        }
+					}
                 }
                 hasSilvaEffect = true;
                 if (player.statLife < 1)
@@ -3495,7 +3535,7 @@ namespace CalamityMod.CalPlayer
             {
                 add += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
             }
-            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || item.type == ModContent.ItemType<DragoonDrizzlefish>()))
+            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || CalamityMod.flamethrowerList.Contains(item.type)))
             {
                 add += hoverboardBoost ? 0.35f : 0.25f;
             }
@@ -6366,11 +6406,11 @@ namespace CalamityMod.CalPlayer
                     { player.ClearBuff(ModContent.BuffType<PolarisBuff>()); }
                 }
             }
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Ranged.DrataliornusBow>()] != 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<DrataliornusBow>()] != 0)
             {
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<Projectiles.Ranged.DrataliornusBow>() && Main.projectile[i].owner == player.whoAmI)
+                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<DrataliornusBow>() && Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
                         break;
@@ -8128,7 +8168,7 @@ namespace CalamityMod.CalPlayer
                 !item.noUseGraphic &&
                 (!drawPlayer.wet || !item.noWet))
             {
-                if (item.type == ModContent.ItemType<FlurrystormCannon>() || item.type == ModContent.ItemType<MepheticSprayer>() || item.type == ModContent.ItemType<BrimstoneFlameblaster>() || item.type == ModContent.ItemType<BrimstoneFlamesprayer>() || item.type == ModContent.ItemType<SparkSpreader>() || item.type == ModContent.ItemType<HalleysInferno>() || item.type == ModContent.ItemType<CleansingBlaze>() || item.type == ModContent.ItemType<ElementalEruption>() || item.type == ModContent.ItemType<TheEmpyrean>() || item.type == ModContent.ItemType<Meowthrower>() || item.type == ModContent.ItemType<OverloadedBlaster>() || item.type == ModContent.ItemType<TerraFlameburster>() || item.type == ModContent.ItemType<Photoviscerator>() || item.type == ModContent.ItemType<Shadethrower>())
+                if (item.type == ModContent.ItemType<FlurrystormCannon>() || item.type == ModContent.ItemType<MepheticSprayer>() || item.type == ModContent.ItemType<BrimstoneFlameblaster>() || item.type == ModContent.ItemType<BrimstoneFlamesprayer>() || item.type == ModContent.ItemType<SparkSpreader>() || item.type == ModContent.ItemType<HalleysInferno>() || item.type == ModContent.ItemType<CleansingBlaze>() || item.type == ModContent.ItemType<ElementalEruption>() || item.type == ModContent.ItemType<TheEmpyrean>() || item.type == ModContent.ItemType<Meowthrower>() || item.type == ModContent.ItemType<OverloadedBlaster>() || item.type == ModContent.ItemType<TerraFlameburster>() || item.type == ModContent.ItemType<Photoviscerator>() || item.type == ModContent.ItemType<Shadethrower>() || item.type == ModContent.ItemType<BloodBoiler>() || item.type == ModContent.ItemType<PristineFury>())
                 {
                     Color color89 = drawInfo.middleArmorColor = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)(drawPlayer.position.X + drawPlayer.width * 0.5) / 16, (int)(drawPlayer.position.Y + drawPlayer.height * 0.5) / 16, Color.White), drawInfo.shadow);
                     SpriteEffects spriteEffects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -8140,6 +8180,8 @@ namespace CalamityMod.CalPlayer
                         thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BrimstoneFlameblaster");
                     else if (item.type == ModContent.ItemType<BrimstoneFlamesprayer>())
                         thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_HavocsBreath");
+                    else if (item.type == ModContent.ItemType<BloodBoiler>())
+                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_BloodBoiler");
                     else if (item.type == ModContent.ItemType<SparkSpreader>())
                         thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_SparkSpreader");
                     else if (item.type == ModContent.ItemType<HalleysInferno>())
@@ -8160,6 +8202,8 @@ namespace CalamityMod.CalPlayer
                         thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Photoviscerator");
                     else if (item.type == ModContent.ItemType<Shadethrower>())
                         thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Shadethrower");
+                    else if (item.type == ModContent.ItemType<PristineFury>())
+                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_PristineFury");
 
                     float num25 = -4f;
                     float num24 = -8f;
@@ -8178,6 +8222,45 @@ namespace CalamityMod.CalPlayer
             }
         }
 
+		public override void PreUpdate()
+		{
+			tailFrameUp++;
+			if (tailFrameUp == 8)
+			{
+				tailFrame++;
+				if (tailFrame >= 4)
+				{
+					tailFrame = 0;
+				}
+				tailFrameUp = 0;
+			}
+		}
+
+		public static readonly PlayerLayer Tail = new PlayerLayer("CalamityMod", "Tail", PlayerLayer.BackAcc, delegate (PlayerDrawInfo drawInfo)
+		{
+			Player drawPlayer = drawInfo.drawPlayer;
+			CalamityPlayer modPlayer = drawPlayer.Calamity();
+			if (drawInfo.shadow != 0f || drawPlayer.dead)
+			{
+				return;
+			}
+			Rectangle? frame = new Rectangle(0, (int)(modPlayer.tailFrame * 56), 46, 56);
+			if (modPlayer.fathomSwarmerTail)
+			{
+				Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Armor/FathomSwarmerArmor_Tail");
+
+				int frameSize = texture.Height / 4;
+				int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X - (3 * drawPlayer.direction));
+				int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
+				DrawData data = new DrawData(texture, new Vector2(drawX, drawY), frame,
+					Lighting.GetColor((int)((drawInfo.position.X + drawPlayer.width / 2f) / 16f),
+						(int)((drawInfo.position.Y + drawPlayer.height / 2f) / 16f)),
+					0f, new Vector2(texture.Width / 2f, frameSize / 2f), 1f,
+					drawInfo.spriteEffects, 0);
+				Main.playerDrawData.Add(data);
+			}
+		});
+
         public override void ModifyDrawLayers(List<PlayerLayer> list)
         {
             MiscEffectsBack.visible = true;
@@ -8186,6 +8269,12 @@ namespace CalamityMod.CalPlayer
             list.Add(MiscEffects);
             if (fab || crysthamyr || onyxExcavator)
             { AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); }
+
+			if (fathomSwarmerTail)
+			{
+				int legsIndex = list.IndexOf(PlayerLayer.Skin);
+				list.Insert(legsIndex - 1, Tail);
+			}
         }
 
         public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo edi)
@@ -10176,6 +10265,8 @@ namespace CalamityMod.CalPlayer
             if (radiator)
                 light += 1;
             if (sparks)
+                light += 1;
+            if (fathomSwarmerVisage)
                 light += 1;
             if (sirenBoobs || sirenBoobsAlt)
                 light += 1;

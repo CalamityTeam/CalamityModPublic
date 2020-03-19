@@ -1,4 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -17,8 +19,9 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 1\n" +
                 "Average vertical speed\n" +
                 "Flight time: 100\n" +
-                "5% increase to all damage and pick speed\n" +
+                "7% increase to all damage\n" +
                 "All melee attacks and projectiles inflict frostburn\n" +
+                "Icicles rain down as you fly\n" +
 				"Provides heat and cold protection in Death Mode");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
@@ -35,7 +38,6 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            maxFallSpeed *= 0f;
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
             Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0f * num, 0.3f * num, 0.3f * num);
@@ -59,10 +61,20 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.cryogenSoul = true;
-            player.pickSpeed -= 0.05f;
-            player.allDamage += 0.05f;
+            player.allDamage += 0.07f;
             player.wingTimeMax = 100;
             player.noFallDmg = true;
+			if (modPlayer.icicleCooldown <= 0)
+			{
+				if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f)
+				{
+					int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), 25, 3f, player.whoAmI);
+					Main.projectile[p].minion = false;
+					Main.projectile[p].Calamity().rogue = false;
+					Main.projectile[p].frame = Main.rand.Next(5);
+					modPlayer.icicleCooldown = 10;
+				}
+			}
         }
     }
 }

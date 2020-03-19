@@ -49,10 +49,12 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         Projectile proj = Main.projectile[i];
                         if ((proj.whoAmI == projectile.whoAmI ||
-                            proj.type == ModContent.ProjectileType<EternityCrystal>()) &&
+                            proj.type == ModContent.ProjectileType<EternityCrystal>() ||
+                            proj.type == ModContent.ProjectileType<EternityCircle>()) &&
                             proj.active && proj.owner == projectile.owner)
                         {
-                            if (proj.type == ModContent.ProjectileType<EternityCrystal>())
+                            if (proj.type == ModContent.ProjectileType<EternityCrystal>() || 
+                                proj.type == ModContent.ProjectileType<EternityCircle>())
                                 proj.ai[0] = projectile.ai[0];
                             for (int j = 0; j < 44; j++)
                             {

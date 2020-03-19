@@ -33,6 +33,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -163,13 +164,17 @@ namespace CalamityMod.NPCs
                 {
                     string key2 = "Mods.CalamityMod.UglyBossText";
                     Color messageColor2 = Color.Aquamarine;
+                    string sulfSeaBoostMessage = "Mods.CalamityMod.UglyBossText2";
+                    Color sulfSeaBoostColor = AcidRainEvent.TextColor;
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
                         Main.NewText(Language.GetTextValue(key2), messageColor2);
+                        Main.NewText(Language.GetTextValue(sulfSeaBoostMessage), sulfSeaBoostColor);
                     }
                     else if (Main.netMode == NetmodeID.Server)
                     {
                         NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(sulfSeaBoostMessage), sulfSeaBoostColor);
                     }
                 }
             }
@@ -914,6 +919,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.PinkJellyfish:
+                case NPCID.BlueJellyfish:
                     DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
                     break;
 
@@ -942,6 +948,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.GreenJellyfish:
                     DropHelper.DropItemChance(npc, ItemID.Megaphone, DropHelper.DefiledDropRateInt);
+                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, DropHelper.DefiledDropRateInt);
                     break;
 
                 case NPCID.CursedSkull:
@@ -1527,6 +1534,12 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemChance(npc, ModContent.ItemType<DefectiveSphere>(), defectiveDropRate); //same as deadly sphere staff
                     break;
 
+                case NPCID.BloodJelly:
+                case NPCID.FungoFish:
+                    float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
+                    DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, necklaceDropRate);
+                    break;
+
                 default:
                     break;
             }
@@ -1585,9 +1598,10 @@ namespace CalamityMod.NPCs
         #region Acid Rain
         private void AcidRainProgression(NPC npc)
         {
-            if (AcidRainEvent.PossibleEnemies.Select(enemy => enemy.Item1).Contains(npc.type) && CalamityWorld.rainingAcid)
+            List<(int, int)> PossibleEnemies = Main.hardMode ? AcidRainEvent.PossibleEnemiesHM : AcidRainEvent.PossibleEnemiesPreHM;
+            if (PossibleEnemies.Select(enemy => enemy.Item1).Contains(npc.type) && CalamityWorld.rainingAcid)
             {
-                Main.invasionSize -= AcidRainEvent.PossibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
+                Main.invasionSize -= PossibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
             }
             AcidRainEvent.UpdateInvasion();
         }

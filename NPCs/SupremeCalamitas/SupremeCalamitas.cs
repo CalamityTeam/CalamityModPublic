@@ -2169,7 +2169,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 ModContent.ItemType<Judgement>(), ModContent.ItemType<Judgement>(), // The Dance of Light
                 ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
                 ModContent.ItemType<Megafleet>(), ModContent.ItemType<Megafleet>(), // Voidragon
-                ModContent.ItemType<Endogenesis>(), ModContent.ItemType<Endogenesis>()
+                ModContent.ItemType<Endogenesis>(), ModContent.ItemType<Endogenesis>(),
+                ModContent.ItemType<BensUmbrella>(), ModContent.ItemType<BensUmbrella>() //Temporal Umbrella
             );
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), CalamityWorld.revenge);
 

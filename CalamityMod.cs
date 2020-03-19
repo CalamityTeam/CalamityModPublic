@@ -5,8 +5,10 @@ using CalamityMod.CalPlayer;
 using CalamityMod.ILEditing;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.LoreItems;
@@ -190,6 +192,7 @@ namespace CalamityMod
         public static List<int> noGravityList;
         public static List<int> lavaFishList;
         public static List<int> highTestFishList;
+        public static List<int> flamethrowerList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -395,6 +398,7 @@ namespace CalamityMod
             noGravityList = null;
             lavaFishList = null;
             highTestFishList = null;
+            flamethrowerList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -946,6 +950,7 @@ namespace CalamityMod
                 ItemID.DD2FlameburstTowerT2Popper,
                 ItemID.DD2FlameburstTowerT3Popper,
                 ItemID.MolotovCocktail,
+                ItemID.WandofSparking,
                 ModContent.ItemType<AegisBlade>(),
                 ModContent.ItemType<BalefulHarvester>(),
                 ModContent.ItemType<Chaotrix>(),
@@ -1006,7 +1011,11 @@ namespace CalamityMod
                 ModContent.ItemType<BouncingBetty>(),
                 ModContent.ItemType<HeliumFlash>(),
                 ModContent.ItemType<ShatteredSun>(),
-                ModContent.ItemType<DivineHatchet>()
+                ModContent.ItemType<DivineHatchet>(),
+                ModContent.ItemType<DazzlingStabberStaff>(),
+                ModContent.ItemType<PristineFury>(),
+                ModContent.ItemType<RadiantResolution>(),
+                ModContent.ItemType<CinderBlossomStaff>()
             };
 
             iceWeaponList = new List<int>()
@@ -1056,6 +1065,8 @@ namespace CalamityMod
                 ModContent.ItemType<FlurrystormCannon>(),
                 ModContent.ItemType<Hypothermia>(),
                 ModContent.ItemType<IceBarrage>(),
+                ModContent.ItemType<FrostBlossomStaff>(),
+                ModContent.ItemType<EndoHydraStaff>(),
 				//Cryonic Bar set stuff, could potentially be removed
                 ModContent.ItemType<Trinity>(),
                 ModContent.ItemType<Shimmerspark>(),
@@ -1179,7 +1190,8 @@ namespace CalamityMod
                 ModContent.ItemType<SeasSearing>(),
                 ModContent.ItemType<YateveoBloom>(),
                 ModContent.ItemType<TerraDisk>(),
-                ModContent.ItemType<TerraDiskMelee>()
+                ModContent.ItemType<TerraDiskMelee>(),
+                ModContent.ItemType<BelladonnaSpiritStaff>()
             };
 
             alcoholList = new List<int>()
@@ -1225,7 +1237,6 @@ namespace CalamityMod
             sixtySixDamageBuffList = new List<int>()
             {
                 ItemID.TrueNightsEdge,
-                ItemID.WandofSparking,
                 ItemID.MedusaHead,
                 ItemID.StaffofEarth,
                 ItemID.ChristmasTreeSword,
@@ -1248,6 +1259,7 @@ namespace CalamityMod
 
             thirtyThreeDamageBuffList = new List<int>()
             {
+                ItemID.WandofSparking,
 				ItemID.IceBow,
 				ItemID.Marrow,
                 ItemID.CrystalVileShard,
@@ -1265,7 +1277,8 @@ namespace CalamityMod
                 ItemID.PurplePhasesaber,
                 ItemID.TheRottedFork,
                 ItemID.VampireKnives,
-                ItemID.Cascade
+                ItemID.Cascade,
+                ItemID.TrueExcalibur
             };
 
             twentyFiveDamageBuffList = new List<int>()
@@ -2174,6 +2187,7 @@ namespace CalamityMod
                 ModContent.ItemType<GalacticaSingularity>(),
                 ModContent.ItemType<NightmareFuel>(),
                 ModContent.ItemType<EndothermicEnergy>(),
+                ModContent.ItemType<SoulofCryogen>(),
 
                 ModContent.ItemType<KnowledgeAquaticScourge>(),
                 ModContent.ItemType<KnowledgeAstralInfection>(),
@@ -2235,6 +2249,12 @@ namespace CalamityMod
                 ItemID.GoldenFishingRod,
                 ModContent.ItemType<EarlyBloomRod>(),
                 ModContent.ItemType<TheDevourerofCods>()
+            };
+
+            flamethrowerList = new List<int>()
+            {
+                ModContent.ItemType<DragoonDrizzlefish>(),
+                ModContent.ItemType<BloodBoiler>()
             };
 
             tableList = new List<int>()
@@ -2877,7 +2897,10 @@ namespace CalamityMod
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
                             if (calamityModMusic != null)
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral");
+                            {
+                                string sound = "Sounds/Music/Astral";
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, sound + (p.ZoneOverworldHeight ? "" : "Underground"));
+                            }
                             else
                                 music = MusicID.Space;
                             priority = MusicPriority.Environment;
@@ -2920,11 +2943,16 @@ namespace CalamityMod
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
+                            bool acidRain = CalamityWorld.rainingAcid;
                             if (calamityModMusic != null)
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Sulphur");
+                            {
+                                string musicChoice = acidRain ? CalamityWorld.downedPolterghast ? "Sounds/Music/AcidRain1" : "Sounds/Music/AcidRain1" : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, musicChoice);
+                                
+                            }
                             else
-                                music = MusicID.Desert;
-                            priority = MusicPriority.BiomeHigh;
+                                music = acidRain ? CalamityWorld.downedPolterghast ? MusicID.Eclipse : MusicID.OldOnesArmy : MusicID.Desert; //if you have a better choice of music, feel free to change, it was pretty random choosing ngl
+                            priority = acidRain ? MusicPriority.Event : MusicPriority.BiomeHigh;
                         }
                     }
                     if (CalamityWorld.DoGSecondStageCountdown <= 540 && CalamityWorld.DoGSecondStageCountdown > 60) //8 seconds before DoG spawns

@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             bannerItem = ModContent.ItemType<WulfrumDroneBanner>();
         }
 
-        public override void AI()
+        public override void PostAI()
         {
             npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
         }

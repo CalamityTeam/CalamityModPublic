@@ -57,7 +57,12 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<DemonshadeRedDevil>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DemonshadeRedDevil>(), 10000, 0f, Main.myPlayer, 0f, 0f);
+                    float modifier = player.meleeDamage + player.magicDamage + player.rangedDamage +
+    modPlayer.throwingDamage + player.minionDamage + ((player.allDamage - 1f) * 5f);
+
+                    modifier /= 5f;
+                    int damage = (int)(10000 * modifier);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<DemonshadeRedDevil>(), damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 1f;

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Weapons.Summon;
@@ -79,6 +80,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override void NPCLoot()
         {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<Stardust>(), Main.expertMode ? 1 : 2, 1, 3);
             int oreMin = Main.expertMode ? 11 : 8;
             int oreMax = Main.expertMode ? 16 : 12;
             DropHelper.DropItemCondition(npc, ModContent.ItemType<AstralOre>(), CalamityWorld.downedStarGod, oreMin, oreMax);

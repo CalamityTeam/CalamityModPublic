@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             DisplayName.SetDefault("Flask");
             ProjectileID.Sets.MinionShot[projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -42,7 +43,15 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 Main.PlaySound(SoundID.Item107, projectile.Center);
                 int idx = Projectile.NewProjectile(projectile.Center, Vector2.UnitY * 6f, ModContent.ProjectileType<PlaguebringerMK2>(), projectile.damage, 4f, projectile.owner);
-                Main.projectile[idx].ai[1] = CalamityUtils.CountProjectiles(ModContent.ProjectileType<PlaguebringerMK2>());
+                int beeArrayIndex = 0;
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == ModContent.ProjectileType<PlaguebringerMK2>())
+                    {
+                        Main.projectile[i].ai[1] = beeArrayIndex;
+                        beeArrayIndex++;
+                    }
+                }
             }
         }
         public override bool CanDamage() => false;

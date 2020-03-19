@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sulfuric Scale");
+            DisplayName.SetDefault("Sulphuric Scale");
         }
 
         public override void SetDefaults()

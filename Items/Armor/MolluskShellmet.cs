@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<Shellfish>()] < 2)
                 {
-                    int shellfish = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), (int)((double)1500 * (player.allDamage + player.minionDamage - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    int shellfish = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<Shellfish>(), (int)(200f * player.MinionDamage()), 0f, Main.myPlayer, 0f, 0f);
 					Main.projectile[shellfish].Calamity().lineColor = 1;
                 }
             }

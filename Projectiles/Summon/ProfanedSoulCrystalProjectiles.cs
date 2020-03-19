@@ -7,6 +7,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -482,6 +483,49 @@ namespace CalamityMod.Projectiles.Summon
                 return new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
             return new Color(255, 255, 255, projectile.alpha);
+        }
+
+        private void onHit()
+        {
+            
+            Main.PlaySound(new LegacySoundStyle(2, 74, Terraria.Audio.SoundType.Sound), (int)projectile.position.X, (int)projectile.position.Y);
+            if (Main.rand.NextBool(2) || Main.rand.NextBool(3)) //so it's not exactly 1 in 2, but it's not more or less consistently either.
+            {
+                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
+                projectile.width = projectile.height = 200;
+                projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+                projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+                for (int num621 = 0; num621 < 4; num621++)
+                {
+                    int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                    Main.dust[num622].velocity *= 3f;
+                    if (Main.rand.NextBool(2))
+                    {
+                        Main.dust[num622].scale = 0.5f;
+                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    }
+                }
+                for (int num623 = 0; num623 < 12; num623++)
+                {
+                    int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
+                    Main.dust[num624].noGravity = true;
+                    Main.dust[num624].velocity *= 5f;
+                    num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                    Main.dust[num624].velocity *= 2f;
+
+                }
+            }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            onHit();
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            onHit();
         }
     }
     #endregion
