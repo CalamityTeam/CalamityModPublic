@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<BlackHawkRemote>());
+            recipe.AddIngredient(ModContent.ItemType<TacticalPlagueEngine>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 20);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
