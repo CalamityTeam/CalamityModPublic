@@ -5055,7 +5055,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Old Duke Spawn
-        public static void OldDukeSpawn(int plr, int Type)
+        public static void OldDukeSpawn(int plr, int type, int baitType)
         {
             Player player = Main.player[plr];
 
@@ -5065,28 +5065,54 @@ namespace CalamityMod.NPCs
             }
 
             int m = 0;
-            while (m < 1000)
+            while (m < Main.maxProjectiles)
             {
                 Projectile projectile = Main.projectile[m];
                 if (projectile.active && projectile.bobber && projectile.owner == plr)
                 {
-                    // TODO -- Old Duke isn't added yet.
-                    int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, /* ModContent.NPCType<OldDuke>() */ NPCID.DukeFishron);
-                    string typeName2 = Main.npc[num8].TypeName;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue("Announcement.HasAwoken", typeName2), new Color(175, 75, 255));
-                        return;
-                    }
+					if (plr == Main.myPlayer && projectile.ai[0] == 0f)
+					{
+						for (int num13 = 0; num13 < Main.maxInventory; num13++)
+						{
+							if (player.inventory[num13].type == baitType)
+							{
+								player.inventory[num13].stack--;
+								if (player.inventory[num13].stack <= 0)
+								{
+									player.inventory[num13].SetDefaults(0, false);
+								}
+								break;
+							}
+						}
 
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]
-                        {
-                            Main.npc[num8].GetTypeNetName()
-                        }), new Color(175, 75, 255));
-                        return;
-                    }
+						projectile.ai[0] = 2f;
+						projectile.netUpdate = true;
+
+						if (Main.netMode != NetmodeID.MultiplayerClient)
+						{
+							int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, type);
+							string typeName2 = Main.npc[num8].TypeName;
+
+							if (Main.netMode == NetmodeID.SinglePlayer)
+							{
+								Main.NewText(Language.GetTextValue("Announcement.HasAwoken", typeName2), new Color(175, 75, 255));
+								return;
+							}
+
+							if (Main.netMode == NetmodeID.Server)
+							{
+								NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]
+								{
+										Main.npc[num8].GetTypeNetName()
+								}), new Color(175, 75, 255));
+								return;
+							}
+						}
+						else
+						{
+							NetMessage.SendData(61, -1, -1, null, plr, (float)type, 0f, 0f, 0, 0, 0);
+						}
+					}
 
                     break;
                 }

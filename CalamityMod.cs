@@ -36,6 +36,7 @@ using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
@@ -1577,10 +1578,6 @@ namespace CalamityMod
 				ModContent.NPCType<Bumblefuck>(),
 				ModContent.NPCType<Bumblefuck2>(),
 
-				// TODO -- Old Duke isn't added yet.
-                // ModContent.NPCType<OldDuke>(),
-                // ModContent.NPCType<DukeUrchin>(),
-
 				ModContent.NPCType<ProvSpawnDefense>(),
 				ModContent.NPCType<ProvSpawnOffense>(),
 				ModContent.NPCType<CeaselessVoid>(),
@@ -1590,6 +1587,9 @@ namespace CalamityMod
 				ModContent.NPCType<CosmicLantern>(),
 				ModContent.NPCType<Polterghast>(),
 				ModContent.NPCType<PolterPhantom>(),
+				ModContent.NPCType<OldDuke>(),
+				ModContent.NPCType<OldDukeToothBall>(),
+				ModContent.NPCType<OldDukeSharkron>(),
 				ModContent.NPCType<DevourerofGodsBody>(),
 				ModContent.NPCType<DevourerofGodsTail>(),
 				ModContent.NPCType<DevourerofGodsBodyS>(),
@@ -1727,6 +1727,8 @@ namespace CalamityMod
 				ModContent.ProjectileType<PhantomMine>(),
 				ModContent.ProjectileType<PhantomShot>(),
 				ModContent.ProjectileType<PhantomShot2>(),
+				ModContent.ProjectileType<OldDukeGore>(),
+				ModContent.ProjectileType<OldDukeVortex>(),
 				ModContent.ProjectileType<DoGDeath>(),
 				ModContent.ProjectileType<DoGFire>(),
 				ModContent.ProjectileType<DoGNebulaShot>(),

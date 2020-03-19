@@ -1,3 +1,5 @@
+using CalamityMod;
+using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
@@ -6,7 +8,7 @@ using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
-using CalamityMod.CalPlayer;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -16,7 +18,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs
 {
@@ -1402,11 +1403,6 @@ namespace CalamityMod.NPCs
 					npc.netUpdate = true;
 				}
 
-				vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-				num825 = player.position.X + (float)(player.width / 2) - vector82.X;
-				num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
-				npc.rotation = (float)Math.Atan2((double)num826, (double)num825) - 1.57f;
-
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
@@ -1529,11 +1525,6 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y > 0f && num835 < 0f)
 						npc.velocity.Y -= num833;
 				}
-
-				vector83 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-				num834 = player.position.X + (float)(player.width / 2) - vector83.X;
-				num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
-				npc.rotation = (float)Math.Atan2((double)num835, (double)num834) - 1.57f;
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -4156,6 +4147,1235 @@ namespace CalamityMod.NPCs
 							npc.velocity = (npc.velocity * (num1324 - 1f) + vector208) / num1324;
 						}
 					}
+				}
+			}
+		}
+		#endregion
+
+		#region Old Duke
+		public static void OldDukeAI(NPC npc, Mod mod)
+		{
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			// Variables
+			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool phase2 = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.7 : 0.5) || death;
+			bool phase3 = (double)npc.life <= (double)npc.lifeMax * (death ? 0.5 : (revenge ? 0.35 : 0.2)) && expertMode;
+			bool phase2AI = npc.ai[0] > 4f;
+			bool phase3AI = npc.ai[0] > 9f;
+			bool charging = npc.ai[3] < 10f;
+			float pie = (float)Math.PI;
+
+			if (calamityGlobalNPC.newAI[0] >= 300f)
+				calamityGlobalNPC.newAI[1] = 1f;
+
+			if (calamityGlobalNPC.newAI[1] == 1f)
+			{
+				// Play tired sound
+				if (calamityGlobalNPC.newAI[0] % 60f == 0f)
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeHuff"), (int)npc.position.X, (int)npc.position.Y);
+
+				calamityGlobalNPC.newAI[0] -= 1f;
+				if (calamityGlobalNPC.newAI[0] <= 0f)
+					calamityGlobalNPC.newAI[1] = 0f;
+			}
+
+			// Adjust stats
+			calamityGlobalNPC.DR = calamityGlobalNPC.newAI[1] == 1f ? 0.1f : 0.4f;
+			npc.defense = calamityGlobalNPC.newAI[1] == 1f ? npc.defDefense / 4 : npc.defDefense;
+			if (phase3AI)
+			{
+				npc.damage = (int)((float)npc.defDamage * 1.32f);
+			}
+			else if (phase2AI)
+			{
+				npc.damage = (int)((float)npc.defDamage * 1.44f);
+			}
+			else
+			{
+				npc.damage = npc.defDamage;
+			}
+
+			int num2 = 60;
+			float num3 = 0.6f;
+			float scaleFactor = 10f;
+			if (phase3AI)
+			{
+				num3 = 0.75f;
+				scaleFactor = 13f;
+			}
+			else if (phase2AI & charging)
+			{
+				num3 = 0.65f;
+				scaleFactor = 11f;
+			}
+
+			int chargeTime = 36;
+			float chargeVelocity = 19f;
+			if (phase3AI)
+			{
+				chargeTime = 30;
+				chargeVelocity = 25f;
+			}
+			else if (charging & phase2AI)
+			{
+				chargeTime = 33;
+				chargeVelocity = 23f;
+			}
+
+			if (death)
+			{
+				num2 = 54;
+				num3 *= 1.05f;
+				scaleFactor *= 1.08f;
+				chargeTime -= 2;
+				chargeVelocity *= 1.13f;
+			}
+			else if (revenge)
+			{
+				num2 = 57;
+				num3 *= 1.025f;
+				scaleFactor *= 1.04f;
+				chargeTime -= 1;
+				chargeVelocity *= 1.065f;
+			}
+			
+			if (CalamityWorld.bossRushActive)
+			{
+				num2 = 45;
+				num3 *= 1.1f;
+				scaleFactor *= 1.15f;
+				chargeTime -= 3;
+				chargeVelocity *= 1.25f;
+			}
+
+			if (calamityGlobalNPC.newAI[1] == 1f)
+				scaleFactor *= 0.25f;
+
+			// Variables
+			int num6 = 120;
+			int num7 = 24;
+			float num8 = 0.3f;
+			float scaleFactor2 = 6f;
+			int num9 = 120;
+			int num10 = 180;
+			int num11 = 180;
+			int num12 = 30;
+			int num13 = 120;
+			int num14 = 24;
+			float scaleFactor3 = 9f;
+			float scaleFactor4 = 22f;
+			float num15 = pie * 2f / (float)(num13 / 2);
+			int num16 = 75;
+			Vector2 vector = npc.Center;
+			Player player = Main.player[npc.target];
+
+			// Get target
+			if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
+			{
+				npc.TargetClosest(true);
+				player = Main.player[npc.target];
+				npc.netUpdate = true;
+			}
+
+			// Despawn
+			if (player.dead || Vector2.Distance(player.Center, vector) > 5600f)
+			{
+				npc.velocity.Y -= 0.4f;
+
+				if (npc.timeLeft > 10)
+					npc.timeLeft = 10;
+
+				if (npc.ai[0] > 4f)
+					npc.ai[0] = 5f;
+				else
+					npc.ai[0] = 0f;
+
+				npc.ai[2] = 0f;
+			}
+
+			// Enrage variable
+			bool enrage = !CalamityWorld.bossRushActive &&
+				(player.position.Y < 300f || (double)player.position.Y > Main.worldSurface * 16.0 ||
+				(player.position.X > 7200f && player.position.X < (float)(Main.maxTilesX * 16 - 7200)));
+
+			// If the player isn't in the ocean biome or Old Duke is transitioning between phases, become immune
+			if (!phase3AI)
+				npc.dontTakeDamage = npc.ai[0] == -1f || npc.ai[0] == 4f || npc.ai[0] == 9f || enrage;
+
+			// Enrage
+			if (enrage)
+			{
+				num2 = 40;
+				npc.damage = npc.defDamage * 2;
+				npc.defense = npc.defDefense * 2;
+				npc.ai[3] = 0f;
+				chargeVelocity += 8f;
+			}
+
+			// Set variables for spawn effects
+			if (npc.localAI[0] == 0f)
+			{
+				npc.localAI[0] = 1f;
+				npc.alpha = 255;
+				npc.rotation = 0f;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					npc.ai[0] = -1f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Rotation
+			float num17 = (float)Math.Atan2((double)(player.Center.Y - vector.Y), (double)(player.Center.X - vector.X));
+			if (npc.spriteDirection == 1)
+				num17 += pie;
+			if (num17 < 0f)
+				num17 += pie * 2f;
+			if (num17 > pie * 2f)
+				num17 -= pie * 2f;
+			if (npc.ai[0] == -1f || npc.ai[0] == 3f || npc.ai[0] == 4f)
+				num17 = 0f;
+			if (npc.ai[0] == 8f || npc.ai[0] == 13f)
+			{
+				num17 = pie * 0.1666666667f;
+
+				// I fucking hate rotation code
+				if (npc.spriteDirection == -1)
+					num17 = 0f;
+			}
+
+			float num18 = 0.04f;
+			if (npc.ai[0] == 1f || npc.ai[0] == 6f || npc.ai[0] == 7f || npc.ai[0] == 14f)
+				num18 = 0f;
+			if (npc.ai[0] == 3f || npc.ai[0] == 4f)
+				num18 = 0.01f;
+			if (npc.ai[0] == 8f || npc.ai[0] == 13f)
+				num18 = 0.05f;
+
+			if (npc.rotation < num17)
+			{
+				if (num17 - npc.rotation > pie)
+					npc.rotation -= num18;
+				else
+					npc.rotation += num18;
+			}
+			if (npc.rotation > num17)
+			{
+				if (npc.rotation - num17 > pie)
+					npc.rotation += num18;
+				else
+					npc.rotation -= num18;
+			}
+
+			if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
+				npc.rotation = num17;
+			if (npc.rotation < 0f)
+				npc.rotation += pie * 2f;
+			if (npc.rotation > pie * 2f)
+				npc.rotation -= pie * 2f;
+			if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
+				npc.rotation = num17;
+
+			// Alpha adjustments
+			if (npc.ai[0] != -1f && (npc.ai[0] < 9f || npc.ai[0] > 12f))
+			{
+				if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+					npc.alpha += 15;
+				else
+					npc.alpha -= 15;
+
+				if (npc.alpha < 0)
+					npc.alpha = 0;
+				if (npc.alpha > 150)
+					npc.alpha = 150;
+			}
+
+			// Spawn effects
+			if (npc.ai[0] == -1f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+
+				// Direction
+				int num19 = Math.Sign(player.Center.X - vector.X);
+				if (num19 != 0)
+				{
+					npc.direction = num19;
+					npc.spriteDirection = -npc.direction;
+				}
+
+				// Alpha
+				if (npc.ai[2] > 20f)
+				{
+					npc.velocity.Y = -2f;
+
+					npc.alpha -= 5;
+					if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+						npc.alpha += 15;
+					if (npc.alpha < 0)
+						npc.alpha = 0;
+					if (npc.alpha > 150)
+						npc.alpha = 150;
+				}
+
+				// Spawn dust and play sound
+				if (npc.ai[2] == (float)(num9 - 30))
+				{
+					int num20 = 36;
+					for (int i = 0; i < num20; i++)
+					{
+						Vector2 dust = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * pie * 2f / (float)num20), default) + npc.Center;
+						Vector2 vector2 = dust - npc.Center;
+						int num21 = Dust.NewDust(dust + vector2, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, vector2.X * 2f, vector2.Y * 2f, 100, default, 1.4f);
+						Main.dust[num21].noGravity = true;
+						Main.dust[num21].noLight = true;
+						Main.dust[num21].velocity = Vector2.Normalize(vector2) * 3f;
+					}
+
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num16)
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Phase 1
+			else if (npc.ai[0] == 0f && !player.dead)
+			{
+				// Velocity
+				if (npc.ai[1] == 0f)
+					npc.ai[1] = (float)(500 * Math.Sign((vector - player.Center).X));
+
+				Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
+				if (npc.velocity.X < vector3.X)
+				{
+					npc.velocity.X += num3;
+					if (npc.velocity.X < 0f && vector3.X > 0f)
+						npc.velocity.X += num3;
+				}
+				else if (npc.velocity.X > vector3.X)
+				{
+					npc.velocity.X -= num3;
+					if (npc.velocity.X > 0f && vector3.X < 0f)
+						npc.velocity.X -= num3;
+				}
+				if (npc.velocity.Y < vector3.Y)
+				{
+					npc.velocity.Y += num3;
+					if (npc.velocity.Y < 0f && vector3.Y > 0f)
+						npc.velocity.Y += num3;
+				}
+				else if (npc.velocity.Y > vector3.Y)
+				{
+					npc.velocity.Y -= num3;
+					if (npc.velocity.Y > 0f && vector3.Y < 0f)
+						npc.velocity.Y -= num3;
+				}
+
+				// Rotation and direction
+				int num22 = Math.Sign(player.Center.X - vector.X);
+				if (num22 != 0)
+				{
+					if (npc.ai[2] == 0f && num22 != npc.direction)
+						npc.rotation += pie;
+
+					npc.direction = num22;
+
+					if (npc.spriteDirection != -npc.direction)
+						npc.rotation += pie;
+
+					npc.spriteDirection = -npc.direction;
+				}
+
+				// Phase switch
+				if (calamityGlobalNPC.newAI[1] != 1f || (phase2 && !phase2AI))
+				{
+					npc.ai[2] += 1f;
+					if (npc.ai[2] >= (float)num2 || (phase2 && !phase2AI))
+					{
+						int num23 = 0;
+						switch ((int)npc.ai[3])
+						{
+							case 0:
+							case 1:
+							case 2:
+							case 3:
+							case 4:
+							case 5:
+								num23 = 1;
+								break;
+							case 6:
+								npc.ai[3] = 1f;
+								num23 = 2;
+								break;
+							case 7:
+								npc.ai[3] = 0f;
+								num23 = 3;
+								break;
+						}
+
+						if (phase2)
+							num23 = 4;
+
+						// Set velocity for charge
+						if (num23 == 1)
+						{
+							npc.ai[0] = 1f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+
+							// Velocity
+							Vector2 distanceVector = player.Center + player.velocity * 20f - vector;
+							npc.velocity = Vector2.Normalize(distanceVector) * chargeVelocity;
+							npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+							// Direction
+							if (num22 != 0)
+							{
+								npc.direction = num22;
+
+								if (npc.spriteDirection == 1)
+									npc.rotation += pie;
+
+								npc.spriteDirection = -npc.direction;
+							}
+						}
+
+						// Tooth Balls
+						else if (num23 == 2)
+						{
+							npc.ai[0] = 2f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+						}
+
+						// Call sharks from the sides of the screen
+						else if (num23 == 3)
+						{
+							npc.ai[0] = 3f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+						}
+
+						// Go to phase 2
+						else if (num23 == 4)
+						{
+							npc.ai[0] = 4f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+						}
+
+						npc.netUpdate = true;
+					}
+				}
+			}
+
+			// Charge
+			else if (npc.ai[0] == 1f)
+			{
+				// Accelerate
+				npc.velocity *= 1.01f;
+
+				// Spawn dust
+				int num24 = 7;
+				for (int j = 0; j < num24; j++)
+				{
+					Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * (double)pie / (double)(float)num24, default) + vector;
+					Vector2 vector4 = ((float)(Main.rand.NextDouble() * (double)pie) - pie * 0.5f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+					int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
+					Main.dust[num25].noGravity = true;
+					Main.dust[num25].noLight = true;
+					Main.dust[num25].velocity /= 4f;
+					Main.dust[num25].velocity -= npc.velocity;
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)chargeTime)
+				{
+					calamityGlobalNPC.newAI[0] += 45f;
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] += 2f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Tooth Ball belch
+			else if (npc.ai[0] == 2f)
+			{
+				// Velocity
+				if (npc.ai[1] == 0f)
+					npc.ai[1] = (float)(500 * Math.Sign((vector - player.Center).X));
+
+				Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor2;
+				if (npc.velocity.X < vector5.X)
+				{
+					npc.velocity.X += num8;
+					if (npc.velocity.X < 0f && vector5.X > 0f)
+						npc.velocity.X += num8;
+				}
+				else if (npc.velocity.X > vector5.X)
+				{
+					npc.velocity.X -= num8;
+					if (npc.velocity.X > 0f && vector5.X < 0f)
+						npc.velocity.X -= num8;
+				}
+				if (npc.velocity.Y < vector5.Y)
+				{
+					npc.velocity.Y += num8;
+					if (npc.velocity.Y < 0f && vector5.Y > 0f)
+						npc.velocity.Y += num8;
+				}
+				else if (npc.velocity.Y > vector5.Y)
+				{
+					npc.velocity.Y -= num8;
+					if (npc.velocity.Y > 0f && vector5.Y < 0f)
+						npc.velocity.Y -= num8;
+				}
+
+				// Play sounds and spawn Tooth Balls
+				if (npc.ai[2] == 0f)
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+
+				if (npc.ai[2] % (float)num7 == 0f)
+				{
+					if (npc.ai[2] % 40f == 0f && npc.ai[2] != 0f)
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (float)(npc.width + 20) / 2f + vector;
+						NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, ModContent.NPCType<OldDukeToothBall>(), 0, 0f, 0f, 0f, 0f, 255);
+					}
+				}
+
+				// Direction
+				int num26 = Math.Sign(player.Center.X - vector.X);
+				if (num26 != 0)
+				{
+					npc.direction = num26;
+					if (npc.spriteDirection != -npc.direction)
+						npc.rotation += pie;
+					npc.spriteDirection = -npc.direction;
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num6)
+				{
+					calamityGlobalNPC.newAI[0] += 45f;
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Call sharks from the sides of the screen
+			else if (npc.ai[0] == 3f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Play sound and spawn sharks
+				if (npc.ai[2] == (float)(num9 - 30))
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+
+				if (npc.ai[2] >= (float)(num9 - 90))
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
+					{
+						calamityGlobalNPC.newAI[2] += 100f;
+						NPC.NewNPC((int)(vector.X + 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, (float)npc.whoAmI, 0f, 255);
+						NPC.NewNPC((int)(vector.X - 900f), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, (float)npc.whoAmI, 0f, 255);
+					}
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num9)
+				{
+					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Transition to phase 2 and call sharks from below
+			else if (npc.ai[0] == 4f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Sound
+				if (npc.ai[2] == (float)(num10 - 60))
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+
+				if (npc.ai[2] >= (float)(num10 - 60))
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
+					{
+						calamityGlobalNPC.newAI[2] += 150f;
+						NPC.NewNPC((int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, -12f, 255);
+						NPC.NewNPC((int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y + 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, -12f, 255);
+					}
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num10)
+				{
+					calamityGlobalNPC.newAI[0] = 0f;
+					calamityGlobalNPC.newAI[1] = 0f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					npc.ai[0] = 5f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Phase 2
+			else if (npc.ai[0] == 5f && !player.dead)
+			{
+				// Velocity
+				if (npc.ai[1] == 0f)
+					npc.ai[1] = (float)(500 * Math.Sign((vector - player.Center).X));
+
+				Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
+				if (npc.velocity.X < vector8.X)
+				{
+					npc.velocity.X += num3;
+					if (npc.velocity.X < 0f && vector8.X > 0f)
+						npc.velocity.X += num3;
+				}
+				else if (npc.velocity.X > vector8.X)
+				{
+					npc.velocity.X -= num3;
+					if (npc.velocity.X > 0f && vector8.X < 0f)
+						npc.velocity.X -= num3;
+				}
+				if (npc.velocity.Y < vector8.Y)
+				{
+					npc.velocity.Y += num3;
+					if (npc.velocity.Y < 0f && vector8.Y > 0f)
+						npc.velocity.Y += num3;
+				}
+				else if (npc.velocity.Y > vector8.Y)
+				{
+					npc.velocity.Y -= num3;
+					if (npc.velocity.Y > 0f && vector8.Y < 0f)
+						npc.velocity.Y -= num3;
+				}
+
+				// Direction and rotation
+				int num27 = Math.Sign(player.Center.X - vector.X);
+				if (num27 != 0)
+				{
+					if (npc.ai[2] == 0f && num27 != npc.direction)
+						npc.rotation += pie;
+
+					npc.direction = num27;
+
+					if (npc.spriteDirection != -npc.direction)
+						npc.rotation += pie;
+
+					npc.spriteDirection = -npc.direction;
+				}
+
+				// Phase switch
+				if (calamityGlobalNPC.newAI[1] != 1f || (phase3 && !phase3AI))
+				{
+					npc.ai[2] += 1f;
+					if (npc.ai[2] >= (float)num2 || (phase3 && !phase3AI))
+					{
+						int num28 = 0;
+						switch ((int)npc.ai[3])
+						{
+							case 0:
+							case 1:
+							case 2:
+							case 3:
+								num28 = 1;
+								break;
+							case 4:
+								npc.ai[3] = 1f;
+								num28 = 2;
+								break;
+							case 5:
+								npc.ai[3] = 0f;
+								num28 = 3;
+								break;
+						}
+
+						if (phase3)
+							num28 = 4;
+
+						// Set velocity for charge
+						if (num28 == 1)
+						{
+							npc.ai[0] = 6f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+
+							// Velocity and rotation
+							Vector2 distanceVector = player.Center + player.velocity * 20f - vector;
+							npc.velocity = Vector2.Normalize(distanceVector) * chargeVelocity;
+							npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+							// Direction
+							if (num27 != 0)
+							{
+								npc.direction = num27;
+
+								if (npc.spriteDirection == 1)
+									npc.rotation += pie;
+
+								npc.spriteDirection = -npc.direction;
+							}
+						}
+
+						// Set velocity for spin
+						else if (num28 == 2)
+						{
+							// Velocity and rotation
+							npc.velocity = Vector2.Normalize(player.Center - vector) * scaleFactor4;
+							npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+							// Direction
+							if (num27 != 0)
+							{
+								npc.direction = num27;
+
+								if (npc.spriteDirection == 1)
+									npc.rotation += pie;
+
+								npc.spriteDirection = -npc.direction;
+							}
+
+							npc.ai[0] = 7f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+						}
+
+						else if (num28 == 3)
+						{
+							npc.ai[0] = 8f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+						}
+
+						// Go to next phase
+						else if (num28 == 4)
+						{
+							npc.ai[0] = 9f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+						}
+
+						npc.netUpdate = true;
+					}
+				}
+			}
+
+			// Charge
+			else if (npc.ai[0] == 6f)
+			{
+				// Accelerate
+				npc.velocity *= 1.01f;
+
+				// Spawn dust
+				int num29 = 7;
+				for (int k = 0; k < num29; k++)
+				{
+					Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(k - (num29 / 2 - 1)) * (double)pie / (double)(float)num29, default) + vector;
+					Vector2 vector9 = ((float)(Main.rand.NextDouble() * (double)pie) - pie * 0.5f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+					int num30 = Dust.NewDust(arg_1A97_0 + vector9, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, vector9.X * 2f, vector9.Y * 2f, 100, default, 1.4f);
+					Main.dust[num30].noGravity = true;
+					Main.dust[num30].noLight = true;
+					Main.dust[num30].velocity /= 4f;
+					Main.dust[num30].velocity -= npc.velocity;
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)chargeTime)
+				{
+					calamityGlobalNPC.newAI[0] += 45f;
+					npc.ai[0] = 5f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] += 2f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Tooth Ball and Vortex spin
+			else if (npc.ai[0] == 7f)
+			{
+				// Play sounds and spawn Tooth Balls and a Vortex
+				if (npc.ai[2] == 0f)
+				{
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+
+					int damage = expertMode ? 100 : 140;
+					float x = vector.X + 120f * (float)npc.direction;
+					float y = vector.Y - 120f;
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Projectile.NewProjectile(x, y, 0f, 0f, ModContent.ProjectileType<OldDukeVortex>(), damage, 0f, Main.myPlayer, x, y);
+					}
+				}
+
+				if (npc.ai[2] % (float)num14 == 0f)
+				{
+					if (npc.ai[2] % 45f == 0f && npc.ai[2] != 0f)
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (float)(npc.width + 20) / 2f + vector;
+						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>(), 0, 0f, 0f, 0f, 0f, 255);
+						Main.npc[num31].target = npc.target;
+						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy((double)(1.57079637f * (float)npc.direction), default) * scaleFactor3;
+						Main.npc[num31].netUpdate = true;
+						Main.npc[num31].ai[3] = (float)Main.rand.Next(30, 181);
+					}
+				}
+
+				// Velocity and rotation
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num15 * (float)npc.direction), default);
+				npc.rotation -= num15 * (float)npc.direction;
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num13)
+				{
+					calamityGlobalNPC.newAI[0] += 45f;
+					npc.ai[0] = 5f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Vomit a huge amount of gore into the sky and call sharks from the sides of the screen
+			else if (npc.ai[0] == 8f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Play sound
+				if (npc.ai[2] == (float)(num9 - 30))
+				{
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * (float)npc.direction) * (float)(npc.width + 20) / 2f + vector;
+						int damage = expertMode ? 55 : 70;
+						for (int i = 0; i < 20; i++)
+						{
+							float velocityX = (float)(npc.direction * 6) * (Main.rand.NextFloat() + 0.5f);
+							float velocityY = 8f * (Main.rand.NextFloat() + 0.5f);
+							Projectile.NewProjectile(vector7.X, vector7.Y, velocityX, -velocityY, ModContent.ProjectileType<OldDukeGore>(), damage, 0f, Main.myPlayer, 0f, 0f);
+						}
+					}
+				}
+
+				if (npc.ai[2] >= (float)(num9 - 90))
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
+					{
+						calamityGlobalNPC.newAI[2] += 100f;
+						float x = 900f - calamityGlobalNPC.newAI[2];
+						NPC.NewNPC((int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, (float)npc.whoAmI, 0f, 255);
+						NPC.NewNPC((int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, (float)npc.whoAmI, 0f, 255);
+					}
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num9)
+				{
+					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					npc.ai[0] = 5f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Transition to phase 3 and summon sharks from above
+			else if (npc.ai[0] == 9f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Sound
+				if (npc.ai[2] == (float)(num11 - 60))
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+
+				if (npc.ai[2] >= (float)(num11 - 60))
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
+					{
+						calamityGlobalNPC.newAI[2] += 200f;
+						NPC.NewNPC((int)(vector.X + 50f + calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, 1f, 12f, 255);
+						NPC.NewNPC((int)(vector.X - 50f - calamityGlobalNPC.newAI[2]), (int)(vector.Y - 540f), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, -1f, 12f, 255);
+					}
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num11)
+				{
+					calamityGlobalNPC.newAI[0] = 0f;
+					calamityGlobalNPC.newAI[1] = 0f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					npc.ai[0] = 10f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Phase 3
+			// Most of this will need to be rewritten
+			else if (npc.ai[0] == 10f && !player.dead)
+			{
+				// Alpha
+				npc.alpha -= 25;
+				if (npc.alpha < 0)
+					npc.alpha = 0;
+
+				// Teleport location
+				if (npc.ai[1] == 0f)
+					npc.ai[1] = (float)(540 * Math.Sign((vector - player.Center).X));
+
+				Vector2 desiredVelocity = Vector2.Normalize(player.Center + new Vector2(-npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
+				npc.SimpleFlyMovement(desiredVelocity, num3);
+
+				// Rotation and direction
+				int num32 = Math.Sign(player.Center.X - vector.X);
+				if (num32 != 0)
+				{
+					if (npc.ai[2] == 0f && num32 != npc.direction)
+					{
+						npc.rotation += pie;
+						for (int l = 0; l < npc.oldPos.Length; l++)
+							npc.oldPos[l] = Vector2.Zero;
+					}
+
+					npc.direction = num32;
+
+					if (npc.spriteDirection != -npc.direction)
+						npc.rotation += pie;
+
+					npc.spriteDirection = -npc.direction;
+				}
+
+				// Phase switch
+				if (calamityGlobalNPC.newAI[1] != 1f)
+				{
+					npc.ai[2] += 1f;
+					if (npc.ai[2] >= (float)num2)
+					{
+						int num33 = 0;
+						switch ((int)npc.ai[3])
+						{
+							case 0:
+							case 2:
+							case 3:
+							case 5:
+							case 6:
+							case 7:
+								num33 = 1;
+								break;
+							case 1:
+							case 8:
+								num33 = 2;
+								break;
+							case 4:
+								npc.ai[3] = 1f;
+								num33 = 3;
+								break;
+							case 9:
+								npc.ai[3] = 6f;
+								num33 = 4;
+								break;
+						}
+
+						// Set velocity for charge
+						if (num33 == 1)
+						{
+							npc.ai[0] = 11f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+
+							// Velocity and rotation
+							Vector2 distanceVector = player.Center + player.velocity * 20f - vector;
+							npc.velocity = Vector2.Normalize(distanceVector) * chargeVelocity;
+							npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+							// Direction
+							if (num32 != 0)
+							{
+								npc.direction = num32;
+
+								if (npc.spriteDirection == 1)
+									npc.rotation += pie;
+
+								npc.spriteDirection = -npc.direction;
+							}
+						}
+
+						// Pause
+						else if (num33 == 2)
+						{
+							npc.ai[0] = 12f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+						}
+
+						else if (num33 == 3)
+						{
+							npc.ai[0] = 13f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+						}
+
+						// Set velocity for spin
+						else if (num33 == 4)
+						{
+							// Velocity and rotation
+							npc.velocity = Vector2.Normalize(player.Center - vector) * scaleFactor4;
+							npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+
+							// Direction
+							if (num32 != 0)
+							{
+								npc.direction = num32;
+
+								if (npc.spriteDirection == 1)
+									npc.rotation += pie;
+
+								npc.spriteDirection = -npc.direction;
+							}
+
+							npc.ai[0] = 14f;
+							npc.ai[1] = 0f;
+							npc.ai[2] = 0f;
+						}
+
+						npc.netUpdate = true;
+					}
+				}
+			}
+
+			// Charge
+			else if (npc.ai[0] == 11f)
+			{
+				// Accelerate
+				npc.velocity *= 1.01f;
+
+				// Spawn dust
+				int num34 = 7;
+				for (int m = 0; m < num34; m++)
+				{
+					Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(m - (num34 / 2 - 1)) * (double)pie / (double)(float)num34, default) + vector;
+					Vector2 vector11 = ((float)(Main.rand.NextDouble() * (double)pie) - pie * 0.5f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+					int num35 = Dust.NewDust(arg_2444_0 + vector11, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, vector11.X * 2f, vector11.Y * 2f, 100, default, 1.4f);
+					Main.dust[num35].noGravity = true;
+					Main.dust[num35].noLight = true;
+					Main.dust[num35].velocity /= 4f;
+					Main.dust[num35].velocity -= npc.velocity;
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)chargeTime)
+				{
+					calamityGlobalNPC.newAI[0] += 45f;
+					npc.ai[0] = 10f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] += 2f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Pause before teleport
+			else if (npc.ai[0] == 12f)
+			{
+				npc.dontTakeDamage = true;
+
+				// Alpha
+				if (npc.alpha < 255 && npc.ai[2] >= (float)num12 - 15f)
+				{
+					npc.alpha += 17;
+					if (npc.alpha > 255)
+						npc.alpha = 255;
+				}
+
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Play sound
+				if (npc.ai[2] == (float)(num12 / 2))
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num12 / 2))
+				{
+					// Teleport location
+					if (npc.ai[1] == 0f)
+						npc.ai[1] = (float)(480 * Math.Sign((vector - player.Center).X));
+
+					// Rotation and direction
+					Vector2 center = player.Center + new Vector2(npc.ai[1], -300f);
+					vector = npc.Center = center;
+					int num36 = Math.Sign(player.Center.X - vector.X);
+					if (num36 != 0)
+					{
+						if (npc.ai[2] == 0f && num36 != npc.direction)
+						{
+							npc.rotation += pie;
+							for (int n = 0; n < npc.oldPos.Length; n++)
+								npc.oldPos[n] = Vector2.Zero;
+						}
+
+						npc.direction = num36;
+
+						if (npc.spriteDirection != -npc.direction)
+							npc.rotation += pie;
+
+						npc.spriteDirection = -npc.direction;
+					}
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num12)
+				{
+					npc.ai[0] = 10f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+
+					npc.ai[3] += 2f;
+					if (npc.ai[3] >= 9f)
+						npc.ai[3] = 0f;
+
+					npc.dontTakeDamage = false;
+
+					npc.netUpdate = true;
+				}
+			}
+
+			// Vomit a huge amount of gore into the sky and call sharks from the sides of the screen
+			else if (npc.ai[0] == 13f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
+
+				// Play sound
+				if (npc.ai[2] == (float)(num9 - 30))
+				{
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * (float)npc.direction) * (float)(npc.width + 20) / 2f + vector;
+						int damage = expertMode ? 55 : 70;
+						for (int i = 0; i < 20; i++)
+						{
+							float velocityX = (float)(npc.direction * 6) * (Main.rand.NextFloat() + 0.5f);
+							float velocityY = 8f * (Main.rand.NextFloat() + 0.5f);
+							Projectile.NewProjectile(vector7.X, vector7.Y, velocityX, -velocityY, ModContent.ProjectileType<OldDukeGore>(), damage, 0f, Main.myPlayer, 0f, 0f);
+						}
+					}
+				}
+
+				if (npc.ai[2] >= (float)(num9 - 90))
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] % 18f == 0f)
+					{
+						calamityGlobalNPC.newAI[2] += 150f;
+						float x = 900f - calamityGlobalNPC.newAI[2];
+						NPC.NewNPC((int)(vector.X + x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, (float)npc.whoAmI, 0f, 255);
+						NPC.NewNPC((int)(vector.X - x), (int)(vector.Y - calamityGlobalNPC.newAI[2]), ModContent.NPCType<OldDukeSharkron>(), 0, 0f, 0f, (float)npc.whoAmI, 0f, 255);
+					}
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num9)
+				{
+					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[2] = 0f;
+					npc.ai[0] = 10f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
+				}
+			}
+
+			// Tooth Ball and Vortex spin
+			else if (npc.ai[0] == 14f)
+			{
+				// Play sounds and spawn Tooth Balls and a Vortex
+				if (npc.ai[2] == 0f)
+				{
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
+
+					int damage = expertMode ? 100 : 140;
+					float x = vector.X + 120f * (float)npc.direction;
+					float y = vector.Y - 120f;
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Projectile.NewProjectile(x, y, 0f, 0f, ModContent.ProjectileType<OldDukeVortex>(), damage, 0f, Main.myPlayer, x, y);
+					}
+				}
+
+				if (npc.ai[2] % (float)num14 == 0f)
+				{
+					if (npc.ai[2] % 45f == 0f && npc.ai[2] != 0f)
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeVomit"), (int)npc.position.X, (int)npc.position.Y);
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (float)(npc.width + 20) / 2f + vector;
+						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>(), 0, 0f, 0f, 0f, 0f, 255);
+						Main.npc[num31].target = npc.target;
+						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy((double)(1.57079637f * (float)npc.direction), default) * scaleFactor3;
+						Main.npc[num31].netUpdate = true;
+						Main.npc[num31].ai[3] = (float)Main.rand.Next(30, 361);
+					}
+				}
+
+				// Velocity and rotation
+				npc.velocity = npc.velocity.RotatedBy((double)(-(double)num15 * (float)npc.direction), default);
+				npc.rotation -= num15 * (float)npc.direction;
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= (float)num13)
+				{
+					calamityGlobalNPC.newAI[0] += 45f;
+					npc.ai[0] = 10f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.netUpdate = true;
 				}
 			}
 		}

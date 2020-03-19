@@ -35,7 +35,30 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num469].noGravity = true;
                 Main.dust[num469].velocity = dspeed;
             }
-        }
+
+			float num1247 = 0.5f;
+			for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
+			{
+				if (Main.projectile[num1248].active)
+				{
+					if (num1248 != projectile.whoAmI && Main.projectile[num1248].type == projectile.type)
+					{
+						if (Vector2.Distance(projectile.Center, Main.projectile[num1248].Center) < 96f)
+						{
+							if (projectile.position.X < Main.projectile[num1248].position.X)
+								projectile.velocity.X -= num1247;
+							else
+								projectile.velocity.X += num1247;
+
+							if (projectile.position.Y < Main.projectile[num1248].position.Y)
+								projectile.velocity.Y -= num1247;
+							else
+								projectile.velocity.Y += num1247;
+						}
+					}
+				}
+			}
+		}
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

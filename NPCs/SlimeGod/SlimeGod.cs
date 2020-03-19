@@ -120,7 +120,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             bool flag100 = false;
-            bool hyperMode = death;
+            bool hyperMode = npc.localAI[1] == 1f;
             if (CalamityGlobalNPC.slimeGodRed != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.slimeGodRed].active)
@@ -245,7 +245,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         if (npc.ai[3] >= 2f)
                         {
                             npc.ai[3] = 0f;
-                            num1881 *= 1.5f;
+                            num1881 *= 1.25f;
                             num1880 *= 0.75f;
                         }
                         npc.ai[1] = 0f;

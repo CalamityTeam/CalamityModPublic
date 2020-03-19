@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Polterghast
             npc.height = 120;
             npc.defense = 90;
             CalamityGlobalNPC global = npc.Calamity();
-            global.DR = 0.1f;
+            global.DR = 0.15f;
             global.customDR = true;
             global.multDRReductions.Add(BuffID.Ichor, 0.88f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
@@ -55,8 +55,8 @@ namespace CalamityMod.NPCs.Polterghast
             double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
-            npc.aiStyle = -1; //new
-            aiType = -1; //new
+            npc.aiStyle = -1;
+            aiType = -1;
             npc.value = Item.buyPrice(0, 60, 0, 0);
             npc.boss = true;
             for (int k = 0; k < npc.buffImmune.Length; k++)

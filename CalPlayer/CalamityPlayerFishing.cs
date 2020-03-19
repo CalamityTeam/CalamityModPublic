@@ -7,7 +7,10 @@ using CalamityMod.Items.Fishing.SulphurCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables;
+using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.NPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -46,6 +49,12 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.ZoneAbyss || modPlayer.ZoneSulphur)
 				canSulphurFish = true;
+
+			// Old Duke spawn
+			if (canSulphurFish && bait.type == ModContent.ItemType<BloodwormItem>() && water)
+			{
+				CalamityGlobalNPC.OldDukeSpawn(player.whoAmI, ModContent.NPCType<OldDuke>(), bait.type);
+			}
 
 			// Quest Fish
 			if (modPlayer.ZoneSunkenSea && questFish == ModContent.ItemType<EutrophicSandfish>() && Main.rand.NextBool(10))

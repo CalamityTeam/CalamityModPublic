@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				npc.timeLeft = 1800;
 
 			bool flag100 = false;
-            bool hyperMode = death;
+            bool hyperMode = npc.localAI[1] == 1f;
             if (CalamityGlobalNPC.slimeGodPurple != -1)
             {
                 if (Main.npc[CalamityGlobalNPC.slimeGodPurple].active)
@@ -236,7 +236,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (npc.ai[1] > num1879)
                     {
                         num1881 *= 0.75f;
-                        num1880 *= 1.5f;
+                        num1880 *= 1.25f;
                         npc.ai[1] = 0f;
                         npc.velocity.Y -= num1881;
                         npc.velocity.X = num1880 * (float)npc.direction;

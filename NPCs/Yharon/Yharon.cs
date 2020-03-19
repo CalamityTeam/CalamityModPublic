@@ -2918,10 +2918,10 @@ namespace CalamityMod.NPCs.Yharon
             if ((!startSecondAI && (npc.ai[0] == 0f || npc.ai[0] == 6f || npc.ai[0] == 13f || npc.ai[0] == 21f)) ||
                 (startSecondAI && (npc.ai[0] == 5f || npc.ai[0] < 2f))) //idle
             {
-                int num84 = 4; //5
+                int num84 = 5;
                 if (!startSecondAI && (npc.ai[0] == 6f || npc.ai[0] == 13f || npc.ai[0] == 21f)) //Phase ai switch
                 {
-                    num84 = 3; //4
+                    num84 = 4;
                 }
                 npc.frameCounter += 1.0;
                 if (npc.frameCounter > (double)num84)
@@ -2929,7 +2929,7 @@ namespace CalamityMod.NPCs.Yharon
                     npc.frameCounter = 0.0;
                     npc.frame.Y = npc.frame.Y + frameHeight;
                 }
-                if (npc.frame.Y >= frameHeight * 5) //6
+                if (npc.frame.Y >= frameHeight * 5)
                 {
                     npc.frame.Y = 0;
                 }
@@ -2937,12 +2937,12 @@ namespace CalamityMod.NPCs.Yharon
             if ((!startSecondAI && (npc.ai[0] == 1f || npc.ai[0] == 5f || npc.ai[0] == 7f || npc.ai[0] == 11f || npc.ai[0] == 14f || npc.ai[0] == 18f || npc.ai[0] == 22f)) ||
                 (startSecondAI && (npc.ai[0] == 6f || npc.ai[0] == 2f || npc.ai[0] == 7f))) //Charging or birb spawn
             {
-                npc.frame.Y = frameHeight * 5; //6
+                npc.frame.Y = frameHeight * 5;
             }
             if ((!startSecondAI && (npc.ai[0] == 2f || npc.ai[0] == 8f || npc.ai[0] == 12f || npc.ai[0] == 15f || npc.ai[0] == 19f || npc.ai[0] == 23f)) ||
                 (startSecondAI && (npc.ai[0] == 4f || npc.ai[0] == 3f || npc.ai[0] == 8f))) //Fireball spit, teleport, circle, flamethrower
             {
-                npc.frame.Y = frameHeight * 5; //6
+                npc.frame.Y = frameHeight * 5;
             }
             if (!startSecondAI && (npc.ai[0] == 3f || npc.ai[0] == 9f || npc.ai[0] == -1f || npc.ai[0] == 16f || npc.ai[0] == 20f || npc.ai[0] == 24f)) //Summon tornadoes
             {
@@ -2950,22 +2950,22 @@ namespace CalamityMod.NPCs.Yharon
                 if (npc.ai[2] < (float)(num85 - 30) || npc.ai[2] > (float)(num85 - 10))
                 {
                     npc.frameCounter += 1.0;
-                    if (npc.frameCounter > 4.0) //5
+                    if (npc.frameCounter > 5.0)
                     {
                         npc.frameCounter = 0.0;
                         npc.frame.Y = npc.frame.Y + frameHeight;
                     }
-                    if (npc.frame.Y >= frameHeight * 5) //6
+                    if (npc.frame.Y >= frameHeight * 5)
                     {
                         npc.frame.Y = 0;
                     }
                 }
                 else
                 {
-                    npc.frame.Y = frameHeight * 5; //6
+                    npc.frame.Y = frameHeight * 5;
                     if (npc.ai[2] > (float)(num85 - 20) && npc.ai[2] < (float)(num85 - 15))
                     {
-                        npc.frame.Y = frameHeight * 6; //7
+                        npc.frame.Y = frameHeight * 6;
                     }
                 }
             }
@@ -2976,22 +2976,22 @@ namespace CalamityMod.NPCs.Yharon
                 if (npc.ai[2] < (float)(num86 - 60) || npc.ai[2] > (float)(num86 - 20))
                 {
                     npc.frameCounter += 1.0;
-                    if (npc.frameCounter > 4.0) //5
+                    if (npc.frameCounter > 5.0)
                     {
                         npc.frameCounter = 0.0;
                         npc.frame.Y = npc.frame.Y + frameHeight;
                     }
-                    if (npc.frame.Y >= frameHeight * 5) //6
+                    if (npc.frame.Y >= frameHeight * 5)
                     {
                         npc.frame.Y = 0;
                     }
                 }
                 else
                 {
-                    npc.frame.Y = frameHeight * 5; //6
+                    npc.frame.Y = frameHeight * 5;
                     if (npc.ai[2] > (float)(num86 - 50) && npc.ai[2] < (float)(num86 - 25))
                     {
-                        npc.frame.Y = frameHeight * 6; //7
+                        npc.frame.Y = frameHeight * 6;
                     }
                 }
             }
