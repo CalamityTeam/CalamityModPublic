@@ -644,6 +644,8 @@ namespace CalamityMod.CalPlayer
 				fishingLevel = (int)(fishingLevel * 1.1f);
 			if (Main.player[Main.myPlayer].ZoneSkyHeight && fishingRod.type == ModContent.ItemType<HeronRod>())
 				fishingLevel = (int)(fishingLevel * 1.1f);
+			if (bait.type == ModContent.ItemType<BloodwormItem>())
+				fishingLevel = -1;
 		}
         #endregion
     }

@@ -4184,7 +4184,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Adjust stats
-			calamityGlobalNPC.DR = calamityGlobalNPC.newAI[1] == 1f ? 0.1f : 0.4f;
+			calamityGlobalNPC.DR = calamityGlobalNPC.newAI[1] == 1f ? 0.15f : 0.6f;
 			npc.defense = calamityGlobalNPC.newAI[1] == 1f ? npc.defDefense / 4 : npc.defDefense;
 			if (phase3AI)
 			{

@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.OldDuke
             npc.damage = 200;
             npc.defense = 140;
 			CalamityGlobalNPC global = npc.Calamity();
-			global.DR = 0.4f;
+			global.DR = 0.6f;
 			global.customDR = true;
 			global.multDRReductions.Add(BuffID.Ichor, 0.88f);
 			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
