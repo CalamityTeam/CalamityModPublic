@@ -43,7 +43,8 @@ namespace CalamityMod.Events
             ( ModContent.NPCType<IrradiatedSlime>(), 1 ),
             ( ModContent.NPCType<WaterLeech>(), 1 ),
             ( ModContent.NPCType<Skyfin>(), 1 ),
-            ( ModContent.NPCType<Trilobite>(), 1 )
+            ( ModContent.NPCType<Trilobite>(), 1 ),
+            ( ModContent.NPCType<FlakCrab>(), 1 )
         };
 
         /// <summary>

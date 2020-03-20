@@ -386,6 +386,9 @@ namespace CalamityMod.Tiles
                 case 116:
                     item = "NuclearToadBanner";
                     break;
+                case 117:
+                    item = "FlakCrabBanner";
+                    break;
                 default:
                     return;
             }
@@ -754,6 +757,9 @@ namespace CalamityMod.Tiles
                     break;
                 case 116:
                     type = "NuclearToad";
+                    break;
+                case 117:
+                    type = "FlakCrab";
                     break;
                 default:
                     return;
