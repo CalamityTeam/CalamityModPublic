@@ -211,6 +211,7 @@ namespace CalamityMod.CalPlayer
         public bool trashMan = false;
         public int trashManChest = -1;
         public bool astrophage = false;
+        public bool flakPet = false;
         public bool babyGhostBell = false;
         public bool radiator = false;
         public bool scalPet = false;
@@ -1082,6 +1083,7 @@ namespace CalamityMod.CalPlayer
             kendra = false;
             trashMan = false;
             astrophage = false;
+            flakPet = false;
             babyGhostBell = false;
             radiator = false;
             scalPet = false;

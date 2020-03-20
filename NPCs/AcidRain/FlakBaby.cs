@@ -1,5 +1,7 @@
 ﻿using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Critters;
+using CalamityMod.Items.Pets;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -15,6 +17,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Baby Flak Crab");
             Main.npcFrameCount[npc.type] = 6;
+            Main.npcCatchable[npc.type] = true;
         }
 
         public override void SetDefaults()
@@ -40,7 +43,7 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<FlakCrabBanner>();
             npc.dontTakeDamageFromHostiles = true;
-            //npc.catchItem = (short)ModContent.ItemType<GeyserShell>();
+            npc.catchItem = (short)ModContent.ItemType<BabyFlakHermit>();
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
@@ -49,6 +52,27 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void AI()
         {
+            if (npc.localAI[0] == 0f)
+            {
+				if (Main.rand.NextBool(20))
+					npc.catchItem = (short)ModContent.ItemType<GeyserShell>();
+                npc.localAI[0] = 1f;
+                npc.velocity.Y = -3f;
+                npc.netUpdate = true;
+            }
+            if (Main.rand.NextBool(8) && npc.catchItem == (short)ModContent.ItemType<GeyserShell>())
+			{
+				int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, (int)CalamityDusts.SulfurousSeaAcid, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 200, default, 1f);
+				Main.dust[dust].noGravity = true;
+				Main.dust[dust].velocity *= 1.1f;
+				Main.dust[dust].velocity.Y += 0.25f;
+				Main.dust[dust].noLight = true;
+				if (Main.rand.NextBool(2))
+				{
+					Main.dust[dust].noGravity = false;
+					Main.dust[dust].scale *= 0.5f;
+				}
+			}
             Player closest = Main.player[Player.FindClosest(npc.Top, 0, 0)];
             if (Math.Abs(closest.Center.X - npc.Center.X) > 600f)
             {
@@ -105,7 +129,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
             return 0.15f;
         }
-        /*
+
         public override void OnCatchNPC(Player player, Item item)
         {
             try
@@ -115,7 +139,8 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 return;
             }
-        }*/
+        }
+
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)

@@ -3065,7 +3065,7 @@ namespace CalamityMod.CalPlayer
 			// Tarragon Summon set bonus life aura
 			if (modPlayer.tarraSummon)
 			{
-				const int FramesPerHit = 60;
+				const int FramesPerHit = 80;
 
 				// Constantly increment the timer every frame.
 				modPlayer.tarraLifeAuraTimer = (modPlayer.tarraLifeAuraTimer + 1) % FramesPerHit;
@@ -3073,8 +3073,8 @@ namespace CalamityMod.CalPlayer
 				// If the timer rolls over, it's time to deal damage. Only run this code for the client which is wearing the armor.
 				if (modPlayer.tarraLifeAuraTimer == 0 && player.whoAmI == Main.myPlayer)
 				{
-					const int BaseDamage = 200;
-					int damage = (int)(BaseDamage * (player.allDamage + player.minionDamage - 1f));
+					const int BaseDamage = 150;
+					int damage = (int)(BaseDamage * player.MinionDamage());
 					float range = 300f;
 
 					for (int i = 0; i < Main.maxNPCs; ++i)
