@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 9;
+            projectile.localNPCHitCooldown = 12;
         }
 
         public override void AI()
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < 3; i++)
                         {
                             float angle = MathHelper.Lerp(-0.3f, 0.3f, i / 3f);
-                            Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(angle), ModContent.ProjectileType<DazzlingStabberKnife>(), (int)(projectile.damage * 0.3), 1f, projectile.owner);
+                            Projectile.NewProjectile(projectile.Center, projectile.velocity.RotatedBy(angle), ModContent.ProjectileType<DazzlingStabberKnife>(), (int)(projectile.damage * 0.25), 1f, projectile.owner);
                         }
                     }
                     else projectile.velocity *= 0.99f;
