@@ -133,10 +133,10 @@ namespace CalamityMod
 		}
 
 		// Wrapper function to add bosses with multiple segments or phases to Boss Checklist.
-		private static void AddInvasion(Mod bossChecklist, Mod hostMod, string name, float difficulty, List<int> npcTypes, Func<bool> downed, Func<bool> available, object summon,
+		private static void AddInvasion(Mod bossChecklist, Mod hostMod, string name, float difficulty, List<int> npcTypes, Func<bool> downed, object summon,
 			List<int> loot, List<int> collection, string instructions, string despawn, string invasionTexture = null, string iconTexture = null)
 		{
-			bossChecklist.Call("AddEventWithInfo", difficulty, npcTypes, hostMod, name, downed, summon ?? null, collection, loot, instructions, despawn, invasionTexture, iconTexture, available);
+			bossChecklist.Call("AddEventWithInfo", difficulty, npcTypes, hostMod, name, downed, summon ?? null, collection, loot, instructions, despawn, invasionTexture, iconTexture);
 		}
 
 		// Wrapper function to add minibosses to Boss Checklist.
@@ -545,24 +545,26 @@ namespace CalamityMod
 				InvasionDifficulty.TryGetValue("Acid Rain Initial", out float order);
 				List<int> enemies = AcidRainEvent.PossibleEnemiesPreHM.Select(enemy => enemy.Item1).ToList();
 				int summon = ItemType<CausticTear>();
-				List<int> loot = new List<int>() { ItemType<SulfuricScale>() };
+				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<LeadCore>() };
+				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
 				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.";
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the ocean.", new Color(146, 183, 116));
 				string bossLogTex = "CalamityMod/NPCs/DesertScourge/DesertScourge_BossChecklist";
 				string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
-				AddInvasion(bossChecklist, calamity, "Acid Rain", order, enemies, DownedAcidRainInitial, () => NPC.downedBoss1, summon, loot, null, instructions, despawn, bossLogTex, iconTexture);
+				AddInvasion(bossChecklist, calamity, "Acid Rain", order, enemies, DownedAcidRainInitial, summon, loot, collection, instructions, despawn, bossLogTex, iconTexture);
 			}
 			// Post-Aquatic Scourge Acid Rain
 			{
 				InvasionDifficulty.TryGetValue("Acid Rain Aquatic Scourge", out float order);
 				List<int> enemies = AcidRainEvent.PossibleEnemiesAS.Select(enemy => enemy.Item1).ToList();
 				int summon = ItemType<CausticTear>();
-				List<int> loot = new List<int>() { ItemType<SulfuricScale>() };
+				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<LeadCore>() };
+				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
 				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated";
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
 				string bossLogTex = "CalamityMod/NPCs/DesertScourge/DesertScourge_BossChecklist";
 				string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
-				AddInvasion(bossChecklist, calamity, "Acid Rain (Post-Aquatic Scourge)", order, enemies, DownedAcidRainInitial, DownedAquaticScourge, summon, loot, null, instructions, despawn, bossLogTex, iconTexture);
+				AddInvasion(bossChecklist, calamity, "Acid Rain (Post-Aquatic Scourge)", order, enemies, DownedAcidRainHardmode, summon, loot, collection, instructions, despawn, bossLogTex, iconTexture);
 			}
 		}
 
