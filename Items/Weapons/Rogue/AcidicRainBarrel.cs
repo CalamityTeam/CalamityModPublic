@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = Item.buyPrice(0, 16, 0, 0);
+            item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<GreenDonkeyKongReference>();
             item.shootSpeed = 14f;

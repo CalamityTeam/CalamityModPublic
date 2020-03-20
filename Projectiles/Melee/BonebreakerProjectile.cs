@@ -1,17 +1,19 @@
-﻿using Microsoft.Xna.Framework;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Melee;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles.Melee
 {
-    public class LionfishProj : ModProjectile
+    public class BonebreakerProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lionfish");
+            DisplayName.SetDefault("Bonebreaker");
         }
 
         public override void SetDefaults()
@@ -19,10 +21,12 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-            projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.alpha = 255;
-            projectile.Calamity().rogue = true;
+            projectile.melee = true;
+			projectile.timeLeft = 600;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = -2;
         }
 
         public override void AI()
@@ -46,17 +50,8 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.ai[1] = 45f;
                     projectile.velocity.X = projectile.velocity.X * num986;
                     projectile.velocity.Y = projectile.velocity.Y + num987;
-                    if (projectile.velocity.X < 0f)
-                    {
-                        projectile.spriteDirection = -1;
-                        projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
-                    }
-                    else
-                    {
-                        projectile.spriteDirection = 1;
-                        projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-                    }
                 }
+				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
             }
             //Sticky Behaviour
             CalamityUtils.StickyProjAI(projectile);
@@ -85,39 +80,38 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 72;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num193 = 0; num193 < 3; num193++)
+            for (int i = 0; i <= 3; i++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 78, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.8f);
             }
-            for (int num194 = 0; num194 < 30; num194++)
+            if (projectile.owner == Main.myPlayer)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
-            }
+				for (int num252 = 0; num252 < Main.rand.Next(2,5); num252++)
+				{
+					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					while (value15.X == 0f && value15.Y == 0f)
+					{
+						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					}
+					value15.Normalize();
+					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<BonebreakerFragment1>(), (int)((float)Bonebreaker.BaseDamage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, Main.rand.Next(0,4), 0f);
+				}
+			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.KingSlime || target.type == NPCID.WallofFlesh || target.type == NPCID.WallofFleshEye ||
-                target.type == NPCID.SkeletronHead || target.type == NPCID.SkeletronHand)
-            {
-                target.buffImmune[BuffID.Venom] = false;
-            }
+            target.AddBuff(BuffID.BoneJavelin, 240);
             target.AddBuff(BuffID.Venom, 240);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            target.AddBuff(BuffID.BoneJavelin, 240);
             target.AddBuff(BuffID.Venom, 240);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240);
         }
     }
 }

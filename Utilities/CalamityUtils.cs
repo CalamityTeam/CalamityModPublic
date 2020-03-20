@@ -380,7 +380,7 @@ namespace CalamityMod
                 {
                     flag54 = true;
                 }
-                else if (num989 < 0 || num989 >= 200)
+                else if (num989 < 0 || num989 >= Main.maxNPCs)
                 {
                     flag54 = true;
                 }

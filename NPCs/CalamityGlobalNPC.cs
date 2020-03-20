@@ -429,7 +429,7 @@ namespace CalamityMod.NPCs
                 }
 
                 int projectileCount = 0;
-                for (int j = 0; j < 1000; j++)
+                for (int j = 0; j < Main.maxProjectiles; j++)
                 {
                     if (Main.projectile[j].active &&
                         (Main.projectile[j].type == ModContent.ProjectileType<LionfishProj>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidBubble2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth3>() || Main.projectile[j].type == ModContent.ProjectileType<JawsProjectile>()) &&
@@ -450,6 +450,35 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            if (npc.javelined)
+            {
+                if (npc.lifeRegen > 0)
+                {
+                    npc.lifeRegen = 0;
+                }
+
+                int projectileCount = 0;
+                for (int j = 0; j < Main.maxProjectiles; j++)
+                {
+                    if (Main.projectile[j].active &&
+                        (Main.projectile[j].type == ModContent.ProjectileType<BonebreakerProjectile>() &&
+                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI))
+                    {
+                        projectileCount++;
+                    }
+                }
+
+                if (projectileCount > 0)
+                {
+                    npc.lifeRegen -= projectileCount * 20;
+
+                    if (damage < projectileCount * 4)
+                    {
+                        damage = projectileCount * 4;
+                    }
+                }
+            }
+
             if (shellfishVore > 0)
             {
                 if (npc.lifeRegen > 0)
@@ -458,7 +487,7 @@ namespace CalamityMod.NPCs
                 }
 
                 int projectileCount = 0;
-                for (int j = 0; j < 1000; j++)
+                for (int j = 0; j < Main.maxProjectiles; j++)
                 {
                     if (Main.projectile[j].active &&
                         (Main.projectile[j].type == ModContent.ProjectileType<Shellfish>()) &&
@@ -485,7 +514,7 @@ namespace CalamityMod.NPCs
                 }
 
                 int projectileCount = 0;
-                for (int j = 0; j < 1000; j++)
+                for (int j = 0; j < Main.maxProjectiles; j++)
                 {
                     if (Main.projectile[j].active &&
                         (Main.projectile[j].type == ModContent.ProjectileType<SnapClamProj>()) &&
