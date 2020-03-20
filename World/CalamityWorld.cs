@@ -1354,7 +1354,7 @@ namespace CalamityMod.World
             }
 
             // DO NOT REMOVE -- this code is being kept for April Fools 2020
-            /*if (Main.rand.NextBool(100000000))
+            if (Main.rand.NextBool(100000000) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
             {
                 string key = "Mods.CalamityMod.AprilFools";
                 Color messageColor = Color.Crimson;
@@ -1366,7 +1366,7 @@ namespace CalamityMod.World
                 {
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                 }
-            }*/
+            }
 
             if (death && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon && !Main.pumpkinMoon && !DD2Event.Ongoing && player.statLifeMax2 >= 300) //does not occur while a boss is alive or during certain events
             {
