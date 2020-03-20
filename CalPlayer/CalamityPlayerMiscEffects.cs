@@ -3187,13 +3187,18 @@ namespace CalamityMod.CalPlayer
 				player.buffImmune[BuffID.Venom] = true;
                 if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
                 {
-                    player.allDamage += 0.03f;
+                    player.allDamage += 0.06f;
 					modPlayer.AllCritBoost(3);
                 }
                 if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
                 {
-                    player.allDamage += 0.05f;
-					modPlayer.AllCritBoost(5);
+                    player.allDamage += 0.06f;
+					modPlayer.AllCritBoost(3);
+                }
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.25))
+                {
+                    player.allDamage += 0.06f;
+					modPlayer.AllCritBoost(3);
                 }
 				if (player.lifeRegen < 0)
                 {
