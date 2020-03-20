@@ -4292,8 +4292,7 @@ namespace CalamityMod.NPCs
 				if (npc.timeLeft == 1)
 				{
 					CalamityWorld.acidRainPoints = 0;
-					CalamityWorld.rainingAcid = false;
-					AcidRainEvent.UpdateInvasion();
+					AcidRainEvent.UpdateInvasion(false);
 					npc.timeLeft = 0;
 				}
 
@@ -4406,7 +4405,8 @@ namespace CalamityMod.NPCs
 			if (npc.ai[0] == -1f)
 			{
 				// Velocity
-				npc.velocity *= 0.98f;
+				if(npc.Calamity().newAI[3] == 0f)
+					npc.velocity *= 0.98f;
 
 				// Direction
 				int num19 = Math.Sign(player.Center.X - vector.X);
@@ -4419,7 +4419,8 @@ namespace CalamityMod.NPCs
 				// Alpha
 				if (npc.ai[2] > 20f)
 				{
-					npc.velocity.Y = -2f;
+					if (npc.Calamity().newAI[3] == 0f)
+						npc.velocity.Y = -2f;
 
 					npc.alpha -= 5;
 					if (Collision.SolidCollision(npc.position, npc.width, npc.height))

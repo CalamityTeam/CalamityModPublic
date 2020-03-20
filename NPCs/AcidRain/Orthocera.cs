@@ -1,5 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using System;
@@ -157,6 +158,10 @@ namespace CalamityMod.NPCs.AcidRain
                 // Prevent yeeting into the sky at the speed of light
                 npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-maxSpeed), new Vector2(maxSpeed));
             }
+        }
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }
         public override void FindFrame(int frameHeight)
         {

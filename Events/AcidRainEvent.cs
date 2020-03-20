@@ -131,7 +131,7 @@ namespace CalamityMod.Events
         /// <summary>
         /// Updates the invasion, checking to see if it has ended.
         /// </summary>
-        public static void UpdateInvasion()
+        public static void UpdateInvasion(bool win = true)
         {
             // If the custom invasion is up
             if (CalamityWorld.rainingAcid)
@@ -152,6 +152,11 @@ namespace CalamityMod.Events
                     Main.windSpeedTemp = Main.rand.NextFloat(0.04f, 0.25f);
                     Main.windSpeedSet = Main.windSpeedTemp;
                     Main.maxRaining = 0f;
+                    if (win)
+                    {
+                        CalamityWorld.downedEoCAcidRain = true;
+                        CalamityWorld.downedAquaticScourgeAcidRain = CalamityWorld.downedAquaticScourge;
+                    }
                     CalamityMod.StopRain();
                 }
                 CalamityMod.UpdateServerBoolean();

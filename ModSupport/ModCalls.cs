@@ -22,6 +22,18 @@ namespace CalamityMod
 				default:
 					return false;
 
+				// Because this value will always be true if Acid Rain at any point in the game is beaten.
+				case "acid rain":
+				case "acidrain":
+
+				case "acid rain initial":
+				case "acid rain eoc":
+				case "acidrain eoc":
+				case "acidrain initial":
+				case "acidraininitial":
+				case "acidraineoc":
+					return CalamityWorld.downedEoCAcidRain;
+
 				case "desertscourge":
 				case "desert scourge":
 					return CalamityWorld.downedDesertScourge;
@@ -55,6 +67,16 @@ namespace CalamityMod
 				case "theslimegod":
 				case "the slime god":
 					return CalamityWorld.downedSlimeGod;
+
+				case "acid rain aquatic":
+				case "acidrain aquatic":
+				case "acidrainaquatic":
+				case "acid rain scourge":
+				case "acidrain scourge":
+				case "acidrainscourge":
+				case "acid rain as":
+				case "acidrain as":
+					return CalamityWorld.downedAquaticScourgeAcidRain;
 
 				case "cryogen":
 					return CalamityWorld.downedCryogen;

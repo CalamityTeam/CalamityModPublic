@@ -30,6 +30,7 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
@@ -174,6 +175,9 @@ namespace CalamityMod.World
         public static bool downedGSS = false;
         public static bool downedCLAM = false;
         public static bool downedBetsy = false; //Betsy
+
+        public static bool downedEoCAcidRain = false;
+        public static bool downedAquaticScourgeAcidRain = false;
         #endregion
 
         #endregion
@@ -257,6 +261,8 @@ namespace CalamityMod.World
             ironHeart = false;
             dragonScalesBought = false;
             rainingAcid = false;
+            downedEoCAcidRain = false;
+            downedAquaticScourgeAcidRain = false;
         }
         #endregion
 
@@ -354,6 +360,10 @@ namespace CalamityMod.World
                 downed.Add("bandit");
             if (spawnedCirrus)
                 downed.Add("drunkPrincess");
+            if (downedEoCAcidRain)
+                downed.Add("eocRain");
+            if (downedAquaticScourgeAcidRain)
+                downed.Add("hmRain");
 
             return new TagCompound
             {
@@ -419,6 +429,8 @@ namespace CalamityMod.World
             rainingAcid = downed.Contains("acidRain");
             spawnedBandit = downed.Contains("bandit");
             spawnedCirrus = downed.Contains("drunkPrincess");
+            downedEoCAcidRain = downed.Contains("eocRain");
+            downedAquaticScourgeAcidRain = downed.Contains("hmRain");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
@@ -502,6 +514,8 @@ namespace CalamityMod.World
                 downedCLAM = flags7[2];
                 dragonScalesBought = flags7[3];
                 rainingAcid = flags7[4];
+                downedEoCAcidRain = flags[5];
+                downedAquaticScourgeAcidRain = flags[6];
             }
             else
             {
@@ -581,6 +595,8 @@ namespace CalamityMod.World
             flags7[2] = downedCLAM;
             flags7[3] = dragonScalesBought;
             flags7[4] = rainingAcid;
+            flags7[5] = downedEoCAcidRain;
+            flags7[6] = downedAquaticScourgeAcidRain;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -665,6 +681,8 @@ namespace CalamityMod.World
             downedCLAM = flags7[2];
             dragonScalesBought = flags7[3];
             rainingAcid = flags7[4];
+            downedEoCAcidRain = flags[5];
+            downedAquaticScourgeAcidRain = flags[6];
 
             abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
@@ -896,12 +914,18 @@ namespace CalamityMod.World
                 Main.maxRaining = 0.89f;
                 Main.invasionProgressNearInvasion = true;
 
-                // Summon Old Duke post-Polter as needed
+                // Summon Old Duke tornado post-Polter as needed
                 if (downedPolterghast && acidRainPoints <= 2f &&
-                    !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
+                    !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) &&
+                    CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)
                 {
                     int playerClosestToAbyss = Player.FindClosest(new Vector2(abyssSide ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
-                    NPC.SpawnOnPlayer(playerClosestToAbyss, ModContent.NPCType<OldDuke>());
+                    Player closestToAbyss = Main.player[playerClosestToAbyss];
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        Projectile.NewProjectile(closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero,
+                            ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f);
+                    }
                 }
             }
 

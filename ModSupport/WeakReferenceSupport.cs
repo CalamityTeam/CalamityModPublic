@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
@@ -15,6 +16,7 @@ using CalamityMod.Items.Placeables.FurnitureCosmilite;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.TreasureBags;
@@ -55,6 +57,7 @@ using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -101,6 +104,12 @@ namespace CalamityMod
 			// { "Xeroc", 121f },
 		};
 
+		private static readonly Dictionary<string, float> InvasionDifficulty = new Dictionary<string, float>
+		{
+			{ "Acid Rain Initial", 2.5f },
+			{ "Acid Rain Aquatic Scourge", 8.8f }
+		};
+
 		public static void Setup()
 		{
 			BossChecklistSupport();
@@ -121,6 +130,13 @@ namespace CalamityMod
 			List<int> loot, List<int> collection, string instructions, string despawn, string bossLogTex = null, string bossHeadTex = null)
 		{
 			bossChecklist.Call("AddBoss", difficulty, npcTypes, hostMod, name, downed, summon ?? null, collection, loot, instructions, despawn, bossLogTex, bossHeadTex);
+		}
+
+		// Wrapper function to add bosses with multiple segments or phases to Boss Checklist.
+		private static void AddInvasion(Mod bossChecklist, Mod hostMod, string name, float difficulty, List<int> npcTypes, Func<bool> downed, Func<bool> available, object summon,
+			List<int> loot, List<int> collection, string instructions, string despawn, string invasionTexture = null, string iconTexture = null)
+		{
+			bossChecklist.Call("AddEventWithInfo", difficulty, npcTypes, hostMod, name, downed, summon ?? null, collection, loot, instructions, despawn, invasionTexture, iconTexture, available);
 		}
 
 		// Wrapper function to add minibosses to Boss Checklist.
@@ -175,6 +191,9 @@ namespace CalamityMod
 
 			// Adds every single Calamity boss and miniboss to Boss Checklist's Boss Log.
 			AddCalamityBosses(bossChecklist, calamity);
+
+			// Adds every single Calamity invasion to the Boss Checklist's Invasion Log.
+			AddCalamityInvasions(bossChecklist, calamity);
 
 			// Loot which Calamity adds to vanilla bosses and events is also added to Boss Checklist's Boss Log.
 			AddCalamityBossLoot(bossChecklist);
@@ -519,6 +538,34 @@ namespace CalamityMod
 			}
 		}
 		
+		private static void AddCalamityInvasions(Mod bossChecklist, Mod calamity)
+		{
+			// Initial Acid Rain
+			{
+				InvasionDifficulty.TryGetValue("Acid Rain Initial", out float order);
+				List<int> enemies = AcidRainEvent.PossibleEnemiesPreHM.Select(enemy => enemy.Item1).ToList();
+				int summon = ItemType<CausticTear>();
+				List<int> loot = new List<int>() { ItemType<SulfuricScale>() };
+				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.";
+				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the ocean.", new Color(146, 183, 116));
+				string bossLogTex = "CalamityMod/NPCs/DesertScourge/DesertScourge_BossChecklist";
+				string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
+				AddInvasion(bossChecklist, calamity, "Acid Rain", order, enemies, DownedAcidRainInitial, () => NPC.downedBoss1, summon, loot, null, instructions, despawn, bossLogTex, iconTexture);
+			}
+			// Post-Aquatic Scourge Acid Rain
+			{
+				InvasionDifficulty.TryGetValue("Acid Rain Aquatic Scourge", out float order);
+				List<int> enemies = AcidRainEvent.PossibleEnemiesAS.Select(enemy => enemy.Item1).ToList();
+				int summon = ItemType<CausticTear>();
+				List<int> loot = new List<int>() { ItemType<SulfuricScale>() };
+				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated";
+				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
+				string bossLogTex = "CalamityMod/NPCs/DesertScourge/DesertScourge_BossChecklist";
+				string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
+				AddInvasion(bossChecklist, calamity, "Acid Rain (Post-Aquatic Scourge)", order, enemies, DownedAcidRainInitial, DownedAquaticScourge, summon, loot, null, instructions, despawn, bossLogTex, iconTexture);
+			}
+		}
+
 		private static void AddCalamityBossLoot(Mod bossChecklist)
 		{
 			// King Slime

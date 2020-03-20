@@ -253,7 +253,6 @@ namespace CalamityMod.NPCs.Abyss
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ItemID.DivingHelmet, 20);
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }
 
         public override void HitEffect(int hitDirection, double damage)
