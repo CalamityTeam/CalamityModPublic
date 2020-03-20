@@ -512,14 +512,14 @@ namespace CalamityMod.World
         }
         public static void SmoothenSea()
         {
-            for (int x = 0; x < Main.maxTilesX; x++)
+            for (int x = 1; x < Main.maxTilesX - 1; x++)
             {
                 int trueX = x;
                 if (!CalamityWorld.abyssSide)
                 {
                     trueX = Main.maxTilesX - x;
                 }
-                for (int y = 0; y < Main.maxTilesY * 0.5; y++)
+                for (int y = 1; y < Main.maxTilesY * 0.5; y++)
                 {
                     if (Framing.GetTileSafely(trueX, y).type == (ushort)ModContent.TileType<SulphurousSand>())
                     {

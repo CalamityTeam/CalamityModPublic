@@ -3905,15 +3905,12 @@ namespace CalamityMod.NPCs
 
                 if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
                 {
-                    if (spawnInfo.water)
+                    List<(int, int)> PossibleEnemies = CalamityWorld.downedAquaticScourge ? AcidRainEvent.PossibleEnemiesAS : AcidRainEvent.PossibleEnemiesPreHM;
+                    foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
                     {
-                        List<(int, int)> PossibleEnemies = CalamityWorld.downedAquaticScourge ? AcidRainEvent.PossibleEnemiesAS : AcidRainEvent.PossibleEnemiesPreHM;
-                        foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
-                        {
-                            pool.Add(enemy, 1f);
-                        }
-                        pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.02f);
+                        pool.Add(enemy, 1f);
                     }
+                    pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.02f);
                 }
             }
         }
