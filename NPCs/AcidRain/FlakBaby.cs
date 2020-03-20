@@ -39,6 +39,8 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.DD2_WitherBeastDeath;
             banner = npc.type;
             bannerItem = ModContent.ItemType<FlakCrabBanner>();
+            npc.dontTakeDamageFromHostiles = true;
+            //npc.catchItem = (short)ModContent.ItemType<GeyserShell>();
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
@@ -95,6 +97,25 @@ namespace CalamityMod.NPCs.AcidRain
                 }
             }
         }
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            if (spawnInfo.playerSafe || !spawnInfo.player.Calamity().ZoneSulphur || !Main.raining)
+            {
+                return 0f;
+            }
+            return 0.15f;
+        }
+        /*
+        public override void OnCatchNPC(Player player, Item item)
+        {
+            try
+            {
+            }
+            catch
+            {
+                return;
+            }
+        }*/
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
