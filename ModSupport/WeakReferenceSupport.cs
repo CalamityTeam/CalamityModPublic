@@ -303,7 +303,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("AquaticScourge", out float order);
 				List<int> segments = new List<int>() { NPCType<AquaticScourgeHead>(), NPCType<AquaticScourgeBody>(), NPCType<AquaticScourgeBodyAlt>(), NPCType<AquaticScourgeTail>() };
 				int summon = ItemType<Seafood>();
-				List<int> loot = new List<int>() { ItemType<AquaticScourgeBag>(), ItemType<SulphurousSand>(), ItemID.SoulofSight, ItemType<VictoryShard>(), ItemID.Coral, ItemID.Seashell, ItemID.Starfish, ItemType<SubmarineShocker>(), ItemType<Barinautical>(), ItemType<Downpour>(), ItemType<DeepseaStaff>(), ItemType<ScourgeoftheSeas>(), ItemType<SeasSearing>(), ItemType<AeroStone>(), ItemType<AquaticEmblem>(), ItemID.AnglerTackleBag, ItemID.HighTestFishingLine, ItemID.TackleBox, ItemID.AnglerEarring, ItemID.FishermansGuide, ItemID.WeatherRadio, ItemID.Sextant, ItemID.AnglerHat, ItemID.AnglerVest, ItemID.AnglerPants, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GoldenBugNet, ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<AquaticScourgeBag>(), ItemType<SulphurousSand>(), ItemID.SoulofSight, ItemType<VictoryShard>(), ItemID.Coral, ItemID.Seashell, ItemID.Starfish, ItemType<SubmarineShocker>(), ItemType<Barinautical>(), ItemType<Downpour>(), ItemType<DeepseaStaff>(), ItemType<ScourgeoftheSeas>(), ItemType<SeasSearing>(), ItemType<AeroStone>(), ItemType<AquaticEmblem>(), ItemType<CorrosiveSpine>(), ItemID.AnglerTackleBag, ItemID.HighTestFishingLine, ItemID.TackleBox, ItemID.AnglerEarring, ItemID.FishermansGuide, ItemID.WeatherRadio, ItemID.Sextant, ItemID.AnglerHat, ItemID.AnglerVest, ItemID.AnglerPants, ItemID.FishingPotion, ItemID.SonarPotion, ItemID.CratePotion, ItemID.GoldenBugNet, ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<AquaticScourgeTrophy>(), ItemType<AquaticScourgeMask>(), ItemType<KnowledgeAquaticScourge>(), ItemType<KnowledgeSulphurSea>() };
 				string instructions = $"Use a [i:{summon}] in the Sulphuric Sea or wait for it to spawn in the Sulphuric Sea";
 				string despawn = CalamityUtils.ColorMessage("The Aquatic Scourge swam back into the open ocean.", new Color(0xF0, 0xE6, 0x8C));
@@ -558,7 +558,7 @@ namespace CalamityMod
 				InvasionDifficulty.TryGetValue("Acid Rain Aquatic Scourge", out float order);
 				List<int> enemies = AcidRainEvent.PossibleEnemiesAS.Select(enemy => enemy.Item1).ToList();
 				int summon = ItemType<CausticTear>();
-				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<LeadCore>() };
+				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<FlakToxicannon>() };
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
 				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated";
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));

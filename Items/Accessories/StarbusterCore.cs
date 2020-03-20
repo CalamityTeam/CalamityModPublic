@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Starbuster Core");
             Tooltip.SetDefault("Summons release an astral explosion on enemy hits\n" +
-                               "1 extra minion slot");
+                               "+1 max minion");
         }
 
         public override void SetDefaults()
