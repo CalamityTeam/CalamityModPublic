@@ -376,6 +376,11 @@ namespace CalamityMod.World
                             {
                                 tile.active(false);
                             }
+                            else if (tile.active() &&
+                                     tile.type == TileID.Trees)
+                            {
+                                tile.active(false);
+                            }
                         }
                         else if (abyssIndexSand > abyssChasmX + 210)
                         {
@@ -390,6 +395,11 @@ namespace CalamityMod.World
                             {
                                 tile.active(false);
                             }
+                            else if (tile.active() &&
+                                     tile.type == TileID.Trees)
+                            {
+                                tile.active(false);
+                            }
                         }
                         else
                         {
@@ -400,6 +410,11 @@ namespace CalamityMod.World
                             }
                             else if (tile.active() &&
                                      tile.type == TileID.PalmTree)
+                            {
+                                tile.active(false);
+                            }
+                            else if (tile.active() &&
+                                     tile.type == TileID.Trees)
                             {
                                 tile.active(false);
                             }
@@ -427,6 +442,11 @@ namespace CalamityMod.World
                             {
                                 tile.active(false);
                             }
+                            else if (tile.active() &&
+                                     tile.type == TileID.Trees)
+                            {
+                                tile.active(false);
+                            }
                         }
                         else if (abyssIndexSand < abyssChasmX - 210)
                         {
@@ -441,6 +461,11 @@ namespace CalamityMod.World
                             {
                                 tile.active(false);
                             }
+                            else if (tile.active() &&
+                                     tile.type == TileID.Trees)
+                            {
+                                tile.active(false);
+                            }
                         }
                         else
                         {
@@ -451,6 +476,11 @@ namespace CalamityMod.World
                             }
                             else if (tile.active() &&
                                      tile.type == TileID.PalmTree)
+                            {
+                                tile.active(false);
+                            }
+                            else if (tile.active() &&
+                                     tile.type == TileID.Trees)
                             {
                                 tile.active(false);
                             }
