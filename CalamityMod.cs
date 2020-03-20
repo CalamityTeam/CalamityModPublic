@@ -1014,7 +1014,7 @@ namespace CalamityMod
                 ModContent.ItemType<DivineHatchet>(),
                 ModContent.ItemType<DazzlingStabberStaff>(),
                 ModContent.ItemType<PristineFury>(),
-                ModContent.ItemType<RadiantResolution>(),
+                ModContent.ItemType<SarosPossession>(),
                 ModContent.ItemType<CinderBlossomStaff>()
             };
 

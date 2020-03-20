@@ -17,7 +17,7 @@ namespace CalamityMod.NPCs.HiveMind
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Hive Mind");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[npc.type] = 16;
         }
 
         public override void SetDefaults()
@@ -303,10 +303,9 @@ namespace CalamityMod.NPCs.HiveMind
             }
             else
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore4"), 1f);
+                int goreAmount = 7;
+                for (int i = 1; i <= goreAmount; i++)
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindGore" + i), 1f);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (NPC.CountNPCS(ModContent.NPCType<HiveMindP2>()) < 1)

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class RadiantResolution : ModItem
+    public class SarosPossession : ModItem
     {
 		int radianceSlots;
         public override void SetStaticDefaults()

@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SpikecragStaff>());
-            recipe.AddIngredient(ModContent.ItemType<RadiantResolution>());
+            recipe.AddIngredient(ModContent.ItemType<SarosPossession>());
             recipe.AddIngredient(ItemID.Umbrella);
             recipe.AddIngredient(ItemID.TopHat);
 			recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 4);

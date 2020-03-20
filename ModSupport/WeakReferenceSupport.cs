@@ -545,7 +545,7 @@ namespace CalamityMod
 				InvasionDifficulty.TryGetValue("Acid Rain Initial", out float order);
 				List<int> enemies = AcidRainEvent.PossibleEnemiesPreHM.Select(enemy => enemy.Item1).ToList();
 				int summon = ItemType<CausticTear>();
-				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<LeadCore>() };
+				List<int> loot = new List<int>() { ItemType<SulfuricScale>() };
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
 				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.";
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the ocean.", new Color(146, 183, 116));

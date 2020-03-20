@@ -59,19 +59,21 @@ namespace CalamityMod.NPCs.HiveMind
         int nextState = 0;
         int reelCount = 0;
         Vector2 deceleration;
+        int counter = 0;
+        bool initialised = false;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Hive Mind");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[npc.type] = 16;
         }
 
         public override void SetDefaults()
         {
             npc.npcSlots = 5f;
             npc.damage = 35;
-            npc.width = 150;
-            npc.height = 120;
+            npc.width = 177;
+            npc.height = 142;
             npc.defense = 5;
             npc.LifeMaxNERB(5800, 7560, 3000000);
             double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
@@ -140,6 +142,8 @@ namespace CalamityMod.NPCs.HiveMind
             writer.Write(rotation);
             writer.Write(previousState);
             writer.Write(reelCount);
+            writer.Write(counter);
+            writer.Write(initialised);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -152,14 +156,42 @@ namespace CalamityMod.NPCs.HiveMind
             rotation = reader.ReadDouble();
             previousState = reader.ReadInt32();
             reelCount = reader.ReadInt32();
+            counter = reader.ReadInt32();
+            initialised = reader.ReadBoolean();
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
-            npc.frame.Y = frame * frameHeight;
+            int width = npc.width;
+            int height = npc.height;
+
+            if (!initialised)
+            {
+                counter = 8;
+                npc.frameCounter = 6;
+                initialised = true;
+            }
+
+            //ensure width and height are set.
+            npc.frame.Width = width;
+            npc.frame.Height = height;
+            npc.frameCounter++;
+            if (npc.frameCounter > 6)
+            {
+                npc.frame.X = counter >= 8 ? width + 3 : 0;
+                if (counter == 8)
+                    npc.frame.Y = 0;
+                else
+                    npc.frame.Y += height;
+                npc.frameCounter = 0;
+                counter++;
+            }
+            if (counter == 16)
+            {
+                counter = 1;
+                npc.frame.Y = 0;
+                npc.frame.X = 0;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -169,9 +201,8 @@ namespace CalamityMod.NPCs.HiveMind
             color24 = npc.GetAlpha(color24);
             Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
             Texture2D texture2D3 = ModContent.GetTexture("CalamityMod/NPCs/HiveMind/HiveMindP2");
-            int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
-            int y3 = num156 * (int)npc.frameCounter;
-            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
+            int num156 = Main.npcTexture[npc.type].Height / 8;
+            Rectangle rectangle = new Rectangle(npc.frame.X, npc.frame.Y, npc.frame.X, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -201,6 +232,9 @@ namespace CalamityMod.NPCs.HiveMind
                 Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, effects, 0f);
                 goto IL_6881;
             }
+
+
+
             var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
             return false;
@@ -678,12 +712,9 @@ namespace CalamityMod.NPCs.HiveMind
             }
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindP2Gore"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindP2Gore2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindP2Gore3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindP2Gore4"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindP2Gore5"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindP2Gore6"), 1f);
+                int goreAmount = 10;
+                for (int i = 1; i <= goreAmount; i++)
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/HiveMindGores/HiveMindP2Gore" + i), 1f);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 200;

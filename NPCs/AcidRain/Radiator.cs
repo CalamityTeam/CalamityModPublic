@@ -1,5 +1,5 @@
 using CalamityMod.Dusts;
-using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -57,18 +57,11 @@ namespace CalamityMod.NPCs.AcidRain
 			aiType = NPCID.GlowingSnail;
             banner = npc.type;
             bannerItem = ModContent.ItemType<RadiatorBanner>();
+            npc.catchItem = (short)ModContent.ItemType<RadiatingCrystal>();
         }
 
         public override void AI()
-        {
-            if (npc.localAI[0] == 0f)
-            {
-                npc.catchItem = (Main.rand.NextBool(10)) ? (short)ModContent.ItemType<RadiatingCrystal>() : ItemID.None;
-                npc.localAI[0] = 1f;
-                npc.velocity.Y = -3f;
-                npc.netUpdate = true;
-            }
-			
+        {			
             Lighting.AddLight(npc.Center, 0.3f, 1.5f, 0.3f);
 
             int auraSize = 200; //roughly 12 blocks (half the size of Wither Beast aura)
@@ -120,7 +113,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 50);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }
     }
 }

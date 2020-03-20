@@ -735,6 +735,11 @@ namespace CalamityMod.NPCs.Polterghast
                 string sulfSeaBoostMessage = "Mods.CalamityMod.GhostBossText4";
                 Color sulfSeaBoostColor = AcidRainEvent.TextColor;
 
+				if (Main.rand.NextBool(1000) && DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
+				{
+					sulfSeaBoostMessage = "Mods.CalamityMod.AprilFools2";
+				}
+
                 if (Main.netMode == NetmodeID.SinglePlayer)
 				{
                     Main.NewText(Language.GetTextValue(key), messageColor);

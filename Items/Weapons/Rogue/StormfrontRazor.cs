@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 40;
-            item.height = 42;
+            item.width = 38;
+            item.height = 38;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.UseSound = SoundID.Item1;
