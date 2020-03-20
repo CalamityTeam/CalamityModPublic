@@ -135,7 +135,7 @@ namespace CalamityMod.NPCs.OldDuke
 			if (npc.ai[0] == 3f || npc.ai[0] == 8f || npc.ai[0] == 13f || npc.ai[0] == -1f)
             {
                 int num115 = 120;
-                if (npc.ai[2] < (float)(num115 - 30) || npc.ai[2] > (float)(num115 - 10))
+                if (npc.ai[2] < (float)(num115 - 50) || npc.ai[2] > (float)(num115 - 10))
                 {
                     npc.frameCounter += 1D;
                     if (npc.frameCounter > 7D)
@@ -151,7 +151,7 @@ namespace CalamityMod.NPCs.OldDuke
                 else
                 {
                     npc.frame.Y = frameHeight * 5;
-                    if (npc.ai[2] > (float)(num115 - 20) && npc.ai[2] < (float)(num115 - 15))
+                    if (npc.ai[2] > (float)(num115 - 40) && npc.ai[2] < (float)(num115 - 15))
                     {
                         npc.frame.Y = frameHeight * 6;
                     }

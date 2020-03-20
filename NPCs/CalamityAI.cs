@@ -4266,11 +4266,14 @@ namespace CalamityMod.NPCs
 			int num12 = 30;
 			int num13 = 120;
 			int num14 = 24;
+			float spinTime = (float)(num13 / 2);
 			float scaleFactor3 = 9f;
 			float scaleFactor4 = 22f;
-			float num15 = pie * 2f / (float)(num13 / 2);
+			float num15 = MathHelper.TwoPi / spinTime;
 			int num16 = 75;
+
 			Vector2 vector = npc.Center;
+
 			Player player = Main.player[npc.target];
 
 			// Get target
@@ -4341,18 +4344,14 @@ namespace CalamityMod.NPCs
 			if (npc.spriteDirection == 1)
 				num17 += pie;
 			if (num17 < 0f)
-				num17 += pie * 2f;
-			if (num17 > pie * 2f)
-				num17 -= pie * 2f;
+				num17 += MathHelper.TwoPi;
+			if (num17 > MathHelper.TwoPi)
+				num17 -= MathHelper.TwoPi;
 			if (npc.ai[0] == -1f || npc.ai[0] == 3f || npc.ai[0] == 4f)
 				num17 = 0f;
 			if (npc.ai[0] == 8f || npc.ai[0] == 13f)
 			{
-				num17 = pie * 0.1666666667f;
-
-				// I fucking hate rotation code
-				if (npc.spriteDirection == -1)
-					num17 = 0f;
+				num17 = pie * 0.1666666667f * npc.spriteDirection;
 			}
 
 			float num18 = 0.04f;
@@ -4378,14 +4377,17 @@ namespace CalamityMod.NPCs
 					npc.rotation -= num18;
 			}
 
-			if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
-				npc.rotation = num17;
-			if (npc.rotation < 0f)
-				npc.rotation += pie * 2f;
-			if (npc.rotation > pie * 2f)
-				npc.rotation -= pie * 2f;
-			if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
-				npc.rotation = num17;
+			if ((npc.ai[0] != 8f && npc.ai[0] != 13f) || npc.spriteDirection == 1)
+			{
+				if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
+					npc.rotation = num17;
+				if (npc.rotation < 0f)
+					npc.rotation += MathHelper.TwoPi;
+				if (npc.rotation > MathHelper.TwoPi)
+					npc.rotation -= MathHelper.TwoPi;
+				if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
+					npc.rotation = num17;
+			}
 
 			// Alpha adjustments
 			if (npc.ai[0] != -1f && (npc.ai[0] < 9f || npc.ai[0] > 12f))
@@ -4437,7 +4439,7 @@ namespace CalamityMod.NPCs
 					int num20 = 36;
 					for (int i = 0; i < num20; i++)
 					{
-						Vector2 dust = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * pie * 2f / (float)num20), default) + npc.Center;
+						Vector2 dust = (Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f).RotatedBy((double)((float)(i - (num20 / 2 - 1)) * MathHelper.TwoPi / (float)num20), default) + npc.Center;
 						Vector2 vector2 = dust - npc.Center;
 						int num21 = Dust.NewDust(dust + vector2, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, vector2.X * 2f, vector2.Y * 2f, 100, default, 1.4f);
 						Main.dust[num21].noGravity = true;
@@ -4941,11 +4943,10 @@ namespace CalamityMod.NPCs
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
 					int damage = expertMode ? 100 : 140;
-					float x = vector.X + 120f * (float)npc.direction;
-					float y = vector.Y - 120f;
+					Vector2 vortexSpawn = vector + npc.velocity.RotatedBy(MathHelper.PiOver2 * -(float)npc.direction) * spinTime / MathHelper.TwoPi;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Projectile.NewProjectile(x, y, 0f, 0f, ModContent.ProjectileType<OldDukeVortex>(), damage, 0f, Main.myPlayer, x, y);
+						Projectile.NewProjectile(vortexSpawn.X, vortexSpawn.Y, 0f, 0f, ModContent.ProjectileType<OldDukeVortex>(), damage, 0f, Main.myPlayer, vortexSpawn.X, vortexSpawn.Y);
 					}
 				}
 
@@ -5350,11 +5351,10 @@ namespace CalamityMod.NPCs
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar"), (int)npc.position.X, (int)npc.position.Y);
 
 					int damage = expertMode ? 100 : 140;
-					float x = vector.X + 120f * (float)npc.direction;
-					float y = vector.Y - 120f;
+					Vector2 vortexSpawn = vector + npc.velocity.RotatedBy(MathHelper.PiOver2 * -(float)npc.direction) * spinTime / MathHelper.TwoPi;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Projectile.NewProjectile(x, y, 0f, 0f, ModContent.ProjectileType<OldDukeVortex>(), damage, 0f, Main.myPlayer, x, y);
+						Projectile.NewProjectile(vortexSpawn.X, vortexSpawn.Y, 0f, 0f, ModContent.ProjectileType<OldDukeVortex>(), damage, 0f, Main.myPlayer, vortexSpawn.X, vortexSpawn.Y);
 					}
 				}
 
