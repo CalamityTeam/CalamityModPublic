@@ -3403,7 +3403,7 @@ namespace CalamityMod.NPCs
                     damage = (int)(damage * 0.7);
                 }
             }
-            else if (npc.type == ModContent.NPCType<OldDuke>())
+            else if (npc.type == ModContent.NPCType<OldDuke.OldDuke>())
             {
                 if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ProjectileID.LunarFlare))
                 {
