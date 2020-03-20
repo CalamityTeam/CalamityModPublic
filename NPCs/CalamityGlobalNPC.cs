@@ -34,6 +34,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
@@ -3400,6 +3401,17 @@ namespace CalamityMod.NPCs
                 if (projectile.type == ModContent.ProjectileType<Spark>())
                 {
                     damage = (int)(damage * 0.7);
+                }
+            }
+            else if (npc.type == ModContent.NPCType<OldDuke>())
+            {
+                if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ProjectileID.LunarFlare))
+                {
+                    damage = (int)(damage * 0.6);
+                }
+                if (projectile.type == ModContent.ProjectileType<ValedictionBoomerang>())
+                {
+                    damage = (int)(damage * 0.8);
                 }
             }
 
