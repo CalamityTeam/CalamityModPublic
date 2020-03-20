@@ -43,7 +43,7 @@ namespace CalamityMod.Localization
                 new [] { "GhostBossText", "The abyssal spirits have been disturbed." },
                 new [] { "GhostBossText2", "Wails echo through the dilapidated dungeon halls..." },
                 new [] { "GhostBossText3", "Long-dead prisoners seek their zealous revenge..." },
-                new [] { "GhostBossText4", "The souls released have stirred the acidic storms..." },
+                new [] { "GhostBossText4", "The souls released stir the acidic storms..." },
 
                 new [] { "SupremeBossText3", "Alright, let's get started. Not sure why you're bothering." }, // start
                 new [] { "SupremeBossText4", "You seem so confident, even though you are painfully ignorant of what has yet to transpire." }, //75%

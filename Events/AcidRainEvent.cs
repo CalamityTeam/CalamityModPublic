@@ -91,11 +91,11 @@ namespace CalamityMod.Events
             return false;
         }
         /// <summary>
-        /// Attempts to start the Acid Rain event. Will fail if there is another invasion going on or the EoC has not been killed yet.
+        /// Attempts to start the Acid Rain event. Will fail if there is another invasion going on or the EoC has not been killed yet (unless you're in hardmode).
         /// </summary>
         public static void TryStartEvent()
         {
-            if (CalamityWorld.rainingAcid || !NPC.downedBoss1)
+            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode))
                 return;
             int playerCount = 0;
             for (int i = 0; i < Main.player.Length; i++)
