@@ -34,7 +34,7 @@ namespace CalamityMod.Events
 
         // Not readonly so that if anyone else wants to add stuff in here with their own mod, they can.
         // The first value is the NPC type, the second is the value they're worth in the event
-        public static List<(int, int)> PossibleEnemiesHM = new List<(int, int)>()
+        public static List<(int, int)> PossibleEnemiesAS = new List<(int, int)>()
         {
             ( ModContent.NPCType<Radiator>(), 0 ),
             ( ModContent.NPCType<NuclearToad>(), 0 ),
@@ -75,7 +75,7 @@ namespace CalamityMod.Events
                 if (Main.npc[i].active)
                 {
                     int type = Main.npc[i].type;
-                    List<(int, int)> PossibleEnemies = Main.hardMode ? PossibleEnemiesHM : PossibleEnemiesPreHM;
+                    List<(int, int)> PossibleEnemies = CalamityWorld.downedAquaticScourge ? PossibleEnemiesAS : PossibleEnemiesPreHM;
                     if (PossibleEnemies.Select(enemy => enemy.Item2).Contains(type))
                     {
                         Rectangle invasionCheckArea = new Rectangle((int)Main.npc[i].Center.X - rectangleCheckSize / 2, (int)Main.npc[i].Center.Y - rectangleCheckSize / 2,
@@ -91,11 +91,11 @@ namespace CalamityMod.Events
             return false;
         }
         /// <summary>
-        /// Attempts to start the Acid Rain event. Will fail if there is another invasion going on or the EoC has not been killed yet.
+        /// Attempts to start the Acid Rain event. Will fail if there is another invasion going on or the EoC has not been killed yet (unless you're in hardmode).
         /// </summary>
         public static void TryStartEvent()
         {
-            if (CalamityWorld.rainingAcid || !NPC.downedBoss1)
+            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode))
                 return;
             int playerCount = 0;
             for (int i = 0; i < Main.player.Length; i++)
@@ -131,7 +131,7 @@ namespace CalamityMod.Events
         /// <summary>
         /// Updates the invasion, checking to see if it has ended.
         /// </summary>
-        public static void UpdateInvasion()
+        public static void UpdateInvasion(bool win = true)
         {
             // If the custom invasion is up
             if (CalamityWorld.rainingAcid)
@@ -152,6 +152,11 @@ namespace CalamityMod.Events
                     Main.windSpeedTemp = Main.rand.NextFloat(0.04f, 0.25f);
                     Main.windSpeedSet = Main.windSpeedTemp;
                     Main.maxRaining = 0f;
+                    if (win)
+                    {
+                        CalamityWorld.downedEoCAcidRain = true;
+                        CalamityWorld.downedAquaticScourgeAcidRain = CalamityWorld.downedAquaticScourge;
+                    }
                     CalamityMod.StopRain();
                 }
                 CalamityMod.UpdateServerBoolean();

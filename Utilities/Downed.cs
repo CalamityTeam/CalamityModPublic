@@ -32,5 +32,8 @@ namespace CalamityMod
 		public static readonly Func<bool> DownedDoG = () => CalamityWorld.downedDoG;
 		public static readonly Func<bool> DownedYharon = () => CalamityWorld.downedYharon;
 		public static readonly Func<bool> DownedSCal = () => CalamityWorld.downedSCal;
+
+		public static readonly Func<bool> DownedAcidRainInitial = () => CalamityWorld.downedEoCAcidRain;
+		public static readonly Func<bool> DownedAcidRainHardmode = () => CalamityWorld.downedAquaticScourgeAcidRain;
 	}
 }

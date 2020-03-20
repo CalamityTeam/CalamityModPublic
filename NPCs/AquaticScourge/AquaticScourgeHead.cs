@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -17,6 +18,7 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor.Vanity;
 using Terraria.ModLoader.Config;
@@ -196,6 +198,25 @@ namespace CalamityMod.NPCs.AquaticScourge
                 DropHelper.DropItemChance(npc, ItemID.SonarPotion, 4, 2, 3);
                 DropHelper.DropItemChance(npc, ItemID.CratePotion, 4, 2, 3);
                 DropHelper.DropItemChance(npc, ItemID.GoldenBugNet, 15, 1, 1);
+            }
+
+            // If Aquatic Scourge has not yet been killed, notify players of buffed Acid Rain
+            if (!CalamityWorld.downedAstrageldon)
+            {
+                if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MaulerRoar"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
+
+                string sulfSeaBoostMessage = "Mods.CalamityMod.WetWormBossText";
+                Color sulfSeaBoostColor = AcidRainEvent.TextColor;
+
+                if (Main.netMode == NetmodeID.SinglePlayer)
+                {
+                    Main.NewText(Language.GetTextValue(sulfSeaBoostMessage), sulfSeaBoostColor);
+                }
+                else if (Main.netMode == NetmodeID.Server)
+                {
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(sulfSeaBoostMessage), sulfSeaBoostColor);
+                }
             }
 
             // Mark Aquatic Scourge as dead

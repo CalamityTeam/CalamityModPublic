@@ -1,5 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -31,7 +32,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.lifeMax = 6650;
                 npc.defense = 45;
             }
-            else if (Main.hardMode)
+            else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 80;
                 npc.lifeMax = 705;
@@ -95,6 +96,10 @@ namespace CalamityMod.NPCs.AcidRain
                 if (npc.velocity.Y < 14f)
                     npc.velocity.Y += 0.15f;
             }
+        }
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }
         public override void FindFrame(int frameHeight)
         {

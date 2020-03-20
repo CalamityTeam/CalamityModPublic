@@ -355,7 +355,6 @@ namespace CalamityMod.NPCs.Abyss
                 NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Angler, 0, 0f, 0f, 0f, 0f, 255);
                 NPC.savedAngler = true;
             }
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
             DropHelper.DropItemChance(npc, ItemID.DivingHelmet, 20);
             DropHelper.DropItemChance(npc, ModContent.ItemType<TrashmanTrashcan>(), 20);
             DropHelper.DropItemCondition(npc, ItemID.Gatligator, Main.hardMode, 10, 1, 1);

@@ -27,13 +27,13 @@ namespace CalamityMod.NPCs.AcidRain
             npc.lifeMax = 300;
             npc.defense = 5;
 
-            if (CalamityWorld.downedPolterghast && CalamityWorld.rainingAcid)
+            if (CalamityWorld.downedPolterghast)
             {
                 npc.damage = 245;
                 npc.lifeMax = 5995;
                 npc.defense = 60;
             }
-            else if (Main.hardMode)
+            else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 75;
                 npc.lifeMax = 640;
@@ -317,15 +317,6 @@ namespace CalamityMod.NPCs.AcidRain
 			}
         }
 
-        public override float SpawnChance(NPCSpawnInfo spawnInfo)
-        {
-            if (spawnInfo.playerSafe || !spawnInfo.player.Calamity().ZoneSulphur || !Main.raining)
-            {
-                return 0f;
-            }
-            return 0.05f;
-        }
-
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
@@ -345,7 +336,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), CalamityWorld.rainingAcid ? 100 : 10);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 100);
         }
     }
 }

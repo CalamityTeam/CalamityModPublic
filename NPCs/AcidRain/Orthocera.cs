@@ -1,5 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using System;
@@ -34,7 +35,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.lifeMax = 5700;
                 npc.defense = 65;
             }
-            else if (Main.hardMode)
+            else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 75;
                 npc.lifeMax = 605;
@@ -141,7 +142,7 @@ namespace CalamityMod.NPCs.AcidRain
                         float rotation = npc.rotation - MathHelper.Pi - MathHelper.PiOver2 - MathHelper.PiOver4;
                         if (npc.spriteDirection == -1)
                             rotation += MathHelper.PiOver2;
-                        int damage = Main.hardMode ? 26 : 18;
+                        int damage = CalamityWorld.downedPolterghast ? 40 : CalamityWorld.downedAquaticScourge ? 26 : 18;
                         if (CalamityWorld.downedPolterghast)
                         {
                             damage = 44;
@@ -157,6 +158,10 @@ namespace CalamityMod.NPCs.AcidRain
                 // Prevent yeeting into the sky at the speed of light
                 npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-maxSpeed), new Vector2(maxSpeed));
             }
+        }
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }
         public override void FindFrame(int frameHeight)
         {

@@ -1,5 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -36,7 +37,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.lifeMax = 6300;
                 npc.defense = 58;
             }
-            else if (Main.hardMode)
+            else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 85;
                 npc.lifeMax = 700;
@@ -109,7 +110,7 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.velocity.X = npc.ai[2];
                     if (npc.ai[1] > TotalTime - DiveTime * 0.5f)
                     {
-                        float flySpeed = Main.hardMode ? 0.135f : 0.085f;
+                        float flySpeed = CalamityWorld.downedAquaticScourge ? 0.135f : 0.085f;
                         if (CalamityWorld.downedPolterghast)
                         {
                             flySpeed = 0.185f;
@@ -155,6 +156,10 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.frame.Y = 0;
                 }
             }
+        }
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2, 1, 3);
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

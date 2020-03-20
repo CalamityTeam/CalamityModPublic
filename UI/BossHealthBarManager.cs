@@ -16,6 +16,7 @@ using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
@@ -409,7 +410,7 @@ namespace CalamityMod.UI
             int heightPerOne = 70; //70
 
             int y = Main.screenHeight - startHeight;
-            int x = Main.screenWidth - 420 + ((Main.playerInventory || Main.invasionType > 0 || Main.pumpkinMoon || Main.snowMoon || DD2Event.Ongoing) ? -250 : 0);
+            int x = Main.screenWidth - 420 + ((Main.playerInventory || Main.invasionType > 0 || Main.pumpkinMoon || Main.snowMoon || DD2Event.Ongoing || CalamityWorld.rainingAcid) ? -250 : 0);
 
             foreach (BossHPUI ui in Bars)
             {

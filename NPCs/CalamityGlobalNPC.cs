@@ -3866,7 +3866,7 @@ namespace CalamityMod.NPCs
                 {
                     if (spawnInfo.water)
                     {
-                        List<(int, int)> PossibleEnemies = Main.hardMode ? AcidRainEvent.PossibleEnemiesHM : AcidRainEvent.PossibleEnemiesPreHM;
+                        List<(int, int)> PossibleEnemies = CalamityWorld.downedAquaticScourge ? AcidRainEvent.PossibleEnemiesAS : AcidRainEvent.PossibleEnemiesPreHM;
                         foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
                         {
                             pool.Add(enemy, 1f);
