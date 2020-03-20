@@ -494,7 +494,7 @@ namespace CalamityMod
 				List<int> collection = new List<int>() { ItemType<OldDukeTrophy>(), ItemType<OldDukeMask>(), ItemType<KnowledgeOldDuke>() };
 				string instructions = $"Defeat the Acid Rain event post-Polterghast or fish using a [i:{summon}] in the Sulphurous Sea";
 				string despawn = CalamityUtils.ColorMessage("The old duke disappears amidst the acidic downpour.", new Color(0xF0, 0xE6, 0x8C));
-				AddBoss(bossChecklist, calamity, "OldDuke", order, bosses, DownedBoomerDuke, summon, loot, collection, instructions, despawn);
+				AddBoss(bossChecklist, calamity, "Old Duke", order, bosses, DownedBoomerDuke, summon, loot, collection, instructions, despawn);
 			}
 
 			// Devourer of Gods
