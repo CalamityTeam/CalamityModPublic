@@ -161,8 +161,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2 * (CalamityWorld.downedAquaticScourge ? 6 : 1), 1, 3);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<CorrodedPlate>(), CalamityWorld.downedAquaticScourge && Main.rand.NextBool(3 * (CalamityWorld.downedPolterghast ? 5 : 1)), 1, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<CorrodedFossil>(), CalamityWorld.downedAquaticScourge && Main.rand.NextBool(3 * (CalamityWorld.downedPolterghast ? 5 : 1)), 1, 3);
         }
         public override void FindFrame(int frameHeight)
         {

@@ -3,11 +3,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
 {
-    public class CorrodedPlate : ModItem
+    public class CorrodedFossil : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Corroded Plate");
+            DisplayName.SetDefault("Corroded Fossil");
             Tooltip.SetDefault("It's very sturdy");
         }
 

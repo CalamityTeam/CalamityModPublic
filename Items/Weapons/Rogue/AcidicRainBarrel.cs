@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<BlastBarrel>());
             recipe.AddIngredient(ModContent.ItemType<ContaminatedBile>());
-            recipe.AddIngredient(ModContent.ItemType<CorrodedPlate>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<CorrodedFossil>(), 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
