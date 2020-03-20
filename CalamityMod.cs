@@ -1918,7 +1918,8 @@ namespace CalamityMod
                 ModContent.ItemType<Valediction>(),
                 ModContent.ItemType<FrostcrushValari>(),
                 ModContent.ItemType<DefectiveSphere>(),
-                ModContent.ItemType<TerraDisk>()
+                ModContent.ItemType<TerraDisk>(),
+                ModContent.ItemType<ToxicantTwister>()
             };
 
             boomerangProjList = new List<int>()
@@ -1957,7 +1958,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<SphereYellow>(),
                 ModContent.ProjectileType<ButcherKnife>(),
                 ModContent.ProjectileType<TerraDiskProjectile>(),
-                ModContent.ProjectileType<TerraDiskProjectile2>()
+                ModContent.ProjectileType<TerraDiskProjectile2>(),
+                ModContent.ProjectileType<ToxicantTwisterProjectile>()
             };
 
             javelinList = new List<int>()
@@ -2111,7 +2113,9 @@ namespace CalamityMod
                 ModContent.ItemType<Exorcism>(),
                 ModContent.ItemType<MeteorFist>(),
                 ModContent.ItemType<StarofDestruction>(),
-                ModContent.ItemType<CraniumSmasher>()
+                ModContent.ItemType<CraniumSmasher>(),
+                ModContent.ItemType<ContaminatedBile>(),
+                ModContent.ItemType<AcidicRainBarrel>()
             };
 
             flaskBombProjList = new List<int>()
@@ -2135,7 +2139,9 @@ namespace CalamityMod
                 ModContent.ProjectileType<CraniumSmasherProj>(),
                 ModContent.ProjectileType<CraniumSmasherExplosive>(),
                 ModContent.ProjectileType<DestructionStar>(),
-                ModContent.ProjectileType<DestructionBolt>()
+                ModContent.ProjectileType<DestructionBolt>(),
+                ModContent.ProjectileType<ContaminatedBileFlask>(),
+                ModContent.ProjectileType<GreenDonkeyKongReference>()
             };
 
             spikyBallList = new List<int>()

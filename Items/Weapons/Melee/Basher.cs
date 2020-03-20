@@ -1,4 +1,4 @@
-using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Basher");
-            Tooltip.SetDefault("Inflicts sulfuric poisoning on enemy hits");
+            Tooltip.SetDefault("Inflicts irradiated on enemy hits");
         }
 
         public override void SetDefaults()
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
     }
 }
