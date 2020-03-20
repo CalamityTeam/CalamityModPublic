@@ -644,8 +644,29 @@ namespace CalamityMod.CalPlayer
 				fishingLevel = (int)(fishingLevel * 1.1f);
 			if (Main.player[Main.myPlayer].ZoneSkyHeight && fishingRod.type == ModContent.ItemType<HeronRod>())
 				fishingLevel = (int)(fishingLevel * 1.1f);
+
 			if (bait.type == ModContent.ItemType<BloodwormItem>())
-				fishingLevel = -1;
+			{
+				Point point = player.Center.ToTileCoordinates();
+				bool canSulphurFish = false;
+				if (CalamityWorld.abyssSide)
+				{
+					if (point.X < 380)
+						canSulphurFish = true;
+				}
+				else
+				{
+					if (point.X > Main.maxTilesX - 380)
+						canSulphurFish = true;
+				}
+
+				if (modPlayer.ZoneAbyss || modPlayer.ZoneSulphur)
+					canSulphurFish = true;
+
+				Item item = player.inventory[player.selectedItem];
+				if (!canSulphurFish || item.fishingPole <= 0 || item.holdStyle != 1)
+					fishingLevel = -1;
+			}
 		}
         #endregion
     }
