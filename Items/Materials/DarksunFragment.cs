@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -9,12 +10,13 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Darksun Fragment");
             Tooltip.SetDefault("A shard of lunar and solar energy");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 8));
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
-            item.height = 20;
+            item.height = 19;
             item.maxStack = 999;
             item.rare = 10;
             item.value = Item.sellPrice(gold: 12);
