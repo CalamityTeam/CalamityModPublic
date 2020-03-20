@@ -915,7 +915,7 @@ namespace CalamityMod.World
                 Main.invasionProgressNearInvasion = true;
 
                 // Summon Old Duke tornado post-Polter as needed
-                if (downedPolterghast && acidRainPoints <= 2f &&
+                if (downedPolterghast && acidRainPoints == 2f &&
                     !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) &&
                     CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)
                 {
