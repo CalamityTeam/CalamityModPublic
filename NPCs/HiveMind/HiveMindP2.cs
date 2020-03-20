@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.frame.Width = width;
             npc.frame.Height = height;
             npc.frameCounter++;
-            if (npc.frameCounter > 6)
+            if (npc.frameCounter >= 6)
             {
                 npc.frame.X = counter >= 8 ? width + 3 : 0;
                 if (counter == 8)

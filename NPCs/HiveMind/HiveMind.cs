@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
+            npc.frameCounter += 1f / 6f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
