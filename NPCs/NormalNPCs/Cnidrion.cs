@@ -66,7 +66,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.TargetClosest(true);
             bool flag51 = false;
             int offsetX = 80;
-            if ((double)npc.life < (double)npc.lifeMax * 0.33 || CalamityWorld.death)
+            if ((double)npc.life < (double)npc.lifeMax * 0.33 || (CalamityWorld.death && (double)npc.life < (double)npc.lifeMax * 0.6))
             {
                 num823 = 2f;
             }
@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (npc.ai[0] == 0f)
             {
                 npc.ai[1] += 1f;
-                if ((double)npc.life < (double)npc.lifeMax * 0.33 || CalamityWorld.death)
+                if ((double)npc.life < (double)npc.lifeMax * 0.33 || (CalamityWorld.death && (double)npc.life < (double)npc.lifeMax * 0.6))
                 {
                     npc.ai[1] += 1f;
                 }
@@ -88,9 +88,13 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (npc.ai[1] >= 300f && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.ai[1] = 0f;
-                    if ((double)npc.life < (double)npc.lifeMax * 0.25 || CalamityWorld.death)
+                    if ((double)npc.life < (double)npc.lifeMax * 0.25)
                     {
                         npc.ai[0] = (float)Main.rand.Next(3, 5);
+                    }
+                    else if (CalamityWorld.death && (double)npc.life < (double)npc.lifeMax * 0.6)
+                    {
+                        npc.ai[0] = (float)Main.rand.Next(1, 5);
                     }
                     else
                     {

@@ -45,8 +45,8 @@ namespace CalamityMod.NPCs.OldDuke
 			CalamityGlobalNPC global = npc.Calamity();
 			global.DR = 0.6f;
 			global.customDR = true;
-			global.multDRReductions.Add(BuffID.Ichor, 0.88f);
-			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
+			//global.multDRReductions.Add(BuffID.Ichor, 0.88f);
+			//global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
 			npc.lifeMax = CalamityWorld.revenge ? 1000000 : 750000;
             npc.knockBackResist = 0f;
             npc.noTileCollide = true;
@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.OldDuke
             {
                 npc.buffImmune[k] = true;
             }
-			npc.buffImmune[BuffID.Ichor] = false;
+			/*npc.buffImmune[BuffID.Ichor] = false;
 			npc.buffImmune[BuffID.CursedInferno] = false;
 			npc.buffImmune[BuffID.Daybreak] = false;
 			npc.buffImmune[BuffID.StardustMinionBleed] = false;
@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
 			npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
 			npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-			npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+			npc.buffImmune[ModContent.BuffType<Shred>()] = false;*/
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
