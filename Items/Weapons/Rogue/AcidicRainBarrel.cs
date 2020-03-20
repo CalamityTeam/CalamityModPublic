@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Acidic Blast Barrel");
+            DisplayName.SetDefault("Acidic Rain Barrel");
             Tooltip.SetDefault("Throws a rolling barrel that explodes on wall collision\n" +
                                "Stealth strikes make it rain on collision");
         }
