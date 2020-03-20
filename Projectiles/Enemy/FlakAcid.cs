@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Enemy
             projectile.hostile = true;
             projectile.timeLeft = 480;
             projectile.tileCollide = true;
-            projectile.ignoreWater = false;
+            projectile.ignoreWater = true;
         }
         public override void AI()
         {
