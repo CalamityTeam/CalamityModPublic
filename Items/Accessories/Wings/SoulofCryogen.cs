@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Horizontal speed: 6.25\n" +
                 "Acceleration multiplier: 1\n" +
                 "Average vertical speed\n" +
-                "Flight time: 100\n" +
+                "Flight time: 120\n" +
                 "7% increase to all damage\n" +
                 "All melee attacks and projectiles inflict frostburn\n" +
                 "Icicles rain down as you fly\n" +
@@ -62,11 +62,11 @@ namespace CalamityMod.Items.Accessories.Wings
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.cryogenSoul = true;
             player.allDamage += 0.07f;
-            player.wingTimeMax = 100;
+            player.wingTimeMax = 120;
             player.noFallDmg = true;
 			if (modPlayer.icicleCooldown <= 0)
 			{
-				if (player.controlJump && player.wingTime > 0f && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f)
+				if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f)
 				{
 					int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ModContent.ProjectileType<FrostShardFriendly>(), 25, 3f, player.whoAmI);
 					Main.projectile[p].minion = false;

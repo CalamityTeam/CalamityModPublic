@@ -35,12 +35,12 @@ namespace CalamityMod.Items.Accessories
                 {
                     player.AddBuff(ModContent.BuffType<MutatedTruffleBuff>(), 3600, true);
                 }
-                const int damage = 1800;
+                const int damage = 2000;
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<YoungDuke>()] < 1)
                 {
                     Projectile.NewProjectile(player.Center, Vector2.Zero, 
                         ModContent.ProjectileType<YoungDuke>(),
-                        (int)(damage * (player.allDamage + player.minionDamage - 1f)), 
+                        (int)(damage * player.MinionDamage()), 
                         6.5f, Main.myPlayer, 0f, 0f);
                 }
             }

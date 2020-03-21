@@ -127,7 +127,6 @@ namespace CalamityMod.Projectiles.Ranged
             }
 
             // Smoke, which counts as a Gore
-            Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
 			CalamityUtils.ExplosionGores(projectile, 3);
         }
     }
