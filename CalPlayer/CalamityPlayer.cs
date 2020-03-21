@@ -2506,7 +2506,7 @@ namespace CalamityMod.CalPlayer
             }
             if (sulfurSet && player.controlJump && player.justJumped && player.jumpAgainSandstorm)
             {
-                int bubble = Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), new Vector2(0f, 0f), ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * (player.allDamage + throwingDamage - 1f)), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
+                int bubble = Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), new Vector2(0f, 0f), ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
                 Main.projectile[bubble].Calamity().forceRogue = true;
             }
         }
@@ -7015,7 +7015,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 50f * (player.allDamage + player.meleeDamage - 1f);
+                            float num = 50f * player.MeleeDamage();
                             float num2 = 3f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7063,7 +7063,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 1500f * (player.allDamage + player.meleeDamage - 1f);
+                            float num = 1500f * player.MeleeDamage();
                             float num2 = 15f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7114,7 +7114,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 500f * (player.allDamage + player.meleeDamage - 1f);
+                            float num = 500f * player.MeleeDamage();
                             float num2 = 12f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7164,7 +7164,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 100f * (player.allDamage + player.meleeDamage - 1f);
+                            float num = 100f * player.MeleeDamage();
                             float num2 = 9f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7902,7 +7902,7 @@ namespace CalamityMod.CalPlayer
 
                 rect.Width = 2;
                 rect.Inflate(6, 12);
-                float damage = 800f * (player.allDamage + player.minionDamage - 1f);
+                float damage = 800f * player.MinionDamage();
                 float knockback = 10f;
                 int nPCImmuneTime = 30;
                 int playerImmuneTime = 6;
@@ -7918,7 +7918,7 @@ namespace CalamityMod.CalPlayer
 
                 rect2.Width = 2;
                 rect2.Inflate(6, 12);
-                float damage2 = 50f * (player.allDamage + player.minionDamage - 1f);
+                float damage2 = 50f * player.MinionDamage();
                 float knockback2 = 8f;
                 int nPCImmuneTime2 = 30;
                 int playerImmuneTime2 = 6;
@@ -7934,7 +7934,7 @@ namespace CalamityMod.CalPlayer
 
                 rect2.Width = 2;
                 rect2.Inflate(6, 12);
-                float damage2 = 25f * (player.allDamage + player.minionDamage - 1f);
+                float damage2 = 25f * player.MinionDamage();
                 float knockback2 = 5f;
                 int nPCImmuneTime2 = 30;
                 int playerImmuneTime2 = 6;

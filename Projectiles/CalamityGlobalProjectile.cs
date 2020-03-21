@@ -492,13 +492,13 @@ namespace CalamityMod.Projectiles
             {
                 if (setDamageValues)
                 {
-                    spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                    spawnedPlayerMinionDamageValue = player.MinionDamage();
                     spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                     setDamageValues = false;
                 }
-                if ((player.allDamage + player.minionDamage - 1f) != spawnedPlayerMinionDamageValue)
+                if (player.MinionDamage() != spawnedPlayerMinionDamageValue)
                 {
-                    int damage2 = (int)((float)spawnedPlayerMinionProjectileDamageValue / spawnedPlayerMinionDamageValue * (player.allDamage + player.minionDamage - 1f));
+                    int damage2 = (int)((float)spawnedPlayerMinionProjectileDamageValue / spawnedPlayerMinionDamageValue * player.MinionDamage());
                     projectile.damage = damage2;
                 }
             }
