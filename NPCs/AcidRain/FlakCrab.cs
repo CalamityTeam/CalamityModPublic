@@ -6,6 +6,7 @@ using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -46,6 +47,16 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<FlakCrabBanner>();
         }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(npc.localAI[0]);
+            writer.Write(npc.localAI[1]);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.localAI[0] = reader.ReadSingle();
+            npc.localAI[1] = reader.ReadSingle();
+        }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
@@ -58,7 +69,10 @@ namespace CalamityMod.NPCs.AcidRain
             npc.defense = npc.localAI[1] < 10f ? 999999 : 20;
 
             if (npc.justHit)
+            {
                 npc.localAI[0] = 240;
+                npc.netUpdate = true;
+            }
             if (npc.localAI[0] == 0f || npc.localAI[1] < 10f)
             {
                 npc.chaseable = false;
@@ -104,6 +118,7 @@ namespace CalamityMod.NPCs.AcidRain
                         npc.ai[2] = 0f;
                         npc.velocity.Y -= jumpSpeed;
                         npc.velocity.X = lungeForwardSpeed * -npc.direction;
+                        npc.netUpdate = true;
                     }
                 }
                 else

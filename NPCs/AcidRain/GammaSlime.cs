@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 40;
             npc.height = 30;
 
-			npc.damage = 205;
+			npc.damage = 145;
 			npc.lifeMax = 6410;
 			npc.defense = 50;
 
@@ -82,9 +82,10 @@ namespace CalamityMod.NPCs.AcidRain
                         {
                             float angle = MathHelper.TwoPi / 5f * i + (npc.ai[1] % 2) * MathHelper.PiOver2;
                             Projectile.NewProjectile(npc.Center, angle.ToRotationVector2() * 7f, ModContent.ProjectileType<GammaAcid>(),
-                                40, 3f);
+                                45, 3f);
                         }
                     }
+                    npc.netUpdate = true;
                 }
             }
             else
@@ -113,12 +114,12 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 angularMultiplier1 = Main.rand.NextFloat(3f);
                 angularMultiplier2 = Main.rand.NextFloat(4f);
+                npc.netUpdate = true;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 104); // Moon lord beam sound
-                    Projectile.NewProjectile(npc.Center, -Vector2.UnitY, ModContent.ProjectileType<GammaBeam>(), 105, 4f, 0, 0f, npc.whoAmI);
+                    Projectile.NewProjectile(npc.Center, -Vector2.UnitY, ModContent.ProjectileType<GammaBeam>(), 120, 4f, Main.myPlayer, 0f, npc.whoAmI);
                 }
-                npc.netUpdate = true;
             }
             // Very complex particle effects while releasing the beam
             else if (npc.ai[3] >= 300f)
@@ -143,6 +144,7 @@ namespace CalamityMod.NPCs.AcidRain
                 Main.rand.NextBool(110))
             {
                 npc.ai[3] = 600f;
+                npc.netUpdate = true;
             }
         }
 

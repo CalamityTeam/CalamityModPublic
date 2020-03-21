@@ -1,3 +1,4 @@
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,7 +9,13 @@ namespace CalamityMod.Waters
     {
         public override bool ChooseWaterStyle()
         {
-            return Main.LocalPlayer.Calamity().ZoneSulphur;
+            bool inXZone = Main.LocalPlayer.Center.X < 10400f;
+            if (!CalamityWorld.abyssSide)
+                inXZone = Main.LocalPlayer.Center.X > Main.maxTilesX * 16f - 10400f;
+
+            bool inYZone = Main.LocalPlayer.Center.Y < Main.rockLayer * 16f - 320 && Main.LocalPlayer.Center.Y >= 5800f;
+
+            return (inXZone && inYZone) || Main.LocalPlayer.Calamity().ZoneSulphur;
         }
 
         public override int ChooseWaterfallStyle()

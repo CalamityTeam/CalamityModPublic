@@ -1612,6 +1612,7 @@ namespace CalamityMod.NPCs
                 npc.type == ModContent.NPCType<OldDuke.OldDuke>() &&
                 CalamityWorld.acidRainPoints <= 2f)
             {
+                CalamityWorld.triedToSummonOldDuke = false;
                 CalamityWorld.acidRainPoints = 0;
             }
             AcidRainEvent.UpdateInvasion();

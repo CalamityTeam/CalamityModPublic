@@ -35,6 +35,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
             else
             {
                 CalamityWorld.acidRainPoints = 0;
+                CalamityWorld.triedToSummonOldDuke = false;
                 AcidRainEvent.UpdateInvasion(false);
             }
             return true;
