@@ -61,15 +61,15 @@ namespace CalamityMod.Projectiles.Summon
             // Adjust damage as needed
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = player.allDamage + player.minionDamage - 1f;
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[0] = 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = trueDamage;
             }
 
@@ -101,8 +101,8 @@ namespace CalamityMod.Projectiles.Summon
                 if (projectile.Distance(potentialTarget.Center) < DistanceBeforeCharge)
                 {
                     projectile.ai[0] += 1f;
-                    int timePerCharge = playerHalfLife ? 33 : 50;
-                    float chargeSpeed = playerHalfLife ? 22f : 17.5f;
+                    int timePerCharge = playerHalfLife ? 25 : 35;
+                    float chargeSpeed = playerHalfLife ? 25f : 20f;
                     if (projectile.ai[0] >= timePerCharge)
                     {
                         projectile.velocity = projectile.DirectionTo(potentialTarget.Center) * chargeSpeed;
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Summon
                 else
                 {
                     float intertia = 0.94f;
-                    float homeSpeed = playerHalfLife ? 33f : 25.75f;
+                    float homeSpeed = playerHalfLife ? 38f : 32f;
                     projectile.velocity = Vector2.Lerp(projectile.velocity,
                         projectile.DirectionTo(potentialTarget.Center) * homeSpeed,
                         1f - intertia);
