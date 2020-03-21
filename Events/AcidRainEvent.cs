@@ -32,8 +32,6 @@ namespace CalamityMod.Events
             ( ModContent.NPCType<WaterLeech>(), 1 )
         };
 
-        // Not readonly so that if anyone else wants to add stuff in here with their own mod, they can.
-        // The first value is the NPC type, the second is the value they're worth in the event
         public static List<(int, int)> PossibleEnemiesAS = new List<(int, int)>()
         {
             ( ModContent.NPCType<Radiator>(), 0 ),
@@ -41,6 +39,19 @@ namespace CalamityMod.Events
             ( ModContent.NPCType<AcidEel>(), 0 ),
             ( ModContent.NPCType<Orthocera>(), 1 ),
             ( ModContent.NPCType<IrradiatedSlime>(), 1 ),
+            ( ModContent.NPCType<WaterLeech>(), 1 ),
+            ( ModContent.NPCType<Skyfin>(), 1 ),
+            ( ModContent.NPCType<Trilobite>(), 1 ),
+            ( ModContent.NPCType<FlakCrab>(), 1 ),
+            ( ModContent.NPCType<SulfurousSkater>(), 1 )
+        };
+
+        public static List<(int, int)> PossibleEnemiesPolter = new List<(int, int)>()
+        {
+            ( ModContent.NPCType<NuclearToad>(), 0 ),
+            ( ModContent.NPCType<AcidEel>(), 0 ),
+            ( ModContent.NPCType<Orthocera>(), 1 ),
+            ( ModContent.NPCType<GammaSlime>(), 1 ),
             ( ModContent.NPCType<WaterLeech>(), 1 ),
             ( ModContent.NPCType<Skyfin>(), 1 ),
             ( ModContent.NPCType<Trilobite>(), 1 ),
@@ -77,7 +88,11 @@ namespace CalamityMod.Events
                 if (Main.npc[i].active)
                 {
                     int type = Main.npc[i].type;
-                    List<(int, int)> PossibleEnemies = CalamityWorld.downedAquaticScourge ? PossibleEnemiesAS : PossibleEnemiesPreHM;
+                    List<(int, int)> PossibleEnemies = PossibleEnemiesPreHM;
+                    if (CalamityWorld.downedAquaticScourge)
+                        PossibleEnemies = PossibleEnemiesAS;
+                    if (CalamityWorld.downedPolterghast)
+                        PossibleEnemies = PossibleEnemiesPolter;
                     if (PossibleEnemies.Select(enemy => enemy.Item2).Contains(type))
                     {
                         Rectangle invasionCheckArea = new Rectangle((int)Main.npc[i].Center.X - rectangleCheckSize / 2, (int)Main.npc[i].Center.Y - rectangleCheckSize / 2,

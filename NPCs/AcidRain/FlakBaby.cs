@@ -124,8 +124,6 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     npc.frame.Y = 0;
                 }
-                if (npc.ai[1] <= 8)
-                    npc.frame.Y = frameHeight;
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

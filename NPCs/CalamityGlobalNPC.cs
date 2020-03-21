@@ -3905,7 +3905,11 @@ namespace CalamityMod.NPCs
 
                 if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
                 {
-                    List<(int, int)> PossibleEnemies = CalamityWorld.downedAquaticScourge ? AcidRainEvent.PossibleEnemiesAS : AcidRainEvent.PossibleEnemiesPreHM;
+                    List<(int, int)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+                    if (CalamityWorld.downedAquaticScourge)
+                        PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
+                    if (CalamityWorld.downedPolterghast)
+                        PossibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
                     foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
                     {
                         pool.Add(enemy, 1f);
