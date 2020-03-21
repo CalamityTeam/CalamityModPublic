@@ -4826,7 +4826,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Steampunker:
                     bool hasPortalGun = false;
-                    for (int k = 0; k < 255; k++)
+                    for (int k = 0; k < Main.maxPlayers; k++)
                     {
                         Player player = Main.player[k];
                         if (player.active && player.HasItem(ItemID.PortalGun))
@@ -4872,7 +4872,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.TaxCollector:
                     int platinumCoins = 0;
-                    for (int k = 0; k < 255; k++)
+                    for (int k = 0; k < Main.maxPlayers; k++)
                     {
                         Player player = Main.player[k];
                         if (player.active)
@@ -5077,7 +5077,7 @@ namespace CalamityMod.NPCs
         #region Any Boss NPCs
         public static bool AnyBossNPCS()
         {
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
                 if (Main.npc[i].active && Main.npc[i].type != NPCID.MartianSaucerCore &&
                     (Main.npc[i].boss || Main.npc[i].type == NPCID.EaterofWorldsHead || Main.npc[i].type == NPCID.EaterofWorldsTail || Main.npc[i].type == ModContent.NPCType<SlimeGodRun>() ||
@@ -5093,7 +5093,7 @@ namespace CalamityMod.NPCs
         #region Any Living Players
         public static bool AnyLivingPlayers()
         {
-            for (int i = 0; i < 255; i++)
+            for (int i = 0; i < Main.maxPlayers; i++)
             {
                 if (Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost)
                 {
