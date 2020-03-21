@@ -10,11 +10,15 @@ namespace CalamityMod.Items.Tools
 {
     public class CrystylCrusher : ModItem
     {
-        public override void SetStaticDefaults()
+		private static int PickPower = 5000;
+		private static float LaserSpeed = 14f;
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crystyl Crusher");
             Tooltip.SetDefault("Gotta dig faster, gotta go deeper\n" +
-				"5000% pickaxe power");
+				"5000% pickaxe power\n" +
+				"Right click to swing normally");
 			Item.staff[item.type] = true;
 		}
 
@@ -41,7 +45,70 @@ namespace CalamityMod.Items.Tools
 
 		public override Vector2? HoldoutOrigin()
 		{
+			if (item.pick == PickPower)
+				return null;
 			return new Vector2(10, 10);
+		}
+
+		public override bool AltFunctionUse(Player player)
+		{
+			return true;
+		}
+
+		public override bool CanUseItem(Player player)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				item.pick = PickPower;
+				item.shoot = 0;
+				item.shootSpeed = 0f;
+				item.tileBoost += 50;
+				item.UseSound = SoundID.Item1;
+				item.useStyle = 1;
+				item.useTime = 2;
+				item.useAnimation = 10;
+				item.useTurn = true;
+				item.autoReuse = true;
+				item.noMelee = false;
+				item.channel = false;
+			}
+			else
+			{
+				item.pick = 0;
+				item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
+				item.shootSpeed = LaserSpeed;
+				item.tileBoost = 0;
+				item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
+				item.useStyle = 5;
+				item.useTime = 20;
+				item.useAnimation = 20;
+				item.useTurn = false;
+				item.autoReuse = false;
+				item.noMelee = true;
+				item.channel = true;
+			}
+			return base.CanUseItem(player);
+		}
+
+		public override void MeleeEffects(Player player, Rectangle hitbox)
+		{
+			if (Main.rand.NextBool(3))
+			{
+				int num307 = Main.rand.Next(3);
+				if (num307 == 0)
+				{
+					num307 = 173;
+				}
+				else if (num307 == 1)
+				{
+					num307 = 57;
+				}
+				else
+				{
+					num307 = 58;
+				}
+				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, num307);
+			}
 		}
 
 		public override void AddRecipes()
