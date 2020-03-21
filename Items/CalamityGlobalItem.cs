@@ -549,13 +549,13 @@ namespace CalamityMod.Items
                     {
                         player.Calamity().profanedSoulWeaponUsage = 0;
                     }
-                    if (player.Calamity().profanedSoulWeaponUsage >= (enrage ? 120 : 180))
+                    if (player.Calamity().profanedSoulWeaponUsage >= (enrage ? 69 : 180))
                     {
                         float crystalCount = 36f;
                         for (float i = 0; i < crystalCount; i++)
                         {
                             float angle = MathHelper.TwoPi / crystalCount * i;
-                            int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 169 : 880) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, 0f, 0f);
+                            int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 300 : 880) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, 0f, 0f);
                             Main.projectile[proj].Calamity().forceMinion = true;
                             Main.PlaySound(SoundID.Item20, player.Center);
                         }
@@ -564,7 +564,7 @@ namespace CalamityMod.Items
                     else if (player.Calamity().profanedSoulWeaponUsage % (enrage ? 5 : 10) == 0)
                     {
                         float angle = MathHelper.TwoPi / (enrage ? 9 : 18) * (player.Calamity().profanedSoulWeaponUsage / (enrage ? 1 : 10));
-                        int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 220 : 1100) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, 1f, 0f);
+                        int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 400 : 1100) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, 1f, 0f);
                         Main.projectile[proj].Calamity().forceMinion = true;
                         Main.PlaySound(SoundID.Item20, player.Center);
                     }
