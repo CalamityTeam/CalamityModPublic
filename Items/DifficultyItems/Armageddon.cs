@@ -78,10 +78,8 @@ namespace CalamityMod.Items.DifficultyItems
             if (Main.netMode == NetmodeID.Server)
             {
                 var netMessage = mod.GetPacket();
-                netMessage.Write((uint)CalamityModMessageType.ArmageddonBoolSync);
+                netMessage.Write((byte)CalamityModMessageType.ArmageddonBoolSync);
                 netMessage.Write(CalamityWorld.armageddon);
-                netMessage.Write((uint)CalamityModMessageType.DoGCountdownSync);
-                netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
                 netMessage.Send();
             }
             return true;

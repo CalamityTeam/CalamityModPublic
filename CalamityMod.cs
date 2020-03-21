@@ -3619,8 +3619,6 @@ namespace CalamityMod
                         CalamityWorld.revenge = revActive;
                         break;
                     case CalamityModMessageType.DeathBoolSync:
-                        bool revActive2 = reader.ReadBoolean();
-                        CalamityWorld.revenge = revActive2;
                         bool deathActive = reader.ReadBoolean();
                         CalamityWorld.death = deathActive;
                         break;

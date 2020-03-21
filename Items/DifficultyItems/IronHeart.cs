@@ -87,7 +87,12 @@ namespace CalamityMod.Items.DifficultyItems
                 var netMessage = mod.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.IronHeartBoolSync);
                 netMessage.Write(CalamityWorld.ironHeart);
-                netMessage.Write((uint)CalamityModMessageType.DoGCountdownSync);
+                netMessage.Send();
+            }
+            if (Main.netMode == NetmodeID.Server)
+            {
+                var netMessage = mod.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.DoGCountdownSync);
                 netMessage.Write(CalamityWorld.DoGSecondStageCountdown);
                 netMessage.Send();
             }
