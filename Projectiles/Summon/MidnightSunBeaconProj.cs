@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 for (int i = 1; i <= 4; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MidnightSunSkyBeam>(), 150, 0f, projectile.owner, 
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MidnightSunSkyBeam>(), projectile.damage / 4, 0f, projectile.owner, 
                         projectile.whoAmI, i - 2);
                 }
                 projectile.ai[1] = MidnightSunSkyBeam.TrueTimeLeft + 60f;
