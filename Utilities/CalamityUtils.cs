@@ -358,6 +358,45 @@ namespace CalamityMod
                 proj = x;
             }
         }
+
+        /// <summary>
+        /// Call this function in the Kill function of your projectile to spawn cloud-like gores. Used primarily for explosions
+        /// </summary>
+        /// <param name="projectile">The projectile you're adding explosion clouds to</param>
+        public static void ExplosionGores (Projectile projectile, int goreAmt)
+        {
+            Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
+			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+			{
+				float scaleFactor10 = 0.33f;
+				if (goreIndex < (int)(goreAmt/3))
+				{
+					scaleFactor10 = 0.66f;
+				}
+				if (goreIndex >= (int)((2*goreAmt)/3))
+				{
+					scaleFactor10 = 1f;
+				}
+				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				Gore gore = Main.gore[smoke];
+				gore.velocity *= scaleFactor10;
+				gore.velocity.X += 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= scaleFactor10;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= scaleFactor10;
+				gore.velocity.X += 1f;
+				gore.velocity.Y -= 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= scaleFactor10;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y -= 1f;
+			}
+        }
+
         /// <summary>
         /// Call this function in the ai of your projectile so it can stick to enemies, also requires ModifyHitNPCSticky to be called in ModifyHitNPC
         /// </summary>
