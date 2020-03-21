@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 315;
+                npc.damage = 172;
                 npc.lifeMax = 4000;
                 npc.defense = 30;
             }
@@ -72,6 +72,7 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     // Revert back to swimming around after successfully devouring the player
                     npc.ai[0] = 0f;
+                    npc.netUpdate = true;
                     return;
                 }
                 // Stick to player and make them bleed
@@ -122,6 +123,7 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 300f;
+                    npc.netUpdate = true;
                 }
                 npc.velocity = (npc.velocity * (swimIntertia - 1f) + npc.DirectionTo(player.Center) * speed) / swimIntertia;
             }

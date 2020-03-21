@@ -3651,11 +3651,15 @@ namespace CalamityMod
                     case CalamityModMessageType.AcidRainUIDrawFadeSync:
                         CalamityWorld.acidRainExtraDrawTime = reader.ReadInt32();
                         break;
+                    case CalamityModMessageType.AcidRainOldDukeSummonSync:
+                        CalamityWorld.triedToSummonOldDuke = reader.ReadBoolean();
+                        break;
                     default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
                 }
-            } catch(Exception e)
+            }
+            catch(Exception e)
             {
                 if (e is EndOfStreamException eose)
                     Logger.Error("Failed to parse Calamity packet: Packet was too short, missing data, or otherwise corrupt.", eose);
@@ -3729,6 +3733,7 @@ namespace CalamityMod
 		DeathModeBlizzardTimeSync,
 		DeathBossSpawnCountdownSync,
         AcidRainSync,
-        AcidRainUIDrawFadeSync
+        AcidRainUIDrawFadeSync,
+        AcidRainOldDukeSummonSync
     }
 }

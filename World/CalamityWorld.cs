@@ -107,6 +107,7 @@ namespace CalamityMod.World
         public static bool rainingAcid;
         public static int acidRainPoints = 0;
         public static int acidRainExtraDrawTime = 0;
+        public static bool triedToSummonOldDuke = false;
         public static float AcidRainCompletionRatio
         {
             get
@@ -364,6 +365,8 @@ namespace CalamityMod.World
                 downed.Add("eocRain");
             if (downedAquaticScourgeAcidRain)
                 downed.Add("hmRain");
+            if (triedToSummonOldDuke)
+                downed.Add("spawnedBoomer");
 
             return new TagCompound
             {
@@ -431,6 +434,7 @@ namespace CalamityMod.World
             spawnedCirrus = downed.Contains("drunkPrincess");
             downedEoCAcidRain = downed.Contains("eocRain");
             downedAquaticScourgeAcidRain = downed.Contains("hmRain");
+            triedToSummonOldDuke = downed.Contains("spawnedBoomer");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
@@ -514,8 +518,9 @@ namespace CalamityMod.World
                 downedCLAM = flags7[2];
                 dragonScalesBought = flags7[3];
                 rainingAcid = flags7[4];
-                downedEoCAcidRain = flags[5];
-                downedAquaticScourgeAcidRain = flags[6];
+                downedEoCAcidRain = flags7[5];
+                downedAquaticScourgeAcidRain = flags7[6];
+                triedToSummonOldDuke = flags7[7];
             }
             else
             {
@@ -597,6 +602,7 @@ namespace CalamityMod.World
             flags7[4] = rainingAcid;
             flags7[5] = downedEoCAcidRain;
             flags7[6] = downedAquaticScourgeAcidRain;
+            flags7[7] = triedToSummonOldDuke;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -681,8 +687,9 @@ namespace CalamityMod.World
             downedCLAM = flags7[2];
             dragonScalesBought = flags7[3];
             rainingAcid = flags7[4];
-            downedEoCAcidRain = flags[5];
-            downedAquaticScourgeAcidRain = flags[6];
+            downedEoCAcidRain = flags7[5];
+            downedAquaticScourgeAcidRain = flags7[6];
+            triedToSummonOldDuke = flags7[7];
 
             abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
@@ -919,12 +926,21 @@ namespace CalamityMod.World
                     !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) &&
                     CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)
                 {
-                    int playerClosestToAbyss = Player.FindClosest(new Vector2(abyssSide ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
-                    Player closestToAbyss = Main.player[playerClosestToAbyss];
-                    if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (abyssSide ? 0 : Main.maxTilesX * 16)) <= 12000f)
+                    if (triedToSummonOldDuke)
                     {
-                        Projectile.NewProjectile(closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero,
-                            ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f);
+                        acidRainPoints = 0;
+                        triedToSummonOldDuke = false;
+                        AcidRainEvent.UpdateInvasion(false);
+                    }
+                    else
+                    {
+                        int playerClosestToAbyss = Player.FindClosest(new Vector2(abyssSide ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
+                        Player closestToAbyss = Main.player[playerClosestToAbyss];
+                        if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (abyssSide ? 0 : Main.maxTilesX * 16)) <= 12000f)
+                        {
+                            Projectile.NewProjectile(closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero,
+                                ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f, Main.myPlayer);
+                        }
                     }
                 }
             }

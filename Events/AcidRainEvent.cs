@@ -112,7 +112,7 @@ namespace CalamityMod.Events
         /// </summary>
         public static void TryStartEvent()
         {
-            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode))
+            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode) || CalamityWorld.bossRushActive)
                 return;
             int playerCount = 0;
             for (int i = 0; i < Main.player.Length; i++)
@@ -141,6 +141,7 @@ namespace CalamityMod.Events
                 // If abyssSide is true, then the abyss was generated on the left side of the world.
                 // If false, the right.
                 Main.invasionX = CalamityWorld.abyssSide ? 0 : Main.maxTilesX;
+                CalamityWorld.triedToSummonOldDuke = false;
             }
             UpdateInvasion();
             BroadcastEventText("Mods.CalamityMod.AcidRainStart"); // A toxic downpour falls over the wasteland seas!
@@ -174,10 +175,15 @@ namespace CalamityMod.Events
                         CalamityWorld.downedEoCAcidRain = true;
                         CalamityWorld.downedAquaticScourgeAcidRain = CalamityWorld.downedAquaticScourge;
                     }
+                    CalamityWorld.triedToSummonOldDuke = false;
                     CalamityMod.StopRain();
                 }
                 CalamityMod.UpdateServerBoolean();
 
+                // You will be tempted to turn this into a single if conditional.
+                // Don't do this. Doing so has caused so much misery, with various things being read instead
+                // of the correct thing, look booleans being mixed up in the sending and receiving process.
+                // In short, leave this alone.
                 if (Main.netMode == NetmodeID.Server)
                 {
                     var netMessage = CalamityMod.instance.GetPacket();
@@ -191,6 +197,13 @@ namespace CalamityMod.Events
                     var netMessage = CalamityMod.instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainUIDrawFadeSync);
                     netMessage.Write(CalamityWorld.acidRainExtraDrawTime);
+                    netMessage.Send();
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = CalamityMod.instance.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.AcidRainOldDukeSummonSync);
+                    netMessage.Write(CalamityWorld.triedToSummonOldDuke);
                     netMessage.Send();
                 }
             }

@@ -4301,6 +4301,7 @@ namespace CalamityMod.NPCs
 				if (npc.timeLeft == 1)
 				{
 					CalamityWorld.acidRainPoints = 0;
+					CalamityWorld.triedToSummonOldDuke = false;
 					AcidRainEvent.UpdateInvasion(false);
 					npc.timeLeft = 0;
 				}
