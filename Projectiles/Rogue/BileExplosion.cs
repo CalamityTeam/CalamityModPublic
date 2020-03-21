@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 6;
+            target.immune[projectile.owner] = 9;
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
