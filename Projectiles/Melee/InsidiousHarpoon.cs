@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Melee
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.ai[0] = 2f;
-			projectile.timeLeft = 600;
+			projectile.timeLeft = 300;
             return false;
         }
 
