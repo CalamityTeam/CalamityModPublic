@@ -19,10 +19,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 26;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.accessory = true;
             item.rare = 10;
-            item.Calamity().customRarity = (CalamityRarity)12;
+            item.Calamity().postMoonLordRarity = 13;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
