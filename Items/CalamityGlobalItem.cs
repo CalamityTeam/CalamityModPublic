@@ -465,7 +465,7 @@ namespace CalamityMod.Items
                             {
                                 Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
 
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 500 : 1750) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 1000 : 1750) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
                                 spread -= Main.rand.Next(2, 4);
                                 Main.PlaySound(SoundID.Item20, player.Center);
                             }
@@ -473,7 +473,7 @@ namespace CalamityMod.Items
                         }
                         else
                         {
-                            Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 250 : 1250) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
+                            Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 500 : 1250) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
                             Main.PlaySound(SoundID.Item20, player.Center);
                         }
 
@@ -491,7 +491,7 @@ namespace CalamityMod.Items
                         bool isSmallBoomer = Main.rand.NextDouble() <= (enrage ? 0.2 : 0.3); // 20% chance if enraged, else 30% This is intentional due to literally doubling the amount of projectiles fired.
                         bool isThiccBoomer = isSmallBoomer && Main.rand.NextDouble() <= 0.05; // 5%
                         int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
-                        int dam = (int)((shouldNerf ? 250 : 1000) * (player.allDamage + player.minionDamage - 1f));
+                        int dam = (int)((shouldNerf ? 500 : 1000) * (player.allDamage + player.minionDamage - 1f));
                         switch (projType)
                         {
                             case 1: //big boomer
@@ -530,7 +530,7 @@ namespace CalamityMod.Items
                         player.statMana -= manaCost;
                         correctedVelocity *= 25f;
                         Main.PlaySound(SoundID.Item20, player.Center);
-                        int dam = (int)((shouldNerf ? 900 : 4500) * (player.allDamage + player.minionDamage - 1f));
+                        int dam = (int)((shouldNerf ? 1800 : 4500) * (player.allDamage + player.minionDamage - 1f));
                         if (player.HasBuff(BuffID.ManaSickness))
                         {
                             int sickPenalty = (int)(dam * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
@@ -549,7 +549,7 @@ namespace CalamityMod.Items
                     {
                         player.Calamity().profanedSoulWeaponUsage = 0;
                     }
-                    if (player.Calamity().profanedSoulWeaponUsage >= (enrage ? 69 : 180))
+                    if (player.Calamity().profanedSoulWeaponUsage >= (enrage ? 120 : 180))
                     {
                         float crystalCount = 36f;
                         for (float i = 0; i < crystalCount; i++)
