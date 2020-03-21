@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 projectile.alpha = 0;
             }
-            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
+            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.25f / 255f, Main.DiscoG * 0.25f / 255f, Main.DiscoB * 0.25f / 255f);
             float num55 = 100f;
             float num56 = 2f; //3
             if (projectile.ai[1] == 0f)

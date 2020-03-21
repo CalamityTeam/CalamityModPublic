@@ -76,35 +76,7 @@ namespace CalamityMod.Projectiles.Enemy
                 num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 8, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
-            for (int num625 = 0; num625 < 3; num625++)
-            {
-                float scaleFactor10 = 0.33f;
-                if (num625 == 1)
-                {
-                    scaleFactor10 = 0.66f;
-                }
-                if (num625 == 2)
-                {
-                    scaleFactor10 = 1f;
-                }
-				int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				Gore gore = Main.gore[num626];
-				gore.velocity *= scaleFactor10;
-				gore.velocity.X += 1f;
-				gore.velocity.Y += 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= scaleFactor10;
-				gore.velocity.X -= 1f;
-				gore.velocity.Y += 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= scaleFactor10;
-				gore.velocity.X += 1f;
-				gore.velocity.Y -= 1f;
-				num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= scaleFactor10;
-				gore.velocity.X -= 1f;
-				gore.velocity.Y -= 1f;
-            }
+			CalamityUtils.ExplosionGores(projectile, 3);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

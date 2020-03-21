@@ -31,6 +31,9 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
+			//Lighting
+            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.25f / 255f, Main.DiscoG * 0.25f / 255f, Main.DiscoB * 0.25f / 255f);
+
             //Animation
             projectile.frameCounter++;
             if (projectile.frameCounter > 7)
@@ -64,6 +67,7 @@ namespace CalamityMod.Projectiles.Ranged
 				Main.dust[num249].scale *= (float)Main.rand.Next(10) * 0.1f;
 				Main.dust[num249].velocity *= 0.2f;
 				Main.dust[num249].noGravity = true;
+				Main.dust[num249].noLight = true;
 			}
 			else
 			{
@@ -71,6 +75,7 @@ namespace CalamityMod.Projectiles.Ranged
 				Main.dust[dust2].fadeIn = 1f + (float)Main.rand.Next(5) * 0.1f;
 				Main.dust[dust2].velocity *= 0.05f;
 				Main.dust[dust2].noGravity = true;
+				Main.dust[dust2].noLight = true;
 			}
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 16f, 20f);
         }
@@ -97,6 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
 					int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num298, 0f, 0f, 100, default, 1f);
 					Main.dust[num622].velocity *= 3f;
 					Main.dust[num622].noGravity = true;
+					Main.dust[num622].noLight = true;
 					if (Main.rand.NextBool(2))
 					{
 						Main.dust[num622].scale = 0.5f;
@@ -107,39 +113,12 @@ namespace CalamityMod.Projectiles.Ranged
 				{
 					int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num298, 0f, 0f, 100, default, 0.5f);
 					Main.dust[num624].noGravity = true;
+					Main.dust[num624].noLight = true;
 					Main.dust[num624].velocity *= 5f;
 					num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num298, 0f, 0f, 100, default, 0.75f);
 					Main.dust[num624].velocity *= 2f;
 				}
-				for (int num625 = 0; num625 < 10; num625++)
-				{
-					float scaleFactor10 = 0.33f;
-					if (num625 == 1)
-					{
-						scaleFactor10 = 0.66f;
-					}
-					if (num625 == 2)
-					{
-						scaleFactor10 = 1f;
-					}
-					int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-					Gore gore = Main.gore[num626];
-					gore.velocity *= scaleFactor10;
-					gore.velocity.X += 1f;
-					gore.velocity.Y += 1f;
-					num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-					gore.velocity *= scaleFactor10;
-					gore.velocity.X -= 1f;
-					gore.velocity.Y += 1f;
-					num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-					gore.velocity *= scaleFactor10;
-					gore.velocity.X += 1f;
-					gore.velocity.Y -= 1f;
-					num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-					gore.velocity *= scaleFactor10;
-					gore.velocity.X -= 1f;
-					gore.velocity.Y -= 1f;
-				}
+				CalamityUtils.ExplosionGores(projectile, 10);
 			}
         }
 

@@ -13,6 +13,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         private const float Radius = 100f;
         private SoundEffectInstance mmmmmm = null;
+		private bool spawnedAura = false;
 
         public override void SetStaticDefaults()
         {
@@ -54,9 +55,10 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 CalamityUtils.ApplySoundStats(ref mmmmmm, projectile.Center);
             
             // Spawn invisible but damaging aura projectile
-            if (projectile.owner == Main.myPlayer)
+            if (projectile.owner == Main.myPlayer && !spawnedAura)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MicrowaveAura>(), (int)((double)projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MicrowaveAura>(), (int)((double)projectile.damage * 0.5f), projectile.knockBack, projectile.owner, projectile.identity, 0f);
+				spawnedAura = true;
             }
 
             // Dust circle appears for all players, even though the aura projectile is only spawned by the owner

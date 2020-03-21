@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Melee.Yoyos;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -17,13 +18,48 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.SoulDrain);
-            aiType = 476;
-            projectile.magic = false;
             projectile.melee = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 10;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+			projectile.width = 200;
+			projectile.height = 200;
+			projectile.friendly = true;
+			projectile.tileCollide = false;
+			projectile.penetrate = -1;
+			projectile.alpha = 255;
+			projectile.ignoreWater = true;
+			projectile.timeLeft = 300;
         }
+
+		public override void AI()
+		{
+			Projectile parent = Main.projectile[0];
+			bool active = false;
+			for (int i = 0; i < Main.projectile.Length; i++)
+			{
+				Projectile p = Main.projectile[i];
+				if (p.identity == projectile.ai[0] && p.active && p.type == ModContent.ProjectileType<MicrowaveYoyo>())
+				{
+					parent = p;
+					active = true;
+				}
+			}
+
+			if (active)
+			{
+				projectile.Center = parent.Center;
+				projectile.timeLeft = 2;
+			}
+			else
+			{
+				projectile.Kill();
+			}
+
+			if (!parent.active)
+			{
+				projectile.Kill();
+			}
+		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

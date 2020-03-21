@@ -110,42 +110,7 @@ namespace CalamityMod.Projectiles.Melee
                 num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-            for (int num625 = 0; num625 < 3; num625++)
-            {
-                float scaleFactor10 = 0.33f;
-                if (num625 == 1)
-                {
-                    scaleFactor10 = 0.66f;
-                }
-                if (num625 == 2)
-                {
-                    scaleFactor10 = 1f;
-                }
-                int num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13AB6_cp_0 = Main.gore[num626];
-                expr_13AB6_cp_0.velocity.X += 1f;
-                Gore expr_13AD6_cp_0 = Main.gore[num626];
-                expr_13AD6_cp_0.velocity.Y += 1f;
-                num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13B79_cp_0 = Main.gore[num626];
-                expr_13B79_cp_0.velocity.X -= 1f;
-                Gore expr_13B99_cp_0 = Main.gore[num626];
-                expr_13B99_cp_0.velocity.Y += 1f;
-                num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13C3C_cp_0 = Main.gore[num626];
-                expr_13C3C_cp_0.velocity.X += 1f;
-                Gore expr_13C5C_cp_0 = Main.gore[num626];
-                expr_13C5C_cp_0.velocity.Y -= 1f;
-                num626 = Gore.NewGore(new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                Main.gore[num626].velocity *= scaleFactor10;
-                Gore expr_13CFF_cp_0 = Main.gore[num626];
-                expr_13CFF_cp_0.velocity.X -= 1f;
-                Gore expr_13D1F_cp_0 = Main.gore[num626];
-                expr_13D1F_cp_0.velocity.Y -= 1f;
-            }
+			CalamityUtils.ExplosionGores(projectile, 3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
