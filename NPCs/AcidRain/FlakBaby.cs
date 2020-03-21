@@ -76,7 +76,13 @@ namespace CalamityMod.NPCs.AcidRain
             Player closest = Main.player[Player.FindClosest(npc.Top, 0, 0)];
             if (Math.Abs(closest.Center.X - npc.Center.X) > 600f)
             {
+                npc.ai[1] = 90;
+            }
+
+            if (npc.ai[1] > 0f)
+            {
                 npc.velocity.X *= 0.935f;
+                npc.ai[1]--;
             }
             else
             {
@@ -97,8 +103,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void FindFrame(int frameHeight)
         {
-            Player closest = Main.player[Player.FindClosest(npc.Top, 0, 0)];
-            if (Math.Abs(closest.Center.X - npc.Center.X) < 600f)
+            if (npc.ai[1] <= 0f)
             {
                 if (npc.ai[0]++ % 4 == 3)
                 {
@@ -119,6 +124,8 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     npc.frame.Y = 0;
                 }
+                if (npc.ai[1] <= 8)
+                    npc.frame.Y = frameHeight;
             }
         }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

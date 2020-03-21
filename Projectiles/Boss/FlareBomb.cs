@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Boss
 				{
 					if (num1248 != projectile.whoAmI && Main.projectile[num1248].type == projectile.type)
 					{
-						if (Vector2.Distance(projectile.Center, Main.projectile[num1248].Center) < 48f)
+						if (Vector2.Distance(projectile.Center, Main.projectile[num1248].Center) < 24f)
 						{
 							if (projectile.position.X < Main.projectile[num1248].position.X)
 								projectile.velocity.X -= num1247;

@@ -56,15 +56,19 @@ namespace CalamityMod.NPCs.AcidRain
         public override void AI()
         {
             Player closest = Main.player[Player.FindClosest(npc.Top, 0, 0)];
-            if (npc.life / (float)npc.lifeMax > 0.95f)
+
+            if (npc.justHit)
+                npc.localAI[0] = 240;
+            if (npc.localAI[0] == 0f)
             {
+                npc.chaseable = false;
                 if (Math.Abs(closest.Center.X - npc.Center.X) < 320f &&
                     closest.Center.Y - npc.Top.Y < -60f &&
                     npc.ai[1]++ >= Main.rand.Next(35, 95))
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        float speed = CalamityWorld.downedPolterghast ? 20f : 11f;
+                        float speed = CalamityWorld.downedPolterghast ? 29f : 17f;
                         speed *= Main.rand.NextFloat(0.8f, 1.2f);
                         int damage = CalamityWorld.downedPolterghast ? 42 : 23;
                         Projectile.NewProjectile(npc.Top + Vector2.UnitY * 6f, npc.DirectionTo(closest.Center).RotatedByRandom(0.25f) * speed,
@@ -75,6 +79,8 @@ namespace CalamityMod.NPCs.AcidRain
             }
             else
             {
+                npc.localAI[0]--;
+                npc.chaseable = true;
                 if (npc.velocity.Y == 0f)
                 {
                     npc.TargetClosest(true);
@@ -110,7 +116,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             // Don't draw the bar if in stealth mode
-            if (npc.life / (float)npc.lifeMax > 0.95f)
+            if (npc.localAI[0] == 0f)
                 return false;
             return null;
         }
@@ -121,7 +127,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void FindFrame(int frameHeight)
         {
-            if (npc.life / (float)npc.lifeMax <= 0.95f)
+            if (npc.localAI[0] > 0f)
             {
                 if (npc.ai[0]++ % 6 == 5)
                 {

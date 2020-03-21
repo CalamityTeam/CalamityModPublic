@@ -1404,6 +1404,9 @@ namespace CalamityMod.NPCs
 					npc.netUpdate = true;
 				}
 
+				num825 = player.position.X + (float)(player.width / 2) - vector82.X;
+				num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
+
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					npc.localAI[1] += 1f;
@@ -1526,6 +1529,9 @@ namespace CalamityMod.NPCs
 					if (npc.velocity.Y > 0f && num835 < 0f)
 						npc.velocity.Y -= num833;
 				}
+
+				num834 = player.position.X + (float)(player.width / 2) - vector83.X;
+				num835 = player.position.Y + (float)(player.height / 2) - vector83.Y;
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
