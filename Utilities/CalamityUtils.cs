@@ -127,6 +127,7 @@ namespace CalamityMod
         /// </summary>
         /// <param name="origin">The position where we wish to check for nearby NPCs</param>
         /// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
+        /// <param name="bossPriority">Whether bosses should be prioritized in targetting or not</param>
         public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool bossPriority = false)
         {
             NPC closestTarget = null;
@@ -363,6 +364,7 @@ namespace CalamityMod
         /// Call this function in the Kill function of your projectile to spawn cloud-like gores. Used primarily for explosions
         /// </summary>
         /// <param name="projectile">The projectile you're adding explosion clouds to</param>
+        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
         public static void ExplosionGores (Projectile projectile, int goreAmt)
         {
             Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
