@@ -649,7 +649,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MonkStaffT1)
             {
-                for (int i = 0; i < 1000; ++i)
+                for (int i = 0; i < Main.maxProjectiles; ++i)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
                     {
@@ -2247,7 +2247,7 @@ Provides heat and cold protection in Death Mode";
             }
             if (item.accessory)
             {
-                if (item.prefix == 67)
+                if (item.prefix == PrefixID.Precise)
                 {
                     foreach (TooltipLine line2 in tooltips)
                     {
@@ -2257,7 +2257,7 @@ Provides heat and cold protection in Death Mode";
                         }
                     }
                 }
-                if (item.prefix == 68)
+                if (item.prefix == PrefixID.Lucky)
                 {
                     foreach (TooltipLine line2 in tooltips)
                     {
@@ -2267,7 +2267,7 @@ Provides heat and cold protection in Death Mode";
                         }
                     }
                 }
-                if (item.prefix == 62)
+                if (item.prefix == PrefixID.Hard)
                 {
 					string defenseBoost = "+1 defense\n";
 					if (NPC.downedMoonlord)
@@ -2286,7 +2286,7 @@ Provides heat and cold protection in Death Mode";
                         }
                     }
                 }
-                if (item.prefix == 63)
+                if (item.prefix == PrefixID.Guarding)
                 {
 					string defenseBoost = "+2 defense\n";
 					if (NPC.downedMoonlord)
@@ -2305,7 +2305,7 @@ Provides heat and cold protection in Death Mode";
                         }
                     }
                 }
-                if (item.prefix == 64)
+                if (item.prefix == PrefixID.Armored)
                 {
 					string defenseBoost = "+3 defense\n";
 					if (NPC.downedMoonlord)
@@ -2324,7 +2324,7 @@ Provides heat and cold protection in Death Mode";
                         }
                     }
                 }
-                if (item.prefix == 65)
+                if (item.prefix == PrefixID.Warding)
                 {
 					string defenseBoost = "+4 defense\n";
 					if (NPC.downedMoonlord)
@@ -3048,7 +3048,7 @@ Provides heat and cold protection in Death Mode";
             bool flag = false;
             bool canShoot = false;
 
-            for (int i = 54; i < 58; i++)
+            for (int i = 54; i < Main.maxInventory; i++)
             {
                 if (player.inventory[i].ammo == item.useAmmo && (player.inventory[i].stack >= ammoConsumed || !player.inventory[i].consumable))
                 {
@@ -3078,7 +3078,7 @@ Provides heat and cold protection in Death Mode";
             bool flag = false;
             bool dontConsumeAmmo = false;
 
-            for (int i = 54; i < 58; i++)
+            for (int i = 54; i < Main.maxInventory; i++)
             {
                 if (player.inventory[i].ammo == item.useAmmo && player.inventory[i].stack >= ammoConsumed)
                 {
