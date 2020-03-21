@@ -2,6 +2,7 @@
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Enemy;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -108,6 +109,20 @@ namespace CalamityMod.NPCs.AcidRain
                 dust.velocity = Vector2.Normalize(destination - dust.position) * 3f;
                 dust.scale = scale;
                 dust.noGravity = true;
+                if (npc.ai[3] <= 540f)
+                {
+                    float length = MathHelper.Lerp(20f, 550f, (npc.ai[3] - 480f) / 60f);
+                    float outwardness = MathHelper.Lerp(1f, 0f, (npc.ai[3] - 480f) / 60f);
+                    for (float i = npc.Top.Y + 4f; i >= npc.Top.Y + 4f - length; i -= 8f)
+                    {
+                        float angle = i / 24f;
+                        Vector2 spawnPosition = new Vector2(npc.Center.X, i);
+                        dust = Dust.NewDustPerfect(spawnPosition, (int)CalamityDusts.SulfurousSeaAcid);
+                        dust.scale = 1.5f;
+                        dust.velocity = Vector2.UnitX * (float)Math.Cos(angle) * 4f * outwardness;
+                        dust.noGravity = true;
+                    }
+                }
             }
             // Release laser
             if (npc.ai[3] == 480f)
@@ -160,6 +175,15 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
                 }
+            }
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            if (npc.ai[3] >= 480f && npc.ai[3] <= 540f)
+            {
+                float length = MathHelper.Lerp(20f, 550f, (npc.ai[3] - 480f) / 60f);
+                float opacity = MathHelper.Lerp(0.3f, 0.9f, (npc.ai[3] - 480f) / 60f);
+                Utils.DrawLine(spriteBatch, npc.Top + new Vector2(0f, 4f), npc.Top + new Vector2(0f, 4f) - Vector2.UnitY * length, Color.Lerp(Color.Lime, Color.Transparent, opacity));
             }
         }
     }

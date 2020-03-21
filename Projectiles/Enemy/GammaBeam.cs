@@ -103,6 +103,8 @@ namespace CalamityMod.Projectiles.Enemy
             }
             determinedLength /= samples.Length;
 
+            determinedLength = MathHelper.Clamp(determinedLength, maximumLength * 0.5f, maximumLength);
+
             float lerpDelta = 0.5f;
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], determinedLength, lerpDelta);
             Vector2 beamEndPosiiton = projectile.Center + projectile.velocity * (projectile.localAI[1] - 6f);
