@@ -525,7 +525,14 @@ namespace CalamityMod.World
                     {
                         Main.tile[trueX, y].slope(0);
                         Main.tile[trueX, y].halfBrick(false);
-                        Tile.SmoothSlope(trueX, y);
+                        try
+                        {
+                            Tile.SmoothSlope(trueX, y);
+                        }
+                        catch
+                        {
+                            continue;
+                        }
                     }
                 }
             }
