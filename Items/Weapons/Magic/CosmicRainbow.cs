@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 9;
             item.UseSound = SoundID.Item67;
             item.autoReuse = true;
-            item.shoot = 250;
+            item.shoot = ProjectileID.RainbowFront;
             item.shootSpeed = 18f;
         }
 
@@ -39,6 +39,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.RainbowGun);
+            recipe.AddIngredient(ItemID.PearlwoodBow);
             recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
             recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);

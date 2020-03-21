@@ -84,7 +84,7 @@ namespace CalamityMod.Items
             if (CalamityMod.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
-            if (item.type == ItemID.PsychoKnife)
+            if (item.type == ItemID.PsychoKnife || item.type == ItemID.PearlwoodSword || item.type == ItemID.PearlwoodBow || item.type == ItemID.TaxCollectorsStickOfDoom)
                 item.damage *= 4;
             else if (item.type == ItemID.SpectreStaff)
                 item.damage *= 3;
@@ -154,8 +154,25 @@ namespace CalamityMod.Items
 				item.rare = 10;
 			}
             
-            if(item.type == ItemID.SuspiciousLookingTentacle)
+            if (item.type == ItemID.SuspiciousLookingTentacle)
                 item.expert = true;
+
+            if (item.type == ItemID.PearlwoodHammer)
+			{
+                item.hammer += 35; //80% hammer power
+				item.useAnimation = 20;
+				item.useTime = 15;
+				item.damage *= 4;
+				item.tileBoost += 1;
+			}
+
+            if (item.type == ItemID.PearlwoodBow)
+			{
+				item.useAnimation += 8; //35
+				item.useTime += 8; //35
+				item.shootSpeed += 3.4f; //10f
+				item.knockBack += 1f; //1f
+			}
         }
         #endregion
 
@@ -335,6 +352,23 @@ namespace CalamityMod.Items
 				Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FallenStarProj>(), damage, knockBack, player.whoAmI);
 				Main.PlaySound(SoundID.Item11.WithPitchVariance(0.05f), position); // <--- This is optional; if using, add "item.UseSound = null" to GlobalItem.SetDefaults when checking for the Star Cannon's ID
 				return false;
+			}
+			if (item.type == ItemID.PearlwoodBow)
+			{
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (Main.projectile[i].active && (Main.projectile[i].type == ProjectileID.RainbowFront || Main.projectile[i].type == ProjectileID.RainbowBack) && Main.projectile[i].owner == player.whoAmI)
+                    {
+                        Main.projectile[i].Kill();
+                        break;
+                    }
+                }
+				for (int i = -8; i <= 8; i += 8)
+				{
+					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
+					int rainbow = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.RainbowFront, damage, 0f, player.whoAmI, 0f, 0f);
+					Main.projectile[rainbow].Calamity().forceRanged = true;
+				}
 			}
             return true;
         }
@@ -2520,6 +2554,8 @@ Provides heat and cold protection in Death Mode";
                 return "Eskimo";
 			if (head.type == ItemID.MeteorHelmet && body.type == ItemID.MeteorSuit && legs.type == ItemID.MeteorLeggings)
 				return "Meteor";
+			if (head.type == ItemID.PearlwoodHelmet && body.type == ItemID.PearlwoodBreastplate && legs.type == ItemID.PearlwoodGreaves)
+				return "Pearlwood";
             return "";
         }
 

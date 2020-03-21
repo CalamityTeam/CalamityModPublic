@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Tools
             item.rare = 1;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
+            item.tileBoost += 1;
         }
 
         public override void AddRecipes()

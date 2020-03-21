@@ -598,6 +598,14 @@ namespace CalamityMod.Projectiles
                     }
                 }
             }
+            else if (projectile.type == ProjectileID.RainbowBack)
+            {
+				if (player.inventory[player.selectedItem].type == ItemID.PearlwoodBow)
+				{
+					projectile.magic = false;
+					projectile.ranged = true;
+				}
+            }
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
 

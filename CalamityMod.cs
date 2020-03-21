@@ -591,6 +591,7 @@ namespace CalamityMod
                 ProjectileID.DD2PhoenixBow,
                 ProjectileID.IchorDart,
                 ProjectileID.PhantasmArrow,
+                ProjectileID.RainbowBack,
                 ModContent.ProjectileType<PhangasmBow>(),
                 ModContent.ProjectileType<ContagionBow>(),
                 ModContent.ProjectileType<DaemonsFlameBow>(),
@@ -1308,7 +1309,11 @@ namespace CalamityMod
                 ItemID.MagicDagger,
                 ItemID.BeamSword,
                 ItemID.MonkStaffT2,
-                ItemID.PaladinsHammer
+                ItemID.PaladinsHammer,
+                ItemID.PearlwoodSword,
+                ItemID.PearlwoodBow,
+                ItemID.TaxCollectorsStickOfDoom,
+                ItemID.StylistKilLaKillScissorsIWish
             };
 
             quarterDamageNerfList = new List<int>()
