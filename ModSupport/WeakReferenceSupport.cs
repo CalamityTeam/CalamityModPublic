@@ -106,8 +106,8 @@ namespace CalamityMod
 
 		private static readonly Dictionary<string, float> InvasionDifficulty = new Dictionary<string, float>
 		{
-			{ "Acid Rain Initial", 2.5f },
-			{ "Acid Rain Aquatic Scourge", 8.8f }
+			{ "Acid Rain Initial", 2.4f },
+			{ "Acid Rain Aquatic Scourge", 8.51f }
 		};
 
 		public static void Setup()
@@ -564,7 +564,7 @@ namespace CalamityMod
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
 				string bossLogTex = "CalamityMod/NPCs/DesertScourge/DesertScourge_BossChecklist";
 				string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
-				AddInvasion(bossChecklist, calamity, "Acid Rain (Post-Aquatic Scourge)", order, enemies, DownedAcidRainHardmode, summon, loot, collection, instructions, despawn, bossLogTex, iconTexture);
+				AddInvasion(bossChecklist, calamity, "Acid Rain (Post-AS)", order, enemies, DownedAcidRainHardmode, summon, loot, collection, instructions, despawn, bossLogTex, iconTexture);
 			}
 		}
 
