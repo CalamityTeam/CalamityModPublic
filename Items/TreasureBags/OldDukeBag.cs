@@ -44,7 +44,6 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<InsidiousImpaler>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<SepticSkewer>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<FetidEmesis>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Miasma>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<VitriolicViper>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<ToxicantTwister>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<CadaverousCarrion>(), 3);
