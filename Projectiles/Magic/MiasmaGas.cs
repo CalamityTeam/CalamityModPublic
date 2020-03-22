@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.Projectiles.Magic
 {
     public class MiasmaGas : ModProjectile
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 28;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 300;
             projectile.penetrate = 10;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 15;
@@ -45,10 +46,19 @@ namespace CalamityMod.Projectiles.Magic
             }
             projectile.rotation += projectile.velocity.X * 0.0003f;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
             projectile.ai[1] = 1f;
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+            projectile.ai[1] = 1f;
+		}
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 25; i++)
@@ -58,6 +68,7 @@ namespace CalamityMod.Projectiles.Magic
                 dust.alpha = 127;
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);

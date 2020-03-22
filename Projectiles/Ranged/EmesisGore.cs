@@ -2,6 +2,7 @@
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Ranged
 {   
@@ -76,5 +77,15 @@ namespace CalamityMod.Projectiles.Ranged
             }
             return null;
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
+		}
     }
 }

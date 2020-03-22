@@ -84,7 +84,7 @@ namespace CalamityMod.Items
             if (CalamityMod.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
-            if (item.type == ItemID.PsychoKnife || item.type == ItemID.PearlwoodSword || item.type == ItemID.PearlwoodBow || item.type == ItemID.TaxCollectorsStickOfDoom)
+            if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
                 item.damage *= 4;
             else if (item.type == ItemID.SpectreStaff)
                 item.damage *= 3;
@@ -164,15 +164,21 @@ namespace CalamityMod.Items
 				item.useTime = 15;
 				item.damage *= 4;
 				item.tileBoost += 1;
+				item.rare = 4;
 			}
-
             if (item.type == ItemID.PearlwoodBow)
 			{
 				item.useAnimation += 8; //35
 				item.useTime += 8; //35
 				item.shootSpeed += 3.4f; //10f
 				item.knockBack += 1f; //1f
-				item.shoot = ProjectileID.RainbowFront;
+				item.rare = 4;
+				item.damage *= 4;
+			}
+            if (item.type == ItemID.PearlwoodSword)
+			{
+				item.damage *= 4;
+				item.rare = 4;
 			}
         }
         #endregion
@@ -361,7 +367,6 @@ namespace CalamityMod.Items
                     if (Main.projectile[i].active && (Main.projectile[i].type == ProjectileID.RainbowFront || Main.projectile[i].type == ProjectileID.RainbowBack) && Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
-                        break;
                     }
                 }
 				for (int i = -8; i <= 8; i += 8)
@@ -1866,7 +1871,8 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 170\n" +
-                            "+50 max life";
+                            "+50 max life\n" +
+                            "Ornaments rain down as you fly";
                     }
                 }
             }
@@ -2863,6 +2869,16 @@ Provides heat and cold protection in Death Mode";
             {
                 player.noFallDmg = true;
                 player.statLifeMax2 += 50;
+				if (modPlayer.icicleCooldown <= 0)
+				{
+					if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
+					{
+						int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ProjectileID.OrnamentFriendly, (int)(100 * player.allDamage), 5f, player.whoAmI);
+						Main.projectile[p].melee = false;
+						Main.projectile[p].Calamity().lineColor = 1;
+						modPlayer.icicleCooldown = 10;
+					}
+				}
             }
             else if (item.type == ItemID.SpookyWings) // Bonus to summon stats while wearing spooky armor
             {

@@ -562,7 +562,7 @@ namespace CalamityMod
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
 				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated";
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
-				string bossLogTex = "CalamityMod/Events/AcidRainT1_BossChecklist";
+				string bossLogTex = "CalamityMod/Events/AcidRainT2_BossChecklist";
 				string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
 				AddInvasion(bossChecklist, calamity, "Acid Rain (Post-AS)", order, enemies, DownedAcidRainHardmode, summon, loot, collection, instructions, despawn, bossLogTex, iconTexture);
 			}

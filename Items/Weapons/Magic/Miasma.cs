@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 35;
             item.magic = true;
             item.mana = 16;
             item.width = 50;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MiasmaGas>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 10f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             for (int i = 0; i < Main.rand.Next(5, 8 + 1); i++)
             {
                 Vector2 velocity = new Vector2(speedX, speedY) * Main.rand.NextFloat(0.9f, 1.1f);
-                float angle = Main.rand.NextFloat(-1f, 1f) * MathHelper.ToRadians(25f);
+                float angle = Main.rand.NextFloat(-1f, 1f) * MathHelper.ToRadians(30f);
                 Projectile.NewProjectile(position, velocity.RotatedBy(angle), type, damage, knockBack, player.whoAmI);
             }
             return false;

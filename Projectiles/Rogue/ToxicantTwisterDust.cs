@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -26,6 +27,11 @@ namespace CalamityMod.Projectiles.Rogue
             int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, 85, 0f, 0f, 100, default, 1f);
             Main.dust[idx].noGravity = true;
             Main.dust[idx].velocity *= 0f;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class MagnomalyRocket : ModProjectile
     {
+		private bool spawnedAura = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nuke");
@@ -55,9 +56,10 @@ namespace CalamityMod.Projectiles.Ranged
 			{
 				num297 = 269;
 			}
-        	if (projectile.owner == Main.myPlayer && projectile.timeLeft == 300)
+        	if (projectile.owner == Main.myPlayer && !spawnedAura)
         	{
             	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MagnomalyAura>(), (int)((double)projectile.damage * 0.5f), (int)((double)projectile.knockBack * 0.5f), projectile.owner, projectile.identity, 0f);
+				spawnedAura = true;
 			}
 			float num247 = projectile.velocity.X * 0.5f;
 			float num248 = projectile.velocity.Y * 0.5f;
