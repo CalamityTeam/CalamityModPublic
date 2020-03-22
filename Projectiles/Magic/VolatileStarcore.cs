@@ -97,6 +97,11 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(ModContent.BuffType<Irradiated>(), 900);
         }
 
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 900);
+		}
+
         public override void Kill(int timeLeft)
         {
             if (projectile.owner != Main.myPlayer)

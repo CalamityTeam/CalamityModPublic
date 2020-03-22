@@ -2994,7 +2994,7 @@ namespace CalamityMod.CalPlayer
 
             if (player.mount.Active || player.mount.Cart || (CalamityMod.CalamityConfig.BossRushDashCurse && CalamityWorld.bossRushActive))
             {
-                player.dashDelay = 60;
+                player.dashDelay = 10;
                 dashMod = 0;
             }
 
@@ -3020,7 +3020,7 @@ namespace CalamityMod.CalPlayer
 
             if (player.mount.Active || player.mount.Cart || (CalamityMod.CalamityConfig.BossRushDashCurse && CalamityWorld.bossRushActive))
             {
-                player.dashDelay = 60;
+                player.dashDelay = 10;
                 dashMod = 0;
             }
 

@@ -38,8 +38,8 @@ namespace CalamityMod.Items.Weapons.Magic
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 velocity = new Vector2(speedX, speedY);
-            float spitAngleMax = MathHelper.ToRadians(14f + Main.rand.NextFloat(-2f, 2f));
-            float fangAngleMax = MathHelper.ToRadians(7f + Main.rand.NextFloat(-1f, 1f));
+            float spitAngleMax = MathHelper.ToRadians(6f + Main.rand.NextFloat(-2f, 2f));
+            float fangAngleMax = MathHelper.ToRadians(3f + Main.rand.NextFloat(-1f, 1f));
             for (int i = 0; i < 9; i++)
             {
                 float angle = MathHelper.Lerp(i / 9f, -spitAngleMax, spitAngleMax);
