@@ -1148,7 +1148,7 @@ namespace CalamityMod.NPCs.Providence
 			if (Main.netMode == NetmodeID.SinglePlayer)
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedSoulCrystal>(), challenge);
 			else if (Main.expertMode)
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, 100);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, CalamityWorld.downedSCal ? 20 : 100);
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
             {
