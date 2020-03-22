@@ -3345,7 +3345,7 @@ namespace CalamityMod.NPCs
                         projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
                     damage = (int)((double)damage * 0.75);
                 }
-                else if (projectile.type == ModContent.ProjectileType<ElementalAxeMinion>())
+                else if (projectile.type == (ModContent.ProjectileType<ElementalAxeMinion>() | ModContent.ProjectileType<DazzlingStabber>()))
                 {
                     damage = (int)((double)damage * 0.5);
                 }
