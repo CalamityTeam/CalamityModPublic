@@ -172,6 +172,7 @@ namespace CalamityMod.Items
 				item.useTime += 8; //35
 				item.shootSpeed += 3.4f; //10f
 				item.knockBack += 1f; //1f
+				item.shoot = ProjectileID.RainbowFront;
 			}
         }
         #endregion
