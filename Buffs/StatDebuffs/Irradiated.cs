@@ -9,7 +9,6 @@ namespace CalamityMod.Buffs.StatDebuffs
         {
             DisplayName.SetDefault("Irradiated");
             Description.SetDefault("Your skin is burning off");
-            Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;

@@ -10,8 +10,8 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Old Duke's Scales");
             Tooltip.SetDefault("While under the effects of a damaging debuff, you gain 10% increased damage and 5% crit\n" +
-							"When below 75% life, you gain 3% increased damage and crit\n" +
-							"When below 50% life, you gain an additional 5% increased damage and crit\n" +
+							"For every 25% of lost life, you gain an additional 6% increased damage and 3% crit\n" +
+							"This will max out at 18% increased damage and 9% crit when under 25% life\n" +
 							"Provides immunity to poisoned, venom, and sulphruic poisoning");
         }
 
@@ -19,10 +19,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 26;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.value = Item.buyPrice(0, 80, 0, 0);
             item.accessory = true;
             item.rare = 10;
-            item.Calamity().customRarity = (CalamityRarity)12;
+            item.Calamity().postMoonLordRarity = 13;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

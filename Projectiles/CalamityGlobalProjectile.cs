@@ -492,13 +492,13 @@ namespace CalamityMod.Projectiles
             {
                 if (setDamageValues)
                 {
-                    spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                    spawnedPlayerMinionDamageValue = player.MinionDamage();
                     spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                     setDamageValues = false;
                 }
-                if ((player.allDamage + player.minionDamage - 1f) != spawnedPlayerMinionDamageValue)
+                if (player.MinionDamage() != spawnedPlayerMinionDamageValue)
                 {
-                    int damage2 = (int)((float)spawnedPlayerMinionProjectileDamageValue / spawnedPlayerMinionDamageValue * (player.allDamage + player.minionDamage - 1f));
+                    int damage2 = (int)((float)spawnedPlayerMinionProjectileDamageValue / spawnedPlayerMinionDamageValue * player.MinionDamage());
                     projectile.damage = damage2;
                 }
             }
@@ -597,6 +597,14 @@ namespace CalamityMod.Projectiles
                         projectile.ranged = true;
                     }
                 }
+            }
+            else if (projectile.type == ProjectileID.RainbowBack)
+            {
+				if (player.inventory[player.selectedItem].type == ItemID.PearlwoodBow)
+				{
+					projectile.magic = false;
+					projectile.ranged = true;
+				}
             }
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
@@ -1094,7 +1102,7 @@ namespace CalamityMod.Projectiles
                     Main.player[Main.myPlayer].lifeSteal -= num12 * 1.5f;
                     float num13 = 0f;
                     int num14 = projectile.owner;
-                    for (int i = 0; i < 255; i++)
+                    for (int i = 0; i < Main.maxPlayers; i++)
                     {
                         if (Main.player[i].active && !Main.player[i].dead && ((!player.hostile && !Main.player[i].hostile) || player.team == Main.player[i].team))
                         {
@@ -1128,7 +1136,7 @@ namespace CalamityMod.Projectiles
                     Main.player[Main.myPlayer].lifeSteal -= num12 * 1.5f;
                     float num13 = 0f;
                     int num14 = projectile.owner;
-                    for (int i = 0; i < 255; i++)
+                    for (int i = 0; i < Main.maxPlayers; i++)
                     {
                         if (Main.player[i].active && !Main.player[i].dead && ((!player.hostile && !Main.player[i].hostile) || player.team == Main.player[i].team))
                         {
@@ -1226,10 +1234,10 @@ namespace CalamityMod.Projectiles
                     {
                         int num = projectile.damage / 2;
 						modPlayer.ataxiaDmg += (float)num;
-                        int[] array = new int[200];
+                        int[] array = new int[Main.maxNPCs];
                         int num3 = 0;
                         int num4 = 0;
-                        for (int i = 0; i < 200; i++)
+                        for (int i = 0; i < Main.maxNPCs; i++)
                         {
                             if (Main.npc[i].CanBeChasedBy(projectile, false))
                             {
@@ -1290,7 +1298,7 @@ namespace CalamityMod.Projectiles
                             Main.player[Main.myPlayer].lifeSteal -= num12 * 1.5f;
                             float num13 = 0f;
                             int num14 = projectile.owner;
-                            for (int i = 0; i < 255; i++)
+                            for (int i = 0; i < Main.maxPlayers; i++)
                             {
                                 if (Main.player[i].active && !Main.player[i].dead && ((!player.hostile && !Main.player[i].hostile) || player.team == Main.player[i].team))
                                 {
@@ -1309,10 +1317,10 @@ namespace CalamityMod.Projectiles
                     {
                         int num = projectile.damage / 2;
                         modPlayer.godSlayerDmg += (float)num;
-                        int[] array = new int[200];
+                        int[] array = new int[Main.maxNPCs];
                         int num3 = 0;
                         int num4 = 0;
-                        for (int i = 0; i < 200; i++)
+                        for (int i = 0; i < Main.maxNPCs; i++)
                         {
                             if (Main.npc[i].CanBeChasedBy(projectile, false))
                             {
@@ -1374,7 +1382,7 @@ namespace CalamityMod.Projectiles
                             Main.player[Main.myPlayer].lifeSteal -= num12 * 1.5f;
                             float num13 = 0f;
                             int num14 = projectile.owner;
-                            for (int i = 0; i < 255; i++)
+                            for (int i = 0; i < Main.maxPlayers; i++)
                             {
                                 if (Main.player[i].active && !Main.player[i].dead && ((!player.hostile && !Main.player[i].hostile) || player.team == Main.player[i].team))
                                 {
@@ -1410,10 +1418,10 @@ namespace CalamityMod.Projectiles
 						{
 							int num = projectile.damage / 2;
 							modPlayer.xerocDmg += (float)num;
-							int[] array = new int[200];
+							int[] array = new int[Main.maxNPCs];
 							int num3 = 0;
 							int num4 = 0;
-							for (int i = 0; i < 200; i++)
+							for (int i = 0; i < Main.maxNPCs; i++)
 							{
 								if (Main.npc[i].CanBeChasedBy(projectile, false))
 								{
@@ -1459,10 +1467,10 @@ namespace CalamityMod.Projectiles
 						{
 							int num = projectile.damage / 2;
 							modPlayer.xerocDmg += (float)num;
-							int[] array = new int[200];
+							int[] array = new int[Main.maxNPCs];
 							int num3 = 0;
 							int num4 = 0;
-							for (int i = 0; i < 200; i++)
+							for (int i = 0; i < Main.maxNPCs; i++)
 							{
 								if (Main.npc[i].CanBeChasedBy(projectile, false))
 								{
@@ -1523,7 +1531,7 @@ namespace CalamityMod.Projectiles
 								Main.player[Main.myPlayer].lifeSteal -= num12 * 1.5f;
 								float num13 = 0f;
 								int num14 = projectile.owner;
-								for (int i = 0; i < 255; i++)
+								for (int i = 0; i < Main.maxPlayers; i++)
 								{
 									if (Main.player[i].active && !Main.player[i].dead && ((!player.hostile && !Main.player[i].hostile) || player.team == Main.player[i].team))
 									{
@@ -1560,10 +1568,10 @@ namespace CalamityMod.Projectiles
 						{
 							int num = projectile.damage / 2;
 							modPlayer.xerocDmg += (float)num;
-							int[] array = new int[200];
+							int[] array = new int[Main.maxNPCs];
 							int num3 = 0;
 							int num4 = 0;
-							for (int i = 0; i < 200; i++)
+							for (int i = 0; i < Main.maxNPCs; i++)
 							{
 								if (Main.npc[i].CanBeChasedBy(projectile, false))
 								{
@@ -1680,10 +1688,10 @@ namespace CalamityMod.Projectiles
 						{
 							int num = projectile.damage / 2;
 							modPlayer.jellyDmg += (float)num;
-							int[] array = new int[200];
+							int[] array = new int[Main.maxNPCs];
 							int num3 = 0;
 							int num4 = 0;
-							for (int i = 0; i < 200; i++)
+							for (int i = 0; i < Main.maxNPCs; i++)
 							{
 								if (Main.npc[i].CanBeChasedBy(projectile, false))
 								{
@@ -1740,10 +1748,10 @@ namespace CalamityMod.Projectiles
                         int num = projectile.damage / 2;
                         float ai1 = Main.rand.NextFloat() + 0.5f;
                         modPlayer.godSlayerDmg += (float)num;
-                        int[] array = new int[200];
+                        int[] array = new int[Main.maxNPCs];
                         int num3 = 0;
                         int num4 = 0;
-                        for (int i = 0; i < 200; i++)
+                        for (int i = 0; i < Main.maxNPCs; i++)
                         {
                             if (Main.npc[i].CanBeChasedBy(projectile, false))
                             {
@@ -1790,11 +1798,6 @@ namespace CalamityMod.Projectiles
                     {
                         int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
                             (int)(projectile.damage * 0.5f), 3f, projectile.owner);
-						if (modPlayer.starTaintedGenerator)
-						{
-							Main.projectile[boom].localNPCHitCooldown = 15;
-							Main.projectile[boom].penetrate = 3;
-						}
                     }
                 }
 

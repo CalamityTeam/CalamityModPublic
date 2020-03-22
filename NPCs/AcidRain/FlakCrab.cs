@@ -6,6 +6,7 @@ using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,12 +27,10 @@ namespace CalamityMod.NPCs.AcidRain
 
             npc.damage = 0;
             npc.lifeMax = 700;
-            npc.defense = 10;
 
             if (CalamityWorld.downedPolterghast)
             {
                 npc.lifeMax = 7500;
-                npc.defense = 80;
             }
 
             npc.knockBackResist = 0f;
@@ -48,6 +47,16 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<FlakCrabBanner>();
         }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(npc.localAI[0]);
+            writer.Write(npc.localAI[1]);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            npc.localAI[0] = reader.ReadSingle();
+            npc.localAI[1] = reader.ReadSingle();
+        }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
@@ -57,9 +66,14 @@ namespace CalamityMod.NPCs.AcidRain
         {
             Player closest = Main.player[Player.FindClosest(npc.Top, 0, 0)];
 
+            npc.defense = npc.localAI[1] < 10f ? 999999 : 20;
+
             if (npc.justHit)
+            {
                 npc.localAI[0] = 240;
-            if (npc.localAI[0] == 0f)
+                npc.netUpdate = true;
+            }
+            if (npc.localAI[0] == 0f || npc.localAI[1] < 10f)
             {
                 npc.chaseable = false;
                 if (Math.Abs(closest.Center.X - npc.Center.X) < 320f &&
@@ -104,6 +118,7 @@ namespace CalamityMod.NPCs.AcidRain
                         npc.ai[2] = 0f;
                         npc.velocity.Y -= jumpSpeed;
                         npc.velocity.X = lungeForwardSpeed * -npc.direction;
+                        npc.netUpdate = true;
                     }
                 }
                 else
@@ -116,7 +131,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             // Don't draw the bar if in stealth mode
-            if (npc.localAI[0] == 0f)
+            if (npc.localAI[0] == 0f || npc.localAI[1] < 10f)
                 return false;
             return null;
         }
@@ -127,6 +142,11 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void FindFrame(int frameHeight)
         {
+            if (npc.localAI[1] < 10f)
+            {
+                npc.frame.Y = 0;
+                return;
+            }
             if (npc.localAI[0] > 0f)
             {
                 if (npc.ai[0]++ % 6 == 5)
@@ -137,6 +157,8 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     npc.frame.Y = frameHeight * 3; // Frames 1 and 2 are for transitioning. Frame 0 is sitting still, and the rest are walking frames
                 }
+                if (npc.localAI[0] <= 8)
+                    npc.frame.Y = frameHeight;
             }
             else
             {
@@ -159,6 +181,7 @@ namespace CalamityMod.NPCs.AcidRain
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FlakCrab2"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/FlakCrab3"), 1f);
             }
+            npc.localAI[1]++;
         }
     }
 }

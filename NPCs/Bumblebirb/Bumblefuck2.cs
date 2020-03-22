@@ -12,8 +12,10 @@ namespace CalamityMod.NPCs.Bumblebirb
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bumblebirb");
-            Main.npcFrameCount[npc.type] = 10;
+            Main.npcFrameCount[npc.type] = 6;
         }
+
+        public override string Texture => "CalamityMod/NPCs/Bumblebirb/Birb";
 
         public override void SetDefaults()
         {
@@ -21,7 +23,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 110;
-            npc.width = 80;
+            npc.width = 120;
             npc.height = 80;
             npc.scale = 0.66f;
             npc.defense = 20;
@@ -57,6 +59,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void AI()
         {
+            npc.visualOffset = new Vector2(10, 40);
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
             npc.damage = npc.defDamage;
@@ -309,32 +312,27 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += (double)(npc.velocity.Length() / 4f);
-            npc.frameCounter += 1.0;
-            if (npc.ai[0] < 4f)
+            bool lightningBreathAttack = false; //leaving this for fabbo to sort
+            if (lightningBreathAttack)
             {
-                if (npc.frameCounter >= 6.0)
-                {
-                    npc.frameCounter = 0.0;
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                }
-                if (npc.frame.Y / frameHeight > 4)
-                {
-                    npc.frame.Y = 0;
-                }
-            }
+                npc.frame.Y = npc.frame.Height * 5;
+            } 
             else
             {
-                if (npc.frameCounter >= 6.0)
+                if (npc.frameCounter >= 5) //iban said the time between frames was 5 so using that as a base
                 {
-                    npc.frameCounter = 0.0;
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                }
-                if (npc.frame.Y / frameHeight > 9)
-                {
-                    npc.frame.Y = frameHeight * 5;
+                    if (npc.frame.Y >= npc.frame.Height * 4) //frame 5 or 6 for transitioning from open jaw
+                    {
+                        npc.frame.Y = 0;
+                    }
+                    else
+                    {
+                        npc.frame.Y += npc.frame.Height;
+                    }
+                    npc.frameCounter = -1; //set to -1 to account for the framecounter increment shortly after
                 }
             }
+            npc.frameCounter++;
         }
 
         public override void HitEffect(int hitDirection, double damage)

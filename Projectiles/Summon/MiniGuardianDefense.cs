@@ -19,10 +19,10 @@ namespace CalamityMod.Projectiles.Summon
                 return;
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
-            float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : 100f +
+            float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : (100f +
                         (CalamityWorld.downedDoG ? 100f : 0f) +
                         (CalamityWorld.downedYharon ? 100f : 0f) +
-                        (modPlayer.profanedCrystalBuffs ? 700f : 0f);
+                        (modPlayer.profanedCrystalBuffs ? 700f : 0f));
             projectile.damage = baseDamage == 0 ? 0 : (int)(baseDamage * player.MinionDamage());
             ai = type;
         }
@@ -39,8 +39,7 @@ namespace CalamityMod.Projectiles.Summon
 
         private void AI(int type, float num535, float num536, Player player)
         {
-            if (ai != type)
-                updateDamage(type);
+            updateDamage(type);
             switch (type)
             {
                 case 1: //defensive bab (profaned soul artifact)

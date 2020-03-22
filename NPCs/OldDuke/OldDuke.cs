@@ -45,8 +45,6 @@ namespace CalamityMod.NPCs.OldDuke
 			CalamityGlobalNPC global = npc.Calamity();
 			global.DR = 0.6f;
 			global.customDR = true;
-			//global.multDRReductions.Add(BuffID.Ichor, 0.88f);
-			//global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
 			npc.lifeMax = CalamityWorld.revenge ? 1000000 : 750000;
             npc.knockBackResist = 0f;
             npc.noTileCollide = true;
@@ -68,16 +66,6 @@ namespace CalamityMod.NPCs.OldDuke
             {
                 npc.buffImmune[k] = true;
             }
-			/*npc.buffImmune[BuffID.Ichor] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-			npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-			npc.buffImmune[ModContent.BuffType<Shred>()] = false;*/
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)
@@ -387,7 +375,7 @@ namespace CalamityMod.NPCs.OldDuke
 
             DropHelper.DropItemChance(npc, ModContent.ItemType<OldDukeTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
-            DropHelper.DropResidentEvilAmmo(npc, !CalamityWorld.downedBoomerDuke, 6, 3, 2);
+            DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBoomerDuke, 6, 3, 2);
 
             // All other drops are contained in the bag, so they only drop directly on Normal
             if (!Main.expertMode)
@@ -396,7 +384,6 @@ namespace CalamityMod.NPCs.OldDuke
                 DropHelper.DropItemChance(npc, ModContent.ItemType<InsidiousImpaler>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SepticSkewer>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<FetidEmesis>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Miasma>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<VitriolicViper>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ToxicantTwister>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CadaverousCarrion>(), 4);

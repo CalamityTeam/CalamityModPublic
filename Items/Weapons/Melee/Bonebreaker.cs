@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Bonebreaker : ModItem
     {
-		public const int BaseDamage = 70;
+		public const int BaseDamage = 60;
 
         public override void SetStaticDefaults()
         {
@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.useStyle = 1;
-            item.useAnimation = 10;
-            item.useTime = 10;
+            item.useAnimation = 15;
+            item.useTime = 15;
             item.width = 32;
             item.height = 32;
             item.damage = BaseDamage;

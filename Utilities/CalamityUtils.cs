@@ -127,6 +127,7 @@ namespace CalamityMod
         /// </summary>
         /// <param name="origin">The position where we wish to check for nearby NPCs</param>
         /// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
+        /// <param name="bossPriority">Whether bosses should be prioritized in targetting or not</param>
         public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool bossPriority = false)
         {
             NPC closestTarget = null;
@@ -358,6 +359,46 @@ namespace CalamityMod
                 proj = x;
             }
         }
+
+        /// <summary>
+        /// Call this function in the Kill function of your projectile to spawn cloud-like gores. Used primarily for explosions
+        /// </summary>
+        /// <param name="projectile">The projectile you're adding explosion clouds to</param>
+        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
+        public static void ExplosionGores (Projectile projectile, int goreAmt)
+        {
+            Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
+			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+			{
+				float scaleFactor10 = 0.33f;
+				if (goreIndex < (int)(goreAmt/3))
+				{
+					scaleFactor10 = 0.66f;
+				}
+				if (goreIndex >= (int)((2*goreAmt)/3))
+				{
+					scaleFactor10 = 1f;
+				}
+				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				Gore gore = Main.gore[smoke];
+				gore.velocity *= scaleFactor10;
+				gore.velocity.X += 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= scaleFactor10;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= scaleFactor10;
+				gore.velocity.X += 1f;
+				gore.velocity.Y -= 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= scaleFactor10;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y -= 1f;
+			}
+        }
+
         /// <summary>
         /// Call this function in the ai of your projectile so it can stick to enemies, also requires ModifyHitNPCSticky to be called in ModifyHitNPC
         /// </summary>
@@ -418,13 +459,13 @@ namespace CalamityMod
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
+                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == ProjectileID.RottenEgg || (Main.npc[i].type == NPCID.Guide && projectile.owner < Main.maxPlayers && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < Main.maxPlayers && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
                         if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))
                         {
                             bool flag3;
-                            if (Main.npc[i].type == 414)
+                            if (Main.npc[i].type == NPCID.SolarCrawltipedeTail)
                             {
                                 Rectangle rect = Main.npc[i].getRect();
                                 int num5 = 8;

@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
+            projectile.localNPCHitCooldown = 10;
 			projectile.tileCollide = false;
         }
 
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Summon
 			//dust and flexible damage
             if (dust)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
@@ -78,11 +78,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
 				dust = false;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
 
@@ -339,7 +339,7 @@ namespace CalamityMod.Projectiles.Summon
 							Vector2 projVect = targetLocation - projectile.Center;
 							projVect.Normalize();
 							projVect *= scaleFactor4;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projVect.X, projVect.Y, projType, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projVect.X, projVect.Y, projType, (int)(projectile.damage * 0.6f), 0f, Main.myPlayer, 0f, 0f);
 							projectile.netUpdate = true;
 						}
 					}
@@ -362,7 +362,7 @@ namespace CalamityMod.Projectiles.Summon
 								projVect2.Normalize();
 								float SpeedX = projVect2.X + (float)Main.rand.Next(-30, 31) * 0.05f;
 								float SpeedY = projVect2.Y + (float)Main.rand.Next(-30, 31) * 0.05f;
-								int bee = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, projType, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+								int bee = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, projType, (int)(projectile.damage * 0.8f), 0f, Main.myPlayer, 0f, 0f);
 								if (projType == bigBee)
 								{
 									Main.projectile[bee].frame = 2;
@@ -398,6 +398,11 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
+        }
+
+        public override bool CanDamage()
+        {
+            return mode == 2;
         }
     }
 }

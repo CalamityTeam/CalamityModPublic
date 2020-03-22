@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Materials
         {
             DisplayName.SetDefault("Effulgent Feather");
             Tooltip.SetDefault("It vibrates with fluffy golden energy");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(3, 12));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(3, 11));
         }
 
         public override void SetDefaults()

@@ -106,8 +106,8 @@ namespace CalamityMod
 
 		private static readonly Dictionary<string, float> InvasionDifficulty = new Dictionary<string, float>
 		{
-			{ "Acid Rain Initial", 2.5f },
-			{ "Acid Rain Aquatic Scourge", 8.8f }
+			{ "Acid Rain Initial", 2.4f },
+			{ "Acid Rain Aquatic Scourge", 8.51f }
 		};
 
 		public static void Setup()
@@ -490,7 +490,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("OldDuke", out float order);
 				List<int> bosses = new List<int>() { NPCType<OldDuke>() };
 				int summon = ItemType<BloodwormItem>();
-				List<int> loot = new List<int>() { ItemType<OldDukeBag>(), ItemType<InsidiousImpaler>(), ItemType<SepticSkewer>(), ItemType<FetidEmesis>(), ItemType<VitriolicViper>(), ItemType<Miasma>(), ItemType<CadaverousCarrion>(), ItemType<ToxicantTwister>(), ItemType<DukeScales>(), ItemType<MutatedTruffle>(), ItemID.SuperHealingPotion };
+				List<int> loot = new List<int>() { ItemType<OldDukeBag>(), ItemType<InsidiousImpaler>(), ItemType<SepticSkewer>(), ItemType<FetidEmesis>(), ItemType<VitriolicViper>(), ItemType<CadaverousCarrion>(), ItemType<ToxicantTwister>(), ItemType<DukeScales>(), ItemType<MutatedTruffle>(), ItemID.SuperHealingPotion };
 				List<int> collection = new List<int>() { ItemType<OldDukeTrophy>(), ItemType<OldDukeMask>(), ItemType<KnowledgeOldDuke>() };
 				string instructions = $"Defeat the Acid Rain event post-Polterghast or fish using a [i:{summon}] in the Sulphurous Sea";
 				string despawn = CalamityUtils.ColorMessage("The old duke disappears amidst the acidic downpour.", new Color(0xF0, 0xE6, 0x8C));
@@ -549,7 +549,7 @@ namespace CalamityMod
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
 				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Eye of Cthulhu is defeated.";
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the ocean.", new Color(146, 183, 116));
-				string bossLogTex = "CalamityMod/NPCs/DesertScourge/DesertScourge_BossChecklist";
+				string bossLogTex = "CalamityMod/Events/AcidRainT1_BossChecklist";
 				string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
 				AddInvasion(bossChecklist, calamity, "Acid Rain", order, enemies, DownedAcidRainInitial, summon, loot, collection, instructions, despawn, bossLogTex, iconTexture);
 			}
@@ -562,9 +562,9 @@ namespace CalamityMod
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
 				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated";
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
-				string bossLogTex = "CalamityMod/NPCs/DesertScourge/DesertScourge_BossChecklist";
+				string bossLogTex = "CalamityMod/Events/AcidRainT1_BossChecklist";
 				string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
-				AddInvasion(bossChecklist, calamity, "Acid Rain (Post-Aquatic Scourge)", order, enemies, DownedAcidRainHardmode, summon, loot, collection, instructions, despawn, bossLogTex, iconTexture);
+				AddInvasion(bossChecklist, calamity, "Acid Rain (Post-AS)", order, enemies, DownedAcidRainHardmode, summon, loot, collection, instructions, despawn, bossLogTex, iconTexture);
 			}
 		}
 

@@ -57,38 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // Smoke, which counts as a Gore
-            Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
-            for (int i = 0; i < 3; i++)
-            {
-                float smokeScale = 0.33f;
-                if (i == 1)
-                {
-                    smokeScale = 0.66f;
-                }
-                if (i == 2)
-                {
-                    smokeScale = 1f;
-                }
-                int idx = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-                Main.gore[idx].velocity *= smokeScale;
-                Main.gore[idx].velocity.X += 1f;
-                Main.gore[idx].velocity.Y += 1f;
-
-                idx = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-                Main.gore[idx].velocity *= smokeScale;
-                Main.gore[idx].velocity.X -= 1f;
-                Main.gore[idx].velocity.Y += 1f;
-
-                idx = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-                Main.gore[idx].velocity *= smokeScale;
-                Main.gore[idx].velocity.X += 1f;
-                Main.gore[idx].velocity.Y -= 1f;
-
-                idx = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-                Main.gore[idx].velocity *= smokeScale;
-                Main.gore[idx].velocity.X -= 1f;
-                Main.gore[idx].velocity.Y -= 1f;
-            }
+			CalamityUtils.ExplosionGores(projectile, 3);
         }
     
     }

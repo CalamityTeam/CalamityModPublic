@@ -31,8 +31,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft = TrueTimeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 30;
         }
 
         // Netcode for sending and receiving shit

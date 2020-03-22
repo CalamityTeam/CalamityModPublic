@@ -84,7 +84,7 @@ namespace CalamityMod.Items
             if (CalamityMod.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
-            if (item.type == ItemID.PsychoKnife)
+            if (item.type == ItemID.PsychoKnife || item.type == ItemID.PearlwoodSword || item.type == ItemID.PearlwoodBow || item.type == ItemID.TaxCollectorsStickOfDoom)
                 item.damage *= 4;
             else if (item.type == ItemID.SpectreStaff)
                 item.damage *= 3;
@@ -154,8 +154,26 @@ namespace CalamityMod.Items
 				item.rare = 10;
 			}
             
-            if(item.type == ItemID.SuspiciousLookingTentacle)
+            if (item.type == ItemID.SuspiciousLookingTentacle)
                 item.expert = true;
+
+            if (item.type == ItemID.PearlwoodHammer)
+			{
+                item.hammer += 35; //80% hammer power
+				item.useAnimation = 20;
+				item.useTime = 15;
+				item.damage *= 4;
+				item.tileBoost += 1;
+			}
+
+            if (item.type == ItemID.PearlwoodBow)
+			{
+				item.useAnimation += 8; //35
+				item.useTime += 8; //35
+				item.shootSpeed += 3.4f; //10f
+				item.knockBack += 1f; //1f
+				item.shoot = ProjectileID.RainbowFront;
+			}
         }
         #endregion
 
@@ -336,6 +354,23 @@ namespace CalamityMod.Items
 				Main.PlaySound(SoundID.Item11.WithPitchVariance(0.05f), position); // <--- This is optional; if using, add "item.UseSound = null" to GlobalItem.SetDefaults when checking for the Star Cannon's ID
 				return false;
 			}
+			if (item.type == ItemID.PearlwoodBow)
+			{
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (Main.projectile[i].active && (Main.projectile[i].type == ProjectileID.RainbowFront || Main.projectile[i].type == ProjectileID.RainbowBack) && Main.projectile[i].owner == player.whoAmI)
+                    {
+                        Main.projectile[i].Kill();
+                        break;
+                    }
+                }
+				for (int i = -8; i <= 8; i += 8)
+				{
+					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
+					int rainbow = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.RainbowFront, damage, 0f, player.whoAmI, 0f, 0f);
+					Main.projectile[rainbow].Calamity().forceRanged = true;
+				}
+			}
             return true;
         }
         #endregion
@@ -465,7 +500,7 @@ namespace CalamityMod.Items
                             {
                                 Vector2 perturbedspeed = new Vector2(correctedVelocity.X, correctedVelocity.Y + Main.rand.Next(-3, 4)).RotatedBy(MathHelper.ToRadians(spread));
 
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 500 : 1750) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y - 10, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 1000 : 1750) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f);
                                 spread -= Main.rand.Next(2, 4);
                                 Main.PlaySound(SoundID.Item20, player.Center);
                             }
@@ -473,7 +508,7 @@ namespace CalamityMod.Items
                         }
                         else
                         {
-                            Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 250 : 1250) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
+                            Projectile.NewProjectile(player.Center, correctedVelocity * 6.9f, ModContent.ProjectileType<ProfanedCrystalMeleeSpear>(), (int)((shouldNerf ? 500 : 1250) * player.MinionDamage()), 1f, player.whoAmI, Main.rand.NextBool(player.Calamity().profanedSoulWeaponUsage == 4 ? 5 : 7) ? 1f : 0f, 1f);
                             Main.PlaySound(SoundID.Item20, player.Center);
                         }
 
@@ -491,7 +526,7 @@ namespace CalamityMod.Items
                         bool isSmallBoomer = Main.rand.NextDouble() <= (enrage ? 0.2 : 0.3); // 20% chance if enraged, else 30% This is intentional due to literally doubling the amount of projectiles fired.
                         bool isThiccBoomer = isSmallBoomer && Main.rand.NextDouble() <= 0.05; // 5%
                         int projType = isSmallBoomer ? isThiccBoomer ? 1 : 2 : 3;
-                        int dam = (int)((shouldNerf ? 250 : 1000) * (player.allDamage + player.minionDamage - 1f));
+                        int dam = (int)((shouldNerf ? 500 : 1000) * player.MinionDamage());
                         switch (projType)
                         {
                             case 1: //big boomer
@@ -530,7 +565,7 @@ namespace CalamityMod.Items
                         player.statMana -= manaCost;
                         correctedVelocity *= 25f;
                         Main.PlaySound(SoundID.Item20, player.Center);
-                        int dam = (int)((shouldNerf ? 900 : 4500) * (player.allDamage + player.minionDamage - 1f));
+                        int dam = (int)((shouldNerf ? 1800 : 4500) * player.MinionDamage());
                         if (player.HasBuff(BuffID.ManaSickness))
                         {
                             int sickPenalty = (int)(dam * (0.05f * ((player.buffTime[player.FindBuffIndex(BuffID.ManaSickness)] + 60) / 60)));
@@ -555,7 +590,7 @@ namespace CalamityMod.Items
                         for (float i = 0; i < crystalCount; i++)
                         {
                             float angle = MathHelper.TwoPi / crystalCount * i;
-                            int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 169 : 880) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, 0f, 0f);
+                            int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 300 : 880) * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
                             Main.projectile[proj].Calamity().forceMinion = true;
                             Main.PlaySound(SoundID.Item20, player.Center);
                         }
@@ -564,7 +599,7 @@ namespace CalamityMod.Items
                     else if (player.Calamity().profanedSoulWeaponUsage % (enrage ? 5 : 10) == 0)
                     {
                         float angle = MathHelper.TwoPi / (enrage ? 9 : 18) * (player.Calamity().profanedSoulWeaponUsage / (enrage ? 1 : 10));
-                        int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 220 : 1100) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, 1f, 0f);
+                        int proj = Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<ProfanedCrystalRogueShard>(), (int)((shouldNerf ? 400 : 1100) * player.MinionDamage()), 1f, player.whoAmI, 1f, 0f);
                         Main.projectile[proj].Calamity().forceMinion = true;
                         Main.PlaySound(SoundID.Item20, player.Center);
                     }
@@ -649,7 +684,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MonkStaffT1)
             {
-                for (int i = 0; i < 1000; ++i)
+                for (int i = 0; i < Main.maxProjectiles; ++i)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
                     {
@@ -2247,7 +2282,7 @@ Provides heat and cold protection in Death Mode";
             }
             if (item.accessory)
             {
-                if (item.prefix == 67)
+                if (item.prefix == PrefixID.Precise)
                 {
                     foreach (TooltipLine line2 in tooltips)
                     {
@@ -2257,7 +2292,7 @@ Provides heat and cold protection in Death Mode";
                         }
                     }
                 }
-                if (item.prefix == 68)
+                if (item.prefix == PrefixID.Lucky)
                 {
                     foreach (TooltipLine line2 in tooltips)
                     {
@@ -2267,7 +2302,7 @@ Provides heat and cold protection in Death Mode";
                         }
                     }
                 }
-                if (item.prefix == 62)
+                if (item.prefix == PrefixID.Hard)
                 {
 					string defenseBoost = "+1 defense\n";
 					if (NPC.downedMoonlord)
@@ -2286,7 +2321,7 @@ Provides heat and cold protection in Death Mode";
                         }
                     }
                 }
-                if (item.prefix == 63)
+                if (item.prefix == PrefixID.Guarding)
                 {
 					string defenseBoost = "+2 defense\n";
 					if (NPC.downedMoonlord)
@@ -2305,7 +2340,7 @@ Provides heat and cold protection in Death Mode";
                         }
                     }
                 }
-                if (item.prefix == 64)
+                if (item.prefix == PrefixID.Armored)
                 {
 					string defenseBoost = "+3 defense\n";
 					if (NPC.downedMoonlord)
@@ -2324,7 +2359,7 @@ Provides heat and cold protection in Death Mode";
                         }
                     }
                 }
-                if (item.prefix == 65)
+                if (item.prefix == PrefixID.Warding)
                 {
 					string defenseBoost = "+4 defense\n";
 					if (NPC.downedMoonlord)
@@ -2520,6 +2555,8 @@ Provides heat and cold protection in Death Mode";
                 return "Eskimo";
 			if (head.type == ItemID.MeteorHelmet && body.type == ItemID.MeteorSuit && legs.type == ItemID.MeteorLeggings)
 				return "Meteor";
+			if (head.type == ItemID.PearlwoodHelmet && body.type == ItemID.PearlwoodBreastplate && legs.type == ItemID.PearlwoodGreaves)
+				return "Pearlwood";
             return "";
         }
 
@@ -3048,7 +3085,7 @@ Provides heat and cold protection in Death Mode";
             bool flag = false;
             bool canShoot = false;
 
-            for (int i = 54; i < 58; i++)
+            for (int i = 54; i < Main.maxInventory; i++)
             {
                 if (player.inventory[i].ammo == item.useAmmo && (player.inventory[i].stack >= ammoConsumed || !player.inventory[i].consumable))
                 {
@@ -3078,7 +3115,7 @@ Provides heat and cold protection in Death Mode";
             bool flag = false;
             bool dontConsumeAmmo = false;
 
-            for (int i = 54; i < 58; i++)
+            for (int i = 54; i < Main.maxInventory; i++)
             {
                 if (player.inventory[i].ammo == item.useAmmo && player.inventory[i].stack >= ammoConsumed)
                 {

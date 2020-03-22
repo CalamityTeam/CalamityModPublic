@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Dusts;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Enemy;
@@ -63,7 +64,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.8f, 0.6f);
-			if (CalamityWorld.downedPolterghast && !Main.player[npc.target].dead && CalamityWorld.rainingAcid)
+			if (CalamityWorld.downedAquaticScourge && !Main.player[npc.target].dead && CalamityWorld.rainingAcid)
 			{
 				npc.aiStyle = aiType = -1;
 
@@ -337,6 +338,11 @@ namespace CalamityMod.NPCs.AcidRain
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 100);
+        }
+
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
         }
     }
 }

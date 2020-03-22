@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 70;
+            item.damage = 75;
             item.mana = 10;
             item.width = 46;
             item.height = 28;
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Summon
                     projectile2.Kill();
                 }
             }
-			float damageMult = ((float)Math.Log(viruliSlots, 8f)) + 1f;
+			float damageMult = ((float)Math.Log(viruliSlots, 10f)) + 1f;
             position = Main.MouseWorld;
             speedX = 0;
             speedY = 0;

@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 210;
+                npc.damage = 140;
                 npc.lifeMax = 6600;
                 npc.defense = 33;
             }
@@ -89,7 +89,10 @@ namespace CalamityMod.NPCs.AcidRain
                 if (npc.wet)
                 {
                     if (npc.velocity.Y >= 0f)
+                    {
                         npc.velocity.Y = -3f;
+                        npc.netUpdate = true;
+                    }
                 }
 
                 if (closestBubble != null && minimumDistance < 200f)
@@ -99,8 +102,8 @@ namespace CalamityMod.NPCs.AcidRain
                     if (closestBubble.Hitbox.Intersects(npc.Hitbox))
                     {
                         npc.ai[0] = 1f;
-                        npc.netUpdate = true;
                         closestBubble.Kill();
+                        npc.netUpdate = true;
                     }
                 }
                 if (npc.velocity.Y == 0f || npc.wet)
@@ -108,18 +111,19 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.TargetClosest(false);
                     npc.velocity.X *= 0.85f;
                     npc.ai[1]++;
-                    float lungeForwardSpeed = 13f;
-                    float jumpSpeed = 3f;
+                    float lungeForwardSpeed = 15f;
+                    float jumpSpeed = 4f;
                     if (Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
                     {
                         lungeForwardSpeed *= 1.2f;
                     }
-                    if (npc.ai[1] >= 10)
+                    if (npc.ai[1] >= 17)
                     {
                         npc.ai[1] = 0f;
                         npc.velocity.Y -= jumpSpeed;
                         npc.velocity.X = lungeForwardSpeed * (npc.Center.X - destination.X < 0).ToDirectionInt();
                         npc.spriteDirection = (npc.Center.X - destination.X < 0).ToDirectionInt();
+                        npc.netUpdate = true;
                     }
                 }
                 else
@@ -135,40 +139,21 @@ namespace CalamityMod.NPCs.AcidRain
                 if (npc.Distance(player.Center) < 200f)
                     inertia *= 0.667f;
                 npc.velocity = (npc.velocity * inertia + npc.DirectionTo(player.Center) * speed) / (inertia + 1f);
-
-                float SAImovement = 0.5f;
-                for (int index = 0; index < Main.npc.Length; index++)
-                {
-                    NPC other = Main.npc[index];
-                    if (index != npc.whoAmI &&
-                        other.active &&
-                        other.type == npc.type && Math.Abs(npc.position.X - other.position.X) + Math.Abs(npc.position.Y - other.position.Y) < npc.width)
-                    {
-                        if (npc.position.X < other.position.X)
-                        {
-                            npc.velocity.X -= SAImovement;
-                        }
-                        else
-                        {
-                            npc.velocity.X += SAImovement;
-                        }
-                        if (npc.position.Y < other.position.Y)
-                        {
-                            npc.velocity.Y -= SAImovement;
-                        }
-                        else
-                        {
-                            npc.velocity.Y += SAImovement;
-                        }
-                    }
-                }
                 npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
+                if (player.dead && npc.Distance(player.Center) < 20f)
+                {
+                    npc.ai[0] = 0f;
+                    npc.netUpdate = true;
+                }
             }
         }
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
         {
             if (npc.ai[0] != 0f)
+            {
                 npc.ai[0] = 0f;
+                npc.netUpdate = true;
+            }
         }
         public override void FindFrame(int frameHeight)
         {
@@ -196,9 +181,15 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            for (int k = 0; k < 8; k++)
+            for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/SulfurousSkaterGore"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/SulfurousSkaterGore2"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/SulfurousSkaterGore3"), npc.scale);
             }
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)

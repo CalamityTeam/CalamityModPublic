@@ -3195,7 +3195,7 @@ namespace CalamityMod.NPCs
 						bool flag95 = true;
 						if (npc.position.Y > player.position.Y)
 						{
-							for (int num955 = 0; num955 < 255; num955++)
+							for (int num955 = 0; num955 < Main.maxPlayers; num955++)
 							{
 								if (Main.player[num955].active)
 								{
@@ -3482,7 +3482,7 @@ namespace CalamityMod.NPCs
 						Main.dust[dust].scale = 0.5f;
 					}
 
-					for (int num475 = 0; num475 < 255; num475++)
+					for (int num475 = 0; num475 < Main.maxPlayers; num475++)
 					{
 						if (Collision.CanHit(npc.Center, 1, 1, Main.player[num475].Center, 1, 1))
 						{
@@ -4301,6 +4301,7 @@ namespace CalamityMod.NPCs
 				if (npc.timeLeft == 1)
 				{
 					CalamityWorld.acidRainPoints = 0;
+					CalamityWorld.triedToSummonOldDuke = false;
 					AcidRainEvent.UpdateInvasion(false);
 					npc.timeLeft = 0;
 				}

@@ -1595,7 +1595,11 @@ namespace CalamityMod.NPCs
         #region Acid Rain
         private void AcidRainProgression(NPC npc)
         {
-            List<(int, int)> PossibleEnemies = CalamityWorld.downedAquaticScourge ? AcidRainEvent.PossibleEnemiesAS : AcidRainEvent.PossibleEnemiesPreHM;
+            List<(int, int)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+            if (CalamityWorld.downedAquaticScourge)
+                PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
+            if (CalamityWorld.downedPolterghast)
+                PossibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
             if (PossibleEnemies.Select(enemy => enemy.Item1).Contains(npc.type) && CalamityWorld.rainingAcid)
             {
                 CalamityWorld.acidRainPoints -= PossibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
@@ -1608,6 +1612,7 @@ namespace CalamityMod.NPCs
                 npc.type == ModContent.NPCType<OldDuke.OldDuke>() &&
                 CalamityWorld.acidRainPoints <= 2f)
             {
+                CalamityWorld.triedToSummonOldDuke = false;
                 CalamityWorld.acidRainPoints = 0;
             }
             AcidRainEvent.UpdateInvasion();

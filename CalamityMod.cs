@@ -591,6 +591,7 @@ namespace CalamityMod
                 ProjectileID.DD2PhoenixBow,
                 ProjectileID.IchorDart,
                 ProjectileID.PhantasmArrow,
+                ProjectileID.RainbowBack,
                 ModContent.ProjectileType<PhangasmBow>(),
                 ModContent.ProjectileType<ContagionBow>(),
                 ModContent.ProjectileType<DaemonsFlameBow>(),
@@ -1308,7 +1309,11 @@ namespace CalamityMod
                 ItemID.MagicDagger,
                 ItemID.BeamSword,
                 ItemID.MonkStaffT2,
-                ItemID.PaladinsHammer
+                ItemID.PaladinsHammer,
+                ItemID.PearlwoodSword,
+                ItemID.PearlwoodBow,
+                ItemID.TaxCollectorsStickOfDoom,
+                ItemID.StylistKilLaKillScissorsIWish
             };
 
             quarterDamageNerfList = new List<int>()
@@ -3619,8 +3624,6 @@ namespace CalamityMod
                         CalamityWorld.revenge = revActive;
                         break;
                     case CalamityModMessageType.DeathBoolSync:
-                        bool revActive2 = reader.ReadBoolean();
-                        CalamityWorld.revenge = revActive2;
                         bool deathActive = reader.ReadBoolean();
                         CalamityWorld.death = deathActive;
                         break;
@@ -3651,11 +3654,15 @@ namespace CalamityMod
                     case CalamityModMessageType.AcidRainUIDrawFadeSync:
                         CalamityWorld.acidRainExtraDrawTime = reader.ReadInt32();
                         break;
+                    case CalamityModMessageType.AcidRainOldDukeSummonSync:
+                        CalamityWorld.triedToSummonOldDuke = reader.ReadBoolean();
+                        break;
                     default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
                 }
-            } catch(Exception e)
+            }
+            catch(Exception e)
             {
                 if (e is EndOfStreamException eose)
                     Logger.Error("Failed to parse Calamity packet: Packet was too short, missing data, or otherwise corrupt.", eose);
@@ -3729,6 +3736,7 @@ namespace CalamityMod
 		DeathModeBlizzardTimeSync,
 		DeathBossSpawnCountdownSync,
         AcidRainSync,
-        AcidRainUIDrawFadeSync
+        AcidRainUIDrawFadeSync,
+        AcidRainOldDukeSummonSync
     }
 }

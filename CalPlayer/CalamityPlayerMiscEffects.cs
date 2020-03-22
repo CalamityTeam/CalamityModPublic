@@ -751,7 +751,7 @@ namespace CalamityMod.CalPlayer
 				if (player.ownedProjectileCounts[ModContent.ProjectileType<OmegaBlueTentacle>()] < 6)
 				{
 					bool[] tentaclesPresent = new bool[6];
-					for (int i = 0; i < 1000; i++)
+					for (int i = 0; i < Main.maxProjectiles; i++)
 					{
 						Projectile projectile = Main.projectile[i];
 						if (projectile.active && projectile.type == ModContent.ProjectileType<OmegaBlueTentacle>() && projectile.owner == Main.myPlayer && projectile.ai[1] >= 0f && projectile.ai[1] < 6f)
@@ -1191,7 +1191,7 @@ namespace CalamityMod.CalPlayer
 				{
 					if (random == 0)
 					{
-						for (int l = 0; l < 200; l++)
+						for (int l = 0; l < Main.maxNPCs; l++)
 						{
 							NPC nPC = Main.npc[l];
 							if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && !nPC.buffImmune[num] && Vector2.Distance(player.Center, nPC.Center) <= num2)
@@ -1274,7 +1274,7 @@ namespace CalamityMod.CalPlayer
 				if (Main.rand.NextBool(15))
 				{
 					int num = 0;
-					for (int i = 0; i < 1000; i++)
+					for (int i = 0; i < Main.maxProjectiles; i++)
 					{
 						if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<TheDeadlyMicrobeProjectile>())
 							num++;
@@ -1321,7 +1321,7 @@ namespace CalamityMod.CalPlayer
 
 									if (flag)
 									{
-										for (int k = 0; k < 1000; k++)
+										for (int k = 0; k < Main.maxProjectiles; k++)
 										{
 											if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<TheDeadlyMicrobeProjectile>() && (center - Main.projectile[k].Center).Length() < 48f)
 											{
@@ -1481,7 +1481,7 @@ namespace CalamityMod.CalPlayer
 			// Ceaseless Hunger Potion buff
 			if (modPlayer.ceaselessHunger)
 			{
-				for (int j = 0; j < 400; j++)
+				for (int j = 0; j < Main.maxItems; j++)
 				{
 					if (Main.item[j].active && Main.item[j].noGrabDelay == 0 && Main.item[j].owner == player.whoAmI)
 					{
@@ -1547,7 +1547,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.spectralVeil && modPlayer.spectralVeilImmunity > 0)
 			{
 				Rectangle sVeilRectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
-				for (int i = 0; i < 200; i++)
+				for (int i = 0; i < Main.maxNPCs; i++)
 				{
 					if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[player.whoAmI] <= 0 && Main.npc[i].damage > 0)
 					{
@@ -1585,7 +1585,7 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				for (int i = 0; i < 1000; i++)
+				for (int i = 0; i < Main.maxProjectiles; i++)
 				{
 					if (Main.projectile[i].active && !Main.projectile[i].friendly && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
 					{
@@ -2453,7 +2453,7 @@ namespace CalamityMod.CalPlayer
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					for (int m = 0; m < 200; m++)
+					for (int m = 0; m < Main.maxNPCs; m++)
 					{
 						if (Main.npc[m].active && !Main.npc[m].friendly)
 						{
@@ -3187,13 +3187,18 @@ namespace CalamityMod.CalPlayer
 				player.buffImmune[BuffID.Venom] = true;
                 if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
                 {
-                    player.allDamage += 0.03f;
+                    player.allDamage += 0.06f;
 					modPlayer.AllCritBoost(3);
                 }
                 if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
                 {
-                    player.allDamage += 0.05f;
-					modPlayer.AllCritBoost(5);
+                    player.allDamage += 0.06f;
+					modPlayer.AllCritBoost(3);
+                }
+                if (player.statLife <= (int)((double)player.statLifeMax2 * 0.25))
+                {
+                    player.allDamage += 0.06f;
+					modPlayer.AllCritBoost(3);
                 }
 				if (player.lifeRegen < 0)
                 {
@@ -3314,7 +3319,7 @@ namespace CalamityMod.CalPlayer
 				player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalHealer>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] > 1 ||
 				player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] > 1)
 			{
-				for (int projIndex = 0; projIndex < 1000; projIndex++)
+				for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
 				{
 					if (Main.projectile[projIndex].active && Main.projectile[projIndex].owner == player.whoAmI)
 					{

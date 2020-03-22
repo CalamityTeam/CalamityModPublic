@@ -19,10 +19,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             item.width = 42;
             item.height = 46;
-            item.damage = 540;
+            item.damage = 820;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.useAnimation = item.useTime = 30;
+            item.useAnimation = item.useTime = 20;
             item.useStyle = 1;
             item.knockBack = 5f;
             item.UseSound = SoundID.Item1;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().postMoonLordRarity = 13;
 			item.rare = 10;
             item.shoot = ModContent.ProjectileType<ToxicantTwisterProjectile>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 18f;
             item.Calamity().rogue = true;
         }
 
@@ -45,7 +45,6 @@ namespace CalamityMod.Items.Weapons.Rogue
                 Main.projectile[stealth].velocity *= 1.5f;
                 Main.projectile[stealth].timeLeft = 420;
                 Main.projectile[stealth].penetrate = -1;
-                Main.projectile[stealth].usesLocalNPCImmunity = true;
                 Main.projectile[stealth].localNPCHitCooldown = 6;
             }
             return false;

@@ -107,6 +107,8 @@ namespace CalamityMod.World
         public static bool rainingAcid;
         public static int acidRainPoints = 0;
         public static int acidRainExtraDrawTime = 0;
+        public static bool triedToSummonOldDuke = false;
+        public static bool startAcidicDownpour = false;
         public static float AcidRainCompletionRatio
         {
             get
@@ -364,6 +366,10 @@ namespace CalamityMod.World
                 downed.Add("eocRain");
             if (downedAquaticScourgeAcidRain)
                 downed.Add("hmRain");
+            if (triedToSummonOldDuke)
+                downed.Add("spawnedBoomer");
+			if (startAcidicDownpour)
+				downed.Add("startDownpour");
 
             return new TagCompound
             {
@@ -431,6 +437,8 @@ namespace CalamityMod.World
             spawnedCirrus = downed.Contains("drunkPrincess");
             downedEoCAcidRain = downed.Contains("eocRain");
             downedAquaticScourgeAcidRain = downed.Contains("hmRain");
+            triedToSummonOldDuke = downed.Contains("spawnedBoomer");
+			startAcidicDownpour = downed.Contains("startDownpour");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
@@ -487,12 +495,11 @@ namespace CalamityMod.World
                 onionMode = flags4[6];
                 revenge = flags4[7];
 
-                // 1 bit is currently unused, it used to be astral meteor drops
                 BitsByte flags5 = reader.ReadByte();
                 downedStarGod = flags5[0];
                 spawnedBandit = flags5[1];
                 spawnedCirrus = flags5[2];
-                _ = flags5[3];
+                startAcidicDownpour = flags5[3];
                 spawnedHardBoss = flags5[4];
                 downedPolterghast = flags5[5];
                 death = flags5[6];
@@ -514,8 +521,9 @@ namespace CalamityMod.World
                 downedCLAM = flags7[2];
                 dragonScalesBought = flags7[3];
                 rainingAcid = flags7[4];
-                downedEoCAcidRain = flags[5];
-                downedAquaticScourgeAcidRain = flags[6];
+                downedEoCAcidRain = flags7[5];
+                downedAquaticScourgeAcidRain = flags7[6];
+                triedToSummonOldDuke = flags7[7];
             }
             else
             {
@@ -568,12 +576,11 @@ namespace CalamityMod.World
             flags4[6] = onionMode;
             flags4[7] = revenge;
 
-            // 1 bits is currently unused, it used to be astral meteor drops
             BitsByte flags5 = new BitsByte();
             flags5[0] = downedStarGod;
             flags5[1] = spawnedBandit;
             flags5[2] = spawnedCirrus;
-            flags5[3] = false;
+            flags5[3] = startAcidicDownpour;
             flags5[4] = spawnedHardBoss;
             flags5[5] = downedPolterghast;
             flags5[6] = death;
@@ -597,6 +604,7 @@ namespace CalamityMod.World
             flags7[4] = rainingAcid;
             flags7[5] = downedEoCAcidRain;
             flags7[6] = downedAquaticScourgeAcidRain;
+            flags7[7] = triedToSummonOldDuke;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -654,12 +662,11 @@ namespace CalamityMod.World
             onionMode = flags4[6];
             revenge = flags4[7];
 
-            // 1 bits is currently unused, it used to be astral meteor drops
             BitsByte flags5 = reader.ReadByte();
             downedStarGod = flags5[0];
             spawnedBandit = flags5[1];
             spawnedCirrus = flags5[2];
-            _ = flags5[3];
+            startAcidicDownpour = flags5[3];
             spawnedHardBoss = flags5[4];
             downedPolterghast = flags5[5];
             death = flags5[6];
@@ -681,8 +688,9 @@ namespace CalamityMod.World
             downedCLAM = flags7[2];
             dragonScalesBought = flags7[3];
             rainingAcid = flags7[4];
-            downedEoCAcidRain = flags[5];
-            downedAquaticScourgeAcidRain = flags[6];
+            downedEoCAcidRain = flags7[5];
+            downedAquaticScourgeAcidRain = flags7[6];
+            triedToSummonOldDuke = flags7[7];
 
             abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
@@ -893,25 +901,54 @@ namespace CalamityMod.World
                 CalamityMod.UpdateServerBoolean();
             }
 
-            // Attempt to start the acid rain
-            if (Main.rand.NextBool(360000))
+            // Attempt to start the acid rain at the 4:29AM
+			bool moreRain = !downedEoCAcidRain || (!downedAquaticScourgeAcidRain && downedAquaticScourge) || (!downedBoomerDuke && downedPolterghast);
+            if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300))
             {
                 AcidRainEvent.TryStartEvent();
                 CalamityMod.UpdateServerBoolean();
             }
+			if (NPC.downedBoss1 && !downedEoCAcidRain)
+			{
+				for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+				{
+					if (Main.player[playerIndex].active)
+					{
+						if (Main.player[playerIndex].Calamity().ZoneSulphur)
+						{
+							AcidRainEvent.TryStartEvent();
+							CalamityMod.UpdateServerBoolean();
+						}
+					}
+				}
+			}
 
             if (rainingAcid)
             {
-                // Makes rain pour at its maximum intensity
+				for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+				{
+					if (Main.player[playerIndex].active)
+					{
+						if (Main.player[playerIndex].Calamity().ZoneSulphur)
+						{
+							startAcidicDownpour = true;
+							CalamityMod.UpdateServerBoolean();
+						}
+					}
+				}
+                // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
                 // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
-                Main.raining = true;
-                Main.cloudBGActive = 1f;
-                Main.numCloudsTemp = Main.cloudLimit;
-                Main.numClouds = Main.numCloudsTemp;
-                Main.windSpeedTemp = 0.72f;
-                Main.windSpeedSet = Main.windSpeedTemp;
-                Main.weatherCounter = 600;
-                Main.maxRaining = 0.89f;
+				if (startAcidicDownpour)
+				{
+					Main.raining = true;
+					Main.cloudBGActive = 1f;
+					Main.numCloudsTemp = Main.cloudLimit;
+					Main.numClouds = Main.numCloudsTemp;
+					Main.windSpeedTemp = 0.72f;
+					Main.windSpeedSet = Main.windSpeedTemp;
+					Main.weatherCounter = 600;
+					Main.maxRaining = 0.89f;
+				}
                 Main.invasionProgressNearInvasion = true;
 
                 // Summon Old Duke tornado post-Polter as needed
@@ -919,15 +956,28 @@ namespace CalamityMod.World
                     !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) &&
                     CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)
                 {
-                    int playerClosestToAbyss = Player.FindClosest(new Vector2(abyssSide ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
-                    Player closestToAbyss = Main.player[playerClosestToAbyss];
-                    if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (abyssSide ? 0 : Main.maxTilesX * 16)) <= 12000f)
+                    if (triedToSummonOldDuke)
                     {
-                        Projectile.NewProjectile(closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero,
-                            ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f);
+                        acidRainPoints = 0;
+                        triedToSummonOldDuke = false;
+                        AcidRainEvent.UpdateInvasion(false);
+                    }
+                    else
+                    {
+                        int playerClosestToAbyss = Player.FindClosest(new Vector2(abyssSide ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
+                        Player closestToAbyss = Main.player[playerClosestToAbyss];
+                        if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (abyssSide ? 0 : Main.maxTilesX * 16)) <= 12000f)
+                        {
+                            Projectile.NewProjectile(closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero,
+                                ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f, Main.myPlayer);
+                        }
                     }
                 }
             }
+			else
+			{
+				startAcidicDownpour = false;
+			}
 
             // Boss Rush shit
             if (bossRushActive)
@@ -1016,7 +1066,7 @@ namespace CalamityMod.World
                         // Post-Wall of Flesh teleport back to spawn
                         if (bossRushStage == 13)
                         {
-                            for (int playerIndex = 0; playerIndex < 255; playerIndex++)
+                            for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
                             {
                                 if (Main.player[playerIndex].active)
                                 {
@@ -1029,7 +1079,7 @@ namespace CalamityMod.World
                         // Remove Providence debuff for next boss fight
                         else if (bossRushStage == 36)
                         {
-                            for (int playerIndex = 0; playerIndex < 255; playerIndex++)
+                            for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
                             {
                                 if (Main.player[playerIndex].active)
                                 {
@@ -1124,7 +1174,7 @@ namespace CalamityMod.World
                                     Main.npc[num1302].direction = Main.npc[num1302].spriteDirection = Math.Sign(player.Center.X - (float)player.Center.X - 90f);
                                     break;
                                 case 19:
-                                    for (int doom = 0; doom < 200; doom++)
+                                    for (int doom = 0; doom < Main.maxNPCs; doom++)
                                     {
                                         if (Main.npc[doom].active && (Main.npc[doom].type == 493 || Main.npc[doom].type == 422 || Main.npc[doom].type == 507 ||
                                             Main.npc[doom].type == 517))

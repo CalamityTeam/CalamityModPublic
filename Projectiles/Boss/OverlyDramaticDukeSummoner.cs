@@ -127,7 +127,6 @@ namespace CalamityMod.Projectiles.Boss
 						}
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OldDukeRoar").SoundId, (int)projectile.Top.X, (int)projectile.Top.Y, volumeScale: 1.45f);
 							int boomer = NPC.NewNPC((int)projectile.Top.X, (int)projectile.Top.Y + 100, ModContent.NPCType<OldDuke>());
 							string boomerName = Main.npc[boomer].TypeName;
 
@@ -149,11 +148,14 @@ namespace CalamityMod.Projectiles.Boss
 							Main.npc[boomer].alpha = 255;
 							Main.npc[boomer].Calamity().newAI[3] = 1f; // To signal that Old Duke should not deccelerate as it normally would
 							Main.npc[boomer].netUpdate = true;
+							CalamityWorld.triedToSummonOldDuke = true;
+							AcidRainEvent.UpdateInvasion(false);
 						}
 					}
 					else
 					{
 						CalamityWorld.acidRainPoints = 0;
+						CalamityWorld.triedToSummonOldDuke = false;
 						AcidRainEvent.UpdateInvasion(false);
 					}
 				}

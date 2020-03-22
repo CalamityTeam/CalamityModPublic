@@ -1921,7 +1921,7 @@ namespace CalamityMod.CalPlayer
                         netMessage.Write(CalamityWorld.bossRushStage);
                         netMessage.Send();
                     }
-                    for (int doom = 0; doom < 200; doom++)
+                    for (int doom = 0; doom < Main.maxNPCs; doom++)
                     {
                         if (Main.npc[doom].active && Main.npc[doom].boss)
                         {
@@ -2352,7 +2352,7 @@ namespace CalamityMod.CalPlayer
                     for (int num227 = 0; num227 < num226; num227++)
                     {
                         Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
-                        vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + player.Center;
+                        vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / (float)num226), default) + player.Center;
                         Vector2 vector7 = vector6 - player.Center;
                         int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 235, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                         Main.dust[num228].noGravity = true;
@@ -2365,7 +2365,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        for (int l = 0; l < 200; l++)
+                        for (int l = 0; l < Main.maxNPCs; l++)
                         {
                             NPC nPC = Main.npc[l];
                             if (nPC.active && !nPC.friendly && !nPC.dontTakeDamage && Vector2.Distance(player.Center, nPC.Center) <= 3000f)
@@ -2506,7 +2506,7 @@ namespace CalamityMod.CalPlayer
             }
             if (sulfurSet && player.controlJump && player.justJumped && player.jumpAgainSandstorm)
             {
-                int bubble = Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), new Vector2(0f, 0f), ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * (player.allDamage + throwingDamage - 1f)), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
+                int bubble = Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), new Vector2(0f, 0f), ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
                 Main.projectile[bubble].Calamity().forceRogue = true;
             }
         }
@@ -2751,7 +2751,7 @@ namespace CalamityMod.CalPlayer
             }
             player.grappling[0] = -1;
             player.grapCount = 0;
-            for (int index = 0; index < 1000; ++index)
+            for (int index = 0; index < Main.maxProjectiles; ++index)
             {
                 if (Main.projectile[index].active && Main.projectile[index].owner == player.whoAmI && Main.projectile[index].aiStyle == 7)
                 {
@@ -3257,7 +3257,7 @@ namespace CalamityMod.CalPlayer
             }
             if (hInferno)
             {
-                for (int x = 0; x < 200; x++)
+                for (int x = 0; x < Main.maxNPCs; x++)
                 {
                     if (Main.npc[x].active && Main.npc[x].type == ModContent.NPCType<Providence>())
                     {
@@ -6353,7 +6353,7 @@ namespace CalamityMod.CalPlayer
                 if (fBarrier || ((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3))
                 {
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 27);
-                    for (int m = 0; m < 200; m++)
+                    for (int m = 0; m < Main.maxNPCs; m++)
                     {
                         if (Main.npc[m].active && !Main.npc[m].friendly)
                         {
@@ -6381,7 +6381,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (aBrain)
                 {
-                    for (int m = 0; m < 200; m++)
+                    for (int m = 0; m < Main.maxNPCs; m++)
                     {
                         if (Main.npc[m].active && !Main.npc[m].friendly)
                         {
@@ -7015,7 +7015,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 50f * (player.allDamage + player.meleeDamage - 1f);
+                            float num = 50f * player.MeleeDamage();
                             float num2 = 3f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7063,7 +7063,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 1500f * (player.allDamage + player.meleeDamage - 1f);
+                            float num = 1500f * player.MeleeDamage();
                             float num2 = 15f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7114,7 +7114,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 500f * (player.allDamage + player.meleeDamage - 1f);
+                            float num = 500f * player.MeleeDamage();
                             float num2 = 12f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7164,7 +7164,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 100f * (player.allDamage + player.meleeDamage - 1f);
+                            float num = 100f * player.MeleeDamage();
                             float num2 = 9f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7902,7 +7902,7 @@ namespace CalamityMod.CalPlayer
 
                 rect.Width = 2;
                 rect.Inflate(6, 12);
-                float damage = 800f * (player.allDamage + player.minionDamage - 1f);
+                float damage = 800f * player.MinionDamage();
                 float knockback = 10f;
                 int nPCImmuneTime = 30;
                 int playerImmuneTime = 6;
@@ -7918,7 +7918,7 @@ namespace CalamityMod.CalPlayer
 
                 rect2.Width = 2;
                 rect2.Inflate(6, 12);
-                float damage2 = 50f * (player.allDamage + player.minionDamage - 1f);
+                float damage2 = 50f * player.MinionDamage();
                 float knockback2 = 8f;
                 int nPCImmuneTime2 = 30;
                 int playerImmuneTime2 = 6;
@@ -7934,7 +7934,7 @@ namespace CalamityMod.CalPlayer
 
                 rect2.Width = 2;
                 rect2.Inflate(6, 12);
-                float damage2 = 25f * (player.allDamage + player.minionDamage - 1f);
+                float damage2 = 25f * player.MinionDamage();
                 float knockback2 = 5f;
                 int nPCImmuneTime2 = 30;
                 int playerImmuneTime2 = 6;

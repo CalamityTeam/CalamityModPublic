@@ -25,12 +25,15 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 180;
             aiType = ProjectileID.WoodenBoomerang;
             projectile.Calamity().rogue = true;
+			projectile.extraUpdates = 1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 12;
         }
         public override void AI()
         {
             if (projectile.Calamity().stealthStrike)
             {
-                if (projectile.timeLeft % 25f == 0f)
+                if (projectile.timeLeft % 50f == 0f)
                 {
                     for (int i = 0; i < 2; i++)
                     {
@@ -39,13 +42,12 @@ namespace CalamityMod.Projectiles.Rogue
                             ModContent.ProjectileType<ToxicantTwisterDust>(), projectile.damage, 0f, projectile.owner);
                     }
                 }
-                projectile.rotation += 0.125f * (projectile.velocity.X > 0).ToDirectionInt();
+                projectile.rotation += 0.06f * (projectile.velocity.X > 0).ToDirectionInt();
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 4;
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
             for (int k = 0; k < 10; k++)
             {

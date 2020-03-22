@@ -31,7 +31,9 @@ namespace CalamityMod.Tiles.Abyss
         }
         public override void NearbyEffects(int i, int j, bool closer)
         {
-            if (WorldGen.genRand.NextBool(60))
+            bool noTilesBetweenPlayer = Collision.CanHit(new Vector2(i, j) * 16, 1, 1, new Vector2(i * 16f, Main.LocalPlayer.Center.Y), 1, 1);
+
+            if (WorldGen.genRand.NextBool(60) && !Main.gamePaused && noTilesBetweenPlayer)
             {
                 if (Math.Abs(Main.LocalPlayer.Center.X - i * 16) < 80 &&
                     Main.LocalPlayer.Bottom.Y < j * 16 &&

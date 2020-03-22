@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 135;
+            item.damage = 50;
             item.magic = true;
             item.mana = 16;
             item.width = 50;
@@ -26,9 +27,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3f;
-            item.value = Item.buyPrice(1, 40, 0, 0);
-            item.Calamity().postMoonLordRarity = 13;
-			item.rare = 10;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+			item.rare = 5;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<MiasmaGas>();
@@ -40,10 +40,21 @@ namespace CalamityMod.Items.Weapons.Magic
             for (int i = 0; i < Main.rand.Next(5, 8 + 1); i++)
             {
                 Vector2 velocity = new Vector2(speedX, speedY) * Main.rand.NextFloat(0.9f, 1.1f);
-                float angle = Main.rand.NextFloat(-1f, 1f) * MathHelper.ToRadians(23f);
+                float angle = Main.rand.NextFloat(-1f, 1f) * MathHelper.ToRadians(25f);
                 Projectile.NewProjectile(position, velocity.RotatedBy(angle), type, damage, knockBack, player.whoAmI);
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.NimbusRod);
+            recipe.AddIngredient(ModContent.ItemType<AquamarineStaff>());
+            recipe.AddIngredient(ModContent.ItemType<CorrodedFossil>(), 10);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

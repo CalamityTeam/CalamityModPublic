@@ -143,7 +143,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
             if (CalamityWorld.downedDoG)
             {
-                dialogue.Add("I suppose that witch was mistaken. Defeating the Ceaseless Void and the Devourer has not caused our world to collapse… but I would not lower my guard if I were you.");
+                dialogue.Add("I suppose that witch was mistaken. Defeating the Ceaseless Void and the Devourer has not caused our world to collapse... but I would not lower my guard if I were you.");
             }
 
             /*if (CalamityWorld.downedYharon)
