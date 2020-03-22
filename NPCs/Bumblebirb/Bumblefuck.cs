@@ -8,15 +8,11 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.Bumblebirb
 {
@@ -26,8 +22,11 @@ namespace CalamityMod.NPCs.Bumblebirb
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bumblebirb");
-            Main.npcFrameCount[npc.type] = 10;
+            Main.npcFrameCount[npc.type] = 6;
         }
+
+        public override string Texture => "CalamityMod/NPCs/Bumblebirb/Birb";
+        public override string BossHeadTexture => "CalamityMod/NPCs/Bumblebirb/Birb_Head_Boss";
 
         public override void SetDefaults()
         {
@@ -35,8 +34,8 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.aiStyle = -1;
             aiType = -1;
             npc.damage = 160;
-            npc.width = 80;
-            npc.height = 80;
+            npc.width = 130;
+            npc.height = 100;
             npc.defense = 40;
             npc.LifeMaxNERB(227500, 252500, 3000000);
             double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
@@ -79,6 +78,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void AI()
         {
+            npc.visualOffset = new Vector2(20f, 50f);
 			CalamityAI.BumblebirbAI(npc, mod);
 		}
 
@@ -90,32 +90,27 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += (double)(npc.velocity.Length() / 4f);
-            npc.frameCounter += 1.0;
-            if (npc.ai[0] < 4f)
+            bool lightningBreathAttack = false; //leaving this for fabbo to sort
+            if (lightningBreathAttack)
             {
-                if (npc.frameCounter >= 6.0)
-                {
-                    npc.frameCounter = 0.0;
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                }
-                if (npc.frame.Y / frameHeight > 4)
-                {
-                    npc.frame.Y = 0;
-                }
+                npc.frame.Y = npc.frame.Height * 5;
             }
             else
             {
-                if (npc.frameCounter >= 6.0)
+                if (npc.frameCounter >= 5) //iban said the time between frames was 5 so using that as a base
                 {
-                    npc.frameCounter = 0.0;
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                }
-                if (npc.frame.Y / frameHeight > 9)
-                {
-                    npc.frame.Y = frameHeight * 5;
+                    if (npc.frame.Y >= npc.frame.Height * 4) //frame 5 or 6 for transitioning from open jaw
+                    {
+                        npc.frame.Y = 0;
+                    }
+                    else
+                    {
+                        npc.frame.Y += npc.frame.Height;
+                    }
+                    npc.frameCounter = -1; //set to -1 to account for the framecounter increment shortly after
                 }
             }
+            npc.frameCounter++;
         }
 
         public override void BossLoot(ref string name, ref int potionType)
@@ -171,17 +166,12 @@ namespace CalamityMod.NPCs.Bumblebirb
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
                 }
-                float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BumbleHead"), 1f);
-                for (int wing = 0; wing < 2; wing++)
+                for (int i = 0; i < 6; i++) // 1 head, 1 wing, 4 legs = 6. one wing due to them being chonky boyes now
                 {
-                    randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                    Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BumbleWing"), 1f);
-                }
-                for (int leg = 0; leg < 4; leg++)
-                {
-                    randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                    Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/BumbleLeg"), 1f);
+                    string gore = "Gores/Bumble";
+                    float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                    gore += i == 0 ? "Head" : i > 1 ? "Leg" : "Wing";
+                    Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot(gore), 1f);
                 }
             }
         }

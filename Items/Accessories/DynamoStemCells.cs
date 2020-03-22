@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Dynamo Stem Cells");
             Tooltip.SetDefault(@"15% increased movement speed
 Ranged weapons have a chance to fire miniature birbs");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 4));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
         }
 
         public override void SetDefaults()
