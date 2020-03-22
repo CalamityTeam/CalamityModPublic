@@ -176,6 +176,8 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/GammaSlimeGore"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/GammaSlimeGore2"), npc.scale);
             }
         }
 

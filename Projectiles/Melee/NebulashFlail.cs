@@ -39,12 +39,6 @@ namespace CalamityMod.Projectiles.Melee
         public override int BodyType2SectionHeight => 18;
         public override int TailStartY => 108;
         public override int TailHeight => 50;
-        public override void CutTiles()
-        {
-            DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
-        }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
