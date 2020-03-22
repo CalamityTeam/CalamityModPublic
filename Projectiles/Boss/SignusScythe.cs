@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Boss
                 if (projectile.ai[1] > 0f)
                 {
                     int num625 = (int)projectile.ai[1] - 1;
-                    if (num625 < 255)
+                    if (num625 < Main.maxPlayers)
                     {
                         Vector2 value16 = Main.player[num625].Center - projectile.Center;
                         if (value16.Length() < 200f || counter > 0)
