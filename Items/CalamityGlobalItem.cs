@@ -755,9 +755,9 @@ namespace CalamityMod.Items
 
                     case CalamityRarity.ItemSpecific:
                         // Uniquely colored developer weapons
-                        if(item.type == ModContent.ItemType<Fabstaff>())
+                        if (item.type == ModContent.ItemType<Fabstaff>())
                             tt2.overrideColor = new Color(Main.DiscoR, 100, 255);
-                        if(item.type == ModContent.ItemType<BlushieStaff>())
+                        if (item.type == ModContent.ItemType<BlushieStaff>())
                             tt2.overrideColor = new Color(0, 0, 255);
                         if (item.type == ModContent.ItemType<NanoblackReaperMelee>() || item.type == ModContent.ItemType<NanoblackReaperRogue>())
                             tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
