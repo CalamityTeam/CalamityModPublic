@@ -26,15 +26,22 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			projectile.tileCollide = Collision.CanHitLine(Main.npc[(int)projectile.ai[1]].Center, 1, 1, Main.player[Main.npc[(int)projectile.ai[1]].target].Center, 1, 1);
 
-			if (Main.rand.NextBool(2))
+			projectile.ai[0] += 1f;
+			if (projectile.ai[0] == 48f)
 			{
-				Vector2 vector33 = projectile.position;
-				vector33 -= projectile.velocity * 0.25f;
-				projectile.alpha = 255;
-				int num448 = Dust.NewDust(vector33, 1, 1, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
-				Main.dust[num448].position = vector33;
-				Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.008f;
-				Main.dust[num448].velocity *= 0.2f;
+				projectile.ai[0] = 0f;
+			}
+			else if (projectile.ai[0] % 2f == 0f)
+			{
+				Vector2 value7 = new Vector2(5f, 10f);
+				Vector2 value8 = Vector2.UnitX * -12f;
+
+				value8 = -Vector2.UnitY.RotatedBy((double)(projectile.ai[0] * 0.1308997f + (float)Main.rand.Next(1, 3) * 3.14159274f), default(Vector2)) * value7;
+				int num42 = Dust.NewDust(projectile.Center, 0, 0, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
+				Main.dust[num42].scale = (float)Main.rand.Next(70, 110) * 0.008f;
+				Main.dust[num42].noGravity = true;
+				Main.dust[num42].position = projectile.Center + value8;
+				Main.dust[num42].velocity = projectile.velocity;
 			}
 		}
     }

@@ -333,7 +333,9 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
             }
             npc.frameCounter++;
-        }
+			if (npc.ai[0] == 2.1f)
+				npc.frameCounter += 0.5;
+		}
 
         public override void HitEffect(int hitDirection, double damage)
         {

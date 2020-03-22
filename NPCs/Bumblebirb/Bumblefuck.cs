@@ -111,7 +111,9 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
             }
             npc.frameCounter++;
-        }
+			if (npc.ai[0] == 3.2f)
+				npc.frameCounter += 0.5;
+		}
 
         public override void BossLoot(ref string name, ref int potionType)
         {
