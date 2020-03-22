@@ -319,6 +319,7 @@ namespace CalamityMod.CalPlayer
         public bool eGauntlet = false;
         public bool eTalisman = false;
         public bool statisBeltOfCurses = false;
+        public bool conceptionApparatus = false;
         public bool elysianAegis = false;
         public bool elysianGuard = false;
         public bool nCore = false;
@@ -1237,6 +1238,7 @@ namespace CalamityMod.CalPlayer
             eGauntlet = false;
             eTalisman = false;
             statisBeltOfCurses = false;
+            conceptionApparatus = false;
             heartOfDarkness = false;
             shadowMinions = false;
             tearMinions = false;

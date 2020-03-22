@@ -3459,7 +3459,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (modPlayer.statisBeltOfCurses)
+            if (modPlayer.conceptionApparatus)
             {
                 if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {

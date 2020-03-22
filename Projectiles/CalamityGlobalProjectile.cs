@@ -1207,6 +1207,8 @@ namespace CalamityMod.Projectiles
                             Main.dust[num195].noGravity = true;
                         }
                         projectile.damage *= modPlayer.auricSet ? 7 : 4;
+						projectile.localNPCHitCooldown = 10;
+						projectile.usesLocalNPCImmunity = true;
                         projectile.Damage();
                     }
 
@@ -1265,52 +1267,7 @@ namespace CalamityMod.Projectiles
                     }
                     else if (modPlayer.ataxiaMage && modPlayer.ataxiaDmg <= 0)
                     {
-                        int num = projectile.damage / 2;
-						modPlayer.ataxiaDmg += (float)num;
-                        int[] array = new int[Main.maxNPCs];
-                        int num3 = 0;
-                        int num4 = 0;
-                        for (int i = 0; i < Main.maxNPCs; i++)
-                        {
-                            if (Main.npc[i].CanBeChasedBy(projectile, false))
-                            {
-                                float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-                                if (num5 < 800f)
-                                {
-                                    if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
-                                    {
-                                        array[num4] = i;
-                                        num4++;
-                                    }
-                                    else if (num4 == 0)
-                                    {
-                                        array[num3] = i;
-                                        num3++;
-                                    }
-                                }
-                            }
-                        }
-                        if (num3 == 0 && num4 == 0)
-                        {
-                            return;
-                        }
-                        int num6;
-                        if (num4 > 0)
-                        {
-                            num6 = array[Main.rand.Next(num4)];
-                        }
-                        else
-                        {
-                            num6 = array[Main.rand.Next(num3)];
-                        }
-                        float num7 = 20f;
-                        float num8 = (float)Main.rand.Next(-100, 101);
-                        float num9 = (float)Main.rand.Next(-100, 101);
-                        float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
-                        num10 = num7 / num10;
-                        num8 *= num10;
-                        num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<AtaxiaOrb>(), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
+						SpawnOrb(projectile, modPlayer.ataxiaDmg, 0.5f, 1.25f, ModContent.ProjectileType<AtaxiaOrb>(), 800f, 20f);
                         if (target.canGhostHeal)
                         {
 							if (Main.player[Main.myPlayer].lifeSteal <= 0f)
@@ -1348,60 +1305,14 @@ namespace CalamityMod.Projectiles
                     }
                     else if (modPlayer.godSlayerMage && modPlayer.godSlayerDmg <= 0)
                     {
-                        int num = projectile.damage / 2;
-                        modPlayer.godSlayerDmg += (float)num;
-                        int[] array = new int[Main.maxNPCs];
-                        int num3 = 0;
-                        int num4 = 0;
-                        for (int i = 0; i < Main.maxNPCs; i++)
-                        {
-                            if (Main.npc[i].CanBeChasedBy(projectile, false))
-                            {
-                                float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-                                if (num5 < 800f)
-                                {
-                                    if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
-                                    {
-                                        array[num4] = i;
-                                        num4++;
-                                    }
-                                    else if (num4 == 0)
-                                    {
-                                        array[num3] = i;
-                                        num3++;
-                                    }
-                                }
-                            }
-                        }
-                        if (num3 == 0 && num4 == 0)
-                        {
-                            return;
-                        }
-                        int num6;
-                        if (num4 > 0)
-                        {
-                            num6 = array[Main.rand.Next(num4)];
-                        }
-                        else
-                        {
-                            num6 = array[Main.rand.Next(num3)];
-                        }
-                        float num7 = 20f;
-                        float num8 = (float)Main.rand.Next(-100, 101);
-                        float num9 = (float)Main.rand.Next(-100, 101);
-                        float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
-                        num10 = num7 / num10;
-                        num8 *= num10;
-                        num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<GodSlayerOrb>(),
-                            (int)((double)num * (modPlayer.auricSet ? 2.0 : 1.5)), 0f, projectile.owner, (float)num6, 0f);
+						SpawnOrb(projectile, modPlayer.godSlayerDmg, 0.5f, modPlayer.auricSet ? 2f : 1.5f, ModContent.ProjectileType<GodSlayerOrb>(), 800f, 20f);
                         if (target.canGhostHeal)
                         {
 							if (Main.player[Main.myPlayer].lifeSteal <= 0f)
 							{
 								return;
 							}
-							float num11 = Main.player[projectile.owner].Calamity().auricSet ? 0.03f : 0.06f; //0.2
+							float num11 = modPlayer.auricSet ? 0.03f : 0.06f; //0.2
                             num11 -= (float)projectile.numHits * 0.015f; //0.05
                             if (num11 <= 0f)
                             {
@@ -1449,101 +1360,11 @@ namespace CalamityMod.Projectiles
                     {
 						if (Main.rand.NextBool(5))
 						{
-							int num = projectile.damage / 2;
-							modPlayer.xerocDmg += (float)num;
-							int[] array = new int[Main.maxNPCs];
-							int num3 = 0;
-							int num4 = 0;
-							for (int i = 0; i < Main.maxNPCs; i++)
-							{
-								if (Main.npc[i].CanBeChasedBy(projectile, false))
-								{
-									float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-									if (num5 < 800f)
-									{
-										if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
-										{
-											array[num4] = i;
-											num4++;
-										}
-										else if (num4 == 0)
-										{
-											array[num3] = i;
-											num3++;
-										}
-									}
-								}
-							}
-							if (num3 == 0 && num4 == 0)
-							{
-								return;
-							}
-							int num6;
-							if (num4 > 0)
-							{
-								num6 = array[Main.rand.Next(num4)];
-							}
-							else
-							{
-								num6 = array[Main.rand.Next(num3)];
-							}
-							float num7 = Main.rand.Next(15, 30);
-							float num8 = (float)Main.rand.Next(-100, 101);
-							float num9 = (float)Main.rand.Next(-100, 101);
-							float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
-							num10 = num7 / num10;
-							num8 *= num10;
-							num9 *= num10;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocStar>(), (int)((double)num * 1.6), 0f, projectile.owner, (float)num6, 0f);
+							SpawnOrb(projectile, modPlayer.xerocDmg, 0.5f, 1.6f, ModContent.ProjectileType<XerocStar>(), 800f, Main.rand.Next(15, 30));
 						}
 						else if (Main.rand.NextBool(4))
 						{
-							int num = projectile.damage / 2;
-							modPlayer.xerocDmg += (float)num;
-							int[] array = new int[Main.maxNPCs];
-							int num3 = 0;
-							int num4 = 0;
-							for (int i = 0; i < Main.maxNPCs; i++)
-							{
-								if (Main.npc[i].CanBeChasedBy(projectile, false))
-								{
-									float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-									if (num5 < 800f)
-									{
-										if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
-										{
-											array[num4] = i;
-											num4++;
-										}
-										else if (num4 == 0)
-										{
-											array[num3] = i;
-											num3++;
-										}
-									}
-								}
-							}
-							if (num3 == 0 && num4 == 0)
-							{
-								return;
-							}
-							int num6;
-							if (num4 > 0)
-							{
-								num6 = array[Main.rand.Next(num4)];
-							}
-							else
-							{
-								num6 = array[Main.rand.Next(num3)];
-							}
-							float num7 = 30f;
-							float num8 = (float)Main.rand.Next(-100, 101);
-							float num9 = (float)Main.rand.Next(-100, 101);
-							float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
-							num10 = num7 / num10;
-							num8 *= num10;
-							num9 *= num10;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocOrb>(), (int)((double)num * 1.25), 0f, projectile.owner, (float)num6, 0f);
+							SpawnOrb(projectile, modPlayer.xerocDmg, 0.5f, 1.25f, ModContent.ProjectileType<XerocOrb>(), 800f, 30f);
 							if (target.canGhostHeal)
 							{
 								if (Main.player[Main.myPlayer].lifeSteal <= 0f)
@@ -1599,52 +1420,7 @@ namespace CalamityMod.Projectiles
 						}
 						else
 						{
-							int num = projectile.damage / 2;
-							modPlayer.xerocDmg += (float)num;
-							int[] array = new int[Main.maxNPCs];
-							int num3 = 0;
-							int num4 = 0;
-							for (int i = 0; i < Main.maxNPCs; i++)
-							{
-								if (Main.npc[i].CanBeChasedBy(projectile, false))
-								{
-									float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-									if (num5 < 800f)
-									{
-										if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
-										{
-											array[num4] = i;
-											num4++;
-										}
-										else if (num4 == 0)
-										{
-											array[num3] = i;
-											num3++;
-										}
-									}
-								}
-							}
-							if (num3 == 0 && num4 == 0)
-							{
-								return;
-							}
-							int num6;
-							if (num4 > 0)
-							{
-								num6 = array[Main.rand.Next(num4)];
-							}
-							else
-							{
-								num6 = array[Main.rand.Next(num3)];
-							}
-							float num7 = 15f;
-							float num8 = (float)Main.rand.Next(-100, 101);
-							float num9 = (float)Main.rand.Next(-100, 101);
-							float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
-							num10 = num7 / num10;
-							num8 *= num10;
-							num9 *= num10;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<XerocBubble>(), (int)((double)num * 1.2), 0f, projectile.owner, (float)num6, 0f);
+							SpawnOrb(projectile, modPlayer.xerocDmg, 0.5f, 1.2f, ModContent.ProjectileType<XerocBubble>(), 800f, 15f);
 						}
 					}
                     if (modPlayer.featherCrown && stealthStrike && modPlayer.featherCrownCooldown <= 0)
@@ -1705,68 +1481,20 @@ namespace CalamityMod.Projectiles
                         target.AddBuff(BuffID.ShadowFlame, 300);
                     }
 
-                    if (modPlayer.voltaicJelly && Main.rand.NextBool(5))
-                    {
-                        target.AddBuff(BuffID.Electrified, 60);
-                    }
+                    if (modPlayer.voltaicJelly)
+					{
+						//100% chance for Star Tainted Generator or Conception Apparatus
+						//20% chance for Voltaic Jelly
+						if (Main.rand.NextBool(modPlayer.starTaintedGenerator ? 1 : 5))
+						{
+							target.AddBuff(BuffID.Electrified, 60);
+						}
+					}
 
                     if (modPlayer.starTaintedGenerator)
                     {
                         target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
                     }
-
-					if (modPlayer.jellyChargedBattery)
-					{
-						if (modPlayer.jellyDmg <= 0)
-						{
-							int num = projectile.damage / 2;
-							modPlayer.jellyDmg += (float)num;
-							int[] array = new int[Main.maxNPCs];
-							int num3 = 0;
-							int num4 = 0;
-							for (int i = 0; i < Main.maxNPCs; i++)
-							{
-								if (Main.npc[i].CanBeChasedBy(projectile, false))
-								{
-									float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-									if (num5 < 800f)
-									{
-										if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
-										{
-											array[num4] = i;
-											num4++;
-										}
-										else if (num4 == 0)
-										{
-											array[num3] = i;
-											num3++;
-										}
-									}
-								}
-							}
-							if (num3 == 0 && num4 == 0)
-							{
-								return;
-							}
-							int num6;
-							if (num4 > 0)
-							{
-								num6 = array[Main.rand.Next(num4)];
-							}
-							else
-							{
-								num6 = array[Main.rand.Next(num3)];
-							}
-							float num7 = 15f;
-							float num8 = (float)Main.rand.Next(-100, 101);
-							float num9 = (float)Main.rand.Next(-100, 101);
-							float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
-							num10 = num7 / num10;
-							num8 *= num10;
-							num9 *= num10;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<EnergyOrb>(), (int)((double)num * 1.05), 0f, projectile.owner, (float)num6, 0f);
-						}
-					}
 
                     // Fearmonger set's colossal life regeneration
                     if(modPlayer.fearmongerSet)
@@ -1778,60 +1506,46 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.godSlayerSummon && modPlayer.godSlayerDmg <= 0)
                     {
-                        int num = projectile.damage / 2;
-                        float ai1 = Main.rand.NextFloat() + 0.5f;
-                        modPlayer.godSlayerDmg += (float)num;
-                        int[] array = new int[Main.maxNPCs];
-                        int num3 = 0;
-                        int num4 = 0;
-                        for (int i = 0; i < Main.maxNPCs; i++)
-                        {
-                            if (Main.npc[i].CanBeChasedBy(projectile, false))
-                            {
-                                float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
-                                if (num5 < 800f)
-                                {
-                                    if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
-                                    {
-                                        array[num4] = i;
-                                        num4++;
-                                    }
-                                    else if (num4 == 0)
-                                    {
-                                        array[num3] = i;
-                                        num3++;
-                                    }
-                                }
-                            }
-                        }
-                        if (num3 == 0 && num4 == 0)
-                        {
-                            return;
-                        }
-                        int num6;
-                        if (num4 > 0)
-                        {
-                            num6 = array[Main.rand.Next(num4)];
-                        }
-                        else
-                        {
-                            num6 = array[Main.rand.Next(num3)];
-                        }
-                        float num7 = 15f;
-                        float num8 = (float)Main.rand.Next(-100, 101);
-                        float num9 = (float)Main.rand.Next(-100, 101);
-                        float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
-                        num10 = num7 / num10;
-                        num8 *= num10;
-                        num9 *= num10;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, ModContent.ProjectileType<GodSlayerPhantom>(), (int)((double)num * 2.0), 0f, projectile.owner, 0f, ai1);
+						SpawnOrb(projectile, modPlayer.godSlayerDmg, 0.5f, 2f, ModContent.ProjectileType<GodSlayerPhantom>(), 800f, 15f, true);
                     }
 
-                    if (modPlayer.starbusterCore && Main.rand.NextBool(3) && projectile.type != ModContent.ProjectileType<SummonAstralExplosion>() && projectile.type != ModContent.ProjectileType<HallowedStarSummon>())
-                    {
-                        int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
-                            (int)(projectile.damage * 0.5f), 3f, projectile.owner);
-                    }
+					//Conception Apparatus takes priority over Starbuster Core which takes priority over Jelly-Charged Battery
+					if (projectile.type != ModContent.ProjectileType<SummonAstralExplosion>() && projectile.type != ModContent.ProjectileType<HallowedStarSummon>() && projectile.type != ModContent.ProjectileType<UnstableSpark>())
+					{
+						if (modPlayer.conceptionApparatus)
+						{
+							if (Main.rand.NextBool(4))
+							{
+								for (int num252 = 0; num252 < 3; num252++)
+								{
+									Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+									while (value15.X == 0f && value15.Y == 0f)
+									{
+										value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+									}
+									value15.Normalize();
+									value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
+									int spark = Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<UnstableSpark>(), (int)((double)damage * 0.15), 0f, player.whoAmI, 0f, 0f);
+									Main.projectile[spark].Calamity().forceMinion = true;
+								}
+							}
+						}
+						else if (modPlayer.starbusterCore)
+						{
+							if (Main.rand.NextBool(3))
+							{
+								int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
+									(int)(projectile.damage * 0.5f), 3f, projectile.owner);
+							}
+						}
+						else if (modPlayer.jellyChargedBattery)
+						{
+							if (modPlayer.jellyDmg <= 0)
+							{
+								SpawnOrb(projectile, modPlayer.jellyDmg, 0.5f, 1.05f, ModContent.ProjectileType<EnergyOrb>(), 800f, 15f);
+							}
+						}
+					}
                 }
 
                 if (projectile.ranged)
@@ -2062,7 +1776,61 @@ namespace CalamityMod.Projectiles
         }
 		#endregion
 
-		#region Homing AI
+		#region AI Shortcuts
+        public void SpawnOrb(Projectile projectile, float timer, float counterMult, float dmgMult, int projType, float distanceRequired, float N, bool gsPhantom = false)
+        {
+			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+
+			int num = (int)(projectile.damage * counterMult);
+            float ai1 = Main.rand.NextFloat() + 0.5f;
+			timer += (float)num;
+			int[] array = new int[Main.maxNPCs];
+			int num3 = 0;
+			int num4 = 0;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].CanBeChasedBy(projectile, false))
+				{
+					float num5 = Math.Abs(Main.npc[i].position.X + (float)(Main.npc[i].width / 2) - projectile.position.X + (float)(projectile.width / 2)) + Math.Abs(Main.npc[i].position.Y + (float)(Main.npc[i].height / 2) - projectile.position.Y + (float)(projectile.height / 2));
+					if (num5 < distanceRequired)
+					{
+						if (Collision.CanHit(projectile.position, 1, 1, Main.npc[i].position, Main.npc[i].width, Main.npc[i].height) && num5 > 50f)
+						{
+							array[num4] = i;
+							num4++;
+						}
+						else if (num4 == 0)
+						{
+							array[num3] = i;
+							num3++;
+						}
+					}
+				}
+			}
+			if (num3 == 0 && num4 == 0)
+			{
+				return;
+			}
+			int num6;
+			if (num4 > 0)
+			{
+				num6 = array[Main.rand.Next(num4)];
+			}
+			else
+			{
+				num6 = array[Main.rand.Next(num3)];
+			}
+			float num7 = N;
+			float num8 = (float)Main.rand.Next(-100, 101);
+			float num9 = (float)Main.rand.Next(-100, 101);
+			float num10 = (float)Math.Sqrt((double)(num8 * num8 + num9 * num9));
+			num10 = num7 / num10;
+			num8 *= num10;
+			num9 *= num10;
+			Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, num8, num9, projType, (int)(num * dmgMult), 0f, projectile.owner, gsPhantom ? 0f : (float)num6, gsPhantom ? ai1 : 0f);
+		}
+			
 		public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float N)
 		{
 			Vector2 center = projectile.Center;
@@ -2161,9 +1929,7 @@ namespace CalamityMod.Projectiles
 				}
 			}
 		}
-		#endregion
 
-		#region Floating Pet AI
 		public static void FloatingPetAI(Projectile projectile, bool lightPet = false, bool faceRight = false, float tiltFloat = 0.05f)
 		{
 			Player player = Main.player[projectile.owner];
