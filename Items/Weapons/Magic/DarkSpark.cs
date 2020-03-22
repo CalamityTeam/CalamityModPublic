@@ -40,18 +40,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.projectile.Length; i++)
-            {
-                Projectile p = Main.projectile[i];
-                if (p.active && p.type == ModContent.ProjectileType<DarkSparkPrism>() && p.owner == player.whoAmI)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

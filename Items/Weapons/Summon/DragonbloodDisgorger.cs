@@ -44,12 +44,7 @@ namespace CalamityMod.Items.Weapons.Summon
             return false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-			if (player.maxMinions < 5)
-				return false;
-			return player.ownedProjectileCounts[item.shoot] <= 0;
-		}
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 5;
 
         public override void AddRecipes()
         {

@@ -38,18 +38,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.projectile.Length; i++)
-            {
-                Projectile p = Main.projectile[i];
-                if (p.active && p.type == ModContent.ProjectileType<DaemonsFlameBow>() && p.owner == player.whoAmI)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
