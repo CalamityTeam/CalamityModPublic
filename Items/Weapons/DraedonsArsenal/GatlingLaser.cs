@@ -38,14 +38,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.rare = 10;
 			item.Calamity().customRarity = CalamityRarity.RareVariant;
 
-			item.shoot = ModContent.ProjectileType<Projectiles.DraedonsArsenal.GatlingLaser>();
+			item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
 			item.shootSpeed = 24f;
 			item.useAmmo = AmmoID.Bullet;
 		}
 
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+
 		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.DraedonsArsenal.GatlingLaser>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GatlingLaserProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 

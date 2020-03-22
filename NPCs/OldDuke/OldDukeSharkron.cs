@@ -42,16 +42,6 @@ namespace CalamityMod.NPCs.OldDuke
 			{
 				npc.buffImmune[k] = true;
 			}
-			npc.buffImmune[BuffID.Ichor] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-			npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-			npc.buffImmune[ModContent.BuffType<Shred>()] = false;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

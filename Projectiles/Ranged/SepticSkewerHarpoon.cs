@@ -66,11 +66,11 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.ai[0] == 0f)
             {
-                projectile.extraUpdates = 1;
+                projectile.extraUpdates = 2;
             }
             else
             {
-                projectile.extraUpdates = 2;
+                projectile.extraUpdates = 3;
             }
             Vector2 vector14 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
             float xDist = player.position.X + (float)(player.width / 2) - vector14.X;
@@ -79,10 +79,6 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.ai[0] == 0f)
             {
                 if (playerDist > 2000f)
-                {
-                    projectile.ai[0] = 1f;
-                }
-                else if (playerDist > 1500f)
                 {
                     projectile.ai[0] = 1f;
                 }
