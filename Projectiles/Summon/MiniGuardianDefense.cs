@@ -15,8 +15,6 @@ namespace CalamityMod.Projectiles.Summon
         private int ai = -1;
         private void updateDamage(int type)
         {
-            if (Main.myPlayer != projectile.owner)
-                return;
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : (100f +
@@ -39,6 +37,8 @@ namespace CalamityMod.Projectiles.Summon
 
         private void AI(int type, float num535, float num536, Player player)
         {
+            if (Main.myPlayer != projectile.owner)
+                return;
             updateDamage(type);
             switch (type)
             {
