@@ -54,7 +54,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneSulphur && CalamityWorld.downedAquaticScourge)
+            if (spawnInfo.player.Calamity().ZoneSulphur && CalamityWorld.downedAquaticScourge && Main.raining)
             {
                 return 0.085f;
             }
