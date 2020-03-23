@@ -50,6 +50,8 @@ namespace CalamityMod.Items.Accessories
                             int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<AuraRain>(), 18, 2f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].ai[1] = player.position.Y;
                             Main.projectile[num19].tileCollide = false;
+							Main.projectile[num19].usesLocalNPCImmunity = true;
+							Main.projectile[num19].localNPCHitCooldown = 10;
                         }
                     }
                 }

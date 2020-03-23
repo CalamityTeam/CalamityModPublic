@@ -70,7 +70,7 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), (int)(1000f * (player.allDamage + player.minionDamage - 1f)), 1f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), (int)(1000f * player.MinionDamage()), 1f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.allDamage += 0.15f;
@@ -116,6 +116,8 @@ namespace CalamityMod.Items.Accessories
                             int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AuraRain>() : ModContent.ProjectileType<StandingFire>();
                             int num19 = Projectile.NewProjectile(x, y, num15, num16, type, 2000, 1f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].tileCollide = false;
+							Main.projectile[num19].usesLocalNPCImmunity = true;
+							Main.projectile[num19].localNPCHitCooldown = 10;
                         }
                     }
                 }
@@ -131,7 +133,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (random == 0 && player.immune && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
                 {
-                    for (int l = 0; l < 200; l++)
+                    for (int l = 0; l < Main.maxNPCs; l++)
                     {
                         NPC nPC = Main.npc[l];
                         if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && !nPC.buffImmune[num] && Vector2.Distance(player.Center, nPC.Center) <= num2)
