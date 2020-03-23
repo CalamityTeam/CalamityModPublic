@@ -887,6 +887,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.hurtSoundTimer--;
 			if (modPlayer.icicleCooldown > 0)
 				modPlayer.icicleCooldown--;
+			if (modPlayer.statisTimer > 0 && player.dashDelay >= 0)
+				modPlayer.statisTimer = 0;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
