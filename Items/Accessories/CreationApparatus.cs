@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Increased max minions by 4 and 15% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict a variety of debuffs\n" +
+                "Minions spawn damaging sparks on enemy hits\n" + //subject to change to be "cooler"
                 "Minion attacks have a chance to instantly kill normal enemies");
         }
 
