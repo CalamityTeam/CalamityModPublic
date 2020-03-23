@@ -1,4 +1,5 @@
 using CalamityMod.Dusts;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
@@ -281,6 +282,10 @@ namespace CalamityMod.NPCs.AcidRain
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+        }
+        public override void NPCLoot()
+        {
+			DropHelper.DropItemChance(npc, ModContent.ItemType<NuclearRod>(), CalamityWorld.downedPolterghast ? 0.05f : 0.1f);
         }
     }
 }
