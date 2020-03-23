@@ -1512,7 +1512,7 @@ namespace CalamityMod.Projectiles
 					//Conception Apparatus takes priority over Starbuster Core which takes priority over Jelly-Charged Battery
 					if (projectile.type != ModContent.ProjectileType<SummonAstralExplosion>() && projectile.type != ModContent.ProjectileType<HallowedStarSummon>() && projectile.type != ModContent.ProjectileType<UnstableSpark>())
 					{
-						if (modPlayer.conceptionApparatus)
+						if (modPlayer.creationApparatus)
 						{
 							if (Main.rand.NextBool(4))
 							{

@@ -3459,7 +3459,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (modPlayer.conceptionApparatus)
+            if (modPlayer.creationApparatus)
             {
                 if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
                 {
