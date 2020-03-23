@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.value = Item.buyPrice(0, 0, 3, 50);
             npc.HitSound = SoundID.NPCHit42;
             npc.DeathSound = SoundID.NPCDeath5;
+            npc.knockBackResist = 0f;
             // banner = npc.type;
             // bannerItem = ModContent.ItemType<BelchingCoralBanner>();
         }
