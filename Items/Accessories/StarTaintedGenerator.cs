@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Star Tainted Generator");
             Tooltip.SetDefault("+2 max minions and 7% minion damage\n" +
-							   "Minion attacks spawn astral explosions and inflict Astral Infection and Electrified");
+							   "Minion attacks spawn astral explosions and inflict several debuffs");
         }
 
         public override void SetDefaults()
@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<JellyChargedBattery>());
+            recipe.AddIngredient(ModContent.ItemType<NuclearRod>());
             recipe.AddIngredient(ModContent.ItemType<StarbusterCore>());
             recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);

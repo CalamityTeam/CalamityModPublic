@@ -2,14 +2,16 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles.Summon
 {
-    public class PoisonousSeawater : ModProjectile
+    public class IrradiatedAura : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Seawater");
+            DisplayName.SetDefault("Irradiated Aura");
         }
 
         public override void SetDefaults()
@@ -20,7 +22,9 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 6;
+            projectile.timeLeft = 180;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 20;
         }
 
         public override void AI()
@@ -31,11 +35,15 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 randomDust = 89;
             }
+            else if (randomDust == 2)
+            {
+                randomDust = (int)CalamityDusts.SulfurousSeaAcid;
+            }
             else
             {
                 randomDust = 33;
             }
-            for (int num468 = 0; num468 < 2; num468++)
+            for (int num468 = 0; num468 < (Main.rand.NextBool(2) ? 1 : 2); num468++)
             {
                 int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default, 1f);
                 if (randomDust == 89)
@@ -48,14 +56,12 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 120);
-            target.AddBuff(BuffID.Poisoned, 120);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 120);
-            target.AddBuff(BuffID.Poisoned, 120);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
         }
     }
 }

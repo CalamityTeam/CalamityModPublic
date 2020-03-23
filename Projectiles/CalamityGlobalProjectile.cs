@@ -14,6 +14,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -1099,7 +1100,7 @@ namespace CalamityMod.Projectiles
                     int newDamage = (int)((double)projectile.damage * 0.25);
                     if (newDamage > 30)
                     {
-                        newDamage = 30;
+                        newDamage = (int)(((double)projectile.damage * 0.25 - 30) * 0.1) + 30;
                     }
                     int plague = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueSeeker>(), newDamage, 0f, projectile.owner, 0f, 0f);
                     Main.projectile[plague].melee = false;
@@ -1110,7 +1111,7 @@ namespace CalamityMod.Projectiles
                     int newDamage = (int)((double)projectile.damage * 0.2);
                     if (newDamage > 30)
                     {
-                        newDamage = 30;
+                        newDamage = (int)(((double)projectile.damage * 0.2 - 30) * 0.1) + 30;
                     }
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ReaverBlast>(), newDamage, 0f, projectile.owner, 0f, 0f);
                 }
@@ -1258,7 +1259,7 @@ namespace CalamityMod.Projectiles
                             int newDamage = (int)((double)projectile.damage * 0.15);
                             if (newDamage > 15)
                             {
-                                newDamage = 15;
+                                newDamage = (int)(((double)projectile.damage * 0.15 - 15) * 0.1) + 15;
                             }
                             int proj = Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, 569 + Main.rand.Next(3), newDamage, 0f, projectile.owner, 0f, 0f);
                             Main.projectile[proj].usesLocalNPCImmunity = true;
@@ -1349,7 +1350,7 @@ namespace CalamityMod.Projectiles
                         int newDamage = (int)((double)projectile.damage * 0.15);
                         if (newDamage > 35)
                         {
-                            newDamage = 35;
+                            newDamage = (int)(((double)projectile.damage * 0.15 - 35) * 0.1) + 35;
                         }
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChaosGeyser>(), newDamage, 0f, projectile.owner, 0f, 0f);
                     }
@@ -1405,7 +1406,7 @@ namespace CalamityMod.Projectiles
 							int newDamage = (int)((double)projectile.damage * 0.15);
 							if (newDamage > 40)
 							{
-								newDamage = 40;
+								newDamage = (int)(((double)projectile.damage * 0.15 - 40) * 0.1) + 40;
 							}
 							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocFire>(), newDamage, 0f, projectile.owner, 0f, 0f);
 						}
@@ -1414,7 +1415,7 @@ namespace CalamityMod.Projectiles
 							int newDamage = (int)((double)projectile.damage * 0.2);
 							if (newDamage > 40)
 							{
-								newDamage = 40;
+								newDamage = (int)(((double)projectile.damage * 0.2 - 40) * 0.1) + 40;
 							}
 							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocBlast>(), newDamage, 0f, projectile.owner, 0f, 0f);
 						}
@@ -1494,6 +1495,7 @@ namespace CalamityMod.Projectiles
                     if (modPlayer.starTaintedGenerator)
                     {
                         target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 180);
+                        target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
                     }
 
                     // Fearmonger set's colossal life regeneration
@@ -1509,8 +1511,16 @@ namespace CalamityMod.Projectiles
 						SpawnOrb(projectile, modPlayer.godSlayerDmg, 0.5f, 2f, ModContent.ProjectileType<GodSlayerPhantom>(), 800f, 15f, true);
                     }
 
-					//Conception Apparatus takes priority over Starbuster Core which takes priority over Jelly-Charged Battery
-					if (projectile.type != ModContent.ProjectileType<SummonAstralExplosion>() && projectile.type != ModContent.ProjectileType<HallowedStarSummon>() && projectile.type != ModContent.ProjectileType<UnstableSpark>())
+					//Priorities: Creation Apparatus => Starbuster Core => Nuclear Rod => Jelly-Charged Battery
+					List<int> summonExceptionList = new List<int>()
+					{ 
+						ModContent.ProjectileType<EnergyOrb>(),
+						ModContent.ProjectileType<IrradiatedAura>(),
+						ModContent.ProjectileType<SummonAstralExplosion>(),
+						ModContent.ProjectileType<UnstableSpark>(),
+						ModContent.ProjectileType<HallowedStarSummon>()
+					};
+					if (summonExceptionList.TrueForAll(x => projectile.type != x))
 					{
 						if (modPlayer.creationApparatus)
 						{
@@ -1534,13 +1544,27 @@ namespace CalamityMod.Projectiles
 						{
 							if (Main.rand.NextBool(3))
 							{
+								int cap = modPlayer.starTaintedGenerator ? 75 : 60;
 								int newDamage = (int)((double)projectile.damage * 0.5);
-								if (newDamage > 75)
+								if (newDamage > cap)
 								{
-									newDamage = 75;
+									newDamage = (int)(((double)projectile.damage * 0.5 - cap) * 0.1) + cap;
 								}
 								int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
 									newDamage, 3f, projectile.owner);
+							}
+						}
+						else if (modPlayer.nuclearRod)
+						{
+							if (Main.rand.NextBool(3))
+							{
+								int newDamage = (int)((double)projectile.damage * 0.25);
+								if (newDamage > 40)
+								{
+									newDamage = (int)(((double)projectile.damage * 0.25 - 40) * 0.1) + 40;
+								}
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(),
+									newDamage, 0f, projectile.owner);
 							}
 						}
 						else if (modPlayer.jellyChargedBattery)
@@ -1570,7 +1594,7 @@ namespace CalamityMod.Projectiles
                             int newDamage = (int)((double)projectile.damage * 0.33);
                             if (newDamage > 65)
                             {
-                                newDamage = 65;
+                                newDamage = (int)(((double)projectile.damage * 0.33 - 65) * 0.1) + 65;
                             }
                             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TarraEnergy>(), newDamage, 0f, projectile.owner, 0f, 0f);
                         }

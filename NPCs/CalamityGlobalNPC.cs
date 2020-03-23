@@ -3405,7 +3405,11 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == ModContent.NPCType<OldDuke.OldDuke>())
             {
-                if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ModContent.ProjectileType<CrescentMoonFlail>() | ModContent.ProjectileType<GalileosMoon>()))
+                if (projectile.type == ModContent.ProjectileType<GalileosMoon>())
+                {
+                    damage = (int)(damage * 0.4);
+                }
+                if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ModContent.ProjectileType<CrescentMoonFlail>()))
                 {
                     damage = (int)(damage * 0.6);
                 }

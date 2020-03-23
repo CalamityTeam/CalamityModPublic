@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Statis' Void Sash");
             Tooltip.SetDefault("Increases jump speed and allows constant jumping\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
-                "Dashes leave homing boomerangs in your wake\n" +
+                "Dashes leave homing scythes in your wake\n" +
                 "Toggle visibility of this accessory to enable/disable the dash");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 3));
         }
@@ -24,9 +24,9 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 32;
-            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
-            item.Calamity().postMoonLordRarity = 13;
+            item.Calamity().postMoonLordRarity = 14;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
