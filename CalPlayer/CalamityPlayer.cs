@@ -7247,12 +7247,29 @@ namespace CalamityMod.CalPlayer
                 float num9 = Math.Max(player.accRunSpeed, player.maxRunSpeed);
                 float num10 = 0.94f;
                 int num11 = 20;
-				//organize by dash length
-                if (dashMod == 5) //Deep Diver
+				if (dashMod == 1) //Counter Scarf
                 {
-                    for (int m = 0; m < 24; m++)
+                    for (int k = 0; k < 2; k++)
                     {
-                        int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 33, 0f, 0f, 100, default, 2.75f);
+                        int num12;
+                        if (player.velocity.Y == 0f)
+                        {
+                            num12 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 4f), player.width, 8, 235, 0f, 0f, 100, default, 1.4f);
+                        }
+                        else
+                        {
+                            num12 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), player.width, 16, 235, 0f, 0f, 100, default, 1.4f);
+                        }
+                        Main.dust[num12].velocity *= 0.1f;
+                        Main.dust[num12].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                        Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                    }
+                }
+                else if (dashMod == 2) //Asgard's Valor
+                {
+                    for (int m = 0; m < 4; m++)
+                    {
+                        int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 246, 0f, 0f, 100, default, 2.75f);
                         Main.dust[num14].velocity *= 0.1f;
                         Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
                         Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
@@ -7262,7 +7279,22 @@ namespace CalamityMod.CalPlayer
                             Main.dust[num14].fadeIn = 0.5f;
                         }
                     }
-                    num7 = 18f; //14
+                }
+                else if (dashMod == 3) //Elysian Aegis
+                {
+                    for (int m = 0; m < 12; m++)
+                    {
+                        int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 244, 0f, 0f, 100, default, 2.75f);
+                        Main.dust[num14].velocity *= 0.1f;
+                        Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                        Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                        Main.dust[num14].noGravity = true;
+                        if (Main.rand.NextBool(2))
+                        {
+                            Main.dust[num14].fadeIn = 0.5f;
+                        }
+                    }
+                    num7 = 14f; //14
                 }
                 else if (dashMod == 4) //Asgardian Aegis
                 {
@@ -7279,6 +7311,38 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                     num7 = 16f; //14
+                }
+                else if (dashMod == 5) //Deep Diver
+                {
+                    for (int m = 0; m < 24; m++)
+                    {
+                        int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 33, 0f, 0f, 100, default, 2.75f);
+                        Main.dust[num14].velocity *= 0.1f;
+                        Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                        Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                        Main.dust[num14].noGravity = true;
+                        if (Main.rand.NextBool(2))
+                        {
+                            Main.dust[num14].fadeIn = 0.5f;
+                        }
+                    }
+                    num7 = 18f; //14
+                }
+                else if (dashMod == 6) //Cryogen Lore
+                {
+                    for (int m = 0; m < 24; m++)
+                    {
+                        int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 67, 0f, 0f, 100, default, 1f);
+                        Main.dust[num14].velocity *= 0.1f;
+                        Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                        Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                        Main.dust[num14].noGravity = true;
+                        if (Main.rand.NextBool(2))
+                        {
+                            Main.dust[num14].fadeIn = 0.5f;
+                        }
+                    }
+                    num7 = 12.5f; //14
                 }
                 else if (dashMod == 7) //Statis' Belt of Curses
                 {
@@ -7306,71 +7370,6 @@ namespace CalamityMod.CalPlayer
 						Main.projectile[scythe].usesIDStaticNPCImmunity = true;
 						Main.projectile[scythe].idStaticNPCHitCooldown = 10 * Main.projectile[scythe].extraUpdates;
 					}
-                }
-                else if (dashMod == 3) //Elysian Aegis
-                {
-                    for (int m = 0; m < 12; m++)
-                    {
-                        int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 244, 0f, 0f, 100, default, 2.75f);
-                        Main.dust[num14].velocity *= 0.1f;
-                        Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                        Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
-                        Main.dust[num14].noGravity = true;
-                        if (Main.rand.NextBool(2))
-                        {
-                            Main.dust[num14].fadeIn = 0.5f;
-                        }
-                    }
-                    num7 = 14f; //14
-                }
-                else if (dashMod == 2) //Asgard's Valor
-                {
-                    for (int m = 0; m < 4; m++)
-                    {
-                        int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 246, 0f, 0f, 100, default, 2.75f);
-                        Main.dust[num14].velocity *= 0.1f;
-                        Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                        Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
-                        Main.dust[num14].noGravity = true;
-                        if (Main.rand.NextBool(2))
-                        {
-                            Main.dust[num14].fadeIn = 0.5f;
-                        }
-                    }
-                }
-                else if (dashMod == 6) //Cryogen Lore
-                {
-                    for (int m = 0; m < 24; m++)
-                    {
-                        int num14 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 4f), player.width, player.height - 8, 67, 0f, 0f, 100, default, 1f);
-                        Main.dust[num14].velocity *= 0.1f;
-                        Main.dust[num14].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                        Main.dust[num14].shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
-                        Main.dust[num14].noGravity = true;
-                        if (Main.rand.NextBool(2))
-                        {
-                            Main.dust[num14].fadeIn = 0.5f;
-                        }
-                    }
-                    num7 = 12.5f; //14
-                }
-				else if (dashMod == 1) //Counter Scarf
-                {
-                    for (int k = 0; k < 2; k++)
-                    {
-                        int num12;
-                        if (player.velocity.Y == 0f)
-                        {
-                            num12 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 4f), player.width, 8, 235, 0f, 0f, 100, default, 1.4f);
-                        }
-                        else
-                        {
-                            num12 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), player.width, 16, 235, 0f, 0f, 100, default, 1.4f);
-                        }
-                        Main.dust[num12].velocity *= 0.1f;
-                        Main.dust[num12].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                        Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                    }
                 }
                 if (dashMod > 0)
                 {
@@ -7400,11 +7399,10 @@ namespace CalamityMod.CalPlayer
             }
             else if (dashMod > 0 && !player.mount.Active)
             {
-				//organize by dash length
                 float dashDistance;
-                if (dashMod == 5) //Deep Diver
+                if (dashMod == 1) //Counter Scarf
                 {
-                    dashDistance = 25.9f;
+                    dashDistance = 14.5f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
@@ -7443,7 +7441,69 @@ namespace CalamityMod.CalPlayer
                     }
                     if (justDashed)
                     {
-                        player.velocity.X = dashDistance * (float)direction;
+                        player.velocity.X = dashDistance * (float)direction; //eoc dash amount
+                        Point point = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+                        Point point2 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                        if (WorldGen.SolidOrSlopedTile(point.X, point.Y) || WorldGen.SolidOrSlopedTile(point2.X, point2.Y))
+                        {
+                            player.velocity.X = player.velocity.X / 2f;
+                        }
+                        player.dashDelay = -1;
+                        for (int num17 = 0; num17 < 20; num17++)
+                        {
+                            int num18 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 235, 0f, 0f, 100, default, 2f);
+                            Dust dust = Main.dust[num18];
+                            dust.position.X += (float)Main.rand.Next(-5, 6);
+                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            dust.velocity *= 0.2f;
+                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                        }
+                        return;
+                    }
+                }
+                else if (dashMod == 2) //Asgard's Valor
+                {
+                    dashDistance = 16.9f;
+                    int direction = 0;
+                    bool justDashed = false;
+                    if (dashTimeMod > 0)
+                    {
+                        dashTimeMod--;
+                    }
+                    if (dashTimeMod < 0)
+                    {
+                        dashTimeMod++;
+                    }
+                    if (player.controlRight && player.releaseRight)
+                    {
+                        if (dashTimeMod > 0)
+                        {
+                            direction = 1;
+                            justDashed = true;
+                            dashTimeMod = 0;
+                        }
+                        else
+                        {
+                            dashTimeMod = 15;
+                        }
+                    }
+                    else if (player.controlLeft && player.releaseLeft)
+                    {
+                        if (dashTimeMod < 0)
+                        {
+                            direction = -1;
+                            justDashed = true;
+                            dashTimeMod = 0;
+                        }
+                        else
+                        {
+                            dashTimeMod = -15;
+                        }
+                    }
+                    if (justDashed)
+                    {
+                        player.velocity.X = dashDistance * (float)direction; //tabi dash amount
                         Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
                         Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
@@ -7451,9 +7511,72 @@ namespace CalamityMod.CalPlayer
                             player.velocity.X = player.velocity.X / 2f;
                         }
                         player.dashDelay = -1;
-                        for (int num24 = 0; num24 < 60; num24++)
+                        for (int num24 = 0; num24 < 20; num24++)
                         {
-                            int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 33, 0f, 0f, 100, default, 3f);
+                            int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 246, 0f, 0f, 100, default, 3f);
+                            Dust dust = Main.dust[num25];
+                            dust.position.X += (float)Main.rand.Next(-5, 6);
+                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            dust.velocity *= 0.2f;
+                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
+                            dust.noGravity = true;
+                            dust.fadeIn = 0.5f;
+                        }
+                    }
+                }
+                else if (dashMod == 3) //Elysian Aegis
+                {
+                    dashDistance = 21.9f;
+                    int direction = 0;
+                    bool justDashed = false;
+                    if (dashTimeMod > 0)
+                    {
+                        dashTimeMod--;
+                    }
+                    if (dashTimeMod < 0)
+                    {
+                        dashTimeMod++;
+                    }
+                    if (player.controlRight && player.releaseRight)
+                    {
+                        if (dashTimeMod > 0)
+                        {
+                            direction = 1;
+                            justDashed = true;
+                            dashTimeMod = 0;
+                        }
+                        else
+                        {
+                            dashTimeMod = 15;
+                        }
+                    }
+                    else if (player.controlLeft && player.releaseLeft)
+                    {
+                        if (dashTimeMod < 0)
+                        {
+                            direction = -1;
+                            justDashed = true;
+                            dashTimeMod = 0;
+                        }
+                        else
+                        {
+                            dashTimeMod = -15;
+                        }
+                    }
+                    if (justDashed)
+                    {
+                        player.velocity.X = dashDistance * (float)direction; //solar dash amount
+                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                        if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
+                        {
+                            player.velocity.X = player.velocity.X / 2f;
+                        }
+                        player.dashDelay = -1;
+                        for (int num24 = 0; num24 < 40; num24++)
+                        {
+                            int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 3f);
                             Dust dust = Main.dust[num25];
                             dust.position.X += (float)Main.rand.Next(-5, 6);
                             dust.position.Y += (float)Main.rand.Next(-5, 6);
@@ -7528,9 +7651,9 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 7) //Statis' Belt of Curses
+                else if (dashMod == 5) //Deep Diver
                 {
-                    dashDistance = 21.9f;
+                    dashDistance = 25.9f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
@@ -7569,69 +7692,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (justDashed)
                     {
-                        player.velocity.X = dashDistance * (float)direction; //solar dash amount
-                        Point point = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point2 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                        if (WorldGen.SolidOrSlopedTile(point.X, point.Y) || WorldGen.SolidOrSlopedTile(point2.X, point2.Y))
-                        {
-                            player.velocity.X = player.velocity.X / 2f;
-                        }
-                        player.dashDelay = -1;
-                        for (int num17 = 0; num17 < 20; num17++)
-                        {
-                            int num18 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 70, 0f, 0f, 100, default, 2f);
-                            Dust dust = Main.dust[num18];
-                            dust.position.X += (float)Main.rand.Next(-5, 6);
-                            dust.position.Y += (float)Main.rand.Next(-5, 6);
-                            dust.velocity *= 0.2f;
-                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                        }
-                        return;
-                    }
-                }
-                else if (dashMod == 3) //Elysian Aegis
-                {
-                    dashDistance = 21.9f;
-                    int direction = 0;
-                    bool justDashed = false;
-                    if (dashTimeMod > 0)
-                    {
-                        dashTimeMod--;
-                    }
-                    if (dashTimeMod < 0)
-                    {
-                        dashTimeMod++;
-                    }
-                    if (player.controlRight && player.releaseRight)
-                    {
-                        if (dashTimeMod > 0)
-                        {
-                            direction = 1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = 15;
-                        }
-                    }
-                    else if (player.controlLeft && player.releaseLeft)
-                    {
-                        if (dashTimeMod < 0)
-                        {
-                            direction = -1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = -15;
-                        }
-                    }
-                    if (justDashed)
-                    {
-                        player.velocity.X = dashDistance * (float)direction; //solar dash amount
+                        player.velocity.X = dashDistance * (float)direction;
                         Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
                         Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
@@ -7639,72 +7700,9 @@ namespace CalamityMod.CalPlayer
                             player.velocity.X = player.velocity.X / 2f;
                         }
                         player.dashDelay = -1;
-                        for (int num24 = 0; num24 < 40; num24++)
+                        for (int num24 = 0; num24 < 60; num24++)
                         {
-                            int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 3f);
-                            Dust dust = Main.dust[num25];
-                            dust.position.X += (float)Main.rand.Next(-5, 6);
-                            dust.position.Y += (float)Main.rand.Next(-5, 6);
-                            dust.velocity *= 0.2f;
-                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
-                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.ArmorSetDye(), player);
-                            dust.noGravity = true;
-                            dust.fadeIn = 0.5f;
-                        }
-                    }
-                }
-                else if (dashMod == 2) //Asgard's Valor
-                {
-                    dashDistance = 16.9f;
-                    int direction = 0;
-                    bool justDashed = false;
-                    if (dashTimeMod > 0)
-                    {
-                        dashTimeMod--;
-                    }
-                    if (dashTimeMod < 0)
-                    {
-                        dashTimeMod++;
-                    }
-                    if (player.controlRight && player.releaseRight)
-                    {
-                        if (dashTimeMod > 0)
-                        {
-                            direction = 1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = 15;
-                        }
-                    }
-                    else if (player.controlLeft && player.releaseLeft)
-                    {
-                        if (dashTimeMod < 0)
-                        {
-                            direction = -1;
-                            justDashed = true;
-                            dashTimeMod = 0;
-                        }
-                        else
-                        {
-                            dashTimeMod = -15;
-                        }
-                    }
-                    if (justDashed)
-                    {
-                        player.velocity.X = dashDistance * (float)direction; //tabi dash amount
-                        Point point5 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
-                        Point point6 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
-                        if (WorldGen.SolidOrSlopedTile(point5.X, point5.Y) || WorldGen.SolidOrSlopedTile(point6.X, point6.Y))
-                        {
-                            player.velocity.X = player.velocity.X / 2f;
-                        }
-                        player.dashDelay = -1;
-                        for (int num24 = 0; num24 < 20; num24++)
-                        {
-                            int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 246, 0f, 0f, 100, default, 3f);
+                            int num25 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 33, 0f, 0f, 100, default, 3f);
                             Dust dust = Main.dust[num25];
                             dust.position.X += (float)Main.rand.Next(-5, 6);
                             dust.position.Y += (float)Main.rand.Next(-5, 6);
@@ -7779,9 +7777,9 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                else if (dashMod == 1) //Counter Scarf
+                else if (dashMod == 7) //Statis' Belt of Curses
                 {
-                    dashDistance = 14.5f;
+                    dashDistance = 21.9f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
@@ -7820,7 +7818,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (justDashed)
                     {
-                        player.velocity.X = dashDistance * (float)direction; //eoc dash amount
+                        player.velocity.X = dashDistance * (float)direction; //solar dash amount
                         Point point = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
                         Point point2 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point.X, point.Y) || WorldGen.SolidOrSlopedTile(point2.X, point2.Y))
@@ -7830,7 +7828,7 @@ namespace CalamityMod.CalPlayer
                         player.dashDelay = -1;
                         for (int num17 = 0; num17 < 20; num17++)
                         {
-                            int num18 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 235, 0f, 0f, 100, default, 2f);
+                            int num18 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 70, 0f, 0f, 100, default, 2f);
                             Dust dust = Main.dust[num18];
                             dust.position.X += (float)Main.rand.Next(-5, 6);
                             dust.position.Y += (float)Main.rand.Next(-5, 6);
@@ -7890,30 +7888,9 @@ namespace CalamityMod.CalPlayer
                     {
                         num3 -= player.height;
                     }
-                    if (dashMod == 5)
+					if (dashMod == 1)
                     {
-                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 33, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
-                        Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
-                        Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
-                        Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                    }
-                    else if (dashMod == 4)
-                    {
-                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 244, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
-                        Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
-                        Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
-                        Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                    }
-                    else if (dashMod == 7)
-                    {
-                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 70, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
-                        Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
-                        Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
-                        Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                    }
-                    else if (dashMod == 3)
-                    {
-                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 244, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 235, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
                         Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
                         Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
                         Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
@@ -7925,6 +7902,27 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
                         Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
+                    else if (dashMod == 3)
+                    {
+                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 244, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+                        Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
+                        Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
+                        Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                    }
+                    else if (dashMod == 4)
+                    {
+                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 244, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+                        Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
+                        Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
+                        Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                    }
+                    else if (dashMod == 5)
+                    {
+                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 33, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+                        Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
+                        Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
+                        Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                    }
                     else if (dashMod == 6)
                     {
                         int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 67, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.25f);
@@ -7932,9 +7930,9 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
                         Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
-                    else if (dashMod == 1)
+                    else if (dashMod == 7)
                     {
-                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 235, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
+                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 70, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
                         Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
                         Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
                         Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
@@ -7950,30 +7948,9 @@ namespace CalamityMod.CalPlayer
                     {
                         num8 -= player.height;
                     }
-					if (dashMod == 5)
+					if (dashMod == 1)
                     {
-                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 33, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
-                        Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
-                        Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
-                        Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                    }
-                    else if (dashMod == 4)
-                    {
-                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 244, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
-                        Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
-                        Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
-                        Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                    }
-                    else if (dashMod == 7)
-                    {
-                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 70, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
-                        Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
-                        Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
-                        Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
-                    }
-                    else if (dashMod == 3)
-                    {
-                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 244, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 235, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
                         Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
                         Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
                         Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
@@ -7985,6 +7962,27 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
                         Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
+                    else if (dashMod == 3)
+                    {
+                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 244, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+                        Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
+                        Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
+                        Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                    }
+                    else if (dashMod == 4)
+                    {
+                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 244, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+                        Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
+                        Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
+                        Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                    }
+					else if (dashMod == 5)
+                    {
+                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 33, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
+                        Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
+                        Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
+                        Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                    }
                     else if (dashMod == 6)
                     {
                         int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 67, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.25f);
@@ -7992,9 +7990,9 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
                         Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
-                    else if (dashMod == 1)
+                    else if (dashMod == 7)
                     {
-                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 235, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
+                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 70, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
                         Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
                         Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
                         Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
