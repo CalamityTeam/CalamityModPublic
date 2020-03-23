@@ -50,6 +50,7 @@ namespace CalamityMod.Events
 
         public static List<(int, int)> PossibleEnemiesPolter = new List<(int, int)>()
         {
+            ( ModContent.NPCType<Radiator>(), 0 ),
             ( ModContent.NPCType<NuclearToad>(), 0 ),
             ( ModContent.NPCType<AcidEel>(), 0 ),
             ( ModContent.NPCType<Orthocera>(), 1 ),

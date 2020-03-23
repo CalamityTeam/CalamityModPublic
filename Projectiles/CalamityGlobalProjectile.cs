@@ -1268,7 +1268,9 @@ namespace CalamityMod.Projectiles
                     }
                     else if (modPlayer.ataxiaMage && modPlayer.ataxiaDmg <= 0)
                     {
-						SpawnOrb(projectile, modPlayer.ataxiaDmg, 0.5f, 1.25f, ModContent.ProjectileType<AtaxiaOrb>(), 800f, 20f);
+						SpawnOrb(projectile, 1.25f, ModContent.ProjectileType<AtaxiaOrb>(), 800f, 20f);
+						int num = (int)(projectile.damage * 0.5f);
+						modPlayer.ataxiaDmg += (float)num;
                         if (target.canGhostHeal)
                         {
 							if (Main.player[Main.myPlayer].lifeSteal <= 0f)
@@ -1306,7 +1308,9 @@ namespace CalamityMod.Projectiles
                     }
                     else if (modPlayer.godSlayerMage && modPlayer.godSlayerDmg <= 0)
                     {
-						SpawnOrb(projectile, modPlayer.godSlayerDmg, 0.5f, modPlayer.auricSet ? 2f : 1.5f, ModContent.ProjectileType<GodSlayerOrb>(), 800f, 20f);
+						SpawnOrb(projectile, modPlayer.auricSet ? 2f : 1.5f, ModContent.ProjectileType<GodSlayerOrb>(), 800f, 20f);
+						int num = (int)(projectile.damage * 0.5f);
+						modPlayer.godSlayerDmg += (float)num;
                         if (target.canGhostHeal)
                         {
 							if (Main.player[Main.myPlayer].lifeSteal <= 0f)
@@ -1361,11 +1365,15 @@ namespace CalamityMod.Projectiles
                     {
 						if (Main.rand.NextBool(5))
 						{
-							SpawnOrb(projectile, modPlayer.xerocDmg, 0.5f, 1.6f, ModContent.ProjectileType<XerocStar>(), 800f, Main.rand.Next(15, 30));
+							SpawnOrb(projectile, 1.6f, ModContent.ProjectileType<XerocStar>(), 800f, Main.rand.Next(15, 30));
+							int num = (int)(projectile.damage * 0.5f);
+							modPlayer.xerocDmg += (float)num;
 						}
 						else if (Main.rand.NextBool(4))
 						{
-							SpawnOrb(projectile, modPlayer.xerocDmg, 0.5f, 1.25f, ModContent.ProjectileType<XerocOrb>(), 800f, 30f);
+							SpawnOrb(projectile, 1.25f, ModContent.ProjectileType<XerocOrb>(), 800f, 30f);
+							int num = (int)(projectile.damage * 0.5f);
+							modPlayer.xerocDmg += (float)num;
 							if (target.canGhostHeal)
 							{
 								if (Main.player[Main.myPlayer].lifeSteal <= 0f)
@@ -1421,7 +1429,9 @@ namespace CalamityMod.Projectiles
 						}
 						else
 						{
-							SpawnOrb(projectile, modPlayer.xerocDmg, 0.5f, 1.2f, ModContent.ProjectileType<XerocBubble>(), 800f, 15f);
+							SpawnOrb(projectile, 1.2f, ModContent.ProjectileType<XerocBubble>(), 800f, 15f);
+							int num = (int)(projectile.damage * 0.5f);
+							modPlayer.xerocDmg += (float)num;
 						}
 					}
                     if (modPlayer.featherCrown && stealthStrike && modPlayer.featherCrownCooldown <= 0)
@@ -1508,7 +1518,9 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.godSlayerSummon && modPlayer.godSlayerDmg <= 0)
                     {
-						SpawnOrb(projectile, modPlayer.godSlayerDmg, 0.5f, 2f, ModContent.ProjectileType<GodSlayerPhantom>(), 800f, 15f, true);
+						SpawnOrb(projectile, 2f, ModContent.ProjectileType<GodSlayerPhantom>(), 800f, 15f, true);
+						int num = (int)(projectile.damage * 0.5f);
+						modPlayer.godSlayerDmg += (float)num;
                     }
 
 					//Priorities: Creation Apparatus => Starbuster Core => Nuclear Rod => Jelly-Charged Battery
@@ -1571,7 +1583,9 @@ namespace CalamityMod.Projectiles
 						{
 							if (modPlayer.jellyDmg <= 0)
 							{
-								SpawnOrb(projectile, modPlayer.jellyDmg, 0.5f, 1.05f, ModContent.ProjectileType<EnergyOrb>(), 800f, 15f);
+								SpawnOrb(projectile, 1.05f, ModContent.ProjectileType<EnergyOrb>(), 800f, 15f);
+								int num = (int)(projectile.damage * 0.5f);
+								modPlayer.jellyDmg += (float)num;
 							}
 						}
 					}
@@ -1806,14 +1820,13 @@ namespace CalamityMod.Projectiles
 		#endregion
 
 		#region AI Shortcuts
-        public void SpawnOrb(Projectile projectile, float timer, float counterMult, float dmgMult, int projType, float distanceRequired, float N, bool gsPhantom = false)
+        public void SpawnOrb(Projectile projectile, float dmgMult, int projType, float distanceRequired, float N, bool gsPhantom = false)
         {
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-			int num = (int)(projectile.damage * counterMult);
+			int num = (int)(projectile.damage * 0.5f);
             float ai1 = Main.rand.NextFloat() + 0.5f;
-			timer += (float)num;
 			int[] array = new int[Main.maxNPCs];
 			int num3 = 0;
 			int num4 = 0;

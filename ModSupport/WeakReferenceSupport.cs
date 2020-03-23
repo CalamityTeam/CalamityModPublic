@@ -25,6 +25,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -107,7 +108,8 @@ namespace CalamityMod
 		private static readonly Dictionary<string, float> InvasionDifficulty = new Dictionary<string, float>
 		{
 			{ "Acid Rain Initial", 2.4f },
-			{ "Acid Rain Aquatic Scourge", 8.51f }
+			{ "Acid Rain Aquatic Scourge", 8.51f },
+			{ "Acid Rain Polterghast", 16.49f }
 		};
 
 		public static void Setup()
@@ -557,14 +559,29 @@ namespace CalamityMod
 			{
 				InvasionDifficulty.TryGetValue("Acid Rain Aquatic Scourge", out float order);
 				List<int> enemies = AcidRainEvent.PossibleEnemiesAS.Select(enemy => enemy.Item1).ToList();
+				enemies.Add(ModContent.NPCType<CragmawMire>());
 				int summon = ItemType<CausticTear>();
-				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<FlakToxicannon>() };
+				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<NuclearRod>(), ItemType<FlakToxicannon>() };
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
 				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Aquatic Scourge is defeated";
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
 				string bossLogTex = "CalamityMod/Events/AcidRainT2_BossChecklist";
 				string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
 				AddInvasion(bossChecklist, calamity, "Acid Rain (Post-AS)", order, enemies, DownedAcidRainHardmode, summon, loot, collection, instructions, despawn, bossLogTex, iconTexture);
+			}
+			// Post-Polterghast Acid Rain
+			{
+				InvasionDifficulty.TryGetValue("Acid Rain Polterghast", out float order);
+				List<int> enemies = AcidRainEvent.PossibleEnemiesPolter.Select(enemy => enemy.Item1).ToList();
+				enemies.Add(ModContent.NPCType<CragmawMire>());
+				int summon = ItemType<CausticTear>();
+				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<NuclearRod>(), ItemType<FlakToxicannon>() };
+				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
+				string instructions = $"Use a [i:{summon}] or wait for the invasion to occur naturally after the Polterghast is defeated";
+				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
+				string bossLogTex = "CalamityMod/Events/AcidRainT2_BossChecklist";
+				string iconTexture = "CalamityMod/ExtraTextures/UI/AcidRainIcon";
+				AddInvasion(bossChecklist, calamity, "Acid Rain (Post-Polter)", order, enemies, DownedBoomerDuke, summon, loot, collection, instructions, despawn, bossLogTex, iconTexture);
 			}
 		}
 
