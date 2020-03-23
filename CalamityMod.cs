@@ -3015,6 +3015,19 @@ namespace CalamityMod
                 AstralArcanumUI.UpdateAndDraw(Main.spriteBatch);
                 return true;
             }, InterfaceScaleType.None));
+
+            int invasionIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Diagnose Net");
+            if (invasionIndex != -1)
+            {
+                layers.Insert(invasionIndex, new LegacyGameInterfaceLayer("Acid Rain Invasion UI", () =>
+                {
+                    if (CalamityWorld.rainingAcid)
+                    {
+                        AcidRainUI.Draw(Main.spriteBatch);
+                    }
+                    return true;
+                }, InterfaceScaleType.None));
+            }
         }
 
         public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f)

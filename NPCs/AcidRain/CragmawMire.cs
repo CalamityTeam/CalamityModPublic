@@ -28,13 +28,13 @@ namespace CalamityMod.NPCs.AcidRain
             npc.aiStyle = aiType = -1;
 
             npc.damage = 66;
-            npc.lifeMax = 11000;
+            npc.lifeMax = 6000;
             npc.defense = 25;
 
             if (CalamityWorld.downedPolterghast)
             {
                 npc.damage = 160;
-                npc.lifeMax = 216600;
+                npc.lifeMax = 146600;
                 npc.defense = 80;
             }
 
@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             npc.ai[0]++;
 
-            // Summons a spinning diamond of dust and a dust telegraph
+            // Summons a spinning spiral of dust and a dust telegraph
             if (npc.ai[0] % 420f > 240f && npc.ai[0] % 420f < 300f)
             {
                 float vectorRotationAngle = (npc.ai[0] % 420f - 240f) / 60f * MathHelper.Pi * 4f;
@@ -121,7 +121,7 @@ namespace CalamityMod.NPCs.AcidRain
                             for (float k = 0f; k < 20f; ++k)
                             {
                                 Vector2 randomCirclePointLerped = Vector2.Lerp(circlePointVector, randomCirclePointRotated, k / 20f);
-                                float lerpMultiplier = MathHelper.Lerp(lerpStart, lerpEnd, k / 20f) * 1.4f;
+                                float lerpMultiplier = MathHelper.Lerp(lerpStart, lerpEnd, k / 20f) * 0.9f;
                                 int dustIndex = Dust.NewDust(npc.Top + 6f * Vector2.UnitY, 0, 0,
                                     (int)CalamityDusts.SulfurousSeaAcid,
                                     0f, 0f, 100, default, 1.3f);
@@ -132,41 +132,6 @@ namespace CalamityMod.NPCs.AcidRain
                         }
 
                         circlePointVector = circlePointVector.RotatedBy(MathHelper.TwoPi / 9f);
-                    }
-                }
-            }
-            // Near copy-pasta of the Gamma slime's hyper-complex dust code
-            if (npc.ai[0] % 420f > 300f)
-            {
-                float angle = npc.ai[0] / 20f;
-                float x = (float)Math.Sin(angle * npc.ai[1]) * (float)Math.Cos(angle);
-                float y = (float)Math.Cos(angle * npc.ai[2]) * (float)Math.Sin(angle);
-                for (int i = 0; i < 3; i++)
-                {
-                    Vector2 velocity = new Vector2(x * 7f, y * 4f).RotatedBy(MathHelper.TwoPi / 3f * i);
-                    Dust dust = Dust.NewDustPerfect(npc.Top + 6f * Vector2.UnitY + angle.ToRotationVector2() * 8f, (int)CalamityDusts.SulfurousSeaAcid);
-                    dust.velocity = velocity;
-                    dust.scale = (float)Math.Cos(angle) + 2.5f;
-                    dust.noGravity = true;
-
-                    dust = Dust.NewDustPerfect(npc.Top + 6f * Vector2.UnitY + angle.ToRotationVector2() * 8f, (int)CalamityDusts.SulfurousSeaAcid);
-                    dust.velocity = -velocity;
-                    dust.scale = (float)Math.Cos(angle) + 2.5f;
-                    dust.noGravity = true;
-                }
-                if (npc.ai[0] % 420f < 360f)
-                {
-                    float length = 1100f - 1100f * (npc.ai[0] % 420f - 300f) / 60f;
-                    float outwardness = 1f - (npc.ai[0] % 420f - 300f) / 60f;
-                    for (float i = npc.Top.Y + 4f; i >= npc.Top.Y + 4f - length; i -= 6f)
-                    {
-                        angle = i / 32f;
-                        float vectorRotationAngle = -(i / 20f) % 0.4f - 0.2f;
-                        Vector2 spawnPosition = new Vector2(npc.Center.X, i);
-                        Dust dust = Dust.NewDustPerfect(spawnPosition, (int)CalamityDusts.SulfurousSeaAcid);
-                        dust.scale = 1.5f;
-                        dust.velocity = (Vector2.UnitX * (float)Math.Cos(angle) * 4f * outwardness).RotatedBy(vectorRotationAngle);
-                        dust.noGravity = true;
                     }
                 }
             }

@@ -952,26 +952,33 @@ namespace CalamityMod.World
                 Main.invasionProgressNearInvasion = true;
 
                 // Summon Old Duke tornado post-Polter as needed
-                if (downedPolterghast && acidRainPoints == 2f &&
-                    !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) &&
-                    CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)
+                if (downedPolterghast && acidRainPoints == 2f)
                 {
-                    if (triedToSummonOldDuke)
+                    if (!NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) &&
+                    CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)
                     {
-                        acidRainPoints = 0;
-                        triedToSummonOldDuke = false;
-                        AcidRainEvent.UpdateInvasion(false);
-                    }
-                    else
-                    {
-                        int playerClosestToAbyss = Player.FindClosest(new Vector2(abyssSide ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
-                        Player closestToAbyss = Main.player[playerClosestToAbyss];
-                        if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (abyssSide ? 0 : Main.maxTilesX * 16)) <= 12000f)
+                        if (triedToSummonOldDuke)
                         {
-                            Projectile.NewProjectile(closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero,
-                                ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f, Main.myPlayer);
+                            acidRainPoints = 0;
+                            triedToSummonOldDuke = false;
+                            AcidRainEvent.UpdateInvasion(false);
+                        }
+                        else
+                        {
+                            int playerClosestToAbyss = Player.FindClosest(new Vector2(abyssSide ? 0 : Main.maxTilesX * 16, (int)Main.worldSurface), 0, 0);
+                            Player closestToAbyss = Main.player[playerClosestToAbyss];
+                            if (Main.netMode != NetmodeID.MultiplayerClient && Math.Abs(closestToAbyss.Center.X - (abyssSide ? 0 : Main.maxTilesX * 16)) <= 12000f)
+                            {
+                                Projectile.NewProjectile(closestToAbyss.Center + Vector2.UnitY * 160f, Vector2.Zero,
+                                    ModContent.ProjectileType<OverlyDramaticDukeSummoner>(), 120, 8f, Main.myPlayer);
+                            }
                         }
                     }
+                }
+                if (Main.invasionProgress != -1)
+                {
+                    Main.invasionType = 0;
+                    Main.invasionProgress = -1;
                 }
             }
 			else
