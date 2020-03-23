@@ -127,7 +127,6 @@ namespace CalamityMod.Events
                             rectangleCheckSize, rectangleCheckSize);
                         if (screen.Intersects(invasionCheckArea))
                         {
-                            Main.invasionProgressDisplayLeft = 480;
                             return true;
                         }
                     }
@@ -152,23 +151,13 @@ namespace CalamityMod.Events
             }
             if (playerCount > 0)
             {
-                // So that vanilla doesn't shit itself
-                Main.invasionType = -1;
-
                 CalamityWorld.rainingAcid = true;
                 // The E - 1 part is to ensure that we start at 1 as a multiple instead of 0
                 // At a maximum of 255 players, the max multiplier is 9.98, or 998 enemies that need to be killed.
                 CalamityWorld.acidRainPoints = (int)(180 * Math.Log(playerCount + Math.E - 1));
-                Main.invasionProgress = 0;
-                Main.invasionProgressIcon = -1;
-                Main.invasionProgressWave = 0;
 
                 // Make it rain normally
                 Main.raining = true;
-
-                // If abyssSide is true, then the abyss was generated on the left side of the world.
-                // If false, the right.
-                Main.invasionX = CalamityWorld.abyssSide ? 0 : Main.maxTilesX;
                 CalamityWorld.triedToSummonOldDuke = false;
             }
             UpdateInvasion();
@@ -187,9 +176,6 @@ namespace CalamityMod.Events
                 {
                     CalamityWorld.rainingAcid = false;
                     BroadcastEventText("Mods.CalamityMod.AcidRainEnd"); // The sulphuric skies begin to clear...
-                    Main.invasionType = 0;
-                    Main.invasionDelay = 0;
-                    Main.invasionProgressNearInvasion = false;
                     CalamityWorld.acidRainExtraDrawTime = 40;
 
                     // Turn off the rain from the event

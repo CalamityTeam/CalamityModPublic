@@ -973,6 +973,11 @@ namespace CalamityMod.World
                         }
                     }
                 }
+                if (Main.invasionProgress != -1)
+                {
+                    Main.invasionType = 0;
+                    Main.invasionProgress = -1;
+                }
             }
 			else
 			{
