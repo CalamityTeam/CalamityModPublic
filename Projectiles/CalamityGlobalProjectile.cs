@@ -1534,8 +1534,13 @@ namespace CalamityMod.Projectiles
 						{
 							if (Main.rand.NextBool(3))
 							{
+								int newDamage = (int)((double)projectile.damage * 0.5);
+								if (newDamage > 75)
+								{
+									newDamage = 75;
+								}
 								int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
-									(int)(projectile.damage * 0.5f), 3f, projectile.owner);
+									newDamage, 3f, projectile.owner);
 							}
 						}
 						else if (modPlayer.jellyChargedBattery)
