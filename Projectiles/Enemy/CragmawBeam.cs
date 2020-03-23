@@ -9,10 +9,10 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class GammaBeam : ModProjectile
+    public class CragmawBeam : ModProjectile
     {
         // How long this laser can exist before it is deleted.
-        public const int TrueTimeLeft = 180;
+        public const int TrueTimeLeft = 120;
 
         // Pretty self explanatory
         private const float maximumLength = 1200f;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Enemy
 
             if (Main.npc[(int)projectile.ai[1]].active)
             {
-                projectile.Center = Main.npc[(int)projectile.ai[1]].Top + new Vector2(0f, 6f);
+                projectile.Center = Main.npc[(int)projectile.ai[1]].Top + new Vector2(0f, 4f);
             }
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
@@ -144,9 +144,9 @@ namespace CalamityMod.Projectiles.Enemy
             {
                 return false;
             }
-            Texture2D laserTailTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/GammaBeamBegin");
-            Texture2D laserBodyTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/GammaBeamMid");
-            Texture2D laserHeadTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/GammaBeamEnd");
+            Texture2D laserTailTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/CragmawMireBeamBegin");
+            Texture2D laserBodyTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/CragmawMireBeamMid");
+            Texture2D laserHeadTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/CragmawMireBeamEnd");
             float laserLength = projectile.localAI[1];
             Color drawColor = new Color(1f, 1f, 1f) * 0.9f;
 

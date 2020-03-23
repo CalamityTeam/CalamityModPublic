@@ -1,4 +1,5 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Events;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -83,19 +84,33 @@ namespace CalamityMod.Items.Tools.ClimateChange
                     num3 += 0.2f;
                 }
                 Main.rainTime = (int)((float)Main.rainTime * num3);
-				AdjustRainSeverity(false);
-				Main.raining = true;
+                AdjustRainSeverity(false);
+                Main.raining = true;
             }
-			else if (CalamityWorld.death)
-			{
-				if (Main.rainTime > 3600)
-				{
-					Main.rainTime = 3600;
-					AdjustRainSeverity(true);
-				}
-			}
+            else if (CalamityWorld.death)
+            {
+                if (Main.rainTime > 3600)
+                {
+                    Main.rainTime = 3600;
+                    AdjustRainSeverity(true);
+                }
+                if (CalamityWorld.rainingAcid)
+                {
+                    CalamityWorld.acidRainPoints = 0;
+                    CalamityWorld.triedToSummonOldDuke = false;
+                    AcidRainEvent.UpdateInvasion(false);
+                }
+            }
             else
+            {
                 Main.raining = false;
+                if (CalamityWorld.rainingAcid)
+                {
+                    CalamityWorld.acidRainPoints = 0;
+                    CalamityWorld.triedToSummonOldDuke = false;
+                    AcidRainEvent.UpdateInvasion(false);
+                }
+            }
 
             CalamityMod.UpdateServerBoolean();
             return true;

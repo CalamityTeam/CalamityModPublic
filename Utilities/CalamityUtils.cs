@@ -680,6 +680,20 @@ namespace CalamityMod
             }
             return true;
         }
+        public static bool TileSelectionSolidSquare(int x, int y, int width, int height)
+        {
+            for (int i = x - width; i != x + width; i += Math.Sign(width))
+            {
+                for (int j = y - height; y != y + height; j += Math.Sign(height))
+                {
+                    if (!WorldGen.InWorld(i, j))
+                        return false;
+                    if (!WorldGen.SolidTile(Framing.GetTileSafely(i, j)))
+                        return false;
+                }
+            }
+            return true;
+        }
         public static bool TileActiveAndOfType(int x, int y, int type)
         {
             return ParanoidTileRetrieval(x, y).active() && ParanoidTileRetrieval(x, y).type == type;
