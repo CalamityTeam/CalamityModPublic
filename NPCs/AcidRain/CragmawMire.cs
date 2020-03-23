@@ -285,7 +285,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void NPCLoot()
         {
-			DropHelper.DropItemChance(npc, ModContent.ItemType<NuclearRod>(), CalamityWorld.downedPolterghast ? 0.05f : 0.1f);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<NuclearRod>(), CalamityWorld.downedPolterghast ? 0.1f : 1f);
         }
     }
 }

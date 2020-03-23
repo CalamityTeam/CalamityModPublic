@@ -1,6 +1,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -160,6 +161,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2 * (CalamityWorld.downedAquaticScourge ? 6 : 1), 1, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<SkyfinBombers>(), CalamityWorld.downedAquaticScourge, 0.05f);
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

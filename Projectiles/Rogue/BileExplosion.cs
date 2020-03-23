@@ -25,8 +25,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+			//projectile.ai[0] == 1f means spawned by Skyfin Bombers SS
             projectile.position = projectile.Center;
-            if (projectile.Calamity().stealthStrike)
+            if (projectile.Calamity().stealthStrike || projectile.ai[0] == 1f)
                 projectile.width = projectile.height = 120;
             else
                 projectile.width = projectile.height = 70;
@@ -42,7 +43,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 9;
+			if (projectile.ai[0] != 1f)
+			{
+				target.immune[projectile.owner] = 9;
+			}
             target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
 
