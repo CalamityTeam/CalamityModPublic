@@ -10231,9 +10231,9 @@ namespace CalamityMod.CalPlayer
 
         #region Profaned Soul Crystal Stuffs
 
-        internal void rollBabSpears(int randAmt)
+        internal void rollBabSpears(int randAmt, bool chaseable)
         {
-            if (player.whoAmI == Main.myPlayer && randAmt > 0 && !endoCooper && !magicHat && Main.rand.NextBool(randAmt)) //disallow other dev summons due to damage being bonkers
+            if (player.whoAmI == Main.myPlayer && randAmt > 0 && !endoCooper && !magicHat && Main.rand.NextBool(randAmt) && chaseable) //disallow other dev summons due to damage being bonkers
             {
                 int spearsFired = 0;
                 for (int i = 0; i < Main.projectile.Length; i++)
