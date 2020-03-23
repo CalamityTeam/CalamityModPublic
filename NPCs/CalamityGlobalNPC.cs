@@ -3774,6 +3774,11 @@ namespace CalamityMod.NPCs
                     {
                         spawnRate = Main.hardMode ? 36 : 33;
                         maxSpawns = Main.hardMode ? 15 : 12;
+                        if (AcidRainEvent.AnyRainMinibosses)
+                        {
+                            maxSpawns = 5;
+                            spawnRate *= 2;
+                        }
                     }
                 }
             }
@@ -3910,15 +3915,29 @@ namespace CalamityMod.NPCs
                 if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
                 {
                     List<(int, int)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+                    List<int> PossibleMinibosses = new List<int>();
                     if (CalamityWorld.downedAquaticScourge)
+                    {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
+                        PossibleMinibosses = AcidRainEvent.PossibleMinibossesAS;
+                    }
                     if (CalamityWorld.downedPolterghast)
+                    {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
+                        PossibleMinibosses = AcidRainEvent.PossibleMinibossesPolter;
+                    }
                     foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
                     {
                         pool.Add(enemy, 1f);
                     }
-                    pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.02f);
+                    if (PossibleMinibosses.Count > 0)
+                    {
+                        foreach (int enemy in PossibleMinibosses)
+                        {
+                            pool.Add(enemy, 0.05f);
+                        }
+                    }
+                    pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.08f);
                 }
             }
         }

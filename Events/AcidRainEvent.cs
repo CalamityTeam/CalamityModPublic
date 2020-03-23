@@ -18,6 +18,8 @@ namespace CalamityMod.Events
         // Any other mods are changing the invasion ID as well.
         public const int InvasionID = 57;
 
+        public const int MinibossDeathValue = 5;
+
         // A partially bright pale-ish cyan with a hint of yellow.
         public static readonly Color TextColor = new Color(115, 194, 147);
 
@@ -58,6 +60,31 @@ namespace CalamityMod.Events
             ( ModContent.NPCType<FlakCrab>(), 1 ),
             ( ModContent.NPCType<SulfurousSkater>(), 1 )
         };
+
+        public static List<int> PossibleMinibossesAS = new List<int>()
+        {
+            ModContent.NPCType<CragmawMire>()
+        };
+
+        public static List<int> PossibleMinibossesPolter = new List<int>()
+        {
+            ModContent.NPCType<CragmawMire>()
+        };
+
+        public static bool AnyRainMinibosses
+        {
+            get
+            {
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    if (Main.npc[i].active && (PossibleMinibossesAS.Contains(Main.npc[i].type)) || PossibleMinibossesPolter.Contains(Main.npc[i].type))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
 
         /// <summary>
         /// Broadcasts some text from a given localization key.
