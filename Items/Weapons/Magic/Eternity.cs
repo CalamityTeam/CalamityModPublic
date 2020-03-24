@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class Eternity : ModItem
     {
-        public const int BaseDamage = 7200;
+        public const int BaseDamage = 6969;
         public const int ExplosionDamage = 50000;
         public const int MaxHomers = 40;
         public const int dustID = 16;
