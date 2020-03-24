@@ -14,7 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Abyss
 {
-    public class DevilFish : ModNPC
+    public class DevilFishAlt : ModNPC
     {
         public bool brokenMask = false;
         public int hitCounter = 0;
@@ -76,9 +76,9 @@ namespace CalamityMod.NPCs.Abyss
                 brokenMask = true;
                 npc.HitSound = SoundID.NPCHit1;
                 npc.defense = 15;
-                for(int i = 1; i < 4; i++)
+                for (int i = 1; i < 4; i++)
                 {
-                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask" + i), 1f);
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask" + i + (i == 3 ? "Alt" : "")), 1f);
                 }
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/DevilMaskBreak"), (int)npc.position.X, (int)npc.position.Y);
             }
@@ -125,8 +125,8 @@ namespace CalamityMod.NPCs.Abyss
                     npc.TargetClosest(true);
                     npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 0.5f : 0.25f) * speedBoost;
                     npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 0.3f : 0.15f) * speedBoost;
-					float velocity = CalamityWorld.death ? 12f : 6f;
-					if (npc.velocity.X > velocity * speedBoost)
+                    float velocity = CalamityWorld.death ? 12f : 6f;
+                    if (npc.velocity.X > velocity * speedBoost)
                     {
                         npc.velocity.X = velocity * speedBoost;
                     }
@@ -273,10 +273,10 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
             Vector2 vector = center - Main.screenPosition;
-            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Abyss/DevilFishGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/Abyss/DevilFishGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
+            vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Abyss/DevilFishGlowAlt").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/Abyss/DevilFishGlowAlt").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Red);
-            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/DevilFishGlow"), vector,
+            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Abyss/DevilFishGlowAlt"), vector,
                 new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
         }
 
