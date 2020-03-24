@@ -19,13 +19,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 600;
+            item.damage = 700;
             item.magic = true;
             item.mana = 9;
             item.width = 28;
             item.height = 30;
-            item.useTime = 12;
-            item.useAnimation = 12;
+            item.useTime = 10;
+            item.useAnimation = 10;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 4f;
@@ -91,8 +91,8 @@ namespace CalamityMod.Items.Weapons.Magic
                 num80 = num72 / num80;
                 num78 *= num80;
                 num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
+                float speedX4 = num78 + (float)Main.rand.Next(-20, 21) * 0.02f;
+                float speedY5 = num79 + (float)Main.rand.Next(-20, 21) * 0.02f;
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(15));
             }
             return false;

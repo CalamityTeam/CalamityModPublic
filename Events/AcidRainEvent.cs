@@ -157,7 +157,7 @@ namespace CalamityMod.Events
                 CalamityWorld.acidRainPoints = (int)(180 * Math.Log(playerCount + Math.E - 1));
 
                 // Make it rain normally
-				if (startAcidicDownpour)
+				if (CalamityWorld.startAcidicDownpour)
 				{
 					Main.raining = true;
 				}

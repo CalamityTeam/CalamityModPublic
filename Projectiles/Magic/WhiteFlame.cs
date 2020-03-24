@@ -20,6 +20,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 1;
             projectile.timeLeft = 120;
             projectile.magic = true;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -49,7 +50,7 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<WhiteFlame2>(), (int)(double)projectile.damage, 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<WhiteFlame2>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
                 }
             }
         }
