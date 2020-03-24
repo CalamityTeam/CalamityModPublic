@@ -91,29 +91,29 @@ namespace CalamityMod.Items
             else if (CalamityMod.doubleDamageBuffList?.Contains(item.type) ?? false)
                 item.damage *= 2;
             else if (item.type == ItemID.RainbowRod)
-                item.damage = (int)((double)item.damage * 1.75);
+                item.damage = (int)(item.damage * 1.75);
             else if (CalamityMod.sixtySixDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 1.66);
+                item.damage = (int)(item.damage * 1.66);
             else if (CalamityMod.fiftyDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 1.5);
+                item.damage = (int)(item.damage * 1.5);
             else if (CalamityMod.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 1.33);
+                item.damage = (int)(item.damage * 1.33);
             else if (CalamityMod.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 1.25);
+                item.damage = (int)(item.damage * 1.25);
             else if (CalamityMod.twentyDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 1.2);
+                item.damage = (int)(item.damage * 1.2);
             else if (item.type == ItemID.Frostbrand || item.type == ItemID.MagnetSphere)
-                item.damage = (int)((double)item.damage * 1.1);
+                item.damage = (int)(item.damage * 1.1);
             else if (item.type == ItemID.Razorpine)
-                item.damage = (int)((double)item.damage * 0.95);
+                item.damage = (int)(item.damage * 0.95);
             else if (item.type == ItemID.Phantasm)
-                item.damage = (int)((double)item.damage * 0.9);
+                item.damage = (int)(item.damage * 0.9);
             else if (item.type == ItemID.LastPrism)
-                item.damage = (int)((double)item.damage * 0.85);
+                item.damage = (int)(item.damage * 0.85);
             else if (CalamityMod.quarterDamageNerfList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 0.75);
+                item.damage = (int)(item.damage * 0.75);
             else if (item.type == ItemID.StardustDragonStaff)
-                item.damage = (int)((double)item.damage * 0.5);
+                item.damage = (int)(item.damage * 0.5);
 
             if (item.type == ItemID.BookStaff)
                 item.mana = 10;
@@ -173,7 +173,7 @@ namespace CalamityMod.Items
 				item.shootSpeed += 3.4f; //10f
 				item.knockBack += 1f; //1f
 				item.rare = 4;
-				item.damage *= 3;
+				item.damage = (int)(item.damage * 2.5);
 			}
             if (item.type == ItemID.PearlwoodSword)
 			{
