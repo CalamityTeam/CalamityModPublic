@@ -1529,7 +1529,7 @@ namespace CalamityMod.Projectiles
 						ModContent.ProjectileType<EnergyOrb>(),
 						ModContent.ProjectileType<IrradiatedAura>(),
 						ModContent.ProjectileType<SummonAstralExplosion>(),
-						ModContent.ProjectileType<UnstableSpark>(),
+						ModContent.ProjectileType<ApparatusExplosion>(),
 						ModContent.ProjectileType<HallowedStarSummon>()
 					};
 					if (summonExceptionList.TrueForAll(x => projectile.type != x))
@@ -1538,18 +1538,7 @@ namespace CalamityMod.Projectiles
 						{
 							if (Main.rand.NextBool(4))
 							{
-								for (int num252 = 0; num252 < 3; num252++)
-								{
-									Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-									while (value15.X == 0f && value15.Y == 0f)
-									{
-										value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-									}
-									value15.Normalize();
-									value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
-									int spark = Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<UnstableSpark>(), (int)((double)damage * 0.15), 0f, player.whoAmI, 0f, 0f);
-									Main.projectile[spark].Calamity().forceMinion = true;
-								}
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ApparatusExplosion>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner);
 							}
 						}
 						else if (modPlayer.starbusterCore)
