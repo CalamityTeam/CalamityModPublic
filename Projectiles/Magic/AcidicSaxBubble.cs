@@ -3,10 +3,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Dusts;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Projectiles.Ranged;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles.Magic
 {
-    public class SulphuricAcidBubble2 : ModProjectile
+    public class AcidicSaxBubble : ModProjectile
     {
         public float counter = 0f;
         public float counter2 = 0f;
@@ -24,7 +28,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.height = 30;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.ranged = true;
+            projectile.magic = true;
             projectile.penetrate = -1;
             projectile.alpha = 255;
         }
@@ -49,7 +53,9 @@ namespace CalamityMod.Projectiles.Ranged
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<SulphuricAcidMist2>(), (int)(250f * Main.player[projectile.owner].RangedDamage()), 1f, projectile.owner, 0f, 0f);
+                    int mist = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<SulphuricAcidMist2>(), (int)(BelchingSaxophone.BaseDamage * Main.player[projectile.owner].MagicDamage()), 1f, projectile.owner, 0f, 0f);
+					Main.projectile[mist].Calamity().forceMagic = true;
+					Main.projectile[mist].localNPCHitCooldown = 10;
                 }
                 else
                     counter += 1f;
@@ -134,10 +140,13 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.buffImmune[BuffID.Venom] && target.aiStyle != 6)
-            {
-                target.buffImmune[BuffID.Venom] = false;
-            }
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+            target.AddBuff(BuffID.Venom, 600);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
             target.AddBuff(BuffID.Venom, 600);
         }
 
@@ -151,7 +160,7 @@ namespace CalamityMod.Projectiles.Ranged
             int num3;
             for (int num246 = 0; num246 < 25; num246 = num3 + 1)
             {
-                int num247 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 0, default, 1f);
+                int num247 = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 0, default, 1f);
                 Main.dust[num247].position = (Main.dust[num247].position + projectile.position) / 2f;
                 Main.dust[num247].velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                 Main.dust[num247].velocity.Normalize();

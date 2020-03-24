@@ -3,34 +3,58 @@ using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Enemy
+namespace CalamityMod.Projectiles.Magic
 {
-    public class TrilobiteSpike : ModProjectile
+    public class AcidicReed : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spike");
+            DisplayName.SetDefault("Reed");
         }
 
         public override void SetDefaults()
         {
             projectile.width = 10;
             projectile.height = 10;
-            projectile.hostile = true;
+            projectile.friendly = true;
+			projectile.magic = true;
             projectile.timeLeft = 600;
             projectile.tileCollide = true;
             projectile.ignoreWater = false;
+			projectile.penetrate = 1;
         }
+
         public override void AI()
         {
+			if (projectile.ai[0] == 1f)
+			{
+                Terraria.Audio.LegacySoundStyle saxSound = Utils.SelectRandom(Main.rand, new Terraria.Audio.LegacySoundStyle[]
+                {
+					mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Saxophone/Sax1"),
+					mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Saxophone/Sax2"),
+					mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Saxophone/Sax3"),
+					mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Saxophone/Sax4"),
+					mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Saxophone/Sax5"),
+					mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Saxophone/Sax6")
+                });
+				Main.PlaySound(saxSound, projectile.position);
+				projectile.ai[0] = 0f;
+			}
             if (projectile.velocity.Y < 10f)
                 projectile.velocity.Y += 0.25f;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+        }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i <= 2; i++)

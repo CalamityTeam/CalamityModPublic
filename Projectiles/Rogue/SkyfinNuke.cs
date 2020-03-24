@@ -40,10 +40,6 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					NPC target = projectile.Center.ClosestNPCAt(800f);
 					// Ignore targets below the nuke
-					if (target.type == NPCID.TargetDummy)
-					{
-						target = null;
-					}
 					if (target != null)
 					{
 						if (target.Bottom.Y < projectile.Top.Y)

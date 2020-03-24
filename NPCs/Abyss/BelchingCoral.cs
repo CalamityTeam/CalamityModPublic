@@ -3,6 +3,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -29,7 +30,10 @@ namespace CalamityMod.NPCs.Abyss
             npc.defense = 25;
             npc.lifeMax = 1000;
             npc.aiStyle = aiType = -1;
-            npc.buffImmune[ModContent.BuffType<Irradiated>()] = true;
+            for (int k = 0; k < npc.buffImmune.Length; k++)
+            {
+                npc.buffImmune[k] = true;
+            }
             npc.value = Item.buyPrice(0, 0, 3, 50);
             npc.HitSound = SoundID.NPCHit42;
             npc.DeathSound = SoundID.NPCDeath5;
@@ -64,6 +68,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 15); // Rarer to encourage fighting Acid Rain
+            DropHelper.DropItemChance(npc, ModContent.ItemType<BelchingSaxophone>(), 10);
         }
 
         public override void HitEffect(int hitDirection, double damage)
