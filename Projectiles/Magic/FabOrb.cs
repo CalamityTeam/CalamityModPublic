@@ -20,6 +20,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.timeLeft = 300;
             projectile.magic = true;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
