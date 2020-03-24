@@ -208,9 +208,23 @@ namespace CalamityMod.NPCs.AcidRain
                 }
                 npc.Calamity().DR = 0.125f;
                 npc.HitSound = SoundID.NPCHit1;
-                if (npc.ai[0] % 600f == 20f)
+                if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.UnitY, ModContent.ProjectileType<CragmawVibeCheckChain>(), 0, 0f, 0, npc.whoAmI, npc.target);
+                    if (npc.ai[0] % 600f == 20f)
+                    {
+                        Projectile.NewProjectile(npc.Center, Vector2.UnitY, ModContent.ProjectileType<CragmawVibeCheckChain>(), 0, 0f, 0, npc.whoAmI, npc.target);
+                    }
+                    if (npc.ai[0] % 600f == 240f)
+                    {
+                        int damage = CalamityWorld.downedPolterghast ? 52 : 33;
+                        for (int i = 0; i < 16; i++)
+                        {
+                            float angle = MathHelper.TwoPi / 16f * i;
+                            float angleDelta = Main.rand.NextFloat(MathHelper.TwoPi / 16f) * 0.6f;
+                            angle += angleDelta - angleDelta / 2f;
+                            Projectile.NewProjectile(npc.Center, angle.ToRotationVector2() * 6f, ModContent.ProjectileType<CragmawSpike>(), damage, 4f);
+                        }
+                    }
                 }
             }
         }
