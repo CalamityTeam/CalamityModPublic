@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class CreationApparatus : ModItem
+    public class Nucleogenesis : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Creation Apparatus");
+            DisplayName.SetDefault("Nucleogenesis");
             Tooltip.SetDefault("Increased max minions by 4 and 15% increased minion damage\n" +
                 "Increased minion knockback\n" +
                 "Minions inflict a variety of debuffs\n" +
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.creationApparatus = true;
+            modPlayer.nucleogenesis = true;
             modPlayer.shadowMinions = true; //shadowflame
             modPlayer.tearMinions = true; //temporal sadness
             modPlayer.voltaicJelly = true; //electrified

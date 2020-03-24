@@ -1534,7 +1534,7 @@ namespace CalamityMod.Projectiles
 					};
 					if (summonExceptionList.TrueForAll(x => projectile.type != x))
 					{
-						if (modPlayer.creationApparatus)
+						if (modPlayer.nucleogenesis)
 						{
 							if (Main.rand.NextBool(4))
 							{

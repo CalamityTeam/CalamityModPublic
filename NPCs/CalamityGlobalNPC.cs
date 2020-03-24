@@ -3419,64 +3419,67 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (modPlayer.eGauntlet)
-            {
-                if (projectile.melee && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
-                {
-                    if (!CalamityPlayer.areThereAnyDamnBosses)
-                    {
-                        damage = npc.lifeMax * 3;
-                    }
-                }
-            }
-
-            if (modPlayer.eTalisman)
-            {
-                if (projectile.magic && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
-                {
-                    if (!CalamityPlayer.areThereAnyDamnBosses)
-                    {
-                        damage = npc.lifeMax * 3;
-                    }
-                }
-            }
-
-            if (modPlayer.nanotech)
-            {
-                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
-                {
-                    if (!CalamityPlayer.areThereAnyDamnBosses)
-                    {
-                        damage = npc.lifeMax * 3;
-                    }
-                }
-            }
-
-            if (modPlayer.eQuiver)
-            {
-                if (projectile.ranged && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
-                {
-                    if (!CalamityPlayer.areThereAnyDamnBosses)
-                    {
-                        damage = npc.lifeMax * 3;
-                    }
-                }
-            }
-
-            if (modPlayer.creationApparatus)
-            {
-                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
-                {
-                    if (!CalamityPlayer.areThereAnyDamnBosses)
-                    {
-                        damage = npc.lifeMax * 3;
-                    }
-                }
-            }
-
-			if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
+			if (!projectile.npcProj && !projectile.trap)
 			{
-				damage = (int)(damage * 1.1);
+				if (modPlayer.eGauntlet)
+				{
+					if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+					{
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (modPlayer.eTalisman)
+				{
+					if (projectile.magic && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+					{
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (modPlayer.nanotech)
+				{
+					if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+					{
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (modPlayer.eQuiver)
+				{
+					if (projectile.ranged && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+					{
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (modPlayer.nucleogenesis)
+				{
+					if ((projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+					{
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
+				{
+					damage = (int)(damage * 1.1);
+				}
 			}
         }
         #endregion
