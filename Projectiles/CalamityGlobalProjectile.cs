@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Healing;
@@ -147,14 +148,14 @@ namespace CalamityMod.Projectiles
 
 				projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
 
-				if (projectile.ai[1] == 1f || projectile.type == 92)
+				if (projectile.ai[1] == 1f)
 				{
 					projectile.light = 0.9f;
 
-					if (Main.rand.Next(10) == 0)
+					if (Main.rand.NextBool(10))
 						Dust.NewDust(projectile.position, projectile.width, projectile.height, 58, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 150, default, 1.2f);
 
-					if (Main.rand.Next(20) == 0)
+					if (Main.rand.NextBool(20))
 						Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f), Main.rand.Next(16, 18), 1f);
 				}
 				return false;
@@ -780,7 +781,7 @@ namespace CalamityMod.Projectiles
 				{
 					if (Main.rand.NextBool(5))
 					{
-						int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
+						int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.5f);
 						Main.dust[dust].noGravity = true;
 						Main.dust[dust].noLight = true;
 					}
@@ -1767,7 +1768,7 @@ namespace CalamityMod.Projectiles
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
                     for (int i = 0; i < 3; i++)
                     {
-                        int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);
+                        int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);
                         Main.dust[dust].noGravity = true;
                     }
                 }
@@ -1792,6 +1793,11 @@ namespace CalamityMod.Projectiles
 							Main.projectile[soul].tileCollide = false;
                         }
                     }
+					if (modPlayer.scuttlersJewel && CalamityMod.javelinProjList.Contains(projectile.type) && Main.rand.NextBool(3))
+					{
+						int spike = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<JewelSpike>(), projectile.damage / 2, projectile.knockBack, projectile.owner);
+						Main.projectile[spike].frame = 4;
+					}
                 }
             }
         }

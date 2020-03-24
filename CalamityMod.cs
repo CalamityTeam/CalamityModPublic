@@ -54,6 +54,7 @@ using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Typeless;
@@ -2007,6 +2008,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<ScarletDevilProjectile>(),
                 ModContent.ProjectileType<ScourgeoftheDesertProj>(),
                 ModContent.ProjectileType<ScourgeoftheSeasProjectile>(),
+                ModContent.ProjectileType<ScourgeoftheCosmosProj>(),
                 ModContent.ProjectileType<SpearofDestinyProjectile>(),
                 ModContent.ProjectileType<SpearofPaleolithProj>(),
                 ModContent.ProjectileType<XerocPitchforkProjectile>(),
@@ -2121,7 +2123,8 @@ namespace CalamityMod
                 ModContent.ItemType<StarofDestruction>(),
                 ModContent.ItemType<CraniumSmasher>(),
                 ModContent.ItemType<ContaminatedBile>(),
-                ModContent.ItemType<AcidicRainBarrel>()
+                ModContent.ItemType<AcidicRainBarrel>(),
+                ModContent.ItemType<SkyfinBombers>()
             };
 
             flaskBombProjList = new List<int>()
@@ -2147,7 +2150,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<DestructionStar>(),
                 ModContent.ProjectileType<DestructionBolt>(),
                 ModContent.ProjectileType<ContaminatedBileFlask>(),
-                ModContent.ProjectileType<GreenDonkeyKongReference>()
+                ModContent.ProjectileType<GreenDonkeyKongReference>(),
+                ModContent.ProjectileType<SkyfinNuke>()
             };
 
             spikyBallList = new List<int>()

@@ -27,7 +27,7 @@ namespace CalamityMod.Events
         // The first value is the NPC type, the second is the value they're worth in the event
         public static List<(int, int)> PossibleEnemiesPreHM = new List<(int, int)>()
         {
-            ( ModContent.NPCType<Radiator>(), 0 ),
+            ( ModContent.NPCType<Radiator>(), 1 ),
             ( ModContent.NPCType<NuclearToad>(), 1 ),
             ( ModContent.NPCType<AcidEel>(), 1 ),
             ( ModContent.NPCType<Skyfin>(), 1 ),
@@ -157,7 +157,10 @@ namespace CalamityMod.Events
                 CalamityWorld.acidRainPoints = (int)(180 * Math.Log(playerCount + Math.E - 1));
 
                 // Make it rain normally
-                Main.raining = true;
+				if (startAcidicDownpour)
+				{
+					Main.raining = true;
+				}
                 CalamityWorld.triedToSummonOldDuke = false;
             }
             UpdateInvasion();

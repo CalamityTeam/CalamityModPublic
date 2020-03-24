@@ -406,6 +406,7 @@ namespace CalamityMod.CalPlayer
         public bool handWarmer = false;
         public bool oldDie = false;
         public bool ursaSergeant = false;
+        public bool scuttlersJewel = false;
         public bool thiefsDime = false;
         public bool dynamoStemCells = false;
         public bool etherealExtorter = false;
@@ -1289,6 +1290,7 @@ namespace CalamityMod.CalPlayer
             cTracers = false;
             oldDie = false;
             ursaSergeant = false;
+            scuttlersJewel = false;
             thiefsDime = false;
             dynamoStemCells = false;
             etherealExtorter = false;
@@ -10414,15 +10416,11 @@ namespace CalamityMod.CalPlayer
             if (player.redFairy || player.greenFairy || player.blueFairy)
                 light += 2;
             if (babyGhostBell)
-                light += 2;
-            else if (babyGhostBell && !underwater) //for Death caverns
-                light += 1;
+                light += underwater ? 2 : 1;
             if (player.petFlagDD2Ghost)
                 light += 2;
-            if (sirenPet && underwater)
-                light += 3;
-            else if (sirenPet && !underwater) //for Death caverns
-                light += 1;
+            if (sirenPet)
+                light += underwater ? 3 : 1;
             if (player.wisp)
                 light += 3;
             if (player.suspiciouslookingTentacle)

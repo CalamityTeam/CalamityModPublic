@@ -24,11 +24,11 @@ namespace CalamityMod.NPCs.AcidRain
         public override void SetDefaults()
         {
             npc.aiStyle = 67;
-            npc.damage = 50;
+            npc.damage = 10;
             npc.width = 24;
             npc.height = 24;
             npc.defense = 5;
-            npc.lifeMax = 200;
+            npc.lifeMax = 100;
 
             if (CalamityWorld.downedPolterghast)
             {

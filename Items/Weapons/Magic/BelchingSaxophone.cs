@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class BelchingSaxophone : ModItem
     {
-		public const int BaseDamage = 40;
+		public const int BaseDamage = 30;
 		private int counter = 0;
 
         public override void SetStaticDefaults()
@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Magic
 					default:
 						break;
 				}
-                int note = Projectile.NewProjectile(position.X, position.Y, speedX * 0.75f, speedY * 0.75f, noteProj, damage, knockBack, player.whoAmI);
+                int note = Projectile.NewProjectile(position.X, position.Y, speedX * 0.75f, speedY * 0.75f, noteProj, (int)(damage * 0.75), knockBack, player.whoAmI);
 				Main.projectile[note].Calamity().forceMagic = true; //why are these notes also internally ranged
 				Main.projectile[note].usesLocalNPCImmunity = true;
 				Main.projectile[note].localNPCHitCooldown = 10;
