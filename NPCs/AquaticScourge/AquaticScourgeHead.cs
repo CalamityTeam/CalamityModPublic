@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             }
 
             // If Aquatic Scourge has not yet been killed, notify players of buffed Acid Rain
-            if (!CalamityWorld.downedAstrageldon)
+            if (!CalamityWorld.downedAquaticScourge)
             {
                 if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/MaulerRoar"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
