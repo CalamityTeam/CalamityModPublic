@@ -507,7 +507,7 @@ namespace CalamityMod.Projectiles.Summon
 						projectile.localAI[1] = 1f;
 						projectile.frame = 9;
 					}
-					if (projectile.frame >= 9 || projectile.frame <= 14)
+					if (projectile.frame >= 9 && projectile.frame <= 14)
 					{
 						projectile.frameCounter++;
 						if (projectile.frameCounter > 8)

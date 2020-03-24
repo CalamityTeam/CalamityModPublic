@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
 			CalamityGlobalProjectile modProj = projectile.Calamity();
             if (dust == 0f)
             {
-                modProj.spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
                 modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int dustAmt = 36;
                 for (int num227 = 0; num227 < dustAmt; num227++)
@@ -58,11 +58,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != modProj.spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
                     modProj.spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             bool projTypeCheck = projectile.type == ModContent.ProjectileType<SquirrelSquireMinion>();
@@ -245,7 +245,7 @@ namespace CalamityMod.Projectiles.Summon
 					projectile.spriteDirection = 1;
 				else if (projectile.velocity.X < -0.5f)
 					projectile.spriteDirection = -1;
-				projectile.rotation = projectile.spriteDirection != 1 ? (float) Math.Atan2((double) projectile.velocity.Y, (double) projectile.velocity.X) + 3.14f : (float) Math.Atan2((double) projectile.velocity.Y, (double) projectile.velocity.X);
+				//projectile.rotation = projectile.spriteDirection != 1 ? (float) Math.Atan2((double) projectile.velocity.Y, (double) projectile.velocity.X) + 3.14f : (float) Math.Atan2((double) projectile.velocity.Y, (double) projectile.velocity.X);
 			}
 			else
 			{
@@ -508,7 +508,7 @@ namespace CalamityMod.Projectiles.Summon
 						projectile.localAI[1] = 1f;
 						projectile.frame = 8;
 					}
-					if (projectile.frame >= 8 || projectile.frame <= 11)
+					if (projectile.frame >= 8 && projectile.frame <= 11)
 					{
 						projectile.frameCounter++;
 						if (projectile.frameCounter > 8)
