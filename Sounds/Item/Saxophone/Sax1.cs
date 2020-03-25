@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Audio;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Sounds.Custom.Saxophone
+namespace CalamityMod.Sounds.Item.Saxophone
 {
     public class Sax1 : ModSound
     {
