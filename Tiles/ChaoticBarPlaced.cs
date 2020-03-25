@@ -21,7 +21,6 @@ namespace CalamityMod.Tiles
             TileObjectData.addTile(Type);
 
             dustType = 87;
-            name.SetDefault("Scoria Bar");
             drop = ModContent.ItemType<CruptixBar>();
 
             AddMapEntry(new Color(255, 165, 0)); //Orange

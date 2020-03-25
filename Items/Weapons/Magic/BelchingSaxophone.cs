@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Magic
 {
     public class BelchingSaxophone : ModItem
     {
-		public const int BaseDamage = 30;
+		public const int BaseDamage = 32;
 		private int counter = 0;
 
         public override void SetStaticDefaults()
