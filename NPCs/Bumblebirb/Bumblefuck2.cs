@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,7 +14,8 @@ namespace CalamityMod.NPCs.Bumblebirb
         {
             DisplayName.SetDefault("Bumblebirb");
             Main.npcFrameCount[npc.type] = 6;
-        }
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+		}
 
         public override string Texture => "CalamityMod/NPCs/Bumblebirb/Birb";
 
@@ -59,12 +61,15 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void AI()
         {
-            npc.visualOffset = new Vector2(10, 40);
+            //npc.visualOffset = new Vector2(10, 40);
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
             npc.damage = npc.defDamage;
 
-            if (Vector2.Distance(player.Center, vector) > 5600f)
+			float rotationMult = 4f;
+			float rotationAmt = 0.04f;
+
+			if (Vector2.Distance(player.Center, vector) > 5600f)
             {
                 if (npc.timeLeft > 5)
                 {
@@ -75,7 +80,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.noTileCollide = false;
             npc.noGravity = true;
 
-            npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.05f) / 10f;
+            npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
 
             if (npc.ai[0] == 0f || npc.ai[0] == 1f)
             {
@@ -202,7 +207,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                         npc.direction = 1;
                     }
                     npc.spriteDirection = npc.direction;
-                    npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.04f) / 10f;
+                    npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt) / 10f;
                     Vector2 value45 = Main.player[npc.target].Center - npc.Center;
                     if (value45.Length() < 800f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
                     {
@@ -235,7 +240,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                         npc.direction = 1;
                     }
                     npc.spriteDirection = npc.direction;
-                    npc.rotation = (npc.rotation * 7f + npc.velocity.X * 0.05f) / 8f;
+                    npc.rotation = (npc.rotation * rotationMult * 0.75f + npc.velocity.X * rotationAmt * 1.25f) / 8f;
                     npc.noTileCollide = true;
                     Vector2 vector242 = Main.player[npc.target].Center - npc.Center;
                     vector242.Y -= 8f;
@@ -312,32 +317,51 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void FindFrame(int frameHeight)
         {
-            bool lightningBreathAttack = false; //leaving this for fabbo to sort
-            if (lightningBreathAttack)
-            {
-                npc.frame.Y = npc.frame.Height * 5;
-            } 
-            else
-            {
-                if (npc.frameCounter >= 5) //iban said the time between frames was 5 so using that as a base
-                {
-                    if (npc.frame.Y >= npc.frame.Height * 4) //frame 5 or 6 for transitioning from open jaw
-                    {
-                        npc.frame.Y = 0;
-                    }
-                    else
-                    {
-                        npc.frame.Y += npc.frame.Height;
-                    }
-                    npc.frameCounter = -1; //set to -1 to account for the framecounter increment shortly after
-                }
-            }
-            npc.frameCounter++;
-			if (npc.ai[0] == 2.1f)
-				npc.frameCounter += 0.5;
+			npc.frameCounter += (npc.ai[0] == 2.1f ? 1.5 : 1D);
+			if (npc.frameCounter > 4D) //iban said the time between frames was 5 so using that as a base
+			{
+				npc.frameCounter = 0D;
+				npc.frame.Y += frameHeight;
+			}
+			if (npc.frame.Y >= frameHeight * 4)
+			{
+				npc.frame.Y = 0;
+			}
 		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = Main.npcTexture[npc.type];
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Color color36 = Color.Gold;
+			float amount9 = 0.5f;
+			int num153 = npc.ai[0] == 2.1f ? 7 : 0;
+
+			for (int num155 = 1; num155 < num153; num155 += 2)
+			{
+				Color color38 = lightColor;
+				color38 = Color.Lerp(color38, color36, amount9);
+				color38 = npc.GetAlpha(color38);
+				color38 *= (float)(num153 - num155) / 15f;
+				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+				vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(texture2D15, vector41, new Rectangle?(npc.frame), color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {

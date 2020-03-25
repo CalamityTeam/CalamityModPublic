@@ -188,22 +188,6 @@ namespace CalamityMod.NPCs.OldDuke
 				spriteBatch.Draw(texture2D15, vector41, new Rectangle?(npc.frame), color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}
 
-			int num156 = 0;
-			float num157 = 0f;
-			float scaleFactor9 = 0f;
-
-			for (int num160 = 0; num160 < num156; num160++)
-			{
-				Color color39 = lightColor;
-				color39 = Color.Lerp(color39, color36, amount9);
-				color39 = npc.GetAlpha(color39);
-				color39 *= 1f - num157;
-				Vector2 vector42 = npc.Center + ((float)num160 / (float)num156 * 6.28318548f + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
-				vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-				vector42 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-				spriteBatch.Draw(texture2D15, vector42, new Rectangle?(npc.frame), color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-			}
-
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
