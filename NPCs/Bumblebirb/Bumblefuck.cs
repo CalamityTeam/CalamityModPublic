@@ -41,7 +41,12 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.width = 130;
             npc.height = 100;
             npc.defense = 40;
-            npc.LifeMaxNERB(227500, 252500, 3000000);
+			CalamityGlobalNPC global = npc.Calamity();
+			global.DR = 0.1f;
+			global.customDR = true;
+			global.multDRReductions.Add(BuffID.Ichor, 0.88f);
+			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
+			npc.LifeMaxNERB(227500, 252500, 3000000);
             double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -213,7 +218,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
 			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
 			Color color = lightColor;
-			Color color36 = phase2 && calamityGlobalNPC.newAI[2] == 1f ? Color.Yellow : Color.White;
+			Color color36 = Color.White;
 
 			float amount9 = 0f;
 			int num150 = 120;
@@ -221,23 +226,17 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 			if (phase3 && calamityGlobalNPC.newAI[3] == 1f)
 			{
-				color = buffColor(color, 0.4f, 0.8f, 0.4f, 1f);
-			}
-			else if (phase3 && calamityGlobalNPC.newAI[1] > (float)num150)
-			{
-				float num152 = calamityGlobalNPC.newAI[1] - (float)num150;
-				num152 /= (float)num151;
-				color = buffColor(color, 1f - 0.5f * num152, 1f - 0.5f * num152, 1f - 0.3f * num152, 1f);
+				color = buffColor(color, 0.9f, 0.6f, 0.2f, 1f);
 			}
 			else if (phase2 && calamityGlobalNPC.newAI[2] == 1f)
 			{
-				color = buffColor(color, 0.5f, 0.7f, 0.5f, 1f);
+				color = buffColor(color, 0.7f, 0.7f, 0.3f, 1f);
 			}
 			else if (phase2 && calamityGlobalNPC.newAI[0] > (float)num150)
 			{
 				float num152 = calamityGlobalNPC.newAI[0] - (float)num150;
 				num152 /= (float)num151;
-				color = buffColor(color, 1f - 0.5f * num152, 1f - 0.5f * num152, 1f - 0.3f * num152, 1f);
+				color = buffColor(color, 1f - 0.3f * num152, 1f - 0.3f * num152, 1f - 0.7f * num152, 1f);
 			}
 
 			int num153 = 10;
@@ -250,7 +249,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			{
 				num153 = 7;
 			}
-			if (npc.ai[0] == 2f || npc.ai[0] == 3.2f)
+			if (npc.ai[0] == 2f || npc.ai[0] == 3.2f || (phase2 && calamityGlobalNPC.newAI[2] == 1f))
 			{
 				color36 = Color.Yellow;
 				amount9 = 0.5f;
@@ -294,12 +293,22 @@ namespace CalamityMod.NPCs.Bumblebirb
 				}
 			}
 
-			if (phaseSwitchPhase && (calamityGlobalNPC.newAI[0] > (float)num150 || calamityGlobalNPC.newAI[1] > (float)num150))
+			if (phaseSwitchPhase)
 			{
-				num156 = 6;
-				num157 = 1f - (float)Math.Cos((double)(((phase3 ? calamityGlobalNPC.newAI[1] : calamityGlobalNPC.newAI[0]) - (float)num150) / (float)num151 * MathHelper.TwoPi));
-				num157 /= 3f;
-				scaleFactor9 = 60f;
+				if (phase3 && calamityGlobalNPC.newAI[1] > (float)num150)
+				{
+					num156 = 6;
+					num157 = 1f - (float)Math.Cos((double)((calamityGlobalNPC.newAI[1] - (float)num150) / (float)num151 * MathHelper.TwoPi));
+					num157 /= 3f;
+					scaleFactor9 = 60f;
+				}
+				else if (phase2 && calamityGlobalNPC.newAI[0] > (float)num150)
+				{
+					num156 = 6;
+					num157 = 1f - (float)Math.Cos((double)((calamityGlobalNPC.newAI[0] - (float)num150) / (float)num151 * MathHelper.TwoPi));
+					num157 /= 3f;
+					scaleFactor9 = 60f;
+				}
 			}
 
 			for (int num160 = 0; num160 < num156; num160++)
