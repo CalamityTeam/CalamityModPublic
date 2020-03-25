@@ -36,6 +36,11 @@ namespace CalamityMod.Items.Armor
             player.armorEffectDrawOutlines = true;
         }
 
+		public override void UpdateVanity(Player player, EquipType type)
+		{
+			player.Calamity().hydrothermalSmoke = true;
+		}
+
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased magic damage\n" +

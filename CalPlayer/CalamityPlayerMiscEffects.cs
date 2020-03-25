@@ -423,6 +423,17 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
+			//Hydrothermal blue smoke effects but it doesn't work epicccccc
+			if (player.whoAmI == Main.myPlayer)
+			{
+				if (modPlayer.hydrothermalSmoke)
+				{
+					Vector2 goreVec = new Vector2(player.position.X + (float)(player.width / 2) + player.velocity.X, player.position.Y + (float)(player.height / 2) + player.velocity.Y);
+					if (Main.rand.NextBool(8))
+						Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 1f);
+				}
+			}
+
             // Death Mode effects
             modPlayer.caveDarkness = 0f;
 			if (CalamityWorld.death)
