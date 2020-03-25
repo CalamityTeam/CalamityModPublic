@@ -34,20 +34,11 @@ namespace CalamityMod.Items.Armor
             return body.type == ModContent.ItemType<AtaxiaArmor>() && legs.type == ModContent.ItemType<AtaxiaSubligar>();
         }
 
-        public override bool IsVanitySet(int head, int body, int legs)
-        {
-            return body == ModContent.ItemType<AtaxiaArmor>() && legs == ModContent.ItemType<AtaxiaSubligar>();
-        }
-
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawOutlines = true;
-        }
-
-        public override void UpdateVanitySet(Player player)
-        {
 			player.Calamity().hydrothermalSmoke = true;
-		}
+        }
 
         public override void UpdateArmorSet(Player player)
         {

@@ -37,7 +37,10 @@ namespace CalamityMod.Projectiles.Rogue
             }
             Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) + projectile.velocity.X, projectile.position.Y + (float)(projectile.height / 2) + projectile.velocity.Y);
 			if (Main.rand.NextBool(8))
-				Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.75f);
+			{
+				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.75f);
+				Main.gore[smoke].behindTiles = true;
+			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -37,9 +37,12 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             if (Main.rand.NextBool(5))
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.NextBool(3) ? 16 : 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
-            Vector2 goreVec = new Vector2(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y);
+            Vector2 goreVec = new Vector2(projectile.position.X, projectile.position.Y);
 			if (Main.rand.NextBool(8))
-				Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.5f);
+			{
+				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.5f);
+				Main.gore[smoke].behindTiles = true;
+			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

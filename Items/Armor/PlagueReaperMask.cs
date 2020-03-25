@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
@@ -69,6 +70,10 @@ namespace CalamityMod.Items.Armor
                 }
                 modPlayer.plagueReaperCooldown--;
             }
+            if (modPlayer.plagueReaperCooldown == 1500)
+            {
+				player.AddBuff(ModContent.BuffType<PlagueBlackoutCooldown>(), 1500, false);
+			}
 
             if (player.whoAmI == Main.myPlayer)
             {

@@ -77,7 +77,8 @@ namespace CalamityMod.Items.Weapons.Melee
             }
             if (Main.rand.NextBool(5))
             {
-				Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 1f);
+				int smoke = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 0.75f);
+				Main.gore[smoke].behindTiles = true;
             }
         }
 

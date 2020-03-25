@@ -40,7 +40,10 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
             Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) + projectile.velocity.X, projectile.position.Y + (float)(projectile.height / 2) + projectile.velocity.Y);
 			if (Main.rand.NextBool(8))
-				Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 1f);
+			{
+				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 1f);
+				Main.gore[smoke].behindTiles = true;
+			}
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

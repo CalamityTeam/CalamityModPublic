@@ -165,9 +165,14 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.ai[0] = 38f;
                 }
 
-				Vector2 goreVec = new Vector2(projectile.Center.X, projectile.Center.Y - yAdjust - 10f);
+				//doesn't look good
+				/*Vector2 goreVec = new Vector2(projectile.Center.X, projectile.Center.Y - yAdjust - 10f);
+				Vector2 goreVec = new Vector2(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y);
 				if (Main.rand.NextBool(8))
-					Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.5f);
+				{
+					int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.5f);
+					Main.gore[smoke].behindTiles = true;
+				}*/
             }
         }
 

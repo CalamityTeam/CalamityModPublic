@@ -1156,7 +1156,6 @@ namespace CalamityMod.CalPlayer
             ataxiaVolley = false;
             ataxiaBlaze = false;
             ataxiaMage = false;
-            hydrothermalSmoke = false;
 
             shadeRegen = false;
 
