@@ -33,8 +33,11 @@ namespace CalamityMod.Projectiles.Rogue
             Lighting.AddLight(projectile.Center, 0.25f, 0.15f, 0f);
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, Main.rand.NextBool(3) ? 16 : 127, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
+            Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) + projectile.velocity.X, projectile.position.Y + (float)(projectile.height / 2) + projectile.velocity.Y);
+			if (Main.rand.NextBool(8))
+				Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.75f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

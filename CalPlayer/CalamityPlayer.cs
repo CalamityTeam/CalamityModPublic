@@ -507,6 +507,7 @@ namespace CalamityMod.CalPlayer
         public bool ataxiaFire = false;
         public bool ataxiaVolley = false;
         public bool ataxiaBlaze = false;
+        public bool hydrothermalSmoke = false;
         public bool daedalusAbsorb = false;
         public bool daedalusShard = false;
         public bool reaverSpore = false;
@@ -1155,6 +1156,7 @@ namespace CalamityMod.CalPlayer
             ataxiaVolley = false;
             ataxiaBlaze = false;
             ataxiaMage = false;
+            hydrothermalSmoke = false;
 
             shadeRegen = false;
 
@@ -1874,6 +1876,7 @@ namespace CalamityMod.CalPlayer
             ataxiaFire = false;
             ataxiaVolley = false;
             ataxiaBlaze = false;
+            hydrothermalSmoke = false;
             snowRuffianSet = false;
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
