@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 32);
             }
             projectile.velocity.X *= 1.025f;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver4;
             if (projectile.spriteDirection == -1)
             {
                 projectile.rotation -= 1.57f;

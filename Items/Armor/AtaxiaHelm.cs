@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ataxia Helm");
+            DisplayName.SetDefault("Hydrothermic Helm");
             Tooltip.SetDefault("12% increased melee damage and 10% increased melee critical strike chance\n" +
                 "12% increased melee and movement speed\n" +
                 "Melee attacks and melee projectiles inflict on fire\n" +
@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Armor
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawOutlines = true;
+			player.Calamity().hydrothermalSmoke = true;
         }
 
         public override void UpdateArmorSet(Player player)

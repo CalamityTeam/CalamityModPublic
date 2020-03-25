@@ -11,18 +11,19 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Greatbow of Turmoil");
-            Tooltip.SetDefault("Fires 3 arrows at once\n" +
+            Tooltip.SetDefault("Wooden arrows are set alight with fire\n" +
+				"Fires 3 arrows at once\n" +
                 "Fires 2 additional cursed, hellfire, or ichor arrows");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 33;
+            item.damage = 27;
             item.ranged = true;
             item.width = 18;
             item.height = 36;
-            item.useTime = 17;
-            item.useAnimation = 17;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 4f;
@@ -52,6 +53,10 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     value9 -= vector7;
                 }
+				if (type == ProjectileID.WoodenArrowFriendly)
+				{
+					type = ProjectileID.FireArrow;
+				}
                 int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[num121].noDropItem = true;
             }
@@ -75,6 +80,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.5f), knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[index].noDropItem = true;
+                Main.projectile[index].usesLocalNPCImmunity = true;
+                Main.projectile[index].localNPCHitCooldown = 10;
             }
             return false;
         }

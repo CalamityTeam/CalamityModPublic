@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Enemy
+namespace CalamityMod.Projectiles.Environment
 {
     public class LavaChunk : ModProjectile
     {

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaotic Spread Rod");
+            DisplayName.SetDefault("Rift Reeler");
             Tooltip.SetDefault("Fires three to five lines at once. Can fish in lava.\n" +
 				"The battlefield is a scene of constant chaos.\n" + //Napoleon Bonaparte quote reference
 				"The winner will be the one who controls that chaos, both the pole and the fish.");
@@ -40,7 +40,10 @@ namespace CalamityMod.Items.Fishing.FishingRods
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;
-                int linecolor = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
+                int line = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0.0f, 0.0f);
+                // Protection against projectile cap
+				if (Main.rand.NextBool() && line < Main.maxProjectiles) // randomizing line color
+					Main.projectile[line].Calamity().lineColor = 1;
             }
             return false;
         }

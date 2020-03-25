@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ataxia Helmet");
+            DisplayName.SetDefault("Hydrothermic Helmet");
             Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
                 "+2 max minions\n" +
                 "Temporary immunity to lava and immunity to fire damage\n" +
@@ -37,13 +37,14 @@ namespace CalamityMod.Items.Armor
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawOutlines = true;
+			player.Calamity().hydrothermalSmoke = true;
         }
 
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "40% increased minion damage\n" +
                 "Inferno effect when below 50% life\n" +
-                "Summons a chaos spirit to protect you\n" +
+                "Summons a hydrothermic vent to protect you\n" +
                 "You have a 20% chance to emit a blazing explosion when you are hit";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.ataxiaBlaze = true;
@@ -56,7 +57,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosSpirit>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ChaosSpirit>(), (int)(190f * (player.allDamage + player.minionDamage - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ChaosSpirit>(), (int)(190f * player.MinionDamage()), 0f, Main.myPlayer, 0f, 0f);
                 }
             }
             player.minionDamage += 0.4f;

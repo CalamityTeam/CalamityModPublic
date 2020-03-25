@@ -12,12 +12,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hellfire Flamberge");
-            Tooltip.SetDefault("Fires a spread of fireballs");
+            Tooltip.SetDefault("Fires a spread of volcanic fireballs");
         }
 
         public override void SetDefaults()
         {
-            item.width = 60;
+            item.width = 58;
             item.damage = 102;
             item.melee = true;
             item.useAnimation = 20;
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
                         type = ModContent.ProjectileType<ChaosFlameSmall>();
                         break;
                     case 1:
-                        type = ModContent.ProjectileType<ChaosFlameMedium>();
+                        type = ModContent.ProjectileType<ChaosFlameSmall>();
                         break;
                     case 2:
                         type = ModContent.ProjectileType<ChaosFlameLarge>();
@@ -73,7 +73,12 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (Main.rand.NextBool(3))
             {
-                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 174);
+                int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, Main.rand.NextBool(3) ? 16 : 174);
+            }
+            if (Main.rand.NextBool(5))
+            {
+				int smoke = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), default, Main.rand.Next(375, 378), 0.75f);
+				Main.gore[smoke].behindTiles = true;
             }
         }
 

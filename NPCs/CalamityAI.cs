@@ -3701,6 +3701,8 @@ namespace CalamityMod.NPCs
 
 			npc.dontTakeDamage = phaseSwitchPhase;
 
+			calamityGlobalNPC.DR = npc.ai[0] == 5f ? 0.75f : 0.1f;
+
 			if (phaseSwitchPhase)
 			{
 				npc.collideX = false;
