@@ -319,6 +319,9 @@ namespace CalamityMod.CalPlayer
         public bool eGauntlet = false;
         public bool eTalisman = false;
         public bool statisBeltOfCurses = false;
+        public int statisTimer = 0;
+        public bool nucleogenesis = false;
+        public bool nuclearRod = false;
         public bool elysianAegis = false;
         public bool elysianGuard = false;
         public bool nCore = false;
@@ -403,6 +406,7 @@ namespace CalamityMod.CalPlayer
         public bool handWarmer = false;
         public bool oldDie = false;
         public bool ursaSergeant = false;
+        public bool scuttlersJewel = false;
         public bool thiefsDime = false;
         public bool dynamoStemCells = false;
         public bool etherealExtorter = false;
@@ -1237,6 +1241,8 @@ namespace CalamityMod.CalPlayer
             eGauntlet = false;
             eTalisman = false;
             statisBeltOfCurses = false;
+            nucleogenesis = false;
+            nuclearRod = false;
             heartOfDarkness = false;
             shadowMinions = false;
             tearMinions = false;
@@ -1284,6 +1290,7 @@ namespace CalamityMod.CalPlayer
             cTracers = false;
             oldDie = false;
             ursaSergeant = false;
+            scuttlersJewel = false;
             thiefsDime = false;
             dynamoStemCells = false;
             etherealExtorter = false;
@@ -1653,6 +1660,7 @@ namespace CalamityMod.CalPlayer
             fleshTotemCooldown = false;
             sandCloakCooldown = false;
 			icicleCooldown = 0;
+			statisTimer = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -2994,7 +3002,7 @@ namespace CalamityMod.CalPlayer
 
             if (player.mount.Active || player.mount.Cart || (CalamityMod.CalamityConfig.BossRushDashCurse && CalamityWorld.bossRushActive))
             {
-                player.dashDelay = 60;
+                player.dashDelay = 10;
                 dashMod = 0;
             }
 
@@ -3020,7 +3028,7 @@ namespace CalamityMod.CalPlayer
 
             if (player.mount.Active || player.mount.Cart || (CalamityMod.CalamityConfig.BossRushDashCurse && CalamityWorld.bossRushActive))
             {
-                player.dashDelay = 60;
+                player.dashDelay = 10;
                 dashMod = 0;
             }
 
@@ -6794,8 +6802,10 @@ namespace CalamityMod.CalPlayer
                         num18 = (float)num17 / num18;
                         num15 *= num18;
                         num16 *= num18;
-                        int num19 = Projectile.NewProjectile(x, y, num15, num16, 294, 3000, 7f, player.whoAmI, 0f, 0f);
+                        int num19 = Projectile.NewProjectile(x, y, num15, num16, ProjectileID.ShadowBeamFriendly, 3000, 7f, player.whoAmI, 0f, 0f);
                         Main.projectile[num19].ai[1] = player.position.Y;
+						Main.projectile[num19].usesLocalNPCImmunity = true;
+						Main.projectile[num19].localNPCHitCooldown = 10;
                     }
                     for (int l = 0; l < 5; l++)
                     {
@@ -6810,8 +6820,10 @@ namespace CalamityMod.CalPlayer
                         num18 = (float)num17 / num18;
                         num15 *= num18;
                         num16 *= num18;
-                        int num19 = Projectile.NewProjectile(x, y, num15, num16, 45, 5000, 7f, player.whoAmI, 0f, 0f);
+                        int num19 = Projectile.NewProjectile(x, y, num15, num16, ProjectileID.DemonScythe, 5000, 7f, player.whoAmI, 0f, 0f);
                         Main.projectile[num19].ai[1] = player.position.Y;
+						Main.projectile[num19].usesLocalNPCImmunity = true;
+						Main.projectile[num19].localNPCHitCooldown = 10;
                     }
                 }
             }
@@ -7243,7 +7255,7 @@ namespace CalamityMod.CalPlayer
                 float num9 = Math.Max(player.accRunSpeed, player.maxRunSpeed);
                 float num10 = 0.94f;
                 int num11 = 20;
-                if (dashMod == 1) //Counter Scarf
+				if (dashMod == 1) //Counter Scarf
                 {
                     for (int k = 0; k < 2; k++)
                     {
@@ -7339,6 +7351,33 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                     num7 = 12.5f; //14
+                }
+                else if (dashMod == 7) //Statis' Belt of Curses
+                {
+					statisTimer++;
+                    for (int k = 0; k < 2; k++)
+                    {
+                        int num12;
+                        if (player.velocity.Y == 0f)
+                        {
+                            num12 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)player.height - 4f), player.width, 8, 70, 0f, 0f, 100, default, 1.4f);
+                        }
+                        else
+                        {
+                            num12 = Dust.NewDust(new Vector2(player.position.X, player.position.Y + (float)(player.height / 2) - 8f), player.width, 16, 70, 0f, 0f, 100, default, 1.4f);
+                        }
+                        Main.dust[num12].velocity *= 0.1f;
+                        Main.dust[num12].scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                        Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                    }
+                    num7 = 14f; //14
+					if (statisTimer % 5 == 0)
+					{
+						int scythe = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), (int)(500 * player.allDamage), 5f, player.whoAmI, 1f);
+						Main.projectile[scythe].Calamity().rogue = false;
+						Main.projectile[scythe].usesIDStaticNPCImmunity = true;
+						Main.projectile[scythe].idStaticNPCHitCooldown = 10 * Main.projectile[scythe].extraUpdates;
+					}
                 }
                 if (dashMod > 0)
                 {
@@ -7746,6 +7785,68 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
+                else if (dashMod == 7) //Statis' Belt of Curses
+                {
+                    dashDistance = 21.9f;
+                    int direction = 0;
+                    bool justDashed = false;
+                    if (dashTimeMod > 0)
+                    {
+                        dashTimeMod--;
+                    }
+                    if (dashTimeMod < 0)
+                    {
+                        dashTimeMod++;
+                    }
+                    if (player.controlRight && player.releaseRight)
+                    {
+                        if (dashTimeMod > 0)
+                        {
+                            direction = 1;
+                            justDashed = true;
+                            dashTimeMod = 0;
+                        }
+                        else
+                        {
+                            dashTimeMod = 15;
+                        }
+                    }
+                    else if (player.controlLeft && player.releaseLeft)
+                    {
+                        if (dashTimeMod < 0)
+                        {
+                            direction = -1;
+                            justDashed = true;
+                            dashTimeMod = 0;
+                        }
+                        else
+                        {
+                            dashTimeMod = -15;
+                        }
+                    }
+                    if (justDashed)
+                    {
+                        player.velocity.X = dashDistance * (float)direction; //solar dash amount
+                        Point point = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
+                        Point point2 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
+                        if (WorldGen.SolidOrSlopedTile(point.X, point.Y) || WorldGen.SolidOrSlopedTile(point2.X, point2.Y))
+                        {
+                            player.velocity.X = player.velocity.X / 2f;
+                        }
+                        player.dashDelay = -1;
+                        for (int num17 = 0; num17 < 20; num17++)
+                        {
+                            int num18 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 70, 0f, 0f, 100, default, 2f);
+                            Dust dust = Main.dust[num18];
+                            dust.position.X += (float)Main.rand.Next(-5, 6);
+                            dust.position.Y += (float)Main.rand.Next(-5, 6);
+                            dust.velocity *= 0.2f;
+                            dust.scale *= 1f + (float)Main.rand.Next(20) * 0.01f;
+                            dust.shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                        }
+                        return;
+                    }
+                }
             }
         }
 
@@ -7795,7 +7896,7 @@ namespace CalamityMod.CalPlayer
                     {
                         num3 -= player.height;
                     }
-                    if (dashMod == 1)
+					if (dashMod == 1)
                     {
                         int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 235, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
                         Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
@@ -7837,6 +7938,13 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
                         Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
+                    else if (dashMod == 7)
+                    {
+                        int num7 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num3), player.width + 8, 4, 70, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
+                        Main.dust[num7].velocity.X = Main.dust[num7].velocity.X * 0.2f;
+                        Main.dust[num7].velocity.Y = Main.dust[num7].velocity.Y * 0.2f;
+                        Main.dust[num7].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                    }
                 }
             }
             else if (player.controlRight && player.velocity.X < player.accRunSpeed && player.dashDelay >= 0)
@@ -7848,7 +7956,7 @@ namespace CalamityMod.CalPlayer
                     {
                         num8 -= player.height;
                     }
-                    if (dashMod == 1)
+					if (dashMod == 1)
                     {
                         int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 235, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
                         Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
@@ -7876,7 +7984,7 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
                         Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
                     }
-                    else if (dashMod == 5)
+					else if (dashMod == 5)
                     {
                         int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 33, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 3f);
                         Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
@@ -7886,6 +7994,13 @@ namespace CalamityMod.CalPlayer
                     else if (dashMod == 6)
                     {
                         int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 67, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.25f);
+                        Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
+                        Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
+                        Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
+                    }
+                    else if (dashMod == 7)
+                    {
+                        int num12 = Dust.NewDust(new Vector2(player.position.X - 4f, player.position.Y + (float)player.height + (float)num8), player.width + 8, 4, 70, -player.velocity.X * 0.5f, player.velocity.Y * 0.5f, 50, default, 1.5f);
                         Main.dust[num12].velocity.X = Main.dust[num12].velocity.X * 0.2f;
                         Main.dust[num12].velocity.Y = Main.dust[num12].velocity.Y * 0.2f;
                         Main.dust[num12].shader = GameShaders.Armor.GetSecondaryShader(player.cShoe, player);
@@ -10185,9 +10300,9 @@ namespace CalamityMod.CalPlayer
 
         #region Profaned Soul Crystal Stuffs
 
-        internal void rollBabSpears(int randAmt)
+        internal void rollBabSpears(int randAmt, bool chaseable)
         {
-            if (player.whoAmI == Main.myPlayer && randAmt > 0 && !endoCooper && !magicHat && Main.rand.NextBool(randAmt)) //disallow other dev summons due to damage being bonkers
+            if (player.whoAmI == Main.myPlayer && randAmt > 0 && !endoCooper && !magicHat && Main.rand.NextBool(randAmt) && chaseable) //disallow other dev summons due to damage being bonkers
             {
                 int spearsFired = 0;
                 for (int i = 0; i < Main.projectile.Length; i++)
@@ -10351,15 +10466,11 @@ namespace CalamityMod.CalPlayer
             if (player.redFairy || player.greenFairy || player.blueFairy)
                 light += 2;
             if (babyGhostBell)
-                light += 2;
-            else if (babyGhostBell && !underwater) //for Death caverns
-                light += 1;
+                light += underwater ? 2 : 1;
             if (player.petFlagDD2Ghost)
                 light += 2;
-            if (sirenPet && underwater)
-                light += 3;
-            else if (sirenPet && !underwater) //for Death caverns
-                light += 1;
+            if (sirenPet)
+                light += underwater ? 3 : 1;
             if (player.wisp)
                 light += 3;
             if (player.suspiciouslookingTentacle)

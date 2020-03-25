@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetDefaults()
         {
             item.mana = 99;
-            item.damage = 1003;
+            item.damage = 963;
             item.useStyle = 1;
             item.width = 74;
             item.height = 72;
@@ -43,20 +43,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.summon = true;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-			if (player.maxMinions < 5)
-				return false;
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-                Projectile p = Main.projectile[i];
-                if (p.active && p.type == ModContent.ProjectileType<MagicHat>() && p.owner == player.whoAmI)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 5;
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

@@ -20,7 +20,6 @@ namespace CalamityMod.Projectiles.Enemy
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Ray");
-            ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -32,8 +31,6 @@ namespace CalamityMod.Projectiles.Enemy
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft = TrueTimeLeft;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 6;
         }
 
         // Netcode for sending and receiving shit

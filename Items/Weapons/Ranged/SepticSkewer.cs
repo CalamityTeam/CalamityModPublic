@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 			item.rare = 10;
             item.UseSound = SoundID.Item10;
             item.autoReuse = true;
-            item.shootSpeed = 25f;
+            item.shootSpeed = 20f;
             item.shoot = ModContent.ProjectileType<SepticSkewerHarpoon>();
         }
 

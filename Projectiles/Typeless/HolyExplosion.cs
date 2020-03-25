@@ -19,6 +19,8 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 3;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void Kill(int timeLeft)

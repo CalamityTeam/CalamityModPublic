@@ -18,6 +18,8 @@ namespace CalamityMod.Events
         // Any other mods are changing the invasion ID as well.
         public const int InvasionID = 57;
 
+        public const int MinibossDeathValue = 5;
+
         // A partially bright pale-ish cyan with a hint of yellow.
         public static readonly Color TextColor = new Color(115, 194, 147);
 
@@ -25,7 +27,7 @@ namespace CalamityMod.Events
         // The first value is the NPC type, the second is the value they're worth in the event
         public static List<(int, int)> PossibleEnemiesPreHM = new List<(int, int)>()
         {
-            ( ModContent.NPCType<Radiator>(), 0 ),
+            ( ModContent.NPCType<Radiator>(), 1 ),
             ( ModContent.NPCType<NuclearToad>(), 1 ),
             ( ModContent.NPCType<AcidEel>(), 1 ),
             ( ModContent.NPCType<Skyfin>(), 1 ),
@@ -48,6 +50,7 @@ namespace CalamityMod.Events
 
         public static List<(int, int)> PossibleEnemiesPolter = new List<(int, int)>()
         {
+            ( ModContent.NPCType<Radiator>(), 0 ),
             ( ModContent.NPCType<NuclearToad>(), 0 ),
             ( ModContent.NPCType<AcidEel>(), 0 ),
             ( ModContent.NPCType<Orthocera>(), 1 ),
@@ -58,6 +61,31 @@ namespace CalamityMod.Events
             ( ModContent.NPCType<FlakCrab>(), 1 ),
             ( ModContent.NPCType<SulfurousSkater>(), 1 )
         };
+
+        public static List<int> PossibleMinibossesAS = new List<int>()
+        {
+            ModContent.NPCType<CragmawMire>()
+        };
+
+        public static List<int> PossibleMinibossesPolter = new List<int>()
+        {
+            ModContent.NPCType<CragmawMire>()
+        };
+
+        public static bool AnyRainMinibosses
+        {
+            get
+            {
+                for (int i = 0; i < Main.npc.Length; i++)
+                {
+                    if (Main.npc[i].active && (PossibleMinibossesAS.Contains(Main.npc[i].type)) || PossibleMinibossesPolter.Contains(Main.npc[i].type))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
 
         /// <summary>
         /// Broadcasts some text from a given localization key.
@@ -99,7 +127,6 @@ namespace CalamityMod.Events
                             rectangleCheckSize, rectangleCheckSize);
                         if (screen.Intersects(invasionCheckArea))
                         {
-                            Main.invasionProgressDisplayLeft = 480;
                             return true;
                         }
                     }
@@ -124,23 +151,16 @@ namespace CalamityMod.Events
             }
             if (playerCount > 0)
             {
-                // So that vanilla doesn't shit itself
-                Main.invasionType = -1;
-
                 CalamityWorld.rainingAcid = true;
                 // The E - 1 part is to ensure that we start at 1 as a multiple instead of 0
                 // At a maximum of 255 players, the max multiplier is 9.98, or 998 enemies that need to be killed.
                 CalamityWorld.acidRainPoints = (int)(180 * Math.Log(playerCount + Math.E - 1));
-                Main.invasionProgress = 0;
-                Main.invasionProgressIcon = -1;
-                Main.invasionProgressWave = 0;
 
                 // Make it rain normally
-                Main.raining = true;
-
-                // If abyssSide is true, then the abyss was generated on the left side of the world.
-                // If false, the right.
-                Main.invasionX = CalamityWorld.abyssSide ? 0 : Main.maxTilesX;
+				if (CalamityWorld.startAcidicDownpour)
+				{
+					Main.raining = true;
+				}
                 CalamityWorld.triedToSummonOldDuke = false;
             }
             UpdateInvasion();
@@ -159,9 +179,6 @@ namespace CalamityMod.Events
                 {
                     CalamityWorld.rainingAcid = false;
                     BroadcastEventText("Mods.CalamityMod.AcidRainEnd"); // The sulphuric skies begin to clear...
-                    Main.invasionType = 0;
-                    Main.invasionDelay = 0;
-                    Main.invasionProgressNearInvasion = false;
                     CalamityWorld.acidRainExtraDrawTime = 40;
 
                     // Turn off the rain from the event

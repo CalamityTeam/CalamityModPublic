@@ -3345,7 +3345,7 @@ namespace CalamityMod.NPCs
                         projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
                     damage = (int)((double)damage * 0.75);
                 }
-                else if (projectile.type == ModContent.ProjectileType<ElementalAxeMinion>())
+                else if (projectile.type == (ModContent.ProjectileType<ElementalAxeMinion>() | ModContent.ProjectileType<DazzlingStabber>()))
                 {
                     damage = (int)((double)damage * 0.5);
                 }
@@ -3405,7 +3405,11 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == ModContent.NPCType<OldDuke.OldDuke>())
             {
-                if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ModContent.ProjectileType<CrescentMoonFlail>() | ModContent.ProjectileType<GalileosMoon>()))
+                if (projectile.type == ModContent.ProjectileType<GalileosMoon>())
+                {
+                    damage = (int)(damage * 0.4);
+                }
+                if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ModContent.ProjectileType<CrescentMoonFlail>()))
                 {
                     damage = (int)(damage * 0.6);
                 }
@@ -3415,64 +3419,67 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (modPlayer.eGauntlet)
-            {
-                if (projectile.melee && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
-                {
-                    if (!CalamityPlayer.areThereAnyDamnBosses)
-                    {
-                        damage = npc.lifeMax * 3;
-                    }
-                }
-            }
-
-            if (modPlayer.eTalisman)
-            {
-                if (projectile.magic && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
-                {
-                    if (!CalamityPlayer.areThereAnyDamnBosses)
-                    {
-                        damage = npc.lifeMax * 3;
-                    }
-                }
-            }
-
-            if (modPlayer.nanotech)
-            {
-                if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
-                {
-                    if (!CalamityPlayer.areThereAnyDamnBosses)
-                    {
-                        damage = npc.lifeMax * 3;
-                    }
-                }
-            }
-
-            if (modPlayer.eQuiver)
-            {
-                if (projectile.ranged && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
-                {
-                    if (!CalamityPlayer.areThereAnyDamnBosses)
-                    {
-                        damage = npc.lifeMax * 3;
-                    }
-                }
-            }
-
-            if (modPlayer.statisBeltOfCurses)
-            {
-                if ((projectile.minion || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && !projectile.npcProj && Main.rand.NextBool(15))
-                {
-                    if (!CalamityPlayer.areThereAnyDamnBosses)
-                    {
-                        damage = npc.lifeMax * 3;
-                    }
-                }
-            }
-
-			if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
+			if (!projectile.npcProj && !projectile.trap)
 			{
-				damage = (int)(damage * 1.1);
+				if (modPlayer.eGauntlet)
+				{
+					if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+					{
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (modPlayer.eTalisman)
+				{
+					if (projectile.magic && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+					{
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (modPlayer.nanotech)
+				{
+					if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+					{
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (modPlayer.eQuiver)
+				{
+					if (projectile.ranged && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+					{
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (modPlayer.nucleogenesis)
+				{
+					if ((projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+					{
+						if (!CalamityPlayer.areThereAnyDamnBosses)
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
+				{
+					damage = (int)(damage * 1.1);
+				}
 			}
         }
         #endregion
@@ -3770,6 +3777,11 @@ namespace CalamityMod.NPCs
                     {
                         spawnRate = Main.hardMode ? 36 : 33;
                         maxSpawns = Main.hardMode ? 15 : 12;
+                        if (AcidRainEvent.AnyRainMinibosses)
+                        {
+                            maxSpawns = 5;
+                            spawnRate *= 2;
+                        }
                     }
                 }
             }
@@ -3906,15 +3918,29 @@ namespace CalamityMod.NPCs
                 if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
                 {
                     List<(int, int)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+                    List<int> PossibleMinibosses = new List<int>();
                     if (CalamityWorld.downedAquaticScourge)
+                    {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
+                        PossibleMinibosses = AcidRainEvent.PossibleMinibossesAS;
+                    }
                     if (CalamityWorld.downedPolterghast)
+                    {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
+                        PossibleMinibosses = AcidRainEvent.PossibleMinibossesPolter;
+                    }
                     foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
                     {
                         pool.Add(enemy, 1f);
                     }
-                    pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.02f);
+                    if (PossibleMinibosses.Count > 0)
+                    {
+                        foreach (int enemy in PossibleMinibosses)
+                        {
+                            pool.Add(enemy, 0.05f);
+                        }
+                    }
+                    pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.08f);
                 }
             }
         }

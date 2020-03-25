@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -35,5 +36,15 @@ namespace CalamityMod.Projectiles.Magic
                 dust.noGravity = true;
             }
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 60);
+		}
     }
 }

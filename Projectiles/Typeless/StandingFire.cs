@@ -19,6 +19,8 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 240;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 7;
         }
 
         public override void AI()
@@ -95,7 +97,6 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 7;
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
 

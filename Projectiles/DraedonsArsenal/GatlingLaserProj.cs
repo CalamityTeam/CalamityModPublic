@@ -7,7 +7,7 @@ using CalamityMod.Items;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class GatlingLaser : ModProjectile
+    public class GatlingLaserProj : ModProjectile
     {
 		private SoundEffectInstance gatlingLaserLoop;
 		private bool fireLasers = false;
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         	Player player = Main.player[projectile.owner];
 			float num = 1.57079637f;
 			Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
-			if (projectile.type == ModContent.ProjectileType<GatlingLaser>())
+			if (projectile.type == ModContent.ProjectileType<GatlingLaserProj>())
 			{
 				if (projectile.ai[0] < 5f)
 					projectile.ai[0] += 1f;

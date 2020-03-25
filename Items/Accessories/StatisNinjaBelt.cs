@@ -13,8 +13,6 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Statis' Ninja Belt");
             Tooltip.SetDefault("Increases jump speed and allows constant jumping\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
-                "5% increased rogue damage and velocity\n" +
-                "5% increased rogue crit chance\n" +
                 "Toggle visibility of this accessory to enable/disable the dash");
         }
 
@@ -37,9 +35,6 @@ namespace CalamityMod.Items.Accessories
             if (!hideVisual)
 				player.dash = 1;
             player.spikedBoots = 2;
-            modPlayer.throwingDamage += 0.05f;
-            modPlayer.throwingCrit += 5;
-            modPlayer.throwingVelocity += 0.05f;
         }
 
         public override void AddRecipes()

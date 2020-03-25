@@ -25,11 +25,11 @@ namespace CalamityMod.Projectiles.Summon
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
-        private void Split(bool hit)
+        private void Split(bool hit, bool chaseable)
         {
             Player player = Main.player[projectile.owner];
             bool enrage = player.statLife <= (int)((double)player.statLifeMax2 * 0.5);
-            player.Calamity().rollBabSpears(hit ? 1 : 0);
+            player.Calamity().rollBabSpears(hit ? 1 : 0, chaseable);
             int outerSplits = enrage ? 20 : 10;
             int innerSplits = enrage ? 16 : 8;
             float mult = enrage ? 0.4f : 0.6f;
@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Main.myPlayer == projectile.owner)
             {
-                Split(true);
+                Split(true, target.chaseable);
             }
             projectile.active = false;
         }
@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Main.myPlayer == projectile.owner)
             {
-                Split(true);
+                Split(true, true);
             }
             projectile.active = false;
         }
@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (Main.myPlayer == projectile.owner)
             {
-                Split(false);
+                Split(false, false);
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
             for (int num193 = 0; num193 < 6; num193++)
@@ -300,12 +300,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.player[projectile.owner].Calamity().rollBabSpears(35);
+            Main.player[projectile.owner].Calamity().rollBabSpears(35, target.chaseable);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Main.player[projectile.owner].Calamity().rollBabSpears(35);
+            Main.player[projectile.owner].Calamity().rollBabSpears(35, true);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -437,7 +437,7 @@ namespace CalamityMod.Projectiles.Summon
                 handleSpecialHit(target.Center);
             }
             int chance = projectile.ai[0] == 2f ? 20 : 10 * projectile.penetrate;
-            Main.player[projectile.owner].Calamity().rollBabSpears(chance);
+            Main.player[projectile.owner].Calamity().rollBabSpears(chance, target.chaseable);
         }
 
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
@@ -447,7 +447,7 @@ namespace CalamityMod.Projectiles.Summon
                 handleSpecialHit(target.Center);
             }
             int chance = projectile.ai[0] == 2f ? 20 : 10 * projectile.penetrate;
-            Main.player[projectile.owner].Calamity().rollBabSpears(chance);
+            Main.player[projectile.owner].Calamity().rollBabSpears(chance, true);
         }
 
         private void handleSpecialHit(Vector2 targCenter)
@@ -722,14 +722,14 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.player[projectile.owner].Calamity().rollBabSpears(projectile.ai[0] == 1f ? 1 : 10);
+            Main.player[projectile.owner].Calamity().rollBabSpears(projectile.ai[0] == 1f ? 1 : 10, target.chaseable);
             if (projectile.scale == 1.5f && projectile.ai[0] != 2f)
                 swarm(target.Center);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Main.player[projectile.owner].Calamity().rollBabSpears(projectile.scale == 1.5f ? 1 : 10);
+            Main.player[projectile.owner].Calamity().rollBabSpears(projectile.scale == 1.5f ? 1 : 10, true);
             if (projectile.scale == 1.5f && projectile.ai[0] != 2f)
                 swarm(target.Center);
         }
@@ -881,12 +881,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.player[projectile.owner].Calamity().rollBabSpears(50);
+            Main.player[projectile.owner].Calamity().rollBabSpears(50, target.chaseable);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Main.player[projectile.owner].Calamity().rollBabSpears(50);
+            Main.player[projectile.owner].Calamity().rollBabSpears(50, true);
         }
     }
 
@@ -1121,12 +1121,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Main.player[projectile.owner].Calamity().rollBabSpears(projectile.ai[0] == 0f ? 0 : 10);
+            Main.player[projectile.owner].Calamity().rollBabSpears(projectile.ai[0] == 0f ? 0 : 10, target.chaseable);
         }
 
         public override void ModifyHitPvp(Player target, ref int damage, ref bool crit)
         {
-            Main.player[projectile.owner].Calamity().rollBabSpears(projectile.ai[0] == 0f ? 0 : 10);
+            Main.player[projectile.owner].Calamity().rollBabSpears(projectile.ai[0] == 0f ? 0 : 10, true);
         }
 
 

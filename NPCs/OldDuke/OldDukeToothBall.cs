@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Projectiles.Boss;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,16 +37,6 @@ namespace CalamityMod.NPCs.OldDuke
 			{
 				npc.buffImmune[k] = true;
 			}
-			npc.buffImmune[BuffID.Ichor] = false;
-			npc.buffImmune[BuffID.CursedInferno] = false;
-			npc.buffImmune[BuffID.Daybreak] = false;
-			npc.buffImmune[BuffID.StardustMinionBleed] = false;
-			npc.buffImmune[BuffID.Oiled] = false;
-			npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
-			npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
-			npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
-			npc.buffImmune[ModContent.BuffType<Shred>()] = false;
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath11;
             npc.noGravity = true;
@@ -217,8 +208,8 @@ namespace CalamityMod.NPCs.OldDuke
                 double offsetAngleBoom;
                 int iBoom;
 				int damageBoom = Main.expertMode ? 55 : 70;
-				int projectileType = mod.ProjectileType("SandTooth");
-				Projectile.NewProjectile(valueBoom.X, valueBoom.Y, 0f, 0f, mod.ProjectileType("SandPoisonCloud"), damageBoom, 0f, Main.myPlayer, 0f, 0f);
+				int projectileType = ModContent.ProjectileType<SandTooth>();
+				Projectile.NewProjectile(valueBoom.X, valueBoom.Y, 0f, 0f, ModContent.ProjectileType<SandPoisonCloud>(), damageBoom, 0f, Main.myPlayer, 0f, 0f);
 				for (iBoom = 0; iBoom < 2; iBoom++)
                 {
 					float velocity = (float)Main.rand.Next(7, 11);

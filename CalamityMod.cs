@@ -54,6 +54,7 @@ using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Typeless;
@@ -1964,7 +1965,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<ButcherKnife>(),
                 ModContent.ProjectileType<TerraDiskProjectile>(),
                 ModContent.ProjectileType<TerraDiskProjectile2>(),
-                ModContent.ProjectileType<ToxicantTwisterProjectile>()
+                ModContent.ProjectileType<ToxicantTwisterProjectile>(),
+                ModContent.ProjectileType<ToxicantTwisterTwoPointZero>()
             };
 
             javelinList = new List<int>()
@@ -2006,6 +2008,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<ScarletDevilProjectile>(),
                 ModContent.ProjectileType<ScourgeoftheDesertProj>(),
                 ModContent.ProjectileType<ScourgeoftheSeasProjectile>(),
+                ModContent.ProjectileType<ScourgeoftheCosmosProj>(),
                 ModContent.ProjectileType<SpearofDestinyProjectile>(),
                 ModContent.ProjectileType<SpearofPaleolithProj>(),
                 ModContent.ProjectileType<XerocPitchforkProjectile>(),
@@ -2120,7 +2123,8 @@ namespace CalamityMod
                 ModContent.ItemType<StarofDestruction>(),
                 ModContent.ItemType<CraniumSmasher>(),
                 ModContent.ItemType<ContaminatedBile>(),
-                ModContent.ItemType<AcidicRainBarrel>()
+                ModContent.ItemType<AcidicRainBarrel>(),
+                ModContent.ItemType<SkyfinBombers>()
             };
 
             flaskBombProjList = new List<int>()
@@ -2146,7 +2150,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<DestructionStar>(),
                 ModContent.ProjectileType<DestructionBolt>(),
                 ModContent.ProjectileType<ContaminatedBileFlask>(),
-                ModContent.ProjectileType<GreenDonkeyKongReference>()
+                ModContent.ProjectileType<GreenDonkeyKongReference>(),
+                ModContent.ProjectileType<SkyfinNuke>()
             };
 
             spikyBallList = new List<int>()
@@ -3015,6 +3020,19 @@ namespace CalamityMod
                 AstralArcanumUI.UpdateAndDraw(Main.spriteBatch);
                 return true;
             }, InterfaceScaleType.None));
+
+            int invasionIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Diagnose Net");
+            if (invasionIndex != -1)
+            {
+                layers.Insert(invasionIndex, new LegacyGameInterfaceLayer("Acid Rain Invasion UI", () =>
+                {
+                    if (CalamityWorld.rainingAcid)
+                    {
+                        AcidRainUI.Draw(Main.spriteBatch);
+                    }
+                    return true;
+                }, InterfaceScaleType.None));
+            }
         }
 
         public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f)

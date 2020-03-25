@@ -85,13 +85,6 @@ namespace CalamityMod.Projectiles.Melee
             }
         }
 
-        public override void CutTiles()
-        {
-            DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
-            Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
-        }
-
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (projHitbox.Intersects(targetHitbox))

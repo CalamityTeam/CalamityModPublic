@@ -24,8 +24,8 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 40;
             npc.height = 30;
 
-            npc.damage = 40;
-            npc.lifeMax = 300;
+            npc.damage = 75;
+            npc.lifeMax = 640;
             npc.defense = 5;
 
             if (CalamityWorld.downedPolterghast)
@@ -33,11 +33,6 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.damage = 245;
                 npc.lifeMax = 5995;
                 npc.defense = 60;
-            }
-            else if (CalamityWorld.downedAquaticScourge)
-            {
-                npc.damage = 75;
-                npc.lifeMax = 640;
             }
 
             npc.knockBackResist = 0f;
@@ -64,7 +59,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.6f, 0.8f, 0.6f);
-			if (CalamityWorld.downedAquaticScourge && !Main.player[npc.target].dead && CalamityWorld.rainingAcid)
+			if (!Main.player[npc.target].dead)
 			{
 				npc.aiStyle = aiType = -1;
 

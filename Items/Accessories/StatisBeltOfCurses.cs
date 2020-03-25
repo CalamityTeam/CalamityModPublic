@@ -2,6 +2,8 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -10,17 +12,12 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Statis' Belt of Curses");
+            DisplayName.SetDefault("Statis' Void Sash");
             Tooltip.SetDefault("Increases jump speed and allows constant jumping\n" +
                 "Can climb walls, dash, and dodge attacks\n" +
-                "10% increased rogue damage and velocity\n" +
-                "5% increased rogue crit chance\n" +
-                "Increased max minions by 3 and 10% increased minion damage\n" +
-                "Increased minion knockback\n" +
-                "Grants shadowflame powers to all minions\n" +
-                "Minions make enemies cry on hit\n" +
-                "Minion attacks have a chance to instantly kill normal enemies\n" +
+                "Dashes leave homing scythes in your wake\n" +
                 "Toggle visibility of this accessory to enable/disable the dash");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 3));
         }
 
         public override void SetDefaults()
@@ -29,38 +26,28 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 90, 0, 0);
             item.accessory = true;
-            item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.Calamity().postMoonLordRarity = 14;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.statisBeltOfCurses = true;
-            modPlayer.shadowMinions = true;
-            modPlayer.tearMinions = true;
-            player.minionKB += 2.5f;
-            player.minionDamage += 0.1f;
-            player.maxMinions += 3;
             player.autoJump = true;
             player.jumpSpeedBoost += 1.2f;
             player.extraFall += 50;
             player.blackBelt = true;
             if (!hideVisual)
-				player.dash = 1;
+				modPlayer.dashMod = 7;
             player.spikedBoots = 2;
-            player.Calamity().throwingDamage += 0.1f;
-            player.Calamity().throwingCrit += 5;
-            player.Calamity().throwingVelocity += 0.1f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<StatisNinjaBelt>());
-            recipe.AddIngredient(ModContent.ItemType<StatisCurse>());
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 10);
+			//This is not a mistake.  Only Nightmare Fuel is intentional for thematics.
+            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

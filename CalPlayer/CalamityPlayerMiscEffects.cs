@@ -408,15 +408,17 @@ namespace CalamityMod.CalPlayer
             // Acid rain droplets
             if (player.whoAmI == Main.myPlayer)
             {
-                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses)
+                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses && player.Center.Y < Main.worldSurface * 16f + 800f)
                 {
                     int acidRainDropRate = (int)MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50);
                     Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
 
+					int acidDmg = CalamityWorld.downedPolterghast ? 35 : CalamityWorld.downedAquaticScourge ? 25 : 15;
+
                     if (player.miscCounter % acidRainDropRate == 0f && Main.rand.NextBool(2))
                     {
                         Projectile.NewProjectile(spawnPoint, Vector2.UnitY * Main.rand.NextFloat(7f, 11f),
-                            ModContent.ProjectileType<AcidDrop>(), 28, 0f);
+                            ModContent.ProjectileType<AcidDrop>(), acidDmg, 0f);
                     }
                 }
             }
@@ -887,6 +889,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.hurtSoundTimer--;
 			if (modPlayer.icicleCooldown > 0)
 				modPlayer.icicleCooldown--;
+			if (modPlayer.statisTimer > 0 && player.dashDelay >= 0)
+				modPlayer.statisTimer = 0;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)

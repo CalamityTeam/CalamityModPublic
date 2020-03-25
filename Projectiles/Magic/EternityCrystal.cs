@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Magic
                     DegreesToSpin *= 1.035f;
                 }
             }
-            if (projectile.Hitbox.Intersects(Main.npc[(int)projectile.ai[0]].Hitbox))
+            if (projectile.Hitbox.Intersects(Main.npc[(int)projectile.ai[0]].Hitbox) && !Main.npc[(int)projectile.ai[0]].dontTakeDamage)
             {
                 int damage = (int)(Eternity.ExplosionDamage * player.MagicDamage() * Main.rand.NextFloat(0.9f, 1.1f));
                 player.addDPS(damage);

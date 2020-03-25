@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Devil Fish");
-            Main.npcFrameCount[npc.type] = 8;
+            Main.npcFrameCount[npc.type] = 16;
         }
 
         public override void SetDefaults()
@@ -76,9 +76,10 @@ namespace CalamityMod.NPCs.Abyss
                 brokenMask = true;
                 npc.HitSound = SoundID.NPCHit1;
                 npc.defense = 15;
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask1"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask3"), 1f);
+                for(int i = 1; i < 4; i++)
+                {
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/DevilFishMask" + i), 1f);
+                }
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/DevilMaskBreak"), (int)npc.position.X, (int)npc.position.Y);
             }
 
@@ -244,24 +245,20 @@ namespace CalamityMod.NPCs.Abyss
             if (npc.frameCounter > 6.0)
             {
                 npc.frameCounter = 0.0;
-                npc.frame.Y = npc.frame.Y + frameHeight;
+                npc.frame.Y += frameHeight;
             }
             if (!brokenMask)
             {
-                if (npc.frame.Y > frameHeight * 3)
+                if (npc.frame.Y > frameHeight * 7)
                 {
                     npc.frame.Y = 0;
                 }
             }
             else
             {
-                if (npc.frame.Y < frameHeight * 4)
+                if (npc.frame.Y < frameHeight * 8 || npc.frame.Y > frameHeight * 15)
                 {
-                    npc.frame.Y = frameHeight * 4;
-                }
-                if (npc.frame.Y > frameHeight * 7)
-                {
-                    npc.frame.Y = frameHeight * 4;
+                    npc.frame.Y = frameHeight * 8;
                 }
             }
         }
@@ -297,11 +294,11 @@ namespace CalamityMod.NPCs.Abyss
         {
             if (spawnInfo.player.Calamity().ZoneAbyssLayer1 && spawnInfo.water)
             {
-                return SpawnCondition.CaveJellyfish.Chance * 0.45f;
+                return SpawnCondition.CaveJellyfish.Chance * 0.225f;
             }
             if (spawnInfo.player.Calamity().ZoneAbyssLayer2 && spawnInfo.water)
             {
-                return SpawnCondition.CaveJellyfish.Chance * 0.6f;
+                return SpawnCondition.CaveJellyfish.Chance * 0.3f;
             }
             return 0f;
         }

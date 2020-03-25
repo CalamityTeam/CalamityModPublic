@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 369;
+            item.damage = 420;
             item.magic = true;
             item.mana = 42;
             item.width = 30;
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item92;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ApothMark>();
-            item.shootSpeed = 15;
+            item.shootSpeed = 15.69f;
             item.Calamity().customRarity = CalamityRarity.Developer;
         }
 

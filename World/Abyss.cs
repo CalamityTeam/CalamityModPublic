@@ -304,8 +304,8 @@ namespace CalamityMod.World
                 }
                 for (int y = yStart + 35; y < yStart + 180; y++)
                 {
-                    if (Main.tile[trueX, y].type != (ushort)ModContent.TileType<SulphurousSand>() ||
-                        !Main.tile[trueX, y].active())
+                    if (CalamityUtils.ParanoidTileRetrieval(trueX, y).type != (ushort)ModContent.TileType<SulphurousSand>() ||
+                        !CalamityUtils.ParanoidTileRetrieval(trueX, y).active())
                     {
                         Main.tile[trueX, y] = new Tile()
                         {

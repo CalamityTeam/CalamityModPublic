@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 5;
             item.UseSound = SoundID.Item12;
             item.autoReuse = true;
-            item.shoot = 88;
+            item.shoot = ProjectileID.PurpleLaser;
             item.shootSpeed = 20f;
         }
 

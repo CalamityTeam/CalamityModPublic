@@ -38,18 +38,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.Calamity().customRarity = CalamityRarity.RareVariant;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            for (int i = 0; i < Main.projectile.Length; i++)
-            {
-                Projectile p = Main.projectile[i];
-                if (p.active && p.type == ModContent.ProjectileType<NorfleetCannon>() && p.owner == player.whoAmI)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
         public override Vector2? HoldoutOffset()
         {

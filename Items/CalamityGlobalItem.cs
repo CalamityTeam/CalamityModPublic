@@ -84,36 +84,36 @@ namespace CalamityMod.Items
             if (CalamityMod.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
-            if (item.type == ItemID.PsychoKnife || item.type == ItemID.PearlwoodSword || item.type == ItemID.PearlwoodBow || item.type == ItemID.TaxCollectorsStickOfDoom)
+            if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
                 item.damage *= 4;
             else if (item.type == ItemID.SpectreStaff)
                 item.damage *= 3;
             else if (CalamityMod.doubleDamageBuffList?.Contains(item.type) ?? false)
                 item.damage *= 2;
             else if (item.type == ItemID.RainbowRod)
-                item.damage = (int)((double)item.damage * 1.75);
+                item.damage = (int)(item.damage * 1.75);
             else if (CalamityMod.sixtySixDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 1.66);
+                item.damage = (int)(item.damage * 1.66);
             else if (CalamityMod.fiftyDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 1.5);
+                item.damage = (int)(item.damage * 1.5);
             else if (CalamityMod.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 1.33);
+                item.damage = (int)(item.damage * 1.33);
             else if (CalamityMod.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 1.25);
+                item.damage = (int)(item.damage * 1.25);
             else if (CalamityMod.twentyDamageBuffList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 1.2);
+                item.damage = (int)(item.damage * 1.2);
             else if (item.type == ItemID.Frostbrand || item.type == ItemID.MagnetSphere)
-                item.damage = (int)((double)item.damage * 1.1);
+                item.damage = (int)(item.damage * 1.1);
             else if (item.type == ItemID.Razorpine)
-                item.damage = (int)((double)item.damage * 0.95);
+                item.damage = (int)(item.damage * 0.95);
             else if (item.type == ItemID.Phantasm)
-                item.damage = (int)((double)item.damage * 0.9);
+                item.damage = (int)(item.damage * 0.9);
             else if (item.type == ItemID.LastPrism)
-                item.damage = (int)((double)item.damage * 0.85);
+                item.damage = (int)(item.damage * 0.85);
             else if (CalamityMod.quarterDamageNerfList?.Contains(item.type) ?? false)
-                item.damage = (int)((double)item.damage * 0.75);
+                item.damage = (int)(item.damage * 0.75);
             else if (item.type == ItemID.StardustDragonStaff)
-                item.damage = (int)((double)item.damage * 0.5);
+                item.damage = (int)(item.damage * 0.5);
 
             if (item.type == ItemID.BookStaff)
                 item.mana = 10;
@@ -164,15 +164,21 @@ namespace CalamityMod.Items
 				item.useTime = 15;
 				item.damage *= 4;
 				item.tileBoost += 1;
+				item.rare = 4;
 			}
-
             if (item.type == ItemID.PearlwoodBow)
 			{
 				item.useAnimation += 8; //35
 				item.useTime += 8; //35
 				item.shootSpeed += 3.4f; //10f
 				item.knockBack += 1f; //1f
-				item.shoot = ProjectileID.RainbowFront;
+				item.rare = 4;
+				item.damage = (int)(item.damage * 2.5);
+			}
+            if (item.type == ItemID.PearlwoodSword)
+			{
+				item.damage *= 4;
+				item.rare = 4;
 			}
         }
         #endregion
@@ -361,7 +367,6 @@ namespace CalamityMod.Items
                     if (Main.projectile[i].active && (Main.projectile[i].type == ProjectileID.RainbowFront || Main.projectile[i].type == ProjectileID.RainbowBack) && Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
-                        break;
                     }
                 }
 				for (int i = -8; i <= 8; i += 8)
@@ -1866,7 +1871,8 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 170\n" +
-                            "+50 max life";
+                            "+50 max life\n" +
+                            "Ornaments rain down as you fly";
                     }
                 }
             }
@@ -2863,6 +2869,16 @@ Provides heat and cold protection in Death Mode";
             {
                 player.noFallDmg = true;
                 player.statLifeMax2 += 50;
+				if (modPlayer.icicleCooldown <= 0)
+				{
+					if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
+					{
+						int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ProjectileID.OrnamentFriendly, (int)(100 * player.allDamage), 5f, player.whoAmI);
+						Main.projectile[p].melee = false;
+						Main.projectile[p].Calamity().lineColor = 1;
+						modPlayer.icicleCooldown = 10;
+					}
+				}
             }
             else if (item.type == ItemID.SpookyWings) // Bonus to summon stats while wearing spooky armor
             {

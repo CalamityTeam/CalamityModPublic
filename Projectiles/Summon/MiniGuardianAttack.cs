@@ -12,11 +12,9 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MiniGuardianAttack : ModProjectile
     {
-        private int ai = -1;
+        private int ai = 3;
         private void updateDamage(int type)
         {
-            if (Main.myPlayer != projectile.owner)
-                return;
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             float baseDamage = (modPlayer.profanedCrystal && !modPlayer.profanedCrystalBuffs) ? 0f : (100f +
@@ -34,13 +32,15 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            ai = reader.ReadInt32();
+            if (projectile.owner != Main.myPlayer)
+                ai = reader.ReadInt32();
         }
 
         private void AI(int type, float num535, float num536, Player player)
         {
-            updateDamage(type);
-            switch (type)
+            if (Main.myPlayer == projectile.owner)
+                updateDamage(type);
+            switch (ai)
             {
                 case 1: //offensive bab (profaned soul artifact)
                 case 2: //Empowered bab WEEEEEEEEEE (profaned soul crystal)

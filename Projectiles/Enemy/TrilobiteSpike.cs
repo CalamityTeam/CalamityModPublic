@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Enemy
         public override void SetDefaults()
         {
             projectile.width = 10;
-            projectile.height = 22;
+            projectile.height = 10;
             projectile.hostile = true;
             projectile.timeLeft = 600;
             projectile.tileCollide = true;

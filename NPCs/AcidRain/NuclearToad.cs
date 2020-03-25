@@ -25,8 +25,8 @@ namespace CalamityMod.NPCs.AcidRain
 
             npc.aiStyle = aiType = -1;
 
-            npc.damage = 20;
-            npc.lifeMax = 250;
+            npc.damage = 15;
+            npc.lifeMax = 120;
             npc.defense = 3;
 
             if (CalamityWorld.downedPolterghast)
@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int damage = CalamityWorld.downedAquaticScourge ? 27 : 17;
+                    int damage = CalamityWorld.downedAquaticScourge ? 27 : 10;
                     float speed = Main.rand.NextFloat(6f, 9f);
                     if (CalamityWorld.downedPolterghast)
                     {

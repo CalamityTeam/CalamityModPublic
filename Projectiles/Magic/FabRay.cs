@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            Lighting.AddLight(projectile.Center, 0.2f, 0.01f, 0.1f);
             projectile.localAI[1] += 1f;
             if (projectile.localAI[1] >= 9f && projectile.owner == Main.myPlayer)
             {
@@ -41,6 +42,7 @@ namespace CalamityMod.Projectiles.Magic
                     vector33 -= projectile.velocity * ((float)num447 * 0.25f);
                     int num448 = Dust.NewDust(vector33, 1, 1, 234, 0f, 0f, 0, default, 1.25f);
                     Main.dust[num448].noGravity = true;
+                    Main.dust[num448].noLight = true;
                     Main.dust[num448].position = vector33;
                     Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
 					Main.dust[num448].velocity *= 0.1f;

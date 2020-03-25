@@ -21,27 +21,21 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 6;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.4f / 255f);
             int randomDust = Main.rand.Next(4);
-            if (randomDust == 0)
+            if (randomDust == 3)
             {
-                randomDust = 33;
-            }
-            else if (randomDust == 1)
-            {
-                randomDust = 33;
-            }
-            else if (randomDust == 2)
-            {
-                randomDust = 33;
+                randomDust = 89;
             }
             else
             {
-                randomDust = 89;
+                randomDust = 33;
             }
             for (int num468 = 0; num468 < 2; num468++)
             {

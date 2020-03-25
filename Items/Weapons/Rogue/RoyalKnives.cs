@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 18;
-            item.damage = 1800;
+            item.damage = 2000;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 12;
@@ -72,11 +72,11 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 num146++;
             }
-            if (Main.rand.NextBool(8))
+            if (Main.rand.NextBool(6))
             {
                 num146++;
             }
-            if (Main.rand.NextBool(16))
+            if (Main.rand.NextBool(8))
             {
                 num146++;
             }

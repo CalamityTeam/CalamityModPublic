@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
             if (hasHomingTarget)
             {
                 NPC target = Main.npc[targetIdx];
-                Vector2 homingVector = (target.Center - projectile.Center).SafeNormalize(Vector2.Zero) * 15f;
+                Vector2 homingVector = (target.Center - projectile.Center).SafeNormalize(Vector2.Zero) * 25f;
                 float homingRatio = 20f;
                 projectile.velocity = (projectile.velocity * homingRatio + homingVector) / (homingRatio + 1f);
             }

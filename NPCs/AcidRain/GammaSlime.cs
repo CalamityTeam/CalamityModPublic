@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Dusts;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Enemy;
@@ -176,6 +177,8 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
                 }
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/GammaSlimeGore"), npc.scale);
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/GammaSlimeGore2"), npc.scale);
             }
         }
 
@@ -187,6 +190,11 @@ namespace CalamityMod.NPCs.AcidRain
                 float opacity = MathHelper.Lerp(0.3f, 0.9f, (npc.ai[3] - 480f) / 60f);
                 Utils.DrawLine(spriteBatch, npc.Top + new Vector2(0f, 4f), npc.Top + new Vector2(0f, 4f) - Vector2.UnitY * length, Color.Lerp(Color.Lime, Color.Transparent, opacity));
             }
+        }
+
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 100);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

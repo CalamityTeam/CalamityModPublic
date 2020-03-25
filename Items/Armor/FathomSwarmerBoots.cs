@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Armor
             if (player.wingTime <= 0) //ignore flippers while the player can fly
 				player.accFlipper = true;
         }
-		
+
 		public override void UpdateVanity(Player player, EquipType type)
 		{
 			player.Calamity().fathomSwarmerTail = true;
