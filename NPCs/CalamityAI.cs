@@ -13,6 +13,7 @@ using CalamityMod.NPCs.OldDuke;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -3636,6 +3637,8 @@ namespace CalamityMod.NPCs
 		#region Bumblebirb
 		public static void BumblebirbAI(NPC npc, Mod mod)
 		{
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			// Get a target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest(true);
@@ -3643,6 +3646,8 @@ namespace CalamityMod.NPCs
 			Player player = Main.player[npc.target];
 
 			// Variables
+			float rotationMult = 3f;
+			float rotationAmt = 0.03f;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			Vector2 vector = npc.Center;
@@ -3655,7 +3660,7 @@ namespace CalamityMod.NPCs
 
 				if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
 				{
-					npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.04f) / 10f;
+					npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt) / 10f;
 
 					if (npc.velocity.Y > 3f)
 						npc.velocity.Y = 3f;
@@ -3687,18 +3692,97 @@ namespace CalamityMod.NPCs
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
 			// Phases
-			float mult = 1f +
-				(revenge ? 0.25f : 0f) +
-				(death ? 0.25f : 0f);
-			bool phase2 = lifeRatio < 0.5f * mult;
-			bool phase3 = lifeRatio < 0.1f * mult;
+			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
+			bool phase3 = lifeRatio < (death ? 0.4f : revenge ? 0.25f : 0.1f);
+
+			float newPhaseTimer = 180f;
+			bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
+				(phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
+
+			npc.dontTakeDamage = phaseSwitchPhase;
+
+			if (phaseSwitchPhase)
+			{
+				npc.collideX = false;
+				npc.collideY = false;
+				npc.noTileCollide = true;
+
+				if (npc.velocity.X < 0f)
+					npc.direction = -1;
+				else if (npc.velocity.X > 0f)
+					npc.direction = 1;
+
+				npc.spriteDirection = npc.direction;
+				npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt) / 10f;
+
+				if (phase3)
+				{
+					calamityGlobalNPC.newAI[1] += 1f;
+
+					// Sound
+					if (calamityGlobalNPC.newAI[1] == newPhaseTimer - 60f)
+					{
+						SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
+						sound.Pitch = 0.25f;
+					}
+
+					if (calamityGlobalNPC.newAI[1] >= newPhaseTimer)
+					{
+						calamityGlobalNPC.newAI[1] = 0f;
+						calamityGlobalNPC.newAI[3] = 1f;
+						npc.ai[0] = 0f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+						npc.ai[3] = 0f;
+					}
+				}
+				else
+				{
+					calamityGlobalNPC.newAI[0] += 1f;
+
+					// Sound
+					if (calamityGlobalNPC.newAI[0] == newPhaseTimer - 60f)
+					{
+						SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
+						sound.Pitch = 0.25f;
+					}
+
+					if (calamityGlobalNPC.newAI[0] >= newPhaseTimer)
+					{
+						calamityGlobalNPC.newAI[0] = 0f;
+						calamityGlobalNPC.newAI[2] = 1f;
+						npc.ai[0] = 0f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+						npc.ai[3] = 0f;
+					}
+				}
+
+				Vector2 value52 = player.Center - npc.Center;
+				float scaleFactor16 = 4f + value52.Length() / 100f;
+				float num1308 = 25f;
+				value52.Normalize();
+				value52 *= scaleFactor16;
+				npc.velocity = (npc.velocity * (num1308 - 1f) + value52) / num1308;
+				npc.netSpam = 5;
+				if (Main.netMode == NetmodeID.Server)
+				{
+					NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+				}
+				return;
+			}
 
 			// Max spawn amount
-			int num1305 = revenge ? 4 : 3;
-			if (death)
-				num1305 = 5;
+			int num1305 = revenge ? 3 : 2;
 			if (phase2)
-				num1305 = death ? 3 : 2;
+				num1305 = death ? 2 : 1;
+
+			// Variable for charging
+			float chargeDistance = 600f;
+			if (phase2)
+				chargeDistance -= 50f;
+			if (phase3)
+				chargeDistance -= 50f;
 
 			// Don't collide with tiles, disable gravity
 			npc.noTileCollide = false;
@@ -3717,7 +3801,7 @@ namespace CalamityMod.NPCs
 
 				// Direction and rotation
 				npc.spriteDirection = npc.direction;
-				npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.05f) / 10f;
+				npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
 
 				// Slow down if colliding with tiles
 				if (npc.collideX)
@@ -3771,389 +3855,419 @@ namespace CalamityMod.NPCs
 					npc.netUpdate = true;
 					while (npc.ai[0] == 0f)
 					{
-						int damage = Main.expertMode ? 50 : 60;
+						if (phase2)
+							npc.localAI[0] += 1f;
 
-						int num1307 = phase2 ? Main.rand.Next(2) + 1 : Main.rand.Next(3);
-						if (phase3)
-							num1307 = 1;
+						bool canHit = Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1);
 
-						if (num1307 == 0 && Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
+						if (npc.localAI[0] >= (phase3 ? 7 : 9) && canHit)
 						{
 							npc.TargetClosest(true);
-							npc.ai[0] = 2f;
+							npc.ai[0] = 5f;
+							npc.localAI[0] = 0f;
 						}
-						else if (num1307 == 1)
+						else
 						{
-							npc.TargetClosest(true);
-							npc.ai[0] = 3f;
-							if (phase2)
+							int num1307 = phase2 ? Main.rand.Next(2) + 1 : Main.rand.Next(3);
+							if (phase3)
+								num1307 = 1;
+
+							int damage = Main.expertMode ? 50 : 60;
+
+							if (num1307 == 0 && canHit)
 							{
-								Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 102);
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-2, 3), -4f, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								npc.TargetClosest(true);
+								npc.ai[0] = 2f;
 							}
-						}
-						else if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < num1305)
-						{
-							npc.TargetClosest(true);
-							npc.ai[0] = 4f;
-							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 102);
-							int featherAmt = phase2 ? 3 : 6;
-							if (death)
-								featherAmt *= 2;
-							for (int num186 = 0; num186 < featherAmt; num186++)
+							else if (num1307 == 1)
 							{
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-4, 5), -3f, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								npc.TargetClosest(true);
+								npc.ai[0] = 3f;
+								if (phase2)
+								{
+									Main.PlaySound(SoundID.Item102, (int)npc.position.X, (int)npc.position.Y);
+									Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-2, 3), -4f, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								}
+							}
+							else if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < num1305)
+							{
+								npc.TargetClosest(true);
+								npc.ai[0] = 4f;
+								Main.PlaySound(SoundID.Item102, (int)npc.position.X, (int)npc.position.Y);
+								int featherAmt = phase2 ? 3 : 6;
+								if (death)
+									featherAmt *= 2;
+								for (int num186 = 0; num186 < featherAmt; num186++)
+								{
+									Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)Main.rand.Next(-4, 5), -3f, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								}
 							}
 						}
 					}
 				}
 			}
-			else
+
+			// Fly to target
+			else if (npc.ai[0] == 1f)
 			{
-				// Fly to target
-				if (npc.ai[0] == 1f)
+				npc.collideX = false;
+				npc.collideY = false;
+				npc.noTileCollide = true;
+
+				if (npc.velocity.X < 0f)
+					npc.direction = -1;
+				else if (npc.velocity.X > 0f)
+					npc.direction = 1;
+
+				npc.spriteDirection = npc.direction;
+				npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt) / 10f;
+
+				Vector2 value52 = player.Center - npc.Center;
+				if (value52.Length() < 800f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
 				{
-					npc.collideX = false;
-					npc.collideY = false;
-					npc.noTileCollide = true;
+					npc.TargetClosest(true);
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+				}
+
+				float scaleFactor16 = 14f + value52.Length() / 100f; //7
+				float num1308 = 25f;
+				value52.Normalize();
+				value52 *= scaleFactor16;
+				npc.velocity = (npc.velocity * (num1308 - 1f) + value52) / num1308;
+				npc.netSpam = 5;
+				if (Main.netMode == NetmodeID.Server)
+				{
+					NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+				}
+			}
+
+			// Fly towards target quickly
+			else if (npc.ai[0] == 2f)
+			{
+				if (npc.target < 0 || !player.active || player.dead)
+				{
+					npc.TargetClosest(true);
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+				}
+
+				if (player.Center.X - 10f < npc.Center.X)
+					npc.direction = -1;
+				else if (player.Center.X + 10f > npc.Center.X)
+					npc.direction = 1;
+
+				npc.spriteDirection = npc.direction;
+				npc.rotation = (npc.rotation * rotationMult * 0.5f + npc.velocity.X * rotationAmt * 1.25f) / 5f;
+
+				if (npc.collideX)
+				{
+					npc.velocity.X *= (-npc.oldVelocity.X * 0.5f);
+					if (npc.velocity.X > 4f)
+						npc.velocity.X = 4f;
+					if (npc.velocity.X < -4f)
+						npc.velocity.X = -4f;
+				}
+				if (npc.collideY)
+				{
+					npc.velocity.Y *= (-npc.oldVelocity.Y * 0.5f);
+					if (npc.velocity.Y > 4f)
+						npc.velocity.Y = 4f;
+					if (npc.velocity.Y < -4f)
+						npc.velocity.Y = -4f;
+				}
+
+				Vector2 value53 = player.Center - npc.Center;
+				value53.Y -= 20f;
+				npc.ai[2] += 0.0222222228f;
+				if (Main.expertMode)
+					npc.ai[2] += 0.0166666675f;
+
+				float scaleFactor17 = 8f + npc.ai[2] + value53.Length() / 120f; //4
+				float num1309 = 20f;
+				value53.Normalize();
+				value53 *= scaleFactor17;
+				npc.velocity = (npc.velocity * (num1309 - 1f) + value53) / num1309;
+
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= 120f || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
+				{
+					npc.TargetClosest(true);
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+					npc.ai[3] = 0f;
+				}
+			}
+
+			// Line up charge
+			else if (npc.ai[0] == 3f)
+			{
+				npc.noTileCollide = true;
+
+				if (npc.velocity.X < 0f)
+					npc.direction = -1;
+				else
+					npc.direction = 1;
+
+				npc.spriteDirection = npc.direction;
+				npc.rotation = (npc.rotation * rotationMult * 0.5f + npc.velocity.X * rotationAmt * 0.85f) / 5f;
+
+				Vector2 value54 = player.Center - npc.Center;
+				value54.Y -= 12f;
+				if (npc.Center.X > player.Center.X)
+					value54.X += chargeDistance;
+				else
+					value54.X -= chargeDistance;
+
+				if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance - 50f && Math.Abs(npc.Center.Y - player.Center.Y) < (phase3 ? 100f : 20f))
+				{
+					npc.ai[0] = 3.1f;
+					npc.ai[1] = 0f;
+				}
+
+				npc.ai[1] += 0.0333333351f;
+				float scaleFactor18 = 18f + npc.ai[1];
+				float num1310 = 4f;
+				value54.Normalize();
+				value54 *= scaleFactor18;
+				npc.velocity = (npc.velocity * (num1310 - 1f) + value54) / num1310;
+			}
+
+			// Prepare to charge
+			else if (npc.ai[0] == 3.1f)
+			{
+				npc.noTileCollide = true;
+
+				npc.rotation = (npc.rotation * rotationMult * 0.5f + npc.velocity.X * rotationAmt * 0.85f) / 5f;
+
+				Vector2 vector206 = player.Center - npc.Center;
+				vector206.Y -= 12f;
+				float scaleFactor19 = 32f; //16
+				float num1311 = 8f;
+				vector206.Normalize();
+				vector206 *= scaleFactor19;
+				npc.velocity = (npc.velocity * (num1311 - 1f) + vector206) / num1311;
+
+				if (npc.velocity.X < 0f)
+					npc.direction = -1;
+				else
+					npc.direction = 1;
+
+				npc.spriteDirection = npc.direction;
+
+				npc.ai[1] += 1f;
+				if (npc.ai[1] > 10f)
+				{
+					npc.velocity = vector206;
 
 					if (npc.velocity.X < 0f)
 						npc.direction = -1;
-					else if (npc.velocity.X > 0f)
-						npc.direction = 1;
-
-					npc.spriteDirection = npc.direction;
-					npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.04f) / 10f;
-
-					Vector2 value52 = player.Center - npc.Center;
-					if (value52.Length() < 800f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
-					{
-						npc.TargetClosest(true);
-						npc.ai[0] = 0f;
-						npc.ai[1] = 0f;
-						npc.ai[2] = 0f;
-						npc.ai[3] = 0f;
-					}
-
-					float scaleFactor16 = 14f + value52.Length() / 100f; //7
-					float num1308 = 25f;
-					value52.Normalize();
-					value52 *= scaleFactor16;
-					npc.velocity = (npc.velocity * (num1308 - 1f) + value52) / num1308;
-                    npc.netSpam = 5;
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-                    }
-                    return;
-				}
-
-				// Fly towards target quickly
-				if (npc.ai[0] == 2f)
-				{
-					if (npc.target < 0 || !player.active || player.dead)
-					{
-						npc.TargetClosest(true);
-						npc.ai[0] = 0f;
-						npc.ai[1] = 0f;
-						npc.ai[2] = 0f;
-						npc.ai[3] = 0f;
-					}
-
-					if (player.Center.X - 10f < npc.Center.X)
-						npc.direction = -1;
-					else if (player.Center.X + 10f > npc.Center.X)
-						npc.direction = 1;
-
-					npc.spriteDirection = npc.direction;
-					npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.05f) / 5f;
-
-					if (npc.collideX)
-					{
-						npc.velocity.X *= (-npc.oldVelocity.X * 0.5f);
-						if (npc.velocity.X > 4f)
-							npc.velocity.X = 4f;
-						if (npc.velocity.X < -4f)
-							npc.velocity.X = -4f;
-					}
-					if (npc.collideY)
-					{
-						npc.velocity.Y *= (-npc.oldVelocity.Y * 0.5f);
-						if (npc.velocity.Y > 4f)
-							npc.velocity.Y = 4f;
-						if (npc.velocity.Y < -4f)
-							npc.velocity.Y = -4f;
-					}
-
-					Vector2 value53 = player.Center - npc.Center;
-					value53.Y -= 20f;
-					npc.ai[2] += 0.0222222228f;
-					if (Main.expertMode)
-						npc.ai[2] += 0.0166666675f;
-
-					float scaleFactor17 = 8f + npc.ai[2] + value53.Length() / 120f; //4
-					float num1309 = 20f;
-					value53.Normalize();
-					value53 *= scaleFactor17;
-					npc.velocity = (npc.velocity * (num1309 - 1f) + value53) / num1309;
-
-					npc.ai[1] += 1f;
-					if (npc.ai[1] >= 120f || !Collision.CanHit(npc.Center, 1, 1, player.Center, 1, 1))
-					{
-						npc.TargetClosest(true);
-						npc.ai[0] = 0f;
-						npc.ai[1] = 0f;
-						npc.ai[2] = 0f;
-						npc.ai[3] = 0f;
-					}
-				}
-				else
-				{
-					// Variable for charging
-					float chargeDistance = 600f;
-					if (phase2)
-						chargeDistance -= 50f;
-					if (phase3)
-						chargeDistance -= 50f;
-
-					// Line up charge
-					if (npc.ai[0] == 3f)
-					{
-						npc.noTileCollide = true;
-
-						if (npc.velocity.X < 0f)
-							npc.direction = -1;
-						else
-							npc.direction = 1;
-
-						npc.spriteDirection = npc.direction;
-						npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.035f) / 5f;
-
-						Vector2 value54 = player.Center - npc.Center;
-						value54.Y -= 12f;
-						if (npc.Center.X > player.Center.X)
-							value54.X += chargeDistance;
-						else
-							value54.X -= chargeDistance;
-
-						if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance - 50f && Math.Abs(npc.Center.Y - player.Center.Y) < (phase3 ? 100f : 20f))
-						{
-							npc.ai[0] = 3.1f;
-							npc.ai[1] = 0f;
-						}
-
-						npc.ai[1] += 0.0333333351f;
-						float scaleFactor18 = 18f + npc.ai[1];
-						float num1310 = 4f;
-						value54.Normalize();
-						value54 *= scaleFactor18;
-						npc.velocity = (npc.velocity * (num1310 - 1f) + value54) / num1310;
-						return;
-					}
-
-					// Prepare to charge
-					if (npc.ai[0] == 3.1f)
-					{
-						npc.noTileCollide = true;
-
-						npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.035f) / 5f;
-
-						Vector2 vector206 = player.Center - npc.Center;
-						vector206.Y -= 12f;
-						float scaleFactor19 = 32f; //16
-						float num1311 = 8f;
-						vector206.Normalize();
-						vector206 *= scaleFactor19;
-						npc.velocity = (npc.velocity * (num1311 - 1f) + vector206) / num1311;
-
-						if (npc.velocity.X < 0f)
-							npc.direction = -1;
-						else
-							npc.direction = 1;
-
-						npc.spriteDirection = npc.direction;
-
-						npc.ai[1] += 1f;
-						if (npc.ai[1] > 10f)
-						{
-							npc.velocity = vector206;
-
-							if (npc.velocity.X < 0f)
-								npc.direction = -1;
-							else
-								npc.direction = 1;
-
-							npc.ai[0] = 3.2f;
-							npc.ai[1] = 0f;
-							npc.ai[1] = (float)npc.direction;
-						}
-					}
 					else
+						npc.direction = 1;
+
+					npc.ai[0] = 3.2f;
+					npc.ai[1] = 0f;
+					npc.ai[1] = (float)npc.direction;
+				}
+			}
+
+			// Charge
+			else if (npc.ai[0] == 3.2f)
+			{
+				npc.damage = (int)((double)npc.defDamage * 1.5);
+
+				npc.collideX = false;
+				npc.collideY = false;
+				npc.noTileCollide = true;
+
+				npc.ai[2] += 0.0333333351f;
+				npc.velocity.X = (32f + npc.ai[2]) * npc.ai[1];
+
+				if ((npc.ai[1] > 0f && npc.Center.X > player.Center.X + (chargeDistance - 140f)) || (npc.ai[1] < 0f && npc.Center.X < player.Center.X - (chargeDistance - 140f)))
+				{
+					if (!Collision.SolidCollision(npc.position, npc.width, npc.height))
 					{
-						// Charge
-						if (npc.ai[0] == 3.2f)
+						npc.TargetClosest(true);
+						npc.ai[0] = 0f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+						npc.ai[3] = 0f;
+					}
+					else if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance + 200f)
+					{
+						npc.TargetClosest(true);
+						npc.ai[0] = 1f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+						npc.ai[3] = 0f;
+					}
+				}
+
+				npc.rotation = (npc.rotation * rotationMult * 0.5f + npc.velocity.X * rotationAmt * 0.85f) / 5f;
+			}
+
+			// Find tile coordinates for birb spawn
+			else if (npc.ai[0] == 4f)
+			{
+				npc.ai[0] = 0f;
+
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					npc.ai[1] = -1f;
+					npc.ai[2] = -1f;
+
+					for (int num1312 = 0; num1312 < 1000; num1312++)
+					{
+						int num1313 = (int)player.Center.X / 16;
+						int num1314 = (int)player.Center.Y / 16;
+
+						int num1315 = 30 + num1312 / 50;
+						int num1316 = 20 + num1312 / 75;
+
+						num1313 += Main.rand.Next(-num1315, num1315 + 1);
+						num1314 += Main.rand.Next(-num1316, num1316 + 1);
+
+						if (!WorldGen.SolidTile(num1313, num1314))
 						{
-							npc.damage = (int)((double)npc.defDamage * 1.5);
+							while (!WorldGen.SolidTile(num1313, num1314) && (double)num1314 < Main.worldSurface)
+								num1314++;
 
-							npc.collideX = false;
-							npc.collideY = false;
-							npc.noTileCollide = true;
-
-							npc.ai[2] += 0.0333333351f;
-							npc.velocity.X = (32f + npc.ai[2]) * npc.ai[1];
-
-							if ((npc.ai[1] > 0f && npc.Center.X > player.Center.X + (chargeDistance - 140f)) || (npc.ai[1] < 0f && npc.Center.X < player.Center.X - (chargeDistance - 140f)))
+							if ((new Vector2((float)(num1313 * 16 + 8), (float)(num1314 * 16 + 8)) - player.Center).Length() < 1600f)
 							{
-								if (!Collision.SolidCollision(npc.position, npc.width, npc.height))
-								{
-									npc.TargetClosest(true);
-									npc.ai[0] = 0f;
-									npc.ai[1] = 0f;
-									npc.ai[2] = 0f;
-									npc.ai[3] = 0f;
-								}
-								else if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance + 200f)
-								{
-									npc.TargetClosest(true);
-									npc.ai[0] = 1f;
-									npc.ai[1] = 0f;
-									npc.ai[2] = 0f;
-									npc.ai[3] = 0f;
-								}
+								npc.ai[0] = 4.1f;
+								npc.ai[1] = (float)num1313;
+								npc.ai[2] = (float)num1314;
+								break;
 							}
-
-							npc.rotation = (npc.rotation * 4f + npc.velocity.X * 0.035f) / 5f;
-							return;
-						}
-
-						// Find tile coordinates for birb spawn
-						if (npc.ai[0] == 4f)
-						{
-							npc.ai[0] = 0f;
-
-							if (Main.netMode != NetmodeID.MultiplayerClient)
-							{
-								npc.ai[1] = -1f;
-								npc.ai[2] = -1f;
-
-								for (int num1312 = 0; num1312 < 1000; num1312++)
-								{
-									int num1313 = (int)player.Center.X / 16;
-									int num1314 = (int)player.Center.Y / 16;
-
-									int num1315 = 30 + num1312 / 50;
-									int num1316 = 20 + num1312 / 75;
-
-									num1313 += Main.rand.Next(-num1315, num1315 + 1);
-									num1314 += Main.rand.Next(-num1316, num1316 + 1);
-
-									if (!WorldGen.SolidTile(num1313, num1314))
-									{
-										while (!WorldGen.SolidTile(num1313, num1314) && (double)num1314 < Main.worldSurface)
-											num1314++;
-
-										if ((new Vector2((float)(num1313 * 16 + 8), (float)(num1314 * 16 + 8)) - player.Center).Length() < 1600f)
-										{
-											npc.ai[0] = 4.1f;
-											npc.ai[1] = (float)num1313;
-											npc.ai[2] = (float)num1314;
-											break;
-										}
-									}
-								}
-							}
-
-							npc.netUpdate = true;
-							return;
-						}
-
-						// Move to birb spawn location
-						if (npc.ai[0] == 4.1f)
-						{
-							if (npc.velocity.X < -2f)
-								npc.direction = -1;
-							else if (npc.velocity.X > 2f)
-								npc.direction = 1;
-
-							npc.spriteDirection = npc.direction;
-							npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.05f) / 10f;
-
-							npc.noTileCollide = true;
-
-							int num1317 = (int)npc.ai[1];
-							int num1318 = (int)npc.ai[2];
-
-							float x2 = (float)(num1317 * 16 + 8);
-							float y2 = (float)(num1318 * 16 - 20);
-
-							Vector2 vector207 = new Vector2(x2, y2);
-							vector207 -= npc.Center;
-							float num1319 = 12f + vector207.Length() / 150f;
-							if (num1319 > 20f)
-								num1319 = 20f;
-
-							float num1320 = 10f;
-							if (vector207.Length() < 10f)
-								npc.ai[0] = 4.2f;
-
-							vector207.Normalize();
-							vector207 *= num1319;
-							npc.velocity = (npc.velocity * (num1320 - 1f) + vector207) / num1320;
-							return;
-						}
-
-						// Spawn birbs
-						if (npc.ai[0] == 4.2f)
-						{
-							npc.rotation = (npc.rotation * 9f + npc.velocity.X * 0.05f) / 10f;
-
-							npc.noTileCollide = true;
-
-							int num1321 = (int)npc.ai[1];
-							int num1322 = (int)npc.ai[2];
-
-							float x3 = (float)(num1321 * 16 + 8);
-							float y3 = (float)(num1322 * 16 - 20);
-
-							Vector2 vector208 = new Vector2(x3, y3);
-							vector208 -= npc.Center;
-
-							float num1323 = 4f; //4
-							float num1324 = 2f; //2
-
-							if (Main.netMode != NetmodeID.MultiplayerClient && vector208.Length() < 4f)
-							{
-								int num1325 = 10;
-								if (Main.expertMode)
-									num1325 = (int)((double)num1325 * 0.75);
-
-								npc.ai[3] += 1f;
-								if (npc.ai[3] == (float)num1325)
-									NPC.NewNPC(num1321 * 16 + 8, num1322 * 16, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-								else if (npc.ai[3] == (float)(num1325 * 2))
-								{
-									npc.TargetClosest(true);
-									npc.ai[0] = 0f;
-									npc.ai[1] = 0f;
-									npc.ai[2] = 0f;
-									npc.ai[3] = 0f;
-
-									if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < num1305 && Main.rand.Next(5) != 0)
-										npc.ai[0] = 4f;
-									else if (Collision.SolidCollision(npc.position, npc.width, npc.height))
-										npc.ai[0] = 1f;
-								}
-							}
-
-							if (vector208.Length() > num1323)
-							{
-								vector208.Normalize();
-								vector208 *= num1323;
-							}
-
-							npc.velocity = (npc.velocity * (num1324 - 1f) + vector208) / num1324;
 						}
 					}
+				}
+
+				npc.netUpdate = true;
+			}
+
+			// Move to birb spawn location
+			else if (npc.ai[0] == 4.1f)
+			{
+				if (npc.velocity.X < -2f)
+					npc.direction = -1;
+				else if (npc.velocity.X > 2f)
+					npc.direction = 1;
+
+				npc.spriteDirection = npc.direction;
+				npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
+
+				npc.noTileCollide = true;
+
+				int num1317 = (int)npc.ai[1];
+				int num1318 = (int)npc.ai[2];
+
+				float x2 = (float)(num1317 * 16 + 8);
+				float y2 = (float)(num1318 * 16 - 20);
+
+				Vector2 vector207 = new Vector2(x2, y2);
+				vector207 -= npc.Center;
+				float num1319 = 12f + vector207.Length() / 150f;
+				if (num1319 > 20f)
+					num1319 = 20f;
+
+				float num1320 = 10f;
+				if (vector207.Length() < 10f)
+					npc.ai[0] = 4.2f;
+
+				vector207.Normalize();
+				vector207 *= num1319;
+				npc.velocity = (npc.velocity * (num1320 - 1f) + vector207) / num1320;
+			}
+
+			// Spawn birbs
+			else if (npc.ai[0] == 4.2f)
+			{
+				npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
+
+				npc.noTileCollide = true;
+
+				int num1321 = (int)npc.ai[1];
+				int num1322 = (int)npc.ai[2];
+
+				float x3 = (float)(num1321 * 16 + 8);
+				float y3 = (float)(num1322 * 16 - 20);
+
+				Vector2 vector208 = new Vector2(x3, y3);
+				vector208 -= npc.Center;
+
+				float num1323 = 4f; //4
+				float num1324 = 2f; //2
+
+				if (Main.netMode != NetmodeID.MultiplayerClient && vector208.Length() < 4f)
+				{
+					int num1325 = 10;
+					if (Main.expertMode)
+						num1325 = (int)((double)num1325 * 0.75);
+
+					npc.ai[3] += 1f;
+					if (npc.ai[3] == (float)num1325)
+					{
+						SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsySummon, (int)npc.position.X, (int)npc.position.Y);
+						sound.Pitch = 0.25f;
+
+						NPC.NewNPC(num1321 * 16 + 8, num1322 * 16, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+					}
+					else if (npc.ai[3] == (float)(num1325 * 2))
+					{
+						npc.TargetClosest(true);
+						npc.ai[0] = 0f;
+						npc.ai[1] = 0f;
+						npc.ai[2] = 0f;
+						npc.ai[3] = 0f;
+
+						if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < num1305 && Main.rand.Next(5) != 0)
+							npc.ai[0] = 4f;
+						else if (Collision.SolidCollision(npc.position, npc.width, npc.height))
+							npc.ai[0] = 1f;
+					}
+				}
+
+				if (vector208.Length() > num1323)
+				{
+					vector208.Normalize();
+					vector208 *= num1323;
+				}
+
+				npc.velocity = (npc.velocity * (num1324 - 1f) + vector208) / num1324;
+			}
+
+			// Spit homing aura sphere
+			else if (npc.ai[0] == 5f)
+			{
+				// Velocity
+				npc.velocity *= 0.98f;
+				npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt) / 10f;
+
+				// Play sound
+				float aiGateValue = 120f;
+				if (npc.ai[1] == aiGateValue - 30f)
+				{
+					Main.PlaySound(SoundID.DD2_BetsyFireballShot, (int)npc.position.X, (int)npc.position.Y);
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * (float)npc.direction) * (float)(npc.width + 20) / 2f + vector;
+						Projectile.NewProjectile(vector7.X, vector7.Y, 0f, 0f, ModContent.ProjectileType<BirbAuraFlare>(), 0, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
+					}
+				}
+
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= aiGateValue)
+				{
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.netUpdate = true;
 				}
 			}
 		}

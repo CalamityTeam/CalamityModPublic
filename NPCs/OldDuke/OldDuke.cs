@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.OldDuke
                 if (npc.frameCounter > (double)num114)
                 {
                     npc.frameCounter = 0D;
-                    npc.frame.Y = npc.frame.Y + frameHeight;
+                    npc.frame.Y += frameHeight;
                 }
                 if (npc.frame.Y >= frameHeight * 6)
                 {
@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.OldDuke
                     if (npc.frameCounter > 7D)
                     {
                         npc.frameCounter = 0D;
-                        npc.frame.Y = npc.frame.Y + frameHeight;
+                        npc.frame.Y += frameHeight;
                     }
                     if (npc.frame.Y >= frameHeight * 6)
                     {
@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.OldDuke
                     if (npc.frameCounter > 7D)
                     {
                         npc.frameCounter = 0D;
-                        npc.frame.Y = npc.frame.Y + frameHeight;
+                        npc.frame.Y += frameHeight;
                     }
                     if (npc.frame.Y >= frameHeight * 6)
                     {
