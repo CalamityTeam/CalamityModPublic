@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ataxia Armor");
+            DisplayName.SetDefault("Hydrothermic Armor");
             Tooltip.SetDefault("+20 max life\n" +
                 "8% increased damage and 4% increased critical strike chance");
         }

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ataxia Helmet");
+            DisplayName.SetDefault("Hydrothermic Helmet");
             Tooltip.SetDefault("5% increased minion damage and increased minion knockback\n" +
                 "+2 max minions\n" +
                 "Temporary immunity to lava and immunity to fire damage\n" +

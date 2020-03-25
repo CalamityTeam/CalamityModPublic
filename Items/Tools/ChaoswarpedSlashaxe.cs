@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Tools
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaoswarped Slashaxe");
+            DisplayName.SetDefault("Tectonic Truncator");
         }
 
         public override void SetDefaults()

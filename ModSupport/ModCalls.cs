@@ -638,27 +638,49 @@ namespace CalamityMod
 			if (setBonus == "umbraphile")
 				return mp.umbraphileSet;
 
-			// Ataxia
+			// Hydrothermic (Ataxia is legacy name)
 			switch (setBonus)
 			{
 				default:
 					break;
 				case "ataxia":
+				case "hydrothermic":
+				case "hydrothermal":
 					return mp.ataxiaBlaze;
 				case "ataxia_melee":
 				case "ataxia melee":
+				case "hydrothermic_melee":
+				case "hydrothermic melee":
+				case "hydrothermal_melee":
+				case "hydrothermal melee":
 					return mp.ataxiaGeyser;
 				case "ataxia_ranged":
 				case "ataxia ranged":
+				case "hydrothermic_ranged":
+				case "hydrothermic ranged":
+				case "hydrothermal_ranged":
+				case "hydrothermal ranged":
 					return mp.ataxiaBolt;
 				case "ataxia_magic":
 				case "ataxia magic":
+				case "hydrothermic_magic":
+				case "hydrothermic magic":
+				case "hydrothermal_magic":
+				case "hydrothermal magic":
 					return mp.ataxiaMage;
 				case "ataxia_summon":
 				case "ataxia summon":
+				case "hydrothermic_summon":
+				case "hydrothermic summon":
+				case "hydrothermal_summon":
+				case "hydrothermal summon":
 					return mp.chaosSpirit;
 				case "ataxia_rogue":
 				case "ataxia rogue":
+				case "hydrothermic_rogue":
+				case "hydrothermic rogue":
+				case "hydrothermal_rogue":
+				case "hydrothermal rogue":
 					return mp.ataxiaVolley;
 			}
 
@@ -928,36 +950,58 @@ namespace CalamityMod
 				return true;
 			}
 
-			// Ataxia
+			// Hydrothermic (Ataxia as legacy name)
 			switch (setBonus)
 			{
 				default:
 					break;
 				case "ataxia":
+				case "hydrothermic":
+				case "hydrothermal":
 					mp.ataxiaBlaze = enabled;
 					return true;
 				case "ataxia_melee":
 				case "ataxia melee":
+				case "hydrothermic_melee":
+				case "hydrothermic melee":
+				case "hydrothermal_melee":
+				case "hydrothermal melee":
 					mp.ataxiaBlaze = enabled;
 					mp.ataxiaGeyser = enabled;
 					return true;
 				case "ataxia_ranged":
 				case "ataxia ranged":
+				case "hydrothermic_ranged":
+				case "hydrothermic ranged":
+				case "hydrothermal_ranged":
+				case "hydrothermal ranged":
 					mp.ataxiaBlaze = enabled;
 					mp.ataxiaBolt = enabled;
 					return true;
 				case "ataxia_magic":
 				case "ataxia magic":
+				case "hydrothermic_magic":
+				case "hydrothermic magic":
+				case "hydrothermal_magic":
+				case "hydrothermal magic":
 					mp.ataxiaBlaze = enabled;
 					mp.ataxiaMage = enabled;
 					return true;
 				case "ataxia_summon":
 				case "ataxia summon":
+				case "hydrothermic_summon":
+				case "hydrothermic summon":
+				case "hydrothermal_summon":
+				case "hydrothermal summon":
 					mp.ataxiaBlaze = enabled;
 					mp.chaosSpirit = enabled; // LATER -- remove this when player.chaosSpirit actually controls ataxia summoner
 					return true;
 				case "ataxia_rogue":
 				case "ataxia rogue":
+				case "hydrothermic_rogue":
+				case "hydrothermic rogue":
+				case "hydrothermal_rogue":
+				case "hydrothermal rogue":
 					mp.ataxiaBlaze = enabled;
 					mp.ataxiaVolley = enabled;
 					return true;

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ataxia Subligar");
+            DisplayName.SetDefault("Hydrothermic Subligar");
             Tooltip.SetDefault("3% increased critical strike chance\n" +
                 "15% increased movement speed");
         }

@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Placeables.Ores
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaotic Ore");
+            DisplayName.SetDefault("Scoria Ore");
         }
 
         public override void SetDefaults()

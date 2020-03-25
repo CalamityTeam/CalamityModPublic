@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ataxia Mask");
+            DisplayName.SetDefault("Hydrothermic Mask");
             Tooltip.SetDefault("12% increased magic damage, reduces mana usage by 15%, and 10% increased magic critical strike chance\n" +
                 "+100 max mana, temporary immunity to lava, and immunity to fire damage\n" +
 				"Provides heat protection in Death Mode");
