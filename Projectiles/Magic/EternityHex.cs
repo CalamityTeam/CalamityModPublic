@@ -169,7 +169,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             else if (projectile.localAI[0] < trueTimeLeft * 2)
             {
-                if (Main.rand.NextBool(3))
+                if (Main.rand.NextBool(3) && !target.dontTakeDamage)
                 {
                     int damage = (int)(Eternity.BaseDamage * 0.5f * player.MagicDamage());
                     damage = (int)(damage * Main.rand.NextFloat(0.9f, 1.1f));

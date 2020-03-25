@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 21;
+            item.damage = 31;
             item.ranged = true;
             item.width = 50;
             item.height = 24;
@@ -31,6 +32,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.shoot = 10;
             item.shootSpeed = 11.5f;
             item.useAmmo = 97;
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-5, 0);
         }
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

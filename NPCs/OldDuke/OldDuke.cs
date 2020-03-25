@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.OldDuke
                 if (npc.frameCounter > (double)num114)
                 {
                     npc.frameCounter = 0D;
-                    npc.frame.Y = npc.frame.Y + frameHeight;
+                    npc.frame.Y += frameHeight;
                 }
                 if (npc.frame.Y >= frameHeight * 6)
                 {
@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.OldDuke
                     if (npc.frameCounter > 7D)
                     {
                         npc.frameCounter = 0D;
-                        npc.frame.Y = npc.frame.Y + frameHeight;
+                        npc.frame.Y += frameHeight;
                     }
                     if (npc.frame.Y >= frameHeight * 6)
                     {
@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.OldDuke
                     if (npc.frameCounter > 7D)
                     {
                         npc.frameCounter = 0D;
-                        npc.frame.Y = npc.frame.Y + frameHeight;
+                        npc.frame.Y += frameHeight;
                     }
                     if (npc.frame.Y >= frameHeight * 6)
                     {
@@ -251,7 +251,7 @@ namespace CalamityMod.NPCs.OldDuke
 				if (npc.ai[2] > (float)num158)
 				{
 					num156 = 6;
-					num157 = 1f - (float)Math.Cos((double)((npc.ai[2] - (float)num158) / (float)num159 * 6.28318548f));
+					num157 = 1f - (float)Math.Cos((double)((npc.ai[2] - (float)num158) / (float)num159 * MathHelper.TwoPi));
 					num157 /= 3f;
 					scaleFactor9 = 40f;
 				}
@@ -260,7 +260,7 @@ namespace CalamityMod.NPCs.OldDuke
 			if ((npc.ai[0] == 4f || npc.ai[0] == 9f) && npc.ai[2] > (float)num150)
 			{
 				num156 = 6;
-				num157 = 1f - (float)Math.Cos((double)((npc.ai[2] - (float)num150) / (float)num151 * 6.28318548f));
+				num157 = 1f - (float)Math.Cos((double)((npc.ai[2] - (float)num150) / (float)num151 * MathHelper.TwoPi));
 				num157 /= 3f;
 				scaleFactor9 = 60f;
 			}
@@ -268,7 +268,7 @@ namespace CalamityMod.NPCs.OldDuke
 			if (npc.ai[0] == 12f)
 			{
 				num156 = 6;
-				num157 = 1f - (float)Math.Cos((double)(npc.ai[2] / 30f * 6.28318548f));
+				num157 = 1f - (float)Math.Cos((double)(npc.ai[2] / 30f * MathHelper.TwoPi));
 				num157 /= 3f;
 				scaleFactor9 = 20f;
 			}
@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs.OldDuke
 				color39 = Color.Lerp(color39, color36, amount9);
 				color39 = npc.GetAlpha(color39);
 				color39 *= 1f - num157;
-				Vector2 vector42 = npc.Center + ((float)num160 / (float)num156 * 6.28318548f + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+				Vector2 vector42 = npc.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
 				vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 				vector42 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 				spriteBatch.Draw(texture2D15, vector42, new Rectangle?(npc.frame), color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
@@ -343,7 +343,7 @@ namespace CalamityMod.NPCs.OldDuke
 					color42 = Color.Lerp(color42, color36, amount9);
 					color42 = npc.GetAlpha(color42);
 					color42 *= 1f - num157;
-					Vector2 vector45 = npc.Center + ((float)num164 / (float)num156 * 6.28318548f + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+					Vector2 vector45 = npc.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
 					vector45 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 					vector45 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector45, new Rectangle?(npc.frame), color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);

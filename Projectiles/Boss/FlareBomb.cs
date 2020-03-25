@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-			float num1247 = 0.5f;
+			float num1247 = 0.1f;
 			for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
 			{
 				if (Main.projectile[num1248].active)

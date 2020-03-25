@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Chaos Spirit");
-            Description.SetDefault("The chaos spirit will protect you");
+            DisplayName.SetDefault("Hydrothermic Vent");
+            Description.SetDefault("The hydrothermic vent will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

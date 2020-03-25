@@ -1660,15 +1660,9 @@ namespace CalamityMod.Projectiles
                 {
                     spriteEffects = SpriteEffects.FlipHorizontally;
                 }
-                float num66 = 0f;
                 Vector2 vector11 = new Vector2((float)(texture.Width / 2), (float)(texture.Height / Main.projFrames[projectile.type] / 2));
-                Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
+                Color color9 = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
                 Color alpha15 = projectile.GetAlpha(color9);
-                float num212 = 0.99f;
-                alpha15.R = (byte)((float)alpha15.R * num212);
-                alpha15.G = (byte)((float)alpha15.G * num212);
-                alpha15.B = (byte)((float)alpha15.B * num212);
-                alpha15.A = (byte)((float)alpha15.A * num212);
                 for (int num213 = 0; num213 < 4; num213++)
                 {
                     Vector2 position9 = projectile.position;
@@ -1695,7 +1689,7 @@ namespace CalamityMod.Projectiles
                     int y = frames * projectile.frame;
                     position9.Y -= (float)(projectile.height / 2);
                     Main.spriteBatch.Draw(texture,
-                        new Vector2(position9.X - Main.screenPosition.X + (float)(projectile.width / 2) - (float)texture.Width * projectile.scale / 2f + vector11.X * projectile.scale, position9.Y - Main.screenPosition.Y + (float)projectile.height - (float)texture.Height * projectile.scale / (float)Main.projFrames[projectile.type] + 4f + vector11.Y * projectile.scale + num66 + projectile.gfxOffY),
+                        new Vector2(position9.X - Main.screenPosition.X + (float)(projectile.width / 2) - (float)texture.Width * projectile.scale / 2f + vector11.X * projectile.scale, position9.Y - Main.screenPosition.Y + (float)projectile.height - (float)texture.Height * projectile.scale / (float)Main.projFrames[projectile.type] + 4f + vector11.Y * projectile.scale + projectile.gfxOffY),
                         new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y, texture.Width, frames)), alpha15, projectile.rotation, vector11, projectile.scale, spriteEffects, 0f);
                 }
             }

@@ -408,7 +408,7 @@ namespace CalamityMod.CalPlayer
             // Acid rain droplets
             if (player.whoAmI == Main.myPlayer)
             {
-                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses)
+                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses && player.Center.Y < Main.worldSurface * 16f + 800f)
                 {
                     int acidRainDropRate = (int)MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50);
                     Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
@@ -422,6 +422,17 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+
+			//Hydrothermal blue smoke effects but it doesn't work epicccccc
+			if (player.whoAmI == Main.myPlayer)
+			{
+				if (modPlayer.hydrothermalSmoke)
+				{
+					Vector2 goreVec = new Vector2(player.position.X + (float)(player.width / 2) + player.velocity.X, player.position.Y + (float)(player.height / 2) + player.velocity.Y);
+					if (Main.rand.NextBool(8))
+						Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 1f);
+				}
+			}
 
             // Death Mode effects
             modPlayer.caveDarkness = 0f;

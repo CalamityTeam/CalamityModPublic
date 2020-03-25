@@ -13,16 +13,16 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaos Spirit");
-            Main.projFrames[projectile.type] = 9;
+            DisplayName.SetDefault("Hydrothermic Vent");
+            Main.projFrames[projectile.type] = 6;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 40;
+            projectile.width = 26;
+            projectile.height = 34;
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
@@ -58,21 +58,21 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
                 {
-                    int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 127, 0f, 0f, 0, default, 1f);
+                    int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, Main.rand.NextBool(3) ? 16 : 127, 0f, 0f, 0, default, 1f);
                     Main.dust[num503].velocity *= 2f;
                     Main.dust[num503].scale *= 1.15f;
                 }
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 1f / 255f, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0f / 255f);
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 8)
+            if (projectile.frame >= Main.projFrames[projectile.type])
             {
                 projectile.frame = 0;
             }
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else
                 {
-                    for (int num512 = 0; num512 < 200; num512++)
+                    for (int num512 = 0; num512 < Main.maxNPCs; num512++)
                     {
                         if (Main.npc[num512].CanBeChasedBy(projectile, false))
                         {
@@ -145,6 +145,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
+				float yAdjust = player.gravDir == -1f ? 0f : 10f;
                 if (flag18)
                 {
                     float num516 = num506;
@@ -160,9 +161,13 @@ namespace CalamityMod.Projectiles.Summon
                     num406 = num403 / num406;
                     num404 *= num406;
                     num405 *= num406;
-                    Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y, num404, num405, projectileType, projectile.damage, 5f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X - 4f, projectile.Center.Y - yAdjust, num404, num405, projectileType, projectile.damage, 5f, projectile.owner, 0f, 0f);
                     projectile.ai[0] = 38f;
                 }
+
+				Vector2 goreVec = new Vector2(projectile.Center.X, projectile.Center.Y - yAdjust - 10f);
+				if (Main.rand.NextBool(8))
+					Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 0.5f);
             }
         }
 
