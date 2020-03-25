@@ -56,11 +56,11 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.boss = true;
             npc.netAlways = true;
             npc.timeLeft = NPC.activeTime * 30;
-            /*Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+            Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
-                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/OldDuke");
+                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/BoomerDuke");
             else
-                music = MusicID.Boss1;*/
+                music = MusicID.Boss1;
             bossBag = ModContent.ItemType<OldDukeBag>();
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
