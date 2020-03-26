@@ -57,11 +57,11 @@ namespace CalamityMod.Projectiles.Rogue
             }
 			if (projectile.ai[0] == 1f) //stealth strike
 			{
-				projectile.rotation = projectile.velocity.ToRotation() - 1.57079637f;
+				projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
 			}
 			if (projectile.ai[1] == 1f)
 			{
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 150f, 8f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, (projectile.ai[0] == 1f ? 500f : 150f), 8f, 20f);
 			}
         }
 

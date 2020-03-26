@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Magic
                 float offsetY = projectile.position.Y + (float)Main.rand.Next((int)projectile.height);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(offsetX, offsetY, 14 * (float)Math.Cos(angle), 14 * (float)Math.Sin(angle), ModContent.ProjectileType<ApothChloro>(), projectile.damage, projectile.knockBack / 2, Main.myPlayer);
+                    Projectile.NewProjectile(offsetX, offsetY, 14 * (float)Math.Cos(angle), 14 * (float)Math.Sin(angle), ModContent.ProjectileType<ApothChloro>(), projectile.damage, projectile.knockBack / 2, projectile.owner);
                 }
             }
             if (projectile.timeLeft < 30)
