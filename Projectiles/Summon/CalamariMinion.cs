@@ -293,8 +293,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num23 > 3000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.width / 2);
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.width / 2);
                 }
                 if (num23 > 70f)
                 {

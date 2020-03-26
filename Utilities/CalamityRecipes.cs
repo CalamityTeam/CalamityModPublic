@@ -469,6 +469,7 @@ namespace CalamityMod
             //Slime Staff
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Wood, 6);
+			r.anyWood = true;
             r.AddIngredient(ItemID.Gel, 40);
             r.AddIngredient(ItemID.PinkGel, 10);
             r.AddTile(TileID.Anvils);
