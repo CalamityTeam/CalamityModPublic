@@ -26,12 +26,12 @@ namespace CalamityMod.Items.Tools.ClimateChange
             item.consumable = true;
         }
 
-        // this is extremely ugly and has to be fully qualified because we add an item called Sandstorm
         public override bool CanUseItem(Player player)
         {
             return CalamityWorld.downedDesertScourge;
         }
 
+        // this is extremely ugly and has to be fully qualified because we add an item called Sandstorm
         public override bool UseItem(Player player)
         {
             if (Terraria.GameContent.Events.Sandstorm.Happening)

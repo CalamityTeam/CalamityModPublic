@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             if (!Main.raining && !CalamityWorld.bossRushActive && CalamityWorld.DoGSecondStageCountdown <= 0)
             {
-                RainStart();
+				CalamityUtils.StartRain();
             }
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
             if (npc.ai[3] > 0f)
@@ -461,57 +461,6 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
             }
             npc.rotation = (float)System.Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
-        }
-
-        private void RainStart()
-        {
-            int num = 86400;
-            int num2 = num / 24;
-            Main.rainTime = Main.rand.Next(num2 * 8, num);
-            if (Main.rand.NextBool(3))
-            {
-                Main.rainTime += Main.rand.Next(0, num2);
-            }
-            if (Main.rand.NextBool(4))
-            {
-                Main.rainTime += Main.rand.Next(0, num2 * 2);
-            }
-            if (Main.rand.NextBool(5))
-            {
-                Main.rainTime += Main.rand.Next(0, num2 * 2);
-            }
-            if (Main.rand.NextBool(6))
-            {
-                Main.rainTime += Main.rand.Next(0, num2 * 3);
-            }
-            if (Main.rand.NextBool(7))
-            {
-                Main.rainTime += Main.rand.Next(0, num2 * 4);
-            }
-            if (Main.rand.NextBool(8))
-            {
-                Main.rainTime += Main.rand.Next(0, num2 * 5);
-            }
-            float num3 = 1f;
-            if (Main.rand.NextBool(2))
-            {
-                num3 += 0.05f;
-            }
-            if (Main.rand.NextBool(3))
-            {
-                num3 += 0.1f;
-            }
-            if (Main.rand.NextBool(4))
-            {
-                num3 += 0.15f;
-            }
-            if (Main.rand.NextBool(5))
-            {
-                num3 += 0.2f;
-            }
-            Main.rainTime = (int)((float)Main.rainTime * num3);
-            Main.raining = true;
-            CalamityMod.UpdateServerBoolean();
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
