@@ -109,6 +109,7 @@ namespace CalamityMod.World
         public static int acidRainExtraDrawTime = 0;
         public static bool triedToSummonOldDuke = false;
         public static bool startAcidicDownpour = false;
+        public static bool forcedRainAlready = false;
         public static float AcidRainCompletionRatio
         {
             get
@@ -370,6 +371,8 @@ namespace CalamityMod.World
                 downed.Add("spawnedBoomer");
 			if (startAcidicDownpour)
 				downed.Add("startDownpour");
+			if (forcedRainAlready)
+				downed.Add("forcedRain");
 
             return new TagCompound
             {
@@ -439,6 +442,7 @@ namespace CalamityMod.World
             downedAquaticScourgeAcidRain = downed.Contains("hmRain");
             triedToSummonOldDuke = downed.Contains("spawnedBoomer");
 			startAcidicDownpour = downed.Contains("startDownpour");
+			forcedRainAlready = downed.Contains("forcedRain");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
@@ -524,6 +528,16 @@ namespace CalamityMod.World
                 downedEoCAcidRain = flags7[5];
                 downedAquaticScourgeAcidRain = flags7[6];
                 triedToSummonOldDuke = flags7[7];
+
+                BitsByte flags8 = reader.ReadByte();
+                forcedRainAlready = flags8[0];
+                _ = flags8[1];
+                _ = flags8[2];
+                _ = flags8[3];
+                _ = flags8[4];
+                _ = flags8[5];
+                _ = flags8[6];
+                _ = flags8[7];
             }
             else
             {
@@ -606,6 +620,16 @@ namespace CalamityMod.World
             flags7[6] = downedAquaticScourgeAcidRain;
             flags7[7] = triedToSummonOldDuke;
 
+            BitsByte flags8 = new BitsByte();
+            flags8[0] = forcedRainAlready;
+            flags8[1] = false;
+            flags8[2] = false;
+            flags8[3] = false;
+            flags8[4] = false;
+            flags8[5] = false;
+            flags8[6] = false;
+            flags8[7] = false;
+
             writer.Write(flags);
             writer.Write(flags2);
             writer.Write(flags3);
@@ -613,6 +637,7 @@ namespace CalamityMod.World
             writer.Write(flags5);
             writer.Write(flags6);
             writer.Write(flags7);
+            writer.Write(flags8);
             writer.Write(abyssChasmBottom);
             writer.Write(acidRainPoints);
         }
@@ -691,6 +716,16 @@ namespace CalamityMod.World
             downedEoCAcidRain = flags7[5];
             downedAquaticScourgeAcidRain = flags7[6];
             triedToSummonOldDuke = flags7[7];
+
+            BitsByte flags8 = reader.ReadByte();
+            forcedRainAlready = flags8[0];
+            _ = flags8[1];
+            _ = flags8[2];
+            _ = flags8[3];
+            _ = flags8[4];
+            _ = flags8[5];
+            _ = flags8[6];
+            _ = flags8[7];
 
             abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
@@ -908,7 +943,7 @@ namespace CalamityMod.World
                 AcidRainEvent.TryStartEvent();
                 CalamityMod.UpdateServerBoolean();
             }
-			if (NPC.downedBoss1 && !downedEoCAcidRain)
+			if (NPC.downedBoss1 && !downedEoCAcidRain && !forcedRainAlready)
 			{
 				for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
 				{
@@ -916,6 +951,7 @@ namespace CalamityMod.World
 					{
 						if (Main.player[playerIndex].Calamity().ZoneSulphur)
 						{
+							forcedRainAlready = true;
 							AcidRainEvent.TryStartEvent();
 							CalamityMod.UpdateServerBoolean();
 						}

@@ -12,6 +12,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 namespace CalamityMod.NPCs.TownNPCs
 {
     [AutoloadHead]
@@ -279,10 +280,16 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
                 nextSlot++;
             }
-            if (NPC.downedFishron)
+            if (NPC.downedFishron && CalamityMod.CalamityConfig.SellBossSummons)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
+                nextSlot++;
+            }
+            if (CalamityWorld.downedBoomerDuke)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<BloodwormItem>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(8, 0, 0, 0);
                 nextSlot++;
             }
         }

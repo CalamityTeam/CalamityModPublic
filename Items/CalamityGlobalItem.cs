@@ -3174,6 +3174,16 @@ Provides heat and cold protection in Death Mode";
         }
         #endregion
 
+		#region PostUpdate
+		public override void PostUpdate(Item item)
+		{
+			if (CalamityMod.forceItemList?.Contains(item.type) ?? false)
+			{
+				CalamityUtils.ForceItemIntoWorld(item);
+			}
+		}
+		#endregion
+
         #region Goblin Money Theft (PostReforge)
         public override void PostReforge(Item item)
         {

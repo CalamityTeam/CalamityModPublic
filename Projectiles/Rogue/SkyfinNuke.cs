@@ -26,6 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.tileCollide = true;
             projectile.alpha = 0;
             projectile.Calamity().rogue = true;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -65,6 +66,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
+			projectile.extraUpdates = 0;
             //Dust
             for (int i = 0; i < 30;i++)
             {

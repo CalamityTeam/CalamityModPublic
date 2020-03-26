@@ -6,13 +6,17 @@ using CalamityMod.ILEditing;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Accessories.Wings;
+using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor;
+using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -194,6 +198,7 @@ namespace CalamityMod
         public static List<int> lavaFishList;
         public static List<int> highTestFishList;
         public static List<int> flamethrowerList;
+        public static List<int> forceItemList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -400,6 +405,7 @@ namespace CalamityMod
             lavaFishList = null;
             highTestFishList = null;
             flamethrowerList = null;
+            forceItemList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -2272,6 +2278,80 @@ namespace CalamityMod
             {
                 ModContent.ItemType<DragoonDrizzlefish>(),
                 ModContent.ItemType<BloodBoiler>()
+            };
+
+            forceItemList = new List<int>()
+            {
+                ModContent.ItemType<SubmarineShocker>(),
+                ModContent.ItemType<Barinautical>(),
+                ModContent.ItemType<Downpour>(),
+                ModContent.ItemType<DeepseaStaff>(),
+                ModContent.ItemType<ScourgeoftheSeas>(),
+                ModContent.ItemType<InsidiousImpaler>(),
+                ModContent.ItemType<SepticSkewer>(),
+                ModContent.ItemType<FetidEmesis>(),
+                ModContent.ItemType<VitriolicViper>(),
+                ModContent.ItemType<CadaverousCarrion>(),
+                ModContent.ItemType<ToxicantTwister>(),
+                ModContent.ItemType<DukeScales>(),
+                ModContent.ItemType<Greentide>(),
+                ModContent.ItemType<Leviatitan>(),
+                ModContent.ItemType<Atlantis>(),
+                ModContent.ItemType<SirensSong>(),
+                ModContent.ItemType<BrackishFlask>(),
+                ModContent.ItemType<LeviathanTeeth>(),
+                ModContent.ItemType<LureofEnthrallment>(),
+                ModContent.ItemType<AquaticScourgeBag>(),
+                ModContent.ItemType<OldDukeBag>(),
+                ModContent.ItemType<LeviathanBag>(),
+                ModContent.ItemType<OldDukeMask>(),
+                ModContent.ItemType<LeviathanMask>(),
+                ModContent.ItemType<AquaticScourgeMask>(),
+                ModContent.ItemType<OldDukeTrophy>(),
+                ModContent.ItemType<LeviathanTrophy>(),
+                ModContent.ItemType<AquaticScourgeTrophy>(),
+                ModContent.ItemType<KnowledgeAquaticScourge>(),
+                ModContent.ItemType<KnowledgeLeviathanandSiren>(),
+                ModContent.ItemType<KnowledgeSulphurSea>(),
+                ModContent.ItemType<KnowledgeOcean>(),
+                ModContent.ItemType<KnowledgeOldDuke>(),
+                ModContent.ItemType<VictoryShard>(),
+                ModContent.ItemType<AeroStone>(),
+                ModContent.ItemType<DukesDecapitator>(),
+				ModContent.ItemType<Items.Placeables.SulphurousSand>(),
+				ModContent.ItemType<MagnumRounds>(),
+				ModContent.ItemType<GrenadeRounds>(),
+				ModContent.ItemType<ExplosiveShells>(),
+				ItemID.HotlineFishingHook,
+				ItemID.BottomlessBucket,
+				ItemID.SuperAbsorbantSponge,
+				ItemID.FishingPotion,
+				ItemID.SonarPotion,
+				ItemID.CratePotion,
+				ItemID.AnglerTackleBag,
+				ItemID.HighTestFishingLine,
+				ItemID.TackleBox,
+				ItemID.AnglerEarring,
+				ItemID.FishermansGuide,
+				ItemID.WeatherRadio,
+				ItemID.Sextant,
+				ItemID.AnglerHat,
+				ItemID.AnglerVest,
+				ItemID.AnglerPants,
+				ItemID.GoldenBugNet,
+				ItemID.FishronWings,
+				ItemID.Flairon,
+				ItemID.Tsunami,
+				ItemID.BubbleGun,
+				ItemID.RazorbladeTyphoon,
+				ItemID.TempestStaff,
+				ItemID.FishronBossBag,
+				ItemID.Coral,
+				ItemID.Seashell,
+				ItemID.Starfish,
+				ItemID.SoulofSight,
+				ItemID.GreaterHealingPotion,
+				ItemID.SuperHealingPotion
             };
 
             tableList = new List<int>()

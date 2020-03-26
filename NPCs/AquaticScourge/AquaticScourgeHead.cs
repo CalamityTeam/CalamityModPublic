@@ -184,10 +184,10 @@ namespace CalamityMod.NPCs.AquaticScourge
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeMask>(), 7);
 
                 // Fishing
+                DropHelper.DropItemChance(npc, ItemID.AnglerTackleBag, 18);
                 DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 12);
-                DropHelper.DropItemChance(npc, ItemID.AnglerTackleBag, 12);
                 DropHelper.DropItemChance(npc, ItemID.TackleBox, 12);
-                DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 9);
+                DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 12);
                 DropHelper.DropItemChance(npc, ItemID.FishermansGuide, 9);
                 DropHelper.DropItemChance(npc, ItemID.WeatherRadio, 9);
                 DropHelper.DropItemChance(npc, ItemID.Sextant, 9);
