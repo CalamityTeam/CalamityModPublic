@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
@@ -67,11 +67,11 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num503].scale *= 1.15f;
                 }
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 1f / 255f, (255 - projectile.alpha) * 0f / 255f);
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 bool flag18 = false;
                 float num508 = 600f;
-                for (int num512 = 0; num512 < 200; num512++)
+                for (int num512 = 0; num512 < Main.maxNPCs; num512++)
                 {
                     if (Main.npc[num512].CanBeChasedBy(projectile, false))
                     {

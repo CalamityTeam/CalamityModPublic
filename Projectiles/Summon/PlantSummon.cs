@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
+            projectile.localNPCHitCooldown = 12;
 			projectile.extraUpdates = 0;
         }
 
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
 
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
@@ -93,11 +93,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[0] += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
 
@@ -115,14 +115,14 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-            float num633 = 700f;
+            float num633 = 1000f;
             float num634 = 1300f;
             float num635 = 2600f;
             float num636 = 600f;
             float num637 = 0.05f;
 
 			//idle movement
-            for (int num638 = 0; num638 < 1000; num638++)
+            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
             {
                 bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<PlantSummon>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.Summon
 					if (npc.CanBeChasedBy(projectile, false))
 					{
 						float num646 = Vector2.Distance(npc.Center, projectile.Center);
-						if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
+						if (!flag25 && num646 < num633)
 						{
 							num633 = num646;
 							vector46 = npc.Center;
@@ -168,13 +168,13 @@ namespace CalamityMod.Projectiles.Summon
 				}
 				else
 				{
-					for (int num645 = 0; num645 < 200; num645++)
+					for (int num645 = 0; num645 < Main.maxNPCs; num645++)
 					{
 						NPC nPC2 = Main.npc[num645];
 						if (nPC2.CanBeChasedBy(projectile, false))
 						{
 							float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-							if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
+							if (!flag25 && num646 < num633)
 							{
 								num633 = num646;
 								vector46 = nPC2.Center;
@@ -456,7 +456,7 @@ namespace CalamityMod.Projectiles.Summon
 							value20.Normalize();
 							if (Main.rand.NextBool(2))
 							{
-								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value20.X * 2f, value20.Y * 2f, ModContent.ProjectileType<PlantThornBall>(), (int)(projectile.damage * 1.2f), 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value20.X * 2f, value20.Y * 2f, ModContent.ProjectileType<PlantThornBall>(), (int)(projectile.damage * 1.5f), 0f, Main.myPlayer, 0f, 0f);
 							}
 							projectile.velocity = value20 * 8f;
 							projectile.netUpdate = true;

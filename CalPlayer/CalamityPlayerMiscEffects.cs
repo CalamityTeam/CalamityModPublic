@@ -3020,7 +3020,7 @@ namespace CalamityMod.CalPlayer
 					{
 						float ai1 = (float)(I * 120);
 						Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
-							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000f : 5000f) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, ai1, 0f);
+							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000f : 5000f) * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
 					}
 				}
 			}

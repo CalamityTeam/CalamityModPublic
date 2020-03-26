@@ -39,15 +39,15 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[1] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[1] += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             bool flag64 = projectile.type == ModContent.ProjectileType<SilvaCrystal>();
@@ -67,8 +67,8 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 60f;
+            projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+            projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 60f;
             if (Main.player[projectile.owner].gravDir == -1f)
             {
                 projectile.position.Y = projectile.position.Y + 120f;
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (num1074 < 0)
                 {
                     int num30;
-                    for (int num1077 = 0; num1077 < 200; num1077 = num30 + 1)
+                    for (int num1077 = 0; num1077 < Main.maxNPCs; num1077 = num30 + 1)
                     {
                         NPC nPC16 = Main.npc[num1077];
                         if (nPC16.CanBeChasedBy(projectile, false))

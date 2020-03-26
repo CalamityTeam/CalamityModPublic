@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (dust == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
@@ -58,11 +58,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             projectile.frameCounter++;
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 			float num6 = 0.05f;
 			float width = (float) projectile.width;
-			for (int index = 0; index < 1000; ++index)
+			for (int index = 0; index < Main.maxProjectiles; ++index)
 			{
 				if (index != projectile.whoAmI && Main.projectile[index].active && (Main.projectile[index].owner == projectile.owner && Main.projectile[index].type == projectile.type) && (double) Math.Abs(projectile.position.X - Main.projectile[index].position.X) + (double) Math.Abs(projectile.position.Y - Main.projectile[index].position.Y) < (double) width)
 				{
@@ -105,7 +105,7 @@ namespace CalamityMod.Projectiles.Summon
 				}
 			}
 			Vector2 vector2_3 = projectile.position;
-			float num7 = 400f;
+			float num7 = 450f;
 			bool flag = false;
 			int num8 = -1;
 			if (player.HasMinionAttackTargetNPC)
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Summon
 				if (npc.CanBeChasedBy((object) this, false))
 				{
 					float num1 = Vector2.Distance(npc.Center, projectile.Center);
-					if (((double) Vector2.Distance(projectile.Center, vector2_3) > (double) num1 && (double) num1 < (double) num7 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+					if ((!flag && num1 < num7) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
 					{
 						num7 = num1;
 						vector2_3 = npc.Center;
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Summon
 					if (npc.CanBeChasedBy((object) this, false))
 					{
 						float num1 = Vector2.Distance(npc.Center, projectile.Center);
-						if (((double) Vector2.Distance(projectile.Center, vector2_3) > (double) num1 && (double) num1 < (double) num7 || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+						if ((!flag && num1 < num7) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
 						{
 							num7 = num1;
 							vector2_3 = npc.Center;
@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Summon
 			}
 			else
 			{
-				if (!Collision.CanHitLine(projectile.Center, 1, 1, Main.player[projectile.owner].Center, 1, 1))
+				if (!Collision.CanHitLine(projectile.Center, 1, 1, player.Center, 1, 1))
 					projectile.ai[0] = 1f;
 				float num1 = 6f;
 				if ((double) projectile.ai[0] == 1.0)
@@ -185,8 +185,8 @@ namespace CalamityMod.Projectiles.Summon
 				}
 				if ((double) num3 > 2000.0)
 				{
-					projectile.position.X = Main.player[projectile.owner].Center.X - (float) (projectile.width / 2);
-					projectile.position.Y = Main.player[projectile.owner].Center.Y - (float) (projectile.width / 2);
+					projectile.position.X = player.Center.X - (float) (projectile.width / 2);
+					projectile.position.Y = player.Center.Y - (float) (projectile.width / 2);
 				}
 				else if ((double) num3 > 70.0)
 				{

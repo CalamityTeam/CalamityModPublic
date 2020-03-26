@@ -34,15 +34,15 @@ namespace CalamityMod.Projectiles.Summon
 			Player player = Main.player[projectile.owner];
             if (setDamage)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 setDamage = false;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
 
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.netUpdate = true;
             }
 
-            if (projectile.ai[0] >= 0 && projectile.ai[0] < 200)
+            if (projectile.ai[0] >= 0 && projectile.ai[0] < Main.maxNPCs)
             {
                 NPC npc = Main.npc[(int)projectile.ai[0]];
 
@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Summon
                 float maxDistance = 1000f;
                 int possibleTarget = -1;
 
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     NPC npc = Main.npc[i];
                     if (npc.CanBeChasedBy(projectile))

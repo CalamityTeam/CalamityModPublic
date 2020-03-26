@@ -258,7 +258,7 @@ namespace CalamityMod.Projectiles.Summon
             if (!flag19)
             {
                 int num3;
-                for (int num542 = 0; num542 < 200; num542 = num3 + 1)
+                for (int num542 = 0; num542 < Main.maxNPCs; num542 = num3 + 1)
                 {
                     if (Main.npc[num542].CanBeChasedBy(projectile, false))
                     {

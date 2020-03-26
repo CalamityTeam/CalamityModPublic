@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Summon
 			CalamityGlobalProjectile modProj = projectile.Calamity();
             if (spawnDust)
             {
-                modProj.spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
                 modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num501 = 20;
                 for (int num502 = 0; num502 < num501; num502++)
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Summon
 						if (npc.CanBeChasedBy(projectile, false))
 						{
 							float num646 = Vector2.Distance(npc.Center, projectile.Center);
-							if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC)
+							if (!chaseNPC && num646 < num633)
 							{
 								num633 = num646;
 								vector46 = npc.Center;
@@ -148,7 +148,7 @@ namespace CalamityMod.Projectiles.Summon
 							if (npcTarget.CanBeChasedBy(projectile, false))
 							{
 								float num646 = Vector2.Distance(npcTarget.Center, projectile.Center);
-								if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC)
+								if (!chaseNPC && num646 < num633)
 								{
 									num633 = num646;
 									vector46 = npcTarget.Center;

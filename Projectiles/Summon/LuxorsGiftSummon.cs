@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (dust > 0)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
@@ -57,11 +57,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust--;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             if (projectile.localAI[0] == 0f)
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             float num637 = 0.05f;
-            for (int num638 = 0; num638 < 1000; num638++)
+            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
             {
                 bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<LuxorsGiftSummon>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner &&
@@ -152,7 +152,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (npc.CanBeChasedBy(projectile, false))
                 {
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
-                    if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
+                    if (!flag25 && num646 < num633)
                     {
                         num633 = num646;
                         vector46 = npc.Center;
@@ -162,13 +162,13 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                for (int num645 = 0; num645 < 200; num645++)
+                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
                     NPC nPC2 = Main.npc[num645];
                     if (nPC2.CanBeChasedBy(projectile, false))
                     {
                         float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
+                        if (!flag25 && num646 < num633)
                         {
                             num633 = num646;
                             vector46 = nPC2.Center;

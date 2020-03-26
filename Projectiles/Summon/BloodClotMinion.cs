@@ -122,7 +122,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 num538 = 1800;
             }
-            if (Math.Abs(projectile.Center.X - Main.player[projectile.owner].Center.X) + Math.Abs(projectile.Center.Y - Main.player[projectile.owner].Center.Y) > (float)num538)
+            if (Math.Abs(projectile.Center.X - player.Center.X) + Math.Abs(projectile.Center.Y - player.Center.Y) > (float)num538)
             {
                 projectile.ai[0] = 1f;
             }

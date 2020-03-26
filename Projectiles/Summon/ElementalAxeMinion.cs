@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
             float num635 = 2500f;
             float num636 = 400f;
             float num637 = 0.05f;
-            for (int num638 = 0; num638 < 1000; num638++)
+            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
             {
                 bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<ElementalAxeMinion>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (npc.CanBeChasedBy(projectile, false))
                 {
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
-                    if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
+                    if (!flag25 && num646 < num633)
                     {
                         num633 = num646;
                         vector46 = npc.Center;
@@ -137,13 +137,13 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                for (int num645 = 0; num645 < 200; num645++)
+                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
                     NPC nPC2 = Main.npc[num645];
                     if (nPC2.CanBeChasedBy(projectile, false))
                     {
                         float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
+                        if (!flag25 && num646 < num633)
                         {
                             num633 = num646;
                             vector46 = nPC2.Center;

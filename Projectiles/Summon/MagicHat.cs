@@ -82,15 +82,15 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[dustEffects].velocity *= 2f;
                     Main.dust[dustEffects].scale *= 1.15f;
                 }
-                modProj.spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
                 modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 projectile.localAI[0] += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != modProj.spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
                     modProj.spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
 

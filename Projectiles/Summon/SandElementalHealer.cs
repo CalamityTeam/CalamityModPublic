@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Summon
             dust--;
             if (dust >= 0)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
@@ -76,11 +76,11 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num503].scale *= 1.15f;
                 }
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             projectile.frameCounter++;
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Summon
             num *= Main.essScale;
             Lighting.AddLight(projectile.Center, 0.7f * num, 0.6f * num, 0f * num);
             float num637 = 0.05f;
-            for (int num638 = 0; num638 < 1000; num638++)
+            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
             {
                 bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<SandElementalHealer>();
                 if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
@@ -155,8 +155,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (num651 > 2000f)
             {
-                projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
                 projectile.netUpdate = true;
             }
             if (num651 > 70f)
@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (projectile.ai[1] == 0f && projectile.localAI[0] >= 120f)
                 {
                     projectile.ai[1] += 1f;
-                    if (Main.myPlayer == projectile.owner && Main.player[projectile.owner].statLife < Main.player[projectile.owner].statLifeMax2)
+                    if (Main.myPlayer == projectile.owner && player.statLife < player.statLifeMax2)
                     {
                         Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 6);
                         int num226 = 36;

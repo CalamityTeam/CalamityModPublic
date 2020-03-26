@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Summon
 				counter++;
 				canHome = true;
 			}
-            float homingRange = 700f;
+            float homingRange = 1000f;
             float num634 = 1300f;
             float num635 = 2600f;
             float num636 = 600f;
@@ -75,8 +75,9 @@ namespace CalamityMod.Projectiles.Summon
                 if (npc.CanBeChasedBy(projectile, false) && canHome)
                 {
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
-                    if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < homingRange) || !flag25)
+                    if (!flag25 && num646 < homingRange)
                     {
+						homingRange = num646;
                         vector46 = npc.Center;
                         flag25 = true;
                     }
@@ -90,7 +91,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (nPC2.CanBeChasedBy(projectile, false) && canHome)
                     {
                         float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < homingRange) || !flag25)
+                        if (!flag25 && num646 < homingRange)
                         {
                             homingRange = num646;
                             vector46 = nPC2.Center;

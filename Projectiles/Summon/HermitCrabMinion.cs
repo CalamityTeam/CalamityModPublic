@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (spawnDust)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num501 = 20;
                 for (int num502 = 0; num502 < num501; num502++)
@@ -58,11 +58,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 spawnDust = false;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             bool flag64 = projectile.type == ModContent.ProjectileType<HermitCrabMinion>();
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Summon
 					if (npc.CanBeChasedBy(projectile, false))
 					{
 						float num646 = Vector2.Distance(npc.Center, projectile.Center);
-						if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC)
+						if (!chaseNPC && num646 < num633)
 						{
 							num633 = num646;
 							vector46 = npc.Center;
@@ -122,13 +122,13 @@ namespace CalamityMod.Projectiles.Summon
 				}
                 else
 				{
-					for (int num645 = 0; num645 < 200; num645++)
+					for (int num645 = 0; num645 < Main.maxNPCs; num645++)
 					{
 						NPC npcTarget = Main.npc[num645];
 						if (npcTarget.CanBeChasedBy(projectile, false))
 						{
 							float num646 = Vector2.Distance(npcTarget.Center, projectile.Center);
-							if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !chaseNPC)
+							if (!chaseNPC && num646 < num633)
 							{
 								num633 = num646;
 								vector46 = npcTarget.Center;

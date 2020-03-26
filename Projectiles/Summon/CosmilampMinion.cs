@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
@@ -55,11 +55,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[0] += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f);
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             int num3;
-            for (int num534 = 0; num534 < 1000; num534 = num3 + 1)
+            for (int num534 = 0; num534 < Main.maxProjectiles; num534 = num3 + 1)
             {
                 if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
                     Main.projectile[num534].type == ModContent.ProjectileType<CosmilampMinion>() &&
@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else
                 {
-                    for (int num542 = 0; num542 < 200; num542 = num3 + 1)
+                    for (int num542 = 0; num542 < Main.maxNPCs; num542 = num3 + 1)
                     {
                         if (Main.npc[num542].CanBeChasedBy(projectile, false))
                         {

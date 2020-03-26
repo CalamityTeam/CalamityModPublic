@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                for (int num1056 = 0; num1056 < 200; num1056++)
+                for (int num1056 = 0; num1056 < Main.maxNPCs; num1056++)
                 {
                     NPC nPC13 = Main.npc[num1056];
                     if (nPC13.CanBeChasedBy(projectile, false) && player9.Distance(nPC13.Center) < num1054)
