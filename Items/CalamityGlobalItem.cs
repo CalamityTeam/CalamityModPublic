@@ -523,7 +523,6 @@ namespace CalamityMod.Items
                 }
                 else if (item.ranged)
                 {
-                    
                     if (enrage || Main.rand.NextBool(2)) //100% chance if 50% or lower, else 1 in 2 chance
                     {
                         correctedVelocity *= 20f;
