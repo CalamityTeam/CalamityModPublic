@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
             if (projectile.velocity.Y < 10f)
                 projectile.velocity.Y += 0.25f;
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            projectile.rotation = projectile.velocity.ToRotation();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
