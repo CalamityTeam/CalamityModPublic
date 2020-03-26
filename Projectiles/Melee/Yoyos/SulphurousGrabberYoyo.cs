@@ -14,6 +14,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 		private int bubbleCounter = 0;
 		private bool bubbleStronk = false;
 		private int bubbleStronkCounter = 0;
+		private float arbitraryTimer = 0f;
 
         public override void SetStaticDefaults()
         {
@@ -35,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-			projectile.localNPCHitCooldown = 10 * projectile.extraUpdates;
+			projectile.localNPCHitCooldown = 20 * projectile.extraUpdates;
         }
 
         public override void AI()
@@ -77,18 +78,21 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 					}
 				}
 
+				arbitraryTimer += bubbleStronk ? 0.5f : 1f;
+
 				bubbleCounter++;
 				if (bubbleCounter >= 60)
 				{
-						for (float i = 0; i < 9; i++)
-						{
-							int projType = ModContent.ProjectileType<SulphurousGrabberBubble>();
-							if (Main.rand.NextBool(10))
-								projType = ModContent.ProjectileType<SulphurousGrabberBubble2>();
-							float angle = MathHelper.TwoPi / 9 * i;
-							Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 8f, projType, projectile.damage / 10, projectile.knockBack / 10, projectile.owner, 0f, 0f);
-						}
-						bubbleCounter = 0;
+					int bubbleAmt = 9;
+					for (float i = 0; i < bubbleAmt; i++)
+					{
+						int projType = ModContent.ProjectileType<SulphurousGrabberBubble>();
+						if (Main.rand.NextBool(10))
+							projType = ModContent.ProjectileType<SulphurousGrabberBubble2>();
+						float angle = MathHelper.TwoPi / bubbleAmt * i + (float)Math.Sin(arbitraryTimer / 20f) * MathHelper.PiOver2;
+						Projectile.NewProjectile(projectile.Center, angle.ToRotationVector2() * 8f, projType, projectile.damage / 10, projectile.knockBack / 10, projectile.owner, 0f, 0f);
+					}
+					bubbleCounter = 0;
 				}
 			}
         }
