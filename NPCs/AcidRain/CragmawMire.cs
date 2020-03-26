@@ -11,6 +11,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Rogue;
+
 namespace CalamityMod.NPCs.AcidRain
 {
     public class CragmawMire : ModNPC
@@ -265,6 +267,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void NPCLoot()
         {
 			DropHelper.DropItemChance(npc, ModContent.ItemType<NuclearRod>(), CalamityWorld.downedPolterghast ? 0.1f : 1f);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SpentFuelContainer>(), CalamityWorld.downedPolterghast ? 0.1f : 1f);
         }
     }
 }
