@@ -5680,5 +5680,48 @@ namespace CalamityMod.NPCs
             }
 		}
 		#endregion
+
+		#region Dungeon Spirit AI
+		public static void DungeonSpiritAI(NPC npc, Mod mod, float speed, float rotation, bool lantern = false)
+        {
+            npc.TargetClosest(true);
+            Vector2 vector145 = new Vector2(npc.Center.X, npc.Center.Y);
+            float num1258 = Main.player[npc.target].Center.X - vector145.X;
+            float num1259 = Main.player[npc.target].Center.Y - vector145.Y;
+            float num1260 = (float)Math.Sqrt((double)(num1258 * num1258 + num1259 * num1259));
+            float num1261 = speed;
+
+			if (lantern)
+			{
+				if (npc.localAI[0] < 85f)
+				{
+					num1261 = 0.1f;
+					num1260 = num1261 / num1260;
+					num1258 *= num1260;
+					num1259 *= num1260;
+					npc.velocity = (npc.velocity * 100f + new Vector2(num1258, num1259)) / 101f;
+					npc.localAI[0] += 1f;
+					return;
+				}
+
+				npc.dontTakeDamage = false;
+				npc.chaseable = true;
+			}
+
+            num1260 = num1261 / num1260;
+            num1258 *= num1260;
+            num1259 *= num1260;
+            npc.velocity.X = (npc.velocity.X * 100f + num1258) / 101f;
+            npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
+
+			if (lantern)
+			{
+				npc.rotation = npc.velocity.X * 0.08f;
+				npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
+			}
+			else
+				npc.rotation = (float)Math.Atan2((double)num1259, (double)num1258) + rotation;
+        }
+		#endregion
 	}
 }
