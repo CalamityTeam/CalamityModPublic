@@ -55,6 +55,7 @@ using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -766,6 +767,13 @@ namespace CalamityMod
 				fargos.Call("AddSummon", order, "CalamityMod", summonItemName, downed, price);
 			}
 
+			void AddToAbomShop(float order, string summonItemName, Func<bool> downed, int price)
+			{
+				fargos.Call("AddEventSummon", order, "CalamityMod", summonItemName, downed, price); //Not currently in the live version of fargo's, it will however be in the next version.
+			}
+
+			fargos.Call("AbominationnClearEvents", "CalamityMod", CalamityWorld.rainingAcid, true);
+
 			AddToMutantShop("DesertScourge", "DriedSeafood", DownedDesertScourge, Item.buyPrice(gold: 2));
 			AddToMutantShop("Crabulon", "DecapoditaSprout", DownedCrabulon, Item.buyPrice(gold: 4));
 			AddToMutantShop("HiveMind", "Teratoma", DownedHiveMind, Item.buyPrice(gold: 10));
@@ -780,6 +788,8 @@ namespace CalamityMod
 			AddToMutantShop("ProfanedGuardians", "ProfanedShard", DownedGuardians, Item.buyPrice(platinum: 5));
 			AddToMutantShop("Bumblebirb", "BirbPheromones", DownedBirb, Item.buyPrice(platinum: 5));
 			AddToMutantShop("OldDuke", "BloodwormItem", DownedBoomerDuke, Item.buyPrice(platinum: 8));
+
+			AddToAbomShop(InvasionDifficulty["Acid Rain Initial"], "CausticTear", DownedAcidRainInitial, Item.buyPrice(gold: 3));
 		}
 
 		private static void CensusSupport()

@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles;
 using CalamityMod.World;
@@ -1651,7 +1652,16 @@ namespace CalamityMod
 					Item item = (Item)args[1];
 					int rarity = (int)args[2];
 					return SetCalamityRarity(item, rarity);
-
+				case "AbominationnClearEvents":
+					bool eventActive = CalamityWorld.rainingAcid;
+					bool canClear = Convert.ToBoolean(args[1]); //This is to indicate whether abomm is able to clear the event due to a cooldown
+					if (eventActive && canClear) //adjust based on other events when added.
+					{
+						CalamityWorld.acidRainPoints = 0;
+						CalamityWorld.triedToSummonOldDuke = false;
+						AcidRainEvent.UpdateInvasion(false);
+					}
+					return eventActive;
 				default:
 					return new ArgumentException("ERROR: Invalid method name.");
 			}

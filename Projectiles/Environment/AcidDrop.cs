@@ -5,6 +5,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.SummonItems.Invasion;
+using CalamityMod.World;
 
 namespace CalamityMod.Projectiles.Environment
 {
@@ -43,6 +45,12 @@ namespace CalamityMod.Projectiles.Environment
                 Main.dust[idx].velocity -= projectile.velocity * 0.025f;
                 Main.dust[idx].scale = 0.75f;
             }
+            int frequency = CalamityWorld.downedAquaticScourgeAcidRain ? 1000 : CalamityWorld.downedEoCAcidRain ? 500 : 250;
+            if (Main.rand.NextBool(frequency)) //not too often, but not too rare either considering how often they spawn
+            {
+                Item.NewItem(projectile.getRect(), ModContent.ItemType<CausticTear>(), 1);
+            }
+
             return true;
         }
 
