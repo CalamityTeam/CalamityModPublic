@@ -130,8 +130,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Vector2 vector2 = npc.position + npc.Size * value;
                     float num12 = Vector2.Distance(vector2, center);
-                    if ((!flag && num13 < num10) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                    if ((!flag && num12 < num10) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                     {
+                        num10 = num12;
                         vector = vector2;
                         flag = true;
                         int num11 = npc.whoAmI;

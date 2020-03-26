@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
                 float num507 = projectile.Center.Y;
                 float num508 = 1000f;
                 int target = 0;
-                if (Main.player[projectile.owner].HasMinionAttackTargetNPC)
+                if (player.HasMinionAttackTargetNPC)
                 {
                     NPC npc = Main.npc[Main.player[projectile.owner].MinionAttackTargetNPC];
                     if (npc.CanBeChasedBy(projectile, false))
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else
                 {
-                    for (int num512 = 0; num512 < Main.maxNPC; num512++)
+                    for (int num512 = 0; num512 < Main.maxNPCs; num512++)
                     {
                         if (Main.npc[num512].CanBeChasedBy(projectile, false))
                         {
