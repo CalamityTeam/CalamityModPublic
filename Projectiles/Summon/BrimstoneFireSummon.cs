@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
-            projectile.penetrate = 2;
+            projectile.penetrate = 1;
             projectile.extraUpdates = 3;
             projectile.timeLeft = 50;
         }
@@ -79,7 +79,6 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.immune[projectile.owner] = 9;
         }
     }
 }

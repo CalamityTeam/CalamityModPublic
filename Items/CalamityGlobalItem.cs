@@ -523,7 +523,6 @@ namespace CalamityMod.Items
                 }
                 else if (item.ranged)
                 {
-                    
                     if (enrage || Main.rand.NextBool(2)) //100% chance if 50% or lower, else 1 in 2 chance
                     {
                         correctedVelocity *= 20f;
@@ -804,7 +803,7 @@ namespace CalamityMod.Items
                         if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
                             tt2.overrideColor = new Color(255 - Main.DiscoG < 80 ? 80 : Main.DiscoG < 50 ? 255 : 255 - Main.DiscoG, Main.DiscoG < 126 ? 126 : Main.DiscoG, 0); //alternates between emerald green and amber (BanditHueh)
 
-                        // Uniquely colored legendary weapons  and Yharim's Crystal
+                        // Uniquely colored legendary weapons and Yharim's Crystal
                         if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 53);
                         if (item.type == ModContent.ItemType<BlossomFlux>())

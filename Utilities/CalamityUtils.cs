@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items;
+using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs;
 using CalamityMod.Projectiles;
 using CalamityMod.Tiles;
@@ -2080,18 +2081,18 @@ namespace CalamityMod
             Lighting.AddLight(projectile.Center, 0.4f, 0f, 0.4f);
 
             Player player = Main.player[projectile.owner];
-            if (projectile.bobber && Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].holdStyle > 0)
+            if (projectile.bobber && player.inventory[player.selectedItem].holdStyle > 0)
             {
                 float pPosX = player.MountedCenter.X;
                 float pPosY = player.MountedCenter.Y;
-                pPosY += Main.player[projectile.owner].gfxOffY;
-                int type = Main.player[projectile.owner].inventory[Main.player[projectile.owner].selectedItem].type;
-                float gravDir = Main.player[projectile.owner].gravDir;
+                pPosY += player.gfxOffY;
+                int type = player.inventory[player.selectedItem].type;
+                float gravDir = player.gravDir;
 
                 if (type == fishingRodType)
                 {
-                    pPosX += (float)(xPositionAdditive * Main.player[projectile.owner].direction);
-                    if (Main.player[projectile.owner].direction < 0)
+                    pPosX += (float)(xPositionAdditive * player.direction);
+                    if (player.direction < 0)
                     {
                         pPosX -= 13f;
                     }
@@ -2103,7 +2104,7 @@ namespace CalamityMod
                     pPosY -= 12f;
                 }
                 Vector2 mountedCenter = new Vector2(pPosX, pPosY);
-                mountedCenter = Main.player[projectile.owner].RotatedRelativePoint(mountedCenter + new Vector2(8f), true) - new Vector2(8f);
+                mountedCenter = player.RotatedRelativePoint(mountedCenter + new Vector2(8f), true) - new Vector2(8f);
                 float projPosX = projectile.position.X + (float)projectile.width * 0.5f - mountedCenter.X;
                 float projPosY = projectile.position.Y + (float)projectile.height * 0.5f - mountedCenter.Y;
                 Math.Sqrt((double)(projPosX * projPosX + projPosY * projPosY));
@@ -2380,6 +2381,59 @@ namespace CalamityMod
             if (sfx is null || sfx.IsDisposed)
                 return;
             (sfx.Volume, sfx.Pan) = CalculateSoundStats(soundPos, ambient);
+        }
+
+        public static void StartRain(bool torrentialTear = false)
+        {
+            int num = 86400;
+            int num2 = num / 24;
+            Main.rainTime = Main.rand.Next(num2 * 8, num);
+            if (Main.rand.NextBool(3))
+            {
+                Main.rainTime += Main.rand.Next(0, num2);
+            }
+            if (Main.rand.NextBool(4))
+            {
+                Main.rainTime += Main.rand.Next(0, num2 * 2);
+            }
+            if (Main.rand.NextBool(5))
+            {
+                Main.rainTime += Main.rand.Next(0, num2 * 2);
+            }
+            if (Main.rand.NextBool(6))
+            {
+                Main.rainTime += Main.rand.Next(0, num2 * 3);
+            }
+            if (Main.rand.NextBool(7))
+            {
+                Main.rainTime += Main.rand.Next(0, num2 * 4);
+            }
+            if (Main.rand.NextBool(8))
+            {
+                Main.rainTime += Main.rand.Next(0, num2 * 5);
+            }
+            float num3 = 1f;
+            if (Main.rand.NextBool(2))
+            {
+                num3 += 0.05f;
+            }
+            if (Main.rand.NextBool(3))
+            {
+                num3 += 0.1f;
+            }
+            if (Main.rand.NextBool(4))
+            {
+                num3 += 0.15f;
+            }
+            if (Main.rand.NextBool(5))
+            {
+                num3 += 0.2f;
+            }
+            Main.rainTime = (int)((float)Main.rainTime * num3);
+            Main.raining = true;
+			if (torrentialTear)
+				TorrentialTear.AdjustRainSeverity(false);
+            CalamityMod.UpdateServerBoolean();
         }
 
         public static void StartSandstorm()

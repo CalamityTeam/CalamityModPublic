@@ -6,7 +6,6 @@ using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Weapons.Magic;
-using CalamityMod.Projectiles.Ranged;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -53,9 +52,7 @@ namespace CalamityMod.Projectiles.Magic
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
-                    int mist = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<SulphuricAcidMist2>(), (int)(BelchingSaxophone.BaseDamage * Main.player[projectile.owner].MagicDamage()), 1f, projectile.owner, 0f, 0f);
-					Main.projectile[mist].Calamity().forceMagic = true;
-					Main.projectile[mist].localNPCHitCooldown = 10;
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<AcidicSaxMist>(), (int)(BelchingSaxophone.BaseDamage * Main.player[projectile.owner].MagicDamage()), 1f, projectile.owner, 0f, 0f);
                 }
                 else
                     counter += 1f;
@@ -141,13 +138,13 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
-            target.AddBuff(BuffID.Venom, 600);
+            target.AddBuff(BuffID.Venom, 300);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
-            target.AddBuff(BuffID.Venom, 600);
+            target.AddBuff(BuffID.Venom, 300);
         }
 
         public override void Kill(int timeLeft)

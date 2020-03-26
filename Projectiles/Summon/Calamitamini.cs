@@ -202,8 +202,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num651 > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
                     projectile.netUpdate = true;
                 }
                 if (num651 > 70f)
@@ -240,7 +240,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.ai[1] += (float)Main.rand.Next(1, 4);
             }
-            if (projectile.ai[1] > 90f)
+            if (projectile.ai[1] > 110f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
@@ -257,8 +257,7 @@ namespace CalamityMod.Projectiles.Summon
                         Vector2 value19 = vector46 - projectile.Center;
                         value19.Normalize();
                         value19 *= scaleFactor3;
-                        int num659 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                        Main.projectile[num659].timeLeft = 300;
+                        int num659 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, 0f, projectile.owner, 0f, 0f);
                         projectile.netUpdate = true;
                     }
                 }
