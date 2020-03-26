@@ -26,14 +26,12 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.aiStyle = 66;
             projectile.minionSlots = 1f;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
-            aiType = ProjectileID.Spazmamini;
         }
 
         public override void AI()
@@ -103,18 +101,154 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			//if you can't go through tiles, you can go through tiles
-			if (projectile.tileCollide == true)
+			float num1 = 700f;
+			float num2 = 800f;
+			float num3 = 1200f;
+			float num4 = 150f;
+			bool flag1 = false;
+			if (projectile.ai[0] == 2f)
+			{
+				projectile.ai[1] += 1f;
+				projectile.extraUpdates = 2;
+				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
+				if (projectile.ai[1] > 40f)
+				{
+					projectile.ai[1] = 1f;
+					projectile.ai[0] = 0.0f;
+					projectile.extraUpdates = 0;
+					projectile.numUpdates = 0;
+					projectile.netUpdate = true;
+				}
+				else
+					flag1 = true;
+			}
+			if (flag1)
+				return;
+			Vector2 Position2 = projectile.position;
+			bool flag2 = false;
+			if (projectile.tileCollide && WorldGen.SolidTile(Framing.GetTileSafely((int) projectile.Center.X / 16, (int) projectile.Center.Y / 16)))
 				projectile.tileCollide = false;
+			NPC targetedNPC = projectile.OwnerMinionAttackTargetNPC;
+			if (targetedNPC != null && targetedNPC.CanBeChasedBy((object) projectile, false))
+			{
+				float num6 = Vector2.Distance(targetedNPC.Center, projectile.Center);
+				if ((!flag2 && num6 < num1) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, targetedNPC.position, targetedNPC.width, targetedNPC.height))
+				{
+					num1 = num6;
+					Position2 = targetedNPC.Center;
+					flag2 = true;
+				}
+			}
+			if (!flag2)
+			{
+				for (int index = 0; index < Main.maxNPCs; ++index)
+				{
+					NPC npc = Main.npc[index];
+					if (npc.CanBeChasedBy((object) projectile, false))
+					{
+						float num6 = Vector2.Distance(npc.Center, projectile.Center);
+						if ((!flag2 && num6 < num1) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+						{
+							num1 = num6;
+							Position2 = npc.Center;
+							flag2 = true;
+						}
+					}
+				}
+			}
+			if (flag2)
+			{
+				projectile.tileCollide = true;
+			}
+			else
+			{
+				projectile.tileCollide = false;
+			}
+			float num8 = num2;
+			if (flag2)
+				num8 = num3;
+			if (Vector2.Distance(player.Center, projectile.Center) > num8)
+			{
+				projectile.ai[0] = 1f;
+				projectile.tileCollide = false;
+				projectile.netUpdate = true;
+			}
+			if (((1) & (flag2 ? 1 : 0)) != 0 && projectile.ai[0] == 0f)
+			{
+				Vector2 vector2 = Position2 - projectile.Center;
+				float num6 = vector2.Length();
+				vector2.Normalize();
+				if (num6 > 200f)
+				{
+					float num7 = 8f;
+					projectile.velocity = (projectile.velocity * 40f + vector2 * num7) / 41f;
+				}
+				else
+				{
+					float num7 = 4f;
+					projectile.velocity = (projectile.velocity * 40f + vector2 * -num7) / 41f;
+				}
+			}
+			else
+			{
+				bool flag3 = false;
+				if (!flag3)
+					flag3 = projectile.ai[0] == 1f;
+				float num6 = 6f;
+				if (flag3)
+					num6 = 15f;
+				Vector2 center = projectile.Center;
+				Vector2 vector2 = player.Center - center + new Vector2(0.0f, -60f);
+				float num7 = vector2.Length();
+				if (num7 > 200f && num6 < 8f)
+					num6 = 8f;
+				if (num7 < num4 & flag3 && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+				{
+					projectile.ai[0] = 0.0f;
+					projectile.netUpdate = true;
+				}
+				if (num7 > 2000f)
+				{
+					projectile.position.X = player.Center.X - (float) (projectile.width / 2);
+					projectile.position.Y = player.Center.Y - (float) (projectile.height / 2);
+					projectile.netUpdate = true;
+				}
+				if (num7 > 70f)
+				{
+					vector2.Normalize();
+					vector2 *= num6;
+					projectile.velocity = (projectile.velocity * 40f + vector2) / 41f;
+				}
+				else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+				{
+					projectile.velocity.X = -0.15f;
+					projectile.velocity.Y = -0.05f;
+				}
+			}
+			if (projectile.ai[1] > 0f)
+			{
+				projectile.ai[1] += (float) Main.rand.Next(1, 4);
+			}
+			if (projectile.ai[1] > 40f)
+			{
+				projectile.ai[1] = 0.0f;
+				projectile.netUpdate = true;
+			}
+			if (projectile.ai[0] == 0f)
+			{
+				if (projectile.ai[1] != 0f || (!flag2 || num1 >= 500f))
+					return;
+				projectile.ai[1] += 1f;
+				if (Main.myPlayer != projectile.owner)
+					return;
+				projectile.ai[0] = 2f;
+				Vector2 vector2 = Position2 - projectile.Center;
+				vector2.Normalize();
+				projectile.velocity = vector2 * 8f;
+				projectile.netUpdate = true;
+			}
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }

@@ -25,12 +25,10 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.minionSlots = 1;
-            projectile.aiStyle = 54;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.timeLeft *= 5;
             projectile.minion = true;
-            aiType = ProjectileID.Raven;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;

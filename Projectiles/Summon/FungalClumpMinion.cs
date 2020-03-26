@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = -1;
             projectile.timeLeft *= 5;
             projectile.minion = true;
-            aiType = ProjectileID.Raven;
             projectile.tileCollide = false;
         }
 
