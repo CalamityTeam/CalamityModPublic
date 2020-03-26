@@ -32,8 +32,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            if (projectile.owner != Main.myPlayer)
-                ai = reader.ReadInt32();
+            ai = reader.ReadInt32();
         }
 
         private void AI(int type, float num535, float num536, Player player)
