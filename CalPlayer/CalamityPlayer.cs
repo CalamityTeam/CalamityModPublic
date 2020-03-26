@@ -10331,7 +10331,7 @@ namespace CalamityMod.CalPlayer
 
         internal void rollBabSpears(int randAmt, bool chaseable)
         {
-            if (player.whoAmI == Main.myPlayer && randAmt > 0 && !endoCooper && !magicHat && Main.rand.NextBool(randAmt) && chaseable) //disallow other dev summons due to damage being bonkers
+            if (player.whoAmI == Main.myPlayer && randAmt > 0 && Main.rand.NextBool(randAmt) && chaseable)
             {
                 int spearsFired = 0;
                 for (int i = 0; i < Main.projectile.Length; i++)
