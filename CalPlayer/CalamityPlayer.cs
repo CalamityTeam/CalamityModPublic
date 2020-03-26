@@ -7060,11 +7060,17 @@ namespace CalamityMod.CalPlayer
                             {
                                 player.ApplyDamageToNPC(nPC, (int)num, num2, direction, crit);
                             }
-                            nPC.immune[player.whoAmI] = 6;
+							if (nPC.immune[player.whoAmI] < 6)
+								nPC.immune[player.whoAmI] = 6;
                             nPC.AddBuff(ModContent.BuffType<GlacialState>(), 300);
                             player.immune = true;
                             player.immuneNoBlink = true;
-                            player.immuneTime = 4;
+							if (player.immuneTime < 4)
+								player.immuneTime = 4;
+							for (int k = 0; k < player.hurtCooldowns.Length; k++)
+							{
+								player.hurtCooldowns[k] = player.immuneTime;
+							}
                         }
                     }
                 }
@@ -7111,11 +7117,17 @@ namespace CalamityMod.CalPlayer
                                 Main.projectile[num6].Kill();
                                 Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyEruption>(), 780, 5f, Main.myPlayer, 0f, 0f);
                             }
-                            nPC.immune[player.whoAmI] = 6;
+							if (nPC.immune[player.whoAmI] < 6)
+								nPC.immune[player.whoAmI] = 6;
                             nPC.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
                             player.immune = true;
                             player.immuneNoBlink = true;
-                            player.immuneTime = 4;
+							if (player.immuneTime < 4)
+								player.immuneTime = 4;
+							for (int k = 0; k < player.hurtCooldowns.Length; k++)
+							{
+								player.hurtCooldowns[k] = player.immuneTime;
+							}
                         }
                     }
                 }
@@ -7162,10 +7174,16 @@ namespace CalamityMod.CalPlayer
                                 Main.projectile[num6].Kill();
                                 Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyEruption>(), 380, 5f, Main.myPlayer, 0f, 0f);
                             }
-                            nPC.immune[player.whoAmI] = 6;
+							if (nPC.immune[player.whoAmI] < 6)
+								nPC.immune[player.whoAmI] = 6;
                             player.immune = true;
                             player.immuneNoBlink = true;
-                            player.immuneTime = 4;
+							if (player.immuneTime < 4)
+								player.immuneTime = 4;
+							for (int k = 0; k < player.hurtCooldowns.Length; k++)
+							{
+								player.hurtCooldowns[k] = player.immuneTime;
+							}
                         }
                     }
                 }
@@ -7211,10 +7229,16 @@ namespace CalamityMod.CalPlayer
                                 int num6 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosion>(), 100, 15f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[num6].Kill();
                             }
-                            nPC.immune[player.whoAmI] = 6;
+							if (nPC.immune[player.whoAmI] < 6)
+								nPC.immune[player.whoAmI] = 6;
                             player.immune = true;
                             player.immuneNoBlink = true;
-                            player.immuneTime = 4;
+							if (player.immuneTime < 4)
+								player.immuneTime = 4;
+							for (int k = 0; k < player.hurtCooldowns.Length; k++)
+							{
+								player.hurtCooldowns[k] = player.immuneTime;
+							}
                         }
                     }
                 }
