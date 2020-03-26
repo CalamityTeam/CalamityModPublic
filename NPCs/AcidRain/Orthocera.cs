@@ -1,6 +1,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using System;
@@ -162,6 +163,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void NPCLoot()
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<CorrodedFossil>(), CalamityWorld.downedAquaticScourge && Main.rand.NextBool(3 * (CalamityWorld.downedPolterghast ? 5 : 1)), 1, 3);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<OrthoceraShell>(), 20);
         }
         public override void FindFrame(int frameHeight)
         {

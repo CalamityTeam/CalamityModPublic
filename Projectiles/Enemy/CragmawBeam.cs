@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Enemy
             }
 
             // How fat the laser is
-            float laserSize = 1f;
+            float laserSize = 1.6f;
 
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] >= TrueTimeLeft)

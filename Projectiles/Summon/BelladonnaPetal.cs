@@ -27,8 +27,9 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             projectile.velocity.X *= 0.99f;
-            if (projectile.velocity.Y < 5f)
-                projectile.velocity.Y += 0.05f;
+            if (projectile.velocity.Y < 9f)
+                projectile.velocity.Y += 0.085f;
+            projectile.tileCollide = projectile.timeLeft <= 180;
         }
         public override void Kill(int timeLeft)
         {

@@ -24,42 +24,43 @@ namespace CalamityMod.Events
         public static readonly Color TextColor = new Color(115, 194, 147);
 
         // Not readonly so that if anyone else wants to add stuff in here with their own mod, they can.
-        // The first value is the NPC type, the second is the value they're worth in the event
-        public static List<(int, int)> PossibleEnemiesPreHM = new List<(int, int)>()
+        // The first value is the NPC type, the second is the value they're worth in the event.
+        // The third value is whether the enemy can only spawn in water
+        public static List<(int, int, bool)> PossibleEnemiesPreHM = new List<(int, int, bool)>()
         {
-            ( ModContent.NPCType<Radiator>(), 1 ),
-            ( ModContent.NPCType<NuclearToad>(), 1 ),
-            ( ModContent.NPCType<AcidEel>(), 1 ),
-            ( ModContent.NPCType<Skyfin>(), 1 ),
-            ( ModContent.NPCType<WaterLeech>(), 1 )
+            ( ModContent.NPCType<Radiator>(), 1, true ),
+            ( ModContent.NPCType<NuclearToad>(), 1, false ),
+            ( ModContent.NPCType<AcidEel>(), 1, true ),
+            ( ModContent.NPCType<Skyfin>(), 1, true ),
+            ( ModContent.NPCType<WaterLeech>(), 1, true )
         };
 
-        public static List<(int, int)> PossibleEnemiesAS = new List<(int, int)>()
+        public static List<(int, int, bool)> PossibleEnemiesAS = new List<(int, int, bool)>()
         {
-            ( ModContent.NPCType<Radiator>(), 0 ),
-            ( ModContent.NPCType<NuclearToad>(), 0 ),
-            ( ModContent.NPCType<AcidEel>(), 0 ),
-            ( ModContent.NPCType<Orthocera>(), 1 ),
-            ( ModContent.NPCType<IrradiatedSlime>(), 1 ),
-            ( ModContent.NPCType<WaterLeech>(), 1 ),
-            ( ModContent.NPCType<Skyfin>(), 1 ),
-            ( ModContent.NPCType<Trilobite>(), 1 ),
-            ( ModContent.NPCType<FlakCrab>(), 1 ),
-            ( ModContent.NPCType<SulfurousSkater>(), 1 )
+            ( ModContent.NPCType<Radiator>(), 0, true ),
+            ( ModContent.NPCType<NuclearToad>(), 0, false ),
+            ( ModContent.NPCType<AcidEel>(), 0, true ),
+            ( ModContent.NPCType<Orthocera>(), 1, true ),
+            ( ModContent.NPCType<IrradiatedSlime>(), 1, false ),
+            ( ModContent.NPCType<WaterLeech>(), 1, true ),
+            ( ModContent.NPCType<Skyfin>(), 1, true ),
+            ( ModContent.NPCType<Trilobite>(), 1, true ),
+            ( ModContent.NPCType<FlakCrab>(), 1, false ),
+            ( ModContent.NPCType<SulfurousSkater>(), 1, false )
         };
 
-        public static List<(int, int)> PossibleEnemiesPolter = new List<(int, int)>()
+        public static List<(int, int, bool)> PossibleEnemiesPolter = new List<(int, int, bool)>()
         {
-            ( ModContent.NPCType<Radiator>(), 0 ),
-            ( ModContent.NPCType<NuclearToad>(), 0 ),
-            ( ModContent.NPCType<AcidEel>(), 0 ),
-            ( ModContent.NPCType<Orthocera>(), 1 ),
-            ( ModContent.NPCType<GammaSlime>(), 1 ),
-            ( ModContent.NPCType<WaterLeech>(), 1 ),
-            ( ModContent.NPCType<Skyfin>(), 1 ),
-            ( ModContent.NPCType<Trilobite>(), 1 ),
-            ( ModContent.NPCType<FlakCrab>(), 1 ),
-            ( ModContent.NPCType<SulfurousSkater>(), 1 )
+            ( ModContent.NPCType<Radiator>(), 0, true ),
+            ( ModContent.NPCType<NuclearToad>(), 0, false ),
+            ( ModContent.NPCType<AcidEel>(), 0, true ),
+            ( ModContent.NPCType<Orthocera>(), 1, true ),
+            ( ModContent.NPCType<GammaSlime>(), 1, false ),
+            ( ModContent.NPCType<WaterLeech>(), 1, true ),
+            ( ModContent.NPCType<Skyfin>(), 1, true ),
+            ( ModContent.NPCType<Trilobite>(), 1, true ),
+            ( ModContent.NPCType<FlakCrab>(), 1, false ),
+            ( ModContent.NPCType<SulfurousSkater>(), 1, false )
         };
 
         public static List<int> PossibleMinibossesAS = new List<int>()
@@ -116,7 +117,7 @@ namespace CalamityMod.Events
                 if (Main.npc[i].active)
                 {
                     int type = Main.npc[i].type;
-                    List<(int, int)> PossibleEnemies = PossibleEnemiesPreHM;
+                    List<(int, int, bool)> PossibleEnemies = PossibleEnemiesPreHM;
                     if (CalamityWorld.downedAquaticScourge)
                         PossibleEnemies = PossibleEnemiesAS;
                     if (CalamityWorld.downedPolterghast)
