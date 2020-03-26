@@ -39,6 +39,8 @@ namespace CalamityMod.Items.TreasureBags
             return true;
         }
 
+        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
+
         public override void OpenBossBag(Player player)
         {
             // AS is available PHM, so this check is necessary to keep vanilla consistency

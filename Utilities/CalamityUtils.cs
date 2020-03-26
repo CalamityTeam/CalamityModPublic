@@ -212,6 +212,48 @@ namespace CalamityMod
             */
         }
 
+        private const float WorldInsertionOffset = 15f;
+        /// <summary>
+        /// If the given item is outside the world, force it to be within the world boundaries.
+        /// </summary>
+        /// <param name="item">The item to possibly relocate.</param>
+        /// <param name="dist">The minimum distance in pixels the item can be from the world boundary.</param>
+        /// <returns>Whether the item was relocated.</returns>
+        public static bool ForceItemIntoWorld(Item item, float desiredDist = WorldInsertionOffset)
+        {
+            if (item is null || !item.active)
+                return false;
+
+            // The world edge needs to be accounted for regardless of the distance chosen as an argument.
+            float worldEdge = Main.offLimitBorderTiles * 16f;
+            float dist = worldEdge + desiredDist;
+
+            float maxPosX = Main.maxTilesX * 16f;
+            float maxPosY = Main.maxTilesY * 16f;
+            bool moved = false;
+            if (item.position.X < worldEdge)
+            {
+                item.position.X = dist;
+                moved = true;
+            }
+            else if(item.position.X + item.width > maxPosX - worldEdge)
+            {
+                item.position.X = maxPosX - item.width - dist;
+                moved = true;
+            }
+            if(item.position.Y < worldEdge)
+            {
+                item.position.Y = dist;
+                moved = true;
+            }
+            else if(item.position.Y + item.height > maxPosY - worldEdge)
+            {
+                item.position.Y = maxPosY - item.height - dist;
+                moved = true;
+            }
+            return moved;
+        }
+
         public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
         {
             Player player = Main.player[Main.myPlayer];
