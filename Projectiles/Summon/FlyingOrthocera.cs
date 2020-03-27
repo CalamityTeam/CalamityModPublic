@@ -24,8 +24,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.sentry = true;
-            projectile.minion = true;
-            projectile.minionSlots = 1f;
             projectile.timeLeft = Projectile.SentryLifeTime;
             projectile.penetrate = -1;
         }
