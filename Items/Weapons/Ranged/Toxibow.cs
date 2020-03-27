@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 20);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }
