@@ -513,6 +513,9 @@ namespace CalamityMod.CalPlayer
         public bool hydrothermalSmoke = false;
         public bool daedalusAbsorb = false;
         public bool daedalusShard = false;
+        public bool brimflameSet = false;
+        public bool brimflameFrenzy = false;
+        public bool brimflameFrenzyCooldown = false;
         public bool reaverSpore = false;
         public bool reaverDoubleTap = false;
         public bool flamethrowerBoost = false;
@@ -1313,6 +1316,10 @@ namespace CalamityMod.CalPlayer
             daedalusAbsorb = false;
             daedalusShard = false;
 
+            brimflameSet = false;
+            brimflameFrenzy = false;
+            brimflameFrenzyCooldown = false;
+
             reaverSpore = false;
             reaverDoubleTap = false;
             reaverBlast = false;
@@ -1858,6 +1865,9 @@ namespace CalamityMod.CalPlayer
             daedalusSplit = false;
             daedalusAbsorb = false;
             daedalusShard = false;
+            brimflameSet = false;
+            brimflameFrenzy = false;
+            brimflameFrenzyCooldown = false;
             reaverSpore = false;
             reaverDoubleTap = false;
             shadeRegen = false;
@@ -2285,6 +2295,40 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.TarraHotKey.JustPressed)
             {
+                if (brimflameSet && !brimflameFrenzyCooldown)
+                {
+                    if (player.whoAmI == Main.myPlayer)
+                    {
+                        if (brimflameFrenzy)
+                        {
+                            brimflameFrenzy = false;
+                            player.ClearBuff(ModContent.BuffType<BrimflameFrenzyBuff>());
+                        }
+                        else
+                        {
+                            brimflameFrenzy = true;
+                            player.AddBuff(ModContent.BuffType<BrimflameFrenzyBuff>(), 10 * 60, true);
+                            Main.PlaySound(29, (int)player.position.X, (int)player.position.Y, 104);
+                            for (int num502 = 0; num502 < 36; num502++)
+                            {
+                                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 235, 0f, 0f, 0, default, 1f);
+                                Main.dust[dust].velocity *= 3f;
+                                Main.dust[dust].scale *= 1.15f;
+                            }
+                            int num226 = 36;
+                            for (int num227 = 0; num227 < num226; num227++)
+                            {
+                                Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
+                                vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / (float)num226), default) + player.Center;
+                                Vector2 vector7 = vector6 - player.Center;
+                                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 235, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
+                                Main.dust[num228].noGravity = true;
+                                Main.dust[num228].noLight = true;
+                                Main.dust[num228].velocity = vector7;
+                            }
+                        }
+                    }
+                }
                 if (tarraMelee && !tarragonCloakCooldown && !tarragonCloak)
                 {
                     if (player.whoAmI == Main.myPlayer)
@@ -5075,6 +5119,13 @@ namespace CalamityMod.CalPlayer
             else if (proj.type == ProjectileID.InfernoFriendlyBlast)
             {
                 damageMult += 0.33;
+            }
+            if (brimflameFrenzy && brimflameSet)
+            {
+                if (proj.magic)
+                {
+                    damage = (int)(damage * 1.1f);
+                }
             }
             if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
             {

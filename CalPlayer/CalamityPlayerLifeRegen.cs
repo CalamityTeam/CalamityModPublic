@@ -331,6 +331,15 @@ namespace CalamityMod.CalPlayer
 				if (player.statMana > (int)((double)player.statManaMax2 * 0.5))
 					lifeRegenLost += 3;
 			}
+            if (modPlayer.brimflameFrenzy)
+            {
+                player.manaRegen = 0;
+                player.manaRegenBonus = 0;
+                player.manaRegenDelay = (int) player.maxRegenDelay;
+                if (player.lifeRegen > 0)
+                    player.lifeRegen = 0;
+                lifeRegenLost += 42; //the meaning of death
+            }
 
 			player.lifeRegen -= lifeRegenLost * lifeRegenMult;
 
