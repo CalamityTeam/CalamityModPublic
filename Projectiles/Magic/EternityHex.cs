@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Magic
                 {
                     int homerCount = 6;
                     int trueMeleeID = ModContent.ProjectileType<EternityHoming>();
-                    int trueMeleeDamage = (int)(Eternity.BaseDamage * player.MagicDamage() * 0.9f);
+                    int trueMeleeDamage = (int)(Eternity.BaseDamage * player.MagicDamage() * 0.8f);
                     float angleVariance = MathHelper.TwoPi / homerCount;
                     float spinOffsetAngle = MathHelper.Pi / (2f * homerCount);
                     Vector2 posVec = Vector2.UnitX.RotatedByRandom(MathHelper.TwoPi) * 10f;

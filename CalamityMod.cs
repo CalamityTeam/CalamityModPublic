@@ -2103,8 +2103,6 @@ namespace CalamityMod
                 ModContent.ProjectileType<ShinobiBladeProjectile>(),
                 ModContent.ProjectileType<JawsProjectile>(),
                 ModContent.ProjectileType<LeviathanTooth>(),
-                ModContent.ProjectileType<LeviathanTooth2>(),
-                ModContent.ProjectileType<LeviathanTooth3>(),
                 ModContent.ProjectileType<DeificThunderboltProj>()
             };
 

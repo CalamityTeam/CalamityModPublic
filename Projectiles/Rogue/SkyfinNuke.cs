@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
 				if (projectile.ai[0] > 30f) //0.5 seconds
 				{
 					NPC target = projectile.Center.ClosestNPCAt(800f);
-					// Ignore targets below the nuke
+					// Ignore targets above the nuke
 					if (target != null)
 					{
 						if (target.Bottom.Y < projectile.Top.Y)
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 value17 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
                     value17.Normalize();
                     value17 *= (float)Main.rand.Next(10, 51) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<SkyBomberGas>(), projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<SkyBomberGas>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner, 0f, 0f);
                 }
 				if (projectile.Calamity().stealthStrike)
 				{
