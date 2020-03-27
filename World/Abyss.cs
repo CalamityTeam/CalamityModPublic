@@ -3,7 +3,6 @@ using CalamityMod.Tiles.FurnitureVoid;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using System;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -57,6 +56,7 @@ namespace CalamityMod.World
 
             // Empty cavern pockets were becoming a problem.
             ReplaceAirWithWater(yStart, biomeWidth);
+            PlaceTrees(biomeWidth);
         }
         public static int DetermineYStart(int biomeWidth, int yDescent)
         {
@@ -120,12 +120,13 @@ namespace CalamityMod.World
                     {
                         trueX = Main.maxTilesX - x;
                     }
-                    if (Framing.GetTileSafely(trueX, y + trueYStart).liquid == 0)
+                    if (Framing.GetTileSafely(trueX, y + trueYStart).liquid == 0 &&
+                        y < blockDepth - 36 + Math.Sin(MathHelper.Pi * x / biomeWidth) * 36)
                     {
                         Main.tile[trueX, y + trueYStart].type = (ushort)ModContent.TileType<SulphurousSand>();
-                        Main.tile[trueX, y + trueYStart].slope(0);
-                        Main.tile[trueX, y + trueYStart].active(true);
                     }
+                    Main.tile[trueX, y + trueYStart].slope(0);
+                    Main.tile[trueX, y + trueYStart].active(true);
                 }
             }
         }
@@ -181,31 +182,6 @@ namespace CalamityMod.World
                     WorldGen.TileRunner((int)tunnelVector.X, (int)tunnelVector.Y, WorldGen.genRand.Next(24, 32 + 1), WorldGen.genRand.Next(19, 24 + 1), -2, false, 0f, 0f, false, true);
                 }
             }
-
-            // Remove any insolated tiles
-
-            for (int x = 0; x < biomeWidth; x++)
-            {
-                int trueX = x;
-                if (!CalamityWorld.abyssSide)
-                {
-                    trueX = Main.maxTilesX - x;
-                }
-                for (int y = yStart + 20; y < yStart + 150; y++)
-                {
-                    if (CalamityUtils.TileActiveAndOfType(trueX, y, ModContent.TileType<SulphurousSand>()) &&
-                        !Framing.GetTileSafely(trueX + 1, y).active() &&
-                        !Framing.GetTileSafely(trueX - 1, y).active() &&
-                        !Framing.GetTileSafely(trueX, y + 1).active() &&
-                        !Framing.GetTileSafely(trueX, y - 1).active())
-                    {
-                        Main.tile[trueX, y] = new Tile()
-                        {
-                            liquid = 255
-                        };
-                    }
-                }
-            }
         }
         public static void PlaceScenery(int yStart, int yDescent, int biomeWidth)
         {
@@ -221,7 +197,7 @@ namespace CalamityMod.World
                 {
                     if (WorldGen.genRand.NextBool(9))
                     {
-                        if (CalamityUtils.TileSelectionSolid(trueX, y, 2, 2))
+                        if (CalamityUtils.TileSelectionSolid(trueX, y, 2, -2))
                             break;
                         WorldGen.PlaceTile(trueX, y, ModContent.TileType<SteamGeyser>());
                     }
@@ -285,8 +261,10 @@ namespace CalamityMod.World
                     int width = widthTop + (int)(widthBottomAdditive * yRatio);
                     for (int x = xStart - width / 2; x <= xStart + width / 2; x++)
                     {
-                        Main.tile[x, y + dy] = new Tile();
-                        Main.tile[x, y + dy].type = (ushort)ModContent.TileType<SulphurousSand>();
+                        Main.tile[x, y + dy] = new Tile
+                        {
+                            type = (ushort)ModContent.TileType<SulphurousSand>()
+                        };
                         Main.tile[x, y + dy].slope(0);
                         Main.tile[x, y + dy].active(true);
                     }
@@ -537,7 +515,100 @@ namespace CalamityMod.World
                 }
             }
         }
-
+        public static void PlaceTrees(int biomeWidth)
+        {
+            for (int x = 1; x < biomeWidth + 50; x++)
+            {
+                int trueX = x;
+                if (!CalamityWorld.abyssSide)
+                {
+                    trueX = Main.maxTilesX - x;
+                }
+                for (int y = 30; y < (int)Main.rockLayer; y++)
+                {
+                    if (!CalamityUtils.TileSelectionSolid(trueX, y, 1, -30) && Main.rand.NextBool(15) &&
+                        CalamityUtils.ParanoidTileRetrieval(trueX, y + 1).active() &&
+                        CalamityUtils.ParanoidTileRetrieval(trueX, y + 1).type == ModContent.TileType<SulphurousSand>())
+                    {
+                        WorldGen.PlaceTile(trueX, y - 1, ModContent.TileType<AcidWoodTreeSapling>());
+                        bool success = GrowSaplingImmediately(trueX, y - 1);
+                        if (!success && 
+                            Main.tile[trueX, y - 1].type == ModContent.TileType<AcidWoodTreeSapling>() &&
+                            Main.tile[trueX, y - 2].type == ModContent.TileType<AcidWoodTreeSapling>())
+                        {
+                            Main.tile[trueX, y - 1] = new Tile();
+                            Main.tile[trueX, y - 2] = new Tile();
+                        }
+                    }
+                }
+            }
+        }
+        public static bool GrowSaplingImmediately(int i, int j)
+        {
+            int trueStartingPositionY = j;
+            while (TileLoader.IsSapling((int)Main.tile[i, trueStartingPositionY].type))
+            {
+                trueStartingPositionY++;
+            }
+            Tile tileAtPosition = Main.tile[i, trueStartingPositionY];
+            Tile tileAbovePosition = Main.tile[i, trueStartingPositionY - 1];
+            if (!tileAtPosition.active() || tileAtPosition.halfBrick() || tileAtPosition.slope() != 0)
+            {
+                return false;
+            }
+            if (tileAbovePosition.wall != 0)
+            {
+                return false;
+            }
+            if (!WorldGen.EmptyTileCheck(i - 1, i + 1, trueStartingPositionY - 30, trueStartingPositionY - 1, 20))
+            {
+                return false;
+            }
+            int treeHeight = WorldGen.genRand.Next(10, 21);
+            int frameYIdeal = WorldGen.genRand.Next(-8, 9);
+            frameYIdeal *= 2;
+            short frameY = 0;
+            for (int k = 0; k < treeHeight; k++)
+            {
+                tileAtPosition = Main.tile[i, trueStartingPositionY - 1 - k];
+                if (k == 0)
+                {
+                    tileAtPosition.active(true);
+                    tileAtPosition.type = TileID.PalmTree;
+                    tileAtPosition.frameX = 66;
+                    tileAtPosition.frameY = 0;
+                }
+                else if (k == treeHeight - 1)
+                {
+                    tileAtPosition.active(true);
+                    tileAtPosition.type = TileID.PalmTree;
+                    tileAtPosition.frameX = (short)(22 * WorldGen.genRand.Next(4, 7));
+                    tileAtPosition.frameY = frameY;
+                }
+                else
+                {
+                    if (frameY != frameYIdeal)
+                    {
+                        float heightRatio = k / (float)treeHeight;
+                        bool increaseFrameY = heightRatio >= 0.25f && ((heightRatio < 0.5f && WorldGen.genRand.Next(13) == 0) || (heightRatio < 0.7f && WorldGen.genRand.Next(9) == 0) || heightRatio >= 0.95f || WorldGen.genRand.Next(5) != 0 || true);
+                        if (increaseFrameY)
+                        {
+                            frameY += (short)(Math.Sign(frameYIdeal) * 2);
+                        }
+                    }
+                    tileAtPosition.active(true);
+                    tileAtPosition.type = TileID.PalmTree;
+                    tileAtPosition.frameX = (short)(22 * WorldGen.genRand.Next(0, 3));
+                    tileAtPosition.frameY = frameY;
+                }
+            }
+            WorldGen.RangeFrame(i - 2, trueStartingPositionY - treeHeight - 1, i + 2, trueStartingPositionY + 1);
+            if (Main.netMode == NetmodeID.Server)
+            {
+                NetMessage.SendTileSquare(-1, i, (int)((double)trueStartingPositionY - (double)treeHeight * 0.5), treeHeight + 1, TileChangeType.None);
+            }
+            return true;
+        }
         public static void PlaceAbyss()
         {
             int x = Main.maxTilesX;

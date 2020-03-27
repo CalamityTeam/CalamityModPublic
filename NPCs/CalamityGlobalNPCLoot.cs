@@ -1595,7 +1595,7 @@ namespace CalamityMod.NPCs
         #region Acid Rain
         private void AcidRainProgression(NPC npc)
         {
-            List<(int, int)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+            List<(int, int, bool)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
             if (CalamityWorld.downedAquaticScourge)
                 PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
             if (CalamityWorld.downedPolterghast)

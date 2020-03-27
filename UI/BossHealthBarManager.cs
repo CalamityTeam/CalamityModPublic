@@ -1,4 +1,5 @@
 ﻿using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.Calamitas;
@@ -244,6 +245,7 @@ namespace CalamityMod.UI
                 ModContent.NPCType<ArmoredDiggerHead>(),
                 ModContent.NPCType<CalamitasRun>(), //Clone's brothers
                 ModContent.NPCType<CalamitasRun2>(),
+                ModContent.NPCType<CragmawMire>(),
 
                 //Abyss
                 ModContent.NPCType<EidolonWyrmHeadHuge>(),
