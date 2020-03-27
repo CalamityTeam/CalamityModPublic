@@ -33,7 +33,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
 			projectile.extraUpdates = 20;
             projectile.timeLeft = 1260;
-        }
+			cooldownSlot = 1;
+		}
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -169,6 +170,11 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 				}
 			}
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+		{
+			target.Calamity().lastProjectileHit = projectile;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

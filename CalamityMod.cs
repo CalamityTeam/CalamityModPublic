@@ -1731,6 +1731,7 @@ namespace CalamityMod
 				ModContent.ProjectileType<ProfanedSpear>(),
 				ModContent.ProjectileType<FlareDust>(),
 				ModContent.ProjectileType<RedLightningFeather>(),
+				ModContent.ProjectileType<RedLightning>(),
 				ModContent.ProjectileType<HolyBlast>(),
 				ModContent.ProjectileType<HolyShot>(),
 				ModContent.ProjectileType<HolySpear>(),

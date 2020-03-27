@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.OldDuke
 				spriteEffects = SpriteEffects.FlipHorizontally;
 			}
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Vector2 vector11 = new Vector2((float)(texture2D15.Width / 2), (float)(texture2D15.Height / Main.npcFrameCount[npc.type] / 2));
 			Color color = lightColor;
 			Color color36 = Color.White;
 			float amount9 = 0f;
@@ -190,17 +190,17 @@ namespace CalamityMod.NPCs.OldDuke
 			int num151 = 60;
 			if (flag9)
 			{
-				color = buffColor(color, 0.4f, 0.8f, 0.4f, 1f);
+				color = CalamityGlobalNPC.buffColor(color, 0.4f, 0.8f, 0.4f, 1f);
 			}
 			else if (flag8)
 			{
-				color = buffColor(color, 0.5f, 0.7f, 0.5f, 1f);
+				color = CalamityGlobalNPC.buffColor(color, 0.5f, 0.7f, 0.5f, 1f);
 			}
 			else if (npc.ai[0] == 4f && npc.ai[2] > (float)num150)
 			{
 				float num152 = npc.ai[2] - (float)num150;
 				num152 /= (float)num151;
-				color = buffColor(color, 1f - 0.5f * num152, 1f - 0.3f * num152, 1f - 0.5f * num152, 1f);
+				color = CalamityGlobalNPC.buffColor(color, 1f - 0.5f * num152, 1f - 0.3f * num152, 1f - 0.5f * num152, 1f);
 			}
 
 			int num153 = 10;
@@ -355,15 +355,6 @@ namespace CalamityMod.NPCs.OldDuke
 			return false;
 		}
 
-		private static Color buffColor(Color newColor, float R, float G, float B, float A)
-		{
-			newColor.R = (byte)((float)newColor.R * R);
-			newColor.G = (byte)((float)newColor.G * G);
-			newColor.B = (byte)((float)newColor.B * B);
-			newColor.A = (byte)((float)newColor.A * A);
-			return newColor;
-		}
-
 		public override void BossLoot(ref string name, ref int potionType)
         {
             potionType = ItemID.SuperHealingPotion;
@@ -400,7 +391,13 @@ namespace CalamityMod.NPCs.OldDuke
             CalamityMod.UpdateServerBoolean();
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			cooldownSlot = 1;
+			return true;
+		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
 		{
 			player.AddBuff(BuffID.Venom, 300, true);
             player.AddBuff(BuffID.Rabies, 300, true);

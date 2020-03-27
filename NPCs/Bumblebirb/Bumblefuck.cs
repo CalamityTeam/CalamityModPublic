@@ -99,7 +99,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 		public override void AI()
         {
-            //npc.visualOffset = new Vector2(20f, 50f);
 			CalamityAI.BumblebirbAI(npc, mod);
 		}
 
@@ -226,17 +225,17 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 			if (phase3 && calamityGlobalNPC.newAI[3] == 1f)
 			{
-				color = buffColor(color, 0.9f, 0.6f, 0.2f, 1f);
+				color = CalamityGlobalNPC.buffColor(color, 0.9f, 0.6f, 0.2f, 1f);
 			}
 			else if (phase2 && calamityGlobalNPC.newAI[2] == 1f)
 			{
-				color = buffColor(color, 0.7f, 0.7f, 0.3f, 1f);
+				color = CalamityGlobalNPC.buffColor(color, 0.7f, 0.7f, 0.3f, 1f);
 			}
 			else if (phase2 && calamityGlobalNPC.newAI[0] > (float)num150)
 			{
 				float num152 = calamityGlobalNPC.newAI[0] - (float)num150;
 				num152 /= (float)num151;
-				color = buffColor(color, 1f - 0.3f * num152, 1f - 0.3f * num152, 1f - 0.7f * num152, 1f);
+				color = CalamityGlobalNPC.buffColor(color, 1f - 0.3f * num152, 1f - 0.3f * num152, 1f - 0.7f * num152, 1f);
 			}
 
 			int num153 = 10;

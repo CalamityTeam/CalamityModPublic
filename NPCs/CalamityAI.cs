@@ -72,7 +72,7 @@ namespace CalamityMod.NPCs
 					int npcPosY = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
 
 					// Barf out enemies
-					int variable = 5;
+					int variable = 10;
 					if (calamityGlobalNPC.newAI[3] % 60f == 0f && npcPosX > variable && npcPosY > variable && npcPosX < Main.maxTilesX - variable && npcPosY < Main.maxTilesY - variable)
 					{
 						Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
@@ -4139,7 +4139,7 @@ namespace CalamityMod.NPCs
 							while (!WorldGen.SolidTile(num1313, num1314) && (double)num1314 < Main.worldSurface)
 								num1314++;
 
-							if ((new Vector2((float)(num1313 * 16 + 8), (float)(num1314 * 16 + 8)) - player.Center).Length() < 1600f)
+							if ((new Vector2((float)(num1313 * 16 + 8), (float)(num1314 * 16 + 8)) - player.Center).Length() < 1200f)
 							{
 								npc.ai[0] = 4.1f;
 								npc.ai[1] = (float)num1313;
@@ -4179,7 +4179,7 @@ namespace CalamityMod.NPCs
 					num1319 = 20f;
 
 				float num1320 = 10f;
-				if (vector207.Length() < 10f)
+				if (vector207.Length() < 50f)
 					npc.ai[0] = 4.2f;
 
 				vector207.Normalize();
@@ -4206,7 +4206,7 @@ namespace CalamityMod.NPCs
 				float num1323 = 4f; //4
 				float num1324 = 2f; //2
 
-				if (Main.netMode != NetmodeID.MultiplayerClient && vector208.Length() < 4f)
+				if (Main.netMode != NetmodeID.MultiplayerClient && vector208.Length() < 20f)
 				{
 					int num1325 = 10;
 					if (Main.expertMode)
@@ -4228,7 +4228,7 @@ namespace CalamityMod.NPCs
 						npc.ai[2] = 0f;
 						npc.ai[3] = 0f;
 
-						if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < num1305 && Main.rand.Next(5) != 0)
+						if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < num1305 && Main.rand.NextBool(2))
 							npc.ai[0] = 4f;
 						else if (Collision.SolidCollision(npc.position, npc.width, npc.height))
 							npc.ai[0] = 1f;
@@ -4260,7 +4260,7 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * (float)npc.direction) * (float)(npc.width + 20) / 2f + vector;
-						Projectile.NewProjectile(vector7.X, vector7.Y, 0f, 0f, ModContent.ProjectileType<BirbAuraFlare>(), 0, 0f, Main.myPlayer, 0f, (float)(npc.target + 1));
+						Projectile.NewProjectile(vector7.X, vector7.Y, 0f, 0f, ModContent.ProjectileType<BirbAuraFlare>(), 0, 0f, Main.myPlayer, phase3 ? 1f : 0f, (float)(npc.target + 1));
 					}
 				}
 
@@ -4530,7 +4530,7 @@ namespace CalamityMod.NPCs
 			if (npc.ai[0] == -1f)
 			{
 				// Velocity
-				if(npc.Calamity().newAI[3] == 0f)
+				if (npc.Calamity().newAI[3] == 0f)
 					npc.velocity *= 0.98f;
 
 				// Direction
@@ -4725,7 +4725,7 @@ namespace CalamityMod.NPCs
 				for (int j = 0; j < num24; j++)
 				{
 					Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(j - (num24 / 2 - 1)) * (double)pie / (double)(float)num24, default) + vector;
-					Vector2 vector4 = ((float)(Main.rand.NextDouble() * (double)pie) - pie * 0.5f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+					Vector2 vector4 = ((float)(Main.rand.NextDouble() * (double)pie) - MathHelper.PiOver2).ToRotationVector2() * (float)Main.rand.Next(3, 8);
 					int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
 					Main.dust[num25].noGravity = true;
 					Main.dust[num25].noLight = true;
@@ -5037,7 +5037,7 @@ namespace CalamityMod.NPCs
 				for (int k = 0; k < num29; k++)
 				{
 					Vector2 arg_1A97_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(k - (num29 / 2 - 1)) * (double)pie / (double)(float)num29, default) + vector;
-					Vector2 vector9 = ((float)(Main.rand.NextDouble() * (double)pie) - pie * 0.5f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+					Vector2 vector9 = ((float)(Main.rand.NextDouble() * (double)pie) - MathHelper.PiOver2).ToRotationVector2() * (float)Main.rand.Next(3, 8);
 					int num30 = Dust.NewDust(arg_1A97_0 + vector9, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, vector9.X * 2f, vector9.Y * 2f, 100, default, 1.4f);
 					Main.dust[num30].noGravity = true;
 					Main.dust[num30].noLight = true;
@@ -5188,7 +5188,6 @@ namespace CalamityMod.NPCs
 			}
 
 			// Phase 3
-			// Most of this will need to be rewritten
 			else if (npc.ai[0] == 10f && !player.dead)
 			{
 				// Alpha
@@ -5331,7 +5330,7 @@ namespace CalamityMod.NPCs
 				for (int m = 0; m < num34; m++)
 				{
 					Vector2 arg_2444_0 = (Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f).RotatedBy((double)(m - (num34 / 2 - 1)) * (double)pie / (double)(float)num34, default) + vector;
-					Vector2 vector11 = ((float)(Main.rand.NextDouble() * (double)pie) - pie * 0.5f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+					Vector2 vector11 = ((float)(Main.rand.NextDouble() * (double)pie) - MathHelper.PiOver2).ToRotationVector2() * (float)Main.rand.Next(3, 8);
 					int num35 = Dust.NewDust(arg_2444_0 + vector11, 0, 0, (int)CalamityDusts.SulfurousSeaAcid, vector11.X * 2f, vector11.Y * 2f, 100, default, 1.4f);
 					Main.dust[num35].noGravity = true;
 					Main.dust[num35].noLight = true;

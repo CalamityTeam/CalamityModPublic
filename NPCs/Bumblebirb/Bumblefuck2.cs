@@ -61,7 +61,6 @@ namespace CalamityMod.NPCs.Bumblebirb
 
         public override void AI()
         {
-            //npc.visualOffset = new Vector2(10, 40);
             Player player = Main.player[npc.target];
             Vector2 vector = npc.Center;
             npc.damage = npc.defDamage;
@@ -359,6 +358,12 @@ namespace CalamityMod.NPCs.Bumblebirb
 			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			return false;
+		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+		{
+			cooldownSlot = 1;
+			return true;
 		}
 
 		public override void HitEffect(int hitDirection, double damage)
