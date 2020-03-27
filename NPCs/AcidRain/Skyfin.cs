@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 22;
             npc.aiStyle = aiType = -1;
 
-            npc.damage = 18;
+            npc.damage = 12;
             npc.lifeMax = 150;
             npc.defense = 6;
 
@@ -168,7 +168,7 @@ namespace CalamityMod.NPCs.AcidRain
                     }
                     if (npc.ai[0] % 300f == 235f)
                     {
-                        float chargeSpeed = 11f;
+                        float chargeSpeed = 8f;
                         if (CalamityWorld.downedAquaticScourge)
                         {
                             chargeSpeed = 17f;

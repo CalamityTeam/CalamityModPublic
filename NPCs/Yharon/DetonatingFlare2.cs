@@ -48,7 +48,6 @@ namespace CalamityMod.NPCs.Yharon
                         randomSpeed = 10f;
                         break;
                     case 1:
-                        speed = 11.5f;
                         randomSpeed = 11.5f;
                         break;
                     case 2:
