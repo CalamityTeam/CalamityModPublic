@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dreadmine Turret");
+            DisplayName.SetDefault("Flying Orthocera");
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
