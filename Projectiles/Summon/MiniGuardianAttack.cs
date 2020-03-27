@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
 
         private void AI(int type, float num535, float num536, Player player)
         {
-            if (Main.myPlayer == projectile.owner)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
                 updateDamage(type);
             switch (ai)
             {
