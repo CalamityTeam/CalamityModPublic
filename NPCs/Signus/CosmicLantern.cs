@@ -78,38 +78,11 @@ namespace CalamityMod.NPCs.Signus
                 Main.dust[num1262].noGravity = true;
             }
 
-            npc.rotation = npc.velocity.X * 0.08f;
-            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
-            npc.TargetClosest(true);
-
 			bool revenge = CalamityWorld.revenge;
 			float playerDistNormMult = revenge ? 24f : 22f;
 			if (CalamityWorld.bossRushActive)
 				playerDistNormMult = 30f;
-
-            Vector2 vector145 = new Vector2(npc.Center.X, npc.Center.Y);
-            float playerDistX = Main.player[npc.target].Center.X - vector145.X;
-            float playerDistY = Main.player[npc.target].Center.Y - vector145.Y;
-            float playerDistMagnitude = (float)Math.Sqrt((double)(playerDistX * playerDistX + playerDistY * playerDistY));
-
-            if (npc.localAI[0] < 85f)
-            {
-                playerDistNormMult = 0.1f;
-                playerDistMagnitude = playerDistNormMult / playerDistMagnitude;
-                playerDistX *= playerDistMagnitude;
-                playerDistY *= playerDistMagnitude;
-                npc.velocity = (npc.velocity * 100f + new Vector2(playerDistX, playerDistY)) / 101f;
-                npc.localAI[0] += 1f;
-                return;
-            }
-
-            npc.dontTakeDamage = false;
-            npc.chaseable = true;
-
-            playerDistMagnitude = playerDistNormMult / playerDistMagnitude;
-            playerDistX *= playerDistMagnitude;
-            playerDistY *= playerDistMagnitude;
-            npc.velocity = (npc.velocity * 100f + new Vector2(playerDistX, playerDistY)) / 101f;
+            CalamityAI.DungeonSpiritAI(npc, mod, playerDistNormMult, 0f, true);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

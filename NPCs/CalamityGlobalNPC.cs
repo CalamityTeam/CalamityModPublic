@@ -433,7 +433,7 @@ namespace CalamityMod.NPCs
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
                     if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ModContent.ProjectileType<LionfishProj>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidBubble2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth3>() || Main.projectile[j].type == ModContent.ProjectileType<JawsProjectile>()) &&
+                        (Main.projectile[j].type == ModContent.ProjectileType<LionfishProj>() || Main.projectile[j].type == ModContent.ProjectileType<SulphuricAcidBubble2>() || Main.projectile[j].type == ModContent.ProjectileType<LeviathanTooth>() || Main.projectile[j].type == ModContent.ProjectileType<JawsProjectile>()) &&
                         Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
@@ -3917,7 +3917,7 @@ namespace CalamityMod.NPCs
 
                 if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
                 {
-                    List<(int, int)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+                    List<(int, int, bool)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
                     List<int> PossibleMinibosses = new List<int>();
                     if (CalamityWorld.downedAquaticScourge)
                     {
@@ -3931,6 +3931,7 @@ namespace CalamityMod.NPCs
                     }
                     foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
                     {
+                        if (spawnInfo.water || !PossibleEnemies.First(potential => potential.Item1 == enemy).Item3)
                         pool.Add(enemy, 1f);
                     }
                     if (PossibleMinibosses.Count > 0)

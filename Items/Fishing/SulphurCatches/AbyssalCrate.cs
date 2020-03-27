@@ -66,12 +66,6 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
                 DropHelper.DropItemChance(player, ModContent.ItemType<ReaperTooth>(), 0.25f, 5, 10);
             }
 
-            // Acid Rain summoner
-            if (NPC.downedBoss1)
-            {
-                DropHelper.DropItemChance(player, ModContent.ItemType<CausticTear>(), 0.25f);
-            }
-
             // Equipment
             DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 0.25f,
                 ModContent.ItemType<StrangeOrb>(),

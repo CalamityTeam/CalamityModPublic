@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
                 double offsetY = offsetHyp * Math.Sin(offsetRotation);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X + (float)offsetX, projectile.Center.Y + (float)offsetY, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<ApothJaws>(), projectile.damage, projectile.knockBack, Main.myPlayer, projectile.rotation, 0f);
+                    Projectile.NewProjectile(projectile.Center.X + (float)offsetX, projectile.Center.Y + (float)offsetY, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<ApothJaws>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.rotation, 0f);
                 }
                 offsetRotation = Math.Atan2(38, 48) + (double)projectile.rotation;
                 offsetX = offsetHyp * Math.Cos(offsetRotation);
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
 
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.position.X + projectile.width / 2 + (float)offsetX, projectile.position.Y + projectile.height / 2 + (float)offsetY, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<ApothJaws>(), projectile.damage, projectile.knockBack, Main.myPlayer, projectile.rotation, 1f);
+                    Projectile.NewProjectile(projectile.position.X + projectile.width / 2 + (float)offsetX, projectile.position.Y + projectile.height / 2 + (float)offsetY, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<ApothJaws>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.rotation, 1f);
                 }
             }
         }

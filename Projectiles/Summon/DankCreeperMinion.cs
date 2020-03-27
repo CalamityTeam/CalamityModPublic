@@ -25,12 +25,10 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.minionSlots = 1;
-            projectile.aiStyle = 54;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.timeLeft *= 5;
             projectile.minion = true;
-            aiType = ProjectileID.Raven;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
@@ -42,7 +40,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
             if (projectile.localAI[0] == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num226 = 36;
                 for (int num227 = 0; num227 < num226; num227++)
@@ -57,11 +55,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[0] += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             bool flag64 = projectile.type == ModContent.ProjectileType<DankCreeperMinion>();
@@ -78,7 +76,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             int num3;
-            for (int num534 = 0; num534 < 1000; num534 = num3 + 1)
+            for (int num534 = 0; num534 < Main.maxProjectiles; num534 = num3 + 1)
             {
                 if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
                     Main.projectile[num534].type == ModContent.ProjectileType<DankCreeperMinion>() &&
@@ -136,7 +134,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else
                 {
-                    for (int num542 = 0; num542 < 200; num542 = num3 + 1)
+                    for (int num542 = 0; num542 < Main.maxNPCs; num542 = num3 + 1)
                     {
                         if (Main.npc[num542].CanBeChasedBy(projectile, false))
                         {
@@ -163,8 +161,8 @@ namespace CalamityMod.Projectiles.Summon
                     num546 = 12f;
                 }
                 Vector2 vector42 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num547 = Main.player[projectile.owner].Center.X - vector42.X;
-                float num548 = Main.player[projectile.owner].Center.Y - vector42.Y - 60f;
+                float num547 = player.Center.X - vector42.X;
+                float num548 = player.Center.Y - vector42.Y - 60f;
                 float num549 = (float)Math.Sqrt((double)(num547 * num547 + num548 * num548));
                 if (num549 < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
                 {
@@ -172,8 +170,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num549 > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.width / 2);
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.width / 2);
                 }
                 if (num549 > 70f)
                 {
@@ -247,7 +245,7 @@ namespace CalamityMod.Projectiles.Summon
             Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
                         ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ataxia Hood");
+            DisplayName.SetDefault("Hydrothermic Hood");
             Tooltip.SetDefault("12% increased rogue damage and 10% increased rogue critical strike chance\n" +
                 "50% chance to not consume rogue items and 15% increased movement speed\n" +
                 "Temporary immunity to lava and immunity to fire damage\n" +
@@ -32,20 +32,11 @@ namespace CalamityMod.Items.Armor
             return body.type == ModContent.ItemType<AtaxiaArmor>() && legs.type == ModContent.ItemType<AtaxiaSubligar>();
         }
 
-        public override bool IsVanitySet(int head, int body, int legs)
-        {
-            return body == ModContent.ItemType<AtaxiaArmor>() && legs == ModContent.ItemType<AtaxiaSubligar>();
-        }
-
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawOutlines = true;
-        }
-
-        public override void UpdateVanitySet(Player player)
-        {
 			player.Calamity().hydrothermalSmoke = true;
-		}
+        }
 
         public override void UpdateArmorSet(Player player)
         {

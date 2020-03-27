@@ -39,6 +39,8 @@ namespace CalamityMod.Items.TreasureBags
             return true;
         }
 
+        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
+
         public override void OpenBossBag(Player player)
         {
             // AS is available PHM, so this check is necessary to keep vanilla consistency
@@ -70,10 +72,10 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<AquaticScourgeMask>(), 7);
 
             // Fishing
+            DropHelper.DropItemChance(player, ItemID.AnglerTackleBag, 15);
             DropHelper.DropItemChance(player, ItemID.HighTestFishingLine, 10);
-            DropHelper.DropItemChance(player, ItemID.AnglerTackleBag, 10);
             DropHelper.DropItemChance(player, ItemID.TackleBox, 10);
-            DropHelper.DropItemChance(player, ItemID.AnglerEarring, 8);
+            DropHelper.DropItemChance(player, ItemID.AnglerEarring, 10);
             DropHelper.DropItemChance(player, ItemID.FishermansGuide, 8);
             DropHelper.DropItemChance(player, ItemID.WeatherRadio, 8);
             DropHelper.DropItemChance(player, ItemID.Sextant, 8);

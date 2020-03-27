@@ -24,15 +24,15 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             item.damage = 420;
             item.magic = true;
-            item.mana = 42;
+            item.mana = (int)42.0;
             item.width = 30;
             item.height = 34;
-            item.useTime = 18;
-            item.useAnimation = 18;
+            item.useTime = 15;
+            item.useAnimation = 15;
             item.useStyle = 5;
             item.useTurn = false;
             item.noMelee = true;
-            item.knockBack = 4f;
+            item.knockBack = 6.9f;
             item.value = Item.buyPrice(5, 0, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item92;

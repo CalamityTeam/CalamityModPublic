@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,6 +17,7 @@ namespace CalamityMod.NPCs.AcidRain
         public const float DiveDelay = 120f;
         public const float DiveTime = 90f;
         public const float TotalTime = DiveDelay + DiveTime;
+        public bool Flying = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Skyfin");
@@ -28,7 +30,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 22;
             npc.aiStyle = aiType = -1;
 
-            npc.damage = 18;
+            npc.damage = 12;
             npc.lifeMax = 150;
             npc.defense = 6;
 
@@ -57,78 +59,137 @@ namespace CalamityMod.NPCs.AcidRain
             banner = npc.type;
             bannerItem = ModContent.ItemType<SkyfinBanner>();
         }
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Flying);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Flying = reader.ReadBoolean();
+        }
         public override void AI()
         {
             npc.TargetClosest(false);
             Player player = Main.player[npc.target];
-            npc.ai[0] += 1f;
-            if (npc.ai[1] > 0f)
-                npc.ai[1] -= 1f;
-            if (npc.wet)
+            if (!Flying)
             {
-                // Swim around, moving towards the player
-                bool canSwimToPlayer = Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
-                if (canSwimToPlayer)
+                npc.ai[0] += 1f;
+                if (npc.ai[1] > 0f)
+                    npc.ai[1] -= 1f;
+                if (npc.wet)
                 {
-                    if (npc.ai[0] % 55f == 54f)
+                    // Swim around, moving towards the player
+                    bool canSwimToPlayer = Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
+                    if (canSwimToPlayer)
                     {
-                        npc.velocity = Vector2.UnitX * (player.Center.X - npc.Center.X > 0).ToDirectionInt() * 27f;
-                    }
-                    if ((Math.Abs(player.Center.Y - npc.Center.Y) > 50f && player.wet) || (!player.wet && npc.ai[1] <= 0f))
-                    {
-                        float speedY = CalamityWorld.downedPolterghast ? 15f : 6f;
-                        npc.velocity.Y = (player.Center.Y - npc.Center.Y > 0).ToDirectionInt() * speedY;
-                    }
-                    if (Math.Abs(npc.velocity.X) < 6f)
-                        npc.velocity.X *= 1.04f;
-                }
-                else if (!canSwimToPlayer && Math.Abs(npc.velocity.Y) < 4f)
-                {
-                    npc.velocity.Y *= 0.97f;
-                }
-                // Turn around if we hit a tile on the X axis
-                if (!canSwimToPlayer && npc.collideX)
-                {
-                    npc.velocity.X *= -1f;
-                }
-
-                // Check if we can dive
-                if (player.Center.Y < npc.Top.Y - 10f &&
-                    npc.ai[1] <= 0f)
-                {
-                    if (Main.rand.NextBool(10))
-                    {
-                        npc.ai[1] = TotalTime;
-                    }
-                    npc.ai[2] = (player.Center.X - npc.Center.X > 0).ToDirectionInt() * 10f;
-                }
-            }
-            else
-            {
-                // Dive upward in an attempt to hit to the player
-                if (npc.ai[1] > TotalTime - DiveTime)
-                {
-                    npc.velocity.X = npc.ai[2];
-                    if (npc.ai[1] > TotalTime - DiveTime * 0.5f)
-                    {
-                        float flySpeed = CalamityWorld.downedAquaticScourge ? 0.135f : 0.085f;
-                        if (CalamityWorld.downedPolterghast)
+                        if (npc.ai[0] % 55f == 54f)
                         {
-                            flySpeed = 0.185f;
+                            npc.velocity = Vector2.UnitX * (player.Center.X - npc.Center.X > 0).ToDirectionInt() * 27f;
                         }
-                        npc.velocity.Y -= flySpeed;
+                        if ((Math.Abs(player.Center.Y - npc.Center.Y) > 50f && player.wet) || (!player.wet && npc.ai[1] <= 0f))
+                        {
+                            float speedY = CalamityWorld.downedPolterghast ? 15f : 6f;
+                            npc.velocity.Y = (player.Center.Y - npc.Center.Y > 0).ToDirectionInt() * speedY;
+                        }
+                        if (Math.Abs(npc.velocity.X) < 6f)
+                            npc.velocity.X *= 1.04f;
                     }
-                    else
+                    else if (!canSwimToPlayer && Math.Abs(npc.velocity.Y) < 4f)
                     {
-                        npc.ai[1] = TotalTime - DiveTime;
-                        npc.velocity.Y += 0.2f;
+                        npc.velocity.Y *= 0.97f;
+                    }
+                    // Turn around if we hit a tile on the X axis
+                    if (!canSwimToPlayer && npc.collideX)
+                    {
+                        npc.velocity.X *= -1f;
+                    }
+
+                    // Check if we can dive
+                    if (player.Center.Y < npc.Top.Y - 10f &&
+                        npc.ai[1] <= 0f)
+                    {
+                        if (Main.rand.NextBool(10))
+                        {
+                            npc.ai[1] = TotalTime;
+                        }
+                        npc.ai[2] = (player.Center.X - npc.Center.X > 0).ToDirectionInt() * 10f;
                     }
                 }
                 else
                 {
-                    // Don't fall too fast because of wings
-                    npc.ai[1] = TotalTime - DiveTime;
-                    npc.velocity.Y += 0.1f;
+                    // Dive upward in an attempt to hit to the player
+                    if (npc.ai[1] > TotalTime - DiveTime)
+                    {
+                        npc.velocity.X = npc.ai[2];
+                        if (npc.ai[1] > TotalTime - DiveTime * 0.5f)
+                        {
+                            float flySpeed = CalamityWorld.downedAquaticScourge ? 0.135f : 0.085f;
+                            if (CalamityWorld.downedPolterghast)
+                            {
+                                flySpeed = 0.185f;
+                            }
+                            npc.velocity.Y -= flySpeed;
+                        }
+                        else
+                        {
+                            npc.ai[1] = TotalTime - DiveTime;
+                            npc.velocity.Y += 0.2f;
+                        }
+                    }
+                    else
+                    {
+                        // Don't fall too fast because of wings
+                        npc.ai[1] = TotalTime - DiveTime;
+                        npc.velocity.Y += 0.1f;
+                        npc.ai[3]++;
+                        if (npc.ai[3] > 420f)
+                        {
+                            npc.ai[0] = npc.ai[1] = npc.ai[2] = npc.ai[3] = 0f;
+                            Flying = true;
+                            npc.netUpdate = true;
+                        }
+                    }
+                }
+                // If sitting on land, rotate in a way that looks like we're stuck on the ground
+                if (!npc.wet)
+                {
+                    npc.velocity.X *= 0.92f;
+                }
+            }
+            else
+            {
+                npc.noTileCollide = true;
+                npc.ai[0]++;
+                if (npc.ai[0] % 300f >= 180f)
+                {
+                    if (npc.ai[0] % 300f == 205f)
+                    {
+                        npc.velocity.Y = -6.5f;
+                    }
+                    if (npc.ai[0] % 300f == 235f)
+                    {
+                        float chargeSpeed = 8f;
+                        if (CalamityWorld.downedAquaticScourge)
+                        {
+                            chargeSpeed = 17f;
+                        }
+                        if (CalamityWorld.downedPolterghast)
+                        {
+                            chargeSpeed = 24f;
+                        }
+                        npc.velocity = npc.DirectionTo(player.Center) * chargeSpeed;
+                    }
+                }
+                else
+                {
+                    if (Math.Abs(player.Center.X - npc.Center.X) > 320f)
+                    {
+                        npc.velocity.X = MathHelper.Lerp(npc.velocity.X, (player.Center.X - npc.Center.X > 0).ToDirectionInt() * 10f, 0.05f);
+                    }
+                    if (Math.Abs(player.Center.Y - npc.Center.Y) > 50f)
+                    {
+                        npc.velocity.Y = npc.DirectionTo(player.Center).Y * 9f;
+                    }
                 }
             }
             int idealDirection = (npc.velocity.X > 0).ToDirectionInt();
@@ -136,11 +197,6 @@ namespace CalamityMod.NPCs.AcidRain
             if (idealDirection != npc.direction)
             {
                 npc.netUpdate = true;
-            }
-            // If sitting on land, rotate in a way that looks like we're stuck on the ground
-            if (!npc.wet)
-            {
-                npc.velocity.X *= 0.92f;
             }
             npc.rotation = npc.velocity.ToRotation() +
                 (npc.direction > 0).ToInt() * MathHelper.Pi;

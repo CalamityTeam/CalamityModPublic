@@ -48,23 +48,13 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            npc.TargetClosest(true);
-            Vector2 vector102 = new Vector2(npc.Center.X, npc.Center.Y);
-            float num818 = Main.player[npc.target].Center.X - vector102.X;
-            float num819 = Main.player[npc.target].Center.Y - vector102.Y;
-            float num820 = (float)Math.Sqrt((double)(num818 * num818 + num819 * num819));
-            float num821 = CalamityWorld.death ? 16f : 12f;
-            num820 = num821 / num820;
-            num818 *= num820;
-            num819 *= num820;
-            npc.velocity.X = (npc.velocity.X * 100f + num818) / 101f;
-            npc.velocity.Y = (npc.velocity.Y * 100f + num819) / 101f;
-            npc.rotation = (float)Math.Atan2((double)num819, (double)num818) - 1.57f;
+            float speed = CalamityWorld.death ? 16f : 12f;
+            CalamityAI.DungeonSpiritAI(npc, mod, speed, -MathHelper.PiOver2);
             int num822 = Dust.NewDust(npc.position, npc.width, npc.height, 60, 0f, 0f, 0, default, 1f);
             Dust dust = Main.dust[num822];
             dust.velocity *= 0.1f;
-            Main.dust[num822].scale = 1.3f;
-            Main.dust[num822].noGravity = true;
+            dust.scale = 1.3f;
+            dust.noGravity = true;
             Vector2 vector17 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num147 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector17.X;
             float num148 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector17.Y;
@@ -126,8 +116,8 @@ namespace CalamityMod.NPCs.NormalNPCs
                     int num289 = Dust.NewDust(npc.position, npc.width, npc.height, 60, npc.velocity.X, npc.velocity.Y, 0, default, 1f);
                     Dust dust = Main.dust[num289];
                     dust.velocity *= 2f;
-                    Main.dust[num289].noGravity = true;
-                    Main.dust[num289].scale = 1.4f;
+                    dust.noGravity = true;
+                    dust.scale = 1.4f;
                 }
             }
         }

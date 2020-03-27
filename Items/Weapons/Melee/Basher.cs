@@ -37,6 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<Acidwood>(), 30);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
+            recipe.AddRecipe();
         }
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)

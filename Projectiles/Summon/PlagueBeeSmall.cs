@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             float num373 = projectile.position.X;
             float num374 = projectile.position.Y;
-            float num375 = 100000f;
+            float num375 = 1000f;
             bool flag10 = false;
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 30f)

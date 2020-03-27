@@ -41,38 +41,53 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - 1.57f;
-            float num472 = projectile.Center.X;
-            float num473 = projectile.Center.Y;
-            float num474 = 400f;
-            bool flag17 = false;
-            for (int num475 = 0; num475 < 200; num475++)
+
+            Player player = Main.player[projectile.owner];
+            int targetIdx = -1;
+            float maxHomingRange = 400f;
+            bool hasHomingTarget = false;
+            if (player.HasMinionAttackTargetNPC)
             {
-                if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
+                NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                if (npc.CanBeChasedBy(projectile, false))
                 {
-                    float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-                    float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
-                    float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-                    if (num478 < num474)
+                    float dist = (projectile.Center - npc.Center).Length();
+                    if (dist < maxHomingRange)
                     {
-                        num474 = num478;
-                        num472 = num476;
-                        num473 = num477;
-                        flag17 = true;
+                        targetIdx = player.MinionAttackTargetNPC;
+                        maxHomingRange = dist;
+                        hasHomingTarget = true;
                     }
                 }
             }
-            if (flag17)
+            else
             {
-                float num483 = 10f;
-                Vector2 vector35 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num484 = num472 - vector35.X;
-                float num485 = num473 - vector35.Y;
-                float num486 = (float)Math.Sqrt((double)(num484 * num484 + num485 * num485));
-                num486 = num483 / num486;
-                num484 *= num486;
-                num485 *= num486;
-                projectile.velocity.X = (projectile.velocity.X * 20f + num484) / 21f;
-                projectile.velocity.Y = (projectile.velocity.Y * 20f + num485) / 21f;
+                for (int i = 0; i < Main.npc.Length; ++i)
+                {
+                    NPC npc = Main.npc[i];
+                    if (npc == null || !npc.active)
+                        continue;
+
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+                        float dist = (projectile.Center - npc.Center).Length();
+                        if (dist < maxHomingRange)
+                        {
+                            targetIdx = i;
+                            maxHomingRange = dist;
+                            hasHomingTarget = true;
+                        }
+                    }
+                }
+            }
+
+            // Home in on said closest NPC.
+            if (hasHomingTarget)
+            {
+                NPC target = Main.npc[targetIdx];
+                Vector2 homingVector = (target.Center - projectile.Center).SafeNormalize(Vector2.Zero) * 10f;
+                float homingRatio = 20f;
+                projectile.velocity = (projectile.velocity * homingRatio + homingVector) / (homingRatio + 1f);
             }
         }
 

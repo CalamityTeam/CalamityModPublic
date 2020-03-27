@@ -20,12 +20,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 1;
             projectile.timeLeft = 120;
             projectile.magic = true;
-			projectile.extraUpdates = 1;
+			projectile.extraUpdates = 3;
         }
 
         public override void AI()
         {
-			if (projectile.timeLeft % 2f == 0f)
+			if (projectile.timeLeft % 6f == 0f)
 			{
 				for (int num457 = 0; num457 < Main.rand.Next(3,6); num457++)
 				{

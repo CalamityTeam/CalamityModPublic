@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (projectile.owner == Main.myPlayer)
             {
-                NPC potentialTarget = projectile.Center.MinionHoming(1200f, player);
+                NPC potentialTarget = projectile.Center.MinionHoming(500f, player);
                 if (potentialTarget != null)
                 {
                     if (projectile.ai[1]++ % 35f == 34f &&

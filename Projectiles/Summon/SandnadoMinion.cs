@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             float num8 = 0.1f;
             float num9 = (float)projectile.width * 2f;
-            for (int j = 0; j < 1000; j++)
+            for (int j = 0; j < Main.maxProjectiles; j++)
             {
                 if (j != projectile.whoAmI && Main.projectile[j].active && Main.projectile[j].owner == projectile.owner && Main.projectile[j].type == projectile.type &&
                     Math.Abs(projectile.position.X - Main.projectile[j].position.X) + Math.Abs(projectile.position.Y - Main.projectile[j].position.Y) < num9)
@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             Vector2 vector = projectile.position;
-            float num10 = 400f;
+            float num10 = 600f;
             bool flag = false;
             if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
@@ -130,8 +130,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Vector2 vector2 = npc.position + npc.Size * value;
                     float num12 = Vector2.Distance(vector2, center);
-                    if (((Vector2.Distance(center, vector) > num12 && num12 < num10) || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                    if ((!flag && num12 < num10) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                     {
+                        num10 = num12;
                         vector = vector2;
                         flag = true;
                         int num11 = npc.whoAmI;
@@ -140,14 +141,14 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                for (int k = 0; k < 200; k++)
+                for (int k = 0; k < Main.maxNPCs; k++)
                 {
                     NPC nPC = Main.npc[k];
                     if (nPC.CanBeChasedBy(projectile, false))
                     {
                         Vector2 vector3 = nPC.position + nPC.Size * value;
                         float num13 = Vector2.Distance(vector3, center);
-                        if (((Vector2.Distance(center, vector) > num13 && num13 < num10) || !flag) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC.position, nPC.width, nPC.height))
+                        if ((!flag && num13 < num10) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC.position, nPC.width, nPC.height))
                         {
                             num10 = num13;
                             vector = vector3;

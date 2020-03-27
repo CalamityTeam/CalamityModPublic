@@ -39,53 +39,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
         {
             if (!Main.raining)
             {
-                int num = 86400;
-                int num2 = num / 24;
-                Main.rainTime = Main.rand.Next(num2 * 8, num);
-                if (Main.rand.NextBool(3))
-                {
-                    Main.rainTime += Main.rand.Next(0, num2);
-                }
-                if (Main.rand.NextBool(4))
-                {
-                    Main.rainTime += Main.rand.Next(0, num2 * 2);
-                }
-                if (Main.rand.NextBool(5))
-                {
-                    Main.rainTime += Main.rand.Next(0, num2 * 2);
-                }
-                if (Main.rand.NextBool(6))
-                {
-                    Main.rainTime += Main.rand.Next(0, num2 * 3);
-                }
-                if (Main.rand.NextBool(7))
-                {
-                    Main.rainTime += Main.rand.Next(0, num2 * 4);
-                }
-                if (Main.rand.NextBool(8))
-                {
-                    Main.rainTime += Main.rand.Next(0, num2 * 5);
-                }
-                float num3 = 1f;
-                if (Main.rand.NextBool(2))
-                {
-                    num3 += 0.05f;
-                }
-                if (Main.rand.NextBool(3))
-                {
-                    num3 += 0.1f;
-                }
-                if (Main.rand.NextBool(4))
-                {
-                    num3 += 0.15f;
-                }
-                if (Main.rand.NextBool(5))
-                {
-                    num3 += 0.2f;
-                }
-                Main.rainTime = (int)((float)Main.rainTime * num3);
-                AdjustRainSeverity(false);
-                Main.raining = true;
+				CalamityUtils.StartRain(true);
             }
             else if (CalamityWorld.death)
             {
@@ -116,7 +70,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
             return true;
         }
 
-		private void AdjustRainSeverity(bool maxSeverity)
+		public static void AdjustRainSeverity(bool maxSeverity)
 		{
 			if (maxSeverity)
 			{

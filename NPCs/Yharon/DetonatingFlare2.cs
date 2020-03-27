@@ -10,7 +10,7 @@ namespace CalamityMod.NPCs.Yharon
 {
     public class DetonatingFlare2 : ModNPC
     {
-        float speed = 0f;
+        float randomSpeed = 0f;
 
         public override void SetStaticDefaults()
         {
@@ -39,45 +39,35 @@ namespace CalamityMod.NPCs.Yharon
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             npc.alpha -= 3;
-            npc.TargetClosest(true);
-            Vector2 vector98 = new Vector2(npc.Center.X, npc.Center.Y);
-            float num790 = Main.player[npc.target].Center.X - vector98.X;
-            float num791 = Main.player[npc.target].Center.Y - vector98.Y;
-            float num792 = (float)Math.Sqrt((double)(num790 * num790 + num791 * num791));
+            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             if (npc.localAI[3] == 0f)
             {
                 switch (Main.rand.Next(6))
                 {
                     case 0:
-                        speed = 10f;
+                        randomSpeed = 10f;
                         break;
                     case 1:
-                        speed = 11.5f;
+                        randomSpeed = 11.5f;
                         break;
                     case 2:
-                        speed = 13f;
+                        randomSpeed = 13f;
                         break;
                     case 3:
-                        speed = 14.5f;
+                        randomSpeed = 14.5f;
                         break;
                     case 4:
-                        speed = 16f;
+                        randomSpeed = 16f;
                         break;
                     case 5:
-                        speed = 17.5f;
+                        randomSpeed = 17.5f;
                         break;
                 }
                 npc.localAI[3] = 1f;
             }
-            float num793 = speed + (revenge ? 1f : 0f);
-            num792 = num793 / num792;
-            num790 *= num792;
-            num791 *= num792;
-            npc.velocity.X = (npc.velocity.X * 100f + num790) / 101f;
-            npc.velocity.Y = (npc.velocity.Y * 100f + num791) / 101f;
-            npc.rotation = (float)Math.Atan2((double)num791, (double)num790) - 1.57f;
+            float speed = randomSpeed + (revenge ? 1f : 0f);
+            CalamityAI.DungeonSpiritAI(npc, mod, speed, -MathHelper.PiOver2);
         }
 
         public override Color? GetAlpha(Color drawColor)

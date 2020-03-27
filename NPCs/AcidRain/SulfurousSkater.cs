@@ -1,5 +1,7 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -7,7 +9,6 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -192,6 +193,12 @@ namespace CalamityMod.NPCs.AcidRain
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/SulfurousSkaterGore3"), npc.scale);
             }
         }
+
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SulphurousGrabber>(), 20);
+        }
+
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);

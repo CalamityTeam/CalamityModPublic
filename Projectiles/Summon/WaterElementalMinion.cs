@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (dust > 0)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int num501 = 50;
                 for (int num502 = 0; num502 < num501; num502++)
@@ -68,11 +68,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust--;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             Lighting.AddLight(projectile.Center, 0f, 0.25f, 1.5f);
@@ -86,9 +86,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 180f;
-            if (Main.player[projectile.owner].gravDir == -1f)
+            projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+            projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 180f;
+            if (player.gravDir == -1f)
             {
                 projectile.position.Y = projectile.position.Y + 360f;
                 projectile.rotation = 3.14f;
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else
                 {
-                    for (int num512 = 0; num512 < 200; num512++)
+                    for (int num512 = 0; num512 < Main.maxNPCs; num512++)
                     {
                         if (Main.npc[num512].CanBeChasedBy(projectile, false))
                         {

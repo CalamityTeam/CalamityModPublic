@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Discordian Wings");
-            Tooltip.SetDefault("Formed from the flames of pure chaos\n" +
+            DisplayName.SetDefault("Hadal Mantle");
+            Tooltip.SetDefault("Fueled by the fury of the depths\n" +
                 "Horizontal speed: 7.75\n" +
                 "Acceleration multiplier: 1.5\n" +
                 "Average vertical speed\n" +
                 "Flight time: 180\n" +
-                "10% increased damage while wearing the Ataxia Armor");
+                "10% increased damage while wearing the Hydrothermic Armor");
         }
 
         public override void SetDefaults()

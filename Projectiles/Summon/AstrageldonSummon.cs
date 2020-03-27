@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
 			//on spawn effects and flexible minions
             if (!dust)
             {
-                modProj.spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
                 modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 int dustAmt = 16;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
@@ -83,11 +83,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust = true;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != modProj.spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
                     modProj.spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
 
@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Summon
 					{
 						bool lineOfSight = Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
 						float disttoobjective = Vector2.Distance(npc.Center, projectile.Center);
-						if (((Vector2.Distance(projectile.Center, objectivepos) > disttoobjective && disttoobjective < mindistance) || !gotoenemy) && lineOfSight)
+						if ((!gotoenemy && disttoobjective < mindistance) && lineOfSight)
 						{
 							
 							mindistance = disttoobjective;
@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Summon
 						{
 							bool lineOfSight = Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
 							float disttoobjective = Vector2.Distance(npc.Center, projectile.Center);
-							if (((Vector2.Distance(projectile.Center, objectivepos) > disttoobjective && disttoobjective < mindistance) || !gotoenemy) && lineOfSight)
+							if ((!gotoenemy && disttoobjective < mindistance) && lineOfSight)
 							{
 								
 								mindistance = disttoobjective;

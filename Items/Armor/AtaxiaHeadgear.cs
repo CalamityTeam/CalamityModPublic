@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ataxia Headgear");
+            DisplayName.SetDefault("Hydrothermic Headgear");
             Tooltip.SetDefault("12% increased ranged damage and 10% increased ranged critical strike chance\n" +
                 "Reduces ammo usage by 25%, temporary immunity to lava, and immunity to fire damage\n" +
 				"Provides heat protection in Death Mode");
@@ -31,14 +31,10 @@ namespace CalamityMod.Items.Armor
             return body.type == ModContent.ItemType<AtaxiaArmor>() && legs.type == ModContent.ItemType<AtaxiaSubligar>();
         }
 
-        public override bool IsVanitySet(int head, int body, int legs)
-        {
-            return body == ModContent.ItemType<AtaxiaArmor>() && legs == ModContent.ItemType<AtaxiaSubligar>();
-        }
-
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawOutlines = true;
+			player.Calamity().hydrothermalSmoke = true;
         }
 
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
@@ -46,11 +42,6 @@ namespace CalamityMod.Items.Armor
             drawHair = true;
             drawAltHair = true;
         }
-
-        public override void UpdateVanitySet(Player player)
-        {
-			player.Calamity().hydrothermalSmoke = true;
-		}
 
         public override void UpdateArmorSet(Player player)
         {

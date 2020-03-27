@@ -32,13 +32,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            if (projectile.owner != Main.myPlayer)
-                ai = reader.ReadInt32();
+            ai = reader.ReadInt32();
         }
 
         private void AI(int type, float num535, float num536, Player player)
         {
-            if (Main.myPlayer == projectile.owner)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
                 updateDamage(type);
             switch (ai)
             {
@@ -205,7 +204,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (Main.player[projectile.owner].Calamity().profanedCrystalBuffs && !Main.player[projectile.owner].Calamity().magicHat && !Main.player[projectile.owner].Calamity().endoCooper) { 
+            if (Main.player[projectile.owner].Calamity().profanedCrystalBuffs && !Main.player[projectile.owner].Calamity().magicHat && !Main.player[projectile.owner].Calamity().endoCooper)
+			{ 
                 CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
                 return false;
             }
@@ -255,7 +255,7 @@ namespace CalamityMod.Projectiles.Summon
             if (!flag19)
             {
                 int num3;
-                for (int num542 = 0; num542 < 200; num542 = num3 + 1)
+                for (int num542 = 0; num542 < Main.maxNPCs; num542 = num3 + 1)
                 {
                     if (Main.npc[num542].CanBeChasedBy(projectile, false))
                     {

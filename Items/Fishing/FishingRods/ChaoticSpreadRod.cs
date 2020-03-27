@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaotic Spread Rod");
+            DisplayName.SetDefault("Rift Reeler");
             Tooltip.SetDefault("Fires three to five lines at once. Can fish in lava.\n" +
 				"The battlefield is a scene of constant chaos.\n" + //Napoleon Bonaparte quote reference
 				"The winner will be the one who controls that chaos, both the pole and the fish.");

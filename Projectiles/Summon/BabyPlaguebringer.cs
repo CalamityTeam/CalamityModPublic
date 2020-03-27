@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (npc.CanBeChasedBy(projectile, false))
                 {
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
-                    if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
+                    if (!flag25 && num646 < num633)
                     {
                         num633 = num646;
                         vector46 = npc.Center;
@@ -109,7 +109,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (nPC2.CanBeChasedBy(projectile, false))
                     {
                         float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
+                        if (!flag25 && num646 < num633)
                         {
                             num633 = num646;
                             vector46 = nPC2.Center;

@@ -107,7 +107,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
             //Variables
-            float mindistance = 700f;
+            float mindistance = 2000f;
             float longdistance = AttackMode != 2 ? 1300f : 1200f;
             float longestdistance = AttackMode != 2 ? 2600f : 2500f;
             float idledistance = AttackMode != 2 ? 600f : 400f;
@@ -197,9 +197,8 @@ namespace CalamityMod.Projectiles.Summon
                 if (npc.CanBeChasedBy(projectile, false))
                 {
                     float disttoobjective = Vector2.Distance(npc.Center, projectile.Center);
-                    if ((Vector2.Distance(projectile.Center, objectivepos) > disttoobjective && disttoobjective < mindistance) || !gotoenemy)
+                    if (!gotoenemy && disttoobjective < mindistance)
                     {
-                        
                         mindistance = disttoobjective;
                         objectivepos = npc.Center;
                         gotoenemy = true;
@@ -208,15 +207,14 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                for (int num645 = 0; num645 < 200; num645++)
+                for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
                     NPC nPC2 = Main.npc[num645];
                     if (nPC2.CanBeChasedBy(projectile, false))
                     {
                         float disttoobjective = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if ((Vector2.Distance(projectile.Center, objectivepos) > disttoobjective && disttoobjective < mindistance) || !gotoenemy)
+                        if (!gotoenemy && disttoobjective < mindistance)
                         {
-                            
                             mindistance = disttoobjective;
                             objectivepos = nPC2.Center;
                             gotoenemy = true;

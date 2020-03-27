@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (count == 0f)
             {
-                projectile.Calamity().spawnedPlayerMinionDamageValue = (player.allDamage + player.minionDamage - 1f);
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
                 for (int num621 = 0; num621 < 5; num621++)
@@ -66,11 +66,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 count += 1f;
             }
-            if ((player.allDamage + player.minionDamage - 1f) != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
                     projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    (player.allDamage + player.minionDamage - 1f));
+                    player.MinionDamage());
                 projectile.damage = damage2;
             }
             if (projectile.owner == Main.myPlayer)
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Summon
                 float num507 = projectile.Center.Y;
                 float num508 = 1000f;
                 int target = 0;
-                if (Main.player[projectile.owner].HasMinionAttackTargetNPC)
+                if (player.HasMinionAttackTargetNPC)
                 {
                     NPC npc = Main.npc[Main.player[projectile.owner].MinionAttackTargetNPC];
                     if (npc.CanBeChasedBy(projectile, false))
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else
                 {
-                    for (int num512 = 0; num512 < 200; num512++)
+                    for (int num512 = 0; num512 < Main.maxNPCs; num512++)
                     {
                         if (Main.npc[num512].CanBeChasedBy(projectile, false))
                         {

@@ -408,9 +408,9 @@ namespace CalamityMod.CalPlayer
             // Acid rain droplets
             if (player.whoAmI == Main.myPlayer)
             {
-                if (CalamityWorld.rainingAcid && player.Calamity().ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses && player.Center.Y < Main.worldSurface * 16f + 800f)
+                if (CalamityWorld.rainingAcid && modPlayer.ZoneSulphur && !CalamityPlayer.areThereAnyDamnBosses && player.Center.Y < Main.worldSurface * 16f + 800f)
                 {
-                    int acidRainDropRate = (int)MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50);
+                    int acidRainDropRate = (int)(MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50) * 2.25);
                     Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
 
 					int acidDmg = CalamityWorld.downedPolterghast ? 35 : CalamityWorld.downedAquaticScourge ? 25 : 15;
@@ -428,9 +428,15 @@ namespace CalamityMod.CalPlayer
 			{
 				if (modPlayer.hydrothermalSmoke)
 				{
-					Vector2 goreVec = new Vector2(player.position.X + (float)(player.width / 2) + player.velocity.X, player.position.Y + (float)(player.height / 2) + player.velocity.Y);
-					if (Main.rand.NextBool(8))
-						Gore.NewGore(goreVec, default, Main.rand.Next(375, 378), 1f);
+					if ((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1)
+					{
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HydrothermalSmoke>(), 0, 0f, player.whoAmI, 0f, 0f);
+					}
+				}
+				//trying to find a workaround because apparently putting the bool in ResetEffects prevents it from working
+				if (!player.armorEffectDrawOutlines)
+				{
+					modPlayer.hydrothermalSmoke = false;
 				}
 			}
 
@@ -669,6 +675,8 @@ namespace CalamityMod.CalPlayer
 					{
 						bool affectedByColdWater = player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear;
 
+						player.AddBuff(ModContent.BuffType<DeathModeCold>(), 2, false);
+
 						modPlayer.deathModeBlizzardTime++;
 						if (affectedByColdWater)
 							modPlayer.deathModeBlizzardTime++;
@@ -695,6 +703,8 @@ namespace CalamityMod.CalPlayer
 					if (player.ZoneUnderworldHeight && !immunityToHot)
 					{
 						bool affectedByHotLava = player.lavaWet;
+
+						player.AddBuff(ModContent.BuffType<DeathModeHot>(), 2, false);
 
 						modPlayer.deathModeUnderworldTime++;
 						if (affectedByHotLava)
@@ -3014,7 +3024,7 @@ namespace CalamityMod.CalPlayer
 					{
 						float ai1 = (float)(I * 120);
 						Projectile.NewProjectile(player.Center.X + (float)(Math.Sin(I * 120) * 550), player.Center.Y + (float)(Math.Cos(I * 120) * 550), 0f, 0f,
-							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000f : 5000f) * (player.allDamage + player.minionDamage - 1f)), 1f, player.whoAmI, ai1, 0f);
+							ModContent.ProjectileType<GhostlyMine>(), (int)((modPlayer.auricSet ? 15000f : 5000f) * player.MinionDamage()), 1f, player.whoAmI, ai1, 0f);
 					}
 				}
 			}

@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Magic
                 float lerpStart = Main.rand.Next(12, 17);
                 float lerpEnd = Main.rand.Next(3, 7);
                 NPC target = Main.npc[(int)projectile.ai[0]];
-                Main.PlaySound(ModLoader.GetMod("CalamityMod").GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), (int)target.Center.X, (int)target.Center.Y);
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), (int)target.Center.X, (int)target.Center.Y);
                 for (float i = 0; i < 9f; ++i)
                 {
                     for (int j = 0; j < 2; ++j)
