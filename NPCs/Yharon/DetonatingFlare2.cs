@@ -9,7 +9,7 @@ namespace CalamityMod.NPCs.Yharon
 {
     public class DetonatingFlare2 : ModNPC
     {
-        float speed = 0f;
+        float randomSpeed = 0f;
 
         public override void SetStaticDefaults()
         {
@@ -39,7 +39,6 @@ namespace CalamityMod.NPCs.Yharon
         {
             npc.alpha -= 3;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			float randomSpeed = 10f;
             if (npc.localAI[3] == 0f)
             {
                 switch (Main.rand.Next(6))

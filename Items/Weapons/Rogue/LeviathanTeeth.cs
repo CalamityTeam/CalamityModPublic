@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 36;
-            item.damage = 94;
+            item.damage = 50;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 10;
@@ -54,29 +54,19 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             for (int i = 0; i < teethCount; i++)
             {
-                float toothType = Main.rand.Next(0, 3);
-                int projectileType = type;
-                switch (toothType)
-                {
-                    case 1:
-                        projectileType = ModContent.ProjectileType<LeviathanTooth2>();
-                        break;
-                    case 2:
-                        projectileType = ModContent.ProjectileType<LeviathanTooth3>();
-                        break;
-                }
-
                 float offsetSpeedX = speedX + Main.rand.NextFloat(-4f, 4f);
                 float offsetSpeedY = speedY + Main.rand.NextFloat(-4f, 4f);
 
                 if (stealthStrike)
                 {
-                    int p = Projectile.NewProjectile(position.X, position.Y, offsetSpeedX * 1.5f, offsetSpeedY * 1.5f, projectileType, damage, 10f, player.whoAmI, 0f, 0f);
-                    Main.projectile[p].Calamity().stealthStrike = true;
+                    int tooth = Projectile.NewProjectile(position.X, position.Y, offsetSpeedX * 1.5f, offsetSpeedY * 1.5f, type, damage, knockBack * 10f, player.whoAmI, 0f, 0f);
+                    Main.projectile[tooth].Calamity().stealthStrike = true;
+					Main.projectile[tooth].Calamity().lineColor = Main.rand.Next(3);
                 }
                 else
                 {
-                    int p = Projectile.NewProjectile(position.X, position.Y, offsetSpeedX, offsetSpeedY, projectileType, damage, knockBack, player.whoAmI, 0f, 0f);
+                    int tooth = Projectile.NewProjectile(position.X, position.Y, offsetSpeedX, offsetSpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+					Main.projectile[tooth].Calamity().lineColor = Main.rand.Next(3);
                 }
             }
             return false;
