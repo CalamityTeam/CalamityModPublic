@@ -173,7 +173,7 @@ namespace CalamityMod.Items
 				item.shootSpeed += 3.4f; //10f
 				item.knockBack += 1f; //1f
 				item.rare = 4;
-				item.damage = (int)(item.damage * 2.5);
+				item.damage = (int)(item.damage * 2.1);
 			}
             if (item.type == ItemID.PearlwoodSword)
 			{
