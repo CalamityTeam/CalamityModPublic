@@ -36,7 +36,6 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = -1;
-			projectile.localNPCHitCooldown = 20 * projectile.extraUpdates;
         }
 
         public override void AI()
@@ -46,14 +45,15 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
 				if (bubbleStronk)
 				{
 					ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 20f;
-					projectile.extraUpdates = 1;
+					projectile.extraUpdates = 2;
 					projectile.usesLocalNPCImmunity = true;
+					projectile.localNPCHitCooldown = 10 * projectile.extraUpdates;
 					bubbleStronkCounter++;
 				}
 				else
 				{
 					ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 16f;
-					projectile.extraUpdates = 0;
+					projectile.extraUpdates = 1;
 					projectile.usesLocalNPCImmunity = false;
 					bubbleStronkCounter = 0;
 				}
