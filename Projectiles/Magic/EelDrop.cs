@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -46,9 +47,16 @@ namespace CalamityMod.Projectiles.Magic
             return true;
         }
 
-		public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 120);
+            target.AddBuff(BuffID.Venom, 60);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 60);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
