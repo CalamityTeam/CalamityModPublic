@@ -675,6 +675,8 @@ namespace CalamityMod.CalPlayer
 					{
 						bool affectedByColdWater = player.wet && !player.lavaWet && !player.honeyWet && !player.arcticDivingGear;
 
+						player.AddBuff(ModContent.BuffType<DeathModeCold>(), 2, false);
+
 						modPlayer.deathModeBlizzardTime++;
 						if (affectedByColdWater)
 							modPlayer.deathModeBlizzardTime++;
@@ -701,6 +703,8 @@ namespace CalamityMod.CalPlayer
 					if (player.ZoneUnderworldHeight && !immunityToHot)
 					{
 						bool affectedByHotLava = player.lavaWet;
+
+						player.AddBuff(ModContent.BuffType<DeathModeHot>(), 2, false);
 
 						modPlayer.deathModeUnderworldTime++;
 						if (affectedByHotLava)
