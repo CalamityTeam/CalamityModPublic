@@ -75,12 +75,14 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void AI()
         {
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.5f, 1f);
+			npc.gfxOffY = -16;
+
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.5f, 1f);
 			
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
+            npc.spriteDirection = npc.direction;
 
 			// Get a target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -546,17 +548,52 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonIdleAlt");
-            Texture2D textureAttack = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonAttack");
-            if (npc.ai[0] > 2f)
-            {
-                CalamityMod.DrawTexture(spriteBatch, textureAttack, 0, npc, drawColor, true);
-            }
-            else
-            {
-                CalamityMod.DrawTexture(spriteBatch, npc.ai[0] == 2f ? texture : Main.npcTexture[npc.type], 0, npc, drawColor, true);
-            }
-            return false;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D glow = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonIdleGlow");
+			Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonIdleAlt");
+			Texture2D textureGlow = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonIdleAltGlow");
+			Texture2D textureAttack = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonAttack");
+			Texture2D textureAttackGlow = ModContent.GetTexture("CalamityMod/NPCs/Crabulon/CrabulonAttackGlow");
+
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)Main.npcTexture[npc.type].Width, (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+
+			if (npc.ai[0] > 2f)
+			{
+				vector11 = new Vector2((float)(textureAttack.Width / 2), (float)(textureAttack.Height / 2));
+				vector43 = npc.Center - Main.screenPosition;
+				vector43 -= new Vector2((float)textureAttack.Width, (float)(textureAttack.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+				vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+
+				spriteBatch.Draw(textureAttack, vector43, new Rectangle?(npc.frame), npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+				spriteBatch.Draw(textureAttackGlow, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+			else if (npc.ai[0] == 2f)
+			{
+				vector11 = new Vector2((float)(texture.Width / 2), (float)(texture.Height / 2));
+				vector43 = npc.Center - Main.screenPosition;
+				vector43 -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+				vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+
+				spriteBatch.Draw(texture, vector43, new Rectangle?(npc.frame), npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+				spriteBatch.Draw(textureGlow, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+			else
+			{
+				spriteBatch.Draw(Main.npcTexture[npc.type], vector43, new Rectangle?(npc.frame), npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+				spriteBatch.Draw(glow, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			return false;
         }
 
         public override void NPCLoot()

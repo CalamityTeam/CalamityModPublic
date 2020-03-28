@@ -2147,6 +2147,8 @@ namespace CalamityMod.NPCs
 		#region Astrum Aureus
 		public static void AstrumAureusAI(NPC npc, Mod mod)
         {
+			npc.gfxOffY = -46;
+
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			// Percent life remaining
