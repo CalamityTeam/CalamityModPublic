@@ -22,7 +22,8 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astrum Deus");
-        }
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+		}
 
         public override void SetDefaults()
         {
@@ -42,8 +43,6 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 npc.scale = 1.35f;
             }
-            NPCID.Sets.TrailCacheLength[npc.type] = 8;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
             npc.alpha = 255;
             npc.behindTiles = true;
             npc.noGravity = true;
@@ -87,47 +86,36 @@ namespace CalamityMod.NPCs.AstrumDeus
 			CalamityAI.AstrumDeusAI(npc, mod, false, true);
 		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color lightColor = new Color(250, 150, Main.DiscoB, npc.alpha);
-            Color newColor = npc.dontTakeDamage ? lightColor : drawColor;
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            Color color24 = npc.GetAlpha(newColor);
-            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
-            Texture2D texture2D3 = Main.npcTexture[npc.type];
-            int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
-            int y3 = num156 * (int)npc.frameCounter;
-            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
-            Vector2 origin2 = rectangle.Size() / 2f;
-            int num157 = 8;
-            int num158 = 2;
-            int num159 = 1;
-            float num160 = 0f;
-            int num161 = num159;
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
-            {
-                Color color26 = npc.GetAlpha(color25);
-                {
-                    goto IL_6899;
-                }
-                IL_6881:
-                num161 += num158;
-                continue;
-                IL_6899:
-                float num164 = (float)(num157 - num161);
-                if (num158 < 0)
-                {
-                    num164 = (float)(num159 - num161);
-                }
-                color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = npc.oldPos[num161];
-                float num165 = npc.rotation;
-                Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
-                goto IL_6881;
-            }
-            var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
-            return false;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = Main.npcTexture[npc.type];
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+			Color color36 = npc.dontTakeDamage ? new Color(250, 150, Main.DiscoB, npc.alpha) : Color.White;
+			float amount9 = 0.5f;
+			int num153 = 5;
+
+			for (int num155 = 1; num155 < num153; num155 += 2)
+			{
+				Color color38 = lightColor;
+				color38 = Color.Lerp(color38, color36, amount9);
+				color38 = npc.GetAlpha(color38);
+				color38 *= (float)(num153 - num155) / 15f;
+				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+				vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(texture2D15, vector41, new Rectangle?(npc.frame), color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), npc.dontTakeDamage ? new Color(250, 150, Main.DiscoB, npc.alpha) : npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
         }
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)

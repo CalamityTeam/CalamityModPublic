@@ -32,7 +32,8 @@ namespace CalamityMod.NPCs.AstrumAureus
         {
             DisplayName.SetDefault("Astrum Aureus");
             Main.npcFrameCount[npc.type] = 6;
-        }
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+		}
 
         public override void SetDefaults()
         {
@@ -224,9 +225,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             Texture2D GlowMaskTexture = Main.npcTexture[npc.type];
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (npc.spriteDirection == 1)
-            {
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            }
 
             if (npc.ai[0] == 0f)
             {
@@ -274,35 +273,65 @@ namespace CalamityMod.NPCs.AstrumAureus
                 }
             }
 
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-            int frameCount = Main.npcFrameCount[npc.type];
+			int frameCount = Main.npcFrameCount[npc.type];
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / frameCount / 2));
             Rectangle frame = npc.frame;
             float scale = npc.scale;
             float rotation = npc.rotation;
             float offsetY = npc.gfxOffY;
+			Color color36 = Color.White;
+			float amount9 = 0.5f;
+			int num153 = 7;
+			if (npc.ai[0] == 3f || npc.ai[0] == 4f)
+				num153 = 10;
 
-            Main.spriteBatch.Draw(NPCTexture,
+			for (int num155 = 1; num155 < num153; num155 += 2)
+			{
+				Color color38 = drawColor;
+				color38 = Color.Lerp(color38, color36, amount9);
+				color38 = npc.GetAlpha(color38);
+				color38 *= (float)(num153 - num155) / 15f;
+				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector41 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+				vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
+				spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38, rotation, vector11, scale, spriteEffects, 0f);
+			}
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+			vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
+			spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), npc.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
+
+			/*spriteBatch.Draw(NPCTexture,
                 new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * scale / 2f + vector11.X * scale,
-                npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)Main.npcTexture[npc.type].Height * scale / (float)Main.npcFrameCount[npc.type] + 4f + vector11.Y * scale + 0f + offsetY),
-                new Microsoft.Xna.Framework.Rectangle?(frame),
+                npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)Main.npcTexture[npc.type].Height * scale / (float)frameCount + 4f + vector11.Y * scale + offsetY),
+                new Rectangle?(frame),
                 npc.GetAlpha(drawColor),
                 rotation,
                 vector11,
                 scale,
                 spriteEffects,
-                0f);
+                0f);*/
 
-            if (npc.ai[0] != 1) //draw only if not recharging
+			if (npc.ai[0] != 1) //draw only if not recharging
             {
-                Vector2 center = new Vector2(npc.Center.X, npc.Center.Y - 46f);
-                Vector2 vector = center - Main.screenPosition;
-                vector -= new Vector2((float)GlowMaskTexture.Width, (float)(GlowMaskTexture.Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
-                vector += vector11 * 1f + new Vector2(0f, 0f + 4f + offsetY);
-                Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Gold);
+                Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Gold);
+				Color color40 = Color.Lerp(Color.White, color, 0.5f);
 
-                Main.spriteBatch.Draw(GlowMaskTexture, vector,
-                    new Microsoft.Xna.Framework.Rectangle?(frame), color, rotation, vector11, 1f, spriteEffects, 0f);
-            }
+				for (int num163 = 1; num163 < num153; num163++)
+				{
+					Color color41 = Color.Lerp(Color.White, color40, 0.5f);
+					color41 = Color.Lerp(color41, color36, amount9);
+					color41 *= (float)(num153 - num163) / 15f;
+					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+					vector44 -= new Vector2((float)GlowMaskTexture.Width, (float)(GlowMaskTexture.Height / frameCount)) * scale / 2f;
+					vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
+					spriteBatch.Draw(GlowMaskTexture, vector44, new Rectangle?(frame), color41, rotation, vector11, scale, spriteEffects, 0f);
+				}
+
+				spriteBatch.Draw(GlowMaskTexture, vector43, new Rectangle?(frame), color40, rotation, vector11, scale, spriteEffects, 0f);
+			}
+
             return false;
         }
 
