@@ -29,12 +29,14 @@ namespace CalamityMod.Projectiles.Boss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(projectile.localAI[0]);
-        }
+			writer.Write(projectile.localAI[1]);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
-        }
+			projectile.localAI[1] = reader.ReadSingle();
+		}
 
         public override void AI()
         {
@@ -47,11 +49,11 @@ namespace CalamityMod.Projectiles.Boss
                     if (projectile.localAI[0] > 10f)
                     {
 						// Dust pulse effect
-						projectile.ai[0] = (float)Math.Abs(Math.Cos((double)MathHelper.ToRadians(projectile.localAI[0] * 2f)));
+						projectile.localAI[1] = (float)Math.Abs(Math.Cos((double)MathHelper.ToRadians(projectile.localAI[0] * 2f)));
                         int num626 = 18;
                         for (int num627 = 0; num627 < num626; num627++)
                         {
-                            Vector2 vector45 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * projectile.ai[0];
+                            Vector2 vector45 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * projectile.localAI[1];
                             vector45 = vector45.RotatedBy((double)(num627 - (num626 / 2 - 1)) * 3.1415926535897931 / (double)(float)num626, default) + projectile.Center;
                             Vector2 value15 = ((float)(Main.rand.NextDouble() * Math.PI) - MathHelper.PiOver2).ToRotationVector2() * (float)Main.rand.Next(3, 8);
                             int num628 = Dust.NewDust(vector45 + value15, 0, 0, 60, value15.X * 2f, value15.Y * 2f, 100, default, 1f);
@@ -65,7 +67,8 @@ namespace CalamityMod.Projectiles.Boss
 
                     Vector2 value16 = Main.player[num625].Center - projectile.Center;
                     float num629 = 4f;
-                    num629 += projectile.localAI[0] / 60f;
+					float divisor = projectile.ai[0] == 1f ? 45f : 60f;
+					num629 += projectile.localAI[0] / divisor;
                     projectile.velocity = Vector2.Normalize(value16) * num629;
                     if (value16.Length() < 32f)
                     {
@@ -111,23 +114,40 @@ namespace CalamityMod.Projectiles.Boss
 				{
 					num231 = Main.maxTilesY - num233 - 10;
 				}
-				int spawnAreaY = Main.maxTilesY - num231;
-				for (int num234 = num231; num234 < num231 + spawnAreaY; num234++)
-				{
-					Tile tile = Main.tile[num232, num234];
-					if (tile.active() && !TileID.Sets.Platforms[tile.type] && (Main.tileSolid[(int)tile.type] || tile.liquid != 0))
-					{
-						num231 = num234;
-						break;
-					}
-				}
 				float x = (float)(num232 * 16);
-				float y = (float)(num231 * 16 - 48);
+				float y = (float)(num231 * 16 + 900);
 				Vector2 laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
-				laserVelocity.Normalize();
 				int damage = Main.expertMode ? 75 : 100;
-				int num236 = Projectile.NewProjectile(x, y, 0f, laserVelocity.Y, ModContent.ProjectileType<BirbAura>(), damage, 0f, Main.myPlayer, x, y);
-                Main.projectile[num236].netUpdate = true;
+				if (projectile.ai[0] == 1f)
+				{
+					x += 500f;
+					if ((int)(x / 16f) > Main.maxTilesX - 10)
+					{
+						x = (float)(Main.maxTilesX - 10) * 16f;
+					}
+					laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
+					laserVelocity.Normalize();
+					int num237 = Projectile.NewProjectile(x, y, 0f, laserVelocity.Y, ModContent.ProjectileType<BirbAura>(), damage, 0f, Main.myPlayer, x, y);
+					Main.projectile[num237].timeLeft = 900;
+					Main.projectile[num237].netUpdate = true;
+
+					x -= 1000f;
+					if ((int)(x / 16f) < 10)
+					{
+						x = 160f;
+					}
+					laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
+					laserVelocity.Normalize();
+					int num238 = Projectile.NewProjectile(x, y, 0f, laserVelocity.Y, ModContent.ProjectileType<BirbAura>(), damage, 0f, Main.myPlayer, x, y);
+					Main.projectile[num238].timeLeft = 900;
+					Main.projectile[num238].netUpdate = true;
+				}
+				else
+				{
+					laserVelocity.Normalize();
+					int num236 = Projectile.NewProjectile(x, y, 0f, laserVelocity.Y, ModContent.ProjectileType<BirbAura>(), damage, 0f, Main.myPlayer, x, y);
+					Main.projectile[num236].netUpdate = true;
+				}
             }
         }
     }

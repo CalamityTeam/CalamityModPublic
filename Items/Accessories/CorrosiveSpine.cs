@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Accessories
                         {
                             float speed = Main.rand.NextFloat(3f, 11f);
                             Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
-                                type, 100, 0f, player.whoAmI);
+                                type, (int)(100 * player.RogueDamage()), 0f, player.whoAmI);
                         }
                     }
                 }

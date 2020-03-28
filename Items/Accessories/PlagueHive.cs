@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Accessories
             int num = ModContent.BuffType<Plague>();
             float num2 = 300f;
             bool flag = plagueCounter % 60 == 0;
-            int num3 = 60;
+            int num3 = (int)(60 * player.AverageDamage());
             int random = Main.rand.Next(10);
             if (player.whoAmI == Main.myPlayer)
             {

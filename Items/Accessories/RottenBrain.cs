@@ -46,12 +46,12 @@ namespace CalamityMod.Items.Accessories
                             num18 = (float)num17 / num18;
                             num15 *= num18;
                             num16 *= num18;
-                            // TODO -- Rotten Brain's projectiles are boosted by magic damage despite being an all class accessory
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<AuraRain>(), 18, 2f, player.whoAmI, 0f, 0f);
+                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<AuraRain>(), (int)(18 * player.AverageDamage()), 2f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].ai[1] = player.position.Y;
                             Main.projectile[num19].tileCollide = false;
 							Main.projectile[num19].usesLocalNPCImmunity = true;
 							Main.projectile[num19].localNPCHitCooldown = 10;
+							Main.projectile[num19].magic = false;
                         }
                     }
                 }

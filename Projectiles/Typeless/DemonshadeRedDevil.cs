@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Summon
+namespace CalamityMod.Projectiles.Typeless
 {
     public class DemonshadeRedDevil : ModProjectile
     {
@@ -27,7 +27,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.height = 48;
             projectile.netImportant = true;
             projectile.friendly = true;
-            projectile.minion = true;
             projectile.ignoreWater = true;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
@@ -57,6 +56,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             dust--;
+            if (dust == 2)
+            {
+                projectile.Calamity().spawnedPlayerMinionDamageValue = player.AverageDamage();
+                projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+            }
             if (dust >= 0)
             {
                 int num501 = 50;
@@ -66,6 +70,13 @@ namespace CalamityMod.Projectiles.Summon
                     Main.dust[num503].velocity *= 2f;
                     Main.dust[num503].scale *= 1.15f;
                 }
+            }
+            if (player.AverageDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
+            {
+                int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
+                    projectile.Calamity().spawnedPlayerMinionDamageValue *
+                    player.AverageDamage());
+                projectile.damage = damage2;
             }
             projectile.frameCounter++;
             if (projectile.frameCounter > 8)
@@ -231,8 +242,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num651 > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
                     projectile.netUpdate = true;
                 }
                 if (num651 > 70f)

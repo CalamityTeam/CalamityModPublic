@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.penetrate = 1;
 			projectile.timeLeft = 300;
 			projectile.alpha = 255;
+			cooldownSlot = 1;
 		}
 
         public override void AI()
@@ -93,7 +94,12 @@ namespace CalamityMod.Projectiles.Boss
 			target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
 		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+		{
+			target.Calamity().lastProjectileHit = projectile;
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;

@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             return new Vector2(10, 10);
         }
 
-        // Lunic Eye scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
+        // Aestheticus scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             float formula = 5f * (player.allDamage - 1f);

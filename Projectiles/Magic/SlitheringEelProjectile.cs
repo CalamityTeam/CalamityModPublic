@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 94;
+            projectile.width = 22;
             projectile.height = 22;
             projectile.friendly = true;
             projectile.magic = true;
@@ -67,10 +68,21 @@ namespace CalamityMod.Projectiles.Magic
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, new Color(255, 255, 255, 127), ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             projectile.ai[0]++;
+            target.AddBuff(BuffID.Venom, 180);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            projectile.ai[0]++;
+            target.AddBuff(BuffID.Venom, 180);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
+        }
+
         public override void Kill(int timeLeft)
         {
             for (int dust = 0; dust <= 22; dust++)

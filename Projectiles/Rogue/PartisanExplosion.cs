@@ -6,7 +6,6 @@ using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    //TODO -- Make the dust from the explosion not look like ass, reduce timeleft if neccesary
     public class PartisanExplosion : ModProjectile
     {
     	public override void SetStaticDefaults()

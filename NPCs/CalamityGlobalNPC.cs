@@ -4421,6 +4421,15 @@ namespace CalamityMod.NPCs
 			}
 			return null;
 		}
+
+		public static Color buffColor(Color newColor, float R, float G, float B, float A)
+		{
+			newColor.R = (byte)((float)newColor.R * R);
+			newColor.G = (byte)((float)newColor.G * G);
+			newColor.B = (byte)((float)newColor.B * B);
+			newColor.A = (byte)((float)newColor.A * A);
+			return newColor;
+		}
 		#endregion
 
 		#region Get Chat

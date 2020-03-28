@@ -14,6 +14,7 @@ namespace CalamityMod.Projectiles.Boss
     public class BirbAura : ModProjectile
     {
 		float timer = 0f;
+		float timeBeforeVanish = 0f;
 
         public override void SetStaticDefaults()
         {
@@ -36,6 +37,7 @@ namespace CalamityMod.Projectiles.Boss
             writer.Write(projectile.localAI[0]);
             writer.Write(projectile.localAI[1]);
 			writer.Write(timer);
+			writer.Write(timeBeforeVanish);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -43,6 +45,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.localAI[0] = reader.ReadSingle();
             projectile.localAI[1] = reader.ReadSingle();
 			timer = reader.ReadSingle();
+			timeBeforeVanish = reader.ReadSingle();
 		}
 
         public override void AI()
@@ -62,15 +65,17 @@ namespace CalamityMod.Projectiles.Boss
 				timer -= 1f;
 
             float num801 = 1f;
+			if (timeBeforeVanish == 0f)
+				timeBeforeVanish = projectile.timeLeft <= 900 ? 900f : 1200f;
 
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 1200f)
+            if (projectile.localAI[0] >= timeBeforeVanish)
             {
                 projectile.Kill();
                 return;
             }
 
-            projectile.scale = (float)Math.Sin((double)(projectile.localAI[0] * Math.PI / 1200f)) * 10f * num801;
+            projectile.scale = (float)Math.Sin((double)(projectile.localAI[0] * Math.PI / timeBeforeVanish)) * 10f * num801;
             if (projectile.scale > num801)
                 projectile.scale = num801;
 
@@ -85,7 +90,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (vector78.HasValue)
 				samplingPoint = vector78.Value;
 
-			float laserLength = MathHelper.Clamp(projectile.ai[1] - 160f, 1600f, 3600f);
+			float laserLength = projectile.ai[1] - 160f;
 			float[] array3 = new float[(int)num805];
 			Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, laserLength, array3);
 			float num807 = 0f;
@@ -94,6 +99,8 @@ namespace CalamityMod.Projectiles.Boss
 				num807 += array3[num808];
 			}
 			num807 /= num805;
+
+			num807 = MathHelper.Clamp(num807, 1800f, 3600f);
 
 			float amount = 0.5f;
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount);
@@ -104,7 +111,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
 		{
-			if (timer <= 0f && projectile.localAI[0] >= 120f)
+			if (timer <= 0f && (projectile.localAI[0] >= 120f || projectile.timeLeft <= 900))
 			{
 				if (projectile.owner == Main.myPlayer)
 				{
@@ -114,10 +121,9 @@ namespace CalamityMod.Projectiles.Boss
 					Vector2 ai0 = target.Center - fireFrom;
 					float ai = (float)Main.rand.Next(100);
 					Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
-					Projectile.NewProjectile(fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), projectile.damage, 0f, projectile.owner, ai0.ToRotation(), ai);
+					Projectile.NewProjectile(fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), damage, 0f, projectile.owner, ai0.ToRotation(), ai);
 				}
 			}
-			damage = 0;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -177,7 +183,7 @@ namespace CalamityMod.Projectiles.Boss
 				return true;
 			}
 			float num6 = 0f;
-			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 22f * projectile.scale, ref num6))
+			if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], 80f * projectile.scale, ref num6))
 			{
 				return true;
 			}

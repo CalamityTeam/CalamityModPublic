@@ -30,7 +30,8 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
 			projectile.ignoreWater = true;
 			projectile.timeLeft = 1800;
-        }
+			cooldownSlot = 1;
+		}
 
         public override void AI()
         {
@@ -94,6 +95,7 @@ namespace CalamityMod.Projectiles.Boss
 				}
 
 				float distanceRequired = 800f * projectile.scale;
+				float succPower = 0.4f;
 				for (int i = 0; i < Main.maxPlayers; i++)
 				{
 					Player player = Main.player[i];
@@ -106,35 +108,18 @@ namespace CalamityMod.Projectiles.Boss
 
 							float wingTimeSet = (float)Math.Ceiling((float)player.wingTimeMax * 0.5f * distanceRatio);
 							if (player.wingTime > wingTimeSet)
-							{
 								player.wingTime = wingTimeSet;
-							}
 
-							float succPower = 0.4f;
 							float multiplier = 1f - distanceRatio;
 							if (player.Center.X < projectile.Center.X)
-							{
 								player.velocity.X += succPower * multiplier;
-							}
 							else
-							{
 								player.velocity.X -= succPower * multiplier;
-							}
 
-							int num = (int)player.Center.X / 16;
-							int num2 = (int)(player.position.Y + (float)player.height - 1f) / 16;
-							Tile tile = Framing.GetTileSafely(num, num2 + 1);
-							if (!WorldGen.SolidTile2(tile) || !player.controlJump)
-							{
-								if (player.Center.Y < projectile.Center.Y)
-								{
-									player.velocity.Y += succPower * multiplier;
-								}
-								else
-								{
-									player.velocity.Y -= succPower * multiplier;
-								}
-							}
+							if (player.Center.Y < projectile.Center.Y)
+								player.velocity.Y += succPower * multiplier;
+							else
+								player.velocity.Y -= succPower * multiplier;
 						}
 					}
 				}
@@ -178,5 +163,10 @@ namespace CalamityMod.Projectiles.Boss
         {
 			target.AddBuff(ModContent.BuffType<Irradiated>(), 600);
 		}
-    }
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
+		{
+			target.Calamity().lastProjectileHit = projectile;
+		}
+	}
 }
