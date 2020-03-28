@@ -37,11 +37,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         private bool halfLife = false;
         private bool canDespawn = false;
         private bool flyingFrame2 = false;
+        private int curTex = 1;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Plaguebringer Goliath");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[npc.type] = 6;
         }
 
         public override void SetDefaults()
@@ -118,8 +119,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void AI()
         {
-			// Mode variables
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+            //drawcode adjustments for the new sprite
+            npc.gfxOffY = charging ? -40 : -50;
+            npc.width = npc.frame.Width / 2;
+            npc.height = (int)(npc.frame.Height * (charging ? 1.5f : 1.8f));
+            //npc.ai[0] = 3f;
+
+            // Mode variables
+            bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
@@ -307,6 +314,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						}
 
                         charging = true;
+                        npc.frameCounter = 4;
 
                         npc.ai[1] += 1f;
                         npc.ai[2] = 0f;
@@ -412,9 +420,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (npc.ai[2] != 1f)
                     {
                         charging = true;
+                        npc.frameCounter = 4;
 
-						// Velocity fix if PBG slowed
-						if (npc.velocity.Length() < num1044)
+                        // Velocity fix if PBG slowed
+                        if (npc.velocity.Length() < num1044)
 							npc.velocity = new Vector2(npc.Calamity().newAI[1], npc.Calamity().newAI[2]);
 
 						npc.Calamity().newAI[0] += 1f;
@@ -493,7 +502,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 npc.TargetClosest(true);
 
-                Vector2 vector119 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(80 * npc.direction), npc.position.Y + (float)npc.height * 1.2f);
+                Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, +npc.getRect().Bottom().Y);
+                vector119.X += (npc.direction * 100);
                 float num1058 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
                 float num1059 = player.position.Y + (float)(player.height / 2) - vectorCenter.Y;
                 float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
@@ -567,7 +577,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 npc.TargetClosest(true);
 
-                Vector2 vector119 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(80 * npc.direction), npc.position.Y + (float)npc.height * 1.2f);
+                Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, +npc.getRect().Bottom().Y);
+                vector119.X += (npc.direction * 100);
                 float num1058 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
                 float num1059 = player.position.Y + (float)(player.height / 2) - vectorCenter.Y;
                 float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
@@ -639,7 +650,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             // Stinger phase
             else if (npc.ai[0] == 3f)
             {
-                Vector2 vector121 = new Vector2(npc.position.X + (float)(npc.width / 2) + (float)(80 * npc.direction), npc.position.Y + (float)npc.height * 1.2f);
+                Vector2 vector121 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, + npc.getRect().Bottom().Y);
+                vector121.X += (npc.direction * 100);
 
                 npc.ai[1] += 1f;
                 bool flag104 = false;
@@ -855,8 +867,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         charging = true;
 
-						// Velocity fix if PBG slowed
-						if (npc.velocity.Length() < num1044)
+                        // Velocity fix if PBG slowed
+                        if (npc.velocity.Length() < num1044)
 							npc.velocity.X = num1044 * npc.direction;
 
 						npc.Calamity().newAI[0] += 1f;
@@ -959,11 +971,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg"), 2f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg2"), 2f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg3"), 2f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg4"), 2f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Pbg5"), 2f);
+                for (int i = 1; i < 7; i++)
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("PlaguebringerGoliathGore" + i), 2f);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 100;
@@ -994,20 +1003,20 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = Main.npcTexture[npc.type];
+            if (curTex != (charging ? 2 : 1))
+            {
+                npc.frame.X = 0;
+                npc.frame.Y = 0;
+            }
             if (charging)
             {
+                curTex = 2;
                 texture = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathChargeTex");
             }
             else
             {
-                if (!flyingFrame2)
-                {
-                    texture = Main.npcTexture[npc.type];
-                }
-                else
-                {
-                    texture = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathAltTex");
-                }
+                curTex = 1;
+                texture = Main.npcTexture[npc.type];
             }
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (npc.spriteDirection == 1)
@@ -1016,9 +1025,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
             Color color24 = npc.GetAlpha(drawColor);
             Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
-            int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
-            int y3 = num156 * (int)npc.frameCounter;
-            Rectangle rectangle = new Rectangle(0, y3, texture.Width, num156);
+            int num156 = texture.Height / 3;
+            Rectangle rectangle = new Rectangle(npc.frame.X, npc.frame.Y, texture.Width / 2, num156);
             Vector2 origin2 = rectangle.Size() / 2f;
             int num157 = 8;
             int num158 = 2;
@@ -1043,28 +1051,34 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
                 Vector2 value4 = npc.oldPos[num161];
                 float num165 = npc.rotation;
-                Main.spriteBatch.Draw(texture, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
+                float posOffset = npc.gfxOffY * -1;
+                Main.spriteBatch.Draw(texture, value4 - Main.screenPosition + new Vector2(charging ? 75 : 125, posOffset * 2.5f), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;
             }
             var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
+            spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(charging ? 75 : 125, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
             return false;
         }
 
         public override void FindFrame(int frameHeight)
         {
+
+            int width = !charging ? (532 / 2) : (644 / 2);
+            int height = !charging ? (768 / 3) : (636 / 3);
             npc.frameCounter += 1.0;
+
             if (npc.frameCounter > 4.0)
             {
-                npc.frame.Y = npc.frame.Y + frameHeight;
+                npc.frame.Y = npc.frame.Y + height;
                 npc.frameCounter = 0.0;
             }
-            if (npc.frame.Y >= frameHeight * 4)
+            if (npc.frame.Y >= height * 3)
             {
                 npc.frame.Y = 0;
-                if (!charging)
+                npc.frame.X = npc.frame.X == 0 ? width : 0;
+                if (charging)
                 {
-                    flyingFrame2 = !flyingFrame2;
+                   flyingFrame2 = !flyingFrame2;
                 }
             }
         }
