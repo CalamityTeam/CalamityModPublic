@@ -55,6 +55,7 @@ Stealth strikes leak tar as they fly");
             recipe.AddIngredient(ModContent.ItemType<SolarVeil>(), 10);
             recipe.AddIngredient(ModContent.ItemType<ConsecratedWater>());
             recipe.AddIngredient(ModContent.ItemType<DesecratedWater>());
+            recipe.AddIngredient(ModContent.ItemType<SpentFuelContainer>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

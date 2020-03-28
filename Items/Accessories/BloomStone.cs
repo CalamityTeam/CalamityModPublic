@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Accessories
             int num = 186;
             float num2 = 150f;
             bool flag = bloomCounter % 60 == 0;
-            int num3 = 10;
+            int num3 = (int)(10 * player.AverageDamage());
             int random = Main.rand.Next(10);
             if (player.whoAmI == Main.myPlayer)
             {

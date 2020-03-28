@@ -7,6 +7,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Cryogen;
 using CalamityMod.World;
 using Terraria;
@@ -57,6 +58,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<BittercoldStaff>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<SnowstormStaff>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<Icebreaker>(), 3);
+            float divinityChance = DropHelper.LegendaryDropRateFloat;
+            DropHelper.DropItemCondition(player, ModContent.ItemType<ColdDivinity>(), CalamityWorld.revenge, divinityChance);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<SoulofCryogen>());

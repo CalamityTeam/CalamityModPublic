@@ -1,16 +1,16 @@
 ﻿using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class DemonshadeSetDevilBuff : ModBuff
+    class ColdDivinityBuff : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Red Devil");
-            Description.SetDefault("The red devil will protect you");
+            DisplayName.SetDefault("Cold Divinity");
+            Description.SetDefault("The magic of the ancient ice castle will aid you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }
@@ -18,11 +18,8 @@ namespace CalamityMod.Buffs.Summon
         public override void Update(Player player, ref int buffIndex)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<DemonshadeRedDevil>()] > 0)
-            {
-                modPlayer.rDevil = true;
-            }
-            if (!modPlayer.rDevil)
+            modPlayer.coldDivinity = true;
+            if (!modPlayer.coldDivinity)
             {
                 player.DelBuff(buffIndex);
                 buffIndex--;

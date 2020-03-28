@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (player.whoAmI == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), 50, 5f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), (int)(50 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
                 }
             }
             int seaCounter = 0;
@@ -56,13 +56,13 @@ namespace CalamityMod.Items.Accessories
             int num = BuffID.Venom;
             float num2 = 200f;
             bool flag = seaCounter % 60 == 0;
-            int num3 = 15;
+            int num3 = (int)(15 * player.AverageDamage());
             int random = Main.rand.Next(5);
             if (player.whoAmI == Main.myPlayer)
             {
                 if (random == 0 && player.immune && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
                 {
-                    for (int l = 0; l < 200; l++)
+                    for (int l = 0; l < Main.maxNPCs; l++)
                     {
                         NPC nPC = Main.npc[l];
                         if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && !nPC.buffImmune[num] && Vector2.Distance(player.Center, nPC.Center) <= num2)

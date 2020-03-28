@@ -785,11 +785,7 @@ namespace CalamityMod.CalPlayer
 					{
 						if (!tentaclesPresent[i])
 						{
-							float modifier = player.meleeDamage + player.magicDamage + player.rangedDamage +
-								modPlayer.throwingDamage + player.minionDamage + ((player.allDamage - 1f) * 5f);
-
-							modifier /= 5f;
-							int damage = (int)(666 * modifier);
+							int damage = (int)(666 * player.AverageDamage());
 							Vector2 vel = new Vector2(Main.rand.Next(-13, 14), Main.rand.Next(-13, 14)) * 0.25f;
 							Projectile.NewProjectile(player.Center, vel, ModContent.ProjectileType<OmegaBlueTentacle>(), damage, 8f, Main.myPlayer, Main.rand.Next(120), i);
 						}
@@ -1294,7 +1290,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.eaterOfWorldsLore)
 			{
-				int damage = 20;
+				int damage = (int)(15 * player.AverageDamage());
 				float knockBack = 1f;
 				if (Main.rand.NextBool(15))
 				{
@@ -1661,7 +1657,7 @@ namespace CalamityMod.CalPlayer
 					Vector2 cloudVelocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
 					cloudVelocity.Normalize();
 					cloudVelocity *= Main.rand.NextFloat(0f, 1f);
-					int projectile = Projectile.NewProjectile(player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), 20, 0, player.whoAmI, 0, 0);
+					int projectile = Projectile.NewProjectile(player.Center, cloudVelocity, ModContent.ProjectileType<PlaguedFuelPackCloud>(), (int)(20 * player.RogueDamage()), 0, player.whoAmI, 0, 0);
 					Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
 				}
 
@@ -3126,7 +3122,7 @@ namespace CalamityMod.CalPlayer
 				if (modPlayer.navyRodAuraTimer == 0 && player.whoAmI == Main.myPlayer)
 				{
 					const int BaseDamage = 10;
-					int damage = (int)(BaseDamage * player.allDamage);
+					int damage = (int)(BaseDamage * player.AverageDamage());
 					float range = 200f;
 
 					for (int i = 0; i < Main.maxNPCs; ++i)
@@ -3169,7 +3165,7 @@ namespace CalamityMod.CalPlayer
 				if (player.whoAmI == Main.myPlayer)
 				{
 					const int BaseDamage = 50;
-					int damage = (int)(BaseDamage * player.allDamage);
+					int damage = (int)(BaseDamage * player.AverageDamage());
 					float range = 300f;
 
 					for (int i = 0; i < Main.maxNPCs; ++i)
@@ -3363,7 +3359,7 @@ namespace CalamityMod.CalPlayer
 				if (player.whoAmI == Main.myPlayer)
 				{
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), 15, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), (int)(10 * player.AverageDamage()), 0f, Main.myPlayer, 0f, 0f);
 				}
 			}
 			else if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)
