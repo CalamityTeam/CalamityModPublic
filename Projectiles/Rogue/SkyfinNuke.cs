@@ -85,11 +85,11 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 value17 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
                     value17.Normalize();
                     value17 *= (float)Main.rand.Next(10, 51) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<SkyBomberGas>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<SkyBomberGas>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner, 0f, 0f);
                 }
 				if (projectile.Calamity().stealthStrike)
 				{
-					int explode = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BileExplosion>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 1f);
+					int explode = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BileExplosion>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 1f);
 					Main.projectile[explode].usesLocalNPCImmunity = true;
 					Main.projectile[explode].localNPCHitCooldown = 20;
 				}
