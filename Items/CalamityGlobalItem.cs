@@ -671,9 +671,9 @@ namespace CalamityMod.Items
                 int count = 0;
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
-                if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<ColdDivinityPointyThing>() && Main.projectile[i].owner == player.whoAmI)
+                    if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<ColdDivinityPointyThing>() && Main.projectile[i].owner == player.whoAmI)
                     {
-                        if (Main.projectile[i].ai[1] >= 2f)
+                        if (Main.projectile[i].ai[1] >= 1f)
                         {
                             canContinue = false;
                             break;
@@ -684,18 +684,16 @@ namespace CalamityMod.Items
                         }
                     }
                 }
-                if (canContinue)
+                if (canContinue && count > 0)
                 {
                     NPC unluckyTarget = CalamityUtils.MinionHoming(Main.MouseWorld, 1000f, player);
                     if (unluckyTarget != null)
                     {
-                        float dist = unluckyTarget.getRect().Width * 2f; //create distance between hitbox and spears.
-                        while (dist > 125) //to ensure we don't get some bonkers level of circling from levi sized hitboxes
-                            dist -= 50;
+                        int height = unluckyTarget.getRect().Height;
+                        int width = unluckyTarget.getRect().Width;
+                        float dist = (height > width ? height : width) + 50f; //create distance between hitbox and spears.
                         int pointyThingyAmount = count;
-                        pointyThingyAmount += (int)dist / 50;
-                        if (pointyThingyAmount == 0)
-                            pointyThingyAmount++;
+                        pointyThingyAmount += dist > 100 ? (int)dist / 100 : 0;
                         float angleVariance = MathHelper.TwoPi / pointyThingyAmount;
                         float angle = 0f;
                         for (int i = 0; i < pointyThingyAmount; i++)
