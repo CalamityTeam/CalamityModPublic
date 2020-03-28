@@ -39,12 +39,12 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.nCore = true;
             player.allDamage += 0.12f;
-            int damage = 1500;
+            int damage = (int)(1500 * player.AverageDamage());
             float knockBack = 3f;
             if (Main.rand.NextBool(15))
             {
                 int num = 0;
-                for (int i = 0; i < 1000; i++)
+                for (int i = 0; i < Main.maxProjectiles; i++)
                 {
                     if (Main.projectile[i].active && Main.projectile[i].owner == player.whoAmI && Main.projectile[i].type == ModContent.ProjectileType<NebulaStar>())
                     {
@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Accessories
                                 }
                                 if (flag)
                                 {
-                                    for (int k = 0; k < 1000; k++)
+                                    for (int k = 0; k < Main.maxProjectiles; k++)
                                     {
                                         if (Main.projectile[k].active && Main.projectile[k].owner == player.whoAmI && Main.projectile[k].type == ModContent.ProjectileType<NebulaStar>() && (center - Main.projectile[k].Center).Length() < 48f)
                                         {

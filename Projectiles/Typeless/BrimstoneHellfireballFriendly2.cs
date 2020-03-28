@@ -3,7 +3,7 @@ using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles.Typeless
 {
     public class BrimstoneHellfireballFriendly2 : ModProjectile
     {
@@ -18,9 +18,9 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 12;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 600;
+			projectile.tileCollide = false;
+            projectile.timeLeft = 50;
             projectile.penetrate = -1;
-            projectile.magic = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }

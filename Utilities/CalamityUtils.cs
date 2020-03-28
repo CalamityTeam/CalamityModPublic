@@ -63,6 +63,8 @@ namespace CalamityMod
         public static float MinionDamage(this Player player) => player.allDamage + player.minionDamage - 1f;
         public static float ThrownDamage(this Player player) => player.allDamage + player.thrownDamage - 1f;
         public static float RogueDamage(this Player player) => player.allDamage + player.thrownDamage + player.Calamity().throwingDamage - 2f;
+        public static float AverageDamage(this Player player) => (player.meleeDamage + player.magicDamage + player.rangedDamage +
+    player.Calamity().throwingDamage + player.minionDamage + ((player.allDamage - 1f) * 5f)) / 5f;
 
         public static bool IsUnderwater(this Player player) => Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
         public static bool InSpace(this Player player)

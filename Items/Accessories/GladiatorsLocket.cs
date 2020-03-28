@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
@@ -43,10 +44,13 @@ namespace CalamityMod.Items.Accessories
                 {
                     player.AddBuff(ModContent.BuffType<GladiatorSwords>(), 3600, true);
                 }
+				int damage = NPC.downedPlantBoss ? 100 : Main.hardMode ? 50 : 20;
+                float damageMult = CalamityWorld.downedDoG ? 3f : NPC.downedMoonlord ? 2f : 1f;
+				int swordDmg = (int)(damage * damageMult * player.AverageDamage());
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<GladiatorSword>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword>(), (int)(20f * (player.allDamage + player.minionDamage - 1f)), 6f, Main.myPlayer, 0f, 0f);
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword2>(), (int)(20f * (player.allDamage + player.minionDamage - 1f)), 6f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword>(), swordDmg, 6f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GladiatorSword2>(), swordDmg, 6f, Main.myPlayer, 0f, 0f);
                 }
             }
         }

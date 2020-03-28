@@ -3273,7 +3273,7 @@ namespace CalamityMod.CalPlayer
 
                 for (int i = 0; i < 50; i++)
                 {
-                    int lumenyl = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), ModContent.ProjectileType<AbyssalMirrorProjectile>(), 55, 0, player.whoAmI);
+                    int lumenyl = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), ModContent.ProjectileType<AbyssalMirrorProjectile>(), (int)(55 * player.RogueDamage()), 0, player.whoAmI);
                     Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
                     Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
                 }
@@ -3296,7 +3296,7 @@ namespace CalamityMod.CalPlayer
                 }
 
                 Main.PlaySound(2, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 68);
-                int eclipseBurst = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<EclipseMirrorBurst>(), 8000, 0, player.whoAmI);
+                int eclipseBurst = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(7000 * player.RogueDamage()), 0, player.whoAmI);
             }
         }
         #endregion
@@ -6470,11 +6470,12 @@ namespace CalamityMod.CalPlayer
                             if (arg_67A_0 < num10)
                             {
                                 float num11 = (float)Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
-                                Main.npc[m].AddBuff(31, (int)num11, false);
+                                Main.npc[m].AddBuff(BuffID.Confused, (int)num11, false);
                             }
                         }
                     }
-                    Projectile.NewProjectile(player.Center.X + (float)Main.rand.Next(-40, 40), player.Center.Y - (float)Main.rand.Next(20, 60), player.velocity.X * 0.3f, player.velocity.Y * 0.3f, 565, 0, 0f, player.whoAmI, 0f, 0f);
+					//spawn the harmless brain images that are actually projectiles
+                    Projectile.NewProjectile(player.Center.X + (float)Main.rand.Next(-40, 40), player.Center.Y - (float)Main.rand.Next(20, 60), player.velocity.X * 0.3f, player.velocity.Y * 0.3f, ProjectileID.BrainOfConfusion, 0, 0f, player.whoAmI, 0f, 0f);
                 }
                 if (polarisBoost)
                 {
@@ -6568,7 +6569,7 @@ namespace CalamityMod.CalPlayer
                             num16 = (float)num15 / num16;
                             num13 *= num16;
                             num14 *= num16;
-                            int num17 = Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<StickyFeatherAero>(), 20, 1f, player.whoAmI, 0f, 0f);
+                            int num17 = Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<StickyFeatherAero>(), (int)(20 * player.AverageDamage()), 1f, player.whoAmI, 0f, 0f);
                         }
                     }
                 }
@@ -6577,7 +6578,7 @@ namespace CalamityMod.CalPlayer
                     if (aBulwarkRare)
                     {
                         Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 74);
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), 25, 5f, player.whoAmI, 0f, 1f);
+                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), (int)(25 * player.AverageDamage()), 5f, player.whoAmI, 0f, 1f);
                     }
                     int starAmt = aBulwarkRare ? 12 : 5;
                     for (int n = 0; n < starAmt; n++)
@@ -6593,7 +6594,7 @@ namespace CalamityMod.CalPlayer
                         num16 = (float)num15 / num16;
                         num13 *= num16;
                         num14 *= num16;
-                        int num17 = Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<AstralStar>(), 320, 5f, player.whoAmI, 0f, 0f);
+                        int num17 = Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
                     }
                 }
                 if (dAmulet)
@@ -6611,7 +6612,7 @@ namespace CalamityMod.CalPlayer
                         num16 = (float)num15 / num16;
                         num13 *= num16;
                         num14 *= num16;
-                        int star = Projectile.NewProjectile(x, y, num13, num14, 92, 130, 4f, player.whoAmI, 0f, 0f);
+                        int star = Projectile.NewProjectile(x, y, num13, num14, ProjectileID.HallowStar, (int)(130 * player.AverageDamage()), 4f, player.whoAmI, 0f, 0f);
                         Main.projectile[star].usesLocalNPCImmunity = true;
                         Main.projectile[star].localNPCHitCooldown = 5;
                         Main.projectile[star].ranged = false;
@@ -6646,7 +6647,7 @@ namespace CalamityMod.CalPlayer
                         num16 = (float)num15 / num16;
                         num13 *= num16;
                         num14 *= num16;
-                        int star = Projectile.NewProjectile(x, y, num13, num14, 92, 130, 4f, player.whoAmI, 0f, 0f);
+                        int star = Projectile.NewProjectile(x, y, num13, num14, ProjectileID.HallowStar, (int)(150 * player.AverageDamage()), 4f, player.whoAmI, 0f, 0f);
                         Main.projectile[star].usesLocalNPCImmunity = true;
                         Main.projectile[star].localNPCHitCooldown = 5;
                         Main.projectile[star].ranged = false;
@@ -6676,7 +6677,7 @@ namespace CalamityMod.CalPlayer
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
                     int i;
-                    int fDamage = 56;
+                    int fDamage = (int)(56 * player.AverageDamage());
                     if (player.whoAmI == Main.myPlayer)
                     {
                         for (i = 0; i < 4; i++)
@@ -6710,10 +6711,12 @@ namespace CalamityMod.CalPlayer
                         for (i = 0; i < 4; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            int spark1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), sDamage, 1.25f, player.whoAmI, 0f, 0f);
-                            int spark2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), sDamage, 1.25f, player.whoAmI, 0f, 0f);
+                            int spark1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
+                            int spark2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
                             Main.projectile[spark1].timeLeft = 120;
                             Main.projectile[spark2].timeLeft = 120;
+							Main.projectile[spark1].melee = false;
+							Main.projectile[spark2].melee = false;
                         }
                     }
                 }
@@ -6741,7 +6744,7 @@ namespace CalamityMod.CalPlayer
                         Dust.NewDust(player.Center, 1, 1, 244, BCDSpeed.X, BCDSpeed.Y, 0, default, 1.1f);
                     }
                     Main.PlaySound(SoundID.Item14, player.Center);
-                    int blazingSun = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), 1690, 0f, player.whoAmI, 0f, 0f);
+                    int blazingSun = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun>(), (int)(1690 * player.AverageDamage()), 0f, player.whoAmI, 0f, 0f);
                     Main.projectile[blazingSun].Center = player.Center;
                     int blazingSun2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BlazingSun2>(), 0, 0f, player.whoAmI, 0f, 0f);
                     Main.projectile[blazingSun2].Center = player.Center;
@@ -6752,7 +6755,7 @@ namespace CalamityMod.CalPlayer
                 if (damage > 0)
                 {
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 74);
-                    int eDamage = 100;
+                    int eDamage = (int)(100 * player.AverageDamage());
                     if (player.whoAmI == Main.myPlayer)
                     {
                         Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<ChaosBlaze>(), eDamage, 1f, player.whoAmI, 0f, 0f);
@@ -6769,7 +6772,7 @@ namespace CalamityMod.CalPlayer
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
                     int i;
-                    int sDamage = 27;
+                    int sDamage = (int)(27 * player.RangedDamage()); //daedalus ranged helm
                     if (player.whoAmI == Main.myPlayer)
                     {
                         for (i = 0; i < 8; i++)
@@ -6795,7 +6798,7 @@ namespace CalamityMod.CalPlayer
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
                     int i;
-                    int rDamage = 58;
+                    int rDamage = (int)(58 * player.RogueDamage()); //Reaver rogue helm
                     if (player.whoAmI == Main.myPlayer)
                     {
                         for (i = 0; i < 4; i++)
@@ -6813,7 +6816,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            else if (godSlayerDamage)
+            else if (godSlayerDamage) //god slayer melee helm
             {
                 if (damage > 80)
                 {
@@ -6828,8 +6831,8 @@ namespace CalamityMod.CalPlayer
                         for (i = 0; i < 4; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), 900, 5f, player.whoAmI, 0f, 0f);
-                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), 900, 5f, player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(900 * player.MeleeDamage()), 5f, player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(900 * player.MeleeDamage()), 5f, player.whoAmI, 0f, 0f);
                         }
                     }
                 }
@@ -6841,7 +6844,7 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 74);
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), auricSet ? 2400 : 1200, 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), (int)((auricSet ? 2400 : 1200) * player.MagicDamage()), 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -6862,10 +6865,11 @@ namespace CalamityMod.CalPlayer
                         num18 = (float)num17 / num18;
                         num15 *= num18;
                         num16 *= num18;
-                        int num19 = Projectile.NewProjectile(x, y, num15, num16, ProjectileID.ShadowBeamFriendly, 3000, 7f, player.whoAmI, 0f, 0f);
+                        int num19 = Projectile.NewProjectile(x, y, num15, num16, ProjectileID.ShadowBeamFriendly, (int)(3000 * player.AverageDamage()), 7f, player.whoAmI, 0f, 0f);
                         Main.projectile[num19].ai[1] = player.position.Y;
 						Main.projectile[num19].usesLocalNPCImmunity = true;
 						Main.projectile[num19].localNPCHitCooldown = 10;
+						Main.projectile[num19].magic = false;
                     }
                     for (int l = 0; l < 5; l++)
                     {
@@ -6880,10 +6884,11 @@ namespace CalamityMod.CalPlayer
                         num18 = (float)num17 / num18;
                         num15 *= num18;
                         num16 *= num18;
-                        int num19 = Projectile.NewProjectile(x, y, num15, num16, ProjectileID.DemonScythe, 5000, 7f, player.whoAmI, 0f, 0f);
+                        int num19 = Projectile.NewProjectile(x, y, num15, num16, ProjectileID.DemonScythe, (int)(5000 * player.AverageDamage()), 7f, player.whoAmI, 0f, 0f);
                         Main.projectile[num19].ai[1] = player.position.Y;
 						Main.projectile[num19].usesLocalNPCImmunity = true;
 						Main.projectile[num19].localNPCHitCooldown = 10;
+						Main.projectile[num19].magic = false;
                     }
                 }
             }
@@ -7087,7 +7092,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 50f * player.MeleeDamage();
+                            float num = 50f * player.AverageDamage();
                             float num2 = 3f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7141,7 +7146,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 1500f * player.MeleeDamage();
+                            float num = 1500f * player.AverageDamage();
                             float num2 = 15f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7168,9 +7173,8 @@ namespace CalamityMod.CalPlayer
                             if (player.whoAmI == Main.myPlayer)
                             {
                                 player.ApplyDamageToNPC(nPC, (int)num, num2, direction, crit);
-                                int num6 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosionSupreme>(), 1000, 20f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[num6].Kill();
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyEruption>(), 780, 5f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(1000 * player.AverageDamage()), 20f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyEruption>(), (int)(780 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
                             }
 							if (nPC.immune[player.whoAmI] < 6)
 								nPC.immune[player.whoAmI] = 6;
@@ -7198,7 +7202,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 500f * player.MeleeDamage();
+                            float num = 500f * player.AverageDamage();
                             float num2 = 12f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7225,9 +7229,8 @@ namespace CalamityMod.CalPlayer
                             if (player.whoAmI == Main.myPlayer)
                             {
                                 player.ApplyDamageToNPC(nPC, (int)num, num2, direction, crit);
-                                int num6 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosionSupreme>(), 500, 15f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[num6].Kill();
-                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyEruption>(), 380, 5f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosionSupreme>(), (int)(500 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyEruption>(), (int)(380 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
                             }
 							if (nPC.immune[player.whoAmI] < 6)
 								nPC.immune[player.whoAmI] = 6;
@@ -7254,7 +7257,7 @@ namespace CalamityMod.CalPlayer
                         Rectangle rect = nPC.getRect();
                         if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
                         {
-                            float num = 100f * player.MeleeDamage();
+                            float num = 100f * player.AverageDamage();
                             float num2 = 9f;
                             bool crit = false;
                             if (player.kbGlove)
@@ -7281,8 +7284,7 @@ namespace CalamityMod.CalPlayer
                             if (player.whoAmI == Main.myPlayer)
                             {
                                 player.ApplyDamageToNPC(nPC, (int)num, num2, direction, crit);
-                                int num6 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosion>(), 100, 15f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[num6].Kill();
+                                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HolyExplosion>(), (int)(100 * player.AverageDamage()), 15f, Main.myPlayer, 0f, 0f);
                             }
 							if (nPC.immune[player.whoAmI] < 6)
 								nPC.immune[player.whoAmI] = 6;
@@ -7457,7 +7459,7 @@ namespace CalamityMod.CalPlayer
                     num7 = 14f; //14
 					if (statisTimer % 5 == 0)
 					{
-						int scythe = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), (int)(500 * player.allDamage), 5f, player.whoAmI, 1f);
+						int scythe = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), (int)(500 * player.AverageDamage()), 5f, player.whoAmI, 1f);
 						Main.projectile[scythe].Calamity().rogue = false;
 						Main.projectile[scythe].usesIDStaticNPCImmunity = true;
 						Main.projectile[scythe].idStaticNPCHitCooldown = 10 * Main.projectile[scythe].extraUpdates;

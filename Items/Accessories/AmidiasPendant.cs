@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Magic;
+﻿using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Amidias' Pendant");
-            Tooltip.SetDefault("Periodically rains down prism shards");
+            Tooltip.SetDefault("Periodically rains down prism shards that can briefly stun enemies");
         }
 
         public override void SetDefaults()
@@ -28,14 +28,14 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (ShardCountdown == 0)
+            if (ShardCountdown <= 0)
             {
-                ShardCountdown = 120;
+                ShardCountdown = 140;
             }
             if (ShardCountdown > 0)
             {
-                ShardCountdown--;
-                if (ShardCountdown == 0)
+                ShardCountdown -= Main.rand.Next(1,4);
+                if (ShardCountdown <= 0)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -69,9 +69,7 @@ namespace CalamityMod.Items.Accessories
                                     damage = 30;
                                     break;
                             }
-                            int projectile = Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, damage, 5f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[projectile].tileCollide = false;
-                            Main.projectile[projectile].timeLeft = 220;
+                            Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X / 3, velocity.Y / 2, type, (int)(damage * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

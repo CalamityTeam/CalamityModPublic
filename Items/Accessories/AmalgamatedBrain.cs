@@ -51,11 +51,12 @@ namespace CalamityMod.Items.Accessories
                             num18 = (float)num17 / num18;
                             num15 *= num18;
                             num16 *= num18;
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<AuraRain>(), 60, 2f, player.whoAmI, 0f, 0f);
+                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<AuraRain>(), (int)(60 * player.AverageDamage()), 2f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].ai[1] = player.position.Y;
                             Main.projectile[num19].tileCollide = false;
 							Main.projectile[num19].usesLocalNPCImmunity = true;
 							Main.projectile[num19].localNPCHitCooldown = 10;
+							Main.projectile[num19].magic = false;
                         }
                     }
                 }

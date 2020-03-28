@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int projectile1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<DragonDust>(), 350, 5f, player.whoAmI, 0f, 0f);
+                        int projectile1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<DragonDust>(), (int)(350 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
                         Main.projectile[projectile1].timeLeft = 60;
                     }
                     dragonTimer = 60;
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Accessories
                             num18 = (float)num17 / num18;
                             num15 *= num18;
                             num16 *= num18;
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<SkyFlareFriendly>(), 750, 9f, player.whoAmI, 0f, 0f);
+                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<SkyFlareFriendly>(), (int)(750 * player.AverageDamage()), 9f, player.whoAmI, 0f, 0f);
                             Main.projectile[num19].ai[1] = player.position.Y;
                             Main.projectile[num19].hostile = false;
                             Main.projectile[num19].friendly = true;

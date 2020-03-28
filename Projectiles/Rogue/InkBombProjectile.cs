@@ -51,7 +51,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         private void CreateInk()
         {
-            Main.PlaySound(2, (int)Main.player[projectile.owner].position.X, (int)Main.player[projectile.owner].position.Y, 14);
+			Player player = Main.player[projectile.owner];
+            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
             for (int i = 0; i < 20; i++)
             {
                 int projType = Main.rand.Next(0, 3);
@@ -68,7 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
                         inkType = ModContent.ProjectileType<InkCloud3>();
                         break;
                 }
-                int inkID = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), inkType, 22, 7, projectile.owner);
+                int inkID = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), inkType, (int)(22 * player.RogueDamage()), 7, projectile.owner);
                 Main.projectile[inkID].timeLeft += Main.rand.Next(-20, 25);
             }
             projectile.Kill();

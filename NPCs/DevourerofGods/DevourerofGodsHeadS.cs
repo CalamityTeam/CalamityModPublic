@@ -1201,8 +1201,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s essence was consumed by the devourer."), 1000.0, 0, false);
             }
 
-            // TODO: don't talk if the player has iframes
-            if (player.immune || player.immuneTime > 0)
+            if (player.immune || player.hurtCooldowns[1] > 0)
                 return;
 
             int num = Main.rand.Next(5);

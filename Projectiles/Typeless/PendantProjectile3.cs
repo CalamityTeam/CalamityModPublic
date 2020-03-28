@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Magic
+using CalamityMod.Buffs.StatDebuffs;
+namespace CalamityMod.Projectiles.Typeless
 {
     public class PendantProjectile3 : ModProjectile
     {
@@ -13,17 +14,19 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetDefaults()
         {
             projectile.width = 14;
-            projectile.height = 26;
+            projectile.height = 14;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 220;
             projectile.penetrate = 1;
-            projectile.magic = true;
+			projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0.35f / 255f);
+			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 10f, 20f);
+
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.2f / 255f, (255 - projectile.alpha) * 0.2f / 255f);
             projectile.rotation += projectile.velocity.X * 1.25f;
             for (int num457 = 0; num457 < 5; num457++)
             {
@@ -32,6 +35,16 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num458].velocity *= 0.5f;
                 Main.dust[num458].velocity += projectile.velocity * 0.1f;
             }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<Eutrophication>(), 30);
         }
     }
 }
