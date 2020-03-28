@@ -665,6 +665,54 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
+            if (player.HeldItem.type == ModContent.ItemType<ColdDivinity>())
+            {
+                bool canContinue = true;
+                int count = 0;
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<ColdDivinityPointyThing>() && Main.projectile[i].owner == player.whoAmI)
+                    {
+                        if (Main.projectile[i].ai[1] >= 2f)
+                        {
+                            canContinue = false;
+                            break;
+                        }
+                        else if (Main.projectile[i].ai[1] == 0f)
+                        {
+                            count++;
+                        }
+                    }
+                }
+                if (canContinue)
+                {
+                    NPC unluckyTarget = CalamityUtils.MinionHoming(Main.MouseWorld, 1000f, player);
+                    if (unluckyTarget != null)
+                    {
+                        float dist = unluckyTarget.getRect().Width * 2f; //create distance between hitbox and spears.
+                        while (dist > 125) //to ensure we don't get some bonkers level of circling from levi sized hitboxes
+                            dist -= 50;
+                        int pointyThingyAmount = count;
+                        pointyThingyAmount += (int)dist / 50;
+                        if (pointyThingyAmount == 0)
+                            pointyThingyAmount++;
+                        float angleVariance = MathHelper.TwoPi / pointyThingyAmount;
+                        float angle = 0f;
+                        for (int i = 0; i < pointyThingyAmount; i++)
+                        {
+                            int projj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), (int)((169 * player.MinionDamage()) * 0.369f), 1f, player.whoAmI, angle, 2f);
+                            angle += angleVariance;
+                            for (int j = 0; j < 22; j++)
+                            {
+                                Dust dust = Dust.NewDustDirect(Main.projectile[projj].position, Main.projectile[projj].width, Main.projectile[projj].height, DustID.Ice);
+                                dust.velocity = Vector2.UnitY * Main.rand.NextFloat(3f, 5.5f) * Main.rand.NextBool(2).ToDirectionInt();
+                                dust.noGravity = true;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
             return base.AltFunctionUse(item, player);
         }
 
@@ -808,7 +856,7 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(255, Main.DiscoG, 53);
                         if (item.type == ModContent.ItemType<BlossomFlux>())
                             tt2.overrideColor = new Color(Main.DiscoR, 203, 103);
-                        if (item.type == ModContent.ItemType<BrinyBaron>())
+                        if (item.type == ModContent.ItemType<BrinyBaron>() || item.type == ModContent.ItemType<ColdDivinity>())
                             tt2.overrideColor = new Color(53, Main.DiscoG, 255);
                         if (item.type == ModContent.ItemType<CosmicDischarge>())
                             tt2.overrideColor = new Color(150, Main.DiscoG, 255);

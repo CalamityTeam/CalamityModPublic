@@ -758,6 +758,7 @@ namespace CalamityMod.CalPlayer
         public bool radiantResolution = false;
         public bool plaguebringerMK2 = false;
         public bool igneousExaltation = false;
+        public bool coldDivinity = false;
         public bool youngDuke = false;
         public bool virili = false;
         public bool frostBlossom = false;
@@ -1600,6 +1601,7 @@ namespace CalamityMod.CalPlayer
             providenceStabber = false;
             plaguebringerMK2 = false;
             igneousExaltation = false;
+            coldDivinity = false;
             radiantResolution = false;
             virili = false;
             frostBlossom = false;
@@ -8468,10 +8470,30 @@ namespace CalamityMod.CalPlayer
 			}
 		});
 
+        public static readonly PlayerLayer Skin = new PlayerLayer("CalamityMod", "Skin", PlayerLayer.Skin, delegate (PlayerDrawInfo drawInfo)
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (drawInfo.shadow != 0f || drawPlayer.dead)
+            {
+                return;
+            }
+            if (modPlayer.coldDivinity)
+            {
+                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/ColdDivinityBody");
+                int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
+                int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
+                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, new Color(53, Main.DiscoG, 255), 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1.15f, drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                Main.playerDrawData.Add(data);
+            }
+        });
+
         public override void ModifyDrawLayers(List<PlayerLayer> list)
         {
             MiscEffectsBack.visible = true;
             list.Insert(0, MiscEffectsBack);
+            Skin.visible = true;
+            list.Insert(list.IndexOf(PlayerLayer.Skin) + 1, Skin);
             MiscEffects.visible = true;
             list.Add(MiscEffects);
             if (fab || crysthamyr || onyxExcavator)
@@ -8484,13 +8506,14 @@ namespace CalamityMod.CalPlayer
 			}
         }
 
-        public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo edi)
+        public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
         {
-            Player drawPlayer = edi.drawPlayer;
-            if (drawPlayer.mount != null && (drawPlayer.Calamity().fab || drawPlayer.Calamity().crysthamyr ||
-                drawPlayer.Calamity().onyxExcavator))
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (drawPlayer.mount != null && (modPlayer.fab || modPlayer.crysthamyr ||
+                modPlayer.onyxExcavator))
             {
-                drawPlayer.mount.Draw(Main.playerDrawData, 3, drawPlayer, edi.position, edi.mountColor, edi.spriteEffects, edi.shadow);
+                drawPlayer.mount.Draw(Main.playerDrawData, 3, drawPlayer, drawInfo.position, drawInfo.mountColor, drawInfo.spriteEffects, drawInfo.shadow);
             }
         });
 
