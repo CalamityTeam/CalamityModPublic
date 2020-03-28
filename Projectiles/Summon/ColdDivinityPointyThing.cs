@@ -167,6 +167,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     dust(15);
                     Main.PlaySound(SoundID.Item30, projectile.position);
+                    projectile.netUpdate = true;
                 }
             }
             if (circling)
@@ -195,6 +196,7 @@ namespace CalamityMod.Projectiles.Summon
                         velocity.Normalize();
                         velocity *= 20f;
                         Projectile.NewProjectile(projectile.position, velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
+                        projectile.netUpdate = true;
                     }
                 }
                 else
