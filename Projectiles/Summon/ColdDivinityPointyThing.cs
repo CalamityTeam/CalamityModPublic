@@ -16,6 +16,7 @@ namespace CalamityMod.Projectiles.Summon
         public bool circlingPlayer = true;
         public float floatyDistance = 90f;
         public NPC target = null;
+        private int timer = 0;
 
         private void homingAi()
         {
@@ -91,6 +92,12 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreAI()
         {
+            timer++;
+            if (timer % 300 == 0)
+            {
+                projectile.netUpdate = true;
+                timer = 0;
+            }
             if (recharging == -1)
             {
                 recharging = projectile.ai[1] == 0f ? 300 : 0;
@@ -101,6 +108,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] = 0f;
                 projectile.timeLeft = 250;
                 circling = circlingPlayer = false;
+                projectile.netUpdate = true;
             }
             else if (projectile.ai[1] == 2f && projectile.timeLeft > 900)
             {
@@ -111,6 +119,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.penetrate = -1;
                 projectile.usesIDStaticNPCImmunity = true;
                 projectile.idStaticNPCHitCooldown = 4;
+                projectile.netUpdate = true;
             }
             if (circlingPlayer)
             {
@@ -189,7 +198,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.rotation = projectile.ai[0] + (float)Math.Atan(90);
                     projectile.ai[0] -= MathHelper.ToRadians(4f);
                     NPC target = recharging > 0 ? null : CalamityUtils.MinionHoming(player.Center, 700f, player);
-                    if (target != null)
+                    if (target != null && projectile.owner == Main.myPlayer)
                     {
                         recharging = 300;
                         Vector2 velocity = projectile.ai[0].ToRotationVector2().RotatedBy(Math.Atan(0));
@@ -223,7 +232,8 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(BuffID.Frostburn, 300);
             if (circling && target == this.target && projectile.timeLeft < 60)
             {
-                projectile.Kill();
+                if (projectile.timeLeft < 60)
+                    projectile.Kill();
             }
             else if (circlingPlayer)
             {
@@ -239,6 +249,11 @@ namespace CalamityMod.Projectiles.Summon
                 dust(30);
                 Main.PlaySound(SoundID.NPCHit5, projectile.position);
                 damage = (int)(damage * 1.1f);
+            }
+            else if (circling && target == this.target)
+            {
+                dust(5);
+                damage = (int)(damage * 0.2f); //nerfffffff the nerf because nerf? nerf.
             }
         }
 

@@ -691,14 +691,14 @@ namespace CalamityMod.Items
                     {
                         int height = unluckyTarget.getRect().Height;
                         int width = unluckyTarget.getRect().Width;
-                        float dist = (height > width ? height : width) + 50f; //create distance between hitbox and spears.
+                        float dist = (height > width ? height : width) * 1.5f; //create distance between hitbox and spears.
                         int pointyThingyAmount = count;
                         pointyThingyAmount += dist > 100 ? (int)dist / 100 : 0;
                         float angleVariance = MathHelper.TwoPi / pointyThingyAmount;
                         float angle = 0f;
                         for (int i = 0; i < pointyThingyAmount; i++)
                         {
-                            int projj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), (int)((169 * player.MinionDamage()) * 0.369f), 1f, player.whoAmI, angle, 2f);
+                            int projj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), (int)((169 * player.MinionDamage())), 1f, player.whoAmI, angle, 2f);
                             angle += angleVariance;
                             for (int j = 0; j < 22; j++)
                             {
