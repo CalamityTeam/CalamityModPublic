@@ -18,6 +18,7 @@ namespace CalamityMod.Projectiles.Enemy
             projectile.width = projectile.height = 12;
 			projectile.alpha = 255;
             projectile.timeLeft = 420;
+			projectile.tileCollide = false;
             projectile.ignoreWater = true;
         }
 		public override void SendExtraAI(BinaryWriter writer)
@@ -44,7 +45,7 @@ namespace CalamityMod.Projectiles.Enemy
 				projectile.Kill();
 				return;
 			}
-			projectile.rotation = (Main.npc[(int)projectile.ai[0]].Top - Main.player[toTarget].Center + offsetDrawVector).ToRotation() + MathHelper.PiOver2;
+			projectile.rotation = (Main.npc[(int)projectile.ai[0]].Top - projectile.Center + offsetDrawVector).ToRotation() + MathHelper.PiOver2;
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.velocity = (projectile.velocity * 10f + projectile.DirectionTo(Main.player[toTarget].Center) * 9f) / 11f;

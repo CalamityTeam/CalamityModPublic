@@ -54,19 +54,16 @@ namespace CalamityMod.Projectiles.Enemy
             if (!body.active)
                 projectile.Kill();
 
-            if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
+            // Sometimes the beam would readjust to some other, weird angle. This fixes that.
+            if (projectile.velocity != -Vector2.UnitY)
             {
                 projectile.velocity = -Vector2.UnitY;
+                projectile.netUpdate = true;
             }
 
             if (Main.npc[(int)projectile.ai[1]].active)
             {
                 projectile.Center = Main.npc[(int)projectile.ai[1]].Top + new Vector2(0f, 4f);
-            }
-
-            if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
-            {
-                projectile.velocity = -Vector2.UnitY;
             }
 
             // How fat the laser is

@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void SetDefaults()
         {
-            npc.width = 58;
+            npc.width = 28;
             npc.height = 70;
 
             npc.damage = 0;
