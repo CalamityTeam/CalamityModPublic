@@ -314,7 +314,7 @@ namespace CalamityMod.CalPlayer
 		#region Misc Effects
 		private static void MiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
-			if (modPlayer.stealthUIAlpha > 0f && modPlayer.rogueStealthMax <= 0f)
+			if (modPlayer.stealthUIAlpha > 0f && (modPlayer.rogueStealth <= 0f || modPlayer.rogueStealthMax <= 0f))
 			{
 				modPlayer.stealthUIAlpha -= 0.035f;
 				modPlayer.stealthUIAlpha = MathHelper.Clamp(modPlayer.stealthUIAlpha, 0f, 1f);

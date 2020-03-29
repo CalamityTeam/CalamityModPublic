@@ -141,7 +141,7 @@ namespace CalamityMod.Events
         /// <summary>
         /// Attempts to start the Acid Rain event. Will fail if there is another invasion going on or the EoC has not been killed yet (unless you're in hardmode).
         /// </summary>
-        public static void TryStartEvent()
+        public static void TryStartEvent(bool forceRain = false)
         {
             if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode) || CalamityWorld.bossRushActive)
                 return;
@@ -161,6 +161,19 @@ namespace CalamityMod.Events
                 CalamityWorld.acidRainPoints = (int)(180 * Math.Log(playerCount + Math.E - 1));
 
                 // Make it rain normally
+                if (forceRain)
+                {
+                    Main.raining = true;
+                    Main.cloudBGActive = 1f;
+                    Main.numCloudsTemp = Main.cloudLimit;
+                    Main.numClouds = Main.numCloudsTemp;
+                    Main.windSpeedTemp = 0.72f;
+                    Main.windSpeedSet = Main.windSpeedTemp;
+                    Main.weatherCounter = 600;
+                    Main.maxRaining = 0.89f;
+                    CalamityWorld.forcedDownpourWithTear = true;
+                    CalamityMod.UpdateServerBoolean();
+                }
 				if (CalamityWorld.startAcidicDownpour)
 				{
 					Main.raining = true;
@@ -203,7 +216,7 @@ namespace CalamityMod.Events
 
                 // You will be tempted to turn this into a single if conditional.
                 // Don't do this. Doing so has caused so much misery, with various things being read instead
-                // of the correct thing, look booleans being mixed up in the sending and receiving process.
+                // of the correct thing, like booleans being mixed up in the sending and receiving process.
                 // In short, leave this alone.
                 if (Main.netMode == NetmodeID.Server)
                 {

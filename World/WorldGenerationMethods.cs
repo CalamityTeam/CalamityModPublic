@@ -4059,13 +4059,13 @@ namespace CalamityMod.World
                     { smallHoleLimit = 1360f; if (Main.maxTilesY > 2100) { smallHoleLimit = 1950f; } }
                     if (ocean && num > smallHoleLimit)
                     {
-                        if (num3 < 4.0) //min width
+                        if (num3 < 7.0) //min width
                         {
-                            num3 = 4.0; //min width
+                            num3 = 7.0; //min width
                         }
-                        if (num3 > 6.0) //max width
+                        if (num3 > 11.0) //max width
                         {
-                            num3 = 6.0; //max width
+                            num3 = 11.0; //max width
                         }
                     }
                     else //dig large hole

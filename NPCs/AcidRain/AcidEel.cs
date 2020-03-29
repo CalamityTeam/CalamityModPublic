@@ -61,7 +61,18 @@ namespace CalamityMod.NPCs.AcidRain
             if (Main.rand.NextBool(480))
                 Main.PlaySound(SoundID.Zombie, npc.Center, 32); // Slither sound
 
-            if (npc.wet)
+            if (npc.ai[2] == 0f && !npc.wet)
+            {
+                npc.netUpdate = true;
+                npc.ai[2] = 1f;
+            }
+            if (npc.ai[2] == 1f && npc.wet)
+            {
+                npc.netUpdate = true;
+                npc.ai[2] = 0f;
+            }
+
+            if (npc.ai[2] == 0f)
             {
                 npc.ai[1] += 1f;
                 if (npc.ai[1] % 150f == 0f || npc.direction == 0)
@@ -87,7 +98,26 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.spriteDirection = npc.direction;
 
                 npc.velocity.Y += (Main.player[npc.target].position.Y > npc.position.Y).ToDirectionInt() * yAcceleration;
-                npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-maxSpeedX, -maxSpeedY), new Vector2(maxSpeedX, maxSpeedY));
+                if (npc.velocity.X > maxSpeedX)
+                {
+                    npc.velocity.X = maxSpeedX;
+                    npc.netUpdate = true;
+                }
+                if (npc.velocity.X < -maxSpeedX)
+                {
+                    npc.velocity.X = -maxSpeedX;
+                    npc.netUpdate = true;
+                }
+                if (npc.velocity.Y > maxSpeedY)
+                {
+                    npc.velocity.Y = maxSpeedY;
+                    npc.netUpdate = true;
+                }
+                if (npc.velocity.Y < -maxSpeedY)
+                {
+                    npc.velocity.Y = -maxSpeedY;
+                    npc.netUpdate = true;
+                }
                 npc.rotation = npc.velocity.X * 0.02f;
             }
             else

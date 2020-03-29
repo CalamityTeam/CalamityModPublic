@@ -40,6 +40,18 @@ namespace CalamityMod
 		[Tooltip("Enables the visibility of the stealth bar")]
 		public bool StealthBar { get; set; }
 
+		[Label("Stealth Meter Position X")]
+		[Tooltip("Changes the X position of the Stealth Meter")]
+		[Range(0f, 1660f)]
+		[DefaultValue(730f)]
+		public float StealthMeterPosX { get; set; }
+
+		[Label("Stealth Meter Position Y")]
+		[Tooltip("Changes the Y position of the Stealth Meter")]
+		[Range(0f, 1100f)]
+		[DefaultValue(30f)]
+		public float StealthMeterPosY { get; set; }
+
 		[DefaultValue(true)]
 		[Label("Boss Health Bar Small Text")]
 		[Tooltip("Enables the small text below the health bar\nThis displays the exact health amount or remaining boss parts")]

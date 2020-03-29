@@ -639,81 +639,82 @@ namespace CalamityMod.World
                             tile.type != TileID.Sand &&
                             tile.type != TileID.Containers &&
                             tile.type != TileID.Coral &&
-                            tile.type != TileID.BeachPiles;
-                        if (abyssIndex > abyssChasmX + 75)
+                            tile.type != TileID.BeachPiles &&
+                            tile.type != ModContent.TileType<SulphurousSand>();
+                        if (abyssIndex2 > rockLayer - Main.rand.Next(30))
                         {
-                            if (WorldGen.genRand.Next(4) == 0)
+                            if (abyssIndex > abyssChasmX + 75 - Main.rand.Next(30))
+                            {
+                                if (WorldGen.genRand.Next(4) == 0)
+                                {
+                                    if (canConvert)
+                                    {
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    }
+                                    else if (!tile.active())
+                                    {
+                                        tile.active(true);
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    }
+                                }
+                            }
+                            else if (abyssIndex > abyssChasmX + 70)
+                            {
+                                if (WorldGen.genRand.Next(2) == 0)
+                                {
+                                    if (canConvert)
+                                    {
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    }
+                                    else if (!tile.active())
+                                    {
+                                        tile.active(true);
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    }
+                                }
+                            }
+                            else
                             {
                                 if (canConvert)
                                 {
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    if (abyssIndex2 > (rockLayer + y * 0.262))
+                                    {
+                                        tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                        tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
+                                    }
+                                    else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
+                                    {
+                                        tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                        tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
+                                    }
+                                    else
+                                    {
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                    }
                                 }
-                                else if (!tile.active() &&
-                                          abyssIndex2 > rockLayer)
+                                else if (!tile.active())
                                 {
                                     tile.active(true);
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
-                                }
-                            }
-                        }
-                        else if (abyssIndex > abyssChasmX + 70)
-                        {
-                            if (WorldGen.genRand.Next(2) == 0)
-                            {
-                                if (canConvert)
-                                {
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
-                                }
-                                else if (!tile.active() &&
-                                          abyssIndex2 > rockLayer)
-                                {
-                                    tile.active(true);
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (canConvert)
-                            {
-                                if (abyssIndex2 > (rockLayer + y * 0.262))
-                                {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
-                                    tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
-                                }
-                                else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
-                                    tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
-                                }
-                                else
-                                {
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                }
-                            }
-                            else if (!tile.active() &&
-                                      abyssIndex2 > rockLayer)
-                            {
-                                tile.active(true);
-                                if (abyssIndex2 > (rockLayer + y * 0.262))
-                                {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
-                                    tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
-                                }
-                                else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
-                                    tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
-                                }
-                                else
-                                {
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    if (abyssIndex2 > (rockLayer + y * 0.262))
+                                    {
+                                        tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                        tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
+                                    }
+                                    else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
+                                    {
+                                        tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                        tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
+                                    }
+                                    else
+                                    {
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    }
                                 }
                             }
                         }
@@ -736,80 +737,80 @@ namespace CalamityMod.World
                             tile.type != TileID.Containers &&
                             tile.type != TileID.Coral &&
                             tile.type != TileID.BeachPiles;
-                        if (abyssIndex < abyssChasmX - 75)
+                        if (abyssIndex2 > rockLayer - Main.rand.Next(30))
                         {
-                            if (WorldGen.genRand.Next(4) == 0)
+                            if (abyssIndex < abyssChasmX - 75)
+                            {
+                                if (WorldGen.genRand.Next(4) == 0)
+                                {
+                                    if (canConvert)
+                                    {
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    }
+                                    else if (!tile.active())
+                                    {
+                                        tile.active(true);
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    }
+                                }
+                            }
+                            else if (abyssIndex < abyssChasmX - 70)
+                            {
+                                if (WorldGen.genRand.Next(2) == 0)
+                                {
+                                    if (canConvert)
+                                    {
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    }
+                                    else if (!tile.active())
+                                    {
+                                        tile.active(true);
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    }
+                                }
+                            }
+                            else
                             {
                                 if (canConvert)
                                 {
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    if (abyssIndex2 > (rockLayer + y * 0.262))
+                                    {
+                                        tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                        tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
+                                    }
+                                    else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
+                                    {
+                                        tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                        tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
+                                    }
+                                    else
+                                    {
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                    }
                                 }
-                                else if (!tile.active() &&
-                                          abyssIndex2 > rockLayer)
+                                else if (!tile.active())
                                 {
                                     tile.active(true);
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
-                                }
-                            }
-                        }
-                        else if (abyssIndex < abyssChasmX - 70)
-                        {
-                            if (WorldGen.genRand.Next(2) == 0)
-                            {
-                                if (canConvert)
-                                {
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
-                                }
-                                else if (!tile.active() &&
-                                          abyssIndex2 > rockLayer)
-                                {
-                                    tile.active(true);
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (canConvert)
-                            {
-                                if (abyssIndex2 > (rockLayer + y * 0.262))
-                                {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
-                                    tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
-                                }
-                                else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
-                                    tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
-                                }
-                                else
-                                {
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                }
-                            }
-                            else if (!tile.active() &&
-                                      abyssIndex2 > rockLayer)
-                            {
-                                tile.active(true);
-                                if (abyssIndex2 > (rockLayer + y * 0.262))
-                                {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
-                                    tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
-                                }
-                                else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<Voidstone>();
-                                    tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
-                                }
-                                else
-                                {
-                                    tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
-                                    tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    if (abyssIndex2 > (rockLayer + y * 0.262))
+                                    {
+                                        tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                        tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
+                                    }
+                                    else if (abyssIndex2 > (rockLayer + y * 0.143) && WorldGen.genRand.Next(3) == 0)
+                                    {
+                                        tile.type = (ushort)ModContent.TileType<Voidstone>();
+                                        tile.wall = (ushort)ModContent.WallType<VoidstoneWallUnsafe>();
+                                    }
+                                    else
+                                    {
+                                        tile.wall = (ushort)ModContent.WallType<AbyssGravelWall>();
+                                        tile.type = (ushort)ModContent.TileType<AbyssGravel>();
+                                    }
                                 }
                             }
                         }
