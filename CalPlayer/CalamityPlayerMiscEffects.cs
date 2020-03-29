@@ -314,6 +314,16 @@ namespace CalamityMod.CalPlayer
 		#region Misc Effects
 		private static void MiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
+			if (modPlayer.stealthUIAlpha > 0f && modPlayer.rogueStealthMax <= 0f)
+			{
+				modPlayer.stealthUIAlpha -= 0.035f;
+				modPlayer.stealthUIAlpha = MathHelper.Clamp(modPlayer.stealthUIAlpha, 0f, 1f);
+			}
+			else if (modPlayer.stealthUIAlpha < 1f)
+			{
+				modPlayer.stealthUIAlpha += 0.035f;
+				modPlayer.stealthUIAlpha = MathHelper.Clamp(modPlayer.stealthUIAlpha, 0f, 1f);
+			}
 			// Proficiency level ups
 			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetExactLevelUp();

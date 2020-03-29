@@ -119,6 +119,7 @@ namespace CalamityMod.CalPlayer
         public int stealthStat = 0;
         public float standingRegenStat = 0f;
         public float movingRegenStat = 0f;
+        public float stealthUIAlpha = 1f;
 
         // Timer and Counter
         public int bossRushImmunityFrameCurseTimer = 0;
@@ -770,6 +771,7 @@ namespace CalamityMod.CalPlayer
         public bool midnightUFO = false;
         public bool plagueEngine = false;
         public bool brimseeker = false;
+        public bool necrosteocytesDudes = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1613,6 +1615,7 @@ namespace CalamityMod.CalPlayer
             midnightUFO = false;
             plagueEngine = false;
             brimseeker = false;
+            necrosteocytesDudes = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -1734,6 +1737,14 @@ namespace CalamityMod.CalPlayer
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
+            #endregion
+
+            #region UI
+            if (stealthUIAlpha > 0f)
+            {
+                stealthUIAlpha -= 0.035f;
+                stealthUIAlpha = MathHelper.Clamp(stealthUIAlpha, 0f, 1f);
+            }
             #endregion
 
             #region Buffs
@@ -8485,6 +8496,7 @@ namespace CalamityMod.CalPlayer
                 return;
             }
         });
+
         public static readonly PlayerLayer ColdDivinityOverlay = new PlayerLayer("CalamityMod", "ColdDivinity", PlayerLayer.Skin, (drawInfo) =>
         {
             Player drawPlayer = drawInfo.drawPlayer;
@@ -8599,7 +8611,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			bool noRogueStealth = rogueStealth == 0f || player.townNPCs > 2f;
-            if (rogueStealth > 0f && rogueStealthMax > 0f && player.townNPCs < 3f)
+            if (rogueStealth > 0f && rogueStealthMax > 0f && player.townNPCs < 3f && CalamityMod.CalamityConfig.StealthInvisbility)
             {
                 //A translucent orchid color, the rogue class color
                 float colorValue = rogueStealth / rogueStealthMax * 0.9f; //0 to 0.9
