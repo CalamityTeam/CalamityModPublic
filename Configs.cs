@@ -104,25 +104,25 @@ namespace CalamityMod
 
 		[Label("Rage Meter Position X")]
 		[Tooltip("Changes the X position of the Rage Meter")]
-		[Range(0f, 1000f)]
+		[Range(0f, 1660f)]
 		[DefaultValue(500f)]
 		public float RageMeterPosX { get; set; }
 
 		[Label("Rage Meter Position Y")]
 		[Tooltip("Changes the Y position of the Rage Meter")]
-		[Range(0f, 1000f)]
+		[Range(0f, 1100f)]
 		[DefaultValue(30f)]
 		public float RageMeterPosY { get; set; }
 
 		[Label("Adrenaline Meter Position X")]
 		[Tooltip("Changes the X position of the Adrenaline Meter")]
-		[Range(0f, 1000f)]
+		[Range(0f, 1660f)]
 		[DefaultValue(650f)]
 		public float AdrenalineMeterPosX { get; set; }
 
 		[Label("Adrenaline Meter Position Y")]
 		[Tooltip("Changes the Y position of the Adrenaline Meter")]
-		[Range(0f, 1000f)]
+		[Range(0f, 1100f)]
 		[DefaultValue(30f)]
 		public float AdrenalineMeterPosY { get; set; }
 
