@@ -3517,11 +3517,11 @@ namespace CalamityMod.CalPlayer
 			Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
-				if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[player.whoAmI] <= 0 && Main.npc[i].damage > 0)
+				NPC npc = Main.npc[i];
+				if (npc.active && !npc.dontTakeDamage && !npc.friendly && !npc.townNPC && npc.immune[player.whoAmI] <= 0 && npc.damage > 0)
 				{
-					NPC nPC = Main.npc[i];
-					Rectangle rect = nPC.getRect();
-					if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
+					Rectangle rect = npc.getRect();
+					if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
 					{
 						if (Main.rand.NextBool(10) && player.immuneTime <= 0)
 						{

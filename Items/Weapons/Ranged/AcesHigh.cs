@@ -61,25 +61,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int card = ModContent.ProjectileType<CardHeart>();
-            switch (Main.rand.Next(4))
-            {
-                case 0:
-                    card = ModContent.ProjectileType<CardHeart>();
-                    break;
-                case 1:
-                    card = ModContent.ProjectileType<CardSpade>();
-                    break;
-                case 2:
-                    card = ModContent.ProjectileType<CardDiamond>();
-                    break;
-                case 3:
-                    card = ModContent.ProjectileType<CardClub>();
-                    break;
-                default:
-                    break;
-            }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, card, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+			int card = Utils.SelectRandom(Main.rand, new int[]
+			{
+				ModContent.ProjectileType<CardHeart>(),
+				ModContent.ProjectileType<CardSpade>(),
+				ModContent.ProjectileType<CardDiamond>(),
+				ModContent.ProjectileType<CardClub>()
+			});
+
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, card, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
     }
