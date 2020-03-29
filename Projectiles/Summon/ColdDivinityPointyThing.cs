@@ -183,6 +183,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (circling && !circlingPlayer && projectile.timeLeft < 120)
                 {
+                    projectile.hide = false;
                     projectile.usesIDStaticNPCImmunity = false;
                     projectile.penetrate = 1;
                     if (projectile.timeLeft > 60)
@@ -224,7 +225,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool CanDamage()
         {
-            return recharging <= 0 && (circlingPlayer || (circling && (projectile.timeLeft >= 120 || projectile.timeLeft <= 45)) || !circling);
+            return recharging <= 0 && (circlingPlayer || (circling && (projectile.timeLeft >= 120 || projectile.timeLeft <= 45)) || !circling) && !projectile.hide;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -234,7 +235,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[1] > 2f)
                 projectile.ai[1]++;
             if (projectile.ai[1] >= 15f && projectile.timeLeft >= 120)
-                projectile.timeLeft = 120;
+                projectile.hide = true;
 
             if (circling && target == this.target && projectile.timeLeft < 60)
             {
