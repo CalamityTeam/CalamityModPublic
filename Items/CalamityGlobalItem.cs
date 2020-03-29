@@ -698,7 +698,7 @@ namespace CalamityMod.Items
                         float angle = 0f;
                         for (int i = 0; i < pointyThingyAmount; i++)
                         {
-                            int projj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), (int)((100 * player.MinionDamage())), 1f, player.whoAmI, angle, 2f);
+                            int projj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), (int)((69 * player.MinionDamage())), 1f, player.whoAmI, angle, 2f);
                             angle += angleVariance;
                             for (int j = 0; j < 22; j++)
                             {
