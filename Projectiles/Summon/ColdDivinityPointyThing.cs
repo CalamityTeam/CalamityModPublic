@@ -186,7 +186,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (circling && !circlingPlayer && projectile.timeLeft < 120)
                 {
-                    projectile.hide = false;
+                    recharging = 0;
                     projectile.usesIDStaticNPCImmunity = false;
                     projectile.penetrate = 1;
                     if (projectile.timeLeft > 60)
@@ -249,7 +249,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[1] > 2f)
                 projectile.ai[1]++;
             if (projectile.ai[1] >= (30f - circlers) && projectile.timeLeft >= 120)
-                projectile.hide = true;
+                recharging = projectile.timeLeft > 121 ? projectile.timeLeft - 121 : 0;
 
             if (circling && target == this.target && projectile.timeLeft < 60)
             {
@@ -296,7 +296,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override Color? GetAlpha(Color lightColor)
         {
-            return new Color(recharging > 0 ? lightColor.R : 53, recharging > 0 ? lightColor.G : Main.DiscoG, recharging > 0 ? lightColor.B : 255, recharging > 200 ? 25 : 255 - recharging);
+            return new Color(recharging > 0 ? lightColor.R : 53, recharging > 0 ? lightColor.G : Main.DiscoG, recharging > 0 ? lightColor.B : 255, recharging > 200 ? 255 : 255 - recharging);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
