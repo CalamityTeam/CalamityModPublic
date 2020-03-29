@@ -114,6 +114,8 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                     float originalVelocityDirection = projectile.velocity.ToRotation();
                     float originalVelocitySpeed = projectile.velocity.Length();
 
+                    // The motion moves in an imaginary circle, but the cane does not because it relies on
+                    // its ai[0] X multiplier, giving it the "swiping" motion.
                     Vector2 flatVelocity = Vector2.UnitX.RotatedBy(MathHelper.Pi + inverseAnimationCompletion * MathHelper.TwoPi) * 
                         new Vector2(originalVelocitySpeed, projectile.ai[0]);
 

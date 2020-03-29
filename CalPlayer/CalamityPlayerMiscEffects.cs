@@ -314,6 +314,16 @@ namespace CalamityMod.CalPlayer
 		#region Misc Effects
 		private static void MiscEffects(Player player, CalamityPlayer modPlayer, Mod mod)
 		{
+			if (modPlayer.stealthUIAlpha > 0f && modPlayer.rogueStealthMax <= 0f)
+			{
+				modPlayer.stealthUIAlpha -= 0.035f;
+				modPlayer.stealthUIAlpha = MathHelper.Clamp(modPlayer.stealthUIAlpha, 0f, 1f);
+			}
+			else if (modPlayer.stealthUIAlpha < 1f)
+			{
+				modPlayer.stealthUIAlpha += 0.035f;
+				modPlayer.stealthUIAlpha = MathHelper.Clamp(modPlayer.stealthUIAlpha, 0f, 1f);
+			}
 			// Proficiency level ups
 			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetExactLevelUp();
@@ -493,7 +503,7 @@ namespace CalamityMod.CalPlayer
 					bool hasMoltenSet = player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves;
 
 					bool immunityToHotAndCold = hasMoltenSet || player.magmaStone || player.frostArmor || modPlayer.fBulwark || modPlayer.fBarrier ||
-						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore || modPlayer.permafrostsConcoction || modPlayer.profanedCrystalBuffs;
+						modPlayer.frostFlare || modPlayer.rampartOfDeities || modPlayer.cryogenSoul || modPlayer.snowman || modPlayer.blazingCore || modPlayer.permafrostsConcoction || modPlayer.profanedCrystalBuffs || modPlayer.coldDivinity;
 
 					bool immunityToCold = player.HasBuff(BuffID.Campfire) || Main.campfire || player.resistCold || modPlayer.eskimoSet || player.buffImmune[BuffID.Frozen] ||
 						player.HasBuff(BuffID.Inferno) || immunityToHotAndCold || modPlayer.externalColdImmunity;

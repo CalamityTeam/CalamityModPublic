@@ -119,6 +119,7 @@ namespace CalamityMod.CalPlayer
         public int stealthStat = 0;
         public float standingRegenStat = 0f;
         public float movingRegenStat = 0f;
+        public float stealthUIAlpha = 1f;
 
         // Timer and Counter
         public int bossRushImmunityFrameCurseTimer = 0;
@@ -770,6 +771,7 @@ namespace CalamityMod.CalPlayer
         public bool midnightUFO = false;
         public bool plagueEngine = false;
         public bool brimseeker = false;
+        public bool necrosteocytesDudes = false;
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1613,6 +1615,7 @@ namespace CalamityMod.CalPlayer
             midnightUFO = false;
             plagueEngine = false;
             brimseeker = false;
+            necrosteocytesDudes = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -1734,6 +1737,14 @@ namespace CalamityMod.CalPlayer
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
+            #endregion
+
+            #region UI
+            if (stealthUIAlpha > 0f)
+            {
+                stealthUIAlpha -= 0.035f;
+                stealthUIAlpha = MathHelper.Clamp(stealthUIAlpha, 0f, 1f);
+            }
             #endregion
 
             #region Buffs
@@ -8484,12 +8495,18 @@ namespace CalamityMod.CalPlayer
             {
                 return;
             }
+        });
+
+        public static readonly PlayerLayer ColdDivinityOverlay = new PlayerLayer("CalamityMod", "ColdDivinity", PlayerLayer.Skin, (drawInfo) =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
             if (modPlayer.coldDivinity)
             {
                 Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/ColdDivinityBody");
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
                 int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
-                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, new Color(53, Main.DiscoG, 255), 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1.15f, drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, new Color(53, Main.DiscoG, 255) * 0.5f, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1.15f, drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                 Main.playerDrawData.Add(data);
             }
         });
@@ -8503,13 +8520,16 @@ namespace CalamityMod.CalPlayer
             MiscEffects.visible = true;
             list.Add(MiscEffects);
             if (fab || crysthamyr || onyxExcavator)
-            { AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); }
+            {
+                AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); 
+            }
 
 			if (fathomSwarmerTail)
 			{
 				int legsIndex = list.IndexOf(PlayerLayer.Skin);
 				list.Insert(legsIndex - 1, Tail);
 			}
+            list.Add(ColdDivinityOverlay);
         }
 
         public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
@@ -8591,7 +8611,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			bool noRogueStealth = rogueStealth == 0f || player.townNPCs > 2f;
-            if (rogueStealth > 0f && rogueStealthMax > 0f && player.townNPCs < 3f)
+            if (rogueStealth > 0f && rogueStealthMax > 0f && player.townNPCs < 3f && CalamityMod.CalamityConfig.StealthInvisbility)
             {
                 //A translucent orchid color, the rogue class color
                 float colorValue = rogueStealth / rogueStealthMax * 0.9f; //0 to 0.9

@@ -3111,6 +3111,11 @@ namespace CalamityMod
                     }
                     return true;
                 }, InterfaceScaleType.None));
+                layers.Insert(invasionIndex, new LegacyGameInterfaceLayer("Stealth Strike UI", () =>
+                {
+                    StealthStrikeUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
             }
         }
 

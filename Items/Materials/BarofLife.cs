@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bar of Life");
+            DisplayName.SetDefault("Life Alloy");
         }
 
         public override void SetDefaults()

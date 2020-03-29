@@ -142,7 +142,7 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 npc.Calamity().DR = 0.5f;
                 if (!player.wet)
-                    npc.Calamity().DR = 0.9f;
+                    npc.Calamity().DR = 0.8f;
                 npc.HitSound = SoundID.NPCHit42;
                 if (npc.ai[0] % 420f < 240f)
                 {
@@ -214,7 +214,7 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     if (npc.ai[0] % 600f == 20f)
                     {
-                        Projectile.NewProjectile(npc.Center, Vector2.UnitY, ModContent.ProjectileType<CragmawVibeCheckChain>(), 0, 0f, 0, npc.whoAmI, npc.target);
+                        Projectile.NewProjectile(npc.Center, Vector2.UnitY, ModContent.ProjectileType<CragmawVibeCheckChain>(), 0, 0f, Main.myPlayer, npc.whoAmI, npc.target);
                     }
                     if (npc.ai[0] % 600f == 240f)
                     {
@@ -258,6 +258,12 @@ namespace CalamityMod.NPCs.AcidRain
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
+            }
+            if (npc.life <= 0)
+            {
+                Gore.NewGore(npc.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore"), npc.scale);
+                Gore.NewGore(npc.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore2"), npc.scale);
+                Gore.NewGore(npc.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, mod.GetGoreSlot("Gores/AcidRain/CragmawMireP2Gore3"), npc.scale);
             }
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)

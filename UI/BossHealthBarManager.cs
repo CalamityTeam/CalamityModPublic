@@ -1,5 +1,5 @@
-﻿using CalamityMod.NPCs.Abyss;
-using CalamityMod.NPCs.AcidRain;
+﻿using CalamityMod.Events;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.Calamitas;
@@ -245,7 +245,6 @@ namespace CalamityMod.UI
                 ModContent.NPCType<ArmoredDiggerHead>(),
                 ModContent.NPCType<CalamitasRun>(), //Clone's brothers
                 ModContent.NPCType<CalamitasRun2>(),
-                ModContent.NPCType<CragmawMire>(),
 
                 //Abyss
                 ModContent.NPCType<EidolonWyrmHeadHuge>(),
@@ -257,6 +256,7 @@ namespace CalamityMod.UI
                 ModContent.NPCType<ProvSpawnOffense>(),
                 ModContent.NPCType<ProvSpawnHealer>()
             };
+            MinibossHPBarList.AddRange(AcidRainEvent.AllMinibosses);
         }
 
         public static void Unload()

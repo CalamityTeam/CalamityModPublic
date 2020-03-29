@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Acid Gun");
-            Tooltip.SetDefault("Releases a stream of acid");
+            Tooltip.SetDefault("Releases three streams of acid");
         }
 
         public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
-            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = 1;
             item.UseSound = SoundID.Item13;
             item.autoReuse = true;

@@ -31,6 +31,16 @@ namespace CalamityMod
 		public bool DrawBossBar { get; set; }
 
 		[DefaultValue(true)]
+		[Label("Stealth Invisibility")]
+		[Tooltip("Enables the fading of the player as stealth goes up")]
+		public bool StealthInvisbility { get; set; }
+
+		[DefaultValue(true)]
+		[Label("Stealth Bar")]
+		[Tooltip("Enables the visibility of the stealth bar")]
+		public bool StealthBar { get; set; }
+
+		[DefaultValue(true)]
 		[Label("Boss Health Bar Small Text")]
 		[Tooltip("Enables the small text below the health bar\nThis displays the exact health amount or remaining boss parts")]
 		public bool DrawSmallText { get; set; }

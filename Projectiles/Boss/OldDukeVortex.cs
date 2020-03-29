@@ -99,10 +99,11 @@ namespace CalamityMod.Projectiles.Boss
 				for (int i = 0; i < Main.maxPlayers; i++)
 				{
 					Player player = Main.player[i];
-					if (Collision.CanHit(projectile.Center, 1, 1, player.Center, 1, 1))
+					
+					float distance = Vector2.Distance(player.Center, projectile.Center);
+					if (distance < distanceRequired && player.grappling[0] == -1)
 					{
-						float distance = Vector2.Distance(player.Center, projectile.Center);
-						if (distance < distanceRequired && player.grappling[0] == -1)
+						if (Collision.CanHit(projectile.Center, 1, 1, player.Center, 1, 1))
 						{
 							float distanceRatio = distance / distanceRequired;
 

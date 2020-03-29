@@ -23,7 +23,7 @@ namespace CalamityMod.Events
         // A partially bright pale-ish cyan with a hint of yellow.
         public static readonly Color TextColor = new Color(115, 194, 147);
 
-        // Not readonly so that if anyone else wants to add stuff in here with their own mod, they can.
+        // Not a readonly collection so that if anyone else wants to add stuff in here with their own mod, they can.
         // The first value is the NPC type, the second is the value they're worth in the event.
         // The third value is whether the enemy can only spawn in water
         public static List<(int, int, bool)> PossibleEnemiesPreHM = new List<(int, int, bool)>()
@@ -70,8 +70,11 @@ namespace CalamityMod.Events
 
         public static List<int> PossibleMinibossesPolter = new List<int>()
         {
-            ModContent.NPCType<CragmawMire>()
+            ModContent.NPCType<CragmawMire>(),
+            ModContent.NPCType<NuclearTerror>()
         };
+
+        public static readonly List<int> AllMinibosses = PossibleMinibossesAS.Concat(PossibleMinibossesPolter).Distinct().ToList();
 
         public static bool AnyRainMinibosses
         {

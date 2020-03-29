@@ -30,12 +30,6 @@ namespace CalamityMod.Items.Armor
             return body.type == ModContent.ItemType<DaedalusBreastplate>() && legs.type == ModContent.ItemType<DaedalusLeggings>();
         }
 
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawHair = true;
-            drawAltHair = true;
-        }
-
         public override void ArmorSetShadows(Player player)
         {
             player.armorEffectDrawShadowSubtle = true;

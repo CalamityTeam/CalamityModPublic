@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 169;
+            item.damage = 69;
             item.mana = 20;
             item.width = 52;
             item.height = 50;
@@ -76,6 +76,7 @@ namespace CalamityMod.Items.Weapons.Summon
                         if (!(Main.projectile[i].modProjectile as ColdDivinityPointyThing).circlingPlayer)
                             continue;
                         Main.projectile[i].ai[0] = angle;
+                        Main.projectile[i].netUpdate = true;
                         angle += angleVariance;
                         for (int j = 0; j < 22; j++)
                         {
