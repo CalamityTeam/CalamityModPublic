@@ -230,6 +230,12 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 300);
+
+            if (projectile.ai[1] > 2f)
+                projectile.ai[1]++;
+            if (projectile.ai[1] >= 15f && projectile.timeLeft >= 120)
+                projectile.timeLeft = 120;
+
             if (circling && target == this.target && projectile.timeLeft < 60)
             {
                 if (projectile.timeLeft < 60)
