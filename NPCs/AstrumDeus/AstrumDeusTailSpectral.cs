@@ -115,6 +115,22 @@ namespace CalamityMod.NPCs.AstrumDeus
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), npc.dontTakeDamage ? new Color(250, 150, Main.DiscoB, npc.alpha) : npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
+			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusTailGlow");
+			Color color37 = Color.Lerp(Color.White, Color.Orange, 0.5f);
+
+			for (int num163 = 1; num163 < num153; num163++)
+			{
+				Color color41 = color37;
+				color41 = Color.Lerp(color41, color36, amount9);
+				color41 *= (float)(num153 - num163) / 15f;
+				Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+				vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(texture2D15, vector44, new Rectangle?(npc.frame), color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
 			return false;
         }
 

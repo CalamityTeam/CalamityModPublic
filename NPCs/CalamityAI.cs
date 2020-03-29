@@ -83,11 +83,11 @@ namespace CalamityMod.NPCs
 						{
 							if (!Main.tile[npcPosX, npcPosY].active() && Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								if (NPC.CountNPCS(ModContent.NPCType<AquaticSeekerHead>()) < 1)
+								if (!NPC.AnyNPCs(ModContent.NPCType<AquaticSeekerHead>()))
 									NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticSeekerHead>());
-								if (NPC.CountNPCS(ModContent.NPCType<AquaticUrchin>()) < 4)
+								else if (!NPC.AnyNPCs(ModContent.NPCType<AquaticUrchin>()))
 									NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticUrchin>());
-								if (NPC.CountNPCS(ModContent.NPCType<AquaticParasite>()) < 8)
+								else if (NPC.CountNPCS(ModContent.NPCType<AquaticParasite>()) < 2)
 									NPC.NewNPC((int)spawnPosition.X, (int)spawnPosition.Y, ModContent.NPCType<AquaticParasite>());
 							}
 						}

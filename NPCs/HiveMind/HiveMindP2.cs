@@ -233,8 +233,6 @@ namespace CalamityMod.NPCs.HiveMind
                 goto IL_6881;
             }
 
-
-
             var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
             return false;
@@ -245,48 +243,29 @@ namespace CalamityMod.NPCs.HiveMind
             Player player = Main.player[npc.target];
             for (int i = 0; i < 5; i++)
             {
-                bool spawnedSomething = false;
                 int type = NPCID.EaterofSouls;
-                int maxAmount = 0;
-                int random = Collision.CanHit(npc.Center, 1, 1, player.position, player.width, player.height) ? 6 : 4;
-                switch (Main.rand.Next(random))
+                switch (Main.rand.Next(4))
                 {
                     case 0:
                         type = NPCID.DevourerHead;
-                        maxAmount = 1;
                         break;
                     case 1:
                         type = ModContent.NPCType<DankCreeper>();
-                        maxAmount = 1;
                         break;
                     case 2:
                         type = ModContent.NPCType<DankCreeper>();
-                        maxAmount = 1;
                         break;
                     case 3:
                         type = ModContent.NPCType<HiveBlob2>();
-                        maxAmount = 2;
-                        break;
-                    case 4:
-                        type = NPCID.EaterofSouls;
-                        maxAmount = 2;
-                        break;
-                    case 5:
-                        type = ModContent.NPCType<DarkHeart>();
-                        maxAmount = 1;
                         break;
                 }
-                int numToSpawn = maxAmount - NPC.CountNPCS(type);
-                while (numToSpawn > 0)
+                if (!NPC.AnyNPCs(type))
                 {
-                    numToSpawn--;
-                    spawnedSomething = true;
                     int spawn = NPC.NewNPC((int)npc.position.X + Main.rand.Next(npc.width), (int)npc.position.Y + Main.rand.Next(npc.height), type);
                     Main.npc[spawn].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
                     Main.npc[spawn].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
+					return;
                 }
-                if (spawnedSomething)
-                    return;
             }
         }
 
@@ -596,7 +575,7 @@ namespace CalamityMod.NPCs.HiveMind
                                             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DarkHeart>());
                                         }
                                     }
-                                    else if (NPC.CountNPCS(NPCID.EaterofSouls) < 2)
+                                    else if (!NPC.AnyNPCs(NPCID.EaterofSouls))
                                     {
                                         NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.EaterofSouls);
                                     }

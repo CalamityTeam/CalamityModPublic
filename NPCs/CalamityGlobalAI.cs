@@ -4490,11 +4490,17 @@ namespace CalamityMod.NPCs
                             vector.X += num6 * 5f;
                             vector.Y += num7 * 5f;
 
+							if (projectileType == ProjectileID.SaucerScrap)
+							{
+								num6 *= 0.5f;
+								num7 *= 0.5f;
+							}
+
                             // Shoot projectile and set timeLeft if not a homing laser/metal scrap so lasers don't last for too long
                             int proj = Projectile.NewProjectile(vector.X, vector.Y, num6, num7, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
 
 							if (projectileType == ProjectileID.SaucerScrap)
-								Main.projectile[proj].timeLeft = 1080;
+								Main.projectile[proj].timeLeft = 480;
 							else if (projectileType != ModContent.ProjectileType<DestroyerHomingLaser>())
                                 Main.projectile[proj].timeLeft = 300;
 

@@ -312,25 +312,23 @@ namespace CalamityMod.NPCs.Leviathan
                     }
 
                     bool flag103 = false;
-                    int spawnLimit = sirenAlive ? 3 : 6;
-
                     if (npc.ai[1] > 80f)
                     {
                         npc.ai[1] = 0f;
                         npc.ai[2] += 1f;
                         flag103 = true;
                     }
-                    if (flag103)
+
+					int spawnLimit = sirenAlive ? 2 : 4;
+					bool spawnParasea = NPC.CountNPCS(ModContent.NPCType<Parasea>()) < spawnLimit;
+					bool spawnAberration = !sirenAlive && !NPC.AnyNPCs(ModContent.NPCType<AquaticAberration>());
+
+					if (flag103 && (spawnParasea || spawnAberration))
                     {
                         Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, soundChoice);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-							int type = 0;
-							if (NPC.CountNPCS(ModContent.NPCType<Parasea>()) < spawnLimit)
-								type = ModContent.NPCType<Parasea>();
-							if (!sirenAlive && NPC.CountNPCS(ModContent.NPCType<AquaticAberration>()) < 2)
-								type = ModContent.NPCType<AquaticAberration>();
-
+							int type = spawnAberration ? ModContent.NPCType<AquaticAberration>() : ModContent.NPCType<Parasea>();
 							int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, type, 0, 0f, 0f, 0f, 0f, 255);
 							Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * 0.01f;
 							Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * 0.01f;

@@ -91,14 +91,32 @@ namespace CalamityMod.NPCs.AstrumDeus
             return !npc.dontTakeDamage;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color lightColor = new Color(125, 75, Main.DiscoB, npc.alpha); //250 150 Disco
-            Color newColor = npc.dontTakeDamage ? lightColor : drawColor;
-            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAlt");
-            CalamityMod.DrawTexture(spriteBatch, npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type], 0, npc, newColor);
-            return false;
-        }
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = npc.localAI[3] == 1f ? ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAlt") : Main.npcTexture[npc.type];
+			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyGlow2");
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), npc.dontTakeDamage ? new Color(125, 75, Main.DiscoB, npc.alpha) : npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			texture2D15 = npc.localAI[3] == 1f ? ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyAltGlow") : ModContent.GetTexture("CalamityMod/NPCs/AstrumDeus/AstrumDeusBodyGlow");
+			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+			Color color42 = Color.Lerp(Color.White, Color.Orange, 0.5f);
+
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			if (npc.localAI[3] != 1f)
+				spriteBatch.Draw(texture2D16, vector43, new Rectangle?(npc.frame), color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
+		}
 
         public override bool CheckActive()
         {

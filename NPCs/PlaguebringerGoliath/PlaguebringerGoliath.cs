@@ -43,7 +43,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             DisplayName.SetDefault("The Plaguebringer Goliath");
             Main.npcFrameCount[npc.type] = 6;
-        }
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+		}
 
         public override void SetDefaults()
         {
@@ -61,8 +62,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             aiType = -1;
             npc.boss = true;
             npc.value = Item.buyPrice(0, 25, 0, 0);
-            NPCID.Sets.TrailCacheLength[npc.type] = 8;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
@@ -186,6 +185,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 jungleEnrage = true;
 
 			bool diagonalDash = revenge && ((double)npc.life <= (double)npc.lifeMax * 0.8 || death);
+
+			if (npc.ai[0] != 0f && npc.ai[0] != 4f)
+			{
+				npc.rotation = npc.velocity.X * 0.02f;
+			}
 
 			// Despawn
 			if (!player.active || player.dead || Vector2.Distance(player.Center, vectorCenter) > 5600f)
@@ -326,18 +330,22 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1047 = num1044 / num1047;
                         npc.velocity.X = num1045 * num1047;
                         npc.velocity.Y = num1046 * num1047;
+						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
 
 						npc.Calamity().newAI[1] = npc.velocity.X;
 						npc.Calamity().newAI[2] = npc.velocity.Y;
 
 						npc.direction = playerLocation < 0 ? 1 : -1;
                         npc.spriteDirection = npc.direction;
+						if (npc.spriteDirection != 1)
+							npc.rotation += (float)Math.PI;
 
-                        Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
                         return;
                     }
 
-                    charging = false;
+					npc.rotation = npc.velocity.X * 0.02f;
+					charging = false;
 
                     float num1048 = revenge ? 14f : 12f;
                     float num1049 = revenge ? 0.25f : 0.22f;
@@ -437,7 +445,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.spriteDirection = npc.direction;
 
-                    charging = false;
+					npc.rotation = npc.velocity.X * 0.02f;
+					charging = false;
 
                     npc.velocity *= 0.9f;
                     float num1052 = revenge ? 0.12f : 0.1f;
@@ -502,8 +511,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 npc.TargetClosest(true);
 
-                Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, +npc.getRect().Bottom().Y);
-                vector119.X += (npc.direction * 100);
+                Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y - 40f);
+                vector119.X += (npc.direction * 120);
                 float num1058 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
                 float num1059 = player.position.Y + (float)(player.height / 2) - vectorCenter.Y;
                 float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
@@ -577,8 +586,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 npc.TargetClosest(true);
 
-                Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, +npc.getRect().Bottom().Y);
-                vector119.X += (npc.direction * 100);
+                Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y - 40f);
+                vector119.X += (npc.direction * 120);
                 float num1058 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
                 float num1059 = player.position.Y + (float)(player.height / 2) - vectorCenter.Y;
                 float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
@@ -650,8 +659,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             // Stinger phase
             else if (npc.ai[0] == 3f)
             {
-                Vector2 vector121 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, + npc.getRect().Bottom().Y);
-                vector121.X += (npc.direction * 100);
+                Vector2 vector121 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y - 40f);
+                vector121.X += (npc.direction * 120);
 
                 npc.ai[1] += 1f;
                 bool flag104 = false;
@@ -798,13 +807,18 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1047 = num1044 / num1047;
                         npc.velocity.X = num1045 * num1047;
                         npc.velocity.Y = num1046 * num1047;
+						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
 
-                        npc.direction = playerLocation < 0 ? 1 : -1;
+						npc.direction = playerLocation < 0 ? 1 : -1;
                         npc.spriteDirection = npc.direction;
-                        return;
+						if (npc.spriteDirection != 1)
+							npc.rotation += (float)Math.PI;
+
+						return;
                     }
 
-                    charging = false;
+					npc.rotation = npc.velocity.X * 0.02f;
+					charging = false;
 
                     float num1048 = revenge ? 16f : 14f;
                     float num1049 = revenge ? 0.2f : 0.18f;
@@ -882,7 +896,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.spriteDirection = npc.direction;
 
-                    charging = false;
+					npc.rotation = npc.velocity.X * 0.02f;
+					charging = false;
 
                     npc.velocity *= 0.9f;
                     float num1052 = revenge ? 0.12f : 0.1f;
@@ -1000,10 +1015,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = Main.npcTexture[npc.type];
-            if (curTex != (charging ? 2 : 1))
+			Texture2D glowTexture = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathGlow");
+			if (curTex != (charging ? 2 : 1))
             {
                 npc.frame.X = 0;
                 npc.frame.Y = 0;
@@ -1012,52 +1028,60 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             {
                 curTex = 2;
                 texture = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathChargeTex");
-            }
+				glowTexture = ModContent.GetTexture("CalamityMod/NPCs/PlaguebringerGoliath/PlaguebringerGoliathChargeTexGlow");
+			}
             else
             {
                 curTex = 1;
-                texture = Main.npcTexture[npc.type];
             }
+
             SpriteEffects spriteEffects = SpriteEffects.None;
             if (npc.spriteDirection == 1)
-            {
                 spriteEffects = SpriteEffects.FlipHorizontally;
-            }
-            Color color24 = npc.GetAlpha(drawColor);
-            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
-            int num156 = texture.Height / 3;
-            Rectangle rectangle = new Rectangle(npc.frame.X, npc.frame.Y, texture.Width / 2, num156);
-            Vector2 origin2 = rectangle.Size() / 2f;
-            int num157 = 8;
-            int num158 = 2;
-            int num159 = 1;
-            float num160 = 0f;
-            int num161 = num159;
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
-            {
-                Color color26 = npc.GetAlpha(color25);
-                {
-                    goto IL_6899;
-                }
-                IL_6881:
-                num161 += num158;
-                continue;
-                IL_6899:
-                float num164 = (float)(num157 - num161);
-                if (num158 < 0)
-                {
-                    num164 = (float)(num159 - num161);
-                }
-                color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = npc.oldPos[num161];
-                float num165 = npc.rotation;
-                float posOffset = npc.gfxOffY * -1;
-                Main.spriteBatch.Draw(texture, value4 - Main.screenPosition + new Vector2(charging ? 75 : 125, posOffset * 2.5f), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
-                goto IL_6881;
-            }
-            var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(charging ? 75 : 125, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
-            return false;
+
+			int frameCount = 3;
+			Rectangle rectangle = new Rectangle(npc.frame.X, npc.frame.Y, texture.Width / 2, texture.Height / frameCount);
+			Vector2 vector11 = rectangle.Size() / 2f;
+			Vector2 posOffset = new Vector2(charging ? 75 : 125, npc.gfxOffY);
+			Color color36 = Color.White;
+			float amount9 = 0.5f;
+			int num153 = 10;
+			if (npc.ai[0] != 0f && npc.ai[0] != 4f)
+				num153 = 7;
+
+			for (int num155 = 1; num155 < num153; num155 += 2)
+			{
+				Color color38 = lightColor;
+				color38 = Color.Lerp(color38, color36, amount9);
+				color38 = npc.GetAlpha(color38);
+				color38 *= (float)(num153 - num155) / 15f;
+				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector41 -= new Vector2((float)texture.Width, (float)(texture.Height / frameCount)) * npc.scale / 2f;
+				vector41 += vector11 * npc.scale + posOffset;
+				spriteBatch.Draw(texture, vector41, new Rectangle?(rectangle), color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture.Width, (float)(texture.Height / frameCount)) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + posOffset;
+			spriteBatch.Draw(texture, vector43, new Rectangle?(rectangle), npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
+
+			for (int num163 = 1; num163 < num153; num163++)
+			{
+				Color color41 = color37;
+				color41 = Color.Lerp(color41, color36, amount9);
+				color41 *= (float)(num153 - num163) / 15f;
+				Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector44 -= new Vector2((float)glowTexture.Width, (float)(glowTexture.Height / frameCount)) * npc.scale / 2f;
+				vector44 += vector11 * npc.scale + posOffset;
+				spriteBatch.Draw(glowTexture, vector44, new Rectangle?(rectangle), color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			spriteBatch.Draw(glowTexture, vector43, new Rectangle?(rectangle), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
         }
 
         public override void FindFrame(int frameHeight)

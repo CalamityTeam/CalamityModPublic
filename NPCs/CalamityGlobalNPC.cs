@@ -1937,7 +1937,6 @@ namespace CalamityMod.NPCs
 							case NPCID.EaterofSouls:
 							case NPCID.MeteorHead:
 							case NPCID.Corruptor:
-							case NPCID.Probe:
 							case NPCID.Crimera:
 							case NPCID.Moth:
 							case NPCID.Parrot:

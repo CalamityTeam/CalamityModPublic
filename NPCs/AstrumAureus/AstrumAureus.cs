@@ -302,17 +302,6 @@ namespace CalamityMod.NPCs.AstrumAureus
 			vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
 			spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), npc.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
 
-			/*spriteBatch.Draw(NPCTexture,
-                new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * scale / 2f + vector11.X * scale,
-                npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)Main.npcTexture[npc.type].Height * scale / (float)frameCount + 4f + vector11.Y * scale + offsetY),
-                new Rectangle?(frame),
-                npc.GetAlpha(drawColor),
-                rotation,
-                vector11,
-                scale,
-                spriteEffects,
-                0f);*/
-
 			if (npc.ai[0] != 1) //draw only if not recharging
             {
                 Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Gold);
