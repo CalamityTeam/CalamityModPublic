@@ -92,11 +92,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreAI()
         {
-            if (projectile.timeLeft > 180)
-            {
-                timer = timer == 299 ? timer : timer + 1;
-                projectile.timeLeft--;
-            }
             timer++;
             if (timer % 300 == 0)
             {
@@ -121,6 +116,9 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.timeLeft = 900;
                 projectile.ai[1]++;
                 circlingPlayer = false;
+                float height = target.getRect().Height;
+                float width = target.getRect().Width;
+                floatyDistance = (height > width ? height : width) * 1.15f;
                 projectile.penetrate = -1;
                 projectile.usesIDStaticNPCImmunity = true;
                 projectile.idStaticNPCHitCooldown = 4;
@@ -236,10 +234,21 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Frostburn, 300);
-
+            int circlers = 0;
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                if (Main.projectile[i].active && Main.projectile[i].owner == projectile.owner && Main.projectile[i].type == projectile.type)
+                {
+                    ColdDivinityPointyThing pointy = (ColdDivinityPointyThing)Main.projectile[i].modProjectile;
+                    if (Main.projectile[i].ai[1] > 2f) 
+                        circlers = circlers + Main.rand.Next(1, 4);
+                }
+            }
+            if (circlers > 15)
+                circlers = 15;
             if (projectile.ai[1] > 2f)
                 projectile.ai[1]++;
-            if (projectile.ai[1] >= 30f && projectile.timeLeft >= 120)
+            if (projectile.ai[1] >= (30f - circlers) && projectile.timeLeft >= 120)
                 projectile.hide = true;
 
             if (circling && target == this.target && projectile.timeLeft < 60)
