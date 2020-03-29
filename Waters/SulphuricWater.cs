@@ -9,9 +9,26 @@ namespace CalamityMod.Waters
     {
         public override bool ChooseWaterStyle()
         {
-            bool inXZone = Main.LocalPlayer.Center.X < 10400f;
+            int biomeWidth;
+            // Small world
+            if (Main.maxTilesX == 4200)
+            {
+                biomeWidth = 270;
+            }
+            // Medium world
+            else if (Main.maxTilesX == 6400)
+            {
+                biomeWidth = 365;
+            }
+            // Large world
+            else
+            {
+                biomeWidth = 430;
+            }
+            biomeWidth += 25;
+            bool inXZone = Main.LocalPlayer.Center.X < biomeWidth * 16f;
             if (!CalamityWorld.abyssSide)
-                inXZone = Main.LocalPlayer.Center.X > Main.maxTilesX * 16f - 10400f;
+                inXZone = Main.LocalPlayer.Center.X > Main.maxTilesX * 16f - biomeWidth * 16f;
 
             bool inYZone = Main.LocalPlayer.Center.Y < Main.rockLayer * 16f - 320 && Main.LocalPlayer.Center.Y >= 5800f;
 

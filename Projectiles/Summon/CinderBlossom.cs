@@ -79,15 +79,8 @@ namespace CalamityMod.Projectiles.Summon
                     if (projectile.ai[1]++ % 35f == 34f &&
                         Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
                     {
-                        Vector2 startingVelocity = new Vector2(0f, -Main.rand.NextFloat(10f, 18f));
-                        for (int i = 0; i < 3; i++)
-                        {
-                            float angle = (float)Math.Atan(Math.Abs(potentialTarget.Center.X - projectile.Center.X) / 360f);
-                            angle *= Math.Sign(potentialTarget.Center.X - projectile.Center.X);
-                            angle += Main.rand.NextFloat(MathHelper.ToRadians(4f)) * Main.rand.NextBool(2).ToDirectionInt();
-                            Projectile.NewProjectile(projectile.Center, startingVelocity.RotatedBy(angle), ModContent.ProjectileType<Cinder>(),
-                                projectile.damage, projectile.knockBack, projectile.owner);
-                        }
+                        Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * Main.rand.NextFloat(10f, 18f), ModContent.ProjectileType<Cinder>(),
+                            projectile.damage, projectile.knockBack, projectile.owner);
                     }
                 }
             }

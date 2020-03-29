@@ -28,6 +28,8 @@ namespace CalamityMod.NPCs.AcidRain
             npc.damage = 0;
             npc.lifeMax = 700;
 
+            npc.aiStyle = aiType = -1;
+
             if (CalamityWorld.downedPolterghast)
             {
                 npc.lifeMax = 7500;

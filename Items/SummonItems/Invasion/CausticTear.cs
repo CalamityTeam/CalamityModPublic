@@ -33,7 +33,8 @@ namespace CalamityMod.Items.SummonItems.Invasion
 
         public override bool UseItem(Player player)
         {
-            AcidRainEvent.TryStartEvent();
+            CalamityMod.UpdateServerBoolean();
+            AcidRainEvent.TryStartEvent(true);
             return true;
         }
     }

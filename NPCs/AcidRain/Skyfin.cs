@@ -117,6 +117,11 @@ namespace CalamityMod.NPCs.AcidRain
                 }
                 else
                 {
+                    // Consistently update the enemy.
+                    if (npc.ai[3] % 40f == 39f)
+                    {
+                        npc.netUpdate = true;
+                    }
                     // Dive upward in an attempt to hit to the player
                     if (npc.ai[1] > TotalTime - DiveTime)
                     {

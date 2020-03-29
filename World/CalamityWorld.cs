@@ -110,6 +110,7 @@ namespace CalamityMod.World
         public static bool triedToSummonOldDuke = false;
         public static bool startAcidicDownpour = false;
         public static bool forcedRainAlready = false;
+        public static bool forcedDownpourWithTear = false;
         public static float AcidRainCompletionRatio
         {
             get
@@ -373,6 +374,8 @@ namespace CalamityMod.World
 				downed.Add("startDownpour");
 			if (forcedRainAlready)
 				downed.Add("forcedRain");
+            if (forcedDownpourWithTear)
+                downed.Add("forcedTear");
 
             return new TagCompound
             {
@@ -443,6 +446,7 @@ namespace CalamityMod.World
             triedToSummonOldDuke = downed.Contains("spawnedBoomer");
 			startAcidicDownpour = downed.Contains("startDownpour");
 			forcedRainAlready = downed.Contains("forcedRain");
+            forcedDownpourWithTear = downed.Contains("forcedTear");
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
@@ -531,7 +535,7 @@ namespace CalamityMod.World
 
                 BitsByte flags8 = reader.ReadByte();
                 forcedRainAlready = flags8[0];
-                _ = flags8[1];
+                forcedDownpourWithTear = flags8[1];
                 _ = flags8[2];
                 _ = flags8[3];
                 _ = flags8[4];
@@ -622,7 +626,7 @@ namespace CalamityMod.World
 
             BitsByte flags8 = new BitsByte();
             flags8[0] = forcedRainAlready;
-            flags8[1] = false;
+            flags8[1] = forcedDownpourWithTear;
             flags8[2] = false;
             flags8[3] = false;
             flags8[4] = false;
@@ -719,7 +723,7 @@ namespace CalamityMod.World
 
             BitsByte flags8 = reader.ReadByte();
             forcedRainAlready = flags8[0];
-            _ = flags8[1];
+            forcedDownpourWithTear = flags8[1];
             _ = flags8[2];
             _ = flags8[3];
             _ = flags8[4];
@@ -974,7 +978,7 @@ namespace CalamityMod.World
 				}
                 // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
                 // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
-				if (startAcidicDownpour)
+				if (startAcidicDownpour || forcedDownpourWithTear)
 				{
 					Main.raining = true;
 					Main.cloudBGActive = 1f;
