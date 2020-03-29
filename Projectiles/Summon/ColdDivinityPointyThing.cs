@@ -92,6 +92,11 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreAI()
         {
+            if (projectile.timeLeft > 180)
+            {
+                timer = timer == 299 ? timer : timer + 1;
+                projectile.timeLeft--;
+            }
             timer++;
             if (timer % 300 == 0)
             {
@@ -234,7 +239,7 @@ namespace CalamityMod.Projectiles.Summon
 
             if (projectile.ai[1] > 2f)
                 projectile.ai[1]++;
-            if (projectile.ai[1] >= 15f && projectile.timeLeft >= 120)
+            if (projectile.ai[1] >= 30f && projectile.timeLeft >= 120)
                 projectile.hide = true;
 
             if (circling && target == this.target && projectile.timeLeft < 60)
