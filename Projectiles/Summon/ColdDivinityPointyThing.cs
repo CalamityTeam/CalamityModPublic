@@ -250,7 +250,7 @@ namespace CalamityMod.Projectiles.Summon
                 Main.PlaySound(SoundID.NPCHit5, projectile.position);
                 damage = (int)(damage * 1.1f);
             }
-            else if (circling && target == this.target)
+            else if (circling && target == this.target && projectile.timeLeft > 60)
             {
                 dust(5);
                 damage = (int)(damage * 0.2f); //nerfffffff the nerf because nerf? nerf.
