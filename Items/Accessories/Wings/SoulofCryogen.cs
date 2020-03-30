@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "All melee attacks and projectiles inflict frostburn\n" +
                 "Icicles rain down as you fly\n" +
 				"Provides heat and cold protection in Death Mode");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 3));
         }
 
         public override void SetDefaults()

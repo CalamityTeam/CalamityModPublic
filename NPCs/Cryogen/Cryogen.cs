@@ -31,8 +31,10 @@ namespace CalamityMod.NPCs.Cryogen
     {
         private int time = 0;
         private int iceShard = 0;
-        private bool drawAltTexture = false;
+        private int currentPhase = 1;
         private int teleportLocationX = 0;
+
+        public override string Texture => "CalamityMod/NPCs/Cryogen/Cryogen_Phase1";
 
         public override void SetStaticDefaults()
         {
@@ -43,8 +45,8 @@ namespace CalamityMod.NPCs.Cryogen
         {
             npc.npcSlots = 24f;
             npc.damage = 50;
-            npc.width = 80;
-            npc.height = 80;
+            npc.width = 86;
+            npc.height = 88;
             npc.defense = 12;
             npc.Calamity().RevPlusDR(0.1f);
             npc.LifeMaxNERB(17900, 26300, 3000000);
@@ -96,7 +98,6 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(drawAltTexture);
             writer.Write(time);
             writer.Write(iceShard);
             writer.Write(teleportLocationX);
@@ -105,7 +106,6 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            drawAltTexture = reader.ReadBoolean();
             time = reader.ReadInt32();
             iceShard = reader.ReadInt32();
             teleportLocationX = reader.ReadInt32();
@@ -127,6 +127,11 @@ namespace CalamityMod.NPCs.Cryogen
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			double multAdd = revenge ? 0.1 : 0D;
+
+            if ((int)npc.ai[0] + 1 > currentPhase && currentPhase < 6)
+            {
+                handlePhaseTransition((int)npc.ai[0] + 1);
+            }
 
 			if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (npc.ai[0] < 4f || CalamityWorld.bossRushActive)) //spawn shield for phase 0 1 2 3, not 4 5 6
             {
@@ -695,9 +700,6 @@ namespace CalamityMod.NPCs.Cryogen
 				double HPMult = death ? 0.4 : 0.15 + multAdd;
 				if ((double)npc.life < (double)npc.lifeMax * HPMult)
                 {
-                    Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 15);
-                    drawAltTexture = true;
-
                     for (int num621 = 0; num621 < 40; num621++)
                     {
                         int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
@@ -730,17 +732,6 @@ namespace CalamityMod.NPCs.Cryogen
                     teleportLocationX = 0;
                     iceShard = 0;
                     npc.netUpdate = true;
-
-                    string key = "Mods.CalamityMod.CryogenBossText";
-                    Color messageColor = Color.Cyan;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
                 }
             }
 			else if (npc.ai[0] == 5f)
@@ -994,11 +985,24 @@ namespace CalamityMod.NPCs.Cryogen
 			}
         }
 
+        private void handlePhaseTransition (int newPhase)
+        {
+            int chipGoreAmount = newPhase >= 5 ? 3 : newPhase >= 3 ? 2 : 1;
+            for (int i = 1; i < chipGoreAmount; i++)
+            {
+                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CryoChipGore" + i), 1f);
+            }
+            currentPhase = newPhase;
+            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 15);
+        }
+
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) //for alt textures
         {
-            if (drawAltTexture)
+            if (currentPhase > 1)
             {
-                Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Cryogen/Cryogen2");
+                string phase = "CalamityMod/NPCs/Cryogen/Cryogen_Phase" + currentPhase;
+                Texture2D texture = ModContent.GetTexture(phase);
                 CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor);
                 return false;
             }
@@ -1038,9 +1042,11 @@ namespace CalamityMod.NPCs.Cryogen
                     Main.dust[num624].velocity *= 2f;
                 }
                 float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore8"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore9"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore10"), 1f);
+                for (int i = 1; i < 4; i++)
+                {
+                    Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoDeathGore" + i), 1f);
+                    Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoChipGore" + i), 1f);
+                }
             }
         }
 

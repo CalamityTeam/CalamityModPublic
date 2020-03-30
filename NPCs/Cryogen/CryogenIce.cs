@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.Cryogen
             npc.canGhostHeal = false;
             npc.noTileCollide = true;
             npc.damage = 50;
-            npc.width = 240;
-            npc.height = 240;
+            npc.width = 190;
+            npc.height = 190;
             npc.Calamity().RevPlusDR(0.4f);
             npc.lifeMax = 1400;
             if (CalamityWorld.bossRushActive)
@@ -118,14 +118,15 @@ namespace CalamityMod.NPCs.Cryogen
                     Main.projectile[ice].timeLeft = 300;
                     Main.projectile[ice2].timeLeft = 300;
                 }
-                float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                float randomSpread;
                 for (int spike = 0; spike < 4; spike++)
                 {
                     randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                    Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore4"), 1f);
-                    Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore5"), 1f);
-                    Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore6"), 1f);
-                    Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore7"), 1f);
+                    for (int x = 0; x < 4; x++)
+                    {
+                        Gore.NewGore(npc.Center, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoShieldGore" + x), 1f);
+                    }
+                    
                 }
             }
         }

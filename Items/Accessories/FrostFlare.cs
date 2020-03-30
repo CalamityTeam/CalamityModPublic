@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Accessories
                 "Being below 25% life grants the player 10 defense and 15% increased max movement speed and acceleration\n" +
 				"Provides heat and cold protection in Death Mode\n" +
                 "Revengeance drop");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 10));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 4));
         }
 
         public override void SetDefaults()
