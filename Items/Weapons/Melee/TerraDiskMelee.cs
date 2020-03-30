@@ -1,6 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Hybrid;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

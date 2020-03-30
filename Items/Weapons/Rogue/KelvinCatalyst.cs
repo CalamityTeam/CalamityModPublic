@@ -4,7 +4,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Hybrid;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

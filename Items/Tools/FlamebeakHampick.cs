@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Tools
         private static int HammerPower = 130;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flamebeak Hampick");
+            DisplayName.SetDefault("Seismic Hampick");
             Tooltip.SetDefault(@"Capable of mining Lihzahrd Bricks
 Left click to use as a pickaxe
 Right click to use as a hammer");

@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Hybrid;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -31,9 +31,16 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 54;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<EradicatorMeleeProjectile>();
+            item.shoot = ModContent.ProjectileType<EradicatorProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            Main.projectile[proj].Calamity().forceMelee = true;
+            return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

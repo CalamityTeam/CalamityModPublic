@@ -1,6 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;

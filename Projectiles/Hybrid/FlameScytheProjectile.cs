@@ -5,9 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Hybrid
 {
-    public class FlameScytheProjectileMelee : ModProjectile
+    public class FlameScytheProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -19,13 +19,13 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-            projectile.melee = true;
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.extraUpdates = 1;
             projectile.timeLeft = 600;
             projectile.alpha = 55;
             aiType = ProjectileID.WoodenBoomerang;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -56,8 +56,18 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(BuffID.OnFire, 300);
             if (projectile.owner == Main.myPlayer)
             {
-                int boom = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[boom].Calamity().forceMelee = true;
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Main.projectile[proj].Calamity().forceRogue = true;
+            }
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 300);
+            if (projectile.owner == Main.myPlayer)
+            {
+                int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                Main.projectile[proj].Calamity().forceRogue = true;
             }
         }
     }

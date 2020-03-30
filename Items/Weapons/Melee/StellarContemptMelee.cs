@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Hybrid;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

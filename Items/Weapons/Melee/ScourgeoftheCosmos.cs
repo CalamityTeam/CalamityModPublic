@@ -1,6 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;

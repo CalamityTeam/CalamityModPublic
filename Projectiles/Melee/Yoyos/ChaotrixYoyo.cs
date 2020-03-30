@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaotrix");
+            DisplayName.SetDefault("Fault");
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = 14f;
             ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 290f;
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 13f;

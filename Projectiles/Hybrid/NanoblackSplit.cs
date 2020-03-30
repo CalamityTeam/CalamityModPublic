@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles.Hybrid
 {
     public class NanoblackSplit : ModProjectile
     {
@@ -182,7 +182,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (projectile.spriteDirection == -1)
                 eff = SpriteEffects.FlipHorizontally;
             Vector2 origin = new Vector2(fWidthOverTwo, fHeightOverTwo);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/NanoblackSplitGlow"),
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Hybrid/NanoblackSplitGlow"),
                 projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation,
                 origin, projectile.scale, eff, 0f);
         }
