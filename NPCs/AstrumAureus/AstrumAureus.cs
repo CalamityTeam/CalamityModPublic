@@ -309,8 +309,9 @@ namespace CalamityMod.NPCs.AstrumAureus
 
 				for (int num163 = 1; num163 < num153; num163++)
 				{
-					Color color41 = Color.Lerp(Color.White, color40, 0.5f);
+					Color color41 = color40;
 					color41 = Color.Lerp(color41, color36, amount9);
+					color41 = npc.GetAlpha(color41);
 					color41 *= (float)(num153 - num163) / 15f;
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2((float)GlowMaskTexture.Width, (float)(GlowMaskTexture.Height / frameCount)) * scale / 2f;

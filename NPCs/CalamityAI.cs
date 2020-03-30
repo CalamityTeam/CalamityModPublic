@@ -607,7 +607,7 @@ namespace CalamityMod.NPCs
 			CalamityGlobalNPC.brimstoneElemental = npc.whoAmI;
 
 			// Emit light
-			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 2f, 0f, 0f);
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1.2f, 0f, 0f);
 
 			// Center
 			Vector2 vectorCenter = npc.Center;
@@ -1146,6 +1146,9 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+			// Emit light
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1f, 0f, 0f);
+
 			// Percent life remaining
 			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
 
@@ -1607,6 +1610,9 @@ namespace CalamityMod.NPCs
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+			// Emit light
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1f, 0f, 0f);
+
 			CalamityGlobalNPC.cataclysm = npc.whoAmI;
 
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
@@ -1876,6 +1882,9 @@ namespace CalamityMod.NPCs
 		public static void CatastropheAI(NPC npc, Mod mod)
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
+			// Emit light
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1f, 0f, 0f);
 
 			CalamityGlobalNPC.catastrophe = npc.whoAmI;
 
@@ -2209,7 +2218,7 @@ namespace CalamityMod.NPCs
 
 			// Emit light when not Idle
 			if (npc.ai[0] != 1f)
-                Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 2.55f, 1f, 0f);
+                Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1.3f, 0.5f, 0f);
 
             // Fire projectiles while walking, teleporting, or falling
             if (npc.ai[0] == 2f || npc.ai[0] >= 5f || (npc.ai[0] == 4f && npc.velocity.Y > 0f) ||

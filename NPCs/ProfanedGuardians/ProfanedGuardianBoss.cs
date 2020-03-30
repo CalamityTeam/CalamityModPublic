@@ -26,7 +26,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             DisplayName.SetDefault("Profaned Guardian");
             Main.npcFrameCount[npc.type] = 6;
-        }
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+		}
 
         public override void SetDefaults()
         {
@@ -50,8 +51,6 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Guardians");
             else
                 music = MusicID.Boss1;
-            NPCID.Sets.TrailCacheLength[npc.type] = 8;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
@@ -364,51 +363,58 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
-            {
-                spriteEffects = SpriteEffects.FlipHorizontally;
-            }
-            Color color24 = npc.GetAlpha(drawColor);
-            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
-            Texture2D texture2D3 = Main.npcTexture[npc.type];
-            int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
-            int y3 = num156 * (int)npc.frameCounter;
-            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
-            Vector2 origin2 = rectangle.Size() / 2f;
-            int num157 = 8;
-            int num158 = 2;
-            int num159 = 1;
-            float num160 = 0f;
-            int num161 = num159;
-            spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
-            while (npc.ai[0] == 2f && Lighting.NotRetro && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
-            {
-                Color color26 = npc.GetAlpha(color25);
-                {
-                    goto IL_6899;
-                }
-                IL_6881:
-                num161 += num158;
-                continue;
-                IL_6899:
-                float num164 = (float)(num157 - num161);
-                if (num158 < 0)
-                {
-                    num164 = (float)(num159 - num161);
-                }
-                color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = npc.oldPos[num161];
-                float num165 = npc.rotation;
-                Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
-                goto IL_6881;
-            }
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+			Texture2D texture2D15 = Main.npcTexture[npc.type];
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Color color36 = Color.White;
+			float amount9 = 0.5f;
+			int num153 = 5;
+			if (npc.ai[0] == 2f)
+				num153 = 10;
+
+			for (int num155 = 1; num155 < num153; num155 += 2)
+			{
+				Color color38 = lightColor;
+				color38 = Color.Lerp(color38, color36, amount9);
+				color38 = npc.GetAlpha(color38);
+				color38 *= (float)(num153 - num155) / 15f;
+				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+				vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(texture2D15, vector41, new Rectangle?(npc.frame), color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBossGlow");
+			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+
+			for (int num163 = 1; num163 < num153; num163++)
+			{
+				Color color41 = color37;
+				color41 = Color.Lerp(color41, color36, amount9);
+				color41 = npc.GetAlpha(color41);
+				color41 *= (float)(num153 - num163) / 15f;
+				Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+				vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(texture2D15, vector44, new Rectangle?(npc.frame), color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
+		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
             return true;

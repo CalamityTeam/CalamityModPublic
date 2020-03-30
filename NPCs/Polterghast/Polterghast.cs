@@ -15,6 +15,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -38,7 +39,8 @@ namespace CalamityMod.NPCs.Polterghast
         {
             DisplayName.SetDefault("Polterghast");
             Main.npcFrameCount[npc.type] = 12;
-        }
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+		}
 
         public override void SetDefaults()
         {
@@ -102,7 +104,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void AI()
         {
             // Emit light
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.5f, 1.25f, 1.25f);
+            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.1f, 0.5f, 0.5f);
 
             // whoAmI variable
             CalamityGlobalNPC.ghostBoss = npc.whoAmI;
@@ -757,16 +759,75 @@ namespace CalamityMod.NPCs.Polterghast
             CalamityMod.UpdateServerBoolean();
         }
 
-        public override void FindFrame(int frameHeight)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = Main.npcTexture[npc.type];
+			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastGlow2");
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Color color36 = Color.White;
+			float amount9 = 0.5f;
+			int num153 = 7;
+
+			for (int num155 = 1; num155 < num153; num155 += 2)
+			{
+				Color color38 = lightColor;
+				color38 = Color.Lerp(color38, color36, amount9);
+				color38 = npc.GetAlpha(color38);
+				color38 *= (float)(num153 - num155) / 15f;
+				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+				vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(texture2D15, vector41, new Rectangle?(npc.frame), color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Polterghast/PolterghastGlow");
+			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+			Color color42 = Color.Lerp(Color.White, Color.Red, 0.5f);
+
+			for (int num163 = 1; num163 < num153; num163++)
+			{
+				Color color41 = color37;
+				color41 = Color.Lerp(color41, color36, amount9);
+				color41 = npc.GetAlpha(color41);
+				color41 *= (float)(num153 - num163) / 15f;
+				Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+				vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(texture2D15, vector44, new Rectangle?(npc.frame), color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+				Color color43 = color42;
+				color43 = Color.Lerp(color43, color36, amount9);
+				color43 = npc.GetAlpha(color43);
+				color43 *= (float)(num153 - num163) / 15f;
+				spriteBatch.Draw(texture2D16, vector44, new Rectangle?(npc.frame), color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			spriteBatch.Draw(texture2D16, vector43, new Rectangle?(npc.frame), color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
+		}
+
+		public override void FindFrame(int frameHeight)
         {
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool phase2 = (double)npc.life >= (double)npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33);
-            npc.frameCounter += 1.0;
-            if (npc.frameCounter > 6.0)
+            npc.frameCounter += 1D;
+            if (npc.frameCounter > 6D)
             {
-                npc.frameCounter = 0.0;
-                npc.frame.Y = npc.frame.Y + frameHeight;
+                npc.frameCounter = 0D;
+                npc.frame.Y += frameHeight;
             }
             if ((double)npc.life >= (double)npc.lifeMax * (death ? 0.9 : 0.75))
             {

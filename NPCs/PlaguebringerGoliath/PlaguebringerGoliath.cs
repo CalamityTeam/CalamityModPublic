@@ -130,7 +130,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
             // Light
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.15f, 0.35f, 0.05f);
+            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
 
             // Show message
             if (!halfLife && ((double)npc.life <= (double)npc.lifeMax * 0.5 || death))

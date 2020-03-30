@@ -274,8 +274,8 @@ namespace CalamityMod.NPCs.Ravager
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             float drawPositionX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - center.X;
             float drawPositionY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;
-            drawPositionY += 30f;
-            drawPositionX += 70f;
+            drawPositionY += 12f;
+            drawPositionX += 28f;
             float rotation = (float)Math.Atan2((double)drawPositionY, (double)drawPositionX) - 1.57f;
             bool draw = true;
             while (draw)
@@ -294,11 +294,11 @@ namespace CalamityMod.NPCs.Ravager
                     center.Y += drawPositionY;
                     drawPositionX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - center.X;
                     drawPositionY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;
-                    drawPositionY += 30f;
-                    drawPositionX += 70f;
+                    drawPositionY += 12f;
+                    drawPositionX += 28f;
                     Color color = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-                    Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
-                        new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Height)), color, rotation,
+                    spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                        new Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Height)), color, rotation,
                         new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Width * 0.5f, (float)ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerChain").Height * 0.5f), 1f, SpriteEffects.None, 0f);
                 }
             }

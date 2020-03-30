@@ -207,11 +207,6 @@ namespace CalamityMod.NPCs.AstrumAureus
             }
         }
 
-        public override Color? GetAlpha(Color drawColor)
-        {
-            return new Color(200, 200, 200, npc.alpha);
-        }
-
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			SpriteEffects spriteEffects = SpriteEffects.None;
