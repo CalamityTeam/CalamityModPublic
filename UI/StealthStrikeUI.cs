@@ -57,31 +57,34 @@ namespace CalamityMod.UI
                     modPlayer.stealthUIAlpha = MathHelper.Lerp(modPlayer.stealthUIAlpha, 0.25f, 0.035f);
                 }
             }
-            if (new Rectangle((int)(DrawPosition.X + Main.screenPosition.X - 26), (int)(DrawPosition.Y + Main.screenPosition.Y - 9), 52, 18).Intersects(
-               new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 8, 8)))
+            if (!CalamityMod.CalamityConfig.MeterPosLock)
             {
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                if (new Rectangle((int)(DrawPosition.X + Main.screenPosition.X - 26), (int)(DrawPosition.Y + Main.screenPosition.Y - 9), 52, 18).Intersects(
+                   new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 8, 8)))
                 {
-                    Offset = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-                    DrawPosition.X = Offset.X;
-                    DrawPosition.Y = Offset.Y;
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        Offset = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+                        DrawPosition.X = Offset.X;
+                        DrawPosition.Y = Offset.Y;
+                    }
+                    if (Mouse.GetState().LeftButton == ButtonState.Released)
+                    {
+                        DrawPosition.X = Offset.X;
+                        DrawPosition.Y = Offset.Y;
+                    }
                 }
-                if (Mouse.GetState().LeftButton == ButtonState.Released)
-                {
-                    DrawPosition.X = Offset.X;
-                    DrawPosition.Y = Offset.Y;
-                }
-            }
 
-            if (CalamityMod.CalamityConfig.StealthMeterPosX != DrawPosition.X)
-            {
-                CalamityMod.CalamityConfig.StealthMeterPosX = DrawPosition.X;
-                CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
-            }
-            if (CalamityMod.CalamityConfig.StealthMeterPosY != DrawPosition.Y)
-            {
-                CalamityMod.CalamityConfig.StealthMeterPosY = DrawPosition.Y;
-                CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+                if (CalamityMod.CalamityConfig.StealthMeterPosX != DrawPosition.X)
+                {
+                    CalamityMod.CalamityConfig.StealthMeterPosX = DrawPosition.X;
+                    CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+                }
+                if (CalamityMod.CalamityConfig.StealthMeterPosY != DrawPosition.Y)
+                {
+                    CalamityMod.CalamityConfig.StealthMeterPosY = DrawPosition.Y;
+                    CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+                }
             }
         }
     }

@@ -52,6 +52,11 @@ namespace CalamityMod
 		[DefaultValue(30f)]
 		public float StealthMeterPosY { get; set; }
 
+		[DefaultValue(false)]
+		[Label("Meter Position Lock")]
+		[Tooltip("Prevents the movement of the Adrenaline, Rage and Stealth bars with the Mouse")]
+		public bool MeterPosLock { get; set; }
+
 		[DefaultValue(true)]
 		[Label("Boss Health Bar Small Text")]
 		[Tooltip("Enables the small text below the health bar\nThis displays the exact health amount or remaining boss parts")]
@@ -125,11 +130,6 @@ namespace CalamityMod
 		[Range(0f, 1100f)]
 		[DefaultValue(30f)]
 		public float AdrenalineMeterPosY { get; set; }
-
-		[DefaultValue(false)]
-		[Label("Meter Position Lock")]
-		[Tooltip("Prevents the movement of the Adrenaline and Rage bars with the Mouse")]
-		public bool MeterPosLock { get; set; }
 
 		[DefaultValue(false)]
 		[Label("Revengeance and Death Thorium Boss buff")]
