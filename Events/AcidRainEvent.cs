@@ -63,18 +63,18 @@ namespace CalamityMod.Events
             ( ModContent.NPCType<SulfurousSkater>(), 1, false )
         };
 
-        public static List<int> PossibleMinibossesAS = new List<int>()
+        public static List<(int, bool)> PossibleMinibossesAS = new List<(int, bool)>()
         {
-            ModContent.NPCType<CragmawMire>()
+            (ModContent.NPCType<CragmawMire>(), true)
         };
 
-        public static List<int> PossibleMinibossesPolter = new List<int>()
+        public static List<(int, bool)> PossibleMinibossesPolter = new List<(int, bool)>()
         {
-            ModContent.NPCType<CragmawMire>(),
-            ModContent.NPCType<NuclearTerror>()
+            (ModContent.NPCType<CragmawMire>(), true),
+            (ModContent.NPCType<NuclearTerror>(), false)
         };
 
-        public static readonly List<int> AllMinibosses = PossibleMinibossesAS.Concat(PossibleMinibossesPolter).Distinct().ToList();
+        public static readonly List<int> AllMinibosses = PossibleMinibossesAS.Select(miniboss => miniboss.Item1).ToList().Concat(PossibleMinibossesPolter.Select(miniboss => miniboss.Item1)).Distinct().ToList();
 
         public static bool AnyRainMinibosses
         {
@@ -82,7 +82,8 @@ namespace CalamityMod.Events
             {
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
-                    if (Main.npc[i].active && (PossibleMinibossesAS.Contains(Main.npc[i].type)) || PossibleMinibossesPolter.Contains(Main.npc[i].type))
+                    if (Main.npc[i].active && (PossibleMinibossesAS.Select(miniboss => miniboss.Item1).Contains(Main.npc[i].type) ||
+                        PossibleMinibossesPolter.Select(miniboss => miniboss.Item1).Contains(Main.npc[i].type)))
                     {
                         return true;
                     }

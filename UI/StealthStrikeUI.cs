@@ -50,7 +50,7 @@ namespace CalamityMod.UI
             if (new Rectangle((int)(DrawPosition.X + Main.screenPosition.X - player.width / 2), (int)(DrawPosition.Y + Main.screenPosition.Y), barTexture.Width, barTexture.Height).Intersects(
                 new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 8, 8)))
             {
-                if (modPlayer.rogueStealthMax > 0f)
+                if (modPlayer.rogueStealthMax > 0f && modPlayer.stealthUIAlpha >= 0.5f)
                 {
                     Main.LocalPlayer.mouseInterface = true;
                     Main.instance.MouseText("Stealth: " + (int)(modPlayer.rogueStealth * 100) + "/" + (int)(modPlayer.rogueStealthMax * 100) + "", 0, 0, -1, -1, -1, -1); //only way I got this to show up consistently, otherwise it fucked up and showed up anywhere onscreen lol.

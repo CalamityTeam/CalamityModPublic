@@ -1108,6 +1108,24 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
+        #region Glowmask Drawing
+        public static void DrawGlowmask(SpriteBatch spriteBatch, Texture2D texture, NPC npc, bool invertedDirection = false, Vector2 offset = default)
+        {
+            SpriteEffects effects = npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            if (invertedDirection)
+                effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            spriteBatch.Draw(texture,
+                             npc.Center - Main.screenPosition + offset,
+                             npc.frame,
+                             Color.White,
+                             npc.rotation,
+                             npc.Size / 2f,
+                             npc.scale,
+                             effects,
+                             0f);
+        }
+        #endregion
+
         // TODO -- Change Iron Heart damage in here for Iron Heart mode
         #region Iron Heart Changes
         private void IronHeartChanges(NPC npc)
@@ -3424,7 +3442,7 @@ namespace CalamityMod.NPCs
 				{
 					if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
 					{
-						if (!CalamityPlayer.areThereAnyDamnBosses)
+						if (!CalamityPlayer.areThereAnyDamnBosses && !AcidRainEvent.AllMinibosses.Contains(npc.type))
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3435,7 +3453,7 @@ namespace CalamityMod.NPCs
 				{
 					if (projectile.magic && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
 					{
-						if (!CalamityPlayer.areThereAnyDamnBosses)
+						if (!CalamityPlayer.areThereAnyDamnBosses && !AcidRainEvent.AllMinibosses.Contains(npc.type))
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3446,7 +3464,7 @@ namespace CalamityMod.NPCs
 				{
 					if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
 					{
-						if (!CalamityPlayer.areThereAnyDamnBosses)
+						if (!CalamityPlayer.areThereAnyDamnBosses && !AcidRainEvent.AllMinibosses.Contains(npc.type))
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3457,7 +3475,7 @@ namespace CalamityMod.NPCs
 				{
 					if (projectile.ranged && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
 					{
-						if (!CalamityPlayer.areThereAnyDamnBosses)
+						if (!CalamityPlayer.areThereAnyDamnBosses && !AcidRainEvent.AllMinibosses.Contains(npc.type))
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3468,7 +3486,7 @@ namespace CalamityMod.NPCs
 				{
 					if ((projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
 					{
-						if (!CalamityPlayer.areThereAnyDamnBosses)
+						if (!CalamityPlayer.areThereAnyDamnBosses && !AcidRainEvent.AllMinibosses.Contains(npc.type))
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3774,12 +3792,15 @@ namespace CalamityMod.NPCs
 
                     if (player.Calamity().ZoneSulphur && !player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
                     {
-                        spawnRate = Main.hardMode ? 36 : 33;
-                        maxSpawns = Main.hardMode ? 15 : 12;
                         if (AcidRainEvent.AnyRainMinibosses)
                         {
                             maxSpawns = 5;
                             spawnRate *= 2;
+                        }
+                        else
+                        {
+                            spawnRate = Main.hardMode ? 36 : 33;
+                            maxSpawns = Main.hardMode ? 15 : 12;
                         }
                     }
                 }
@@ -3917,7 +3938,7 @@ namespace CalamityMod.NPCs
                 if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
                 {
                     List<(int, int, bool)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
-                    List<int> PossibleMinibosses = new List<int>();
+                    List<(int, bool)> PossibleMinibosses = new List<(int, bool)>();
                     if (CalamityWorld.downedAquaticScourge)
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
@@ -3931,13 +3952,18 @@ namespace CalamityMod.NPCs
                     foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
                     {
                         if (spawnInfo.water || !PossibleEnemies.First(potential => potential.Item1 == enemy).Item3)
-                        pool.Add(enemy, 1f);
+                        {
+                            pool.Add(enemy, 1f);
+                        }
                     }
                     if (PossibleMinibosses.Count > 0)
                     {
-                        foreach (int enemy in PossibleMinibosses)
+                        foreach (int enemy in PossibleMinibosses.Select(miniboss => miniboss.Item1).ToList())
                         {
-                            pool.Add(enemy, 0.05f);
+                            if (spawnInfo.water || !PossibleMinibosses.First(potential => potential.Item1 == enemy).Item2)
+                            {
+                                pool.Add(enemy, 0.05f);
+                            }
                         }
                     }
                     pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.08f);

@@ -4,6 +4,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,12 +30,14 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
+                npc.Calamity().DR = 0.3f;
                 npc.damage = 160;
                 npc.lifeMax = 6650;
                 npc.defense = 45;
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
+                npc.Calamity().DR = 0.1f;
                 npc.damage = 80;
                 npc.lifeMax = 705;
             }
@@ -148,6 +151,10 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.frame.Y = 0;
                 }
             }
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc);
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

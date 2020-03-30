@@ -1609,8 +1609,8 @@ namespace CalamityMod.NPCs
                     CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
                 }
             }
-            if (AcidRainEvent.PossibleMinibossesAS.Contains(npc.type) ||
-                AcidRainEvent.PossibleMinibossesPolter.Contains(npc.type))
+            if (AcidRainEvent.PossibleMinibossesAS.Select(miniboss => miniboss.Item1).Contains(npc.type) ||
+                AcidRainEvent.PossibleMinibossesPolter.Select(miniboss => miniboss.Item1).Contains(npc.type))
             {
                 CalamityWorld.acidRainPoints -= AcidRainEvent.MinibossDeathValue;
                 if (CalamityWorld.downedPolterghast)

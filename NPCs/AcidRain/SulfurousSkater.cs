@@ -5,6 +5,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -43,6 +44,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.damage = 140;
                 npc.lifeMax = 6600;
                 npc.defense = 33;
+                npc.Calamity().DR = 0.15f;
             }
 
             npc.knockBackResist = 0f;
@@ -132,7 +134,7 @@ namespace CalamityMod.NPCs.AcidRain
                         npc.ai[1] = 0f;
                         npc.velocity.Y -= jumpSpeed;
                         npc.velocity.X = lungeForwardSpeed * (npc.Center.X - destination.X < 0).ToDirectionInt();
-                        npc.spriteDirection = (npc.Center.X - destination.X < 0).ToDirectionInt();
+                        npc.spriteDirection = (npc.Center.X - destination.X > 0).ToDirectionInt();
                         npc.netSpam = 0;
                         npc.netUpdate = true;
                     }
@@ -150,7 +152,7 @@ namespace CalamityMod.NPCs.AcidRain
                 if (npc.Distance(player.Center) < 200f)
                     inertia *= 0.667f;
                 npc.velocity = (npc.velocity * inertia + npc.DirectionTo(player.Center) * speed) / (inertia + 1f);
-                npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
+                npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
                 if (npc.Distance(player.Center) < 20f)
                 {
                     Flying = false;
@@ -176,6 +178,10 @@ namespace CalamityMod.NPCs.AcidRain
                     }
                 }
             }
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc, true, Vector2.UnitY * 4f);
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

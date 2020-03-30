@@ -26,10 +26,11 @@ namespace CalamityMod.NPCs.AcidRain
         public override void SetDefaults()
         {
             npc.width = 40;
-            npc.height = 30;
+            npc.height = 44;
 
 			npc.damage = 145;
 			npc.lifeMax = 6410;
+            npc.Calamity().DR = 0.25f;
 			npc.defense = 50;
 
             npc.aiStyle = aiType = -1;
@@ -190,6 +191,7 @@ namespace CalamityMod.NPCs.AcidRain
                 float opacity = MathHelper.Lerp(0.3f, 0.9f, (npc.ai[3] - 480f) / 60f);
                 Utils.DrawLine(spriteBatch, npc.Top + new Vector2(0f, 4f), npc.Top + new Vector2(0f, 4f) - Vector2.UnitY * length, Color.Lerp(Color.Lime, Color.Transparent, opacity));
             }
+            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc);
         }
 
         public override void NPCLoot()
