@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles
         private int counter = 0;
         private int counter2 = 0;
 
-        public int lineColor = 0; //holy mother of god, Eater of Shoals was a pain in the ass
+        public int lineColor = 0; //Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         public bool extorterBoost = false;
 
         public bool overridesMinionDamagePrevention = false;
