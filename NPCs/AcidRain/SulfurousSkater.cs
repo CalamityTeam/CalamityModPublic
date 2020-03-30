@@ -5,7 +5,9 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,12 +16,20 @@ namespace CalamityMod.NPCs.AcidRain
 {
     public class SulfurousSkater : ModNPC
     {
+        public bool Flying = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sulphurous Skater");
             Main.npcFrameCount[npc.type] = 5;
         }
-
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(Flying);
+        }
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            Flying = reader.ReadBoolean();
+        }
         public override void SetDefaults()
         {
             npc.width = 48;
@@ -34,6 +44,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.damage = 140;
                 npc.lifeMax = 6600;
                 npc.defense = 33;
+                npc.Calamity().DR = 0.15f;
             }
 
             npc.knockBackResist = 0f;
@@ -56,7 +67,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.TargetClosest(false);
             Player player = Main.player[npc.target];
-            if (npc.ai[0] == 0f)
+            if (!Flying)
             {
                 npc.Calamity().DR = 0.35f;
                 npc.noGravity = false;
@@ -92,7 +103,6 @@ namespace CalamityMod.NPCs.AcidRain
                     if (npc.velocity.Y >= 0f)
                     {
                         npc.velocity.Y = -3f;
-                        npc.netUpdate = true;
                     }
                 }
 
@@ -102,8 +112,9 @@ namespace CalamityMod.NPCs.AcidRain
 
                     if (closestBubble.Hitbox.Intersects(npc.Hitbox))
                     {
-                        npc.ai[0] = 1f;
+                        Flying = true;
                         closestBubble.Kill();
+                        npc.netSpam = 0;
                         npc.netUpdate = true;
                     }
                 }
@@ -123,7 +134,8 @@ namespace CalamityMod.NPCs.AcidRain
                         npc.ai[1] = 0f;
                         npc.velocity.Y -= jumpSpeed;
                         npc.velocity.X = lungeForwardSpeed * (npc.Center.X - destination.X < 0).ToDirectionInt();
-                        npc.spriteDirection = (npc.Center.X - destination.X < 0).ToDirectionInt();
+                        npc.spriteDirection = (npc.Center.X - destination.X > 0).ToDirectionInt();
+                        npc.netSpam = 0;
                         npc.netUpdate = true;
                     }
                 }
@@ -140,25 +152,18 @@ namespace CalamityMod.NPCs.AcidRain
                 if (npc.Distance(player.Center) < 200f)
                     inertia *= 0.667f;
                 npc.velocity = (npc.velocity * inertia + npc.DirectionTo(player.Center) * speed) / (inertia + 1f);
-                npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
-                if (player.dead && npc.Distance(player.Center) < 20f)
+                npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
+                if (npc.Distance(player.Center) < 20f)
                 {
-                    npc.ai[0] = 0f;
+                    Flying = false;
+                    npc.netSpam = 0;
                     npc.netUpdate = true;
                 }
             }
         }
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-        {
-            if (npc.ai[0] != 0f)
-            {
-                npc.ai[0] = 0f;
-                npc.netUpdate = true;
-            }
-        }
         public override void FindFrame(int frameHeight)
         {
-            if (npc.ai[0] == 0f)
+            if (!Flying)
                 npc.frame.Y = 0;
             else
             {
@@ -173,6 +178,10 @@ namespace CalamityMod.NPCs.AcidRain
                     }
                 }
             }
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc, true, Vector2.UnitY * 4f);
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

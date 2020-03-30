@@ -40,6 +40,23 @@ namespace CalamityMod
 		[Tooltip("Enables the visibility of the stealth bar")]
 		public bool StealthBar { get; set; }
 
+		[Label("Stealth Meter Position X")]
+		[Tooltip("Changes the X position of the Stealth Meter")]
+		[Range(0f, 1660f)]
+		[DefaultValue(730f)]
+		public float StealthMeterPosX { get; set; }
+
+		[Label("Stealth Meter Position Y")]
+		[Tooltip("Changes the Y position of the Stealth Meter")]
+		[Range(0f, 1100f)]
+		[DefaultValue(30f)]
+		public float StealthMeterPosY { get; set; }
+
+		[DefaultValue(false)]
+		[Label("Meter Position Lock")]
+		[Tooltip("Prevents the movement of the Adrenaline, Rage and Stealth bars with the Mouse")]
+		public bool MeterPosLock { get; set; }
+
 		[DefaultValue(true)]
 		[Label("Boss Health Bar Small Text")]
 		[Tooltip("Enables the small text below the health bar\nThis displays the exact health amount or remaining boss parts")]
@@ -92,32 +109,27 @@ namespace CalamityMod
 
 		[Label("Rage Meter Position X")]
 		[Tooltip("Changes the X position of the Rage Meter")]
-		[Range(0f, 1000f)]
+		[Range(0f, 1660f)]
 		[DefaultValue(500f)]
 		public float RageMeterPosX { get; set; }
 
 		[Label("Rage Meter Position Y")]
 		[Tooltip("Changes the Y position of the Rage Meter")]
-		[Range(0f, 1000f)]
+		[Range(0f, 1100f)]
 		[DefaultValue(30f)]
 		public float RageMeterPosY { get; set; }
 
 		[Label("Adrenaline Meter Position X")]
 		[Tooltip("Changes the X position of the Adrenaline Meter")]
-		[Range(0f, 1000f)]
+		[Range(0f, 1660f)]
 		[DefaultValue(650f)]
 		public float AdrenalineMeterPosX { get; set; }
 
 		[Label("Adrenaline Meter Position Y")]
 		[Tooltip("Changes the Y position of the Adrenaline Meter")]
-		[Range(0f, 1000f)]
+		[Range(0f, 1100f)]
 		[DefaultValue(30f)]
 		public float AdrenalineMeterPosY { get; set; }
-
-		[DefaultValue(false)]
-		[Label("Meter Position Lock")]
-		[Tooltip("Prevents the movement of the Adrenaline and Rage bars with the Mouse")]
-		public bool MeterPosLock { get; set; }
 
 		[DefaultValue(false)]
 		[Label("Revengeance and Death Thorium Boss buff")]

@@ -143,7 +143,7 @@ namespace CalamityMod.Projectiles.Typeless
             bool flag49 = false;
             Vector2 center12 = new Vector2(0f, 0f);
             float num948 = 600f;
-            for (int num949 = 0; num949 < 200; num949++)
+            for (int num949 = 0; num949 < Main.maxNPCs; num949++)
             {
                 if (Main.npc[num949].CanBeChasedBy(projectile, false))
                 {
@@ -185,8 +185,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 origin = new Vector2(17f, 17f);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/NebulaStarGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+            Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/NebulaStarGlow"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
         }
     }
 }

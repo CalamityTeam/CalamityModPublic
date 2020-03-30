@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chaotrix");
+            DisplayName.SetDefault("Fault Line");
             Tooltip.SetDefault("Explodes on enemy hits\n" +
 			"A very agile yoyo");
             ItemID.Sets.Yoyo[item.type] = true;

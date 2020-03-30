@@ -102,8 +102,7 @@ namespace CalamityMod.Projectiles.Melee.Yoyos
                 velocity = velocity.SafeNormalize(Vector2.Zero) * laserSpeed;
                 if (projectile.owner == Main.myPlayer)
                 {
-                    // ai[0] = 1f for melee
-                    int proj = Projectile.NewProjectile(laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, projectile.owner, 1f, 0f);
+                    int proj = Projectile.NewProjectile(laserSpawnPosition, velocity, ModContent.ProjectileType<NebulaShot>(), laserDamage, laserKB, projectile.owner);
                     Main.projectile[proj].Calamity().forceMelee = true;
                 }
             }

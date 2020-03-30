@@ -39,11 +39,13 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.damage = 175;
                 npc.lifeMax = 6300;
                 npc.defense = 58;
+                npc.Calamity().DR = 0.2f;
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 85;
                 npc.lifeMax = 700;
+                npc.Calamity().DR = 0.1f;
             }
 
             npc.knockBackResist = 0f;
@@ -117,6 +119,11 @@ namespace CalamityMod.NPCs.AcidRain
                 }
                 else
                 {
+                    // Consistently update the enemy.
+                    if (npc.ai[3] % 40f == 39f)
+                    {
+                        npc.netUpdate = true;
+                    }
                     // Dive upward in an attempt to hit to the player
                     if (npc.ai[1] > TotalTime - DiveTime)
                     {

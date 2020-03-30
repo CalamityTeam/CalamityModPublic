@@ -43,33 +43,33 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
             {
-                int p = Projectile.NewProjectile(position.X, position.Y, (int)((double)speedX * 1.2), (int)((double)speedY * 1.2), ModContent.ProjectileType<ButcherKnife>(), (int)(damage * 1.4), knockBack, Main.myPlayer);
-                Main.projectile[p].Calamity().stealthStrike = true;
-                if (Main.rand.NextBool(3))
-                {
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Fork>(), (int)((double)damage * 1.1), knockBack * 2f, Main.myPlayer);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Knife>(), (int)((double)damage * 1.2), knockBack, Main.myPlayer);
-                }
-                else
-                {
-                    Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<CarvingFork>(), damage, knockBack, Main.myPlayer);
-                }
+                int stealth = Projectile.NewProjectile(position.X, position.Y, speedX * 1.2f, speedY * 1.2f, ModContent.ProjectileType<ButcherKnife>(), (int)(damage * 1.4), knockBack, Main.myPlayer);
+                Main.projectile[stealth].Calamity().stealthStrike = true;
             }
-            else if (Main.rand.NextBool(3))
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Fork>(), (int)((double)damage * 1.1), knockBack * 2f, Main.myPlayer);
-            }
-            else if (Main.rand.NextBool(2))
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Knife>(), (int)((double)damage * 1.2), knockBack, Main.myPlayer);
-            }
-            else
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<CarvingFork>(), damage, knockBack, Main.myPlayer);
-            }
+			int utensil = item.shoot;
+			float dmgMult = 1f;
+			float kbMult = 1f;
+			switch (Main.rand.Next(3))
+			{
+				case 0:
+					utensil = item.shoot;
+					dmgMult = 1.1f;
+					kbMult = 2f;
+					break;
+				case 1:
+					utensil = ModContent.ProjectileType<Knife>();
+					dmgMult = 1.2f;
+					kbMult = 1f;
+					break;
+				case 2:
+					utensil = ModContent.ProjectileType<CarvingFork>();
+					dmgMult = 1f;
+					kbMult = 1f;
+					break;
+                default:
+                    break;
+			}
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, utensil, (int)(damage * dmgMult), knockBack * kbMult, Main.myPlayer);
             return false;
         }
     }

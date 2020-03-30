@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
-            item.hammer = 70;
+            item.hammer = 50;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

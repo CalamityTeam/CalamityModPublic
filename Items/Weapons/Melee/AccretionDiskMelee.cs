@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Hybrid;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,9 +31,16 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 38;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;
-            item.shoot = ModContent.ProjectileType<AccretionDiskMeleeProj>();
+            item.shoot = ModContent.ProjectileType<AccretionDiskProj>();
             item.shootSpeed = 13f;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            Main.projectile[proj].Calamity().forceMelee = true;
+            return false;
         }
 
         public override void AddRecipes()

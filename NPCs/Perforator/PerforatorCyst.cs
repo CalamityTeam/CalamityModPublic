@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Perforator
 
 		public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()))
+            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<PerforatorCyst>()) || NPC.AnyNPCs(ModContent.NPCType<PerforatorHive>()) || spawnInfo.player.Calamity().crimsonLore)
             {
                 return 0f;
             }

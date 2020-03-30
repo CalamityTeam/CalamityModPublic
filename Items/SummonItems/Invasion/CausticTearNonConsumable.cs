@@ -34,7 +34,7 @@ namespace CalamityMod.Items.SummonItems.Invasion
         {
             if (!CalamityWorld.rainingAcid)
             {
-                AcidRainEvent.TryStartEvent();
+                AcidRainEvent.TryStartEvent(true);
             }
             else
             {

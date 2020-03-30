@@ -1,7 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Hybrid;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Fireblossom, 5);
-            recipe.AddIngredient(ItemID.LavaBucket, 10);
+            recipe.AddIngredient(ItemID.LavaBucket, 2);
             recipe.AddIngredient(ItemID.HellstoneBar, 10);
             recipe.SetResult(this);
             recipe.AddTile(TileID.Anvils);

@@ -11,13 +11,13 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Cryo Stone");
             Tooltip.SetDefault("One of the ancient relics\n" +
                 "Increases damage reduction by 5% and all damage by 3%");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 5));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 4));
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
+            item.width = 40;
+            item.height = 40;
             item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = 5;
             item.defense = 6;

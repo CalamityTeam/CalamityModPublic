@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             int num2 = 4;
             bool flag4 = npc.velocity.Y == 0f;
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
                 if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
                 {

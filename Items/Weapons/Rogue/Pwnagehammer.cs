@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Hybrid;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

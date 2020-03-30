@@ -1,8 +1,5 @@
 using CalamityMod.Dusts;
-using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,7 +8,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.NPCs.AcidRain
 {
@@ -157,7 +153,7 @@ namespace CalamityMod.NPCs.AcidRain
                         }
                     }
                 }
-                npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
+                npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
             }
             else
             {
@@ -165,7 +161,7 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     ShootPosition = player.Center;
                     npc.netUpdate = true;
-                    npc.spriteDirection = (ShootPosition.X - npc.Center.X > 0).ToDirectionInt();
+                    npc.spriteDirection = (ShootPosition.X - npc.Center.X < 0).ToDirectionInt();
                 }
                 switch (PhaseArray[AttackIndex])
                 {
@@ -389,6 +385,11 @@ namespace CalamityMod.NPCs.AcidRain
             {
                 npc.frame.Y = Walking ? 4 * frameHeight : 0;
             }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture), npc, true);
+            return false;
         }
         public override bool CheckDead()
         {

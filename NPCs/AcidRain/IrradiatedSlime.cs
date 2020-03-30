@@ -5,6 +5,7 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -24,16 +25,10 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 40;
             npc.height = 30;
 
+			npc.Calamity().DR = 0.15f;
             npc.damage = 75;
             npc.lifeMax = 640;
             npc.defense = 5;
-
-            if (CalamityWorld.downedPolterghast)
-            {
-                npc.damage = 245;
-                npc.lifeMax = 5995;
-                npc.defense = 60;
-            }
 
             npc.knockBackResist = 0f;
             animationType = 81;
@@ -329,8 +324,11 @@ namespace CalamityMod.NPCs.AcidRain
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/IrradiatedSlime2"), 1f);
             }
         }
-
-        public override void NPCLoot()
+		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+		{
+			CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc);
+		}
+		public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 100);
         }

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Ranged
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Greatbow of Turmoil");
+            DisplayName.SetDefault("Continental Greatbow");
             Tooltip.SetDefault("Wooden arrows are set alight with fire\n" +
 				"Fires 3 arrows at once\n" +
                 "Fires 2 additional cursed, hellfire, or ichor arrows");

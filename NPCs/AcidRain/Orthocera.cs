@@ -26,20 +26,17 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 34;
             npc.aiStyle = aiType = -1;
 
-            npc.damage = 40;
-            npc.lifeMax = 360;
-            npc.defense = 8;
+            npc.damage = 75;
+            npc.lifeMax = 605;
+            npc.defense = 15;
+            npc.Calamity().DR = 0.2f;
 
             if (CalamityWorld.downedPolterghast)
             {
                 npc.damage = 180;
                 npc.lifeMax = 5700;
                 npc.defense = 65;
-            }
-            else if (CalamityWorld.downedAquaticScourge)
-            {
-                npc.damage = 75;
-                npc.lifeMax = 605;
+                npc.Calamity().DR = 0.35f;
             }
 
             npc.knockBackResist = 0f;

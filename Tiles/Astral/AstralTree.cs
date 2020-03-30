@@ -11,29 +11,10 @@ namespace CalamityMod.Tiles.Astral
             return ModContent.GetTexture("CalamityMod/Tiles/Astral/AstralTree_Tops");
         }
 
-        public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame)
-        {
-            return ModContent.GetTexture("CalamityMod/Tiles/Astral/AstralTree_Branches");
-        }
-
-        public override Texture2D GetTexture()
-        {
-            return ModContent.GetTexture("CalamityMod/Tiles/Astral/AstralTree");
-        }
-
-        public override int DropWood()
-        {
-            return ModContent.ItemType<Items.Placeables.AstralMonolith>();
-        }
-
-        public override int CreateDust()
-        {
-            return ModContent.DustType<AstralBasic>();
-        }
-
-        public override int GrowthFXGore()
-        {
-            return -1;
-        }
+        public override Texture2D GetBranchTextures(int i, int j, int trunkOffset, ref int frame) => ModContent.GetTexture("CalamityMod/Tiles/Astral/AstralTree_Branches");
+        public override Texture2D GetTexture() => ModContent.GetTexture("CalamityMod/Tiles/Astral/AstralTree");
+        public override int DropWood() => ModContent.ItemType<Items.Placeables.AstralMonolith>();
+        public override int CreateDust() => ModContent.DustType<AstralBasic>();
+        public override int GrowthFXGore() => -1;
     }
 }

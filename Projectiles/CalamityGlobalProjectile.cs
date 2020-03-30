@@ -5,6 +5,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Healing;
+using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
@@ -61,7 +62,7 @@ namespace CalamityMod.Projectiles
         private int counter = 0;
         private int counter2 = 0;
 
-        public int lineColor = 0; //holy mother of god, Eater of Shoals was a pain in the ass
+        public int lineColor = 0; //Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         public bool extorterBoost = false;
 
         public bool overridesMinionDamagePrevention = false;
@@ -1951,10 +1952,10 @@ namespace CalamityMod.Projectiles
 						int projectile2 = Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
 						if (projectile.type == ModContent.ProjectileType<CnidarianYoyo>() || projectile.type == ModContent.ProjectileType<GodsGambitYoyo>() ||
-							projectile.type == ModContent.ProjectileType<ShimmersparkYoyo>() || projectile.type == ModContent.ProjectileType<VerdantYoyo>() || projectile.type == ModContent.ProjectileType<EradicatorMeleeProjectile>())
+							projectile.type == ModContent.ProjectileType<ShimmersparkYoyo>() || projectile.type == ModContent.ProjectileType<VerdantYoyo>() || (projectile.type == ModContent.ProjectileType<EradicatorProjectile>() && projectile.melee))
 							Main.projectile[projectile2].Calamity().forceMelee = true;
 
-						if (projectile.type == ModContent.ProjectileType<EradicatorProjectile>())
+						if (projectile.type == ModContent.ProjectileType<EradicatorProjectile>() && projectile.Calamity().rogue)
 							Main.projectile[projectile2].Calamity().forceRogue = true;
 					}
 				}

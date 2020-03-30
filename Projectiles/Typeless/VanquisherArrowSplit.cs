@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -29,21 +30,22 @@ namespace CalamityMod.Projectiles.Typeless
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 20f, 20f);
         }
 
-        // DEFECT -- Vanquisher Arrow duplicate projectile glow doesn't work.
-        /*
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 origin = new Vector2(0f, 0f);
-            Color color = new Color(0, 0, 0, 0);
-            if (projectile.timeLeft < 85)
-            {
-                byte b2 = (byte)(projectile.timeLeft * 3);
-                byte a2 = (byte)(100f * ((float)b2 / 255f));
-                color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
-            }
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/VanquisherArrowSplitGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+			if (projectile.timeLeft < 90)
+			{
+				Vector2 origin = new Vector2(0f, 0f);
+				Color color = Color.White;
+				if (projectile.timeLeft < 85)
+				{
+					byte b2 = (byte)(projectile.timeLeft * 3);
+					byte a2 = (byte)(100f * ((float)b2 / 255f));
+					color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
+				}
+				Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
+				spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/VanquisherArrowSplitGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+			}
         }
-        */
 
         public override Color? GetAlpha(Color lightColor)
         {
