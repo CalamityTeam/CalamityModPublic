@@ -126,8 +126,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.localAI[1] += 1f;
             if (projectile.localAI[1] == 60f && projectile.owner == Main.myPlayer)
             {
-                int num1137 = 100;
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Tornado>(), num1137, 3f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Tornado>(), projectile.damage, 3f, projectile.owner, 0f, 0f);
             }
             if (projectile.localAI[1] >= 120f)
             {
