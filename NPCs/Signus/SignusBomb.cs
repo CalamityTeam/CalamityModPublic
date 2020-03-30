@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
@@ -12,7 +13,8 @@ namespace CalamityMod.NPCs.Signus
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Mine");
-        }
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+		}
 
         public override void SetDefaults()
         {
@@ -131,7 +133,39 @@ namespace CalamityMod.NPCs.Signus
             return new Color(200, Main.DiscoG, 255, 0);
         }
 
-        public override bool CheckDead()
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = Main.npcTexture[npc.type];
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+			Color color36 = Color.White;
+			float amount9 = 0.5f;
+			int num153 = 5;
+
+			for (int num155 = 1; num155 < num153; num155 += 2)
+			{
+				Color color38 = lightColor;
+				color38 = Color.Lerp(color38, color36, amount9);
+				color38 = npc.GetAlpha(color38);
+				color38 *= (float)(num153 - num155) / 15f;
+				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+				vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(texture2D15, vector41, new Rectangle?(npc.frame), color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
+		}
+
+		public override bool CheckDead()
         {
             Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);

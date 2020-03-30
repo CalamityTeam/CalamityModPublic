@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CalamityMod.NPCs.NormalNPCs;
 
 namespace CalamityMod.Items
 {
@@ -39,9 +40,9 @@ namespace CalamityMod.Items
         {
             if (player.altFunctionUse == 2)
             {
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[i].type == ModContent.NPCType<NPCs.NormalNPCs.SuperDummy>())
+                    if (Main.npc[i].type == ModContent.NPCType<SuperDummyNPC>())
                     {
                         Main.npc[i].life = 0;
                         Main.npc[i].lifeRegen = 0;
@@ -54,7 +55,7 @@ namespace CalamityMod.Items
             {
                 int x = (int)Main.MouseWorld.X - 9;
                 int y = (int)Main.MouseWorld.Y - 20;
-                NPC.NewNPC(x, y, ModContent.NPCType<NPCs.NormalNPCs.SuperDummy>());
+                NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
             }
             return true;
         }
@@ -63,7 +64,7 @@ namespace CalamityMod.Items
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.TargetDummy);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

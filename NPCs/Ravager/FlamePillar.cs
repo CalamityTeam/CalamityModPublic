@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -58,7 +59,10 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.timeLeft = 1800;
             }
-            if (npc.alpha > 0)
+
+			Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.5f, 0.5f);
+
+			if (npc.alpha > 0)
             {
                 npc.alpha -= 3;
                 if (npc.alpha < 0)
@@ -89,7 +93,7 @@ namespace CalamityMod.NPCs.Ravager
                 {
                     npc.ai[1] -= 1f;
                     npc.localAI[0] += 1f;
-                    float SpeedY = 10f;
+                    float SpeedY = -10f;
                     if (CalamityWorld.bossRushActive)
                     {
                         SpeedY *= 1.5f;
@@ -114,6 +118,28 @@ namespace CalamityMod.NPCs.Ravager
                 }
             }
         }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = Main.npcTexture[npc.type];
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Ravager/FlamePillarGlow");
+			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
+		}
 
 		public override bool CheckActive()
 		{

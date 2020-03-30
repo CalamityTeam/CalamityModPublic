@@ -1,4 +1,6 @@
-﻿using CalamityMod.NPCs;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.NPCs;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -27,8 +29,11 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            if (CalamityGlobalNPC.AnyBossNPCS())
+            if (CalamityPlayer.areThereAnyDamnBosses)
             { return; }
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.dashMod = modPlayer.dashMod == 7 ? 0 : modPlayer.dashMod; //statis belt memes for projectile spam :feelsgreat:
+
             if (player.velocity.X > 5f)
             {
                 player.velocity.X *= 1.025f;

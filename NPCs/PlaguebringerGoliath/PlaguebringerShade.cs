@@ -71,7 +71,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void AI()
         {
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.05f, 0.15f, 0.025f);
+            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.1f, 0.3f, 0f);
             bool flag113 = false;
             if (!Main.player[npc.target].ZoneJungle && !CalamityWorld.bossRushActive)
             {

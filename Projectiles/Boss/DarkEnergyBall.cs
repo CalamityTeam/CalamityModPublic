@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -14,7 +17,9 @@ namespace CalamityMod.Projectiles.Boss
         {
             DisplayName.SetDefault("Dark Energy");
             Main.projFrames[projectile.type] = 6;
-        }
+			ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+		}
 
         public override void SetDefaults()
         {
@@ -59,7 +64,23 @@ namespace CalamityMod.Projectiles.Boss
             }
         }
 
-        public override void Kill(int timeLeft)
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+
+			Rectangle frame = new Rectangle(0, projectile.frame * Main.projectileTexture[projectile.type].Height, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type]);
+			Color color = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
+
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/DarkEnergyBallGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+
+			color = Color.Lerp(Color.White, Color.Cyan, 0.5f);
+
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/DarkEnergyBallGlow2"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+
+			return false;
+		}
+
+		public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)
             {

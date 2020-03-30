@@ -51,7 +51,8 @@ namespace CalamityMod.NPCs.Providence
         {
             DisplayName.SetDefault("Providence, the Profaned Goddess");
             Main.npcFrameCount[npc.type] = 3;
-        }
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+		}
 
         public override void SetDefaults()
         {
@@ -1245,31 +1246,107 @@ namespace CalamityMod.NPCs.Providence
             potionType = ItemID.SuperHealingPotion;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = Main.npcTexture[npc.type];
+			Texture2D textureGlow = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceGlow");
+			Texture2D textureGlow2 = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceGlow2");
 
-            if (npc.ai[0] == 2f || npc.ai[0] == 5f)
+			if (npc.ai[0] == 2f || npc.ai[0] == 5f)
             {
-                if (!useDefenseFrames)
-                    texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceDefense");
-                else
-                    texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceDefenseAlt");
+				if (!useDefenseFrames)
+				{
+					texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceDefense");
+					textureGlow = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceDefenseGlow");
+					textureGlow2 = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceDefenseGlow2");
+				}
+				else
+				{
+					texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceDefenseAlt");
+					textureGlow = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceDefenseAltGlow");
+					textureGlow2 = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceDefenseAltGlow2");
+				}
             }
             else
             {
-                if (frameUsed == 0)
-                    texture = Main.npcTexture[npc.type];
-                else if (frameUsed == 1)
-                    texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAlt");
-                else if (frameUsed == 2)
-                    texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAttack");
-                else
-                    texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAttackAlt");
+				if (frameUsed == 0)
+				{
+					texture = Main.npcTexture[npc.type];
+					textureGlow = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceGlow");
+					textureGlow2 = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceGlow2");
+				}
+				else if (frameUsed == 1)
+				{
+					texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAlt");
+					textureGlow = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAltGlow");
+					textureGlow2 = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAltGlow2");
+				}
+				else if (frameUsed == 2)
+				{
+					texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAttack");
+					textureGlow = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAttackGlow");
+					textureGlow2 = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAttackGlow2");
+				}
+				else
+				{
+					texture = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAttackAlt");
+					textureGlow = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAttackAltGlow");
+					textureGlow2 = ModContent.GetTexture("CalamityMod/NPCs/Providence/ProvidenceAttackAltGlow2");
+				}
             }
 
-            CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor);
-            return false;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Color color36 = Color.White;
+			float amount9 = 0.5f;
+			int num153 = 5;
+
+			for (int num155 = 1; num155 < num153; num155 += 2)
+			{
+				Color color38 = lightColor;
+				color38 = Color.Lerp(color38, color36, amount9);
+				color38 = npc.GetAlpha(color38);
+				color38 *= (float)(num153 - num155) / 15f;
+				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector41 -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+				vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(texture, vector41, new Rectangle?(npc.frame), color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(texture, vector43, new Rectangle?(npc.frame), npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+			Color color42 = Color.Lerp(Color.White, Color.Violet, 0.5f);
+
+			for (int num163 = 1; num163 < num153; num163++)
+			{
+				Color color41 = color37;
+				color41 = Color.Lerp(color41, color36, amount9);
+				color41 = npc.GetAlpha(color41);
+				color41 *= (float)(num153 - num163) / 15f;
+				Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector44 -= new Vector2((float)textureGlow.Width, (float)(textureGlow.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+				vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+				spriteBatch.Draw(textureGlow, vector44, new Rectangle?(npc.frame), color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+				Color color43 = color42;
+				color43 = Color.Lerp(color43, color36, amount9);
+				color43 = npc.GetAlpha(color43);
+				color43 *= (float)(num153 - num163) / 15f;
+				spriteBatch.Draw(textureGlow2, vector44, new Rectangle?(npc.frame), color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			spriteBatch.Draw(textureGlow, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			spriteBatch.Draw(textureGlow2, vector43, new Rectangle?(npc.frame), color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
         }
 
         public override void FindFrame(int frameHeight) //9 total frames

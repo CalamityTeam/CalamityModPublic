@@ -34,7 +34,8 @@ namespace CalamityMod.NPCs.Signus
         {
             DisplayName.SetDefault("Signus, Envoy of the Devourer");
             Main.npcFrameCount[npc.type] = 6;
-        }
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+		}
 
         public override void SetDefaults()
         {
@@ -672,60 +673,79 @@ namespace CalamityMod.NPCs.Signus
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D NPCTexture = Main.npcTexture[npc.type];
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
-            {
-                spriteEffects = SpriteEffects.FlipHorizontally;
-            }
-            int frameCount = Main.npcFrameCount[npc.type];
-            float scale = npc.scale;
-            float rotation = npc.rotation;
-            float offsetY = npc.gfxOffY;
-            if (npc.ai[0] == 4f)
-            {
-                NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/Signus/SignusAlt2");
-                int height = 564;
-                int width = 176;
-                Vector2 vector = new Vector2((float)(width / 2), (float)(height / frameCount / 2));
-                Rectangle frame = new Rectangle(0, 0, width, height / frameCount);
-                frame.Y = 94 * (int)(npc.frameCounter / 12.0); //1 to 6
-                if (frame.Y >= 94 * 6)
-                {
-                    frame.Y = 0;
-                }
-                Main.spriteBatch.Draw(NPCTexture,
-                    new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)width * scale / 2f + vector.X * scale,
-                    npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)height * scale / (float)frameCount + 4f + vector.Y * scale + 0f + offsetY),
-                    new Microsoft.Xna.Framework.Rectangle?(frame),
-                    npc.GetAlpha(drawColor),
-                    rotation,
-                    vector,
-                    scale,
-                    spriteEffects,
-                    0f);
-                return false;
-            }
-            else if (npc.ai[0] == 3f)
-            {
-                NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/Signus/SignusAlt");
-            }
-            else
-            {
-                NPCTexture = Main.npcTexture[npc.type];
-            }
-            Rectangle frame2 = npc.frame;
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / frameCount / 2));
-            Main.spriteBatch.Draw(NPCTexture,
-                new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * scale / 2f + vector11.X * scale,
-                npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)Main.npcTexture[npc.type].Height * scale / (float)frameCount + 4f + vector11.Y * scale + 0f + offsetY),
-                new Microsoft.Xna.Framework.Rectangle?(frame2),
-                npc.GetAlpha(drawColor),
-                rotation,
-                vector11,
-                scale,
-                spriteEffects,
-                0f);
-            return false;
+			Texture2D glowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/Signus/SignusGlow");
+
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			int num153 = 5;
+			Rectangle frame = npc.frame;
+			int frameCount = Main.npcFrameCount[npc.type];
+
+			if (npc.ai[0] == 4f)
+			{
+				NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/Signus/SignusAlt2");
+				glowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/Signus/SignusAlt2Glow");
+				num153 = 10;
+				int frameY = 94 * (int)(npc.frameCounter / 12.0);
+				if (frameY >= 94 * 6)
+					frameY = 0;
+				frame = new Rectangle(0, frameY, NPCTexture.Width, NPCTexture.Height / frameCount);
+			}
+			else if (npc.ai[0] == 3f)
+			{
+				NPCTexture = ModContent.GetTexture("CalamityMod/NPCs/Signus/SignusAlt");
+				glowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/Signus/SignusAltGlow");
+				num153 = 7;
+			}
+			else
+			{
+				NPCTexture = Main.npcTexture[npc.type];
+				glowMaskTexture = ModContent.GetTexture("CalamityMod/NPCs/Signus/SignusGlow");
+			}
+
+			Vector2 vector11 = new Vector2((float)(NPCTexture.Width / 2), (float)(NPCTexture.Height / frameCount / 2));
+			Color color36 = Color.White;
+			float amount9 = 0.5f;
+			float scale = npc.scale;
+			float rotation = npc.rotation;
+			float offsetY = npc.gfxOffY;
+
+			for (int num155 = 1; num155 < num153; num155 += 2)
+			{
+				Color color38 = drawColor;
+				color38 = Color.Lerp(color38, color36, amount9);
+				color38 = npc.GetAlpha(color38);
+				color38 *= (float)(num153 - num155) / 15f;
+				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector41 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+				vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
+				spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38, rotation, vector11, scale, spriteEffects, 0f);
+			}
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+			vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
+			spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), npc.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
+
+			Color color40 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
+
+			for (int num163 = 1; num163 < num153; num163++)
+			{
+				Color color41 = color40;
+				color41 = Color.Lerp(color41, color36, amount9);
+				color41 = npc.GetAlpha(color41);
+				color41 *= (float)(num153 - num163) / 15f;
+				Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+				vector44 -= new Vector2((float)glowMaskTexture.Width, (float)(glowMaskTexture.Height / frameCount)) * scale / 2f;
+				vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
+				spriteBatch.Draw(glowMaskTexture, vector44, new Rectangle?(frame), color41, rotation, vector11, scale, spriteEffects, 0f);
+			}
+
+			spriteBatch.Draw(glowMaskTexture, vector43, new Rectangle?(frame), color40, rotation, vector11, scale, spriteEffects, 0f);
+
+			return false;
         }
 
         public override void BossLoot(ref string name, ref int potionType)

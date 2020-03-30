@@ -576,20 +576,20 @@ namespace CalamityMod.NPCs.Ravager
             Vector2 vector = center - Main.screenPosition;
             vector -= new Vector2((float)ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Width, (float)(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow").Height / Main.npcFrameCount[npc.type])) * 1f / 2f;
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
-            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Microsoft.Xna.Framework.Color.Blue);
-            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow"), vector,
-                new Microsoft.Xna.Framework.Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
+            Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Blue);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow"), vector,
+                new Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
             Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
-            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegRight"), new Vector2(center.X - Main.screenPosition.X + 28f, center.Y - Main.screenPosition.Y + 20f), //72
-                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegRight").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegRight").Height)),
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegRight"), new Vector2(center.X - Main.screenPosition.X + 28f, center.Y - Main.screenPosition.Y + 20f), //72
+                new Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegRight").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegRight").Height)),
                 color2, 0f, default, 1f, SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegLeft"), new Vector2(center.X - Main.screenPosition.X - 112f, center.Y - Main.screenPosition.Y + 20f), //72
-                new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegLeft").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegLeft").Height)),
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegLeft"), new Vector2(center.X - Main.screenPosition.X - 112f, center.Y - Main.screenPosition.Y + 20f), //72
+                new Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegLeft").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegLeft").Height)),
                 color2, 0f, default, 1f, SpriteEffects.None, 0f);
-            if (NPC.CountNPCS(ModContent.NPCType<RavagerHead>()) > 0)
+            if (NPC.AnyNPCs(ModContent.NPCType<RavagerHead>()))
             {
-                Main.spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerHead"), new Vector2(center.X - Main.screenPosition.X - 70f, center.Y - Main.screenPosition.Y - 75f),
-                    new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerHead").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerHead").Height)),
+                spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerHead"), new Vector2(center.X - Main.screenPosition.X - 70f, center.Y - Main.screenPosition.Y - 75f),
+                    new Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerHead").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerHead").Height)),
                     color2, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }

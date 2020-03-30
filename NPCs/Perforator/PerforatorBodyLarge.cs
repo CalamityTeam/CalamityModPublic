@@ -111,14 +111,29 @@ namespace CalamityMod.NPCs.Perforator
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/Perforator/PerforatorBodyLargeAlt");
-            CalamityMod.DrawTexture(spriteBatch, npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type], 0, npc, drawColor);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
 
-        public override bool CheckActive()
+			Texture2D texture2D15 = npc.localAI[3] == 1f ? ModContent.GetTexture("CalamityMod/NPCs/Perforator/PerforatorBodyLargeAlt") : Main.npcTexture[npc.type];
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			texture2D15 = npc.localAI[3] == 1f ? ModContent.GetTexture("CalamityMod/NPCs/Perforator/PerforatorBodyLargeAltGlow") : ModContent.GetTexture("CalamityMod/NPCs/Perforator/PerforatorBodyLargeGlow");
+			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
+
+			spriteBatch.Draw(texture2D15, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
+		}
+
+		public override bool CheckActive()
         {
             return false;
         }

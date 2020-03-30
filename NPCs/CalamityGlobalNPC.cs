@@ -1533,7 +1533,7 @@ namespace CalamityMod.NPCs
         {
             SetPatreonTownNPCName(npc);
 
-            if (npc.type == NPCID.TargetDummy || npc.type == ModContent.NPCType<SuperDummy>())
+            if (npc.type == NPCID.TargetDummy || npc.type == ModContent.NPCType<SuperDummyNPC>())
             {
                 npc.chaseable = !CalamityPlayer.areThereAnyDamnBosses;
                 npc.dontTakeDamage = CalamityPlayer.areThereAnyDamnBosses;
