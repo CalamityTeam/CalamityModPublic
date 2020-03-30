@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -42,8 +43,6 @@ namespace CalamityMod.Projectiles.Ranged
             }
         }
 
-        // DEFECT -- Vanquisher Arrow projectile glowmask doesn't work.
-        /*
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 origin = new Vector2(0f, 0f);
@@ -54,9 +53,9 @@ namespace CalamityMod.Projectiles.Ranged
                 byte a2 = (byte)(100f * ((float)b2 / 255f));
                 color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
             }
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Ranged/VanquisherArrowMainGlow"), projectile.Center - Main.screenPosition, null, color, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+            Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
+            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Ranged/VanquisherArrowGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
         }
-        */
 
         public override Color? GetAlpha(Color lightColor)
         {
