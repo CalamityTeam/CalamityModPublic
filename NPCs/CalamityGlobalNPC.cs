@@ -3442,7 +3442,7 @@ namespace CalamityMod.NPCs
 				{
 					if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
 					{
-						if (!CalamityPlayer.areThereAnyDamnBosses && !AcidRainEvent.AllMinibosses.Contains(npc.type))
+						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3453,7 +3453,7 @@ namespace CalamityMod.NPCs
 				{
 					if (projectile.magic && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
 					{
-						if (!CalamityPlayer.areThereAnyDamnBosses && !AcidRainEvent.AllMinibosses.Contains(npc.type))
+						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3464,7 +3464,7 @@ namespace CalamityMod.NPCs
 				{
 					if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
 					{
-						if (!CalamityPlayer.areThereAnyDamnBosses && !AcidRainEvent.AllMinibosses.Contains(npc.type))
+						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3475,7 +3475,7 @@ namespace CalamityMod.NPCs
 				{
 					if (projectile.ranged && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
 					{
-						if (!CalamityPlayer.areThereAnyDamnBosses && !AcidRainEvent.AllMinibosses.Contains(npc.type))
+						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3486,7 +3486,7 @@ namespace CalamityMod.NPCs
 				{
 					if ((projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
 					{
-						if (!CalamityPlayer.areThereAnyDamnBosses && !AcidRainEvent.AllMinibosses.Contains(npc.type))
+						if (!CalamityPlayer.areThereAnyDamnBosses)
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -5172,7 +5172,7 @@ namespace CalamityMod.NPCs
                 target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 &&
                 target.type != ModContent.NPCType<Reaper>() && target.type != ModContent.NPCType<Mauler>() && target.type != ModContent.NPCType<EidolonWyrmHead>() &&
-                target.type != ModContent.NPCType<EidolonWyrmHeadHuge>() && target.type != ModContent.NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityMod.enemyImmunityList.Contains(target.type))
+                target.type != ModContent.NPCType<EidolonWyrmHeadHuge>() && target.type != ModContent.NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityMod.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
             {
                 return true;
             }
