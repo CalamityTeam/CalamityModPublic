@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exsanguination Lance");
+            DisplayName.SetDefault("Vulcanite Lance");
             Tooltip.SetDefault("Explodes on enemy hits and summons homing flares on critical hits");
         }
 

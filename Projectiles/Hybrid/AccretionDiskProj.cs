@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles.Hybrid
 {
     public class AccretionDiskProj : ModProjectile
     {
@@ -102,8 +102,16 @@ namespace CalamityMod.Projectiles.Rogue
                             for (i = 0; i < 4; i++)
                             {
                                 offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AccretionDisk2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AccretionDisk2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                                int disk = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AccretionDisk2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+								if (projectile.melee)
+									Main.projectile[disk].Calamity().forceMelee = true;
+								else
+									Main.projectile[disk].Calamity().forceRogue = true;
+                                int disk2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AccretionDisk2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+								if (projectile.melee)
+									Main.projectile[disk2].Calamity().forceMelee = true;
+								else
+									Main.projectile[disk2].Calamity().forceRogue = true;
                             }
                         }
                     }

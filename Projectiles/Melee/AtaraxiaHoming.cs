@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.ai[1] == 0f)
             {
                 // Find the closest target. The range decreases each time you find a closer target.
-                for (int i = 0; i < 200; ++i)
+                for (int i = 0; i < Main.maxNPCs; ++i)
                 {
                     if (Main.npc[i].CanBeChasedBy(projectile, false))
                     {

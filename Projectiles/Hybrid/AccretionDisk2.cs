@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Hybrid
 {
-    public class AccretionDisk2Melee : ModProjectile
+    public class AccretionDisk2 : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -22,17 +22,17 @@ namespace CalamityMod.Projectiles.Melee
             projectile.height = 56;
             projectile.alpha = 120;
             projectile.friendly = true;
-            projectile.melee = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 60;
             aiType = ProjectileID.WoodenBoomerang;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
         {
-            if (Main.rand.NextBool(2))
+            if (Main.rand.NextBool(10))
             {
                 int num250 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.5f);
                 Main.dust[num250].noGravity = true;
@@ -42,6 +42,14 @@ namespace CalamityMod.Projectiles.Melee
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);

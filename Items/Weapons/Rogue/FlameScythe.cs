@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Hybrid;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Flame Scythe");
+            DisplayName.SetDefault("Subduction Slicer");
             Tooltip.SetDefault("Throws a scythe that explodes on enemy hits");
         }
 

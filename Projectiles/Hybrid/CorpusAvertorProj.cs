@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles.Hybrid
 {
     public class CorpusAvertorProj : ModProjectile
     {
@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Typeless
                     velocity *= mult;
 
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, velocity.X, velocity.Y, ModContent.ProjectileType<CorpusAvertorClone>(),
-                        (int)((float)projectile.damage * mult), projectile.knockBack * mult, projectile.owner, projectile.ai[0], projectile.melee ? 0f : 1f);
+                        (int)(projectile.damage * mult), projectile.knockBack * mult, projectile.owner, projectile.ai[0], projectile.melee ? 0f : 1f);
                 }
             }
             else

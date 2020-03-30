@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Ranged
+namespace CalamityMod.Projectiles.Melee
 {
     public class NebulaShot : ModProjectile
     {
@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.height = 4;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.ranged = true;
+            projectile.melee = true;
             projectile.alpha = 255;
             projectile.penetrate = 1;
             projectile.extraUpdates = 5;
@@ -34,12 +34,6 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.ai[1] = 1f;
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 12);
             }
-
-            // Force damage type based on AI variable (this is outdated code and the weapons themselves should set the force variables)
-            if (projectile.ai[0] == 1f)
-                projectile.Calamity().forceMelee = true;
-            else if (projectile.ai[0] == 2f)
-                projectile.Calamity().forceRogue = true;
 
             if (projectile.alpha > 0)
             {

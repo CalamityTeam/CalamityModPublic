@@ -1,13 +1,13 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Typeless
+namespace CalamityMod.Projectiles.Hybrid
 {
     public class GalaxySmasherHammer : ModProjectile
     {
@@ -186,8 +186,11 @@ namespace CalamityMod.Projectiles.Typeless
                 // NebulaShot projectile adjusts its own damage type based on ai[0]
                 if (projectile.owner == Main.myPlayer)
                 {
-                    float damageType = projectile.melee ? 1f : 2f;
-                    int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner, damageType, 0f);
+                    int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner);
+					if (projectile.melee)
+						Main.projectile[proj].Calamity().forceMelee = true;
+					else
+						Main.projectile[proj].Calamity().forceRogue = true;
                     Main.projectile[proj].tileCollide = false;
                     Main.projectile[proj].timeLeft = 30;
                 }

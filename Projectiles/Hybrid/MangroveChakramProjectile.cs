@@ -4,9 +4,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Hybrid
 {
-    public class MangroveChakramProjectileMelee : ModProjectile
+    public class MangroveChakramProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -18,11 +18,11 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 30;
             projectile.height = 30;
             projectile.friendly = true;
-            projectile.melee = true;
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 600;
             aiType = ProjectileID.WoodenBoomerang;
+            projectile.Calamity().rogue = true;
         }
 
         public override void AI()
@@ -44,6 +44,11 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 6;
+            target.AddBuff(BuffID.CursedInferno, 240);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
             target.AddBuff(BuffID.CursedInferno, 240);
         }
     }
