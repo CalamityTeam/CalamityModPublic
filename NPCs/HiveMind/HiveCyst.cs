@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.HiveMind
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>()))
+            if (spawnInfo.playerSafe || NPC.AnyNPCs(ModContent.NPCType<HiveCyst>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMind>()) || NPC.AnyNPCs(ModContent.NPCType<HiveMindP2>()) || spawnInfo.player.Calamity().corruptionLore)
             {
                 return 0f;
             }

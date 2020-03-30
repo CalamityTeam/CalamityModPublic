@@ -32,6 +32,9 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+			if (projectile.timeLeft == 90)
+				return false;
+
             Vector2 origin = new Vector2(0f, 0f);
             Color color = Color.White;
             if (projectile.timeLeft < 85)
