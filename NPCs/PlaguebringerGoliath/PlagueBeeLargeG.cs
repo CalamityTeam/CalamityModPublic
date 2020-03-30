@@ -36,15 +36,11 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.buffImmune[189] = true;
-            npc.buffImmune[153] = true;
-            npc.buffImmune[70] = true;
-            npc.buffImmune[69] = true;
-            npc.buffImmune[39] = true;
-            npc.buffImmune[24] = true;
-            npc.buffImmune[20] = true;
+            npc.buffImmune[BuffID.ShadowFlame] = true;
+            npc.buffImmune[BuffID.Venom] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
+            npc.buffImmune[BuffID.Poisoned] = true;
             npc.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             npc.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 

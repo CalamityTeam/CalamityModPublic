@@ -867,6 +867,9 @@ namespace CalamityMod
 			RecipeGroup sand = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Sand"]];
 			sand.ValidItems.Add(ModContent.ItemType<AstralSand>());
 
+			RecipeGroup wood = RecipeGroup.recipeGroups[RecipeGroup.recipeGroupIDs["Wood"]];
+			wood.ValidItems.Add(ModContent.ItemType<Acidwood>());
+
 			//New Groups
             RecipeGroup group = new RecipeGroup(() => "Any Copper Bar", new int[]
             {

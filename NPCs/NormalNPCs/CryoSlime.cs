@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<CryonicOre>(), Main.rand.Next(10, 27));
+            DropHelper.DropItem(npc, ModContent.ItemType<CryonicOre>(), 10, 26);
         }
     }
 }

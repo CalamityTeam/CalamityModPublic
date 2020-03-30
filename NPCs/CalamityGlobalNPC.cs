@@ -5270,7 +5270,7 @@ namespace CalamityMod.NPCs
         public static void DoFlyingAI(NPC npc, float maxSpeed, float acceleration, float circleTime, float minDistanceTarget = 150f, bool shouldAttackTarget = true)
         {
             //Pick a new target.
-            if (npc.target < 0 || npc.target >= 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target >= Main.maxPlayers || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
             }
