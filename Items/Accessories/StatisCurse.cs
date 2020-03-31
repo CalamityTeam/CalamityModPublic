@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.shadowMinions = true;
             modPlayer.tearMinions = true;
-            player.minionKB += 2.5f;
+            player.minionKB += 2.75f;
             player.minionDamage += 0.1f;
             player.maxMinions += 3;
         }

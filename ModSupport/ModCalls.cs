@@ -635,6 +635,10 @@ namespace CalamityMod
 			if (setBonus == "fathomswarmer" || setBonus == "fathom swarmer")
 				return mp.fathomSwarmer;
 
+			// Brimflame
+			if (setBonus == "brimflame")
+				return mp.brimflameSet;
+
 			// Umbraphile
 			if (setBonus == "umbraphile")
 				return mp.umbraphileSet;
@@ -941,6 +945,13 @@ namespace CalamityMod
 			if (setBonus == "fathomswarmer" || setBonus == "fathom swarmer")
 			{
 				mp.fathomSwarmer = enabled;
+				return true;
+			}
+
+			// Brimflame
+			if (setBonus == "brimflame")
+			{
+				mp.brimflameSet = enabled;
 				return true;
 			}
 

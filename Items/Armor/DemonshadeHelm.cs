@@ -39,11 +39,12 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
+            string hotkey = CalamityMod.TarraHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.TarraHotKey.GetAssignedKeys()[0] : "Y";
             player.setBonus = "100% increased minion damage\n" +
                 "All attacks inflict the demon flame debuff\n" +
                 "Shadowbeams and demon scythes will fire down when you are hit\n" +
                 "A friendly red devil follows you around\n" +
-                "Press Y to enrage nearby enemies with a dark magic spell for 10 seconds\n" +
+                "Press " + hotkey + " to enrage nearby enemies with a dark magic spell for 10 seconds\n" +
                 "This makes them do 25% more damage but they also take 125% more damage";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dsSetBonus = true;
