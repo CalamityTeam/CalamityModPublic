@@ -568,9 +568,6 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			Main.spriteBatch.End();
-			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-			GameShaders.Misc["CalamityMod:FlameShader"].Apply(null);
 			SpriteEffects spriteEffects = SpriteEffects.None;
             if (npc.spriteDirection == 1)
             {
@@ -610,8 +607,6 @@ namespace CalamityMod.NPCs.SlimeGod
                 Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
                 goto IL_6881;
 			}
-			Main.spriteBatch.End();
-			Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
 			return false;
         }
 
