@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc);
+			CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
 		}
 		public override void NPCLoot()
         {
