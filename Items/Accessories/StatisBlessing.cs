@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Neck)]
     public class StatisBlessing : ModItem
     {
         public override void SetStaticDefaults()

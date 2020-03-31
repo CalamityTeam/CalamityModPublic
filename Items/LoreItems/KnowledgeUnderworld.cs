@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using CalamityMod.CalPlayer;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
@@ -9,7 +10,8 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("The Underworld");
             Tooltip.SetDefault("These obsidian and hellstone towers were once home to thousands of...'people'.\n" +
-                "Unfortunately for them, they were twisted by their inner demons until they were beyond saving.");
+                "Unfortunately for them, they were twisted by their inner demons until they were beyond saving.\n" +
+                "Place in your inventory to prevent voodoo demons from spawning.");
         }
 
         public override void SetDefaults()
@@ -23,6 +25,12 @@ namespace CalamityMod.Items.LoreItems
         public override bool CanUseItem(Player player)
         {
             return false;
+        }
+
+        public override void UpdateInventory(Player player)
+        {
+            CalamityPlayer modPlayer = player.Calamity();
+            modPlayer.underworldLore = true;
         }
     }
 }

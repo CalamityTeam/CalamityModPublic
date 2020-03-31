@@ -1,13 +1,18 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using System;
+using System.IO;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
     public class Sponge : ModItem
     {
+		public override string Texture => (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) ? "CalamityMod/Items/Accessories/SpongeReal" : "CalamityMod/Items/Accessories/Sponge";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Sponge");
@@ -25,6 +30,7 @@ namespace CalamityMod.Items.Accessories
                 "You emit a mushroom spore and spark explosion when you are hit\n" +
                 "Enemy attacks will have part of their damage absorbed and used to heal you\n" +
 				"Provides cold protection in Death Mode");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 30));
         }
 
         public override void SetDefaults()

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Crimson");
             Tooltip.SetDefault("This bloody hell, spawned from a formless mass of flesh that fell from the stars eons ago.\n" +
                 "It is now home to many hideous creatures, spawned from the pumping blood and lurching organs deep within.\n" +
-                "Place in your inventory to prevent the perforator cysts from spawning.");
+                "Place in your inventory to prevent perforator cysts from spawning.");
         }
 
         public override void SetDefaults()

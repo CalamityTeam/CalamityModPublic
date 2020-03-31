@@ -288,6 +288,7 @@ namespace CalamityMod.CalPlayer
         public bool oceanLore = false;
         public bool corruptionLore = false;
         public bool crimsonLore = false;
+        public bool underworldLore = false;
 
         // Accessory
         public bool fasterMeleeLevel = false;
@@ -1213,6 +1214,7 @@ namespace CalamityMod.CalPlayer
 			oceanLore = false;
 			corruptionLore = false;
 			crimsonLore = false;
+			underworldLore = false;
 
             luxorsGift = false;
             fungalSymbiote = false;

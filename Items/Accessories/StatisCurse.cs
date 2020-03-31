@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Neck)]
     public class StatisCurse : ModItem
     {
         public override void SetStaticDefaults()
