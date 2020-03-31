@@ -37,8 +37,7 @@ namespace CalamityMod.Projectiles.Summon
 
         private void AI(int type, float num535, float num536, Player player)
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-                updateDamage(type);
+            updateDamage(type);
             switch (ai)
             {
                 case 1: //offensive bab (profaned soul artifact)
@@ -305,6 +304,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
+                if (projectile.frame % 2 == 0)
+                    projectile.netUpdate = true;
             }
             if (projectile.frame > 3)
             {

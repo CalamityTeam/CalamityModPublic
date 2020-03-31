@@ -10514,7 +10514,7 @@ namespace CalamityMod.CalPlayer
             {
                 bool usingCarpet = player.carpetTime > 0 && player.controlJump; //doesn't make sense for carpet to use jump frame since you have solid ground
                 AnimationType animType = AnimationType.Walk;
-                if ((player.sliding || (player.velocity.Y != 0 || player.controlJump) || player.mount.Active || player.grappling[0] != -1 || player.GoingDownWithGrapple) && !usingCarpet)
+                if ((player.sliding || player.velocity.Y != 0 || player.mount.Active || player.grappling[0] != -1 || player.GoingDownWithGrapple) && !usingCarpet)
                     animType = AnimationType.Jump;
                 else if (player.velocity.X == 0 || usingCarpet)
                     animType = AnimationType.Idle;
