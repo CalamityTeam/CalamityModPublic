@@ -1,3 +1,4 @@
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Placeables;
@@ -68,7 +69,8 @@ namespace CalamityMod.Items.Fishing.AstralCatches
                 ModContent.ItemType<TitanArm>(),
                 ModContent.ItemType<HivePod>(),
                 ModContent.ItemType<AstralScythe>(),
-                ModContent.ItemType<StellarCannon>());
+                ModContent.ItemType<StellarCannon>(),
+                ModContent.ItemType<StarbusterCore>());
 
             //Pet
             DropHelper.DropItemChance(player, ModContent.ItemType<AstrophageItem>(), 10);
