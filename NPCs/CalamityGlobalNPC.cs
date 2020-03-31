@@ -4018,7 +4018,10 @@ namespace CalamityMod.NPCs
                             }
                         }
                     }
-                    pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.08f);
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.08f);
+                    }
                 }
             }
         }

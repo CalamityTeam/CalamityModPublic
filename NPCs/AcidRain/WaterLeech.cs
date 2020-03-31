@@ -72,6 +72,7 @@ namespace CalamityMod.NPCs.AcidRain
                 {
                     // Revert back to swimming around after successfully devouring the player
                     npc.ai[0] = 0f;
+                    npc.ai[1] = 0f;
                     npc.netUpdate = true;
                     return;
                 }

@@ -6,12 +6,17 @@ using CalamityMod.Projectiles.Enemy;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.AcidRain
 {
+    public abstract class CalamityBoss : ModNPC
+    {
+        public abstract List<int> Loot { get; }
+    }
     public class GammaSlime : ModNPC
     {
         public float angularMultiplier1;
@@ -48,8 +53,8 @@ namespace CalamityMod.NPCs.AcidRain
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            // banner = npc.type;
-            // bannerItem = ModContent.ItemType<IrradiatedSlimeBanner>();
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<GammaSlimeBanner>();
         }
         public override void SendExtraAI(BinaryWriter writer)
         {

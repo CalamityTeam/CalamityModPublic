@@ -3246,6 +3246,68 @@ Provides heat and cold protection in Death Mode";
         }
         #endregion
 
+        #region Money From Rarity
+        public static readonly int Rarity0BuyPrice = Item.buyPrice(0, 0, 50, 0);
+        public static readonly int Rarity1BuyPrice = Item.buyPrice(0, 1, 0, 0);
+        public static readonly int Rarity2BuyPrice = Item.buyPrice(0, 2, 0, 0);
+        public static readonly int Rarity3BuyPrice = Item.buyPrice(0, 4, 0, 0);
+        public static readonly int Rarity4BuyPrice = Item.buyPrice(0, 12, 0, 0);
+        public static readonly int Rarity5BuyPrice = Item.buyPrice(0, 36, 0, 0);
+        public static readonly int Rarity6BuyPrice = Item.buyPrice(0, 48, 0, 0);
+        public static readonly int Rarity7BuyPrice = Item.buyPrice(0, 60, 0, 0);
+        public static readonly int Rarity8BuyPrice = Item.buyPrice(0, 80, 0, 0);
+        public static readonly int Rarity9BuyPrice = Item.buyPrice(0, 95, 0, 0);
+        public static readonly int Rarity10BuyPrice = Item.buyPrice(1, 0, 0, 0);
+        public static readonly int RarityTurquoiseBuyPrice = Item.buyPrice(1, 20, 0, 0);
+        public static readonly int RarityPureGreenBuyPrice = Item.buyPrice(1, 40, 0, 0);
+        public static readonly int RarityDarkBlueBuyPrice = Item.buyPrice(1, 80, 0, 0);
+        public static readonly int RarityVioletBuyPrice = Item.buyPrice(2, 50, 0, 0);
+        public static readonly int RarityHotPinkBuyPrice = Item.buyPrice(5, 0, 0, 0);
+        public static int GetBuyPrice(int rarity)
+        {
+            switch (rarity)
+            {
+                case 0:
+                    return Rarity0BuyPrice;
+                case 1:
+                    return Rarity1BuyPrice;
+                case 2:
+                    return Rarity2BuyPrice;
+                case 3:
+                    return Rarity3BuyPrice;
+                case 4:
+                    return Rarity4BuyPrice;
+                case 5:
+                    return Rarity5BuyPrice;
+                case 6:
+                    return Rarity6BuyPrice;
+                case 7:
+                    return Rarity7BuyPrice;
+                case 8:
+                    return Rarity8BuyPrice;
+                case 9:
+                    return Rarity9BuyPrice;
+                case 10:
+                    return Rarity10BuyPrice;
+                case (int)CalamityRarity.Turquoise:
+                    return RarityTurquoiseBuyPrice;
+                case (int)CalamityRarity.PureGreen:
+                    return RarityPureGreenBuyPrice;
+                case (int)CalamityRarity.DarkBlue:
+                    return RarityDarkBlueBuyPrice;
+                case (int)CalamityRarity.Violet:
+                    return RarityVioletBuyPrice;
+                case (int)CalamityRarity.Developer:
+                    return RarityHotPinkBuyPrice;
+            }
+            return 0;
+        }
+        public static int GetBuyPrice(Item item)
+        {
+            return GetBuyPrice(item.rare);
+        }
+        #endregion
+
         /// <summary>
         /// Dust helper to spawn dust for an item. Allows you to specify where on the item to spawn the dust, essentially. (ONLY WORKS FOR SWINGING WEAPONS?)
         /// </summary>
