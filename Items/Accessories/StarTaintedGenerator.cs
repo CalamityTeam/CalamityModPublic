@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Star-tainted Generator");
+            DisplayName.SetDefault("Star-Tainted Generator");
             Tooltip.SetDefault("+2 max minions and 7% minion damage\n" +
 							   "Minion attacks spawn astral explosions and inflict several debuffs");
         }
