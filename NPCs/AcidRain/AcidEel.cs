@@ -17,6 +17,8 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Acid Eel");
             Main.npcFrameCount[npc.type] = 6;
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+            NPCID.Sets.TrailCacheLength[npc.type] = 7;
         }
 
         public override void SetDefaults()
@@ -151,7 +153,11 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc);
+            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
+            if (npc.velocity.Length() > 1.5f)
+            {
+                CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, Color.Transparent, directioning: true);
+            }
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

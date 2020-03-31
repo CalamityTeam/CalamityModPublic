@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.StatDebuffs;
@@ -31,6 +32,8 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Nuclear Terror");
             Main.npcFrameCount[npc.type] = 14;
+            NPCID.Sets.TrailCacheLength[npc.type] = 6;
+            NPCID.Sets.TrailingMode[npc.type] = 1;
         }
 
         public override void SetDefaults()
@@ -39,7 +42,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 138;
             npc.aiStyle = aiType = -1;
 
-            npc.lifeMax = 145720;
+            npc.lifeMax = 360420;
             npc.defense = 50;
 
             npc.knockBackResist = 0f;
@@ -388,7 +391,13 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture), npc, true);
+            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, null, true);
+            if (npc.velocity.Length() > 0f)
+            {
+                Color endColor = Color.DarkOliveGreen;
+                endColor.A = Color.Transparent.A;
+                CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, endColor, directioning: true, invertedDirection: true);
+            }
             return false;
         }
         public override bool CheckDead()

@@ -1108,9 +1108,11 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Glowmask Drawing
-        public static void DrawGlowmask(SpriteBatch spriteBatch, Texture2D texture, NPC npc, bool invertedDirection = false, Vector2 offset = default)
+        #region Special Drawing
+        public static void DrawGlowmask(NPC npc, SpriteBatch spriteBatch, Texture2D texture = null, bool invertedDirection = false, Vector2 offset = default)
         {
+            if (texture == null)
+                texture = Main.npcTexture[npc.type];
             SpriteEffects effects = npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (invertedDirection)
                 effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -1123,6 +1125,51 @@ namespace CalamityMod.NPCs
                              npc.scale,
                              effects,
                              0f);
+        }
+        public static void DrawAfterimage(NPC npc, SpriteBatch spriteBatch, Color startingColor, Color endingColor, Texture2D texture = null, 
+            Func<NPC, int, float> rotationCalculation = null, bool directioning = false, bool invertedDirection = false)
+        {
+            if (NPCID.Sets.TrailingMode[npc.type] != 1)
+                return;
+            SpriteEffects spriteEffects = SpriteEffects.None;
+
+            if (npc.spriteDirection == -1 && directioning)
+            {
+                spriteEffects = SpriteEffects.FlipHorizontally;
+            }
+
+            if (invertedDirection)
+            {
+                spriteEffects ^= SpriteEffects.FlipHorizontally; // Same as x XOR 1, or x XOR TRUE, which inverts the bit. In this case, this reverses the horizontal flip
+            }
+
+            // Set the rotation calculation to a predefined value. The null default is solely so that 
+            if (rotationCalculation == null)
+            {
+                rotationCalculation = (nPC, afterimageIndex) => nPC.rotation;
+            }
+
+            endingColor.A = 0;
+
+            Color drawColor = npc.GetAlpha(startingColor);
+            Texture2D npcTexture = texture ?? Main.npcTexture[npc.type];
+            Vector2 origin = npc.Size * 0.5f;
+            int afterimageCounter = 1;
+            while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && Lighting.NotRetro)
+            {
+                Color colorToDraw = Color.Lerp(drawColor, endingColor, afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type]);
+                colorToDraw *= afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type];
+                spriteBatch.Draw(npcTexture,
+                                 npc.oldPos[afterimageCounter] + npc.Size / 2f - Main.screenPosition + Vector2.UnitY * npc.gfxOffY,
+                                 npc.frame,
+                                 colorToDraw,
+                                 rotationCalculation.Invoke(npc, afterimageCounter),
+                                 origin,
+                                 npc.scale,
+                                 spriteEffects,
+                                 0f);
+                afterimageCounter++;
+            }
         }
         #endregion
 
@@ -4370,8 +4417,8 @@ namespace CalamityMod.NPCs
                 // His afterimages I can't get to work, so fuck it
                 if (npc.type == NPCID.SkeletronPrime)
                 {
-                    Texture2D texture2D3 = Main.npcTexture[npc.type];
-                    int frameHeight = texture2D3.Height / Main.npcFrameCount[npc.type];
+                    Texture2D npcTexture = Main.npcTexture[npc.type];
+                    int frameHeight = npcTexture.Height / Main.npcFrameCount[npc.type];
 
                     npc.frame.Y = (int)newAI[3];
 
@@ -4413,7 +4460,7 @@ namespace CalamityMod.NPCs
                         spriteEffects = SpriteEffects.FlipHorizontally;
                     }
 
-                    spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
+                    spriteBatch.Draw(npcTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
 
                     spriteBatch.Draw(Main.BoneEyesTexture, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY),
                         npc.frame, new Color(200, 200, 200, 0), npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);

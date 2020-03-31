@@ -22,6 +22,8 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Sulphurous Skater");
             Main.npcFrameCount[npc.type] = 5;
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+            NPCID.Sets.TrailCacheLength[npc.type] = 6;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -148,8 +150,8 @@ namespace CalamityMod.NPCs.AcidRain
             else
             {
                 npc.Calamity().DR = 0f;
-                float speed = CalamityWorld.downedPolterghast ? 24f : 16f;
-                float inertia = CalamityWorld.downedPolterghast ? 16f : 28f;
+                float speed = CalamityWorld.downedPolterghast ? 20f : 15f;
+                float inertia = CalamityWorld.downedPolterghast ? 21f : 28f;
                 if (npc.Distance(player.Center) < 200f)
                     inertia *= 0.667f;
                 npc.velocity = (npc.velocity * inertia + npc.DirectionTo(player.Center) * speed) / (inertia + 1f);
@@ -182,7 +184,8 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc, true, Vector2.UnitY * 4f);
+            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"), true, Vector2.UnitY * 4f);
+            CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, Color.Transparent, directioning: true, invertedDirection: true);
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

@@ -191,7 +191,7 @@ namespace CalamityMod.NPCs.AcidRain
                 float opacity = MathHelper.Lerp(0.3f, 0.9f, (npc.ai[3] - 480f) / 60f);
                 Utils.DrawLine(spriteBatch, npc.Top + new Vector2(0f, 4f), npc.Top + new Vector2(0f, 4f) - Vector2.UnitY * length, Color.Lerp(Color.Lime, Color.Transparent, opacity));
             }
-            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc);
+            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
         }
 
         public override void NPCLoot()
