@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
         public override bool PreAI()
         {
             timer++;
-            if (timer % 300 == 0)
+            if (timer % 30 == 0)
             {
                 projectile.netUpdate = true;
                 timer = 0;
@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Summon
             else if (projectile.ai[1] == 2f && projectile.timeLeft > 900)
             {
                 target = CalamityUtils.MinionHoming(projectile.position, 1000f, Main.player[projectile.owner]);
-                projectile.timeLeft = 900;
+                projectile.timeLeft = 800;
                 projectile.ai[1]++;
                 circlingPlayer = false;
                 float height = target.getRect().Height;

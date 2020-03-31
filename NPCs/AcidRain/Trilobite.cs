@@ -31,9 +31,10 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 38;
             npc.aiStyle = aiType = -1;
 
-            npc.damage = 40;
-            npc.lifeMax = 360;
+            npc.damage = 66;
+            npc.lifeMax = 850;
             npc.defense = 15;
+            npc.Calamity().DR = 0.25f;
 
             if (CalamityWorld.downedPolterghast)
             {
@@ -41,12 +42,6 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.lifeMax = 7200;
                 npc.defense = 78;
                 npc.Calamity().DR = 0.4f;
-            }
-            else if (CalamityWorld.downedAquaticScourge)
-            {
-                npc.damage = 66;
-                npc.lifeMax = 850;
-                npc.Calamity().DR = 0.25f;
             }
 
             npc.knockBackResist = 0f;
@@ -138,7 +133,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<CorrodedFossil>(), CalamityWorld.downedAquaticScourge && Main.rand.NextBool(3 * (CalamityWorld.downedPolterghast ? 5 : 1)), 1, 3);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {

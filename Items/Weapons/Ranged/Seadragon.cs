@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 125;
+            item.damage = 108;
             item.ranged = true;
             item.width = 78;
             item.height = 26;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             if (Main.rand.NextBool(10))
             {
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SeaDragonRocket>(), damage * 2, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<SeaDragonRocket>(), (int)(damage * 1.5), knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

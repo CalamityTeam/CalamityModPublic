@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Enemy;
@@ -208,6 +209,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
             DropHelper.DropItemChance(npc, ModContent.ItemType<SulphurousGrabber>(), 20);
         }
 

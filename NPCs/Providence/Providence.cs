@@ -1417,7 +1417,8 @@ namespace CalamityMod.NPCs.Providence
 			if (challenge)
 			{
 				bool goldenGun = projectile.type == ModContent.ProjectileType<GoldenGunProj>();
-				if (!goldenGun && (projectile.type != ModContent.ProjectileType<MiniGuardianDefense>() && projectile.type != ModContent.ProjectileType<MiniGuardianAttack>()) && !Main.player[projectile.owner].Calamity().profanedCrystal)
+				bool allowedSummon = projectile.minion && projectile.minionSlots == 0f && damage <= (npc.lifeMax * 0.01f);
+				if (!goldenGun && !allowedSummon && (projectile.type != ModContent.ProjectileType<MiniGuardianDefense>() && projectile.type != ModContent.ProjectileType<MiniGuardianAttack>()) && !Main.player[projectile.owner].Calamity().profanedCrystal)
 				{
 					challenge = false;
 				}
