@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
                 "You emit a mushroom spore and spark explosion when you are hit\n" +
                 "Enemy attacks will have part of their damage absorbed and used to heal you\n" +
 				"Provides cold protection in Death Mode");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 30));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 30));
         }
 
         public override void SetDefaults()

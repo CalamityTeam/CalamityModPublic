@@ -3978,6 +3978,10 @@ namespace CalamityMod.NPCs
             {
                 pool[0] = 0f;
             }
+			if (spawnInfo.player.Calamity().underworldLore)
+			{
+				pool.Remove(NPCID.VoodooDemon);
+			}
             if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
             {
                 pool.Clear();
