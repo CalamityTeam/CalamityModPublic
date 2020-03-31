@@ -2919,7 +2919,7 @@ Provides heat and cold protection in Death Mode";
 				{
 					if (player.controlJump && !player.jumpAgainCloud && player.jump == 0 && player.velocity.Y != 0f && !player.mount.Active && !player.mount.Cart)
 					{
-						int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ProjectileID.OrnamentFriendly, (int)(100 * player.allDamage), 5f, player.whoAmI);
+						int p = Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X * 0f, 2f, ProjectileID.OrnamentFriendly, (int)(100 * player.AverageDamage()), 5f, player.whoAmI);
 						Main.projectile[p].melee = false;
 						Main.projectile[p].Calamity().lineColor = 1;
 						modPlayer.icicleCooldown = 10;

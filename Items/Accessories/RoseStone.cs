@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), (int)(45f * (player.allDamage + player.minionDamage - 1f)), 2f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<BrimstoneElementalMinion>(), (int)(45 * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
                 }
             }
         }
