@@ -208,6 +208,8 @@ namespace CalamityMod
         public static List<int> hornetList;
         public static List<int> mossHornetList;
 
+        public static List<int> legOverrideList;
+
         // TODO -- Calamity should check for other mods existing in exactly one place
         internal Mod thorium = null;
         public bool fargosMutant = false;
@@ -414,6 +416,8 @@ namespace CalamityMod
             angryBonesList = null;
             hornetList = null;
             mossHornetList = null;
+
+            legOverrideList = null;
 
             thorium = null;
             fargosMutant = false;
@@ -2804,6 +2808,14 @@ namespace CalamityMod
 				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("RealityFury"));
 				revengeanceProjectileBuffList15Percent.Add(thorium.ProjectileType("UFOBlast"));
             }
+
+            legOverrideList = new List<int>()
+            {
+                instance.GetEquipSlot("ProviLegs", EquipType.Legs),
+                instance.GetEquipSlot("SirenLegAlt", EquipType.Legs),
+                instance.GetEquipSlot("SirenLeg", EquipType.Legs),
+                instance.GetEquipSlot("PopoLeg", EquipType.Legs)
+            };
         }
         #endregion
 
