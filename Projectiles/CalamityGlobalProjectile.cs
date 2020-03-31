@@ -1762,7 +1762,7 @@ namespace CalamityMod.Projectiles
                 if (modPlayer.providenceLore && projectile.friendly && projectile.damage > 0 && (projectile.melee || projectile.ranged || projectile.magic || rogue))
                 {
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
-                    for (int i = 0; i < 3; i++)
+                    for (int dustIndex = 0; dustIndex < 3; dustIndex++)
                     {
                         int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);
                         Main.dust[dust].noGravity = true;
@@ -1795,6 +1795,21 @@ namespace CalamityMod.Projectiles
 						Main.projectile[spike].frame = 4;
 					}
                 }
+
+				int i = (int) (projectile.position.X + (float)(projectile.width / 2)) / 16;
+				int j = (int) (projectile.position.Y + (float)(projectile.height / 2)) / 16;
+				if (projectile.type == ProjectileID.UnholyWater)
+				{
+					WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
+				}
+				if (projectile.type == ProjectileID.BloodWater)
+				{
+					WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
+				}
+				if (projectile.type == ProjectileID.HolyWater)
+				{
+					WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
+				}
             }
         }
         #endregion

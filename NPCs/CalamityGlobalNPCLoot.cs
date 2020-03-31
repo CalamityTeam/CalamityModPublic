@@ -302,6 +302,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.MoonLordCore)
             {
+                DropHelper.DropItemCondition(npc, ItemID.LunarOre, !Main.expertMode, 20, 40);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune2>(), true, !Main.expertMode);
                 DropHelper.DropItemCondition(npc, ItemID.GravityGlobe, !Main.expertMode);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<UtensilPoker>(), !Main.expertMode, 9, 1, 1);
