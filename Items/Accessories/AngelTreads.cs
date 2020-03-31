@@ -13,6 +13,8 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Angel Treads");
             Tooltip.SetDefault("Extreme speed!\n" +
+                               "36% increased running acceleration\n" +
+                               "Increased flight time\n" +
                                "Greater mobility on ice\n" +
                                "Water and lava walking\n" +
                                "Temporary immunity to lava\n" +
