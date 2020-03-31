@@ -8525,6 +8525,9 @@ namespace CalamityMod.CalPlayer
             list.Insert(list.IndexOf(PlayerLayer.Skin) + 1, Skin);
             MiscEffects.visible = true;
             list.Add(MiscEffects);
+
+            if (CalamityMod.legOverrideList.Contains(player.legs))
+                list[list.IndexOf(PlayerLayer.ShoeAcc)].visible = false;
             if (fab || crysthamyr || onyxExcavator)
             {
                 AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); 
