@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
+            player.minionDamage += 0.05f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.moveSpeed += 0.5f;
