@@ -1,8 +1,9 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -11,6 +12,7 @@ namespace CalamityMod.Items.Accessories
 {
     public class Sponge : ModItem
     {
+
 		public override string Texture => (DateTime.Now.Month == 4 && DateTime.Now.Day == 1) ? "CalamityMod/Items/Accessories/SpongeReal" : "CalamityMod/Items/Accessories/Sponge";
 
         public override void SetStaticDefaults()
@@ -54,6 +56,24 @@ namespace CalamityMod.Items.Accessories
             modPlayer.absorber = true;
             modPlayer.aAmpoule = true;
             player.statManaMax2 += 20;
+        }
+
+        public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+        {
+            if (Texture == "CalamityMod/Items/Accessories/Sponge")
+            {
+                Texture2D tex = ModContent.GetTexture("CalamityMod/Items/Accessories/SpongeShield");
+                spriteBatch.Draw(tex, item.Center - Main.screenPosition + new Vector2(0f, 0f), Main.itemAnimations[item.type].GetFrame(tex), Color.Cyan * 0.5f, 0f, new Vector2(tex.Width / 2f, (tex.Height / 30f ) * 0.8f), 1f, SpriteEffects.None, 0);
+            }
+        }
+
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            if (Texture == "CalamityMod/Items/Accessories/Sponge")
+            {
+                Texture2D tex = ModContent.GetTexture("CalamityMod/Items/Accessories/SpongeShield");
+                spriteBatch.Draw(tex, position, Main.itemAnimations[item.type].GetFrame(tex), Color.Cyan * 0.4f, 0f, origin, scale, SpriteEffects.None, 0);
+            }
         }
 
         public override void AddRecipes()
