@@ -5,6 +5,8 @@ namespace CalamityMod.Buffs.StatDebuffs
 {
     public class MarkedforDeath : ModBuff
     {
+        public static int DefenseReduction = 5;
+
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Marked");
