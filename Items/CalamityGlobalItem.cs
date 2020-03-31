@@ -2566,7 +2566,7 @@ Provides heat and cold protection in Death Mode";
 
                     // Moon Lord
                     case ItemID.MoonLordBossBag:
-                        DropHelper.DropItem(player, ItemID.LunarOre, 30, 50);
+                        DropHelper.DropItem(player, ItemID.LunarOre, 50, 50);
                         DropHelper.DropItem(player, ModContent.ItemType<MLGRune2>()); // Celestial Onion
                         DropHelper.DropItemChance(player, ModContent.ItemType<UtensilPoker>(), 8);
                         DropHelper.DropItemChance(player, ModContent.ItemType<GrandDad>(), DropHelper.RareVariantDropRateInt);
