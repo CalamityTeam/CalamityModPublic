@@ -1497,7 +1497,7 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.voltaicJelly)
 					{
-						//100% chance for Star Tainted Generator or Conception Apparatus
+						//100% chance for Star Tainted Generator or Nucleogenesis
 						//20% chance for Voltaic Jelly
 						if (Main.rand.NextBool(modPlayer.starTaintedGenerator ? 1 : 5))
 						{
@@ -1526,7 +1526,7 @@ namespace CalamityMod.Projectiles
 						modPlayer.godSlayerDmg += (float)num;
                     }
 
-					//Priorities: Creation Apparatus => Starbuster Core => Nuclear Rod => Jelly-Charged Battery
+					//Priorities: Nucleogenesis => Starbuster Core => Nuclear Rod => Jelly-Charged Battery
 					List<int> summonExceptionList = new List<int>()
 					{ 
 						ModContent.ProjectileType<EnergyOrb>(),
