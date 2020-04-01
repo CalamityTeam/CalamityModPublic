@@ -14,6 +14,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumDeus;
@@ -1613,7 +1614,7 @@ namespace CalamityMod.NPCs
             if (AcidRainEvent.PossibleMinibossesAS.Select(miniboss => miniboss.Item1).Contains(npc.type) ||
                 AcidRainEvent.PossibleMinibossesPolter.Select(miniboss => miniboss.Item1).Contains(npc.type))
             {
-                CalamityWorld.acidRainPoints -= AcidRainEvent.MinibossDeathValue;
+                CalamityWorld.acidRainPoints -= AcidRainEvent.MinibossDeathValue * (npc.type == ModContent.NPCType<NuclearTerror>() ? 2 : 1);
                 if (CalamityWorld.downedPolterghast)
                 {
                     CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
