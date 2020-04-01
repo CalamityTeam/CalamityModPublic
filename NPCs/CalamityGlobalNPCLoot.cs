@@ -1413,7 +1413,7 @@ namespace CalamityMod.NPCs
                 case NPCID.DarkCaster:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<AncientShiv>(), Main.expertMode ? 20 : 25);
                     DropHelper.DropItemChance(npc, ModContent.ItemType<ShinobiBlade>(), Main.expertMode ? 20 : 25);
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<StaffOfNecrosteocytes>(), 40);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<StaffOfNecrosteocytes>(), Main.expertMode ? 20 : 25);
                     break;
 
                 case NPCID.BigMimicHallow:
