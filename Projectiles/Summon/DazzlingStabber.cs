@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
@@ -149,6 +150,16 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity = (destination - projectile.Center) / 40f;
             }
             projectile.direction = projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
         }
     }
 }

@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,7 +10,7 @@ namespace CalamityMod.Projectiles.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bullet");
+            DisplayName.SetDefault("Knife");
             ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
@@ -41,6 +42,16 @@ namespace CalamityMod.Projectiles.Summon
         {
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
             return false;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 60);
         }
     }
 }
