@@ -3996,7 +3996,7 @@ namespace CalamityMod.NPCs
                 if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
                 {
                     List<(int, int, bool)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
-                    List<(int, bool)> PossibleMinibosses = new List<(int, bool)>();
+                    List<(int, int, bool)> PossibleMinibosses = new List<(int, int, bool)>();
                     if (CalamityWorld.downedAquaticScourge)
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
@@ -4018,7 +4018,7 @@ namespace CalamityMod.NPCs
                     {
                         foreach (int enemy in PossibleMinibosses.Select(miniboss => miniboss.Item1).ToList())
                         {
-                            if (spawnInfo.water || !PossibleMinibosses.First(potential => potential.Item1 == enemy).Item2)
+                            if (spawnInfo.water || !PossibleMinibosses.First(potential => potential.Item1 == enemy).Item3)
                             {
                                 pool.Add(enemy, 0.05f);
                             }

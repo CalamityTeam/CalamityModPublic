@@ -1599,6 +1599,7 @@ namespace CalamityMod.NPCs
         private void AcidRainProgression(NPC npc)
         {
             List<(int, int, bool)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+            List<(int, int, bool)> PossibleMinibosses = new List<(int, int, bool)>();
             if (CalamityWorld.downedAquaticScourge)
                 PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
             if (CalamityWorld.downedPolterghast)
@@ -1611,10 +1612,11 @@ namespace CalamityMod.NPCs
                     CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
                 }
             }
+            PossibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : PossibleMinibosses;
             if (AcidRainEvent.PossibleMinibossesAS.Select(miniboss => miniboss.Item1).Contains(npc.type) ||
                 AcidRainEvent.PossibleMinibossesPolter.Select(miniboss => miniboss.Item1).Contains(npc.type))
             {
-                CalamityWorld.acidRainPoints -= AcidRainEvent.MinibossDeathValue * (npc.type == ModContent.NPCType<NuclearTerror>() ? 2 : 1);
+                CalamityWorld.acidRainPoints -= PossibleMinibosses.Find(enemy => enemy.Item1 == npc.type).Item2;
                 if (CalamityWorld.downedPolterghast)
                 {
                     CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
