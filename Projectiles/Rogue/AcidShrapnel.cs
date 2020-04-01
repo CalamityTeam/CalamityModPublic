@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
@@ -47,12 +47,12 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
             projectile.Kill();
         }
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 180);
             projectile.Kill();
         }
         public override void Kill(int timeLeft)
