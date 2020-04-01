@@ -103,12 +103,30 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			}
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            Texture2D texture = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAlt");
-            CalamityMod.DrawTexture(spriteBatch, npc.localAI[3] == 1f ? texture : Main.npcTexture[npc.type], 0, npc, drawColor);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			Texture2D texture2D15 = npc.localAI[3] == 1f ? ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAlt") : Main.npcTexture[npc.type];
+			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			if (npc.localAI[3] == 1f)
+			{
+				texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SCalWormBodyAltGlow");
+				Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
+
+				spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			}
+
+			return false;
+		}
 
         public override bool CheckActive()
         {
