@@ -571,9 +571,9 @@ namespace CalamityMod.NPCs.Crabulon
 				vector43 -= new Vector2((float)textureAttack.Width, (float)(textureAttack.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 				vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 
-				spriteBatch.Draw(textureAttack, vector43, new Rectangle?(npc.frame), npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				spriteBatch.Draw(textureAttack, vector43, npc.frame, npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-				spriteBatch.Draw(textureAttackGlow, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				spriteBatch.Draw(textureAttackGlow, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}
 			else if (npc.ai[0] == 2f)
 			{
@@ -582,15 +582,15 @@ namespace CalamityMod.NPCs.Crabulon
 				vector43 -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 				vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 
-				spriteBatch.Draw(texture, vector43, new Rectangle?(npc.frame), npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				spriteBatch.Draw(texture, vector43, npc.frame, npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-				spriteBatch.Draw(textureGlow, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				spriteBatch.Draw(textureGlow, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}
 			else
 			{
-				spriteBatch.Draw(Main.npcTexture[npc.type], vector43, new Rectangle?(npc.frame), npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				spriteBatch.Draw(Main.npcTexture[npc.type], vector43, npc.frame, npc.GetAlpha(drawColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
-				spriteBatch.Draw(glow, vector43, new Rectangle?(npc.frame), color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				spriteBatch.Draw(glow, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}
 
 			return false;

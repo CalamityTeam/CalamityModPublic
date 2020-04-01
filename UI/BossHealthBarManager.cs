@@ -67,9 +67,9 @@ namespace CalamityMod.UI
         private static Texture2D BossComboHPBar;
         private static Texture2D BossSeperatorBar;
 
-        private static Dictionary<int, int[]> OneToMany;
+        public static Dictionary<int, int[]> OneToMany;
         private static List<int> ExclusionList;
-        private static List<int> MinibossHPBarList;
+        public static List<int> MinibossHPBarList;
 
         public static void Load(Mod mod)
         {

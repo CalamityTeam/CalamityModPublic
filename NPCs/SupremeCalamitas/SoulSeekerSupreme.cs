@@ -149,7 +149,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     color2.B = (byte)(0.5 * (double)color2.B * (double)(10 - i) / 20.0);
                     color2.A = (byte)(0.5 * (double)color2.A * (double)(10 - i) / 20.0);
                     Main.spriteBatch.Draw(Main.npcTexture[npc.type], new Vector2(npc.oldPos[i].X - Main.screenPosition.X + (npc.width / 2),
-                        npc.oldPos[i].Y - Main.screenPosition.Y + npc.height / 2), new Rectangle?(npc.frame), color2, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0.0f);
+                        npc.oldPos[i].Y - Main.screenPosition.Y + npc.height / 2), npc.frame, color2, npc.oldRot[i], origin, npc.scale, SpriteEffects.None, 0.0f);
                 }
             }
             return true;

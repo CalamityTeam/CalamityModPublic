@@ -578,7 +578,7 @@ namespace CalamityMod.NPCs.Ravager
             vector += vector11 * 1f + new Vector2(0f, 0f + 4f + npc.gfxOffY);
             Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Blue);
             spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerBodyGlow"), vector,
-                new Rectangle?(npc.frame), color, npc.rotation, vector11, 1f, spriteEffects, 0f);
+                npc.frame, color, npc.rotation, vector11, 1f, spriteEffects, 0f);
             Color color2 = Lighting.GetColor((int)center.X / 16, (int)(center.Y / 16f));
             spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegRight"), new Vector2(center.X - Main.screenPosition.X + 28f, center.Y - Main.screenPosition.Y + 20f), //72
                 new Rectangle?(new Rectangle(0, 0, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegRight").Width, ModContent.GetTexture("CalamityMod/NPCs/Ravager/RavagerLegRight").Height)),

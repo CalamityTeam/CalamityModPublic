@@ -4747,7 +4747,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)chargeTime)
 				{
-					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[0] += 30f;
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -4818,7 +4818,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num6)
 				{
-					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[0] += 30f;
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -4850,7 +4850,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num9)
 				{
-					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[0] += 30f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					npc.ai[0] = 0f;
 					npc.ai[1] = 0f;
@@ -5059,7 +5059,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)chargeTime)
 				{
-					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[0] += 30f;
 					npc.ai[0] = 5f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -5107,7 +5107,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num13)
 				{
-					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[0] += 30f;
 					npc.ai[0] = 5f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -5154,7 +5154,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num9)
 				{
-					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[0] += 30f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					npc.ai[0] = 5f;
 					npc.ai[1] = 0f;
@@ -5352,7 +5352,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)chargeTime)
 				{
-					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[0] += 30f;
 					npc.ai[0] = 10f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
@@ -5466,7 +5466,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num9)
 				{
-					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[0] += 30f;
 					calamityGlobalNPC.newAI[2] = 0f;
 					npc.ai[0] = 10f;
 					npc.ai[1] = 0f;
@@ -5514,7 +5514,7 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (float)num13)
 				{
-					calamityGlobalNPC.newAI[0] += 45f;
+					calamityGlobalNPC.newAI[0] += 30f;
 					npc.ai[0] = 10f;
 					npc.ai[1] = 0f;
 					npc.ai[2] = 0f;
