@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Summon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Corvid Harbringer Staff");
+            DisplayName.SetDefault("Corvid Harbinger Staff");
             Tooltip.SetDefault("Nevermore.\n" +
                                "Summons a powerful raven which teleports and dashes");
         }
