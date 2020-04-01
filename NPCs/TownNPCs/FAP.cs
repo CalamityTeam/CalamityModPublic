@@ -154,11 +154,10 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 dialogue.Add("I'll always be watching.");
                 dialogue.Add("Why did one creature need that many tentacles? ...actually, don't answer that.");
-                if (Main.raining)
-                {
-                    dialogue.Add("There's chemicals in the water...and it's turning the frogs gay!");
-                }
             }
+
+			if (CalamityWorld.rainingAcid)
+                dialogue.Add("There's chemicals in the water...and it's turning the frogs gay!");
 
             if (CalamityWorld.downedPolterghast)
                 dialogue.Add("I saw a ghost down by the old train tracks once flailing wildly at the lily pads, those were the days.");
