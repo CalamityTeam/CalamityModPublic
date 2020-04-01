@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cadaverous Carrion");
-            Tooltip.SetDefault("Summons a gross Old Duke fishron head on the ground");
+            Tooltip.SetDefault("Summons a gross Old Duke head on the ground");
         }
 
         public override void SetDefaults()
