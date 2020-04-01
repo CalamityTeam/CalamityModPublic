@@ -18,8 +18,6 @@ namespace CalamityMod.Events
         // Any other mods are changing the invasion ID as well.
         public const int InvasionID = 57;
 
-        public const int MinibossDeathValue = 5;
-
         // A partially bright pale-ish cyan with a hint of yellow.
         public static readonly Color TextColor = new Color(115, 194, 147);
 
@@ -63,15 +61,15 @@ namespace CalamityMod.Events
             ( ModContent.NPCType<SulfurousSkater>(), 1, false )
         };
 
-        public static List<(int, bool)> PossibleMinibossesAS = new List<(int, bool)>()
+        public static List<(int, int, bool)> PossibleMinibossesAS = new List<(int, int, bool)>()
         {
-            (ModContent.NPCType<CragmawMire>(), true)
+            (ModContent.NPCType<CragmawMire>(), 5, true)
         };
 
-        public static List<(int, bool)> PossibleMinibossesPolter = new List<(int, bool)>()
+        public static List<(int, int, bool)> PossibleMinibossesPolter = new List<(int, int, bool)>()
         {
-            (ModContent.NPCType<CragmawMire>(), true),
-            (ModContent.NPCType<NuclearTerror>(), false)
+            (ModContent.NPCType<CragmawMire>(), 4, true),
+            (ModContent.NPCType<NuclearTerror>(), 8, false)
         };
 
         public static readonly List<int> AllMinibosses = PossibleMinibossesAS.Select(miniboss => miniboss.Item1).ToList().Concat(PossibleMinibossesPolter.Select(miniboss => miniboss.Item1)).Distinct().ToList();
