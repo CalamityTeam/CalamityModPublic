@@ -3436,9 +3436,13 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.75);
                 }
-                if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
+                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
                 {
                     damage = (int)(damage * 0.25);
+                }
+                else if (projectile.type == ModContent.ProjectileType<SulphuricNukesplosion>())
+                {
+                    damage /= 3;
                 }
             }
 			else if (AquaticScourgeIDs.Contains(npc.type))
@@ -3476,13 +3480,21 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.4);
                 }
-                if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ModContent.ProjectileType<CrescentMoonFlail>()))
+                else if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ModContent.ProjectileType<CrescentMoonFlail>()))
                 {
                     damage = (int)(damage * 0.6);
                 }
-                if (projectile.type == (ModContent.ProjectileType<ValedictionBoomerang>() | ProjectileID.LunarFlare))
+                else if (projectile.type == (ModContent.ProjectileType<ValedictionBoomerang>() | ProjectileID.LunarFlare))
                 {
                     damage = (int)(damage * 0.8);
+                }
+                else if (projectile.type == (ModContent.ProjectileType<GhastlySoulLarge>() | ModContent.ProjectileType<GhastlySoulMedium>() | ModContent.ProjectileType<GhastlySoulSmall>() | ModContent.ProjectileType<GhostFire>())) 
+                {
+                    damage = (int)(damage * 0.75);
+                }
+                else if (projectile.type == ModContent.ProjectileType<CalamariInk>())
+                {
+                    damage = (int)(damage * 0.5);
                 }
             }
 
@@ -3992,7 +4004,7 @@ namespace CalamityMod.NPCs
                 if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
                 {
                     List<(int, int, bool)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
-                    List<(int, bool)> PossibleMinibosses = new List<(int, bool)>();
+                    List<(int, int, bool)> PossibleMinibosses = new List<(int, int, bool)>();
                     if (CalamityWorld.downedAquaticScourge)
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
@@ -4014,7 +4026,7 @@ namespace CalamityMod.NPCs
                     {
                         foreach (int enemy in PossibleMinibosses.Select(miniboss => miniboss.Item1).ToList())
                         {
-                            if (spawnInfo.water || !PossibleMinibosses.First(potential => potential.Item1 == enemy).Item2)
+                            if (spawnInfo.water || !PossibleMinibosses.First(potential => potential.Item1 == enemy).Item3)
                             {
                                 pool.Add(enemy, 0.05f);
                             }

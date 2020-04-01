@@ -16,7 +16,8 @@ namespace CalamityMod.Items.SummonItems
             item.width = 28;
             item.height = 28;
             item.maxStack = 20;
-            item.rare = 9;
+            item.rare = 10;
+            item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.bait = 69420;
             item.useStyle = 1;
             item.autoReuse = true;
