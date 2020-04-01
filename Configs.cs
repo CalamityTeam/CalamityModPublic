@@ -48,13 +48,13 @@ namespace CalamityMod
 		[Label("Stealth Meter Position X")]
 		[Tooltip("Changes the X position of the Stealth Meter")]
 		[Range(0f, 1660f)]
-		[DefaultValue(730f)]
+		[DefaultValue(820f)]
 		public float StealthMeterPosX { get; set; }
 
 		[Label("Stealth Meter Position Y")]
 		[Tooltip("Changes the Y position of the Stealth Meter")]
 		[Range(0f, 1100f)]
-		[DefaultValue(30f)]
+		[DefaultValue(43f)]
 		public float StealthMeterPosY { get; set; }
 
 		[DefaultValue(false)]
