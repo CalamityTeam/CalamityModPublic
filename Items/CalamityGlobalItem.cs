@@ -673,14 +673,15 @@ namespace CalamityMod.Items
                 {
                     if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<ColdDivinityPointyThing>() && Main.projectile[i].owner == player.whoAmI)
                     {
-                        if (Main.projectile[i].ai[1] >= 1f)
+                        if (Main.projectile[i].ai[1] > 1f)
                         {
                             canContinue = false;
                             break;
                         }
                         else if (Main.projectile[i].ai[1] == 0f)
                         {
-                            count++;
+                            if (((ColdDivinityPointyThing)Main.projectile[i].modProjectile).circlingPlayer)
+                                count++;
                         }
                     }
                 }
@@ -691,14 +692,15 @@ namespace CalamityMod.Items
                     {
                         int height = unluckyTarget.getRect().Height;
                         int width = unluckyTarget.getRect().Width;
-                        float dist = (height > width ? height : width) * 1.5f; //create distance between hitbox and spears.
                         int pointyThingyAmount = count;
-                        pointyThingyAmount += dist > 100 ? (int)dist / 100 : 0;
                         float angleVariance = MathHelper.TwoPi / pointyThingyAmount;
                         float angle = 0f;
+
                         for (int i = 0; i < pointyThingyAmount; i++)
                         {
-                            int projj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), (int)((80 * player.MinionDamage())), 1f, player.whoAmI, angle, 2f);
+                            if (Main.projectile.Length == Main.maxProjectiles)
+                                break;
+                            int projj = Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, ModContent.ProjectileType<ColdDivinityPointyThing>(), (int)(80 * player.MinionDamage()), 1f, player.whoAmI, angle, 2f);
                             angle += angleVariance;
                             for (int j = 0; j < 22; j++)
                             {

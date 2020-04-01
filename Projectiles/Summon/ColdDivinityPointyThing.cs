@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Summon
                 circling = circlingPlayer = false;
                 projectile.netUpdate = true;
             }
-            else if (projectile.ai[1] == 2f && projectile.timeLeft > 900)
+            else if (projectile.ai[1] >= 2f && projectile.timeLeft > 900)
             {
                 target = CalamityUtils.MinionHoming(projectile.position, 1000f, Main.player[projectile.owner]);
                 projectile.timeLeft = 800;
@@ -111,7 +111,9 @@ namespace CalamityMod.Projectiles.Summon
                 circlingPlayer = false;
                 float height = target.getRect().Height;
                 float width = target.getRect().Width;
-                floatyDistance = (height > width ? height : width) * 1.15f;
+                floatyDistance = (height > width ? height : width) * 1.5f;
+                if (floatyDistance > Main.LogicCheckScreenWidth / 3)
+                    floatyDistance = Main.LogicCheckScreenWidth / 3;
                 projectile.penetrate = -1;
                 projectile.usesIDStaticNPCImmunity = true;
                 projectile.idStaticNPCHitCooldown = 4;
@@ -182,10 +184,11 @@ namespace CalamityMod.Projectiles.Summon
                     recharging = 0;
                     projectile.usesIDStaticNPCImmunity = false;
                     projectile.penetrate = 1;
+                    float applicableDist = target.getRect().Width > target.getRect().Height ? target.getRect().Width : target.getRect().Height;
                     if (projectile.timeLeft > 60)
-                        floatyDistance += Main.rand.Next(0, 5);
+                        floatyDistance += Main.rand.Next(0, 10);
                     else
-                        floatyDistance -= Main.rand.Next(5, 10);
+                        floatyDistance -= Main.rand.Next(10, 20);
                 }
                 if (circlingPlayer)
                 {
