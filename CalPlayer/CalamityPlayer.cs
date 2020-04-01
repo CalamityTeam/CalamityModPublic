@@ -5146,7 +5146,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (proj.magic)
                 {
-                    damage = (int)(damage * 1.1f);
+                    damageMult += 0.1;
                 }
             }
             if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
