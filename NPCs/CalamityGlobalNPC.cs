@@ -3642,7 +3642,7 @@ namespace CalamityMod.NPCs
 
             if (modPlayer.hallowedPower)
             {
-                if (Main.rand.NextBool(4))
+                if (isSummon && Main.rand.NextBool(4))
                 {
                     Vector2 spawnPosition = npc.Center - new Vector2(0f, 920f).RotatedByRandom(0.3f);
                     float speed = Main.rand.NextFloat(17f, 23f);
