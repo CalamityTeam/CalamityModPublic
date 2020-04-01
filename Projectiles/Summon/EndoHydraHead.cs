@@ -135,6 +135,17 @@ namespace CalamityMod.Projectiles.Summon
             }
             else projectile.velocity *= 0.98f;
             projectile.Center = new Vector2(projectile.Center.X, MathHelper.Clamp(projectile.Center.Y, 1f, bodyTop.Y - 8f));
+            if (projectile.localAI[1] == 0f)
+            {
+                for (int i = 0; i < 18; i++)
+                {
+                    Dust dust = Dust.NewDustPerfect(projectile.Center, 113);
+                    dust.velocity = new Vector2(0f, -5f).RotatedBy(i / 18f * MathHelper.TwoPi);
+                    dust.noGravity = true;
+                    dust.scale = 1.2f;
+                }
+                projectile.localAI[1] = 1f;
+            }
         }
         public override void Kill(int timeLeft)
         {

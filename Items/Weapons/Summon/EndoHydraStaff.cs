@@ -55,12 +55,20 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
                 if (bodyExists)
                 {
-                    Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
+                    Projectile head = Projectile.NewProjectileDirect(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
                 }
                 else
                 {
                     bodyIndex = Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
                     Projectile.NewProjectile(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
+                    for (int i = 0; i < 72; i++)
+                    {
+                        Dust dust = Dust.NewDustPerfect(Main.projectile[bodyIndex].Center, 113);
+                        dust.velocity = (MathHelper.TwoPi * Vector2.Dot((i / 72f * MathHelper.TwoPi).ToRotationVector2(), player.velocity.SafeNormalize(Vector2.UnitY).RotatedBy(i / 72f * -MathHelper.TwoPi))).ToRotationVector2();
+                        dust.velocity = dust.velocity.RotatedBy(i / 36f * MathHelper.TwoPi) * 8f;
+                        dust.noGravity = true;
+                        dust.scale = 1.9f;
+                    }
                 }
             }
             return false;
