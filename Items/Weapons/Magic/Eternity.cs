@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SeethingDischarge>());
-            recipe.AddIngredient(ModContent.ItemType<TomeofFates>());
+            recipe.AddIngredient(ModContent.ItemType<SlitheringEels>());
             recipe.AddIngredient(ModContent.ItemType<GammaFusillade>());
             recipe.AddIngredient(ModContent.ItemType<PrimordialAncient>());
             recipe.AddIngredient(ModContent.ItemType<SubsumingVortex>());
