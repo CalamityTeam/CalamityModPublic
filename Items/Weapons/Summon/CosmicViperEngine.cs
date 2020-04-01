@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = 4;
             item.noMelee = true;
             item.knockBack = 6f;
-            item.value = Item.buyPrice(0, 12, 0, 0);
+            item.value = Item.buyPrice(2, 50, 0, 0);
             item.UseSound = SoundID.Item15; //phaseblade sound effect
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<CosmicViperSummon>();

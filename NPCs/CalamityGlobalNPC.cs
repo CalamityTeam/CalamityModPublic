@@ -4818,9 +4818,9 @@ namespace CalamityMod.NPCs
                     }
                     if (Main.rand.NextBool(4) && Main.LocalPlayer.ZoneSnow)
                     {
-                        if (permadong != -1)
+                        if (NPC.AnyNPCs(ModContent.NPCType<DILF>()) && Main.rand.NextBool(2))
                         {
-                            chat = "Think Permafrost would let me paint him like one of his French girls?!";
+                            chat = "Think " + Main.npc[permadong].GivenName + " would let me paint him like one of his French girls?!";
                         }
                         else
                         {
@@ -5003,6 +5003,11 @@ namespace CalamityMod.NPCs
                     if (Main.rand.NextBool(5) && fapsol != -1)
                     {
                         chat = "Well, I like " + Main.npc[fapsol].GivenName + ", but I, ah...I have my eyes on someone else.";
+                    }
+
+                    if (Main.rand.NextBool(5) && CalamityWorld.rainingAcid)
+                    {
+                        chat = "Maybe I should've waterproofed my gadgets... They're starting to corrode.";
                     }
 
                     break;
