@@ -2777,7 +2777,7 @@ namespace CalamityMod.NPCs.Yharon
 				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 				vector41 -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 				vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-				spriteBatch.Draw(texture, vector41, new Rectangle?(npc.frame), color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				spriteBatch.Draw(texture, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}
 
 			int num156 = 0;
@@ -2825,13 +2825,13 @@ namespace CalamityMod.NPCs.Yharon
 				Vector2 vector42 = npc.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
 				vector42 -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 				vector42 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-				spriteBatch.Draw(texture, vector42, new Rectangle?(npc.frame), color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				spriteBatch.Draw(texture, vector42, npc.frame, color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture, vector43, new Rectangle?(npc.frame), (invincible ? invincibleColor : npc.GetAlpha(lightColor)), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			spriteBatch.Draw(texture, vector43, npc.frame, (invincible ? invincibleColor : npc.GetAlpha(lightColor)), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 			if (flag8 || npc.ai[0] == 4f || startSecondAI)
 			{
@@ -2898,14 +2898,14 @@ namespace CalamityMod.NPCs.Yharon
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture, vector44, new Rectangle?(npc.frame), color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(texture, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 					if (flag9 || npc.ai[0] == 10f || startSecondAI)
 					{
 						Color color47 = color43;
 						color47 = Color.Lerp(color47, color44, amount9);
 						color47 *= (float)(num153 - num163) / 15f;
-						spriteBatch.Draw(texture2, vector44, new Rectangle?(npc.frame), color47, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+						spriteBatch.Draw(texture2, vector44, npc.frame, color47, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 					}
 
 					if (flag10 || npc.ai[0] == 17f)
@@ -2913,7 +2913,7 @@ namespace CalamityMod.NPCs.Yharon
 						Color color48 = color45;
 						color48 = Color.Lerp(color48, color46, amount9);
 						color48 *= (float)(num153 - num163) / 15f;
-						spriteBatch.Draw(texture3, vector44, new Rectangle?(npc.frame), color48, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+						spriteBatch.Draw(texture3, vector44, npc.frame, color48, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 					}
 				}
 
@@ -2926,7 +2926,7 @@ namespace CalamityMod.NPCs.Yharon
 					Vector2 vector45 = npc.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
 					vector45 -= new Vector2((float)texture.Width, (float)(texture.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
 					vector45 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture, vector45, new Rectangle?(npc.frame), color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(texture, vector45, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 					if (flag9 || npc.ai[0] == 10f || startSecondAI)
 					{
@@ -2934,7 +2934,7 @@ namespace CalamityMod.NPCs.Yharon
 						color49 = Color.Lerp(color49, color44, amount9);
 						color49 = npc.GetAlpha(color49);
 						color49 *= 1f - num157;
-						spriteBatch.Draw(texture2, vector45, new Rectangle?(npc.frame), color49, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+						spriteBatch.Draw(texture2, vector45, npc.frame, color49, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 					}
 
 					if (flag10 || npc.ai[0] == 17f)
@@ -2943,17 +2943,17 @@ namespace CalamityMod.NPCs.Yharon
 						color50 = Color.Lerp(color50, color46, amount9);
 						color50 = npc.GetAlpha(color50);
 						color50 *= 1f - num157;
-						spriteBatch.Draw(texture3, vector45, new Rectangle?(npc.frame), color50, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+						spriteBatch.Draw(texture3, vector45, npc.frame, color50, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 					}
 				}
 
-				spriteBatch.Draw(texture, vector43, new Rectangle?(npc.frame), color40, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				spriteBatch.Draw(texture, vector43, npc.frame, color40, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 				if (flag9 || npc.ai[0] == 10f || startSecondAI)
-					spriteBatch.Draw(texture2, vector43, new Rectangle?(npc.frame), color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(texture2, vector43, npc.frame, color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 				if (flag10 || npc.ai[0] == 17f)
-					spriteBatch.Draw(texture3, vector43, new Rectangle?(npc.frame), color45, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					spriteBatch.Draw(texture3, vector43, npc.frame, color45, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 			}
 
             return false;

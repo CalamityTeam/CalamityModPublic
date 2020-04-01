@@ -16,6 +16,11 @@ namespace CalamityMod
 		[Header("General Changes")]
 
 		[DefaultValue(true)]
+		[Label("Boss and Miniboss Debuff Display")]
+		[Tooltip("Enables a debuff display that shows all debuffs a boss or miniboss is currently afflicted with\nDebuffs are displayed above the hitbox")]
+		public bool EnemyDebuffDisplay { get; set; }
+
+		[DefaultValue(true)]
 		[Label("Proficiency")]
 		[Tooltip("Enables the Proficiency stat that rewards the player based on the attack type they use")]
 		public bool ProficiencyEnabled { get; set; }

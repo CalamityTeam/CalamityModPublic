@@ -294,13 +294,13 @@ namespace CalamityMod.NPCs.AstrumAureus
 				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 				vector41 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
 				vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-				spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38, rotation, vector11, scale, spriteEffects, 0f);
+				spriteBatch.Draw(NPCTexture, vector41, frame, color38, rotation, vector11, scale, spriteEffects, 0f);
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
 			vector43 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
 			vector43 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-			spriteBatch.Draw(NPCTexture, vector43, new Rectangle?(frame), npc.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
+			spriteBatch.Draw(NPCTexture, vector43, frame, npc.GetAlpha(drawColor), rotation, vector11, scale, spriteEffects, 0f);
 
 			if (npc.ai[0] != 1) //draw only if not recharging
             {
@@ -316,10 +316,10 @@ namespace CalamityMod.NPCs.AstrumAureus
 					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
 					vector44 -= new Vector2((float)GlowMaskTexture.Width, (float)(GlowMaskTexture.Height / frameCount)) * scale / 2f;
 					vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-					spriteBatch.Draw(GlowMaskTexture, vector44, new Rectangle?(frame), color41, rotation, vector11, scale, spriteEffects, 0f);
+					spriteBatch.Draw(GlowMaskTexture, vector44, frame, color41, rotation, vector11, scale, spriteEffects, 0f);
 				}
 
-				spriteBatch.Draw(GlowMaskTexture, vector43, new Rectangle?(frame), color40, rotation, vector11, scale, spriteEffects, 0f);
+				spriteBatch.Draw(GlowMaskTexture, vector43, frame, color40, rotation, vector11, scale, spriteEffects, 0f);
 			}
 
             return false;

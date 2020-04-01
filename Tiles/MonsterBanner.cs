@@ -398,6 +398,12 @@ namespace CalamityMod.Tiles
                 case 120:
                     item = "AnthozoanCrabBanner";
                     break;
+                case 121:
+                    item = "BelchingCoralBanner";
+                    break;
+                case 122:
+                    item = "GammaSlimeBanner";
+                    break;
                 default:
                     return;
             }
@@ -778,6 +784,12 @@ namespace CalamityMod.Tiles
                     break;
                 case 120:
                     type = "AnthozoanCrab";
+                    break;
+                case 121:
+                    type = "BelchingCoral";
+                    break;
+                case 122:
+                    type = "GammaSlime";
                     break;
                 default:
                     return;

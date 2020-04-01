@@ -38,8 +38,8 @@ namespace CalamityMod.NPCs.Abyss
             npc.HitSound = SoundID.NPCHit42;
             npc.DeathSound = SoundID.NPCDeath5;
             npc.knockBackResist = 0f;
-            // banner = npc.type;
-            // bannerItem = ModContent.ItemType<BelchingCoralBanner>();
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<BelchingCoralBanner>();
         }
         public override void AI()
         {

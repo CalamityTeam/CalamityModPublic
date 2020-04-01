@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 48;
 
             npc.damage = 70;
-            npc.lifeMax = 710;
+            npc.lifeMax = 660;
             npc.defense = 3;
 
             if (CalamityWorld.downedPolterghast)
@@ -150,13 +150,13 @@ namespace CalamityMod.NPCs.AcidRain
             else
             {
                 npc.Calamity().DR = 0f;
-                float speed = CalamityWorld.downedPolterghast ? 20f : 15f;
-                float inertia = CalamityWorld.downedPolterghast ? 21f : 28f;
+                float speed = CalamityWorld.downedPolterghast ? 22f : 17f;
+                float inertia = CalamityWorld.downedPolterghast ? 20f : 24.5f;
                 if (npc.Distance(player.Center) < 200f)
                     inertia *= 0.667f;
                 npc.velocity = (npc.velocity * inertia + npc.DirectionTo(player.Center) * speed) / (inertia + 1f);
                 npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
-                if (npc.Distance(player.Center) < 20f)
+                if (npc.Distance(player.Center) < player.Size.Length())
                 {
                     Flying = false;
                     npc.netSpam = 0;
