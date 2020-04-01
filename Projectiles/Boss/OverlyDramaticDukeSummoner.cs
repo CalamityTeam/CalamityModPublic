@@ -211,7 +211,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (dist4 < minDist)
 				minDist = dist4;
 
-			return minDist <= 210f * projectile.scale;
+			return minDist <= 240f * projectile.scale;
 		}
 
 		public override void OnHitPlayer(Player target, int damage, bool crit)

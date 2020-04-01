@@ -3736,7 +3736,10 @@ namespace CalamityMod.NPCs
 					if (calamityGlobalNPC.newAI[1] == newPhaseTimer - 60f)
 					{
 						SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
-						sound.Pitch = 0.25f;
+						if (sound != null)
+						{
+							sound.Pitch = 0.25f;
+						}
 					}
 
 					if (calamityGlobalNPC.newAI[1] >= newPhaseTimer)
@@ -3757,7 +3760,10 @@ namespace CalamityMod.NPCs
 					if (calamityGlobalNPC.newAI[0] == newPhaseTimer - 60f)
 					{
 						SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
-						sound.Pitch = 0.25f;
+						if (sound != null)
+						{
+							sound.Pitch = 0.25f;
+						}
 					}
 
 					if (calamityGlobalNPC.newAI[0] >= newPhaseTimer)
