@@ -37,8 +37,7 @@ namespace CalamityMod.Projectiles.Summon
 
         private void AI(int type, float num535, float num536, Player player)
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-                updateDamage(type);
+            updateDamage(type);
             switch (ai)
             {
                 case 1: //defensive bab (profaned soul artifact)
@@ -204,7 +203,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (Main.player[projectile.owner].Calamity().profanedCrystalBuffs && !Main.player[projectile.owner].Calamity().magicHat && !Main.player[projectile.owner].Calamity().endoCooper)
+            if (Main.player[projectile.owner].Calamity().profanedCrystalBuffs && !Main.player[projectile.owner].Calamity().endoCooper)
 			{ 
                 CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
                 return false;
