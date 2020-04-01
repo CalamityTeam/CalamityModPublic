@@ -3436,9 +3436,13 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.75);
                 }
-                if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
+                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
                 {
                     damage = (int)(damage * 0.25);
+                }
+                else if (projectile.type == ModContent.ProjectileType<SulphuricNukesplosion>())
+                {
+                    damage /= 3;
                 }
             }
 			else if (AquaticScourgeIDs.Contains(npc.type))
