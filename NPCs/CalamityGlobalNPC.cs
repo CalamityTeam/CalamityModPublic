@@ -3480,13 +3480,21 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.4);
                 }
-                if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ModContent.ProjectileType<CrescentMoonFlail>()))
+                else if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ModContent.ProjectileType<CrescentMoonFlail>()))
                 {
                     damage = (int)(damage * 0.6);
                 }
-                if (projectile.type == (ModContent.ProjectileType<ValedictionBoomerang>() | ProjectileID.LunarFlare))
+                else if (projectile.type == (ModContent.ProjectileType<ValedictionBoomerang>() | ProjectileID.LunarFlare))
                 {
                     damage = (int)(damage * 0.8);
+                }
+                else if (projectile.type == (ModContent.ProjectileType<GhastlySoulLarge>() | ModContent.ProjectileType<GhastlySoulMedium>() | ModContent.ProjectileType<GhastlySoulSmall>() | ModContent.ProjectileType<GhostFire>())) 
+                {
+                    damage = (int)(damage * 0.75);
+                }
+                else if (projectile.type == ModContent.ProjectileType<CalamariInk>())
+                {
+                    damage = (int)(damage * 0.5);
                 }
             }
 
