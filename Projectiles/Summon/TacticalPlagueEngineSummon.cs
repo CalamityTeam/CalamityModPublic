@@ -30,8 +30,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.minion = true;
             projectile.tileCollide = false;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 9;
         }
 
         public override void AI()
@@ -188,6 +186,11 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
+        }
+
+        public override bool CanDamage()
+        {
+            return false;
         }
     }
 }
