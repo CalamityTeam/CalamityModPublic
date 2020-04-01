@@ -920,15 +920,16 @@ namespace CalamityMod.Projectiles
             {
                 for (int j = y - 1; j <= y + 1; j++)
                 {
-                    if (projectile.type == ProjectileID.PureSpray)
+                    if (projectile.type == ProjectileID.PureSpray || projectile.type == ProjectileID.PurificationPowder)
                     {
                         WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure);
                     }
-                    if (projectile.type == ProjectileID.CorruptSpray)
+					//commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
+                    if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
                     {
                         WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
                     }
-                    if (projectile.type == ProjectileID.CrimsonSpray)
+                    if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
                     {
                         WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
                     }
@@ -1496,7 +1497,7 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.voltaicJelly)
 					{
-						//100% chance for Star Tainted Generator or Conception Apparatus
+						//100% chance for Star Tainted Generator or Nucleogenesis
 						//20% chance for Voltaic Jelly
 						if (Main.rand.NextBool(modPlayer.starTaintedGenerator ? 1 : 5))
 						{
@@ -1525,7 +1526,7 @@ namespace CalamityMod.Projectiles
 						modPlayer.godSlayerDmg += (float)num;
                     }
 
-					//Priorities: Creation Apparatus => Starbuster Core => Nuclear Rod => Jelly-Charged Battery
+					//Priorities: Nucleogenesis => Starbuster Core => Nuclear Rod => Jelly-Charged Battery
 					List<int> summonExceptionList = new List<int>()
 					{ 
 						ModContent.ProjectileType<EnergyOrb>(),
@@ -1761,7 +1762,7 @@ namespace CalamityMod.Projectiles
                 if (modPlayer.providenceLore && projectile.friendly && projectile.damage > 0 && (projectile.melee || projectile.ranged || projectile.magic || rogue))
                 {
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
-                    for (int i = 0; i < 3; i++)
+                    for (int dustIndex = 0; dustIndex < 3; dustIndex++)
                     {
                         int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);
                         Main.dust[dust].noGravity = true;
@@ -1794,6 +1795,21 @@ namespace CalamityMod.Projectiles
 						Main.projectile[spike].frame = 4;
 					}
                 }
+
+				int i = (int) (projectile.position.X + (float)(projectile.width / 2)) / 16;
+				int j = (int) (projectile.position.Y + (float)(projectile.height / 2)) / 16;
+				if (projectile.type == ProjectileID.UnholyWater)
+				{
+					WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
+				}
+				if (projectile.type == ProjectileID.BloodWater)
+				{
+					WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
+				}
+				if (projectile.type == ProjectileID.HolyWater)
+				{
+					WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
+				}
             }
         }
         #endregion

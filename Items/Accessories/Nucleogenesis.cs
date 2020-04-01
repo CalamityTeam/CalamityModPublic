@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.tearMinions = true; //temporal sadness
             modPlayer.voltaicJelly = true; //electrified
             modPlayer.starTaintedGenerator = true; //astral infection and irradiated
-            player.minionKB += 2.5f;
+            player.minionKB += 3f;
             player.minionDamage += 0.15f;
             player.maxMinions += 4;
         }

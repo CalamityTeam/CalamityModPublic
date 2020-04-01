@@ -40,10 +40,11 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
+            string hotkey = CalamityMod.TarraHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.TarraHotKey.GetAssignedKeys()[0] : "Y";
             player.setBonus = "25% reduced ammo usage and 5% increased flight time\n" +
                 "Enemies receive 10% more damage from ranged projectiles when afflicted by the Plague\n" +
 				"Getting hit causes the plague cinders to rain from above\n" +
-                "Press the Y key to blind yourself for 5 seconds but massively boost your ranged damage\n" +
+                "Press " + hotkey + " to blind yourself for 5 seconds but massively boost your ranged damage\n" +
 				"This has a 25 second cooldown.";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.plagueReaper = true;

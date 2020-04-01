@@ -288,6 +288,7 @@ namespace CalamityMod.CalPlayer
         public bool oceanLore = false;
         public bool corruptionLore = false;
         public bool crimsonLore = false;
+        public bool underworldLore = false;
 
         // Accessory
         public bool fasterMeleeLevel = false;
@@ -1213,6 +1214,7 @@ namespace CalamityMod.CalPlayer
 			oceanLore = false;
 			corruptionLore = false;
 			crimsonLore = false;
+			underworldLore = false;
 
             luxorsGift = false;
             fungalSymbiote = false;
@@ -8525,6 +8527,9 @@ namespace CalamityMod.CalPlayer
             list.Insert(list.IndexOf(PlayerLayer.Skin) + 1, Skin);
             MiscEffects.visible = true;
             list.Add(MiscEffects);
+
+            if (CalamityMod.legOverrideList.Contains(player.legs))
+                list[list.IndexOf(PlayerLayer.ShoeAcc)].visible = false;
             if (fab || crysthamyr || onyxExcavator)
             {
                 AddPlayerLayer(list, clAfterAll, list[list.Count - 1], false); 
@@ -10514,7 +10519,7 @@ namespace CalamityMod.CalPlayer
             {
                 bool usingCarpet = player.carpetTime > 0 && player.controlJump; //doesn't make sense for carpet to use jump frame since you have solid ground
                 AnimationType animType = AnimationType.Walk;
-                if ((player.sliding || (player.velocity.Y != 0 || player.controlJump) || player.mount.Active || player.grappling[0] != -1 || player.GoingDownWithGrapple) && !usingCarpet)
+                if ((player.sliding || player.velocity.Y != 0 || player.mount.Active || player.grappling[0] != -1 || player.GoingDownWithGrapple) && !usingCarpet)
                     animType = AnimationType.Jump;
                 else if (player.velocity.X == 0 || usingCarpet)
                     animType = AnimationType.Idle;

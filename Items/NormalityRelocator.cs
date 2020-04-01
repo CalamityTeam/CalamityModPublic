@@ -1,6 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -14,7 +15,7 @@ namespace CalamityMod.Items
         {
             DisplayName.SetDefault("Normality Relocator");
             Tooltip.SetDefault("I'll be there in the blink of an eye\n" +
-                "Press Z to teleport to the position of the mouse\n" +
+                "This line is modified below\n" +
 				"Teleportation is disabled while Chaos State is active\n" +
                 "Boosts movement and fall speed by 10%\n" +
                 "Works while in the inventory");
@@ -29,6 +30,19 @@ namespace CalamityMod.Items
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            string hotkey = CalamityMod.NormalityRelocatorHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.NormalityRelocatorHotKey.GetAssignedKeys()[0] : "Z";
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                {
+                    line2.text = "Press " + hotkey + " to teleport to the position of the mouse";
+                }
+            }
+        }
+
 
         public override void UpdateInventory(Player player)
         {

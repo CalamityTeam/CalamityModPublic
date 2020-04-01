@@ -6,12 +6,17 @@ using CalamityMod.Projectiles.Enemy;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.AcidRain
 {
+    public abstract class CalamityBoss : ModNPC
+    {
+        public abstract List<int> Loot { get; }
+    }
     public class GammaSlime : ModNPC
     {
         public float angularMultiplier1;
@@ -48,8 +53,8 @@ namespace CalamityMod.NPCs.AcidRain
             npc.noTileCollide = false;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            // banner = npc.type;
-            // bannerItem = ModContent.ItemType<IrradiatedSlimeBanner>();
+            banner = npc.type;
+            bannerItem = ModContent.ItemType<GammaSlimeBanner>();
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -191,7 +196,7 @@ namespace CalamityMod.NPCs.AcidRain
                 float opacity = MathHelper.Lerp(0.3f, 0.9f, (npc.ai[3] - 480f) / 60f);
                 Utils.DrawLine(spriteBatch, npc.Top + new Vector2(0f, 4f), npc.Top + new Vector2(0f, 4f) - Vector2.UnitY * length, Color.Lerp(Color.Lime, Color.Transparent, opacity));
             }
-            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc);
+            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
         }
 
         public override void NPCLoot()

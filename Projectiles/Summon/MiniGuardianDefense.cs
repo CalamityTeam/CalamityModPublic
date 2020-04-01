@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MiniGuardianDefense : ModProjectile
     {
-        private int ai = -1;
+        private int ai = 3;
         private void updateDamage(int type)
         {
             Player player = Main.player[projectile.owner];
@@ -303,6 +303,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
+                if (projectile.frame % 2 == 0)
+                    projectile.netUpdate = true;
             }
             if (projectile.frame > 3)
             {

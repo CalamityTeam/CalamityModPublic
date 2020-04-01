@@ -51,12 +51,13 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = @"Increases armor penetration by 50
-10% increased damage and critical strike chance
-Short-ranged tentacles heal you by sucking enemy life
-Press Y to activate abyssal madness for 5 seconds
-Abyssal madness increases damage, critical strike chance, and tentacle aggression/range
-This effect has a 25 second cooldown";
+            string hotkey = CalamityMod.TarraHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.TarraHotKey.GetAssignedKeys()[0] : "Y";
+            player.setBonus = "Increases armor penetration by 50\n" +
+				"10% increased damage and critical strike chance\n" +
+				"Short-ranged tentacles heal you by sucking enemy life\n" +
+				"Press " + hotkey + " to activate abyssal madness for 5 seconds\n" +
+				"Abyssal madness increases damage, critical strike chance, and tentacle aggression/range\n" +
+				"This effect has a 25 second cooldown";
 
             player.armorPenetration += 50;
             player.Calamity().wearingRogueArmor = true;

@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Buffs.DamageOverTime;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Accessories
                                "+40 max life and increased life regen\n" +
                                "Grants a supreme holy flame dash\n" +
                                "Can be used to ram enemies\n" +
-                               "Press N to activate buffs to all damage, crit chance, and defense\n" +
+                               "This line is modified below\n" +
                                "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
                                "Toggle visibility of this accessory to enable/disable the dash");
         }
@@ -30,6 +31,18 @@ namespace CalamityMod.Items.Accessories
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.defense = 8;
             item.accessory = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            string hotkey = CalamityMod.AegisHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.AegisHotKey.GetAssignedKeys()[0] : "N";
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
+                {
+                    line2.text = "Press " + hotkey + " to activate buffs to all damage, crit chance, and defense";
+                }
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

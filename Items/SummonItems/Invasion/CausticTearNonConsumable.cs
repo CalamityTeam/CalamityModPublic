@@ -9,7 +9,6 @@ namespace CalamityMod.Items.SummonItems.Invasion
 {
     public class CausticTearNonConsumable : ModItem
     {
-
         public override string Texture => "CalamityMod/Items/SummonItems/Invasion/CausticTear";
 
         public override void SetStaticDefaults()

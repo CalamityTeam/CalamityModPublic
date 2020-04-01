@@ -17,6 +17,8 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Acid Eel");
             Main.npcFrameCount[npc.type] = 6;
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+            NPCID.Sets.TrailCacheLength[npc.type] = 7;
         }
 
         public override void SetDefaults()
@@ -37,7 +39,6 @@ namespace CalamityMod.NPCs.AcidRain
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
-                npc.Calamity().DR = 0.1f;
                 npc.damage = 80;
                 npc.lifeMax = 705;
             }
@@ -134,10 +135,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void NPCLoot()
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<SulfuricScale>(), 2 * (CalamityWorld.downedAquaticScourge ? 6 : 1), 1, 3);
-            if (Main.rand.NextBool(20))
-            {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<SlitheringEels>(), CalamityWorld.downedAquaticScourge);
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<SlitheringEels>(), CalamityWorld.downedAquaticScourge, 0.05f);
         }
         public override void FindFrame(int frameHeight)
         {
@@ -154,7 +152,11 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc);
+            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
+            if (npc.velocity.Length() > 1.5f)
+            {
+                CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, Color.Transparent, directioning: true);
+            }
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {

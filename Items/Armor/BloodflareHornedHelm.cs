@@ -41,11 +41,12 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.bloodflareSet = true;
             modPlayer.bloodflareRanged = true;
+            string hotkey = CalamityMod.TarraHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.TarraHotKey.GetAssignedKeys()[0] : "Y";
             player.setBonus = "Greatly increases life regen\n" +
                 "Enemies below 50% life have a chance to drop hearts when struck\n" +
                 "Enemies above 50% life have a chance to drop mana stars when struck\n" +
                 "Enemies killed during a Blood Moon have a much higher chance to drop Blood Orbs\n" +
-                "Press Y to unleash the lost souls of polterghast to destroy your enemies\n" +
+                "Press " + hotkey + " to unleash the lost souls of polterghast to destroy your enemies\n" +
                 "This effect has a 30 second cooldown\n" +
                 "Ranged weapons have a chance to fire bloodsplosion orbs";
             player.crimsonRegen = true;

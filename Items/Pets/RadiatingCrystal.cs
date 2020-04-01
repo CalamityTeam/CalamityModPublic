@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Pets
             item.CloneDefaults(ItemID.WispinaBottle);
             item.shoot = ModContent.ProjectileType<RadiatorPet>();
             item.buffType = ModContent.BuffType<RadiatorBuff>();
-            item.value = Item.sellPrice(gold: 1);
+            item.value = Item.sellPrice(silver: 20);
             item.rare = 3;
         }
 

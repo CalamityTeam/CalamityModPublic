@@ -25,7 +25,6 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 40;
             npc.height = 30;
 
-			npc.Calamity().DR = 0.15f;
             npc.damage = 75;
             npc.lifeMax = 640;
             npc.defense = 5;
@@ -326,7 +325,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
 		public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
 		{
-			CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc);
+			CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"));
 		}
 		public override void NPCLoot()
         {

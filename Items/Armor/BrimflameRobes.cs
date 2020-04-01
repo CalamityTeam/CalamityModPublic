@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimflame Robes");
-            Tooltip.SetDefault("5% increased damage and critical strike chance\n" +
+            Tooltip.SetDefault("5% increased magic damage and critical strike chance\n" +
                 "Grants obsidian rose effects");
         }
 

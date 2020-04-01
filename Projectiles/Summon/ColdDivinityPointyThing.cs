@@ -16,7 +16,6 @@ namespace CalamityMod.Projectiles.Summon
         public bool circlingPlayer = true;
         public float floatyDistance = 90f;
         public NPC target = null;
-        private int timer = 0;
 
         private void homingAi()
         {
@@ -92,17 +91,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreAI()
         {
-            timer++;
-            if (timer % 300 == 0)
-            {
-                projectile.netUpdate = true;
-                timer = 0;
-            }
-            if (recharging == -1)
-            {
-                recharging = projectile.ai[1] == 0f ? 300 : 0;
-                dust(30);
-            }
             if (projectile.ai[1] == 1f && projectile.timeLeft > 1000)
             {
                 projectile.ai[1] = 0f;
@@ -113,7 +101,7 @@ namespace CalamityMod.Projectiles.Summon
             else if (projectile.ai[1] == 2f && projectile.timeLeft > 900)
             {
                 target = CalamityUtils.MinionHoming(projectile.position, 1000f, Main.player[projectile.owner]);
-                projectile.timeLeft = 900;
+                projectile.timeLeft = 800;
                 projectile.ai[1]++;
                 circlingPlayer = false;
                 float height = target.getRect().Height;
@@ -123,6 +111,11 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.usesIDStaticNPCImmunity = true;
                 projectile.idStaticNPCHitCooldown = 4;
                 projectile.netUpdate = true;
+            }
+            if (recharging == -1)
+            {
+                recharging = projectile.ai[1] == 0f ? 300 : 0;
+                dust(30);
             }
             if (circlingPlayer)
             {
@@ -209,8 +202,9 @@ namespace CalamityMod.Projectiles.Summon
                         velocity.Normalize();
                         velocity *= 20f;
                         Projectile.NewProjectile(projectile.position, velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
-                        projectile.netUpdate = true;
+                        
                     }
+                    projectile.netUpdate = projectile.owner == Main.myPlayer;
                 }
                 else
                 {

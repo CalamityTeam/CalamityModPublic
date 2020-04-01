@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Fishing.AstralCatches;
@@ -93,6 +94,13 @@ namespace CalamityMod
             r.AddIngredient(ModContent.ItemType<LivingShard>());
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.LifeFruit);
+            r.AddRecipe();
+
+            // Target Dummy Reverse Compatibility
+            r = GetNewRecipe();
+            r.AddIngredient(ModContent.ItemType<SuperDummy>());
+            r.AddTile(TileID.Anvils);
+            r.SetResult(ItemID.TargetDummy);
             r.AddRecipe();
         }
 

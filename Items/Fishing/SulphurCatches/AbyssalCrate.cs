@@ -44,13 +44,23 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
         public override void RightClick(Player player)
         {
             //Modded materials
-            DropHelper.DropItem(player, ItemID.Starfish, 2, 3);
-            DropHelper.DropItem(player, ItemID.Seashell, 2, 3);
-            DropHelper.DropItem(player, ItemID.Coral, 2, 3);
             DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.SulphurousSand>(), 5, 10);
+            DropHelper.DropItem(player, ModContent.ItemType<Items.Placeables.SulphurousSandstone>(), 5, 10);
+            DropHelper.DropItem(player, ModContent.ItemType<Acidwood>(), 5, 10);
+            DropHelper.DropItemChance(player, ItemID.Starfish, 0.5f, 2, 3);
+            DropHelper.DropItemChance(player, ItemID.Seashell, 0.5f, 2, 3);
+            DropHelper.DropItemChance(player, ItemID.Coral, 0.5f, 2, 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<CloakingGland>(), 0.5f, 2, 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<VictoryShard>(), 0.5f, 2, 3);
-            if (NPC.downedPlantBoss || CalamityWorld.downedCalamitas)
+			if (CalamityWorld.downedEoCAcidRain)
+			{
+				DropHelper.DropItemChance(player, ModContent.ItemType<SulfuricScale>(), 0.5f, 5, 10);
+			}
+			if (CalamityWorld.downedAquaticScourgeAcidRain)
+			{
+				DropHelper.DropItemChance(player, ModContent.ItemType<CorrodedFossil>(), 0.5f, 5, 10);
+			}
+            if (CalamityWorld.downedCalamitas)
             {
                 DropHelper.DropItemChance(player, ModContent.ItemType<DepthCells>(), 0.5f, 5, 10);
                 DropHelper.DropItemChance(player, ModContent.ItemType<Lumenite>(), 0.5f, 5, 10);

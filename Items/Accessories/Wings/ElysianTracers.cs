@@ -20,6 +20,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 2.75\n" +
                 "Great vertical speed\n" +
                 "Flight time: 160\n" +
+                "36% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
                 "Temporary immunity to lava\n" +

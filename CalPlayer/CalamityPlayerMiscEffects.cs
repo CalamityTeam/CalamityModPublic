@@ -2600,39 +2600,39 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.harpyRing)
 			{
 				if (player.wingTimeMax > 0)
-					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.25);
+					player.wingTimeMax = (int)(player.wingTimeMax * 1.25);
 				player.moveSpeed += 0.2f;
 			}
 
 			if (modPlayer.blueCandle)
 			{
 				if (player.wingTimeMax > 0)
-					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.1);
+					player.wingTimeMax = (int)(player.wingTimeMax * 1.1);
 				player.moveSpeed += 0.15f;
 			}
 
 			if (modPlayer.plaguebringerGoliathLore)
 			{
 				if (player.wingTimeMax > 0)
-					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.25);
+					player.wingTimeMax = (int)(player.wingTimeMax * 1.25);
 			}
 
 			if (modPlayer.soaring)
 			{
 				if (player.wingTimeMax > 0)
-					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.1);
+					player.wingTimeMax = (int)(player.wingTimeMax * 1.1);
 			}
 
 			if (modPlayer.plagueReaper)
 			{
 				if (player.wingTimeMax > 0)
-					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.05);
+					player.wingTimeMax = (int)(player.wingTimeMax * 1.05);
 			}
 
 			if (modPlayer.draconicSurge)
 			{
 				if (player.wingTimeMax > 0)
-					player.wingTimeMax = (int)((double)player.wingTimeMax * 1.35);
+					player.wingTimeMax = (int)(player.wingTimeMax * 1.35);
 			}
 
 			if (modPlayer.bounding)

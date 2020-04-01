@@ -11,7 +11,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Corruption");
             Tooltip.SetDefault("The rotten and forever-deteriorating landscape of infected life, brought upon by a deadly microbe long ago.\n" +
                 "It is rumored that the microbe was created through experimentation by a long-dead race, predating the Terrarians.\n" +
-                "Place in your inventory to prevent the hive cysts from spawning.");
+                "Place in your inventory to prevent hive cysts from spawning.");
         }
 
         public override void SetDefaults()

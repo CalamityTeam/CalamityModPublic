@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Enemy;
@@ -21,6 +22,8 @@ namespace CalamityMod.NPCs.AcidRain
         {
             DisplayName.SetDefault("Sulphurous Skater");
             Main.npcFrameCount[npc.type] = 5;
+            NPCID.Sets.TrailingMode[npc.type] = 1;
+            NPCID.Sets.TrailCacheLength[npc.type] = 6;
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -36,7 +39,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.height = 48;
 
             npc.damage = 70;
-            npc.lifeMax = 710;
+            npc.lifeMax = 660;
             npc.defense = 3;
 
             if (CalamityWorld.downedPolterghast)
@@ -147,13 +150,13 @@ namespace CalamityMod.NPCs.AcidRain
             else
             {
                 npc.Calamity().DR = 0f;
-                float speed = CalamityWorld.downedPolterghast ? 24f : 16f;
-                float inertia = CalamityWorld.downedPolterghast ? 16f : 28f;
+                float speed = CalamityWorld.downedPolterghast ? 22f : 17f;
+                float inertia = CalamityWorld.downedPolterghast ? 20f : 24.5f;
                 if (npc.Distance(player.Center) < 200f)
                     inertia *= 0.667f;
                 npc.velocity = (npc.velocity * inertia + npc.DirectionTo(player.Center) * speed) / (inertia + 1f);
                 npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
-                if (npc.Distance(player.Center) < 20f)
+                if (npc.Distance(player.Center) < player.Size.Length())
                 {
                     Flying = false;
                     npc.netSpam = 0;
@@ -181,7 +184,8 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            CalamityGlobalNPC.DrawGlowmask(spriteBatch, ModContent.GetTexture(Texture + "Glow"), npc, true, Vector2.UnitY * 4f);
+            CalamityGlobalNPC.DrawGlowmask(npc, spriteBatch, ModContent.GetTexture(Texture + "Glow"), true, Vector2.UnitY * 4f);
+            CalamityGlobalNPC.DrawAfterimage(npc, spriteBatch, drawColor, Color.Transparent, directioning: true, invertedDirection: true);
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
@@ -205,6 +209,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<CorrodedFossil>(), 3 * (CalamityWorld.downedPolterghast ? 5 : 1), 1, 3);
             DropHelper.DropItemChance(npc, ModContent.ItemType<SulphurousGrabber>(), 20);
         }
 
