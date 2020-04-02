@@ -43,8 +43,8 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Shiverthorn, 5);
-            recipe.AddIngredient(ItemID.SnowBlock, 50);
-            recipe.AddIngredient(ItemID.IceBlock, 50);
+            recipe.AddRecipeGroup("AnySnowBlock", 50);
+            recipe.AddRecipeGroup("AnyIceBlock", 50);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
