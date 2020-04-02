@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Armor
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.SnowBlock, 30);
-            recipe.AddIngredient(ItemID.IceBlock, 15);
+            recipe.AddRecipeGroup("AnySnowBlock", 30);
+            recipe.AddRecipeGroup("AnyIceBlock", 15);
             recipe.AddIngredient(ItemID.BorealWood, 45);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
