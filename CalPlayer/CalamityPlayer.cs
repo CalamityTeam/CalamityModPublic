@@ -5236,27 +5236,21 @@ namespace CalamityMod.CalPlayer
             {
                 damage += Main.rand.Next(20, 31);
             }
+			int penetrateAmt = 0;
             if (proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
-				int penetrateAmt = 0;
 				if (nanotech)
-					penetrateAmt = 20; //nanotech is weaker
+					penetrateAmt += 20; //nanotech is weaker
 				else if (electricianGlove)
-					penetrateAmt = 30;
+					penetrateAmt += 30;
 				else if (filthyGlove || bloodyGlove)
-					penetrateAmt = 10;
-                //Ozzatron insists on counting for edge-cases
-                int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
-                int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt);
-                damage += (int)(0.5f * penetratedDefense);
+					penetrateAmt += 10;
             }
             if (proj.Calamity().rogue && etherealExtorter)
             {
                 if (CalamityMod.boomerangProjList.Contains(proj.type) && player.ZoneCorrupt)
                 {
-                    int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
-                    int penetratedDefense = Math.Min(penetratableDefense, 6);
-                    damage += (int)(0.5f * penetratedDefense);
+					penetrateAmt += 6;
                 }
             }
             if (proj.melee && badgeOfBravery)
@@ -5266,11 +5260,12 @@ namespace CalamityMod.CalPlayer
                     player.armor[0].type == ModContent.ItemType<TarragonVisage>()) &&
                     player.armor[1].type == ModContent.ItemType<TarragonBreastplate>() && player.armor[2].type == ModContent.ItemType<TarragonLeggings>())
                 {
-                    int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
-                    int penetratedDefense = Math.Min(penetratableDefense, 10);
-                    damage += (int)(0.5f * penetratedDefense);
+					penetrateAmt += 10;
                 }
             }
+			int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
+			int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt);
+			damage += (int)(0.5f * penetratedDefense);
             #endregion
 
             #region MultiplicativeReductions
