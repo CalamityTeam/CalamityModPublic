@@ -5451,7 +5451,7 @@ namespace CalamityMod.CalPlayer
                     int newDamage = (int)(proj.damage * 0.25);
                     if (newDamage > 50)
                     {
-                        newDamage = 50;
+                        newDamage = (int)((projectile.damage * 0.25 - 50) * 0.1) + 50;
                     }
                     Projectile.NewProjectile(proj.Center.X, proj.Center.Y, 0f, 0f, ModContent.ProjectileType<UmbraphileBoom>(), newDamage, 0f, player.whoAmI, 0f, 0f);
                 }
