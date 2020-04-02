@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Placeables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AstralOre>(), 1);
-            recipe.AddIngredient(ItemID.StoneBlock, 1);
+            recipe.AddIngredient(ModContent.ItemType<AstralStone>(), 1);
             recipe.SetResult(this, 1);
             recipe.AddTile(TileID.Furnaces);
             recipe.AddRecipe();
