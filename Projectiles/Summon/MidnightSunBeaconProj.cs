@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minion = true;
             projectile.minionSlots = 0f;
             projectile.ignoreWater = true;
-            projectile.tileCollide = true;
+            projectile.tileCollide = false;
             projectile.timeLeft = 420;
         }
 

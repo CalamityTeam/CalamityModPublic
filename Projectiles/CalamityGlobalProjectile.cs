@@ -1800,19 +1800,17 @@ namespace CalamityMod.Projectiles
 					}
                 }
 
-				int i = (int) (projectile.position.X + (float)(projectile.width / 2)) / 16;
-				int j = (int) (projectile.position.Y + (float)(projectile.height / 2)) / 16;
 				if (projectile.type == ProjectileID.UnholyWater)
 				{
-					WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 1f);
 				}
 				if (projectile.type == ProjectileID.BloodWater)
 				{
-					WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 2f);
 				}
 				if (projectile.type == ProjectileID.HolyWater)
 				{
-					WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<WaterConvertor>(), 0, 0f, projectile.owner, 3f);
 				}
             }
         }
