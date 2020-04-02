@@ -622,12 +622,9 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return spawnInfo.player.ZoneSnow &&
-                !spawnInfo.player.ZoneTowerStardust &&
-                !spawnInfo.player.ZoneTowerSolar &&
-                !spawnInfo.player.ZoneTowerVortex &&
-                !spawnInfo.player.ZoneTowerNebula &&
+                !spawnInfo.player.PillarZone() &&
                 !spawnInfo.player.ZoneDungeon &&
-                !spawnInfo.player.Calamity().ZoneSunkenSea &&
+                !spawnInfo.player.InSunkenSea() &&
                 !spawnInfo.playerInTown && !spawnInfo.player.ZoneOldOneArmy && !Main.snowMoon && !Main.pumpkinMoon ? 0.012f : 0f;
         }
 

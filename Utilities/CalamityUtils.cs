@@ -73,10 +73,27 @@ namespace CalamityMod
             float spaceGravityMult = (float)((player.position.Y / 16f - (60f + 10f * x)) / (Main.worldSurface / 6.0));
             return spaceGravityMult < 1f;
         }
+        public static bool PillarZone(this Player player) => player.ZoneTowerStardust || player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula;
         public static bool InCalamity(this Player player) => player.Calamity().ZoneCalamity;
-        public static bool InAstral(this Player player) => player.Calamity().ZoneAstral;
         public static bool InSunkenSea(this Player player) => player.Calamity().ZoneSunkenSea;
         public static bool InSulphur(this Player player) => player.Calamity().ZoneSulphur;
+        public static bool InAstral(this Player player, int biome = 0) //1 is above ground, 2 is underground, 3 is desert
+        {
+            switch (biome)
+            {
+                case 1:
+                    return player.Calamity().ZoneAstral && (player.ZoneOverworldHeight || player.ZoneSkyHeight);
+
+                case 2:
+                    return player.Calamity().ZoneAstral && (player.ZoneDirtLayerHeight || player.ZoneRockLayerHeight || player.ZoneUnderworldHeight);
+
+                case 3:
+                    return player.Calamity().ZoneAstral && player.ZoneDesert;
+
+                default:
+                    return player.Calamity().ZoneAstral;
+            }
+        }
         public static bool InAbyss(this Player player, int layer = 0)
         {
             switch (layer)

@@ -229,11 +229,11 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.ZoneTowerStardust || spawnInfo.player.ZoneTowerSolar || spawnInfo.player.ZoneTowerVortex || spawnInfo.player.ZoneTowerNebula)
+            if (spawnInfo.player.PillarZone())
             {
                 return 0f;
             }
-            else if (spawnInfo.player.Calamity().ZoneAstral && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneSkyHeight))
+            else if (spawnInfo.player.InAstral(1))
             {
                 return 0.16f;
             }

@@ -183,11 +183,11 @@ namespace CalamityMod.NPCs.Astral
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            if (spawnInfo.player.ZoneTowerStardust || spawnInfo.player.ZoneTowerSolar || spawnInfo.player.ZoneTowerVortex || spawnInfo.player.ZoneTowerNebula)
+            if (spawnInfo.player.PillarZone())
             {
                 return 0f;
             }
-            else if (spawnInfo.player.Calamity().ZoneAstral && spawnInfo.player.ZoneDesert && spawnInfo.spawnTileType == ModContent.TileType<AstralSand>() && tile.wall == WallID.None)
+            else if (spawnInfo.player.InAstral(3) && spawnInfo.spawnTileType == ModContent.TileType<AstralSand>() && tile.wall == WallID.None)
             {
                 return 0.25f;
             }

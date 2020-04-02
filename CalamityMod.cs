@@ -3001,14 +3001,26 @@ namespace CalamityMod
                             priority = MusicPriority.Environment;
                         }
                     }
-                    if (p.InAstral())
+                    if (p.InAstral(1))
                     {
                         if (!CalamityPlayer.areThereAnyDamnBosses)
                         {
                             if (calamityModMusic != null)
                             {
-                                string sound = "Sounds/Music/Astral";
-                                music = calamityModMusic.GetSoundSlot(SoundType.Music, sound + (p.ZoneOverworldHeight ? "" : "Underground"));
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/Astral");
+                            }
+                            else
+                                music = MusicID.Space;
+                            priority = MusicPriority.Environment;
+                        }
+                    }
+                    if (p.InAstral(2))
+                    {
+                        if (!CalamityPlayer.areThereAnyDamnBosses)
+                        {
+                            if (calamityModMusic != null)
+                            {
+                                music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/AstralUnderground");
                             }
                             else
                                 music = MusicID.Space;
