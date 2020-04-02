@@ -115,18 +115,7 @@ namespace CalamityMod.World
         {
             get
             {
-                int playerCount = 0;
-                for (int i = 0; i < Main.player.Length; i++)
-                {
-                    if (Main.player[i].active)
-                    {
-                        playerCount++;
-                    }
-                }
-                // The E - 1 part is to ensure that we start at 1 as a multiple instead of 0
-                // At a maximum of 255 players, the max multiplier is 9.98, or 998 enemies that need to be killed.
-                float totalKillsNeeded = (int)(180 * Math.Log(playerCount + Math.E - 1));
-                return MathHelper.Clamp(acidRainPoints / totalKillsNeeded, 0f, 1f);
+                return MathHelper.Clamp(acidRainPoints / (float)AcidRainEvent.NeededEnemyKills, 0f, 1f);
             }
         }
 
