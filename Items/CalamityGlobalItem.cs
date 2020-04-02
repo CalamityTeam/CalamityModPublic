@@ -1306,7 +1306,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
                         line2.text = "Capable of mining Lihzahrd Bricks\n" +
-                            "Also capable of mining Chaotic Ore found in the Abyss";
+                            "Also capable of mining Scoria Ore found in the Abyss";
                     }
                 }
             }
