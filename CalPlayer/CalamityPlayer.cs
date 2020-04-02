@@ -5236,23 +5236,18 @@ namespace CalamityMod.CalPlayer
             {
                 damage += Main.rand.Next(20, 31);
             }
-            if (proj.Calamity().stealthStrike && proj.Calamity().rogue && nanotech)
+            if (proj.Calamity().stealthStrike && proj.Calamity().rogue)
             {
+				int penetrateAmt = 0;
+				if (nanotech)
+					penetrateAmt = 20; //nanotech is weaker
+				else if (electricianGlove)
+					penetrateAmt = 30;
+				else if (filthyGlove || bloodyGlove)
+					penetrateAmt = 10;
                 //Ozzatron insists on counting for edge-cases
                 int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
-                int penetratedDefense = Math.Min(penetratableDefense, 20); //nanotech is weaker
-                damage += (int)(0.5f * penetratedDefense);
-            }
-            else if (proj.Calamity().stealthStrike && proj.Calamity().rogue && electricianGlove)
-            {
-                int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
-                int penetratedDefense = Math.Min(penetratableDefense, 30);
-                damage += (int)(0.5f * penetratedDefense);
-            }
-            else if (proj.Calamity().stealthStrike && proj.Calamity().rogue && (filthyGlove || bloodyGlove))
-            {
-                int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
-                int penetratedDefense = Math.Min(penetratableDefense, 10);
+                int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt);
                 damage += (int)(0.5f * penetratedDefense);
             }
             if (proj.Calamity().rogue && etherealExtorter)
