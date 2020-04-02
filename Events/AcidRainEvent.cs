@@ -137,6 +137,26 @@ namespace CalamityMod.Events
             }
             return false;
         }
+        public static int NeededEnemyKills
+        {
+            get
+            {
+                int playerCount = 0;
+                for (int i = 0; i < Main.player.Length; i++)
+                {
+                    if (Main.player[i].active)
+                    {
+                        playerCount++;
+                    }
+                }
+                if (CalamityWorld.downedPolterghast)
+                    return (int)(180 * Math.Log(playerCount + Math.E - 1));
+                else if (CalamityWorld.downedAquaticScourge)
+                    return (int)(125 * Math.Log(playerCount + Math.E - 1));
+                else
+                    return (int)(90 * Math.Log(playerCount + Math.E - 1));
+            }
+        }
         /// <summary>
         /// Attempts to start the Acid Rain event. Will fail if there is another invasion going on or the EoC has not been killed yet (unless you're in hardmode).
         /// </summary>
@@ -155,9 +175,7 @@ namespace CalamityMod.Events
             if (playerCount > 0)
             {
                 CalamityWorld.rainingAcid = true;
-                // The E - 1 part is to ensure that we start at 1 as a multiple instead of 0
-                // At a maximum of 255 players, the max multiplier is 9.98, or 998 enemies that need to be killed.
-                CalamityWorld.acidRainPoints = (int)(180 * Math.Log(playerCount + Math.E - 1));
+                CalamityWorld.acidRainPoints = NeededEnemyKills;
 
                 // Make it rain normally
                 if (forceRain)
