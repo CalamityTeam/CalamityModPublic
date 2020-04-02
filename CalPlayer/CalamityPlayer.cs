@@ -6322,7 +6322,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (CalamityMod.CalamityConfig.AdrenalineAndRage && CalamityWorld.revenge)
                 {
-                    if (!adrenalineMode)
+                    if (!adrenalineMode && damage > 0) //to prevent paladin's shield ruining adren even with 0 dmg taken
                         adrenaline = 0;
                 }
                 if (amidiasBlessing)
