@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.knockBack = 2f;
-            item.value = Item.buyPrice(0, 0, 5, 0);
-            item.rare = 5;
+            item.value = Item.buyPrice(0, 0, 8, 0);
+            item.rare = 6;
             item.shoot = ModContent.ProjectileType<FrostyFlareProj>();
             item.shootSpeed = 22f;
             item.maxStack = 999;

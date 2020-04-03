@@ -188,7 +188,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             {
 				//Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofChaos>(), 4, 8);
-                DropHelper.DropItem(npc, ItemID.SoulofFright, 20, 40);
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 20, 30);
 
                 // Weapons
@@ -213,6 +212,16 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                     Main.NewText(Language.GetTextValue(key), messageColor);
                 else if (Main.netMode == NetmodeID.Server)
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+            }
+			//if brimmy hasn't been killed, you can mine charred ore
+            string key2 = "Mods.CalamityMod.BrimmyBossText";
+            Color messageColor2 = Color.Crimson;
+            if (!CalamityWorld.downedBrimstoneElemental)
+            {
+                if (Main.netMode == NetmodeID.SinglePlayer)
+                    Main.NewText(Language.GetTextValue(key2), messageColor2);
+                else if (Main.netMode == NetmodeID.Server)
+                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
             }
 
             // mark brimmy as dead

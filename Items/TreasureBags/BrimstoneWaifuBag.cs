@@ -45,7 +45,6 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, ItemID.SoulofFright, 25, 40);
             DropHelper.DropItem(player, ModContent.ItemType<EssenceofChaos>(), 5, 9);
             DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 25, 35);
 

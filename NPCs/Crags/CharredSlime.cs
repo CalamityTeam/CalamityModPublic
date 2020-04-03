@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (!NPC.downedPlantBoss)
+            if (!CalamityWorld.downedBrimstoneElemental)
             {
                 return 0f;
             }

@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 61;
+            item.damage = 55;
             item.melee = true;
             item.width = 42;
             item.height = 50;
@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.useStyle = 1;
             item.knockBack = 7.5f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shootSpeed = 20f;
@@ -67,13 +67,13 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Brimblast>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Brimblast>(), (int)(item.damage * player.MeleeDamage()), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Brimblast>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Brimblast>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, Main.myPlayer);
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

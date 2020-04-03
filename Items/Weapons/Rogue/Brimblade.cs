@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 26;
-            item.damage = 32;
+            item.damage = 28;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.autoReuse = true;
@@ -27,8 +27,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 6.5f;
             item.UseSound = SoundID.Item1;
             item.height = 26;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
             item.shoot = ModContent.ProjectileType<BrimbladeProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;

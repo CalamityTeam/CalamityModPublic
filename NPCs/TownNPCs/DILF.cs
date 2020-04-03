@@ -142,29 +142,35 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<ColdheartIcicle>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<AbsoluteZero>());
-            nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<EternalBlizzard>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<WintersFury>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<ArcticBearPaw>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleTrident>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
-            nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<IceStar>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
-            nextSlot++;
+			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
+			{
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
+				nextSlot++;
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
+				nextSlot++;
+			}
+			if (NPC.downedChristmasIceQueen && NPC.downedChristmasTree && NPC.downedChristmasSantank)
+			{
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<AbsoluteZero>());
+				nextSlot++;
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<EternalBlizzard>());
+				nextSlot++;
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<WintersFury>());
+				nextSlot++;
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcyBullet>());
+				nextSlot++;
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleArrow>());
+				nextSlot++;
+			}
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<PermafrostsConcoction>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcyBullet>());
-            nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleArrow>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ItemID.SuperManaPotion);
             nextSlot++;

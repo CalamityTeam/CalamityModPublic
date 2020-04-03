@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
         }
         public override void SetDefaults()
         {
-            item.damage = 42;
+            item.damage = 60;
             item.melee = true;
             item.width = 58;
             item.height = 58;
@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useStyle = 1;
             item.useTurn = false;
             item.knockBack = 4f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<DarkIceZero>();
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Frostburn, 600);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
 
-            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockBack * 3f, player.whoAmI);
+            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), (int)(item.damage * player.MeleeDamage()), knockBack * 3f, player.whoAmI);
             Main.projectile[p].Kill();
         }
 
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Frostburn, 600);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
 
-            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 12f, player.whoAmI);
+            int p = Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DarkIceZero>(), (int)(item.damage * player.MeleeDamage()), 12f, player.whoAmI);
             Main.projectile[p].Kill();
         }
     }

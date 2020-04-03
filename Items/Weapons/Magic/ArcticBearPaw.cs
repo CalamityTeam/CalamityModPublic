@@ -10,12 +10,12 @@ namespace CalamityMod.Items.Weapons.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arctic Bear Paw");
-            Tooltip.SetDefault(@"Fires spiritual claws that ignore walls and confuse enemies
-'The savage mauling that fits in your pocket'");
+            Tooltip.SetDefault(@"The savage mauling that fits in your pocket
+Fires spiritual claws that ignore walls and confuse enemies");
         }
         public override void SetDefaults()
         {
-            item.damage = 70;
+            item.damage = 100;
             item.magic = true;
             item.mana = 18;
             item.width = 34;
@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useTurn = false;
             item.noMelee = true;
             item.knockBack = 10f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.value = Item.buyPrice(0, 48, 0, 0);
+            item.rare = 6;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<ArcticBearPawProj>();

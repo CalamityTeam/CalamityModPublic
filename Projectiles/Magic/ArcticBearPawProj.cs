@@ -21,6 +21,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
 			projectile.coldDamage = true;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void SetStaticDefaults()
@@ -41,7 +43,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
-                projectile.velocity *= 0.96f;
+                projectile.velocity *= 0.968f;
             }
         }
 

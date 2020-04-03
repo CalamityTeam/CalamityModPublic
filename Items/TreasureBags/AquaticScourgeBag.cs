@@ -48,7 +48,6 @@ namespace CalamityMod.Items.TreasureBags
                 player.TryGettingDevArmor();
 
             // Materials
-            DropHelper.DropItem(player, ItemID.SoulofSight, 25, 40);
             DropHelper.DropItem(player, ModContent.ItemType<VictoryShard>(), 15, 25);
             DropHelper.DropItem(player, ItemID.Coral, 7, 11);
             DropHelper.DropItem(player, ItemID.Seashell, 7, 11);

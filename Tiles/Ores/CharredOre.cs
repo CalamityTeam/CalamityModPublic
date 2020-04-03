@@ -1,4 +1,4 @@
-
+using CalamityMod.World;
 using CalamityMod.Tiles.Crags;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -25,15 +25,20 @@ namespace CalamityMod.Tiles.Ores
             name.SetDefault("Charred Ore");
             AddMapEntry(new Color(17, 16, 26), name);
             mineResist = 6f;
-            minPick = 200;
+            minPick = 180;
             soundType = 21;
             dustType = 235;
             Main.tileSpelunker[Type] = true;
         }
 
+        public override bool CanKillTile(int i, int j, ref bool blockDamaged)
+        {
+            return CalamityWorld.downedBrimstoneElemental;
+        }
+
         public override bool CanExplode(int i, int j)
         {
-            return NPC.downedPlantBoss;
+            return CalamityWorld.downedBrimstoneElemental;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

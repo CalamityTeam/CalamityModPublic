@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 40;
+            item.damage = 35;
             item.ranged = true;
             item.width = 30;
             item.height = 58;
@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 3.75f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BrimstoneBolt>();

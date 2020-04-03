@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         }
         public override void SetDefaults()
         {
-            item.damage = 32;
+            item.damage = 50;
             item.ranged = true;
             item.width = 42;
             item.height = 62;
@@ -25,8 +25,8 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useTurn = false;
             item.noMelee = true;
             item.knockBack = 3f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
             item.useAmmo = AmmoID.Arrow;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;

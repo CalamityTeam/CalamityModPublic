@@ -1066,7 +1066,6 @@ namespace CalamityMod.NPCs.Cryogen
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, ItemID.SoulofMight, 20, 40);
                 DropHelper.DropItem(npc, ModContent.ItemType<CryoBar>(), 15, 25);
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofEleum>(), 4, 8);
                 DropHelper.DropItem(npc, ItemID.FrostCore);

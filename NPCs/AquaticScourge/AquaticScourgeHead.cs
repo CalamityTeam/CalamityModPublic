@@ -164,7 +164,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItem(npc, ItemID.SoulofSight, 20, 40);
                 DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 11, 20);
                 DropHelper.DropItem(npc, ItemID.Coral, 5, 9);
                 DropHelper.DropItem(npc, ItemID.Seashell, 5, 9);

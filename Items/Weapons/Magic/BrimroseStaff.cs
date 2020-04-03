@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 20;
+            item.damage = 17;
             item.magic = true;
             item.mana = 14;
             item.width = 36;
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 7f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
-            item.rare = 6;
+            item.value = Item.buyPrice(0, 36, 0, 0);
+            item.rare = 5;
             item.UseSound = SoundID.Item43;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<BrimstoneBeam>();

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            item.damage = 28;
+            item.damage = 40;
             item.magic = true;
             item.mana = 7;
             item.width = 28;
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useTurn = false;
             item.noMelee = true;
             item.knockBack = 5f;
-            item.value = Item.buyPrice(0, 36, 0, 0);
-            item.rare = 5;
+            item.value = Item.buyPrice(0, 80, 0, 0);
+            item.rare = 8;
             item.UseSound = SoundID.Item9;
             item.scale = 0.9f;
             item.autoReuse = true;
