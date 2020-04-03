@@ -1042,7 +1042,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			int frameCount = 3;
 			Rectangle rectangle = new Rectangle(npc.frame.X, npc.frame.Y, texture.Width / 2, texture.Height / frameCount);
 			Vector2 vector11 = rectangle.Size() / 2f;
-			Vector2 posOffset = new Vector2(charging ? 75 : 125, 0);
+			Vector2 posOffset = new Vector2(charging ? 175 : 125, 0);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 10;
