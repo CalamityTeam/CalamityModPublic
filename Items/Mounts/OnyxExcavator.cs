@@ -6,6 +6,7 @@ using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.Achievements;
 using Terraria.Graphics.Shaders;
@@ -141,21 +142,51 @@ namespace CalamityMod.Items.Mounts
                             Tile tile = Framing.GetTileSafely(num824, num825);
                             if (num828 < (double)num814)
                             {
-                                if (tile != null && tile.active() &&
-									tile.type != (ushort)ModContent.TileType<AbyssGravel>() &&
-                                    tile.type != (ushort)ModContent.TileType<Voidstone>() &&
-									(tile.type != TileID.Hellstone || Main.hardMode) &&
-                                    (tile.type != TileID.LihzahrdBrick || NPC.downedGolemBoss) &&
-									(tile.type != (TileID.BlueDungeonBrick | TileID.GreenDungeonBrick | TileID.PinkDungeonBrick) || NPC.downedBoss3) &&
-									tile.type != TileID.DemonAltar &&
-                                    (tile.type != (ushort)ModContent.TileType<AstralOre>() || CalamityWorld.downedStarGod) &&
-                                    (tile.type != ((ushort)ModContent.TileType<Tenebris>() | (ushort)ModContent.TileType<PlantyMush>()) || CalamityWorld.downedCalamitas) &&
-                                    (tile.type != ((ushort)ModContent.TileType<EutrophicSand>() | (ushort)ModContent.TileType<Navystone>() | (ushort)ModContent.TileType<SeaPrism>() | (ushort)ModContent.TileType<SeaPrismCrystals>()) || CalamityWorld.downedDesertScourge) &&
-									tile.type != (ushort)ModContent.TileType<ArenaTile>() &&
-                                    (Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit) &&
-                                    !player.noBuilding &&
-									tile.type != TileID.ElderCrystalStand &&
-									tile.type != TileID.Containers)
+								List<int> tileExcludeList = new List<int>()
+								{ 
+									ModContent.TileType<ArenaTile>(),
+									ModContent.TileType<AbyssGravel>(),
+									ModContent.TileType<Voidstone>(),
+									TileID.DemonAltar,
+									TileID.ElderCrystalStand,
+									TileID.Containers
+								};
+								if (!NPC.downedBoss2)
+								{
+									tileExcludeList.Add(TileID.DesertFossil);
+								}
+								if (!CalamityWorld.downedDesertScourge)
+								{
+									tileExcludeList.Add(ModContent.TileType<EutrophicSand>());
+									tileExcludeList.Add(ModContent.TileType<Navystone>());
+									tileExcludeList.Add(ModContent.TileType<SeaPrism>());
+									tileExcludeList.Add(ModContent.TileType<SeaPrismCrystals>());
+								}
+								if (!NPC.downedBoss3)
+								{
+									tileExcludeList.Add(TileID.BlueDungeonBrick);
+									tileExcludeList.Add(TileID.GreenDungeonBrick);
+									tileExcludeList.Add(TileID.PinkDungeonBrick);
+								}
+								if (!Main.hardMode)
+								{
+									tileExcludeList.Add(TileID.Hellstone);
+								}
+								if (!CalamityWorld.downedCalamitas)
+								{
+									tileExcludeList.Add(ModContent.TileType<Tenebris>());
+									tileExcludeList.Add(ModContent.TileType<PlantyMush>());
+								}
+								if (!NPC.downedGolemBoss)
+								{
+									tileExcludeList.Add(TileID.LihzahrdBrick);
+								}
+								if (!CalamityWorld.downedStarGod)
+								{
+									tileExcludeList.Add(ModContent.TileType<AstralOre>());
+								}
+                                if (tile != null && tile.active() && !player.noBuilding && tileExcludeList.TrueForAll(x => tile.type != x) &&
+                                    (Main.tileValue[tile.type] < tileValueLimit || tile.type == TileID.Heart || tile.type == TileID.LifeFruit))
                                 {
                                     WorldGen.KillTile(num824, num825, false, false, false);
                                     if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)

@@ -187,57 +187,25 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.rand.NextBool(10))
                     {
-						int potionType = ItemID.SpelunkerPotion;
-						switch (WorldGen.genRand.Next(15))
+						int potionType = Utils.SelectRandom(WorldGen.genRand, new int[]
 						{
-							case 0:
-								potionType = ItemID.SpelunkerPotion;
-								break;
-							case 1:
-								potionType = ItemID.MagicPowerPotion;
-								break;
-							case 2:
-								potionType = ItemID.ShinePotion;
-								break;
-							case 3:
-								potionType = ItemID.WaterWalkingPotion;
-								break;
-							case 4:
-								potionType = ItemID.ObsidianSkinPotion;
-								break;
-							case 5:
-								potionType = ItemID.GravitationPotion;
-								break;
-							case 6:
-								potionType = ItemID.RegenerationPotion;
-								break;
-							case 7:
-								potionType = ModContent.ItemType<TriumphPotion>();
-								break;
-							case 8:
-								potionType = ModContent.ItemType<AnechoicCoating>();
-								break;
-							case 9:
-								potionType = ItemID.GillsPotion;
-								break;
-							case 10:
-								potionType = ItemID.EndurancePotion;
-								break;
-							case 11:
-								potionType = ItemID.HeartreachPotion;
-								break;
-							case 12:
-								potionType = ItemID.FlipperPotion;
-								break;
-							case 13:
-								potionType = ItemID.LifeforcePotion;
-								break;
-							case 14:
-								potionType = ItemID.InfernoPotion;
-								break;
-							default:
-								break;
-						}
+							ItemID.SpelunkerPotion,
+							ItemID.MagicPowerPotion,
+							ItemID.ShinePotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.ObsidianSkinPotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.GravitationPotion,
+							ItemID.RegenerationPotion,
+							ModContent.ItemType<TriumphPotion>(),
+							ModContent.ItemType<AnechoicCoating>(),
+							ItemID.GillsPotion,
+							ItemID.EndurancePotion,
+							ItemID.HeartreachPotion,
+							ItemID.FlipperPotion,
+							ItemID.LifeforcePotion,
+							ItemID.InfernoPotion
+						});
                         Item.NewItem(i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
                     }
                     else
@@ -338,57 +306,25 @@ namespace CalamityMod.Tiles
                 {
                     if (Main.rand.NextBool(15))
                     {
-						int potionType = ItemID.SpelunkerPotion;
-						switch (WorldGen.genRand.Next(15))
+						int potionType = Utils.SelectRandom(WorldGen.genRand, new int[]
 						{
-							case 0:
-								potionType = ItemID.SpelunkerPotion;
-								break;
-							case 1:
-								potionType = ItemID.MagicPowerPotion;
-								break;
-							case 2:
-								potionType = ItemID.ShinePotion;
-								break;
-							case 3:
-								potionType = ItemID.WaterWalkingPotion;
-								break;
-							case 4:
-								potionType = ItemID.ObsidianSkinPotion;
-								break;
-							case 5:
-								potionType = ItemID.GravitationPotion;
-								break;
-							case 6:
-								potionType = ItemID.RegenerationPotion;
-								break;
-							case 7:
-								potionType = ModContent.ItemType<TriumphPotion>();
-								break;
-							case 8:
-								potionType = ModContent.ItemType<AnechoicCoating>();
-								break;
-							case 9:
-								potionType = ItemID.GillsPotion;
-								break;
-							case 10:
-								potionType = ItemID.EndurancePotion;
-								break;
-							case 11:
-								potionType = ItemID.HeartreachPotion;
-								break;
-							case 12:
-								potionType = ItemID.FlipperPotion;
-								break;
-							case 13:
-								potionType = ItemID.LifeforcePotion;
-								break;
-							case 14:
-								potionType = ItemID.InfernoPotion;
-								break;
-							default:
-								break;
-						}
+							ItemID.SpelunkerPotion,
+							ItemID.MagicPowerPotion,
+							ItemID.ShinePotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.ObsidianSkinPotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.GravitationPotion,
+							ItemID.RegenerationPotion,
+							ModContent.ItemType<TriumphPotion>(),
+							ModContent.ItemType<AnechoicCoating>(),
+							ItemID.GillsPotion,
+							ItemID.EndurancePotion,
+							ItemID.HeartreachPotion,
+							ItemID.FlipperPotion,
+							ItemID.LifeforcePotion,
+							ItemID.InfernoPotion
+						});
                         Item.NewItem(i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
                     }
                     else
