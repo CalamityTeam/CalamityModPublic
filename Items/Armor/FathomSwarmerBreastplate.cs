@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fathom Swarmer Breastplate");
-            Tooltip.SetDefault("10% increased damage reduction and minion damage\n" +
+            Tooltip.SetDefault("12% increased damage reduction and minion damage\n" +
 				"+1 max minions\n" +
                 "Boosted defense and regen increased while submerged in liquid\n" +
 				"Reduces defense loss within the Abyss");
@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.1f;
-            player.endurance += 0.1f;
+            player.minionDamage += 0.12f;
+            player.endurance += 0.12f;
             player.maxMinions++;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
@@ -47,6 +47,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 12);
             recipe.AddIngredient(ModContent.ItemType<PlantyMush>(), 10);
             recipe.AddIngredient(ModContent.ItemType<AbyssGravel>(), 18);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

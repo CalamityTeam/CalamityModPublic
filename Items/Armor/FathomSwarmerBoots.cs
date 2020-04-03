@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fathom Swarmer Greaves");
-            Tooltip.SetDefault("5% increased minion damage\n" +
+            Tooltip.SetDefault("7% increased minion damage\n" +
 				"Grants the ability to swim\n" +
                 "Speed greatly increased while submerged in liquid");
         }
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.05f;
+            player.minionDamage += 0.07f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.moveSpeed += 0.5f;
@@ -50,6 +50,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 9);
             recipe.AddIngredient(ModContent.ItemType<PlantyMush>(), 8);
             recipe.AddIngredient(ModContent.ItemType<AbyssGravel>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 4);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

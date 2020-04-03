@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fathom Swarmer Visage");
-            Tooltip.SetDefault("7% increased minion damage\n" +
+            Tooltip.SetDefault("10% increased minion damage\n" +
 				"Provides breathing and light underwater");
         }
 
@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.minionDamage += 0.07f;
+            player.minionDamage += 0.1f;
 			if (player.breath <= player.breathMax + 2 && !modPlayer.ZoneAbyss)
 			{
 				player.breath = player.breathMax + 3;
@@ -73,6 +73,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<VictideBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<PlantyMush>(), 6);
             recipe.AddIngredient(ModContent.ItemType<AbyssGravel>(), 11);
+            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
