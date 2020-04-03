@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -272,6 +273,12 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<DriedSeafood>());
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 2, 0, 0);
+                nextSlot++;
+            }
+            if (CalamityWorld.downedEoCAcidRain)
+            {
+                shop.item[nextSlot].SetDefaults(ModContent.ItemType<CausticTear>());
+                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(gold: 3);
                 nextSlot++;
             }
             if (CalamityWorld.downedAquaticScourge)
