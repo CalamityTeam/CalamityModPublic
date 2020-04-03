@@ -131,7 +131,14 @@ namespace CalamityMod.Items.Accessories
 
         public PSCRecipe(Mod mod) : base(mod) { }
 
-        public override bool RecipeAvailable() => Main.LocalPlayer.ZoneHoly || Main.LocalPlayer.ZoneUnderworldHeight;
+        public override int ConsumeItem(int type, int numRequired)
+        {
+            int shadowSpec = ModContent.ItemType<ShadowspecBar>();
+            int geode = ModContent.ItemType<DivineGeode>();
+            int essence = ModContent.ItemType<UnholyEssence>();
+            bool biomePower = Main.LocalPlayer.ZoneHoly || Main.LocalPlayer.ZoneUnderworldHeight;
+            return biomePower && (type == (shadowSpec | geode | essence)) ? numRequired / 2 : numRequired; //cuts the above mats consumed by half if in the biomes instead of arbitrary biome locking
+        }
     }
 
     public class ProfanedCrystalHead : EquipTexture

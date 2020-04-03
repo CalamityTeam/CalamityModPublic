@@ -1146,10 +1146,8 @@ namespace CalamityMod.NPCs.Providence
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), true, biomeType != 2 && Main.expertMode);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), true, biomeType == 2 && Main.expertMode);
 			//drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
-			if (Main.netMode == NetmodeID.SinglePlayer)
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedSoulCrystal>(), challenge);
-			else if (Main.expertMode)
-				DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, CalamityWorld.downedSCal ? 20 : 100);
+			bool shouldDrop = challenge || (Main.expertMode && Main.rand.NextBool(CalamityWorld.downedSCal ? 10 : 200));
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, shouldDrop);
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
             {
