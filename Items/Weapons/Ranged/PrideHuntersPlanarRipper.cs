@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pride Hunter's Planar Ripper");
+            DisplayName.SetDefault("Prideful Hunter's Planar Ripper");
             Tooltip.SetDefault("Converts musket balls into lightning bolts\n" +
 			"Lightning bolts travel extremely fast and explode on enemy kills\n" +
 			"Every fourth lightning bolt fired will deal 35 percent more damage.\n" +
