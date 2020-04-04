@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;
@@ -35,11 +36,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.timeLeft = 100;
                 projectile.ai[0] = 0f;
-                if (projectile.Calamity().stealthStrike)
-                {
-                    projectile.width += 150;
-                    projectile.height += 150;
-                }
                 updatedTime = true;
             }
             
@@ -83,13 +79,13 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 else
                 {
-                    projectileType = ProjectileID.FallingStar;
+                    projectileType = ModContent.ProjectileType<FallenStarProj>();
                 }
                 float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
                 num16 = (float)num15 / num16;
                 num13 *= num16;
                 num14 *= num16;
-                int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, (int)((double)projectile.damage * 0.75), 5f, projectile.owner, 2f, 0f);
+                int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, (int)(projectile.damage * 0.75), 5f, projectile.owner, 2f, 0f);
                 Main.projectile[num17].Calamity().forceRogue = true;
             }
         }
@@ -117,13 +113,13 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 else
                 {
-                    projectileType = ProjectileID.FallingStar;
+                    projectileType = ModContent.ProjectileType<FallenStarProj>();
                 }
                 float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
                 num16 = (float)num15 / num16;
                 num13 *= num16;
                 num14 *= num16;
-                int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, (int)((double)projectile.damage * 0.75), 5f, projectile.owner, 2f, 0f);
+                int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, (int)(projectile.damage * 0.75), 5f, projectile.owner, 2f, 0f);
                 Main.projectile[num17].Calamity().forceRogue = true;
             }
         }

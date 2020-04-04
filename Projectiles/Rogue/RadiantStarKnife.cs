@@ -94,6 +94,12 @@ namespace CalamityMod.Projectiles.Rogue
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
                     int boomer = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RadiantExplosion>(), (int)(projectile.damage * 0.75f), projectile.knockBack, projectile.owner, 0f, 0f);
                     Main.projectile[boomer].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+					if (projectile.Calamity().stealthStrike)
+					{
+						Main.projectile[boomer].height = 300;
+						Main.projectile[boomer].width = 300;
+					}
+					Main.projectile[boomer].Center = projectile.Center;
                     projectile.active = false;
                 }
             }

@@ -4954,11 +4954,11 @@ namespace CalamityMod.CalPlayer
                         }
                         else if (projectileType == 1)
                         {
-                            projectileType = 92;
+                            projectileType = ProjectileID.HallowStar;
                         }
                         else
                         {
-                            projectileType = 12;
+                            projectileType = ModContent.ProjectileType<FallenStarProj>();
                         }
                         float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
                         num16 = num15 / num16;

@@ -83,5 +83,10 @@ namespace CalamityMod.Projectiles.Ranged
 				Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
 			}
 		}
+
+        public override Color? GetAlpha(Color lightColor)
+        {
+            return new Color(200, 200, 200, projectile.alpha);
+        }
 	}
 }
