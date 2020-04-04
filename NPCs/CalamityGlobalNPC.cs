@@ -3377,16 +3377,16 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.1);
 				}
-				else if (projectile.type == (ModContent.ProjectileType<BigNuke>() | ModContent.ProjectileType<RainBolt>() |
-					ModContent.ProjectileType<AtlantisSpear2>() | ModContent.ProjectileType<MalachiteBolt>()))
+				else if (projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() ||
+					projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
 				{
 					damage = (int)(damage * 0.2);
 				}
-				else if (projectile.type == (ProjectileID.DD2BetsyArrow | ModContent.ProjectileType<PlaguenadeProj>()))
+				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<PlaguenadeProj>())
 				{
 					damage = (int)(damage * 0.3);
 				}
-				else if (projectile.type == (ModContent.ProjectileType<SpikecragSpike>() | ModContent.ProjectileType<CosmicTentacle>() | ModContent.ProjectileType<BrimstoneTentacle>() | ModContent.ProjectileType<SolarBeam2>() | ProjectileID.Wasp | player.beeType() | ModContent.ProjectileType<SakuraBullet>() | ModContent.ProjectileType<PurpleButterfly>()))
+				else if (projectile.type == ModContent.ProjectileType<SpikecragSpike>() || projectile.type == ModContent.ProjectileType<CosmicTentacle>() || projectile.type == ModContent.ProjectileType<BrimstoneTentacle>() || projectile.type == ModContent.ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ModContent.ProjectileType<SakuraBullet>() || projectile.type == ModContent.ProjectileType<PurpleButterfly>())
 				{
 					damage = (int)(damage * 0.5);
 				}
@@ -3406,13 +3406,13 @@ namespace CalamityMod.NPCs
 				{
                     damage = (int)((double)damage * 0.9);
 				}
-                else if (projectile.type == (ModContent.ProjectileType<MoltenAmputatorProj>() | ModContent.ProjectileType<MoltenBlobThrown>()))
+                else if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>() || projectile.type == ModContent.ProjectileType<MoltenBlobThrown>())
                 {
                     if (projectile.penetrate == -1)
                         projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
                     damage = (int)((double)damage * 0.75);
                 }
-                else if (projectile.type == (ModContent.ProjectileType<ElementalAxeMinion>() | ModContent.ProjectileType<DazzlingStabber>()))
+                else if (projectile.type == ModContent.ProjectileType<ElementalAxeMinion>() || projectile.type == ModContent.ProjectileType<DazzlingStabber>())
                 {
                     damage = (int)((double)damage * 0.5);
                 }
@@ -3432,7 +3432,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == (ModContent.ProjectileType<FossilShardThrown>() | ModContent.ProjectileType<FrostShardFriendly>() | ModContent.ProjectileType<DesecratedBubble>()))
+                else if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<DesecratedBubble>())
                 {
                     damage = (int)(damage * 0.75);
                 }
@@ -3451,7 +3451,7 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.5);
 				}
-                if (projectile.type == (ModContent.ProjectileType<FlameBeamTip>() | ModContent.ProjectileType<FlameBeamTip2>()))
+                if (projectile.type == ModContent.ProjectileType<FlameBeamTip>() || projectile.type == ModContent.ProjectileType<FlameBeamTip2>())
                 {
                     damage = (int)(damage * 0.5);
                 }
@@ -3480,21 +3480,21 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.4);
                 }
-                else if (projectile.type == (ModContent.ProjectileType<ReaperProjectile>() | ModContent.ProjectileType<BloodBombExplosion>() | ModContent.ProjectileType<CrescentMoonFlail>()))
-                {
-                    damage = (int)(damage * 0.6);
-                }
-                else if (projectile.type == (ModContent.ProjectileType<ValedictionBoomerang>() | ProjectileID.LunarFlare))
-                {
-                    damage = (int)(damage * 0.8);
-                }
-                else if (projectile.type == (ModContent.ProjectileType<GhastlySoulLarge>() | ModContent.ProjectileType<GhastlySoulMedium>() | ModContent.ProjectileType<GhastlySoulSmall>() | ModContent.ProjectileType<GhostFire>())) 
-                {
-                    damage = (int)(damage * 0.75);
-                }
                 else if (projectile.type == ModContent.ProjectileType<CalamariInk>())
                 {
                     damage = (int)(damage * 0.5);
+                }
+                else if (projectile.type == ModContent.ProjectileType<ReaperProjectile>() || projectile.type == ModContent.ProjectileType<BloodBombExplosion>() || projectile.type == ModContent.ProjectileType<CrescentMoonFlail>())
+                {
+                    damage = (int)(damage * 0.6);
+                }
+                else if (projectile.type == ModContent.ProjectileType<GhastlySoulLarge>() || projectile.type == ModContent.ProjectileType<GhastlySoulMedium>() || projectile.type == ModContent.ProjectileType<GhastlySoulSmall>() || projectile.type == ModContent.ProjectileType<GhostFire>())
+                {
+                    damage = (int)(damage * 0.75);
+                }
+                else if (projectile.type == ModContent.ProjectileType<ValedictionBoomerang>() || projectile.type == ProjectileID.LunarFlare)
+                {
+                    damage = (int)(damage * 0.8);
                 }
             }
 
@@ -3638,37 +3638,6 @@ namespace CalamityMod.NPCs
                             break;
                     }
                 }
-            }
-
-            if (modPlayer.corrosiveSpine && projectile.Calamity().rogue)
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    if (Main.rand.NextBool(2))
-                    {
-                        int type = -1;
-                        switch (Main.rand.Next(15))
-                        {
-                            case 0:
-                                type = ModContent.ProjectileType<Corrocloud1>();
-                                break;
-                            case 1:
-                                type = ModContent.ProjectileType<Corrocloud2>();
-                                break;
-                            case 2:
-                                type = ModContent.ProjectileType<Corrocloud3>();
-                                break;
-                        }
-                        // Should never happen, but just in case-
-                        if (type != -1)
-                        {
-                            float speed = Main.rand.NextFloat(5f, 11f);
-                            Projectile.NewProjectile(npc.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
-                                type, (int)(projectile.damage * 0.6), projectile.knockBack, player.whoAmI);
-                        }
-                    }
-                }
-                npc.AddBuff(BuffID.Venom, 240);
             }
 
             if (modPlayer.bloodflareSet)

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 58;
-            item.damage = 33;
+            item.damage = 55;
             item.melee = true;
             item.useAnimation = 24;
             item.useStyle = 1;
@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
 			type = Main.rand.NextBool(2) ? type : ModContent.ProjectileType<LightBeam>();
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.6), knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

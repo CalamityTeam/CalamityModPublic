@@ -1477,6 +1477,37 @@ namespace CalamityMod.Projectiles
                             modPlayer.nanoFlareCooldown = 15;
                         }
                     }
+
+					if (modPlayer.corrosiveSpine && projectile.type != ModContent.ProjectileType<Corrocloud1>() && projectile.type != ModContent.ProjectileType<Corrocloud2>() && projectile.type != ModContent.ProjectileType<Corrocloud3>())
+					{
+						for (int i = 0; i < 3; i++)
+						{
+							if (Main.rand.NextBool(2))
+							{
+								int type = -1;
+								switch (Main.rand.Next(15))
+								{
+									case 0:
+										type = ModContent.ProjectileType<Corrocloud1>();
+										break;
+									case 1:
+										type = ModContent.ProjectileType<Corrocloud2>();
+										break;
+									case 2:
+										type = ModContent.ProjectileType<Corrocloud3>();
+										break;
+								}
+								// Should never happen, but just in case-
+								if (type != -1)
+								{
+									float speed = Main.rand.NextFloat(5f, 11f);
+									Projectile.NewProjectile(target.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * speed,
+										type, (int)(projectile.damage * 0.6), projectile.knockBack, player.whoAmI);
+								}
+							}
+						}
+						target.AddBuff(BuffID.Venom, 240);
+					}
                 }
                 else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
                 {

@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] == 0f)
             {
                 projectile.velocity.X *= 0.99f;
-                projectile.velocity.Y += 0.35f;
+                projectile.velocity.Y += 0.25f;
                 projectile.rotation = projectile.velocity.ToRotation();
 
                 if (shoot)
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.ignoreWater = true;
                 projectile.tileCollide = false;
                 int id = (int)projectile.ai[1];
-                if (id >= 0 && id < 200 && Main.npc[id].active && !Main.npc[id].dontTakeDamage)
+                if (id >= 0 && id < Main.maxNPCs && Main.npc[id].active && !Main.npc[id].dontTakeDamage)
                 {
                     projectile.Center = Main.npc[id].Center - projectile.velocity * 2f;
                     projectile.gfxOffY = Main.npc[id].gfxOffY;
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Rogue
             int flaresFound = 0;
             int oldestFlare = -1;
             int oldestFlareTimeLeft = 300;
-            for (int i = 0; i < 1000; i++)
+            for (int i = 0; i < Main.maxProjectiles; i++)
             {
                 if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == projectile.type && i != projectile.whoAmI && Main.projectile[i].ai[1] == target.whoAmI)
                 {
