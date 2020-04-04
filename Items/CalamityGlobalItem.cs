@@ -847,7 +847,7 @@ namespace CalamityMod.Items
                         if (item.type == ModContent.ItemType<BlushieStaff>())
                             tt2.overrideColor = new Color(0, 0, 255);
                         if (item.type == ModContent.ItemType<TheDanceofLight>())
-                            tt2.overrideColor = new Color(1f, 0.5f + 0.35f * Main.DiscoG / 255f, 1f);
+                            tt2.overrideColor = TheDanceofLight.GetSyncedLightColor();
                         if (item.type == ModContent.ItemType<NanoblackReaperMelee>() || item.type == ModContent.ItemType<NanoblackReaperRogue>())
                             tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
                         if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
