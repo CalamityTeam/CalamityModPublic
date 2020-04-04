@@ -423,12 +423,12 @@ namespace CalamityMod.CalPlayer
                     int acidRainDropRate = (int)(MathHelper.Clamp(Main.invasionSize * 0.4f, 13.5f, 50) * 2.25);
                     Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
 
-					int acidDmg = CalamityWorld.downedPolterghast ? 35 : CalamityWorld.downedAquaticScourge ? 25 : 15;
-
-                    if (player.miscCounter % acidRainDropRate == 0f && Main.rand.NextBool(2))
+                    if (player.miscCounter % acidRainDropRate == 0f)
                     {
-                        Projectile.NewProjectile(spawnPoint, Vector2.UnitY * Main.rand.NextFloat(7f, 11f),
-                            ModContent.ProjectileType<AcidDrop>(), acidDmg, 0f);
+						if (CalamityWorld.downedAquaticScourge && !CalamityWorld.downedPolterghast && Main.rand.NextBool(12))
+						{
+							NPC.NewNPC((int)spawnPoint.X, (int)spawnPoint.Y, ModContent.NPCType<IrradiatedSlime>());
+						}
                     }
                 }
             }
@@ -918,6 +918,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.icicleCooldown--;
 			if (modPlayer.statisTimer > 0 && player.dashDelay >= 0)
 				modPlayer.statisTimer = 0;
+			if (modPlayer.hallowedRuneCooldown > 0)
+				modPlayer.hallowedRuneCooldown--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)

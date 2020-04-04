@@ -39,7 +39,6 @@ namespace CalamityMod.Events
             ( ModContent.NPCType<NuclearToad>(), 0, false ),
             ( ModContent.NPCType<AcidEel>(), 0, true ),
             ( ModContent.NPCType<Orthocera>(), 1, true ),
-            ( ModContent.NPCType<IrradiatedSlime>(), 1, false ),
             ( ModContent.NPCType<WaterLeech>(), 1, true ),
             ( ModContent.NPCType<Skyfin>(), 1, true ),
             ( ModContent.NPCType<Trilobite>(), 1, true ),

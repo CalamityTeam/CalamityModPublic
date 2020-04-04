@@ -3061,7 +3061,7 @@ Provides heat and cold protection in Death Mode";
 			}
 
             // Precise only gives 1% crit and Lucky only gives 3% crit
-            if (item.prefix == PrefixID.Precise) || (item.prefix == PrefixID.Lucky))
+            if ((item.prefix == PrefixID.Precise) || (item.prefix == PrefixID.Lucky))
             {
                 player.meleeCrit -= 1;
                 player.rangedCrit -= 1;
