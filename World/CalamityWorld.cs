@@ -111,6 +111,7 @@ namespace CalamityMod.World
         public static bool startAcidicDownpour = false;
         public static bool forcedRainAlready = false;
         public static bool forcedDownpourWithTear = false;
+        public static int forceRainTimer = 0;
         public static float AcidRainCompletionRatio
         {
             get
@@ -256,6 +257,7 @@ namespace CalamityMod.World
             rainingAcid = false;
             downedEoCAcidRain = false;
             downedAquaticScourgeAcidRain = false;
+			forceRainTimer = 0;
         }
         #endregion
 
@@ -951,6 +953,13 @@ namespace CalamityMod.World
 					}
 				}
 			}
+			if (forceRainTimer == 1)
+			{
+				AcidRainEvent.TryStartEvent();
+				CalamityMod.UpdateServerBoolean();
+			}
+			if (forceRainTimer > 0)
+				forceRainTimer--;
 
             if (rainingAcid)
             {
