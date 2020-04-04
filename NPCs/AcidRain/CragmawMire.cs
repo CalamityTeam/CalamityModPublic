@@ -1,7 +1,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Projectiles.Environment;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -137,6 +137,13 @@ namespace CalamityMod.NPCs.AcidRain
                     }
                 }
             }
+            else if (npc.ai[0] % 420f > 300f && npc.ai[0] % 7f == 6f && CalamityWorld.downedPolterghast)
+            {
+                if (Main.netMode != NetmodeID.MultiplayerClient)
+                {
+                    Projectile.NewProjectile(npc.Center, -Vector2.UnitY.RotatedByRandom(0.6f) * Main.rand.NextFloat(10f, 15f), ModContent.ProjectileType<AcidDrop>(), 69, 4f, Main.myPlayer, 0f, npc.whoAmI);
+                }
+            }
 
             if (!Phase2)
             {
@@ -162,14 +169,11 @@ namespace CalamityMod.NPCs.AcidRain
                             if (CalamityWorld.downedPolterghast)
                             {
                                 possibleEnemies.Add(ModContent.NPCType<GammaSlime>());
-                                possibleEnemies.Add(ModContent.NPCType<FlakCrab>());
                                 possibleEnemies.Add(ModContent.NPCType<NuclearToad>());
                                 possibleEnemies.Add(ModContent.NPCType<Orthocera>());
                             }
                             else
                             {
-                                possibleEnemies.Add(ModContent.NPCType<IrradiatedSlime>());
-                                possibleEnemies.Add(ModContent.NPCType<FlakCrab>());
                                 possibleEnemies.Add(ModContent.NPCType<WaterLeech>());
                                 possibleEnemies.Add(ModContent.NPCType<Trilobite>());
                             }
@@ -178,17 +182,17 @@ namespace CalamityMod.NPCs.AcidRain
                             int attempts = 0;
                             while (!WorldGen.InWorld((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16))
                             {
-                                spawnPosition = npc.Center + Utils.RandomVector2(Main.rand, -360f, 360f);
+                                spawnPosition = npc.Center + Utils.RandomVector2(Main.rand, -460f, 460f);
                                 attempts++;
                                 if (attempts > 200)
                                     return;
                             }
                             attempts = 0;
 
-                            while (CalamityUtils.TileSelectionSolidSquare((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16, 4, 4) ||
+                            while (CalamityUtils.TileSelectionSolidSquare((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16, 8, 8) ||
                                 CalamityUtils.ParanoidTileRetrieval((int)spawnPosition.X / 16, (int)spawnPosition.Y / 16).liquid != 255)
                             {
-                                spawnPosition = npc.Center + Utils.RandomVector2(Main.rand, -420f, 420f);
+                                spawnPosition = npc.Center + Utils.RandomVector2(Main.rand, -620f, 620f);
                                 attempts++;
                                 if (attempts > 300)
                                     return;

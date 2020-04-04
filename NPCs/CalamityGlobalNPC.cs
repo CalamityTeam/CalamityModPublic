@@ -4009,6 +4009,7 @@ namespace CalamityMod.NPCs
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
                         PossibleMinibosses = AcidRainEvent.PossibleMinibossesAS;
+                        PossibleEnemies.Add((ModContent.NPCType<IrradiatedSlime>(), 1, false));
                     }
                     if (CalamityWorld.downedPolterghast)
                     {
@@ -4019,7 +4020,10 @@ namespace CalamityMod.NPCs
                     {
                         if (spawnInfo.water || !PossibleEnemies.First(potential => potential.Item1 == enemy).Item3)
                         {
-                            pool.Add(enemy, 1f);
+                            if (!pool.ContainsKey(enemy))
+                            {
+                                pool.Add(enemy, 1f);
+                            }
                         }
                     }
                     if (PossibleMinibosses.Count > 0)
@@ -4028,7 +4032,7 @@ namespace CalamityMod.NPCs
                         {
                             if (spawnInfo.water || !PossibleMinibosses.First(potential => potential.Item1 == enemy).Item3)
                             {
-                                pool.Add(enemy, 0.05f);
+                                pool.Add(enemy, enemy == ModContent.NPCType<CragmawMire>() ? 0.085f : 0.05f);
                             }
                         }
                     }

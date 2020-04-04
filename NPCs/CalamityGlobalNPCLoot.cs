@@ -1598,25 +1598,23 @@ namespace CalamityMod.NPCs
         #region Acid Rain
         private void AcidRainProgression(NPC npc)
         {
-            List<(int, int, bool)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
-            List<(int, int, bool)> PossibleMinibosses = new List<(int, int, bool)>();
+            List<(int, int, bool)> possibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
             if (CalamityWorld.downedAquaticScourge)
-                PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
+                possibleEnemies = AcidRainEvent.PossibleEnemiesAS;
             if (CalamityWorld.downedPolterghast)
-                PossibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
-            if (PossibleEnemies.Select(enemy => enemy.Item1).Contains(npc.type) && CalamityWorld.rainingAcid)
+                possibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
+            if (possibleEnemies.Select(enemy => enemy.Item1).Contains(npc.type) && CalamityWorld.rainingAcid)
             {
-                CalamityWorld.acidRainPoints -= PossibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
+                CalamityWorld.acidRainPoints -= possibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
                 if (CalamityWorld.downedPolterghast)
                 {
                     CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
                 }
             }
-            PossibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : PossibleMinibosses;
-            if (AcidRainEvent.PossibleMinibossesAS.Select(miniboss => miniboss.Item1).Contains(npc.type) ||
-                AcidRainEvent.PossibleMinibossesPolter.Select(miniboss => miniboss.Item1).Contains(npc.type))
+            List<(int, int, bool)> possibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : AcidRainEvent.PossibleMinibossesAS;
+            if (possibleMinibosses.Select(miniboss => miniboss.Item1).Contains(npc.type))
             {
-                CalamityWorld.acidRainPoints -= PossibleMinibosses.Find(enemy => enemy.Item1 == npc.type).Item2;
+                CalamityWorld.acidRainPoints -= possibleMinibosses.Find(enemy => enemy.Item1 == npc.type).Item2;
                 if (CalamityWorld.downedPolterghast)
                 {
                     CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
