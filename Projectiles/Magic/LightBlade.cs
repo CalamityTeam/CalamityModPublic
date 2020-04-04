@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -9,10 +10,13 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class LightBlade : ModProjectile
 	{
-        private const int Lifetime = 180;
+        private const int Lifetime = 300;
         private const int NumAfterimages = 8;
         private const float LightBrightness = 0.7f;
         private const int DustID = 175;
+        const float SwordHomingStrength = 30f;
+        const float EnemyHomingStrength = 70f;
+
         private Color lightColor = Color.White;
 
         public override void SetStaticDefaults()
@@ -58,8 +62,23 @@ namespace CalamityMod.Projectiles.Magic
             else
                 Lighting.AddLight(projectile.Center, lightColor.ToVector3() * LightBrightness);
 
-            // The projectile never slows down, even as it tries to curve towards enemies
-            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 1000f, projectile.ai[0], 80f);
+            // Home in on the paired sword, if one is defined and it exists
+            if (projectile.ai[1] > 0f)
+            {
+                Projectile paired = Main.projectile[(int)(projectile.ai[1] - 1)];
+                if (paired is null || !paired.active || paired.type != ModContent.ProjectileType<LightBlade>())
+                    projectile.ai[1] = 0f;
+                else
+                {
+                    Vector2 homingVec = projectile.DirectionTo(paired.Center) * projectile.ai[0];
+                    projectile.velocity = (projectile.velocity * (SwordHomingStrength - 1f) + homingVec) / SwordHomingStrength;
+                }
+            }
+
+            // Also weakly home in on nearby enemies
+            CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 1000f, projectile.ai[0], EnemyHomingStrength);
+
+            // The projectile never slows down, even as it tries to curve towards enemies and its paired sword.
             float currentSpeed = projectile.velocity.Length();
             projectile.velocity *= projectile.ai[0] / currentSpeed;
         }
@@ -90,10 +109,26 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(projectile.Center, lightColor.ToVector3() * startingBrightness);
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Player player = Main.player[projectile.owner];
+            CalamityPlayer calPlayer = player.Calamity();
+            calPlayer.danceOfLightCharge++;
+            if (calPlayer.danceOfLightCharge >= TheDanceofLight.HitsPerFlash)
+            {
+                calPlayer.danceOfLightCharge = 0;
+                if (projectile.owner == Main.myPlayer)
+                {
+                    int flashDamage = (int)(TheDanceofLight.FlashBaseDamage * player.MagicDamage());
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BlindingLight>(), flashDamage, 0f, projectile.owner);
+                }
+            }
+
+        }
+
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
-
+            Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 3);
             int numDust = Main.rand.Next(4, 10);
             for (int i = 0; i < numDust; i++)
             {
