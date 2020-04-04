@@ -60,8 +60,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int numProjs = 2;
-            for(int i = 0; i < numProjs; ++i)
+            Projectile[] pair = new Projectile[2];
+            for(int i = 0; i < 2; ++i)
             {
                 // Pick a random direction somewhere behind the player
                 float shootAngle = (float)Math.Atan2(speedY, speedX);
@@ -73,8 +73,13 @@ namespace CalamityMod.Items.Weapons.Magic
                 float randSpeed = Main.rand.NextFloat(1f - SpeedRandomness, 1f + SpeedRandomness);
                 float randAngle = Main.rand.NextFloat(-Inaccuracy, Inaccuracy);
                 Vector2 velocity = randSpeed * new Vector2(speedX, speedY).RotatedBy(randAngle);
-                Projectile.NewProjectileDirect(spawnPos, velocity, type, damage, knockBack, player.whoAmI);
+                Projectile p = Projectile.NewProjectileDirect(spawnPos, velocity, type, damage, knockBack, player.whoAmI);
+                pair[i] = p;
             }
+
+            // Pair the swords up so they home in on each other
+            pair[0].ai[1] = pair[1].whoAmI + 1f;
+            pair[1].ai[1] = pair[0].whoAmI + 1f;
             return false;
         }
 
