@@ -150,6 +150,7 @@ namespace CalamityMod.CalPlayer
         public int profanedSoulWeaponUsage = 0;
         public int profanedSoulWeaponType = 0;
         public int hurtSoundTimer = 0;
+        public int danceOfLightCharge = 0;
 
         // Sound
         public bool playRogueStealthSound = false;
@@ -1856,6 +1857,7 @@ namespace CalamityMod.CalPlayer
             bloodfinTimer = 0;
             revivify = false;
             healCounter = 300;
+            danceOfLightCharge = 0;
             #endregion
 
             #region Armorbonuses

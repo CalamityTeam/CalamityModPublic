@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Weapons.Magic;
+﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -108,10 +109,26 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(projectile.Center, lightColor.ToVector3() * startingBrightness);
         }
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Player player = Main.player[projectile.owner];
+            CalamityPlayer calPlayer = player.Calamity();
+            calPlayer.danceOfLightCharge++;
+            if (calPlayer.danceOfLightCharge >= TheDanceofLight.HitsPerFlash)
+            {
+                calPlayer.danceOfLightCharge = 0;
+                if (projectile.owner == Main.myPlayer)
+                {
+                    int flashDamage = (int)(TheDanceofLight.FlashBaseDamage * player.MagicDamage());
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BlindingLight>(), flashDamage, 0f, projectile.owner);
+                }
+            }
+
+        }
+
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 3);
-
+            Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 3);
             int numDust = Main.rand.Next(4, 10);
             for (int i = 0; i < numDust; i++)
             {
