@@ -1,15 +1,18 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ToxicArrow : ModProjectile
+    public class CorrodedShell : ModProjectile
     {
+        public int auraTimer = 3;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Toxic Arrow");
+            DisplayName.SetDefault("Shell");
         }
 
         public override void SetDefaults()
@@ -19,13 +22,30 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.arrow = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 240;
+            projectile.penetrate = 6;
+            projectile.timeLeft = 600;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+            projectile.aiStyle = 1;
         }
 
         public override void AI()
         {
+            projectile.velocity.X *= 0.9995f;
+            projectile.velocity.Y *= 0.9995f;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+
+            auraTimer--;
+            if (auraTimer <= 0)
+            {
+                if (projectile.owner == Main.myPlayer)
+                {
+                    int aura = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<IrradiatedAura>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+					Main.projectile[aura].Calamity().forceRanged = true;
+					Main.projectile[aura].timeLeft = 60;
+                }
+                auraTimer = 3;
+            }
         }
 
         public override void Kill(int timeLeft)
@@ -35,9 +55,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.position = projectile.position - projectile.Size / 2f;
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
-			projectile.damage /= 2;
             projectile.Damage();
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
             int count = Main.rand.Next(6, 15);
@@ -51,8 +68,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (Main.rand.NextBool(3))
-				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 30);
+			target.AddBuff(ModContent.BuffType<Irradiated>(), 60);
+			target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 30);
         }
     }
 }

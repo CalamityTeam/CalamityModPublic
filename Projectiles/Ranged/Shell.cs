@@ -19,6 +19,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 5;
             projectile.aiStyle = 1;
 			projectile.arrow = true;
+            projectile.timeLeft = 600;
         }
 
         public override void AI()

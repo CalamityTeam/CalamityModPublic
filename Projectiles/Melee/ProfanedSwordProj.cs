@@ -62,7 +62,10 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.immune[projectile.owner] = 6;
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)((double)projectile.damage * 0.5), knockback, Main.myPlayer);
+			if (Main.myPlayer == projectile.owner)
+			{
+				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(projectile.damage * 0.5), knockback, projectile.owner);
+			}
         }
     }
 }

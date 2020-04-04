@@ -3432,17 +3432,17 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<DesecratedBubble>())
+                if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<DesecratedBubble>())
                 {
                     damage = (int)(damage * 0.75);
-                }
-                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
-                {
-                    damage = (int)(damage * 0.25);
                 }
                 else if (projectile.type == ModContent.ProjectileType<SulphuricNukesplosion>())
                 {
                     damage /= 3;
+                }
+                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
+                {
+                    damage = (int)(damage * 0.25);
                 }
             }
 			else if (AquaticScourgeIDs.Contains(npc.type))
