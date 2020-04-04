@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -18,8 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.aiStyle = 3;
-            projectile.timeLeft = 300;
-            aiType = 52;
+            projectile.timeLeft = 180;
+            aiType = ProjectileID.WoodenBoomerang;
             projectile.Calamity().rogue = true;
         }
 
