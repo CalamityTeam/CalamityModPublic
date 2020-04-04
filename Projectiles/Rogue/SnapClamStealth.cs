@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SnapClamProj : ModProjectile
+    public class SnapClamStealth : ModProjectile
     {
         public int clamCounter = 0;
         public bool openClam = true;
@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
+			projectile.localNPCHitCooldown = 10;
+			projectile.usesLocalNPCImmunity = true;
         }
 
         public override void AI()
@@ -61,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (openClam)
             {
                 onEnemy = true;
-				CalamityUtils.ModifyHitNPCSticky(projectile, 2, false);
+				CalamityUtils.ModifyHitNPCSticky(projectile, 7, false);
             }
         }
 
@@ -93,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<SnapClamDebuff>(), 240);
+            target.AddBuff(ModContent.BuffType<SnapClamDebuff>(), 360);
         }
     }
 }

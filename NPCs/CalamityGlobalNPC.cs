@@ -520,9 +520,8 @@ namespace CalamityMod.NPCs
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
                     if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ModContent.ProjectileType<SnapClamProj>()) &&
-                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI &&
-                        projectileCount < 2)
+                        (Main.projectile[j].type == ModContent.ProjectileType<SnapClamProj>() || Main.projectile[j].type == ModContent.ProjectileType<SnapClamStealth>()) &&
+                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
                     }
