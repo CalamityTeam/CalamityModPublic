@@ -216,6 +216,8 @@ namespace CalamityMod.NPCs.AquaticScourge
                 {
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(sulfSeaBoostMessage), sulfSeaBoostColor);
                 }
+				//set a timer for acid rain to start after 10 seconds
+				CalamityWorld.forceRainTimer = 601;
             }
 
             // Mark Aquatic Scourge as dead
