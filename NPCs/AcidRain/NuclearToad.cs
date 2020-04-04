@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.aiStyle = aiType = -1;
 
             npc.damage = 15;
-            npc.lifeMax = 120;
+            npc.lifeMax = 60;
             npc.defense = 3;
 
             if (CalamityWorld.downedPolterghast)
@@ -41,7 +41,6 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.damage = 80;
                 npc.lifeMax = 420;
             }
-
 
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 5, 0);

@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.chaseable = false;
                 if (Math.Abs(closest.Center.X - npc.Center.X) < 320f &&
                     closest.Center.Y - npc.Top.Y < -60f &&
-                    npc.ai[1]++ >= Main.rand.Next(35, 95))
+                    npc.ai[1]++ >= Main.rand.Next(90, 135))
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {

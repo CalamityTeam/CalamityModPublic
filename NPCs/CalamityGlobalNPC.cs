@@ -3640,17 +3640,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (modPlayer.hallowedPower)
-            {
-                if (isSummon && Main.rand.NextBool(4))
-                {
-                    Vector2 spawnPosition = npc.Center - new Vector2(0f, 920f).RotatedByRandom(0.3f);
-                    float speed = Main.rand.NextFloat(17f, 23f);
-                    Projectile.NewProjectile(spawnPosition, Vector2.Normalize(npc.Center - spawnPosition) * speed,
-                        ModContent.ProjectileType<HallowedStarSummon>(), projectile.damage, 3f, projectile.owner);
-                }
-            }
-
             if (modPlayer.corrosiveSpine && projectile.Calamity().rogue)
             {
                 for (int i = 0; i < 3; i++)
@@ -4009,6 +3998,7 @@ namespace CalamityMod.NPCs
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
                         PossibleMinibosses = AcidRainEvent.PossibleMinibossesAS;
+                        PossibleEnemies.Add((ModContent.NPCType<IrradiatedSlime>(), 1, false));
                     }
                     if (CalamityWorld.downedPolterghast)
                     {
@@ -4019,7 +4009,10 @@ namespace CalamityMod.NPCs
                     {
                         if (spawnInfo.water || !PossibleEnemies.First(potential => potential.Item1 == enemy).Item3)
                         {
-                            pool.Add(enemy, 1f);
+                            if (!pool.ContainsKey(enemy))
+                            {
+                                pool.Add(enemy, 1f);
+                            }
                         }
                     }
                     if (PossibleMinibosses.Count > 0)
@@ -4028,7 +4021,7 @@ namespace CalamityMod.NPCs
                         {
                             if (spawnInfo.water || !PossibleMinibosses.First(potential => potential.Item1 == enemy).Item3)
                             {
-                                pool.Add(enemy, 0.05f);
+                                pool.Add(enemy, enemy == ModContent.NPCType<CragmawMire>() ? 0.085f : 0.05f);
                             }
                         }
                     }
