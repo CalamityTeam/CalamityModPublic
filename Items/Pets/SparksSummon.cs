@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Pets
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Enchanted Butterfly");
-            Tooltip.SetDefault("Feed him dragonflies to keep him strong!\n" +
+            Tooltip.SetDefault("Feed him butterflies to keep him strong!\n" +
                 "Summons a mysterious dragonfly light pet\n" +
                 "Provides a small amount of light in the abyss");
         }
