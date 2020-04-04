@@ -465,6 +465,7 @@ namespace CalamityMod.CalPlayer
         public bool starbusterCore = false;
         public bool starTaintedGenerator = false;
         public bool hallowedRune = false;
+		public int hallowedRuneCooldown = 0;
 		public bool silvaWings = false;
 		public int icicleCooldown = 0;
 
@@ -1686,6 +1687,7 @@ namespace CalamityMod.CalPlayer
             sandCloakCooldown = false;
 			icicleCooldown = 0;
 			statisTimer = 0;
+			hallowedRuneCooldown = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;

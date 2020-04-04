@@ -918,6 +918,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.icicleCooldown--;
 			if (modPlayer.statisTimer > 0 && player.dashDelay >= 0)
 				modPlayer.statisTimer = 0;
+			if (modPlayer.hallowedRuneCooldown > 0)
+				modPlayer.hallowedRuneCooldown--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
