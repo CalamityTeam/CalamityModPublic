@@ -1586,9 +1586,9 @@ namespace CalamityMod.Projectiles
 							if (Main.rand.NextBool(3) && modPlayer.hallowedRuneCooldown <= 0)
 							{
 								modPlayer.hallowedRuneCooldown = 60;
-								Vector2 spawnPosition = npc.Center - new Vector2(0f, 920f).RotatedByRandom(0.3f);
+								Vector2 spawnPosition = target.Center - new Vector2(0f, 920f).RotatedByRandom(0.3f);
 								float speed = Main.rand.NextFloat(17f, 23f);
-								Projectile.NewProjectile(spawnPosition, Vector2.Normalize(npc.Center - spawnPosition) * speed,
+								Projectile.NewProjectile(spawnPosition, Vector2.Normalize(target.Center - spawnPosition) * speed,
 									ModContent.ProjectileType<HallowedStarSummon>(), projectile.damage / 3, 3f, projectile.owner);
 							}
 						}
