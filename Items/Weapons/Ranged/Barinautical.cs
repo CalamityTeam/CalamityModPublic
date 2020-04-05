@@ -15,13 +15,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 22;
+            item.damage = 20;
             item.ranged = true;
             item.width = 30;
             item.height = 42;
-            item.useTime = 3;
-            item.reuseDelay = 15;
-            item.useAnimation = 9;
+            item.useTime = 4;
+            item.reuseDelay = 20;
+            item.useAnimation = 12;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 2f;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = 5;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = 10;
+            item.shoot = ModContent.ProjectileType<BoltArrow>();
             item.shootSpeed = 15f;
             item.useAmmo = 40;
         }
