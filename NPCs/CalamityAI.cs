@@ -4233,7 +4233,10 @@ namespace CalamityMod.NPCs
 					if (npc.ai[3] == (float)num1325)
 					{
 						SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsySummon, (int)npc.position.X, (int)npc.position.Y);
-						sound.Pitch = 0.25f;
+						if (sound != null)
+						{
+							sound.Pitch = 0.25f;
+						}
 
 						NPC.NewNPC(num1321 * 16 + 8, num1322 * 16, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 					}

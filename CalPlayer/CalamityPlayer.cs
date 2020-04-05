@@ -68,9 +68,9 @@ namespace CalamityMod.CalPlayer
 
     public class CalamityPlayer : ModPlayer
     {
-
         #region Variables
-        // No Category
+
+        #region No Category
         public static bool areThereAnyDamnBosses = false;
         public bool drawBossHPBar = true;
         public bool shouldDrawSmallText = true;
@@ -87,13 +87,15 @@ namespace CalamityMod.CalPlayer
         public bool killSpikyBalls = false;
         public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
-        
-        // "External" variables -- Only set by Mod.Call
+        #endregion
+
+        #region External variables -- Only set by Mod.Call
         public int externalAbyssLight = 0;
         public bool externalColdImmunity = false;
         public bool externalHeatImmunity = false;
+        #endregion
 
-        // Stat Meter
+        #region Stat Meter
         public int[] damageStats = new int[5];
         public int[] critStats = new int[4];
         public int defenseStat = 0;
@@ -120,8 +122,9 @@ namespace CalamityMod.CalPlayer
         public float standingRegenStat = 0f;
         public float movingRegenStat = 0f;
         public float stealthUIAlpha = 1f;
+        #endregion
 
-        // Timer and Counter
+        #region Timer and Counter
         public int bossRushImmunityFrameCurseTimer = 0;
         public int aBulwarkRareMeleeBoostTimer = 0;
         public int nebulaManaNerfCounter = 0;
@@ -151,13 +154,15 @@ namespace CalamityMod.CalPlayer
         public int profanedSoulWeaponType = 0;
         public int hurtSoundTimer = 0;
         public int danceOfLightCharge = 0;
+        #endregion
 
-        // Sound
+        #region Sound
         public bool playRogueStealthSound = false;
         public bool playFullRageSound = true;
         public bool playFullAdrenalineSound = true;
+        #endregion
 
-        // Proficiency
+        #region Proficiency
         public int meleeLevel = 0;
         public int rangedLevel = 0;
         public int magicLevel = 0;
@@ -174,8 +179,9 @@ namespace CalamityMod.CalPlayer
         public int exactSummonLevel = 0;
         public int exactRogueLevel = 0;
         public int gainLevelCooldown = 120;
+        #endregion
 
-        //Rogue
+        #region Rogue
         public float rogueStealth = 0f;
         public float rogueStealthMax = 0f;
         public float stealthGenStandstill = 1f;
@@ -193,14 +199,16 @@ namespace CalamityMod.CalPlayer
         public bool throwingAmmoCost75 = false;
         public bool throwingAmmoCost66 = false;
         public bool throwingAmmoCost50 = false;
+        #endregion
 
-        // Mount
+        #region Mount
         public bool onyxExcavator = false;
         public bool angryDog = false;
         public bool fab = false;
         public bool crysthamyr = false;
+        #endregion
 
-        // Pet
+        #region Pet
         public bool thirdSage = false;
         public bool thirdSageH = true; // Third sage healing
         public bool perfmini = false;
@@ -221,22 +229,25 @@ namespace CalamityMod.CalPlayer
         public bool babyGhostBell = false;
         public bool radiator = false;
         public bool scalPet = false;
+        #endregion
 
-        // Rage
+        #region Rage
         public int stressMax = 10000;
         public int stress;
         public int stressCD;
         public bool stressLevel500 = false;
         public bool rageMode = false;
         public int gainRageCooldown = 60;
+        #endregion
 
-        // Adrenaline
+        #region Adrenaline
         public int adrenalineMax = 10000;
         public int adrenaline;
         public int adrenalineCD;
         public bool adrenalineMode = false;
+        #endregion
 
-        // Permanent Buff
+        #region Permanent Buff
         public bool extraAccessoryML = false;
         public bool eCore = false;
         public bool pHeart = false;
@@ -253,8 +264,9 @@ namespace CalamityMod.CalPlayer
         public bool adrenalineBoostTwo = false;
         public bool adrenalineBoostThree = false;
         public bool healToFull = false;
+        #endregion
 
-        // Lore
+        #region Lore
         public bool kingSlimeLore = false;
         public bool desertScourgeLore = false;
         public bool crabulonLore = false;
@@ -290,8 +302,9 @@ namespace CalamityMod.CalPlayer
         public bool corruptionLore = false;
         public bool crimsonLore = false;
         public bool underworldLore = false;
+        #endregion
 
-        // Accessory
+        #region Accessory
         public bool fasterMeleeLevel = false;
         public bool fasterRangedLevel = false;
         public bool fasterMagicLevel = false;
@@ -470,9 +483,9 @@ namespace CalamityMod.CalPlayer
 		public int hallowedRuneCooldown = 0;
 		public bool silvaWings = false;
 		public int icicleCooldown = 0;
+        #endregion
 
-
-        // Armor Set
+        #region Armor Set
         public bool snowRuffianSet = false;
         public bool eskimoSet = false; //vanilla armor
         public bool meteorSet = false; //vanilla armor, for space gun nerf
@@ -577,8 +590,9 @@ namespace CalamityMod.CalPlayer
         public bool reaverOrb = false;
         public bool chaosSpirit = false;
         public bool redDevil = false;
+        #endregion
 
-        // Debuff
+        #region Debuff
         public bool alcoholPoisoning = false;
         public bool shadowflame = false;
         public bool wDeath = false;
@@ -615,8 +629,9 @@ namespace CalamityMod.CalPlayer
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
         public bool vaporfied = false;
+        #endregion
 
-        // Buff
+        #region Buff
         public bool trinketOfChiBuff = false;
         public int chiBuffTimer = 0;
         public bool corrEffigy = false;
@@ -702,8 +717,9 @@ namespace CalamityMod.CalPlayer
         public bool hallowedDefense = false;
         public bool hallowedPower = false;
         public bool hallowedRegen = false;
+        #endregion
 
-        // Minion
+        #region Minion
         public bool wDroid = false;
         public bool resButterfly = false;
         public bool glSword = false;
@@ -781,8 +797,9 @@ namespace CalamityMod.CalPlayer
         public bool necrosteocytesDudes = false;
         public bool gammaHead = false;
         public List<int> GammaCanisters = new List<int>();
+        #endregion
 
-        // Biome
+        #region Biome
         public bool ZoneCalamity = false;
         public bool ZoneAstral = false;
         public bool ZoneSunkenSea = false;
@@ -795,8 +812,9 @@ namespace CalamityMod.CalPlayer
         public bool abyssDeath = false;
         public int abyssBreathCD;
         public float caveDarkness = 0f;
+        #endregion
 
-        // Transformation
+        #region Transformation
         public bool abyssalDivingSuitPrevious;
         public bool abyssalDivingSuit;
         public bool abyssalDivingSuitHide;
@@ -825,6 +843,7 @@ namespace CalamityMod.CalPlayer
         public bool snowmanForce;
         public bool snowmanNoseless;
         public bool snowmanPower;
+        #endregion
 
         #endregion
 
@@ -8524,6 +8543,61 @@ namespace CalamityMod.CalPlayer
             }
         });
 
+        public static readonly PlayerLayer StratusSphereDrawing = new PlayerLayer("CalamityMod", "StratusSphereDrawing", PlayerLayer.HeldProjFront, (drawInfo) =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            if (drawPlayer.inventory[drawPlayer.selectedItem].type == ModContent.ItemType<StratusSphere>())
+            {
+                SpriteEffects effect = SpriteEffects.FlipHorizontally;
+                if (drawPlayer.gravDir == 1f)
+                {
+                    if (drawPlayer.direction == 1)
+                    {
+                        effect = SpriteEffects.None;
+                    }
+                    else
+                    {
+                        effect = SpriteEffects.FlipHorizontally;
+                    }
+                }
+                else
+                {
+                    if (drawPlayer.direction == 1)
+                    {
+                        effect = SpriteEffects.FlipVertically;
+                    }
+                    else
+                    {
+                        effect = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
+                    }
+                }
+                Vector2 itemDrawPosition = drawPlayer.Center;
+                Texture2D drawTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/StratusSphereHold");
+                Rectangle rectangle = drawTexture.Frame(1, 4, 0, (int)(2 * Math.Sin(drawPlayer.miscCounter / 20f * MathHelper.TwoPi) + 2));
+                Vector2 drawOffset = new Vector2(rectangle.Width / 2 * drawPlayer.direction, 0f);
+                Vector2 origin = rectangle.Size() / 2f;
+                Main.playerDrawData.Add(new DrawData(drawTexture,
+                                                     (itemDrawPosition - Main.screenPosition + drawOffset).Floor(),
+                                                     new Rectangle?(rectangle),
+                                                     Color.White,
+                                                     drawPlayer.itemRotation,
+                                                     origin,
+                                                     drawPlayer.inventory[drawPlayer.selectedItem].scale,
+                                                     effect,
+                                                     0));
+                drawTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/StratusSphereHoldGlow");
+                Main.playerDrawData.Add(new DrawData(drawTexture,
+                                                     (itemDrawPosition - Main.screenPosition + drawOffset).Floor(),
+                                                     new Rectangle?(rectangle),
+                                                     Color.White,
+                                                     drawPlayer.itemRotation, 
+                                                     origin,
+                                                     drawPlayer.inventory[drawPlayer.selectedItem].scale,
+                                                     effect, 
+                                                     0));
+            }
+        });
+
         public override void ModifyDrawLayers(List<PlayerLayer> list)
         {
             MiscEffectsBack.visible = true;
@@ -8546,6 +8620,7 @@ namespace CalamityMod.CalPlayer
 				list.Insert(legsIndex - 1, Tail);
 			}
             list.Add(ColdDivinityOverlay);
+            list.Add(StratusSphereDrawing);
         }
 
         public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)

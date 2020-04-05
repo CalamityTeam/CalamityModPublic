@@ -11,8 +11,10 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Heart");
-            Tooltip.SetDefault("Summons a frigid entity with a head\n" +
-                               "If the entity already exists, using this item again will cause it to gain more heads");
+            Tooltip.SetDefault("Summons a horrible head that's attached to you\n" +
+                               "If more than seven heads exist, nuclear canisters appear somewhere in the screen view sometimes\n" +
+                               "Canisters appear more commonly the more heads exist\n" +
+                               "When a head touches a canister, it is consumed, and 7 existing heads begin firing a laser beam");
         }
 
         public override void SetDefaults()

@@ -156,7 +156,12 @@ namespace CalamityMod.Projectiles.Summon
                         player.PickAmmo(exampleGun, ref shoot, ref shootSpeed, ref canShoot, ref damage, ref knockBack);
                         int idx = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * shootSpeed, shoot,
                             damage, knockBack, projectile.owner);
-                        Main.projectile[idx].Calamity().forceMinion = true;
+                        // There's airway for a small bug in here, but the potential alterative (that has indeed been appearing), where
+                        // the projectile simply cannot exist, is far worse than this. If you have another solution, let me know.
+                        if (idx >= 0 && idx < Main.projectile.Length)
+                        {
+                            Main.projectile[idx].Calamity().forceMinion = true;
+                        }
                     }
                 }
                 float SAImovement = 0.25f;

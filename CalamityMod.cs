@@ -3788,6 +3788,10 @@ namespace CalamityMod
                     case CalamityModMessageType.AcidRainOldDukeSummonSync:
                         CalamityWorld.triedToSummonOldDuke = reader.ReadBoolean();
                         break;
+                    case CalamityModMessageType.GaelsGreatswordSwingSync:
+                        byte playerIndex = reader.ReadByte();
+                        Main.player[playerIndex].Calamity().gaelSwipes = reader.ReadInt32();
+                        break;
                     default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
@@ -3868,6 +3872,7 @@ namespace CalamityMod
 		DeathBossSpawnCountdownSync,
         AcidRainSync,
         AcidRainUIDrawFadeSync,
-        AcidRainOldDukeSummonSync
+        AcidRainOldDukeSummonSync,
+        GaelsGreatswordSwingSync
     }
 }

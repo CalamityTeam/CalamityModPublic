@@ -23,8 +23,8 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.damage = 419;
 			item.noMelee = true;
 			item.magic = true;
-			item.width = 50;
-			item.height = 50;
+			item.width = 22;
+			item.height = 24;
 			item.useTime = 45;
 			item.useAnimation = 45;
 			item.shoot = ModContent.ProjectileType<StratusSphereProj>();
@@ -36,6 +36,7 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.rare = 4;
 			item.autoReuse = true;
 			item.useTurn = true;
+			item.noUseGraphic = true;
 			item.holdStyle = 3;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
