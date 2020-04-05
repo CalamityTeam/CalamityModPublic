@@ -22,6 +22,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Beds };
             bed = true;
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsChair);
         }
 
         public override bool CreateDust(int i, int j, ref int type)

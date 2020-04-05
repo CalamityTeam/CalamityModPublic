@@ -37,12 +37,6 @@ namespace CalamityMod.Items.Armor
 			player.Calamity().hydrothermalSmoke = true;
         }
 
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawHair = true;
-            drawAltHair = true;
-        }
-
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "5% increased ranged damage\n" +
