@@ -30,10 +30,10 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
-            float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
-            float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
-            float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+            float dist1 = projectile.Distance(targetHitbox.TopLeft());
+            float dist2 = projectile.Distance(targetHitbox.TopRight());
+            float dist3 = projectile.Distance(targetHitbox.BottomLeft());
+            float dist4 = projectile.Distance(targetHitbox.BottomRight());
 
             float minDist = dist1;
             if (dist2 < minDist)
@@ -51,7 +51,10 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             if (projectile.timeLeft == Lifetime)
+            {
                 ConsumeNearbyBlades();
+                DivideDamageAmongstTargets();
+            }
 
             projectile.ai[0]++;
             float progress = (float)Math.Sin(projectile.ai[0] / Lifetime * MathHelper.Pi);
@@ -66,22 +69,46 @@ namespace CalamityMod.Projectiles.Magic
                 Filters.Scene["CalamityMod:LightBurst"].GetShader().UseProgress(progress);
             }
         }
-        public override void Kill(int timeLeft)
-        {
-            Filters.Scene.Deactivate("CalamityMod:LightBurst");
-        }
+
+        public override void Kill(int timeLeft) => Filters.Scene.Deactivate("CalamityMod:LightBurst");
+
         private void ConsumeNearbyBlades()
         {
             int lightBlade = ModContent.ProjectileType<LightBlade>();
+            int extraDamage = 0;
             for (int i = 0; i < Main.maxProjectiles; ++i)
             {
                 Projectile otherProj = Main.projectile[i];
                 if (otherProj is null || !otherProj.active || otherProj.owner != projectile.owner || otherProj.type != lightBlade)
                     continue;
 
-                projectile.damage += otherProj.damage;
+                // Can only consume blades within the flash radius (which should be most if not all of them anyway)
+                if (projectile.Distance(otherProj.Center) > Radius)
+                    continue;
+                extraDamage += otherProj.damage / 2;
                 otherProj.Kill();
-            } 
+            }
+            projectile.damage += extraDamage;
+        }
+
+        private void DivideDamageAmongstTargets()
+        {
+            int numTargets = 0;
+            for(int i = 0; i < Main.maxNPCs; ++i)
+            {
+                NPC npc = Main.npc[i];
+                if (npc is null || !npc.active || npc.friendly || npc.dontTakeDamage || npc.immortal)
+                    continue;
+                if (projectile.Colliding(default, npc.Hitbox))
+                    ++numTargets;
+            }
+
+            // The number of targets is minimum one to prevent dividing by zero.
+            if (numTargets <= 0)
+                numTargets = 1;
+
+            // Divide damage by the square root of nearby targets. 25 targets = 1/5th damage, for example.
+            projectile.damage = (int)(projectile.damage / Math.Sqrt(numTargets));
         }
     }
 }

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class TheDanceofLight : ModItem
+    public class Judgement : ModItem
     {
         public const int HitsPerFlash = 300;
         public const int FlashBaseDamage = 80000;

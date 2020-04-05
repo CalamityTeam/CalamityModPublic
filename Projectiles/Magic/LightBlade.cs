@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.alpha = 255;
-            projectile.penetrate = 3;
+            projectile.penetrate = 2;
             projectile.extraUpdates = 2;
             projectile.timeLeft = Lifetime;
             projectile.usesLocalNPCImmunity = true;
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             // Pick a random sword sprite and a random color to use.
             projectile.frame = Main.rand.Next(14);
-            lightColor = TheDanceofLight.GetRandomLightColor();
+            lightColor = Judgement.GetRandomLightColor();
 
             // Spawn starting dust.
             Vector2 baseOffsetVec = new Vector2(1f, 4f);
@@ -114,12 +114,12 @@ namespace CalamityMod.Projectiles.Magic
             Player player = Main.player[projectile.owner];
             CalamityPlayer calPlayer = player.Calamity();
             calPlayer.danceOfLightCharge++;
-            if (calPlayer.danceOfLightCharge >= TheDanceofLight.HitsPerFlash)
+            if (calPlayer.danceOfLightCharge >= Judgement.HitsPerFlash)
             {
                 calPlayer.danceOfLightCharge = 0;
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int flashDamage = (int)(TheDanceofLight.FlashBaseDamage * player.MagicDamage());
+                    int flashDamage = (int)(Judgement.FlashBaseDamage * player.MagicDamage());
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BlindingLight>(), flashDamage, 0f, projectile.owner);
                 }
             }

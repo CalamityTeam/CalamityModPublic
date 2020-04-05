@@ -2165,7 +2165,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 ModContent.ItemType<SomaPrime>(), ModContent.ItemType<SomaPrime>(),
                 ModContent.ItemType<BlushieStaff>(), ModContent.ItemType<BlushieStaff>(), // Staff of Blushie
                 ModContent.ItemType<Svantechnical>(), ModContent.ItemType<Svantechnical>(),
-                ModContent.ItemType<TheDanceofLight>(), ModContent.ItemType<TheDanceofLight>(),
+                ModContent.ItemType<Judgement>(), ModContent.ItemType<Judgement>(),
                 ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
                 ModContent.ItemType<Megafleet>(), ModContent.ItemType<Megafleet>(), // Voidragon
                 ModContent.ItemType<Endogenesis>(), ModContent.ItemType<Endogenesis>(),
