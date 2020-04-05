@@ -3439,9 +3439,13 @@ namespace CalamityMod.NPCs
                 {
                     damage /= 3;
                 }
-                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
+                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
                 {
                     damage = (int)(damage * 0.25);
+                }
+                else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
+                {
+                    damage = (int)(damage * 0.1);
                 }
             }
 			else if (AquaticScourgeIDs.Contains(npc.type))
@@ -3453,6 +3457,10 @@ namespace CalamityMod.NPCs
                 if (projectile.type == ModContent.ProjectileType<FlameBeamTip>() || projectile.type == ModContent.ProjectileType<FlameBeamTip2>())
                 {
                     damage = (int)(damage * 0.5);
+                }
+                else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
+                {
+                    damage = (int)(damage * 0.1);
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
