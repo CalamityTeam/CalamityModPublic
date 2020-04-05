@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Events;
+using CalamityMod.Items.Materials;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -36,6 +37,14 @@ namespace CalamityMod.Items.SummonItems.Invasion
             CalamityMod.UpdateServerBoolean();
             AcidRainEvent.TryStartEvent(true);
             return true;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 4);
+            recipe.needWater = true;
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

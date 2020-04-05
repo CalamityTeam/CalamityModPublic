@@ -62,7 +62,10 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void AI()
         {
-            npc.TargetClosest(false);
+            if (npc.target < 0 || npc.target >= Main.player.Length)
+            {
+                npc.TargetClosest(false);
+            }
             Player player = Main.player[npc.target];
             npc.direction = npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
             // Latch onto player
