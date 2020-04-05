@@ -95,7 +95,7 @@ namespace CalamityMod.Items.Armor
                             num18 = (float)num17 / num18;
                             num15 *= num18;
                             num16 *= num18;
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<TheSyringeCinder>(), 40,4f, player.whoAmI, 0f, 0f);
+                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<TheSyringeCinder>(), 40 * player.RangedDamage(),4f, player.whoAmI, 0f, 0f);
 							Main.projectile[num19].Calamity().rogue = false;
                             Main.projectile[num19].ai[1] = player.position.Y;
                         }

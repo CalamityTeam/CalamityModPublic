@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Armor
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<ReaverOrb>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ReaverOrb>(), (int)(80f * (player.allDamage + player.minionDamage - 1f)), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<ReaverOrb>(), (int)(80f * player.MinionDamage()), 0f, Main.myPlayer, 50f, 0f);
                 }
             }
             player.minionDamage += 0.16f;
