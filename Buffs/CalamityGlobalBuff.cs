@@ -78,6 +78,7 @@ namespace CalamityMod.Buffs
 
         public override void ModifyBuffTip(int type, ref string tip, ref int rare)
         {
+            Player player = Main.player[Main.myPlayer];
             if (type == BuffID.NebulaUpDmg1)
                 tip = "7.5% increased damage";
             else if (type == BuffID.NebulaUpDmg2)
@@ -119,7 +120,6 @@ namespace CalamityMod.Buffs
 				tip += ". Provides cold protection in Death Mode";
             else if (type == ModContent.BuffType<ProfanedBabs>())
             {
-                Player player = Main.player[Main.myPlayer];
                 bool offense = player.Calamity().gOffense;
                 bool defense = player.Calamity().gDefense;
                 if (player.Calamity().profanedCrystal && (!player.Calamity().profanedCrystalBuffs && !CalamityWorld.downedSCal))
@@ -137,21 +137,20 @@ namespace CalamityMod.Buffs
             }
             else if (type == ModContent.BuffType<ProfanedCrystalBuff>())
             {
-                if (Main.player[Main.myPlayer].Calamity().profanedCrystalBuffs)
+                if (player.Calamity().profanedCrystalBuffs)
                 {
-                    if (Main.player[Main.myPlayer].Calamity().endoCooper)
+                    if (player.Calamity().endoCooper)
                     {
                         tip = "An ascended ice construct is suppressing your true potential..";
                     }
-                    else if (Main.player[Main.myPlayer].Calamity().magicHat)
+                    else if (player.Calamity().magicHat)
                     {
                         tip = "A magical hat overwhelms your senses, squandering your true potential..";
                     }
                     else
                     {
-                        Player player = Main.player[Main.myPlayer];
                         bool offense = (Main.dayTime && !player.wet) || player.lavaWet;
-                        bool enrage = player.statLife <= (int)((double)player.statLifeMax2 * 0.5);
+                        bool enrage = player.statLife <= (int)(player.statLifeMax2 * 0.5);
                         tip = "You are an emissary of the profaned goddess now!\n" +
                             (offense ? "The " + (Main.dayTime ? "light of the sun" : "heat of the lava") + " empowers your offensive capabilities" : 
                             "The " + (player.wet ? (player.honeyWet ? "honey cools" : "water douses") : "darkness of night cools") + " your flames, empowering your defensive capabilities") +
@@ -162,6 +161,13 @@ namespace CalamityMod.Buffs
                 {
                     tip = "Your profaned soul is constrained by your insufficient summoning powers";
                 }
+            }
+            else if (type == ModContent.BuffType<Horror>())
+            {
+                if (player.Calamity().laudanum || player.Calamity().draedonsHeart)
+                {
+					tip = "The horror fuels your strength";
+				}
             }
         }
     }

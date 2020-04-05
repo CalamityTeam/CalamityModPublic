@@ -15,10 +15,12 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Draedon's Heart");
             Tooltip.SetDefault("Gives 10% increased damage while you have the absolute rage buff\n" +
                 "Increases your chance of getting the absolute rage buff\n" +
-                "Boosts your damage by 10% and max movement speed and acceleration by 5%\n" +
+                "Boosts your damage by 5% and max movement speed and acceleration by 5%\n" +
                 "Rage mode does more damage\n" +
                 "You gain rage over time\n" +
-                "Gives immunity to the horror debuff\n" +
+                "The Horror debuff lasts twice as long,\n" +
+                "but it instead grants various buffs to the player\n" +
+                "Receiving a hit causes you to only lose half of your max adrenaline rather than all of it\n" +
                 "Standing still regenerates your life quickly and boosts your defense by 25");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 7));
         }
@@ -35,8 +37,9 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
+			modPlayer.laudanum = true;
+			modPlayer.stressPills = true;
             modPlayer.draedonsHeart = true;
-            player.buffImmune[ModContent.BuffType<Horror>()] = true;
             modPlayer.draedonsStressGain = true;
         }
 

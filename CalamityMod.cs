@@ -924,7 +924,6 @@ namespace CalamityMod
                 ModContent.BuffType<Plague>(),
                 ModContent.BuffType<AbyssalFlames>(),
                 ModContent.BuffType<CrushDepth>(),
-                ModContent.BuffType<Horror>(),
                 ModContent.BuffType<MarkedforDeath>(),
                 ModContent.BuffType<WarCleave>(),
                 ModContent.BuffType<ArmorCrunch>(),

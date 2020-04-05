@@ -314,6 +314,7 @@ namespace CalamityMod.CalPlayer
         public bool affliction = false;
         public bool stressPills = false;
         public bool laudanum = false;
+        public bool doubledHorror = false;
         public bool heartOfDarkness = false;
         public bool draedonsHeart = false;
         public bool draedonsStressGain = false;
@@ -1689,6 +1690,7 @@ namespace CalamityMod.CalPlayer
 			icicleCooldown = 0;
 			statisTimer = 0;
 			hallowedRuneCooldown = 0;
+			doubledHorror = false;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -3170,7 +3172,8 @@ namespace CalamityMod.CalPlayer
             #region SpeedBoosts
             float runAccMult = 1f +
                 (shadowSpeed ? 0.5f : 0f) +
-                ((stressPills || laudanum || draedonsHeart) ? 0.05f : 0f) +
+                (stressPills ? 0.05f : 0f) +
+                (laudanum && horror ? 0.1f : 0f) +
                 ((abyssalDivingSuit && player.IsUnderwater()) ? 0.05f : 0f) +
                 (sirenWaterBuff ? 0.15f : 0f) +
                 ((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
@@ -3196,7 +3199,8 @@ namespace CalamityMod.CalPlayer
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
                 (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
-                ((stressPills || laudanum || draedonsHeart) ? 0.05f : 0f) +
+                (stressPills ? 0.05f : 0f) +
+                (laudanum && horror ? 0.1f : 0f) +
                 (planarSpeedBoost > 0 ? (0.01f * planarSpeedBoost) : 0f) +
                 ((deepDiver && player.IsUnderwater()) ? 0.15f : 0f) +
                 (rogueStealthMax > 0f ? (rogueStealth >= rogueStealthMax ? rogueStealth * 0.05f : rogueStealth * 0.025f) : 0f);
@@ -6327,7 +6331,11 @@ namespace CalamityMod.CalPlayer
                 if (CalamityMod.CalamityConfig.AdrenalineAndRage && CalamityWorld.revenge)
                 {
                     if (!adrenalineMode && damage > 0) //to prevent paladin's shield ruining adren even with 0 dmg taken
-                        adrenaline = 0;
+					{
+                        adrenaline -= stressPills ? adrenalineMax / 2 : adrenalineMax;
+						if (adrenaline < 0)
+							adrenaline = 0;
+					}
                 }
                 if (amidiasBlessing)
                 {

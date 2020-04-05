@@ -1099,24 +1099,36 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			// Stress Pills bonus
-			if (modPlayer.stressPills)
-			{
-				player.statDefense += 8;
-				player.allDamage += 0.08f;
-			}
-
 			// Laudanum bonus
 			if (modPlayer.laudanum)
 			{
-				player.statDefense += 6;
-				player.allDamage += 0.06f;
+				if (Main.myPlayer == player.whoAmI)
+				{
+					for (int l = 0; l < Player.MaxBuffs; l++)
+					{
+						int hasBuff = player.buffType[l];
+						if (!modPlayer.doubledHorror && hasBuff == ModContent.BuffType<Horror>())
+						{
+							player.buffTime[l] *= 2;
+							modPlayer.doubledHorror = true;
+						}
+					}
+				}
+				if (modPlayer.horror)
+				{
+					player.statDefense += 15;
+					player.allDamage += 0.1f;
+					player.moveSpeed += 0.15f;
+					player.nightVision = true;
+				}
 			}
+			if (!modPlayer.horror)
+				modPlayer.doubledHorror = false;
 
 			// Draedon's Heart bonus
 			if (modPlayer.draedonsHeart)
 			{
-				player.allDamage += 0.1f;
+				player.allDamage += 0.05f;
 				if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
 					player.statDefense += 25;
 			}
@@ -2760,7 +2772,7 @@ namespace CalamityMod.CalPlayer
 				player.magicDamage -= 0.1f;
 			}
 
-			if (modPlayer.horror)
+			if (modPlayer.horror && !modPlayer.laudanum)
 			{
 				player.blind = true;
 				player.statDefense -= 15;

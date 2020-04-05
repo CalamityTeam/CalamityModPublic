@@ -9,9 +9,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Laudanum");
-            Tooltip.SetDefault("Boosts your damage by 6%,\n" +
-                               "defense by 6, and max movement speed and acceleration by 5%\n" +
-                               "Makes you immune to The Horror debuff\n" +
+            Tooltip.SetDefault("The Horror debuff lasts twice as long,\n" +
+                               "but it instead grants various buffs to the player\n" +
                                "Revengeance drop");
         }
 
@@ -28,7 +27,6 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.laudanum = true;
-            player.buffImmune[ModContent.BuffType<Horror>()] = true;
         }
     }
 }
