@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gamma Heart");
-            Tooltip.SetDefault("Summons a frigid entity with a head\n" +
+            Tooltip.SetDefault("Summons radioactive heads that are bound by your body\n" +
                                "If the entity already exists, using this item again will cause it to gain more heads");
         }
 
