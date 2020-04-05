@@ -2395,7 +2395,7 @@ namespace CalamityMod.CalPlayer
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
                     int i;
-                    int damage = 800 * player.RangedDamage();
+                    int damage = (int)(800 * player.RangedDamage());
                     if (player.whoAmI == Main.myPlayer)
                     {
                         for (i = 0; i < 8; i++)
