@@ -128,6 +128,14 @@ namespace CalamityMod.Items.Weapons.Melee
                         }
                     }
                 }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = CalamityMod.instance.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.GaelsGreatswordSwingSync);
+                    netMessage.Write((byte)player.whoAmI);
+                    netMessage.Write(player.Calamity().gaelSwipes);
+                    netMessage.Send();
+                }
             }
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
@@ -150,7 +158,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                //CalamityPlayer.cs line 7373. Thank me later.
+                // Check CalamityPlayer.cs
                 return false;
             }
             switch (player.Calamity().gaelSwipes % 3)

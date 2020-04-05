@@ -111,17 +111,23 @@ namespace CalamityMod.Projectiles.Summon
                         int laserCount = 0;
                         for (int j = 0; j < Main.projectile.Length; j++)
                         {
-                            if (laserCount >= MaximumLaserCount)
-                                break;
-                            if (Main.projectile[j].type == projectile.type && Main.projectile[j].owner == projectile.owner && 
-                                Main.projectile[j].ai[0] == 0f && Main.projectile[j].active && Main.projectile[j].ai[1] <= 0)
+                            if (laserCount < MaximumLaserCount)
                             {
-                                Main.projectile[j].ai[0] = Projectile.NewProjectile(projectile.Center, Vector2.UnitY, ModContent.ProjectileType<GammaDeathray>(),
-                                                                            (int)(projectile.damage * 1.5), projectile.knockBack, projectile.owner, Main.projectile[j].whoAmI);
+                                if (Main.projectile[j].type == projectile.type && Main.projectile[j].owner == projectile.owner &&
+                                    Main.projectile[j].ai[0] == 0f && Main.projectile[j].active && Main.projectile[j].ai[1] <= 0)
+                                {
+                                    Main.projectile[j].ai[0] = Projectile.NewProjectile(projectile.Center, Vector2.UnitY, ModContent.ProjectileType<GammaDeathray>(),
+                                                                                (int)(projectile.damage * 1.2f), projectile.knockBack, projectile.owner, Main.projectile[j].whoAmI);
 
+                                    Main.projectile[j].ai[1] = SuperchargeTimeMax;
+                                    Main.projectile[j].netUpdate = true;
+                                    laserCount++;
+                                }
+                            }
+                            else
+                            {
                                 Main.projectile[j].ai[1] = SuperchargeTimeMax;
                                 Main.projectile[j].netUpdate = true;
-                                laserCount++;
                             }
                         }
 
