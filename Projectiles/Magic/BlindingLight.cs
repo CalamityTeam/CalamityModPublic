@@ -1,16 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
-using System.Reflection;
+using System;
 using Terraria;
-using Terraria.GameContent.Events;
+using Terraria.Graphics.Effects;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class BlindingLight : ModProjectile
     {
-        private static readonly FieldInfo reqLight = typeof(MoonlordDeathDrama).GetField("requestedLight", BindingFlags.NonPublic | BindingFlags.Static);
-        private static readonly FieldInfo actualLight = typeof(MoonlordDeathDrama).GetField("whitening", BindingFlags.NonPublic | BindingFlags.Static);
         private const float Radius = 1400f;
-        private const int Lifetime = 16;
+        private const int Lifetime = 45;
         
         public override void SetStaticDefaults()
         {
@@ -53,17 +52,24 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (projectile.timeLeft == Lifetime)
                 ConsumeNearbyBlades();
-            
-            MoonlordDeathDrama.RequestLight(1f, projectile.Center);
-            float currentLight = (float)reqLight.GetValue(null);
-            if (currentLight > 0f)
+
+            projectile.ai[0]++;
+            float progress = (float)Math.Sin(projectile.ai[0] / Lifetime * MathHelper.Pi);
+            if (projectile.ai[0] > 55f)
+                progress = MathHelper.Lerp(progress, 0f, (projectile.ai[0] - 55f) / 5f);
+            if (projectile.ai[0] > 15f) // Otherwise a white flash appears, but it quickly disappears.
             {
-                float newLight = MathHelper.Clamp(currentLight + 0.12f, 0f, 1f);
-                reqLight.SetValue(null, newLight);
-                actualLight.SetValue(null, newLight);
+                if (Main.netMode != NetmodeID.Server && !Filters.Scene["CalamityMod:LightBurst"].IsActive())
+                {
+                    Filters.Scene.Activate("CalamityMod:LightBurst", projectile.Center).GetShader().UseTargetPosition(projectile.Center).UseProgress(0f);
+                }
+                Filters.Scene["CalamityMod:LightBurst"].GetShader().UseProgress(progress);
             }
         }
-
+        public override void Kill(int timeLeft)
+        {
+            Filters.Scene.Deactivate("CalamityMod:LightBurst");
+        }
         private void ConsumeNearbyBlades()
         {
             int lightBlade = ModContent.ProjectileType<LightBlade>();

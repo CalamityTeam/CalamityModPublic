@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void AI()
         {
             Player closest = Main.player[Player.FindClosest(npc.Top, 0, 0)];
-
+            npc.ai[0]++;
             npc.defense = npc.localAI[1] < 10f ? 999999 : 20;
 
             if (npc.justHit)
@@ -78,7 +78,10 @@ namespace CalamityMod.NPCs.AcidRain
             }
             if (npc.localAI[0] == 0f || npc.localAI[1] < 10f)
             {
-                npc.chaseable = false;
+                if (npc.ai[0] < 300f)
+                {
+                    npc.chaseable = false;
+                }
                 if (Math.Abs(closest.Center.X - npc.Center.X) < 320f &&
                     closest.Center.Y - npc.Top.Y < -60f &&
                     npc.ai[1]++ >= Main.rand.Next(90, 135))
@@ -130,6 +133,10 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.velocity.X *= 0.995f;
                 }
             }
+            if (npc.ai[0] >= 300f && !npc.chaseable)
+            {
+                npc.chaseable = true;
+            }
         }
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
@@ -152,7 +159,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
             if (npc.localAI[0] > 0f)
             {
-                if (npc.ai[0]++ % 6 == 5)
+                if (npc.frameCounter++ % 6 == 5)
                 {
                     npc.frame.Y += frameHeight;
                 }

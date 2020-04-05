@@ -778,6 +778,8 @@ namespace CalamityMod.CalPlayer
         public bool plagueEngine = false;
         public bool brimseeker = false;
         public bool necrosteocytesDudes = false;
+        public bool gammaHead = false;
+        public List<int> GammaCanisters = new List<int>();
 
         // Biome
         public bool ZoneCalamity = false;
@@ -1626,6 +1628,7 @@ namespace CalamityMod.CalPlayer
             plagueEngine = false;
             brimseeker = false;
             necrosteocytesDudes = false;
+            gammaHead = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
