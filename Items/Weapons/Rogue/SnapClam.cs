@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             item.width = 26;
             item.height = 16;
-            item.damage = 15;
+            item.damage = 14;
             item.thrown = true;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
                 int spread = 3;
-                for (int i = 0; i < 7; i++)
+                for (int i = 0; i < 5; i++)
                 {
                     Vector2 perturbedspeed = new Vector2(speedX + Main.rand.Next(-3,4), speedY + Main.rand.Next(-3,4)).RotatedBy(MathHelper.ToRadians(spread));
                     int proj = Projectile.NewProjectile(position.X, position.Y, perturbedspeed.X, perturbedspeed.Y, ModContent.ProjectileType<SnapClamStealth>(), damage, knockBack, player.whoAmI, 0f, 0f);

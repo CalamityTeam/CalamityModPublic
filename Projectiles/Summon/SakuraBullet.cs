@@ -30,6 +30,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.02f;
 
             float num472 = projectile.Center.X;
@@ -37,12 +38,13 @@ namespace CalamityMod.Projectiles.Summon
             float num474 = 400f;
             bool flag17 = false;
 
-            for (int num475 = 0; num475 < 200; num475++)
+            if (player.HasMinionAttackTargetNPC)
             {
-                if (Main.npc[num475].CanBeChasedBy(projectile, false) || Main.npc[num475].type == NPCID.DukeFishron)
+                NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                if ((npc.CanBeChasedBy(projectile, false) || npc.type == NPCID.DukeFishron) && npc.active)
                 {
-                    float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-                    float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
+                    float num476 = npc.position.X + (float)(npc.width / 2);
+                    float num477 = npc.position.Y + (float)(npc.height / 2);
                     float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
                     if (num478 < num474)
                     {
@@ -53,6 +55,26 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
+			else
+			{
+				for (int num475 = 0; num475 < Main.maxNPCs; num475++)
+				{
+					NPC npc = Main.npc[num475];
+					if ((npc.CanBeChasedBy(projectile, false) || npc.type == NPCID.DukeFishron) && npc.active)
+					{
+						float num476 = npc.position.X + (float)(npc.width / 2);
+						float num477 = npc.position.Y + (float)(npc.height / 2);
+						float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
+						if (num478 < num474)
+						{
+							num474 = num478;
+							num472 = num476;
+							num473 = num477;
+							flag17 = true;
+						}
+					}
+				}
+			}
 
             if (flag17)
             {
@@ -77,9 +99,9 @@ namespace CalamityMod.Projectiles.Summon
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (target.type == NPCID.DukeFishron)
-                damage = (int)((double)damage * 2.0);
+                damage = (int)(damage * 2.0);
             else if (target.type == NPCID.CultistBoss)
-                damage = (int)((double)damage * 0.6);
+                damage = (int)(damage * 0.75);
         }
 
         public override void Kill(int timeLeft)

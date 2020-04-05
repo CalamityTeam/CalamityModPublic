@@ -52,19 +52,17 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            int num3;
-            for (int num369 = 0; num369 < 1; num369 = num3 + 1)
+            for (int num369 = 0; num369 < 1; num369++)
             {
                 int dustType = 7;
                 float num370 = projectile.velocity.X / 3f * (float)num369;
                 float num371 = projectile.velocity.Y / 3f * (float)num369;
                 int num372 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
-                Main.dust[num372].position.X = projectile.Center.X - num370;
-                Main.dust[num372].position.Y = projectile.Center.Y - num371;
                 Dust dust = Main.dust[num372];
+                dust.position.X = projectile.Center.X - num370;
+                dust.position.Y = projectile.Center.Y - num371;
                 dust.velocity *= 0f;
-                Main.dust[num372].scale = 0.5f;
-                num3 = num369;
+                dust.scale = 0.5f;
             }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - MathHelper.PiOver2;
             float num373 = projectile.position.X;
@@ -83,7 +81,7 @@ namespace CalamityMod.Projectiles.Summon
                         float num377 = npc.position.X + (float)(npc.width / 2);
                         float num378 = npc.position.Y + (float)(npc.height / 2);
                         float num379 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num377) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num378);
-                        if (num379 < 800f && num379 < num375 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+                        if (num379 < 640f && num379 < num375 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
                             num375 = num379;
                             num373 = num377;
@@ -96,12 +94,13 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					for (int num376 = 0; num376 < Main.maxNPCs; num376++)
 					{
-						if (Main.npc[num376].CanBeChasedBy(projectile, false))
+						NPC npc = Main.npc[num376];
+						if (npc.CanBeChasedBy(projectile, false))
 						{
-							float num377 = Main.npc[num376].position.X + (float)(Main.npc[num376].width / 2);
-							float num378 = Main.npc[num376].position.Y + (float)(Main.npc[num376].height / 2);
+							float num377 = npc.position.X + (float)(npc.width / 2);
+							float num378 = npc.position.Y + (float)(npc.height / 2);
 							float num379 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num377) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num378);
-							if (num379 < 800f && num379 < num375 && Collision.CanHit(projectile.position, projectile.width, projectile.height, Main.npc[num376].position, Main.npc[num376].width, Main.npc[num376].height))
+							if (num379 < 640f && num379 < num375 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
 							{
 								num375 = num379;
 								num373 = num377;

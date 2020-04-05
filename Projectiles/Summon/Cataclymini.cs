@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.minionSlots = 0.25f;
+            projectile.minionSlots = 0.5f;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -237,7 +237,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (projectile.ai[1] > 0f)
             {
-                projectile.ai[1] += (float)Main.rand.Next(1, 80);
+                projectile.ai[1] += (float)Main.rand.Next(1, 30);
             }
             if (projectile.ai[1] > 90f)
             {

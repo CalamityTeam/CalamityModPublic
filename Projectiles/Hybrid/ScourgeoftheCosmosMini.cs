@@ -62,11 +62,11 @@ namespace CalamityMod.Projectiles.Hybrid
                 float num370 = projectile.velocity.X / 3f * (float)num369;
                 float num371 = projectile.velocity.Y / 3f * (float)num369;
                 int num372 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
-                Main.dust[num372].position.X = projectile.Center.X - num370;
-                Main.dust[num372].position.Y = projectile.Center.Y - num371;
                 Dust dust = Main.dust[num372];
+                dust.position.X = projectile.Center.X - num370;
+                dust.position.Y = projectile.Center.Y - num371;
                 dust.velocity *= 0f;
-                Main.dust[num372].scale = 0.5f;
+                dust.scale = 0.5f;
             }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - 1.57f;
             float num373 = projectile.position.X;

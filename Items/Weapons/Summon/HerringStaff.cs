@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Herring Staff");
-            Tooltip.SetDefault("Summons a herring to fight for you");
+            Tooltip.SetDefault("Summons a herring to fight for you\n" +
+			"Each herring takes only half of a minion slot");
         }
 
         public override void SetDefaults()
