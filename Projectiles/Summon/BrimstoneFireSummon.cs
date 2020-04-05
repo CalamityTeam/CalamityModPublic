@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -21,7 +22,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
-            projectile.penetrate = 1;
+            projectile.penetrate = -1;
             projectile.extraUpdates = 3;
             projectile.timeLeft = 50;
         }
@@ -45,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
                     num296 = 0.75f;
                 }
                 projectile.ai[0] += 1f;
-                int num297 = 235;
+                int num297 = (int)CalamityDusts.Brimstone;
                 if (Main.rand.NextBool(2))
                 {
                     for (int num298 = 0; num298 < 1; num298++)
@@ -77,6 +78,12 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.immune[projectile.owner] = 9;
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }

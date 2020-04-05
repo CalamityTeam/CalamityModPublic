@@ -2414,7 +2414,7 @@ namespace CalamityMod.CalPlayer
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
                     int i;
-                    int damage = 800;
+                    int damage = (int)(800 * player.RangedDamage());
                     if (player.whoAmI == Main.myPlayer)
                     {
                         for (i = 0; i < 8; i++)
@@ -2533,7 +2533,7 @@ namespace CalamityMod.CalPlayer
                     }
                     gaelRageCooldown = 60 * GaelsGreatsword.SkullsplosionCooldownSeconds;
                     float rageRatio = (float)stress / stressMax;
-                    int damage = (int)(rageRatio * GaelsGreatsword.MaxRageBoost * GaelsGreatsword.BaseDamage);
+                    int damage = (int)(rageRatio * GaelsGreatsword.MaxRageBoost * GaelsGreatsword.BaseDamage * player.MeleeDamage());
                     float skullCount = 5f;
                     float skullSpeed = 5f;
                     if (CalamityWorld.downedYharon)

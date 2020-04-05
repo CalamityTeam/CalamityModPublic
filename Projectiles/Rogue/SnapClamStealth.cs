@@ -63,7 +63,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (openClam)
             {
                 onEnemy = true;
-				CalamityUtils.ModifyHitNPCSticky(projectile, 7, false);
+				CalamityUtils.ModifyHitNPCSticky(projectile, 5, false);
             }
         }
 

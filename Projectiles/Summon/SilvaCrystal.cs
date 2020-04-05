@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             projectile.position.X = player.Center.X - (float)(projectile.width / 2);
             projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 60f;
-            if (Main.player[projectile.owner].gravDir == -1f)
+            if (player.gravDir == -1f)
             {
                 projectile.position.Y = projectile.position.Y + 120f;
                 projectile.rotation = 3.14f;
@@ -211,13 +211,10 @@ namespace CalamityMod.Projectiles.Summon
             float scaleFactor5 = (float)Math.Cos((double)(6.28318548f * (projectile.localAI[0] / 60f))) + 3f + 3f;
             for (float num286 = 0f; num286 < 4f; num286 += 1f)
             {
-                SpriteBatch arg_F907_0 = Main.spriteBatch;
-                Texture2D arg_F907_1 = texture2D34;
-                Vector2 arg_F8CE_0 = vector59;
-                Vector2 arg_F8BE_0 = Vector2.UnitY;
-                double arg_F8BE_1 = (double)(num286 * 1.57079637f);
+                SpriteBatch spritebatch = Main.spriteBatch;
+                double arg_F8BE_1 = (double)(num286 * MathHelper.PiOver2);
                 Vector2 center = default;
-                arg_F907_0.Draw(arg_F907_1, arg_F8CE_0 + arg_F8BE_0.RotatedBy(arg_F8BE_1, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, projectile.rotation, origin11, projectile.scale, SpriteEffects.None, 0f);
+                spritebatch.Draw(texture2D34, vector59 + Vector2.UnitY.RotatedBy(arg_F8BE_1, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, projectile.rotation, origin11, projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }

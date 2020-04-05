@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
+            projectile.width = 2;
             projectile.height = 2;
             projectile.aiStyle = 1;
             aiType = ProjectileID.DeathLaser;
@@ -39,6 +39,11 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }

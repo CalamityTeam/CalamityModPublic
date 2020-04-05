@@ -12,12 +12,13 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Entropy's Vigil");
-            Tooltip.SetDefault("Summons Calamitas and her brothers to protect you");
+            Tooltip.SetDefault("Summons Calamitas and her brothers to protect you\n" +
+			"One minion trio takes two minion slots");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 27;
+            item.damage = 35;
             item.mana = 10;
             item.width = 62;
             item.height = 62;

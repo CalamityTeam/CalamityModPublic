@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.minionSlots = 0.5f;
+            projectile.minionSlots = 1f;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -283,9 +283,9 @@ namespace CalamityMod.Projectiles.Summon
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (target.type == NPCID.DukeFishron)
-                damage = (int)((double)damage * 2.0);
+                damage = (int)(damage * 2.0);
             else if (target.type == NPCID.CultistBoss)
-                damage = (int)((double)damage * 0.6);
+                damage = (int)(damage * 0.75);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.minionSlots = 0.5f;
+            projectile.minionSlots = 1f;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -207,8 +207,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num651 > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
                     projectile.netUpdate = true;
                 }
                 if (num651 > 70f)
@@ -229,7 +229,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] += (float)Main.rand.Next(1, 3);
 
             // Reset timer
-            if (projectile.ai[1] > 60f)
+            if (projectile.ai[1] > 70f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
@@ -258,7 +258,7 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < numProj + 1; i++)
                         {
                             Vector2 perturbedSpeed = value19.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, projectileType, projectile.damage / 2, projectile.knockBack * 0.5f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, projectileType, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                         }
                         projectile.netUpdate = true;
                     }

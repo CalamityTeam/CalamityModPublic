@@ -15,6 +15,7 @@ using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Tools;
@@ -64,23 +65,6 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
-using CalamityMod.Tiles.Abyss;
-using CalamityMod.Tiles.Furniture;
-using CalamityMod.Tiles.Furniture.CraftingStations;
-using CalamityMod.Tiles.FurnitureAbyss;
-using CalamityMod.Tiles.FurnitureAncient;
-using CalamityMod.Tiles.FurnitureAshen;
-using CalamityMod.Tiles.FurnitureBotanic;
-using CalamityMod.Tiles.FurnitureCosmilite;
-using CalamityMod.Tiles.FurnitureEutrophic;
-using CalamityMod.Tiles.FurnitureOccult;
-using CalamityMod.Tiles.FurniturePlaguedPlate;
-using CalamityMod.Tiles.FurnitureProfaned;
-using CalamityMod.Tiles.FurnitureSilva;
-using CalamityMod.Tiles.FurnitureStatigel;
-using CalamityMod.Tiles.FurnitureStratus;
-using CalamityMod.Tiles.FurnitureVoid;
-using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -182,10 +166,6 @@ namespace CalamityMod
         public static List<int> trapProjectileList;
         public static List<int> scopedWeaponList;
         public static List<int> trueMeleeBoostExceptionList;
-        public static List<int> tableList;
-        public static List<int> chairList;
-        public static List<int> lightList;
-        public static List<int> doorList;
         public static List<int> boomerangList;
         public static List<int> javelinList;
         public static List<int> daggerList;
@@ -395,10 +375,6 @@ namespace CalamityMod
             trapProjectileList = null;
             scopedWeaponList = null;
             trueMeleeBoostExceptionList = null;
-            tableList = null;
-            chairList = null;
-            lightList = null;
-            doorList = null;
             boomerangList = null;
             javelinList = null;
             daggerList = null;
@@ -2326,7 +2302,7 @@ namespace CalamityMod
                 ModContent.ItemType<VictoryShard>(),
                 ModContent.ItemType<AeroStone>(),
                 ModContent.ItemType<DukesDecapitator>(),
-				ModContent.ItemType<Items.Placeables.SulphurousSand>(),
+				ModContent.ItemType<SulphurousSand>(),
 				ModContent.ItemType<MagnumRounds>(),
 				ModContent.ItemType<GrenadeRounds>(),
 				ModContent.ItemType<ExplosiveShells>(),
@@ -2360,260 +2336,6 @@ namespace CalamityMod
 				ItemID.SoulofSight,
 				ItemID.GreaterHealingPotion,
 				ItemID.SuperHealingPotion
-            };
-
-            tableList = new List<int>()
-            {
-                ModContent.TileType<AbyssBath>(),
-                ModContent.TileType<AbyssBookcase>(),
-                ModContent.TileType<AbyssDresser>(),
-                ModContent.TileType<AbyssPiano>(),
-                ModContent.TileType<AbyssTable>(),
-                ModContent.TileType<AbyssWorkbench>(),
-                ModContent.TileType<AncientBath>(),
-                ModContent.TileType<AncientBookcase>(),
-                ModContent.TileType<AncientDresser>(),
-                ModContent.TileType<AncientPiano>(),
-                ModContent.TileType<AncientTable>(),
-                ModContent.TileType<AncientWorkbench>(),
-                ModContent.TileType<AshenBath>(),
-                ModContent.TileType<AshenBookcase>(),
-                ModContent.TileType<AshenDresser>(),
-                ModContent.TileType<AshenPiano>(),
-                ModContent.TileType<AshenTable>(),
-                ModContent.TileType<AshenWorkbench>(),
-                ModContent.TileType<BotanicBathtub>(),
-                ModContent.TileType<BotanicBookcase>(),
-                ModContent.TileType<BotanicDresser>(),
-                ModContent.TileType<BotanicPiano>(),
-                ModContent.TileType<BotanicTable>(),
-                ModContent.TileType<BotanicWorkBench>(),
-                ModContent.TileType<CosmiliteBath>(),
-                ModContent.TileType<CosmiliteBookcase>(),
-                ModContent.TileType<CosmiliteDresser>(),
-                ModContent.TileType<CosmilitePiano>(),
-                ModContent.TileType<CosmiliteTable>(),
-                ModContent.TileType<CosmiliteWorkbench>(),
-                ModContent.TileType<EutrophicBathtub>(),
-                ModContent.TileType<EutrophicBookcase>(),
-                ModContent.TileType<EutrophicDresser>(),
-                ModContent.TileType<EutrophicPiano>(),
-                ModContent.TileType<EutrophicTable>(),
-                ModContent.TileType<EutrophicWorkBench>(),
-                ModContent.TileType<OccultBathtub>(),
-                ModContent.TileType<OccultBookcase>(),
-                ModContent.TileType<OccultDresser>(),
-                ModContent.TileType<OccultPiano>(),
-                ModContent.TileType<OccultTable>(),
-                ModContent.TileType<OccultWorkBench>(),
-                ModContent.TileType<PlaguedPlateBathtub>(),
-                ModContent.TileType<PlaguedPlateBookcase>(),
-                ModContent.TileType<PlaguedPlateDresser>(),
-                ModContent.TileType<PlaguedPlatePiano>(),
-                ModContent.TileType<PlaguedPlateTable>(),
-                ModContent.TileType<PlaguedPlateWorkbench>(),
-                ModContent.TileType<ProfanedBath>(),
-                ModContent.TileType<ProfanedBookcase>(),
-                ModContent.TileType<ProfanedDresser>(),
-                ModContent.TileType<ProfanedPiano>(),
-                ModContent.TileType<ProfanedTable>(),
-                ModContent.TileType<ProfanedWorkbench>(),
-                ModContent.TileType<SilvaBathtub>(),
-                ModContent.TileType<SilvaBookcase>(),
-                ModContent.TileType<SilvaDresser>(),
-                ModContent.TileType<SilvaPiano>(),
-                ModContent.TileType<SilvaTable>(),
-                ModContent.TileType<SilvaWorkBench>(),
-                ModContent.TileType<StatigelBath>(),
-                ModContent.TileType<StatigelBookcase>(),
-                ModContent.TileType<StatigelDresser>(),
-                ModContent.TileType<StatigelPiano>(),
-                ModContent.TileType<StatigelTable>(),
-                ModContent.TileType<StatigelWorkbench>(),
-                ModContent.TileType<StratusBathtub>(),
-                ModContent.TileType<StratusBookcase>(),
-                ModContent.TileType<StratusDresser>(),
-                ModContent.TileType<StratusPiano>(),
-                ModContent.TileType<StratusTable>(),
-                ModContent.TileType<StratusWorkbench>(),
-                ModContent.TileType<VoidBath>(),
-                ModContent.TileType<VoidBookcase>(),
-                ModContent.TileType<VoidDresser>(),
-                ModContent.TileType<VoidPiano>(),
-                ModContent.TileType<VoidTable>(),
-                ModContent.TileType<VoidWorkbench>()
-            };
-
-            chairList = new List<int>()
-            {
-                ModContent.TileType<AbyssBed>(),
-                ModContent.TileType<AbyssChair>(),
-                ModContent.TileType<AbyssSofa>(),
-                ModContent.TileType<AncientBed>(),
-                ModContent.TileType<AncientChair>(),
-                ModContent.TileType<AncientSofa>(),
-                ModContent.TileType<AshenBed>(),
-                ModContent.TileType<AshenChair>(),
-                ModContent.TileType<AshenSofa>(),
-                ModContent.TileType<BotanicBed>(),
-                ModContent.TileType<BotanicBench>(),
-                ModContent.TileType<BotanicChair>(),
-                ModContent.TileType<CosmiliteBed>(),
-                ModContent.TileType<CosmiliteChair>(),
-                ModContent.TileType<CosmiliteSofa>(),
-                ModContent.TileType<EutrophicBed>(),
-                ModContent.TileType<EutrophicBench>(),
-                ModContent.TileType<EutrophicChair>(),
-                ModContent.TileType<OccultBed>(),
-                ModContent.TileType<OccultChair>(),
-                ModContent.TileType<OccultSofa>(),
-                ModContent.TileType<PlaguedPlateBed>(),
-                ModContent.TileType<PlaguedPlateChair>(),
-                ModContent.TileType<PlaguedPlateSofa>(),
-                ModContent.TileType<ProfanedBed>(),
-                ModContent.TileType<ProfanedChair>(),
-                ModContent.TileType<ProfanedBench>(),
-                ModContent.TileType<SilvaBed>(),
-                ModContent.TileType<SilvaChair>(),
-                ModContent.TileType<SilvaBench>(),
-                ModContent.TileType<StatigelBed>(),
-                ModContent.TileType<StatigelChair>(),
-                ModContent.TileType<StatigelSofa>(),
-                ModContent.TileType<StratusBed>(),
-                ModContent.TileType<StratusChair>(),
-                ModContent.TileType<StratusSofa>(),
-                ModContent.TileType<VoidBed>(),
-                ModContent.TileType<VoidChair>(),
-                ModContent.TileType<VoidSofa>()
-            };
-
-            lightList = new List<int>()
-            {
-                ModContent.TileType<BlueCandle>(),
-                ModContent.TileType<ChaosCandle>(),
-                ModContent.TileType<LumenylCrystals>(),
-                ModContent.TileType<PinkCandle>(),
-                ModContent.TileType<PurpleCandle>(),
-                ModContent.TileType<TranquilityCandle>(),
-                ModContent.TileType<YellowCandle>(),
-                ModContent.TileType<SeaPrismCrystals>(),
-
-                ModContent.TileType<AbyssCandelabra>(),
-                ModContent.TileType<AbyssCandle>(),
-                ModContent.TileType<AbyssChandelier>(),
-                ModContent.TileType<AbyssLamp>(),
-                ModContent.TileType<AbyssLantern>(),
-                ModContent.TileType<AbyssTorch>(),
-                ModContent.TileType<AncientAltar>(),
-                ModContent.TileType<AncientBasin>(),
-                ModContent.TileType<AncientChandelier>(),
-                ModContent.TileType<AncientLamp>(),
-                ModContent.TileType<AncientLantern>(),
-                ModContent.TileType<AshenAltar>(),
-                ModContent.TileType<AshenBasin>(),
-                ModContent.TileType<AshenChandelier>(),
-                ModContent.TileType<AshenCandle>(),
-                ModContent.TileType<AshenCandelabra>(),
-                ModContent.TileType<AshenLamp>(),
-                ModContent.TileType<AshenLantern>(),
-                ModContent.TileType<BotanicCandle>(),
-                ModContent.TileType<BotanicCandelabra>(),
-                ModContent.TileType<BotanicChandelier>(),
-                ModContent.TileType<BotanicLamp>(),
-                ModContent.TileType<BotanicLantern>(),
-                ModContent.TileType<BotanicPlanter>(),
-                ModContent.TileType<CosmiliteBasinTile>(),
-                ModContent.TileType<CosmiliteCandle>(),
-                ModContent.TileType<CosmiliteCandelabra>(),
-                ModContent.TileType<CosmiliteChandelier>(),
-                ModContent.TileType<CosmiliteLamp>(),
-                ModContent.TileType<CosmiliteLantern>(),
-                ModContent.TileType<CosmiliteSconce>(),
-                ModContent.TileType<EutrophicCandle>(),
-                ModContent.TileType<EutrophicCandelabra>(),
-                ModContent.TileType<EutrophicChandelier>(),
-                ModContent.TileType<EutrophicLamp>(),
-                ModContent.TileType<EutrophicLantern>(),
-                ModContent.TileType<PlaguedPlateBasin>(),
-                ModContent.TileType<PlaguedPlateCandle>(),
-                ModContent.TileType<PlaguedPlateCandelabra>(),
-                ModContent.TileType<PlaguedPlateChandelier>(),
-                ModContent.TileType<PlaguedPlateLamp>(),
-                ModContent.TileType<PlaguedPlateLantern>(),
-                ModContent.TileType<OccultCandle>(),
-                ModContent.TileType<OccultCandelabra>(),
-                ModContent.TileType<OccultChandelier>(),
-                ModContent.TileType<OccultLamp>(),
-                ModContent.TileType<OccultLantern>(),
-                ModContent.TileType<ProfanedBasin>(),
-                ModContent.TileType<ProfanedCandle>(),
-                ModContent.TileType<ProfanedCandelabra>(),
-                ModContent.TileType<ProfanedChandelier>(),
-                ModContent.TileType<ProfanedLamp>(),
-                ModContent.TileType<ProfanedLantern>(),
-                ModContent.TileType<SilvaBasin>(),
-                ModContent.TileType<SilvaCandle>(),
-                ModContent.TileType<SilvaCandelabra>(),
-                ModContent.TileType<SilvaChandelier>(),
-                ModContent.TileType<SilvaLamp>(),
-                ModContent.TileType<SilvaLantern>(),
-                ModContent.TileType<StatigelChandelier>(),
-                ModContent.TileType<StatigelCandle>(),
-                ModContent.TileType<StatigelCandelabra>(),
-                ModContent.TileType<StatigelLamp>(),
-                ModContent.TileType<StatigelLantern>(),
-                ModContent.TileType<StratusCandle>(),
-                ModContent.TileType<StratusCandelabra>(),
-                ModContent.TileType<StratusChandelier>(),
-                ModContent.TileType<StratusLantern>(),
-                ModContent.TileType<StratusLamp>(),
-                ModContent.TileType<VoidCandle>(),
-                ModContent.TileType<VoidCandelabra>(),
-                ModContent.TileType<VoidChandelier>(),
-                ModContent.TileType<VoidLamp>(),
-                ModContent.TileType<VoidLantern>()
-            };
-
-            doorList = new List<int>()
-            {
-                ModContent.TileType<AbyssDoorOpen>(),
-                ModContent.TileType<AbyssDoorClosed>(),
-                ModContent.TileType<AncientDoorOpen>(),
-                ModContent.TileType<AncientDoorClosed>(),
-                ModContent.TileType<AshenDoorClosed>(),
-                ModContent.TileType<AshenDoorOpen>(),
-                ModContent.TileType<AshenPlatform>(),
-                ModContent.TileType<BotanicDoorOpen>(),
-                ModContent.TileType<BotanicDoorClosed>(),
-                ModContent.TileType<BotanicPlatform>(),
-                ModContent.TileType<CosmiliteDoorOpen>(),
-                ModContent.TileType<CosmiliteDoorClosed>(),
-                ModContent.TileType<CosmilitePlatform>(),
-                ModContent.TileType<EutrophicDoorOpen>(),
-                ModContent.TileType<EutrophicDoorClosed>(),
-                ModContent.TileType<EutrophicPlatform>(),
-                ModContent.TileType<OccultDoorOpen>(),
-                ModContent.TileType<OccultDoorClosed>(),
-                ModContent.TileType<OccultPlatform>(),
-                ModContent.TileType<PlaguedPlateDoorOpen>(),
-                ModContent.TileType<PlaguedPlateDoorClosed>(),
-                ModContent.TileType<PlaguedPlatePlatform>(),
-                ModContent.TileType<ProfanedDoorOpen>(),
-                ModContent.TileType<ProfanedDoorClosed>(),
-                ModContent.TileType<ProfanedPlatform>(),
-                ModContent.TileType<SilvaDoorOpen>(),
-                ModContent.TileType<SilvaDoorClosed>(),
-                ModContent.TileType<SilvaPlatform>(),
-                ModContent.TileType<SmoothAbyssGravelPlatform>(),
-                ModContent.TileType<SmoothVoidstonePlatform>(),
-                ModContent.TileType<StratusDoorOpen>(),
-                ModContent.TileType<StratusDoorClosed>(),
-                ModContent.TileType<StatigelPlatform>(),
-                ModContent.TileType<StatigelDoorOpen>(),
-                ModContent.TileType<StatigelDoorClosed>(),
-                ModContent.TileType<StratusPlatform>(),
-                ModContent.TileType<VoidDoorOpen>(),
-                ModContent.TileType<VoidDoorClosed>()
             };
 
             zombieList = new List<int>()

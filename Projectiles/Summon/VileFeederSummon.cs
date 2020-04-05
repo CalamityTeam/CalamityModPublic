@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eater of Souls");
+            DisplayName.SetDefault("Baby Eater");
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Summon
 				}
 
 				Vector2 vector46 = projectile.position;
-				float num633 = 800f; //50 block detection range
+				float num633 = 640f; //40 block detection range
 				bool targetFound = false;
 				if (player.HasMinionAttackTargetNPC)
 				{
@@ -322,20 +322,20 @@ namespace CalamityMod.Projectiles.Summon
 				if (projectile.owner == Main.myPlayer)
 				{
 					if (eaterCooldown > 0)
-						eaterCooldown -= Main.rand.Next(1,4);
+						eaterCooldown -= Main.rand.Next(1,3);
 
 					if (eaterCooldown <= 0)
 					{
-						int projNumber = Main.rand.Next(1,4);
+						int projNumber = Main.rand.Next(1,3);
 						for (int index2 = 0; index2 < projNumber; index2++)
 						{
 							float xVector = (float)Main.rand.Next(-35, 36) * 0.02f;
 							float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
 							xVector *= 10f;
 							yVector *= 10f;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<VileFeederProjectile>(), (int)(VileFeeder.BaseDamage * player.MinionDamage() * 1.5f), projectile.knockBack, projectile.owner, 0f, 0f);
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<VileFeederProjectile>(), (int)(VileFeeder.BaseDamage * player.MinionDamage() * 1.25f), projectile.knockBack, projectile.owner, 0f, 0f);
 						}
-						eaterCooldown = 70;
+						eaterCooldown = 80;
 					}
 				}
 			}

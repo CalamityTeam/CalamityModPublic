@@ -3445,6 +3445,8 @@ namespace CalamityMod.NPCs
                 }
                 else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
+                    if (projectile.penetrate == -1)
+                        projectile.penetrate = 5;
                     damage = (int)(damage * 0.1);
                 }
             }
@@ -3460,6 +3462,8 @@ namespace CalamityMod.NPCs
                 }
                 else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
+                    if (projectile.penetrate == -1)
+                        projectile.penetrate = 5;
                     damage = (int)(damage * 0.1);
                 }
 			}
