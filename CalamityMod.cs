@@ -15,6 +15,7 @@ using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Tools;
