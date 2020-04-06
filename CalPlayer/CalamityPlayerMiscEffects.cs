@@ -2687,7 +2687,6 @@ namespace CalamityMod.CalPlayer
 				player.discount = true;
 				player.lifeMagnet = true;
 				player.calmed = true;
-				player.loveStruck = true;
 			}
 
 			if (modPlayer.community)
