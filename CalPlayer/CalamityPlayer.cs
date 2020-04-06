@@ -232,19 +232,19 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Rage
-        public int stressMax = 10000;
-        public int stress;
-        public int stressCD;
-        public bool stressLevel500 = false;
-        public bool rageMode = false;
+        public float rage = 0f;
+        public float rageMax = 10000f;
+        public const int RageDuration = 300;
+        public const float AbsoluteRageThreshold = 0.98f; // 98% or higher for Absolute Rage
+        public bool rageModeActive = false;
         public int gainRageCooldown = 60;
         #endregion
 
         #region Adrenaline
-        public int adrenalineMax = 10000;
-        public int adrenaline;
-        public int adrenalineCD;
-        public bool adrenalineMode = false;
+        public float adrenaline = 0f;
+        public float adrenalineMax = 10000f;
+        public const int AdrenalineDuration = 300;
+        public bool adrenalineModeActive = false;
         #endregion
 
         #region Permanent Buff
@@ -330,7 +330,6 @@ namespace CalamityMod.CalPlayer
         public bool doubledHorror = false;
         public bool heartOfDarkness = false;
         public bool draedonsHeart = false;
-        public bool draedonsStressGain = false;
         public bool rampartOfDeities = false;
         public bool vexation = false;
         public bool fBulwark = false;
@@ -598,7 +597,7 @@ namespace CalamityMod.CalPlayer
         public bool wDeath = false;
         public bool lethalLavaBurn = false;
         public bool aCrunch = false;
-        public bool hAttack = false;
+        public bool absoluteRage = false;
         public bool horror = false;
         public bool irradiated = false;
         public bool bFlames = false;
@@ -895,7 +894,7 @@ namespace CalamityMod.CalPlayer
             return new TagCompound
             {
                 { "boost", boost },
-                { "stress", stress },
+                { "stress", rage },
                 { "adrenaline", adrenaline },
                 { "sCalDeathCount", sCalDeathCount },
                 { "sCalKillCount", sCalKillCount },
@@ -939,8 +938,8 @@ namespace CalamityMod.CalPlayer
             shouldDrawSmallText = boost.Contains("drawSmallText");
             healToFull = boost.Contains("fullHPRespawn");
 
-            stress = tag.GetInt("stress");
-            adrenaline = tag.GetInt("adrenaline");
+            rage = tag.GetAsInt("stress");
+            adrenaline = tag.GetAsInt("adrenaline");
             sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
             deathCount = tag.GetInt("deathCount");
@@ -964,7 +963,7 @@ namespace CalamityMod.CalPlayer
         public override void LoadLegacy(BinaryReader reader)
         {
             int loadVersion = reader.ReadInt32();
-            stress = reader.ReadInt32();
+            rage = reader.ReadInt32();
             adrenaline = reader.ReadInt32();
             sCalDeathCount = reader.ReadInt32();
             sCalKillCount = reader.ReadInt32();
@@ -1040,7 +1039,7 @@ namespace CalamityMod.CalPlayer
                 if (sirenBoobsPrevious || sirenBoobsAltPrevious)
                     player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 5;
             }
-            if (hAttack)
+            if (absoluteRage)
                 player.statLifeMax2 += player.statLifeMax / 5 / 20 * 5;
             if (affliction || afflicted)
                 player.statLifeMax2 += player.statLifeMax / 5 / 20 * 10;
@@ -1144,7 +1143,6 @@ namespace CalamityMod.CalPlayer
             sirenIceCooldown = false;
 
             draedonsHeart = false;
-            draedonsStressGain = false;
 
             afflicted = false;
             affliction = false;
@@ -1445,7 +1443,7 @@ namespace CalamityMod.CalPlayer
             wDeath = false;
             lethalLavaBurn = false;
             aCrunch = false;
-            hAttack = false;
+            absoluteRage = false;
             horror = false;
             irradiated = false;
             bFlames = false;
@@ -1664,8 +1662,8 @@ namespace CalamityMod.CalPlayer
             snowmanPrevious = snowman;
             snowman = snowmanHide = snowmanForce = snowmanPower = false;
 
-            rageMode = false;
-            adrenalineMode = false;
+            rageModeActive = false;
+            adrenalineModeActive = false;
 
             lastProjectileHit = null;
         }
@@ -1682,7 +1680,7 @@ namespace CalamityMod.CalPlayer
             gaelSwitchTimer = (GaelSwitchPhase)0;
             planarSpeedBoost = 0;
             galileoCooldown = 0;
-            stress = 0;
+            rage = 0;
             adrenaline = 0;
             raiderStack = 0;
             raiderCooldown = 0;
@@ -1719,7 +1717,7 @@ namespace CalamityMod.CalPlayer
             wDeath = false;
             lethalLavaBurn = false;
             aCrunch = false;
-            hAttack = false;
+            absoluteRage = false;
             horror = false;
             irradiated = false;
             bFlames = false;
@@ -1844,8 +1842,8 @@ namespace CalamityMod.CalPlayer
             shellBoost = false;
             cFreeze = false;
             tRegen = false;
-            rageMode = false;
-            adrenalineMode = false;
+            rageModeActive = false;
+            adrenalineModeActive = false;
             vodka = false;
             redWine = false;
             grapeBeer = false;
@@ -2513,7 +2511,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityMod.RageHotKey.JustPressed)
             {
                 if (gaelRageCooldown == 0 && player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>() &&
-                    stress > 0)
+                    rage > 0)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)player.position.X, (int)player.position.Y);
                     for (int i = 0; i < 3; i++)
@@ -2532,7 +2530,7 @@ namespace CalamityMod.CalPlayer
                         Dust.NewDust(player.Center + angle.ToRotationVector2() * 160f, 0, 0, 218, 0f, 0f, 100, default, 1f);
                     }
                     gaelRageCooldown = 60 * GaelsGreatsword.SkullsplosionCooldownSeconds;
-                    float rageRatio = (float)stress / stressMax;
+                    float rageRatio = (float)rage / rageMax;
                     int damage = (int)(rageRatio * GaelsGreatsword.MaxRageBoost * GaelsGreatsword.BaseDamage * player.MeleeDamage());
                     float skullCount = 5f;
                     float skullSpeed = 5f;
@@ -2560,9 +2558,9 @@ namespace CalamityMod.CalPlayer
                         Main.projectile[projectileIndex].tileCollide = false;
                         Main.projectile[projectileIndex].localAI[1] = (Main.projectile[projectileIndex].velocity.Y < 0f).ToInt();
                     }
-                    stress = 0;
+                    rage = 0;
                 }
-                if (stress == stressMax && CalamityMod.CalamityConfig.AdrenalineAndRage && !rageMode)
+                if (rage == rageMax && CalamityMod.CalamityConfig.AdrenalineAndRage && !rageModeActive)
                 {
                     Main.PlaySound(29, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 64; num502++)
@@ -2582,12 +2580,12 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num228].noLight = true;
                         Main.dust[num228].velocity = vector7;
                     }
-                    player.AddBuff(ModContent.BuffType<RageMode>(), 300);
+                    player.AddBuff(ModContent.BuffType<RageMode>(), RageDuration);
                 }
             }
             if (CalamityMod.AdrenalineHotKey.JustPressed && CalamityMod.CalamityConfig.AdrenalineAndRage && CalamityWorld.revenge)
             {
-                if (adrenaline == adrenalineMax && !adrenalineMode)
+                if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
                     Main.PlaySound(29, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 64; num502++)
@@ -2607,7 +2605,7 @@ namespace CalamityMod.CalPlayer
                         Main.dust[num228].noLight = true;
                         Main.dust[num228].velocity = vector7;
                     }
-                    player.AddBuff(ModContent.BuffType<AdrenalineMode>(), 300);
+                    player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
                 }
             }
             if (sulfurSet && player.controlJump && player.justJumped && player.jumpAgainSandstorm)
@@ -3150,11 +3148,11 @@ namespace CalamityMod.CalPlayer
             if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>())
             {
                 gaelSwitchTimer = GaelSwitchPhase.LoseRage;
-                stress += (int)MathHelper.Min(5, 10000 - stress);
+                rage += (int)MathHelper.Min(5, 10000 - rage);
             }
             else if (player.HeldItem.type != ModContent.ItemType<GaelsGreatsword>() && gaelSwitchTimer == GaelSwitchPhase.LoseRage)
             {
-                stress = 0;
+                rage = 0;
                 gaelSwitchTimer = GaelSwitchPhase.None;
             }
         }
@@ -4864,14 +4862,14 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
             {
                 bool DHorHoD = draedonsHeart || heartOfDarkness;
-                if (rageMode && adrenalineMode)
+                if (rageModeActive && adrenalineModeActive)
                 {
                     if (item.melee)
                     {
                         damageMult += (DHorHoD ? 2.3 : 2.0);
                     }
                 }
-                else if (rageMode)
+                else if (rageModeActive)
                 {
                     if (item.melee)
                     {
@@ -4883,7 +4881,7 @@ namespace CalamityMod.CalPlayer
                         damageMult += rageDamage;
                     }
                 }
-                else if (adrenalineMode)
+                else if (adrenalineModeActive)
                 {
                     if (item.melee)
                     {
@@ -5047,10 +5045,10 @@ namespace CalamityMod.CalPlayer
                         {
                             stressGain = stressMaxGain;
                         }
-                        stress += stressGain;
-                        if (stress >= stressMax)
+                        rage += stressGain;
+                        if (rage >= rageMax)
                         {
-                            stress = stressMax;
+                            rage = rageMax;
                         }
                     }
                 }
@@ -5182,14 +5180,14 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
             {
                 bool DHorHoD = draedonsHeart || heartOfDarkness;
-                if (rageMode && adrenalineMode)
+                if (rageModeActive && adrenalineModeActive)
                 {
                     if (hasClassType)
                     {
                         damageMult += (DHorHoD ? 2.3 : 2.0);
                     }
                 }
-                else if (rageMode)
+                else if (rageModeActive)
                 {
                     if (hasClassType)
                     {
@@ -5201,7 +5199,7 @@ namespace CalamityMod.CalPlayer
                         damageMult += rageDamage;
                     }
                 }
-                else if (adrenalineMode)
+                else if (adrenalineModeActive)
                 {
                     if (hasClassType)
                     {
@@ -5623,10 +5621,10 @@ namespace CalamityMod.CalPlayer
                         {
                             stressGain = stressMaxGain;
                         }
-                        stress += stressGain;
-                        if (stress >= stressMax)
+                        rage += stressGain;
+                        if (rage >= rageMax)
                         {
-                            stress = stressMax;
+                            rage = rageMax;
                         }
                     }
                 }
@@ -5694,10 +5692,10 @@ namespace CalamityMod.CalPlayer
                     {
                         stressGain = stressMaxGain;
                     }
-                    stress += stressGain;
-                    if (stress >= stressMax)
+                    rage += stressGain;
+                    if (rage >= rageMax)
                     {
-                        stress = stressMax;
+                        rage = rageMax;
                     }
                 }
             }
@@ -5816,10 +5814,10 @@ namespace CalamityMod.CalPlayer
                     {
                         stressGain = stressMaxGain;
                     }
-                    stress += stressGain;
-                    if (stress >= stressMax)
+                    rage += stressGain;
+                    if (rage >= rageMax)
                     {
-                        stress = stressMax;
+                        rage = rageMax;
                     }
                 }
             }
@@ -6303,7 +6301,7 @@ namespace CalamityMod.CalPlayer
 
                 if (CalamityMod.CalamityConfig.AdrenalineAndRage)
                 {
-                    if (adrenaline == adrenalineMax && !adrenalineMode)
+                    if (adrenaline == adrenalineMax && !adrenalineModeActive)
                         damage = (int)(damage * 0.5);
                 }
             }
@@ -6352,7 +6350,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (CalamityMod.CalamityConfig.AdrenalineAndRage && CalamityWorld.revenge)
                 {
-                    if (!adrenalineMode && damage > 0) //to prevent paladin's shield ruining adren even with 0 dmg taken
+                    if (!adrenalineModeActive && damage > 0) //to prevent paladin's shield ruining adren even with 0 dmg taken
 					{
                         adrenaline -= stressPills ? adrenalineMax / 2 : adrenalineMax;
 						if (adrenaline < 0)
@@ -8864,7 +8862,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (bFlames || aFlames || rageMode)
+            if (bFlames || aFlames || rageModeActive)
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
@@ -8920,7 +8918,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (adrenalineMode)
+            if (adrenalineModeActive)
             {
                 if (Main.rand.NextBool(4) && drawInfo.shadow == 0f)
                 {
@@ -9475,7 +9473,7 @@ namespace CalamityMod.CalPlayer
             ModPacket packet = mod.GetPacket(256);
             packet.Write((byte)CalamityModMessageType.StressSync);
             packet.Write(player.whoAmI);
-            packet.Write(stress);
+            packet.Write(rage);
 
             if (!server)
                 packet.Send();
@@ -9587,7 +9585,7 @@ namespace CalamityMod.CalPlayer
 
         internal void HandleStress(BinaryReader reader)
         {
-            stress = reader.ReadInt32();
+            rage = reader.ReadInt32();
             if (Main.netMode == NetmodeID.Server)
                 StressPacket(true);
         }

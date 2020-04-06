@@ -40,7 +40,6 @@ namespace CalamityMod.Items.Accessories
 			modPlayer.laudanum = true;
 			modPlayer.stressPills = true;
             modPlayer.draedonsHeart = true;
-            modPlayer.draedonsStressGain = true;
         }
 
         public override void AddRecipes()

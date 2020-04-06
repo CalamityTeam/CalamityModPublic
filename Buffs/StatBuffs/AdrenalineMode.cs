@@ -19,7 +19,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().adrenalineMode = true;
+            player.Calamity().adrenalineModeActive = true;
         }
     }
 }

@@ -305,7 +305,7 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:LightBurst"] = new Filter(new ScreenShaderData(new Ref<Effect>(LightShader), "BurstPass"), EffectPriority.VeryHigh);
             Filters.Scene["CalamityMod:LightBurst"].Load();
 
-            UIHandler.OnLoad(this);
+            RipperUI.Reset();
             AstralArcanumUI.Load(this);
         }
         #endregion
@@ -411,6 +411,7 @@ namespace CalamityMod
 
             TileFraming.Unload();
 
+            RipperUI.Reset();
             AstralArcanumUI.Unload();
             base.Unload();
 
@@ -440,7 +441,7 @@ namespace CalamityMod
 			if (saveMethodInfo != null)
 				saveMethodInfo.Invoke(null, new object[] { CalamityConfig });
 			else
-				CalamityMod.instance.Logger.Warn("In-game SaveConfig failed, code update required");
+				instance.Logger.Warn("In-game SaveConfig failed, code update required");
 		}
 		#endregion
 
@@ -2827,14 +2828,10 @@ namespace CalamityMod
         #region DrawingStuff
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
+            int mouseIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Mouse Text");
+            if (mouseIndex != -1)
             {
-                UIHandler.ModifyInterfaceLayers(ModContent.GetInstance<CalamityMod>(), layers);
-            }
-            int index = layers.FindIndex(layer => layer.Name == "Vanilla: Mouse Text");
-            if (index != -1)
-            {
-                layers.Insert(index, new LegacyGameInterfaceLayer("Boss HP Bars", delegate ()
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Boss HP Bars", delegate ()
                 {
                     if (Main.LocalPlayer.Calamity().drawBossHPBar)
                     {
@@ -2843,14 +2840,30 @@ namespace CalamityMod
                     }
                     return true;
                 }, InterfaceScaleType.None));
-            }
-            base.ModifyInterfaceLayers(layers);
-            layers.Insert(index, new LegacyGameInterfaceLayer("Astral Arcanum UI", delegate ()
-            {
-                AstralArcanumUI.UpdateAndDraw(Main.spriteBatch);
-                return true;
-            }, InterfaceScaleType.None));
 
+                // Astral Arcanum overlay (if open)
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Astral Arcanum UI", delegate ()
+                {
+                    AstralArcanumUI.UpdateAndDraw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Rage and Adrenaline bars
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Rage and Adrenaline UI", delegate ()
+                {
+                    RipperUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                // Stealth bar
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Stealth UI", () =>
+                {
+                    StealthStrikeUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    return true;
+                }, InterfaceScaleType.None));
+            }
+
+            // Invasion UI (used for Acid Rain)
             int invasionIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Diagnose Net");
             if (invasionIndex != -1)
             {
@@ -2860,11 +2873,6 @@ namespace CalamityMod
                     {
                         AcidRainUI.Draw(Main.spriteBatch);
                     }
-                    return true;
-                }, InterfaceScaleType.None));
-                layers.Insert(invasionIndex, new LegacyGameInterfaceLayer("Stealth Strike UI", () =>
-                {
-                    StealthStrikeUI.Draw(Main.spriteBatch, Main.LocalPlayer);
                     return true;
                 }, InterfaceScaleType.None));
             }
