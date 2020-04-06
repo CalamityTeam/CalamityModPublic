@@ -63,12 +63,6 @@ namespace CalamityMod
 		[Tooltip("Prevents the movement of the Adrenaline, Rage and Stealth bars with the Mouse")]
 		public bool MeterPosLock { get; set; }
 
-		[DefaultValue(2f)]
-		[Range(0f, 4f)]
-		[Label("Adrenaline and Rage Meter Shake")]
-		[Tooltip("How much the Adrenaline and Rage Meter shake while in use. Set to 0 to disable.")]
-		public float MeterShake { get; set; }
-
 		[DefaultValue(true)]
 		[Label("Boss Health Bar Small Text")]
 		[Tooltip("Enables the small text below the health bar\nThis displays the exact health amount or remaining boss parts")]
@@ -142,6 +136,12 @@ namespace CalamityMod
 		[Range(0f, 1100f)]
 		[DefaultValue(RipperUI.DefaultAdrenPosY)]
 		public float AdrenalineMeterPosY { get; set; }
+
+		[DefaultValue(2f)]
+		[Range(0f, 4f)]
+		[Label("Adrenaline and Rage Meter Shake")]
+		[Tooltip("How much the Adrenaline and Rage Meter shake while in use. Set to 0 to disable.")]
+		public float MeterShake { get; set; }
 
 		[DefaultValue(false)]
 		[Label("Revengeance and Death Thorium Boss buff")]
