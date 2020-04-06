@@ -2320,7 +2320,7 @@ namespace CalamityMod
         /// <param name="seconds">How long you want it to take to swap between colors</param>
 		public static Color ColorSwap(Color firstColor, Color secondColor, float seconds)
 		{
-			double timeMult = (double)(MathHelper.PiOver2 / seconds);
+			double timeMult = (double)(MathHelper.TwoPi / seconds);
 			float colorMePurple = (float)((Math.Sin(timeMult * Main.GlobalTime) + 1) * 0.5f);
 			return Color.Lerp(firstColor, secondColor, colorMePurple);
 		}
