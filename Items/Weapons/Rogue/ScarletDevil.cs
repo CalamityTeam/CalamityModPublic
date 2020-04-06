@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<ScarletDevilProjectile>();
             item.shootSpeed = 30f;
             item.Calamity().rogue = true;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override void AddRecipes()

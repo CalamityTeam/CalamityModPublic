@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = Item.buyPrice(5, 0, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
             item.rare = 10;
             item.UseSound = SoundID.Item68;
             item.shoot = ModContent.ProjectileType<MagicHat>();

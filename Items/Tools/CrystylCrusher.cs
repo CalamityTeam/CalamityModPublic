@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Tools
             item.rare = 10;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
 			item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
 		public override Vector2? HoldoutOrigin()
