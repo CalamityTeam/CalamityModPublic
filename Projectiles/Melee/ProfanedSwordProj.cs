@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
-            projectile.penetrate = 5;
+            projectile.penetrate = 4;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;

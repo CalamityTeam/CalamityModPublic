@@ -3435,6 +3435,10 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.75);
                 }
+                else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>())
+                {
+                    damage = (int)(damage * 0.5);
+                }
                 else if (projectile.type == ModContent.ProjectileType<SulphuricNukesplosion>())
                 {
                     damage /= 3;
@@ -3446,7 +3450,7 @@ namespace CalamityMod.NPCs
                 else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 5;
+                        projectile.penetrate = 4;
                     damage = (int)(damage * 0.1);
                 }
             }
@@ -3460,10 +3464,14 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
+				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>())
+                {
+                    damage = (int)(damage * 0.5);
+                }
                 else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 5;
+                        projectile.penetrate = 4;
                     damage = (int)(damage * 0.1);
                 }
 			}

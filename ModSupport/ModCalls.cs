@@ -1335,7 +1335,7 @@ namespace CalamityMod
 		#region Item Rarity
 		public static bool SetCalamityRarity(Item item, int rarityNum)
 		{
-			CalamityGlobalItem cgi = item.GetGlobalItem<CalamityGlobalItem>();
+			CalamityGlobalItem cgi = item.Calamity();
 			cgi.customRarity = (CalamityRarity)rarityNum;
 			return cgi.customRarity != CalamityRarity.NoEffect;
 		}
@@ -1663,6 +1663,7 @@ namespace CalamityMod
 					Item item = (Item)args[1];
 					int rarity = (int)args[2];
 					return SetCalamityRarity(item, rarity);
+
 				case "AbominationnClearEvents":
 					bool eventActive = CalamityWorld.rainingAcid;
 					bool canClear = Convert.ToBoolean(args[1]); //This is to indicate whether abomm is able to clear the event due to a cooldown
@@ -1673,6 +1674,7 @@ namespace CalamityMod
 						AcidRainEvent.UpdateInvasion(false);
 					}
 					return eventActive;
+
 				default:
 					return new ArgumentException("ERROR: Invalid method name.");
 			}
