@@ -164,7 +164,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 12;
+				lifeRegenLost += 6;
             }
 
             if (modPlayer.hFlames)
