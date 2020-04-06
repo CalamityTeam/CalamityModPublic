@@ -895,7 +895,7 @@ namespace CalamityMod.Items
                         if (item.type == ModContent.ItemType<Vesuvius>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 0);
                         if (item.type == ModContent.ItemType<PristineFury>())
-                            tt2.overrideColor = new Color(255, 255, Main.DiscoB);
+							tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
                         break;
                 }
             }

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -57,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
                     Main.dust[num448].velocity *= 0.2f;
                     Main.dust[num448].noLight = true;
-					Main.dust[num448].color = new Color(255, 255, Main.DiscoB);
+					Main.dust[num448].color = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
                 }
                 projectile.ai[0] += 1f;
                 if (projectile.ai[0] == 48f)
@@ -84,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
                         Main.dust[num42].position = projectile.Center + value8;
                         Main.dust[num42].velocity = projectile.velocity;
 						Main.dust[num42].noLight = true;
-						Main.dust[num42].color = new Color(255, 255, Main.DiscoB);
+						Main.dust[num42].color = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
                     }
                 }
             }
@@ -124,14 +125,14 @@ namespace CalamityMod.Projectiles.Ranged
                 dust.noGravity = true;
                 dust.velocity *= 3f;
                 dust.velocity += value4 * Main.rand.NextFloat();
-				dust.color = new Color(255, 255, Main.DiscoB);
-                num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, new Color(255, 255, Main.DiscoB), num51);
+				dust.color = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
+                num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, num51);
                 dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(MathHelper.Pi) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
                 dust.velocity *= 2f;
                 dust.noGravity = true;
                 dust.fadeIn = 1f;
                 dust.velocity += value4 * Main.rand.NextFloat();
-				dust.color = new Color(255, 255, Main.DiscoB);
+				dust.color = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
             }
             for (int num55 = 0; num55 < 20; num55++)
             {
@@ -141,7 +142,7 @@ namespace CalamityMod.Projectiles.Ranged
                 dust.noGravity = true;
                 dust.velocity *= 0.5f;
                 dust.velocity += value4 * (0.6f + 0.6f * Main.rand.NextFloat());
-				dust.color = new Color(255, 255, Main.DiscoB);
+				dust.color = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
             }
         }
     }
