@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
-    class StratusLamp : ModTile
+    public class StratusLamp : ModTile
     {
         public override void SetDefaults()
         {

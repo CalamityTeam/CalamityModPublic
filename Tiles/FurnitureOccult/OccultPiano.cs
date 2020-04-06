@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureOccult
 {
-    class OccultPiano : ModTile
+    public class OccultPiano : ModTile
     {
         public override void SetDefaults()
         {

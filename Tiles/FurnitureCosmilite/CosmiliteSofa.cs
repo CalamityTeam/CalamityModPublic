@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-    class CosmiliteSofa : ModTile
+    public class CosmiliteSofa : ModTile
     {
         public override void SetDefaults()
         {

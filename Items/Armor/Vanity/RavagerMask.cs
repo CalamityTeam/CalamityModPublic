@@ -3,7 +3,7 @@
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    class RavagerMask : ModItem
+    public class RavagerMask : ModItem
     {
         public override void SetStaticDefaults()
         {

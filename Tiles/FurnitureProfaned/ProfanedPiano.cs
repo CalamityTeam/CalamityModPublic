@@ -6,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-    class ProfanedPiano : ModTile
+    public class ProfanedPiano : ModTile
     {
         public override void SetDefaults()
         {

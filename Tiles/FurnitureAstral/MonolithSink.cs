@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAstral
 {
-    class MonolithSink : ModTile
+    public class MonolithSink : ModTile
     {
         public override void SetDefaults()
         {

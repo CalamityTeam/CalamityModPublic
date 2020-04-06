@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
-    class StatigelLantern : ModTile
+    public class StatigelLantern : ModTile
     {
         public override void SetDefaults()
         {

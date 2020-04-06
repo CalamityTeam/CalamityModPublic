@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureBotanic
 {
-    class BotanicCandelabra : ModTile
+    public class BotanicCandelabra : ModTile
     {
         public override void SetDefaults()
         {

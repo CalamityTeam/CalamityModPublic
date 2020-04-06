@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOccult
 {
-    class OccultSink : ModTile
+    public class OccultSink : ModTile
     {
         public override void SetDefaults()
         {

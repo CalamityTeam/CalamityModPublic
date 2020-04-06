@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-    class AshenSofa : ModTile
+    public class AshenSofa : ModTile
     {
         public override void SetDefaults()
         {

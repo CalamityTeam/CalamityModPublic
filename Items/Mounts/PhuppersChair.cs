@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    class PhuppersChair : ModMountData
+    public class PhuppersChair : ModMountData
     {
         public override void SetDefaults()
         {

@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-    class AshenBasin : ModTile
+    public class AshenBasin : ModTile
     {
         int animationFrame = 0;
 

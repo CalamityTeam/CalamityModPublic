@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-    class ProfanedLantern : ModTile
+    public class ProfanedLantern : ModTile
     {
         public override void SetDefaults()
         {

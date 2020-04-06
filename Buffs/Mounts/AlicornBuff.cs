@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Buffs.Mounts
 {
-    class AlicornBuff : ModBuff
+    public class AlicornBuff : ModBuff
     {
         public override void SetDefaults()
         {

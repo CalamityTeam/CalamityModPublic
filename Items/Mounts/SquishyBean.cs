@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    class SquishyBean : ModMountData
+    public class SquishyBean : ModMountData
     {
         public override void SetDefaults()
         {

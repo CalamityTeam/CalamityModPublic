@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    class AncientAltar : ModTile
+    public class AncientAltar : ModTile
     {
         int animationFrame = 0;
         public override void SetDefaults()

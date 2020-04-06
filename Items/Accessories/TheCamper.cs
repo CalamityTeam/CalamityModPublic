@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
 {
     //Dedicated to Dzicozan
     [AutoloadEquip(EquipType.Back)]
-    class TheCamper : ModItem
+    public class TheCamper : ModItem
     {
         int auraCounter = 0;
 

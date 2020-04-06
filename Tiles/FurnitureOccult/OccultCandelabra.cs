@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOccult
 {
-    class OccultCandelabra : ModTile
+    public class OccultCandelabra : ModTile
     {
         public override void SetDefaults()
         {

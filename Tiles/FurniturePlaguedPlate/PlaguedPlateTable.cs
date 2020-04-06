@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
-    class PlaguedPlateTable : ModTile
+    public class PlaguedPlateTable : ModTile
     {
         public override void SetDefaults()
         {

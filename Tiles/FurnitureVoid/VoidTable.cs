@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureVoid
 {
-    class VoidTable : ModTile
+    public class VoidTable : ModTile
     {
         public override void SetDefaults()
         {

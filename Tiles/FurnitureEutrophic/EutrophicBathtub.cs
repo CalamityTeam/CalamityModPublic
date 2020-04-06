@@ -5,7 +5,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
-    class EutrophicBathtub : ModTile
+    public class EutrophicBathtub : ModTile
     {
         public override void SetDefaults()
         {

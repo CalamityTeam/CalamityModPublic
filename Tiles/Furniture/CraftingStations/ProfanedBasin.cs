@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    class ProfanedBasin : ModTile
+    public class ProfanedBasin : ModTile
     {
         public override void SetDefaults()
         {

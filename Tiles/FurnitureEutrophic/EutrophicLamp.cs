@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
-    class EutrophicLamp : ModTile
+    public class EutrophicLamp : ModTile
     {
         public override void SetDefaults()
         {

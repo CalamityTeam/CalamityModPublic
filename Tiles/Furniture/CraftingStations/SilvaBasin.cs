@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    class SilvaBasin : ModTile
+    public class SilvaBasin : ModTile
     {
         public override void SetDefaults()
         {

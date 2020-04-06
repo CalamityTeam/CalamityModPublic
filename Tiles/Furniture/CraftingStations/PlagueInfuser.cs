@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    class PlagueInfuser : ModTile
+    public class PlagueInfuser : ModTile
     {
         public override void SetDefaults()
         {

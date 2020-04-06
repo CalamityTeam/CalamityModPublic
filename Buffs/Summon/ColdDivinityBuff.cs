@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    class ColdDivinityBuff : ModBuff
+    public class ColdDivinityBuff : ModBuff
     {
         public override void SetDefaults()
         {

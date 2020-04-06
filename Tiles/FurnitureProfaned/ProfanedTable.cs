@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-    class ProfanedTable : ModTile
+    public class ProfanedTable : ModTile
     {
         public override void SetDefaults()
         {

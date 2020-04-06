@@ -3,7 +3,7 @@
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    class SignusMask : ModItem
+    public class SignusMask : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-    class CosmiliteCandelabra : ModTile
+    public class CosmiliteCandelabra : ModTile
     {
         public override void SetDefaults()
         {

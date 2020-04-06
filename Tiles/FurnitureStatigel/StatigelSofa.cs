@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
-    class StatigelSofa : ModTile
+    public class StatigelSofa : ModTile
     {
         public override void SetDefaults()
         {

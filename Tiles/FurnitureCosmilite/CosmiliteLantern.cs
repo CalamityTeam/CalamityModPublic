@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-    class CosmiliteLantern : ModTile
+    public class CosmiliteLantern : ModTile
     {
         public override void SetDefaults()
         {

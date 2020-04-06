@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
-    class StatigelPiano : ModTile
+    public class StatigelPiano : ModTile
     {
         public override void SetDefaults()
         {

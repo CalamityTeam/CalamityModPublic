@@ -9,7 +9,7 @@ using CalamityMod.Items.Placeables.FurnitureCosmilite;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-	class CosmiliteBasinTile : ModTile
+	public class CosmiliteBasinTile : ModTile
 	{
 		public override void SetDefaults()
 		{

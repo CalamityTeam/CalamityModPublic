@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-    class ProfanedBench : ModTile
+    public class ProfanedBench : ModTile
     {
         public override void SetDefaults()
         {

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Mounts
 {
-    class OnyxExcavatorBuff : ModBuff
+    public class OnyxExcavatorBuff : ModBuff
     {
         public override void SetDefaults()
         {

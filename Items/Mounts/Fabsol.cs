@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    class Fabsol : ModItem
+    public class Fabsol : ModItem
     {
         public override void SetStaticDefaults()
         {

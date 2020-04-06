@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-    class AncientLantern : ModTile
+    public class AncientLantern : ModTile
     {
         public override void SetDefaults()
         {

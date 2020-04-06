@@ -3,7 +3,7 @@
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    class CeaselessVoidMask : ModItem
+    public class CeaselessVoidMask : ModItem
     {
         public override void SetStaticDefaults()
         {

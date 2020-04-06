@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-    class AshenLamp : ModTile
+    public class AshenLamp : ModTile
     {
         public override void SetDefaults()
         {

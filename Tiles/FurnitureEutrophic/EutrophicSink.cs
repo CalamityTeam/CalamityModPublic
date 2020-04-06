@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
-    class EutrophicSink : ModTile
+    public class EutrophicSink : ModTile
     {
         public override void SetDefaults()
         {

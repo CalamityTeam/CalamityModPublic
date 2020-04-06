@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-    class AshenLantern : ModTile
+    public class AshenLantern : ModTile
     {
         public override void SetDefaults()
         {

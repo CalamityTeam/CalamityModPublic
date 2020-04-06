@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-    class CosmiliteTable : ModTile
+    public class CosmiliteTable : ModTile
     {
         public override void SetDefaults()
         {

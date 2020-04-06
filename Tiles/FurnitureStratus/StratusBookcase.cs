@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
-    class StratusBookcase : ModTile
+    public class StratusBookcase : ModTile
     {
         public override void SetDefaults()
         {

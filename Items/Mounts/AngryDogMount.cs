@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    class AngryDogMount : ModMountData
+    public class AngryDogMount : ModMountData
     {
         public override void SetDefaults()
         {

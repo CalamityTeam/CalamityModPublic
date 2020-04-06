@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAstral
 {
-    class MonolithBench : ModTile
+    public class MonolithBench : ModTile
     {
         public override void SetDefaults()
         {

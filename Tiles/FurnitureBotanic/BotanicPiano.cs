@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureBotanic
 {
-    class BotanicPiano : ModTile
+    public class BotanicPiano : ModTile
     {
         public override void SetDefaults()
         {

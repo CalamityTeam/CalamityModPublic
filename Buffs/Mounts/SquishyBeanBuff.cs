@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Mounts
 {
-    class SquishyBeanBuff : ModBuff
+    public class SquishyBeanBuff : ModBuff
     {
         public override void SetDefaults()
         {

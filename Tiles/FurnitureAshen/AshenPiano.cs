@@ -5,7 +5,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-    class AshenPiano : ModTile
+    public class AshenPiano : ModTile
     {
         public override void SetDefaults()
         {

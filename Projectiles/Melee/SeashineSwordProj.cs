@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    class SeashineSwordProj : ModProjectile
+    public class SeashineSwordProj : ModProjectile
     {
         public override void SetDefaults()
         {

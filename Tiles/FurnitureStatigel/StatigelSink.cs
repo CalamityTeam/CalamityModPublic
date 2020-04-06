@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStatigel
 {
-    class StatigelSink : ModTile
+    public class StatigelSink : ModTile
     {
         public override void SetDefaults()
         {

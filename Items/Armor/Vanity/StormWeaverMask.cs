@@ -3,7 +3,7 @@
 namespace CalamityMod.Items.Armor.Vanity
 {
     [AutoloadEquip(EquipType.Head)]
-    class StormWeaverMask : ModItem
+    public class StormWeaverMask : ModItem
     {
         public override void SetStaticDefaults()
         {

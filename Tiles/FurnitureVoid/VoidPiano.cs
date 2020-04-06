@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureVoid
 {
-    class VoidPiano : ModTile
+    public class VoidPiano : ModTile
     {
         public override void SetDefaults()
         {

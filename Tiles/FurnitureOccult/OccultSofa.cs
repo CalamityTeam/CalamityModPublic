@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureOccult
 {
-    class OccultSofa : ModTile
+    public class OccultSofa : ModTile
     {
         public override void SetDefaults()
         {

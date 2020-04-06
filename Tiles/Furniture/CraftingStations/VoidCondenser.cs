@@ -5,7 +5,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    class VoidCondenser : ModTile
+    public class VoidCondenser : ModTile
     {
         public override void SetDefaults()
         {

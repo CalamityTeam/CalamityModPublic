@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-    class AncientBasin : ModTile
+    public class AncientBasin : ModTile
     {
         int animationFrame = 0;
 

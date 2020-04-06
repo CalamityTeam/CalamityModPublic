@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureOccult
 {
-    class OccultLamp : ModTile
+    public class OccultLamp : ModTile
     {
         public override void SetDefaults()
         {
