@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Legs)]
-    class SnowRuffianGreaves : ModItem
+    public class SnowRuffianGreaves : ModItem
     {
         public override void SetStaticDefaults()
         {

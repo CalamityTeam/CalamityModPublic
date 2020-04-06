@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Body)]
-    class SnowRuffianChestplate : ModItem
+    public class SnowRuffianChestplate : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    class SnowRuffianMask : ModItem
+    public class SnowRuffianMask : ModItem
     {
         private bool shouldBoost = false;
 
