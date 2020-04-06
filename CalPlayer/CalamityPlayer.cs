@@ -9138,7 +9138,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-			if (cadence)
+			if (cadence && !player.loveStruck)
 			{
 				if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
 				{
