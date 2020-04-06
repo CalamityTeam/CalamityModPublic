@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    class TundraLeash : ModItem
+    public class TundraLeash : ModItem
     {
         public override void SetStaticDefaults()
         {
