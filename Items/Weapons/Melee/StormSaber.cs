@@ -11,13 +11,14 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm Saber");
-            Tooltip.SetDefault("Fires a storm beam");
+            Tooltip.SetDefault("Fires two storm beams\n" +
+			"One from blade and one from the sky");
         }
 
         public override void SetDefaults()
         {
             item.width = 58;
-            item.damage = 42;
+            item.damage = 50;
             item.melee = true;
             item.useAnimation = 23;
             item.useTime = 23;
@@ -31,6 +32,20 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<StormBeam>();
             item.shootSpeed = 12f;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0f, 0f);
+
+            Vector2 spawnPos = new Vector2(player.MountedCenter.X + Main.rand.Next(-200, 201), player.MountedCenter.Y - 600f);
+            Vector2 targetPos = Main.MouseWorld + new Vector2(Main.rand.Next(-30, 31), Main.rand.Next(-30, 31));
+            Vector2 velocity = targetPos - spawnPos;
+            velocity.Normalize();
+            velocity *= 13f;
+
+            Projectile.NewProjectile(spawnPos, velocity, type, (int)(damage * 0.6), knockBack, player.whoAmI);
+            return false;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

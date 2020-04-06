@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<BrimlanceProj>();
             item.shootSpeed = 12f;
+			item.Calamity().trueMelee = true;
         }
     }
 }

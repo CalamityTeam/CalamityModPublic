@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 64;
-            item.damage = 42;
+            item.damage = 75;
             item.melee = true;
             item.useAnimation = 28;
             item.useStyle = 1;
@@ -34,19 +34,17 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 16f;
         }
 
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0f, 0f);
+            return false;
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CausticEdge>());
-            recipe.AddIngredient(ItemID.FlaskofCursedFlames, 5);
-            recipe.AddIngredient(ItemID.FlaskofPoison, 5);
-            recipe.AddIngredient(ItemID.Deathweed, 3);
-            recipe.AddTile(TileID.DemonAltar);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CausticEdge>());
-            recipe.AddIngredient(ItemID.FlaskofIchor, 5);
+            recipe.AddRecipeGroup("AnyEvilFlask", 5);
             recipe.AddIngredient(ItemID.FlaskofPoison, 5);
             recipe.AddIngredient(ItemID.Deathweed, 3);
             recipe.AddTile(TileID.DemonAltar);

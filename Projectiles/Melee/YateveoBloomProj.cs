@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.melee = true;
             projectile.alpha = 255;
-            projectile.Calamity().trueMelee = true;
         }
 
         public override void AI()

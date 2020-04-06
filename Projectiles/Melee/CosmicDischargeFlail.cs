@@ -30,7 +30,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 4;
-            projectile.Calamity().trueMelee = true;
 			projectile.coldDamage = true;
         }
         public override Color SpecialDrawColor => new Color(150, 255, 255);

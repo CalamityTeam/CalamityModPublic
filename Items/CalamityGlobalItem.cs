@@ -54,6 +54,7 @@ namespace CalamityMod.Items
         #endregion
 
         public bool rogue = false;
+        public bool trueMelee = false;
 
         public int timesUsed = 0;
 
@@ -180,6 +181,29 @@ namespace CalamityMod.Items
 				item.damage *= 4;
 				item.rare = 4;
 			}
+
+            switch (item.type)
+            {
+                case ItemID.Spear:
+                case ItemID.TheRottedFork:
+                case ItemID.Swordfish:
+                case ItemID.Arkhalis:
+                case ItemID.DarkLance:
+                case ItemID.CobaltNaginata:
+                case ItemID.PalladiumPike:
+                case ItemID.MythrilHalberd:
+                case ItemID.OrichalcumHalberd:
+                case ItemID.AdamantiteGlaive:
+                case ItemID.TitaniumTrident:
+                case ItemID.Gungnir:
+                case ItemID.ObsidianSwordfish:
+                case ItemID.MonkStaffT3:
+                case ItemID.MonkStaffT1:
+                    trueMelee = true;
+                    break;
+                default:
+                    break;
+            }
         }
         #endregion
 

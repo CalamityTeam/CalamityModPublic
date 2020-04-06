@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 8;
             item.shoot = ModContent.ProjectileType<ExsanguinationLanceProjectile>();
             item.shootSpeed = 8f;
+			item.Calamity().trueMelee = true;
         }
 
         public override bool CanUseItem(Player player)

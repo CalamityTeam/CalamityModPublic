@@ -963,6 +963,13 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("CursedFlameIchor", group);
 
+            group = new RecipeGroup(() => "Any Evil Flask", new int[]
+            {
+                ItemID.FlaskofCursedFlames,
+                ItemID.FlaskofIchor
+            });
+            RecipeGroup.RegisterGroup("AnyEvilFlask", group);
+
             group = new RecipeGroup(() => "Any Evil Water", new int[]
             {
                 ItemID.UnholyWater,

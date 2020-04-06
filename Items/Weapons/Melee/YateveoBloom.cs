@@ -60,6 +60,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 item.useAnimation = 33;
                 item.useTime = 33;
                 item.shootSpeed = 4.5f;
+				item.Calamity().trueMelee = true;
             }
             else
             {
@@ -68,6 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 item.useAnimation = 22;
                 item.useTime = 22;
                 item.shootSpeed = ShootSpeed;
+				item.Calamity().trueMelee = false;
             }
             return base.CanUseItem(player);
         }

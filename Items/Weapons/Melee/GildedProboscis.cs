@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<GildedProboscisProj>();
             item.shootSpeed = 13f;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.Calamity().trueMelee = true;
         }
 
         public override bool CanUseItem(Player player)

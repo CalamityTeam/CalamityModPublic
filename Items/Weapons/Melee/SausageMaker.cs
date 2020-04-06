@@ -33,6 +33,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<SausageMakerSpear>();
             item.shootSpeed = 6f;
+			item.Calamity().trueMelee = true;
         }
 
         public override void AddRecipes()
