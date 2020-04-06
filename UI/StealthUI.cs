@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-    public class StealthStrikeUI
+    public class StealthUI
     {
         public static Vector2 DrawPosition = new Vector2(CalamityMod.CalamityConfig.StealthMeterPosX, CalamityMod.CalamityConfig.StealthMeterPosY);
         public static Vector2 Offset = DrawPosition;
