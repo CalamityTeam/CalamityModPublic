@@ -80,6 +80,10 @@ namespace CalamityMod.Items.Accessories
                             line.text = "";
                         }
                     }
+                    else if (line.mod == "Terraria" && line.text.Contains("Sell price"))
+                    {
+                        line.text = "";
+                    }
                         
                 }
                 
