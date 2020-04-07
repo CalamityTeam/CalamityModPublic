@@ -889,6 +889,8 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(146, 0, 0);
                         if (item.type == ModContent.ItemType<CrystylCrusher>())
                             tt2.overrideColor = new Color(129, 29, 149);
+                        if (item.type == ModContent.ItemType<Svantechnical>())
+                            tt2.overrideColor = new Color(220, 20, 60);
 
                         // Uniquely colored legendary weapons and Yharim's Crystal
                         if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
