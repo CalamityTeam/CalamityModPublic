@@ -1,3 +1,4 @@
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -14,7 +15,8 @@ namespace CalamityMod.Items.Accessories.Wings
             Tooltip.SetDefault("Horizontal speed: 6.25\n" +
                 "Acceleration multiplier: 1\n" +
                 "Average vertical speed\n" +
-                "Flight time: 60");
+                "Flight time: 60\n" +
+				"25% increased jump speed while wearing the Aerospec armor");
         }
 
         public override void SetDefaults()
@@ -28,6 +30,13 @@ namespace CalamityMod.Items.Accessories.Wings
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+            if ((player.armor[0].type == ModContent.ItemType<AerospecHat>() || player.armor[0].type == ModContent.ItemType<AerospecHeadgear>() ||
+                player.armor[0].type == ModContent.ItemType<AerospecHelm>() || player.armor[0].type == ModContent.ItemType<AerospecHood>() ||
+                player.armor[0].type == ModContent.ItemType<AerospecHelmet>()) &&
+                player.armor[1].type == ModContent.ItemType<AerospecBreastplate>() && player.armor[2].type == ModContent.ItemType<AerospecLeggings>())
+            {
+				player.jumpSpeedBoost += 0.25f;
+            }
             player.wingTimeMax = 60;
             player.noFallDmg = true;
         }
