@@ -876,7 +876,7 @@ namespace CalamityMod.Items
                         if (item.type == ModContent.ItemType<NanoblackReaperMelee>() || item.type == ModContent.ItemType<NanoblackReaperRogue>())
                             tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
                         if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
-                            tt2.overrideColor = new Color(255 - Main.DiscoG < 80 ? 80 : Main.DiscoG < 50 ? 255 : 255 - Main.DiscoG, Main.DiscoG < 126 ? 126 : Main.DiscoG, 0); //alternates between emerald green and amber (BanditHueh)
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
                         if (item.type == ModContent.ItemType<BensUmbrella>())
                             tt2.overrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 2f);
                         if (item.type == ModContent.ItemType<Endogenesis>())
