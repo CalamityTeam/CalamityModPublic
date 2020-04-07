@@ -534,7 +534,7 @@ namespace CalamityMod.Items
                 Vector2 correctedVelocity = Main.MouseWorld - player.Center;
                 correctedVelocity.Normalize();
                 bool shouldNerf = player.Calamity().endoCooper || player.Calamity().magicHat; //No bonkers damage memes thank you very much.
-                bool enrage = player.statLife <= (int)((double)player.statLifeMax2 * 0.5);
+                bool enrage = player.statLife <= (int)(player.statLifeMax2 * 0.5);
                 if (item.melee)
                 {
                     if (player.Calamity().profanedSoulWeaponUsage % (enrage ? 4 : 6) == 0)
@@ -599,7 +599,7 @@ namespace CalamityMod.Items
                     {
                         player.Calamity().profanedSoulWeaponUsage = 0;
                     }
-                    int manaCost = (int)((float)100 * player.manaCost);
+                    int manaCost = (int)(100 * player.manaCost);
                     if (player.statMana < manaCost && player.Calamity().profanedSoulWeaponUsage == 0)
                     {
                         if (player.manaFlower)
