@@ -108,6 +108,9 @@ namespace CalamityMod.Tiles.Furniture
                 case 25:
                     item = ModContent.ItemType<ProfanedGuardianTrophy>();
                     break;
+                case 26:
+                    item = ModContent.ItemType<SupremeCalamitasTrophy>();
+                    break;
 			}
             if (item > 0)
             {

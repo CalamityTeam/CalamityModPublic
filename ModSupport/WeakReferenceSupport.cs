@@ -535,7 +535,7 @@ namespace CalamityMod
 				int type = NPCType<SupremeCalamitas>();
 				int summon = ItemType<EyeofExtinction>();
 				List<int> loot = new List<int>() { ItemType<CalamitousEssence>(), ItemType<Animus>(), ItemType<Azathoth>(), ItemType<Contagion>(), ItemType<CrystylCrusher>(), ItemType<DraconicDestruction>(), ItemType<Earth>(), ItemType<Fabstaff>(), ItemType<RoyalKnivesMelee>(), ItemType<RoyalKnives>(), ItemType<NanoblackReaperMelee>(), ItemType<NanoblackReaperRogue>(), ItemType<RedSun>(), ItemType<ScarletDevil>(), ItemType<SomaPrime>(), ItemType<BlushieStaff>(), ItemType<Svantechnical>(), ItemType<Judgement>(), ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ItemType<TriactisTruePaladinianMageHammerofMight>(), ItemType<Megafleet>(), ItemType<Endogenesis>(), ItemType<Vehemenc>(), ItemType<OmegaHealingPotion>() };
-				List<int> collection = new List<int>() { ItemType<KnowledgeCalamitas>(), ItemType<BrimstoneJewel>(), ItemType<Levi>() };
+				List<int> collection = new List<int>() { ItemType<SupremeCalamitasTrophy>(), ItemType<KnowledgeCalamitas>(), ItemType<BrimstoneJewel>(), ItemType<Levi>() };
 				string instructions = $"Use an [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("Please don't waste my time.", new Color(0xFF, 0xA5, 0x00));
 				AddBoss(bossChecklist, calamity, "Supreme Calamitas", order, type, DownedSCal, summon, loot, collection, instructions, despawn);
