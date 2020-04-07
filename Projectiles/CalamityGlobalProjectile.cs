@@ -87,6 +87,7 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.Gungnir:
                 case ProjectileID.ObsidianSwordfish:
                 case ProjectileID.MonkStaffT3:
+                case ProjectileID.MonkStaffT2:
                 case ProjectileID.MonkStaffT1:
                     trueMelee = true;
                     break;
