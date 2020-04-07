@@ -408,7 +408,7 @@ namespace CalamityMod
 				int type = NPCType<ProfanedGuardianBoss>();
 				int summon = ItemType<ProfanedShard>();
 				List<int> loot = new List<int>() { ItemType<ProfanedCore>(), ItemID.GreaterHealingPotion };
-				List<int> collection = new List<int>() { ItemType<ProfanedGuardianMask>(), ItemType<KnowledgeProfanedGuardians>() };
+				List<int> collection = new List<int>() { ItemType<ProfanedGuardianTrophy>(), ItemType<ProfanedGuardianMask>(), ItemType<KnowledgeProfanedGuardians>() };
 				string instructions = $"Use a [i:{summon}] in the Hallow or Underworld Biomes";
 				string despawn = CalamityUtils.ColorMessage("The guardians must protect their goddess at all costs.", new Color(0xFF, 0xA5, 0x00));
 				string bossLogTex = "CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardians_BossChecklist";
