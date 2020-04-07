@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.AcidRain
                         }
                         if (npc.ai[0] % AttackCycleTime >= (AttackCycleTime - SpecialAttackTime + 35f) && npc.ai[0] % 10f == 9f)
                         {
-                            Projectile.NewProjectile(npc.Center, npc.DirectionTo(player.Center) * 12f, ModContent.ProjectileType<NuclearBulletLarge>(), 45, 3f);
+                            Projectile.NewProjectile(npc.Center, npc.DirectionTo(player.Center) * 12f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 3f);
                         }
                         break;
                     // Cone of bullets
@@ -196,8 +196,8 @@ namespace CalamityMod.NPCs.AcidRain
                         if (npc.ai[0] % AttackCycleTime >= AttackCycleTime - SpecialAttackTime + 35f && npc.ai[0] % 4f == 3f)
                         {
                             float angle = MathHelper.Lerp(MathHelper.ToRadians(35f), MathHelper.ToRadians(5f), (npc.ai[0] % AttackCycleTime - (AttackCycleTime - SpecialAttackTime + 35f)) / (SpecialAttackTime + 35f));
-                            Projectile.NewProjectile(npc.Center, npc.DirectionTo(player.Center).RotatedBy(angle) * 16f, ModContent.ProjectileType<NuclearBulletLarge>(), 50, 4.5f);
-                            Projectile.NewProjectile(npc.Center, npc.DirectionTo(player.Center).RotatedBy(-angle) * 16f, ModContent.ProjectileType<NuclearBulletLarge>(), 50, 4.5f);
+                            Projectile.NewProjectile(npc.Center, npc.DirectionTo(player.Center).RotatedBy(angle) * 16f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4.5f);
+                            Projectile.NewProjectile(npc.Center, npc.DirectionTo(player.Center).RotatedBy(-angle) * 16f, ModContent.ProjectileType<NuclearBulletLarge>(), 48, 4.5f);
                         }
                         break;
                     // Shotgun bursts of bullets
@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs.AcidRain
                             for (int i = 0; i < 3; i++)
                             {
                                 float angle = MathHelper.Lerp(-0.5f, 0.5f, i / 3f);
-                                Projectile.NewProjectile(npc.Center, npc.DirectionTo(ShootPosition).RotatedBy(angle) * 13f, ModContent.ProjectileType<NuclearBulletMedium>(), 47, 4f);
+                                Projectile.NewProjectile(npc.Center, npc.DirectionTo(ShootPosition).RotatedBy(angle) * 13f, ModContent.ProjectileType<NuclearBulletMedium>(), 48, 4f);
                             }
                         }
                         break;
