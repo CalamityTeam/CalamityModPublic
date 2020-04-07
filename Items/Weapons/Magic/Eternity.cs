@@ -1,8 +1,9 @@
-using System.Collections.Generic;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,24 +37,18 @@ namespace CalamityMod.Items.Weapons.Magic
             item.noMelee = true;
             item.knockBack = 0f;
             item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Developer;
             item.autoReuse = true;
             item.noUseGraphic = true;
             item.shoot = ModContent.ProjectileType<EternityBook>();
             item.channel = true;
             item.shootSpeed = 0f;
+            item.rare = 10;
         }
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            foreach (TooltipLine line2 in tooltips)
-            {
-                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
-                {
-                    line2.text = $"[" + DisoHex + "There's pictures of ponies in the book]";
-                }
-            }
+            var tt2 = tooltips.FirstOrDefault(x => x.Name == "Tooltip1" && x.mod == "Terraria");
+            tt2.text = $"[" + DisoHex + "There's pictures of ponies in the book]";
         }
         public static string DisoHex => "c/" +
             ((int)(156 + Main.DiscoR * 99f / 255f)).ToString("X2") 

@@ -835,6 +835,28 @@ namespace CalamityMod.Items
             TooltipLine tt2 = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
             if (tt2 != null)
             {
+                // The special color in the tooltip were overlapping. Placing everything in here, above other things, was the only solution I could find that worked.
+                if (item.type == ModContent.ItemType<Eternity>())
+                {
+                    List<Color> colorSet = new List<Color>()
+                    {
+                        new Color(188, 192, 193), // white
+                        new Color(157, 100, 183), // purple
+                        new Color(249, 166, 77), // honey-ish orange
+                        new Color(255, 105, 234), // pink
+                        new Color(67, 204, 219), // sky blue
+                        new Color(249, 245, 99), // bright yellow
+                        new Color(236, 168, 247), // purplish pink
+                    };
+                    if (tt2 != null)
+                    {
+                        int colorIndex = (int)(Main.GlobalTime / 2 % colorSet.Count);
+                        Color currentColor = colorSet[colorIndex];
+                        Color nextColor = colorSet[(colorIndex + 1) % colorSet.Count];
+                        tt2.overrideColor = Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+                    }
+                    return;
+                }
                 switch (customRarity)
                 {
                     default:
