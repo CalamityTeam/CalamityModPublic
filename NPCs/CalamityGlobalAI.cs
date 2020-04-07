@@ -4470,7 +4470,7 @@ namespace CalamityMod.NPCs
                                 else if (phase2)
                                 {
                                     damage += 2;
-                                    projectileType = ProjectileID.FrostBeam;
+                                    projectileType = ModContent.ProjectileType<DestroyerFrostLaser>();
                                 }
                             }
                             else

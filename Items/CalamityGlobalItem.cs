@@ -201,6 +201,7 @@ namespace CalamityMod.Items
                 case ItemID.Gungnir:
                 case ItemID.ObsidianSwordfish:
                 case ItemID.MonkStaffT3:
+                case ItemID.MonkStaffT2:
                 case ItemID.MonkStaffT1:
                     trueMelee = true;
                     break;

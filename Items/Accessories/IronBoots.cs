@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Shoes)]
     public class IronBoots : ModItem
     {
         public override void SetStaticDefaults()
