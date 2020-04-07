@@ -8,7 +8,7 @@ namespace CalamityMod.Buffs.StatDebuffs
         public override void SetDefaults()
         {
             DisplayName.SetDefault("Freezing Weather");
-            Description.SetDefault("The weather slows your movement as you freeze to death");
+            Description.SetDefault("The weather slows your movement as you freeze to death. You need to look for equipment to protect you from the cold.");
             Main.buffNoTimeDisplay[Type] = true;
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
