@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 50;
-            item.damage = 63;
+            item.damage = 70;
             item.melee = true;
             item.useAnimation = 23;
             item.useTime = 23;
@@ -88,7 +88,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     default:
                         break;
                 }
-                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
+                Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0f, (float)Main.rand.Next(3));
             }
             return false;
         }

@@ -2311,6 +2311,19 @@ namespace CalamityMod
             sb.Append("[c/").Append(color.Hex3()).Append(':').Append(msg).Append(']');
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Returns a color lerp that allows for smooth transitioning between two given colors
+        /// </summary>
+        /// <param name="firstColor">The first color you want it to switch between</param>
+        /// <param name="secondColor">The second color you want it to switch between</param>
+        /// <param name="seconds">How long you want it to take to swap between colors</param>
+		public static Color ColorSwap(Color firstColor, Color secondColor, float seconds)
+		{
+			double timeMult = (double)(MathHelper.TwoPi / seconds);
+			float colorMePurple = (float)((Math.Sin(timeMult * Main.GlobalTime) + 1) * 0.5f);
+			return Color.Lerp(firstColor, secondColor, colorMePurple);
+		}
         #endregion
 
         #region Miscellaneous Utilities

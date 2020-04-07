@@ -3633,7 +3633,7 @@ namespace CalamityMod.CalPlayer
         #region Get Weapon Damage And KB
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
-            bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type) && ItemID.Sets.Yoyo[item.type] != true));
+            bool isTrueMelee = item.melee && (item.shoot == 0 || item.Calamity().trueMelee);
             if (isTrueMelee)
             {
                 if (tScale)
@@ -3760,7 +3760,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            bool isTrueMelee = item.melee && (item.shoot == 0 || (item.noMelee && item.noUseGraphic && item.useStyle == 5 && !CalamityMod.trueMeleeBoostExceptionList.Contains(item.type) && ItemID.Sets.Yoyo[item.type] != true));
+            bool isTrueMelee = item.melee && (item.shoot == 0 || item.Calamity().trueMelee);
             if (isTrueMelee)
             {
                 if (fungalSymbiote && player.whoAmI == Main.myPlayer)
@@ -9138,6 +9138,20 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
+			if (cadence && !player.loveStruck)
+			{
+				if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
+				{
+					Vector2 vector2_2 = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
+					vector2_2.Normalize();
+					vector2_2.X *= 0.66f;
+					int heart = Gore.NewGore(drawInfo.position + new Vector2((float)Main.rand.Next(player.width + 1), (float)Main.rand.Next(player.height + 1)), vector2_2 * (float)Main.rand.Next(3, 6) * 0.33f, 331, (float)Main.rand.Next(40, 121) * 0.01f);
+					Main.gore[heart].sticky = false;
+					Main.gore[heart].velocity *= 0.4f;
+					Main.gore[heart].velocity.Y -= 0.6f;
+					Main.playerDrawGore.Add(heart);
+				}
+			}
         }
         #endregion
 

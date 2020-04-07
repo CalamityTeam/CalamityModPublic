@@ -42,7 +42,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 dust.noGravity = true;
                 dust.fadeIn = 0.9473684f;
             }
-            return true;
+
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.7), knockBack, player.whoAmI, 0f, 0f);
+            return false;
         }
     }
 }

@@ -11,9 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class LuminousStrikerProj : ModProjectile
     {
-    	public int shardRainTimer = 3;
-		bool stealthStrike = false;
-
     	public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Luminous Striker");
@@ -37,29 +34,26 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.ai[0] == 0f && modPlayer.StealthStrikeAvailable())
 			{
                 projectile.Calamity().stealthStrike = true;
-				stealthStrike = true;
 				projectile.timeLeft = 600;
 				projectile.ai[0] = 1f;
 			}
 
-			shardRainTimer--;
         	if (Main.rand.NextBool(4))
             	Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 176, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
 
-        	if (shardRainTimer == 0)
+        	if (projectile.timeLeft % 4 == 0)
 			{
         		if (projectile.owner == Main.myPlayer)
         		{
-					if (stealthStrike)
+					if (projectile.Calamity().stealthStrike)
 					{
 						Projectile.NewProjectile(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
 					}
 					else
 						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, -2f, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
                 }
-				shardRainTimer = 4;
 			}
         }
 

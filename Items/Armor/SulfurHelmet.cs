@@ -36,7 +36,8 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Attacking and being attacked by enemies inflicts poison\n" +
-                "Grants a sulphurous bubble jump that applies venom on hit\n" +
+                "Grants an additional jump\n" +
+                "Jumping off the ground leaves behind a sulphurous bubble that applies venom on hit\n" +
                 "Slightly reduces breath loss in the abyss\n" +
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +

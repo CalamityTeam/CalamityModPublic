@@ -10,8 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ScarletDevilProjectile : ModProjectile
     {
-        bool lifesteal = false;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spear the Gungnir");
@@ -41,7 +39,6 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] == 1f && modPlayer.StealthStrikeAvailable())
             {
                 projectile.Calamity().stealthStrike = true;
-                lifesteal = true;
             }
             if ((projectile.ai[0] %= 5f) == 0f)
             {
@@ -79,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ScarletBlast>(), (int)((double)projectile.damage * 0.0075), 0f, projectile.owner, 0f, 0f);
-            if (target.type == NPCID.TargetDummy || !lifesteal)
+            if (target.type == NPCID.TargetDummy || !projectile.Calamity().stealthStrike)
             {
                 return;
             }
@@ -94,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ScarletBlast>(), (int)((double)projectile.damage * 0.0075), 0f, projectile.owner, 0f, 0f);
-            if (!lifesteal)
+            if (!projectile.Calamity().stealthStrike)
             {
                 return;
             }

@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (projectile.Calamity().stealthStrike)
             {
-                if (Main.rand.Next(8) == 0)
+                if (Main.rand.NextBool(8))
                 {
                     int projectileDamage = (int)(projectile.damage * 0.75f);
                     int projectileType = ModContent.ProjectileType<NightsGazeStar>();
@@ -127,20 +127,12 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 5; i++)
             {
-                int dustToUse = Main.rand.Next(0, 3);
-                int dustType = 0;
-                switch (dustToUse)
-                {
-                    case 0:
-                        dustType = 109;
-                        break;
-                    case 1:
-                        dustType = 111;
-                        break;
-                    case 2:
-                        dustType = 132;
-                        break;
-                }
+				int dustType = Utils.SelectRandom(Main.rand, new int[]
+				{
+					109,
+					111,
+					132
+				});
 
                 int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X / 3f, projectile.velocity.Y / 3f, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;

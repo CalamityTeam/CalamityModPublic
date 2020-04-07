@@ -165,7 +165,6 @@ namespace CalamityMod
         public static List<int> movementImpairImmuneList;
         public static List<int> trapProjectileList;
         public static List<int> scopedWeaponList;
-        public static List<int> trueMeleeBoostExceptionList;
         public static List<int> boomerangList;
         public static List<int> javelinList;
         public static List<int> daggerList;
@@ -374,7 +373,6 @@ namespace CalamityMod
             movementImpairImmuneList = null;
             trapProjectileList = null;
             scopedWeaponList = null;
-            trueMeleeBoostExceptionList = null;
             boomerangList = null;
             javelinList = null;
             daggerList = null;
@@ -1818,73 +1816,6 @@ namespace CalamityMod
                 ModContent.ItemType<SpectreRifle>(),
                 ModContent.ItemType<Svantechnical>(),
                 ModContent.ItemType<Skullmasher>()
-            };
-
-            trueMeleeBoostExceptionList = new List<int>()
-            {
-                ItemID.FlowerPow,
-                ItemID.Flairon,
-                ItemID.ChlorophytePartisan,
-                ItemID.MushroomSpear,
-                ItemID.NorthPole,
-                ItemID.WoodYoyo,
-                ItemID.CorruptYoyo,
-                ItemID.CrimsonYoyo,
-                ItemID.JungleYoyo,
-                ItemID.Cascade,
-                ItemID.Chik,
-                ItemID.Code1,
-                ItemID.Code2,
-                ItemID.Rally,
-                ItemID.Yelets,
-                ItemID.RedsYoyo,
-                ItemID.ValkyrieYoyo,
-                ItemID.Amarok,
-                ItemID.HelFire,
-                ItemID.Kraken,
-                ItemID.TheEyeOfCthulhu,
-                ItemID.FormatC,
-                ItemID.Gradient,
-                ItemID.Valor,
-                ItemID.Terrarian,
-
-                // flails
-                ModContent.ItemType<BallOFugu>(),
-                ModContent.ItemType<DragonPow>(),
-
-                // spears
-                ModContent.ItemType<AmidiasTrident>(),
-                ModContent.ItemType<EarthenPike>(),
-                ModContent.ItemType<GoldplumeSpear>(),
-                ModContent.ItemType<HellionFlowerSpear>(),
-                ModContent.ItemType<SpatialLance>(),
-                ModContent.ItemType<StarnightLance>(),
-                ModContent.ItemType<StreamGouge>(),
-                ModContent.ItemType<TerraLance>(),
-                ModContent.ItemType<UrchinSpear>(),
-
-                // yoyos
-                ModContent.ItemType<AirSpinner>(),
-                ModContent.ItemType<Aorta>(),
-                ModContent.ItemType<Azathoth>(),
-                ModContent.ItemType<Chaotrix>(),
-                ModContent.ItemType<Cnidarian>(),
-                ModContent.ItemType<Lacerator>(),
-                ModContent.ItemType<Oracle>(),
-                ModContent.ItemType<Quagmire>(),
-                ModContent.ItemType<Shimmerspark>(),
-                ModContent.ItemType<SolarFlare>(),
-                ModContent.ItemType<TheEyeofCalamitas>(),
-                ModContent.ItemType<TheGodsGambit>(),
-                ModContent.ItemType<TheObliterator>(),
-                ModContent.ItemType<ThePlaguebringer>(),
-                ModContent.ItemType<Verdant>(),
-                ModContent.ItemType<Whirlpool>(),
-                ModContent.ItemType<YinYo>(),
-
-                // other
-                ModContent.ItemType<BansheeHook>(),
-                ModContent.ItemType<TyphonsGreed>()
             };
 
             boomerangList = new List<int>()

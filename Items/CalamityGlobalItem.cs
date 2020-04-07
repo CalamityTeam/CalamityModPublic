@@ -6,6 +6,7 @@ using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -54,6 +55,7 @@ namespace CalamityMod.Items
         #endregion
 
         public bool rogue = false;
+        public bool trueMelee = false;
 
         public int timesUsed = 0;
 
@@ -180,6 +182,29 @@ namespace CalamityMod.Items
 				item.damage *= 4;
 				item.rare = 4;
 			}
+
+            switch (item.type)
+            {
+                case ItemID.Spear:
+                case ItemID.TheRottedFork:
+                case ItemID.Swordfish:
+                case ItemID.Arkhalis:
+                case ItemID.DarkLance:
+                case ItemID.CobaltNaginata:
+                case ItemID.PalladiumPike:
+                case ItemID.MythrilHalberd:
+                case ItemID.OrichalcumHalberd:
+                case ItemID.AdamantiteGlaive:
+                case ItemID.TitaniumTrident:
+                case ItemID.Gungnir:
+                case ItemID.ObsidianSwordfish:
+                case ItemID.MonkStaffT3:
+                case ItemID.MonkStaffT1:
+                    trueMelee = true;
+                    break;
+                default:
+                    break;
+            }
         }
         #endregion
 
@@ -851,7 +876,19 @@ namespace CalamityMod.Items
                         if (item.type == ModContent.ItemType<NanoblackReaperMelee>() || item.type == ModContent.ItemType<NanoblackReaperRogue>())
                             tt2.overrideColor = new Color(0.34f, 0.34f + 0.66f * Main.DiscoG / 255f, 0.34f + 0.5f * Main.DiscoG / 255f);
                         if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
-                            tt2.overrideColor = new Color(255 - Main.DiscoG < 80 ? 80 : Main.DiscoG < 50 ? 255 : 255 - Main.DiscoG, Main.DiscoG < 126 ? 126 : Main.DiscoG, 0); //alternates between emerald green and amber (BanditHueh)
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 166, 0), new Color(25, 250, 25), 4f); //alternates between emerald green and amber (BanditHueh)
+                        if (item.type == ModContent.ItemType<BensUmbrella>())
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(210, 0, 255), new Color(255, 248, 24), 2f);
+                        if (item.type == ModContent.ItemType<Endogenesis>())
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(131, 239, 255), new Color(36, 55, 230), 2f);
+                        if (item.type == ModContent.ItemType<DraconicDestruction>())
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 69, 0), new Color(139, 0, 0), 2f);
+                        if (item.type == ModContent.ItemType<ScarletDevil>())
+                            tt2.overrideColor = CalamityUtils.ColorSwap(new Color(191, 45, 71), new Color(185, 187, 253), 2f);
+                        if (item.type == ModContent.ItemType<GaelsGreatsword>())
+                            tt2.overrideColor = new Color(146, 0, 0);
+                        if (item.type == ModContent.ItemType<CrystylCrusher>())
+                            tt2.overrideColor = new Color(129, 29, 149);
 
                         // Uniquely colored legendary weapons and Yharim's Crystal
                         if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
@@ -871,7 +908,7 @@ namespace CalamityMod.Items
                         if (item.type == ModContent.ItemType<Vesuvius>())
                             tt2.overrideColor = new Color(255, Main.DiscoG, 0);
                         if (item.type == ModContent.ItemType<PristineFury>())
-                            tt2.overrideColor = new Color(255, 255, Main.DiscoB);
+							tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
                         break;
                 }
             }

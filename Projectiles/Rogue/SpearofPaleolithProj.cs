@@ -10,7 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SpearofPaleolithProj : ModProjectile
     {
-        private int shardRainTimer = 3;
         private bool stealthInit = false;
 
         public override void SetStaticDefaults()
@@ -40,8 +39,6 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.timeLeft = 1800;
                 stealthInit = true;
             }
-            shardRainTimer--;
-
 
             if (Main.rand.NextBool(4))
             {
@@ -52,13 +49,12 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.rotation -= 1.57f;
             }
-            if (shardRainTimer == 0)
+            if (projectile.timeLeft % 3 == 0)
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<FossilShardThrown>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<FossilShardThrown>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
                 }
-                shardRainTimer = 3;
             }
         }
 

@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
                         dust.velocity.Y *= 1.2f;
                         dust.scale *= num296;
                         dust.noLight = true;
-						dust.color = new Color(255, 255, Main.DiscoB);
+						dust.color = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
                     }
                 }
             }

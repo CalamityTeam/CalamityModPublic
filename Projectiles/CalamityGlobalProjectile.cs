@@ -73,31 +73,20 @@ namespace CalamityMod.Projectiles
             switch (projectile.type)
             {
                 case ProjectileID.Spear:
-                case ProjectileID.ChainKnife:
                 case ProjectileID.TheRottedFork:
-                case ProjectileID.BallOHurt:
-                case ProjectileID.TheMeatball:
                 case ProjectileID.Swordfish:
                 case ProjectileID.Arkhalis:
-                case ProjectileID.BlueMoon:
                 case ProjectileID.DarkLance:
-                case ProjectileID.Sunfury:
-                case ProjectileID.Anchor:
-                case ProjectileID.BoxingGlove:
                 case ProjectileID.CobaltNaginata:
                 case ProjectileID.PalladiumPike:
                 case ProjectileID.MythrilHalberd:
                 case ProjectileID.OrichalcumHalberd:
                 case ProjectileID.AdamantiteGlaive:
                 case ProjectileID.TitaniumTrident:
-                case ProjectileID.TheDaoofPow:
-                case ProjectileID.GolemFist:
                 case ProjectileID.Gungnir:
                 case ProjectileID.ObsidianSwordfish:
-                case ProjectileID.ChainGuillotine:
                 case ProjectileID.MonkStaffT3:
                 case ProjectileID.MonkStaffT1:
-                case ProjectileID.SolarWhipSword:
                     trueMelee = true;
                     break;
                 case ProjectileID.StarWrath:
