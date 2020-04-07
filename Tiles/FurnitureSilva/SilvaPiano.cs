@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureSilva
 {
-    class SilvaPiano : ModTile
+    public class SilvaPiano : ModTile
     {
         public override void SetDefaults()
         {

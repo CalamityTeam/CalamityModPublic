@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-    class AncientBookcase : ModTile
+    public class AncientBookcase : ModTile
     {
         public override void SetDefaults()
         {

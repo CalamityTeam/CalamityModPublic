@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
-    class SilvaTable : ModTile
+    public class SilvaTable : ModTile
     {
         public override void SetDefaults()
         {

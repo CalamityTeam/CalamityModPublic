@@ -5,7 +5,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-    class AncientPiano : ModTile
+    public class AncientPiano : ModTile
     {
         public override void SetDefaults()
         {

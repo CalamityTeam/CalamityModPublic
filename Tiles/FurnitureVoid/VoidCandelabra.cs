@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureVoid
 {
-    class VoidCandelabra : ModTile
+    public class VoidCandelabra : ModTile
     {
         public override void SetDefaults()
         {

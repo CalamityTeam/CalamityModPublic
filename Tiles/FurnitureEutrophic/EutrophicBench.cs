@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
-    class EutrophicBench : ModTile
+    public class EutrophicBench : ModTile
     {
         public override void SetDefaults()
         {

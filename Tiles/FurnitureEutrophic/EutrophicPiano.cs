@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureEutrophic
 {
-    class EutrophicPiano : ModTile
+    public class EutrophicPiano : ModTile
     {
         public override void SetDefaults()
         {

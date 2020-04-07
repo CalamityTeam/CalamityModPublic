@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAshen
 {
-    class AshenCandelabra : ModTile
+    public class AshenCandelabra : ModTile
     {
         int animationFrame = 0;
 

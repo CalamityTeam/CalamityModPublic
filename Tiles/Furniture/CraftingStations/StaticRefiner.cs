@@ -5,7 +5,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    class StaticRefiner : ModTile
+    public class StaticRefiner : ModTile
     {
         public override void SetDefaults()
         {

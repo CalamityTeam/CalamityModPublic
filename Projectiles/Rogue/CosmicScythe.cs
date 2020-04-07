@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    class CosmicScythe : ModProjectile
+    public class CosmicScythe : ModProjectile
     {
         private int originalDamage;
 

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    class ColdDivinity : ModItem
+    public class ColdDivinity : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAstral
 {
-    class MonolithBookcase : ModTile
+    public class MonolithBookcase : ModTile
     {
         public override void SetDefaults()
         {

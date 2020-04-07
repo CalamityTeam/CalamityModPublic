@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Mounts
 {
-    class GazeOfCrysthamyrBuff : ModBuff
+    public class GazeOfCrysthamyrBuff : ModBuff
     {
         public override void SetDefaults()
         {

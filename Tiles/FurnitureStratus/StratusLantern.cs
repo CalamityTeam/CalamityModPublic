@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
-    class StratusLantern : ModTile
+    public class StratusLantern : ModTile
     {
         public override void SetDefaults()
         {

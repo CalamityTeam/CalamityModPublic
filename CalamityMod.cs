@@ -2789,7 +2789,7 @@ namespace CalamityMod
                 // Stealth bar
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Stealth UI", () =>
                 {
-                    StealthStrikeUI.Draw(Main.spriteBatch, Main.LocalPlayer);
+                    StealthUI.Draw(Main.spriteBatch, Main.LocalPlayer);
                     return true;
                 }, InterfaceScaleType.None));
             }

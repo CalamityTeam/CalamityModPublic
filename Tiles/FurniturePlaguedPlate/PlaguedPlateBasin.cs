@@ -6,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
-    class PlaguedPlateBasin : ModTile
+    public class PlaguedPlateBasin : ModTile
     {
         public override void SetDefaults()
         {

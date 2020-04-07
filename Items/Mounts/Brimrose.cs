@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    class Brimrose : ModItem
+    public class Brimrose : ModItem
     {
         public override void SetStaticDefaults()
         {

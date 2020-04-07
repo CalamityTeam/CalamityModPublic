@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-    class CosmilitePiano : ModTile
+    public class CosmilitePiano : ModTile
     {
         public override void SetDefaults()
         {

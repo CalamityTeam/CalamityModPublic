@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureVoid
 {
-    class VoidSofa : ModTile
+    public class VoidSofa : ModTile
     {
         public override void SetDefaults()
         {

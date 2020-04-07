@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureSilva
 {
-    class SilvaBathtub : ModTile
+    public class SilvaBathtub : ModTile
     {
         public override void SetDefaults()
         {

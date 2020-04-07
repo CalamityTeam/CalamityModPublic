@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureStratus
 {
-    class StratusSink : ModTile
+    public class StratusSink : ModTile
     {
         public override void SetDefaults()
         {

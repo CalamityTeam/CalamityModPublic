@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureStratus
 {
-    class StratusPiano : ModTile
+    public class StratusPiano : ModTile
     {
         public override void SetDefaults()
         {

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    class AlicornMount : ModMountData
+    public class AlicornMount : ModMountData
     {
         public override void SetDefaults()
         {

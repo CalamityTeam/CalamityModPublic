@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    class EutrophicCrafting : ModTile
+    public class EutrophicCrafting : ModTile
     {
         public override void SetDefaults()
         {

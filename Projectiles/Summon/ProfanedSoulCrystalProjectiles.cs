@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
     #region Mage Projectiles
 
     #region Main Fireball
-    class ProfanedCrystalMageFireball : ModProjectile
+    public class ProfanedCrystalMageFireball : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -176,7 +176,7 @@ namespace CalamityMod.Projectiles.Summon
     #endregion
 
     #region Fireball Split
-    class ProfanedCrystalMageFireballSplit : ModProjectile
+    public class ProfanedCrystalMageFireballSplit : ModProjectile
     {
         private int damage;
         private int hits = 0;
@@ -1186,7 +1186,7 @@ namespace CalamityMod.Projectiles.Summon
 
     #region Bab Spears
 
-    class MiniGuardianSpear : ModProjectile
+    public class MiniGuardianSpear : ModProjectile
     {
         public override void SetStaticDefaults()
         {

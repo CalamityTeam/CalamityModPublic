@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureStratus
 {
-    class StratusBathtub : ModTile
+    public class StratusBathtub : ModTile
     {
         public override void SetDefaults()
         {

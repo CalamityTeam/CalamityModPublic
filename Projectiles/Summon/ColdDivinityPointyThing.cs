@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    class ColdDivinityPointyThing : ModProjectile
+    public class ColdDivinityPointyThing : ModProjectile
     {
         public int recharging = -1;
         public bool circling = true;

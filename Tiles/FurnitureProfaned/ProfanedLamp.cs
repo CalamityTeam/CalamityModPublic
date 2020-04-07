@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-    class ProfanedLamp : ModTile
+    public class ProfanedLamp : ModTile
     {
         public override void SetDefaults()
         {

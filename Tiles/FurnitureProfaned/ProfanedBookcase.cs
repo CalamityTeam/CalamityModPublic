@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-    class ProfanedBookcase : ModTile
+    public class ProfanedBookcase : ModTile
     {
         public override void SetDefaults()
         {

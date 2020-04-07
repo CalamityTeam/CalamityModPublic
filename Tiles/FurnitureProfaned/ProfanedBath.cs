@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-    class ProfanedBath : ModTile
+    public class ProfanedBath : ModTile
     {
         public override void SetDefaults()
         {

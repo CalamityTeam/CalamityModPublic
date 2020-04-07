@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureBotanic
 {
-    class BotanicBathtub : ModTile
+    public class BotanicBathtub : ModTile
     {
         public override void SetDefaults()
         {

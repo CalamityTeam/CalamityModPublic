@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture.CraftingStations
 {
-    class BotanicPlanter : ModTile
+    public class BotanicPlanter : ModTile
     {
         public override void SetDefaults()
         {

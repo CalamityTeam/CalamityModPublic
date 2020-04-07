@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-    class AncientTable : ModTile
+    public class AncientTable : ModTile
     {
         public override void SetDefaults()
         {

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    class OnyxExcavatorKey : ModItem
+    public class OnyxExcavatorKey : ModItem
     {
         public override void SetStaticDefaults()
         {

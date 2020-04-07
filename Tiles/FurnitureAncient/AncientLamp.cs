@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-    class AncientLamp : ModTile
+    public class AncientLamp : ModTile
     {
         public override void SetDefaults()
         {

@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAstral
 {
-    class MonolithPiano : ModTile
+    public class MonolithPiano : ModTile
     {
         public override void SetDefaults()
         {

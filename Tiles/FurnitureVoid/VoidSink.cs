@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureVoid
 {
-    class VoidSink : ModTile
+    public class VoidSink : ModTile
     {
         public override void SetDefaults()
         {

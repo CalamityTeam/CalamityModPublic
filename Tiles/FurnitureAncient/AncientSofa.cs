@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-    class AncientSofa : ModTile
+    public class AncientSofa : ModTile
     {
         public override void SetDefaults()
         {

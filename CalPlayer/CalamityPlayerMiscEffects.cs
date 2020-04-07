@@ -3158,7 +3158,7 @@ namespace CalamityMod.CalPlayer
 							value15.Normalize();
 							value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
 							int spark = Projectile.NewProjectile(nPC.Center.X, nPC.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, player.whoAmI, 0f, 0f);
-							Main.projectile[spark].melee = false;
+							Main.projectile[spark].Calamity().forceTypeless = true;
 							Main.projectile[spark].localNPCHitCooldown = -2;
 							Main.projectile[spark].penetrate = 5;
 						}
@@ -3539,9 +3539,9 @@ namespace CalamityMod.CalPlayer
 
 			for (int i = 0; i < Main.maxProjectiles; i++)
 			{
-				if (Main.projectile[i].active && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
+				Projectile proj = Main.projectile[i];
+				if (proj.active && proj.hostile && proj.damage > 0)
 				{
-					Projectile proj = Main.projectile[i];
 					Rectangle rect = proj.getRect();
 					if (rectangle.Intersects(rect))
 					{

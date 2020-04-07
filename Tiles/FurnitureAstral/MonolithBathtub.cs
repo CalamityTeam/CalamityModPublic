@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAstral
 {
-    class MonolithBathtub : ModTile
+    public class MonolithBathtub : ModTile
     {
         public override void SetDefaults()
         {

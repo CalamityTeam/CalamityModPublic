@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
-    class CosmiliteSconce : ModTile
+    public class CosmiliteSconce : ModTile
     {
         public override void SetDefaults()
         {

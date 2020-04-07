@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-    class AncientBath : ModTile
+    public class AncientBath : ModTile
     {
         public override void SetDefaults()
         {

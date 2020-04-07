@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Mounts
 {
-    class TundraLeashBuff : ModBuff
+    public class TundraLeashBuff : ModBuff
     {
         public override void SetDefaults()
         {

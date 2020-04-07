@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAstral
 {
-    class MonolithCandle : ModTile
+    public class MonolithCandle : ModTile
     {
         public override void SetDefaults()
         {

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    class Crysthamyr : ModMountData
+    public class Crysthamyr : ModMountData
     {
         public override void SetDefaults()
         {
