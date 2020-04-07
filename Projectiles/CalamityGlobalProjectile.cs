@@ -44,6 +44,7 @@ namespace CalamityMod.Projectiles
         public bool forceRogue = false;
         public bool forceMinion = false;
         public bool forceHostile = false;
+        public bool forceTypeless = false;
 
         // Damage Adjusters
         private bool setDamageValues = true;
@@ -563,6 +564,18 @@ namespace CalamityMod.Projectiles
                 projectile.magic = false;
                 projectile.minion = false;
                 rogue = false;
+            }
+            else if (forceTypeless)
+            {
+                projectile.hostile = false;
+                projectile.friendly = true;
+                projectile.melee = false;
+                projectile.ranged = false;
+                projectile.magic = false;
+                projectile.minion = false;
+                rogue = false;
+				ProjectileID.Sets.MinionShot[projectile.type] = false;
+				ProjectileID.Sets.SentryShot[projectile.type] = false;
             }
 
             if (projectile.type == ProjectileID.NettleBurstRight || projectile.type == ProjectileID.NettleBurstLeft || projectile.type == ProjectileID.NettleBurstEnd)

@@ -56,7 +56,7 @@ namespace CalamityMod.Items.Accessories
                             Main.projectile[num19].tileCollide = false;
 							Main.projectile[num19].usesLocalNPCImmunity = true;
 							Main.projectile[num19].localNPCHitCooldown = 10;
-							Main.projectile[num19].magic = false;
+							Main.projectile[num19].Calamity().forceTypeless = true;
                         }
                     }
                 }

@@ -6658,7 +6658,7 @@ namespace CalamityMod.CalPlayer
                         int star = Projectile.NewProjectile(x, y, num13, num14, ProjectileID.HallowStar, (int)(130 * player.AverageDamage()), 4f, player.whoAmI, 0f, 0f);
                         Main.projectile[star].usesLocalNPCImmunity = true;
                         Main.projectile[star].localNPCHitCooldown = 5;
-                        Main.projectile[star].ranged = false;
+                        Main.projectile[star].Calamity().forceTypeless = true;
                     }
 
                     /*int num = 1;
@@ -6693,7 +6693,7 @@ namespace CalamityMod.CalPlayer
                         int star = Projectile.NewProjectile(x, y, num13, num14, ProjectileID.HallowStar, (int)(150 * player.AverageDamage()), 4f, player.whoAmI, 0f, 0f);
                         Main.projectile[star].usesLocalNPCImmunity = true;
                         Main.projectile[star].localNPCHitCooldown = 5;
-                        Main.projectile[star].ranged = false;
+                        Main.projectile[star].Calamity().forceTypeless = true;
                     }
                     int num = 1;
                     if (Main.rand.NextBool(3))
@@ -6758,8 +6758,8 @@ namespace CalamityMod.CalPlayer
                             int spark2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
                             Main.projectile[spark1].timeLeft = 120;
                             Main.projectile[spark2].timeLeft = 120;
-							Main.projectile[spark1].melee = false;
-							Main.projectile[spark2].melee = false;
+							Main.projectile[spark1].Calamity().forceTypeless = true;
+							Main.projectile[spark2].Calamity().forceTypeless = true;
                         }
                     }
                 }
@@ -6825,8 +6825,8 @@ namespace CalamityMod.CalPlayer
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             int shard = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, 90, sDamage, 1f, player.whoAmI, 0f, 0f);
                             int shard2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, 90, sDamage, 1f, player.whoAmI, 0f, 0f);
-                            Main.projectile[shard].ranged = false;
-                            Main.projectile[shard2].ranged = false;
+                            Main.projectile[shard].Calamity().forceTypeless = true;
+                            Main.projectile[shard2].Calamity().forceTypeless = true;
                         }
                     }
                 }
@@ -6912,7 +6912,7 @@ namespace CalamityMod.CalPlayer
                         Main.projectile[num19].ai[1] = player.position.Y;
 						Main.projectile[num19].usesLocalNPCImmunity = true;
 						Main.projectile[num19].localNPCHitCooldown = 10;
-						Main.projectile[num19].magic = false;
+						Main.projectile[num19].Calamity().forceTypeless = true;
                     }
                     for (int l = 0; l < 5; l++)
                     {
@@ -6931,7 +6931,7 @@ namespace CalamityMod.CalPlayer
                         Main.projectile[num19].ai[1] = player.position.Y;
 						Main.projectile[num19].usesLocalNPCImmunity = true;
 						Main.projectile[num19].localNPCHitCooldown = 10;
-						Main.projectile[num19].magic = false;
+						Main.projectile[num19].Calamity().forceTypeless = true;
                     }
                 }
             }

@@ -283,7 +283,7 @@ namespace CalamityMod.Projectiles.Typeless
                         Main.projectile[num659].timeLeft = 300;
                         Main.projectile[num659].usesLocalNPCImmunity = true;
                         Main.projectile[num659].localNPCHitCooldown = 10;
-                        Main.projectile[num659].magic = false; //typeless
+                        Main.projectile[num659].Calamity().forceTypeless = true; //typeless
                         projectile.netUpdate = true;
                     }
                 }
