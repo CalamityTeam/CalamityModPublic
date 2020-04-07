@@ -10,8 +10,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class PhantasmalRuinProj : ModProjectile
     {
-        private int projCount = 18;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Phantasmal Ruin");
@@ -41,8 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
             Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 0, default(Color), 0.85f);
-			projCount--;
-			if (projCount <= 0)
+			if (projectile.timeLeft % 18 == 0)
 			{
 				if (projectile.owner == Main.myPlayer)
 				{
@@ -54,13 +51,12 @@ namespace CalamityMod.Projectiles.Rogue
 					{
 						if (Main.rand.NextBool(3))
 						{
-							int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, Main.rand.Next(-2,3), ProjectileID.LostSoulFriendly, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+							int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, Main.rand.NextFloat(-2,2), ProjectileID.LostSoulFriendly, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
 							Main.projectile[soul].Calamity().forceRogue = true;
 							Main.projectile[soul].timeLeft = 180;
 						}
 					}
 				}
-				projCount = 18;
 			}
         }
 
@@ -87,7 +83,7 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 				else
 				{
-					damage = (int)((double)damage * 0.9);
+					damage = (int)(damage * 0.9);
 				}
 			}
 		}
@@ -110,6 +106,10 @@ namespace CalamityMod.Projectiles.Rogue
 					int num23 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.05), 0f, projectile.owner, 1f, ai1);
 					int num24 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ModContent.ProjectileType<PhantasmalSoul>(), (int)((double)projectile.damage * 0.05), 0f, projectile.owner, 1f, ai1);
 				}
+			}
+			else
+			{
+				damage = (int)(damage * 0.9);
 			}
 		}
     }

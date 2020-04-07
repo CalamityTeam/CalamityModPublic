@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SylvanSlashAttack : ModProjectile
     {
-		public int cooldown = 6;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sylvan Slash");
@@ -36,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
             Vector2 vector = player.RotatedRelativePoint(player.MountedCenter, true);
             if (projectile.spriteDirection == -1)
             {
-                num = 3.14159274f;
+                num = MathHelper.Pi;
             }
             if (++projectile.frame >= Main.projFrames[projectile.type])
             {
@@ -93,8 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
             player.itemAnimation = 2;
             player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
 
-			if (cooldown < 5)
-				cooldown++;
+			projectile.ai[0]++;
         }
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -103,7 +100,7 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityPlayer modPlayer = player.Calamity();
 			if (projectile.owner == Main.myPlayer)
 			{
-				if (cooldown == 5)
+				if (projectile.ai[0] % 5 == 0)
 				{
 					if ((target.damage > 5 || target.boss) && !target.SpawnedFromStatue)
 					{
@@ -111,16 +108,15 @@ namespace CalamityMod.Projectiles.Rogue
 						{
 							if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
 								modPlayer.rogueStealth += 0.01f;
-								cooldown = 0;
 						}
 					}
 				}
 				if (Main.rand.NextBool(8))
 				{
-					float speedMult = Main.rand.Next(3,6);
+					float speedMult = Main.rand.NextFloat(3,6);
                     Vector2 vector1 = new Vector2(projectile.Center.X - player.Center.X, projectile.Center.Y - player.Center.Y);
                     vector1.Normalize();
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
 				}
 			}
 		}
@@ -131,21 +127,20 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityPlayer modPlayer = player.Calamity();
 			if (projectile.owner == Main.myPlayer)
 			{
-				if (cooldown == 5)
+				if (projectile.ai[0] >= 5)
 				{
 					if (modPlayer.wearingRogueArmor && modPlayer.rogueStealthMax != 0)
 					{
 						if (modPlayer.rogueStealth < modPlayer.rogueStealthMax)
 							modPlayer.rogueStealth += 0.01f;
-							cooldown = 0;
 					}
 				}
 				if (Main.rand.NextBool(8))
 				{
-					float speedMult = Main.rand.Next(3,6);
+					float speedMult = Main.rand.NextFloat(3,6);
                     Vector2 vector1 = new Vector2(projectile.Center.X - player.Center.X, projectile.Center.Y - player.Center.Y);
                     vector1.Normalize();
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, -vector1.X * speedMult, -vector1.Y * speedMult, ModContent.ProjectileType<SylvanSlash>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
 				}
 			}
 		}

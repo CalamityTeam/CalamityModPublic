@@ -11,8 +11,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SupernovaBomb : ModProjectile
     {
-        private int stealthTimer = 8;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Supernova Bomb");
@@ -68,14 +66,12 @@ namespace CalamityMod.Projectiles.Rogue
 			//stealth strike
             if (projectile.Calamity().stealthStrike == true)
             {
-				stealthTimer--;
-				if (stealthTimer == 0)
+				if (projectile.timeLeft % 8 == 0)
 				{
 					if (projectile.owner == Main.myPlayer)
 					{
 						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, 2f, ModContent.ProjectileType<SupernovaHoming>(), (int)((double)projectile.damage * 0.8), projectile.knockBack, projectile.owner, 0f, 0f);
 					}
-					stealthTimer = 8;
 				}
             }
         }
