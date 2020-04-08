@@ -119,16 +119,9 @@ namespace CalamityMod.Projectiles.Magic
                 Vector2 v = vector59 - projectile.Center;
                 float num724 = projectile.velocity.ToRotation();
                 float num725 = v.ToRotation();
-                double num726 = (double)(num725 - num724);
-                if (num726 > 3.1415926535897931)
-                {
-                    num726 -= 6.2831853071795862;
-                }
-                if (num726 < -3.1415926535897931)
-                {
-                    num726 += 6.2831853071795862;
-                }
-                projectile.velocity = projectile.velocity.RotatedBy(num726 * 0.10000000149011612, default);
+                float num726 = num725 - num724;
+                num726 = MathHelper.WrapAngle(num726);
+                projectile.velocity = projectile.velocity.RotatedBy(num726 * 0.1, default);
             }
             float num727 = projectile.velocity.Length();
             projectile.velocity.Normalize();

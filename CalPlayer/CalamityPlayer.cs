@@ -5420,8 +5420,8 @@ namespace CalamityMod.CalPlayer
 					penetrateAmt += 10;
                 }
             }
-			int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
-			int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt);
+			int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0); //if find how much defense we can penetrate
+			int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt); //if we have more penetrate than enemy defense, use enemy defense
 			damage += (int)(0.5f * penetratedDefense);
             #endregion
 
@@ -5541,7 +5541,7 @@ namespace CalamityMod.CalPlayer
                         num13 *= num16;
                         num14 *= num16;
                         int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 120, 5f, player.whoAmI, 0f, 0f);
-                        Main.projectile[num17].ranged = false;
+                        Main.projectile[num17].Calamity().forceTypeless = true;
                     }
                 }
                 if (tarraRanged && crit && proj.ranged)
@@ -5558,7 +5558,7 @@ namespace CalamityMod.CalPlayer
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
                         int FUCKYOU = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
                             value15.X, value15.Y, ProjectileID.Leaf, (int)(damage * 0.25), 0f, player.whoAmI, 0f, 0f);
-                        Main.projectile[FUCKYOU].magic = false;
+                        Main.projectile[FUCKYOU].Calamity().forceTypeless = true;
                         Main.projectile[FUCKYOU].netUpdate = true;
                     }
                 }
@@ -5599,7 +5599,7 @@ namespace CalamityMod.CalPlayer
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
                         int fire = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
                             value15.X, value15.Y, ProjectileID.BallofFire, (int)(damage * 0.5), 0f, player.whoAmI, 0f, 0f);
-                        Main.projectile[fire].magic = false;
+                        Main.projectile[fire].Calamity().forceTypeless = true;
                         Main.projectile[fire].netUpdate = true;
                     }
                 }
@@ -8828,7 +8828,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			bool noRogueStealth = rogueStealth == 0f || player.townNPCs > 2f;
+			bool noRogueStealth = rogueStealth == 0f || player.townNPCs > 2f || !CalamityMod.CalamityConfig.StealthInvisbility;
             if (rogueStealth > 0f && rogueStealthMax > 0f && player.townNPCs < 3f && CalamityMod.CalamityConfig.StealthInvisbility)
             {
                 //A translucent orchid color, the rogue class color
@@ -9503,7 +9503,7 @@ namespace CalamityMod.CalPlayer
             }
             else if (darkGodSheath)
                 stealthAcceleration += 0.01f;
-            MathHelper.Clamp(stealthAcceleration, 1f, StealthAccelerationCap);
+            stealthAcceleration = MathHelper.Clamp(stealthAcceleration, 1f, StealthAccelerationCap);
 
             // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
             // Stealth only regenerates at 1/3 speed while moving.
