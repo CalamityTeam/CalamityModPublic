@@ -11,6 +11,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -636,8 +637,10 @@ namespace CalamityMod.NPCs.SlimeGod
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSlimeGod>(), true, !CalamityWorld.downedSlimeGod);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSlimeGod, 3, 1, 0);
 
-            // Purified Jam is once per player, but drops for all players.
-            CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
+			npc.Calamity().SetNewShopVariable(new int[] { NPCID.Dryad, ModContent.NPCType<THIEF>() }, CalamityWorld.downedSlimeGod);
+
+			// Purified Jam is once per player, but drops for all players.
+			CalamityPlayer mp = Main.player[Player.FindClosest(npc.position, npc.width, npc.height)].Calamity();
             if (!mp.revJamDrop)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<PurifiedJam>(), true, CalamityWorld.revenge && !CalamityWorld.downedSlimeGod, 6, 8);

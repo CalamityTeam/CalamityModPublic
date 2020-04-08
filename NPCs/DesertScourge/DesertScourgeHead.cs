@@ -9,6 +9,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -460,8 +461,10 @@ namespace CalamityMod.NPCs.DesertScourge
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDesertScourge>(), true, !CalamityWorld.downedDesertScourge);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDesertScourge, 2, 0, 0);
 
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+			npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedDesertScourge);
+
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
             {
                 // Materials
                 DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 7, 14);

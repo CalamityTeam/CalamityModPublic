@@ -9,6 +9,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -338,8 +339,10 @@ namespace CalamityMod.NPCs.AstrumAureus
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+			npc.Calamity().SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
+
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
             {
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 20, 30);

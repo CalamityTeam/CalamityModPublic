@@ -235,7 +235,8 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                shop = true;
+				Main.LocalPlayer.Calamity().newCirrusInventory = false;
+				shop = true;
             }
             else
             {

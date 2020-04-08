@@ -401,8 +401,10 @@ namespace CalamityMod.NPCs.Bumblebirb
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBumblebirb>(), true, !CalamityWorld.downedBumble);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBumble, 5, 2, 1);
 
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+			npc.Calamity().SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedBumble);
+
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
             {
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 6, 11);

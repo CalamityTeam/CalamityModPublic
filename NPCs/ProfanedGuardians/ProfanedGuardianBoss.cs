@@ -434,8 +434,10 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedGuardians, 5, 2, 1);
 
-            // Mark the Profaned Guardians as dead
-            CalamityWorld.downedGuardians = true;
+			npc.Calamity().SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedGuardians);
+
+			// Mark the Profaned Guardians as dead
+			CalamityWorld.downedGuardians = true;
             CalamityMod.UpdateServerBoolean();
         }
 
