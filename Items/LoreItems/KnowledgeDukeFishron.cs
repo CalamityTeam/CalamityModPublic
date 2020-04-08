@@ -1,5 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
@@ -33,5 +35,15 @@ namespace CalamityMod.Items.LoreItems
 			CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.dukeFishronLore = true;
 		}
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.SetResult(this);
+            r.AddTile(TileID.Bookcases);
+            r.AddIngredient(ItemID.DukeFishronTrophy);
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.AddRecipe();
+        }
     }
 }
