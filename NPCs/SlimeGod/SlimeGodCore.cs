@@ -587,7 +587,7 @@ namespace CalamityMod.NPCs.SlimeGod
             float num160 = 0f;
             int num161 = num159;
             spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
+            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityMod.CalamityConfig.Afterimages)
             {
                 Color color26 = npc.GetAlpha(color25);
                 {

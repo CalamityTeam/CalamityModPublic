@@ -209,7 +209,7 @@ namespace CalamityMod.NPCs.HiveMind
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            while (state != 0 && Lighting.NotRetro && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
+            while (state != 0 && CalamityMod.CalamityConfig.Afterimages && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
             {
                 Color color26 = color25;
                 color26 = npc.GetAlpha(color26);
