@@ -1,6 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Materials;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -69,6 +69,16 @@ namespace CalamityMod.Items.LoreItems
 				}
             }
             return true;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.SetResult(this);
+            r.AddTile(TileID.Bookcases);
+            r.AddIngredient(ItemID.BrainofCthulhuTrophy);
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.AddRecipe();
         }
     }
 }

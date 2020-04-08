@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Materials;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
@@ -33,6 +35,16 @@ namespace CalamityMod.Items.LoreItems
 				player.nightVision = true;
 			else
 				player.blind = true;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.SetResult(this);
+            r.AddTile(TileID.Bookcases);
+            r.AddIngredient(ItemID.EyeofCthulhuTrophy);
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.AddRecipe();
         }
     }
 }

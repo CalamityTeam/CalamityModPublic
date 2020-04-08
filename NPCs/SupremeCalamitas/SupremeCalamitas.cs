@@ -25,6 +25,8 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using CalamityMod;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
     [AutoloadBossHead]
@@ -2178,6 +2180,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), CalamityWorld.death);
 
             // Other
+            DropHelper.DropItemChance(npc, ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitas>(), true, !CalamityWorld.downedSCal);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedSCal, 6, 3, 2);
 

@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Ranged
 			}
         	if (projectile.owner == Main.myPlayer && !spawnedAura)
         	{
-            	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MagnomalyAura>(), (int)((double)projectile.damage * 0.5f), (int)((double)projectile.knockBack * 0.5f), projectile.owner, projectile.identity, 0f);
+            	Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MagnomalyAura>(), (int)(projectile.damage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, projectile.identity, 0f);
 				spawnedAura = true;
 			}
 			float num247 = projectile.velocity.X * 0.5f;

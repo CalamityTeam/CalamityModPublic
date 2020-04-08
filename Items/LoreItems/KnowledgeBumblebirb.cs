@@ -1,4 +1,7 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
@@ -24,6 +27,16 @@ namespace CalamityMod.Items.LoreItems
         public override bool CanUseItem(Player player)
         {
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.SetResult(this);
+            r.AddTile(TileID.Bookcases);
+            r.AddIngredient(ModContent.ItemType<BumblebirbTrophy>());
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.AddRecipe();
         }
     }
 }

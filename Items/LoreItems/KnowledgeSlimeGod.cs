@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -42,6 +44,16 @@ namespace CalamityMod.Items.LoreItems
                 player.AddBuff(BuffID.Slimed, 2);
 
             player.statDefense -= 10;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.SetResult(this);
+            r.AddTile(TileID.Bookcases);
+            r.AddIngredient(ModContent.ItemType<SlimeGodTrophy>());
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.AddRecipe();
         }
     }
 }

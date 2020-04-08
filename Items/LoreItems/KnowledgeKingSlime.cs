@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using CalamityMod.Items.Materials;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.LoreItems
@@ -30,6 +32,16 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             player.Calamity().kingSlimeLore = true;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe r = new ModRecipe(mod);
+            r.SetResult(this);
+            r.AddTile(TileID.Bookcases);
+            r.AddIngredient(ItemID.KingSlimeTrophy);
+            r.AddIngredient(ModContent.ItemType<VictoryShard>(), 10);
+            r.AddRecipe();
         }
     }
 }

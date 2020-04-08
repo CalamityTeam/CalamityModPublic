@@ -150,10 +150,12 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += (modPlayer.pissWaterBoost / 250);
-
-                if (lifeRegenLost < -8)
-                    lifeRegenLost = -8;
+				int waterDivisor = modPlayer.sulfurSet ? 400 : 250;
+				int sulphurWater = modPlayer.pissWaterBoost / waterDivisor;
+				int minimumRegenLost = modPlayer.sulfurSet ? 4 : 8;
+                if (sulphurWater < minimumRegenLost)
+                    sulphurWater = minimumRegenLost;
+				lifeRegenLost += sulphurWater;
             }
             else
                 modPlayer.pissWaterBoost = 0;
@@ -164,7 +166,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 6;
+				lifeRegenLost += modPlayer.sulfurSet ? 4 : 6;
             }
 
             if (modPlayer.hFlames)

@@ -14,6 +14,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using CalamityMod;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
+
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
     [AutoloadBossHead]
@@ -430,6 +432,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             // Profaned Guardians have no actual drops and no treasure bag
             DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianMask>(), 7);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedGuardianTrophy>(), 10);
             DropHelper.DropItem(npc, ModContent.ItemType<ProfanedCore>());
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeProfanedGuardians>(), true, !CalamityWorld.downedGuardians);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedGuardians, 5, 2, 1);

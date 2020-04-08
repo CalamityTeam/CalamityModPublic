@@ -433,6 +433,7 @@ namespace CalamityMod.CalPlayer
         public bool celestialJewel = false;
         public bool astralArcanum = false;
         public bool harpyRing = false;
+        public bool harpyWingBoost = false; //harpy wings + harpy ring
         public bool ironBoots = false;
         public bool depthCharm = false;
         public bool anechoicPlating = false;
@@ -1428,6 +1429,7 @@ namespace CalamityMod.CalPlayer
             celestialJewel = false;
             astralArcanum = false;
             harpyRing = false;
+			harpyWingBoost = false; //harpy wings + harpy ring
             darkSunRing = false;
             calamityRing = false;
             eArtifact = false;
