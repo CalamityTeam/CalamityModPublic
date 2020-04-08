@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Ranged
         public override void SetDefaults()
         {
             projectile.ranged = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 10;
 			projectile.width = 200;
 			projectile.height = 200;
 			projectile.friendly = true;
