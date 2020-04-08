@@ -1160,7 +1160,7 @@ namespace CalamityMod.NPCs
             Texture2D npcTexture = texture ?? Main.npcTexture[npc.type];
             Vector2 origin = npc.Size * 0.5f;
             int afterimageCounter = 1;
-            while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && Lighting.NotRetro)
+            while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && CalamityMod.CalamityConfig.Afterimages)
             {
                 Color colorToDraw = Color.Lerp(drawColor, endingColor, afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type]);
                 colorToDraw *= afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type];

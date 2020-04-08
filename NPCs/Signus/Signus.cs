@@ -712,16 +712,19 @@ namespace CalamityMod.NPCs.Signus
 			float rotation = npc.rotation;
 			float offsetY = npc.gfxOffY;
 
-			for (int num155 = 1; num155 < num153; num155 += 2)
+			if (CalamityMod.CalamityConfig.Afterimages)
 			{
-				Color color38 = drawColor;
-				color38 = Color.Lerp(color38, color36, amount9);
-				color38 = npc.GetAlpha(color38);
-				color38 *= (float)(num153 - num155) / 15f;
-				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-				vector41 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
-				vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-				spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38, rotation, vector11, scale, spriteEffects, 0f);
+				for (int num155 = 1; num155 < num153; num155 += 2)
+				{
+					Color color38 = drawColor;
+					color38 = Color.Lerp(color38, color36, amount9);
+					color38 = npc.GetAlpha(color38);
+					color38 *= (float)(num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2((float)NPCTexture.Width, (float)(NPCTexture.Height / frameCount)) * scale / 2f;
+					vector41 += vector11 * scale + new Vector2(0f, 4f + offsetY);
+					spriteBatch.Draw(NPCTexture, vector41, new Rectangle?(frame), color38, rotation, vector11, scale, spriteEffects, 0f);
+				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
@@ -731,16 +734,19 @@ namespace CalamityMod.NPCs.Signus
 
 			Color color40 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
-			for (int num163 = 1; num163 < num153; num163++)
+			if (CalamityMod.CalamityConfig.Afterimages)
 			{
-				Color color41 = color40;
-				color41 = Color.Lerp(color41, color36, amount9);
-				color41 = npc.GetAlpha(color41);
-				color41 *= (float)(num153 - num163) / 15f;
-				Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-				vector44 -= new Vector2((float)glowMaskTexture.Width, (float)(glowMaskTexture.Height / frameCount)) * scale / 2f;
-				vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
-				spriteBatch.Draw(glowMaskTexture, vector44, new Rectangle?(frame), color41, rotation, vector11, scale, spriteEffects, 0f);
+				for (int num163 = 1; num163 < num153; num163++)
+				{
+					Color color41 = color40;
+					color41 = Color.Lerp(color41, color36, amount9);
+					color41 = npc.GetAlpha(color41);
+					color41 *= (float)(num153 - num163) / 15f;
+					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+					vector44 -= new Vector2((float)glowMaskTexture.Width, (float)(glowMaskTexture.Height / frameCount)) * scale / 2f;
+					vector44 += vector11 * scale + new Vector2(0f, 4f + offsetY);
+					spriteBatch.Draw(glowMaskTexture, vector44, new Rectangle?(frame), color41, rotation, vector11, scale, spriteEffects, 0f);
+				}
 			}
 
 			spriteBatch.Draw(glowMaskTexture, vector43, new Rectangle?(frame), color40, rotation, vector11, scale, spriteEffects, 0f);
