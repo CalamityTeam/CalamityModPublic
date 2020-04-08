@@ -1,4 +1,5 @@
 
+using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Enemy;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -120,7 +121,7 @@ namespace CalamityMod.Tiles.Abyss
             {
                 if (!Main.tile[i, tileLocationY].active())
                 {
-                    if (Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
+                    if (!CalamityPlayer.areThereAnyDamnBosses && Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
                         Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != 1)
                     {
                         Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<SulphuricAcidBubble>(), 0, 2f, Main.myPlayer, 0f, 0f);

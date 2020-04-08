@@ -192,7 +192,7 @@ namespace CalamityMod.NPCs.OldDuke
 		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
 		{
 			cooldownSlot = 1;
-			return true;
+			return npc.alpha == 0;
 		}
 
 		public override void OnHitPlayer(Player player, int damage, bool crit)
