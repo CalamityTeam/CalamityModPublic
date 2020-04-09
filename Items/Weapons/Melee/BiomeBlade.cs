@@ -38,17 +38,17 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.WoodenSword);
-            recipe.AddIngredient(ItemID.DirtBlock, 10);
-            recipe.AddIngredient(ItemID.SandBlock, 10);
-            recipe.AddIngredient(ItemID.IceBlock, 10); //intentionally not any ice
-            recipe.AddRecipeGroup("AnyEvilBlock", 10);
-            recipe.AddIngredient(ItemID.GlowingMushroom, 10);
-            recipe.AddIngredient(ItemID.Marble, 10);
-            recipe.AddIngredient(ItemID.Granite, 10);
-            recipe.AddIngredient(ItemID.Hellstone, 10);
-            recipe.AddIngredient(ItemID.Coral, 5);
-            recipe.AddIngredient(ItemID.PearlstoneBlock, 10);
-            recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 10);
+            recipe.AddIngredient(ItemID.DirtBlock, 20);
+            recipe.AddIngredient(ItemID.SandBlock, 20);
+            recipe.AddIngredient(ItemID.IceBlock, 20); //intentionally not any ice
+            recipe.AddRecipeGroup("AnyEvilBlock", 20);
+            recipe.AddIngredient(ItemID.GlowingMushroom, 20);
+            recipe.AddIngredient(ItemID.Marble, 20);
+            recipe.AddIngredient(ItemID.Granite, 20);
+            recipe.AddIngredient(ItemID.Hellstone, 20);
+            recipe.AddIngredient(ItemID.Coral, 20);
+            recipe.AddIngredient(ItemID.PearlstoneBlock, 20);
+            recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

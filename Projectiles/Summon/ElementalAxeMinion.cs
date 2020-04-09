@@ -69,8 +69,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             projectile.rotation += 0.075f;
-            float num633 = 700f;
-            float num634 = 1200f;
+            float num633 = 1600f; //range
+            float num634 = 1800f;
             float num635 = 2500f;
             float num636 = 400f;
             float num637 = 0.05f;
