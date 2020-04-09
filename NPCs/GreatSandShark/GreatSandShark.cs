@@ -99,8 +99,11 @@ namespace CalamityMod.NPCs.GreatSandShark
             bool lowLife = (double)npc.life <= (double)npc.lifeMax * (expertMode ? 0.75 : 0.5);
             bool lowerLife = (double)npc.life <= (double)npc.lifeMax * (expertMode ? 0.35 : 0.2);
             bool youMustDie = !Main.player[npc.target].ZoneDesert;
-            CalamityUtils.StartSandstorm();
-            CalamityMod.UpdateServerBoolean();
+			if (!Terraria.GameContent.Events.Sandstorm.Happening)
+			{
+				CalamityUtils.StartSandstorm();
+				CalamityMod.UpdateServerBoolean();
+			}
             if (npc.soundDelay <= 0)
             {
                 npc.soundDelay = 480;
