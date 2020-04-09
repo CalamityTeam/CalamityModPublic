@@ -10,6 +10,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class TacticalPlagueEngineSummon : ModProjectile
     {
+        public static readonly Item FalseGun = new Item() { useAmmo = AmmoID.Bullet };
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tactical Plague Engine");
@@ -80,12 +81,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             NPC potentialTarget = projectile.Center.MinionHoming(1560f, player);
 
-            Item exampleGun = new Item()
-            {
-                useAmmo = AmmoID.Bullet
-            };
-
-            if (potentialTarget == null || !player.HasAmmo(exampleGun, false))
+            if (potentialTarget == null || !player.HasAmmo(FalseGun, false))
             {
                 float acceleration = 0.1f;
                 Vector2 distanceVector = player.Center - projectile.Center;
@@ -153,7 +149,7 @@ namespace CalamityMod.Projectiles.Summon
                         float shootSpeed = 0f;
                         bool canShoot = true;
                         float knockBack = projectile.knockBack * 0.5f;
-                        player.PickAmmo(exampleGun, ref shoot, ref shootSpeed, ref canShoot, ref damage, ref knockBack);
+                        player.PickAmmo(FalseGun, ref shoot, ref shootSpeed, ref canShoot, ref damage, ref knockBack);
                         int idx = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * shootSpeed, shoot,
                             damage, knockBack, projectile.owner);
                         // There's airway for a small bug in here, but the potential alterative (that has indeed been appearing), where
