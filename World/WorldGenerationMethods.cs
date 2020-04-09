@@ -1344,6 +1344,11 @@ namespace CalamityMod.World
                                     {
                                         suitableTiles -= 100;
                                     }
+                                    // Avoid Sulphurous Sea beach: Cannot be converted by astral
+                                    else if (Main.tile[l, m].type == ModContent.TileType<SulphurousSand>() || Main.tile[l, m].type == ModContent.TileType<SulphurousSandstone>())
+                                    {
+                                        suitableTiles -= 100;
+                                    }
 
                                     // Prevent the Astral biome from overriding or interfering with an AA biome
                                     else if (ancientsAwakened != null)
