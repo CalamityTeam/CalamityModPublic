@@ -4,13 +4,14 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles.Summon
 {
-    public class BrimstoneHellfireballFriendly : ModProjectile
+    public class BrimstoneFireballMinion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hellfire");
+            DisplayName.SetDefault("Brimfire");
+			ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -19,10 +20,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 12;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 200;
             projectile.penetrate = 2;
             projectile.extraUpdates = 1;
-            projectile.magic = true;
+            projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }
@@ -48,7 +49,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             if (projectile.owner == Main.myPlayer)
             {
-                int fire = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<HellfireExplosionFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int fire = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneExplosionMinion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
 

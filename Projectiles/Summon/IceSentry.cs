@@ -1,5 +1,3 @@
-using CalamityMod.Projectiles.Magic;
-using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -76,8 +74,7 @@ namespace CalamityMod.Projectiles.Summon
                         Vector2 speed = new Vector2(Main.rand.Next(-1000, 1001), Main.rand.Next(-1000, 1001));
                         speed.Normalize();
                         speed *= 15f;
-                        int shard = Projectile.NewProjectile(projectile.Center + speed, speed, ModContent.ProjectileType<FrostShardFriendly>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
-						ProjectileID.Sets.SentryShot[Main.projectile[shard].type] = true;
+                        int shard = Projectile.NewProjectile(projectile.Center + speed, speed, ModContent.ProjectileType<IceSentryShard>(), projectile.damage / 2, projectile.knockBack / 2, projectile.owner);
                     }
                 }
             }
@@ -119,13 +116,7 @@ namespace CalamityMod.Projectiles.Summon
                             speed *= 8f;
                             if (projectile.ai[1] >= 300f)
                                 speed = speed.RotatedBy(MathHelper.ToRadians(Main.rand.Next(-5, 6))) * 1.5f + npc.velocity / 2f;
-                            int p = Projectile.NewProjectile(projectile.Center, speed + npc.velocity / 2f, ModContent.ProjectileType<FrostBoltProjectile>(), projectile.damage, projectile.knockBack, projectile.owner);
-                            if (p != 1000)
-                            {
-                                Main.projectile[p].magic = false;
-                                Main.projectile[p].minion = true;
-								ProjectileID.Sets.SentryShot[Main.projectile[p].type] = true;
-                            }
+                            Projectile.NewProjectile(projectile.Center, speed + npc.velocity / 2f, ModContent.ProjectileType<IceSentryFrostBolt>(), projectile.damage, projectile.knockBack, projectile.owner);
                         }
 
                         //if (!rememberTarget) Main.NewText("couldn't hit target");

@@ -3,9 +3,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles.Summon
 {
-    public class FrostShardFriendly : ModProjectile
+    public class IceSentryShard : ModProjectile
     {
         public override void SetDefaults()
         {
@@ -14,8 +14,8 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 1;
             projectile.coldDamage = true;
             projectile.friendly = true;
+            projectile.minion = true;
             projectile.penetrate = 1;
-            projectile.Calamity().rogue = true;
 			projectile.coldDamage = true;
         }
 
@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             DisplayName.SetDefault("Frost Shard");
             Main.projFrames[projectile.type] = 5;
+			ProjectileID.Sets.SentryShot[projectile.type] = true;
         }
 
         public override void AI()
