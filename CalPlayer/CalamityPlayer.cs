@@ -517,6 +517,7 @@ namespace CalamityMod.CalPlayer
         public bool meteorSet = false; //vanilla armor, for space gun nerf
         public bool victideSet = false;
         public bool sulfurSet = false;
+		public int sulphurBubbleCooldown = 0;
         public bool aeroSet = false;
         public bool statigelSet = false;
         public bool tarraSet = false;
@@ -1842,6 +1843,7 @@ namespace CalamityMod.CalPlayer
 			statisTimer = 0;
 			hallowedRuneCooldown = 0;
 			doubledHorror = false;
+			sulphurBubbleCooldown = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -2740,10 +2742,11 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
                 }
             }
-            if (sulfurSet && player.controlJump && player.justJumped && player.jumpAgainSandstorm)
+            if (sulfurSet && player.controlJump && player.justJumped && player.jumpAgainSandstorm && sulphurBubbleCooldown <= 0)
             {
                 int bubble = Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), new Vector2(0f, 0f), ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
                 Main.projectile[bubble].Calamity().forceRogue = true;
+				sulphurBubbleCooldown = 20;
             }
         }
         #endregion
