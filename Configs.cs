@@ -17,6 +17,11 @@ namespace CalamityMod
 		[Header("General Changes")]
 
 		[DefaultValue(true)]
+		[Label("Afterimages")]
+		[Tooltip("Enables afterimages for Calamity NPCs, projectiles, etc.")]
+		public bool Afterimages { get; set; }
+
+		[DefaultValue(true)]
 		[Label("Town NPC New Shop Inventory Alert Display")]
 		[Tooltip("Enables an icon that appears above town NPC heads whenever they have new items in their shops")]
 		public bool TownNPCNewShopInventoryAlertDisplay { get; set; }

@@ -1744,7 +1744,7 @@ namespace CalamityMod.Projectiles
             return true;
         }
 
-        public static void DrawCenteredAndAfterimage(Projectile projectile, Color lightColor, int trailingMode, int afterimageCounter, Texture2D texture = null)
+		public static void DrawCenteredAndAfterimage(Projectile projectile, Color lightColor, int trailingMode, int afterimageCounter, Texture2D texture = null, bool drawCentered = true)
         {
             if (texture == null)
                 texture = Main.projectileTexture[projectile.type];
@@ -1758,7 +1758,9 @@ namespace CalamityMod.Projectiles
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            if (Lighting.NotRetro)
+			//Vector2 drawFrom = drawCentered ? projectile.Center : projectile.position;
+
+			if (CalamityMod.CalamityConfig.Afterimages)
             {
                 switch (trailingMode)
                 {
@@ -1767,7 +1769,7 @@ namespace CalamityMod.Projectiles
                         {
                             Vector2 drawPos = projectile.oldPos[i] + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
                             Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
-                            Main.spriteBatch.Draw(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(rectangle), color, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
+                            Main.spriteBatch.Draw(texture, drawPos, rectangle, color, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
                         }
                         break;
 
@@ -1786,7 +1788,7 @@ namespace CalamityMod.Projectiles
                             IL_6899:
                             float num164 = (float)(num157 - num161);
                             color26 *= num164 / ((float)ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f);
-                            Main.spriteBatch.Draw(texture, projectile.oldPos[num161] + projectile.Size / 2f - Main.screenPosition + new Vector2(0, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
+                            Main.spriteBatch.Draw(texture, projectile.oldPos[num161] + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, color26, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
                             goto IL_6881;
                         }
                         break;
@@ -1795,7 +1797,7 @@ namespace CalamityMod.Projectiles
                         break;
                 }
             }
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameY, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)frameHeight / 2f), projectile.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, projectile.GetAlpha(lightColor), projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
         }
         #endregion
 

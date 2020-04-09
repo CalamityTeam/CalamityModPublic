@@ -132,8 +132,8 @@ namespace CalamityMod.Projectiles.Summon
                 Vector2 v = vector59 - projectile.Center;
                 float num724 = projectile.velocity.ToRotation();
                 float num725 = v.ToRotation();
-                double num726 = (double)(num725 - num724);
-                num726 = MathHelper.WrapAngle((float)num726);
+                float num726 = num725 - num724;
+                num726 = MathHelper.WrapAngle(num726);
                 projectile.velocity = projectile.velocity.RotatedBy(num726 * 0.25, default);
             }
             float num727 = projectile.velocity.Length();

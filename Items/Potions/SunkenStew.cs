@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+﻿using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using System.Collections.Generic;
 using Terraria;
@@ -82,12 +82,20 @@ Grants Well Fed");
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AbyssGravel>(), 10);
             recipe.AddIngredient(ModContent.ItemType<CoastalDemonfish>());
             recipe.AddIngredient(ItemID.Honeyfin);
-            recipe.AddIngredient(ItemID.Bowl);
+            recipe.AddIngredient(ItemID.Bowl, 2);
             recipe.AddTile(TileID.CookingPots);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 2);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<Voidstone>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<CoastalDemonfish>());
+            recipe.AddIngredient(ItemID.Honeyfin);
+            recipe.AddIngredient(ItemID.Bowl, 2);
+            recipe.AddTile(TileID.CookingPots);
+            recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }
     }
