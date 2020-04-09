@@ -246,7 +246,7 @@ namespace CalamityMod.NPCs.Abyss
                     {
                         npc.velocity.Y = 0f;
                     }
-                    if ((double)npc.velocity.Y > -0.2)
+                    if (npc.velocity.Y > -0.2f)
                     {
                         npc.velocity.Y = npc.velocity.Y - 0.025f;
                     }
@@ -265,7 +265,7 @@ namespace CalamityMod.NPCs.Abyss
                     {
                         npc.velocity.Y = 0f;
                     }
-                    if ((double)npc.velocity.Y < 0.1)
+                    if (npc.velocity.Y < 0.1f)
                     {
                         npc.velocity.Y = npc.velocity.Y + 0.025f;
                     }
@@ -280,23 +280,7 @@ namespace CalamityMod.NPCs.Abyss
                 }
             }
             npc.rotation = npc.velocity.Y * (float)npc.direction * 0.05f;
-            if ((double)npc.rotation < -0.1)
-            {
-                npc.rotation = -0.1f;
-            }
-            if ((double)npc.rotation > 0.1)
-            {
-                npc.rotation = 0.1f;
-            }
-        }
-
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
-            {
-                return hasBeenHit;
-            }
-            return null;
+			npc.rotation = MathHelper.Clamp(npc.rotation, -0.1f, 0.1f);
         }
 
         public override void FindFrame(int frameHeight)
