@@ -85,6 +85,9 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
+				if (projectile.penetrate == -1) //limit penetration for worm memes
+					projectile.penetrate = 4;
+
                 projectile.ai[0]--;
                 if (projectile.ai[0] == 1)
                     projectile.Kill();
