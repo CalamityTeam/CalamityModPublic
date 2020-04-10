@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Items.Weapons.Rogue;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class Brick : ModProjectile
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.velocity.Y = 16f;
             }
             //Dust trail
-            if (Main.rand.Next(13) == 0)
+            if (Main.rand.NextBool(13))
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 22, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default, 0.9f);
             }
@@ -35,6 +36,11 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
+            if (Main.rand.NextBool(2))
+            {
+                Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<ThrowingBrick>());
+            }
+
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 50);
             //Dust on impact
             int dust_splash = 0;
@@ -63,7 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
 
                     //Spawn the projectile
-                    Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<BrickFragment>(), (int)(projectile.damage * 0.3), 2f, projectile.owner);
+                    Projectile.NewProjectile(projectile.position.X + shardspeedX, projectile.position.Y + shardspeedY, shardspeedX, shardspeedY, ModContent.ProjectileType<BrickFragment>(), (int)(projectile.damage * 0.3), projectile.knockBack / 2f, projectile.owner);
                     split += 1;
                 }
             }
