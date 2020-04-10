@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -21,7 +22,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (projectile.timeLeft <= 240)
             {
-                NPC target = CalamityUtils.MinionHoming(Main.player[projectile.owner].Center, 700f, Main.player[projectile.owner]);
+                NPC target = CalamityUtils.MinionHoming(projectile.Center, 700f, Main.player[projectile.owner]);
                 if (target != null) //target found
                 {
                     float num550 = 40f;
@@ -173,7 +174,11 @@ namespace CalamityMod.Projectiles.Summon
                 if (recharging == 0)
                 {
                     dust(15);
-                    Main.PlaySound(SoundID.Item30, projectile.position);
+                    SoundEffectInstance sound = Main.PlaySound(SoundID.Item30, projectile.position);
+                    if (sound != null)
+                    {
+                        sound.Pitch = 0.2f;
+                    }
                     projectile.netUpdate = true;
                 }
             }

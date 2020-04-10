@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 16f)
             {
-                projectile.velocity *= 1.035f;
+                projectile.velocity *= 1.045f;
             }
 
             //make pretty dust

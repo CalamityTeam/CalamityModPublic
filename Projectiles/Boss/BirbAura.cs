@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Birb Aura");
+            DisplayName.SetDefault("Draconic Aura");
         }
 
         public override void SetDefaults()

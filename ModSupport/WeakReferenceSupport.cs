@@ -90,7 +90,7 @@ namespace CalamityMod
 			{ "Ravager", 12.5f },
 			{ "AstrumDeus", 13.5f },
 			{ "ProfanedGuardians", 14.5f },
-			{ "Bumblebirb", 14.6f },
+			{ "Draconic Swarmer", 14.6f },
 			{ "Providence", 15.01f }, // Thorium's Ragnarok is 15f
 			{ "CeaselessVoid", 15.5f },
 			{ "StormWeaver", 15.51f },
@@ -415,16 +415,16 @@ namespace CalamityMod
 				AddBoss(bossChecklist, calamity, "Profaned Guardians", order, type, DownedGuardians, summon, loot, collection, instructions, despawn, bossLogTex);
 			}
 
-			// Bumblebirb
+			// Draconic Swarmer
 			{
-				BossDifficulty.TryGetValue("Bumblebirb", out float order);
+				BossDifficulty.TryGetValue("Draconic Swarmer", out float order);
 				int type = NPCType<Bumblefuck>();
 				int summon = ItemType<BirbPheromones>();
 				List<int> loot = new List<int>() { ItemType<BumblebirbBag>(), ItemType<EffulgentFeather>(), ItemType<GildedProboscis>(), ItemType<GoldenEagle>(), ItemType<RougeSlash>(), ItemType<Swordsplosion>(), ItemType<DynamoStemCells>(), ItemType<RedLightningContainer>(), ItemID.SuperHealingPotion };
 				List<int> collection = new List<int>() { ItemType<BumblebirbTrophy>(), ItemType<BumblefuckMask>(), ItemType<KnowledgeBumblebirb>() };
 				string instructions = $"Use [i:{summon}] in the Jungle Biome";
 				string despawn = CalamityUtils.ColorMessage("The failed experiment returns into its reproductive routine.", new Color(0xFF, 0xD7, 0x00));
-				AddBoss(bossChecklist, calamity, "Bumblebirb", order, type, DownedBirb, summon, loot, collection, instructions, despawn);
+				AddBoss(bossChecklist, calamity, "Draconic Swarmer", order, type, DownedBirb, summon, loot, collection, instructions, despawn);
 			}
 
 			// Providence

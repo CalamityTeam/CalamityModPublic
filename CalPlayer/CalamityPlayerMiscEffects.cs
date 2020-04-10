@@ -910,6 +910,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.statisTimer = 0;
 			if (modPlayer.hallowedRuneCooldown > 0)
 				modPlayer.hallowedRuneCooldown--;
+			if (modPlayer.sulphurBubbleCooldown > 0)
+				modPlayer.sulphurBubbleCooldown--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -2301,10 +2303,10 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.xRage)
-				player.allDamage += 0.1f;
+				modPlayer.throwingDamage += 0.1f;
 
 			if (modPlayer.xWrath)
-				modPlayer.AllCritBoost(5);
+				modPlayer.throwingCrit += 5;
 
 			if (modPlayer.godSlayerCooldown)
 				player.allDamage += 0.1f;

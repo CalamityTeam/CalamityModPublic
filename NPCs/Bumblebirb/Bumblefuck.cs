@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Bumblebirb
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bumblebirb");
+            DisplayName.SetDefault("Draconic Swarmer");
             Main.npcFrameCount[npc.type] = 6;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 		public override void BossLoot(ref string name, ref int potionType)
         {
-            name = "A Bumblebirb";
+            name = "A Draconic Swarmer";
             potionType = ItemID.SuperHealingPotion;
         }
 

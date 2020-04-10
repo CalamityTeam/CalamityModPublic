@@ -2046,7 +2046,8 @@ namespace CalamityMod
                 ModContent.ItemType<CraniumSmasher>(),
                 ModContent.ItemType<ContaminatedBile>(),
                 ModContent.ItemType<AcidicRainBarrel>(),
-                ModContent.ItemType<SkyfinBombers>()
+                ModContent.ItemType<SkyfinBombers>(),
+                ModContent.ItemType<SpentFuelContainer>()
             };
 
             flaskBombProjList = new List<int>()
@@ -2073,7 +2074,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<DestructionBolt>(),
                 ModContent.ProjectileType<ContaminatedBileFlask>(),
                 ModContent.ProjectileType<GreenDonkeyKongReference>(),
-                ModContent.ProjectileType<SkyfinNuke>()
+                ModContent.ProjectileType<SkyfinNuke>(),
+                ModContent.ProjectileType<SpentFuelContainerProjectile>()
             };
 
             spikyBallList = new List<int>()
