@@ -93,10 +93,36 @@ namespace CalamityMod.CalPlayer
         public int externalAbyssLight = 0;
         public bool externalColdImmunity = false;
         public bool externalHeatImmunity = false;
-        #endregion
+		#endregion
 
-        #region Stat Meter
-        public int[] damageStats = new int[5];
+		#region Town NPC Shop Variables
+		public bool newMerchantInventory = false;
+		public bool newPainterInventory = false;
+		public bool newDyeTraderInventory = false;
+		public bool newPartyGirlInventory = false;
+		public bool newStylistInventory = false;
+		public bool newDemolitionistInventory = false;
+		public bool newDryadInventory = false;
+		public bool newTavernkeepInventory = false;
+		public bool newArmsDealerInventory = false;
+		public bool newGoblinTinkererInventory = false;
+		public bool newWitchDoctorInventory = false;
+		public bool newClothierInventory = false;
+		public bool newMechanicInventory = false;
+		public bool newPirateInventory = false;
+		public bool newTruffleInventory = false;
+		public bool newWizardInventory = false;
+		public bool newSteampunkerInventory = false;
+		public bool newCyborgInventory = false;
+		public bool newSkeletonMerchantInventory = false;
+		public bool newPermafrostInventory = false;
+		public bool newCirrusInventory = false;
+		public bool newAmidiasInventory = false;
+		public bool newBanditInventory = false;
+		#endregion
+
+		#region Stat Meter
+		public int[] damageStats = new int[5];
         public int[] critStats = new int[4];
         public int defenseStat = 0;
         public int DRStat = 0;
@@ -491,6 +517,7 @@ namespace CalamityMod.CalPlayer
         public bool meteorSet = false; //vanilla armor, for space gun nerf
         public bool victideSet = false;
         public bool sulfurSet = false;
+		public int sulphurBubbleCooldown = 0;
         public bool aeroSet = false;
         public bool statigelSet = false;
         public bool tarraSet = false;
@@ -680,6 +707,7 @@ namespace CalamityMod.CalPlayer
         public bool draconicSurgeCooldown = false;
         public bool tesla = false;
         public bool teslaFreeze = false;
+        public bool sulphurskin = false;
         public bool baguette = false;
         public bool vodka = false;
         public bool redWine = false;
@@ -843,32 +871,56 @@ namespace CalamityMod.CalPlayer
         public bool snowmanForce;
         public bool snowmanNoseless;
         public bool snowmanPower;
-        #endregion
+		#endregion
 
-        #endregion
+		#endregion
 
-        #region SavingAndLoading
-        public override void Initialize()
-        {
-            extraAccessoryML = false;
-            eCore = false;
-            mFruit = false;
-            bOrange = false;
-            eBerry = false;
-            dFruit = false;
-            pHeart = false;
-            cShard = false;
-            revJamDrop = false;
-            rageBoostOne = false;
-            rageBoostTwo = false;
-            rageBoostThree = false;
-            adrenalineBoostOne = false;
-            adrenalineBoostTwo = false;
-            adrenalineBoostThree = false;
-            drawBossHPBar = true;
-            shouldDrawSmallText = true;
-            healToFull = false;
-        }
+		#region SavingAndLoading
+		public override void Initialize()
+		{
+			extraAccessoryML = false;
+			eCore = false;
+			mFruit = false;
+			bOrange = false;
+			eBerry = false;
+			dFruit = false;
+			pHeart = false;
+			cShard = false;
+			revJamDrop = false;
+			rageBoostOne = false;
+			rageBoostTwo = false;
+			rageBoostThree = false;
+			adrenalineBoostOne = false;
+			adrenalineBoostTwo = false;
+			adrenalineBoostThree = false;
+			drawBossHPBar = true;
+			shouldDrawSmallText = true;
+			healToFull = false;
+
+			newMerchantInventory = false;
+			newPainterInventory = false;
+			newDyeTraderInventory = false;
+			newPartyGirlInventory = false;
+			newStylistInventory = false;
+			newDemolitionistInventory = false;
+			newDryadInventory = false;
+			newTavernkeepInventory = false;
+			newArmsDealerInventory = false;
+			newGoblinTinkererInventory = false;
+			newWitchDoctorInventory = false;
+			newClothierInventory = false;
+			newMechanicInventory = false;
+			newPirateInventory = false;
+			newTruffleInventory = false;
+			newWizardInventory = false;
+			newSteampunkerInventory = false;
+			newCyborgInventory = false;
+			newSkeletonMerchantInventory = false;
+			newPermafrostInventory = false;
+			newCirrusInventory = false;
+			newAmidiasInventory = false;
+			newBanditInventory = false;
+		}
 
         public override TagCompound Save()
         {
@@ -892,7 +944,31 @@ namespace CalamityMod.CalPlayer
             boost.AddWithCondition("drawSmallText", shouldDrawSmallText);
             boost.AddWithCondition("fullHPRespawn", healToFull);
 
-            return new TagCompound
+			boost.AddWithCondition("newMerchantInventory", newMerchantInventory);
+			boost.AddWithCondition("newPainterInventory", newPainterInventory);
+			boost.AddWithCondition("newDyeTraderInventory", newDyeTraderInventory);
+			boost.AddWithCondition("newPartyGirlInventory", newPartyGirlInventory);
+			boost.AddWithCondition("newStylistInventory", newStylistInventory);
+			boost.AddWithCondition("newDemolitionistInventory", newDemolitionistInventory);
+			boost.AddWithCondition("newDryadInventory", newDryadInventory);
+			boost.AddWithCondition("newTavernkeepInventory", newTavernkeepInventory);
+			boost.AddWithCondition("newArmsDealerInventory", newArmsDealerInventory);
+			boost.AddWithCondition("newGoblinTinkererInventory", newGoblinTinkererInventory);
+			boost.AddWithCondition("newWitchDoctorInventory", newWitchDoctorInventory);
+			boost.AddWithCondition("newClothierInventory", newClothierInventory);
+			boost.AddWithCondition("newMechanicInventory", newMechanicInventory);
+			boost.AddWithCondition("newPirateInventory", newPirateInventory);
+			boost.AddWithCondition("newTruffleInventory", newTruffleInventory);
+			boost.AddWithCondition("newWizardInventory", newWizardInventory);
+			boost.AddWithCondition("newSteampunkerInventory", newSteampunkerInventory);
+			boost.AddWithCondition("newCyborgInventory", newCyborgInventory);
+			boost.AddWithCondition("newSkeletonMerchantInventory", newSkeletonMerchantInventory);
+			boost.AddWithCondition("newPermafrostInventory", newPermafrostInventory);
+			boost.AddWithCondition("newCirrusInventory", newCirrusInventory);
+			boost.AddWithCondition("newAmidiasInventory", newAmidiasInventory);
+			boost.AddWithCondition("newBanditInventory", newBanditInventory);
+
+			return new TagCompound
             {
                 { "boost", boost },
                 { "stress", rage },
@@ -939,7 +1015,31 @@ namespace CalamityMod.CalPlayer
             shouldDrawSmallText = boost.Contains("drawSmallText");
             healToFull = boost.Contains("fullHPRespawn");
 
-            rage = tag.GetAsInt("stress");
+			newMerchantInventory = boost.Contains("newMerchantInventory");
+			newPainterInventory = boost.Contains("newPainterInventory");
+			newDyeTraderInventory = boost.Contains("newDyeTraderInventory");
+			newPartyGirlInventory = boost.Contains("newPartyGirlInventory");
+			newStylistInventory = boost.Contains("newStylistInventory");
+			newDemolitionistInventory = boost.Contains("newDemolitionistInventory");
+			newDryadInventory = boost.Contains("newDryadInventory");
+			newTavernkeepInventory = boost.Contains("newTavernkeepInventory");
+			newArmsDealerInventory = boost.Contains("newArmsDealerInventory");
+			newGoblinTinkererInventory = boost.Contains("newGoblinTinkererInventory");
+			newWitchDoctorInventory = boost.Contains("newWitchDoctorInventory");
+			newClothierInventory = boost.Contains("newClothierInventory");
+			newMechanicInventory = boost.Contains("newMechanicInventory");
+			newPirateInventory = boost.Contains("newPirateInventory");
+			newTruffleInventory = boost.Contains("newTruffleInventory");
+			newWizardInventory = boost.Contains("newWizardInventory");
+			newSteampunkerInventory = boost.Contains("newSteampunkerInventory");
+			newCyborgInventory = boost.Contains("newCyborgInventory");
+			newSkeletonMerchantInventory = boost.Contains("newSkeletonMerchantInventory");
+			newPermafrostInventory = boost.Contains("newPermafrostInventory");
+			newCirrusInventory = boost.Contains("newCirrusInventory");
+			newAmidiasInventory = boost.Contains("newAmidiasInventory");
+			newBanditInventory = boost.Contains("newBanditInventory");
+
+			rage = tag.GetAsInt("stress");
             adrenaline = tag.GetAsInt("adrenaline");
             sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
@@ -1010,7 +1110,36 @@ namespace CalamityMod.CalPlayer
                 BitsByte flags3 = reader.ReadByte();
                 shouldDrawSmallText = flags3[0];
                 healToFull = flags3[1];
-            }
+				newMerchantInventory = flags3[2];
+				newPainterInventory = flags3[3];
+				newDyeTraderInventory = flags3[4];
+				newPartyGirlInventory = flags3[5];
+				newStylistInventory = flags3[6];
+				newDemolitionistInventory = flags3[7];
+
+				BitsByte flags4 = reader.ReadByte();
+				newDryadInventory = flags4[0];
+				newTavernkeepInventory = flags4[1];
+				newArmsDealerInventory = flags4[2];
+				newGoblinTinkererInventory = flags4[3];
+				newWitchDoctorInventory = flags4[4];
+				newClothierInventory = flags4[5];
+				newMechanicInventory = flags4[6];
+				newPirateInventory = flags4[7];
+
+				BitsByte flags5 = reader.ReadByte();
+				newTruffleInventory = flags5[0];
+				newWizardInventory = flags5[1];
+				newSteampunkerInventory = flags5[2];
+				newCyborgInventory = flags5[3];
+				newSkeletonMerchantInventory = flags5[4];
+				newPermafrostInventory = flags5[5];
+				newCirrusInventory = flags5[6];
+				newAmidiasInventory = flags5[7];
+
+				BitsByte flags6 = reader.ReadByte();
+				newBanditInventory = flags6[0];
+			}
             else
             {
                 ModContent.GetInstance<CalamityMod>().Logger.Error("Unknown loadVersion: " + loadVersion);
@@ -1512,6 +1641,7 @@ namespace CalamityMod.CalPlayer
             draconicSurgeCooldown = false;
             tesla = false;
             teslaFreeze = false;
+            sulphurskin = false;
             baguette = false;
             trippy = false;
             amidiasBlessing = false;
@@ -1713,6 +1843,7 @@ namespace CalamityMod.CalPlayer
 			statisTimer = 0;
 			hallowedRuneCooldown = 0;
 			doubledHorror = false;
+			sulphurBubbleCooldown = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -1828,6 +1959,7 @@ namespace CalamityMod.CalPlayer
             profanedRage = false;
             tesla = false;
             teslaFreeze = false;
+            sulphurskin = false;
             baguette = false;
             draconicSurge = false;
             draconicSurgeCooldown = false;
@@ -2610,10 +2742,11 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
                 }
             }
-            if (sulfurSet && player.controlJump && player.justJumped && player.jumpAgainSandstorm)
+            if (sulfurSet && player.controlJump && player.justJumped && player.jumpAgainSandstorm && sulphurBubbleCooldown <= 0)
             {
                 int bubble = Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), new Vector2(0f, 0f), ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
                 Main.projectile[bubble].Calamity().forceRogue = true;
+				sulphurBubbleCooldown = 20;
             }
         }
         #endregion
@@ -5293,8 +5426,8 @@ namespace CalamityMod.CalPlayer
 					penetrateAmt += 10;
                 }
             }
-			int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0);
-			int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt);
+			int penetratableDefense = Math.Max(target.defense - player.armorPenetration, 0); //if find how much defense we can penetrate
+			int penetratedDefense = Math.Min(penetratableDefense, penetrateAmt); //if we have more penetrate than enemy defense, use enemy defense
 			damage += (int)(0.5f * penetratedDefense);
             #endregion
 
@@ -5414,7 +5547,7 @@ namespace CalamityMod.CalPlayer
                         num13 *= num16;
                         num14 *= num16;
                         int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 120, 5f, player.whoAmI, 0f, 0f);
-                        Main.projectile[num17].ranged = false;
+                        Main.projectile[num17].Calamity().forceTypeless = true;
                     }
                 }
                 if (tarraRanged && crit && proj.ranged)
@@ -5431,7 +5564,7 @@ namespace CalamityMod.CalPlayer
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
                         int FUCKYOU = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
                             value15.X, value15.Y, ProjectileID.Leaf, (int)(damage * 0.25), 0f, player.whoAmI, 0f, 0f);
-                        Main.projectile[FUCKYOU].magic = false;
+                        Main.projectile[FUCKYOU].Calamity().forceTypeless = true;
                         Main.projectile[FUCKYOU].netUpdate = true;
                     }
                 }
@@ -5472,7 +5605,7 @@ namespace CalamityMod.CalPlayer
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
                         int fire = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
                             value15.X, value15.Y, ProjectileID.BallofFire, (int)(damage * 0.5), 0f, player.whoAmI, 0f, 0f);
-                        Main.projectile[fire].magic = false;
+                        Main.projectile[fire].Calamity().forceTypeless = true;
                         Main.projectile[fire].netUpdate = true;
                     }
                 }
@@ -8701,7 +8834,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			bool noRogueStealth = rogueStealth == 0f || player.townNPCs > 2f;
+			bool noRogueStealth = rogueStealth == 0f || player.townNPCs > 2f || !CalamityMod.CalamityConfig.StealthInvisbility;
             if (rogueStealth > 0f && rogueStealthMax > 0f && player.townNPCs < 3f && CalamityMod.CalamityConfig.StealthInvisbility)
             {
                 //A translucent orchid color, the rogue class color
@@ -9376,7 +9509,7 @@ namespace CalamityMod.CalPlayer
             }
             else if (darkGodSheath)
                 stealthAcceleration += 0.01f;
-            MathHelper.Clamp(stealthAcceleration, 1f, StealthAccelerationCap);
+            stealthAcceleration = MathHelper.Clamp(stealthAcceleration, 1f, StealthAccelerationCap);
 
             // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
             // Stealth only regenerates at 1/3 speed while moving.

@@ -10,6 +10,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -131,16 +132,19 @@ namespace CalamityMod.NPCs.Calamitas
 			float amount9 = 0.5f;
 			int num153 = 7;
 
-			for (int num155 = 1; num155 < num153; num155 += 2)
+			if (CalamityMod.CalamityConfig.Afterimages)
 			{
-				Color color38 = lightColor;
-				color38 = Color.Lerp(color38, color36, amount9);
-				color38 = npc.GetAlpha(color38);
-				color38 *= (float)(num153 - num155) / 15f;
-				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-				vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-				vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-				spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				for (int num155 = 1; num155 < num153; num155 += 2)
+				{
+					Color color38 = lightColor;
+					color38 = Color.Lerp(color38, color36, amount9);
+					color38 = npc.GetAlpha(color38);
+					color38 *= (float)(num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
@@ -151,15 +155,18 @@ namespace CalamityMod.NPCs.Calamitas
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/CalamitasRun3Glow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			for (int num163 = 1; num163 < num153; num163++)
+			if (CalamityMod.CalamityConfig.Afterimages)
 			{
-				Color color41 = color37;
-				color41 = Color.Lerp(color41, color36, amount9);
-				color41 *= (float)(num153 - num163) / 15f;
-				Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-				vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-				vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-				spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				for (int num163 = 1; num163 < num153; num163++)
+				{
+					Color color41 = color37;
+					color41 = Color.Lerp(color41, color36, amount9);
+					color41 *= (float)(num153 - num163) / 15f;
+					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				}
 			}
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, color37, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
@@ -176,7 +183,9 @@ namespace CalamityMod.NPCs.Calamitas
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
 
-            if (!Main.expertMode)
+			npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
+
+			if (!Main.expertMode)
             {
 				//Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EssenceofChaos>(), 4, 8);

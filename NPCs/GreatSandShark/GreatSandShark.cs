@@ -99,8 +99,11 @@ namespace CalamityMod.NPCs.GreatSandShark
             bool lowLife = (double)npc.life <= (double)npc.lifeMax * (expertMode ? 0.75 : 0.5);
             bool lowerLife = (double)npc.life <= (double)npc.lifeMax * (expertMode ? 0.35 : 0.2);
             bool youMustDie = !Main.player[npc.target].ZoneDesert;
-            CalamityUtils.StartSandstorm();
-            CalamityMod.UpdateServerBoolean();
+			if (!Terraria.GameContent.Events.Sandstorm.Happening)
+			{
+				CalamityUtils.StartSandstorm();
+				CalamityMod.UpdateServerBoolean();
+			}
             if (npc.soundDelay <= 0)
             {
                 npc.soundDelay = 480;
@@ -615,7 +618,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && Lighting.NotRetro)
+            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityMod.CalamityConfig.Afterimages)
             {
                 Color color26 = npc.GetAlpha(color25);
                 {

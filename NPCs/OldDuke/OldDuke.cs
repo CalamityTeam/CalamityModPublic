@@ -10,6 +10,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.NPCs.TownNPCs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -223,16 +224,19 @@ namespace CalamityMod.NPCs.OldDuke
 				color = lightColor;
 			}
 
-			for (int num155 = 1; num155 < num153; num155 += num154)
+			if (CalamityMod.CalamityConfig.Afterimages)
 			{
-				Color color38 = color;
-				color38 = Color.Lerp(color38, color36, amount9);
-				color38 = npc.GetAlpha(color38);
-				color38 *= (float)(num153 - num155) / 15f;
-				Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-				vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-				vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-				spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				for (int num155 = 1; num155 < num153; num155 += num154)
+				{
+					Color color38 = color;
+					color38 = Color.Lerp(color38, color36, amount9);
+					color38 = npc.GetAlpha(color38);
+					color38 *= (float)(num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				}
 			}
 
 			int num156 = 0;
@@ -273,16 +277,19 @@ namespace CalamityMod.NPCs.OldDuke
 				scaleFactor9 = 20f;
 			}
 
-			for (int num160 = 0; num160 < num156; num160++)
+			if (CalamityMod.CalamityConfig.Afterimages)
 			{
-				Color color39 = lightColor;
-				color39 = Color.Lerp(color39, color36, amount9);
-				color39 = npc.GetAlpha(color39);
-				color39 *= 1f - num157;
-				Vector2 vector42 = npc.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
-				vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-				vector42 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-				spriteBatch.Draw(texture2D15, vector42, npc.frame, color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				for (int num160 = 0; num160 < num156; num160++)
+				{
+					Color color39 = lightColor;
+					color39 = Color.Lerp(color39, color36, amount9);
+					color39 = npc.GetAlpha(color39);
+					color39 *= 1f - num157;
+					Vector2 vector42 = npc.Center + ((float)num160 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+					vector42 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					vector42 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					spriteBatch.Draw(texture2D15, vector42, npc.frame, color39, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				}
 			}
 
 			Color color2 = lightColor;
@@ -326,27 +333,30 @@ namespace CalamityMod.NPCs.OldDuke
 					color40 *= num162;
 				}
 
-				for (int num163 = 1; num163 < num153; num163 += num154)
+				if (CalamityMod.CalamityConfig.Afterimages)
 				{
-					Color color41 = color40;
-					color41 = Color.Lerp(color41, color36, amount9);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
-				}
+					for (int num163 = 1; num163 < num153; num163 += num154)
+					{
+						Color color41 = color40;
+						color41 = Color.Lerp(color41, color36, amount9);
+						color41 *= (float)(num153 - num163) / 15f;
+						Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
+						vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+						vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+						spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					}
 
-				for (int num164 = 1; num164 < num156; num164++)
-				{
-					Color color42 = color40;
-					color42 = Color.Lerp(color42, color36, amount9);
-					color42 = npc.GetAlpha(color42);
-					color42 *= 1f - num157;
-					Vector2 vector45 = npc.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
-					vector45 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
-					vector45 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-					spriteBatch.Draw(texture2D15, vector45, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					for (int num164 = 1; num164 < num156; num164++)
+					{
+						Color color42 = color40;
+						color42 = Color.Lerp(color42, color36, amount9);
+						color42 = npc.GetAlpha(color42);
+						color42 *= 1f - num157;
+						Vector2 vector45 = npc.Center + ((float)num164 / (float)num156 * MathHelper.TwoPi + npc.rotation).ToRotationVector2() * scaleFactor9 * num157 - Main.screenPosition;
+						vector45 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+						vector45 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+						spriteBatch.Draw(texture2D15, vector45, npc.frame, color42, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+					}
 				}
 
 				spriteBatch.Draw(texture2D15, vector43, npc.frame, color40, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
@@ -368,8 +378,10 @@ namespace CalamityMod.NPCs.OldDuke
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOldDuke>(), true, !CalamityWorld.downedBoomerDuke);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBoomerDuke, 6, 3, 2);
 
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+			npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, CalamityWorld.downedBoomerDuke);
+
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
             {
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<InsidiousImpaler>(), 4);

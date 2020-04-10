@@ -240,7 +240,8 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                shop = true;
+				Main.LocalPlayer.Calamity().newAmidiasInventory = false;
+				shop = true;
             }
             else
             {

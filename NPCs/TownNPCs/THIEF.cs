@@ -17,6 +17,7 @@ namespace CalamityMod.NPCs.TownNPCs
     public class THIEF : ModNPC
     {
         string npcName;
+
         public static List<string> PossibleNames = new List<string>()
         {
             "Laura", "Mie", "Bonnie",
@@ -26,6 +27,7 @@ namespace CalamityMod.NPCs.TownNPCs
             "Jessie", "Jade", "Hearn",
             "Amber", "Anne", "Indiana",
         };
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bandit");
@@ -38,6 +40,7 @@ namespace CalamityMod.NPCs.TownNPCs
             NPCID.Sets.AttackTime[npc.type] = 60;
             NPCID.Sets.AttackAverageChance[npc.type] = 10;
         }
+
         public override void SetDefaults()
         {
             npc.townNPC = true;
@@ -81,6 +84,7 @@ namespace CalamityMod.NPCs.TownNPCs
             npcName = PossibleNames[Main.rand.Next(PossibleNames.Count)];
             return npcName;
         }
+
         public override string GetChat()
         {
             List<string> PossibleDialogs = new List<string>();
@@ -97,6 +101,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 PossibleDialogs.Add("You think those stars that fall occasionally would make good throwing weapons?");
                 PossibleDialogs.Add("Statis' clan's got nothing on me. Mostly cause they're all dead.");
             }
+
             if (BirthdayParty.PartyIsUp)
             {
                 PossibleDialogs.Add("Where is my party hat? Well, I stole it of course.");
@@ -117,6 +122,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 PossibleDialogs.Add("Usually I only think of animals as food or target practice, but dragons are an exception.");
             }
+
             PossibleDialogs.Add("Anything is a weapon if you throw it hard enough.");
             PossibleDialogs.Add("That's your chucking arm? You need to work out more.");
             PossibleDialogs.Add("Listen here. It's all in the wrist, the wrist! Oh, forget it.");
@@ -156,6 +162,7 @@ namespace CalamityMod.NPCs.TownNPCs
             {
                 PossibleDialogs.Add("I'd rather not be here. This place has bad vibes, y'know? It brings back some unpleasant memories.");
             }
+
             int merchantIndex = NPC.FindFirstNPC(NPCID.Merchant);
             if (merchantIndex != -1)
             {
@@ -169,6 +176,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 NPC cirrus = Main.npc[cirrusIndex]; //please help me I'm stuck in a children's video game - Fabsol
                 PossibleDialogs.Add($"I learned never to steal {cirrus.GivenName}'s drinks. She doesn't appreciate me right now so I'll go back to hiding.");
             }
+
             int armsDealerIndex = NPC.FindFirstNPC(NPCID.ArmsDealer);
             int nurseIndex = NPC.FindFirstNPC(NPCID.Nurse);
             if (armsDealerIndex != -1 && nurseIndex != -1)
@@ -180,6 +188,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
             return PossibleDialogs[Main.rand.Next(PossibleDialogs.Count)];
         }
+
         public string Refund()
         {
             int goblinIndex = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
@@ -200,15 +209,16 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             return "Sorry, I got nothing.";
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             spriteBatch.Draw(ModContent.GetTexture("CalamityMod/NPCs/TownNPCs/THIEF" + (BirthdayParty.PartyIsUp ? "Alt" : "")), npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY) - new Vector2(0f, 6f), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
             return false;
         }
+
         public override void SetChatButtons(ref string button, ref string button2)
         {
-            
             button = Language.GetTextValue("LegacyInterface.28");
             button2 = "Refund";
         }
@@ -217,7 +227,8 @@ namespace CalamityMod.NPCs.TownNPCs
         {
             if (firstButton)
             {
-                shop = true;
+				Main.LocalPlayer.Calamity().newBanditInventory = false;
+				shop = true;
             }
             else
             {

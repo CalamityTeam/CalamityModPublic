@@ -78,8 +78,8 @@ namespace CalamityMod.Items.Tools
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<FellerofEvergreens>());
             recipe.AddIngredient(ItemID.PurificationPowder, 20);
-            recipe.AddIngredient(ItemID.PixieDust, 10);
-            recipe.AddIngredient(ItemID.CrystalShard, 5);
+            recipe.AddIngredient(ItemID.PixieDust, 20);
+            recipe.AddIngredient(ItemID.CrystalShard, 10);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

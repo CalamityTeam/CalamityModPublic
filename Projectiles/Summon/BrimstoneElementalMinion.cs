@@ -1,6 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
-using CalamityMod.Projectiles.Magic;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -224,7 +223,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[0] == 0f)
             {
                 float scaleFactor3 = 14f;
-                int num658 = ModContent.ProjectileType<BrimstoneHellfireballFriendly>();
+                int num658 = ModContent.ProjectileType<BrimstoneFireballMinion>();
                 if (flag25 && projectile.ai[1] == 0f)
                 {
                     projectile.ai[1] += 1f;
@@ -233,14 +232,7 @@ namespace CalamityMod.Projectiles.Summon
                         Vector2 value19 = vector46 - projectile.Center;
                         value19.Normalize();
                         value19 *= scaleFactor3;
-                        int fire = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                        // protection against projectile cap
-                        if (fire < Main.maxProjectiles)
-                        {
-                            Main.projectile[fire].timeLeft = 200;
-                            Main.projectile[fire].Calamity().forceMinion = true;
-							ProjectileID.Sets.MinionShot[Main.projectile[fire].type] = true;
-                        }
+                        int fire = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X, value19.Y, num658, projectile.damage, 0f, projectile.owner, 0f, 0f);
                         projectile.netUpdate = true;
                     }
                 }

@@ -32,6 +32,7 @@ using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -122,12 +123,16 @@ namespace CalamityMod.NPCs
 
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeKingSlime>(), true, !NPC.downedSlimeKing);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedSlimeKing, 2, 0, 0);
-            }
+
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Dryad }, NPC.downedSlimeKing);
+			}
             else if (npc.type == NPCID.EyeofCthulhu)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeEyeofCthulhu>(), true, !NPC.downedBoss1);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss1, 2, 0, 0);
-            }
+
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad }, NPC.downedBoss1);
+			}
             else if ((npc.boss && (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)) || npc.type == NPCID.BrainofCthulhu)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCorruption>(), true, !WorldGen.crimson && !NPC.downedBoss2);
@@ -135,18 +140,24 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCrimson>(), true, WorldGen.crimson && !NPC.downedBoss2);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrainofCthulhu>(), true, WorldGen.crimson && !NPC.downedBoss2);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss2, 2, 0, 0);
-            }
+
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad }, NPC.downedBoss2);
+			}
             else if (npc.type == NPCID.QueenBee)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeQueenBee>(), true, !NPC.downedQueenBee);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedQueenBee, 2, 0, 0);
-            }
+
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Dryad }, NPC.downedQueenBee);
+			}
             else if (npc.type == NPCID.SkeletronHead)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<ClothiersWrath>(), !Main.expertMode, DropHelper.RareVariantDropRateInt, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletron>(), true, !NPC.downedBoss3);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedBoss3, 3, 1, 0);
-            }
+
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.Dryad }, NPC.downedBoss3);
+			}
             else if (npc.type == NPCID.WallofFlesh)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<MLGRune>(), !Main.expertMode && !CalamityWorld.demonMode); // Demon Trophy
@@ -161,8 +172,10 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeWallofFlesh>(), true, !Main.hardMode);
                 DropHelper.DropResidentEvilAmmo(npc, Main.hardMode, 3, 1, 0);
 
-                // First kill text (this is not a loot function)
-                if (!Main.hardMode)
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Merchant, NPCID.ArmsDealer, NPCID.Dryad, NPCID.Painter, NPCID.WitchDoctor, NPCID.Stylist, NPCID.Demolitionist, NPCID.PartyGirl, NPCID.Clothier, NPCID.SkeletonMerchant, ModContent.NPCType<THIEF>() }, Main.hardMode);
+
+				// First kill text (this is not a loot function)
+				if (!Main.hardMode)
                 {
                     string key2 = "Mods.CalamityMod.UglyBossText";
                     Color messageColor2 = Color.Aquamarine;
@@ -180,20 +193,32 @@ namespace CalamityMod.NPCs
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeTwins>(), true, !NPC.downedMechBoss2);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss2, 4, 2, 1);
-            }
+
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss2 || !CalamityMod.CalamityConfig.SellBossSummons);
+			}
             else if (npc.type == NPCID.TheDestroyer)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDestroyer>(), true, !NPC.downedMechBoss1);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss1, 4, 2, 1);
-            }
+
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss1 || !CalamityMod.CalamityConfig.SellBossSummons);
+			}
             else if (npc.type == NPCID.SkeletronPrime)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletronPrime>(), true, !NPC.downedMechBoss3);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<GoldBurdenBreaker>(), true, npc.ai[1] == 2f && CalamityWorld.revenge);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
 
-                // If neither Prime nor Brimmy have been killed, show this text (not a loot function)
-                string key = "Mods.CalamityMod.SteelSkullBossText";
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss3 || !CalamityMod.CalamityConfig.SellBossSummons);
+
+				// If neither Prime nor Brimmy have been killed, show this text (not a loot function)
+				string key = "Mods.CalamityMod.SteelSkullBossText";
                 Color messageColor = Color.Crimson;
                 if (!NPC.downedMechBoss3 && !CalamityWorld.downedBrimstoneElemental)
                 {
@@ -213,8 +238,10 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlantera>(), true, !NPC.downedPlantBoss);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
 
-                // Spawn Perennial Ore if Plantera has never been killed
-                if (!NPC.downedPlantBoss)
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.WitchDoctor, NPCID.Truffle, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedPlantBoss);
+
+				// Spawn Perennial Ore if Plantera has never been killed
+				if (!NPC.downedPlantBoss)
                 {
                     string key2 = "Mods.CalamityMod.PlantOreText";
                     Color messageColor2 = Color.GreenYellow;
@@ -222,7 +249,6 @@ namespace CalamityMod.NPCs
                     Color messageColor3 = Color.Goldenrod;
 
                     WorldGenerationMethods.SpawnOre(ModContent.TileType<PerennialOre>(), 12E-05, .5f, .7f);
-                    ;
 
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
@@ -236,6 +262,23 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+			else if (npc.type == NPCID.Pumpking)
+			{
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Clothier }, NPC.downedHalloweenKing);
+			}
+			else if (npc.type == NPCID.Everscream)
+			{
+				npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, NPC.downedChristmasTree || !NPC.downedChristmasSantank || !NPC.downedChristmasIceQueen);
+			}
+			else if (npc.type == NPCID.SantaNK1)
+			{
+				npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, !NPC.downedChristmasTree || NPC.downedChristmasSantank || !NPC.downedChristmasIceQueen);
+			}
+			else if (npc.type == NPCID.IceQueen)
+			{
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Clothier }, NPC.downedChristmasIceQueen);
+				npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<DILF>() }, !NPC.downedChristmasTree || !NPC.downedChristmasSantank || NPC.downedChristmasIceQueen);
+			}
             else if (npc.type == NPCID.Golem)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), !Main.expertMode, 5, 10);
@@ -243,8 +286,10 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeGolem>(), true, !NPC.downedGolemBoss);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedGolemBoss, 4, 2, 1);
 
-                // If Golem has never been killed, send messages about PBG and Ravager
-                if (!NPC.downedGolemBoss)
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Cyborg, NPCID.Steampunker, NPCID.Wizard, NPCID.WitchDoctor, NPCID.DD2Bartender, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedGolemBoss);
+
+				// If Golem has never been killed, send messages about PBG and Ravager
+				if (!NPC.downedGolemBoss)
                 {
                     string key = "Mods.CalamityMod.BabyBossText";
                     Color messageColor = Color.Lime;
@@ -276,7 +321,9 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<DukesDecapitator>(), !Main.expertMode, 5, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDukeFishron>(), true, !NPC.downedFishron);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
-            }
+
+				npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, NPC.downedFishron || !CalamityMod.CalamityConfig.SellBossSummons);
+			}
             else if (npc.type == NPCID.CultistBoss)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLunaticCultist>(), true, !NPC.downedAncientCultist);
@@ -312,7 +359,10 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMoonLord>(), true, !NPC.downedMoonlord);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMoonlord, 5, 2, 1);
 
-                string key = "Mods.CalamityMod.MoonBossText";
+				npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, NPC.downedMoonlord);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Wizard }, NPC.downedMoonlord || !CalamityMod.CalamityConfig.SellBossSummons);
+
+				string key = "Mods.CalamityMod.MoonBossText";
                 Color messageColor = Color.Orange;
                 string key2 = "Mods.CalamityMod.MoonBossText2";
                 Color messageColor2 = Color.Violet;

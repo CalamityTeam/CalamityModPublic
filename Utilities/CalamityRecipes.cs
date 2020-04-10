@@ -619,7 +619,6 @@ namespace CalamityMod
             r.AddIngredient(ItemID.JungleRose);
             r.AddIngredient(ItemID.Obsidian, 10);
             r.AddIngredient(ItemID.Hellstone, 10);
-            r.anyIronBar = true;
             r.AddTile(TileID.Anvils);
             r.SetResult(ItemID.ObsidianRose);
             r.AddRecipe();
@@ -642,8 +641,10 @@ namespace CalamityMod
             // Metal Detector
             r = GetNewRecipe();
             r.AddIngredient(ItemID.Wire, 10);
-            r.AddIngredient(ItemID.HallowedBar, 5);
+            r.AddIngredient(ItemID.GoldDust, 5);
             r.AddIngredient(ItemID.SpelunkerGlowstick, 5);
+            r.AddIngredient(ItemID.IronBar, 5);
+            r.anyIronBar = true;
             r.AddTile(TileID.MythrilAnvil);
             r.SetResult(ItemID.MetalDetector);
             r.AddRecipe();

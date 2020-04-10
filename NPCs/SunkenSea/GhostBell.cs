@@ -98,15 +98,6 @@ namespace CalamityMod.NPCs.SunkenSea
             }
         }
 
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
-            {
-                return hasBeenHit;
-            }
-            return null;
-        }
-
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.1f;

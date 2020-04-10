@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AccretionDisk>());
             recipe.AddIngredient(ModContent.ItemType<AlphaVirus>());
-            recipe.AddIngredient(ModContent.ItemType<ExecutionersBlade>());
+            recipe.AddIngredient(ModContent.ItemType<MoltenAmputator>());
             recipe.AddIngredient(ModContent.ItemType<FrostcrushValari>());
             recipe.AddIngredient(ModContent.ItemType<EnchantedAxe>());
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);

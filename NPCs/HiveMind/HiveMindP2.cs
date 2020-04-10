@@ -209,7 +209,7 @@ namespace CalamityMod.NPCs.HiveMind
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            while (state != 0 && Lighting.NotRetro && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
+            while (state != 0 && CalamityMod.CalamityConfig.Afterimages && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
             {
                 Color color26 = color25;
                 color26 = npc.GetAlpha(color26);
@@ -734,8 +734,10 @@ namespace CalamityMod.NPCs.HiveMind
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeHiveMind>(), true, !CalamityWorld.downedHiveMind);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedHiveMind, 2, 0, 0);
 
-            // All other drops are contained in the bag, so they only drop directly on Normal
-            if (!Main.expertMode)
+			npc.Calamity().SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedHiveMind);
+
+			// All other drops are contained in the bag, so they only drop directly on Normal
+			if (!Main.expertMode)
             {
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<TrueShadowScale>(), 25, 30);

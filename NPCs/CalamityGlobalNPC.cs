@@ -87,8 +87,12 @@ namespace CalamityMod.NPCs
         public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
         public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
-        // Iron Heart (currently unimplemented)
-        // private int ironHeartDamage = 0;
+		// Iron Heart (currently unimplemented)
+		// private int ironHeartDamage = 0;
+
+		// Town NPC shop alert animation variables
+		private int shopAlertAnimTimer = 0;
+		private int shopAlertAnimFrame = 0;
 
         // NewAI
         internal const int maxAIMod = 4;
@@ -1156,7 +1160,7 @@ namespace CalamityMod.NPCs
             Texture2D npcTexture = texture ?? Main.npcTexture[npc.type];
             Vector2 origin = npc.Size * 0.5f;
             int afterimageCounter = 1;
-            while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && Lighting.NotRetro)
+            while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && CalamityMod.CalamityConfig.Afterimages)
             {
                 Color colorToDraw = Color.Lerp(drawColor, endingColor, afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type]);
                 colorToDraw *= afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type];
@@ -4470,6 +4474,138 @@ namespace CalamityMod.NPCs
                 }
             }
 
+			if (CalamityMod.CalamityConfig.TownNPCNewShopInventoryAlertDisplay && npc.townNPC)
+			{
+				if (npc.type == ModContent.NPCType<DILF>() && Main.LocalPlayer.Calamity().newPermafrostInventory)
+				{
+					DrawNewInventoryAlert(npc);
+				}
+				else if (npc.type == ModContent.NPCType<FAP>() && Main.LocalPlayer.Calamity().newCirrusInventory)
+				{
+					DrawNewInventoryAlert(npc);
+				}
+				else if (npc.type == ModContent.NPCType<SEAHOE>() && Main.LocalPlayer.Calamity().newAmidiasInventory)
+				{
+					DrawNewInventoryAlert(npc);
+				}
+				else if (npc.type == ModContent.NPCType<THIEF>() && Main.LocalPlayer.Calamity().newBanditInventory)
+				{
+					DrawNewInventoryAlert(npc);
+				}
+				else
+				{
+					switch (npc.type)
+					{
+						case NPCID.Merchant:
+							if (Main.LocalPlayer.Calamity().newMerchantInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Painter:
+							if (Main.LocalPlayer.Calamity().newPainterInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.DyeTrader:
+							if (Main.LocalPlayer.Calamity().newDyeTraderInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.PartyGirl:
+							if (Main.LocalPlayer.Calamity().newPartyGirlInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Stylist:
+							if (Main.LocalPlayer.Calamity().newStylistInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Demolitionist:
+							if (Main.LocalPlayer.Calamity().newDemolitionistInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Dryad:
+							if (Main.LocalPlayer.Calamity().newDryadInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.DD2Bartender:
+							if (Main.LocalPlayer.Calamity().newTavernkeepInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.ArmsDealer:
+							if (Main.LocalPlayer.Calamity().newArmsDealerInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.GoblinTinkerer:
+							if (Main.LocalPlayer.Calamity().newGoblinTinkererInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.WitchDoctor:
+							if (Main.LocalPlayer.Calamity().newWitchDoctorInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Clothier:
+							if (Main.LocalPlayer.Calamity().newClothierInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Mechanic:
+							if (Main.LocalPlayer.Calamity().newMechanicInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Pirate:
+							if (Main.LocalPlayer.Calamity().newPirateInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Truffle:
+							if (Main.LocalPlayer.Calamity().newTruffleInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Wizard:
+							if (Main.LocalPlayer.Calamity().newWizardInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Steampunker:
+							if (Main.LocalPlayer.Calamity().newSteampunkerInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.Cyborg:
+							if (Main.LocalPlayer.Calamity().newCyborgInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						case NPCID.SkeletonMerchant:
+							if (Main.LocalPlayer.Calamity().newSkeletonMerchantInventory)
+								DrawNewInventoryAlert(npc);
+							break;
+						default:
+							break;
+					}
+				}
+
+				void DrawNewInventoryAlert(NPC npc2)
+				{
+					// The position where the display is drawn
+					Vector2 drawPos = npc2.Center - Main.screenPosition;
+
+					// The height of a single frame of the npc
+					float npcHeight = (float)(Main.npcTexture[npc2.type].Height / Main.npcFrameCount[npc2.type] / 2) * npc2.scale;
+
+					// Offset the debuff display based on the npc's graphical offset, and 16 units, to create some space between the sprite and the display
+					float drawPosY = npcHeight + npc.gfxOffY + 36f;
+
+					// Texture animation variables
+					Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/NPCAlertDisplay");
+					shopAlertAnimTimer++;
+					if (shopAlertAnimTimer >= 6)
+					{
+						shopAlertAnimTimer = 0;
+
+						shopAlertAnimFrame++;
+						if (shopAlertAnimFrame > 4)
+							shopAlertAnimFrame = 0;
+					}
+					int frameHeight = texture.Height / 5;
+					Rectangle animRect = new Rectangle(0, (frameHeight + 1) * shopAlertAnimFrame, texture.Width, frameHeight);
+
+					spriteBatch.Draw(texture, drawPos - new Vector2(5f, drawPosY), animRect, Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
+				}
+			}
+
 			if (CalamityMod.CalamityConfig.EnemyDebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type)))
 			{
 				List<Texture2D> buffTextureList = new List<Texture2D>();
@@ -4668,6 +4804,75 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Get Chat
+		public override void OnChatButtonClicked(NPC npc, bool firstButton)
+		{
+			if (npc.townNPC)
+			{
+				switch (npc.type)
+				{
+					case NPCID.Merchant:
+						Main.LocalPlayer.Calamity().newMerchantInventory = false;
+						break;
+					case NPCID.Painter:
+						Main.LocalPlayer.Calamity().newPainterInventory = false;
+						break;
+					case NPCID.DyeTrader:
+						Main.LocalPlayer.Calamity().newDyeTraderInventory = false;
+						break;
+					case NPCID.PartyGirl:
+						Main.LocalPlayer.Calamity().newPartyGirlInventory = false;
+						break;
+					case NPCID.Stylist:
+						Main.LocalPlayer.Calamity().newStylistInventory = false;
+						break;
+					case NPCID.Demolitionist:
+						Main.LocalPlayer.Calamity().newDemolitionistInventory = false;
+						break;
+					case NPCID.Dryad:
+						Main.LocalPlayer.Calamity().newDryadInventory = false;
+						break;
+					case NPCID.DD2Bartender:
+						Main.LocalPlayer.Calamity().newTavernkeepInventory = false;
+						break;
+					case NPCID.ArmsDealer:
+						Main.LocalPlayer.Calamity().newArmsDealerInventory = false;
+						break;
+					case NPCID.GoblinTinkerer:
+						Main.LocalPlayer.Calamity().newGoblinTinkererInventory = false;
+						break;
+					case NPCID.WitchDoctor:
+						Main.LocalPlayer.Calamity().newWitchDoctorInventory = false;
+						break;
+					case NPCID.Clothier:
+						Main.LocalPlayer.Calamity().newClothierInventory = false;
+						break;
+					case NPCID.Mechanic:
+						Main.LocalPlayer.Calamity().newMechanicInventory = false;
+						break;
+					case NPCID.Pirate:
+						Main.LocalPlayer.Calamity().newPirateInventory = false;
+						break;
+					case NPCID.Truffle:
+						Main.LocalPlayer.Calamity().newTruffleInventory = false;
+						break;
+					case NPCID.Wizard:
+						Main.LocalPlayer.Calamity().newWizardInventory = false;
+						break;
+					case NPCID.Steampunker:
+						Main.LocalPlayer.Calamity().newSteampunkerInventory = false;
+						break;
+					case NPCID.Cyborg:
+						Main.LocalPlayer.Calamity().newCyborgInventory = false;
+						break;
+					case NPCID.SkeletonMerchant:
+						Main.LocalPlayer.Calamity().newSkeletonMerchantInventory = false;
+						break;
+					default:
+						break;
+				}
+			}
+		}
+
 		public override void GetChat(NPC npc, ref string chat)
         {
             int fapsol = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
@@ -5348,10 +5553,103 @@ namespace CalamityMod.NPCs
                 nextSlot++;
             }
         }
-        #endregion
+		#endregion
 
-        #region Any Boss NPCs
-        public static bool AnyBossNPCS()
+		#region Set New Shop Variable
+		public void SetNewShopVariable(int[] types, bool alreadySet)
+		{
+			if (!alreadySet)
+			{
+				for (int i = 0; i < types.Length; i++)
+				{
+					if (types[i] == ModContent.NPCType<DILF>())
+					{
+						Main.LocalPlayer.Calamity().newPermafrostInventory = true;
+					}
+					else if (types[i] == ModContent.NPCType<FAP>())
+					{
+						Main.LocalPlayer.Calamity().newCirrusInventory = true;
+					}
+					else if (types[i] == ModContent.NPCType<SEAHOE>())
+					{
+						Main.LocalPlayer.Calamity().newAmidiasInventory = true;
+					}
+					else if (types[i] == ModContent.NPCType<THIEF>())
+					{
+						Main.LocalPlayer.Calamity().newBanditInventory = true;
+					}
+					else
+					{
+						switch (types[i])
+						{
+							case NPCID.Merchant:
+								Main.LocalPlayer.Calamity().newMerchantInventory = true;
+								break;
+							case NPCID.Painter:
+								Main.LocalPlayer.Calamity().newPainterInventory = true;
+								break;
+							case NPCID.DyeTrader:
+								Main.LocalPlayer.Calamity().newDyeTraderInventory = true;
+								break;
+							case NPCID.PartyGirl:
+								Main.LocalPlayer.Calamity().newPartyGirlInventory = true;
+								break;
+							case NPCID.Stylist:
+								Main.LocalPlayer.Calamity().newStylistInventory = true;
+								break;
+							case NPCID.Demolitionist:
+								Main.LocalPlayer.Calamity().newDemolitionistInventory = true;
+								break;
+							case NPCID.Dryad:
+								Main.LocalPlayer.Calamity().newDryadInventory = true;
+								break;
+							case NPCID.DD2Bartender:
+								Main.LocalPlayer.Calamity().newTavernkeepInventory = true;
+								break;
+							case NPCID.ArmsDealer:
+								Main.LocalPlayer.Calamity().newArmsDealerInventory = true;
+								break;
+							case NPCID.GoblinTinkerer:
+								Main.LocalPlayer.Calamity().newGoblinTinkererInventory = true;
+								break;
+							case NPCID.WitchDoctor:
+								Main.LocalPlayer.Calamity().newWitchDoctorInventory = true;
+								break;
+							case NPCID.Clothier:
+								Main.LocalPlayer.Calamity().newClothierInventory = true;
+								break;
+							case NPCID.Mechanic:
+								Main.LocalPlayer.Calamity().newMechanicInventory = true;
+								break;
+							case NPCID.Pirate:
+								Main.LocalPlayer.Calamity().newPirateInventory = true;
+								break;
+							case NPCID.Truffle:
+								Main.LocalPlayer.Calamity().newTruffleInventory = true;
+								break;
+							case NPCID.Wizard:
+								Main.LocalPlayer.Calamity().newWizardInventory = true;
+								break;
+							case NPCID.Steampunker:
+								Main.LocalPlayer.Calamity().newSteampunkerInventory = true;
+								break;
+							case NPCID.Cyborg:
+								Main.LocalPlayer.Calamity().newCyborgInventory = true;
+								break;
+							case NPCID.SkeletonMerchant:
+								Main.LocalPlayer.Calamity().newSkeletonMerchantInventory = true;
+								break;
+							default:
+								break;
+						}
+					}
+				}
+			}
+		}
+		#endregion
+
+		#region Any Boss NPCs
+		public static bool AnyBossNPCS()
         {
             for (int i = 0; i < Main.maxNPCs; i++)
             {

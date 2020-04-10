@@ -134,8 +134,11 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
-            if (firstButton)
-                shop = true;
+			if (firstButton)
+			{
+				Main.LocalPlayer.Calamity().newPermafrostInventory = false;
+				shop = true;
+			}
         }
 
         public override void SetupShop(Chest shop, ref int nextSlot)

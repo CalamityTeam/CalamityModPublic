@@ -49,8 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
                     vel.X += Main.rand.Next(-50, 51);
                     vel.Normalize();
                     vel *= 30f;
-                    int p = Projectile.NewProjectile(pos, vel + projectile.velocity / 4f, ModContent.ProjectileType<FrostShardFriendly>(), projectile.damage, projectile.knockBack, projectile.owner);
-                    Main.projectile[p].minion = false;
+                    Projectile.NewProjectile(pos, vel + projectile.velocity / 4f, ModContent.ProjectileType<FrostShardFriendly>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
 
                 int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 172);
@@ -73,8 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
                         vel.X += Main.rand.Next(-50, 51);
                         vel.Normalize();
                         vel *= 30f;
-                        int p = Projectile.NewProjectile(pos, vel + Main.npc[id].velocity, ModContent.ProjectileType<FrostShardFriendly>(), projectile.damage, projectile.knockBack, projectile.owner);
-                        Main.projectile[p].minion = false;
+                        Projectile.NewProjectile(pos, vel + Main.npc[id].velocity, ModContent.ProjectileType<FrostShardFriendly>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
                 }
                 else

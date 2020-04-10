@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.aiStyle = 1;
             projectile.coldDamage = true;
             projectile.friendly = true;
-            projectile.minion = true;
             projectile.penetrate = 1;
             projectile.Calamity().rogue = true;
 			projectile.coldDamage = true;

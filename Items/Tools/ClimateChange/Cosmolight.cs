@@ -32,16 +32,19 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override bool UseItem(Player player)
         {
-            Main.time = 0.0;
-            Main.dayTime = !Main.dayTime;
-            if (Main.dayTime)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (++Main.moonPhase >= 8)
+                Main.time = 0.0;
+                Main.dayTime = !Main.dayTime;
+                if (Main.dayTime)
                 {
-                    Main.moonPhase = 0;
+                    if (++Main.moonPhase >= 8)
+                    {
+                        Main.moonPhase = 0;
+                    }
                 }
+                CalamityMod.UpdateServerBoolean();
             }
-            CalamityMod.UpdateServerBoolean();
             return true;
         }
 
