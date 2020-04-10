@@ -8787,48 +8787,51 @@ namespace CalamityMod.CalPlayer
 			// Dust modifications while high
 			if (trippy)
 			{
-				Rectangle rectangle = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 50, Main.screenWidth + 1000, Main.screenHeight + 100);
-				int dustDrawn = 0;
-				float maxShroomDust = Main.maxDustToDraw / 2;
-				for (int i = 0; i < Main.maxDustToDraw; i++)
+				if (Main.myPlayer == player.whoAmI)
 				{
-					Dust dust = Main.dust[i];
-					if (dust.active)
+					Rectangle rectangle = new Rectangle((int)Main.screenPosition.X - 500, (int)Main.screenPosition.Y - 50, Main.screenWidth + 1000, Main.screenHeight + 100);
+					int dustDrawn = 0;
+					float maxShroomDust = Main.maxDustToDraw / 2;
+					for (int i = 0; i < Main.maxDustToDraw; i++)
 					{
-						if (new Rectangle((int)dust.position.X, (int)dust.position.Y, 4, 4).Intersects(rectangle))
+						Dust dust = Main.dust[i];
+						if (dust.active)
 						{
-							dust.color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
-							for (int num213 = 0; num213 < 4; num213++)
+							if (new Rectangle((int)dust.position.X, (int)dust.position.Y, 4, 4).Intersects(rectangle))
 							{
-								Vector2 position9 = dust.position;
-								Vector2 dustCenter = new Vector2(position9.X + 4f, position9.Y + 4f);
-								float num214 = Math.Abs(dustCenter.X - player.Center.X);
-								float num215 = Math.Abs(dustCenter.Y - player.Center.Y);
-								if (num213 == 0 || num213 == 2)
+								dust.color = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 0);
+								for (int num213 = 0; num213 < 4; num213++)
 								{
-									position9.X = player.Center.X + num214;
+									Vector2 position9 = dust.position;
+									Vector2 dustCenter = new Vector2(position9.X + 4f, position9.Y + 4f);
+									float num214 = Math.Abs(dustCenter.X - player.Center.X);
+									float num215 = Math.Abs(dustCenter.Y - player.Center.Y);
+									if (num213 == 0 || num213 == 2)
+									{
+										position9.X = player.Center.X + num214;
+									}
+									else
+									{
+										position9.X = player.Center.X - num214;
+									}
+									position9.X -= 4f;
+									if (num213 == 0 || num213 == 1)
+									{
+										position9.Y = player.Center.Y + num215;
+									}
+									else
+									{
+										position9.Y = player.Center.Y - num215;
+									}
+									position9.Y -= 4f;
+									Main.spriteBatch.Draw(Main.dustTexture, position9 - Main.screenPosition, new Rectangle?(dust.frame), dust.color, dust.rotation, new Vector2(4f, 4f), dust.scale, SpriteEffects.None, 0f);
+									dustDrawn++;
 								}
-								else
-								{
-									position9.X = player.Center.X - num214;
-								}
-								position9.X -= 4f;
-								if (num213 == 0 || num213 == 1)
-								{
-									position9.Y = player.Center.Y + num215;
-								}
-								else
-								{
-									position9.Y = player.Center.Y - num215;
-								}
-								position9.Y -= 4f;
-								Main.spriteBatch.Draw(Main.dustTexture, position9 - Main.screenPosition, new Rectangle?(dust.frame), dust.color, dust.rotation, new Vector2(4f, 4f), dust.scale, SpriteEffects.None, 0f);
-								dustDrawn++;
-							}
 
-							// Break if too many dust clones have been drawn
-							if (dustDrawn > maxShroomDust)
-								break;
+								// Break if too many dust clones have been drawn
+								if (dustDrawn > maxShroomDust)
+									break;
+							}
 						}
 					}
 				}
