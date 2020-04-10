@@ -4,6 +4,7 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles;
 using CalamityMod.World;
 using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Terraria;
 
 namespace CalamityMod
@@ -1333,6 +1334,15 @@ namespace CalamityMod
 		#endregion
 
 		#region Item Rarity
+		public static int GetCalamityRarity(Item item)
+		{
+			CalamityGlobalItem cgi = item.Calamity();
+			CalamityRarity calrare = cgi.customRarity;
+			if (calrare == CalamityRarity.NoEffect)
+				return item.rare;
+			return (int)calrare;
+		}
+
 		public static bool SetCalamityRarity(Item item, int rarityNum)
 		{
 			CalamityGlobalItem cgi = item.Calamity();
@@ -1646,6 +1656,18 @@ namespace CalamityMod
 						return new ArgumentNullException("ERROR: Must specify a bool.");
 					return SetBossHealthBarVisible(bossBarEnabled);
 
+				case "GetRarity":
+				case "GetItemRarity":
+				case "GetCalamityRarity":
+				case "GetPostMLRarity":
+				case "GetPostMoonLordRarity":
+					if (args.Length < 2)
+						return new ArgumentNullException("ERROR: Must specify an Item.");
+					if (!(args[1] is Item))
+						return new ArgumentException("ERROR: The first argument to \"GetCalamityRarity\" must be an Item.");
+					Item itemToGet = (Item)args[1];
+					return GetCalamityRarity(itemToGet);
+
 				case "SetRarity":
 				case "SetItemRarity":
 				case "SetCalamityRarity":
@@ -1660,9 +1682,9 @@ namespace CalamityMod
 					if (!(args[1] is Item))
 						return new ArgumentException("ERROR: The first argument to \"SetCalamityRarity\" must be an Item.");
 
-					Item item = (Item)args[1];
+					Item itemToSet = (Item)args[1];
 					int rarity = (int)args[2];
-					return SetCalamityRarity(item, rarity);
+					return SetCalamityRarity(itemToSet, rarity);
 
 				case "AbominationnClearEvents":
 					bool eventActive = CalamityWorld.rainingAcid;
