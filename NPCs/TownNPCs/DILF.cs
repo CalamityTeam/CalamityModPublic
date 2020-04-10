@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (npc.homeless) //not sure how to check if he has ever found a home before (to make this dialogue only run when he first spawns)
             {
                 if (Main.rand.NextBool(2))
-                    return "I deeply appreciate you rescuing me from being trapped within my frozen castle…. It's been many, many years...";
+                    return "I deeply appreciate you rescuing me from being trapped within my frozen castle. It's been many, many years...";
                 else
                     return "Thank you for saving me...though now I admit I am without a home since mine got destroyed.";
             }
