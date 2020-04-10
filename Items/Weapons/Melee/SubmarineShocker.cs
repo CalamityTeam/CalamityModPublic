@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 10;
             item.width = 32;
             item.height = 32;
-            item.damage = 70;
+            item.damage = 60;
             item.melee = true;
             item.knockBack = 7f;
             item.UseSound = SoundID.Item1;
@@ -42,12 +42,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Spark>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Spark>(), (int)(item.damage * player.MeleeDamage() * 0.7f), knockback, Main.myPlayer);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Spark>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);
+            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<Spark>(), (int)(item.damage * player.MeleeDamage() * 0.7f), item.knockBack, Main.myPlayer);
         }
     }
 }

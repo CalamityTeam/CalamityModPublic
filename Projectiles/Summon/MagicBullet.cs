@@ -34,20 +34,20 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(BuffID.BetsysCurse, 180);
+            target.AddBuff(BuffID.Ichor, 180);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
             target.AddBuff(ModContent.BuffType<WarCleave>(), 180);
-            target.AddBuff(BuffID.BetsysCurse, 180);
-            target.AddBuff(BuffID.Ichor, 180);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+            target.AddBuff(BuffID.BetsysCurse, 180);
+            target.AddBuff(BuffID.Ichor, 180);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
             target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180);
             target.AddBuff(ModContent.BuffType<WarCleave>(), 180);
-            target.AddBuff(BuffID.BetsysCurse, 180);
-            target.AddBuff(BuffID.Ichor, 180);
         }
 
         public override Color? GetAlpha(Color lightColor)
