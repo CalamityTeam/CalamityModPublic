@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.alpha = 255;
             projectile.Calamity().rogue = true;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 4;
+            projectile.idStaticNPCHitCooldown = 11;
         }
 
         public override bool PreAI()
