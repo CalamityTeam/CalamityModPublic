@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bumblebirb Trophy");
+            DisplayName.SetDefault("Draconic Swarmer Trophy");
         }
 
         public override void SetDefaults()
