@@ -233,7 +233,7 @@ namespace CalamityMod.CalPlayer
                 if (player.statDefense > 0)
                 {
                     int depthDamage = modPlayer.depthCharm ? 9 : 18;
-                    int subtractDefense = (int)((double)player.statDefense * 0.05); // 240 defense = 0 damage taken with depth charm
+                    int subtractDefense = (int)(player.statDefense * 0.05); // 240 defense = 0 damage taken with depth charm
                     int calcDepthDamage = depthDamage - subtractDefense;
 
                     if (calcDepthDamage < 0)
@@ -353,7 +353,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.manaOverloader)
 			{
-				if (player.statMana > (int)((double)player.statManaMax2 * 0.5))
+				if (player.statMana > (int)(player.statManaMax2 * 0.5))
 					lifeRegenLost += 3;
 			}
             if (modPlayer.brimflameFrenzy)
@@ -389,7 +389,7 @@ namespace CalamityMod.CalPlayer
                 if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
                 {
                     modPlayer.bloodfinTimer = 30;
-					if (player.statLife <= (int)((double)player.statLifeMax2 * 0.75))
+					if (player.statLife <= (int)(player.statLifeMax2 * 0.75))
 						player.statLife += 1;
                 }
             }
@@ -594,7 +594,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.absorber)
 			{
-				if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+				if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
 					player.lifeRegen += 2;
 			}
 
@@ -612,17 +612,17 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.ursaSergeant)
 			{
-				if (player.statLife <= (int)((double)modPlayer.actualMaxLife * 0.15))
+				if (player.statLife <= (int)(modPlayer.actualMaxLife * 0.15))
 				{
 					player.lifeRegen += 3;
 					player.lifeRegenTime += 3;
 				}
-				else if (player.statLife <= (int)((double)modPlayer.actualMaxLife * 0.25))
+				else if (player.statLife <= (int)(modPlayer.actualMaxLife * 0.25))
 				{
 					player.lifeRegen += 2;
 					player.lifeRegenTime += 2;
 				}
-				else if (player.statLife <= (int)((double)modPlayer.actualMaxLife * 0.5))
+				else if (player.statLife <= (int)(modPlayer.actualMaxLife * 0.5))
 				{
 					player.lifeRegen += 1;
 					player.lifeRegenTime += 1;
@@ -695,7 +695,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.bloodflareSummon)
 			{
-				if (player.statLife <= (int)((double)modPlayer.actualMaxLife * 0.5))
+				if (player.statLife <= (int)(modPlayer.actualMaxLife * 0.5))
 					player.lifeRegen += 2;
 			}
 
@@ -717,7 +717,7 @@ namespace CalamityMod.CalPlayer
                 int lifeRegenMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 1 : 4;
                 float lifeRegenLifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 8f : 30f;
 
-                if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+                if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
                 {
                     if (modPlayer.shadeRegen)
                     {
@@ -727,7 +727,7 @@ namespace CalamityMod.CalPlayer
                         player.lifeRegenTime += lifeRegenMaxBoost;
                         player.lifeRegen += lifeRegenMaxBoost;
 
-                        float num3 = (float)((double)player.lifeRegenTime * 2.5); // lifeRegenTime max is 3600
+                        float num3 = player.lifeRegenTime * 2.5f; // lifeRegenTime max is 3600
                         num3 /= 300f;
                         if (num3 > 0f)
                         {
@@ -764,7 +764,7 @@ namespace CalamityMod.CalPlayer
                         player.lifeRegenTime += lifeRegenMaxBoost;
                         player.lifeRegen += lifeRegenMaxBoost;
 
-                        float num3 = (float)((double)player.lifeRegenTime * 2.5); // lifeRegenTime max is 3600
+                        float num3 = (player.lifeRegenTime * 2.5f); // lifeRegenTime max is 3600
                         num3 /= 300f;
                         if (num3 > 0f)
                         {
@@ -801,7 +801,7 @@ namespace CalamityMod.CalPlayer
                         player.lifeRegenTime += lifeRegenMaxBoost;
                         player.lifeRegen += lifeRegenMaxBoost;
 
-                        float num3 = (float)((double)player.lifeRegenTime * 2.5); // lifeRegenTime max is 3600
+                        float num3 = player.lifeRegenTime * 2.5f; // lifeRegenTime max is 3600
                         num3 /= 300f;
                         if (num3 > 0f)
                         {
@@ -842,7 +842,7 @@ namespace CalamityMod.CalPlayer
                         player.lifeRegenTime += lifeRegenMaxBoost2;
                         player.lifeRegen += lifeRegenMaxBoost2;
 
-                        float num3 = (float)((double)player.lifeRegenTime * 2.5); // lifeRegenTime max is 3600
+                        float num3 = player.lifeRegenTime * 2.5f; // lifeRegenTime max is 3600
                         num3 /= 300f;
                         if (num3 > 0f)
                         {
@@ -899,7 +899,7 @@ namespace CalamityMod.CalPlayer
 				if (player.statLife < modPlayer.actualMaxLife)
 				{
 					bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis || modPlayer.camper) &&
-						(double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0;
+						Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0;
 
 					if (!noLifeRegenCap)
 					{
@@ -907,11 +907,11 @@ namespace CalamityMod.CalPlayer
 						// 350 HP = 1 - 0.875 * 10 = 1.25 = 1
 						// 100 HP = 1 - 0.25 * 10 = 7.5 = 7
 						// 200 HP = 1 - 0.5 * 10 = 5
-						int lifeRegenScale = (int)((1f - ((float)player.statLife / (float)modPlayer.actualMaxLife)) * 10f); // 9 to 0 (1% HP to 100%)
+						int lifeRegenScale = (int)((1f - (player.statLife / modPlayer.actualMaxLife)) * 10f); // 9 to 0 (1% HP to 100%)
 						if (player.lifeRegen > lifeRegenScale)
 						{
-							double lifeRegenScalar = (double)(1f + ((float)player.statLife / (float)modPlayer.actualMaxLife)); // 1 to 2 (1% HP to 100%)
-							int defLifeRegen = (int)((double)player.lifeRegen / lifeRegenScalar);
+							float lifeRegenScalar = 1f + (player.statLife / modPlayer.actualMaxLife); // 1 to 2 (1% HP to 100%)
+							int defLifeRegen = (int)(player.lifeRegen / lifeRegenScalar);
 							player.lifeRegen = defLifeRegen;
 						}
 					}
