@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 106;
-            item.damage = 95;
+            item.damage = 120;
             item.melee = true;
-            item.useAnimation = 29;
+            item.useAnimation = 27;
             item.useStyle = 1;
-            item.useTime = 29;
+            item.useTime = 27;
             item.useTurn = true;
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
@@ -42,8 +42,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 Main.projectile[boom].Calamity().forceMelee = true;
                 float randomSpeedX = (float)Main.rand.Next(5);
                 float randomSpeedY = (float)Main.rand.Next(3, 7);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI);
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, -randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI);
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<PhoenixHeal>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI);
             }
         }
 

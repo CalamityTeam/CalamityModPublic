@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.alpha = 255;
             projectile.Calamity().rogue = true;
             projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 4;
+            projectile.idStaticNPCHitCooldown = 11;
         }
 
         public override bool PreAI()
@@ -49,8 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
                     projectile.position = projectile.Center;
                     projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
                     projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-                    projectile.usesLocalNPCImmunity = true;
-                    projectile.localNPCHitCooldown = 4;
+                    projectile.idStaticNPCHitCooldown = 9;
 
                     boomerTime = 1;
                 }

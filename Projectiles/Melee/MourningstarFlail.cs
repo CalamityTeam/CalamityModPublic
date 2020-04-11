@@ -1,4 +1,7 @@
 ﻿using CalamityMod.Projectiles.BaseProjectiles;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
@@ -21,6 +24,16 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Daybreak, 300);
+            if (projectile.localAI[1] <= 0f && projectile.owner == Main.myPlayer)
+            {
+                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ProjectileID.SolarWhipSwordExplosion, projectile.damage, knockback, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+            }
+            projectile.localAI[1] = 4f;
         }
     }
 }

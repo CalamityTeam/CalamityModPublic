@@ -98,9 +98,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (target.type == NPCID.DukeFishron)
-                damage = (int)(damage * 2.0);
-            else if (target.type == NPCID.CultistBoss)
+            if (target.type == NPCID.CultistBoss)
                 damage = (int)(damage * 0.75);
         }
 

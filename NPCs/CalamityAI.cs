@@ -1043,31 +1043,35 @@ namespace CalamityMod.NPCs
 			else if (npc.ai[0] == 5f)
 			{
 				npc.defense = npc.defDefense * 3;
-				float num742 = 6f;
-				Vector2 vector93 = new Vector2(vectorCenter.X + (npc.spriteDirection > 0 ? 34f : -34f), vectorCenter.Y - 74f);
-				float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
-				float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
-				float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
 
-				num745 = num742 / num745;
-				num743 *= num745;
-				num744 *= num745;
+				Vector2 source = new Vector2(vectorCenter.X + (npc.spriteDirection > 0 ? 34f : -34f), vectorCenter.Y - 74f);
+				Vector2 aimAt = player.Center + player.velocity * 20f;
+				float aimResponsiveness = 0.4f;
 
 				switch ((int)npc.ai[2])
 				{
 					case 0:
-						num743 += player.velocity.X * 0.5f;
-						num744 += player.velocity.Y * 0.5f;
 						break;
 					case 1:
-						num743 += player.velocity.X * 0.25f;
-						num744 += player.velocity.Y * 0.25f;
+						aimResponsiveness = 0.25f;
 						break;
 					case 2:
-						num743 += player.velocity.X * 0.125f;
-						num744 += player.velocity.Y * 0.125f;
+						aimResponsiveness = 0.1f;
 						break;
 				}
+
+				Vector2 aimVector = Vector2.Normalize(aimAt - source);
+				if (aimVector.HasNaNs())
+					aimVector = -Vector2.UnitY;
+				aimVector = Vector2.Normalize(Vector2.Lerp(aimVector, Vector2.Normalize(npc.velocity), aimResponsiveness));
+				aimVector *= 6f;
+
+				Vector2 laserVelocity = Vector2.Normalize(aimVector);
+				if (laserVelocity.HasNaNs())
+					laserVelocity = -Vector2.UnitY;
+
+				calamityGlobalNPC.newAI[1] = laserVelocity.X;
+				calamityGlobalNPC.newAI[2] = laserVelocity.Y;
 
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= 300f)
@@ -1081,9 +1085,13 @@ namespace CalamityMod.NPCs
 						npc.ai[0] = 3f;
 						npc.ai[1] = 0f;
 						npc.ai[2] = 0f;
+						calamityGlobalNPC.newAI[0] = 0f;
 					}
 					else
+					{
 						npc.ai[1] = 0f;
+						calamityGlobalNPC.newAI[0] = 0f;
+					}
 				}
 				else if (npc.ai[1] >= 180f)
 				{
@@ -1093,9 +1101,9 @@ namespace CalamityMod.NPCs
 						if (npc.ai[1] == 180f)
 						{
 							Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 104);
-							Vector2 laserVelocity = new Vector2(npc.localAI[0], npc.localAI[1]);
-							laserVelocity.Normalize();
-							Projectile.NewProjectile(vector93.X, vector93.Y, laserVelocity.X, laserVelocity.Y, ModContent.ProjectileType<BrimstoneRay>(), 40, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
+							Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
+							laserVelocity2.Normalize();
+							Projectile.NewProjectile(source, laserVelocity2, ModContent.ProjectileType<BrimstoneRay>(), 40, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
 						}
 					}
 				}
@@ -1124,16 +1132,19 @@ namespace CalamityMod.NPCs
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						if (npc.ai[1] < 150f)
-							Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
+						if (npc.ai[1] < 150f && calamityGlobalNPC.newAI[0] == 0f)
+						{
+							Projectile.NewProjectile(source, laserVelocity, ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
+							calamityGlobalNPC.newAI[0] = 1f;
+						}
 						else
 						{
 							if (npc.ai[1] == 150f)
 							{
-								npc.localAI[0] = num743;
-								npc.localAI[1] = num744;
+								npc.localAI[0] = laserVelocity.X;
+								npc.localAI[1] = laserVelocity.Y;
+								Projectile.NewProjectile(source.X, source.Y, npc.localAI[0], npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 1f, (float)npc.whoAmI);
 							}
-							Projectile.NewProjectile(vector93.X, vector93.Y, npc.localAI[0], npc.localAI[1], ModContent.ProjectileType<BrimstoneTargetRay>(), 0, 0f, Main.myPlayer, 0f, (float)npc.whoAmI);
 						}
 					}
 				}

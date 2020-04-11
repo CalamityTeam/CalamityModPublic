@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,14 +40,14 @@ namespace CalamityMod.Projectiles.Typeless
                 projectile.Kill();
                 return;
             }
-            int num3 = projectile.frameCounter + 1;
-            projectile.frameCounter = num3;
-            if (num3 >= 3)
+            int incrementer = projectile.frameCounter + 1;
+            projectile.frameCounter = incrementer;
+            if (incrementer >= 3)
             {
                 projectile.frameCounter = 0;
-                num3 = projectile.frame + 1;
-                projectile.frame = num3;
-                if (num3 >= Main.projFrames[projectile.type])
+                incrementer = projectile.frame + 1;
+                projectile.frame = incrementer;
+                if (incrementer >= Main.projFrames[projectile.type])
                 {
                     projectile.hide = true;
                 }
@@ -62,44 +63,43 @@ namespace CalamityMod.Projectiles.Typeless
                 projectile.width = projectile.height = (int)(52f * projectile.scale);
                 projectile.Center = projectile.position;
                 Main.PlaySound(SoundID.Item14, projectile.position);
-                for (int num991 = 0; num991 < 4; num991 = num3 + 1)
+                for (int dustIndexA = 0; dustIndexA < 4; dustIndexA = incrementer + 1)
                 {
                     int num992 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 1.5f);
-                    Main.dust[num992].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
-                    num3 = num991;
+                    Main.dust[num992].position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                    incrementer = dustIndexA;
                 }
-                for (int num993 = 0; num993 < 10; num993 = num3 + 1)
+                for (int dustIndexB = 0; dustIndexB < 10; dustIndexB = incrementer + 1)
                 {
-                    int num994 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 200, default, 2.7f);
-                    Main.dust[num994].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
-                    Main.dust[num994].noGravity = true;
-                    Dust dust = Main.dust[num994];
+                    int fireDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 200, default, 2.7f);
+                    Dust dust = Main.dust[fireDust];
+                    dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                    dust.noGravity = true;
                     dust.velocity *= 3f;
-                    num994 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1.5f);
-                    Main.dust[num994].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
-                    dust = Main.dust[num994];
+                    fireDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1.5f);
+                    dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
                     dust.velocity *= 2f;
-                    Main.dust[num994].noGravity = true;
-                    Main.dust[num994].fadeIn = 2.5f;
-                    num3 = num993;
+                    dust.noGravity = true;
+                    dust.fadeIn = 2.5f;
+                    incrementer = dustIndexB;
                 }
-                for (int num995 = 0; num995 < 5; num995 = num3 + 1)
+                for (int dustIndexC = 0; dustIndexC < 5; dustIndexC = incrementer + 1)
                 {
-                    int num996 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 0, default, 2.7f);
-                    Main.dust[num996].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
-                    Main.dust[num996].noGravity = true;
-                    Dust dust = Main.dust[num996];
+                    int fireDust2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 0, default, 2.7f);
+                    Dust dust = Main.dust[fireDust2];
+                    dust.position = projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
+                    dust.noGravity = true;
                     dust.velocity *= 3f;
-                    num3 = num995;
+                    incrementer = dustIndexC;
                 }
-                for (int num997 = 0; num997 < 10; num997 = num3 + 1)
+                for (int dustIndexD = 0; dustIndexD < 10; dustIndexD = incrementer + 1)
                 {
                     int num998 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 0, default, 1.5f);
-                    Main.dust[num998].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
-                    Main.dust[num998].noGravity = true;
                     Dust dust = Main.dust[num998];
+                    dust.position = projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 2f;
+                    dust.noGravity = true;
                     dust.velocity *= 3f;
-                    num3 = num997;
+                    incrementer = dustIndexD;
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)((double)damage * 0.3);
+            damage = (int)(damage * 0.3);
         }
     }
 }

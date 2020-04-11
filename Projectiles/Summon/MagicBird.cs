@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             Player player = Main.player[projectile.owner];
             int targetIdx = -1;
-            float maxHomingRange = 700f;
+            float maxHomingRange = MagicHat.Range;
             bool hasHomingTarget = false;
             if (player.HasMinionAttackTargetNPC)
             {

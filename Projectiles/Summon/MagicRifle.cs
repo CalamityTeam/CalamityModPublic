@@ -63,8 +63,8 @@ namespace CalamityMod.Projectiles.Summon
 				counter++;
 				canHome = true;
 			}
-            float homingRange = 1000f;
-            float num634 = 1300f;
+            float homingRange = MagicHat.Range;
+            float num634 = 1600f;
             float num635 = 2600f;
             float num636 = 600f;
             Vector2 vector46 = projectile.position;

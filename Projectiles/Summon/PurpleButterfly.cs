@@ -228,8 +228,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num651 > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
                     projectile.netUpdate = true;
                 }
                 if (num651 > 70f)
@@ -282,9 +282,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (target.type == NPCID.DukeFishron)
-                damage = (int)(damage * 2.0);
-            else if (target.type == NPCID.CultistBoss)
+            if (target.type == NPCID.CultistBoss)
                 damage = (int)(damage * 0.75);
         }
 

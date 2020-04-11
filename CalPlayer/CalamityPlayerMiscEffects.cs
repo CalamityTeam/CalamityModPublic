@@ -2303,10 +2303,10 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.xRage)
-				player.allDamage += 0.1f;
+				modPlayer.throwingDamage += 0.1f;
 
 			if (modPlayer.xWrath)
-				modPlayer.AllCritBoost(5);
+				modPlayer.throwingCrit += 5;
 
 			if (modPlayer.godSlayerCooldown)
 				player.allDamage += 0.1f;
