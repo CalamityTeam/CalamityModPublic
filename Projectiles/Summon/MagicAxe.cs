@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.minionSlots = 0;
             projectile.timeLeft = 180;
-            projectile.penetrate = 5;
+            projectile.penetrate = -1;
             projectile.minion = true;
             projectile.tileCollide = false;
             projectile.extraUpdates = 1;
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Summon
                 return;
             }
             Vector2 vector46 = projectile.position;
-            float homingRange = 1000f;
+            float homingRange = MagicHat.Range;
             bool homeIn = false;
             if (player.HasMinionAttackTargetNPC)
             {

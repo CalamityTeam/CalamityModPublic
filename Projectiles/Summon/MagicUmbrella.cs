@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ignoreWater = true;
             projectile.minionSlots = 0f;
             projectile.timeLeft = 180;
-            projectile.penetrate = 5;
+            projectile.penetrate = 10;
             projectile.tileCollide = false;
             projectile.minion = true;
             projectile.usesLocalNPCImmunity = true;
@@ -41,8 +41,8 @@ namespace CalamityMod.Projectiles.Summon
             Player player = Main.player[projectile.owner];
             projectile.rotation += 0.075f;
 			projectile.alpha -= 50;
-            float num633 = 1000f;
-            float num634 = 1000f;
+            float num633 = MagicHat.Range;
+            float num634 = 1600f;
             float num635 = 2200f;
             float num636 = 150f;
             float num637 = 0.05f;
@@ -73,6 +73,10 @@ namespace CalamityMod.Projectiles.Summon
 			if (counter <= 30)
 			{
 				counter++;
+				canHome = true;
+			}
+			else
+			{
 				canHome = true;
 			}
             bool flag24 = false;
@@ -268,7 +272,7 @@ namespace CalamityMod.Projectiles.Summon
 					num16 = (float)num15 / num16;
 					num13 *= num16;
 					num14 *= num16;
-					Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<MagicBat>(), (int)((float)projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<MagicBat>(), (int)(projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner, 0f, 0f);
 				}
 			}
         }
@@ -290,7 +294,7 @@ namespace CalamityMod.Projectiles.Summon
 					num16 = (float)num15 / num16;
 					num13 *= num16;
 					num14 *= num16;
-					Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<MagicBat>(), (int)((float)projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<MagicBat>(), (int)(projectile.damage * Main.rand.NextFloat(0.3f, 0.6f)), projectile.knockBack * Main.rand.NextFloat(0.7f, 1f), projectile.owner, 0f, 0f);
 				}
 			}
         }
