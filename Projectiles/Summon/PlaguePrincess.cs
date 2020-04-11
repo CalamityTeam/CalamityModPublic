@@ -199,7 +199,7 @@ namespace CalamityMod.Projectiles.Summon
 					AIint = 0;
 			}
 
-            float num633 = 700f;
+            float num633 = 1040f;
             float num636 = 400f; //150
             Vector2 targetLocation = projectile.position;
             bool targetFound = false;
