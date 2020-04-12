@@ -3,6 +3,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -42,20 +43,20 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num117 = 0.314159274f;
-            int num118 = 10;
-            Vector2 vector7 = new Vector2(speedX, speedY);
-            vector7.Normalize();
-            vector7 *= 20f;
-            bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
-            for (int num119 = 0; num119 < num118; num119++)
+            Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
+            float num117 = (float)Math.PI * 0.1f;
+            int totalProjectiles = 10;
+            Vector2 velocity = new Vector2(speedX, speedY);
+            velocity.Normalize();
+            velocity *= 20f;
+            bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
+            for (int i = 0; i < totalProjectiles; i++)
             {
-                float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
-                if (!flag11)
+                float num120 = (float)i - ((float)totalProjectiles - 1f) / 2f;
+                Vector2 offset = velocity.RotatedBy((double)(num117 * num120), default);
+                if (!canHit)
                 {
-                    value9 -= vector7;
+                    offset -= velocity;
                 }
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
@@ -71,15 +72,15 @@ namespace CalamityMod.Items.Weapons.Ranged
                     {
                         type = ModContent.ProjectileType<TyphoonArrow>();
                     }
-                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[num121].Calamity().forceRanged = true;
-                    Main.projectile[num121].noDropItem = true;
-                    Main.projectile[num121].arrow = true;
+                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                    Main.projectile[proj].Calamity().forceRanged = true;
+                    Main.projectile[proj].noDropItem = true;
+                    Main.projectile[proj].arrow = true;
                 }
                 else
                 {
-                    int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                    Main.projectile[num121].noDropItem = true;
+                    int proj = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                    Main.projectile[proj].noDropItem = true;
                 }
             }
             return false;

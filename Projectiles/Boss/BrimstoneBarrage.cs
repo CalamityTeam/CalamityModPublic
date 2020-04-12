@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +10,12 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneBarrage : ModProjectile
     {
-        public override void SetStaticDefaults()
+		private bool start = true;
+		private float startingPosX = 0f;
+		private float startingPosY = 0f;
+		private double distance = 0D;
+
+		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Dart");
             Main.projFrames[projectile.type] = 4;
@@ -29,23 +35,53 @@ namespace CalamityMod.Projectiles.Boss
             cooldownSlot = 1;
         }
 
-        public override void AI()
+		public override void AI()
         {
-            if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < (projectile.ai[1] == 1f ? 12f : 16f))
-            {
-                projectile.velocity *= 1.01f;
-            }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            projectile.frameCounter++;
+			// Normal AI
+			if (projectile.ai[0] < 2f)
+			{
+				if (projectile.velocity.Length() < (projectile.ai[1] == 0f ? 16f : 12f))
+					projectile.velocity *= 1.01f;
+			}
+
+			// Special rotation for test AI
+			else
+			{
+				if (start)
+				{
+					startingPosX = projectile.Center.X;
+					startingPosY = projectile.Center.Y;
+					start = false;
+				}
+
+				double deg = (double)projectile.ai[1];
+				double rad = deg * (Math.PI / 180);
+				distance += 2D;
+				if (projectile.ai[0] == 2f)
+				{
+					projectile.position.X = startingPosX - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
+					projectile.position.Y = startingPosY - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
+				}
+				else
+				{
+					projectile.position.X = startingPosX - (int)(Math.Sin(rad) * distance) - projectile.width / 2;
+					projectile.position.Y = startingPosY - (int)(Math.Cos(rad) * distance) - projectile.height / 2;
+				}
+
+				projectile.ai[1] += 1f;
+			}
+
+			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+
+			projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
+
             Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
         }
 
