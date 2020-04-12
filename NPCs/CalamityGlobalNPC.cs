@@ -597,7 +597,7 @@ namespace CalamityMod.NPCs
 			//Oiled debuff makes flame debuffs 25% more effective
 			if (npc.oiled)
 			{
-				int oiledDoT = (bFlames ? 10 : 0) + (hFlames ? 13 : 0) + (gsInferno ? 63 : 0) + (aFlames ? 32 : 0) + (dFlames ? 625 : 0);
+				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0);
 				if (oiledDoT > 0)
 				{
 					int lifeRegenValue = oiledDoT * 4 + 12;
