@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
-            int chase = (int)projectile.ai[0];
+            int chase = Projectile.GetByUUID(projectile.owner, (int)projectile.ai[0]);
             float num1064;
             float scaleFactor17;
             float scaleFactor18;

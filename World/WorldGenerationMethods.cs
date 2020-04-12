@@ -75,7 +75,7 @@ namespace CalamityMod.World
             }
         }
 
-        private static Chest AddChestWithLoot(int i, int j, ushort type = TileID.Containers, uint startingSlot = 1, int tileStyle = 0)
+        internal static Chest AddChestWithLoot(int i, int j, ushort type = TileID.Containers, uint startingSlot = 1, int tileStyle = 0)
         {
             int chestIndex = -1;
             
@@ -100,7 +100,7 @@ namespace CalamityMod.World
             return chest;
         }
 
-        private static void PlaceLootInChest(ref Chest chest, ushort type, uint startingSlot)
+        internal static void PlaceLootInChest(ref Chest chest, ushort type, uint startingSlot)
         {
             uint itemIndex = startingSlot;
 
@@ -139,7 +139,25 @@ namespace CalamityMod.World
                 }
                 PutItemInChest(ref chest, ItemID.GoldCoin, goldCoins);
             }
+            else if (type == ModContent.TileType<RustyChestLocked>())
+            {
+                // 15-29 torches (in accordence with vanilla)
+                PutItemInChest(ref chest, ItemID.Torch, 15, 29);
 
+                // 50% chance of 1 or 2 of the following potions
+                int[] potions = new int[]
+                {
+                    ModContent.ItemType<SunkenStew>(), ItemID.WaterWalkingPotion, ItemID.ShinePotion, ItemID.GillsPotion, ItemID.FlipperPotion
+                };
+                PutItemInChest(ref chest, WorldGen.genRand.Next(potions), 1, 2, WorldGen.genRand.NextBool());
+                PutItemInChest(ref chest, WorldGen.genRand.Next(potions), 1, 2, WorldGen.genRand.NextBool());
+
+                // 33% chance of flippers
+                PutItemInChest(ref chest, ItemID.Flipper, condition: WorldGen.genRand.NextBool(3));
+
+                // Typical coins
+                PutItemInChest(ref chest, ItemID.GoldCoin, 2, 4);
+            }
             // Default loot
             else
             {

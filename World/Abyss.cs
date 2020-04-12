@@ -1,3 +1,6 @@
+using CalamityMod.Items;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.FurnitureVoid;
 using CalamityMod.Walls;
@@ -19,17 +22,17 @@ namespace CalamityMod.World
                 // Small world
                 if (Main.maxTilesX == 4200)
                 {
-                    return 270;
+                    return 370;
                 }
                 // Medium world
                 else if (Main.maxTilesX == 6400)
                 {
-                    return 365;
+                    return 445;
                 }
                 // Large world
                 else
                 {
-                    return 430;
+                    return 500;
                 }
             }
         }
@@ -40,39 +43,632 @@ namespace CalamityMod.World
                 // Small world
                 if (Main.maxTilesX == 4200)
                 {
-                    return 160;
+                    return (int)((Main.rockLayer + 20 - YStart) * 0.65);
                 }
                 // Medium world
                 else if (Main.maxTilesX == 6400)
                 {
-                    return 240;
+                    return (int)((Main.rockLayer + 20 - YStart) * 0.8);
                 }
                 // Large world
                 else
                 {
-                    return 310;
+                    return (int)((Main.rockLayer + 20 - YStart) * 0.925);
                 }
             }
         }
-        // How deep the sulph sea goes.
-        public const int YDescent = 80;
-        public static int YStart => DetermineYStart();
+        public static int YStart = 0;
+        public static readonly List<int> SulphSeaTiles = new List<int>()
+        {
+            ModContent.TileType<SulphurousSand>(),
+            ModContent.TileType<SulphurousSandstone>(),
+            ModContent.TileType<HardenedSulphurousSandstone>()
+        };
         public static void PlaceSulphurSea()
         {
             CalamityWorld.abyssSide = Main.dungeonX < Main.maxTilesX / 2;
-
-            PlaceCavernBlock(BlockDepth);
-            PlaceScenery(180);
-            PlaceWaterCaverns();
-
-            // A copy of old sulf sea code that replaced all sand with sulph sea/abyss gravel. 
-            // Made by Fabsol.
-            ReplaceRemainingSand();
-            PlaceMiscTiles(90);
-            SmoothenSea();
-            KillRemainingGrass();
+            DetermineYStart();
+            CreateStartingBlock();
+            ChiselOutSea();
+            CreateWater();
+            GenerateHardenedSandstone();
+            PlaceVentsAndFossils();
+            SmoothenTheEntireSea();
         }
-        public static int DetermineYStart()
+
+        public static void FinishGeneratingSulphurSea()
+        {
+            PlaceStalactites();
+            PlaceColumns();
+            PlaceRustyChests();
+            PlaceTrees();
+        }
+
+        #region Perlin Noise
+        public static float NoiseFunction(int seed)
+        {
+            seed = (seed << 13) ^ seed;
+            return 1.0f - ((seed * (seed * seed * 15731) + 1376312589) & 0x7fffffff) / 1073741824.0f;
+        }
+        public static float PerlinNoise2D(float x, float y, int octave, int seed)
+        {
+            float frequency = (float)Math.Pow(2, octave);
+            float xFrequency = x * frequency;
+            float yFrequency = y * frequency;
+            int flooredXFrequency = (int)xFrequency;
+            int flooredYFrequency = (int)yFrequency;
+            float fractionXFrequency = xFrequency - flooredXFrequency;
+            float fractionYFrequency = yFrequency - flooredYFrequency;
+
+            float noise1 = NoiseFunction(flooredXFrequency + flooredYFrequency * 54 + seed);
+            float noise2 = NoiseFunction(flooredXFrequency + 1 + flooredYFrequency * 54 + seed);
+            float noise3 = NoiseFunction(flooredXFrequency + (1 + flooredYFrequency) * 54 + seed);
+            float noise4 = NoiseFunction(flooredXFrequency + 1 + (1 + flooredYFrequency) * 54 + seed);
+
+            float lerpStart = MathHelper.Lerp(noise1, noise2, fractionXFrequency);
+            float lerpEnd = MathHelper.Lerp(noise3, noise4, fractionXFrequency);
+            return MathHelper.Lerp(lerpStart, lerpEnd, fractionYFrequency);
+        }
+        #endregion
+
+        #region Generating Initial Block
+        public static void CreateStartingBlock()
+        {
+            float randomValue1 = WorldGen.genRand.NextFloat(-0.4f, 0.4f);
+            while (Math.Abs(randomValue1) < 0.22f)
+            {
+                randomValue1 = WorldGen.genRand.NextFloat(-0.4f, 0.4f);
+            }
+            float randomValue2 = WorldGen.genRand.NextFloat(-0.2f, 0.2f);
+            while (Math.Abs(randomValue2) < 0.07f)
+            {
+                randomValue2 = WorldGen.genRand.NextFloat(-0.2f, 0.2f);
+            }
+            for (int x = 1; x < BiomeWidth; x++)
+            {
+                float xRatio = x / (float)BiomeWidth;
+                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                {
+                    int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                    float yRatio = (y - YStart) / (float)BlockDepth;
+                    float xAngleWrap = x / (float)BiomeWidth * MathHelper.TwoPi - MathHelper.Pi;
+                    bool generateSand = yRatio < SandstoneYMinimum(xAngleWrap, randomValue1, randomValue2);
+                    if (WorldGen.InWorld(trueX, y))
+                    {
+                        if (y - YStart < BlockDepth - (int)(BlockDepth * 0.35f) + (int)(Math.Sin(xRatio * MathHelper.Pi) * (int)(BlockDepth * 0.35f)))
+                        {
+                            Main.tile[trueX, y] = new Tile()
+                            {
+                                type = generateSand ? (ushort)ModContent.TileType<SulphurousSand>() : (ushort)ModContent.TileType<SulphurousSandstone>(),
+                                wall = generateSand ? (ushort)ModContent.WallType<SulphurousSandWall>() : (ushort)ModContent.WallType<SulphurousSandstoneWall>()
+                            };
+                            Main.tile[trueX, y].active(true);
+                        }
+                    }
+                }
+            }
+        }
+        public static float SandstoneYMinimum(float xAsAngle, float randomValue1, float randomValue2)
+        {
+            float sineSquaredRandom1 = randomValue1 * (float)Math.Cos(xAsAngle * randomValue1) * (float)Math.Cos(xAsAngle * randomValue1);
+            float sineSquaredRandom2 = randomValue1 * (float)Math.Sin(xAsAngle * randomValue1) * (float)Math.Sin(xAsAngle * randomValue1);
+            float sineSquaredRandom3 = randomValue2 * (float)Math.Sin(xAsAngle * randomValue2);
+            float sineSquaredRandom4 = (float)Math.Sin(randomValue1 / randomValue2 * xAsAngle) * (float)Math.Cos(randomValue1 * MathHelper.Pi);
+            return 0.25f * Math.Abs(sineSquaredRandom1 + 0.5f * sineSquaredRandom2 + sineSquaredRandom3 - sineSquaredRandom4) + 0.25f;
+        }
+        #endregion
+
+        #region Generating Beach Waters
+        public static void ChiselOutSea()
+        {
+            int seaStartX = CalamityWorld.abyssSide ? 0 : Main.maxTilesX;
+            int seaEndX = CalamityWorld.abyssSide ? BiomeWidth : Main.maxTilesX - BiomeWidth;
+            int xCounter = 80;
+            float depth = 1f;
+            int yTop = 0;
+            while (!Main.tile[seaEndX - 1, yTop].active())
+            {
+                yTop++;
+            }
+            yTop += WorldGen.genRand.Next(1, 5);
+            for (int x = seaEndX - 1; x != seaStartX; x += (CalamityWorld.abyssSide ? -1 : 1))
+            {
+                xCounter++;
+                if (xCounter < BiomeWidth * 0.05)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.2f;
+                }
+                else if (xCounter < BiomeWidth * 0.08)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.15f;
+                }
+                else if (xCounter < BiomeWidth * 0.1)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.1f;
+                }
+                else if (xCounter < BiomeWidth * 0.15)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.07f;
+                }
+                else if (xCounter < BiomeWidth * 0.2)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.05f;
+                }
+                else if (xCounter < BiomeWidth * 0.25)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.04f;
+                }
+                else if (xCounter < BiomeWidth * 0.325)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.03f;
+                }
+                else if (xCounter < BiomeWidth * 0.375)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.02f;
+                }
+                else if (xCounter < BiomeWidth * 0.45)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.01f;
+                }
+                else if (xCounter < BiomeWidth * 0.6)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.005f;
+                }
+                else if (xCounter < BiomeWidth * 0.75)
+                {
+                    depth += WorldGen.genRand.Next(10, 20) * 0.001f;
+                }
+                int depthAdditive = WorldGen.genRand.Next(15, 20);
+                int y = 0;
+                while (y < yTop + depth + depthAdditive)
+                {
+                    if (y < yTop + depth * 0.75f - 3f)
+                    {
+                        Main.tile[x, y].active(false);
+                        if (y > yTop)
+                        {
+                            Main.tile[x, y].liquid = 255;
+                        }
+                        else if (y == yTop)
+                        {
+                            Main.tile[x, y].liquid = 127;
+                        }
+                    }
+                    else if (y > yTop &&
+                        (Main.tile[x, y].type == (ushort)ModContent.TileType<SulphurousSand>() ||
+                         Main.tile[x, y].type == (ushort)ModContent.TileType<SulphurousSandstone>()))
+                    {
+                        Main.tile[x, y].active(true);
+                    }
+                    Main.tile[x, y].wall = 0;
+                    y++;
+                }
+            }
+        }
+        #endregion
+
+        #region Generating Water
+        public const int PerlinIterations = 1;
+        public const int PerlinOctaves = 4;
+        public const int PerlinXEdgeClamp = 20;
+        public const float PerlinYDelta = 40;
+        public const float PerlinNoiseMax = 0.05f;
+        public const float PerlinThreshold = 0.1f; // Be careful with this number
+        public static void CreateWater()
+        {
+            int[] seeds = new int[PerlinIterations];
+            for (int i = 0; i < seeds.Length; i++)
+            {
+                seeds[i] = WorldGen.genRand.Next();
+            }
+            for (int x = 1; x < BiomeWidth; x++)
+            {
+                float xRatio = x / (float)BiomeWidth;
+                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                {
+                    float yRatio = (y - YStart) / (float)BlockDepth;
+                    int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                    if (y - YStart < BlockDepth - (int)(BlockDepth * 0.35f) + (int)(Math.Sin(xRatio * MathHelper.Pi) * (int)(BlockDepth * 0.35f)) - PerlinYDelta)
+                    {
+                        if (x < PerlinXEdgeClamp || x > BiomeWidth - PerlinXEdgeClamp)
+                            continue;
+                        float perlinAverage = 0f;
+                        for (int k = 0; k < seeds.Length; k++)
+                        {
+                            perlinAverage += PerlinNoise2D(xRatio, yRatio, PerlinOctaves, seeds[k]) / PerlinIterations;
+                        }
+                        if (perlinAverage > PerlinThreshold * WorldGen.genRand.NextFloat(1f - PerlinNoiseMax, 1f + PerlinNoiseMax))
+                        {
+                            ushort oldWall = Main.tile[trueX, y].wall;
+                            Main.tile[trueX, y] = new Tile()
+                            {
+                                wall = oldWall,
+                                liquid = 255
+                            };
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
+        #region Generating Edge Sandstone
+        public const int EdgeCheckMinX = 6;
+        public const int EdgeCheckMaxX = 8;
+        public const int EdgeCheckMinY = 4;
+        public const int EdgeCheckMaxY = 6;
+        public const int MinimumEdgeScore = 4;
+        public const int SpotWidth = 4;
+        public static void GenerateHardenedSandstone()
+        {
+            for (int x = 1; x < BiomeWidth; x++)
+            {
+                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                {
+                    int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                    int edgeScore = GetEdgeScore(trueX, y);
+                    
+                    if (edgeScore >= MinimumEdgeScore)
+                    {
+                        for (int dx = -SpotWidth / 2; dx <= SpotWidth; dx++)
+                        {
+                            for (int dy = -SpotWidth / 2; dy <= SpotWidth / 2; dy++)
+                            {
+                                if (WorldGen.InWorld(trueX + dx, y + dy))
+                                {
+                                    if (CalamityUtils.ParanoidTileRetrieval(trueX + dx, y + dy).type != (ushort)ModContent.TileType<HardenedSulphurousSandstone>() &&
+                                        SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(trueX + dx, y + dy).type))
+                                    {
+                                        Main.tile[trueX + dx, y + dy].type = (ushort)ModContent.TileType<HardenedSulphurousSandstone>();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (WorldGen.genRand.NextBool(10))
+                    {
+                        for (int i = 0; i < 20; i++)
+                        {
+                            TileLoader.RandomUpdate(trueX, y, Main.tile[trueX, y].type);
+                        }
+                    }
+                }
+            }
+        }
+        public static int GetEdgeScore(int x, int y)
+        {
+            int edgeScore = 0;
+            for (int dx = x - WorldGen.genRand.Next(EdgeCheckMinX, EdgeCheckMaxX + 1); dx <= x + WorldGen.genRand.Next(EdgeCheckMinX, EdgeCheckMaxX + 1); dx++)
+            {
+                if (dx == x)
+                    continue;
+                if (CalamityUtils.ParanoidTileRetrieval(dx, y).liquid == 255)
+                    edgeScore++;
+            }
+            for (int dy = y - WorldGen.genRand.Next(EdgeCheckMinY, EdgeCheckMaxY + 1); dy <= y + WorldGen.genRand.Next(EdgeCheckMinY, EdgeCheckMaxY + 1); dy++)
+            {
+                if (dy == y)
+                    continue;
+                if (CalamityUtils.ParanoidTileRetrieval(x, dy).liquid == 255)
+                    edgeScore++;
+            }
+            return edgeScore;
+        }
+        #endregion
+
+        #region Smoothening Everything
+        public static void SmoothenTheEntireSea()
+        {
+            for (int x = 2; x < BiomeWidth - 2; x++)
+            {
+                int trueX = x;
+                if (!CalamityWorld.abyssSide)
+                    trueX = Main.maxTilesX - x;
+                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                {
+                    Tile.SmoothSlope(trueX, y);
+                }
+            }
+        }
+        #endregion
+
+        #region Generating Scenery
+        public const int ColumnMinDistanceX = 8;
+        public const int ColumnMinHeight = 10;
+        public const int ColumnMaxHeight = 27;
+        public const int StalactitePairMinDistance = 6;
+        public const int StalactitePairMaxDistance = 44;
+        public static void PlaceVentsAndFossils()
+        {
+            for (int x = 1; x < BiomeWidth; x++)
+            {
+                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                {
+                    // Generate vents in the top 45%
+                    if (y - YStart < BlockDepth * 0.45f)
+                    {
+                        if (WorldGen.SolidTile(trueX, y + 1) && WorldGen.genRand.NextBool(20))
+                        {
+                            PlaceMiscTile(trueX, y, 1, 2, (ushort)ModContent.TileType<SteamGeyser>());
+                        }
+                    }
+                    // And fossils in the bottom 55%
+                    else
+                    {
+                        if (WorldGen.SolidTile(trueX, y + 1))
+                        {
+                            // Generate ribs such that they're all nearby
+                            if (WorldGen.genRand.NextBool(25))
+                            {
+                                ushort type = (ushort)Utils.SelectRandom(WorldGen.genRand,
+                                    ModContent.TileType<SulphurousRib1>(),
+                                    ModContent.TileType<SulphurousRib2>(),
+                                    ModContent.TileType<SulphurousRib3>(),
+                                    ModContent.TileType<SulphurousRib4>(),
+                                    ModContent.TileType<SulphurousRib5>());
+                                int height;
+                                if (type == ModContent.TileType<SulphurousRib1>() || type == ModContent.TileType<SulphurousRib4>())
+                                {
+                                    height = 3;
+                                }
+                                else if (type == ModContent.TileType<SulphurousRib3>())
+                                {
+                                    height = 2;
+                                }
+                                else if (type == ModContent.TileType<SulphurousRib1>())
+                                {
+                                    height = 4;
+                                }
+                                else
+                                {
+                                    height = 1;
+                                }
+                                PlaceMiscTile(trueX, y, 1, height, type);
+                            }
+                            else if (WorldGen.genRand.NextBool(16))
+                            {
+                                PlaceMiscTile(trueX, y, 3, 2, (ushort)Utils.SelectRandom(WorldGen.genRand, ModContent.TileType<SulphuricFossil1>(), ModContent.TileType<SulphuricFossil2>(), ModContent.TileType<SulphuricFossil3>()));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        public static void PlaceColumns()
+        {
+            int previousX = 0;
+            int style;
+            for (int x = 1; x < BiomeWidth; x++)
+            {
+                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                {
+                    if (y - YStart > BlockDepth * 0.5f)
+                    {
+                        if (WorldGen.SolidTile(trueX, y + 1) &&
+                            WorldGen.SolidTile(trueX + 1, y + 1) && 
+                            SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(trueX, y + 1).type) &&
+                            WorldGen.genRand.NextBool(3) &&
+                            Math.Abs(trueX - previousX) >= ColumnMinDistanceX)
+                        {
+                            int top = y;
+                            int height = 0;
+                            while (!(WorldGen.SolidTile(trueX - 1, top) && WorldGen.SolidTile(trueX, top) && WorldGen.SolidTile(trueX + 1, top)))
+                            {
+                                top--;
+                                height++;
+                                if (height > ColumnMaxHeight + 1)
+                                    break;
+                            }
+                            if (height <= ColumnMaxHeight && height >= ColumnMinHeight)
+                            {
+                                for (int dy = 0; dy < height; dy++)
+                                {
+                                    style = WorldGen.genRand.Next(3);
+                                    short yFrame = 18;
+                                    if (dy == 0)
+                                        yFrame = 36;
+                                    if (dy == height - 1)
+                                        yFrame = 0;
+                                    if (Main.tile[trueX, y - dy] == null)
+                                        Main.tile[trueX, y - dy] = new Tile();
+                                    ushort oldWall = Main.tile[trueX, y - dy].wall;
+                                    Main.tile[trueX, y - dy] = new Tile
+                                    {
+                                        type = (ushort)ModContent.TileType<SulphurousColumn>(),
+                                        frameX = (short)(style * 36),
+                                        frameY = yFrame,
+                                        liquid = 255,
+                                        wall = oldWall
+                                    };
+                                    Main.tile[trueX, y - dy].active(true);
+
+                                    if (Main.tile[trueX + 1, y - dy] == null)
+                                        Main.tile[trueX + 1, y - dy] = new Tile();
+
+                                    oldWall = Main.tile[trueX + 1, y - dy].wall;
+                                    Main.tile[trueX + 1, y - dy] = new Tile
+                                    {
+                                        type = (ushort)ModContent.TileType<SulphurousColumn>(),
+                                        frameX = (short)(style * 36 + 18),
+                                        frameY = yFrame,
+                                        liquid = 255,
+                                        wall = oldWall
+                                    };
+                                    Main.tile[trueX + 1, y - dy].active(true);
+                                }
+                                previousX = trueX;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        public static void PlaceStalactites()
+        {
+            int heightFromType(int type)
+            {
+                if (type <= 2)
+                    return 2;
+                else if (type <= 4)
+                    return 3;
+                else
+                    return 4;
+            };
+            for (int x = 1; x < BiomeWidth; x++)
+            {
+                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                for (int y = YStart; y <= YStart + BlockDepth; y++)
+                {
+                    if (y - YStart > BlockDepth * 0.25f)
+                    {
+                        if (WorldGen.SolidTile(trueX, y - 1) && WorldGen.genRand.NextBool(10))
+                        {
+                            int dy = 1;
+                            while (!CalamityUtils.ParanoidTileRetrieval(trueX, y + dy).active())
+                            {
+                                dy++;
+                                if (dy > StalactitePairMaxDistance)
+                                    break;
+                            }
+                            if (dy <= StalactitePairMaxDistance && dy >= StalactitePairMinDistance)
+                            {
+                                int type = WorldGen.genRand.Next(6);
+                                type++;
+                                int height = heightFromType(type);
+                                PlaceStalactite(trueX, y, height, (ushort)CalamityMod.instance.TileType($"SulphurousStalactite{type}"));
+                                if (WorldGen.SolidTile(trueX, y + dy + 1))
+                                {
+                                    PlaceStalacmite(trueX, y + dy, height, (ushort)CalamityMod.instance.TileType($"SulphurousStalacmite{type}"));
+                                }
+                                
+                                // Reset the slope/half brick variables for the tiles below/above the pairs, so that it doesn't look like there's an
+                                // imaginary gap between the stalactite and tile it's attached to.
+                                Main.tile[trueX, y - 1].slope(0);
+                                Main.tile[trueX, y - 1].halfBrick(false);
+
+                                Main.tile[trueX, y + dy + 1].slope(0);
+                                Main.tile[trueX, y + dy + 1].halfBrick(false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        public static void PlaceMiscTile(int x, int y, int width, int height, ushort type, int style = 0)
+        {
+            try
+            {
+                bool canGenerate = true;
+                for (int i = x; i < x + width; i++)
+                {
+                    for (int j = y - (int)Math.Ceiling(height / 2.0); j < y + (int)Math.Ceiling(height / 2.0); j++)
+                    {
+                        if (Main.tile[i, j] == null)
+                        {
+                            Main.tile[i, j] = new Tile();
+                        }
+                        if (Main.tile[i, j].active())
+                        {
+                            canGenerate = false;
+                        }
+                    }
+                    if (Main.tile[i, y + 1] == null)
+                    {
+                        Main.tile[i, y + 1] = new Tile();
+                    }
+                    if (!Main.tile[i, y + 1].nactive() || Main.tile[i, y + 1].halfBrick() || Main.tile[i, y + 1].slope() != 0 || !Main.tileSolid[Main.tile[i, y + 1].type])
+                    {
+                        canGenerate = false;
+                    }
+                }
+                if (canGenerate)
+                {
+                    WorldGen.PlaceTile(x, y, type, style: style);
+                }
+            }
+            catch
+            {
+                return; // This should only ever happen from an index error, and there's really no point in continuing if that happens
+            }
+        }
+        public static void PlaceStalactite(int x, int y, int height, ushort type)
+        {
+            for (int dy = 0; dy < height; dy++)
+            {
+                ushort oldWall = Main.tile[x, y + dy].wall;
+                Main.tile[x, y + dy] = new Tile
+                {
+                    wall = oldWall,
+                    type = type,
+                    frameY = (short)(dy * 18)
+                };
+                Main.tile[x, y + dy].active(true);
+            }
+        }
+        public static void PlaceStalacmite(int x, int y, int height, ushort type)
+        {
+            for (int dy = height - 1; dy >= 0; dy--)
+            {
+                ushort oldWall = Main.tile[x, y + dy].wall;
+                Main.tile[x, y - dy] = new Tile
+                {
+                    type = type,
+                    frameY = (short)(height * 18 - dy * 18),
+                    wall = oldWall
+                };
+                Main.tile[x, y - dy].active(true);
+            }
+        }
+        #endregion
+
+        #region Generating Chests
+        public const int CheckCutoffDistance = 45;
+        public static void PlaceRustyChests()
+        {
+            // Ambiguity bullshit.
+            int[] ItemTypes = { ModContent.ItemType<Items.Placeables.Furniture.EffigyOfDecay>(),
+                                ModContent.ItemType<BrokenWaterFilter>(),
+                                ModContent.ItemType<RustyBeaconPrototype>(),
+                                ModContent.ItemType<RustyMedallion>() };
+
+            for (int i = 0; i < ItemTypes.Length; ++i)
+            {
+                Chest chest = null;
+                int attempts = 0;
+
+                while (chest == null && attempts < 2500)
+                {
+                    attempts++;
+                    int x = WorldGen.genRand.Next(CheckCutoffDistance, BiomeWidth - CheckCutoffDistance);
+                    if (!CalamityWorld.abyssSide)
+                    {
+                        x = Main.maxTilesX - x;
+                    }
+                    int y = WorldGen.genRand.Next(YStart + CheckCutoffDistance, YStart + BlockDepth - CheckCutoffDistance);
+                    if (WorldGen.InWorld(x, y))
+                    {
+                        if (!CalamityUtils.ParanoidTileRetrieval(x, y).active() &&
+                            SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x, y + 1).type))
+                        {
+                            chest = WorldGenerationMethods.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestLocked>(), tileStyle: 1);
+                        }
+                    }
+                }
+
+                // If a chest was placed, force its first item to be the unique item.
+                if (chest != null)
+                {
+                    chest.item[0].SetDefaults(ItemTypes[i]);
+                    chest.item[0].Prefix(-1);
+                }
+            }
+        }
+        #endregion
+
+        #region Misc Functions
+        public static void DetermineYStart()
         {
             int maxHeight = int.MaxValue;
             for (int i = 0; i < 15; i++)
@@ -84,428 +680,13 @@ namespace CalamityMod.World
                 while (!Main.tile[xCheck, YStart].active())
                 {
                     YStart++;
-                    if (YStart > (int)Main.rockLayer - YDescent - 5)
+                    if (YStart > Main.rockLayer - 40)
                         break;
                 }
                 if (maxHeight > YStart)
                     maxHeight = YStart;
             }
-            return maxHeight;
-        }
-        public static void PlaceCavernBlock(int blockDepth)
-        {
-            for (int x = 0; x < BiomeWidth; x++)
-            {
-                for (int y = 15; y < blockDepth; y++)
-                {
-                    int trueX = x;
-                    if (!CalamityWorld.abyssSide)
-                    {
-                        trueX = Main.maxTilesX - x;
-                    }
-                    int trueDepth = blockDepth - 36 + (int)(Math.Sin(MathHelper.Pi * x / BiomeWidth) * 36);
-                    if (WorldGen.InWorld(trueX, y + YStart))
-                    {
-                        if (CalamityUtils.ParanoidTileRetrieval(trueX, y + YStart).liquid == 0 &&
-                            y < trueDepth)
-                        {
-                            ushort type = (ushort)ModContent.TileType<SulphurousSand>();
-                            if (y > trueDepth * 0.35 && y < trueDepth * 0.4 && Main.rand.NextBool(4))
-                            {
-                                type = (ushort)ModContent.TileType<SulphurousSandstone>();
-                            }
-                            else if (y >= trueDepth * 0.4)
-                            {
-                                type = (ushort)ModContent.TileType<SulphurousSandstone>();
-                            }
-                            if ((Main.tile[trueX, y + YStart].active() && Main.tile[trueX, y + YStart].type != TileID.Trees && Main.tile[trueX, y + YStart].type != TileID.PalmTree) || 
-                                y > trueDepth * (0.26 + WorldGen.genRand.NextFloat(-0.02f, 0.02f)))
-                            {
-                                Main.tile[trueX, y + YStart].type = type;
-                                Main.tile[trueX, y + YStart].slope(0);
-                                Main.tile[trueX, y + YStart].active(true);
-                                Main.tile[trueX, y + YStart].wall = Main.tile[trueX, y + YStart].type == (ushort)ModContent.TileType<SulphurousSand>() ?
-                                    (ushort)ModContent.WallType<SulphurousSandWall>() : (ushort)ModContent.WallType<SulphurousSandstoneWall>();
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        public static void PlaceWaterCaverns()
-        {
-            // This is used in other vanilla worldgen. However, it does not affect any worldgen after this.
-            // This is basically the point where TileRunner stops spawning water.
-            WorldGen.waterLine = 1;
-            int xStart = CalamityWorld.abyssSide ? BiomeWidth / 2 :
-                Main.maxTilesX - BiomeWidth / 2;
-            for (int c = 0; c < 8; c++)
-            {
-                Vector2 startingPosition = new Vector2(xStart + WorldGen.genRand.Next(-25, 25 + 1), YStart + WorldGen.genRand.Next(20));
-                while (!CalamityUtils.ParanoidTileRetrieval((int)startingPosition.X, (int)startingPosition.Y).active())
-                {
-                    startingPosition.Y++;
-                }
-                float xDirection = WorldGen.genRand.NextFloat() * 0.2f - 0.2f;
-                float yDirection = 1f - xDirection;
-                if (c == 0)
-                {
-                    xDirection = WorldGen.genRand.NextFloat(1f, 2f);
-                    yDirection = 2f;
-                }
-                if (WorldGen.genRand.NextBool(2))
-                {
-                    xDirection *= -1;
-                }
-                if (WorldGen.genRand.NextBool(2))
-                {
-                    yDirection *= -1;
-                }
-                for (int i = 0; i < 11; i++)
-                {
-                    startingPosition = WorldGen.digTunnel(startingPosition.X, startingPosition.Y, xDirection, yDirection, WorldGen.genRand.Next(6, 20), WorldGen.genRand.Next(4, 9), false);
-                    xDirection += WorldGen.genRand.NextFloat(-0.5f, 0.5f);
-                    yDirection += WorldGen.genRand.NextFloat(-0.2f, 0.2f);
-                    xDirection = MathHelper.Clamp(xDirection, -4f, 4f);
-                    yDirection = MathHelper.Clamp(yDirection, -1f, 3f);
-                    float xdirection2 = WorldGen.genRand.NextFloat(-0.4f, 0.4f);
-                    float ydirection2 = WorldGen.genRand.NextFloat(-0.2f, 0.2f);
-                    if (WorldGen.genRand.NextBool(2))
-                    {
-                        xdirection2 *= -1;
-                    }
-                    if (WorldGen.genRand.NextBool(2))
-                    {
-                        ydirection2 *= -1;
-                    }
-                    Vector2 tunnelVector = WorldGen.digTunnel(startingPosition.X, startingPosition.Y, xdirection2, ydirection2, WorldGen.genRand.Next(30, 50), WorldGen.genRand.Next(5, 10 + 1), false);
-
-                    // The -2 parameter causes the tile-runner to generate liquids. Water above the lavaLine and lava below.
-                    WorldGen.TileRunner((int)tunnelVector.X, (int)tunnelVector.Y, WorldGen.genRand.Next(24, 32 + 1), WorldGen.genRand.Next(19, 24 + 1), -2, false, 0f, 0f, false, true);
-                }
-            }
-        }
-        public static void PlaceScenery(int downwardCheck)
-        {
-            // Vents
-            for (int x = 0; x < BiomeWidth; x++)
-            {
-                int trueX = x;
-                if (!CalamityWorld.abyssSide)
-                {
-                    trueX = Main.maxTilesX - x;
-                }
-                for (int y = YStart - 30; y < YStart + downwardCheck; y++)
-                {
-                    if (WorldGen.genRand.NextBool(9))
-                    {
-                        if (CalamityUtils.TileSelectionSolid(trueX, y, 2, -2))
-                            break;
-                        WorldGen.PlaceTile(trueX, y, ModContent.TileType<SteamGeyser>());
-                    }
-                }
-            }
-
-            // Rock pillars in the water
-            for (int c = 1; c <= 5; c++)
-            {
-                int xStart = 0;
-                switch (c)
-                {
-                    case 1:
-                        xStart = 40;
-                        break;
-                    case 2:
-                        xStart = 60;
-                        break;
-                    case 3:
-                        xStart = 90;
-                        break;
-                    case 4:
-                        xStart = 140;
-                        break;
-                    case 5:
-                        xStart = 200;
-                        break;
-                }
-                if (!CalamityWorld.abyssSide)
-                {
-                    xStart = Main.maxTilesX - xStart;
-                }
-                // Adjust Y positioning a bit
-                int dy = -40;
-                while (!CalamityUtils.ParanoidTileRetrieval(xStart, YStart + dy).active() ||
-                        (CalamityUtils.ParanoidTileRetrieval(xStart, YStart + dy).type != (ushort)ModContent.TileType<SulphurousSand>() &&
-                         CalamityUtils.ParanoidTileRetrieval(xStart, YStart + dy).type != (ushort)ModContent.TileType<SulphurousSandstone>()))
-                {
-                    if (WorldGen.InWorld(xStart, YStart + dy + 1))
-                    {
-                        if (Main.tile[xStart, YStart + dy + 1] == null)
-                            Main.tile[xStart, YStart + dy + 1] = new Tile();
-                    }
-                    else
-                    {
-                        dy++;
-                        continue;
-                    }
-                    dy++;
-                    if (YStart + dy > Main.rockLayer - 30)
-                        break;
-                }
-                int ascent = WorldGen.genRand.Next(4 * c, 8 * c + 3) + 7;
-
-                int widthTop = WorldGen.genRand.Next(2, 4 + 1);
-                int widthBottomAdditive = WorldGen.genRand.Next(13, 20 + 1);
-                float root = WorldGen.genRand.NextFloat(1.6f, 3.2f);
-                for (int y = YStart - ascent; y <= YStart + 6; y++)
-                {
-                    // The root is used to give a less linear scale
-                    float yRatio = (float)Math.Pow(1f - (-(y - YStart) / (float)ascent), 1f / root);
-                    int width = widthTop + (int)(widthBottomAdditive * yRatio);
-                    for (int x = xStart - width / 2; x <= xStart + width / 2; x++)
-                    {
-                        Main.tile[x, y + dy].type = (ushort)ModContent.TileType<SulphurousSand>();
-                        Main.tile[x, y + dy].slope(0);
-                        Main.tile[x, y + dy].active(true);
-                    }
-                }
-            }
-        }
-        public static void ReplaceRemainingSand()
-        {
-            List<int> tilesToReplace = new List<int>()
-            {
-                TileID.Dirt,
-                TileID.Mud,
-                TileID.Grass,
-                TileID.CorruptGrass,
-                TileID.FleshGrass,
-                TileID.Ebonsand,
-                TileID.Ebonstone,
-                TileID.Crimstone,
-                TileID.Crimsand,
-                TileID.Sand,
-                TileID.Stone,
-                TileID.Copper,
-                TileID.Tin,
-                TileID.Iron,
-                TileID.Lead,
-                TileID.Tungsten,
-                TileID.Silver
-            };
-            List<int> wallsToReplace = new List<int>()
-            {
-                WallID.Stone,
-                WallID.Grass,
-                WallID.GrassUnsafe,
-                WallID.CorruptGrassUnsafe,
-                WallID.CrimsonGrassUnsafe,
-                WallID.CrimstoneUnsafe,
-                WallID.EbonstoneUnsafe,
-                WallID.MudUnsafe
-            };
-            int x = Main.maxTilesX;
-            int y = Main.maxTilesY;
-            int genLimit = x / 2;
-
-            if (WorldGen.dungeonX < genLimit)
-                CalamityWorld.abyssSide = true;
-
-            int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135); //2100 - 1965 = 135 : 2100 + 1965 = 4065
-
-            if (CalamityWorld.abyssSide)
-            {
-                for (int abyssIndexSand = 0; abyssIndexSand < abyssChasmX + BiomeWidth; abyssIndexSand++)
-                {
-                    for (int abyssIndexSand2 = 0; abyssIndexSand2 < (int)Main.rockLayer - WorldGen.genRand.Next(115, 122 + 1); abyssIndexSand2++)
-                    {
-                        Tile tile = Framing.GetTileSafely(abyssIndexSand, abyssIndexSand2);
-                        if (abyssIndexSand > abyssChasmX + BiomeWidth)
-                        {
-                            if (tile.active() &&
-                                tilesToReplace.Contains(tile.type) &&
-                                WorldGen.genRand.Next(4) == 0)
-                            {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
-                            }
-                            else if (tile.active() &&
-                                     tile.type == TileID.Trees)
-                            {
-                                tile.active(false);
-                            }
-                        }
-                        else if (abyssIndexSand > abyssChasmX + BiomeWidth - 15)
-                        {
-                            if (tile.active() &&
-                                tilesToReplace.Contains(tile.type) &&
-                                WorldGen.genRand.Next(2) == 0)
-                            {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
-                            }
-                            else if (tile.active() &&
-                                     tile.type == TileID.Trees)
-                            {
-                                tile.active(false);
-                            }
-                        }
-                        else
-                        {
-                            if (tile.active() &&
-                                tilesToReplace.Contains(tile.type))
-                            {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
-                            }
-                            else if (tile.active() &&
-                                     tile.type == TileID.Trees)
-                            {
-                                tile.active(false);
-                            }
-                        }
-                        if (wallsToReplace.Contains(tile.wall))
-                        {
-                            Main.tile[abyssIndexSand, abyssIndexSand2].wall = Main.tile[abyssIndexSand, abyssIndexSand2].type == (ushort)ModContent.TileType<SulphurousSandstone>() ?
-                                (ushort)ModContent.WallType<SulphurousSandstoneWall>() : (ushort)ModContent.WallType<SulphurousSandWall>();
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (int abyssIndexSand = abyssChasmX - BiomeWidth; abyssIndexSand < x; abyssIndexSand++)
-                {
-                    for (int abyssIndexSand2 = 0; abyssIndexSand2 < (int)Main.rockLayer - WorldGen.genRand.Next(115, 122 + 1); abyssIndexSand2++)
-                    {
-                        Tile tile = Framing.GetTileSafely(abyssIndexSand, abyssIndexSand2);
-                        if (abyssIndexSand < abyssChasmX - BiomeWidth)
-                        {
-                            if (tile.active() &&
-                                tilesToReplace.Contains(tile.type) &&
-                                WorldGen.genRand.Next(4) == 0)
-                            {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
-                            }
-                            else if (tile.active() &&
-                                     tile.type == TileID.Trees)
-                            {
-                                tile.active(false);
-                            }
-                        }
-                        else if (abyssIndexSand < abyssChasmX - BiomeWidth + 15)
-                        {
-                            if (tile.active() &&
-                                tilesToReplace.Contains(tile.type) &&
-                                WorldGen.genRand.Next(2) == 0)
-                            {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
-                            }
-                            else if (tile.active() &&
-                                     tile.type == TileID.Trees)
-                            {
-                                tile.active(false);
-                            }
-                        }
-                        else
-                        {
-                            if (tile.active() &&
-                                tilesToReplace.Contains(tile.type))
-                            {
-                                tile.type = (ushort)ModContent.TileType<SulphurousSand>();
-                            }
-                            else if (tile.active() &&
-                                     tile.type == TileID.Trees)
-                            {
-                                tile.active(false);
-                            }
-                        }
-                        if (wallsToReplace.Contains(tile.wall))
-                        {
-                            Main.tile[abyssIndexSand, abyssIndexSand2].wall = Main.tile[abyssIndexSand, abyssIndexSand2].type == (ushort)ModContent.TileType<SulphurousSandstone>() ?
-                                (ushort)ModContent.WallType<SulphurousSandstoneWall>() : (ushort)ModContent.WallType<SulphurousSandWall>();
-                        }
-                    }
-                }
-            }
-        }
-        // This should not have been required
-        public static void KillRemainingGrass()
-        {
-            List<int> ToKill = new List<int>()
-            {
-                TileID.Dirt,
-                TileID.Grass,
-                TileID.Mud,
-            };
-            for (int x = 0; x < BiomeWidth; x++)
-            {
-                int trueX = x;
-                if (!CalamityWorld.abyssSide)
-                {
-                    trueX = Main.maxTilesX - x;
-                }
-                for (int y = YStart - 300; y < YStart + 300; y++)
-                {
-                    if (!WorldGen.InWorld(trueX, y))
-                        continue;
-                    if (ToKill.Contains(CalamityUtils.ParanoidTileRetrieval(trueX, y).type) && CalamityUtils.ParanoidTileRetrieval(trueX, y).active())
-                    {
-                        // During the check in ParanoidTileRetrieval, the tile is replaced with an instance if it is null.
-                        // As a result, null checks are not required here.
-                        Main.tile[trueX, y] = new Tile();
-                        WorldGen.KillTile(trueX, y - 1);
-                    }
-                }
-            }
-        }
-        public static void PlaceMiscTiles(int maximumDepth)
-        {
-            // Kelp
-            for (int x = 0; x < BiomeWidth; x++)
-            {
-                int trueX = x;
-                if (!CalamityWorld.abyssSide)
-                {
-                    trueX = Main.maxTilesX - x;
-                }
-                for (int y = YStart + 20; y < YStart + 20 + maximumDepth; y++)
-                {
-                    if (WorldGen.genRand.NextBool(24))
-                    {
-                        if (CalamityUtils.TileSelectionSolid(trueX, y, 1, 2) && 
-                            (CalamityUtils.ParanoidTileRetrieval(trueX, y).type == ModContent.TileType<SulphurousSand>() ||
-                             CalamityUtils.ParanoidTileRetrieval(trueX, y).type == ModContent.TileType<SulphurousSandstone>()))
-                            break;
-                        WorldGen.PlaceTile(trueX, y, TileID.DyePlants, style:5);
-                    }
-                }
-            }
-        }
-        public static void SmoothenSea()
-        {
-            for (int x = 1; x < Main.maxTilesX - 1; x++)
-            {
-                int trueX = x;
-                if (!CalamityWorld.abyssSide)
-                {
-                    trueX = Main.maxTilesX - x;
-                }
-                for (int y = 1; y < Main.maxTilesY * 0.5; y++)
-                {
-                    if (Framing.GetTileSafely(trueX, y).type == (ushort)ModContent.TileType<SulphurousSand>() ||
-                        Framing.GetTileSafely(trueX, y).type == (ushort)ModContent.TileType<SulphurousSandstone>())
-                    {
-                        Main.tile[trueX, y].slope(0);
-                        Main.tile[trueX, y].halfBrick(false);
-                        try
-                        {
-                            Tile.SmoothSlope(trueX, y);
-                        }
-                        catch
-                        {
-                            continue;
-                        }
-                    }
-                }
-            }
+            YStart = maxHeight;
         }
         public static void PlaceTrees()
         {
@@ -531,7 +712,7 @@ namespace CalamityMod.World
                         {
                             lastTreeX = trueX;
                         }
-                        if (!success && 
+                        if (!success &&
                             Main.tile[trueX, y - 1].type == ModContent.TileType<AcidWoodTreeSapling>() &&
                             Main.tile[trueX, y - 2].type == ModContent.TileType<AcidWoodTreeSapling>())
                         {
@@ -545,7 +726,7 @@ namespace CalamityMod.World
         public static bool GrowSaplingImmediately(int i, int j)
         {
             int trueStartingPositionY = j;
-            while (TileLoader.IsSapling((int)Main.tile[i, trueStartingPositionY].type))
+            while (TileLoader.IsSapling(Main.tile[i, trueStartingPositionY].type))
             {
                 trueStartingPositionY++;
             }
@@ -604,10 +785,12 @@ namespace CalamityMod.World
             WorldGen.RangeFrame(i - 2, trueStartingPositionY - treeHeight - 1, i + 2, trueStartingPositionY + 1);
             if (Main.netMode == NetmodeID.Server)
             {
-                NetMessage.SendTileSquare(-1, i, (int)((double)trueStartingPositionY - (double)treeHeight * 0.5), treeHeight + 1, TileChangeType.None);
+                NetMessage.SendTileSquare(-1, i, (int)(trueStartingPositionY - treeHeight * 0.5), treeHeight + 1, TileChangeType.None);
             }
             return true;
         }
+        #endregion
+
         public static void PlaceAbyss()
         {
             int x = Main.maxTilesX;
@@ -948,7 +1131,6 @@ namespace CalamityMod.World
                     }
                 }
             }
-            PlaceTrees();
         }
     }
 }

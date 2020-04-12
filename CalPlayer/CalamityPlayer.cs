@@ -509,6 +509,7 @@ namespace CalamityMod.CalPlayer
 		public int hallowedRuneCooldown = 0;
 		public bool silvaWings = false;
 		public int icicleCooldown = 0;
+        public bool rustyMedal = false;
         #endregion
 
         #region Armor Set
@@ -663,6 +664,7 @@ namespace CalamityMod.CalPlayer
         public int chiBuffTimer = 0;
         public bool corrEffigy = false;
         public bool crimEffigy = false;
+        public bool decayEffigy = false;
         public bool rRage = false;
         public bool tRegen = false;
         public bool xRage = false;
@@ -825,6 +827,7 @@ namespace CalamityMod.CalPlayer
         public bool necrosteocytesDudes = false;
         public bool gammaHead = false;
         public List<int> GammaCanisters = new List<int>();
+        public bool rustyDrone = false;
         #endregion
 
         #region Biome
@@ -1475,6 +1478,7 @@ namespace CalamityMod.CalPlayer
             camper = false;
 			silvaWings = false;
 			corrosiveSpine = false;
+            rustyMedal = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -1611,6 +1615,7 @@ namespace CalamityMod.CalPlayer
             trinketOfChiBuff = false;
             corrEffigy = false;
             crimEffigy = false;
+            decayEffigy = false;
             rRage = false;
             xRage = false;
             xWrath = false;
@@ -1779,6 +1784,7 @@ namespace CalamityMod.CalPlayer
             brimseeker = false;
             necrosteocytesDudes = false;
             gammaHead = false;
+            rustyDrone = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -6183,6 +6189,22 @@ namespace CalamityMod.CalPlayer
                             int knifeCol = Main.rand.Next(0, 2);
 
                             Projectile.NewProjectile(player.Center, velocity, ModContent.ProjectileType<VeneratedKnife>(), knifeDamage, 0f, player.whoAmI, knifeCol, 0);
+                        }
+                    }
+                }
+            }
+
+            if (rustyMedal)
+            {
+                if (item.ranged)
+                {
+                    if (Main.rand.NextBool(8))
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            Vector2 startingPosition = Main.MouseWorld - Vector2.UnitY.RotatedByRandom(0.4f) * 1250f;
+                            Vector2 directionToMouse = (startingPosition - Main.MouseWorld).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.1f);
+                            Projectile.NewProjectile(startingPosition, directionToMouse * 12f, ModContent.ProjectileType<ToxicannonDrop>(), (int)(damage * 0.3f), 0f, player.whoAmI);
                         }
                     }
                 }

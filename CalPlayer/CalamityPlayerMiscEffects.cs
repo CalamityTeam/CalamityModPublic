@@ -2241,6 +2241,13 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			// Effigy of Decay effects
+			if (modPlayer.decayEffigy)
+			{
+				player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
+				player.gills = true;
+			}
+
 			if (modPlayer.astralInjection)
 			{
 				if (player.statMana < player.statManaMax2)
