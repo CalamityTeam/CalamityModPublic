@@ -144,6 +144,7 @@ namespace CalamityMod.NPCs.HiveMind
             writer.Write(reelCount);
             writer.Write(counter);
             writer.Write(initialised);
+            writer.Write(npc.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -158,6 +159,7 @@ namespace CalamityMod.NPCs.HiveMind
             reelCount = reader.ReadInt32();
             counter = reader.ReadInt32();
             initialised = reader.ReadBoolean();
+            npc.dontTakeDamage = reader.ReadBoolean();
         }
 
         public override void FindFrame(int frameHeight)
@@ -304,7 +306,7 @@ namespace CalamityMod.NPCs.HiveMind
 
 			Player player = Main.player[npc.target];
 
-            npc.defense = (player.ZoneCorrupt || CalamityWorld.bossRushActive) ? 5 : 9999;
+			npc.dontTakeDamage = (player.ZoneCorrupt || CalamityWorld.bossRushActive) ? false : true;
 
             CalamityGlobalNPC.hiveMind = npc.whoAmI;
 
