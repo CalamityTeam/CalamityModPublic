@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.melee = true;
             projectile.penetrate = 3;
             projectile.timeLeft = 600;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -47,6 +49,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            projectile.damage = (int)(projectile.damage * 1.25);
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {

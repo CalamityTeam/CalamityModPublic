@@ -240,6 +240,7 @@ namespace CalamityMod.CalPlayer
         public bool perfmini = false;
         public bool akato = false;
         public bool leviPet = false;
+        public bool plaguebringerBab = false;
         public bool rotomPet = false;
         public bool sparks = false;
         public bool sirenPet = false;
@@ -1248,6 +1249,7 @@ namespace CalamityMod.CalPlayer
             perfmini = false;
             akato = false;
             leviPet = false;
+            plaguebringerBab = false;
             rotomPet = false;
             sparks = false;
             sirenPet = false;

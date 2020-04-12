@@ -1234,7 +1234,8 @@ namespace CalamityMod
                 ItemID.ChristmasTreeSword,
                 ItemID.MonkStaffT1,
                 ItemID.InfernoFork,
-                ItemID.VenomStaff
+                ItemID.VenomStaff,
+                ItemID.Frostbrand
             };
 
             fiftyDamageBuffList = new List<int>()

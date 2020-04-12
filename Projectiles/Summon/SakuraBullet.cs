@@ -96,12 +96,6 @@ namespace CalamityMod.Projectiles.Summon
             Main.dust[num458].velocity += projectile.velocity * 0.1f;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (target.type == NPCID.CultistBoss)
-                damage = (int)(damage * 0.75);
-        }
-
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 25);

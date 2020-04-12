@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.width = 10;
             projectile.height = 10;
             projectile.friendly = true;
-            projectile.penetrate = 4;
+            projectile.penetrate = -1;
             projectile.aiStyle = 113;
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;
@@ -61,9 +61,6 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (CalamityGlobalNPC.AquaticScourgeIDs.Contains(target.type) || CalamityGlobalNPC.DestroyerIDs.Contains(target.type))
-				projectile.penetrate--;
-
             target.immune[projectile.owner] = 6;
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
 			if (Main.myPlayer == projectile.owner)

@@ -18,12 +18,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 20;
+            item.damage = 15;
             item.ranged = true;
             item.width = 20;
             item.height = 62;
-            item.useTime = 29;
-            item.useAnimation = 29;
+            item.useTime = 30;
+            item.useAnimation = 30;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 1.5f;
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 }
                 if (type == ProjectileID.WoodenArrowFriendly)
                 {
-                    int num123 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ModContent.ProjectileType<FlareBat>(), (int)(damage * 1.25), knockBack, player.whoAmI, 0f, 0f);
+                    int num123 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ModContent.ProjectileType<FlareBat>(), damage, knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[num123].noDropItem = true;
                 }
                 else
