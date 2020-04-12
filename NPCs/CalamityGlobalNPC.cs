@@ -594,19 +594,19 @@ namespace CalamityMod.NPCs
                 }
             }
 
-			//Oiled debuff makes flame debuffs 50% more effective (instead of vanilla 25%)
-			/*if (npc.oiled)
+			//Oiled debuff makes flame debuffs 25% more effective
+			if (npc.oiled)
 			{
-				int num1 = (npc.onFire ? 2 : 0) + (npc.onFrostBurn ? 4 : 0) + (npc.onFire2 ? 3 : 0) + (npc.shadowFlame ? 7 : 0) + (bFlames ? 20 : 0) + (hFlames ? 25 : 0) + (gsInferno ? 125 : 0) + (aFlames ? 63 : 0) + (dFlames ? 1250 : 0);
-				if (num1 > 0)
+				int oiledDoT = (bFlames ? 10 : 0) + (hFlames ? 13 : 0) + (gsInferno ? 63 : 0) + (aFlames ? 32 : 0) + (dFlames ? 625 : 0);
+				if (oiledDoT > 0)
 				{
-					int num2 = num1 * 4 + 12;
-					npc.lifeRegen = npc.lifeRegen - num2;
-					int num3 = num2 / 6;
-					if (amount < num3)
-						amount = num3;
+					int lifeRegenValue = oiledDoT * 4 + 12;
+					npc.lifeRegen -= lifeRegenValue;
+					int damageValue = lifeRegenValue / 6;
+					if (damage < damageValue)
+						damage = damageValue;
 				}
-			}*/
+			}
 
 			ApplyDPSDebuff(vaporfied, 30, 6, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(irradiated, 20, 4, ref npc.lifeRegen, ref damage);
