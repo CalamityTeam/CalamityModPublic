@@ -77,9 +77,9 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
             Lighting.AddLight(projectile.Center, 0.3f, 0f, 0.5f);
-            float num633 = 800f;
-            float num634 = 1000f;
-            float num635 = 1600f;
+            float num633 = 1200f;
+            float num634 = 1500f;
+            float num635 = 2400f;
             float num636 = 150f;
             bool flag64 = projectile.type == ModContent.ProjectileType<PurpleButterfly>();
             player.AddBuff(ModContent.BuffType<ResurrectionButterflyBuff>(), 3600);
@@ -278,12 +278,6 @@ namespace CalamityMod.Projectiles.Summon
             int y6 = num214 * projectile.frame;
             Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, spriteEffects, 0f);
             return false;
-        }
-
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            if (target.type == NPCID.CultistBoss)
-                damage = (int)(damage * 0.75);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

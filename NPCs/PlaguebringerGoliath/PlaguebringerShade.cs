@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -676,6 +677,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
         {
             DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 8, 12);
             DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguedFuelPack>(), 10);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueCaller>(), 50); //no, this isn't getting boosted by Defiled.  Rover, I don't care.  PBG also drops it
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

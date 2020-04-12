@@ -12,13 +12,14 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("True Caustic Edge");
             Tooltip.SetDefault("Fires a bouncing caustic beam\n" +
+				"Bounces increase the beam's damage\n" +
                 "Inflicts on fire, poison, and venom");
         }
 
         public override void SetDefaults()
         {
             item.width = 64;
-            item.damage = 75;
+            item.damage = 100;
             item.melee = true;
             item.useAnimation = 28;
             item.useStyle = 1;
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

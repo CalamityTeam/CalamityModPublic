@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.timeLeft = 2;
             }
 
-			CalamityGlobalProjectile.FloatingPetAI(projectile, false, true, 0.1f);
+			CalamityGlobalProjectile.FloatingPetAI(projectile, true, 0.1f);
 
             //Dust
             if (Main.rand.NextBool(50))

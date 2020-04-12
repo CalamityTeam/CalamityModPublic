@@ -2025,7 +2025,7 @@ namespace CalamityMod.Projectiles
 			}
 		}
 
-		public static void FloatingPetAI(Projectile projectile, bool lightPet = false, bool faceRight = false, float tiltFloat = 0.05f)
+		public static void FloatingPetAI(Projectile projectile, bool faceRight, float tiltFloat, bool lightPet = false)
 		{
 			Player player = Main.player[projectile.owner];
 

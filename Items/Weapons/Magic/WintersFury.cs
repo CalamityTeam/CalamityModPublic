@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
         }
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 75;
             item.magic = true;
             item.mana = 7;
             item.width = 28;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.scale = 0.9f;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<Icicle>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 15f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

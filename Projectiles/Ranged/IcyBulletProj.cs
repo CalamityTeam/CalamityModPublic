@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 3;
             projectile.extraUpdates = 1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 10;
+            projectile.localNPCHitCooldown = 20;
 			projectile.coldDamage = true;
         }
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.owner == Main.myPlayer)
             {
-                for (int index = 0; index < 2; ++index)
+                for (int index = 0; index < Main.rand.Next(1,3); ++index) //1 to 2
                 {
                     float SpeedX = -projectile.velocity.X * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;
                     float SpeedY = -projectile.velocity.Y * Main.rand.Next(40, 70) * 0.01f + Main.rand.Next(-20, 21) * 0.4f;

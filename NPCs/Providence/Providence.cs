@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
@@ -829,7 +830,7 @@ namespace CalamityMod.NPCs.Providence
 							for (int num621 = 0; num621 < 40; num621++)
 							{
 								int num622 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
-									player2.width, player2.height, 244, 0f, 0f, 100, default, 2f);
+									player2.width, player2.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
 								Main.dust[num622].velocity *= 3f;
 								if (Main.rand.NextBool(2))
 								{
@@ -841,11 +842,11 @@ namespace CalamityMod.NPCs.Providence
 							for (int num623 = 0; num623 < 60; num623++)
 							{
 								int num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
-									player2.width, player2.height, 244, 0f, 0f, 100, default, 3f);
+									player2.width, player2.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 3f);
 								Main.dust[num624].noGravity = true;
 								Main.dust[num624].velocity *= 5f;
 								num624 = Dust.NewDust(new Vector2(player2.position.X, player2.position.Y),
-									player2.width, player2.height, 244, 0f, 0f, 100, default, 2f);
+									player2.width, player2.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
 								Main.dust[num624].velocity *= 2f;
 							}
 						}
@@ -1058,7 +1059,7 @@ namespace CalamityMod.NPCs.Providence
 
 						for (int num1221 = 0; num1221 < 1 + num1220; num1221++)
 						{
-							int num1222 = 244;
+							int num1222 = (int)CalamityDusts.ProfanedFire;
 							float num1223 = 1.2f;
 							if (num1221 % 2 == 1)
 								num1223 = 2.8f;
@@ -1446,7 +1447,7 @@ namespace CalamityMod.NPCs.Providence
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/ProvidenceHurt"), npc.Center);
             }
             for (int k = 0; k < 15; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
 
             if (npc.life <= 0)
             {
@@ -1463,7 +1464,7 @@ namespace CalamityMod.NPCs.Providence
                 npc.position.Y = npc.position.Y - (float)(npc.height / 2);
                 for (int num621 = 0; num621 < 60; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -1473,10 +1474,10 @@ namespace CalamityMod.NPCs.Providence
                 }
                 for (int num623 = 0; num623 < 90; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 244, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }

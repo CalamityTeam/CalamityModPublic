@@ -75,7 +75,7 @@ namespace CalamityMod.Projectiles.Pets
                 dust += 1f;
             }
 
-			CalamityGlobalProjectile.FloatingPetAI(projectile, false, true);
+			CalamityGlobalProjectile.FloatingPetAI(projectile, true, 0.05f);
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
