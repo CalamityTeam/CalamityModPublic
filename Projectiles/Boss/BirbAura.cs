@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BirbAura : ModProjectile
     {
-		float timer = 0f;
+		float timer = 135f;
 		float timeBeforeVanish = 0f;
 
         public override void SetStaticDefaults()
@@ -124,6 +124,7 @@ namespace CalamityMod.Projectiles.Boss
 					Projectile.NewProjectile(fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ModContent.ProjectileType<RedLightning>(), damage, 0f, projectile.owner, ai0.ToRotation(), ai);
 				}
 			}
+			damage = 1;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -178,6 +179,10 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
 		{
+			if (timer > 15f)
+			{
+				return false;
+			}
 			if (projHitbox.Intersects(targetHitbox))
 			{
 				return true;
