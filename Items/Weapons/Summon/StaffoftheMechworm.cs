@@ -65,46 +65,19 @@ namespace CalamityMod.Items.Weapons.Summon
                 maxMinionScale = 10;
             }
             damage = (int)(damage * ((player.minionDamage * 5 / 3) + (player.minionDamage * 0.46f * (maxMinionScale - 1))));
-            int owner = player.whoAmI;
-            float num72 = item.shootSpeed;
-            player.itemTime = item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
-            Vector2 vector3 = Main.MouseWorld - vector2;
-            float velX = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float velY = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
-            {
-                velY = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
-            }
-            float dist = (float)Math.Sqrt((double)(velX * velX + velY * velY));
-            if ((float.IsNaN(velX) && float.IsNaN(velY)) || (velX == 0f && velY == 0f))
-            {
-                velX = (float)player.direction;
-                velY = 0f;
-                dist = num72;
-            }
-            else
-            {
-                dist = num72 / dist;
-            }
-            velX *= dist;
-            velY *= dist;
             int head = -1;
             int tail = -1;
-            int typeHead = ModContent.ProjectileType<MechwormHead>();
-            int typeTail = ModContent.ProjectileType<MechwormTail>();
-            for (int i = 0; i < Main.maxProjectiles; i++)
+            for (int num187 = 0; num187 < Main.projectile.Length; num187++)
             {
-                if (Main.projectile[i].active && Main.projectile[i].owner == owner)
+                if (Main.projectile[num187].active && Main.projectile[num187].owner == Main.myPlayer)
                 {
-                    if (head == -1 && Main.projectile[i].type == typeHead)
+                    if (head == -1 && Main.projectile[num187].type == ModContent.ProjectileType<MechwormHead>())
                     {
-                        head = i;
+                        head = num187;
                     }
-                    else if (tail == -1 && Main.projectile[i].type == typeTail)
+                    if (tail == -1 && Main.projectile[num187].type == ModContent.ProjectileType<MechwormTail>())
                     {
-                        tail = i;
+                        tail = num187;
                     }
                     if (head != -1 && tail != -1)
                     {
@@ -114,53 +87,30 @@ namespace CalamityMod.Items.Weapons.Summon
             }
             if (head == -1 && tail == -1)
             {
-                float num77 = Vector2.Dot(value, vector3);
-                if (num77 > 0f)
-                {
-                    player.ChangeDir(1);
-                }
-                else
-                {
-                    player.ChangeDir(-1);
-                }
-                velX = 0f;
-                velY = 0f;
-                vector2.X = (float)Main.mouseX + Main.screenPosition.X;
-                vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-                int curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormHead>(), damage, knockBack, owner);
+                speedX = 0f;
+                speedY = 0f;
+                position.X = (float)Main.mouseX + Main.screenPosition.X;
+                position.Y = (float)Main.mouseY + Main.screenPosition.Y;
+                int curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, curr, 0f);
                 int head2 = curr;
-
-                int prev = curr;
-                curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner, (float)prev);
-                Main.projectile[curr].identity = head2;
-
-                prev = curr;
-                curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, knockBack, owner, (float)prev);
-                Main.projectile[prev].localAI[1] = (float)curr;
-                Main.projectile[prev].netUpdate = true;
-                Main.projectile[curr].identity = head2;
-
-                prev = curr;
-                curr = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormTail>(), damage, knockBack, owner, (float)prev);
-                Main.projectile[prev].localAI[1] = (float)curr;
-                Main.projectile[prev].netUpdate = true;
+                curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MechwormBody2>(), damage, knockBack, player.whoAmI, curr, 0f);
+                Main.projectile[head2].localAI[1] = curr;
+                head2 = curr;
+                curr = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MechwormTail>(), damage, knockBack, player.whoAmI, curr, 0f);
+                Main.projectile[head2].localAI[1] = curr;
             }
             else if (head != -1 && tail != -1)
             {
-                float uuid = (float)Projectile.GetByUUID(Main.myPlayer, Main.projectile[tail].ai[0]);
-                int body = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, owner, uuid);
-                int back = Projectile.NewProjectile(vector2.X, vector2.Y, velX, velY, ModContent.ProjectileType<MechwormBody2>(), damage, knockBack, owner, (float)body);
-
-                Main.projectile[body].localAI[1] = (float)back;
-                Main.projectile[body].ai[1] = 1f;
+                int body = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MechwormBody>(), damage, knockBack, player.whoAmI, Projectile.GetByUUID(Main.myPlayer, Main.projectile[tail].ai[0]), 0f);
+                int body2 = body;
+                body = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MechwormBody2>(), damage, knockBack, player.whoAmI, body, 0f);
+                Main.projectile[body2].localAI[1] = body;
+                Main.projectile[body2].netUpdate = true;
+                Main.projectile[body2].ai[1] = 1f;
+                Main.projectile[body].localAI[1] = tail;
                 Main.projectile[body].netUpdate = true;
-                Main.projectile[body].identity = head;
-
-                Main.projectile[back].localAI[1] = (float)tail;
-                Main.projectile[back].netUpdate = true;
-                Main.projectile[back].ai[1] = 1f;
-                Main.projectile[body].identity = head;
-
+                Main.projectile[body].ai[1] = 1f;
                 Main.projectile[tail].ai[0] = Main.projectile[body].projUUID;
                 Main.projectile[tail].netUpdate = true;
                 Main.projectile[tail].ai[1] = 1f;

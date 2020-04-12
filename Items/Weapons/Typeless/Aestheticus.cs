@@ -14,7 +14,6 @@ namespace CalamityMod.Items.Weapons.Typeless
             DisplayName.SetDefault("Aestheticus");
             Tooltip.SetDefault("Fires crystals that explode and slow enemies down\n" +
                 "This weapon scales with all your damage stats at once");
-			Item.staff[item.type] = true;
 		}
 
         public override void SetDefaults()
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.rare = 3;
             item.useAnimation = 25;
             item.useTime = 25;
-            item.useStyle = 5;
+            item.useStyle = 1;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
@@ -34,11 +33,6 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.shoot = ModContent.ProjectileType<CursorProj>();
             item.shootSpeed = 5f;
             item.Calamity().customRarity = CalamityRarity.Dedicated;
-        }
-
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(10, 10);
         }
 
         // Aestheticus scales off of all damage types simultaneously (meaning it scales 5x from universal damage boosts).

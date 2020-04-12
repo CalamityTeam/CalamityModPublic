@@ -1758,16 +1758,15 @@ namespace CalamityMod.Projectiles
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-			//Vector2 drawFrom = drawCentered ? projectile.Center : projectile.position;
-
 			if (CalamityMod.CalamityConfig.Afterimages)
             {
+                Vector2 centerOffset = drawCentered ? projectile.Size / 2f : Vector2.Zero;
                 switch (trailingMode)
                 {
                     case 0:
                         for (int i = 0; i < projectile.oldPos.Length; i++)
                         {
-                            Vector2 drawPos = projectile.oldPos[i] + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+                            Vector2 drawPos = projectile.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
                             Color color = projectile.GetAlpha(lightColor) * ((float)(projectile.oldPos.Length - i) / (float)projectile.oldPos.Length);
                             Main.spriteBatch.Draw(texture, drawPos, rectangle, color, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
                         }
@@ -1775,21 +1774,16 @@ namespace CalamityMod.Projectiles
 
                     case 1:
                         Color color25 = Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16));
-                        int num157 = 8;
-                        int num161 = 1;
-                        while (num161 < num157)
+                        int whyIsThisAlwaysEight = 8;
+                        int k = 1;
+                        while (k < whyIsThisAlwaysEight)
                         {
                             Color color26 = color25;
                             color26 = projectile.GetAlpha(color26);
-                            goto IL_6899;
-                            IL_6881:
-                            num161 += afterimageCounter;
-                            continue;
-                            IL_6899:
-                            float num164 = (float)(num157 - num161);
+                            float num164 = (float)(whyIsThisAlwaysEight - k);
                             color26 *= num164 / ((float)ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f);
-                            Main.spriteBatch.Draw(texture, projectile.oldPos[num161] + projectile.Size / 2f - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, color26, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
-                            goto IL_6881;
+                            Main.spriteBatch.Draw(texture, projectile.oldPos[k] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, color26, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
+                            k += afterimageCounter;
                         }
                         break;
 
@@ -1797,7 +1791,10 @@ namespace CalamityMod.Projectiles
                         break;
                 }
             }
-            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, projectile.GetAlpha(lightColor), projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
+
+            // Draw the projectile itself
+            Vector2 startPos = drawCentered ? projectile.Center : projectile.position;
+            Main.spriteBatch.Draw(texture, startPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, projectile.GetAlpha(lightColor), projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
         }
         #endregion
 

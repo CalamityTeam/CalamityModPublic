@@ -742,7 +742,7 @@ namespace CalamityMod.World
             calamityTiles = tileCounts[ModContent.TileType<CharredOre>()] + tileCounts[ModContent.TileType<BrimstoneSlag>()];
             sunkenSeaTiles = tileCounts[ModContent.TileType<EutrophicSand>()] + tileCounts[ModContent.TileType<Navystone>()] + tileCounts[ModContent.TileType<SeaPrism>()];
             abyssTiles = tileCounts[ModContent.TileType<AbyssGravel>()] + tileCounts[ModContent.TileType<Voidstone>()];
-            sulphurTiles = tileCounts[ModContent.TileType<SulphurousSand>()];
+            sulphurTiles = tileCounts[ModContent.TileType<SulphurousSand>()] + tileCounts[ModContent.TileType<SulphurousSandstone>()] + tileCounts[ModContent.TileType<HardenedSulphurousSandstone>()];
 
             #region Astral Stuff
             int astralDesertTiles = tileCounts[ModContent.TileType<AstralSand>()] + tileCounts[ModContent.TileType<AstralSandstone>()] + tileCounts[ModContent.TileType<HardenedAstralSand>()] + tileCounts[ModContent.TileType<AstralFossil>()];
@@ -864,6 +864,16 @@ namespace CalamityMod.World
                 }));
                 #endregion
 
+                int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
+                if (SulphurIndex != -1)
+                {
+                    tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur", delegate (GenerationProgress progress)
+                    {
+                        progress.Message = "Sulphur Sea";
+                        Abyss.PlaceSulphurSea();
+                    }));
+                }
+
                 tasks.Insert(FinalIndex + 2, new PassLegacy("SpecialShrines", delegate (GenerationProgress progress)
                 {
                     progress.Message = "Special Shrines";
@@ -876,18 +886,13 @@ namespace CalamityMod.World
                     Abyss.PlaceAbyss();
                 }));
 
-                // Moved to prevent the sulf sea caverns from being swallowed by the abyss opening
-                int SulphurIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
-                if (SulphurIndex != -1)
+                tasks.Insert(FinalIndex + 4, new PassLegacy("Sulphur2", delegate (GenerationProgress progress)
                 {
-                    tasks.Insert(SulphurIndex + 1, new PassLegacy("Sulphur", delegate (GenerationProgress progress)
-                    {
-                        progress.Message = "Sulphur Sea";
-                        Abyss.PlaceSulphurSea();
-                    }));
-                }
+                    progress.Message = "Finishing Sulphur Sea";
+                    Abyss.FinishGeneratingSulphurSea();
+                }));
 
-                tasks.Insert(FinalIndex + 4, new PassLegacy("IWannaRock", delegate (GenerationProgress progress)
+                tasks.Insert(FinalIndex + 5, new PassLegacy("IWannaRock", delegate (GenerationProgress progress)
                 {
                     progress.Message = "I Wanna Rock";
                     WorldGenerationMethods.PlaceRoxShrine();

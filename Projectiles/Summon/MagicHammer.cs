@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon
 			}
             int num716 = -1;
             Vector2 vector59 = projectile.Center;
-            float num717 = 700f;
+            float num717 = MagicHat.Range;
             if (projectile.localAI[0] > 0f)
             {
                 projectile.localAI[0] -= 1f;
@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Summon
                     float num721 = Main.npc[num720].position.X + (float)(Main.npc[num720].width / 2);
                     float num722 = Main.npc[num720].position.Y + (float)(Main.npc[num720].height / 2);
                     float num723 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num721) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num722);
-                    if (num723 < 1000f)
+                    if (num723 < MagicHat.Range * 1.25f)
                     {
                         flag32 = true;
                         vector59 = Main.npc[num720].Center;

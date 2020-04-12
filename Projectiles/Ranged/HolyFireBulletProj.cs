@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = 12;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.extraUpdates = 5;
+            projectile.extraUpdates = 4;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.ranged = true;

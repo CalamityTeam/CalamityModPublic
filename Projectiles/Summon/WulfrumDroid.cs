@@ -225,12 +225,8 @@ namespace CalamityMod.Projectiles.Summon
 			Vector2 vec = vector2_3 - projectile.Center;
 			vec.Normalize();
 			Vector2 vec2 = vec * 10f;
-			int bolt = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vec2.X, vec2.Y, ModContent.ProjectileType<WulfrumBolt>(), projectile.damage, 0.0f, Main.myPlayer, 0.0f, 0.0f);
-			Main.projectile[bolt].Calamity().forceMinion = true;
+			int bolt = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vec2.X, vec2.Y, ModContent.ProjectileType<WulfrumBoltMinion>(), projectile.damage, 0.0f, Main.myPlayer, 0.0f, 0.0f);
 			Main.projectile[bolt].netUpdate = true;
-			Main.projectile[bolt].penetrate = 1;
-			Main.projectile[bolt].extraUpdates = 1;
-			ProjectileID.Sets.MinionShot[Main.projectile[bolt].type] = true;
 			projectile.netUpdate = true;
         }
 

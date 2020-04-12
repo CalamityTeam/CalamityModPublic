@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Ammo
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
             item.shoot = ModContent.ProjectileType<HolyFireBulletProj>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 6f;
             item.ammo = 97;
         }
 

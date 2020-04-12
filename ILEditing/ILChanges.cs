@@ -1,14 +1,6 @@
-﻿using CalamityMod.Events;
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using MonoMod.Cil;
+﻿using MonoMod.Cil;
 using System;
-using System.Reflection;
 using Terraria;
-using Terraria.Localization;
-using Terraria.ModLoader;
-using static Mono.Cecil.Cil.OpCodes;
 
 namespace CalamityMod.ILEditing
 {
@@ -21,10 +13,13 @@ namespace CalamityMod.ILEditing
         {
             IL.Terraria.WorldGen.MakeDungeon += (il) =>
             {
-                var cursor = new ILCursor(il)
+                var cursor = new ILCursor(il);
+                if (!cursor.TryGotoNext(i => i.MatchStsfld("Terraria.WorldGen", "dMaxY")))
                 {
-                    Index = 45
-                };
+                    CalamityMod.instance.Logger.Warn("Dungeon movement editing code failed.");
+                    return;
+                }
+                cursor.Index++;
                 cursor.EmitDelegate<Action>(() =>
                 {
                     WorldGen.dungeonX += (WorldGen.dungeonX < Main.maxTilesX / 2).ToDirectionInt() * 450;

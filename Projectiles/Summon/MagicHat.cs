@@ -9,11 +9,15 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class MagicHat : ModProjectile
     {
+        public const float Range = 1500.0001f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Magic Hat");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
@@ -67,7 +71,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.position.X = (float)(int)projectile.position.X;
             projectile.position.Y = (float)(int)projectile.position.Y;
 
-			//I don't know what this is
+			//Change the summons scale size a little bit to make it pulse in and out
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
             projectile.scale = num395 + 0.95f;
@@ -89,8 +93,7 @@ namespace CalamityMod.Projectiles.Summon
             if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
-                    modProj.spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
+                    modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
                 projectile.damage = damage2;
             }
 
@@ -99,7 +102,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 float projPosX = projectile.position.X;
                 float projPosY = projectile.position.Y;
-                float detectionRange = 1500f;
+                float detectionRange = Range;
                 bool enemyDetected = false;
                 if (player.HasMinionAttackTargetNPC)
                 {
