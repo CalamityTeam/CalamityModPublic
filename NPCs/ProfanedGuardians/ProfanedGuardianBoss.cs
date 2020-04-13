@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.SummonItems;
@@ -23,6 +24,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
     {
         private int spearType = 0;
         private int dustTimer = 3;
+        private int immuneTimer = 300;
 
         public override void SetStaticDefaults()
         {
@@ -80,6 +82,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             writer.Write(spearType);
             writer.Write(dustTimer);
+            writer.Write(immuneTimer);
             writer.Write(npc.dontTakeDamage);
         }
 
@@ -87,6 +90,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             spearType = reader.ReadInt32();
             dustTimer = reader.ReadInt32();
+            immuneTimer = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
         }
 
@@ -149,10 +153,21 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			npc.defense = (isHoly || isHell || CalamityWorld.bossRushActive) ? 50 : 99999;
+
+            // Become immune over time if target isn't in hell or hallow
+            if (!isHoly && !isHell && !CalamityWorld.bossRushActive)
+            {
+                if (immuneTimer > 0)
+                    immuneTimer--;
+            }
+            else
+                immuneTimer = 300;
+
+            // Take damage or not
+            npc.dontTakeDamage = immuneTimer <= 0;
 
 			bool flag100 = false;
-            for (int num569 = 0; num569 < 200; num569++)
+            for (int num569 = 0; num569 < Main.maxNPCs; num569++)
             {
                 if ((Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<ProfanedGuardianBoss2>()) || (Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<ProfanedGuardianBoss3>()))
                 {
@@ -184,7 +199,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
                 if (Main.rand.Next(3) < num1009)
                 {
-                    int num1012 = Dust.NewDust(vectorCenter - new Vector2((float)num1010), num1010 * 2, num1010 * 2, 244, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
+                    int num1012 = Dust.NewDust(vectorCenter - new Vector2((float)num1010), num1010 * 2, num1010 * 2, (int)CalamityDusts.ProfanedFire, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
                     Main.dust[num1012].noGravity = true;
                     Main.dust[num1012].velocity *= 0.2f;
                     Main.dust[num1012].fadeIn = 1f;
@@ -465,7 +480,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -475,7 +490,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossA4"), 1f);
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

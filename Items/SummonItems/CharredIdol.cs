@@ -13,7 +13,8 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Charred Idol");
             Tooltip.SetDefault("Use in the Brimstone Crag at your own risk\n" +
-               "Summons the Brimstone Elemental");
+               "Summons the Brimstone Elemental\n" +
+			   "The boss enrages outside of her home in the crags");
         }
 
         public override void SetDefaults()

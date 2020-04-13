@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Summon
                     player.MinionDamage());
                 projectile.damage = damage2;
             }
-            if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+            if (Math.Abs(projectile.velocity.X) > 0.2f)
             {
                 projectile.spriteDirection = -projectile.direction;
             }
@@ -75,8 +75,8 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
             Lighting.AddLight(projectile.Center, 0.3f, 0.2f, 0.3f);
-            float num633 = 700f;
-            float num634 = 1100f;
+            float num633 = 1200f;
+            float num634 = 1500f;
             float num635 = 2400f;
             float num636 = 150f;
             bool flag64 = projectile.type == ModContent.ProjectileType<PinkButterfly>();

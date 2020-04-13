@@ -240,6 +240,7 @@ namespace CalamityMod.CalPlayer
         public bool perfmini = false;
         public bool akato = false;
         public bool leviPet = false;
+        public bool plaguebringerBab = false;
         public bool rotomPet = false;
         public bool sparks = false;
         public bool sirenPet = false;
@@ -1249,6 +1250,7 @@ namespace CalamityMod.CalPlayer
             perfmini = false;
             akato = false;
             leviPet = false;
+            plaguebringerBab = false;
             rotomPet = false;
             sparks = false;
             sirenPet = false;
@@ -5317,7 +5319,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (proj.magic)
                 {
-                    damageMult += 0.1;
+                    damageMult += 0.5;
                 }
             }
             if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)

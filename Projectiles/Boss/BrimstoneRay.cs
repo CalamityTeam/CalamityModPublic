@@ -64,11 +64,14 @@ namespace CalamityMod.Projectiles.Boss
 
             projectile.scale = (float)Math.Sin((double)(projectile.localAI[0] * (float)Math.PI / 105f)) * 10f * num801;
             if (projectile.scale > num801)
-            {
                 projectile.scale = num801;
-            }
 
 			float num804 = projectile.velocity.ToRotation();
+
+			// Rotating beam for test AI
+			if (projectile.ai[0] > 0f)
+				num804 += Main.npc[(int)projectile.ai[1]].spriteDirection * MathHelper.TwoPi / 360f;
+
 			projectile.rotation = num804 - MathHelper.PiOver2;
 			projectile.velocity = num804.ToRotationVector2();
 

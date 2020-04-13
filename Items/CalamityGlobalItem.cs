@@ -104,7 +104,7 @@ namespace CalamityMod.Items
                 item.damage = (int)(item.damage * 1.25);
             else if (CalamityMod.twentyDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.2);
-            else if (item.type == ItemID.Frostbrand || item.type == ItemID.MagnetSphere)
+            else if (item.type == ItemID.MagnetSphere)
                 item.damage = (int)(item.damage * 1.1);
             else if (item.type == ItemID.Razorpine)
                 item.damage = (int)(item.damage * 0.95);

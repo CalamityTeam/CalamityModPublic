@@ -594,19 +594,19 @@ namespace CalamityMod.NPCs
                 }
             }
 
-			//Oiled debuff makes flame debuffs 50% more effective (instead of vanilla 25%)
-			/*if (npc.oiled)
+			//Oiled debuff makes flame debuffs 25% more effective
+			if (npc.oiled)
 			{
-				int num1 = (npc.onFire ? 2 : 0) + (npc.onFrostBurn ? 4 : 0) + (npc.onFire2 ? 3 : 0) + (npc.shadowFlame ? 7 : 0) + (bFlames ? 20 : 0) + (hFlames ? 25 : 0) + (gsInferno ? 125 : 0) + (aFlames ? 63 : 0) + (dFlames ? 1250 : 0);
-				if (num1 > 0)
+				int oiledDoT = (bFlames > 0 ? 10 : 0) + (hFlames > 0 ? 13 : 0) + (gsInferno > 0 ? 63 : 0) + (aFlames > 0 ? 32 : 0) + (dFlames > 0 ? 625 : 0);
+				if (oiledDoT > 0)
 				{
-					int num2 = num1 * 4 + 12;
-					npc.lifeRegen = npc.lifeRegen - num2;
-					int num3 = num2 / 6;
-					if (amount < num3)
-						amount = num3;
+					int lifeRegenValue = oiledDoT * 4 + 12;
+					npc.lifeRegen -= lifeRegenValue;
+					int damageValue = lifeRegenValue / 6;
+					if (damage < damageValue)
+						damage = damageValue;
 				}
-			}*/
+			}
 
 			ApplyDPSDebuff(vaporfied, 30, 6, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(irradiated, 20, 4, ref npc.lifeRegen, ref damage);
@@ -3374,6 +3374,52 @@ namespace CalamityMod.NPCs
 			if (npc.townNPC && projectile.hostile)
 				damage *= 2;
 
+			if (!projectile.npcProj && !projectile.trap)
+			{
+				if (ShouldAffectNPC(npc) && Main.rand.NextBool(15) && !CalamityPlayer.areThereAnyDamnBosses)
+				{
+					if (modPlayer.eGauntlet && projectile.melee)
+					{
+						damage = npc.lifeMax * 3;
+					}
+
+					if (modPlayer.eTalisman && projectile.magic)
+					{
+						damage = npc.lifeMax * 3;
+					}
+
+					if (modPlayer.nanotech && projectile.Calamity().rogue)
+					{
+						damage = npc.lifeMax * 3;
+					}
+
+					if (modPlayer.eQuiver && projectile.ranged)
+					{
+						damage = npc.lifeMax * 3;
+					}
+
+					if (modPlayer.nucleogenesis)
+					{
+						if ((projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+						{
+							damage = npc.lifeMax * 3;
+						}
+					}
+				}
+
+				if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
+				{
+					damage = (int)(damage * 1.1);
+				}
+			}
+
+			NPCResists(npc, projectile, damage);
+        }
+
+		#region NPC Resists
+		private void NPCResists(NPC npc, Projectile projectile, int damage)
+		{
+			Player player = Main.player[projectile.owner];
 			if (AstrumDeusIDs.Contains(npc.type))
 			{
 				if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
@@ -3407,22 +3453,22 @@ namespace CalamityMod.NPCs
 			{
 				if (projectile.type == ModContent.ProjectileType<ShatteredSunScorchedBlade>())
 				{
-                    damage = (int)((double)damage * 0.9);
+                    damage = (int)(damage * 0.9);
 				}
                 else if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>() || projectile.type == ModContent.ProjectileType<MoltenBlobThrown>())
                 {
                     if (projectile.penetrate == -1)
                         projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
-                    damage = (int)((double)damage * 0.75);
+                    damage = (int)(damage * 0.75);
                 }
                 else if (projectile.type == ModContent.ProjectileType<ElementalAxeMinion>() || projectile.type == ModContent.ProjectileType<DazzlingStabber>())
                 {
-                    damage = (int)((double)damage * 0.5);
+                    damage = (int)(damage * 0.5);
                 }
 
 				if (projectile.penetrate == -1 && !projectile.minion)
 				{
-					damage = (int)((double)damage * 0.2);
+					damage = (int)(damage * 0.2);
 				}
 				else if (projectile.penetrate > 1)
 				{
@@ -3441,7 +3487,7 @@ namespace CalamityMod.NPCs
                 }
                 else if (projectile.type == ModContent.ProjectileType<SulphuricNukesplosion>())
                 {
-                    damage /= 3;
+                    damage = (int)(damage * 0.5);
                 }
                 else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
                 {
@@ -3449,12 +3495,14 @@ namespace CalamityMod.NPCs
                 }
                 else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>())
                 {
+                    if (projectile.penetrate == -1)
+                        projectile.penetrate = 1;
                     damage = (int)(damage * 0.1);
                 }
                 else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 3;
+                        projectile.penetrate = 2;
                     damage = (int)(damage * 0.1);
                 }
             }
@@ -3470,13 +3518,15 @@ namespace CalamityMod.NPCs
                 }
 				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>())
                 {
-                    damage = (int)(damage * 0.1);
+                    if (projectile.penetrate == -1)
+                        projectile.penetrate = 1;
+                    damage = (int)(damage * 0.05);
                 }
                 else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 3;
-                    damage = (int)(damage * 0.1);
+                        projectile.penetrate = 2;
+                    damage = (int)(damage * 0.05);
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
@@ -3520,70 +3570,29 @@ namespace CalamityMod.NPCs
                     damage = (int)(damage * 0.8);
                 }
             }
-
-			if (!projectile.npcProj && !projectile.trap)
+			else if (npc.type == NPCID.CultistBoss)
 			{
-				if (modPlayer.eGauntlet)
-				{
-					if (projectile.melee && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
-					{
-						if (!CalamityPlayer.areThereAnyDamnBosses)
-						{
-							damage = npc.lifeMax * 3;
-						}
-					}
-				}
-
-				if (modPlayer.eTalisman)
-				{
-					if (projectile.magic && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
-					{
-						if (!CalamityPlayer.areThereAnyDamnBosses)
-						{
-							damage = npc.lifeMax * 3;
-						}
-					}
-				}
-
-				if (modPlayer.nanotech)
-				{
-					if (projectile.Calamity().rogue && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
-					{
-						if (!CalamityPlayer.areThereAnyDamnBosses)
-						{
-							damage = npc.lifeMax * 3;
-						}
-					}
-				}
-
-				if (modPlayer.eQuiver)
-				{
-					if (projectile.ranged && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
-					{
-						if (!CalamityPlayer.areThereAnyDamnBosses)
-						{
-							damage = npc.lifeMax * 3;
-						}
-					}
-				}
-
-				if (modPlayer.nucleogenesis)
-				{
-					if ((projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
-					{
-						if (!CalamityPlayer.areThereAnyDamnBosses)
-						{
-							damage = npc.lifeMax * 3;
-						}
-					}
-				}
-
-				if (projectile.ranged && modPlayer.plagueReaper && pFlames > 0)
-				{
-					damage = (int)(damage * 1.1);
+                if (projectile.type == ModContent.ProjectileType<PurpleButterfly>() || projectile.type == ModContent.ProjectileType<SakuraBullet>())
+                {
+					damage = (int)(damage * 0.75);
 				}
 			}
-        }
+            else if (npc.type == NPCID.DukeFishron)
+			{
+                if (projectile.type == ModContent.ProjectileType<PurpleButterfly>() || projectile.type == ModContent.ProjectileType<SakuraBullet>())
+                {
+					damage = (int)(damage * 1.2);
+				}
+			}
+            else if (npc.type == ModContent.NPCType<Providence.Providence>())
+			{
+                if (projectile.type == ModContent.ProjectileType<ElementalAxeMinion>())
+                {
+					damage = (int)(damage * 1.5);
+				}
+			}
+		}
+		#endregion
         #endregion
 
         #region On Hit By Item

@@ -1,10 +1,12 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,6 +17,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
     [AutoloadBossHead]
     public class ProfanedGuardianBoss2 : ModNPC
     {
+        private int immuneTimer = 300;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Guardian");
@@ -67,6 +70,18 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.DeathSound = SoundID.NPCDeath55;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(immuneTimer);
+            writer.Write(npc.dontTakeDamage);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            immuneTimer = reader.ReadInt32();
+            npc.dontTakeDamage = reader.ReadBoolean();
+        }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
@@ -85,7 +100,19 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			bool expertMode = Main.expertMode;
             bool isHoly = player.ZoneHoly;
             bool isHell = player.ZoneUnderworldHeight;
-            npc.defense = (isHoly || isHell || CalamityWorld.bossRushActive) ? 40 : 99999;
+
+            // Become immune over time if target isn't in hell or hallow
+            if (!isHoly && !isHell && !CalamityWorld.bossRushActive)
+            {
+                if (immuneTimer > 0)
+                    immuneTimer--;
+            }
+            else
+                immuneTimer = 300;
+
+            // Take damage or not
+            npc.dontTakeDamage = immuneTimer <= 0;
+
             Vector2 vectorCenter = npc.Center;
 
             if (Math.Sign(npc.velocity.X) != 0)
@@ -102,7 +129,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     int dustType = Main.rand.Next(2);
                     if (dustType == 0)
                     {
-                        dustType = 244;
+                        dustType = (int)CalamityDusts.ProfanedFire;
                     }
                     else
                     {
@@ -279,7 +306,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -288,7 +315,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ProfanedGuardianBossGores/ProfanedGuardianBossT3"), 1f);
                 for (int k = 0; k < 50; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 244, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.ProfanedFire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

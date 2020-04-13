@@ -1,22 +1,17 @@
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class BabyGhostBell : ModProjectile
+    public class PlaguebringerBab : ModProjectile
     {
-        private bool underwater = false;
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Baby Ghost Bell");
+            DisplayName.SetDefault("Plaguebringer Bab");
             Main.projFrames[projectile.type] = 4;
             Main.projPet[projectile.type] = true;
-            ProjectileID.Sets.LightPet[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -32,39 +27,30 @@ namespace CalamityMod.Projectiles.Pets
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
             if (!player.active)
             {
                 projectile.active = false;
                 return;
             }
-            CalamityPlayer modPlayer = player.Calamity();
             if (player.dead)
             {
-                modPlayer.babyGhostBell = false;
+                modPlayer.plaguebringerBab = false;
             }
-            if (modPlayer.babyGhostBell)
+            if (modPlayer.plaguebringerBab)
             {
                 projectile.timeLeft = 2;
             }
-            underwater = Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
-            if (underwater)
-            {
-                Lighting.AddLight(projectile.Center, 0.3f, 0.9f, 1.5f);
-            }
-            else
-            {
-                Lighting.AddLight(projectile.Center, 0.1f, 0.3f, 0.5f);
-			}
-			CalamityGlobalProjectile.FloatingPetAI(projectile, false, 0.05f, true);
+			CalamityGlobalProjectile.FloatingPetAI(projectile, false, 0.05f);
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (projectile.frame >= 4)
             {
-                projectile.frame = 0;
+                projectile.frame = 2;
             }
         }
     }

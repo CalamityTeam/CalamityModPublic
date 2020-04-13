@@ -4,6 +4,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -1152,6 +1153,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PlaguebringerGoliathMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueCaller>(), 10);
             }
 
             // Mark PBG as dead
