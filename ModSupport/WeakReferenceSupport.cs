@@ -90,7 +90,7 @@ namespace CalamityMod
 			{ "Ravager", 12.5f },
 			{ "AstrumDeus", 13.5f },
 			{ "ProfanedGuardians", 14.5f },
-			{ "Draconic Swarmer", 14.6f },
+			{ "DraconicSwarmer", 14.6f },
 			{ "Providence", 15.01f }, // Thorium's Ragnarok is 15f
 			{ "CeaselessVoid", 15.5f },
 			{ "StormWeaver", 15.51f },
@@ -417,7 +417,7 @@ namespace CalamityMod
 
 			// Draconic Swarmer
 			{
-				BossDifficulty.TryGetValue("Draconic Swarmer", out float order);
+				BossDifficulty.TryGetValue("DraconicSwarmer", out float order);
 				int type = NPCType<Bumblefuck>();
 				int summon = ItemType<BirbPheromones>();
 				List<int> loot = new List<int>() { ItemType<BumblebirbBag>(), ItemType<EffulgentFeather>(), ItemType<GildedProboscis>(), ItemType<GoldenEagle>(), ItemType<RougeSlash>(), ItemType<Swordsplosion>(), ItemType<DynamoStemCells>(), ItemType<RedLightningContainer>(), ItemID.SuperHealingPotion };
@@ -788,7 +788,7 @@ namespace CalamityMod
 			AddToMutantShop("PlaguebringerGoliath", "Abomination", DownedPBG, Item.buyPrice(gold: 50));
 			AddToMutantShop("Ravager", "AncientMedallion", DownedRavager, Item.buyPrice(gold: 50));
 			AddToMutantShop("ProfanedGuardians", "ProfanedShard", DownedGuardians, Item.buyPrice(platinum: 5));
-			AddToMutantShop("Bumblebirb", "BirbPheromones", DownedBirb, Item.buyPrice(platinum: 5));
+			AddToMutantShop("DraconicSwarmer", "BirbPheromones", DownedBirb, Item.buyPrice(platinum: 5));
 			AddToMutantShop("OldDuke", "BloodwormItem", DownedBoomerDuke, Item.buyPrice(platinum: 8));
 
 			AddToAbomShop(InvasionDifficulty["Acid Rain Initial"], "CausticTear", DownedAcidRainInitial, Item.buyPrice(gold: 3));
