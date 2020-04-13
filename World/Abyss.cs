@@ -69,10 +69,12 @@ namespace CalamityMod.World
             CalamityWorld.abyssSide = Main.dungeonX < Main.maxTilesX / 2;
             DetermineYStart();
             CreateStartingBlock();
-            ChiselOutSea();
+            GenerateUpperSea();
             CreateWater();
             GenerateHardenedSandstone();
-            PlaceVentsAndFossils();
+            SettleWater(); // The island Y spawn position calculations are relative to water. Settling the water before doing these calculations is ideal.
+            GenerateIslands();
+            GenerateVentsAndFossils();
             SmoothenTheEntireSea();
         }
 
@@ -81,7 +83,6 @@ namespace CalamityMod.World
             PlaceStalactites();
             PlaceColumns();
             PlaceRustyChests();
-            PlaceTrees();
         }
 
         #region Perlin Noise
@@ -158,8 +159,8 @@ namespace CalamityMod.World
         }
         #endregion
 
-        #region Generating Beach Waters
-        public static void ChiselOutSea()
+        #region Generating Upper Beach Outline
+        public static void GenerateUpperSea()
         {
             int seaStartX = CalamityWorld.abyssSide ? 0 : Main.maxTilesX;
             int seaEndX = CalamityWorld.abyssSide ? BiomeWidth : Main.maxTilesX - BiomeWidth;
@@ -356,6 +357,95 @@ namespace CalamityMod.World
         }
         #endregion
 
+        #region Generating Islands
+        public const int IslandCount = 4;
+        public const int IslandXPadding = 20;
+
+        public const int IslandMinWidth = 15;
+        public const int IslandMaxWidth = 22;
+
+        public const int IslandMinDepth = 5;
+        public const int IslandMaxDepth = 10;
+
+        public const int CragmawIslandCount = 2;
+        public static void SettleWater()
+        {
+            Liquid.QuickWater(3, -1, -1);
+            WorldGen.WaterCheck();
+            int counter = 0;
+            Liquid.quickSettle = true;
+            while (counter < 10)
+            {
+                counter++;
+                while (Liquid.numLiquid > 0)
+                {
+                    Liquid.UpdateLiquid();
+                }
+                WorldGen.WaterCheck();
+            }
+            Liquid.quickSettle = false;
+        }
+        public static void GenerateIslands()
+        {
+            for (int i = 0; i < IslandCount; i++)
+            {
+                int y = YStart - 240;
+                int x = WorldGen.genRand.Next(IslandMaxWidth + IslandXPadding, BiomeWidth - IslandMaxWidth - IslandXPadding);
+                if (!CalamityWorld.abyssSide)
+                    x = Main.maxTilesX - x;
+                while (CalamityUtils.ParanoidTileRetrieval(x, y).liquid == 0)
+                {
+                    y++;
+                    if (y > Main.rockLayer - 35)
+                    {
+                        break;
+                    }
+                }
+                if (y > Main.rockLayer - 35)
+                {
+                    i--;
+                    continue; // Try again
+                }
+                int height = 2 * WorldGen.genRand.Next(IslandMinDepth, IslandMaxDepth + 1);
+                int width = WorldGen.genRand.Next(IslandMinWidth, IslandMaxWidth + 1);
+                int treePosition = WorldGen.genRand.Next(-width + 4, width - 4);
+
+                for (float theta = 0f; theta <= MathHelper.TwoPi; theta += 0.05f)
+                {
+                    for (int dx = 0; dx != (int)(height * Math.Cos(theta)); dx += (height * Math.Cos(theta) > 0).ToDirectionInt())
+                    {
+                        for (int dy = 0; dy != (int)(width * Math.Sin(theta)); dy += (width * Math.Sin(theta) > 0).ToDirectionInt())
+                        {
+                            if (WorldGen.InWorld(x + dx, y + dy))
+                            {
+                                if (dy >= -2 - WorldGen.genRand.Next(-2, 3))
+                                {
+                                    int extraHeight = WorldGen.genRand.Next(0, 1 + 1);
+                                    for (int y2 = 0; y2 <= extraHeight; y2++)
+                                    {
+                                        Main.tile[x + dx, y + dy - y2].type = (ushort)ModContent.TileType<SulphurousSandNoWater>();
+                                        Main.tile[x + dx, y + dy - y2].slope(0);
+                                        Main.tile[x + dx, y + dy - y2].halfBrick(false);
+                                        Main.tile[x + dx, y + dy - y2].active(true);
+                                    }
+                                    if (dy == -2 && dx == treePosition)
+                                    {
+                                        WorldGen.PlaceTile(x + dx, y + dy - extraHeight - 1, ModContent.TileType<AcidWoodTreeSapling>());
+                                        GrowSaplingImmediately(x + dx, y + dy - extraHeight - 1);
+                                    }
+                                }
+                                else
+                                {
+                                    Main.tile[x + dx, y + dy].liquid = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        #endregion
+
         #region Smoothening Everything
         public static void SmoothenTheEntireSea()
         {
@@ -378,7 +468,7 @@ namespace CalamityMod.World
         public const int ColumnMaxHeight = 27;
         public const int StalactitePairMinDistance = 6;
         public const int StalactitePairMaxDistance = 44;
-        public static void PlaceVentsAndFossils()
+        public static void GenerateVentsAndFossils()
         {
             for (int x = 1; x < BiomeWidth; x++)
             {
@@ -624,7 +714,7 @@ namespace CalamityMod.World
         #endregion
 
         #region Generating Chests
-        public const int CheckCutoffDistance = 45;
+        public const int CheckCutoffDistance = 35;
         public static void PlaceRustyChests()
         {
             // Ambiguity bullshit.
@@ -638,7 +728,7 @@ namespace CalamityMod.World
                 Chest chest = null;
                 int attempts = 0;
 
-                while (chest == null && attempts < 2500)
+                while (chest == null)
                 {
                     attempts++;
                     int x = WorldGen.genRand.Next(CheckCutoffDistance, BiomeWidth - CheckCutoffDistance);
@@ -650,7 +740,8 @@ namespace CalamityMod.World
                     if (WorldGen.InWorld(x, y))
                     {
                         if (!CalamityUtils.ParanoidTileRetrieval(x, y).active() &&
-                            SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x, y + 1).type))
+                            SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x, y + 1).type) &&
+                            CalamityUtils.ParanoidTileRetrieval(x, y + 1).active())
                         {
                             chest = WorldGenerationMethods.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestLocked>(), tileStyle: 1);
                         }
@@ -688,42 +779,7 @@ namespace CalamityMod.World
             }
             YStart = maxHeight;
         }
-        public static void PlaceTrees()
-        {
-            int lastTreeX = Main.maxTilesX / 2;
-            for (int x = 1; x < BiomeWidth + 50; x++)
-            {
-                int trueX = x;
-                if (!CalamityWorld.abyssSide)
-                {
-                    trueX = Main.maxTilesX - x;
-                }
-                for (int y = 30; y < (int)Main.rockLayer; y++)
-                {
-                    if (!CalamityUtils.TileSelectionSolid(trueX, y, 1, -30) && WorldGen.genRand.NextBool(7) &&
-                        CalamityUtils.ParanoidTileRetrieval(trueX, y + 1).active() &&
-                        CalamityUtils.ParanoidTileRetrieval(trueX, y + 1).type == ModContent.TileType<SulphurousSand>())
-                    {
-                        if (Math.Abs(lastTreeX - trueX) > WorldGen.genRand.Next(6, 11))
-                            continue;
-                        WorldGen.PlaceTile(trueX, y - 1, ModContent.TileType<AcidWoodTreeSapling>());
-                        bool success = GrowSaplingImmediately(trueX, y - 1);
-                        if (success)
-                        {
-                            lastTreeX = trueX;
-                        }
-                        if (!success &&
-                            Main.tile[trueX, y - 1].type == ModContent.TileType<AcidWoodTreeSapling>() &&
-                            Main.tile[trueX, y - 2].type == ModContent.TileType<AcidWoodTreeSapling>())
-                        {
-                            Main.tile[trueX, y - 1] = new Tile();
-                            Main.tile[trueX, y - 2] = new Tile();
-                        }
-                    }
-                }
-            }
-        }
-        public static bool GrowSaplingImmediately(int i, int j)
+        public static void GrowSaplingImmediately(int i, int j)
         {
             int trueStartingPositionY = j;
             while (TileLoader.IsSapling(Main.tile[i, trueStartingPositionY].type))
@@ -734,15 +790,15 @@ namespace CalamityMod.World
             Tile tileAbovePosition = Main.tile[i, trueStartingPositionY - 1];
             if (!tileAtPosition.active() || tileAtPosition.halfBrick() || tileAtPosition.slope() != 0)
             {
-                return false;
+                return;
             }
             if (tileAbovePosition.wall != 0)
             {
-                return false;
+                return;
             }
             if (!WorldGen.EmptyTileCheck(i - 1, i + 1, trueStartingPositionY - 30, trueStartingPositionY - 1, 20))
             {
-                return false;
+                return;
             }
             int treeHeight = WorldGen.genRand.Next(10, 21);
             int frameYIdeal = WorldGen.genRand.Next(-8, 9);
@@ -787,7 +843,6 @@ namespace CalamityMod.World
             {
                 NetMessage.SendTileSquare(-1, i, (int)(trueStartingPositionY - treeHeight * 0.5), treeHeight + 1, TileChangeType.None);
             }
-            return true;
         }
         #endregion
 

@@ -200,14 +200,21 @@ namespace CalamityMod.Projectiles.Summon
             // Kill laser when done
             if (projectile.ai[1] == GammaDeathray.TotalFadeoutTime && projectile.ai[0] != 0f)
             {
-                Main.projectile[(int)projectile.ai[0]].timeLeft = GammaDeathray.TotalFadeoutTime;
-                projectile.ai[0] = 0f;
-                projectile.netUpdate = true;
+                for (int i = 0; i < Main.projectile.Length; i++)
+                {
+                    if (Main.projectile[i].active && Main.projectile[i].ai[1] >= 0f && Main.projectile[i].type == projectile.type && Main.projectile[i].owner == projectile.owner)
+                    {
+                        Main.projectile[i].spriteDirection = 1;
+                        Main.projectile[i].ai[1] = 0f;
+                        Main.projectile[i].netUpdate = true;
+                        Main.projectile[(int)Main.projectile[i].ai[0]].timeLeft = GammaDeathray.TotalFadeoutTime;
+                    }
+                }
             }
             // Bullet/deathray
             if (projectile.ai[1] > 0)
             {
-                projectile.direction = projectile.spriteDirection = -1;
+                projectile.direction = projectile.spriteDirection = 1;
                 projectile.rotation = projectile.AngleTo(Main.MouseWorld);
                 projectile.ai[1]--;
             }
@@ -246,6 +253,7 @@ namespace CalamityMod.Projectiles.Summon
             else
             {
                 projectile.direction = projectile.spriteDirection = (player.Center.X - projectile.Center.X > 0).ToDirectionInt();
+                projectile.rotation = projectile.rotation.AngleTowards(0f, 0.05f);
                 projectile.frame = 0;
             }
 

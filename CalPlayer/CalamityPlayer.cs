@@ -510,6 +510,7 @@ namespace CalamityMod.CalPlayer
 		public bool silvaWings = false;
 		public int icicleCooldown = 0;
         public bool rustyMedal = false;
+        public bool noStupidNaturalARSpawns = false;
         #endregion
 
         #region Armor Set
@@ -1479,6 +1480,7 @@ namespace CalamityMod.CalPlayer
 			silvaWings = false;
 			corrosiveSpine = false;
             rustyMedal = false;
+            noStupidNaturalARSpawns = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -6198,13 +6200,13 @@ namespace CalamityMod.CalPlayer
             {
                 if (item.ranged)
                 {
-                    if (Main.rand.NextBool(8))
+                    if (Main.rand.NextBool(5))
                     {
                         for (int i = 0; i < 3; i++)
                         {
                             Vector2 startingPosition = Main.MouseWorld - Vector2.UnitY.RotatedByRandom(0.4f) * 1250f;
                             Vector2 directionToMouse = (startingPosition - Main.MouseWorld).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.1f);
-                            Projectile.NewProjectile(startingPosition, directionToMouse * 12f, ModContent.ProjectileType<ToxicannonDrop>(), (int)(damage * 0.3f), 0f, player.whoAmI);
+                            Projectile.NewProjectileDirect(startingPosition, directionToMouse * 12f, ModContent.ProjectileType<ToxicannonDrop>(), (int)(damage * 0.3f), 0f, player.whoAmI).penetrate = 2;
                         }
                     }
                 }

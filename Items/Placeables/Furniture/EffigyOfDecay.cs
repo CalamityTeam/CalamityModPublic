@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Placeables.Furniture
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Effigy of Decay");
-            Tooltip.SetDefault("When placed down nearby players have their damage can breath underwater\n" +
+            Tooltip.SetDefault("When placed down nearby players can breath underwater\n" +
                                "This effect does not work in the abyss\n" +
                                "Nearby players are also immune to the sulphuric poisoning");
         }
