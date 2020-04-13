@@ -1483,7 +1483,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Float to the side of the target and fire lasers
-			else
+			else if (npc.ai[1] == 1f)
 			{
 				int num831 = 1;
 				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)player.width)
@@ -1609,9 +1609,125 @@ namespace CalamityMod.NPCs
 				npc.ai[2] += 1f;
 				if (npc.ai[2] >= (phase2 ? 120f : 180f))
 				{
-					npc.ai[1] = 0f;
+					npc.ai[1] = (phase2 && !brotherAlive && lifeRatio < 0.7f && revenge ? 4f : 0f);
 					npc.ai[2] = 0f;
 					npc.TargetClosest(true);
+					npc.netUpdate = true;
+				}
+			}
+			else if (npc.ai[1] == 2f)
+			{
+				npc.rotation = num803;
+
+				float chargeVelocity = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 27f : 25f;
+
+				if (provy)
+					chargeVelocity *= 1.25f;
+
+				if (CalamityWorld.bossRushActive)
+					chargeVelocity *= 1.5f;
+
+				Vector2 vector = Vector2.Normalize(player.Center + player.velocity * 20f - npc.Center);
+				npc.velocity = vector * chargeVelocity;
+
+				npc.ai[1] = 3f;
+			}
+			else if (npc.ai[1] == 3f)
+			{
+				npc.ai[2] += 1f;
+
+				float chargeTime = 70f;
+				if (CalamityWorld.bossRushActive)
+					chargeTime *= 0.8f;
+
+				if (npc.ai[2] >= chargeTime)
+				{
+					npc.velocity *= 0.93f;
+					if ((double)npc.velocity.X > -0.1 && (double)npc.velocity.X < 0.1)
+						npc.velocity.X = 0f;
+					if ((double)npc.velocity.Y > -0.1 && (double)npc.velocity.Y < 0.1)
+						npc.velocity.Y = 0f;
+				}
+				else
+					npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) - 1.57f;
+
+				if (npc.ai[2] >= chargeTime + 15f)
+				{
+					npc.ai[3] += 1f;
+					npc.ai[2] = 0f;
+					npc.target = 255;
+					npc.rotation = num803;
+					if (npc.ai[3] > 1f)
+					{
+						npc.ai[1] = 0f;
+						npc.ai[3] = 0f;
+						return;
+					}
+					npc.ai[1] = 4f;
+				}
+			}
+			else
+			{
+				int num62 = 500;
+				float num63 = (calamityGlobalNPC.enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 20f : 14f;
+				float num64 = (calamityGlobalNPC.enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 0.5f : 0.35f;
+
+				if (provy)
+				{
+					num63 *= 1.25f;
+					num64 *= 1.25f;
+				}
+
+				if (CalamityWorld.bossRushActive)
+				{
+					num63 *= 1.5f;
+					num64 *= 1.5f;
+				}
+
+				int num408 = 1;
+				if (npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)Main.player[npc.target].width)
+					num408 = -1;
+
+				Vector2 vector11 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
+				float num65 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) + (float)(num62 * num408) - vector11.X;
+				float num66 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector11.Y;
+				float num67 = (float)Math.Sqrt((double)(num65 * num65 + num66 * num66));
+
+				num67 = num63 / num67;
+				num65 *= num67;
+				num66 *= num67;
+
+				if (npc.velocity.X < num65)
+				{
+					npc.velocity.X += num64;
+					if (npc.velocity.X < 0f && num65 > 0f)
+						npc.velocity.X += num64;
+				}
+				else if (npc.velocity.X > num65)
+				{
+					npc.velocity.X -= num64;
+					if (npc.velocity.X > 0f && num65 < 0f)
+						npc.velocity.X -= num64;
+				}
+				if (npc.velocity.Y < num66)
+				{
+					npc.velocity.Y += num64;
+					if (npc.velocity.Y < 0f && num66 > 0f)
+						npc.velocity.Y += num64;
+				}
+				else if (npc.velocity.Y > num66)
+				{
+					npc.velocity.Y -= num64;
+					if (npc.velocity.Y > 0f && num66 < 0f)
+						npc.velocity.Y -= num64;
+				}
+
+				npc.ai[2] += 1f;
+				if (npc.ai[2] >= 30f)
+				{
+					npc.TargetClosest(true);
+					npc.ai[1] = 2f;
+					npc.ai[2] = 0f;
 					npc.netUpdate = true;
 				}
 			}

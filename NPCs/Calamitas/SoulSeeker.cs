@@ -71,8 +71,15 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override bool PreAI()
         {
+			npc.damage = 0;
             bool expertMode = Main.expertMode;
-            if (start)
+			if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
+			{
+				npc.active = false;
+				npc.netUpdate = true;
+				return false;
+			}
+			if (start)
             {
                 for (int num621 = 0; num621 < 15; num621++)
                 {
@@ -89,7 +96,7 @@ namespace CalamityMod.NPCs.Calamitas
             timer++;
             if (timer > 60)
             {
-                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10))
+                if (Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10) && Main.npc[CalamityGlobalNPC.calamitas].ai[1] < 2f)
                 {
                     if (NPC.CountNPCS(ModContent.NPCType<LifeSeeker>()) < 3)
                     {
@@ -106,12 +113,6 @@ namespace CalamityMod.NPCs.Calamitas
                     Projectile.NewProjectile(npc.Center.X, npc.Center.Y, direction.X, direction.Y, ModContent.ProjectileType<BrimstoneBarrage>(), damage, 1f, npc.target);
                 }
                 timer = 0;
-            }
-            if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return false;
             }
             NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<CalamitasRun3>())];
             double deg = (double)npc.ai[1];
