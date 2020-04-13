@@ -8,8 +8,8 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Birb Pheromones");
-            Tooltip.SetDefault("Attracts the bumbling birb");
+            DisplayName.SetDefault("Exotic Pheromones");
+            Tooltip.SetDefault("Attracts the draconian swarmer");
         }
 
         public override void SetDefaults()
