@@ -24,8 +24,6 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = 8;
             projectile.alpha = 255;
             projectile.melee = true;
-            //projectile.aiStyle = 93;
-            //aiType = 514;
 			projectile.extraUpdates = 2;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20 * projectile.extraUpdates;
@@ -57,7 +55,7 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.rotation += projectile.spriteDirection * MathHelper.ToRadians(45f);
 			}
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile);
+            CalamityUtils.StickyProjAI(projectile, 15);
 			if (projectile.ai[0] == 2f)
 			{
 				projectile.velocity *= 0f;

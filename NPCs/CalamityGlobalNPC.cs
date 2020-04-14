@@ -3439,12 +3439,11 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.1);
 				}
-				else if (projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() ||
-					projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
+				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
 				{
 					damage = (int)(damage * 0.2);
 				}
-				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<PlaguenadeProj>())
+				else if (projectile.type == ModContent.ProjectileType<PlaguenadeProj>())
 				{
 					damage = (int)(damage * 0.3);
 				}
@@ -3500,7 +3499,7 @@ namespace CalamityMod.NPCs
                 }
                 else if (projectile.type == ModContent.ProjectileType<SulphuricNukesplosion>())
                 {
-                    damage = (int)(damage * 0.5);
+                    damage = (int)(damage * 0.38);
                 }
                 else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
                 {
@@ -3512,11 +3511,11 @@ namespace CalamityMod.NPCs
                         projectile.penetrate = 1;
                     damage = (int)(damage * 0.1);
                 }
-                else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
+				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 2;
-                    damage = (int)(damage * 0.1);
+                        projectile.penetrate = 1;
+                    damage = (int)(damage * 0.01);
                 }
             }
 			else if (AquaticScourgeIDs.Contains(npc.type))
@@ -3529,17 +3528,11 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>())
+				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
                         projectile.penetrate = 1;
-                    damage = (int)(damage * 0.05);
-                }
-                else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = 2;
-                    damage = (int)(damage * 0.05);
+                    damage = (int)(damage * 0.01);
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
@@ -3594,7 +3587,7 @@ namespace CalamityMod.NPCs
 			{
                 if (projectile.type == ModContent.ProjectileType<PurpleButterfly>() || projectile.type == ModContent.ProjectileType<SakuraBullet>())
                 {
-					damage = (int)(damage * 1.2);
+					damage = (int)(damage * 1.35);
 				}
 			}
             else if (npc.type == ModContent.NPCType<Providence.Providence>())

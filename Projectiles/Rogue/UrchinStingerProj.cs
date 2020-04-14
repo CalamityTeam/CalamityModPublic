@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.Calamity().stealthStrike)
             {
-                CalamityUtils.StickyProjAI(projectile);
+                CalamityUtils.StickyProjAI(projectile, 15);
                 projectile.localAI[1]++;
                 if (projectile.localAI[1] <= 20f && projectile.ai[0] != 1f)
                 {

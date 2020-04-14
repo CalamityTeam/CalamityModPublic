@@ -28,10 +28,8 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             bool shoot = false;
-            projectile.localAI[0]--;
-            if (projectile.localAI[0] <= 0f)
+            if (projectile.timeLeft % 30f == 0f)
             {
-                projectile.localAI[0] = 30f;
                 if (projectile.owner == Main.myPlayer)
                     shoot = true;
             }
@@ -125,9 +123,6 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
         }
 
-        public override bool CanDamage()
-        {
-            return projectile.ai[0] == 0f;
-        }
+        public override bool CanDamage() => projectile.ai[0] == 0f;
     }
 }
