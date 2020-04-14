@@ -547,7 +547,7 @@ namespace CalamityMod
 			// Initial Acid Rain
 			{
 				InvasionDifficulty.TryGetValue("Acid Rain Initial", out float order);
-				List<int> enemies = AcidRainEvent.PossibleEnemiesPreHM.Select(enemy => enemy.Item1).ToList();
+				List<int> enemies = AcidRainEvent.PossibleEnemiesPreHM.Select(enemy => enemy.Key).ToList();
 				int summon = ItemType<CausticTear>();
 				List<int> loot = new List<int>() { ItemType<SulfuricScale>() };
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
@@ -560,9 +560,9 @@ namespace CalamityMod
 			// Post-Aquatic Scourge Acid Rain
 			{
 				InvasionDifficulty.TryGetValue("Acid Rain Aquatic Scourge", out float order);
-				List<int> enemies = AcidRainEvent.PossibleEnemiesAS.Select(enemy => enemy.Item1).ToList();
+				List<int> enemies = AcidRainEvent.PossibleEnemiesAS.Select(enemy => enemy.Key).ToList();
 				enemies.Add(ModContent.NPCType<IrradiatedSlime>());
-				enemies.AddRange(AcidRainEvent.PossibleMinibossesAS.Select(miniboss => miniboss.Item1));
+				enemies.AddRange(AcidRainEvent.PossibleMinibossesAS.Select(miniboss => miniboss.Key));
 				List<int> summons = new List<int>() { ItemType<CausticTear>(), ItemType<CausticTearNonConsumable>() };
 				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<NuclearRod>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>() };
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
@@ -575,8 +575,8 @@ namespace CalamityMod
 			// Post-Polterghast Acid Rain
 			{
 				InvasionDifficulty.TryGetValue("Acid Rain Polterghast", out float order);
-				List<int> enemies = AcidRainEvent.PossibleEnemiesPolter.Select(enemy => enemy.Item1).ToList();
-				enemies.AddRange(AcidRainEvent.PossibleMinibossesPolter.Select(miniboss => miniboss.Item1));
+				List<int> enemies = AcidRainEvent.PossibleEnemiesPolter.Select(enemy => enemy.Key).ToList();
+				enemies.AddRange(AcidRainEvent.PossibleMinibossesPolter.Select(miniboss => miniboss.Key));
 				List<int> summons = new List<int>() { ItemType<CausticTear>(), ItemType<CausticTearNonConsumable>() };
 				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<NuclearRod>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>(), ModContent.ItemType<GammaHeart>() };
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };

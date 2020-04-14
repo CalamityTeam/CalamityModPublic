@@ -3993,42 +3993,69 @@ namespace CalamityMod.NPCs
 
                 if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
                 {
-                    List<(int, int, bool)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
-                    List<(int, int, bool)> PossibleMinibosses = new List<(int, int, bool)>();
+                    Dictionary<int, AcidRainSpawnData> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+                    Dictionary<int, AcidRainSpawnData> PossibleMinibosses = new Dictionary<int, AcidRainSpawnData>();
                     if (CalamityWorld.downedAquaticScourge)
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
                         PossibleMinibosses = AcidRainEvent.PossibleMinibossesAS;
-                        PossibleEnemies.Add((ModContent.NPCType<IrradiatedSlime>(), 1, false));
+                        if (!PossibleEnemies.ContainsKey(ModContent.NPCType<IrradiatedSlime>()))
+                        {
+                            PossibleEnemies.Add(ModContent.NPCType<IrradiatedSlime>(), new AcidRainSpawnData(1, 0f, AcidRainSpawnRequirement.Anywhere));
+                        }
                     }
                     if (CalamityWorld.downedPolterghast)
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
                         PossibleMinibosses = AcidRainEvent.PossibleMinibossesPolter;
                     }
-                    foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
+                    foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Key))
                     {
-                        if (spawnInfo.water || !PossibleEnemies.First(potential => potential.Item1 == enemy).Item3)
+                        bool canSpawn = true;
+                        switch (PossibleEnemies[enemy].SpawnRequirement)
+                        {
+                            case AcidRainSpawnRequirement.Anywhere:
+                                break;
+                            case AcidRainSpawnRequirement.Land:
+                                canSpawn = !spawnInfo.water;
+                                break;
+                            case AcidRainSpawnRequirement.Water:
+                                canSpawn = spawnInfo.water;
+                                break;
+                        }
+                        if (canSpawn)
                         {
                             if (!pool.ContainsKey(enemy))
                             {
-                                pool.Add(enemy, 1f);
+                                pool.Add(enemy, PossibleEnemies[enemy].SpawnRate);
                             }
                         }
                     }
                     if (PossibleMinibosses.Count > 0)
                     {
-                        foreach (int enemy in PossibleMinibosses.Select(miniboss => miniboss.Item1).ToList())
+                        foreach (int miniboss in PossibleMinibosses.Select(miniboss => miniboss.Key).ToList())
                         {
-                            if (spawnInfo.water || !PossibleMinibosses.First(potential => potential.Item1 == enemy).Item3)
+                            bool canSpawn = true;
+                            switch (PossibleMinibosses[miniboss].SpawnRequirement)
                             {
-                                pool.Add(enemy, enemy == ModContent.NPCType<CragmawMire>() ? 0.085f : 0.05f);
+                                case AcidRainSpawnRequirement.Anywhere:
+                                    break;
+                                case AcidRainSpawnRequirement.Land:
+                                    canSpawn = !spawnInfo.water;
+                                    break;
+                                case AcidRainSpawnRequirement.Water:
+                                    canSpawn = spawnInfo.water;
+                                    break;
+                            }
+                            if (canSpawn)
+                            {
+                                pool.Add(miniboss, PossibleMinibosses[miniboss].SpawnRate);
                             }
                         }
                     }
                     if (CalamityWorld.downedPolterghast)
                     {
-                        pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.08f);
+                        pool.Add(ModContent.NPCType<BloodwormNormal>(), AcidRainEvent.BloodwormSpawnRate);
                     }
                 }
             }

@@ -1648,23 +1648,23 @@ namespace CalamityMod.NPCs
         #region Acid Rain
         private void AcidRainProgression(NPC npc)
         {
-            List<(int, int, bool)> possibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+            Dictionary<int, AcidRainSpawnData> possibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
             if (CalamityWorld.downedAquaticScourge)
                 possibleEnemies = AcidRainEvent.PossibleEnemiesAS;
             if (CalamityWorld.downedPolterghast)
                 possibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
-            if (possibleEnemies.Select(enemy => enemy.Item1).Contains(npc.type) && CalamityWorld.rainingAcid)
+            if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type) && CalamityWorld.rainingAcid)
             {
-                CalamityWorld.acidRainPoints -= possibleEnemies.Find(enemy => enemy.Item1 == npc.type).Item2;
+                CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
                 if (CalamityWorld.downedPolterghast)
                 {
                     CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
                 }
             }
-            List<(int, int, bool)> possibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : AcidRainEvent.PossibleMinibossesAS;
-            if (possibleMinibosses.Select(miniboss => miniboss.Item1).Contains(npc.type))
+            Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : AcidRainEvent.PossibleMinibossesAS;
+            if (possibleMinibosses.Select(miniboss => miniboss.Key).Contains(npc.type))
             {
-                CalamityWorld.acidRainPoints -= possibleMinibosses.Find(enemy => enemy.Item1 == npc.type).Item2;
+                CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
                 if (CalamityWorld.downedPolterghast)
                 {
                     CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
