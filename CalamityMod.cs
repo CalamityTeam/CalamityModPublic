@@ -689,6 +689,8 @@ namespace CalamityMod
                 NPCID.GolemFistLeft,
                 NPCID.GolemHeadFree,
                 NPCID.DukeFishron,
+                NPCID.Sharkron,
+                NPCID.Sharkron2,
                 NPCID.CultistBoss,
                 NPCID.MoonLordHead,
                 NPCID.MoonLordHand,
@@ -1313,7 +1315,8 @@ namespace CalamityMod
                 ItemID.DaedalusStormbow,
                 ItemID.PhoenixBlaster,
                 ItemID.VenusMagnum,
-                ItemID.BlizzardStaff
+                ItemID.BlizzardStaff,
+                ItemID.DD2BetsyBow
             };
 
             pumpkinMoonBuffList = new List<int>()

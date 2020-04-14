@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 200;
+            item.damage = 120;
             item.knockBack = 13;
             item.crit += 8;
             item.melee = true;
@@ -245,7 +245,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     //Else shoot the spread of rock shards
                     int rotation = Main.rand.Next(-10, 11);
                     Vector2 pertubedspeed = new Vector2(speedX / 2, -10f * player.gravDir).RotatedBy(MathHelper.ToRadians(rotation));
-                    Projectile.NewProjectile(position.X, position.Y, pertubedspeed.X, pertubedspeed.Y, ModContent.ProjectileType<Rox1>(), (int)((double)damage * 0.5), 1f, player.whoAmI, Main.rand.Next(3));
+                    Projectile.NewProjectile(position.X, position.Y, pertubedspeed.X, pertubedspeed.Y, ModContent.ProjectileType<Rox1>(), (int)(damage * 0.5), 1f, player.whoAmI, Main.rand.Next(3));
                 }
                 RoxCanAlt = 0;
 
@@ -259,7 +259,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
 				if (player.whoAmI == Main.myPlayer)
 				{
-					//"Well you did refresh the cooldown but like i dont want it to be wasted on a player hit so imma ask you for a refund"
+					//"Well you did refresh the cooldown but like i dont want it to be wasted on an enemy hit so imma ask you for a refund"
 					if (Didrefresh)
 					{
 						Roxcooldown = 600;

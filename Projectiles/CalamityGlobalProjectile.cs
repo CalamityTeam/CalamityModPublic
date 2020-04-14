@@ -507,8 +507,6 @@ namespace CalamityMod.Projectiles
                 projectile.magic = false;
                 projectile.minion = false;
                 rogue = false;
-				ProjectileID.Sets.MinionShot[projectile.type] = false;
-				ProjectileID.Sets.SentryShot[projectile.type] = false;
             }
             else if (forceRanged)
             {
@@ -519,8 +517,6 @@ namespace CalamityMod.Projectiles
                 projectile.magic = false;
                 projectile.minion = false;
                 rogue = false;
-				ProjectileID.Sets.MinionShot[projectile.type] = false;
-				ProjectileID.Sets.SentryShot[projectile.type] = false;
             }
             else if (forceMagic)
             {
@@ -531,8 +527,6 @@ namespace CalamityMod.Projectiles
                 projectile.magic = true;
                 projectile.minion = false;
                 rogue = false;
-				ProjectileID.Sets.MinionShot[projectile.type] = false;
-				ProjectileID.Sets.SentryShot[projectile.type] = false;
             }
             else if (forceRogue)
             {
@@ -543,8 +537,6 @@ namespace CalamityMod.Projectiles
                 projectile.magic = false;
                 projectile.minion = false;
                 rogue = true;
-				ProjectileID.Sets.MinionShot[projectile.type] = false;
-				ProjectileID.Sets.SentryShot[projectile.type] = false;
             }
             else if (forceMinion)
             {
@@ -575,8 +567,6 @@ namespace CalamityMod.Projectiles
                 projectile.magic = false;
                 projectile.minion = false;
                 rogue = false;
-				ProjectileID.Sets.MinionShot[projectile.type] = false;
-				ProjectileID.Sets.SentryShot[projectile.type] = false;
             }
 
             if (projectile.type == ProjectileID.NettleBurstRight || projectile.type == ProjectileID.NettleBurstLeft || projectile.type == ProjectileID.NettleBurstEnd)

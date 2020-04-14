@@ -423,22 +423,8 @@ namespace CalamityMod.NPCs.GreatSandShark
                             velocityX *= 1.5f;
                             velocityY *= 1.5f;
                         }
-                        if (npc.velocity.X > velocityX)
-                        {
-                            npc.velocity.X = velocityX;
-                        }
-                        if (npc.velocity.X < -velocityX)
-                        {
-                            npc.velocity.X = -velocityX;
-                        }
-                        if (npc.velocity.Y > velocityY)
-                        {
-                            npc.velocity.Y = velocityY;
-                        }
-                        if (npc.velocity.Y < -velocityY)
-                        {
-                            npc.velocity.Y = -velocityY;
-                        }
+						npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -velocityX, velocityX);
+						npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -velocityY, velocityY);
                         Vector2 vec4 = npc.Center + npc.velocity.SafeNormalize(Vector2.Zero) * npc.Size.Length() / 2f + npc.velocity;
                         point15 = vec4.ToTileCoordinates();
                         tileSafely = Framing.GetTileSafely(point15);
@@ -576,14 +562,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                     npc.ai[0] = 1f;
                 }
                 npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
-                if (npc.rotation < -0.1f)
-                {
-                    npc.rotation = -0.1f;
-                }
-                if (npc.rotation > 0.1f)
-                {
-                    npc.rotation = 0.1f;
-                }
+				npc.rotation = MathHelper.Clamp(npc.rotation, -0.1f, 0.1f);
             }
         }
 

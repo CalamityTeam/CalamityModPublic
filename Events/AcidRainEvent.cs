@@ -12,66 +12,81 @@ using Terraria.Localization;
 
 namespace CalamityMod.Events
 {
-	public class AcidRainEvent
-	{
-        // Make sure this does not interfere with any vanilla values. An obscure and random number is used just in case
-        // Any other mods are changing the invasion ID as well.
-        public const int InvasionID = 57;
-
+    public enum AcidRainSpawnRequirement
+    {
+        Water,
+        Land,
+        Anywhere
+    }
+    public struct AcidRainSpawnData
+    {
+        public int InvasionContributionPoints { get; set; }
+        public float SpawnRate { get; set; }
+        public AcidRainSpawnRequirement SpawnRequirement { get; set; }
+        public AcidRainSpawnData(int totalPoints, float spawnRate, AcidRainSpawnRequirement spawnRequirement)
+        {
+            InvasionContributionPoints = totalPoints;
+            SpawnRate = spawnRate;
+            SpawnRequirement = spawnRequirement;
+        }
+    }
+    public class AcidRainEvent
+    {
         // A partially bright pale-ish cyan with a hint of yellow.
         public static readonly Color TextColor = new Color(115, 194, 147);
 
+        public const float BloodwormSpawnRate = 0.1f;
+
         // Not a readonly collection so that if anyone else wants to add stuff in here with their own mod, they can.
-        // The first value is the NPC type, the second is the value they're worth in the event.
-        // The third value is whether the enemy can only spawn in water
-        public static List<(int, int, bool)> PossibleEnemiesPreHM = new List<(int, int, bool)>()
+        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPreHM = new Dictionary<int, AcidRainSpawnData>()
         {
-            ( ModContent.NPCType<Radiator>(), 1, true ),
-            ( ModContent.NPCType<NuclearToad>(), 1, false ),
-            ( ModContent.NPCType<AcidEel>(), 1, true ),
-            ( ModContent.NPCType<Skyfin>(), 1, true ),
-            ( ModContent.NPCType<WaterLeech>(), 1, true )
+            { ModContent.NPCType<NuclearToad>(), new AcidRainSpawnData(1, 0.75f, AcidRainSpawnRequirement.Anywhere) },
+            { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) }
         };
 
-        public static List<(int, int, bool)> PossibleEnemiesAS = new List<(int, int, bool)>()
+        // Note: Irradiated Slimes spawn naturally
+        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesAS = new Dictionary<int, AcidRainSpawnData>()
         {
-            ( ModContent.NPCType<Radiator>(), 0, true ),
-            ( ModContent.NPCType<NuclearToad>(), 0, false ),
-            ( ModContent.NPCType<AcidEel>(), 0, true ),
-            ( ModContent.NPCType<Orthocera>(), 1, true ),
-            ( ModContent.NPCType<WaterLeech>(), 1, true ),
-            ( ModContent.NPCType<Skyfin>(), 1, true ),
-            ( ModContent.NPCType<Trilobite>(), 1, true ),
-            ( ModContent.NPCType<FlakCrab>(), 1, false ),
-            ( ModContent.NPCType<SulfurousSkater>(), 1, false )
+            { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<NuclearToad>(), new AcidRainSpawnData(0, 0.75f, AcidRainSpawnRequirement.Anywhere) },
+            { ModContent.NPCType<FlakCrab>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<Orthocera>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
         };
 
-        public static List<(int, int, bool)> PossibleEnemiesPolter = new List<(int, int, bool)>()
+        public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPolter = new Dictionary<int, AcidRainSpawnData>()
         {
-            ( ModContent.NPCType<Radiator>(), 0, true ),
-            ( ModContent.NPCType<NuclearToad>(), 0, false ),
-            ( ModContent.NPCType<AcidEel>(), 0, true ),
-            ( ModContent.NPCType<Orthocera>(), 1, true ),
-            ( ModContent.NPCType<GammaSlime>(), 1, false ),
-            ( ModContent.NPCType<WaterLeech>(), 1, true ),
-            ( ModContent.NPCType<Skyfin>(), 1, true ),
-            ( ModContent.NPCType<Trilobite>(), 1, true ),
-            ( ModContent.NPCType<FlakCrab>(), 1, false ),
-            ( ModContent.NPCType<SulfurousSkater>(), 1, false )
+            { ModContent.NPCType<Radiator>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<AcidEel>(), new AcidRainSpawnData(0, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<NuclearToad>(), new AcidRainSpawnData(0, 0.75f, AcidRainSpawnRequirement.Anywhere) },
+            { ModContent.NPCType<FlakCrab>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<Orthocera>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) },
+            { ModContent.NPCType<GammaSlime>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
         };
 
-        public static List<(int, int, bool)> PossibleMinibossesAS = new List<(int, int, bool)>()
+        public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesAS = new Dictionary<int, AcidRainSpawnData>()
         {
-            (ModContent.NPCType<CragmawMire>(), 5, true)
+            { ModContent.NPCType<CragmawMire>(), new AcidRainSpawnData(5, 0.08f, AcidRainSpawnRequirement.Water) }
         };
 
-        public static List<(int, int, bool)> PossibleMinibossesPolter = new List<(int, int, bool)>()
+        public static Dictionary<int, AcidRainSpawnData> PossibleMinibossesPolter = new Dictionary<int, AcidRainSpawnData>()
         {
-            (ModContent.NPCType<CragmawMire>(), 4, true),
-            (ModContent.NPCType<NuclearTerror>(), 8, false)
+            { ModContent.NPCType<CragmawMire>(), new AcidRainSpawnData(4, 0.08f, AcidRainSpawnRequirement.Water) },
+            { ModContent.NPCType<NuclearTerror>(), new AcidRainSpawnData(8, 0.05f, AcidRainSpawnRequirement.Anywhere) }
         };
 
-        public static readonly List<int> AllMinibosses = PossibleMinibossesAS.Select(miniboss => miniboss.Item1).ToList().Concat(PossibleMinibossesPolter.Select(miniboss => miniboss.Item1)).Distinct().ToList();
+        public static readonly List<int> AllMinibosses = PossibleMinibossesAS.Select(miniboss => miniboss.Key).ToList().Concat(PossibleMinibossesPolter.Select(miniboss => miniboss.Key)).Distinct().ToList();
 
         public static bool AnyRainMinibosses
         {
@@ -79,8 +94,8 @@ namespace CalamityMod.Events
             {
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
-                    if (Main.npc[i].active && (PossibleMinibossesAS.Select(miniboss => miniboss.Item1).Contains(Main.npc[i].type) ||
-                        PossibleMinibossesPolter.Select(miniboss => miniboss.Item1).Contains(Main.npc[i].type)))
+                    if (Main.npc[i].active && (PossibleMinibossesAS.Select(miniboss => miniboss.Key).Contains(Main.npc[i].type) ||
+                        PossibleMinibossesPolter.Select(miniboss => miniboss.Key).Contains(Main.npc[i].type)))
                     {
                         return true;
                     }
@@ -103,38 +118,6 @@ namespace CalamityMod.Events
             {
                 NetMessage.BroadcastChatMessage(NetworkText.FromKey(localizationKey), TextColor);
             }
-        }
-        /// <summary>
-        /// Checks if the player's screen is in the view of the invasion, based on <paramref name="rectangleCheckSize"/>.
-        /// </summary>
-        /// <param name="rectangleCheckSize">The area to check based on the screen.</param>
-        /// <param name="iconID">The ID for the icon. For more info on how this works, check <see cref="ILChanges.Initialize"/>.</param>.
-        /// <returns></returns>
-        public static bool NearInvasionCheck(int rectangleCheckSize)
-        {
-            Rectangle screen = new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
-            for (int i = 0; i < Main.npc.Length; i++)
-            {
-                if (Main.npc[i].active)
-                {
-                    int type = Main.npc[i].type;
-                    List<(int, int, bool)> PossibleEnemies = PossibleEnemiesPreHM;
-                    if (CalamityWorld.downedAquaticScourge)
-                        PossibleEnemies = PossibleEnemiesAS;
-                    if (CalamityWorld.downedPolterghast)
-                        PossibleEnemies = PossibleEnemiesPolter;
-                    if (PossibleEnemies.Select(enemy => enemy.Item2).Contains(type))
-                    {
-                        Rectangle invasionCheckArea = new Rectangle((int)Main.npc[i].Center.X - rectangleCheckSize / 2, (int)Main.npc[i].Center.Y - rectangleCheckSize / 2,
-                            rectangleCheckSize, rectangleCheckSize);
-                        if (screen.Intersects(invasionCheckArea))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
         }
         public static int NeededEnemyKills
         {

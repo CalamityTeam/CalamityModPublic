@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void AI()
         {
-            CalamityUtils.StickyProjAI(projectile);
+            CalamityUtils.StickyProjAI(projectile, 15);
 
             // Override the default DOT used in the method above.
             if (projectile.ai[0] == 1f)

@@ -240,22 +240,19 @@ namespace CalamityMod.Projectiles.Typeless
             for (int num53 = 0; num53 < 20; num53 = num3 + 1)
             {
                 int num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num47, 0f, 0f, 200, default, num50);
-                Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
-                Main.dust[num54].noGravity = true;
                 Dust dust = Main.dust[num54];
+                dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                dust.noGravity = true;
 				dust.velocity.Y -= 6f;
 				dust.velocity *= 3f;
-                dust = Main.dust[num54];
                 dust.velocity += value4 * Main.rand.NextFloat();
                 num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num48, 0f, 0f, 100, default, num51);
-                Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
-                dust = Main.dust[num54];
+                dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
 				dust.velocity.Y -= 6f;
 				dust.velocity *= 2f;
-                Main.dust[num54].noGravity = true;
-                Main.dust[num54].fadeIn = 1f;
-                Main.dust[num54].color = Color.Cyan * 0.5f;
-                dust = Main.dust[num54];
+                dust.noGravity = true;
+                dust.fadeIn = 1f;
+                dust.color = Color.Cyan * 0.5f;
                 dust.velocity += value4 * Main.rand.NextFloat();
                 num3 = num53;
             }
@@ -268,7 +265,6 @@ namespace CalamityMod.Projectiles.Typeless
 				dust.noGravity = true;
 				dust.velocity.Y -= 6f;
 				dust.velocity *= 0.5f;
-                dust = Main.dust[num56];
                 dust.velocity += value4 * (0.6f + 0.6f * Main.rand.NextFloat());
                 num3 = num55;
             }

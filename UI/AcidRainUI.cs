@@ -19,6 +19,10 @@ namespace CalamityMod.UI
 
             float progressAlpha = 1f;
             Vector2 screenCoords = new Vector2(Main.screenWidth - 120, Main.screenHeight - 40);
+            if (Main.invasionProgressNearInvasion || Main.invasionProgressAlpha > 0f)
+            {
+                screenCoords.Y -= 85;
+            }
             int sizeX = (int)(200f * progressAlpha);
             int sizeY = (int)(45f * progressAlpha);
             Rectangle screenCoordsRectangle =
@@ -59,6 +63,10 @@ namespace CalamityMod.UI
                 }
                 Texture2D iconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/AcidRainIcon");
                 Rectangle iconRectangle = Utils.CenteredRectangle(new Vector2(Main.screenWidth - x, Main.screenHeight - 80), (textMeasurement2 + new Vector2(iconTexture.Width + 12, 6f)) * progressAlpha);
+                if (Main.invasionProgressNearInvasion || Main.invasionProgressAlpha > 0f)
+                {
+                    iconRectangle.Y -= 85;
+                }
                 Utils.DrawInvBG(spriteBatch, iconRectangle, AcidRainEvent.TextColor * 0.5f);
                 spriteBatch.Draw(iconTexture, iconRectangle.Left() + Vector2.UnitX * progressAlpha * 8f, null, Color.White, 0f, new Vector2(0f, iconTexture.Height / 2), progressAlpha * 0.8f, SpriteEffects.None, 0f);
                 Utils.DrawBorderString(spriteBatch, invasionNameText, iconRectangle.Right() + Vector2.UnitX * progressAlpha * -22f, Color.White, progressAlpha * 0.9f, 1f, 0.4f, -1);
