@@ -159,7 +159,7 @@ namespace CalamityMod
                     //if we've found a valid boss target, ignore ALL targets which aren't bosses.
                     if (bossFound && !Main.npc[index].boss)
                         continue;
-                    if (Main.npc[index].CanBeChasedBy(null, false) || (Main.npc[index].active && Main.npc[index].type == NPCID.TargetDummy))
+                    if (Main.npc[index].CanBeChasedBy(null, false))
                     {
                         if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
                         {
@@ -175,7 +175,7 @@ namespace CalamityMod
             {
                 for (int index = 0; index < Main.npc.Length; index++)
                 {
-                    if (Main.npc[index].CanBeChasedBy(null, false) || (Main.npc[index].active && Main.npc[index].type == NPCID.TargetDummy))
+                    if (Main.npc[index].CanBeChasedBy(null, false))
                     {
                         if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
                         {
@@ -431,30 +431,30 @@ namespace CalamityMod
             Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
 			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
 			{
-				float scaleFactor10 = 0.33f;
+				float velocityMult = 0.33f;
 				if (goreIndex < (int)(goreAmt/3))
 				{
-					scaleFactor10 = 0.66f;
+					velocityMult = 0.66f;
 				}
 				if (goreIndex >= (int)((2*goreAmt)/3))
 				{
-					scaleFactor10 = 1f;
+					velocityMult = 1f;
 				}
 				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
 				Gore gore = Main.gore[smoke];
-				gore.velocity *= scaleFactor10;
+				gore.velocity *= velocityMult;
 				gore.velocity.X += 1f;
 				gore.velocity.Y += 1f;
 				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= scaleFactor10;
+				gore.velocity *= velocityMult;
 				gore.velocity.X -= 1f;
 				gore.velocity.Y += 1f;
 				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= scaleFactor10;
+				gore.velocity *= velocityMult;
 				gore.velocity.X += 1f;
 				gore.velocity.Y -= 1f;
 				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= scaleFactor10;
+				gore.velocity *= velocityMult;
 				gore.velocity.X -= 1f;
 				gore.velocity.Y -= 1f;
 			}
@@ -464,42 +464,58 @@ namespace CalamityMod
         /// Call this function in the ai of your projectile so it can stick to enemies, also requires ModifyHitNPCSticky to be called in ModifyHitNPC
         /// </summary>
         /// <param name="projectile">The projectile you're adding sticky behaviour to</param>
-        public static void StickyProjAI (Projectile projectile)
+        /// <param name="timeLeft">Number of seconds you want a projectile to cling to an NPC</param>
+        public static void StickyProjAI (Projectile projectile, int timeLeft)
         {
             if (projectile.ai[0] == 1f)
             {
+                int seconds = timeLeft;
+                bool killProj = false;
+                bool spawnDust = false;
+
+				//the projectile follows the NPC, even if it goes into blocks
                 projectile.tileCollide = false;
-                int num988 = 15;
-                bool flag54 = false;
-                bool flag55 = false;
+
+				//timer for triggering hit effects
                 projectile.localAI[0]++;
                 if (projectile.localAI[0] % 30f == 0f)
                 {
-                    flag55 = true;
+                    spawnDust = true;
                 }
-                int num989 = (int)projectile.ai[1];
-                if (projectile.localAI[0] >= (float)(60 * num988))
+
+				//So AI knows what NPC it is sticking to
+                int npcIndex = (int)projectile.ai[1];
+				NPC npc = Main.npc[npcIndex];
+
+				//Kill projectile after so many seconds or if the NPC it is stuck to no longer exists
+                if (projectile.localAI[0] >= (float)(60 * seconds))
                 {
-                    flag54 = true;
+                    killProj = true;
                 }
-                else if (num989 < 0 || num989 >= Main.maxNPCs)
+                else if (npcIndex < 0 || npcIndex >= Main.maxNPCs)
                 {
-                    flag54 = true;
+                    killProj = true;
                 }
-                else if (Main.npc[num989].active && !Main.npc[num989].dontTakeDamage)
+
+                else if (npc.active && !npc.dontTakeDamage)
                 {
-                    projectile.Center = Main.npc[num989].Center - projectile.velocity * 2f;
-                    projectile.gfxOffY = Main.npc[num989].gfxOffY;
-                    if (flag55)
+					//follow the NPC
+                    projectile.Center = npc.Center - projectile.velocity * 2f;
+                    projectile.gfxOffY = npc.gfxOffY;
+
+					//if attached to npc, trigger npc hit effects every half a second
+                    if (spawnDust)
                     {
-                        Main.npc[num989].HitEffect(0, 1.0);
+                        npc.HitEffect(0, 1.0);
                     }
                 }
                 else
                 {
-                    flag54 = true;
+                    killProj = true;
                 }
-                if (flag54)
+
+				//Kill the projectile if needed
+                if (killProj)
                 {
                     projectile.Kill();
                 }
@@ -514,52 +530,68 @@ namespace CalamityMod
         /// <param name="constantDamage">Decides if you want the projectile to deal damage while its sticked to enemies or not</param>
         public static void ModifyHitNPCSticky(Projectile projectile, int maxStick, bool constantDamage)
         {
+			Player player = Main.player[projectile.owner];
             Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
+
             if (projectile.owner == Main.myPlayer)
             {
-                for (int i = 0; i < Main.maxNPCs; i++)
+                for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                 {
-                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == ProjectileID.RottenEgg || (Main.npc[i].type == NPCID.Guide && projectile.owner < Main.maxPlayers && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < Main.maxPlayers && Main.player[projectile.owner].killClothier))) ||
-                        (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
+					NPC npc = Main.npc[npcIndex];
+					//covers most edge cases like voodoo dolls
+                    if (npc.active && !npc.dontTakeDamage &&
+                        ((projectile.friendly && (!npc.friendly || (npc.type == NPCID.Guide && projectile.owner < Main.maxPlayers && player.killGuide) || (npc.type == NPCID.Clothier && projectile.owner < Main.maxPlayers && player.killClothier))) ||
+                        (projectile.hostile && npc.friendly && !npc.dontTakeDamageFromHostiles)) && (projectile.owner < 0 || npc.immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
-                        if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))
+                        if (npc.noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(npc))
                         {
-                            bool flag3;
-                            if (Main.npc[i].type == NPCID.SolarCrawltipedeTail)
+                            bool stickingToNPC;
+							//Solar Crawltipede tail has special collision
+                            if (npc.type == NPCID.SolarCrawltipedeTail)
                             {
-                                Rectangle rect = Main.npc[i].getRect();
+                                Rectangle rect = npc.getRect();
                                 int num5 = 8;
                                 rect.X -= num5;
                                 rect.Y -= num5;
                                 rect.Width += num5 * 2;
                                 rect.Height += num5 * 2;
-                                flag3 = projectile.Colliding(myRect, rect);
+                                stickingToNPC = projectile.Colliding(myRect, rect);
                             }
                             else
                             {
-                                flag3 = projectile.Colliding(myRect, Main.npc[i].getRect());
+                                stickingToNPC = projectile.Colliding(myRect, npc.getRect());
                             }
-                            if (flag3)
+                            if (stickingToNPC)
                             {
-                                if (Main.npc[i].reflectingProjectiles && projectile.CanReflect())
+								//reflect projectile if the npc can reflect it (like Selenians)
+                                if (npc.reflectingProjectiles && projectile.CanReflect())
                                 {
-                                    Main.npc[i].ReflectProjectile(projectile.whoAmI);
+                                    npc.ReflectProjectile(projectile.whoAmI);
                                     return;
                                 }
+
+								//let the projectile know it is sticking and the npc it is sticking too
                                 projectile.ai[0] = 1f;
-                                projectile.ai[1] = (float)i;
-                                projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
+                                projectile.ai[1] = (float)npcIndex;
+
+								//follow the NPC
+                                projectile.velocity = (npc.Center - projectile.Center) * 0.75f;
+
                                 projectile.netUpdate = true;
+
+								//Set projectile damage to 0 if desired
                                 if (!constantDamage)
                                     projectile.damage = 0;
+
+								//Count how many projectiles are attached, delete as necessary
                                 Point[] array2 = new Point[maxStick];
                                 int num29 = 0;
-                                for (int l = 0; l < Main.maxProjectiles; l++)
+                                for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                                 {
-                                    if (l != projectile.whoAmI && Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type && Main.projectile[l].ai[0] == 1f && Main.projectile[l].ai[1] == (float)i)
+									Projectile proj = Main.projectile[projIndex];
+                                    if (projIndex != projectile.whoAmI && proj.active && proj.owner == Main.myPlayer && proj.type == projectile.type && proj.ai[0] == 1f && proj.ai[1] == (float)npcIndex)
                                     {
-                                        array2[num29++] = new Point(l, Main.projectile[l].timeLeft);
+                                        array2[num29++] = new Point(projIndex, proj.timeLeft);
                                         if (num29 >= array2.Length)
                                         {
                                             break;
@@ -2460,7 +2492,7 @@ namespace CalamityMod
             {
                 num3 += 0.2f;
             }
-            Main.rainTime = (int)((float)Main.rainTime * num3);
+            Main.rainTime = (int)(Main.rainTime * num3);
             Main.raining = true;
 			if (torrentialTear)
 				TorrentialTear.AdjustRainSeverity(false);

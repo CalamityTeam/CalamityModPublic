@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.spriteDirection = projectile.direction;
             }
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile);
+            CalamityUtils.StickyProjAI(projectile, 15);
             if (openClam && !onEnemy)
             {
                 projectile.frame = 1;

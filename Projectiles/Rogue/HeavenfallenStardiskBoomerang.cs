@@ -12,7 +12,6 @@ namespace CalamityMod.Projectiles.Rogue
     public class HeavenfallenStardiskBoomerang : ModProjectile
     {
         private bool explode = false;
-        private int stealth = 0;
 
         public override void SetStaticDefaults()
         {
@@ -36,13 +35,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
+
 			if (projectile.Calamity().stealthStrike)
 			{
-				stealth++;
-				if (stealth >= 5) //every 5 ticks
+				if (projectile.timeLeft % 5f == 0f) //every 5 ticks
 				{
-					stealth = 0;
-					if (Main.rand.Next(2) == 0)
+					if (Main.rand.NextBool(2))
 					{
 						int spearAmt = Main.rand.Next(1, 4); //1 to 3 energy
 						for (int n = 0; n < spearAmt; n++)
@@ -58,11 +57,12 @@ namespace CalamityMod.Projectiles.Rogue
 							num16 = (float)num15 / num16;
 							num13 *= num16;
 							num14 *= num16;
-							Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<HeavenfallenEnergy>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
+							Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner, 0f, 0f);
 						}
 					}
 				}
 			}
+
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 20;
@@ -74,20 +74,20 @@ namespace CalamityMod.Projectiles.Rogue
 
             for (int i = 0; i < 2; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int blueDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1f);
+                Main.dust[blueDust].noGravity = true;
+                Main.dust[blueDust].velocity *= 0f;
             }
             for (int i = 0; i < 2; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int orangeDust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
+                Main.dust[orangeDust].noGravity = true;
+                Main.dust[orangeDust].velocity *= 0f;
             }
 
             projectile.rotation += 0.5f;
 
-            if (Main.player[projectile.owner].position.Y != Main.player[projectile.owner].oldPosition.Y && projectile.ai[0] == 0f)
+            if (player.position.Y != player.oldPosition.Y && projectile.ai[0] == 0f)
             {
                 explode = true;
             }
@@ -96,18 +96,17 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (Main.myPlayer == projectile.owner && projectile.ai[0] == 20f)
             {
-                if (Main.player[projectile.owner].channel)
+                if (player.channel)
                 {
                     float num115 = 20f;
                     Vector2 vector10 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num116 = (float)Main.mouseX + Main.screenPosition.X - vector10.X;
                     float num117 = (float)Main.mouseY + Main.screenPosition.Y - vector10.Y;
-                    if (Main.player[projectile.owner].gravDir == -1f)
+                    if (player.gravDir == -1f)
                     {
                         num117 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector10.Y;
                     }
                     float num118 = (float)Math.Sqrt((double)(num116 * num116 + num117 * num117));
-                    num118 = (float)Math.Sqrt((double)(num116 * num116 + num117 * num117));
                     if (num118 > num115)
                     {
                         num118 = num115 / num118;
@@ -145,14 +144,14 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 vector11 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
                     float num128 = (float)Main.mouseX + Main.screenPosition.X - vector11.X;
                     float num129 = (float)Main.mouseY + Main.screenPosition.Y - vector11.Y;
-                    if (Main.player[projectile.owner].gravDir == -1f)
+                    if (player.gravDir == -1f)
                     {
                         num129 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector11.Y;
                     }
                     float num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
                     if (num130 == 0f || projectile.ai[0] < 0f)
                     {
-                        vector11 = new Vector2(Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2), Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2));
+                        vector11 = new Vector2(player.position.X + (float)(player.width / 2), player.position.Y + (float)(player.height / 2));
                         num128 = projectile.position.X + (float)projectile.width * 0.5f - vector11.X;
                         num129 = projectile.position.Y + (float)projectile.height * 0.5f - vector11.Y;
                         num130 = (float)Math.Sqrt((double)(num128 * num128 + num129 * num129));
@@ -178,6 +177,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
+			Player player = Main.player[projectile.owner];
+
             Main.PlaySound(SoundID.Item10, projectile.position);
             for (int i = 0; i < 10; i++)
             {
@@ -192,7 +193,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num469].velocity *= 0f;
             }
 
-            if (explode && Main.player[projectile.owner].position.Y != Main.player[projectile.owner].oldPosition.Y)
+            if (explode && player.position.Y != player.oldPosition.Y)
             {
                 if (projectile.owner == Main.myPlayer)
                 {
@@ -204,8 +205,8 @@ namespace CalamityMod.Projectiles.Rogue
                     for (i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner, 0f, 0f);
                     }
                 }
             }

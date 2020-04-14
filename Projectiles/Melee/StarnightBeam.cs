@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.aiStyle = 27;
             projectile.friendly = true;
             projectile.melee = true;
-            projectile.penetrate = 2;
+            projectile.penetrate = 3;
             projectile.timeLeft = 600;
             aiType = ProjectileID.LightBeam;
         }
@@ -55,11 +55,10 @@ namespace CalamityMod.Projectiles.Melee
                 float num796 = projectile.oldVelocity.X * (30f / (float)num795);
                 float num797 = projectile.oldVelocity.Y * (30f / (float)num795);
                 int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 73, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
-                Main.dust[num798].noGravity = true;
                 Dust dust = Main.dust[num798];
+                dust.noGravity = true;
                 dust.velocity *= 0.5f;
                 num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 73, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.4f);
-                dust = Main.dust[num798];
                 dust.velocity *= 0.05f;
                 num3 = num795;
             }

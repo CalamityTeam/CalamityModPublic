@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 157, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile);
+            CalamityUtils.StickyProjAI(projectile, 15);
 			if (projectile.ai[0] != 1f)
 			{
 				try
