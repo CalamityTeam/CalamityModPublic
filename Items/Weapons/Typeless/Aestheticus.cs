@@ -27,7 +27,6 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.knockBack = 3f;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
-            item.noMelee = true;
             item.height = 58;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.shoot = ModContent.ProjectileType<CursorProj>();

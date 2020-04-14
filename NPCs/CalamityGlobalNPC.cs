@@ -2473,7 +2473,7 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Nurse:
-                        switch (Main.rand.Next(25)) // 24 Nurse names
+                        switch (Main.rand.Next(25)) // 24 nurse names
                         {
                             case 0:
                                 npc.GivenName = "Farsni";
@@ -2486,10 +2486,23 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Angler:
-                        switch (Main.rand.Next(23)) // 22 Nurse names
+                        switch (Main.rand.Next(23)) // 22 angler names
                         {
                             case 0:
                                 npc.GivenName = "Dazren";
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        break;
+
+                    case NPCID.Clothier:
+                        switch (Main.rand.Next(26)) // 25 clothier names
+                        {
+                            case 0:
+                                npc.GivenName = "Joeseph Jostar";
                                 break;
 
                             default:
