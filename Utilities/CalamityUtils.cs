@@ -159,7 +159,7 @@ namespace CalamityMod
                     //if we've found a valid boss target, ignore ALL targets which aren't bosses.
                     if (bossFound && !Main.npc[index].boss)
                         continue;
-                    if (Main.npc[index].CanBeChasedBy(null, false) || (Main.npc[index].active && Main.npc[index].type == NPCID.TargetDummy))
+                    if (Main.npc[index].CanBeChasedBy(null, false))
                     {
                         if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
                         {
@@ -175,7 +175,7 @@ namespace CalamityMod
             {
                 for (int index = 0; index < Main.npc.Length; index++)
                 {
-                    if (Main.npc[index].CanBeChasedBy(null, false) || (Main.npc[index].active && Main.npc[index].type == NPCID.TargetDummy))
+                    if (Main.npc[index].CanBeChasedBy(null, false))
                     {
                         if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
                         {
