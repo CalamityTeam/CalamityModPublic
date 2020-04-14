@@ -431,30 +431,30 @@ namespace CalamityMod
             Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
 			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
 			{
-				float scaleFactor10 = 0.33f;
+				float velocityMult = 0.33f;
 				if (goreIndex < (int)(goreAmt/3))
 				{
-					scaleFactor10 = 0.66f;
+					velocityMult = 0.66f;
 				}
 				if (goreIndex >= (int)((2*goreAmt)/3))
 				{
-					scaleFactor10 = 1f;
+					velocityMult = 1f;
 				}
 				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
 				Gore gore = Main.gore[smoke];
-				gore.velocity *= scaleFactor10;
+				gore.velocity *= velocityMult;
 				gore.velocity.X += 1f;
 				gore.velocity.Y += 1f;
 				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= scaleFactor10;
+				gore.velocity *= velocityMult;
 				gore.velocity.X -= 1f;
 				gore.velocity.Y += 1f;
 				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= scaleFactor10;
+				gore.velocity *= velocityMult;
 				gore.velocity.X += 1f;
 				gore.velocity.Y -= 1f;
 				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= scaleFactor10;
+				gore.velocity *= velocityMult;
 				gore.velocity.X -= 1f;
 				gore.velocity.Y -= 1f;
 			}
@@ -2492,7 +2492,7 @@ namespace CalamityMod
             {
                 num3 += 0.2f;
             }
-            Main.rainTime = (int)((float)Main.rainTime * num3);
+            Main.rainTime = (int)(Main.rainTime * num3);
             Main.raining = true;
 			if (torrentialTear)
 				TorrentialTear.AdjustRainSeverity(false);
