@@ -20,6 +20,7 @@ namespace CalamityMod.Items.Tools
         public override void SetDefaults()
         {
             item.damage = 100;
+			item.crit += 10;
             item.melee = true;
             item.width = 60;
             item.height = 46;
