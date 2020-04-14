@@ -1,9 +1,7 @@
 ﻿using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -16,7 +14,7 @@ namespace CalamityMod.Items.Pets
         {
             DisplayName.SetDefault("Hermit's Box of One Hundred Medicines");
             Tooltip.SetDefault("As the ice melts in the springs\n" +
-                "And waves wash the old moss’ hair…\n" +
+                "And waves wash the old moss’ hair...\n" +
                 "Thank you, Goodbye.\n" +
                 "Summons the Third Sage\n" +
                 "Use the item with right click to permanently gain the Third Sage's blessing.\n" +

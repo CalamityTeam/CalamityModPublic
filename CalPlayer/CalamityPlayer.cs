@@ -1244,7 +1244,7 @@ namespace CalamityMod.CalPlayer
             alcoholPoisonLevel = 0;
 
             thirdSage = false;
-            if (player.immuneTime == 0)
+            if (player.immuneTime <= 0)
                 thirdSageH = false;
 
             perfmini = false;

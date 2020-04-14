@@ -34,6 +34,7 @@ namespace CalamityMod.Items.Accessories
             else if (player.immune)
             {
                 player.immune = false;
+                player.immuneTime = 0;
             }
         }
 
