@@ -3477,6 +3477,10 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
+				else if (ProjectileID.Sets.StardustDragon[projectile.type])
+				{
+					damage = (int)(damage * 0.1);
+				}
 
 				if (projectile.penetrate == -1 && !projectile.minion)
 				{
