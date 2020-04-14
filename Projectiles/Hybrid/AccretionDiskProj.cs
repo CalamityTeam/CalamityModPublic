@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Hybrid
 			int num428 = 0;
 			float distance = 300f;
 			bool flag14 = false;
-			for (int num430 = 0; num430 < 200; num430++)
+			for (int num430 = 0; num430 < Main.maxNPCs; num430++)
 			{
 				if (Main.npc[num430].CanBeChasedBy(projectile, false))
 				{
