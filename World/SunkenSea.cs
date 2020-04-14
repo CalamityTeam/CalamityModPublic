@@ -451,6 +451,8 @@ namespace CalamityMod.World
                     int num5 = k + start.X;
                     int num6 = l + start.Y;
                     Tile tile2 = Main.tile[num5, num6];
+                    if (tile2 is null)
+                        continue;
                     if (tile2.active() && (tile2.type == ModContent.TileType<SeaPrism>() || tile2.type == ModContent.TileType<Navystone>()))
                     {
                         bool flag = true;
@@ -573,7 +575,10 @@ namespace CalamityMod.World
 
         public static bool Place(Point origin)
         {
+            // 1 on Small, 1.52 on Medium, 2 on Large
             float scale = (float)Main.maxTilesX / 4200f;
+            // Clamp scale to prevent problems on extra large worlds
+            scale = MathHelper.Clamp(scale, 1f, 2f);
             int sunkenSeaAreaX = (int)(80f * scale); //80f
             int sunkenSeaAreaY = (int)((WorldGen.genRand.NextFloat() + 1f) * 60f * scale); //80f
             float radius = (float)WorldGen.genRand.Next(6, 10);
