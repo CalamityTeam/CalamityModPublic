@@ -992,7 +992,6 @@ namespace CalamityMod.World
 					Main.weatherCounter = 600;
 					Main.maxRaining = 0.89f;
 				}
-                Main.invasionProgressNearInvasion = true;
 
                 // Summon Old Duke tornado post-Polter as needed
                 if (downedPolterghast && acidRainPoints == 2f)
@@ -1017,11 +1016,6 @@ namespace CalamityMod.World
                             }
                         }
                     }
-                }
-                if (Main.invasionProgress != -1)
-                {
-                    Main.invasionType = 0;
-                    Main.invasionProgress = -1;
                 }
             }
 			else
