@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.penetrate = 1;
             projectile.extraUpdates = 100;
-            projectile.timeLeft = 20;
+            projectile.timeLeft = 30;
         }
 
         public override void Kill(int timeLeft)
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Magic
                 for (int i = 0; i < numProj; i++)
                 {
                     Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BrimstoneBeam2>(), (int)(double)projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BrimstoneBeam2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
         }
