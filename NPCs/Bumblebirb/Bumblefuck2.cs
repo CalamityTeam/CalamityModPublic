@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.Bumblebirb
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draconic Swarmling");
+            DisplayName.SetDefault("Draconic Swarmer");
             Main.npcFrameCount[npc.type] = 6;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}

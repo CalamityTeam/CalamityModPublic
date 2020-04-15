@@ -10,7 +10,7 @@ namespace CalamityMod.Items.LoreItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Draconic Swarmers");
+            DisplayName.SetDefault("The Dragonfolly");
             Tooltip.SetDefault("A failure of twisted scientific ambition; it appears our faulted arrogance over life has shown once more in the results.\n" +
                 "Originally intended to be a clone of the Jungle Dragon, these were left to roam about the jungle, attacking anything in their path.");
         }

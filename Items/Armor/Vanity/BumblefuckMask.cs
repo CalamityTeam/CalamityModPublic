@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Armor.Vanity
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draconic Swarmer Mask");
+            DisplayName.SetDefault("Dragonfolly Mask");
         }
 
         public override void SetDefaults()
