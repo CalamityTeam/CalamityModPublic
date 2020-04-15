@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -10,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class TacticalPlagueEngineSummon : ModProjectile
     {
-        public static readonly Item FalseGun = new Item() { useAmmo = AmmoID.Bullet };
+        public static Item FalseGun = null;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tactical Plague Engine");
@@ -48,6 +49,7 @@ namespace CalamityMod.Projectiles.Summon
                     Dust dust = Dust.NewDustPerfect(projectile.Center + velocity * 2f, (int)CalamityDusts.Plague, velocity);
                     dust.noGravity = true;
                 }
+                FalseGun = ItemLoader.GetItem(ModContent.ItemType<P90>()).item;
                 projectile.localAI[0] = 1f;
             }
             if (projectile.frameCounter++ > 6f)
