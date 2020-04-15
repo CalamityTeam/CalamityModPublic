@@ -771,7 +771,7 @@ namespace CalamityMod
 
 			void AddToAbomShop(float order, string summonItemName, Func<bool> downed, int price)
 			{
-				fargos.Call("AddEventSummon", order, "CalamityMod", summonItemName, downed, price); //Not currently in the live version of fargo's, it will however be in the next version.
+				fargos.Call("AddEventSummon", order, "CalamityMod", summonItemName, downed, price);
 			}
 
 			fargos.Call("AbominationnClearEvents", "CalamityMod", CalamityWorld.rainingAcid, true);

@@ -523,19 +523,20 @@ namespace CalamityMod.NPCs
                 int projectileCount = 0;
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
-                    if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ModContent.ProjectileType<SnapClamProj>() || Main.projectile[j].type == ModContent.ProjectileType<SnapClamStealth>()) &&
-                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
+                    if (Main.projectile[j].active && Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
-                        projectileCount++;
+						if (Main.projectile[j].type == ModContent.ProjectileType<SnapClamProj>())
+							projectileCount += 2;
+						if (Main.projectile[j].type == ModContent.ProjectileType<SnapClamStealth>())
+							projectileCount++;
                     }
                 }
 
-                npc.lifeRegen -= projectileCount * 35;
+                npc.lifeRegen -= projectileCount * 15;
 
-                if (damage < projectileCount * 7)
+                if (damage < projectileCount * 3)
                 {
-                    damage = projectileCount * 7;
+                    damage = projectileCount * 3;
                 }
             }
 
