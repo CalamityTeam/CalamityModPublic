@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -13,6 +14,7 @@ namespace CalamityMod.Tiles.SunkenSea
             Main.tileNoAttach[Type] = true;
             Main.tileLighted[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
+            TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.addTile(Type);
             dustType = 253;
             ModTranslation name = CreateMapEntryName();
