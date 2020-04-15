@@ -87,7 +87,9 @@ namespace CalamityMod.Projectiles.Melee
                 }
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ProjectileID.FlowerPetal, (int)((double)projectile.damage * 0.5), 2f, projectile.owner);
+                    int petal = Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, speedX, speedY, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), 2f, projectile.owner);
+					Main.projectile[petal].Calamity().forceMelee = true;
+					Main.projectile[petal].localNPCHitCooldown = -1;
                 }
             }
         }

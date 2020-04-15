@@ -2283,6 +2283,16 @@ namespace CalamityMod.NPCs
                 int creeperScale = 21 - creeperCount; // 1 to 20
                 bool phase2 = creeperCount <= 0;
 
+                // Go to phase 2
+                if (phase2)
+                {
+                    npc.ai[0] = -1f;
+                    npc.localAI[1] = 0f;
+                    npc.alpha = 0;
+                    npc.netUpdate = true;
+                    return false;
+                }
+
                 // Move towards target
                 npc.TargetClosest(true);
                 Vector2 vector99 = new Vector2(npc.Center.X, npc.Center.Y);
@@ -2310,15 +2320,6 @@ namespace CalamityMod.NPCs
                 {
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        // Go to phase 2
-                        if (phase2)
-                        {
-                            npc.ai[0] = -1f;
-                            npc.localAI[1] = 0f;
-                            npc.alpha = 0;
-                            npc.netUpdate = true;
-                        }
-
                         // Teleport location
                         npc.localAI[1] += 1f + ((float)creeperScale * 0.1f);
                         if (npc.localAI[1] >= 300f)

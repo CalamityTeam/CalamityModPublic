@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 0.95f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X * 2.4f, projectile.velocity.Y * 2.4f, ModContent.ProjectileType<HellionSpike>(), (int)(projectile.damage * 0.8), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X * 2.4f, projectile.velocity.Y * 2.4f, ModContent.ProjectileType<HellionSpike>(), (int)(projectile.damage * 0.65), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
         };
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -53,7 +53,11 @@ namespace CalamityMod.Projectiles.Melee.Spears
                 speedX = MathHelper.Clamp(speedX, -15f, 15f);
                 speedY = MathHelper.Clamp(speedY, -15f, 15f);
                 if (projectile.owner == Main.myPlayer)
-                    Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, speedX, speedY, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), 2f, projectile.owner);
+				{
+                    int petal = Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, speedX, speedY, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), 2f, projectile.owner);
+					Main.projectile[petal].Calamity().forceMelee = true;
+					Main.projectile[petal].localNPCHitCooldown = -1;
+				}
             }
         }
     }
