@@ -788,7 +788,7 @@ namespace CalamityMod
 			AddToMutantShop("PlaguebringerGoliath", "Abomination", DownedPBG, Item.buyPrice(gold: 50));
 			AddToMutantShop("Ravager", "AncientMedallion", DownedRavager, Item.buyPrice(gold: 50));
 			AddToMutantShop("ProfanedGuardians", "ProfanedShard", DownedGuardians, Item.buyPrice(platinum: 5));
-			AddToMutantShop("DraconicSwarmer", "BirbPheromones", DownedBirb, Item.buyPrice(platinum: 5));
+			AddToMutantShop("Dragonfolly", "BirbPheromones", DownedBirb, Item.buyPrice(platinum: 5));
 			AddToMutantShop("OldDuke", "BloodwormItem", DownedBoomerDuke, Item.buyPrice(platinum: 8));
 
 			AddToAbomShop(InvasionDifficulty["Acid Rain Initial"], "CausticTear", DownedAcidRainInitial, Item.buyPrice(gold: 3));
