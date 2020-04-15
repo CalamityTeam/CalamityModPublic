@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
             for (int dustIndex = 0; dustIndex < 8; dustIndex++)
             {
                 int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default, 1f);
-                Main.dust[velocity].velocity *= 1f;
+                Main.dust[dusty].velocity *= 1f;
             }
             if (projectile.owner == Main.myPlayer)
             {

@@ -44,10 +44,10 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.alpha = 0;
             }
 
-			int blueDust = Dust.NewDust(projectile.position.X, projectile.position.Y, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1f);
+			int blueDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1f);
 			Main.dust[blueDust].noGravity = true;
 			Main.dust[blueDust].velocity *= 0f;
-			orangeDust = Dust.NewDust(projectile.position.X, projectile.position.Y, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
+			int orangeDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
 			Main.dust[orangeDust].noGravity = true;
 			Main.dust[orangeDust].velocity *= 0f;
 
@@ -165,13 +165,13 @@ namespace CalamityMod.Projectiles.Rogue
             Main.PlaySound(SoundID.Item10, projectile.position);
             for (int i = 0; i < 10; i++)
             {
-                int blueDust = Dust.NewDust(projectile.position.X, projectile.position.Y, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
+                int blueDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
                 Main.dust[blueDust].noGravity = true;
                 Main.dust[blueDust].velocity *= 0f;
             }
             for (int i = 0; i < 10; i++)
             {
-                int orangeDust = Dust.NewDust(projectile.position.X, projectile.position.Y, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
+                int orangeDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
                 Main.dust[orangeDust].noGravity = true;
                 Main.dust[orangeDust].velocity *= 0f;
             }
