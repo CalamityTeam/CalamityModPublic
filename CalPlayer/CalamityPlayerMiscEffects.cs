@@ -2245,7 +2245,10 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.decayEffigy)
 			{
 				player.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = true;
-				player.gills = true;
+				if (!modPlayer.ZoneAbyss)
+				{
+					player.gills = true;
+				}
 			}
 
 			if (modPlayer.astralInjection)

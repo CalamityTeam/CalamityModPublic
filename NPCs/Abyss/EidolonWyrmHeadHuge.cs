@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs.Abyss
             {
 				if (!detectsPlayer)
 				{
-					if (Main.netMode == NetmodeID.SinglePlayer) //don't kill my ears in multiplayer, thank you
+					if (Main.netMode != NetmodeID.Server)
 					{
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Scare"), (int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y);
 					}
@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.chaseable = detectsPlayer;
             if (detectsPlayer)
             {
-                if (npc.soundDelay <= 0)
+                if (npc.soundDelay <= 0 && Main.netMode != NetmodeID.Server)
                 {
                     npc.soundDelay = 420;
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose").WithVolume(2.5f), (int)npc.position.X, (int)npc.position.Y);
@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.Abyss
             }
             else
             {
-                if (Main.rand.NextBool(900))
+                if (Main.rand.NextBool(900) && Main.netMode != NetmodeID.Server)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/EidolonWyrmRoarClose").WithVolume(2.5f), (int)npc.position.X, (int)npc.position.Y);
                 }
@@ -507,17 +507,20 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            for (int k = 0; k < 5; k++)
+            if (detectsPlayer)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
-            }
-            if (npc.life <= 0)
-            {
-                for (int k = 0; k < 15; k++)
+                for (int k = 0; k < 5; k++)
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
                 }
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WyrmAdult"), 1f);
+                if (npc.life <= 0)
+                {
+                    for (int k = 0; k < 15; k++)
+                    {
+                        Dust.NewDust(npc.position, npc.width, npc.height, 4, hitDirection, -1f, 0, default, 1f);
+                    }
+                    Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/WyrmAdult"), 1f);
+                }
             }
         }
 
