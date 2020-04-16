@@ -10713,7 +10713,7 @@ namespace CalamityMod.CalPlayer
                             int numSpears = attack ? 12 : 6;
                             int dam = Main.projectile[i].damage;
                             if (!attack)
-                                dam = (int)((float)dam * 0.5f);
+                                dam = (int)(dam * 0.5f);
                             float angleVariance = MathHelper.TwoPi / (float)numSpears;
                             float spinOffsetAngle = MathHelper.Pi / (2f * numSpears);
                             Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
@@ -10807,7 +10807,6 @@ namespace CalamityMod.CalPlayer
             range *= eclipseMirror ? 0.3f : 1f;
             return range;
         }
-
 
         /// <summary>
         /// Calculates and returns the player's total light strength. This is used for Abyss darkness, among other things.<br/>
