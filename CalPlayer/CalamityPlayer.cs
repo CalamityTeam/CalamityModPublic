@@ -3558,7 +3558,7 @@ namespace CalamityMod.CalPlayer
                         dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     }
                 }
-                int heal = draconicSurge ? player.statLifeMax2 : 150;
+                int heal = draconicSurge ? (player.statLifeMax2 / 2) : 150;
                 player.statLife += heal;
                 player.HealEffect(heal);
                 if (player.statLife > player.statLifeMax2)
@@ -3568,7 +3568,7 @@ namespace CalamityMod.CalPlayer
                 if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
                 {
                     player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                    player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), 1800);
+                    player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), 3600); //1 minute
                 }
                 player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), 2700);
                 return false;
@@ -3582,11 +3582,11 @@ namespace CalamityMod.CalPlayer
                 if (player.FindBuffIndex(ModContent.BuffType<SilvaRevival>()) == -1)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
-                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), 600);
+                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), auricSet ? 300 : 600);
                     if (draconicSurge)
                     {
-                        player.statLife += player.statLifeMax2;
-                        player.HealEffect(player.statLifeMax2);
+                        player.statLife += player.statLifeMax2 / 2;
+                        player.HealEffect(player.statLifeMax2 / 2);
                         if (player.statLife > player.statLifeMax2)
                         {
                             player.statLife = player.statLifeMax2;
@@ -3594,13 +3594,13 @@ namespace CalamityMod.CalPlayer
                         if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
                         {
                             player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                            player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), 1800);
+                            player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), 3600); //1 minute
                         }
                     }
 					else if (silvaWings)
 					{
-                        player.statLife += (int)(player.statLifeMax2 / 2);
-                        player.HealEffect((int)(player.statLifeMax2 / 2));
+                        player.statLife += player.statLifeMax2 / 2;
+                        player.HealEffect(player.statLifeMax2 / 2);
                         if (player.statLife > player.statLifeMax2)
                         {
                             player.statLife = player.statLifeMax2;
