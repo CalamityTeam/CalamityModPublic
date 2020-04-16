@@ -230,8 +230,6 @@ namespace CalamityMod
 
             BossHealthBarManager.Load(this);
 
-            TileFraming.Load();
-
             SetupLists();
             SetupVanillaDR();
             SetupThoriumBossDR(thorium);
@@ -430,8 +428,16 @@ namespace CalamityMod
 		}
         #endregion
 
-		#region ConfigCrap
-		internal static void SaveConfig(Configs CalamityConfig)
+        #region Late Loading
+        public override void PostAddRecipes()
+        {
+            // This is placed here so that all tiles from all mods are guaranteed to be loaded at this point.
+            TileFraming.Load();
+        }
+        #endregion
+
+        #region ConfigCrap
+        internal static void SaveConfig(Configs CalamityConfig)
 		{
 			// in-game ModConfig saving from mod code is not supported yet in tmodloader, and subject to change, so we need to be extra careful.
 			// This code only supports client configs, and doesn't call onchanged. It also doesn't support ReloadRequired or anything else.
