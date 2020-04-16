@@ -1,5 +1,7 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
@@ -28,6 +30,16 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.value = Item.buyPrice(0, 9, 0, 0);
             item.rare = 3;
             item.createTile = ModContent.TileType<EffigyOfDecayPlaceable>();
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<RustyLockpick>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
+            recipe.AddRecipeGroup("IronBar", 10);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }
