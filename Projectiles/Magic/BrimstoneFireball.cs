@@ -2,6 +2,7 @@
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.aiStyle = 1;
             projectile.penetrate = 4;
-            aiType = 277;
+            aiType = ProjectileID.ThornBall;
             projectile.timeLeft = 300;
         }
 
@@ -32,7 +33,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.Kill();
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int num251 = Main.rand.Next(3, 5);
+                    int num251 = Main.rand.Next(2, 4);
                     for (int num252 = 0; num252 < num251; num252++)
                     {
                         Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, -51));
@@ -42,7 +43,7 @@ namespace CalamityMod.Projectiles.Magic
                         }
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<BrimstoneHomer>(), (int)((double)projectile.damage * 1.35), 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<BrimstoneHomer>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }

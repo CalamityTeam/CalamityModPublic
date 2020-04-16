@@ -1,6 +1,7 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +12,8 @@ namespace CalamityMod.NPCs.AcidRain
 {
     public class WaterLeech : ModNPC
     {
+        public const float ChasePromptDistance = 55f;
+        public const float ChaseMaxDistance = 140f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Leech");
@@ -62,44 +65,41 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void AI()
         {
-            if (npc.target < 0 || npc.target >= Main.player.Length)
+            if (npc.localAI[0] == 0f)
             {
                 npc.TargetClosest(false);
+                npc.localAI[0] = 1f;
             }
             Player player = Main.player[npc.target];
-            npc.direction = npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
             // Latch onto player
             if (npc.ai[0] == 1f)
             {
-                if (!player.active || player.dead)
+                if (npc.dontTakeDamage)
                 {
-                    // Revert back to swimming around after successfully devouring the player
+                    npc.dontTakeDamage = false;
+                    npc.netUpdate = true;
+                }
+                if (npc.Distance(player.Top) >= 140f)
+                {
                     npc.ai[0] = 0f;
-                    npc.ai[1] = 0f;
                     npc.netUpdate = true;
                     return;
                 }
-                // Stick to player and make them bleed
-                if (npc.ai[1] > 0f)
+                Vector2 destination = ((player.gravDir == 1f) ? player.Top : player.Bottom) + player.direction * 4 * Vector2.UnitX;
+                float speed = Utils.SmoothStep(10f, ChaseMaxDistance, npc.Distance(destination)) * 16f;
+                npc.velocity = npc.DirectionTo(destination) * (speed + 7f);
+                if (npc.Distance(destination) < 45f)
                 {
-                    npc.position = player.position;
-                    npc.ai[1] -= 1f;
-                    player.AddBuff(BuffID.Bleeding, 180);
+                    player.AddBuff(BuffID.Bleeding, 180, true);
                 }
-                // Die
-                else
+                else if (!npc.wet && npc.Distance(destination) > 85f)
                 {
-                    for (int i = 0; i < 25; i++)
-                    {
-                        Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, Main.rand.NextFloat(-2f, 2f), -1f, 0, default, 1f);
-                    }
-                    npc.life = 0;
-                    npc.HitEffect();
-                    npc.active = false;
+                    npc.ai[0] = 0f;
                     npc.netUpdate = true;
                 }
                 return;
             }
+            npc.direction = npc.spriteDirection = (npc.velocity.X > 0).ToDirectionInt();
             if (!npc.wet)
             {
                 npc.velocity.X *= 0.97f;
@@ -122,18 +122,17 @@ namespace CalamityMod.NPCs.AcidRain
                     speed *= 1.6f;
                     swimIntertia = 13f;
                 }
-
-                if (npc.Distance(player.Center) < 26f)
-                {
-                    npc.ai[0] = 1f;
-                    npc.ai[1] = 300f;
-                    npc.netUpdate = true;
-                }
                 npc.velocity = (npc.velocity * (swimIntertia - 1f) + npc.DirectionTo(player.Center) * speed) / swimIntertia;
             }
             else if (!player.wet)
             {
                 npc.velocity *= 0.9f;
+            }
+
+            if (npc.Distance(player.Top) < ChasePromptDistance && player.active && !player.dead)
+            {
+                npc.ai[0] = 1f;
+                npc.netUpdate = true;
             }
             npc.dontTakeDamage = !player.wet;
         }

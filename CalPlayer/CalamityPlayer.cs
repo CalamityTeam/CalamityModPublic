@@ -511,6 +511,7 @@ namespace CalamityMod.CalPlayer
 		public bool silvaWings = false;
 		public int icicleCooldown = 0;
         public bool rustyMedal = false;
+        public bool noStupidNaturalARSpawns = false;
         #endregion
 
         #region Armor Set
@@ -1243,7 +1244,7 @@ namespace CalamityMod.CalPlayer
             alcoholPoisonLevel = 0;
 
             thirdSage = false;
-            if (player.immuneTime == 0)
+            if (player.immuneTime <= 0)
                 thirdSageH = false;
 
             perfmini = false;
@@ -1481,6 +1482,7 @@ namespace CalamityMod.CalPlayer
 			silvaWings = false;
 			corrosiveSpine = false;
             rustyMedal = false;
+            noStupidNaturalARSpawns = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -3883,23 +3885,23 @@ namespace CalamityMod.CalPlayer
                 {
                     if (Main.rand.NextBool(20))
                     {
-                        int Type = Main.rand.Next(139, 143);
-                        int index = Dust.NewDust(new Vector2(hitbox.X,hitbox.Y), hitbox.Width, hitbox.Height, Type, player.velocity.X, player.velocity.Y, 0, new Color(), 1.2f);
-                        Main.dust[index].velocity.X *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
-                        Main.dust[index].velocity.Y *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
-                        Main.dust[index].velocity.X += Main.rand.Next(-50, 51) * 0.05f;
-                        Main.dust[index].velocity.Y += Main.rand.Next(-50, 51) * 0.05f;
-                        Main.dust[index].scale *= (float)(1.0 + Main.rand.Next(-30, 31) * 0.01);
+                        int confettiDust = Main.rand.Next(139, 143);
+                        int confetti = Dust.NewDust(new Vector2(hitbox.X,hitbox.Y), hitbox.Width, hitbox.Height, confettiDust, player.velocity.X, player.velocity.Y, 0, new Color(), 1.2f);
+                        Main.dust[confetti].velocity.X *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
+                        Main.dust[confetti].velocity.Y *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
+                        Main.dust[confetti].velocity.X += Main.rand.Next(-50, 51) * 0.05f;
+                        Main.dust[confetti].velocity.Y += Main.rand.Next(-50, 51) * 0.05f;
+                        Main.dust[confetti].scale *= (float)(1.0 + Main.rand.Next(-30, 31) * 0.01);
                     }
                     if (Main.rand.NextBool(40))
                     {
-                        int Type = Main.rand.Next(276, 283);
-                        int index = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), player.velocity, Type, 1f);
-                        Main.gore[index].velocity.X *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
-                        Main.gore[index].velocity.Y *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
-                        Main.gore[index].scale *= (float)(1.0 + Main.rand.Next(-20, 21) * 0.01);
-                        Main.gore[index].velocity.X += Main.rand.Next(-50, 51) * 0.05f;
-                        Main.gore[index].velocity.Y += Main.rand.Next(-50, 51) * 0.05f;
+                        int confettiGore = Main.rand.Next(276, 283);
+                        int confetti = Gore.NewGore(new Vector2(hitbox.X, hitbox.Y), player.velocity, confettiGore, 1f);
+                        Main.gore[confetti].velocity.X *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
+                        Main.gore[confetti].velocity.Y *= (float)(1.0 + Main.rand.Next(-50, 51) * 0.01);
+                        Main.gore[confetti].scale *= (float)(1.0 + Main.rand.Next(-20, 21) * 0.01);
+                        Main.gore[confetti].velocity.X += Main.rand.Next(-50, 51) * 0.05f;
+                        Main.gore[confetti].velocity.Y += Main.rand.Next(-50, 51) * 0.05f;
                     }
                 }
             }
@@ -6200,13 +6202,13 @@ namespace CalamityMod.CalPlayer
             {
                 if (item.ranged)
                 {
-                    if (Main.rand.NextBool(8))
+                    if (Main.rand.NextBool(5))
                     {
                         for (int i = 0; i < 3; i++)
                         {
                             Vector2 startingPosition = Main.MouseWorld - Vector2.UnitY.RotatedByRandom(0.4f) * 1250f;
                             Vector2 directionToMouse = (startingPosition - Main.MouseWorld).SafeNormalize(Vector2.UnitY).RotatedByRandom(0.1f);
-                            Projectile.NewProjectile(startingPosition, directionToMouse * 12f, ModContent.ProjectileType<ToxicannonDrop>(), (int)(damage * 0.3f), 0f, player.whoAmI);
+                            Projectile.NewProjectileDirect(startingPosition, directionToMouse * 12f, ModContent.ProjectileType<ToxicannonDrop>(), (int)(damage * 0.3f), 0f, player.whoAmI).penetrate = 2;
                         }
                     }
                 }

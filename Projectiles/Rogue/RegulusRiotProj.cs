@@ -43,19 +43,21 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.alpha = 0;
             }
-			int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1f);
-			Main.dust[num469].noGravity = true;
-			Main.dust[num469].velocity *= 0f;
-			num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
-			Main.dust[num469].noGravity = true;
-			Main.dust[num469].velocity *= 0f;
+
+			int blueDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1f);
+			Main.dust[blueDust].noGravity = true;
+			Main.dust[blueDust].velocity *= 0f;
+			int orangeDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
+			Main.dust[orangeDust].noGravity = true;
+			Main.dust[orangeDust].velocity *= 0f;
+
             projectile.ai[0] += 1f;
-            int num1013 = 0;
+            int behaviorInt = 0;
             if (projectile.velocity.Length() <= 8f) //4
             {
-                num1013 = 1;
+                behaviorInt = 1;
             }
-            if (num1013 == 0)
+            if (behaviorInt == 0)
             {
                 projectile.rotation -= 0.104719758f;
 
@@ -73,67 +75,67 @@ namespace CalamityMod.Projectiles.Rogue
 					projectile.extraUpdates = 1;
                 }
             }
-            else if (num1013 == 1)
+            else if (behaviorInt == 1)
             {
-                int num3;
                 projectile.rotation -= 0.104719758f;
-                Vector2 vector145 = projectile.Center;
-                float num1015 = 300f;
-                bool flag59 = false;
-                int num1016 = 0;
+                Vector2 targetCenter = projectile.Center;
+                float homingRange = 300f;
+                bool homeIn = false;
+                int targetIndex = 0;
                 if (projectile.ai[1] == 0f)
                 {
-                    for (int num1017 = 0; num1017 < 200; num1017 = num3 + 1)
+                    for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                     {
-                        if (Main.npc[num1017].CanBeChasedBy(projectile, false))
+						NPC npc = Main.npc[npcIndex];
+                        if (npc.CanBeChasedBy(projectile, false))
                         {
-                            Vector2 center13 = Main.npc[num1017].Center;
-                            if (projectile.Distance(center13) < num1015)
+                            Vector2 npcCenter = npc.Center;
+                            if (projectile.Distance(npcCenter) < homingRange)
                             {
-                                num1015 = projectile.Distance(center13);
-                                vector145 = center13;
-                                flag59 = true;
-                                num1016 = num1017;
+                                homingRange = projectile.Distance(npcCenter);
+                                targetCenter = npcCenter;
+                                homeIn = true;
+                                targetIndex = npcIndex;
                             }
                         }
-                        num3 = num1017;
                     }
-                    if (flag59)
+                    if (homeIn)
                     {
-                        if (projectile.ai[1] != (float)(num1016 + 1))
+                        if (projectile.ai[1] != (float)(targetIndex + 1))
                         {
                             projectile.netUpdate = true;
                         }
-                        projectile.ai[1] = (float)(num1016 + 1);
+                        projectile.ai[1] = (float)(targetIndex + 1);
                     }
-                    flag59 = false;
+                    homeIn = false;
                 }
                 if (projectile.ai[1] != 0f)
                 {
-                    int num1018 = (int)(projectile.ai[1] - 1f);
-                    if (Main.npc[num1018].active && Main.npc[num1018].CanBeChasedBy(projectile, true) && projectile.Distance(Main.npc[num1018].Center) < 1000f)
+                    int npcIndex2 = (int)(projectile.ai[1] - 1f);
+					NPC npc2 = Main.npc[npcIndex2];
+                    if (npc2.active && npc2.CanBeChasedBy(projectile, true) && projectile.Distance(npc2.Center) < 1000f)
                     {
-                        flag59 = true;
-                        vector145 = Main.npc[num1018].Center;
+                        homeIn = true;
+                        targetCenter = Main.npc[npcIndex2].Center;
                     }
                 }
                 if (!projectile.friendly)
                 {
-                    flag59 = false;
+                    homeIn = false;
                 }
-                if (flag59)
+                if (homeIn)
                 {
-                    float num1019 = 24f;
-                    int num1020 = 10;
-                    Vector2 vector146 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num1021 = vector145.X - vector146.X;
-                    float num1022 = vector145.Y - vector146.Y;
-                    float num1023 = (float)Math.Sqrt((double)(num1021 * num1021 + num1022 * num1022));
-                    num1023 = num1019 / num1023;
-                    num1021 *= num1023;
-                    num1022 *= num1023;
-                    projectile.velocity.X = (projectile.velocity.X * (float)(num1020 - 1) + num1021) / (float)num1020;
-                    projectile.velocity.Y = (projectile.velocity.Y * (float)(num1020 - 1) + num1022) / (float)num1020;
+                    float homeSpeed = 24f;
+                    float turnMult = 10f;
+                    Vector2 projCenter = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                    float xDist = targetCenter.X - projCenter.X;
+                    float yDist = targetCenter.Y - projCenter.Y;
+                    float totalDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
+                    totalDist = homeSpeed / totalDist;
+                    xDist *= totalDist;
+                    yDist *= totalDist;
+                    projectile.velocity.X = (projectile.velocity.X * (turnMult - 1f) + xDist) / turnMult;
+                    projectile.velocity.Y = (projectile.velocity.Y * (turnMult - 1f) + yDist) / turnMult;
                 }
             }
             if (projectile.ai[0] >= 180f)
@@ -163,15 +165,15 @@ namespace CalamityMod.Projectiles.Rogue
             Main.PlaySound(SoundID.Item10, projectile.position);
             for (int i = 0; i < 10; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int blueDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
+                Main.dust[blueDust].noGravity = true;
+                Main.dust[blueDust].velocity *= 0f;
             }
             for (int i = 0; i < 10; i++)
             {
-                int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
-                Main.dust[num469].noGravity = true;
-                Main.dust[num469].velocity *= 0f;
+                int orangeDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
+                Main.dust[orangeDust].noGravity = true;
+                Main.dust[orangeDust].velocity *= 0f;
             }
 			if (projectile.Calamity().stealthStrike)
 			{
@@ -181,12 +183,11 @@ namespace CalamityMod.Projectiles.Rogue
                     double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 6f;
                     double offsetAngle;
-                    int i;
-                    for (i = 0; i < 3; i++)
+                    for (int i = 0; i < 3; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 2f), (float)(Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<RegulusEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
 			}

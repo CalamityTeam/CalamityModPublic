@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile);
+            CalamityUtils.StickyProjAI(projectile, 15);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

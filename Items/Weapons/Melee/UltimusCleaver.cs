@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -29,6 +30,10 @@ namespace CalamityMod.Items.Weapons.Melee
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.autoReuse = true;
             item.UseSound = SoundID.Item1;
+
+            // This item is not true melee.
+            item.shoot = ModContent.ProjectileType<NobodyKnows>();
+            item.shootSpeed = 0f;
         }
 
         public override void MeleeEffects(Player player, Rectangle hitbox)

@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             DisplayName.SetDefault("Yermes Christal");
             Main.projFrames[projectile.type] = 6;
+            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -94,7 +95,7 @@ namespace CalamityMod.Projectiles.Magic
                     int damage = projectile.damage;
                     float kb = projectile.knockBack; // should always be 0
                     for (int b = 0; b < NumBeams; b++)
-                        Projectile.NewProjectile(projectile.Center, beamVelocity, ModContent.ProjectileType<YharimsCrystalBeam>(), damage, kb, projectile.owner, b, projectile.whoAmI);
+                        Projectile.NewProjectile(projectile.Center, beamVelocity, ModContent.ProjectileType<YharimsCrystalBeam>(), damage, kb, projectile.owner, b, Projectile.GetByUUID(projectile.owner, projectile.whoAmI));
                     projectile.netUpdate = true;
                 }
                 else if (!crystalStillInUse)

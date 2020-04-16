@@ -182,7 +182,7 @@ namespace CalamityMod.NPCs.TownNPCs
             }
             else if (NPC.downedMoonlord)
             {
-                dialogue.Add("Your adventure focuses to the jungle it seems. Clearing out the infestation of Bumblebirbs that have cropped up is an excellent idea.");
+                dialogue.Add("Your adventure focuses to the jungle it seems. The Dragonfolly and its swarming offspring should be eliminated before their numbers spiral out of control.");
                 dialogue.Add("Ah...I can sense a powerful change in the weather. You may want to venture to the Sulphurous Seas once more during the rain to experience it.");
                 dialogue.Add("Profaned creatures now lurk in the Hallow and in Hell. If you destroy enough and gather their essence together you shall be able to capture the attention of the Profaned Guardians.");
                 dialogue.Add("The Profaned Guardians will do anything to protect their goddess. Makes sense they would die for her since they can be revived just as quickly.");
@@ -314,10 +314,7 @@ namespace CalamityMod.NPCs.TownNPCs
         }
 
         // Make this Town NPC teleport to the King statue when triggered.
-        public override bool CanGoToStatue(bool toKingStatue)
-        {
-            return toKingStatue;
-        }
+        public override bool CanGoToStatue(bool toKingStatue) => toKingStatue;
 
         public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {

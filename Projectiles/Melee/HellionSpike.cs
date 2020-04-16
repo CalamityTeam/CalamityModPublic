@@ -60,34 +60,22 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(BuffID.Venom, 300);
             if (crit)
             {
-                float xPos = Main.rand.NextBool(2) ? projectile.position.X + 800 : projectile.position.X - 800;
-                Vector2 vector2 = new Vector2(xPos, projectile.position.Y - Main.rand.Next(600, 801));
+                float xPos = projectile.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
+                Vector2 spawnPosition = new Vector2(xPos, projectile.position.Y - Main.rand.Next(600, 801));
                 float num80 = xPos;
-                float speedX = (float)target.position.X - vector2.X;
-                float speedY = (float)target.position.Y - vector2.Y;
+                float speedX = (float)target.position.X - spawnPosition.X;
+                float speedY = (float)target.position.Y - spawnPosition.Y;
                 float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
                 dir = 10 / num80;
                 speedX *= dir * 150;
                 speedY *= dir * 150;
-                if (speedX > 15f)
-                {
-                    speedX = 15f;
-                }
-                if (speedX < -15f)
-                {
-                    speedX = -15f;
-                }
-                if (speedY > 15f)
-                {
-                    speedY = 15f;
-                }
-                if (speedY < -15f)
-                {
-                    speedY = -15f;
-                }
+                speedX = MathHelper.Clamp(speedX, -15f, 15f);
+                speedY = MathHelper.Clamp(speedY, -15f, 15f);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ProjectileID.FlowerPetal, (int)((double)projectile.damage * 0.5), 2f, projectile.owner);
+                    int petal = Projectile.NewProjectile(spawnPosition, new Vector2(speedX, speedY), ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), 2f, projectile.owner);
+					Main.projectile[petal].Calamity().forceMelee = true;
+					Main.projectile[petal].localNPCHitCooldown = -1;
                 }
             }
         }

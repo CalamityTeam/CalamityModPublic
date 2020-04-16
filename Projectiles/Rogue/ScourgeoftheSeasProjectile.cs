@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.height = 26;
             projectile.friendly = true;
             projectile.aiStyle = 113;
-            aiType = 598;
+            aiType = ProjectileID.BoneJavelin;
             projectile.penetrate = 1;
             projectile.extraUpdates = 1;
             projectile.timeLeft = 1200;
@@ -32,27 +32,21 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (Main.rand.Next(5) == 0)
+            if (Main.rand.NextBool(5))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 85, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
             projectile.velocity.X *= 1.015f;
             projectile.velocity.Y *= 1.015f;
-            if (projectile.velocity.X > 16f)
-            {
-                projectile.velocity.X = 16f;
-            }
-            if (projectile.velocity.Y > 16f)
-            {
-                projectile.velocity.Y = 16f;
-            }
+			projectile.velocity.X = Math.Min(16f, projectile.velocity.X);
+			projectile.velocity.Y = Math.Min(16f, projectile.velocity.Y);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Venom, 600);
-            if (projectile.Calamity().stealthStrike == true) //stealth strike attack
+            if (projectile.Calamity().stealthStrike) //stealth strike attack
             {
 				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 600);
 			}
@@ -61,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Venom, 600);
-            if (projectile.Calamity().stealthStrike == true) //stealth strike attack
+            if (projectile.Calamity().stealthStrike) //stealth strike attack
             {
 				target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 600);
 			}
@@ -70,38 +64,20 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-            for (int num621 = 0; num621 < 8; num621++)
+            for (int dustIndex = 0; dustIndex < 8; dustIndex++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default, 1f);
-                Main.dust[num622].velocity *= 1f;
+                int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 85, 0f, 0f, 100, default, 1f);
+                Main.dust[dusty].velocity *= 1f;
             }
             if (projectile.owner == Main.myPlayer)
             {
-				if (projectile.Calamity().stealthStrike == true)
+				int cloudNumber = Main.rand.Next(2, 6);
+				for (int cloudIndex = 0; cloudIndex < cloudNumber; cloudIndex++)
 				{
-					int num320 = Main.rand.Next(2, 6);
-					int num3;
-					for (int num321 = 0; num321 < num320; num321 = num3 + 1)
-					{
-						Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-						vector15.Normalize();
-						vector15 *= (float)Main.rand.Next(10, 201) * 0.01f;
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)((double)projectile.damage * 0.25), 1f, projectile.owner, 0f, 1f);
-						num3 = num321;
-					}
-				}
-				else
-				{
-					int num320 = Main.rand.Next(2, 6);
-					int num3;
-					for (int num321 = 0; num321 < num320; num321 = num3 + 1)
-					{
-						Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-						vector15.Normalize();
-						vector15 *= (float)Main.rand.Next(10, 201) * 0.01f;
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)((double)projectile.damage * 0.25), 1f, projectile.owner, 0f, 0f);
-						num3 = num321;
-					}
+					Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					velocity.Normalize();
+					velocity *= (float)Main.rand.Next(10, 201) * 0.01f;
+					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<ScourgeVenomCloud>(), (int)(projectile.damage * 0.25), 1f, projectile.owner, 0f, projectile.Calamity().stealthStrike ? 1f : 0f);
 				}
             }
         }

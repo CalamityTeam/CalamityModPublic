@@ -11,9 +11,6 @@ namespace CalamityMod.Projectiles.Summon
     public class MechwormHead : ModProjectile
     {
         private int dust = 3;
-        private int playerMinionSlots = 0;
-        private bool runCheck = true;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mechworm");
@@ -54,25 +51,11 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 dust--;
             }
-            if (player9.maxMinions > playerMinionSlots)
-            {
-                playerMinionSlots = player9.maxMinions;
-            }
-            if (runCheck)
-            {
-                runCheck = false;
-                playerMinionSlots = player9.maxMinions;
-            }
             CalamityPlayer modPlayer = player9.Calamity();
             player9.AddBuff(ModContent.BuffType<Mechworm>(), 3600);
             if ((int)Main.time % 120 == 0)
             {
                 projectile.netUpdate = true;
-            }
-            if (!player9.active || player9.maxMinions < playerMinionSlots)
-            {
-                projectile.active = false;
-                return;
             }
             int num1051 = 30;
             if (player9.dead)

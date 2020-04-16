@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
                 num16 = (float)num15 / num16;
                 num13 *= num16;
                 num14 *= num16;
-                Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<EclipsesSmol>(), (int)((double)projectile.damage * 0.08 * Main.rand.Next(4, 7)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * 0.08f * Main.rand.NextFloat(4f, 7f)), (int)(projectile.knockBack * 0.1f * Main.rand.NextFloat(7f, 10f)), projectile.owner, 0f, 0f);
             }
         }
 
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Rogue
                 num16 = (float)num15 / num16;
                 num13 *= num16;
                 num14 *= num16;
-                Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<EclipsesSmol>(), (int)((double)projectile.damage * 0.08 * Main.rand.Next(4, 7)), (int)((double)projectile.knockBack * 0.1 * Main.rand.Next(7, 10)), projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * 0.08f * Main.rand.NextFloat(4f, 7f)), (int)(projectile.knockBack * 0.1f * Main.rand.NextFloat(7f, 10f)), projectile.owner, 0f, 0f);
             }
         }
 

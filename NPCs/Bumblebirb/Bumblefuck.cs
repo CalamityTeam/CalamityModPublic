@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Bumblebirb
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draconic Swarmer");
+            DisplayName.SetDefault("The Dragonfolly");
             Main.npcFrameCount[npc.type] = 6;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
 		public override void BossLoot(ref string name, ref int potionType)
         {
-            name = "A Draconic Swarmer";
+            name = "A Dragonfolly";
             potionType = ItemID.SuperHealingPotion;
         }
 
@@ -428,7 +428,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BumblefuckMask>(), 7);
             }
 
-            // Mark Bumblebirb as dead
+            // Mark The Dragonfolly as dead
             CalamityWorld.downedBumble = true;
             CalamityMod.UpdateServerBoolean();
         }

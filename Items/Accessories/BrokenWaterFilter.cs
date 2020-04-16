@@ -1,32 +1,28 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using Terraria;
 using Terraria.ID;
+using Terraria;
 using Terraria.ModLoader;
-
 namespace CalamityMod.Items.Accessories
 {
-    public class RustyMedallion : ModItem
+    public class BrokenWaterFilter : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Rusty Medallion");
-            Tooltip.SetDefault("Causes most ranged weapons to sometimes release acid droplets from the sky");
+            DisplayName.SetDefault("Broken Water Filter");
+            Tooltip.SetDefault("Disables natural Acid Rain spawns");
         }
-
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 32;
-            item.rare = 1;
+            item.width = 32;
+            item.height = 34;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
-            item.accessory = true;
+            item.rare = 1;
         }
-
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.rustyMedal = true;
+            modPlayer.noStupidNaturalARSpawns = true;
         }
         public override void AddRecipes()
         {

@@ -90,7 +90,7 @@ namespace CalamityMod
 			{ "Ravager", 12.5f },
 			{ "AstrumDeus", 13.5f },
 			{ "ProfanedGuardians", 14.5f },
-			{ "Draconic Swarmer", 14.6f },
+			{ "Dragonfolly", 14.6f },
 			{ "Providence", 15.01f }, // Thorium's Ragnarok is 15f
 			{ "CeaselessVoid", 15.5f },
 			{ "StormWeaver", 15.51f },
@@ -415,16 +415,16 @@ namespace CalamityMod
 				AddBoss(bossChecklist, calamity, "Profaned Guardians", order, type, DownedGuardians, summon, loot, collection, instructions, despawn, bossLogTex);
 			}
 
-			// Draconic Swarmer
+			// Dragonfolly
 			{
-				BossDifficulty.TryGetValue("Draconic Swarmer", out float order);
+				BossDifficulty.TryGetValue("Dragonfolly", out float order);
 				int type = NPCType<Bumblefuck>();
 				int summon = ItemType<BirbPheromones>();
 				List<int> loot = new List<int>() { ItemType<BumblebirbBag>(), ItemType<EffulgentFeather>(), ItemType<GildedProboscis>(), ItemType<GoldenEagle>(), ItemType<RougeSlash>(), ItemType<Swordsplosion>(), ItemType<DynamoStemCells>(), ItemType<RedLightningContainer>(), ItemID.SuperHealingPotion };
 				List<int> collection = new List<int>() { ItemType<BumblebirbTrophy>(), ItemType<BumblefuckMask>(), ItemType<KnowledgeBumblebirb>() };
 				string instructions = $"Use [i:{summon}] in the Jungle Biome";
-				string despawn = CalamityUtils.ColorMessage("The failed experiment returns into its reproductive routine.", new Color(0xFF, 0xD7, 0x00));
-				AddBoss(bossChecklist, calamity, "Draconic Swarmer", order, type, DownedBirb, summon, loot, collection, instructions, despawn);
+				string despawn = CalamityUtils.ColorMessage("The failed experiment returns to its reproductive routine.", new Color(0xFF, 0xD7, 0x00));
+				AddBoss(bossChecklist, calamity, "Dragonfolly", order, type, DownedBirb, summon, loot, collection, instructions, despawn);
 			}
 
 			// Providence
@@ -547,7 +547,7 @@ namespace CalamityMod
 			// Initial Acid Rain
 			{
 				InvasionDifficulty.TryGetValue("Acid Rain Initial", out float order);
-				List<int> enemies = AcidRainEvent.PossibleEnemiesPreHM.Select(enemy => enemy.Item1).ToList();
+				List<int> enemies = AcidRainEvent.PossibleEnemiesPreHM.Select(enemy => enemy.Key).ToList();
 				int summon = ItemType<CausticTear>();
 				List<int> loot = new List<int>() { ItemType<SulfuricScale>() };
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
@@ -560,9 +560,9 @@ namespace CalamityMod
 			// Post-Aquatic Scourge Acid Rain
 			{
 				InvasionDifficulty.TryGetValue("Acid Rain Aquatic Scourge", out float order);
-				List<int> enemies = AcidRainEvent.PossibleEnemiesAS.Select(enemy => enemy.Item1).ToList();
+				List<int> enemies = AcidRainEvent.PossibleEnemiesAS.Select(enemy => enemy.Key).ToList();
 				enemies.Add(ModContent.NPCType<IrradiatedSlime>());
-				enemies.AddRange(AcidRainEvent.PossibleMinibossesAS.Select(miniboss => miniboss.Item1));
+				enemies.AddRange(AcidRainEvent.PossibleMinibossesAS.Select(miniboss => miniboss.Key));
 				List<int> summons = new List<int>() { ItemType<CausticTear>(), ItemType<CausticTearNonConsumable>() };
 				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<NuclearRod>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>() };
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
@@ -575,10 +575,10 @@ namespace CalamityMod
 			// Post-Polterghast Acid Rain
 			{
 				InvasionDifficulty.TryGetValue("Acid Rain Polterghast", out float order);
-				List<int> enemies = AcidRainEvent.PossibleEnemiesPolter.Select(enemy => enemy.Item1).ToList();
-				enemies.AddRange(AcidRainEvent.PossibleMinibossesPolter.Select(miniboss => miniboss.Item1));
+				List<int> enemies = AcidRainEvent.PossibleEnemiesPolter.Select(enemy => enemy.Key).ToList();
+				enemies.AddRange(AcidRainEvent.PossibleMinibossesPolter.Select(miniboss => miniboss.Key));
 				List<int> summons = new List<int>() { ItemType<CausticTear>(), ItemType<CausticTearNonConsumable>() };
-				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<NuclearRod>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>() };
+				List<int> loot = new List<int>() { ItemType<SulfuricScale>(), ItemType<CorrodedFossil>(), ItemType<LeadCore>(), ItemType<NuclearRod>(), ItemType<FlakToxicannon>(), ItemType<OrthoceraShell>(), ItemType<SkyfinBombers>(), ItemType<SlitheringEels>(), ItemType<SpentFuelContainer>(), ItemType<SulphurousGrabber>(), ModContent.ItemType<GammaHeart>() };
 				List<int> collection = new List<int>() { ItemType<RadiatingCrystal>() };
 				string instructions = $"Use a [i:{ItemType<CausticTear>()}] or [i:{ItemType<CausticTearNonConsumable>()}] or wait for the invasion to occur naturally after the Polterghast is defeated";
 				string despawn = CalamityUtils.ColorMessage("The mysterious creatures of the sulphuric sea descended back into the deep ocean.", new Color(146, 183, 116));
@@ -771,7 +771,7 @@ namespace CalamityMod
 
 			void AddToAbomShop(float order, string summonItemName, Func<bool> downed, int price)
 			{
-				fargos.Call("AddEventSummon", order, "CalamityMod", summonItemName, downed, price); //Not currently in the live version of fargo's, it will however be in the next version.
+				fargos.Call("AddEventSummon", order, "CalamityMod", summonItemName, downed, price);
 			}
 
 			fargos.Call("AbominationnClearEvents", "CalamityMod", CalamityWorld.rainingAcid, true);
@@ -788,7 +788,7 @@ namespace CalamityMod
 			AddToMutantShop("PlaguebringerGoliath", "Abomination", DownedPBG, Item.buyPrice(gold: 50));
 			AddToMutantShop("Ravager", "AncientMedallion", DownedRavager, Item.buyPrice(gold: 50));
 			AddToMutantShop("ProfanedGuardians", "ProfanedShard", DownedGuardians, Item.buyPrice(platinum: 5));
-			AddToMutantShop("Bumblebirb", "BirbPheromones", DownedBirb, Item.buyPrice(platinum: 5));
+			AddToMutantShop("Dragonfolly", "BirbPheromones", DownedBirb, Item.buyPrice(platinum: 5));
 			AddToMutantShop("OldDuke", "BloodwormItem", DownedBoomerDuke, Item.buyPrice(platinum: 8));
 
 			AddToAbomShop(InvasionDifficulty["Acid Rain Initial"], "CausticTear", DownedAcidRainInitial, Item.buyPrice(gold: 3));

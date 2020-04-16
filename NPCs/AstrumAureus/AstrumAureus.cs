@@ -366,17 +366,6 @@ namespace CalamityMod.NPCs.AstrumAureus
                 DropHelper.DropItemChance(npc, ItemID.HallowedKey, 5);
             }
 
-            // Drop a large spray of all 4 lunar fragments if ML has been defeated
-            if (NPC.downedMoonlord)
-            {
-                int minFragments = Main.expertMode ? 30 : 20;
-                int maxFragments = Main.expertMode ? 48 : 36;
-                DropHelper.DropItemSpray(npc, ItemID.FragmentSolar, minFragments, maxFragments);
-                DropHelper.DropItemSpray(npc, ItemID.FragmentVortex, minFragments, maxFragments);
-                DropHelper.DropItemSpray(npc, ItemID.FragmentNebula, minFragments, maxFragments);
-                DropHelper.DropItemSpray(npc, ItemID.FragmentStardust, minFragments, maxFragments);
-            }
-
             // Drop an Astral Meteor if applicable
             ThreadPool.QueueUserWorkItem(WorldGenerationMethods.AstralMeteorThreadWrapper);
 

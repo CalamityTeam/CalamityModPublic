@@ -54,10 +54,30 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.netUpdate = true;
             }
+            int byUUID = Projectile.GetByUUID(projectile.owner, (int)projectile.ai[0]);
             if (!player9.active || player9.maxMinions < playerMinionSlots)
             {
-                projectile.active = false;
-                return;
+                int lostSlots = playerMinionSlots - player9.maxMinions;
+                while (lostSlots > 0)
+                {
+                    Projectile ahead = Main.projectile[byUUID];
+                    // Each body slot is actually 0.5 slots. Kill two segments to lose 1 "true" slot.
+                    for (int i = 0; i < 2; i++)
+                    {
+                        if (ahead.type != ModContent.ProjectileType<MechwormHead>())
+                        {
+                            projectile.localAI[1] = ahead.localAI[1];
+                        }
+                        projectile.ai[0] = ahead.ai[0];
+                        projectile.ai[1] = 1f;
+                        projectile.netUpdate = true;
+                        ahead.Kill();
+                        byUUID = Projectile.GetByUUID(projectile.owner, (int)projectile.ai[0]);
+                        ahead = Main.projectile[byUUID];
+                    }
+                    lostSlots--;
+                }
+                playerMinionSlots = player9.maxMinions;
             }
             int num1051 = 10;
             if (player9.dead)
@@ -77,7 +97,6 @@ namespace CalamityMod.Projectiles.Summon
             float num1064;
             float scaleFactor17;
             float scaleFactor18;
-            int byUUID = Projectile.GetByUUID(projectile.owner, (int)projectile.ai[0]);
             if (byUUID >= 0 && Main.projectile[byUUID].active && (Main.projectile[byUUID].type == ModContent.ProjectileType<MechwormHead>() ||
                                                                                                   Main.projectile[byUUID].type == ModContent.ProjectileType<MechwormBody>() ||
                                                                                                   Main.projectile[byUUID].type == ModContent.ProjectileType<MechwormBody2>()))

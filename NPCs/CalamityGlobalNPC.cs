@@ -523,19 +523,20 @@ namespace CalamityMod.NPCs
                 int projectileCount = 0;
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
-                    if (Main.projectile[j].active &&
-                        (Main.projectile[j].type == ModContent.ProjectileType<SnapClamProj>() || Main.projectile[j].type == ModContent.ProjectileType<SnapClamStealth>()) &&
-                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
+                    if (Main.projectile[j].active && Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
-                        projectileCount++;
+						if (Main.projectile[j].type == ModContent.ProjectileType<SnapClamProj>())
+							projectileCount += 2;
+						if (Main.projectile[j].type == ModContent.ProjectileType<SnapClamStealth>())
+							projectileCount++;
                     }
                 }
 
-                npc.lifeRegen -= projectileCount * 35;
+                npc.lifeRegen -= projectileCount * 15;
 
-                if (damage < projectileCount * 7)
+                if (damage < projectileCount * 3)
                 {
-                    damage = projectileCount * 7;
+                    damage = projectileCount * 3;
                 }
             }
 
@@ -2473,7 +2474,7 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Nurse:
-                        switch (Main.rand.Next(25)) // 24 Nurse names
+                        switch (Main.rand.Next(25)) // 24 nurse names
                         {
                             case 0:
                                 npc.GivenName = "Farsni";
@@ -2486,10 +2487,23 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Angler:
-                        switch (Main.rand.Next(23)) // 22 Nurse names
+                        switch (Main.rand.Next(23)) // 22 angler names
                         {
                             case 0:
                                 npc.GivenName = "Dazren";
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        break;
+
+                    case NPCID.Clothier:
+                        switch (Main.rand.Next(26)) // 25 clothier names
+                        {
+                            case 0:
+                                npc.GivenName = "Joeseph Jostar";
                                 break;
 
                             default:
@@ -3426,12 +3440,11 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.1);
 				}
-				else if (projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() ||
-					projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
+				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
 				{
 					damage = (int)(damage * 0.2);
 				}
-				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<PlaguenadeProj>())
+				else if (projectile.type == ModContent.ProjectileType<PlaguenadeProj>())
 				{
 					damage = (int)(damage * 0.3);
 				}
@@ -3465,6 +3478,10 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
+				else if (ProjectileID.Sets.StardustDragon[projectile.type])
+				{
+					damage = (int)(damage * 0.1);
+				}
 
 				if (projectile.penetrate == -1 && !projectile.minion)
 				{
@@ -3487,7 +3504,7 @@ namespace CalamityMod.NPCs
                 }
                 else if (projectile.type == ModContent.ProjectileType<SulphuricNukesplosion>())
                 {
-                    damage = (int)(damage * 0.5);
+                    damage = (int)(damage * 0.38);
                 }
                 else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
                 {
@@ -3499,11 +3516,11 @@ namespace CalamityMod.NPCs
                         projectile.penetrate = 1;
                     damage = (int)(damage * 0.1);
                 }
-                else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
+				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 2;
-                    damage = (int)(damage * 0.1);
+                        projectile.penetrate = 1;
+                    damage = (int)(damage * 0.01);
                 }
             }
 			else if (AquaticScourgeIDs.Contains(npc.type))
@@ -3516,17 +3533,11 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>())
+				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
                         projectile.penetrate = 1;
-                    damage = (int)(damage * 0.05);
-                }
-                else if (projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = 2;
-                    damage = (int)(damage * 0.05);
+                    damage = (int)(damage * 0.01);
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
@@ -3549,19 +3560,19 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == ModContent.NPCType<OldDuke.OldDuke>())
             {
-                if (projectile.type == ModContent.ProjectileType<GalileosMoon>())
+                if (projectile.type == ModContent.ProjectileType<GalileosMoon>() || projectile.type == ModContent.ProjectileType<CrescentMoonFlail>())
                 {
-                    damage = (int)(damage * 0.4);
+                    damage = (int)(damage * 0.2);
                 }
                 else if (projectile.type == ModContent.ProjectileType<CalamariInk>())
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<ReaperProjectile>() || projectile.type == ModContent.ProjectileType<BloodBombExplosion>() || projectile.type == ModContent.ProjectileType<CrescentMoonFlail>())
+                else if (projectile.type == ModContent.ProjectileType<GhastlySoulLarge>() || projectile.type == ModContent.ProjectileType<GhastlySoulMedium>() || projectile.type == ModContent.ProjectileType<GhastlySoulSmall>() || projectile.type == ModContent.ProjectileType<ReaperProjectile>() || projectile.type == ModContent.ProjectileType<BloodBombExplosion>())
                 {
                     damage = (int)(damage * 0.6);
                 }
-                else if (projectile.type == ModContent.ProjectileType<GhastlySoulLarge>() || projectile.type == ModContent.ProjectileType<GhastlySoulMedium>() || projectile.type == ModContent.ProjectileType<GhastlySoulSmall>() || projectile.type == ModContent.ProjectileType<GhostFire>())
+                else if (projectile.type == ModContent.ProjectileType<GhostFire>())
                 {
                     damage = (int)(damage * 0.75);
                 }
@@ -3581,7 +3592,7 @@ namespace CalamityMod.NPCs
 			{
                 if (projectile.type == ModContent.ProjectileType<PurpleButterfly>() || projectile.type == ModContent.ProjectileType<SakuraBullet>())
                 {
-					damage = (int)(damage * 1.2);
+					damage = (int)(damage * 1.35);
 				}
 			}
             else if (npc.type == ModContent.NPCType<Providence.Providence>())
@@ -3985,7 +3996,7 @@ namespace CalamityMod.NPCs
             }
 			if (spawnInfo.player.Calamity().underworldLore)
 			{
-				pool.Remove(NPCID.VoodooDemon);
+				pool[NPCID.VoodooDemon] = 0f;
 			}
             if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
             {
@@ -3993,42 +4004,69 @@ namespace CalamityMod.NPCs
 
                 if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
                 {
-                    List<(int, int, bool)> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
-                    List<(int, int, bool)> PossibleMinibosses = new List<(int, int, bool)>();
+                    Dictionary<int, AcidRainSpawnData> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+                    Dictionary<int, AcidRainSpawnData> PossibleMinibosses = new Dictionary<int, AcidRainSpawnData>();
                     if (CalamityWorld.downedAquaticScourge)
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesAS;
                         PossibleMinibosses = AcidRainEvent.PossibleMinibossesAS;
-                        PossibleEnemies.Add((ModContent.NPCType<IrradiatedSlime>(), 1, false));
+                        if (!PossibleEnemies.ContainsKey(ModContent.NPCType<IrradiatedSlime>()))
+                        {
+                            PossibleEnemies.Add(ModContent.NPCType<IrradiatedSlime>(), new AcidRainSpawnData(1, 0f, AcidRainSpawnRequirement.Anywhere));
+                        }
                     }
                     if (CalamityWorld.downedPolterghast)
                     {
                         PossibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
                         PossibleMinibosses = AcidRainEvent.PossibleMinibossesPolter;
                     }
-                    foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Item1))
+                    foreach (int enemy in PossibleEnemies.Select(enemyType => enemyType.Key))
                     {
-                        if (spawnInfo.water || !PossibleEnemies.First(potential => potential.Item1 == enemy).Item3)
+                        bool canSpawn = true;
+                        switch (PossibleEnemies[enemy].SpawnRequirement)
+                        {
+                            case AcidRainSpawnRequirement.Anywhere:
+                                break;
+                            case AcidRainSpawnRequirement.Land:
+                                canSpawn = !spawnInfo.water;
+                                break;
+                            case AcidRainSpawnRequirement.Water:
+                                canSpawn = spawnInfo.water;
+                                break;
+                        }
+                        if (canSpawn)
                         {
                             if (!pool.ContainsKey(enemy))
                             {
-                                pool.Add(enemy, 1f);
+                                pool.Add(enemy, PossibleEnemies[enemy].SpawnRate);
                             }
                         }
                     }
                     if (PossibleMinibosses.Count > 0)
                     {
-                        foreach (int enemy in PossibleMinibosses.Select(miniboss => miniboss.Item1).ToList())
+                        foreach (int miniboss in PossibleMinibosses.Select(miniboss => miniboss.Key).ToList())
                         {
-                            if (spawnInfo.water || !PossibleMinibosses.First(potential => potential.Item1 == enemy).Item3)
+                            bool canSpawn = true;
+                            switch (PossibleMinibosses[miniboss].SpawnRequirement)
                             {
-                                pool.Add(enemy, enemy == ModContent.NPCType<CragmawMire>() ? 0.085f : 0.05f);
+                                case AcidRainSpawnRequirement.Anywhere:
+                                    break;
+                                case AcidRainSpawnRequirement.Land:
+                                    canSpawn = !spawnInfo.water;
+                                    break;
+                                case AcidRainSpawnRequirement.Water:
+                                    canSpawn = spawnInfo.water;
+                                    break;
+                            }
+                            if (canSpawn)
+                            {
+                                pool.Add(miniboss, PossibleMinibosses[miniboss].SpawnRate);
                             }
                         }
                     }
                     if (CalamityWorld.downedPolterghast)
                     {
-                        pool.Add(ModContent.NPCType<BloodwormNormal>(), 0.08f);
+                        pool.Add(ModContent.NPCType<BloodwormNormal>(), AcidRainEvent.BloodwormSpawnRate);
                     }
                 }
             }

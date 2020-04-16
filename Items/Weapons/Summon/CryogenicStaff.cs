@@ -17,7 +17,7 @@ Fire rate and range increase the longer it targets an enemy");
 
         public override void SetDefaults()
         {
-            item.damage = 56;
+            item.damage = 50;
             item.mana = 10;
             item.summon = true;
             item.sentry = true;

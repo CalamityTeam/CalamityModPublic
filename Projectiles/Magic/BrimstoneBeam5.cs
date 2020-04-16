@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
             projectile.penetrate = 1;
             projectile.extraUpdates = 100;
-            projectile.timeLeft = 20;
+            projectile.timeLeft = 30;
         }
 
         public override void AI()

@@ -20,6 +20,7 @@ namespace CalamityMod.Items.Tools
         public override void SetDefaults()
         {
             item.damage = 100;
+			item.crit += 10;
             item.melee = true;
             item.width = 60;
             item.height = 46;
@@ -33,6 +34,10 @@ namespace CalamityMod.Items.Tools
             item.rare = 5;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
+
+            // This item is not true melee. Its sparks go a very long distnce.
+            item.shoot = ModContent.ProjectileType<NobodyKnows>();
+            item.shootSpeed = 0f;
         }
 
         public override void AddRecipes()

@@ -938,7 +938,7 @@ namespace CalamityMod.World
 
             // Attempt to start the acid rain at the 4:29AM
 			bool moreRain = !downedEoCAcidRain || (!downedAquaticScourgeAcidRain && downedAquaticScourge) || (!downedBoomerDuke && downedPolterghast);
-            if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300))
+            if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300) && !Main.LocalPlayer.Calamity().noStupidNaturalARSpawns)
             {
                 AcidRainEvent.TryStartEvent();
                 CalamityMod.UpdateServerBoolean();
@@ -992,7 +992,6 @@ namespace CalamityMod.World
 					Main.weatherCounter = 600;
 					Main.maxRaining = 0.89f;
 				}
-                Main.invasionProgressNearInvasion = true;
 
                 // Summon Old Duke tornado post-Polter as needed
                 if (downedPolterghast && acidRainPoints == 2f)
@@ -1017,11 +1016,6 @@ namespace CalamityMod.World
                             }
                         }
                     }
-                }
-                if (Main.invasionProgress != -1)
-                {
-                    Main.invasionType = 0;
-                    Main.invasionProgress = -1;
                 }
             }
 			else

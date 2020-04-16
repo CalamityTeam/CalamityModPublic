@@ -6,7 +6,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draconic Swarmer Trophy");
+            DisplayName.SetDefault("Dragonfolly Trophy");
         }
 
         public override void SetDefaults()
