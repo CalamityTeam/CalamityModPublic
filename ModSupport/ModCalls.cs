@@ -145,6 +145,8 @@ namespace CalamityMod
 				case "the profaned guardians":
 					return CalamityWorld.downedGuardians;
 
+				case "dragonfolly":
+				case "the dragonfolly":
 				case "bumblebirb":
 				case "bumblefuck":
 					return CalamityWorld.downedBumble;

@@ -9,7 +9,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exotic Pheromones");
-            Tooltip.SetDefault("Attracts the draconian swarmer");
+            Tooltip.SetDefault("Attracts the failed draconic experiment");
         }
 
         public override void SetDefaults()
