@@ -2514,6 +2514,40 @@ namespace CalamityMod
             if (condition)
                 list.Add(type);
         }
+
+        public static void Inflict246DebuffsNPC(NPC target, int buff, float timeBase = 2f)
+        {
+			if (Main.rand.NextBool(4))
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase * 3f), false);
+			}
+			else if (Main.rand.NextBool(2))
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase * 2f), false);
+			}
+			else
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase), false);
+			}
+        }
+
+        public static void Inflict246DebuffsPvp(Player target, int buff, float timeBase = 2f)
+        {
+			if (Main.rand.NextBool(4))
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase * 3f), false);
+			}
+			else if (Main.rand.NextBool(2))
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase * 2f), false);
+			}
+			else
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase), false);
+			}
+        }
+
+		public static int SecondsToFrames(float seconds) => (int)(seconds * 60);
         #endregion
     }
 }
