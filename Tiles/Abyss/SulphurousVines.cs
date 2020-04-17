@@ -9,6 +9,7 @@ namespace CalamityMod.Tiles.Abyss
     {
         public override void SetDefaults()
         {
+            Main.tileLighted[Type] = true;
             Main.tileCut[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileLavaDeath[Type] = true;
@@ -91,6 +92,12 @@ namespace CalamityMod.Tiles.Abyss
                     }
                 }
             }
+        }
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = 173f / 255f;
+            g = 1f;
+            b = 200f / 255f;
         }
     }
 }
