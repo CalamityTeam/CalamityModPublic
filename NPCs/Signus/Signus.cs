@@ -770,8 +770,8 @@ namespace CalamityMod.NPCs.Signus
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CosmicKunai>(), Main.expertMode ? 3 : 4);
                 float f = Main.rand.NextFloat();
-                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Lantern of the Soul
-                if (Main.rand.NextBool(Main.expertMode ? 3 : 4)) // 1/3 (1/4 in normal) chance of getting Cosmilamp OR Lantern of the Soul replacing it
+                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Guidelight of Oblivion
+                if (f <= Main.expertMode ? 0.3333f : 0.25f) // 1/3 (1/4 in normal) chance of getting Cosmilamp OR Guidelight of Oblivion replacing it
                 {
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<Cosmilamp>(), !replaceWithRare);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<LanternoftheSoul>(), replaceWithRare);
