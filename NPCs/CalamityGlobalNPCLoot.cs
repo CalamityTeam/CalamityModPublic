@@ -1427,11 +1427,14 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GiantTortoise:
-                    int tortoiseDropRate = Main.expertMode ? 5 : 7;
+                    float tortoiseDropRate = Main.expertMode ? 0.2f : 0.142857f;
                     float shellRoll = Main.rand.NextFloat();
-                    bool fabledShell = shellRoll < 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<GiantTortoiseShell>(), !fabledShell, tortoiseDropRate, 1, 1);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), fabledShell, tortoiseDropRate, 1, 1);
+                    bool fabledShell = shellRoll <= 0.005f; // Exact 1/200 chance for rare regardless of difficulty
+                    if (shellRoll < tortoiseDropRate) // 1/7 (1/5 EX) chance of getting Giant Tortoise Shell OR Fabled Tortoise Shell replacing it
+                    {
+                        DropHelper.DropItemCondition(npc, ModContent.ItemType<GiantTortoiseShell>(), !fabledShell);
+                        DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), fabledShell);
+                    }
                     break;
 
                 case NPCID.GiantShelly:
