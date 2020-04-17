@@ -28,7 +28,7 @@ namespace CalamityMod.NPCs
         {
             npc.damage = 0;
 
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
                 npc.TargetClosest(true);
 
             float num = 5f;
@@ -436,7 +436,7 @@ namespace CalamityMod.NPCs
             }
 
             // Change jump velocity
-            else if (npc.target < 255 && ((npc.direction == 1 && npc.velocity.X < 3f) || (npc.direction == -1 && npc.velocity.X > -3f)))
+            else if (npc.target < Main.maxPlayers && ((npc.direction == 1 && npc.velocity.X < 3f) || (npc.direction == -1 && npc.velocity.X > -3f)))
             {
                 if ((npc.direction == -1 && (double)npc.velocity.X < 0.1) || (npc.direction == 1 && (double)npc.velocity.X > -0.1))
                     npc.velocity.X += (CalamityWorld.bossRushActive ? 0.4f : 0.2f) * (float)npc.direction;
@@ -561,7 +561,7 @@ namespace CalamityMod.NPCs
             bool phase4 = lifeRatio < 0.65f || death;
             bool phase5 = lifeRatio < 0.5f || death;
 
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest(true);
 
             bool dead = Main.player[npc.target].dead;
@@ -678,7 +678,7 @@ namespace CalamityMod.NPCs
                         npc.ai[1] = 1f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
-                        npc.target = 255;
+                        npc.target = Main.maxPlayers;
                         npc.netUpdate = true;
                     }
                     else if (num16 < 500f)
@@ -764,7 +764,7 @@ namespace CalamityMod.NPCs
                     {
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
-                        npc.target = 255;
+                        npc.target = Main.maxPlayers;
                         npc.rotation = num8;
 
                         if (npc.ai[3] >= 3f)
@@ -956,7 +956,7 @@ namespace CalamityMod.NPCs
                         if (phase4)
                             npc.ai[1] = 3f;
 
-                        npc.target = 255;
+                        npc.target = Main.maxPlayers;
                         npc.netUpdate = true;
                     }
                 }
@@ -1010,7 +1010,7 @@ namespace CalamityMod.NPCs
                     {
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
-                        npc.target = 255;
+                        npc.target = Main.maxPlayers;
                         npc.rotation = num8;
 
                         if (npc.ai[3] >= 3f)
@@ -1452,7 +1452,7 @@ namespace CalamityMod.NPCs
             npc.realLife = -1;
 
             // Target
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
                 npc.TargetClosest(true);
 
             // Despawn
@@ -2540,7 +2540,7 @@ namespace CalamityMod.NPCs
 			}
 
             // Get a target
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest(true);
 
             // Despawn
@@ -4299,7 +4299,7 @@ namespace CalamityMod.NPCs
                 npc.realLife = (int)npc.ai[3];
 
             // Get a target
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
                 npc.TargetClosest(true);
 
 			Player player = Main.player[npc.target];
@@ -4861,7 +4861,7 @@ namespace CalamityMod.NPCs
             bool enrage = (double)npc.life < (double)npc.lifeMax * (death ? 0.5 : 0.25);
 
             // I'm not commenting this entire fucking thing, already did spaz, I'm not doing ret
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest(true);
 
             float num376 = npc.position.X + (float)(npc.width / 2) - Main.player[npc.target].position.X - (float)(Main.player[npc.target].width / 2);
@@ -4985,7 +4985,7 @@ namespace CalamityMod.NPCs
                         npc.ai[1] = 1f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
-                        npc.target = 255;
+                        npc.target = Main.maxPlayers;
                         npc.netUpdate = true;
                     }
 
@@ -5057,7 +5057,7 @@ namespace CalamityMod.NPCs
                     {
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
-                        npc.target = 255;
+                        npc.target = Main.maxPlayers;
                         npc.rotation = num378;
                         if (npc.ai[3] >= 3f)
                         {
@@ -5446,7 +5446,7 @@ namespace CalamityMod.NPCs
                         if (npc.ai[2] >= chargeTime + 30f)
                         {
                             npc.ai[2] = 0f;
-                            npc.target = 255;
+                            npc.target = Main.maxPlayers;
                             npc.rotation = num378;
                             npc.ai[1] = 1f;
                         }
@@ -5548,7 +5548,7 @@ namespace CalamityMod.NPCs
             bool enrage = (double)npc.life < (double)npc.lifeMax * (death ? 0.5 : 0.25);
 
             // Get a target
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest(true);
 
             // Rotation
@@ -5683,7 +5683,7 @@ namespace CalamityMod.NPCs
                         npc.ai[1] = 1f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
-                        npc.target = 255;
+                        npc.target = Main.maxPlayers;
                         npc.netUpdate = true;
                     }
                     else
@@ -5761,7 +5761,7 @@ namespace CalamityMod.NPCs
                         // Reset AI array and go to cursed fireball phase
                         npc.ai[3] += 1f;
                         npc.ai[2] = 0f;
-                        npc.target = 255;
+                        npc.target = Main.maxPlayers;
                         npc.rotation = num420;
                         if (npc.ai[3] >= 8f)
                         {
@@ -5935,7 +5935,7 @@ namespace CalamityMod.NPCs
                         npc.ai[1] = (!retAlive || enrage) ? 5f : 1f;
                         npc.ai[2] = 0f;
                         npc.ai[3] = 0f;
-                        npc.target = 255;
+                        npc.target = Main.maxPlayers;
                         npc.netUpdate = true;
                     }
 
@@ -6052,7 +6052,7 @@ namespace CalamityMod.NPCs
                         {
                             npc.ai[3] += 1f;
                             npc.ai[2] = 0f;
-                            npc.target = 255;
+                            npc.target = Main.maxPlayers;
                             npc.rotation = num420;
                             if (npc.ai[3] >= 5f)
                             {
@@ -9123,7 +9123,7 @@ namespace CalamityMod.NPCs
             }
 
             // Target
-            if (npc.target <= 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target <= 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
                 npc.TargetClosest(true);
 
             // Despawn
@@ -9786,7 +9786,7 @@ namespace CalamityMod.NPCs
             Player player = Main.player[npc.target];
 
             // Get target
-            if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || player.dead || !player.active)
             {
                 npc.TargetClosest(true);
                 player = Main.player[npc.target];
@@ -10838,7 +10838,7 @@ namespace CalamityMod.NPCs
             // Center and target
             Vector2 center = npc.Center;
             Player player = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || player.dead || !player.active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || player.dead || !player.active)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
@@ -15582,7 +15582,7 @@ namespace CalamityMod.NPCs
                                 velocity.Y *= 1f + Main.rand.NextFloat(-0.25f, 0.25f);
                                 velocity.Normalize();
                                 velocity *= 7f + Main.rand.NextFloat(-0.5f, 0.5f);
-                                Projectile.NewProjectile(npc.Center, velocity, ProjectileID.SpikedSlimeSpike, 9, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(npc.Center, velocity, ProjectileID.JungleSpike, 9, 0f, Main.myPlayer, 0f, 0f);
                                 npc.localAI[0] = 30f;
                             }
                         }
@@ -15601,7 +15601,7 @@ namespace CalamityMod.NPCs
                             float speed = 7f;
                             Vector2 velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center + new Vector2(0f, Main.rand.Next(0, 200))) * speed;
                             npc.localAI[0] = 50f;
-                            Projectile.NewProjectile(npc.Center, velocity, ProjectileID.SpikedSlimeSpike, 9, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(npc.Center, velocity, ProjectileID.JungleSpike, 9, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
@@ -15794,7 +15794,7 @@ namespace CalamityMod.NPCs
                     return false;
                 }
             }
-            else if (npc.target < 255 && ((npc.direction == 1 && npc.velocity.X < 3f) || (npc.direction == -1 && npc.velocity.X > -3f)))
+            else if (npc.target < Main.maxPlayers && ((npc.direction == 1 && npc.velocity.X < 3f) || (npc.direction == -1 && npc.velocity.X > -3f)))
             {
                 if (npc.collideX && Math.Abs(npc.velocity.X) == 0.2f)
                 {
@@ -19549,7 +19549,7 @@ namespace CalamityMod.NPCs
         #region Flying AI
         public static bool BuffedFlyingAI(NPC npc, Mod mod)
         {
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
             }
@@ -19932,7 +19932,7 @@ namespace CalamityMod.NPCs
                     npc.realLife = (int)npc.ai[3];
             }
 
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || (flag && (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0))
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || (flag && (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0))
             {
                 npc.TargetClosest(true);
             }
@@ -23055,7 +23055,7 @@ namespace CalamityMod.NPCs
                 Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0.05f, 0.2f, 0.3f);
             }
             // Adjust target if we don't have one.
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
             }
@@ -24329,7 +24329,7 @@ namespace CalamityMod.NPCs
         #region Spider AI
         public static bool BuffedSpiderAI(NPC npc, Mod mod)
         {
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
             }
@@ -24729,7 +24729,7 @@ namespace CalamityMod.NPCs
                 return false;
             }
 
-            if (npc.target < 255)
+            if (npc.target < Main.maxPlayers)
             {
                 if (npc.type == NPCID.Derpling)
                 {
@@ -24800,7 +24800,7 @@ namespace CalamityMod.NPCs
             }
             int num631 = npc.target;
             int direction2 = npc.direction;
-            if (npc.target == 255 || Main.player[npc.target].wet || Main.player[npc.target].dead || Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+            if (npc.target == Main.maxPlayers || Main.player[npc.target].wet || Main.player[npc.target].dead || Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
             {
                 npc.ai[0] = 90f;
                 npc.TargetClosest(true);

@@ -1,5 +1,7 @@
 ﻿using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -25,6 +27,16 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.rustyMedal = true;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<RustyLockpick>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
+            recipe.AddRecipeGroup("IronBar", 10);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

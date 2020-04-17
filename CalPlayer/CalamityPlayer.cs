@@ -3558,7 +3558,7 @@ namespace CalamityMod.CalPlayer
                         dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     }
                 }
-                int heal = draconicSurge ? player.statLifeMax2 : 150;
+                int heal = draconicSurge ? (player.statLifeMax2 / 2) : 150;
                 player.statLife += heal;
                 player.HealEffect(heal);
                 if (player.statLife > player.statLifeMax2)
@@ -3568,9 +3568,9 @@ namespace CalamityMod.CalPlayer
                 if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
                 {
                     player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                    player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), 1800);
+                    player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), CalamityUtils.SecondsToFrames(60f));
                 }
-                player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), 2700);
+                player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(45f));
                 return false;
             }
             if (silvaSet && silvaCountdown > 0)
@@ -3582,11 +3582,11 @@ namespace CalamityMod.CalPlayer
                 if (player.FindBuffIndex(ModContent.BuffType<SilvaRevival>()) == -1)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
-                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), 600);
+                    player.AddBuff(ModContent.BuffType<SilvaRevival>(), auricSet ? 300 : 600);
                     if (draconicSurge)
                     {
-                        player.statLife += player.statLifeMax2;
-                        player.HealEffect(player.statLifeMax2);
+                        player.statLife += player.statLifeMax2 / 2;
+                        player.HealEffect(player.statLifeMax2 / 2);
                         if (player.statLife > player.statLifeMax2)
                         {
                             player.statLife = player.statLifeMax2;
@@ -3594,13 +3594,13 @@ namespace CalamityMod.CalPlayer
                         if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
                         {
                             player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
-                            player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), 1800);
+                            player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), CalamityUtils.SecondsToFrames(60f));
                         }
                     }
 					else if (silvaWings)
 					{
-                        player.statLife += (int)(player.statLifeMax2 / 2);
-                        player.HealEffect((int)(player.statLifeMax2 / 2));
+                        player.statLife += player.statLifeMax2 / 2;
+                        player.HealEffect(player.statLifeMax2 / 2);
                         if (player.statLife > player.statLifeMax2)
                         {
                             player.statLife = player.statLifeMax2;
@@ -3616,8 +3616,8 @@ namespace CalamityMod.CalPlayer
             }
             if (permafrostsConcoction && player.FindBuffIndex(ModContent.BuffType<ConcoctionCooldown>()) == -1)
             {
-                player.AddBuff(ModContent.BuffType<ConcoctionCooldown>(), 10800);
-                player.AddBuff(ModContent.BuffType<Encased>(), 180);
+                player.AddBuff(ModContent.BuffType<ConcoctionCooldown>(), CalamityUtils.SecondsToFrames(180f));
+                player.AddBuff(ModContent.BuffType<Encased>(), CalamityUtils.SecondsToFrames(3f));
                 player.statLife = player.statLifeMax2 * 3 / 10;
                 Main.PlaySound(SoundID.Item92, player.position);
                 for (int i = 0; i < 60; i++)
@@ -3971,7 +3971,7 @@ namespace CalamityMod.CalPlayer
                         num340 *= 1.5f;
                         num342 *= (float)player.direction;
                         num341 *= player.gravDir;
-                        Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Mushroom, (int)((float)item.damage * 0.25f * player.meleeDamage), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Mushroom, (int)(item.damage * 0.25f * player.MeleeDamage()), 0f, player.whoAmI, 0f, 0f);
                     }
                 }
                 if (aWeapon)
@@ -4073,126 +4073,38 @@ namespace CalamityMod.CalPlayer
                 }
                 if (cryogenSoul || frostFlare)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(BuffID.Frostburn, 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(BuffID.Frostburn, 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(BuffID.Frostburn, 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn);
                 }
                 if (yInsignia)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<HolyFlames>());
                 }
                 if (ataxiaFire)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(BuffID.OnFire, 720, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(BuffID.OnFire, 480, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(BuffID.OnFire, 240, false);
-                    }
+					CalamityUtils.Inflict246DebuffsNPC(target, BuffID.OnFire, 4f);
                 }
-            }
-            if (aWeapon)
-            {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                }
+				if (aWeapon)
+				{
+					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<AbyssalFlames>());
+				}
             }
             if (abyssalAmulet)
             {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<CrushDepth>(), 120, false);
-                }
+				CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<CrushDepth>());
             }
             if (dsSetBonus)
             {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<DemonFlames>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<DemonFlames>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<DemonFlames>(), 120, false);
-                }
+				CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<DemonFlames>());
             }
             if (alchFlask)
             {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<Plague>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<Plague>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
-                }
+				CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<Plague>());
             }
             if (armorCrumbling || armorShattering)
             {
                 if (item.melee || item.Calamity().rogue)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<ArmorCrunch>());
                 }
             }
             if (item.Calamity().rogue)
@@ -4303,33 +4215,11 @@ namespace CalamityMod.CalPlayer
 
                 if (abyssalAmulet)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(ModContent.BuffType<CrushDepth>(), 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(ModContent.BuffType<CrushDepth>(), 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(ModContent.BuffType<CrushDepth>(), 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<CrushDepth>());
                 }
                 if (dsSetBonus)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(ModContent.BuffType<DemonFlames>(), 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(ModContent.BuffType<DemonFlames>(), 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(ModContent.BuffType<DemonFlames>(), 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<DemonFlames>());
                 }
                 if (uberBees && (proj.type == 566 || proj.type == 181 || proj.type == 189))
                 {
@@ -4337,18 +4227,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (alchFlask)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(ModContent.BuffType<Plague>(), 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(ModContent.BuffType<Plague>(), 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<Plague>());
                 }
                 if (proj.melee)
                 {
@@ -4370,81 +4249,26 @@ namespace CalamityMod.CalPlayer
                     }
                     if (aWeapon)
                     {
-                        if (Main.rand.NextBool(4))
-                        {
-                            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 360, false);
-                        }
-                        else if (Main.rand.NextBool(2))
-                        {
-                            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
-                        }
-                        else
-                        {
-                            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                        }
+						CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<AbyssalFlames>());
                     }
                     if (cryogenSoul || frostFlare)
                     {
-                        if (Main.rand.NextBool(4))
-                        {
-                            target.AddBuff(BuffID.Frostburn, 360, false);
-                        }
-                        else if (Main.rand.NextBool(2))
-                        {
-                            target.AddBuff(BuffID.Frostburn, 240, false);
-                        }
-                        else
-                        {
-                            target.AddBuff(BuffID.Frostburn, 120, false);
-                        }
+						CalamityUtils.Inflict246DebuffsNPC(target, BuffID.Frostburn);
                     }
                     if (yInsignia)
                     {
-                        if (Main.rand.NextBool(4))
-                        {
-                            target.AddBuff(ModContent.BuffType<HolyFlames>(), 360, false);
-                        }
-                        else if (Main.rand.NextBool(2))
-                        {
-                            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240, false);
-                        }
-                        else
-                        {
-                            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                        }
+						CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<HolyFlames>());
                     }
                     if (ataxiaFire)
                     {
-                        if (Main.rand.NextBool(4))
-                        {
-                            target.AddBuff(BuffID.OnFire, 720, false);
-                        }
-                        else if (Main.rand.NextBool(2))
-                        {
-                            target.AddBuff(BuffID.OnFire, 480, false);
-                        }
-                        else
-                        {
-                            target.AddBuff(BuffID.OnFire, 240, false);
-                        }
+						CalamityUtils.Inflict246DebuffsNPC(target, BuffID.OnFire, 4f);
                     }
                 }
                 if (armorCrumbling || armorShattering)
                 {
                     if (proj.melee || proj.Calamity().rogue)
                     {
-                        if (Main.rand.NextBool(4))
-                        {
-                            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 360, false);
-                        }
-                        else if (Main.rand.NextBool(2))
-                        {
-                            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, false);
-                        }
-                        else
-                        {
-                            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120, false);
-                        }
+						CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<ArmorCrunch>());
                     }
                 }
                 if (perforatorLore)
@@ -4577,95 +4401,29 @@ namespace CalamityMod.CalPlayer
                 }
                 if (aWeapon)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                    }
-                }
-                if (abyssalAmulet)
-                {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(ModContent.BuffType<CrushDepth>(), 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(ModContent.BuffType<CrushDepth>(), 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(ModContent.BuffType<CrushDepth>(), 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<AbyssalFlames>());
                 }
                 if (cryogenSoul || frostFlare)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(BuffID.Frostburn, 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(BuffID.Frostburn, 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(BuffID.Frostburn, 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsPvp(target, BuffID.Frostburn);
                 }
                 if (yInsignia)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<HolyFlames>());
                 }
                 if (ataxiaFire)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(BuffID.OnFire, 720, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(BuffID.OnFire, 480, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(BuffID.OnFire, 240, false);
-                    }
+					CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
                 }
             }
             if (alchFlask)
             {
-                if (Main.rand.NextBool(4))
-                {
-                    target.AddBuff(ModContent.BuffType<Plague>(), 360, false);
-                }
-                else if (Main.rand.NextBool(2))
-                {
-                    target.AddBuff(ModContent.BuffType<Plague>(), 240, false);
-                }
-                else
-                {
-                    target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
-                }
+				CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<Plague>());
             }
+			if (abyssalAmulet)
+			{
+				CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<CrushDepth>());
+			}
             if (item.Calamity().rogue)
             {
                 if (player.meleeEnchant > 0)
@@ -4771,18 +4529,7 @@ namespace CalamityMod.CalPlayer
 
                 if (abyssalAmulet)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(ModContent.BuffType<CrushDepth>(), 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(ModContent.BuffType<CrushDepth>(), 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(ModContent.BuffType<CrushDepth>(), 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<CrushDepth>());
                 }
                 if (uberBees && (proj.type == 566 || proj.type == 181 || proj.type == 189))
                 {
@@ -4790,18 +4537,7 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (alchFlask)
                 {
-                    if (Main.rand.NextBool(4))
-                    {
-                        target.AddBuff(ModContent.BuffType<Plague>(), 360, false);
-                    }
-                    else if (Main.rand.NextBool(2))
-                    {
-                        target.AddBuff(ModContent.BuffType<Plague>(), 240, false);
-                    }
-                    else
-                    {
-                        target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
-                    }
+					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<Plague>());
                 }
                 if (proj.melee)
                 {
@@ -4823,81 +4559,26 @@ namespace CalamityMod.CalPlayer
                     }
                     if (aWeapon)
                     {
-                        if (Main.rand.NextBool(4))
-                        {
-                            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 360, false);
-                        }
-                        else if (Main.rand.NextBool(2))
-                        {
-                            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
-                        }
-                        else
-                        {
-                            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                        }
+						CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<AbyssalFlames>());
                     }
                     if (cryogenSoul || frostFlare)
                     {
-                        if (Main.rand.NextBool(4))
-                        {
-                            target.AddBuff(BuffID.Frostburn, 360, false);
-                        }
-                        else if (Main.rand.NextBool(2))
-                        {
-                            target.AddBuff(BuffID.Frostburn, 240, false);
-                        }
-                        else
-                        {
-                            target.AddBuff(BuffID.Frostburn, 120, false);
-                        }
+						CalamityUtils.Inflict246DebuffsPvp(target, BuffID.Frostburn);
                     }
                     if (yInsignia)
                     {
-                        if (Main.rand.NextBool(4))
-                        {
-                            target.AddBuff(ModContent.BuffType<HolyFlames>(), 360, false);
-                        }
-                        else if (Main.rand.NextBool(2))
-                        {
-                            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240, false);
-                        }
-                        else
-                        {
-                            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                        }
+						CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<HolyFlames>());
                     }
                     if (ataxiaFire)
                     {
-                        if (Main.rand.NextBool(4))
-                        {
-                            target.AddBuff(BuffID.OnFire, 720, false);
-                        }
-                        else if (Main.rand.NextBool(2))
-                        {
-                            target.AddBuff(BuffID.OnFire, 480, false);
-                        }
-                        else
-                        {
-                            target.AddBuff(BuffID.OnFire, 240, false);
-                        }
+						CalamityUtils.Inflict246DebuffsPvp(target, BuffID.OnFire, 4f);
                     }
                 }
                 if (armorCrumbling || armorShattering)
                 {
                     if (proj.melee || proj.Calamity().rogue)
                     {
-                        if (Main.rand.NextBool(4))
-                        {
-                            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 360, false);
-                        }
-                        else if (Main.rand.NextBool(2))
-                        {
-                            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 240, false);
-                        }
-                        else
-                        {
-                            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 120, false);
-                        }
+						CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<ArmorCrunch>());
                     }
                 }
                 if (perforatorLore)
@@ -10713,7 +10394,7 @@ namespace CalamityMod.CalPlayer
                             int numSpears = attack ? 12 : 6;
                             int dam = Main.projectile[i].damage;
                             if (!attack)
-                                dam = (int)((float)dam * 0.5f);
+                                dam = (int)(dam * 0.5f);
                             float angleVariance = MathHelper.TwoPi / (float)numSpears;
                             float spinOffsetAngle = MathHelper.Pi / (2f * numSpears);
                             Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
@@ -10807,7 +10488,6 @@ namespace CalamityMod.CalPlayer
             range *= eclipseMirror ? 0.3f : 1f;
             return range;
         }
-
 
         /// <summary>
         /// Calculates and returns the player's total light strength. This is used for Abyss darkness, among other things.<br/>

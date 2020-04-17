@@ -21,8 +21,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
+            projectile.width = 38;
+            projectile.height = 34;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.alpha = 255;
@@ -155,7 +155,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netSpam = 5;
             if (vector134 != Vector2.Zero)
             {
-                projectile.Center = value68 - Vector2.Normalize(vector134) * scaleFactor17 * scaleFactor18;
+                projectile.Center = value68 - Vector2.Normalize(vector134) * projectile.Size.Length() * scaleFactor18 * 0.2f;
             }
             projectile.spriteDirection = (vector134.X > 0f) ? 1 : -1;
             projectile.netSpam = 5;

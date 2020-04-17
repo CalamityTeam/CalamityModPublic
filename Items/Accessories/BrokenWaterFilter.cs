@@ -1,4 +1,6 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
+using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
@@ -17,11 +19,20 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
             item.rare = 1;
         }
-
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.noStupidNaturalARSpawns = true;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<RustyLockpick>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
+            recipe.AddRecipeGroup("IronBar", 10);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }
