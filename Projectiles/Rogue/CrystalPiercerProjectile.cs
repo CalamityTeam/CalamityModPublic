@@ -41,11 +41,11 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.rotation -= 1.57f;
             }
 
-        	if (projectile.timeLeft % 4 == 0)
+			if (projectile.Calamity().stealthStrike)
 			{
-        		if (projectile.owner == Main.myPlayer)
-        		{
-					if (projectile.Calamity().stealthStrike)
+				if (projectile.timeLeft % 4 == 0)
+				{
+					if (projectile.owner == Main.myPlayer)
 					{
 						Projectile.NewProjectile(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<CrystalPiercerShard>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner, 0f, 0f);
 					}
