@@ -143,6 +143,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 		public override void AI()
         {
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+
             if (invinceTime > 0)
             {
                 invinceTime--;
@@ -154,6 +155,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     npc.damage = 300;
                 npc.dontTakeDamage = false;
             }
+
             Vector2 vectorCenter = npc.Center;
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
@@ -161,6 +163,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             double mult = 0.5 +
                 (CalamityWorld.revenge ? 0.2 : 0.0) +
                 (CalamityWorld.death ? 0.2 : 0.0);
+
             if ((double)npc.life < (double)npc.lifeMax * mult || CalamityWorld.bossRushActive)
             {
                 npc.knockBackResist = 0f;
@@ -186,6 +189,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                     npc.ai[1] = 0f;
                 }
             }
+
             if (!player.active || player.dead || CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active)
             {
                 npc.TargetClosest(false);
@@ -204,6 +208,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.timeLeft = 1800;
             }
+
             if (npc.ai[0] == 0f)
             {
                 Vector2 vector96 = new Vector2(npc.Center.X, npc.Center.Y);

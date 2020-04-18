@@ -37,47 +37,8 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void AI()
         {
-			// Normal AI
-			if (projectile.ai[0] < 2f)
-			{
-				if (projectile.velocity.Length() < (projectile.ai[1] == 0f ? 16f : 12f))
-					projectile.velocity *= 1.01f;
-			}
-
-			// Test AI
-			else
-			{
-				// Rotate around a point and spread outward
-				if (projectile.ai[0] < 4f)
-				{
-					if (start)
-					{
-						startingPosX = projectile.Center.X;
-						startingPosY = projectile.Center.Y;
-						start = false;
-					}
-
-					double deg = (double)projectile.ai[1];
-					double rad = deg * (Math.PI / 180);
-					distance += 2D;
-					if (projectile.ai[0] == 2f)
-					{
-						projectile.position.X = startingPosX - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
-						projectile.position.Y = startingPosY - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
-					}
-					else
-					{
-						projectile.position.X = startingPosX - (int)(Math.Sin(rad) * distance) - projectile.width / 2;
-						projectile.position.Y = startingPosY - (int)(Math.Cos(rad) * distance) - projectile.height / 2;
-					}
-
-					projectile.ai[1] += 1f;
-				}
-				/*else if (projectile.ai[0] < 6f)
-				{
-					projectile.velocity *= MathHelper.Lerp();
-				}*/
-			}
+			if (projectile.velocity.Length() < (projectile.ai[1] == 0f ? 14f : 10f))
+				projectile.velocity *= 1.01f;
 
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
 
