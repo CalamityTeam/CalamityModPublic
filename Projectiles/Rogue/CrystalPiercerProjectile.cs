@@ -26,19 +26,31 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;
             projectile.Calamity().rogue = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
             if (Main.rand.NextBool(3))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f);
             }
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
             if (projectile.spriteDirection == -1)
             {
                 projectile.rotation -= 1.57f;
             }
+
+        	if (projectile.timeLeft % 4 == 0)
+			{
+        		if (projectile.owner == Main.myPlayer)
+        		{
+					if (projectile.Calamity().stealthStrike)
+					{
+						Projectile.NewProjectile(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<CrystalPiercerShard>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner, 0f, 0f);
+					}
+                }
+			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -46,6 +58,15 @@ namespace CalamityMod.Projectiles.Rogue
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
+
+		//glowmask effect if stealth strike
+        public override Color? GetAlpha(Color lightColor)
+		{
+			if (projectile.Calamity().stealthStrike)
+				return new Color(200, 200, 200, 200);
+			else
+				return null;
+		}
 
         public override void Kill(int timeLeft)
         {

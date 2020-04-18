@@ -167,15 +167,9 @@ namespace CalamityMod.Projectiles.Summon
         }
 
 		//glowmask effect
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 200, 200, 200);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
 		//no contact damage
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool CanDamage() => false;
     }
 }

@@ -49,10 +49,10 @@ namespace CalamityMod.Projectiles.Rogue
         		{
 					if (projectile.Calamity().stealthStrike)
 					{
-						Projectile.NewProjectile(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X + Main.rand.NextFloat(-15f, 15f), projectile.Center.Y + Main.rand.NextFloat(-15f, 15f), projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<LuminousShard>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
 					}
 					else
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, -2f, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, -2f, ModContent.ProjectileType<LuminousShard>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
                 }
 			}
         }
@@ -76,7 +76,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					speed.Normalize();
 					speed *= ((float)Main.rand.Next(30, 61) * 0.1f) * 2f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
 				}
 			}
 		}
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					speed.Normalize();
 					speed *= ((float)Main.rand.Next(30, 61) * 0.1f) * 2f;
-					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)((double)projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<LuminousShard>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner, 0f, 0f);
 				}
 			}
 		}
