@@ -41,14 +41,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            int stealth = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             if (player.Calamity().StealthStrikeAvailable() && player.ownedProjectileCounts[ModContent.ProjectileType<CosmicScythe>()] < 10)
             {
+				Main.projectile[stealth].Calamity().stealthStrike = true;
                 Main.PlaySound(SoundID.Item73, player.position);
                 for (float i = 0; i < 5; i++)
                 {
                     float angle = MathHelper.TwoPi / 5f * i;
-                    Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<CosmicScythe>(), (int) ((double) damage * 0.8f), knockBack, player.whoAmI, angle, 0f);
+                    Projectile.NewProjectile(player.Center, angle.ToRotationVector2() * 8f, ModContent.ProjectileType<CosmicScythe>(), (int)(damage * 0.8f), knockBack, player.whoAmI, angle, 0f);
                 }
             }
             return false;

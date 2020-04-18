@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -283,6 +284,11 @@ namespace CalamityMod.NPCs.ProfanedGuardians
         {
             cooldownSlot = 1;
             return true;
+        }
+
+        public override void NPCLoot()
+        {
+            DropHelper.DropItemChance(npc, ModContent.ItemType<RelicOfResilience>(), 4);
         }
 
         public override void BossLoot(ref string name, ref int potionType)

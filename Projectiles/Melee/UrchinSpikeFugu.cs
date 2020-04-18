@@ -31,24 +31,22 @@ namespace CalamityMod.Projectiles.Melee
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             if (projectile.ai[0] == 0f)
             {
-                float num695 = 100f;
-                int num696 = -1;
-                int num3;
-                for (int num697 = 0; num697 < 200; num697 = num3 + 1)
+                float maxRange = 100f;
+                int npcIndex = -1;
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    NPC nPC5 = Main.npc[num697];
-                    if (nPC5.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.position, projectile.width, projectile.height, nPC5.position, nPC5.width, nPC5.height))
+                    NPC npc = Main.npc[i];
+                    if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                     {
-                        float num698 = (nPC5.Center - projectile.Center).Length();
-                        if (num698 < num695)
+                        float targetDist = (npc.Center - projectile.Center).Length();
+                        if (targetDist < maxRange)
                         {
-                            num696 = num697;
-                            num695 = num698;
+                            npcIndex = i;
+                            maxRange = targetDist;
                         }
                     }
-                    num3 = num697;
                 }
-                projectile.ai[0] = (float)(num696 + 1);
+                projectile.ai[0] = (float)(npcIndex + 1);
                 if (projectile.ai[0] == 0f)
                 {
                     projectile.ai[0] = -15f;
@@ -67,10 +65,7 @@ namespace CalamityMod.Projectiles.Melee
             }
             else
             {
-                float[] var_2_1E1A4_cp_0 = projectile.ai;
-                int var_2_1E1A4_cp_1 = 0;
-                float num73 = var_2_1E1A4_cp_0[var_2_1E1A4_cp_1];
-                var_2_1E1A4_cp_0[var_2_1E1A4_cp_1] = num73 + 1f;
+                projectile.ai[0] += 1f;
                 projectile.alpha -= 25;
                 if (projectile.alpha < 0)
                 {

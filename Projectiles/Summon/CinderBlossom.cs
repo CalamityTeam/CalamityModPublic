@@ -49,6 +49,10 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             projectile.Center = Main.player[projectile.owner].Center + Vector2.UnitY * (Main.player[projectile.owner].gfxOffY - 60f);
+            if (Main.player[projectile.owner].gravDir == -1f)
+            {
+                projectile.position.Y += 140f;
+            }
             projectile.position.X = (int)projectile.position.X;
             projectile.position.Y = (int)projectile.position.Y;
             projectile.rotation += MathHelper.ToRadians(1.5f) * player.direction;
