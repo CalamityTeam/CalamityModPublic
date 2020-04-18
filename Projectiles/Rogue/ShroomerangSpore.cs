@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class ShroomerangSpore : ModProjectile
     {
+		private int scaleFactor = 0;
+		private bool initialized = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spore");
@@ -28,13 +30,19 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+			if (!initialized)
+			{
+				initialized = true;
+				projectile.localAI[0] = Main.rand.Next(-60, 61); //used for mycoroot stealth strike for minor randomization
+			}
+
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0.5f / 255f);
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 90f)
+            scaleFactor++;
+            if (scaleFactor >= 90)
             {
-                projectile.localAI[0] *= -1f;
+                scaleFactor *= -1;
             }
-            if (projectile.localAI[0] >= 0f)
+            if (scaleFactor >= 0)
             {
                 projectile.scale += 0.003f;
             }
@@ -140,32 +148,42 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
             }
-            bool flag49 = false;
-            Vector2 center12 = new Vector2(0f, 0f);
-            float num948 = 600f;
-            for (int num949 = 0; num949 < Main.maxNPCs; num949++)
-            {
-                if (Main.npc[num949].CanBeChasedBy(projectile, false))
-                {
-                    float num950 = Main.npc[num949].position.X + (float)(Main.npc[num949].width / 2);
-                    float num951 = Main.npc[num949].position.Y + (float)(Main.npc[num949].height / 2);
-                    float num952 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num950) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num951);
-                    if (num952 < num948)
-                    {
-                        num948 = num952;
-                        center12 = Main.npc[num949].Center;
-                        flag49 = true;
-                    }
-                }
-            }
-            if (flag49)
-            {
-                Vector2 vector101 = center12 - projectile.Center;
-                vector101.Normalize();
-                vector101 *= 0.75f;
-                projectile.velocity = (projectile.velocity * 10f + vector101) / 11f;
-                return;
-            }
+			if (projectile.Calamity().lineColor != 1 || projectile.timeLeft < (3300 + projectile.localAI[0]))
+			{
+				bool flag49 = false;
+				Vector2 center12 = new Vector2(0f, 0f);
+				float num948 = 600f;
+				for (int num949 = 0; num949 < Main.maxNPCs; num949++)
+				{
+					if (Main.npc[num949].CanBeChasedBy(projectile, false))
+					{
+						float num950 = Main.npc[num949].position.X + (float)(Main.npc[num949].width / 2);
+						float num951 = Main.npc[num949].position.Y + (float)(Main.npc[num949].height / 2);
+						float num952 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num950) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num951);
+						if (num952 < num948)
+						{
+							num948 = num952;
+							center12 = Main.npc[num949].Center;
+							flag49 = true;
+						}
+					}
+				}
+				if (flag49)
+				{
+					if (projectile.Calamity().lineColor == 1)
+						projectile.extraUpdates = 5;
+
+					Vector2 vector101 = center12 - projectile.Center;
+					vector101.Normalize();
+					vector101 *= 0.75f;
+					projectile.velocity = (projectile.velocity * 10f + vector101) / 11f;
+					return;
+				}
+				else
+				{
+					projectile.extraUpdates = 0;
+				}
+			}
             if ((double)projectile.velocity.Length() > 0.2)
             {
                 projectile.velocity *= 0.98f;

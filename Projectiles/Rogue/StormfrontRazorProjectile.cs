@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Stormfrontspark>(), projectile.damage, 3f, projectile.owner);
                 projectile.ai[0] = 0;
             }
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.NextBool(10))
             {
                 int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1f);
                 Main.dust[d].scale += (float)Main.rand.Next(50) * 0.01f;
