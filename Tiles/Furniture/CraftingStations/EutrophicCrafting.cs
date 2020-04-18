@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             // Add a wall anchor on the opposite side for the alternate style.
             TileObjectData.newAlternate.AnchorLeft = new AnchorData(AnchorType.SolidTile, 2, 1);
 
-            // This line used to corrupt TileObjectData.Style3x3.Direction to PlaceRight. This has noe been fixed.
+            // This line used to corrupt TileObjectData.Style3x3.Direction to PlaceRight. This has now been fixed.
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
             TileObjectData.addAlternate(1);
             TileObjectData.addTile(Type);
