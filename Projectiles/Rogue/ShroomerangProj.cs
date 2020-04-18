@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			if (projectile.Calamity().stealthStrike == true)
+			if (projectile.Calamity().stealthStrike)
 			{
 				if (projectile.timeLeft % 15 == 0 && projectile.owner == Main.myPlayer)
 				{
