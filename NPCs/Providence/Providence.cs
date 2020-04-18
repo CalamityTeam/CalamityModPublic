@@ -1425,9 +1425,10 @@ namespace CalamityMod.NPCs.Providence
 			if (challenge)
 			{
 				bool goldenGun = projectile.type == ModContent.ProjectileType<GoldenGunProj>();
-				bool allowedDamage = damage <= (npc.lifeMax * 0.05f);
+				bool allowedClass = projectile.minion || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);
+				bool allowedDamage = allowedClass && damage <= (npc.lifeMax * 0.005f); //0.5% max hp
 				bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;
-				if (!goldenGun && !allowedDamage && (projectile.type != ModContent.ProjectileType<MiniGuardianDefense>() && projectile.type != ModContent.ProjectileType<MiniGuardianAttack>()) && allowedBabs)
+				if ((!goldenGun && !allowedDamage && projectile.type != ModContent.ProjectileType<MiniGuardianDefense>() && projectile.type != ModContent.ProjectileType<MiniGuardianAttack>()) || !allowedBabs)
 				{
 					challenge = false;
 				}
@@ -1436,7 +1437,7 @@ namespace CalamityMod.NPCs.Providence
 
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
         {
-			if (challenge && damage > (npc.lifeMax * 0.05f))
+			if (challenge)
 				challenge = false;
         }
 
