@@ -141,7 +141,7 @@ namespace CalamityMod.CalPlayer
 				lifeRegenLost += 20;
             }
 
-            if (modPlayer.ZoneSulphur && player.IsUnderwater() && !modPlayer.aquaticScourgeLore)
+            if (modPlayer.ZoneSulphur && player.IsUnderwater() && !modPlayer.aquaticScourgeLore && !modPlayer.decayEffigy)
             {
                 player.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 2, true);
                 modPlayer.pissWaterBoost++;
