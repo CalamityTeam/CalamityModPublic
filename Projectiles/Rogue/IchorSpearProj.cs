@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;
             projectile.Calamity().rogue = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -37,6 +38,22 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.rotation -= 1.57f;
             }
+
+			if (projectile.Calamity().stealthStrike)
+			{
+				if (projectile.timeLeft % 8 == 0)
+				{
+					if (projectile.owner == Main.myPlayer)
+					{
+						Vector2 velocity = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
+						int ichor = Projectile.NewProjectile(projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.GoldenShowerFriendly : ProjectileID.IchorSplash, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+            			Main.projectile[ichor].Calamity().forceRogue = true;
+            			Main.projectile[ichor].usesLocalNPCImmunity = true;
+						Main.projectile[ichor].localNPCHitCooldown = 10;
+						Main.projectile[ichor].extraUpdates = 2;
+					}
+                }
+			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -56,12 +73,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 120);
+            target.AddBuff(BuffID.Ichor, projectile.Calamity().stealthStrike ? 600 : 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 120);
+            target.AddBuff(BuffID.Ichor, projectile.Calamity().stealthStrike ? 600 : 120);
         }
     }
 }

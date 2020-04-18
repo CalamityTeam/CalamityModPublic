@@ -15,15 +15,23 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
+
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.None, 0, 0);
             TileObjectData.newTile.StyleHorizontal = true;
+            // Remove the bottom anchor entirely, this thing hangs from the wall.
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.None, 0, 0);
+            TileObjectData.newTile.AnchorRight = new AnchorData(AnchorType.SolidTile, 2, 1);
+
+            // When this Direction property set executes, newTile._tileObjectBase gets separated from Style3x3._tileObjectBase.
+            // As such, no data corruption occurs.
+            TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
+            // Add a wall anchor on the opposite side for the alternate style.
             TileObjectData.newAlternate.AnchorLeft = new AnchorData(AnchorType.SolidTile, 2, 1);
+
+            // This line used to corrupt TileObjectData.Style3x3.Direction to PlaceRight. This has now been fixed.
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
             TileObjectData.addAlternate(1);
-            TileObjectData.newTile.AnchorRight = new AnchorData(AnchorType.SolidTile, 2, 1);
-            TileObjectData.newTile.Direction = TileObjectDirection.PlaceLeft;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Shelf");

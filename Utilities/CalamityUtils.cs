@@ -1571,7 +1571,7 @@ namespace CalamityMod
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.Origin = new Point16(1, 1);
             TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 4, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 4, 0);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
@@ -1602,7 +1602,7 @@ namespace CalamityMod
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.Origin = new Point16(1, 1);
             TileObjectData.newTile.UsesCustomCanPlace = true;
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 4, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 4, 0);
             TileObjectData.newTile.LavaDeath = !lavaImmune;
             TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
             TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceRight;
@@ -2514,6 +2514,40 @@ namespace CalamityMod
             if (condition)
                 list.Add(type);
         }
+
+        public static void Inflict246DebuffsNPC(NPC target, int buff, float timeBase = 2f)
+        {
+			if (Main.rand.NextBool(4))
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase * 3f), false);
+			}
+			else if (Main.rand.NextBool(2))
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase * 2f), false);
+			}
+			else
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase), false);
+			}
+        }
+
+        public static void Inflict246DebuffsPvp(Player target, int buff, float timeBase = 2f)
+        {
+			if (Main.rand.NextBool(4))
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase * 3f), false);
+			}
+			else if (Main.rand.NextBool(2))
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase * 2f), false);
+			}
+			else
+			{
+				target.AddBuff(buff, SecondsToFrames(timeBase), false);
+			}
+        }
+
+		public static int SecondsToFrames(float seconds) => (int)(seconds * 60);
         #endregion
     }
 }

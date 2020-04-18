@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -23,6 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.alpha = 255;
             projectile.Calamity().rogue = true;
+			projectile.timeLeft = CalamityUtils.SecondsToFrames(20f);
         }
 
         public override void AI()
@@ -57,6 +59,19 @@ namespace CalamityMod.Projectiles.Rogue
                         projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
                     }
                 }
+				if (projectile.Calamity().stealthStrike)
+				{
+					if (projectile.timeLeft % 8 == 0 && projectile.owner == Main.myPlayer)
+					{
+						Vector2 vector62 = Main.player[projectile.owner].Center - projectile.Center;
+						Vector2 vector63 = vector62 * -1f;
+						vector63.Normalize();
+						vector63 *= (float)Main.rand.Next(45, 65) * 0.1f;
+						vector63 = vector63.RotatedBy((Main.rand.NextDouble() - 0.5) * 1.5707963705062866, default);
+						int spike = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector63.X, vector63.Y, ModContent.ProjectileType<UrchinSpikeFugu>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, -10f, 0f);
+						Main.projectile[spike].Calamity().forceRogue = true;
+					}
+				}
             }
             //Sticky Behaviour
             CalamityUtils.StickyProjAI(projectile, 15);

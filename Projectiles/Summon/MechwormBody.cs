@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netSpam = 5;
             if (vector134 != Vector2.Zero)
             {
-                projectile.Center = value68 - Vector2.Normalize(vector134) * scaleFactor17 * scaleFactor18;
+                projectile.Center = value68 - Vector2.Normalize(vector134) * projectile.Size.Length() * scaleFactor18;
             }
             projectile.spriteDirection = (vector134.X > 0f) ? 1 : -1;
             projectile.netSpam = 5;

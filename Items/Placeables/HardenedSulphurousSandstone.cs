@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.Abyss.SulphurousSand>();
+            item.createTile = ModContent.TileType<Tiles.Abyss.HardenedSulphurousSandstone>();
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;

@@ -153,15 +153,8 @@ namespace CalamityMod.Projectiles.Melee
             return false;
         }
 
-		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-		{
-            Texture2D texture = Main.projectileTexture[projectile.type];
-			SpriteEffects spriteEffects = SpriteEffects.None;
-			if (projectile.spriteDirection == -1)
-				spriteEffects = SpriteEffects.FlipHorizontally;
-
-			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, 0, texture.Width, texture.Height)), Color.White, projectile.rotation, texture.Size() / 2f, projectile.scale, spriteEffects, 0f);
-		}
+		//glowmask effect
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

@@ -147,17 +147,17 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostbiteBlaster>());
             nextSlot++;
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<ArcticBearPaw>());
-            nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<IcicleTrident>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<IceStar>());
             nextSlot++;
 			if (NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3)
 			{
-				shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<ArcticBearPaw>());
 				nextSlot++;
 				shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryogenicStaff>());
+				nextSlot++;
+				shop.item[nextSlot].SetDefaults(ModContent.ItemType<FrostyFlare>());
 				nextSlot++;
 			}
 			if (NPC.downedChristmasIceQueen && NPC.downedChristmasTree && NPC.downedChristmasSantank)

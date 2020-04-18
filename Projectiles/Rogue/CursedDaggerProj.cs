@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             aiType = ProjectileID.ThrowingKnife;
             projectile.Calamity().rogue = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -32,6 +33,21 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.SulfurousSeaAcid, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
+
+			if (projectile.Calamity().stealthStrike)
+			{
+				if (projectile.timeLeft % 8 == 0)
+				{
+					if (projectile.owner == Main.myPlayer)
+					{
+						Vector2 velocity = new Vector2(Main.rand.NextFloat(-14f, 14f), Main.rand.NextFloat(-14f, 14f));
+						int flame = Projectile.NewProjectile(projectile.Center, velocity, Main.rand.NextBool(2) ? ProjectileID.CursedFlameFriendly : ProjectileID.CursedDartFlame, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+            			Main.projectile[flame].Calamity().forceRogue = true;
+            			Main.projectile[flame].usesLocalNPCImmunity = true;
+						Main.projectile[flame].localNPCHitCooldown = 10;
+					}
+                }
+			}
         }
 
         public override void Kill(int timeLeft)
@@ -73,12 +89,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.CursedInferno, projectile.Calamity().stealthStrike ? 600 : 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 120);
+            target.AddBuff(BuffID.CursedInferno, projectile.Calamity().stealthStrike ? 600 : 120);
         }
     }
 }

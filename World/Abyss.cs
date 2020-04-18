@@ -759,6 +759,21 @@ namespace CalamityMod.World
         #endregion
 
         #region Misc Functions
+        public static List<int> YStartBlacklist = new List<int>()
+        {
+            TileID.Cloud,
+            TileID.RainCloud,
+            TileID.SnowCloud,
+            TileID.Sunplate,
+            TileID.Tables,
+            TileID.Chairs,
+            TileID.ClosedDoor,
+            TileID.OpenDoor,
+            TileID.Banners,
+            TileID.Crimtane,
+            TileID.Demonite,
+            TileID.Containers
+        };
         public static void DetermineYStart()
         {
             int maxHeight = int.MaxValue;
@@ -768,7 +783,7 @@ namespace CalamityMod.World
                     BiomeWidth - i :
                     Main.maxTilesX - BiomeWidth + i;
                 int YStart = 1;
-                while (!Main.tile[xCheck, YStart].active())
+                while (!Main.tile[xCheck, YStart].active() || YStartBlacklist.Contains(Main.tile[xCheck, YStart].type))
                 {
                     YStart++;
                     if (YStart > Main.rockLayer - 40)

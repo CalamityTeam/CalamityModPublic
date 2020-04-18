@@ -677,7 +677,7 @@ namespace CalamityMod.NPCs.Abyss
 			{
 				float f = Main.rand.NextFloat();
 				bool replaceWithRare = f <= 0.01f; // 1/100 chance overall of getting The Reaper
-				if (Main.rand.NextBool(3)) // 1/3 chance of getting Valediction OR The Reaper replacing it
+				if (f <= 0.3333f) // 1/3 chance of getting Valediction OR The Reaper replacing it
 				{
 					DropHelper.DropItemCondition(npc, ModContent.ItemType<Valediction>(), !replaceWithRare);
 					DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), replaceWithRare);

@@ -355,7 +355,7 @@ namespace CalamityMod.Tiles
                         }
                         else //money
                         {
-                            float num13 = (float)(2500 + WorldGen.genRand.Next(-100, 101));
+                            float num13 = (float)(5000 + WorldGen.genRand.Next(-100, 101));
                             while ((int)num13 > 0)
                             {
                                 if (num13 > 1000000f)

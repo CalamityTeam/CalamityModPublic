@@ -132,7 +132,8 @@ namespace CalamityMod.Projectiles.Magic
                 if (random <= (range * 0.6f + 0.4f) / 30f)
                 {
                     if (!target.immortal &&
-                        !target.dontTakeDamage)
+                        !target.dontTakeDamage &&
+                        !target.townNPC)
                     {
                         int damage = 2;
                         //To give a bit of variety in how damage is calculated, I decided to incorporate width and height
@@ -169,7 +170,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             else if (projectile.localAI[0] < trueTimeLeft * 2)
             {
-                if (Main.rand.NextBool(3) && !target.dontTakeDamage)
+                if (Main.rand.NextBool(3) && !target.dontTakeDamage && !target.immortal && !target.townNPC)
                 {
                     int damage = (int)(Eternity.BaseDamage * 0.5f * player.MagicDamage());
                     damage = (int)(damage * Main.rand.NextFloat(0.9f, 1.1f));
