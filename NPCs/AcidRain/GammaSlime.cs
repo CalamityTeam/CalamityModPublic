@@ -201,7 +201,7 @@ namespace CalamityMod.NPCs.AcidRain
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 100);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadCore>(), 30);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
