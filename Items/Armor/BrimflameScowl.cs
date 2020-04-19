@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.brimflameSet = true;
             player.magicDamage += 0.15f;
             player.magicCrit += 15;
-            string hotkey = CalamityMod.TarraHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.TarraHotKey.GetAssignedKeys()[0] : "Y";
+            string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
             player.setBonus = "Grants an additional 15% increased damage and magic crit\n" +
                 "Press " + hotkey + " to trigger a brimflame frenzy effect\n" +
                 "While under this effect, your damage is significantly boosted\n" +

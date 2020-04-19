@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
                 "+40 max life\n" +
                 "Grants a supreme holy flame dash\n" +
                 "Can be used to ram enemies\n" +
-                "This line is modified below\n" +
+                "TOOLTIP LINE HERE\n" +
                 "Activating this buff will reduce your movement speed and increase enemy aggro\n" +
                 "10% damage reduction while submerged in liquid\n" +
                 "Toggle visibility of this accessory to enable/disable the dash");
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.AegisHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.AegisHotKey.GetAssignedKeys()[0] : "N";
+            string hotkey = CalamityMod.AegisHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
