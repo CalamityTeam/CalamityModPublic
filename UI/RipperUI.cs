@@ -20,8 +20,8 @@ namespace CalamityMod.UI
         private const int AdrenAnimFrameDelay = 5;
         private const int AdrenAnimFrames = 9;
         
-        public static Vector2 rageDrawPos = new Vector2(CalamityMod.CalamityConfig.RageMeterPosX, CalamityMod.CalamityConfig.RageMeterPosY);
-        public static Vector2 adrenDrawPos = new Vector2(CalamityMod.CalamityConfig.AdrenalineMeterPosX, CalamityMod.CalamityConfig.AdrenalineMeterPosY);
+        public static Vector2 rageDrawPos = new Vector2(DefaultRagePosX, DefaultRagePosY);
+        public static Vector2 adrenDrawPos = new Vector2(DefaultAdrenPosX, DefaultAdrenPosY);
         private static Vector2? rageDragOffset = null;
         private static Vector2? adrenDragOffset = null;
 
