@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
     public class SandDollarProj : ModProjectile
     {
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Sand Dollar");
@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 300;
-            aiType = 272;
+            aiType = ProjectileID.Bananarang;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
