@@ -136,13 +136,13 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity = Vector2.Lerp(projectile.velocity, idealVelocity, 0.035f);
                 projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(potentialTarget.Center), 0.1f);
 
-                if (projectile.ai[0]++ % 25f == 24f)
+                if (projectile.ai[0]++ % 75f == 24f)
                 {
                     int damage = projectile.damage;
                     if (Main.rand.NextBool(20))
                     {
                         int idx = Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center) * 18f, ModContent.ProjectileType<MK2RocketHoming>(),
-                            damage, 5f, projectile.owner);
+                            (int)(damage * 1.5), 5f, projectile.owner);
                         Main.projectile[idx].Calamity().forceMinion = true;
                     }
                     else
