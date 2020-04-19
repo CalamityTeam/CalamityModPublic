@@ -1,7 +1,7 @@
+using CalamityMod.NPCs.NormalNPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.NPCs.NormalNPCs;
 
 namespace CalamityMod.Items
 {
@@ -35,7 +35,6 @@ namespace CalamityMod.Items
             return true;
         }
 
-        // DEFECT -- Make Super Dummies work in multiplayer by spawning correctly.
         public override bool UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
@@ -55,7 +54,20 @@ namespace CalamityMod.Items
             {
                 int x = (int)Main.MouseWorld.X - 9;
                 int y = (int)Main.MouseWorld.Y - 20;
-                NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
+
+                // In single player, just spawn the dummy.
+                if (Main.netMode == NetmodeID.SinglePlayer)
+                    NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
+
+                // Otherwise, send a message to the server indicating that a Super Dummy should be spawned at this position.
+                else
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.SpawnSuperDummy);
+                    netMessage.Write(x);
+                    netMessage.Write(y);
+                    netMessage.Send();
+                }
             }
             return true;
         }

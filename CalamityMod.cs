@@ -3465,6 +3465,13 @@ namespace CalamityMod
                         byte playerIndex = reader.ReadByte();
                         Main.player[playerIndex].Calamity().gaelSwipes = reader.ReadInt32();
                         break;
+                    case CalamityModMessageType.SpawnSuperDummy:
+                        int x = reader.ReadInt32();
+                        int y = reader.ReadInt32();
+                        // Not strictly necessary, but helps prevent unnecessary packetstorm in MP
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
+                        break;
                     default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
@@ -3546,6 +3553,7 @@ namespace CalamityMod
         AcidRainSync,
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
-        GaelsGreatswordSwingSync
+        GaelsGreatswordSwingSync,
+        SpawnSuperDummy,
     }
 }
