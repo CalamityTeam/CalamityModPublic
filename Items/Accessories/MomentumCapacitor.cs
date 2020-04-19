@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Momentum Capacitor");
-            Tooltip.SetDefault("This line is modified below\n" +
+            Tooltip.SetDefault("TOOLTIP LINE HERE\n" +
                                "Rogue projectiles that enter the field get a constant acceleration and 15% damage boost\n" +
                                "These boosts can only happen to a projectile once\n" +
                                "There can only be one field");
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.MomentumCapacitatorHotkey.GetAssignedKeys().Count > 0 ? CalamityMod.MomentumCapacitatorHotkey.GetAssignedKeys()[0] : "U";
+            string hotkey = CalamityMod.MomentumCapacitatorHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip0")

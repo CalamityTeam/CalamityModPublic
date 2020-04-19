@@ -643,7 +643,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.darkSunRing)
 			{
-				if (Main.dayTime)
+				if (Main.eclipse || Main.dayTime)
 					player.lifeRegen += 3;
 			}
 

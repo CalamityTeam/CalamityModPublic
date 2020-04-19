@@ -2363,7 +2363,7 @@ namespace CalamityMod.CalPlayer
 				player.allDamage += 0.12f;
 				player.minionKB += 1.2f;
 				player.pickSpeed -= 0.15f;
-				if (!Main.dayTime)
+				if (Main.eclipse || !Main.dayTime)
 					player.statDefense += 30;
 			}
 

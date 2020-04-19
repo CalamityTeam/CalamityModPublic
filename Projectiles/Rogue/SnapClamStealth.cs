@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             for (int num194 = 0; num194 < 20; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 0, new Color(0, 255, 255), 1f);
+                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 14, 0f, 0f, 0, new Color(115, 124, 124), 1f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 2f;
             }

@@ -1565,7 +1565,12 @@ namespace CalamityMod.Projectiles
 						{
 							if (Main.rand.NextBool(4))
 							{
-								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ApparatusExplosion>(), (int)(projectile.damage * 0.25), projectile.knockBack * 0.25f, projectile.owner);
+								int newDamage = (int)(projectile.damage * 0.25);
+								if (newDamage > 100)
+								{
+									newDamage = (int)((projectile.damage * 0.25 - 100) * 0.1) + 100;
+								}
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ApparatusExplosion>(), newDamage, projectile.knockBack * 0.25f, projectile.owner);
 							}
 						}
 						else if (modPlayer.starbusterCore)

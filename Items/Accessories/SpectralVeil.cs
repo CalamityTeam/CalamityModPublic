@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Spectral Veil");
             Tooltip.SetDefault("The inside of the cloak is full of teeth...\n" +
-                "This line is modified below\n" +
+                "TOOLTIP LINE HERE\n" +
 				"Teleportation is disabled while Chaos State is active\n" +
                 "If you dodge something while invulnerable, you instantly gain full stealth");
         }
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.SpectralVeilHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.SpectralVeilHotKey.GetAssignedKeys()[0] : "Z";
+            string hotkey = CalamityMod.SpectralVeilHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip1")

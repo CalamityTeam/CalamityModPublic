@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EventHorizonStar : ModProjectile
     {
-		private int counter = 0;
+		private bool initialized = false;
 		Vector2 initialPosition;
 
         public override void SetStaticDefaults()
@@ -58,10 +58,10 @@ namespace CalamityMod.Projectiles.Magic
 			float centerX = projectile.Center.X;
 			float centerY = projectile.Center.Y;
 
-			if (counter == 0)
+			if (!initialized)
 			{
 				initialPosition = playerCenter;
-				counter++;
+				initialized = true;
 			}
 			else if (playerCenter != initialPosition)
 			{

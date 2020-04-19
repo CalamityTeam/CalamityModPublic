@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            string hotkey = CalamityMod.TarraHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.TarraHotKey.GetAssignedKeys()[0] : "Y";
+            string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
             player.setBonus = "Increases armor penetration by 50\n" +
 				"10% increased damage and critical strike chance\n" +
 				"Short-ranged tentacles heal you by sucking enemy life\n" +

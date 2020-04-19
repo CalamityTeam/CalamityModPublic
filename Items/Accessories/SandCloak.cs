@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Sand Cloak");
             Tooltip.SetDefault("+1 defense and 5% increased movement speed\n" +
-                "This line is modified below\n" + 
+                "TOOLTIP LINE HERE\n" + 
                 "This effect has a 30 second cooldown before it can be used again");
         }
 
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.SandCloakHotkey.GetAssignedKeys().Count > 0 ? CalamityMod.SandCloakHotkey.GetAssignedKeys()[0] : "C";
+            string hotkey = CalamityMod.SandCloakHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
