@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,6 +26,22 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
         }
 
+		public override void AI()
+		{
+			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+			{
+				projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
+				if (projectile.timeLeft % 8 == 0)
+				{
+					Vector2 velocity = new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f));
+					int flame = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SlimeGun, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+					Main.projectile[flame].Calamity().forceRogue = true;
+					Main.projectile[flame].usesLocalNPCImmunity = true;
+					Main.projectile[flame].localNPCHitCooldown = 10;
+                }
+			}
+		}
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;
@@ -34,15 +51,26 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                projectile.ai[0] += 0.1f;
-                if (projectile.velocity.X != oldVelocity.X)
-                {
-                    projectile.velocity.X = -oldVelocity.X;
-                }
-                if (projectile.velocity.Y != oldVelocity.Y)
-                {
-                    projectile.velocity.Y = -oldVelocity.Y;
-                }
+				if (projectile.Calamity().stealthStrike)
+				{
+					if (projectile.velocity != oldVelocity)
+					{
+						projectile.velocity = Main.rand.NextFloat(-1.15f, -0.85f) * oldVelocity * 1.35f;
+						Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 56); //minecart bumper sound
+					}
+				}
+				else
+				{
+					projectile.ai[0] += 0.1f;
+					if (projectile.velocity.X != oldVelocity.X)
+					{
+						projectile.velocity.X = -oldVelocity.X;
+					}
+					if (projectile.velocity.Y != oldVelocity.Y)
+					{
+						projectile.velocity.Y = -oldVelocity.Y;
+					}
+				}
             }
             return false;
         }
@@ -65,11 +93,15 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Slimed, 120);
+			if (projectile.Calamity().stealthStrike)
+				target.AddBuff(BuffID.Slow, 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(BuffID.Slimed, 120);
+			if (projectile.Calamity().stealthStrike)
+				target.AddBuff(BuffID.Slow, 120);
         }
     }
 }
