@@ -1,4 +1,4 @@
-﻿
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -17,7 +17,7 @@ namespace CalamityMod.Dusts
             dust.position += dust.velocity;
 
             //shrink scale
-            dust.scale -= 0.02f;
+            dust.scale = MathHelper.Clamp(dust.scale - 0.02f, 0f, float.MaxValue);
 
             if (!dust.noLight)
             {

@@ -44,12 +44,12 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.alpha = 0;
             }
 
-			int blueDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1f);
+            int blueDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100);
 			Main.dust[blueDust].noGravity = true;
-			Main.dust[blueDust].velocity *= 0f;
-			int orangeDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1f);
+            Main.dust[blueDust].velocity = Vector2.Zero;
+            int orangeDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100);
 			Main.dust[orangeDust].noGravity = true;
-			Main.dust[orangeDust].velocity *= 0f;
+            Main.dust[orangeDust].velocity = Vector2.Zero;
 
             projectile.ai[0] += 1f;
             int behaviorInt = 0;
@@ -167,13 +167,13 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 int blueDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), 0f, 0f, 100, default, 1.5f);
                 Main.dust[blueDust].noGravity = true;
-                Main.dust[blueDust].velocity *= 0f;
+                Main.dust[blueDust].velocity = Vector2.Zero;
             }
             for (int i = 0; i < 10; i++)
             {
                 int orangeDust = Dust.NewDust(projectile.position, projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 1.5f);
                 Main.dust[orangeDust].noGravity = true;
-                Main.dust[orangeDust].velocity *= 0f;
+                Main.dust[orangeDust].velocity = Vector2.Zero;
             }
 			if (projectile.Calamity().stealthStrike)
 			{
