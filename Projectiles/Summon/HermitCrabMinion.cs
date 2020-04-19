@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hermit Crab");
-            Main.projFrames[projectile.type] = 8;
+            Main.projFrames[projectile.type] = 9;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
@@ -93,14 +93,18 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.frameCounter++;
                 }
+				else
+				{
+					projectile.frame = 0;
+				}
                 if (projectile.frameCounter > 4)
                 {
                     projectile.frame++;
                     projectile.frameCounter = 0;
                 }
-                if (projectile.frame > 3)
+                if (projectile.frame >= 5)
                 {
-                    projectile.frame = 0;
+                    projectile.frame = 1;
                 }
                 float num633 = 600f;
                 bool chaseNPC = false;
@@ -305,9 +309,9 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.frame++;
                     projectile.frameCounter = 0;
                 }
-                if (projectile.frame > 7)
+                if (projectile.frame >= 9)
                 {
-                    projectile.frame = 4;
+                    projectile.frame = 5;
                 }
                 if (playerDistance > 2000f)
                 {
