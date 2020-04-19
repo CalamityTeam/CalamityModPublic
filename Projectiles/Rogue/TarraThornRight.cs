@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles.Rogue
 {
-    public class NettleRight : ModProjectile
+    public class TarraThornRight : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,11 +16,13 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.height = 28;
 			projectile.aiStyle = 4;
 			projectile.friendly = true;
-			projectile.penetrate = 1;
+			projectile.penetrate = -1;
 			projectile.tileCollide = false;
 			projectile.alpha = 255;
 			projectile.ignoreWater = true;
-			projectile.magic = true;
+			projectile.Calamity().rogue = true;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
 		public override void AI()
@@ -29,7 +31,7 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				if (Main.myPlayer == projectile.owner)
 				{
-					int Type = ModContent.ProjectileType<NettleLeft>();
+					int Type = ModContent.ProjectileType<TarraThornLeft>();
 					int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, Type, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 					Main.projectile[number].ai[1] = projectile.ai[1] + 1f;
 					projectile.ai[0]++;
