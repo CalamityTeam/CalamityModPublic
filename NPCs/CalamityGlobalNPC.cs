@@ -3502,11 +3502,15 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.75);
                 }
+                else if (projectile.type == ModContent.ProjectileType<DormantBrimseekerBab>())
+                {
+                    damage = (int)(damage * 0.5);
+                }
                 else if (projectile.type == ModContent.ProjectileType<SulphuricNukesplosion>())
                 {
                     damage = (int)(damage * 0.38);
                 }
-                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
+                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ProjectileID.RainbowBack)
                 {
                     damage = (int)(damage * 0.25);
                 }
@@ -3529,9 +3533,13 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.5);
 				}
-                if (projectile.type == ModContent.ProjectileType<FlameBeamTip>() || projectile.type == ModContent.ProjectileType<FlameBeamTip2>())
+                if (projectile.type == ModContent.ProjectileType<FlameBeamTip>() || projectile.type == ModContent.ProjectileType<FlameBeamTip2>() || projectile.type == ModContent.ProjectileType<DormantBrimseekerBab>())
                 {
                     damage = (int)(damage * 0.5);
+                }
+                else if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ProjectileID.RainbowBack)
+                {
+                    damage = (int)(damage * 0.25);
                 }
 				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
