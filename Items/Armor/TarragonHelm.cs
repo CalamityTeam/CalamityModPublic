@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraMelee = true;
-            string hotkey = CalamityMod.TarraHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.TarraHotKey.GetAssignedKeys()[0] : "Y";
+            string hotkey = CalamityMod.TarraHotKey.TooltipHotkeyString();
             player.setBonus = "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
                 "You have a 25% chance to gain a life regen buff when you take damage\n" +

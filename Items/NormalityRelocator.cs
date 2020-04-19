@@ -33,7 +33,7 @@ namespace CalamityMod.Items
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.NormalityRelocatorHotKey.GetAssignedKeys().Count > 0 ? CalamityMod.NormalityRelocatorHotKey.GetAssignedKeys()[0] : "Z";
+            string hotkey = CalamityMod.NormalityRelocatorHotKey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip1")

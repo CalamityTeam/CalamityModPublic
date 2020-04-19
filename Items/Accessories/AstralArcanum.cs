@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
                                "If this effect triggers you get healed for the projectile's damage\n" +
                                "Boosts life regen even while under the effects of a damaging debuff\n" +
                                "While under the effects of a damaging debuff you will gain 20 defense\n" +
-                               "This line is modified below");
+                               "TOOLTIP LINE HERE");
         }
 
         public override void SetDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-            string hotkey = CalamityMod.AstralArcanumUIHotkey.GetAssignedKeys().Count > 0 ? CalamityMod.AstralArcanumUIHotkey.GetAssignedKeys()[0] : "O";
+            string hotkey = CalamityMod.AstralArcanumUIHotkey.TooltipHotkeyString();
             foreach (TooltipLine line2 in list)
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip6")

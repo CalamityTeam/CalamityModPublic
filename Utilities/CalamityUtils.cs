@@ -231,6 +231,32 @@ namespace CalamityMod
             */
         }
 
+        /// <summary>
+        /// Converts the given ModHotKey into a string for insertion into item tooltips.<br></br>
+        /// This allows the user's actual keybind choices to be shown to them in tooltips.
+        /// </summary>
+        /// <param name="mhk">The ModHotKey to convert to a string.</param>
+        /// <returns></returns>
+        public static string TooltipHotkeyString(this ModHotKey mhk)
+        {
+            if (Main.dedServ || mhk is null)
+                return "";
+
+            List<string> keys = mhk.GetAssignedKeys();
+            if (keys.Count == 0)
+                return "[NONE]";
+            else
+            {
+                StringBuilder sb = new StringBuilder(16);
+                sb.Append(keys[0]);
+
+                // In almost all cases, this code won't run, because there won't be multiple bindings for the hotkey. But just in case...
+                for (int i = 1; i < keys.Count; ++i)
+                    sb.Append(" / ").Append(keys[i]);
+                return sb.ToString();
+            }
+        }
+
         private const float WorldInsertionOffset = 15f;
         /// <summary>
         /// If the given item is outside the world, force it to be within the world boundaries.

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Plagued Fuel Pack");
             Tooltip.SetDefault("5% increased rogue damage\n" +
                 "15% increased rogue projectile velocity\n" +
-                "Press Q to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds\n" + 
+                "TOOLTIP LINE HERE" + 
                 "This effect has a 3 second cooldown before it can be used again");
         }
 
@@ -33,16 +33,14 @@ namespace CalamityMod.Items.Accessories
             player.Calamity().plaguedFuelPack = true;
         }
 
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
+        public override void ModifyTooltips(List<TooltipLine> list)
         {
-            if (CalamityMod.PlaguePackHotKey.GetAssignedKeys().Count > 0)
+            string hotkey = CalamityMod.PlaguePackHotKey.TooltipHotkeyString();
+            foreach (TooltipLine line in list)
             {
-                foreach (TooltipLine line in tooltips)
+                if (line.mod == "Terraria" && line.Name == "Tooltip2")
                 {
-                    if (line.mod == "Terraria" && line.Name == "Tooltip2")
-                    {
-                        line.text = "Press " + CalamityMod.PlaguePackHotKey.GetAssignedKeys()[0] + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds";
-                    }
+                    line.text = "Press " + hotkey + " to consume 25% of your maximum stealth to perform a swift upwards/diagonal dash which leaves a trail of plagued clouds";
                 }
             }
         }
