@@ -408,7 +408,7 @@ namespace CalamityMod.Items
 			{
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[i].active && (Main.projectile[i].type == ProjectileID.RainbowFront || Main.projectile[i].type == ProjectileID.RainbowBack) && Main.projectile[i].owner == player.whoAmI)
+                    if (Main.projectile[i].active && (Main.projectile[i].type == ModContent.ProjectileType<RainbowFront>() || Main.projectile[i].type == ModContent.ProjectileType<RainbowTrail>()) && Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
                     }
@@ -416,8 +416,7 @@ namespace CalamityMod.Items
 				for (int i = -8; i <= 8; i += 8)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					int rainbow = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.RainbowFront, damage, 0f, player.whoAmI, 0f, 0f);
-					Main.projectile[rainbow].Calamity().forceRanged = true;
+					Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<RainbowFront>(), damage, 0f, player.whoAmI, 0f, 0f);
 				}
 			}
             return true;

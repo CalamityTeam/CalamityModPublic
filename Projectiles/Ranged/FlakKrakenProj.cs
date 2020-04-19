@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class FlakKraken : ModProjectile
+    public class FlakKrakenProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            if (projectile.type != ModContent.ProjectileType<FlakKraken>() ||
+            if (projectile.type != ModContent.ProjectileType<FlakKrakenProj>() ||
                 !Main.projectile[(int)projectile.ai[1]].active ||
                 Main.projectile[(int)projectile.ai[1]].type != ModContent.ProjectileType<FlakKrakenGun>())
             {
@@ -125,7 +125,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            damage = (int)((double)damage * (double)projectile.localAI[0]);
+            damage = (int)(damage * projectile.localAI[0]);
         }
 
         public override Color? GetAlpha(Color lightColor)
