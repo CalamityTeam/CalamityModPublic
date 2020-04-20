@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -121,11 +122,49 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+			int typhoonAmt = 3;
+			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+			{
+				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 84);
+				for (int typhoonCount = 0; typhoonCount < typhoonAmt; typhoonCount++)
+				{
+					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					while (value15.X == 0f && value15.Y == 0f)
+					{
+						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					}
+					value15.Normalize();
+					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+					int typhoon = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
+					Main.projectile[typhoon].Calamity().forceRogue = true;
+					Main.projectile[typhoon].usesLocalNPCImmunity = true;
+            		Main.projectile[typhoon].localNPCHitCooldown = 10;
+				}
+			}
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+			int typhoonAmt = 3;
+			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+			{
+				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 84);
+				for (int typhoonCount = 0; typhoonCount < typhoonAmt; typhoonCount++)
+				{
+					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					while (value15.X == 0f && value15.Y == 0f)
+					{
+						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					}
+					value15.Normalize();
+					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+					int typhoon = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 3, 0f, projectile.owner, 0f, 1f);
+					Main.projectile[typhoon].Calamity().forceRogue = true;
+					Main.projectile[typhoon].usesLocalNPCImmunity = true;
+            		Main.projectile[typhoon].localNPCHitCooldown = 10;
+				}
+			}
         }
 
         public override void Kill(int timeLeft)
