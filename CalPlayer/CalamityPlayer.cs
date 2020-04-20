@@ -3558,7 +3558,7 @@ namespace CalamityMod.CalPlayer
                         dust.scale *= 1f + (float)Main.rand.Next(40) * 0.01f;
                     }
                 }
-                int heal = draconicSurge ? (player.statLifeMax2 / 2) : 150;
+                int heal = draconicSurge && !draconicSurgeCooldown ? (player.statLifeMax2 / 2) : 150;
                 player.statLife += heal;
                 player.HealEffect(heal);
                 if (player.statLife > player.statLifeMax2)
@@ -3583,7 +3583,7 @@ namespace CalamityMod.CalPlayer
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)player.position.X, (int)player.position.Y);
                     player.AddBuff(ModContent.BuffType<SilvaRevival>(), auricSet ? 300 : 600);
-                    if (draconicSurge)
+                    if (draconicSurge && !draconicSurgeCooldown)
                     {
                         player.statLife += player.statLifeMax2 / 2;
                         player.HealEffect(player.statLifeMax2 / 2);

@@ -34,10 +34,7 @@ namespace CalamityMod.Items.Potions
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return !player.Calamity().draconicSurgeCooldown;
-        }
+        public override bool CanUseItem(Player player) => !player.Calamity().draconicSurgeCooldown;
 
         public override void AddRecipes()
         {

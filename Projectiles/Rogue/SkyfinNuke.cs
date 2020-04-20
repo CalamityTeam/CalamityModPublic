@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					if (target != null)
 					{
-						const float turnSpeed = 40f;
+						const float turnSpeed = 10f;
 						const float speedMult = 40f;
 						Vector2 distNorm = (target.Center - projectile.Center).SafeNormalize(Vector2.UnitX);
 						projectile.velocity = (projectile.velocity * (turnSpeed - 1f) + distNorm * speedMult) / turnSpeed;
@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
 			else
 			{
 				//More range
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, 40f, 40f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 800f, 40f, 10f);
 			}
         }
 

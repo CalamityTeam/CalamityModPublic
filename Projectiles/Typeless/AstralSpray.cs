@@ -20,10 +20,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ignoreWater = true;
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool CanDamage() => false;
 
         public override bool PreAI()
         {

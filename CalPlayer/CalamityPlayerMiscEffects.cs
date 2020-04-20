@@ -2651,6 +2651,12 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTimeMax > 0)
 					player.wingTimeMax = (int)(player.wingTimeMax * 1.35);
 			}
+			if (modPlayer.draconicSurgeCooldown) //weird mod conflicts with like Luiafk
+			{
+				modPlayer.draconicSurge = false;
+				if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
+					player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
+			}
 
 			if (modPlayer.bounding)
 			{
