@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class IcebreakerHammer : ModProjectile
     {
+		private int explosionCount = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Icebreaker");
@@ -43,7 +47,61 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Frostburn, 180);
+			if (projectile.owner == Main.myPlayer)
+			{
+				target.AddBuff(BuffID.Frostburn, 180);
+
+				if (projectile.Calamity().stealthStrike)
+				{
+					if (explosionCount < 3) //max amount of explosions to prevent worm memes
+					{
+						int ice = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+						Main.projectile[ice].Calamity().forceRogue = true;
+						explosionCount++;
+					}
+
+					int buffType = ModContent.BuffType<GlacialState>();
+					float radius = 112f; // 7 blocks
+
+					for (int i = 0; i < Main.maxNPCs; i++)
+					{
+						NPC nPC = Main.npc[i];
+						if (nPC.active && !nPC.dontTakeDamage && !nPC.buffImmune[buffType] && Vector2.Distance(projectile.Center, nPC.Center) <= radius)
+						{
+							if (nPC.FindBuffIndex(buffType) == -1)
+								nPC.AddBuff(buffType, 180, false);
+						}
+					}
+				}
+			}
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			if (projectile.owner == Main.myPlayer)
+			{
+				target.AddBuff(BuffID.Frostburn, 180);
+
+				if (projectile.Calamity().stealthStrike)
+				{
+					//no explosion count cap in pvp
+					int ice = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+					Main.projectile[ice].Calamity().forceRogue = true;
+
+					int buffType = ModContent.BuffType<GlacialState>();
+					float radius = 112f; // 7 blocks
+
+					for (int i = 0; i < Main.maxPlayers; i++)
+					{
+						Player player = Main.player[i];
+						if ((Main.player[projectile.owner].team != player.team || player.team == 0) && !player.dead && !player.buffImmune[buffType] && Vector2.Distance(projectile.Center, player.Center) <= radius)
+						{
+							if (player.FindBuffIndex(buffType) == -1)
+								player.AddBuff(buffType, 180, false);
+						}
+					}
+				}
+			}
         }
     }
 }
