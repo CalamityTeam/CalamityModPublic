@@ -51,25 +51,22 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
+				if (projectile.velocity.X != oldVelocity.X)
+				{
+					projectile.velocity.X = -oldVelocity.X;
+				}
+				if (projectile.velocity.Y != oldVelocity.Y)
+				{
+					projectile.velocity.Y = -oldVelocity.Y;
+				}
 				if (projectile.Calamity().stealthStrike)
 				{
-					if (projectile.velocity != oldVelocity)
-					{
-						projectile.velocity = Main.rand.NextFloat(-1.15f, -0.85f) * oldVelocity * 1.35f;
-						Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 56); //minecart bumper sound
-					}
+					projectile.velocity *= Main.rand.NextFloat(-1.15f, -0.85f) * 1.35f;
+					Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 56); //minecart bumper sound
 				}
 				else
 				{
 					projectile.ai[0] += 0.1f;
-					if (projectile.velocity.X != oldVelocity.X)
-					{
-						projectile.velocity.X = -oldVelocity.X;
-					}
-					if (projectile.velocity.Y != oldVelocity.Y)
-					{
-						projectile.velocity.Y = -oldVelocity.Y;
-					}
 				}
             }
             return false;
