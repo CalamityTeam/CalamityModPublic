@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 num26 = 5f;
             }
-            projectile.damage = (int)((float)player.inventory[player.selectedItem].damage * player.rangedDamage);
+            projectile.damage = (int)(player.inventory[player.selectedItem].damage * player.RangedDamage());
             projectile.ai[0] += 1f;
             projectile.ai[1] += 1f;
             int num27 = 10;
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Ranged
                         }
                         vector2 += new Vector2(num78, num79);
                         int num29 = projectile.damage;
-                        Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<FlakKraken>(), num29, projectile.knockBack, projectile.owner, 0f, (float)projectile.whoAmI);
+                        Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<FlakKrakenProj>(), num29, projectile.knockBack, projectile.owner, 0f, (float)projectile.whoAmI);
                         projectile.netUpdate = true;
                     }
                 }

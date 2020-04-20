@@ -569,21 +569,7 @@ namespace CalamityMod.Projectiles
                 rogue = false;
             }
 
-            if (projectile.type == ProjectileID.NettleBurstRight || projectile.type == ProjectileID.NettleBurstLeft || projectile.type == ProjectileID.NettleBurstEnd)
-            {
-                if (player.inventory[player.selectedItem].type == ModContent.ItemType<ThornBlossom>())
-                    projectile.penetrate = 1;
-            }
-            else if (projectile.type == ProjectileID.VilethornBase || projectile.type == ProjectileID.VilethornTip)
-            {
-                if (player.inventory[player.selectedItem].type == ModContent.ItemType<FeralthornClaymore>())
-                {
-                    projectile.melee = true;
-                    projectile.magic = false;
-                    projectile.penetrate = 1;
-                }
-            }
-            else if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
+            if (projectile.type == ProjectileID.GiantBee || projectile.type == ProjectileID.Bee)
             {
                 if (projectile.timeLeft > 570) //all of these have a time left of 600 or 660
                 {
@@ -594,25 +580,17 @@ namespace CalamityMod.Projectiles
                     }
                 }
             }
-            else if (projectile.type == ProjectileID.RainbowBack)
-            {
-				if (player.inventory[player.selectedItem].type == ItemID.PearlwoodBow)
-				{
-					projectile.magic = false;
-					projectile.ranged = true;
-				}
-            }
             else if (projectile.type == ProjectileID.SoulDrain)
                 projectile.magic = true;
 
 			if (modPlayer.etherealExtorter)
 			{
-				if (CalamityMod.spikyBallProjList.Contains(projectile.type) && extorterBoost == false && Main.moonPhase == 2) //third quarter
+				if (CalamityMod.spikyBallProjList.Contains(projectile.type) && !extorterBoost && Main.moonPhase == 2) //third quarter
 				{
 					projectile.timeLeft += 300;
 					extorterBoost = true;
 				}
-				if (CalamityMod.javelinProjList.Contains(projectile.type) && extorterBoost == false && player.ZoneCrimson)
+				if (CalamityMod.javelinProjList.Contains(projectile.type) && !extorterBoost && player.ZoneCrimson)
 				{
 					projectile.knockBack *= 2;
 					extorterBoost = true;
