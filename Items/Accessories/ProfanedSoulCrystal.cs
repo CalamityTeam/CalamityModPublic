@@ -89,7 +89,7 @@ namespace CalamityMod.Items.Accessories
             }
             else if (Main.player[Main.myPlayer].Calamity().profanedCrystalBuffs)
             {
-                int manaCost = (int)((float)100 * Main.player[Main.myPlayer].manaCost);
+                int manaCost = (int)(100 * Main.player[Main.myPlayer].manaCost);
                 foreach (TooltipLine line in tooltips)
                 {
                     if (line.mod == "Terraria" && line.Name == "Tooltip5")

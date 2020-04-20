@@ -59,26 +59,27 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.localAI[0] >= 10f)
             {
                 projectile.localAI[0] = 0f;
-                int num416 = 0;
-                int num417 = 0;
-                float num418 = 0f;
-                int num419 = projectile.type;
-                for (int num420 = 0; num420 < 1000; num420++)
+                int projCount = 0;
+                int oldestCloud = 0;
+                float cloudAge = 0f;
+                int projType = projectile.type;
+                for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                 {
-                    if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
+					Projectile proj = Main.projectile[projIndex];
+                    if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[1] < 3600f)
                     {
-                        num416++;
-                        if (Main.projectile[num420].ai[1] > num418)
+                        projCount++;
+                        if (proj.ai[1] > cloudAge)
                         {
-                            num417 = num420;
-                            num418 = Main.projectile[num420].ai[1];
+                            oldestCloud = projIndex;
+                            cloudAge = proj.ai[1];
                         }
                     }
                 }
-                if (num416 > 2)
+                if (projCount > 2)
                 {
-                    Main.projectile[num417].netUpdate = true;
-                    Main.projectile[num417].ai[1] = 36000f;
+                    Main.projectile[oldestCloud].netUpdate = true;
+                    Main.projectile[oldestCloud].ai[1] = 36000f;
                     return;
                 }
             }
