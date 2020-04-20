@@ -2674,7 +2674,7 @@ namespace CalamityMod.CalPlayer
                         Dust.NewDust(player.Center + angle.ToRotationVector2() * 160f, 0, 0, 218, 0f, 0f, 100, default, 1f);
                     }
                     gaelRageCooldown = 60 * GaelsGreatsword.SkullsplosionCooldownSeconds;
-                    float rageRatio = (float)rage / rageMax;
+                    float rageRatio = rage / rageMax;
                     int damage = (int)(rageRatio * GaelsGreatsword.MaxRageBoost * GaelsGreatsword.BaseDamage * player.MeleeDamage());
                     float skullCount = 5f;
                     float skullSpeed = 5f;
@@ -5538,10 +5538,10 @@ namespace CalamityMod.CalPlayer
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default(Color), 1f);
+                    int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
                     Main.dust[dustIndex].velocity *= 0.3f;
                 }
-                int damage2 = GaelsGreatsword.BaseDamage;
+                int damage2 = (int)(GaelsGreatsword.BaseDamage * Main.LocalPlayer.MeleeDamage());
                 proj.hostile = false;
                 proj.friendly = true;
                 proj.velocity *= -1f;

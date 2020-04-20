@@ -4,8 +4,6 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.GameInput;
-using Terraria.Graphics.Capture;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 
@@ -124,7 +122,12 @@ namespace CalamityMod.Items.Weapons.Melee
                         }
                         if (Main.rand.NextBool(100))
                         {
-                            Projectile.NewProjectile(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction, Vector2.Zero, ModContent.ProjectileType<GaelExplosion>(), BaseDamage, 0f, player.whoAmI);
+                            Projectile.NewProjectile(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction,
+                                                     Vector2.Zero,
+                                                     ModContent.ProjectileType<GaelExplosion>(),
+                                                     (int)(item.damage * player.MeleeDamage()),
+                                                     0f,
+                                                     player.whoAmI);
                         }
                     }
                 }
