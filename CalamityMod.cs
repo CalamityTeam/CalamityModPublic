@@ -1884,6 +1884,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<MoltenAmputatorProj>(),
                 ModContent.ProjectileType<OPHammer>(),
                 ModContent.ProjectileType<SandDollarProj>(),
+                ModContent.ProjectileType<SandDollarStealth>(),
                 ModContent.ProjectileType<SeashellBoomerangProjectile>(),
                 ModContent.ProjectileType<ShroomerangProj>(),
                 ModContent.ProjectileType<TriactisOPHammer>(),

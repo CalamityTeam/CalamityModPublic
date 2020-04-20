@@ -1,17 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Boss
+namespace CalamityMod.Projectiles.Rogue
 {
-    public class YharonFireball : ModProjectile
+    public class InfernalFireball : ModProjectile
     {
-        private float speedX = -3f;
-        private float speedX2 = -5f;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Fireball");
@@ -23,27 +19,13 @@ namespace CalamityMod.Projectiles.Boss
         {
             projectile.width = 30;
             projectile.height = 30;
-            projectile.hostile = true;
+            projectile.friendly = true;
             projectile.alpha = 255;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 120;
+            projectile.penetrate = 1;
+            projectile.timeLeft = 180;
             projectile.aiStyle = 1;
             aiType = ProjectileID.DD2BetsyFireball;
-            cooldownSlot = 1;
-        }
-
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-            writer.Write(speedX);
-            writer.Write(projectile.localAI[1]);
-            writer.Write(speedX2);
-        }
-
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
-            speedX = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
-            speedX2 = reader.ReadSingle();
+            projectile.Calamity().rogue = true;
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -80,19 +62,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            if (projectile.owner == Main.myPlayer)
-            {
-                for (int x = 0; x < 3; x++)
-                {
-                    Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX, -50f, ModContent.ProjectileType<YharonFireball2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                    speedX += 3f;
-                }
-                for (int x = 0; x < 2; x++)
-                {
-                    Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX2, -75f, ModContent.ProjectileType<YharonFireball2>(), projectile.damage, 0f, Main.myPlayer, 0f, 0f);
-                    speedX2 += 10f;
-                }
-            }
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 144;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
@@ -111,10 +80,5 @@ namespace CalamityMod.Projectiles.Boss
                 Main.dust[num195].noGravity = true;
             }
         }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
-        {
-			target.Calamity().lastProjectileHit = projectile;
-		}
     }
 }
