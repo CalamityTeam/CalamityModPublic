@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Summon
                 circlingPlayer = false;
                 float height = target.getRect().Height;
                 float width = target.getRect().Width;
-                floatyDistance = (height > width ? height : width) * 1.5f;
+                floatyDistance = MathHelper.Min((height > width ? height : width) * 3f, (Main.LogicCheckScreenWidth * Main.LogicCheckScreenHeight) / 2);
                 if (floatyDistance > Main.LogicCheckScreenWidth / 3)
                     floatyDistance = Main.LogicCheckScreenWidth / 3;
                 projectile.penetrate = -1;
@@ -225,6 +225,10 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     projectile.Center = target.Center + projectile.ai[0].ToRotationVector2() * floatyDistance;
                     projectile.rotation = projectile.ai[0] + (float)Math.Atan(90);
+                    Vector2 vec = projectile.rotation.ToRotationVector2() - target.Center;
+                    vec.Normalize();
+                    if (projectile.timeLeft <= 120)
+                        projectile.rotation = projectile.timeLeft <= 60 ? projectile.ai[0] - (float)Math.Atan(90) : projectile.rotation - (MathHelper.Distance(projectile.rotation, -projectile.rotation) / (120 - 60));
                     projectile.ai[0] -= MathHelper.ToRadians(4f);
                 }
             }
@@ -253,8 +257,7 @@ namespace CalamityMod.Projectiles.Summon
                         circlers = circlers + Main.rand.Next(1, 4);
                 }
             }
-            if (circlers > 15)
-                circlers = 15;
+            circlers = (int)MathHelper.Min(Main.rand.Next(15, 21), circlers);
             if (projectile.ai[1] > 2f)
                 projectile.ai[1]++;
             if (projectile.ai[1] >= (30f - circlers) && projectile.timeLeft >= 120)
@@ -310,9 +313,9 @@ namespace CalamityMod.Projectiles.Summon
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (!circling)
+            if (!circling || (!circlingPlayer && recharging == 0))
             {
-                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 3);
+                CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], !circlingPlayer ? 1 : 3);
             }
             return true;
         }
