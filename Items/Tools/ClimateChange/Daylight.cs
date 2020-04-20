@@ -32,8 +32,11 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override bool UseItem(Player player)
         {
-            Main.dayTime = true;
-            CalamityMod.UpdateServerBoolean();
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+				Main.dayTime = true;
+				CalamityMod.UpdateServerBoolean();
+			}
             return true;
         }
 

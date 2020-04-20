@@ -5913,8 +5913,8 @@ namespace CalamityMod.CalPlayer
                 {
                     player.velocity.Y *= 0.9f;
                     player.wingFrame = 3;
+					player.noFallDmg = true;
                 }
-                
             }
             else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
             {
