@@ -21,6 +21,7 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.alpha = 255;
 			projectile.ignoreWater = true;
 			projectile.magic = true;
+			aiType = ProjectileID.NettleBurstEnd;
         }
     }
 }
