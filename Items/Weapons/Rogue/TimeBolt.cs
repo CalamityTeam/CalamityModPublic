@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Time Bolt");
-            Tooltip.SetDefault("There should be no boundary to human endeavor.");
+            Tooltip.SetDefault("There should be no boundary to human endeavor.\n" +
+			"Stealth strikes can hit more enemies and create a larger time field");
         }
 
         public override void SafeSetDefaults()
@@ -37,7 +38,9 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            Main.projectile[proj].penetrate = 11;
             return false;
         }
 
