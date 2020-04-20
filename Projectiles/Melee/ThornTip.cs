@@ -21,7 +21,6 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.alpha = 255;
 			projectile.ignoreWater = true;
 			projectile.melee = true;
-			aiType = ProjectileID.VilethornTip;
         }
     }
 }

@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.Calamity().rogue = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
-			aiType = ProjectileID.NettleBurstEnd;
         }
     }
 }
