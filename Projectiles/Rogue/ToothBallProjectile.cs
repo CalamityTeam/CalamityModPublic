@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             aiType = ProjectileID.ThrowingKnife;
             projectile.Calamity().rogue = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -38,6 +39,14 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<ToothBall>());
             }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+			{
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -10f, ModContent.ProjectileType<StealthNimbusCloud>(), projectile.damage, 0f, projectile.owner, 1f, 0f);
+			}
         }
     }
 }
