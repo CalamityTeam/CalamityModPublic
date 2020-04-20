@@ -22,7 +22,14 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (projectile.timeLeft <= 240)
             {
-                NPC target = CalamityUtils.MinionHoming(projectile.Center, 700f, Main.player[projectile.owner]);
+                if (target != null)
+                {
+                    target.checkDead();
+                    if (target.life <= 0 || !target.active || !target.CanBeChasedBy(this, false))
+                        target = null;
+                }
+                if (target == null)
+                    target = CalamityUtils.MinionHoming(projectile.Center, 1000f, Main.player[projectile.owner]);
                 if (target != null) //target found
                 {
                     float num550 = 40f;
@@ -94,7 +101,7 @@ namespace CalamityMod.Projectiles.Summon
         {
             if (recharging == -1)
             {
-                recharging = projectile.ai[1] == 0f ? 300 : 0;
+                recharging = projectile.ai[1] == 0f ? 210 : 0;
                 dust(30);
             }
             if (projectile.ai[1] == 1f && projectile.timeLeft > 1000)
@@ -106,8 +113,8 @@ namespace CalamityMod.Projectiles.Summon
             }
             else if (projectile.ai[1] >= 2f && projectile.timeLeft > 900)
             {
-                target = CalamityUtils.MinionHoming(projectile.position, 1000f, Main.player[projectile.owner]);
-                projectile.timeLeft = 800;
+                target = CalamityUtils.MinionHoming(projectile.Center, 1000f, Main.player[projectile.owner]);
+                projectile.timeLeft = 669;
                 projectile.ai[1]++;
                 circlingPlayer = false;
                 float height = target.getRect().Height;
@@ -191,9 +198,9 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.penetrate = 1;
                     float applicableDist = target.getRect().Width > target.getRect().Height ? target.getRect().Width : target.getRect().Height;
                     if (projectile.timeLeft > 60)
-                        floatyDistance += Main.rand.Next(0, 10);
+                        floatyDistance += 5;
                     else
-                        floatyDistance -= Main.rand.Next(10, 20);
+                        floatyDistance -= 10;
                 }
                 if (circlingPlayer)
                 {
@@ -202,14 +209,14 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.Center = player.Center + projectile.ai[0].ToRotationVector2() * regularDistance;
                     projectile.rotation = projectile.ai[0] + (float)Math.Atan(90);
                     projectile.ai[0] -= MathHelper.ToRadians(4f);
-                    NPC target = recharging > 0 ? null : CalamityUtils.MinionHoming(player.Center, 700f, player);
+                    NPC target = recharging > 0 ? null : CalamityUtils.MinionHoming(projectile.Center, 800f, player);
                     if (target != null && projectile.owner == Main.myPlayer)
                     {
-                        recharging = 300;
+                        recharging = 180;
                         Vector2 velocity = projectile.ai[0].ToRotationVector2().RotatedBy(Math.Atan(0));
                         velocity.Normalize();
                         velocity *= 20f;
-                        Projectile.NewProjectile(projectile.position, velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
+                        Projectile.NewProjectile(projectile.position, velocity, projectile.type, (int)(projectile.damage * 1.05f), projectile.knockBack, projectile.owner, projectile.ai[0], 1f);
                         
                     }
                     projectile.netUpdate = projectile.owner == Main.myPlayer;
