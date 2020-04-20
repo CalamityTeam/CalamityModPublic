@@ -71,8 +71,8 @@ namespace CalamityMod.Projectiles.Rogue
 					for (int i = 0; i < 4; i++)
 					{
 						double offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-						int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f) * 2f, (float)(Math.Cos(offsetAngle) * 5f) * 2f, ModContent.ProjectileType<TarraThornRight>(), projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
-						int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f) * 2f, (float)(-Math.Cos(offsetAngle) * 5f) * 2f, ModContent.ProjectileType<TarraThornRight>(), projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
+						int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<TarraThornRight>(), projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
+						int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<TarraThornRight>(), projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
 					}
 				}
 			}

@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.alpha = 255;
 			projectile.ignoreWater = true;
 			projectile.magic = true;
-			projectile.aiStyle = 4;
         }
 
 		public override void AI()
@@ -30,22 +29,15 @@ namespace CalamityMod.Projectiles.Magic
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
 			if (projectile.ai[0] == 0f)
 			{
-				projectile.alpha -= 50;
+				projectile.alpha -= 75;
 				if (projectile.alpha > 0)
 					return;
 				projectile.alpha = 0;
 				projectile.ai[0] = 1f;
-				if (projectile.ai[1] == 0f)
-				{
-					projectile.ai[1] += 1f;
-					projectile.position += projectile.velocity * 1f;
-				}
 				if (Main.myPlayer == projectile.owner)
 				{
-					int type = projectile.type;
-					if (projectile.ai[1] >= 10f)
-						type = ModContent.ProjectileType<NettleTip>();
-					int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, type, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+					int Type = ModContent.ProjectileType<NettleLeft>();
+					int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, Type, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 					Main.projectile[number].ai[1] = projectile.ai[1] + 1f;
 				}
 			}

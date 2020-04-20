@@ -22,7 +22,6 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.alpha = 255;
 			projectile.ignoreWater = true;
 			projectile.melee = true;
-			projectile.aiStyle = 4;
         }
 
 		public override void AI()
@@ -35,11 +34,6 @@ namespace CalamityMod.Projectiles.Melee
 					return;
 				projectile.alpha = 0;
 				projectile.ai[0] = 1f;
-				if (projectile.ai[1] == 0f)
-				{
-					projectile.ai[1] += 1f;
-					projectile.position += projectile.velocity * 1f;
-				}
 				if (Main.myPlayer == projectile.owner)
 				{
 					int type = projectile.type;
