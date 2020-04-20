@@ -3510,7 +3510,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.38);
                 }
-                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ProjectileID.RainbowBack)
+                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
                 {
                     damage = (int)(damage * 0.25);
                 }
@@ -3537,7 +3537,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ProjectileID.RainbowBack)
+                else if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
                 {
                     damage = (int)(damage * 0.25);
                 }

@@ -31,10 +31,10 @@ namespace CalamityMod.Projectiles.Melee
 				{
 					int type = projectile.type;
 					if (projectile.ai[1] >= 6f)
-						type == ModContent.ProjectileType<ThornTip>();
+						type = ModContent.ProjectileType<ThornTip>();
 					int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, type, projectile.damage, projectile.knockBack, projectile.owner, 0.0f, 0.0f);
 					Main.projectile[number].ai[1] = projectile.ai[1] + 1f;
-					NetMessage.SendData(27, -1, -1, (NetworkText) null, number, 0.0f, 0.0f, 0.0f, 0, 0, 0);
+					projectile.ai[0]++;
 				}
 			}
 		}
