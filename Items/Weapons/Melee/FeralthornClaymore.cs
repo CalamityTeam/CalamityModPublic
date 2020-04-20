@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -54,11 +53,11 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Venom, 300);
             for (int x = 0; x < 2; x++)
             {
-                Projectile.NewProjectile(player.position.X + 40f + (float)Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(player.position.X + 40f + (float)Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ProjectileID.VilethornBase, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.2), 0f, Main.myPlayer, 0f, 0f);
             }
             for (int x = 0; x < 2; x++)
             {
-                Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ProjectileID.VilethornBase, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.2), 0f, Main.myPlayer, 0f, 0f);
             }
         }
 
@@ -67,11 +66,11 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Venom, 300);
             for (int x = 0; x < 2; x++)
             {
-                Projectile.NewProjectile(player.position.X + 40f + (float)Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(player.position.X + 40f + (float)Main.rand.Next(0, 151), player.position.Y + 36f, 0f, -18f, ProjectileID.VilethornBase, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.2), 0f, Main.myPlayer, 0f, 0f);
             }
             for (int x = 0; x < 2; x++)
             {
-                Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ThornBase>(), (int)(item.damage * player.MeleeDamage() * 0.2), 0f, Main.myPlayer, 0f, 0f);
+                Projectile.NewProjectile(player.position.X - 40f + (float)Main.rand.Next(-150, 1), player.position.Y + 36f, 0f, -18f, ProjectileID.VilethornBase, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.2), 0f, Main.myPlayer, 0f, 0f);
             }
         }
     }

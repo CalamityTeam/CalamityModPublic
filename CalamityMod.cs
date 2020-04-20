@@ -607,8 +607,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<AetherBeam>(),
                 ModContent.ProjectileType<FlurrystormCannonShooting>(),
                 ModContent.ProjectileType<MagnomalyBeam>(),
-                ModContent.ProjectileType<MagnomalyAura>(),
-                ModContent.ProjectileType<RainbowTrail>()
+                ModContent.ProjectileType<MagnomalyAura>()
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -620,7 +619,6 @@ namespace CalamityMod
                 ProjectileID.LastPrism,
                 ProjectileID.LaserMachinegun,
                 ProjectileID.ChargedBlasterCannon,
-				ProjectileID.MedusaHead,
                 ModContent.ProjectileType<PhangasmBow>(),
                 ModContent.ProjectileType<ContagionBow>(),
                 ModContent.ProjectileType<DaemonsFlameBow>(),
@@ -636,7 +634,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<DarkSparkPrism>(),
                 ModContent.ProjectileType<GhastlyVisageProj>(),
 
-                ModContent.ProjectileType<FlakKrakenProj>(),
+                ModContent.ProjectileType<Projectiles.Ranged.FlakKraken>(),
                 ModContent.ProjectileType<SylvanSlashAttack>(),
                 ModContent.ProjectileType<InfernadoFriendly>()
             };
