@@ -25,9 +25,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;
             projectile.Calamity().rogue = true;
-            projectile.usesIDStaticNPCImmunity = true;
-            projectile.idStaticNPCHitCooldown = 3;
-            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -60,22 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (Main.myPlayer == projectile.owner)
-			{
-				if (projectile.Calamity().stealthStrike)
-				{
-					float random = Main.rand.Next(30, 90);
-					float spread = random * 0.0174f;
-					double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
-					double deltaAngle = spread / 8f;
-					for (int i = 0; i < 4; i++)
-					{
-						double offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-						int proj1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<TarraThornRight>(), projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
-						int proj2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<TarraThornRight>(), projectile.damage / 4, projectile.knockBack / 4, projectile.owner, 0f, 0f);
-					}
-				}
-			}
+            target.immune[projectile.owner] = 3;
         }
     }
 }

@@ -1,11 +1,9 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class RainbowTrail : ModProjectile
+    public class RainbowFront : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +24,5 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.ignoreWater = true;
 			projectile.scale = 1.25f;
         }
-
-        public override Color? GetAlpha(Color lightColor) => new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
     }
 }

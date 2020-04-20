@@ -1,6 +1,3 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -63,7 +60,5 @@ namespace CalamityMod.Projectiles.Ranged
 			projectile.velocity.Y = num5;
 			projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - MathHelper.PiOver2;
 		}
-
-        public override Color? GetAlpha(Color lightColor) => Color.Transparent;
     }
 }

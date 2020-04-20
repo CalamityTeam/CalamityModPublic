@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,8 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tarragon Throwing Dart");
-            Tooltip.SetDefault(@"Fires a piercing dart with reduced immunity frames
-Stealth strikes erupt into thorns on enemy hits");
         }
 
         public override void SafeSetDefaults()
@@ -36,19 +33,6 @@ Stealth strikes erupt into thorns on enemy hits");
             item.shootSpeed = 24f;
             item.Calamity().rogue = true;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
-            {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                Main.projectile[stealth].usesLocalNPCImmunity = true;
-                Main.projectile[stealth].usesIDStaticNPCImmunity = false;
-                return false;
-            }
-            return true;
         }
 
         public override void AddRecipes()
