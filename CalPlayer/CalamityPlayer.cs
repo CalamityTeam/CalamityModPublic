@@ -512,6 +512,7 @@ namespace CalamityMod.CalPlayer
 		public int icicleCooldown = 0;
         public bool rustyMedal = false;
         public bool noStupidNaturalARSpawns = false;
+        public bool burdenBreakerYeet = false;
         #endregion
 
         #region Armor Set
@@ -1485,6 +1486,7 @@ namespace CalamityMod.CalPlayer
 			corrosiveSpine = false;
             rustyMedal = false;
             noStupidNaturalARSpawns = false;
+            burdenBreakerYeet = false;
 
             daedalusReflect = false;
             daedalusSplit = false;

@@ -762,6 +762,11 @@ namespace CalamityMod.Items
         public override bool CanUseItem(Item item, Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
+                (item.damage > 0 || item.ammo != AmmoID.None))
+            {
+                return false; // Don't use weapons if you're charging with a spear
+            }
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
             {   
                 if (player.altFunctionUse == 0)
