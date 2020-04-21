@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Potions
             item.UseSound = SoundID.Item3;
             item.consumable = true;
 			item.buffType = ModContent.BuffType<Revivify>();
-			item.buffTime = 1800;
+			item.buffTime = 3600;
 			item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
@@ -41,13 +41,13 @@ namespace CalamityMod.Items.Potions
             recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
             recipe.AddIngredient(ModContent.ItemType<ScarredAngelfish>());
             recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 5);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HolyWater, 5);
             recipe.AddIngredient(ModContent.ItemType<BloodOrb>(), 50);
             recipe.AddTile(TileID.AlchemyTable);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 5);
             recipe.AddRecipe();
         }
     }
