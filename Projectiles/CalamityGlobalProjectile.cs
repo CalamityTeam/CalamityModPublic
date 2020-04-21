@@ -1482,7 +1482,7 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-					if (modPlayer.nanotech && stealthStrike && modPlayer.forbiddenCooldown <= 0)
+					if (modPlayer.forbiddenCirclet && stealthStrike && modPlayer.forbiddenCooldown <= 0)
 					{
 						for (int index2 = 0; index2 < 6; index2++)
 						{
