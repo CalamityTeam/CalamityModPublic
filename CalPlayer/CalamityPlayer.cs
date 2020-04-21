@@ -831,6 +831,7 @@ namespace CalamityMod.CalPlayer
         public bool gammaHead = false;
         public List<int> GammaCanisters = new List<int>();
         public bool rustyDrone = false;
+        public bool tundraFlameBlossom = false;
         #endregion
 
         #region Biome
@@ -1791,6 +1792,7 @@ namespace CalamityMod.CalPlayer
             necrosteocytesDudes = false;
             gammaHead = false;
             rustyDrone = false;
+            tundraFlameBlossom = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
