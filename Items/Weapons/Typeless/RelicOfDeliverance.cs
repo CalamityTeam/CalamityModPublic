@@ -1,0 +1,39 @@
+using CalamityMod.Projectiles.Typeless;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.Weapons.Typeless
+{
+    public class RelicOfDeliverance : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Relic of Deliverance");
+            Tooltip.SetDefault("Summons a spear that causes you to lunge towards the mouse position\n" +
+                               "The spear requires a charge-up. The longer the charge, the more strong the lunge\n" +
+                               "If enough time has passed or the spear collides into a wall, the spear dies and the lunge ends");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 32;
+            item.height = 46;
+            item.damage = 1350;
+            item.useTime = item.useAnimation = 25;
+            item.crit += 16;
+            item.reuseDelay = 15;
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.UseSound = SoundID.Item46;
+            item.noMelee = true;
+            item.noUseGraphic = true;
+            item.channel = true;
+            item.rare = 10;
+            item.Calamity().customRarity = CalamityRarity.Turquoise;
+            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
+            item.shoot = ModContent.ProjectileType<RelicOfDeliveranceSpear>();
+        }
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+    }
+}
