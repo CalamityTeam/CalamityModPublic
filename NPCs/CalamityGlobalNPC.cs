@@ -5514,8 +5514,8 @@ namespace CalamityMod.NPCs
             if (type == NPCID.Stylist)
             {
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<WingTimeHairDye>(), Main.LocalPlayer.wingTimeMax > 0);
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AdrenalineHairDye>(), CalamityWorld.revenge);
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RageHairDye>(), CalamityWorld.revenge);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AdrenalineHairDye>(), CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RageHairDye>(), CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage);
             }
 
             if (type == NPCID.Cyborg)
