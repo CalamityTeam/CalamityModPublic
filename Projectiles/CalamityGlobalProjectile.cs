@@ -1449,6 +1449,20 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
+					if (modPlayer.nanotech && stealthStrike && modPlayer.forbiddenCooldown <= 0)
+					{
+						for (int index2 = 0; index2 < 6; index2++)
+						{
+							float xVector = (float)Main.rand.Next(-35, 36) * 0.02f;
+							float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
+							xVector *= 10f;
+							yVector *= 10f;
+                            int dmg = (int)(75 + (projectile.damage * 0.05f));
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<ForbiddenCircletEater>(), dmg, projectile.knockBack, projectile.owner, 0f, 0f);
+                            modPlayer.forbiddenCooldown = 15;
+						}
+					}
+
 					if (modPlayer.corrosiveSpine && projectile.type != ModContent.ProjectileType<Corrocloud1>() && projectile.type != ModContent.ProjectileType<Corrocloud2>() && projectile.type != ModContent.ProjectileType<Corrocloud3>())
 					{
 						for (int i = 0; i < 3; i++)

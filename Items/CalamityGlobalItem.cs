@@ -1527,14 +1527,17 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
             {
-                foreach (TooltipLine line2 in tooltips)
-                {
-                    if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-                    {
-                        line2.text = "Set Bonus: Double tap " + (Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN") + " to call an ancient storm to the cursor location\n" +
-							"Minions deal full damage while wielding weaponry";
-                    }
-                }
+				if (!Main.player[Main.myPlayer].Calamity().forbiddenCirclet)
+				{
+					foreach (TooltipLine line2 in tooltips)
+					{
+						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
+						{
+							line2.text = "Set Bonus: Double tap " + (Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN") + " to call an ancient storm to the cursor location\n" +
+								"Minions deal full damage while wielding magic weapons";
+						}
+					}
+				}
             }
             if (item.type == ItemID.GladiatorHelmet)
             {
