@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
 			{
-				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -10f, ModContent.ProjectileType<StealthNimbusCloud>(), projectile.damage, 0f, projectile.owner, 1f, 0f);
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -10f, ModContent.ProjectileType<StealthNimbusCloud>(), projectile.damage / 2, 0f, projectile.owner, 1f, 0f);
 			}
         }
     }

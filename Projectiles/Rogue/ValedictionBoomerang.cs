@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int typhoon = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
+					int typhoon = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
 					Main.projectile[typhoon].Calamity().forceRogue = true;
 					Main.projectile[typhoon].usesLocalNPCImmunity = true;
             		Main.projectile[typhoon].localNPCHitCooldown = 10;

@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (projectile.Calamity().stealthStrike)
 					{
-						Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<InfernalFireball>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<InfernalFireball>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
 					}
 				}
 			}
@@ -79,12 +79,12 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					for (int x = 0; x < 3; x++)
 					{
-						Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX, -50f, ModContent.ProjectileType<InfernalFireballEruption>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX, -50f, ModContent.ProjectileType<InfernalFireballEruption>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 						speedX += 3f;
 					}
 					for (int x = 0; x < 2; x++)
 					{
-						Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX2, -75f, ModContent.ProjectileType<InfernalFireballEruption>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX2, -75f, ModContent.ProjectileType<InfernalFireballEruption>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
 						speedX2 += 10f;
 					}
 				}

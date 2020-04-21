@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
             projectile.ai[1] += 1f;
-            if (projectile.ai[1] >= 7200f)
+            if (projectile.ai[1] >= 3600f)
             {
                 projectile.alpha += 5;
                 if (projectile.alpha > 255)
