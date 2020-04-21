@@ -32,7 +32,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<HeartRapierProjectile>();
             item.shootSpeed = 5f;
-			item.Calamity().trueMelee = true;
         }
 
         public override void AddRecipes()

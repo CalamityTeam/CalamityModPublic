@@ -74,6 +74,7 @@ namespace CalamityMod.Projectiles
             switch (projectile.type)
             {
                 case ProjectileID.Spear:
+                case ProjectileID.Trident:
                 case ProjectileID.TheRottedFork:
                 case ProjectileID.Swordfish:
                 case ProjectileID.Arkhalis:
@@ -84,11 +85,42 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.OrichalcumHalberd:
                 case ProjectileID.AdamantiteGlaive:
                 case ProjectileID.TitaniumTrident:
+                case ProjectileID.MushroomSpear:
                 case ProjectileID.Gungnir:
                 case ProjectileID.ObsidianSwordfish:
-                case ProjectileID.MonkStaffT3:
-                case ProjectileID.MonkStaffT2:
+                case ProjectileID.ChlorophytePartisan:
                 case ProjectileID.MonkStaffT1:
+                case ProjectileID.MonkStaffT2:
+                case ProjectileID.MonkStaffT3:
+                case ProjectileID.NorthPoleWeapon:
+
+				//tools
+                case ProjectileID.CobaltDrill:
+                case ProjectileID.MythrilDrill:
+                case ProjectileID.AdamantiteDrill:
+                case ProjectileID.PalladiumDrill:
+                case ProjectileID.OrichalcumDrill:
+                case ProjectileID.TitaniumDrill:
+                case ProjectileID.ChlorophyteDrill:
+                case ProjectileID.CobaltChainsaw:
+                case ProjectileID.MythrilChainsaw:
+                case ProjectileID.AdamantiteChainsaw:
+                case ProjectileID.PalladiumChainsaw:
+                case ProjectileID.OrichalcumChainsaw:
+                case ProjectileID.TitaniumChainsaw:
+                case ProjectileID.ChlorophyteChainsaw:
+                case ProjectileID.VortexDrill:
+                case ProjectileID.VortexChainsaw:
+                case ProjectileID.NebulaDrill:
+                case ProjectileID.NebulaChainsaw:
+                case ProjectileID.SolarFlareDrill:
+                case ProjectileID.SolarFlareChainsaw:
+                case ProjectileID.StardustDrill:
+                case ProjectileID.StardustChainsaw:
+                case ProjectileID.Hamdrax:
+                case ProjectileID.ChlorophyteJackhammer:
+                case ProjectileID.SawtoothShark:
+                case ProjectileID.ButchersChainsaw:
                     trueMelee = true;
                     break;
                 case ProjectileID.StarWrath:
@@ -659,8 +691,9 @@ namespace CalamityMod.Projectiles
 					{
 						if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.Mushroom] < 30)
 						{
-							if (projectile.type == ModContent.ProjectileType<Melee.NebulashFlail>() || projectile.type == ModContent.ProjectileType<Melee.CosmicDischargeFlail>() ||
-								projectile.type == ModContent.ProjectileType<Melee.MourningstarFlail>() || projectile.type == ProjectileID.SolarWhipSword)
+							//Note: these don't count as true melee anymore but its useful code to keep around
+							if (projectile.type == ModContent.ProjectileType<NebulashFlail>() || projectile.type == ModContent.ProjectileType<CosmicDischargeFlail>() ||
+								projectile.type == ModContent.ProjectileType<MourningstarFlail>() || projectile.type == ProjectileID.SolarWhipSword)
 							{
 								Vector2 vector24 = Main.OffsetsPlayerOnhand[Main.player[projectile.owner].bodyFrame.Y / 56] * 2f;
 								if (Main.player[projectile.owner].direction != 1)

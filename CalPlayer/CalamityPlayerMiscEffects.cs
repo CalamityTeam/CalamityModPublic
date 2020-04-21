@@ -916,6 +916,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.forbiddenCooldown--;
 			if (modPlayer.ladHearts > 0)
 				modPlayer.ladHearts--;
+			if (modPlayer.titanBoost > 0)
+				modPlayer.titanBoost--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -2365,7 +2367,14 @@ namespace CalamityMod.CalPlayer
 				player.endurance += 0.05f;
 				player.statDefense += 5;
 				player.kbBuff = true;
+				if (modPlayer.titanBoost > 0)
+				{
+                    player.statDefense += 25;
+                    player.endurance += 0.1f;
+				}
 			}
+			else
+				modPlayer.titanBoost = 0;
 
 			if (modPlayer.darkSunRing)
 			{

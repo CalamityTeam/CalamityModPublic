@@ -689,6 +689,7 @@ namespace CalamityMod.CalPlayer
         public bool yPower = false;
         public bool aWeapon = false;
         public bool tScale = false;
+        public int titanBoost = 0;
         public bool fabsolVodka = false;
         public bool mushy = false;
         public bool molten = false;
@@ -1988,6 +1989,7 @@ namespace CalamityMod.CalPlayer
             yPower = false;
             aWeapon = false;
             tScale = false;
+			titanBoost = 0;
             fabsolVodka = false;
             invincible = false;
             shine = false;
@@ -3820,22 +3822,6 @@ namespace CalamityMod.CalPlayer
         #region Get Weapon Damage And KB
         public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
-            bool isTrueMelee = item.melee && (item.shoot == 0 || item.Calamity().trueMelee);
-            if (isTrueMelee)
-            {
-                if (tScale)
-                {
-                    player.statDefense += 25;
-                    player.endurance += 0.1f;
-                }
-
-                float damageAdd = (dodgeScarf ? 0.2f : 0f) +
-                    ((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2f : 0f) +
-                    (DoGLore ? 0.5f : 0f) +
-                    (fungalSymbiote ? 0.25f : 0f);
-
-                add += damageAdd;
-            }
             if (item.type == ModContent.ItemType<GaelsGreatsword>())
             {
                 add += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
@@ -3947,8 +3933,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            bool isTrueMelee = item.melee && (item.shoot == 0 || item.Calamity().trueMelee);
-            if (isTrueMelee)
+            if (item.melee)
             {
                 if (fungalSymbiote && player.whoAmI == Main.myPlayer)
                 {
@@ -4075,6 +4060,9 @@ namespace CalamityMod.CalPlayer
         {
             if (!item.melee && (int) player.meleeEnchant == 7)
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
+
+			if (item.melee)
+				titanBoost = 600;
 
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
@@ -4247,6 +4235,9 @@ namespace CalamityMod.CalPlayer
 
             if (!proj.npcProj && !proj.trap)
             {
+				if (proj.Calamity().trueMelee)
+					titanBoost = 600;
+
                 if (sulfurSet && proj.friendly && !target.friendly)
                     target.AddBuff(BuffID.Poisoned, 120);
                 if (omegaBlueChestplate && proj.friendly && !target.friendly)
@@ -4403,6 +4394,9 @@ namespace CalamityMod.CalPlayer
         {
             if (!item.melee && (int) player.meleeEnchant == 7)
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
+
+			if (item.melee)
+				titanBoost = 600;
 
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
@@ -4562,6 +4556,9 @@ namespace CalamityMod.CalPlayer
 
             if (!proj.npcProj && !proj.trap)
             {
+				if (proj.Calamity().trueMelee)
+					titanBoost = 600;
+
                 if (sulfurSet && proj.friendly)
                     target.AddBuff(BuffID.Poisoned, 120);
                 if (omegaBlueChestplate && proj.friendly)
@@ -4717,14 +4714,21 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit NPC
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            bool isTrueMelee = item.melee && item.shoot == 0;
-
             #region MultiplierBoosts
             double damageMult = 1.0;
             if (silvaMelee && Main.rand.NextBool(4) && item.melee)
             {
                 damageMult += 4.0;
             }
+			if (item.melee)
+			{
+                double damageAdd = (dodgeScarf ? 0.2 : 0) +
+                    ((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2 : 0) +
+                    (DoGLore ? 0.5 : 0) +
+                    (fungalSymbiote ? 0.25 : 0);
+
+                damageMult += damageAdd;
+			}
             if (enraged && !CalamityMod.CalamityConfig.BossRushXerocCurse)
             {
                 damageMult += 1.25;
@@ -4793,7 +4797,7 @@ namespace CalamityMod.CalPlayer
 
             if ((target.damage > 5 || target.boss) && player.whoAmI == Main.myPlayer && !target.SpawnedFromStatue)
             {
-                if (isTrueMelee && soaring)
+                if (item.melee && soaring)
                 {
                     double useTimeMultiplier = 0.85 + (item.useTime * item.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
                     double wingTimeFraction = player.wingTimeMax / 20D;
@@ -4814,21 +4818,21 @@ namespace CalamityMod.CalPlayer
                             Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<ChaosGeyser>(), (int)(damage * 0.15), 2f, player.whoAmI, 0f, 0f);
                         }
                     }
-                    if (unstablePrism && crit)
-                    {
-                        for (int num252 = 0; num252 < 3; num252++)
-                        {
-                            Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                            while (value15.X == 0f && value15.Y == 0f)
-                            {
-                                value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                            }
-                            value15.Normalize();
-                            value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
-                            Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI, 0f, 0f);
-                        }
-                    }
-                }
+				}
+				if (unstablePrism && crit)
+				{
+					for (int num252 = 0; num252 < 3; num252++)
+					{
+						Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+						while (value15.X == 0f && value15.Y == 0f)
+						{
+							value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
+						}
+						value15.Normalize();
+						value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
+						Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI, 0f, 0f);
+					}
+				}
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)
                 {
                     astralStarRainCooldown = 60;
@@ -4966,6 +4970,15 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+			if (isTrueMelee)
+			{
+                double damageAdd = (dodgeScarf ? 0.2 : 0) +
+                    ((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2 : 0) +
+                    (DoGLore ? 0.5 : 0) +
+                    (fungalSymbiote ? 0.25 : 0);
+
+                damageMult += damageAdd;
+			}
             if (screwdriver)
             {
                 if (proj.penetrate > 1 || proj.penetrate == -1)

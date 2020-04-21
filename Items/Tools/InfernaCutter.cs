@@ -34,10 +34,6 @@ namespace CalamityMod.Items.Tools
             item.rare = 5;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-
-            // This item is not true melee. Its sparks go a very long distnce.
-            item.shoot = ModContent.ProjectileType<NobodyKnows>();
-            item.shootSpeed = 0f;
         }
 
         public override void AddRecipes()
