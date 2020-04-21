@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<MurasamaProj>();
             item.shootSpeed = 24f;
             item.Calamity().customRarity = CalamityRarity.Violet;
-			item.Calamity().trueMelee = true;
         }
 
         public override bool CanUseItem(Player player)

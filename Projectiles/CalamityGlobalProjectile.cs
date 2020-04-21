@@ -74,6 +74,7 @@ namespace CalamityMod.Projectiles
             switch (projectile.type)
             {
                 case ProjectileID.Spear:
+                case ProjectileID.Trident:
                 case ProjectileID.TheRottedFork:
                 case ProjectileID.Swordfish:
                 case ProjectileID.Arkhalis:
@@ -84,11 +85,42 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.OrichalcumHalberd:
                 case ProjectileID.AdamantiteGlaive:
                 case ProjectileID.TitaniumTrident:
+                case ProjectileID.MushroomSpear:
                 case ProjectileID.Gungnir:
                 case ProjectileID.ObsidianSwordfish:
-                case ProjectileID.MonkStaffT3:
-                case ProjectileID.MonkStaffT2:
+                case ProjectileID.ChlorophytePartisan:
                 case ProjectileID.MonkStaffT1:
+                case ProjectileID.MonkStaffT2:
+                case ProjectileID.MonkStaffT3:
+                case ProjectileID.NorthPoleWeapon:
+
+				//tools
+                case ProjectileID.CobaltDrill:
+                case ProjectileID.MythrilDrill:
+                case ProjectileID.AdamantiteDrill:
+                case ProjectileID.PalladiumDrill:
+                case ProjectileID.OrichalcumDrill:
+                case ProjectileID.TitaniumDrill:
+                case ProjectileID.ChlorophyteDrill:
+                case ProjectileID.CobaltChainsaw:
+                case ProjectileID.MythrilChainsaw:
+                case ProjectileID.AdamantiteChainsaw:
+                case ProjectileID.PalladiumChainsaw:
+                case ProjectileID.OrichalcumChainsaw:
+                case ProjectileID.TitaniumChainsaw:
+                case ProjectileID.ChlorophyteChainsaw:
+                case ProjectileID.VortexDrill:
+                case ProjectileID.VortexChainsaw:
+                case ProjectileID.NebulaDrill:
+                case ProjectileID.NebulaChainsaw:
+                case ProjectileID.SolarFlareDrill:
+                case ProjectileID.SolarFlareChainsaw:
+                case ProjectileID.StardustDrill:
+                case ProjectileID.StardustChainsaw:
+                case ProjectileID.Hamdrax:
+                case ProjectileID.ChlorophyteJackhammer:
+                case ProjectileID.SawtoothShark:
+                case ProjectileID.ButchersChainsaw:
                     trueMelee = true;
                     break;
                 case ProjectileID.StarWrath:
@@ -258,8 +290,8 @@ namespace CalamityMod.Projectiles
                         projectile.position.X += (float)(projectile.width / 2);
                         projectile.position.Y += (float)(projectile.height / 2);
                         projectile.scale = ((float)(num606 + num607) - projectile.ai[1]) * num608 / (float)(num607 + num606);
-                        projectile.width = (int)((float)num609 * projectile.scale);
-                        projectile.height = (int)((float)num610 * projectile.scale);
+                        projectile.width = (int)(num609 * projectile.scale);
+                        projectile.height = (int)(num610 * projectile.scale);
                         projectile.position.X -= (float)(projectile.width / 2);
                         projectile.position.Y -= (float)(projectile.height / 2);
                         projectile.netUpdate = true;
@@ -268,8 +300,8 @@ namespace CalamityMod.Projectiles
                     if (projectile.ai[1] != -1f)
                     {
                         projectile.scale = ((float)(num606 + num607) - projectile.ai[1]) * num608 / (float)(num607 + num606);
-                        projectile.width = (int)((float)num609 * projectile.scale);
-                        projectile.height = (int)((float)num610 * projectile.scale);
+                        projectile.width = (int)(num609 * projectile.scale);
+                        projectile.height = (int)(num610 * projectile.scale);
                     }
 
                     if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
@@ -659,8 +691,9 @@ namespace CalamityMod.Projectiles
 					{
 						if (projectile.owner == Main.myPlayer && player.ownedProjectileCounts[ProjectileID.Mushroom] < 30)
 						{
-							if (projectile.type == ModContent.ProjectileType<Melee.NebulashFlail>() || projectile.type == ModContent.ProjectileType<Melee.CosmicDischargeFlail>() ||
-								projectile.type == ModContent.ProjectileType<Melee.MourningstarFlail>() || projectile.type == ProjectileID.SolarWhipSword)
+							//Note: these don't count as true melee anymore but its useful code to keep around
+							if (projectile.type == ModContent.ProjectileType<NebulashFlail>() || projectile.type == ModContent.ProjectileType<CosmicDischargeFlail>() ||
+								projectile.type == ModContent.ProjectileType<MourningstarFlail>() || projectile.type == ProjectileID.SolarWhipSword)
 							{
 								Vector2 vector24 = Main.OffsetsPlayerOnhand[Main.player[projectile.owner].bodyFrame.Y / 56] * 2f;
 								if (Main.player[projectile.owner].direction != 1)
@@ -759,9 +792,9 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
-				if (!projectile.melee && (int) player.meleeEnchant > 0 && !projectile.noEnchantments)
+				if (!projectile.melee && (int)player.meleeEnchant > 0 && !projectile.noEnchantments)
 				{
-					if ((int) player.meleeEnchant == 7) //flask of party affects all types of weapons
+					if ((int)player.meleeEnchant == 7) //flask of party affects all types of weapons
 					{
 						Vector2 velocity = projectile.velocity;
 						if ((double) velocity.Length() > 4.0)
@@ -788,18 +821,18 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
-				if (rogue && (int) player.meleeEnchant > 0 && !projectile.noEnchantments)
+				if (rogue && (int)player.meleeEnchant > 0 && !projectile.noEnchantments)
 				{
-					if ((int) player.meleeEnchant == 1 && Main.rand.Next(3) == 0)
+					if ((int)player.meleeEnchant == 1 && Main.rand.NextBool(3))
 					{
 						int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 171, 0.0f, 0.0f, 100, new Color(), 1f);
 						Main.dust[index].noGravity = true;
 						Main.dust[index].fadeIn = 1.5f;
 						Main.dust[index].velocity *= 0.25f;
 					}
-					if ((int) player.meleeEnchant == 1)
+					if ((int)player.meleeEnchant == 1)
 					{
-						if (Main.rand.Next(3) == 0)
+						if (Main.rand.NextBool(3))
 						{
 							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 171, 0.0f, 0.0f, 100, new Color(), 1f);
 							Main.dust[index].noGravity = true;
@@ -807,9 +840,9 @@ namespace CalamityMod.Projectiles
 							Main.dust[index].velocity *= 0.25f;
 						}
 					}
-					else if ((int) player.meleeEnchant == 2)
+					else if ((int)player.meleeEnchant == 2)
 					{
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 75, projectile.velocity.X * 0.2f + (float) (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 2.5f);
 							Main.dust[index].noGravity = true;
@@ -817,9 +850,9 @@ namespace CalamityMod.Projectiles
 							Main.dust[index].velocity.Y -= 0.5f;
 						}
 					}
-					else if ((int) player.meleeEnchant == 3)
+					else if ((int)player.meleeEnchant == 3)
 					{
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, projectile.velocity.X * 0.2f + (float) (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 2.5f);
 							Main.dust[index].noGravity = true;
@@ -827,9 +860,9 @@ namespace CalamityMod.Projectiles
 							Main.dust[index].velocity.Y -= 0.5f;
 						}
 					}
-					else if ((int) player.meleeEnchant == 4)
+					else if ((int)player.meleeEnchant == 4)
 					{
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 57, projectile.velocity.X * 0.2f + (float) (projectile.direction * 3), projectile.velocity.Y * 0.2f, 100, new Color(), 1.1f);
 							Main.dust[index].noGravity = true;
@@ -837,9 +870,9 @@ namespace CalamityMod.Projectiles
 							Main.dust[index].velocity.Y /= 2f;
 						}
 					}
-					else if ((int) player.meleeEnchant == 5)
+					else if ((int)player.meleeEnchant == 5)
 					{
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 169, 0.0f, 0.0f, 100, new Color(), 1f);
 							Main.dust[index].velocity.X += (float) projectile.direction;
@@ -847,9 +880,9 @@ namespace CalamityMod.Projectiles
 							Main.dust[index].noGravity = true;
 						}
 					}
-					else if ((int) player.meleeEnchant == 6)
+					else if ((int)player.meleeEnchant == 6)
 					{
-						if (Main.rand.Next(2) == 0)
+						if (Main.rand.NextBool(2))
 						{
 							int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 135, 0.0f, 0.0f, 100, new Color(), 1f);
 							Main.dust[index].velocity.X += (float) projectile.direction;
@@ -857,7 +890,7 @@ namespace CalamityMod.Projectiles
 							Main.dust[index].noGravity = true;
 						}
 					}
-					else if ((int) player.meleeEnchant == 8 && Main.rand.Next(4) == 0)
+					else if ((int)player.meleeEnchant == 8 && Main.rand.NextBool(4))
 					{
 						int index = Dust.NewDust(projectile.position, projectile.width, projectile.height, 46, 0.0f, 0.0f, 100, new Color(), 1f);
 						Main.dust[index].noGravity = true;
@@ -1077,7 +1110,7 @@ namespace CalamityMod.Projectiles
                         newDamage = (int)((projectile.damage * 0.25 - 30) * 0.1) + 30;
                     }
                     int plague = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueSeeker>(), newDamage, 0f, projectile.owner, 0f, 0f);
-                    Main.projectile[plague].melee = false;
+                    Main.projectile[plague].Calamity().forceTypeless = false;
                 }
 
                 if (modPlayer.reaverBlast && projectile.melee)
@@ -1449,6 +1482,20 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
+					if (modPlayer.forbiddenCirclet && stealthStrike && modPlayer.forbiddenCooldown <= 0)
+					{
+						for (int index2 = 0; index2 < 6; index2++)
+						{
+							float xVector = (float)Main.rand.Next(-35, 36) * 0.02f;
+							float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
+							xVector *= 10f;
+							yVector *= 10f;
+                            int dmg = (int)(75 + (projectile.damage * 0.05f));
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<ForbiddenCircletEater>(), dmg, projectile.knockBack, projectile.owner, 0f, 0f);
+                            modPlayer.forbiddenCooldown = 15;
+						}
+					}
+
 					if (modPlayer.corrosiveSpine && projectile.type != ModContent.ProjectileType<Corrocloud1>() && projectile.type != ModContent.ProjectileType<Corrocloud2>() && projectile.type != ModContent.ProjectileType<Corrocloud3>())
 					{
 						for (int i = 0; i < 3; i++)
@@ -1539,48 +1586,51 @@ namespace CalamityMod.Projectiles
 					};
 					if (summonExceptionList.TrueForAll(x => projectile.type != x))
 					{
-						if (modPlayer.nucleogenesis)
+						if (modPlayer.jellyDmg <= 0)
 						{
-							if (Main.rand.NextBool(4))
+							if (modPlayer.nucleogenesis)
 							{
-								int newDamage = (int)(projectile.damage * 0.25);
-								if (newDamage > 100)
+								if (Main.rand.NextBool(4))
 								{
-									newDamage = (int)((projectile.damage * 0.25 - 100) * 0.1) + 100;
+									int newDamage = (int)(projectile.damage * 0.25);
+									if (newDamage > 100)
+									{
+										newDamage = (int)((projectile.damage * 0.25 - 100) * 0.1) + 100;
+									}
+									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ApparatusExplosion>(), newDamage, projectile.knockBack * 0.25f, projectile.owner);
+									modPlayer.jellyDmg = 20f;
 								}
-								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ApparatusExplosion>(), newDamage, projectile.knockBack * 0.25f, projectile.owner);
 							}
-						}
-						else if (modPlayer.starbusterCore)
-						{
-							if (Main.rand.NextBool(3))
+							else if (modPlayer.starbusterCore)
 							{
-								int cap = modPlayer.starTaintedGenerator ? 75 : 60;
-								int newDamage = (int)(projectile.damage * 0.5);
-								if (newDamage > cap)
+								if (Main.rand.NextBool(3))
 								{
-									newDamage = (int)((projectile.damage * 0.5 - cap) * 0.1) + cap;
+									int cap = modPlayer.starTaintedGenerator ? 75 : 60;
+									int newDamage = (int)(projectile.damage * 0.5);
+									if (newDamage > cap)
+									{
+										newDamage = (int)((projectile.damage * 0.5 - cap) * 0.1) + cap;
+									}
+									int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
+										newDamage, 3f, projectile.owner);
+									modPlayer.jellyDmg = 20f;
 								}
-								int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
-									newDamage, 3f, projectile.owner);
 							}
-						}
-						else if (modPlayer.nuclearRod)
-						{
-							if (Main.rand.NextBool(3))
+							else if (modPlayer.nuclearRod)
 							{
-								int newDamage = (int)(projectile.damage * 0.25);
-								if (newDamage > 40)
+								if (Main.rand.NextBool(3))
 								{
-									newDamage = (int)((projectile.damage * 0.25 - 40) * 0.1) + 40;
+									int newDamage = (int)(projectile.damage * 0.25);
+									if (newDamage > 40)
+									{
+										newDamage = (int)((projectile.damage * 0.25 - 40) * 0.1) + 40;
+									}
+									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(),
+										newDamage, 0f, projectile.owner);
+									modPlayer.jellyDmg = 20f;
 								}
-								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(),
-									newDamage, 0f, projectile.owner);
 							}
-						}
-						else if (modPlayer.jellyChargedBattery)
-						{
-							if (modPlayer.jellyDmg <= 0)
+							else if (modPlayer.jellyChargedBattery)
 							{
 								SpawnOrb(projectile, 1.05f, ModContent.ProjectileType<EnergyOrb>(), 800f, 15f);
 								int num = (int)(projectile.damage * 0.5f);

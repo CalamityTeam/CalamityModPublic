@@ -55,7 +55,6 @@ namespace CalamityMod.Items
         #endregion
 
         public bool rogue = false;
-        public bool trueMelee = false;
 
         public int timesUsed = 0;
 
@@ -184,30 +183,6 @@ namespace CalamityMod.Items
 			}
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
-
-            switch (item.type)
-            {
-                case ItemID.Spear:
-                case ItemID.TheRottedFork:
-                case ItemID.Swordfish:
-                case ItemID.Arkhalis:
-                case ItemID.DarkLance:
-                case ItemID.CobaltNaginata:
-                case ItemID.PalladiumPike:
-                case ItemID.MythrilHalberd:
-                case ItemID.OrichalcumHalberd:
-                case ItemID.AdamantiteGlaive:
-                case ItemID.TitaniumTrident:
-                case ItemID.Gungnir:
-                case ItemID.ObsidianSwordfish:
-                case ItemID.MonkStaffT3:
-                case ItemID.MonkStaffT2:
-                case ItemID.MonkStaffT1:
-                    trueMelee = true;
-                    break;
-                default:
-                    break;
-            }
         }
         #endregion
 
@@ -1532,14 +1507,17 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
             {
-                foreach (TooltipLine line2 in tooltips)
-                {
-                    if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-                    {
-                        line2.text = "Set Bonus: Double tap " + (Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN") + " to call an ancient storm to the cursor location\n" +
-							"Minions deal full damage while wielding weaponry";
-                    }
-                }
+				if (!Main.player[Main.myPlayer].Calamity().forbiddenCirclet)
+				{
+					foreach (TooltipLine line2 in tooltips)
+					{
+						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
+						{
+							line2.text = "Set Bonus: Double tap " + (Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN") + " to call an ancient storm to the cursor location\n" +
+								"Minions deal full damage while wielding magic weapons";
+						}
+					}
+				}
             }
             if (item.type == ItemID.GladiatorHelmet)
             {
