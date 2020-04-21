@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Neck)]
     public class AbyssalAmulet : ModItem
     {
         public override void SetStaticDefaults()
