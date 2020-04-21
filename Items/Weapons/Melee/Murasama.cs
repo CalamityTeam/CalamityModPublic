@@ -1,11 +1,16 @@
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Melee
 {
     public class Murasama : ModItem
     {
+        private int frameCounter = 0;
+        private int frame = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Murasama");
@@ -16,7 +21,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 72;
+            item.height = 128;
+            item.width = 56;
             item.damage = 999;
             item.crit += 30;
             item.melee = true;
@@ -28,12 +34,44 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 5;
             item.knockBack = 6.5f;
             item.autoReuse = false;
-            item.height = 78;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<MurasamaProj>();
             item.shootSpeed = 24f;
             item.Calamity().customRarity = CalamityRarity.Violet;
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 14));
+        }
+
+        private Rectangle getCurrentFrame()
+        {
+            //0 = 6 frames, 8 = 3 frames]
+            int applicableCounter = frame == 0 ? 36 : frame == 8 ? 24 : 6;
+            
+            if (frameCounter >= applicableCounter)
+            {
+                frameCounter = -1;
+                frame = frame == 13 ? 0 : frame + 1;
+            }
+
+            if (!Main.gamePaused)
+            {
+                frameCounter++;
+            }
+            return new Rectangle(0, item.height * frame, item.width, item.height);
+        }
+
+        public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            Texture2D tex = ModContent.GetTexture(Texture);
+            spriteBatch.Draw(tex, position, getCurrentFrame(), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+            return false;
+        }
+
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            Texture2D tex = ModContent.GetTexture(Texture);
+            spriteBatch.Draw(tex, item.position - Main.screenPosition + new Vector2(), getCurrentFrame(), Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0);
+            return false;
         }
 
         public override bool CanUseItem(Player player)
@@ -41,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Melee
             return CalamityWorld.downedYharon || player.name == "Sam" || player.name == "Samuel Rodrigues";
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             return false;
