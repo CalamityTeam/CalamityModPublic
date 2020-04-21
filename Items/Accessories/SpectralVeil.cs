@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("The inside of the cloak is full of teeth...\n" +
                 "TOOLTIP LINE HERE\n" +
 				"Teleportation is disabled while Chaos State is active\n" +
-                "If you dodge something while invulnerable, you instantly gain full stealth");
+                "If you dodge something while invulnerable, you instantly gain full stealth\n" +
+				"Revengeance drop");
         }
 
         public override void SetDefaults()
