@@ -2449,10 +2449,14 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.ArmsDealer:
-                        switch (Main.rand.Next(25)) // 24 arms dealer names
+                        switch (Main.rand.Next(26)) // 24 arms dealer names
                         {
                             case 0:
                                 npc.GivenName = "Drifter";
+                                break;
+
+                            case 1:
+                                npc.GivenName = "Finchi"; 
                                 break;
 
                             default:
