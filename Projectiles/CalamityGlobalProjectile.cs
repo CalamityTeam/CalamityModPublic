@@ -1553,48 +1553,51 @@ namespace CalamityMod.Projectiles
 					};
 					if (summonExceptionList.TrueForAll(x => projectile.type != x))
 					{
-						if (modPlayer.nucleogenesis)
+						if (modPlayer.jellyDmg <= 0)
 						{
-							if (Main.rand.NextBool(4))
+							if (modPlayer.nucleogenesis)
 							{
-								int newDamage = (int)(projectile.damage * 0.25);
-								if (newDamage > 100)
+								if (Main.rand.NextBool(4))
 								{
-									newDamage = (int)((projectile.damage * 0.25 - 100) * 0.1) + 100;
+									int newDamage = (int)(projectile.damage * 0.25);
+									if (newDamage > 100)
+									{
+										newDamage = (int)((projectile.damage * 0.25 - 100) * 0.1) + 100;
+									}
+									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ApparatusExplosion>(), newDamage, projectile.knockBack * 0.25f, projectile.owner);
+									modPlayer.jellyDmg = 20f;
 								}
-								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ApparatusExplosion>(), newDamage, projectile.knockBack * 0.25f, projectile.owner);
 							}
-						}
-						else if (modPlayer.starbusterCore)
-						{
-							if (Main.rand.NextBool(3))
+							else if (modPlayer.starbusterCore)
 							{
-								int cap = modPlayer.starTaintedGenerator ? 75 : 60;
-								int newDamage = (int)(projectile.damage * 0.5);
-								if (newDamage > cap)
+								if (Main.rand.NextBool(3))
 								{
-									newDamage = (int)((projectile.damage * 0.5 - cap) * 0.1) + cap;
+									int cap = modPlayer.starTaintedGenerator ? 75 : 60;
+									int newDamage = (int)(projectile.damage * 0.5);
+									if (newDamage > cap)
+									{
+										newDamage = (int)((projectile.damage * 0.5 - cap) * 0.1) + cap;
+									}
+									int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
+										newDamage, 3f, projectile.owner);
+									modPlayer.jellyDmg = 20f;
 								}
-								int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
-									newDamage, 3f, projectile.owner);
 							}
-						}
-						else if (modPlayer.nuclearRod)
-						{
-							if (Main.rand.NextBool(3))
+							else if (modPlayer.nuclearRod)
 							{
-								int newDamage = (int)(projectile.damage * 0.25);
-								if (newDamage > 40)
+								if (Main.rand.NextBool(3))
 								{
-									newDamage = (int)((projectile.damage * 0.25 - 40) * 0.1) + 40;
+									int newDamage = (int)(projectile.damage * 0.25);
+									if (newDamage > 40)
+									{
+										newDamage = (int)((projectile.damage * 0.25 - 40) * 0.1) + 40;
+									}
+									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(),
+										newDamage, 0f, projectile.owner);
+									modPlayer.jellyDmg = 20f;
 								}
-								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(),
-									newDamage, 0f, projectile.owner);
 							}
-						}
-						else if (modPlayer.jellyChargedBattery)
-						{
-							if (modPlayer.jellyDmg <= 0)
+							else if (modPlayer.jellyChargedBattery)
 							{
 								SpawnOrb(projectile, 1.05f, ModContent.ProjectileType<EnergyOrb>(), 800f, 15f);
 								int num = (int)(projectile.damage * 0.5f);

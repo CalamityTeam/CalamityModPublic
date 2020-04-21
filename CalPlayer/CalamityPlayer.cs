@@ -11,6 +11,7 @@ using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -242,6 +243,8 @@ namespace CalamityMod.CalPlayer
         public bool leviPet = false;
         public bool plaguebringerBab = false;
         public bool rotomPet = false;
+        public bool ladShark = false;
+        public int ladHearts = 0;
         public bool sparks = false;
         public bool sirenPet = false;
         public bool fox = false;
@@ -1255,6 +1258,7 @@ namespace CalamityMod.CalPlayer
             leviPet = false;
             plaguebringerBab = false;
             rotomPet = false;
+            ladShark = false;
             sparks = false;
             sirenPet = false;
             fox = false;
@@ -1861,6 +1865,7 @@ namespace CalamityMod.CalPlayer
 			doubledHorror = false;
 			sulphurBubbleCooldown = 0;
 			forbiddenCooldown = 0;
+			ladHearts = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -2353,6 +2358,8 @@ namespace CalamityMod.CalPlayer
 
             if (!mediumcoreDeath)
             {
+				if (player.name == "Aleksh" || player.name == "Shark Lad")
+					items.Add(createItem(ModContent.ItemType<JoyfulHeart>()));
                 items.Add(createItem(ModContent.ItemType<StarterBag>()));
                 items.Add(createItem(ModContent.ItemType<Revenge>()));
                 items.Add(createItem(ModContent.ItemType<IronHeart>()));
@@ -9080,7 +9087,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-			if (cadence && !player.loveStruck)
+			if ((cadence || ladHearts > 0) && !player.loveStruck)
 			{
 				if (Main.rand.NextBool(5) && drawInfo.shadow == 0f)
 				{

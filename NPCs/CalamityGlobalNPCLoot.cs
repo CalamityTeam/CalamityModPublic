@@ -1482,6 +1482,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Shark:
                     DropHelper.DropItemChance(npc, ItemID.SharkToothNecklace, Main.expertMode ? 20 : 30);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<JoyfulHeart>(), Main.expertMode ? 20 : 30);
                     break;
 
                 case NPCID.PresentMimic:

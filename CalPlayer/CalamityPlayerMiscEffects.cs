@@ -914,6 +914,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.sulphurBubbleCooldown--;
 			if (modPlayer.forbiddenCooldown > 0)
 				modPlayer.forbiddenCooldown--;
+			if (modPlayer.ladHearts > 0)
+				modPlayer.ladHearts--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
