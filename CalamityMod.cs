@@ -309,6 +309,7 @@ namespace CalamityMod
 
 			GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(new Color(0, 0, 0), new Color(0, 255, 171), ((float)Main.player[Main.myPlayer].Calamity().adrenaline / (float)Main.player[Main.myPlayer].Calamity().adrenalineMax))));
 			GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(new Color(0, 0, 0), new Color(255, 83, 48), ((float)Main.player[Main.myPlayer].Calamity().rage / (float)Main.player[Main.myPlayer].Calamity().rageMax))));
+			GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(new Color(0, 0, 0), new Color(139, 205, 255), ((float)Main.player[Main.myPlayer].wingTime / (float)Main.player[Main.myPlayer].wingTimeMax))));
         }
         #endregion
 
