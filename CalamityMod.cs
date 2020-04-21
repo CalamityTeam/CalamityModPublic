@@ -9,6 +9,7 @@ using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
@@ -75,6 +76,7 @@ using System.IO;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Dyes;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -304,6 +306,9 @@ namespace CalamityMod
 
             RipperUI.Reset();
             AstralArcanumUI.Load(this);
+
+			GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(new Color(0, 0, 0), new Color(0, 255, 171), ((float)Main.player[Main.myPlayer].Calamity().adrenaline / (float)Main.player[Main.myPlayer].Calamity().adrenalineMax))));
+			GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(new Color(0, 0, 0), new Color(255, 83, 48), ((float)Main.player[Main.myPlayer].Calamity().rage / (float)Main.player[Main.myPlayer].Calamity().rageMax))));
         }
         #endregion
 

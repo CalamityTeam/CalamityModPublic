@@ -10,6 +10,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
+using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Walls;
@@ -5508,6 +5509,12 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+            }
+
+            if (type == NPCID.Stylist)
+            {
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AdrenalineHairDye>(), CalamityWorld.revenge);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RageHairDye>(), CalamityWorld.revenge);
             }
 
             if (type == NPCID.Cyborg)
