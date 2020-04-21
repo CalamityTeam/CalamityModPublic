@@ -581,7 +581,7 @@ namespace CalamityMod.Items
                             player.QuickMana();
                         }
                     }
-                    if (player.statMana >= manaCost && player.Calamity().profanedSoulWeaponUsage == 0)
+                    if (player.statMana >= manaCost && player.Calamity().profanedSoulWeaponUsage == 0 && !player.silence)
                     {
                         player.manaRegenDelay = (int)player.maxRegenDelay;
                         player.statMana -= manaCost;

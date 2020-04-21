@@ -2653,7 +2653,7 @@ namespace CalamityMod.CalPlayer
                             player.QuickMana();
                         }
                     }
-                    if (player.statMana >= stormMana)
+                    if (player.statMana >= stormMana && !player.silence)
                     {
                         player.manaRegenDelay = (int)player.maxRegenDelay;
                         player.statMana -= stormMana;
