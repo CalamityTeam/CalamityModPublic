@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			if (projectile.owner == Main.myPlayer)
+			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
 			{
 				int projNumber = Main.rand.Next(1,3);
 				for (int index2 = 0; index2 < projNumber; index2++)
@@ -169,8 +169,18 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            Player player = Main.player[projectile.owner];
-            player.AddBuff(BuffID.WellFed, 180);
+			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+			{
+				int projNumber = Main.rand.Next(1,3);
+				for (int index2 = 0; index2 < projNumber; index2++)
+				{
+					float xVector = (float)Main.rand.Next(-35, 36) * 0.02f;
+					float yVector = (float)Main.rand.Next(-35, 36) * 0.02f;
+					xVector *= 10f;
+					yVector *= 10f;
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, xVector, yVector, ModContent.ProjectileType<TitaniumClone>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				}
+			}
         }
     }
 }
