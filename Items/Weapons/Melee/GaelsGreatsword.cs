@@ -178,19 +178,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 //Giant, slow, fading skull
                 case 1:
-					int largeSkullDmg = damage * 2;
-					if (CalamityWorld.downedYharon)
-					{
-						largeSkullDmg = (int)((float)damage * 1.5f);
-					}
-					else if (NPC.downedMoonlord)
-					{
-						largeSkullDmg = damage * 2;
-					}
-					else if (Main.hardMode)
-					{
-						largeSkullDmg = damage * 2;
-					}
+					int largeSkullDmg = (int)(damage * 1.5f);
                     int projectileIndex = Projectile.NewProjectile(position, new Vector2(speedX,speedY) * 0.5f, type, largeSkullDmg, knockBack, player.whoAmI, ai1:1f);
                     Main.projectile[projectileIndex].scale = 1.75f;
                     break;
