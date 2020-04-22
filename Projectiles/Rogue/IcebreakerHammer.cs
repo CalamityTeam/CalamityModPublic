@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (explosionCount < 3) //max amount of explosions to prevent worm memes
 					{
-						int ice = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+						int ice = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), (int)(projectile.damage * 1.5), projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 						Main.projectile[ice].Calamity().forceRogue = true;
 						explosionCount++;
 					}
@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
 				if (projectile.Calamity().stealthStrike)
 				{
 					//no explosion count cap in pvp
-					int ice = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+					int ice = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicIceBurst>(), (int)(projectile.damage * 1.5), projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
 					Main.projectile[ice].Calamity().forceRogue = true;
 
 					int buffType = ModContent.BuffType<GlacialState>();
