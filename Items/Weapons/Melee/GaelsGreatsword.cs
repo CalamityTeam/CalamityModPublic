@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         //Weapon attribute constants
 
-        public static readonly int BaseDamage = 4069;
+        public static readonly int BaseDamage = 3900;
 
         public static readonly float TrueMeleeBoost = 2.5f;
 
@@ -52,8 +52,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 84;
             item.damage = BaseDamage;
             item.melee = true;
-            item.useAnimation = 16;
-            item.useTime = 16;
+            item.useAnimation = 17;
+            item.useTime = 17;
             item.useTurn = true;
             item.knockBack = 9;
             item.UseSound = SoundID.Item1;
