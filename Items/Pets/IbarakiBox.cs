@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Pets
                 "And waves wash the old moss’ hair...\n" +
                 "Thank you, Goodbye.\n" +
                 "Summons the Third Sage\n" +
-                "Use the item with right click to permanently gain the Third Sage's blessing.\n" +
+                "Use the item with right click in the hotbar to toggle the Third Sage's blessing.\n" +
 				"With the blessing, the player will spawn with full health rather than half.");
         }
 
@@ -37,54 +37,35 @@ namespace CalamityMod.Items.Pets
             item.rare = 5;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                if (!player.Calamity().healToFull)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-			else
-			{
-				return true;
-			}
-        }
-
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override void UseStyle(Player player)
         {
-            if (player.altFunctionUse == 2)
+			if (player.itemAnimation == (int)(player.itemAnimationMax * 0.5) && Main.myPlayer == player.whoAmI)
 			{
-				if (!player.Calamity().healToFull)
+				if (player.altFunctionUse == 2)
 				{
-					player.Calamity().healToFull = true;
-					string key = "Mods.CalamityMod.ThirdSageBlessingText";
-					Color messageColor = Color.Violet;
-					if (Main.netMode == NetmodeID.SinglePlayer)
+					if (!player.Calamity().healToFull)
 					{
+						player.Calamity().healToFull = true;
+						string key = "Mods.CalamityMod.ThirdSageBlessingText";
+						Color messageColor = Color.Violet;
 						Main.NewText(Language.GetTextValue(key), messageColor);
 					}
-					else if (Main.netMode == NetmodeID.Server)
+					else
 					{
-						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+						player.Calamity().healToFull = false;
+						string key2 = "Mods.CalamityMod.ThirdSageBlessingText2";
+						Color messageColor2 = Color.Violet;
+						Main.NewText(Language.GetTextValue(key2), messageColor2);
 					}
 				}
-			}
-			else
-			{
-				if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
+				else
 				{
-					player.AddBuff(item.buffType, 3600, true);
+					if (player.whoAmI == Main.myPlayer && player.itemTime == 0)
+					{
+						player.AddBuff(item.buffType, 3600, true);
+					}
 				}
 			}
 		}
