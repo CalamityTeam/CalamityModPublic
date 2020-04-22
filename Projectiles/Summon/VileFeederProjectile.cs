@@ -180,9 +180,6 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override bool CanDamage()
-		{
-			return projectile.ai[0] >= 30f;
-		}
+        public override bool CanDamage() => projectile.ai[0] >= 30f;
     }
 }
