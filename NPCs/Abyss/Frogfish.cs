@@ -34,6 +34,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.knockBackResist = 0.5f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<FrogfishBanner>();
+            npc.chaseable = false;
         }
 
         public override void AI()
@@ -77,148 +78,7 @@ namespace CalamityMod.NPCs.Abyss
             if (npc.ai[2] == 1f)
             {
                 npc.chaseable = true;
-                npc.noGravity = true;
-                if (npc.direction == 0)
-                {
-                    npc.TargetClosest(true);
-                }
-                if (npc.wet)
-                {
-                    bool flag14 = false;
-                    npc.TargetClosest(false);
-                    if (Main.player[npc.target].wet && !Main.player[npc.target].dead)
-                    {
-                        flag14 = true;
-                    }
-                    if (!flag14)
-                    {
-                        if (npc.collideX)
-                        {
-                            npc.velocity.X = npc.velocity.X * -1f;
-                            npc.direction *= -1;
-                            npc.netUpdate = true;
-                        }
-                        if (npc.collideY)
-                        {
-                            npc.netUpdate = true;
-                            if (npc.velocity.Y > 0f)
-                            {
-                                npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
-                                npc.directionY = -1;
-                                npc.ai[0] = -1f;
-                            }
-                            else if (npc.velocity.Y < 0f)
-                            {
-                                npc.velocity.Y = Math.Abs(npc.velocity.Y);
-                                npc.directionY = 1;
-                                npc.ai[0] = 1f;
-                            }
-                        }
-                    }
-                    if (flag14)
-                    {
-                        npc.TargetClosest(true);
-                        npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 0.3f : 0.15f);
-                        npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 0.3f : 0.15f);
-						float velocityX = CalamityWorld.death ? 7f : 3.5f;
-						float velocityY = CalamityWorld.death ? 3f : 1.5f;
-						if (npc.velocity.X > velocityX)
-                        {
-                            npc.velocity.X = velocityX;
-                        }
-                        if (npc.velocity.X < -velocityX)
-                        {
-                            npc.velocity.X = -velocityX;
-                        }
-                        if (npc.velocity.Y > velocityY)
-                        {
-                            npc.velocity.Y = velocityY;
-                        }
-                        if (npc.velocity.Y < -velocityY)
-                        {
-                            npc.velocity.Y = -velocityY;
-                        }
-                    }
-                    else
-                    {
-                        npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.1f;
-                        if (npc.velocity.X < -1f || npc.velocity.X > 1f)
-                        {
-                            npc.velocity.X = npc.velocity.X * 0.95f;
-                        }
-                        if (npc.ai[0] == -1f)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - 0.01f;
-                            if ((double)npc.velocity.Y < -0.3)
-                            {
-                                npc.ai[0] = 1f;
-                            }
-                        }
-                        else
-                        {
-                            npc.velocity.Y = npc.velocity.Y + 0.01f;
-                            if ((double)npc.velocity.Y > 0.3)
-                            {
-                                npc.ai[0] = -1f;
-                            }
-                        }
-                    }
-                    int num258 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-                    int num259 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
-                    if (Main.tile[num258, num259 - 1] == null)
-                    {
-                        Main.tile[num258, num259 - 1] = new Tile();
-                    }
-                    if (Main.tile[num258, num259 + 1] == null)
-                    {
-                        Main.tile[num258, num259 + 1] = new Tile();
-                    }
-                    if (Main.tile[num258, num259 + 2] == null)
-                    {
-                        Main.tile[num258, num259 + 2] = new Tile();
-                    }
-                    if (Main.tile[num258, num259 - 1].liquid > 128)
-                    {
-                        if (Main.tile[num258, num259 + 1].active())
-                        {
-                            npc.ai[0] = -1f;
-                        }
-                        else if (Main.tile[num258, num259 + 2].active())
-                        {
-                            npc.ai[0] = -1f;
-                        }
-                    }
-                    if ((double)npc.velocity.Y > 0.4 || (double)npc.velocity.Y < -0.4)
-                    {
-                        npc.velocity.Y = npc.velocity.Y * 0.95f;
-                    }
-                }
-                else
-                {
-                    if (npc.velocity.Y == 0f)
-                    {
-                        npc.velocity.X = npc.velocity.X * 0.94f;
-                        if ((double)npc.velocity.X > -0.2 && (double)npc.velocity.X < 0.2)
-                        {
-                            npc.velocity.X = 0f;
-                        }
-                    }
-                    npc.velocity.Y = npc.velocity.Y + 0.2f;
-                    if (npc.velocity.Y > 5f)
-                    {
-                        npc.velocity.Y = 5f;
-                    }
-                    npc.ai[0] = 1f;
-                }
-                npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
-                if ((double)npc.rotation < -0.2)
-                {
-                    npc.rotation = -0.2f;
-                }
-                if ((double)npc.rotation > 0.2)
-                {
-                    npc.rotation = 0.2f;
-                }
+				CalamityAI.PassiveSwimmingAI(npc, mod, 0, 0f, 0.15f, 0.15f, 3.5f, 1.5f, 0.1f);
             }
         }
 

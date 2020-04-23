@@ -2,6 +2,7 @@ using CalamityMod;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -10,7 +11,9 @@ using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -6607,6 +6610,244 @@ namespace CalamityMod.NPCs
 				npc.rotation += npc.velocity.X * 0.05f;
 				npc.spriteDirection = -npc.direction;
 			}
+		}
+		#endregion
+
+		#region Swimming AI
+		public static void PassiveSwimmingAI(NPC npc, Mod mod, int passiveness, float detectRange, float xSpeed, float ySpeed, float speedLimitX, float speedLimitY, float rotation, bool spriteFacesLeft = true)
+        {
+			if (spriteFacesLeft)
+				npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
+			else
+				npc.spriteDirection = (npc.direction > 0) ? -1 : 1;
+
+            npc.noGravity = true;
+            if (npc.direction == 0)
+            {
+                npc.TargetClosest(true);
+            }
+            if (npc.justHit && passiveness != 3)
+            {
+                npc.chaseable = true;
+            }
+            if (npc.wet)
+            {
+                bool flag14 = npc.chaseable;
+                npc.TargetClosest(false);
+				if (passiveness != 2)
+				{
+					if (npc.type == ModContent.NPCType<Frogfish>())
+					{
+						if (Main.player[npc.target].wet && !Main.player[npc.target].dead)
+						{
+							flag14 = true;
+							npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
+						}
+					}
+					if (npc.type == ModContent.NPCType<Flounder>())
+					{
+						if (!Main.player[npc.target].dead)
+						{
+							flag14 = true;
+							npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
+						}
+					}
+					else if (Main.player[npc.target].wet && !Main.player[npc.target].dead &&
+						(Main.player[npc.target].Center - npc.Center).Length() < detectRange &&
+						Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+					{
+						flag14 = true;
+						npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
+					}
+					else
+					{
+						if (passiveness == 1)
+						{
+							flag14 = false;
+						}
+					}
+				}
+                if (Main.player[npc.target].dead && flag14)
+                {
+                    flag14 = false;
+                }
+                if (!flag14 || passiveness == 0)
+                {
+					if (passiveness == 0)
+						npc.TargetClosest(true);
+                    if (npc.collideX)
+                    {
+                        npc.velocity.X = npc.velocity.X * -1f;
+                        npc.direction *= -1;
+                        npc.netUpdate = true;
+                    }
+                    if (npc.collideY)
+                    {
+                        npc.netUpdate = true;
+                        if (npc.velocity.Y > 0f)
+                        {
+                            npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
+                            npc.directionY = -1;
+                            npc.ai[0] = -1f;
+                        }
+                        else if (npc.velocity.Y < 0f)
+                        {
+                            npc.velocity.Y = Math.Abs(npc.velocity.Y);
+                            npc.directionY = 1;
+                            npc.ai[0] = 1f;
+                        }
+                    }
+                }
+                if (flag14 && passiveness != 2)
+                {
+                    npc.TargetClosest(true);
+					if (passiveness == 3)
+					{
+						npc.velocity.X = npc.velocity.X - (float)npc.direction * xSpeed;
+						npc.velocity.Y = npc.velocity.Y - (float)npc.directionY * ySpeed;
+					}
+					else
+					{
+						npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 2f * xSpeed : xSpeed);
+						npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 2f * ySpeed : ySpeed);
+					}
+					float velocityCapX = CalamityWorld.death && passiveness != 3 ? 2f * speedLimitX : speedLimitX;
+					float velocityCapY = CalamityWorld.death && passiveness != 3 ? 2f * speedLimitY : speedLimitY;
+                    npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -velocityCapX, velocityCapX);
+                    npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -velocityCapY, velocityCapY);
+					if (npc.type == ModContent.NPCType<Laserfish>())
+					{
+						npc.localAI[0] += (CalamityWorld.death ? 2f : 1f);
+						if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 120f)
+						{
+							npc.localAI[0] = 0f;
+							if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+							{
+								float speed = 5f;
+								Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+								float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
+								float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-20, 21);
+								float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
+								num8 = speed / num8;
+								num6 *= num8;
+								num7 *= num8;
+								int damage = 40;
+								if (Main.expertMode)
+								{
+									damage = 30;
+								}
+								int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 25f : -25f), npc.Center.Y + (Main.player[npc.target].position.Y > npc.Center.Y ? 5f : -5f), num6, num7, ProjectileID.EyeBeam, damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[beam].tileCollide = true;
+							}
+						}
+					}
+					if (npc.type == ModContent.NPCType<Flounder>())
+					{
+                        if ((Main.player[npc.target].Center - npc.Center).Length() < 350f)
+                        {
+                            npc.localAI[0] += (CalamityWorld.death ? 3f : 1f);
+                            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 180f)
+                            {
+                                npc.localAI[0] = 0f;
+                                if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                                {
+                                    float speed = 4f;
+                                    Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+                                    float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
+                                    float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-20, 21);
+                                    float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
+                                    num8 = speed / num8;
+                                    num6 *= num8;
+                                    num7 *= num8;
+                                    int damage = 25;
+                                    if (Main.expertMode)
+                                    {
+                                        damage = 19;
+                                    }
+                                    int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 10f : -10f), npc.Center.Y, num6, num7, ModContent.ProjectileType<SulphuricAcidMist>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                                }
+                            }
+                        }
+					}
+					if (npc.type == ModContent.NPCType<SeaMinnow>())
+					{
+						npc.direction *= -1;
+					}
+                }
+                else
+                {
+                    npc.velocity.X += (float)npc.direction * 0.1f;
+                    if (npc.velocity.X < -2.5f || npc.velocity.X > 2.5f)
+                    {
+                        npc.velocity.X *= 0.95f;
+                    }
+                    if (npc.ai[0] == -1f)
+                    {
+                        npc.velocity.Y -= 0.01f;
+                        if (npc.velocity.Y < -0.3f)
+                        {
+                            npc.ai[0] = 1f;
+                        }
+                    }
+                    else
+                    {
+                        npc.velocity.Y += 0.01f;
+                        if (npc.velocity.Y > 0.3f)
+                        {
+                            npc.ai[0] = -1f;
+                        }
+                    }
+                }
+                int num258 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+                int num259 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+                if (Main.tile[num258, num259 - 1] == null)
+                {
+                    Main.tile[num258, num259 - 1] = new Tile();
+                }
+                if (Main.tile[num258, num259 + 1] == null)
+                {
+                    Main.tile[num258, num259 + 1] = new Tile();
+                }
+                if (Main.tile[num258, num259 + 2] == null)
+                {
+                    Main.tile[num258, num259 + 2] = new Tile();
+                }
+                if (Main.tile[num258, num259 - 1].liquid > 128)
+                {
+                    if (Main.tile[num258, num259 + 1].active())
+                    {
+                        npc.ai[0] = -1f;
+                    }
+                    else if (Main.tile[num258, num259 + 2].active())
+                    {
+                        npc.ai[0] = -1f;
+                    }
+                }
+                if (npc.velocity.Y > 0.4f || npc.velocity.Y < -0.4f)
+                {
+                    npc.velocity.Y = npc.velocity.Y * 0.95f;
+                }
+            }
+            else
+            {
+                if (npc.velocity.Y == 0f)
+                {
+                    npc.velocity.X = npc.velocity.X * 0.94f;
+                    if (npc.velocity.X > -0.2f && npc.velocity.X < 0.2f)
+                    {
+                        npc.velocity.X = 0f;
+                    }
+                }
+                npc.velocity.Y = npc.velocity.Y + 0.4f;
+                if (npc.velocity.Y > 12f)
+                {
+                    npc.velocity.Y = 12f;
+                }
+                npc.ai[0] = 1f;
+            }
+            npc.rotation = npc.velocity.Y * (float)npc.direction * rotation;
+			float rotationLimit = 2f * rotation;
+			npc.rotation = MathHelper.Clamp(npc.rotation, -rotationLimit, rotationLimit);
 		}
 		#endregion
 	}

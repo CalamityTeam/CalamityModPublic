@@ -16,8 +16,6 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class ToxicMinnow : ModNPC
     {
-        private bool hasBeenHit = false;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Toxic Minnow");
@@ -41,141 +39,29 @@ namespace CalamityMod.NPCs.Abyss
             npc.knockBackResist = 0.15f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<ToxicMinnowBanner>();
+            npc.chaseable = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(hasBeenHit);
             writer.Write(npc.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            hasBeenHit = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
         }
 
         public override void AI()
         {
-            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
-            if (npc.justHit)
-            {
-                hasBeenHit = true;
-            }
-            npc.chaseable = hasBeenHit;
-            if (npc.direction == 0)
-            {
-                npc.TargetClosest(true);
-            }
-            if (npc.wet)
-            {
-                npc.TargetClosest(false);
-                if (npc.collideX)
-                {
-                    npc.velocity.X = npc.velocity.X * -1f;
-                    npc.direction *= -1;
-                    npc.netUpdate = true;
-                }
-                if (npc.collideY)
-                {
-                    npc.netUpdate = true;
-                    if (npc.velocity.Y > 0f)
-                    {
-                        npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
-                        npc.directionY = -1;
-                        npc.ai[0] = -1f;
-                    }
-                    else if (npc.velocity.Y < 0f)
-                    {
-                        npc.velocity.Y = Math.Abs(npc.velocity.Y);
-                        npc.directionY = 1;
-                        npc.ai[0] = 1f;
-                    }
-                }
-                npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.1f;
-                if (npc.velocity.X < -0.2f || npc.velocity.X > 0.2f)
-                {
-                    npc.velocity.X = npc.velocity.X * 0.95f;
-                }
-                if (npc.ai[0] == -1f)
-                {
-                    npc.velocity.Y = npc.velocity.Y - 0.01f;
-                    if ((double)npc.velocity.Y < -0.3)
-                    {
-                        npc.ai[0] = 1f;
-                    }
-                }
-                else
-                {
-                    npc.velocity.Y = npc.velocity.Y + 0.01f;
-                    if ((double)npc.velocity.Y > 0.3)
-                    {
-                        npc.ai[0] = -1f;
-                    }
-                }
-                int num258 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-                int num259 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
-                if (Main.tile[num258, num259 - 1] == null)
-                {
-                    Main.tile[num258, num259 - 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 1] == null)
-                {
-                    Main.tile[num258, num259 + 1] = new Tile();
-                }
-                if (Main.tile[num258, num259 + 2] == null)
-                {
-                    Main.tile[num258, num259 + 2] = new Tile();
-                }
-                if (Main.tile[num258, num259 - 1].liquid > 128)
-                {
-                    if (Main.tile[num258, num259 + 1].active())
-                    {
-                        npc.ai[0] = -1f;
-                    }
-                    else if (Main.tile[num258, num259 + 2].active())
-                    {
-                        npc.ai[0] = -1f;
-                    }
-                }
-                if ((double)npc.velocity.Y > 0.4 || (double)npc.velocity.Y < -0.4)
-                {
-                    npc.velocity.Y = npc.velocity.Y * 0.95f;
-                }
-            }
-            else
-            {
-                if (npc.velocity.Y == 0f)
-                {
-                    npc.velocity.X = npc.velocity.X * 0.94f;
-                    if ((double)npc.velocity.X > -0.2 && (double)npc.velocity.X < 0.2)
-                    {
-                        npc.velocity.X = 0f;
-                    }
-                }
-                npc.velocity.Y = npc.velocity.Y + 0.3f;
-                if (npc.velocity.Y > 3f)
-                {
-                    npc.velocity.Y = 3f;
-                }
-                npc.ai[0] = 1f;
-            }
-            npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
-            if ((double)npc.rotation < -0.2)
-            {
-                npc.rotation = -0.2f;
-            }
-            if ((double)npc.rotation > 0.2)
-            {
-                npc.rotation = 0.2f;
-            }
+			CalamityAI.PassiveSwimmingAI(npc, mod, 2, 0f, 0f, 0f, 0f, 0f, 0.1f);
         }
 
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
             {
-                return hasBeenHit;
+                return npc.chaseable;
             }
             return null;
         }
