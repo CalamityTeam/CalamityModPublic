@@ -6124,9 +6124,9 @@ namespace CalamityMod.NPCs
             {
                 npc.netUpdate = true;
             }
-            Vector2 vector19 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float xDist = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector19.X;
-            float yDist = Main.player[npc.target].position.Y - vector19.Y;
+            Vector2 npcPos = new Vector2(npc.Center.X, npc.Center.Y);
+            float xDist = Main.player[npc.target].Center.X - npcPos.X;
+            float yDist = Main.player[npc.target].Center.Y - npcPos.Y;
             float targetDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
             if (targetDist < 200f && !flag30)
             {
@@ -6202,46 +6202,46 @@ namespace CalamityMod.NPCs
                 }
                 Vector2 position = npc.position;
                 position.X += npc.velocity.X;
-                int num10 = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num9)) / 16f);
-                int num11 = (int)((position.Y + (float)npc.height - 1f) / 16f);
-                if (Main.tile[num10, num11] == null)
+                int x = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num9)) / 16f);
+                int y = (int)((position.Y + (float)npc.height - 1f) / 16f);
+                if (Main.tile[x, y] == null)
                 {
-                    Main.tile[num10, num11] = new Tile();
+                    Main.tile[x, y] = new Tile();
                 }
-                if (Main.tile[num10, num11 - 1] == null)
+                if (Main.tile[x, y - 1] == null)
                 {
-                    Main.tile[num10, num11 - 1] = new Tile();
+                    Main.tile[x, y - 1] = new Tile();
                 }
-                if (Main.tile[num10, num11 - 2] == null)
+                if (Main.tile[x, y - 2] == null)
                 {
-                    Main.tile[num10, num11 - 2] = new Tile();
+                    Main.tile[x, y - 2] = new Tile();
                 }
-                if (Main.tile[num10, num11 - 3] == null)
+                if (Main.tile[x, y - 3] == null)
                 {
-                    Main.tile[num10, num11 - 3] = new Tile();
+                    Main.tile[x, y - 3] = new Tile();
                 }
-                if (Main.tile[num10, num11 + 1] == null)
+                if (Main.tile[x, y + 1] == null)
                 {
-                    Main.tile[num10, num11 + 1] = new Tile();
+                    Main.tile[x, y + 1] = new Tile();
                 }
-                if ((float)(num10 * 16) < position.X + (float)npc.width && (float)(num10 * 16 + 16) > position.X && ((Main.tile[num10, num11].nactive() && !Main.tile[num10, num11].topSlope() && !Main.tile[num10, num11 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num10, num11].type] && !Main.tileSolidTop[(int)Main.tile[num10, num11].type]) || (Main.tile[num10, num11 - 1].halfBrick() && Main.tile[num10, num11 - 1].nactive())) && (!Main.tile[num10, num11 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 1].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 1].type] || (Main.tile[num10, num11 - 1].halfBrick() && (!Main.tile[num10, num11 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 4].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 4].type]))) && (!Main.tile[num10, num11 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 2].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 2].type]) && (!Main.tile[num10, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 3].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 3].type]) && (!Main.tile[num10 - num9, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10 - num9, num11 - 3].type]))
+                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].nactive() && !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() && Main.tileSolid[(int)Main.tile[x, y].type] && !Main.tileSolidTop[(int)Main.tile[x, y].type]) || (Main.tile[x, y - 1].halfBrick() && Main.tile[x, y - 1].nactive())) && (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 1].type] || Main.tileSolidTop[(int)Main.tile[x, y - 1].type] || (Main.tile[x, y - 1].halfBrick() && (!Main.tile[x, y - 4].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 4].type] || Main.tileSolidTop[(int)Main.tile[x, y - 4].type]))) && (!Main.tile[x, y - 2].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 2].type] || Main.tileSolidTop[(int)Main.tile[x, y - 2].type]) && (!Main.tile[x, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 3].type] || Main.tileSolidTop[(int)Main.tile[x, y - 3].type]) && (!Main.tile[x - num9, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x - num9, y - 3].type]))
                 {
-                    float num12 = (float)(num11 * 16);
-                    if (Main.tile[num10, num11].halfBrick())
+                    float npcBottom = (float)(y * 16);
+                    if (Main.tile[x, y].halfBrick())
                     {
-                        num12 += 8f;
+                        npcBottom += 8f;
                     }
-                    if (Main.tile[num10, num11 - 1].halfBrick())
+                    if (Main.tile[x, y - 1].halfBrick())
                     {
-                        num12 -= 8f;
+                        npcBottom -= 8f;
                     }
-                    if (num12 < position.Y + (float)npc.height)
+                    if (npcBottom < position.Y + (float)npc.height)
                     {
-                        float num13 = position.Y + (float)npc.height - num12;
-                        if ((double)num13 <= 16.1)
+                        float num13 = position.Y + (float)npc.height - npcBottom;
+                        if (num13 <= 16.1f)
                         {
-                            npc.gfxOffY += npc.position.Y + (float)npc.height - num12;
-                            npc.position.Y = num12 - (float)npc.height;
+                            npc.gfxOffY += npc.position.Y + (float)npc.height - npcBottom;
+                            npc.position.Y = npcBottom - (float)npc.height;
                             if (num13 < 9f)
                             {
                                 npc.stepSpeed = 1f;
@@ -6261,21 +6261,21 @@ namespace CalamityMod.NPCs
 		public static void DungeonSpiritAI(NPC npc, Mod mod, float speed, float rotation, bool lantern = false)
         {
             npc.TargetClosest(true);
-            Vector2 vector145 = new Vector2(npc.Center.X, npc.Center.Y);
-            float num1258 = Main.player[npc.target].Center.X - vector145.X;
-            float num1259 = Main.player[npc.target].Center.Y - vector145.Y;
-            float num1260 = (float)Math.Sqrt((double)(num1258 * num1258 + num1259 * num1259));
-            float num1261 = speed;
+            Vector2 npcPos = new Vector2(npc.Center.X, npc.Center.Y);
+            float xDist = Main.player[npc.target].Center.X - npcPos.X;
+            float yDist = Main.player[npc.target].Center.Y - npcPos.Y;
+            float targetDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
+            float homingSpeed = speed;
 
 			if (lantern)
 			{
 				if (npc.localAI[0] < 85f)
 				{
-					num1261 = 0.1f;
-					num1260 = num1261 / num1260;
-					num1258 *= num1260;
-					num1259 *= num1260;
-					npc.velocity = (npc.velocity * 100f + new Vector2(num1258, num1259)) / 101f;
+					homingSpeed = 0.1f;
+					targetDist = homingSpeed / targetDist;
+					xDist *= targetDist;
+					yDist *= targetDist;
+					npc.velocity = (npc.velocity * 100f + new Vector2(xDist, yDist)) / 101f;
 					npc.localAI[0] += 1f;
 					return;
 				}
@@ -6284,11 +6284,11 @@ namespace CalamityMod.NPCs
 				npc.chaseable = true;
 			}
 
-            num1260 = num1261 / num1260;
-            num1258 *= num1260;
-            num1259 *= num1260;
-            npc.velocity.X = (npc.velocity.X * 100f + num1258) / 101f;
-            npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
+            targetDist = homingSpeed / targetDist;
+            xDist *= targetDist;
+            yDist *= targetDist;
+            npc.velocity.X = (npc.velocity.X * 100f + xDist) / 101f;
+            npc.velocity.Y = (npc.velocity.Y * 100f + yDist) / 101f;
 
 			if (lantern)
 			{
@@ -6296,8 +6296,60 @@ namespace CalamityMod.NPCs
 				npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 			}
 			else
-				npc.rotation = (float)Math.Atan2((double)num1259, (double)num1258) + rotation;
+				npc.rotation = (float)Math.Atan2((double)yDist, (double)xDist) + rotation;
         }
+		#endregion
+
+		#region Cryocore AI
+		public static void CryocoreAI(NPC npc, Mod mod, float speed, bool rotate = false)
+        {
+            npc.TargetClosest(true);
+            float homingSpeed = speed;
+            Vector2 npcPos = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
+            float xDist = Main.player[npc.target].Center.X - npcPos.X;
+            float yDist = Main.player[npc.target].Center.Y - npcPos.Y;
+            float targetDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
+            targetDist = homingSpeed / targetDist;
+            xDist *= targetDist;
+            yDist *= targetDist;
+            npc.ai[0] -= 1f;
+            if (targetDist < 200f || npc.ai[0] > 0f)
+            {
+                if (targetDist < 200f)
+                {
+                    npc.ai[0] = 20f;
+                }
+                if (npc.velocity.X < 0f)
+                {
+                    npc.direction = -1;
+                }
+                else
+                {
+                    npc.direction = 1;
+                }
+				if (rotate)
+				{
+					npc.rotation += (float)npc.direction * 0.3f;
+				}
+                return;
+            }
+            npc.velocity.X = (npc.velocity.X * 50f + xDist) / 51f;
+            npc.velocity.Y = (npc.velocity.Y * 50f + yDist) / 51f;
+            if (targetDist < 350f)
+            {
+                npc.velocity.X = (npc.velocity.X * 10f + xDist) / 11f;
+                npc.velocity.Y = (npc.velocity.Y * 10f + yDist) / 11f;
+            }
+            if (targetDist < 300f)
+            {
+                npc.velocity.X = (npc.velocity.X * 7f + xDist) / 8f;
+                npc.velocity.Y = (npc.velocity.Y * 7f + yDist) / 8f;
+            }
+			if (rotate)
+			{
+				npc.rotation = npc.velocity.X * 0.15f;
+			}
+		}
 		#endregion
 	}
 }

@@ -47,50 +47,12 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge;
             Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.02f, 0.5f, 0.5f);
-            npc.TargetClosest(true);
-            float num1372 = revenge ? 12f : 11f;
+            bool revenge = CalamityWorld.revenge;
+            float speed = revenge ? 12f : 11f;
             if (CalamityWorld.bossRushActive)
-                num1372 = 24f;
-            Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
-            float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
-            float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
-            float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
-            float num1376 = num1372 / num1375;
-            num1373 *= num1376;
-            num1374 *= num1376;
-            npc.ai[0] -= 1f;
-            if (num1375 < 200f || npc.ai[0] > 0f)
-            {
-                if (num1375 < 200f)
-                {
-                    npc.ai[0] = 20f;
-                }
-                if (npc.velocity.X < 0f)
-                {
-                    npc.direction = -1;
-                }
-                else
-                {
-                    npc.direction = 1;
-                }
-                npc.rotation += (float)npc.direction * 0.3f;
-                return;
-            }
-            npc.velocity.X = (npc.velocity.X * 50f + num1373) / 51f;
-            npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
-            if (num1375 < 350f)
-            {
-                npc.velocity.X = (npc.velocity.X * 10f + num1373) / 11f;
-                npc.velocity.Y = (npc.velocity.Y * 10f + num1374) / 11f;
-            }
-            if (num1375 < 300f)
-            {
-                npc.velocity.X = (npc.velocity.X * 7f + num1373) / 8f;
-                npc.velocity.Y = (npc.velocity.Y * 7f + num1374) / 8f;
-            }
-            npc.rotation = npc.velocity.X * 0.15f;
+                speed = 24f;
+            CalamityAI.CryocoreAI(npc, mod, speed, true);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
