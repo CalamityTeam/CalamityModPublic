@@ -32,6 +32,7 @@ using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
