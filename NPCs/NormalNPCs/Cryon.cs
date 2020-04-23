@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, false);
+            CalamityAI.UnicornAI(npc, mod, false, 4f, 5f, 0.1f);
         }
 
         public override void FindFrame(int frameHeight)

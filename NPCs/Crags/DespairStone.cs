@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Crags
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, true, 1);
+            CalamityAI.UnicornAI(npc, mod, true, 4f, 5f, 0.2f);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

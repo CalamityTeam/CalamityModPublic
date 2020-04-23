@@ -10,6 +10,7 @@ using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SulphurousSea;
@@ -6306,11 +6307,11 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Unicorn AI
-		/// npcType 0 is default, 1 = Despair stone, 2 = Bohldohr, 3 = Angry Dog P2, 4 = Angry Dog P1
-		public static void UnicornAI(NPC npc, Mod mod, bool spin, int npcType = 0)
+		public static void UnicornAI(NPC npc, Mod mod, bool spin, float bounciness, float speedDetect, float speedAdditive, float bouncy1 = -8.5f, float bouncy2 = -7.5f, float bouncy3 = -7f, float bouncy4 = -6f, float bouncy5 = -8f)
         {
+            bool DogPhase1 = npc.type == ModContent.NPCType<AngryDog>() && (double)npc.life > (double)npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
+            bool DogPhase2 = npc.type == ModContent.NPCType<AngryDog>() && (double)npc.life <= (double)npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
             int num = 30;
-            bool flag = false;
             bool flag2 = false;
             bool flag3 = false;
             if (npc.velocity.Y == 0f && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
@@ -6318,8 +6319,8 @@ namespace CalamityMod.NPCs
                 flag2 = true;
                 npc.ai[3] += 1f;
             }
-            int num2 = npcType == 4 ? 10 : 4;
-			if (npcType != 4)
+            int num2 = DogPhase1 ? 10 : 4;
+			if (!DogPhase1)
 			{
 				bool flag4 = npc.velocity.Y == 0f;
 				for (int i = 0; i < Main.maxNPCs; i++)
@@ -6378,12 +6379,12 @@ namespace CalamityMod.NPCs
             {
                 npc.ai[3] = 0f;
             }
-			if (npcType != 4)
+			if (!DogPhase1)
 			{
 				if (npc.velocity.Y == 0f && Math.Abs(npc.velocity.X) > 3f && ((npc.Center.X < Main.player[npc.target].Center.X && npc.velocity.X > 0f) || (npc.Center.X > Main.player[npc.target].Center.X && npc.velocity.X < 0f)))
 				{
-					npc.velocity.Y -= 4f;
-					if (npcType == 1) //Despair stone
+					npc.velocity.Y -= bounciness;
+					if (npc.type == ModContent.NPCType<DespairStone>())
 					{
 						Main.PlaySound(2, npc.Center, 14);
 						for (int k = 0; k < 10; k++)
@@ -6391,11 +6392,18 @@ namespace CalamityMod.NPCs
 							Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, -1f, 0, default, 1f);
 						}
 					}
-					if (npcType == 2) //Bohldohr
+					if (npc.type == ModContent.NPCType<Bohldohr>())
 					{
 						Main.PlaySound(3, npc.Center, 7);
 					}
-					if (npcType == 3) //Angry Dog P2
+					if (DogPhase2)
+					{
+						for (int k = 0; k < 5; k++)
+						{
+							Dust.NewDust(npc.position, npc.width, npc.height, 33, 0f, -1f, 0, default, 1f);
+						}
+					}
+					if (npc.type == ModContent.NPCType<AquaticUrchin>() || npc.type == ModContent.NPCType<SeaUrchin>())
 					{
 						for (int k = 0; k < 5; k++)
 						{
@@ -6434,9 +6442,9 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (!flag && (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0)))
+            if (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0))
             {
-                if (Math.Sign(npc.velocity.X) != npc.direction && npcType != 4)
+                if (Math.Sign(npc.velocity.X) != npc.direction && !DogPhase1)
                 {
                     npc.velocity.X = npc.velocity.X * 0.92f;
                 }
@@ -6445,8 +6453,8 @@ namespace CalamityMod.NPCs
                 {
                     num9 = 0f;
                 }
-                float num7 = npcType == 6 ? 0.07f : (5f + num9 * (float)npc.direction * 4f);
-                float num8 = npcType == 4 ? 0.07f : 0.1f;
+                float num7 = speedDetect;
+                float num8 = speedAdditive;
                 if (npc.velocity.X < -num7 || npc.velocity.X > num7)
                 {
                     if (npc.velocity.Y == 0f)
@@ -6581,28 +6589,28 @@ namespace CalamityMod.NPCs
                     {
                         if (Main.tile[num15, num16 - 3].nactive() && Main.tileSolid[(int)Main.tile[num15, num16 - 3].type])
                         {
-                            npc.velocity.Y = -8.5f;
+                            npc.velocity.Y = bouncy1;
                             npc.netUpdate = true;
                         }
                         else
                         {
-                            npc.velocity.Y = -7.5f;
+                            npc.velocity.Y = bouncy2;
                             npc.netUpdate = true;
                         }
                     }
                     else if (Main.tile[num15, num16 - 1].nactive() && !Main.tile[num15, num16 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16 - 1].type])
                     {
-                        npc.velocity.Y = -7f;
+                        npc.velocity.Y = bouncy3;
                         npc.netUpdate = true;
                     }
                     else if (npc.position.Y + (float)npc.height - (float)(num16 * 16) > 20f && Main.tile[num15, num16].nactive() && !Main.tile[num15, num16].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16].type])
                     {
-                        npc.velocity.Y = -6f;
+                        npc.velocity.Y = bouncy4;
                         npc.netUpdate = true;
                     }
                     else if ((npc.directionY < 0 || Math.Abs(npc.velocity.X) > num18) && (!Main.tile[num15, num16 + 1].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 1].type]) && (!Main.tile[num15, num16 + 2].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 2].type]) && (!Main.tile[num15 + npc.direction, num16 + 3].nactive() || !Main.tileSolid[(int)Main.tile[num15 + npc.direction, num16 + 3].type]))
                     {
-                        npc.velocity.Y = -8f;
+                        npc.velocity.Y = bouncy5;
                         npc.netUpdate = true;
                     }
                 }
