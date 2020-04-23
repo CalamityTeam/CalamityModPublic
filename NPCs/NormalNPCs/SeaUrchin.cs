@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.Abyss
+namespace CalamityMod.NPCs.NormalNPCs
 {
     public class SeaUrchin : ModNPC
     {

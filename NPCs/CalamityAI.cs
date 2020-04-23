@@ -11,6 +11,8 @@ using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;

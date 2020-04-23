@@ -11,7 +11,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.NPCs.Abyss
+namespace CalamityMod.NPCs.SulphurousSea
 {
     public class AnthozoanCrab : ModNPC
     {
