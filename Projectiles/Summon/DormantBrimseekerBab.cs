@@ -84,6 +84,10 @@ namespace CalamityMod.Projectiles.Summon
             NPC potentialTarget = projectile.Center.MinionHoming(DistanceToCheck, player);
             if (potentialTarget == null)
             {
+                if (projectile.ai[0] != 0f)
+                { 
+                    projectile.ai[0] = 0f; // Disable charge animation when not attacking
+                }
                 projectile.rotation = projectile.rotation.AngleTowards(0f, 0.1f);
                 projectile.direction = projectile.spriteDirection = (projectile.velocity.X < 0).ToDirectionInt();
                 projectile.ai[1] += MathHelper.ToRadians(3f);
