@@ -6300,58 +6300,6 @@ namespace CalamityMod.NPCs
         }
 		#endregion
 
-		#region Cryocore AI
-		public static void CryocoreAI(NPC npc, Mod mod, float speed, bool rotate = false)
-        {
-            npc.TargetClosest(true);
-            Vector2 npcPos = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
-            float xDist = Main.player[npc.target].Center.X - npcPos.X;
-            float yDist = Main.player[npc.target].Center.Y - npcPos.Y;
-            float targetDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
-            float homingSpeed = speed;
-            targetDist = homingSpeed / targetDist;
-            xDist *= targetDist;
-            yDist *= targetDist;
-            npc.ai[0] -= 1f;
-            if (targetDist < 200f || npc.ai[0] > 0f)
-            {
-                if (targetDist < 200f)
-                {
-                    npc.ai[0] = 20f;
-                }
-                if (npc.velocity.X < 0f)
-                {
-                    npc.direction = -1;
-                }
-                else
-                {
-                    npc.direction = 1;
-                }
-				if (rotate)
-				{
-					npc.rotation += (float)npc.direction * 0.3f;
-				}
-                return;
-            }
-            npc.velocity.X = (npc.velocity.X * 50f + xDist) / 51f;
-            npc.velocity.Y = (npc.velocity.Y * 50f + yDist) / 51f;
-            if (targetDist < 350f)
-            {
-                npc.velocity.X = (npc.velocity.X * 10f + xDist) / 11f;
-                npc.velocity.Y = (npc.velocity.Y * 10f + yDist) / 11f;
-            }
-            if (targetDist < 300f)
-            {
-                npc.velocity.X = (npc.velocity.X * 7f + xDist) / 8f;
-                npc.velocity.Y = (npc.velocity.Y * 7f + yDist) / 8f;
-            }
-			if (rotate)
-			{
-				npc.rotation = npc.velocity.X * 0.15f;
-			}
-		}
-		#endregion
-
 		#region Unicorn AI
 		/// npcType 0 is default, 1 = Despair stone, 2 = Bohldohr, 3 = Angry Dog P2, 4 = Angry Dog P1
 		public static void UnicornAI(NPC npc, Mod mod, bool spin, int npcType = 0)
