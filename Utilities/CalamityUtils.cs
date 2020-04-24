@@ -2154,8 +2154,6 @@ namespace CalamityMod
 
         public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor, int xPositionAdditive = 45, float yPositionAdditive = 35f)
         {
-            Lighting.AddLight(projectile.Center, 0.4f, 0f, 0.4f);
-
             Player player = Main.player[projectile.owner];
             if (projectile.bobber && player.inventory[player.selectedItem].holdStyle > 0)
             {
