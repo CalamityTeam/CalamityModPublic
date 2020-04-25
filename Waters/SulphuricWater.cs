@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -32,7 +33,9 @@ namespace CalamityMod.Waters
 
             bool inYZone = Main.LocalPlayer.Center.Y < Main.rockLayer * 16f - 320 && Main.LocalPlayer.Center.Y >= 5800f;
 
-            return (inXZone && inYZone) || Main.LocalPlayer.Calamity().ZoneSulphur;
+			CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
+			bool greenWater = (inXZone && inYZone) || modPlayer.ZoneSulphur;
+            return (greenWater && modPlayer.fountain == 0) || modPlayer.fountain == 3;
         }
 
         public override int ChooseWaterfallStyle()

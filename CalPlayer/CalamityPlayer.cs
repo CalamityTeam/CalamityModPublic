@@ -840,6 +840,10 @@ namespace CalamityMod.CalPlayer
         public bool tundraFlameBlossom = false;
         #endregion
 
+		#region Fountains
+        public int fountain = 0;
+		#endregion
+
         #region Biome
         public bool ZoneCalamity = false;
         public bool ZoneAstral = false;
@@ -1250,6 +1254,8 @@ namespace CalamityMod.CalPlayer
             externalAbyssLight = 0;
             externalColdImmunity = externalHeatImmunity = false;
             alcoholPoisonLevel = 0;
+
+			fountain = 0;
 
             thirdSage = false;
             if (player.immuneTime <= 0)

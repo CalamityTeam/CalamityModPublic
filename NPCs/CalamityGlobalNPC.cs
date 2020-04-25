@@ -13,6 +13,7 @@ using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Ranged;
@@ -5603,6 +5604,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.WitchDoctor)
             {
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<SunkenSeaFountain>());
                 SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, CalamityMod.CalamityConfig.SellBossSummons, price: Item.buyPrice(0, 8));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
