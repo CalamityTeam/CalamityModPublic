@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 42;
+            item.damage = 35;
             item.ranged = true;
             item.width = 60;
             item.height = 22;
@@ -46,11 +46,11 @@ namespace CalamityMod.Items.Weapons.Ranged
             int randomProj = Main.rand.Next(2);
             if (randomProj == 0)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OpalStrike>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<OpalStrike>(), (int)(damage * 0.75), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MagnaStrike>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<MagnaStrike>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

@@ -1301,7 +1301,6 @@ namespace CalamityMod
 
             twentyDamageBuffList = new List<int>()
             {
-                ItemID.TerraBlade,
                 ItemID.ChainGuillotines,
                 ItemID.FlowerofFrost,
                 ItemID.PoisonStaff,
@@ -1330,7 +1329,6 @@ namespace CalamityMod
             {
                 ItemID.DaedalusStormbow,
                 ItemID.PhoenixBlaster,
-                ItemID.VenusMagnum,
                 ItemID.BlizzardStaff,
                 ItemID.DD2BetsyBow
             };
