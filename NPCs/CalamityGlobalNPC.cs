@@ -10,6 +10,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
+using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Walls;
@@ -44,6 +45,7 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
@@ -138,6 +140,7 @@ namespace CalamityMod.NPCs
         public int shellfishVore = 0;
         public int clamDebuff = 0;
         public int sulphurPoison = 0;
+        public int ladHearts = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -2448,10 +2451,14 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.ArmsDealer:
-                        switch (Main.rand.Next(25)) // 24 arms dealer names
+                        switch (Main.rand.Next(26)) // 24 arms dealer names
                         {
                             case 0:
                                 npc.GivenName = "Drifter";
+                                break;
+
+                            case 1:
+                                npc.GivenName = "Finchi"; 
                                 break;
 
                             default:
@@ -3039,6 +3046,8 @@ namespace CalamityMod.NPCs
 				clamDebuff--;
 			if (sulphurPoison > 0)
 				sulphurPoison--;
+			if (ladHearts > 0)
+				ladHearts--;
 
             // Bosses and any specific other NPCs are completely immune to having their movement impaired.
             if (npc.boss || CalamityMod.movementImpairImmuneList.Contains(npc.type))
@@ -3510,7 +3519,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.38);
                 }
-                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ProjectileID.RainbowBack)
+                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
                 {
                     damage = (int)(damage * 0.25);
                 }
@@ -3537,7 +3546,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ProjectileID.RainbowBack)
+                else if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
                 {
                     damage = (int)(damage * 0.25);
                 }
@@ -4374,6 +4383,19 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+			if (ladHearts > 0 && !npc.loveStruck)
+			{
+				if (Main.rand.NextBool(5))
+				{
+					Vector2 vector2_2 = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
+					vector2_2.Normalize();
+					vector2_2.X *= 0.66f;
+					int heart = Gore.NewGore(npc.position + new Vector2((float)Main.rand.Next(npc.width + 1), (float)Main.rand.Next(npc.height + 1)), vector2_2 * (float)Main.rand.Next(3, 6) * 0.33f, 331, (float)Main.rand.Next(40, 121) * 0.01f);
+					Main.gore[heart].sticky = false;
+					Main.gore[heart].velocity *= 0.4f;
+					Main.gore[heart].velocity.Y -= 0.6f;
+				}
+			}
 
             if (gState > 0 || eFreeze > 0)
             {
@@ -5488,6 +5510,14 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.Boomstick, NPC.downedQueenBee, price: Item.buyPrice(0, 20, 0, 0));
                 SetShopItem(ref shop, ref nextSlot, ItemID.TacticalShotgun, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SniperRifle, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+            }
+
+            if (type == NPCID.Stylist)
+            {
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<StealthHairDye>(), Main.LocalPlayer.Calamity().rogueStealthMax > 0f && Main.LocalPlayer.Calamity().wearingRogueArmor);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<WingTimeHairDye>(), Main.LocalPlayer.wingTimeMax > 0);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AdrenalineHairDye>(), CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<RageHairDye>(), CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage);
             }
 
             if (type == NPCID.Cyborg)

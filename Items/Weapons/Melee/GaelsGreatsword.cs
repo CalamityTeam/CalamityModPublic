@@ -4,8 +4,6 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
-using Terraria.GameInput;
-using Terraria.Graphics.Capture;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 
@@ -17,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         //Weapon attribute constants
 
-        public static readonly int BaseDamage = 4069;
+        public static readonly int BaseDamage = 3900;
 
         public static readonly float TrueMeleeBoost = 2.5f;
 
@@ -54,8 +52,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 84;
             item.damage = BaseDamage;
             item.melee = true;
-            item.useAnimation = 16;
-            item.useTime = 16;
+            item.useAnimation = 17;
+            item.useTime = 17;
             item.useTurn = true;
             item.knockBack = 9;
             item.UseSound = SoundID.Item1;
@@ -124,7 +122,12 @@ namespace CalamityMod.Items.Weapons.Melee
                         }
                         if (Main.rand.NextBool(100))
                         {
-                            Projectile.NewProjectile(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction, Vector2.Zero, ModContent.ProjectileType<GaelExplosion>(), BaseDamage, 0f, player.whoAmI);
+                            Projectile.NewProjectile(player.MountedCenter + dustSpawn.RotatedBy(player.itemRotation) * player.direction,
+                                                     Vector2.Zero,
+                                                     ModContent.ProjectileType<GaelExplosion>(),
+                                                     (int)(item.damage * player.MeleeDamage()),
+                                                     0f,
+                                                     player.whoAmI);
                         }
                     }
                 }
@@ -175,19 +178,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     break;
                 //Giant, slow, fading skull
                 case 1:
-					int largeSkullDmg = damage * 2;
-					if (CalamityWorld.downedYharon)
-					{
-						largeSkullDmg = (int)((float)damage * 1.5f);
-					}
-					else if (NPC.downedMoonlord)
-					{
-						largeSkullDmg = damage * 2;
-					}
-					else if (Main.hardMode)
-					{
-						largeSkullDmg = damage * 2;
-					}
+					int largeSkullDmg = (int)(damage * 1.5f);
                     int projectileIndex = Projectile.NewProjectile(position, new Vector2(speedX,speedY) * 0.5f, type, largeSkullDmg, knockBack, player.whoAmI, ai1:1f);
                     Main.projectile[projectileIndex].scale = 1.75f;
                     break;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
@@ -24,6 +25,9 @@ namespace CalamityMod.Projectiles.Ranged
         {
             projectile.velocity.X *= 0.9995f;
             projectile.velocity.Y = projectile.velocity.Y + 0.01f;
+			projectile.rotation = projectile.velocity.ToRotation();
+			if (projectile.direction == -1)
+				projectile.rotation += MathHelper.Pi;
         }
 
         public override void Kill(int timeLeft)

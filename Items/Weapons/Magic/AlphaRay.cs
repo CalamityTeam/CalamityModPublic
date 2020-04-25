@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigBeamofDeath>(), (int)((double)damage * 2.1), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.75), knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             else
             {
@@ -72,8 +72,8 @@ namespace CalamityMod.Items.Weapons.Magic
                     {
                         value9 -= vector7;
                     }
-                    Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)((double)damage * 0.8), knockBack, player.whoAmI, 0.0f, 0.0f);
-                    int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, ProjectileID.LaserMachinegunLaser, (int)((double)damage * 0.4), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack, player.whoAmI, 0.0f, 0.0f);
                     Main.projectile[laser].timeLeft = 120;
                     Main.projectile[laser].tileCollide = false;
                 }

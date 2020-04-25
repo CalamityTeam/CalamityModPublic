@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.penetrate = -1;
             projectile.timeLeft = 120;
             projectile.aiStyle = 1;
-            aiType = 686;
+            aiType = ProjectileID.DD2BetsyFireball;
             cooldownSlot = 1;
         }
 
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            if (Lighting.NotRetro)
+            if (CalamityMod.CalamityConfig.Afterimages)
             {
                 for (int i = 0; i < projectile.oldPos.Length; i++)
                 {

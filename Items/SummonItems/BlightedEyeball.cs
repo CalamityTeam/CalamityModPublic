@@ -44,7 +44,6 @@ namespace CalamityMod.Items.SummonItems
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HellstoneBar, 10);
             recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 7);
-            recipe.AddIngredient(ItemID.SoulofFright, 5);
             recipe.AddIngredient(ModContent.ItemType<BlightedLens>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

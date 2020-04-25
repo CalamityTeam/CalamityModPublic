@@ -10,11 +10,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class BrimstoneBarrage : ModProjectile
     {
-		private bool start = true;
-		private float startingPosX = 0f;
-		private float startingPosY = 0f;
-		private double distance = 0D;
-
 		public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimstone Dart");

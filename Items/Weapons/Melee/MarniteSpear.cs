@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 2;
             item.shoot = ModContent.ProjectileType<MarniteSpearProjectile>();
             item.shootSpeed = 5f;
-			item.Calamity().trueMelee = true;
         }
 
         public override void AddRecipes()

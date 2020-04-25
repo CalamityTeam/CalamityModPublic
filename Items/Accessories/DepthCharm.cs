@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
+    [AutoloadEquip(EquipType.Waist)]
     public class DepthCharm : ModItem
     {
         public override void SetStaticDefaults()

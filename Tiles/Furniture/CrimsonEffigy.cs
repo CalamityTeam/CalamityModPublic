@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -13,8 +15,14 @@ namespace CalamityMod.Tiles.Furniture
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
+
             TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.Height = 4;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.Origin = new Point16(0, 3);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 2, 0);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Crimson Effigy");

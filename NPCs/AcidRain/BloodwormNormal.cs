@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.DeathSound = SoundID.NPCDeath1;
             npc.catchItem = (short)ModContent.ItemType<BloodwormItem>();
             npc.dontTakeDamageFromHostiles = true;
+			npc.rarity = 4;
         }
 
         public override void AI()

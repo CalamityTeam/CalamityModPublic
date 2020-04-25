@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Magic;
-using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -20,7 +19,7 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
 
         public override void SetDefaults()
         {
-            item.damage = 30;
+            item.damage = 35;
             item.magic = true;
             item.mana = 10;
             item.width = 52;
@@ -120,7 +119,7 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SoulofFlight, 15);
-            recipe.AddIngredient(ModContent.ItemType<EnchantedMetal>(), 5);
+            recipe.AddIngredient(ItemID.HallowedBar, 5);
             recipe.AddIngredient(ModContent.ItemType<SkyGlaze>());
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

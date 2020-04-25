@@ -122,5 +122,12 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
             projectile.direction = Main.player[projectile.owner].direction;
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
+            projectile.direction = Main.player[projectile.owner].direction;
+        }
     }
 }

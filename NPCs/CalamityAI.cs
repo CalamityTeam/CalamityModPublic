@@ -2,6 +2,7 @@ using CalamityMod;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
+using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.NPCs.AstrumDeus;
@@ -9,8 +10,13 @@ using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
 using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.SulphurousSea;
+using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -6124,9 +6130,9 @@ namespace CalamityMod.NPCs
             {
                 npc.netUpdate = true;
             }
-            Vector2 vector19 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float xDist = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector19.X;
-            float yDist = Main.player[npc.target].position.Y - vector19.Y;
+            Vector2 npcPos = new Vector2(npc.Center.X, npc.Center.Y);
+            float xDist = Main.player[npc.target].Center.X - npcPos.X;
+            float yDist = Main.player[npc.target].Center.Y - npcPos.Y;
             float targetDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
             if (targetDist < 200f && !flag30)
             {
@@ -6202,46 +6208,46 @@ namespace CalamityMod.NPCs
                 }
                 Vector2 position = npc.position;
                 position.X += npc.velocity.X;
-                int num10 = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num9)) / 16f);
-                int num11 = (int)((position.Y + (float)npc.height - 1f) / 16f);
-                if (Main.tile[num10, num11] == null)
+                int x = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num9)) / 16f);
+                int y = (int)((position.Y + (float)npc.height - 1f) / 16f);
+                if (Main.tile[x, y] == null)
                 {
-                    Main.tile[num10, num11] = new Tile();
+                    Main.tile[x, y] = new Tile();
                 }
-                if (Main.tile[num10, num11 - 1] == null)
+                if (Main.tile[x, y - 1] == null)
                 {
-                    Main.tile[num10, num11 - 1] = new Tile();
+                    Main.tile[x, y - 1] = new Tile();
                 }
-                if (Main.tile[num10, num11 - 2] == null)
+                if (Main.tile[x, y - 2] == null)
                 {
-                    Main.tile[num10, num11 - 2] = new Tile();
+                    Main.tile[x, y - 2] = new Tile();
                 }
-                if (Main.tile[num10, num11 - 3] == null)
+                if (Main.tile[x, y - 3] == null)
                 {
-                    Main.tile[num10, num11 - 3] = new Tile();
+                    Main.tile[x, y - 3] = new Tile();
                 }
-                if (Main.tile[num10, num11 + 1] == null)
+                if (Main.tile[x, y + 1] == null)
                 {
-                    Main.tile[num10, num11 + 1] = new Tile();
+                    Main.tile[x, y + 1] = new Tile();
                 }
-                if ((float)(num10 * 16) < position.X + (float)npc.width && (float)(num10 * 16 + 16) > position.X && ((Main.tile[num10, num11].nactive() && !Main.tile[num10, num11].topSlope() && !Main.tile[num10, num11 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num10, num11].type] && !Main.tileSolidTop[(int)Main.tile[num10, num11].type]) || (Main.tile[num10, num11 - 1].halfBrick() && Main.tile[num10, num11 - 1].nactive())) && (!Main.tile[num10, num11 - 1].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 1].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 1].type] || (Main.tile[num10, num11 - 1].halfBrick() && (!Main.tile[num10, num11 - 4].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 4].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 4].type]))) && (!Main.tile[num10, num11 - 2].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 2].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 2].type]) && (!Main.tile[num10, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10, num11 - 3].type] || Main.tileSolidTop[(int)Main.tile[num10, num11 - 3].type]) && (!Main.tile[num10 - num9, num11 - 3].nactive() || !Main.tileSolid[(int)Main.tile[num10 - num9, num11 - 3].type]))
+                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].nactive() && !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() && Main.tileSolid[(int)Main.tile[x, y].type] && !Main.tileSolidTop[(int)Main.tile[x, y].type]) || (Main.tile[x, y - 1].halfBrick() && Main.tile[x, y - 1].nactive())) && (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 1].type] || Main.tileSolidTop[(int)Main.tile[x, y - 1].type] || (Main.tile[x, y - 1].halfBrick() && (!Main.tile[x, y - 4].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 4].type] || Main.tileSolidTop[(int)Main.tile[x, y - 4].type]))) && (!Main.tile[x, y - 2].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 2].type] || Main.tileSolidTop[(int)Main.tile[x, y - 2].type]) && (!Main.tile[x, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 3].type] || Main.tileSolidTop[(int)Main.tile[x, y - 3].type]) && (!Main.tile[x - num9, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x - num9, y - 3].type]))
                 {
-                    float num12 = (float)(num11 * 16);
-                    if (Main.tile[num10, num11].halfBrick())
+                    float npcBottom = (float)(y * 16);
+                    if (Main.tile[x, y].halfBrick())
                     {
-                        num12 += 8f;
+                        npcBottom += 8f;
                     }
-                    if (Main.tile[num10, num11 - 1].halfBrick())
+                    if (Main.tile[x, y - 1].halfBrick())
                     {
-                        num12 -= 8f;
+                        npcBottom -= 8f;
                     }
-                    if (num12 < position.Y + (float)npc.height)
+                    if (npcBottom < position.Y + (float)npc.height)
                     {
-                        float num13 = position.Y + (float)npc.height - num12;
-                        if ((double)num13 <= 16.1)
+                        float num13 = position.Y + (float)npc.height - npcBottom;
+                        if (num13 <= 16.1f)
                         {
-                            npc.gfxOffY += npc.position.Y + (float)npc.height - num12;
-                            npc.position.Y = num12 - (float)npc.height;
+                            npc.gfxOffY += npc.position.Y + (float)npc.height - npcBottom;
+                            npc.position.Y = npcBottom - (float)npc.height;
                             if (num13 < 9f)
                             {
                                 npc.stepSpeed = 1f;
@@ -6261,21 +6267,21 @@ namespace CalamityMod.NPCs
 		public static void DungeonSpiritAI(NPC npc, Mod mod, float speed, float rotation, bool lantern = false)
         {
             npc.TargetClosest(true);
-            Vector2 vector145 = new Vector2(npc.Center.X, npc.Center.Y);
-            float num1258 = Main.player[npc.target].Center.X - vector145.X;
-            float num1259 = Main.player[npc.target].Center.Y - vector145.Y;
-            float num1260 = (float)Math.Sqrt((double)(num1258 * num1258 + num1259 * num1259));
-            float num1261 = speed;
+            Vector2 npcPos = new Vector2(npc.Center.X, npc.Center.Y);
+            float xDist = Main.player[npc.target].Center.X - npcPos.X;
+            float yDist = Main.player[npc.target].Center.Y - npcPos.Y;
+            float targetDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
+            float homingSpeed = speed;
 
 			if (lantern)
 			{
 				if (npc.localAI[0] < 85f)
 				{
-					num1261 = 0.1f;
-					num1260 = num1261 / num1260;
-					num1258 *= num1260;
-					num1259 *= num1260;
-					npc.velocity = (npc.velocity * 100f + new Vector2(num1258, num1259)) / 101f;
+					homingSpeed = 0.1f;
+					targetDist = homingSpeed / targetDist;
+					xDist *= targetDist;
+					yDist *= targetDist;
+					npc.velocity = (npc.velocity * 100f + new Vector2(xDist, yDist)) / 101f;
 					npc.localAI[0] += 1f;
 					return;
 				}
@@ -6284,11 +6290,11 @@ namespace CalamityMod.NPCs
 				npc.chaseable = true;
 			}
 
-            num1260 = num1261 / num1260;
-            num1258 *= num1260;
-            num1259 *= num1260;
-            npc.velocity.X = (npc.velocity.X * 100f + num1258) / 101f;
-            npc.velocity.Y = (npc.velocity.Y * 100f + num1259) / 101f;
+            targetDist = homingSpeed / targetDist;
+            xDist *= targetDist;
+            yDist *= targetDist;
+            npc.velocity.X = (npc.velocity.X * 100f + xDist) / 101f;
+            npc.velocity.Y = (npc.velocity.Y * 100f + yDist) / 101f;
 
 			if (lantern)
 			{
@@ -6296,8 +6302,563 @@ namespace CalamityMod.NPCs
 				npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 			}
 			else
-				npc.rotation = (float)Math.Atan2((double)num1259, (double)num1258) + rotation;
+				npc.rotation = (float)Math.Atan2((double)yDist, (double)xDist) + rotation;
         }
+		#endregion
+
+		#region Unicorn AI
+		public static void UnicornAI(NPC npc, Mod mod, bool spin, float bounciness, float speedDetect, float speedAdditive, float bouncy1 = -8.5f, float bouncy2 = -7.5f, float bouncy3 = -7f, float bouncy4 = -6f, float bouncy5 = -8f)
+        {
+            bool DogPhase1 = npc.type == ModContent.NPCType<AngryDog>() && (double)npc.life > (double)npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
+            bool DogPhase2 = npc.type == ModContent.NPCType<AngryDog>() && (double)npc.life <= (double)npc.lifeMax * (CalamityWorld.death ? 0.9 : 0.5);
+            int num = 30;
+            bool flag2 = false;
+            bool flag3 = false;
+            if (npc.velocity.Y == 0f && ((npc.velocity.X > 0f && npc.direction < 0) || (npc.velocity.X < 0f && npc.direction > 0)))
+            {
+                flag2 = true;
+                npc.ai[3] += 1f;
+            }
+            int num2 = DogPhase1 ? 10 : 4;
+			if (!DogPhase1)
+			{
+				bool flag4 = npc.velocity.Y == 0f;
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
+					{
+						if (npc.position.X < Main.npc[i].position.X)
+						{
+							npc.velocity.X = npc.velocity.X - 0.05f;
+						}
+						else
+						{
+							npc.velocity.X = npc.velocity.X + 0.05f;
+						}
+						if (npc.position.Y < Main.npc[i].position.Y)
+						{
+							npc.velocity.Y = npc.velocity.Y - 0.05f;
+						}
+						else
+						{
+							npc.velocity.Y = npc.velocity.Y + 0.05f;
+						}
+					}
+				}
+				if (flag4)
+				{
+					npc.velocity.Y = 0f;
+				}
+			}
+            if (npc.position.X == npc.oldPosition.X || npc.ai[3] >= (float)num || flag2)
+            {
+                npc.ai[3] += 1f;
+                flag3 = true;
+            }
+            else if (npc.ai[3] > 0f)
+            {
+                npc.ai[3] -= 1f;
+            }
+            if (npc.ai[3] > (float)(num * num2))
+            {
+                npc.ai[3] = 0f;
+            }
+            if (npc.justHit)
+            {
+                npc.ai[3] = 0f;
+            }
+            if (npc.ai[3] == (float)num)
+            {
+                npc.netUpdate = true;
+            }
+            Vector2 npcPos = new Vector2(npc.Center.X, npc.Center.Y);
+            float xDist = Main.player[npc.target].Center.X - npcPos.X;
+            float yDist = Main.player[npc.target].Center.Y - npcPos.Y;
+            float targetDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
+            if (targetDist < 200f && !flag3)
+            {
+                npc.ai[3] = 0f;
+            }
+			if (!DogPhase1)
+			{
+				if (npc.velocity.Y == 0f && Math.Abs(npc.velocity.X) > 3f && ((npc.Center.X < Main.player[npc.target].Center.X && npc.velocity.X > 0f) || (npc.Center.X > Main.player[npc.target].Center.X && npc.velocity.X < 0f)))
+				{
+					npc.velocity.Y -= bounciness;
+					if (npc.type == ModContent.NPCType<DespairStone>())
+					{
+						Main.PlaySound(2, npc.Center, 14);
+						for (int k = 0; k < 10; k++)
+						{
+							Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, -1f, 0, default, 1f);
+						}
+					}
+					if (npc.type == ModContent.NPCType<Bohldohr>())
+					{
+						Main.PlaySound(3, npc.Center, 7);
+					}
+					if (DogPhase2)
+					{
+						for (int k = 0; k < 5; k++)
+						{
+							Dust.NewDust(npc.position, npc.width, npc.height, 33, 0f, -1f, 0, default, 1f);
+						}
+					}
+					if (npc.type == ModContent.NPCType<AquaticUrchin>() || npc.type == ModContent.NPCType<SeaUrchin>())
+					{
+						for (int k = 0; k < 5; k++)
+						{
+							Dust.NewDust(npc.position, npc.width, npc.height, 33, 0f, -1f, 0, default, 1f);
+						}
+					}
+				}
+			}
+            if (npc.ai[3] < (float)num)
+            {
+                npc.TargetClosest(true);
+            }
+            else
+            {
+                if (npc.velocity.X == 0f)
+                {
+                    if (npc.velocity.Y == 0f)
+                    {
+                        npc.ai[0] += 1f;
+                        if (npc.ai[0] >= 2f)
+                        {
+                            npc.direction *= -1;
+                            npc.spriteDirection = npc.direction;
+                            npc.ai[0] = 0f;
+                        }
+                    }
+                }
+                else
+                {
+                    npc.ai[0] = 0f;
+                }
+                npc.directionY = -1;
+                if (npc.direction == 0)
+                {
+                    npc.direction = 1;
+                }
+            }
+
+            if (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0))
+            {
+                if (Math.Sign(npc.velocity.X) != npc.direction && !DogPhase1)
+                {
+                    npc.velocity.X = npc.velocity.X * 0.92f;
+                }
+                float num9 = MathHelper.Lerp(0.6f, 1f, Math.Abs(Main.windSpeedSet)) * (float)Math.Sign(Main.windSpeedSet);
+                if (!Main.player[npc.target].ZoneSandstorm)
+                {
+                    num9 = 0f;
+                }
+                float num7 = speedDetect;
+                float num8 = speedAdditive;
+                if (npc.velocity.X < -num7 || npc.velocity.X > num7)
+                {
+                    if (npc.velocity.Y == 0f)
+                    {
+                        npc.velocity *= 0.8f;
+                    }
+                }
+                else if (npc.velocity.X < num7 && npc.direction == 1)
+                {
+                    npc.velocity.X += num8;
+                    if (npc.velocity.X > num7)
+                    {
+                        npc.velocity.X = num7;
+                    }
+                }
+                else if (npc.velocity.X > -num7 && npc.direction == -1)
+                {
+                    npc.velocity.X -= num8;
+                    if (npc.velocity.X < -num7)
+                    {
+                        npc.velocity.X = -num7;
+                    }
+                }
+            }
+            if (npc.velocity.Y >= 0f)
+            {
+                int num10 = 0;
+                if (npc.velocity.X < 0f)
+                {
+                    num10 = -1;
+                }
+                if (npc.velocity.X > 0f)
+                {
+                    num10 = 1;
+                }
+                Vector2 position = npc.position;
+                position.X += npc.velocity.X;
+                int x = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num10)) / 16f);
+                int y = (int)((position.Y + (float)npc.height - 1f) / 16f);
+                if (Main.tile[x, y] == null)
+                {
+                    Main.tile[x, y] = new Tile();
+                }
+                if (Main.tile[x, y - 1] == null)
+                {
+                    Main.tile[x, y - 1] = new Tile();
+                }
+                if (Main.tile[x, y - 2] == null)
+                {
+                    Main.tile[x, y - 2] = new Tile();
+                }
+                if (Main.tile[x, y - 3] == null)
+                {
+                    Main.tile[x, y - 3] = new Tile();
+                }
+                if (Main.tile[x, y + 1] == null)
+                {
+                    Main.tile[x, y + 1] = new Tile();
+                }
+                if ((float)(x * 16) < position.X + (float)npc.width && (float)(x * 16 + 16) > position.X && ((Main.tile[x, y].nactive() && !Main.tile[x, y].topSlope() && !Main.tile[x, y - 1].topSlope() && Main.tileSolid[(int)Main.tile[x, y].type] && !Main.tileSolidTop[(int)Main.tile[x, y].type]) || (Main.tile[x, y - 1].halfBrick() && Main.tile[x, y - 1].nactive())) && (!Main.tile[x, y - 1].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 1].type] || Main.tileSolidTop[(int)Main.tile[x, y - 1].type] || (Main.tile[x, y - 1].halfBrick() && (!Main.tile[x, y - 4].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 4].type] || Main.tileSolidTop[(int)Main.tile[x, y - 4].type]))) && (!Main.tile[x, y - 2].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 2].type] || Main.tileSolidTop[(int)Main.tile[x, y - 2].type]) && (!Main.tile[x, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x, y - 3].type] || Main.tileSolidTop[(int)Main.tile[x, y - 3].type]) && (!Main.tile[x - num10, y - 3].nactive() || !Main.tileSolid[(int)Main.tile[x - num10, y - 3].type]))
+                {
+                    float num13 = (float)(y * 16);
+                    if (Main.tile[x, y].halfBrick())
+                    {
+                        num13 += 8f;
+                    }
+                    if (Main.tile[x, y - 1].halfBrick())
+                    {
+                        num13 -= 8f;
+                    }
+                    if (num13 < position.Y + (float)npc.height)
+                    {
+                        float num14 = position.Y + (float)npc.height - num13;
+                        if ((double)num14 <= 16.1)
+                        {
+                            npc.gfxOffY += npc.position.Y + (float)npc.height - num13;
+                            npc.position.Y = num13 - (float)npc.height;
+                            if (num14 < 9f)
+                            {
+                                npc.stepSpeed = 1f;
+                            }
+                            else
+                            {
+                                npc.stepSpeed = 2f;
+                            }
+                        }
+                    }
+                }
+            }
+            if (npc.velocity.Y == 0f)
+            {
+                int num15 = (int)((npc.position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 2) * npc.direction) + npc.velocity.X * 5f) / 16f);
+                int num16 = (int)((npc.position.Y + (float)npc.height - 15f) / 16f);
+                if (Main.tile[num15, num16] == null)
+                {
+                    Main.tile[num15, num16] = new Tile();
+                }
+                if (Main.tile[num15, num16 - 1] == null)
+                {
+                    Main.tile[num15, num16 - 1] = new Tile();
+                }
+                if (Main.tile[num15, num16 - 2] == null)
+                {
+                    Main.tile[num15, num16 - 2] = new Tile();
+                }
+                if (Main.tile[num15, num16 - 3] == null)
+                {
+                    Main.tile[num15, num16 - 3] = new Tile();
+                }
+                if (Main.tile[num15, num16 + 1] == null)
+                {
+                    Main.tile[num15, num16 + 1] = new Tile();
+                }
+                if (Main.tile[num15 + npc.direction, num16 - 1] == null)
+                {
+                    Main.tile[num15 + npc.direction, num16 - 1] = new Tile();
+                }
+                if (Main.tile[num15 + npc.direction, num16 + 1] == null)
+                {
+                    Main.tile[num15 + npc.direction, num16 + 1] = new Tile();
+                }
+                if (Main.tile[num15 - npc.direction, num16 + 1] == null)
+                {
+                    Main.tile[num15 - npc.direction, num16 + 1] = new Tile();
+                }
+                int num17 = npc.spriteDirection;
+                num17 *= -1;
+                if ((npc.velocity.X < 0f && num17 == -1) || (npc.velocity.X > 0f && num17 == 1))
+                {
+                    float num18 = 3f;
+                    if (Main.tile[num15, num16 - 2].nactive() && Main.tileSolid[(int)Main.tile[num15, num16 - 2].type])
+                    {
+                        if (Main.tile[num15, num16 - 3].nactive() && Main.tileSolid[(int)Main.tile[num15, num16 - 3].type])
+                        {
+                            npc.velocity.Y = bouncy1;
+                            npc.netUpdate = true;
+                        }
+                        else
+                        {
+                            npc.velocity.Y = bouncy2;
+                            npc.netUpdate = true;
+                        }
+                    }
+                    else if (Main.tile[num15, num16 - 1].nactive() && !Main.tile[num15, num16 - 1].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16 - 1].type])
+                    {
+                        npc.velocity.Y = bouncy3;
+                        npc.netUpdate = true;
+                    }
+                    else if (npc.position.Y + (float)npc.height - (float)(num16 * 16) > 20f && Main.tile[num15, num16].nactive() && !Main.tile[num15, num16].topSlope() && Main.tileSolid[(int)Main.tile[num15, num16].type])
+                    {
+                        npc.velocity.Y = bouncy4;
+                        npc.netUpdate = true;
+                    }
+                    else if ((npc.directionY < 0 || Math.Abs(npc.velocity.X) > num18) && (!Main.tile[num15, num16 + 1].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 1].type]) && (!Main.tile[num15, num16 + 2].nactive() || !Main.tileSolid[(int)Main.tile[num15, num16 + 2].type]) && (!Main.tile[num15 + npc.direction, num16 + 3].nactive() || !Main.tileSolid[(int)Main.tile[num15 + npc.direction, num16 + 3].type]))
+                    {
+                        npc.velocity.Y = bouncy5;
+                        npc.netUpdate = true;
+                    }
+                }
+            }
+			if (spin)
+			{
+				npc.rotation += npc.velocity.X * 0.05f;
+				npc.spriteDirection = -npc.direction;
+			}
+		}
+		#endregion
+
+		#region Swimming AI
+		public static void PassiveSwimmingAI(NPC npc, Mod mod, int passiveness, float detectRange, float xSpeed, float ySpeed, float speedLimitX, float speedLimitY, float rotation, bool spriteFacesLeft = true)
+        {
+			if (spriteFacesLeft)
+				npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
+			else
+				npc.spriteDirection = (npc.direction > 0) ? -1 : 1;
+
+            npc.noGravity = true;
+            if (npc.direction == 0)
+            {
+                npc.TargetClosest(true);
+            }
+            if (npc.justHit && passiveness != 3)
+            {
+                npc.chaseable = true;
+            }
+            if (npc.wet)
+            {
+                bool flag14 = npc.chaseable;
+                npc.TargetClosest(false);
+				if (passiveness != 2)
+				{
+					if (npc.type == ModContent.NPCType<Frogfish>())
+					{
+						if (Main.player[npc.target].wet && !Main.player[npc.target].dead)
+						{
+							flag14 = true;
+							npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
+						}
+					}
+					if (npc.type == ModContent.NPCType<Flounder>())
+					{
+						if (!Main.player[npc.target].dead)
+						{
+							flag14 = true;
+							npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
+						}
+					}
+					else if (Main.player[npc.target].wet && !Main.player[npc.target].dead &&
+						(Main.player[npc.target].Center - npc.Center).Length() < detectRange &&
+						Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+					{
+						flag14 = true;
+						npc.chaseable = true; //once the enemy has detected the player, let minions fuck it up
+					}
+					else
+					{
+						if (passiveness == 1)
+						{
+							flag14 = false;
+						}
+					}
+				}
+                if (Main.player[npc.target].dead && flag14)
+                {
+                    flag14 = false;
+                }
+                if (!flag14 || passiveness == 0)
+                {
+					if (passiveness == 0)
+						npc.TargetClosest(true);
+                    if (npc.collideX)
+                    {
+                        npc.velocity.X = npc.velocity.X * -1f;
+                        npc.direction *= -1;
+                        npc.netUpdate = true;
+                    }
+                    if (npc.collideY)
+                    {
+                        npc.netUpdate = true;
+                        if (npc.velocity.Y > 0f)
+                        {
+                            npc.velocity.Y = Math.Abs(npc.velocity.Y) * -1f;
+                            npc.directionY = -1;
+                            npc.ai[0] = -1f;
+                        }
+                        else if (npc.velocity.Y < 0f)
+                        {
+                            npc.velocity.Y = Math.Abs(npc.velocity.Y);
+                            npc.directionY = 1;
+                            npc.ai[0] = 1f;
+                        }
+                    }
+                }
+                if (flag14 && passiveness != 2)
+                {
+                    npc.TargetClosest(true);
+					if (passiveness == 3)
+					{
+						npc.velocity.X = npc.velocity.X - (float)npc.direction * xSpeed;
+						npc.velocity.Y = npc.velocity.Y - (float)npc.directionY * ySpeed;
+					}
+					else
+					{
+						npc.velocity.X = npc.velocity.X + (float)npc.direction * (CalamityWorld.death ? 2f * xSpeed : xSpeed);
+						npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * (CalamityWorld.death ? 2f * ySpeed : ySpeed);
+					}
+					float velocityCapX = CalamityWorld.death && passiveness != 3 ? 2f * speedLimitX : speedLimitX;
+					float velocityCapY = CalamityWorld.death && passiveness != 3 ? 2f * speedLimitY : speedLimitY;
+                    npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -velocityCapX, velocityCapX);
+                    npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -velocityCapY, velocityCapY);
+					if (npc.type == ModContent.NPCType<Laserfish>())
+					{
+						npc.localAI[0] += (CalamityWorld.death ? 2f : 1f);
+						if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 120f)
+						{
+							npc.localAI[0] = 0f;
+							if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+							{
+								float speed = 5f;
+								Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+								float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
+								float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-20, 21);
+								float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
+								num8 = speed / num8;
+								num6 *= num8;
+								num7 *= num8;
+								int damage = 40;
+								if (Main.expertMode)
+								{
+									damage = 30;
+								}
+								int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 25f : -25f), npc.Center.Y + (Main.player[npc.target].position.Y > npc.Center.Y ? 5f : -5f), num6, num7, ProjectileID.EyeBeam, damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[beam].tileCollide = true;
+							}
+						}
+					}
+					if (npc.type == ModContent.NPCType<Flounder>())
+					{
+                        if ((Main.player[npc.target].Center - npc.Center).Length() < 350f)
+                        {
+                            npc.localAI[0] += (CalamityWorld.death ? 3f : 1f);
+                            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 180f)
+                            {
+                                npc.localAI[0] = 0f;
+                                if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                                {
+                                    float speed = 4f;
+                                    Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
+                                    float num6 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector.X + (float)Main.rand.Next(-20, 21);
+                                    float num7 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - vector.Y + (float)Main.rand.Next(-20, 21);
+                                    float num8 = (float)Math.Sqrt((double)(num6 * num6 + num7 * num7));
+                                    num8 = speed / num8;
+                                    num6 *= num8;
+                                    num7 *= num8;
+                                    int damage = 25;
+                                    if (Main.expertMode)
+                                    {
+                                        damage = 19;
+                                    }
+                                    int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 10f : -10f), npc.Center.Y, num6, num7, ModContent.ProjectileType<SulphuricAcidMist>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                                }
+                            }
+                        }
+					}
+					if (npc.type == ModContent.NPCType<SeaMinnow>())
+					{
+						npc.direction *= -1;
+					}
+                }
+                else
+                {
+                    npc.velocity.X += (float)npc.direction * 0.1f;
+                    if (npc.velocity.X < -2.5f || npc.velocity.X > 2.5f)
+                    {
+                        npc.velocity.X *= 0.95f;
+                    }
+                    if (npc.ai[0] == -1f)
+                    {
+                        npc.velocity.Y -= 0.01f;
+                        if (npc.velocity.Y < -0.3f)
+                        {
+                            npc.ai[0] = 1f;
+                        }
+                    }
+                    else
+                    {
+                        npc.velocity.Y += 0.01f;
+                        if (npc.velocity.Y > 0.3f)
+                        {
+                            npc.ai[0] = -1f;
+                        }
+                    }
+                }
+                int num258 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
+                int num259 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+                if (Main.tile[num258, num259 - 1] == null)
+                {
+                    Main.tile[num258, num259 - 1] = new Tile();
+                }
+                if (Main.tile[num258, num259 + 1] == null)
+                {
+                    Main.tile[num258, num259 + 1] = new Tile();
+                }
+                if (Main.tile[num258, num259 + 2] == null)
+                {
+                    Main.tile[num258, num259 + 2] = new Tile();
+                }
+                if (Main.tile[num258, num259 - 1].liquid > 128)
+                {
+                    if (Main.tile[num258, num259 + 1].active())
+                    {
+                        npc.ai[0] = -1f;
+                    }
+                    else if (Main.tile[num258, num259 + 2].active())
+                    {
+                        npc.ai[0] = -1f;
+                    }
+                }
+                if (npc.velocity.Y > 0.4f || npc.velocity.Y < -0.4f)
+                {
+                    npc.velocity.Y = npc.velocity.Y * 0.95f;
+                }
+            }
+            else
+            {
+                if (npc.velocity.Y == 0f)
+                {
+                    npc.velocity.X = npc.velocity.X * 0.94f;
+                    if (npc.velocity.X > -0.2f && npc.velocity.X < 0.2f)
+                    {
+                        npc.velocity.X = 0f;
+                    }
+                }
+                npc.velocity.Y = npc.velocity.Y + 0.4f;
+                if (npc.velocity.Y > 12f)
+                {
+                    npc.velocity.Y = 12f;
+                }
+                npc.ai[0] = 1f;
+            }
+            npc.rotation = npc.velocity.Y * (float)npc.direction * rotation;
+			float rotationLimit = 2f * rotation;
+			npc.rotation = MathHelper.Clamp(npc.rotation, -rotationLimit, rotationLimit);
+		}
 		#endregion
 	}
 }

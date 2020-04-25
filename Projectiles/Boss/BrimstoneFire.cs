@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -27,42 +28,39 @@ namespace CalamityMod.Projectiles.Boss
             Lighting.AddLight(projectile.Center, 0.3f, 0f, 0f);
             if (projectile.ai[0] > 7f)
             {
-                float num296 = 1f;
+                float scalar = 1f;
                 if (projectile.ai[0] == 8f)
                 {
-                    num296 = 0.25f;
+                    scalar = 0.25f;
                 }
                 else if (projectile.ai[0] == 9f)
                 {
-                    num296 = 0.5f;
+                    scalar = 0.5f;
                 }
                 else if (projectile.ai[0] == 10f)
                 {
-                    num296 = 0.75f;
+                    scalar = 0.75f;
                 }
                 projectile.ai[0] += 1f;
-                int num297 = 235;
+                int dustType = (int)CalamityDusts.Brimstone;
 				if (Main.rand.NextBool(2))
 				{
-					int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 100, default, 1f);
+					int fire = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, 100, default, 1f);
+					Dust dust = Main.dust[fire];
 					if (Main.rand.NextBool(3))
 					{
-						Main.dust[num299].noGravity = true;
-						Main.dust[num299].scale *= 3f;
-						Dust expr_DBEF_cp_0 = Main.dust[num299];
-						expr_DBEF_cp_0.velocity.X *= 1.5f;
-						Dust expr_DC0F_cp_0 = Main.dust[num299];
-						expr_DC0F_cp_0.velocity.Y *= 1.5f;
+						dust.noGravity = true;
+						dust.scale *= 3f;
+						dust.velocity.X *= 1.5f;
+						dust.velocity.Y *= 1.5f;
 					}
 					else
 					{
-						Main.dust[num299].scale *= 1.5f;
+						dust.scale *= 1.5f;
 					}
-					Dust expr_DC74_cp_0 = Main.dust[num299];
-					expr_DC74_cp_0.velocity.X *= 1.2f;
-					Dust expr_DC94_cp_0 = Main.dust[num299];
-					expr_DC94_cp_0.velocity.Y *= 1.2f;
-					Main.dust[num299].scale *= num296;
+					dust.velocity.X *= 1.2f;
+					dust.velocity.Y *= 1.2f;
+					dust.scale *= scalar;
 				}
             }
             else

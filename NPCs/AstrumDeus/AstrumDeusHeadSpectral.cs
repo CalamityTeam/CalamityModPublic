@@ -239,6 +239,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             if (!Main.expertMode)
             {
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<Stardust>(), 50, 80, 5);
+                DropHelper.DropItemSpray(npc, ItemID.FallenStar, 80, 150);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<TheMicrowave>(), 4);

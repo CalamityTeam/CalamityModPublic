@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -53,9 +53,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(13, (int) projectile.position.X, (int) projectile.position.Y, 1, 1f, 0.0f);
-            //projectile.usesLocalNPCImmunity = true;
-            //projectile.localNPCHitCooldown = 10;
+			//glass-pot break sound
+			Main.PlaySound(13, (int) projectile.position.X, (int) projectile.position.Y, 1, 1f, 0f);
+
+            int meltdown = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<TotalMeltdown>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			Main.projectile[meltdown].Center = projectile.Center; //makes it centered because it's not without this
+
 			Vector2 vector2 = new Vector2(20f, 20f);
 			for (int index = 0; index < 5; ++index)
 				Dust.NewDust(projectile.Center - vector2 / 2f, (int) vector2.X, (int) vector2.Y, 191, 0.0f, 0.0f, 0, Color.Red, 1f);
@@ -87,7 +90,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TotalityTar>(), (int)(projectile.damage * 0.6), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TotalityTar>(), (int)(projectile.damage * 0.3), 0f, Main.myPlayer, 0f, 0f);
                 }
 			}
         }

@@ -9,9 +9,9 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Daedalus Emblem");
+            DisplayName.SetDefault("Artemis Emblem");
             Tooltip.SetDefault("10% increased ranged damage, 5% increased ranged critical strike chance, and 20% reduced ammo usage\n" +
-                "Increases life regen, minion knockback, defense, and pick speed");
+                "5 increased defense, 2 increased life regen, and 15% increased pick speed");
         }
 
         public override void SetDefaults()
@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Accessories
             player.rangedDamage += 0.1f;
             player.rangedCrit += 5;
             player.pickSpeed -= 0.15f;
-            player.minionKB += 0.5f;
         }
 
         public override void AddRecipes()

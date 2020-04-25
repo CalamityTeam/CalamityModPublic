@@ -912,6 +912,12 @@ namespace CalamityMod.CalPlayer
 				modPlayer.hallowedRuneCooldown--;
 			if (modPlayer.sulphurBubbleCooldown > 0)
 				modPlayer.sulphurBubbleCooldown--;
+			if (modPlayer.forbiddenCooldown > 0)
+				modPlayer.forbiddenCooldown--;
+			if (modPlayer.ladHearts > 0)
+				modPlayer.ladHearts--;
+			if (modPlayer.titanBoost > 0)
+				modPlayer.titanBoost--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -1192,6 +1198,12 @@ namespace CalamityMod.CalPlayer
 					light[1] += 0.3f;
 					light[2] += 0.9f;
 				}
+			}
+			if (modPlayer.forbiddenCirclet)
+			{
+				light[0] += 0.8f;
+				light[1] += 0.7f;
+				light[2] += 0.2f;
 			}
 			Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), light[0], light[1], light[2]);
 
@@ -2355,7 +2367,14 @@ namespace CalamityMod.CalPlayer
 				player.endurance += 0.05f;
 				player.statDefense += 5;
 				player.kbBuff = true;
+				if (modPlayer.titanBoost > 0)
+				{
+                    player.statDefense += 25;
+                    player.endurance += 0.1f;
+				}
 			}
+			else
+				modPlayer.titanBoost = 0;
 
 			if (modPlayer.darkSunRing)
 			{
@@ -2363,7 +2382,7 @@ namespace CalamityMod.CalPlayer
 				player.allDamage += 0.12f;
 				player.minionKB += 1.2f;
 				player.pickSpeed -= 0.15f;
-				if (!Main.dayTime)
+				if (Main.eclipse || !Main.dayTime)
 					player.statDefense += 30;
 			}
 
@@ -2650,6 +2669,12 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.wingTimeMax > 0)
 					player.wingTimeMax = (int)(player.wingTimeMax * 1.35);
+			}
+			if (modPlayer.draconicSurgeCooldown) //weird mod conflicts with like Luiafk
+			{
+				modPlayer.draconicSurge = false;
+				if (player.FindBuffIndex(ModContent.BuffType<DraconicSurgeBuff>()) > -1)
+					player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
 			}
 
 			if (modPlayer.bounding)
@@ -3432,6 +3457,21 @@ namespace CalamityMod.CalPlayer
 		#region Limits
 		private static void Limits(Player player, CalamityPlayer modPlayer)
 		{
+			//not sure where else this should go
+			if (modPlayer.forbiddenCirclet)
+			{
+				float rogueDmg = player.thrownDamage + modPlayer.throwingDamage - 1f;
+				float minionDmg = player.minionDamage;
+				if (minionDmg < rogueDmg)
+				{
+					player.minionDamage = rogueDmg;
+				}
+				if (rogueDmg < minionDmg)
+				{
+					modPlayer.throwingDamage = minionDmg - player.thrownDamage + 1f;
+				}
+			}
+
 			if (player.meleeSpeed < 0.5f)
 				player.meleeSpeed = 0.5f;
 

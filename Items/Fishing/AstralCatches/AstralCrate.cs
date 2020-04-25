@@ -51,6 +51,8 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             //Modded materials
             DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 10, 20);
             DropHelper.DropItem(player, ItemID.FallenStar, 10, 20);
+			DropHelper.DropItemChance(player, ItemID.Meteorite, 0.5f, 10, 20);
+			DropHelper.DropItemChance(player, ItemID.MeteoriteBar, 0.25f, 5, 10);
             if (CalamityWorld.downedAstrageldon)
             {
                 DropHelper.DropItemChance(player, ModContent.ItemType<AstralJelly>(), 0.5f, 5, 10);

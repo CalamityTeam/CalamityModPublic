@@ -37,6 +37,8 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
+			projectile.friendly = true;
+			projectile.hostile = false;
             bool flag64 = projectile.type == ModContent.ProjectileType<GladiatorSword>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();

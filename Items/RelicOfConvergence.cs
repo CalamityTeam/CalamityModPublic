@@ -32,6 +32,6 @@ namespace CalamityMod.Items
             item.shoot = ModContent.ProjectileType<RelicOfConvergenceCrystal>();
         }
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] <= 0;
     }
 }

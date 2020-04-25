@@ -586,6 +586,10 @@ namespace CalamityMod
 			if (setBonus == "mollusk")
 				return mp.molluskSet;
 
+			// Forbidden Circlet
+			if (setBonus == "forbidden_circlet" || setBonus == "forbidden circlet")
+				return mp.forbiddenCirclet;
+
 			// Daedalus
 			switch (setBonus)
 			{
@@ -887,6 +891,13 @@ namespace CalamityMod
 			if (setBonus == "mollusk")
 			{
 				mp.molluskSet = enabled;
+				return true;
+			}
+
+			// Forbidden Circlet
+			if (setBonus == "forbidden_circlet" || setBonus == "forbidden circlet")
+			{
+				mp.forbiddenCirclet = enabled;
 				return true;
 			}
 

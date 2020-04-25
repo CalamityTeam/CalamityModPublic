@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
                 iAmSpeed.Normalize();
                 iAmSpeed *= (float)Main.rand.Next(70, 101) * 0.1f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, iAmSpeed.X, iAmSpeed.Y, ModContent.ProjectileType<MoltenBlobThrown>(), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, iAmSpeed.X, iAmSpeed.Y, ModContent.ProjectileType<MoltenBlobThrown>(), (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
             }
         }
 

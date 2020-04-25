@@ -10,7 +10,9 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class TimeBoltKnife : ModProjectile
     {
+		private int maxPenetrate = 6;
         private int penetrationAmt = 6;
+		private bool initialized = false;
 
         public override void SetStaticDefaults()
         {
@@ -43,6 +45,16 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+			if (!initialized)
+			{
+				if (projectile.Calamity().stealthStrike)
+				{
+					maxPenetrate = 11;
+					penetrationAmt = maxPenetrate;
+				}
+				initialized = true;
+			}
+
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.03f;
 
             // If projectile hasn't hit anything yet
@@ -227,7 +239,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.netUpdate = true;
             projectile.velocity = oldVelocity / 2f;
 
-            if (penetrationAmt == 6)
+            if (penetrationAmt == maxPenetrate)
                 SlowTime();
 
             penetrationAmt = 2;
@@ -245,7 +257,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (penetrationAmt == 6)
+            if (penetrationAmt == maxPenetrate)
                 SlowTime();
 
             // If 'split' projectile hits an enemy
@@ -271,7 +283,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Main.PlaySound(SoundID.Item114, projectile.Center);
 
-            int radius = 300;
+            int radius = projectile.Calamity().stealthStrike ? 500 : 300;
             int numDust = (int)(0.2f * MathHelper.TwoPi * radius);
             float angleIncrement = MathHelper.TwoPi / (float)numDust;
             Vector2 dustOffset = new Vector2(radius, 0f);
@@ -294,9 +306,8 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             int buffType = ModContent.BuffType<TimeSlow>();
-            int damage = projectile.damage / 2;
 
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC nPC = Main.npc[i];
                 if (nPC.active && !nPC.dontTakeDamage && !nPC.buffImmune[buffType] && Vector2.Distance(projectile.Center, nPC.Center) <= (float)radius)
@@ -305,6 +316,12 @@ namespace CalamityMod.Projectiles.Rogue
                         nPC.AddBuff(buffType, 180, false);
                 }
             }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+			if (projectile.Calamity().stealthStrike)
+				target.AddBuff(ModContent.BuffType<TimeSlow>(), 360);
         }
     }
 }

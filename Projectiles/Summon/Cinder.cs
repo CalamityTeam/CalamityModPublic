@@ -7,7 +7,9 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class Cinder : ModProjectile
     {
-        public const float FallSpeed = 0.185f;
+        public const float FallAcceleration = 0.185f;
+        public const float FallSpeedMax = 16;
+        public const float FallDelay = 300;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cinder");
@@ -40,7 +42,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.velocity.Y *= -0.5f;
             }
-            projectile.ai[0] += 1f;
+            projectile.ai[0]++;
             if (projectile.ai[0] > 5f)
             {
                 projectile.ai[0] = 5f;
@@ -55,7 +57,10 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-            projectile.velocity.Y += FallSpeed;
+            if (projectile.ai[0] >= FallDelay && projectile.velocity.Y < FallSpeedMax)
+            {
+                projectile.velocity.Y += FallAcceleration;
+            }
 
             projectile.rotation += projectile.velocity.X * 0.1f;
             int idx = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1f);

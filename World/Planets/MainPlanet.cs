@@ -215,7 +215,7 @@ namespace CalamityMod.World.Planets
             int chest;
             if (labLeftSide)
             {
-                //Lantern, alchemy table, heavy work bench
+                //Lantern, chest, heavy work bench
                 WorldGen.Place1x2Top(lanternX, origin.Y - 3, TileID.HangingLanterns, 14);
                 chest = WorldGen.PlaceChest(doorX - 12, origin.Y + 3);
                 WorldGen.Place3x3(doorX - 8, origin.Y + 3, TileID.HeavyWorkBench);
@@ -236,7 +236,7 @@ namespace CalamityMod.World.Planets
             }
             else
             {
-                //Lantern, alchemy table, heavy work bench
+                //Lantern, chest, heavy work bench
                 WorldGen.Place1x2Top(lanternX, origin.Y - 3, TileID.HangingLanterns, 14);
                 WorldGen.Place3x3(doorX + 8, origin.Y + 3, TileID.HeavyWorkBench);
                 chest = WorldGen.PlaceChest(doorX + 11, origin.Y + 3);
@@ -284,6 +284,13 @@ namespace CalamityMod.World.Planets
 
             Main.chest[chest].item[index].SetDefaults(ItemID.WaterleafPlanterBox);
             Main.chest[chest].item[index++].stack = Main.rand.Next(5, 10);
+
+            Mod thorium = ModLoader.GetMod("ThoriumMod");
+            if (thorium != null)
+			{
+				Main.chest[chest].item[index].SetDefaults(thorium.ItemType("MarineKelpPlanterBox"));
+				Main.chest[chest].item[index++].stack = Main.rand.Next(5, 10);
+			}
             #endregion
             //Turn off the lantern
             for (int y = origin.Y - 3; y <= origin.Y - 2; y++)

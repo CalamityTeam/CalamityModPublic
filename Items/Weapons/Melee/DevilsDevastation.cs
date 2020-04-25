@@ -118,13 +118,13 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<Shadowflame>(), 300);
+            target.AddBuff(BuffID.ShadowFlame, 300);
             target.AddBuff(BuffID.OnFire, 300);
             if (crit)
             {
-                target.AddBuff(ModContent.BuffType<Shadowflame>(), 900);
+                target.AddBuff(BuffID.ShadowFlame, 900);
                 target.AddBuff(BuffID.OnFire, 900);
-                player.ApplyDamageToNPC(target, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)) * 4, 0f, 0, false);
+                player.ApplyDamageToNPC(target, (int)(item.damage * player.MeleeDamage()) * 4, 0f, 0, false);
                 float num50 = 1.7f;
                 float num51 = 0.8f;
                 float num52 = 2f;
@@ -167,11 +167,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.ShadowFlame, 300);
+            target.AddBuff(ModContent.BuffType<Shadowflame>(), 300);
             target.AddBuff(BuffID.OnFire, 300);
             if (crit)
             {
-                target.AddBuff(BuffID.ShadowFlame, 900);
+                target.AddBuff(ModContent.BuffType<Shadowflame>(), 900);
                 target.AddBuff(BuffID.OnFire, 900);
                 Main.PlaySound(SoundID.Item14, target.position);
             }

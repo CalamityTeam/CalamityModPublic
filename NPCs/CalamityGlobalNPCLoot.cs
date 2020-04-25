@@ -32,6 +32,7 @@ using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
@@ -177,15 +178,19 @@ namespace CalamityMod.NPCs
 				// First kill text (this is not a loot function)
 				if (!Main.hardMode)
                 {
-                    string key2 = "Mods.CalamityMod.UglyBossText";
+                    string key2 = "Mods.CalamityMod.UglyBossText"; //Sunken Sea buff
+					string key = "Mods.CalamityMod.SteelSkullBossText"; //clone can now be fought
                     Color messageColor2 = Color.Aquamarine;
+					Color messageColor = Color.Crimson;
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
                         Main.NewText(Language.GetTextValue(key2), messageColor2);
+                        Main.NewText(Language.GetTextValue(key), messageColor);
                     }
                     else if (Main.netMode == NetmodeID.Server)
                     {
                         NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                     }
                 }
             }
@@ -216,21 +221,6 @@ namespace CalamityMod.NPCs
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss3 || !CalamityMod.CalamityConfig.SellBossSummons);
-
-				// If neither Prime nor Brimmy have been killed, show this text (not a loot function)
-				string key = "Mods.CalamityMod.SteelSkullBossText";
-                Color messageColor = Color.Crimson;
-                if (!NPC.downedMechBoss3 && !CalamityWorld.downedBrimstoneElemental)
-                {
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-                }
             }
             else if (npc.type == NPCID.Plantera)
             {
@@ -1482,6 +1472,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Shark:
                     DropHelper.DropItemChance(npc, ItemID.SharkToothNecklace, Main.expertMode ? 20 : 30);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<JoyfulHeart>(), Main.expertMode ? 20 : 30);
                     break;
 
                 case NPCID.PresentMimic:
@@ -1502,6 +1493,7 @@ namespace CalamityMod.NPCs
                 case NPCID.Harpy:
                     int glazeDropRate = CalamityWorld.defiled ? 20 : Main.expertMode ? 60 : 80;
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<SkyGlaze>(), NPC.downedBoss1, glazeDropRate, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), Main.hardMode && !npc.SpawnedFromStatue, Main.expertMode ? 2 : 3, 1, 1);
                     break;
 
                 case NPCID.Antlion:
