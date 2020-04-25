@@ -1493,6 +1493,7 @@ namespace CalamityMod.NPCs
                 case NPCID.Harpy:
                     int glazeDropRate = CalamityWorld.defiled ? 20 : Main.expertMode ? 60 : 80;
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<SkyGlaze>(), NPC.downedBoss1, glazeDropRate, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), Main.hardMode && !npc.SpawnedFromStatue, Main.expertMode ? 2 : 3, 1, 1);
                     break;
 
                 case NPCID.Antlion:
