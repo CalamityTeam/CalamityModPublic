@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 76;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
-            item.shoot = ModContent.ProjectileType<Oathblade>();
+            item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
             item.shootSpeed = 3f;
         }
 

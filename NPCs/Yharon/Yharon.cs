@@ -413,7 +413,7 @@ namespace CalamityMod.NPCs.Yharon
             }
 
             // Rotation
-            float npcRotation = (float)Math.Atan2((double)(player.Center.Y - vectorCenter.Y), (double)(player.Center.X - vectorCenter.X));
+            float npcRotation = (float)Math.Atan2(player.Center.Y - vectorCenter.Y, player.Center.X - vectorCenter.X);
             if (npc.spriteDirection == 1)
                 npcRotation += pie;
             if (npcRotation < 0f)
@@ -522,13 +522,13 @@ namespace CalamityMod.NPCs.Yharon
                 }
 
                 // Dust
-                if (npc.ai[2] == (float)(num1457 - 30))
+                if (npc.ai[2] == num1457 - 30)
                 {
                     int num1468 = 72;
                     for (int num1469 = 0; num1469 < num1468; num1469++)
                     {
-                        Vector2 vector169 = Vector2.Normalize(npc.velocity) * new Vector2((float)npc.width / 2f, (float)npc.height) * 0.75f * 0.5f;
-                        vector169 = vector169.RotatedBy((double)((float)(num1469 - (num1468 / 2 - 1)) * MathHelper.TwoPi / (float)num1468), default) + npc.Center;
+                        Vector2 vector169 = Vector2.Normalize(npc.velocity) * new Vector2(npc.width / 2f, npc.height) * 0.75f * 0.5f;
+                        vector169 = vector169.RotatedBy((num1469 - (num1468 / 2 - 1)) * MathHelper.TwoPi / num1468, default) + npc.Center;
                         Vector2 value16 = vector169 - npc.Center;
                         int num1470 = Dust.NewDust(vector169 + value16, 0, 0, 244, value16.X * 2f, value16.Y * 2f, 100, default, 1.4f);
                         Main.dust[num1470].noGravity = true;
@@ -540,7 +540,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
 
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= (float)num1464)
+                if (npc.ai[2] >= num1464)
                 {
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
@@ -1613,7 +1613,7 @@ namespace CalamityMod.NPCs.Yharon
                 if (npc.ai[1] == 0f)
                 {
                     teleportLocation = Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600);
-                    npc.ai[1] = (float)(360 * Math.Sign((vectorCenter - player.Center).X));
+                    npc.ai[1] = 360 * Math.Sign((vectorCenter - player.Center).X);
                 }
 
                 Vector2 value7 = player.Center + new Vector2(npc.ai[1], (float)teleportLocation) - vectorCenter; //teleport distance
@@ -1639,7 +1639,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
 
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= (float)aiChangeRate)
+                if (npc.ai[2] >= aiChangeRate)
                 {
                     int aiState = 0;
                     switch ((int)npc.ai[3])
@@ -1680,7 +1680,7 @@ namespace CalamityMod.NPCs.Yharon
                         npc.ai[2] = 0f;
 
                         npc.velocity = Vector2.Normalize(player.Center - vectorCenter) * chargeSpeed;
-                        npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+                        npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
                         if (num32 != 0)
                         {
@@ -1719,9 +1719,9 @@ namespace CalamityMod.NPCs.Yharon
                 int num34 = 7;
                 for (int m = 0; m < num34; m++)
                 {
-                    Vector2 vector11 = Vector2.Normalize(npc.velocity) * new Vector2((float)(npc.width + 50) / 2f, (float)npc.height) * 0.75f;
-                    vector11 = vector11.RotatedBy((double)(m - (num34 / 2 - 1)) * (double)pie / (double)(float)num34, default) + vectorCenter;
-                    Vector2 value8 = ((float)(Main.rand.NextDouble() * (double)pie) - MathHelper.PiOver2).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+                    Vector2 vector11 = Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f;
+                    vector11 = vector11.RotatedBy((m - (num34 / 2 - 1)) * pie / num34, default) + vectorCenter;
+                    Vector2 value8 = ((float)(Main.rand.NextDouble() * pie) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
                     int num35 = Dust.NewDust(vector11 + value8, 0, 0, 244, value8.X * 2f, value8.Y * 2f, 100, default, 1.4f);
                     Main.dust[num35].noGravity = true;
                     Main.dust[num35].noLight = true;
@@ -1730,7 +1730,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
 
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= (float)chargeTime)
+                if (npc.ai[2] >= chargeTime)
                 {
                     npc.ai[0] = 21f;
                     npc.ai[1] = 0f;
@@ -1753,13 +1753,13 @@ namespace CalamityMod.NPCs.Yharon
                 npc.velocity *= 0.98f;
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
 
-                if (npc.ai[2] == (float)(num1460 / 2))
+                if (npc.ai[2] == num1460 / 2)
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 
-                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == (float)(num1460 / 2))
+                if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == num1460 / 2)
                 {
                     if (npc.ai[1] == 0f)
-                        npc.ai[1] = (float)(300 * Math.Sign((vectorCenter - player.Center).X));
+                        npc.ai[1] = 300 * Math.Sign((vectorCenter - player.Center).X);
 
                     Vector2 center = player.Center + new Vector2(-npc.ai[1], teleportLocation); //teleport distance
                     vectorCenter = npc.Center = center;
@@ -1784,7 +1784,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
 
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= (float)num1460)
+                if (npc.ai[2] >= num1460)
                 {
                     npc.ai[0] = 21f;
                     npc.ai[1] = 0f;
@@ -1792,7 +1792,7 @@ namespace CalamityMod.NPCs.Yharon
                     npc.ai[3] += 1f;
 
                     if (npc.ai[3] == 5f && Main.netMode != NetmodeID.MultiplayerClient)
-                        Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, ModContent.ProjectileType<BigFlare>(), 0, 0f, Main.myPlayer, 1f, (float)(npc.target + 1));
+                        Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, 0f, 0f, ModContent.ProjectileType<BigFlare>(), 0, 0f, Main.myPlayer, 1f, npc.target + 1);
 
                     if (npc.ai[3] >= 20f) //14
                         npc.ai[3] = 0f;
@@ -1808,11 +1808,11 @@ namespace CalamityMod.NPCs.Yharon
                 npc.velocity *= 0.98f;
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
 
-                if (npc.ai[2] == (float)(num1459 - 60))
+                if (npc.ai[2] == num1459 - 60)
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
 
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= (float)num1459)
+                if (npc.ai[2] >= num1459)
                 {
                     startSecondAI = true;
                     npc.ai[0] = 0f;

@@ -956,12 +956,7 @@ namespace CalamityMod.NPCs
                 }
                 else if (npc.type == NPCID.SkeletronPrime)
                 {
-                    npc.lifeMax = (int)(npc.lifeMax * 1.15);
                     npc.npcSlots = 12f;
-                }
-                else if (npc.type == NPCID.PrimeVice || npc.type == NPCID.PrimeCannon || npc.type == NPCID.PrimeSaw || npc.type == NPCID.PrimeLaser)
-                {
-                    npc.lifeMax = (int)(npc.lifeMax * 0.9);
                 }
                 else if (npc.type == NPCID.Retinazer)
                 {

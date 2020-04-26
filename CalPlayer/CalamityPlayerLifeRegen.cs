@@ -533,7 +533,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-            if (modPlayer.weakPetrification || CalamityWorld.bossRushActive)
+            if (modPlayer.weakPetrification)
             {
                 if (player.mount.Active)
                     player.mount.Dismount(player);

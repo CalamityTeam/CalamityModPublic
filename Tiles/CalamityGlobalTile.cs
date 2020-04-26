@@ -33,12 +33,12 @@ namespace CalamityMod.Tiles
             (ushort)ModContent.TileType<AstralTallPlants>(),
         };
 
-        public override bool PreHitWire(int i, int j, int type)
-        {
-            return !CalamityWorld.bossRushActive;
-        }
+		public override bool PreHitWire(int i, int j, int type)
+		{
+			return !CalamityWorld.bossRushActive;
+		}
 
-        public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
+		public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
         {
             // Custom plant framing
             for (int k = 0; k < PlantTypes.Length; k++)

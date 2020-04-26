@@ -15,7 +15,7 @@ namespace CalamityMod.Items.SummonItems
             Tooltip.SetDefault("A ritualistic artifact, thought to have brought upon The End many millennia ago\n" +
                                 "Sealed away in the abyss, far from those that would seek to misuse it\n" +
                                 "Activates Boss Rush Mode, using it again will deactivate Boss Rush Mode\n" +
-                                "During the Boss Rush, all wires, wired devices, and mounts will be disabled");
+                                "During the Boss Rush, all wires and wired devices will be disabled");
         }
 
         public override void SetDefaults()

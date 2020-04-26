@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Oathblade : ModProjectile
+    public class ForbiddenOathbladeProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -24,8 +24,10 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.melee = true;
             projectile.tileCollide = true;
-            projectile.penetrate = 1;
-            aiType = ProjectileID.DemonScythe;
+            projectile.penetrate = 3;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 30;
+			aiType = ProjectileID.DemonScythe;
         }
 
         public override void AI()
