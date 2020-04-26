@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (Main.myPlayer == player.whoAmI)
                     {
-                        Projectile ui = Projectile.NewProjectileDirect(projectile.Center + new Vector2(40f, -260f),
+                        Projectile ui = Projectile.NewProjectileDirect(Main.MouseWorld,
                                                  Vector2.Zero,
                                                  ModContent.ProjectileType<AndromedaUI_Background>(),
                                                  0,

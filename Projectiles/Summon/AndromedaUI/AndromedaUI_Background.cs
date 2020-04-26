@@ -10,6 +10,7 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
     public class AndromedaUI_Background : ModProjectile
     {
         public int FadeoutTime = -1;
+        public Vector2 PlayerOffset = Vector2.Zero;
         public static readonly int FadeoutTimeMax = 40;
         public static readonly Vector2 LeftBracketOffset = new Vector2(-8f, -6f);
         public static readonly Vector2 RightBracketOffset = new Vector2(8f, -6f);
@@ -113,8 +114,12 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
             // Adjust the position of the UI.
 			if (Main.myPlayer == projectile.owner)
 			{
-                projectile.Center = Main.player[projectile.owner].Top - new Vector2(-20f, 200f);
-			}
+                if (PlayerOffset == Vector2.Zero)
+                {
+                    PlayerOffset = Main.player[projectile.owner].Center - projectile.Center;
+                }
+                projectile.Center = Main.player[projectile.owner].Center - PlayerOffset;
+            }
 		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -340,9 +340,9 @@ namespace CalamityMod.CalPlayer
 				player.height = 212;
 				player.position.Y -= 170;
 			}
-			else
+			else if (!player.mount.Active)
 			{
-				player.width = 30;
+				player.width = 20;
 				player.height = 42;
 			}
 
