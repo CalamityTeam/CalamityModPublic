@@ -51,6 +51,8 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.ModLoader.Config;
+using System.Linq;
 
 namespace CalamityMod.CalPlayer
 {
@@ -65,6 +67,13 @@ namespace CalamityMod.CalPlayer
         Idle,
         Jump,
         Walk
+    }
+
+    public enum AndromedaPlayerState
+    {
+        Inactive,
+        SmallRobot,
+        LargeRobot
     }
 
     public class CalamityPlayer : ModPlayer
@@ -233,6 +242,8 @@ namespace CalamityMod.CalPlayer
         public bool angryDog = false;
         public bool fab = false;
         public bool crysthamyr = false;
+        public AndromedaPlayerState andromedaState;
+        public int andromedaCripple;
         #endregion
 
         #region Pet
@@ -1832,7 +1843,8 @@ namespace CalamityMod.CalPlayer
             deathModeUnderworldTime = 0;
             gaelRageCooldown = 0;
             gaelSwipes = 0;
-            gaelSwitchTimer = (GaelSwitchPhase)0;
+            gaelSwitchTimer = 0;
+            andromedaState = AndromedaPlayerState.Inactive;
             planarSpeedBoost = 0;
             galileoCooldown = 0;
             rage = 0;
@@ -1852,6 +1864,7 @@ namespace CalamityMod.CalPlayer
             reforges = 0;
             polarisBoostCounter = 0;
             spectralVeilImmunity = 0;
+            andromedaCripple = 0;
             plaguedFuelPackCooldown = 0;
             plaguedFuelPackDash = 0;
             plaguedFuelPackDirection = 0;
@@ -3544,6 +3557,23 @@ namespace CalamityMod.CalPlayer
         #region Pre Kill
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+            {
+                if (!Main.dedServ)
+                {
+                    for (int i = 0; i < 40; i++)
+                    {
+                        Dust dust = Dust.NewDustPerfect(player.Center + Utils.NextVector2Circular(Main.rand, 60f, 90f), 133);
+                        dust.velocity = Utils.NextVector2Circular(Main.rand, 4f, 4f);
+                        dust.noGravity = true;
+                        dust.scale = Main.rand.NextFloat(1.2f, 1.35f);
+                    }
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Utils.PoofOfSmoke(player.Center + Utils.NextVector2Circular(Main.rand, 20f, 30f));
+                    }
+                }
+            }
             if (invincible && player.inventory[player.selectedItem].type != ModContent.ItemType<ColdheartIcicle>())
             {
                 if (player.statLife <= 0)
@@ -6026,6 +6056,10 @@ namespace CalamityMod.CalPlayer
                 player.body = mod.GetEquipSlot("SirenBodyAlt", EquipType.Body);
                 player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
             }
+            else if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+            {
+                player.head = mod.GetEquipSlot("NoHead", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
+            }
             else
             {
                 if (profanedCrystalWingCounter.Key != 1)
@@ -8312,7 +8346,6 @@ namespace CalamityMod.CalPlayer
                 }
             }
         });
-
         public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
         {
             if (drawInfo.shadow != 0f)
@@ -8552,6 +8585,68 @@ namespace CalamityMod.CalPlayer
             }
         });
 
+        public static readonly PlayerLayer IbanDevRobot = new PlayerLayer("CalamityMod", "IbanDevRobot", PlayerLayer.Body, (drawInfo) =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            if (drawPlayer.Calamity().andromedaState == AndromedaPlayerState.Inactive)
+                return;
+            Main.playerDrawData.Clear();
+            int robot = -1;
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                if (Main.projectile[i].active &&
+                    Main.projectile[i].type == ModContent.ProjectileType<GiantIbanRobotOfDoom>() &&
+                    Main.projectile[i].owner == drawPlayer.whoAmI)
+                {
+                    robot = i;
+                    break;
+                }
+            }
+            if (robot == -1)
+            {
+                drawPlayer.Calamity().andromedaState = AndromedaPlayerState.Inactive;
+                return;
+            }
+
+            GiantIbanRobotOfDoom robotEntityInstance = (GiantIbanRobotOfDoom)Main.projectile[robot].modProjectile;
+            if (drawPlayer.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+            {
+                Texture2D robotTexture = ModContent.GetTexture(robotEntityInstance.Texture);
+                Rectangle frame = new Rectangle(robotEntityInstance.FrameX * robotTexture.Width / 3, robotEntityInstance.FrameY * robotTexture.Height / 7,
+                                                robotTexture.Width / 3, robotTexture.Height / 7);
+
+                DrawData drawData = new DrawData(ModContent.GetTexture(Main.projectile[robot].modProjectile.Texture),
+                                 Main.projectile[robot].Center - Main.screenPosition,
+                                 frame,
+                                 Color.White,
+                                 Main.projectile[robot].rotation,
+                                 Main.projectile[robot].Size / 2,
+                                 1f,
+                                 Main.projectile[robot].spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                                 1);
+                drawData.shader = drawPlayer.cBody;
+
+                Main.playerDrawData.Add(drawData);
+            }
+            else
+            {
+                Texture2D robotTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/AndromedaSmall");
+                Rectangle frame = new Rectangle(0, robotEntityInstance.CurrentFrame * 54, robotTexture.Width, robotTexture.Height / 21);
+                DrawData drawData = new DrawData(robotTexture,
+                                 drawPlayer.Center + new Vector2(0f, -8f) - Main.screenPosition,
+                                 frame,
+                                 Color.White,
+                                 0f,
+                                 drawPlayer.Size / 2,
+                                 1f,
+                                 Main.projectile[robot].spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                                 1);
+                drawData.shader = drawPlayer.cBody;
+
+                Main.playerDrawData.Add(drawData);
+            }
+        });
+
         public override void ModifyDrawLayers(List<PlayerLayer> list)
         {
             MiscEffectsBack.visible = true;
@@ -8580,6 +8675,7 @@ namespace CalamityMod.CalPlayer
 			}
             list.Add(ColdDivinityOverlay);
             list.Add(StratusSphereDrawing);
+            list.Add(IbanDevRobot);
         }
 
         public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)

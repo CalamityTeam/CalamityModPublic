@@ -315,6 +315,37 @@ namespace CalamityMod.CalPlayer
 				modPlayer.stealthUIAlpha += 0.035f;
 				modPlayer.stealthUIAlpha = MathHelper.Clamp(modPlayer.stealthUIAlpha, 0f, 1f);
 			}
+
+			if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot ||
+				player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0)
+			{
+				player.controlHook = player.releaseHook = false;
+			}
+
+			if (modPlayer.andromedaCripple > 0)
+			{
+				player.velocity = Vector2.Clamp(player.velocity, new Vector2(-11f, -8f), new Vector2(11f, 8f));
+				modPlayer.andromedaCripple--;
+			}
+
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] <= 0 &&
+				player.Calamity().andromedaState != AndromedaPlayerState.Inactive)
+			{
+				player.Calamity().andromedaState = AndromedaPlayerState.Inactive;
+			}
+
+			if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+			{
+				player.width = 152;
+				player.height = 212;
+				player.position.Y -= 170;
+			}
+			else
+			{
+				player.width = 30;
+				player.height = 42;
+			}
+
 			// Proficiency level ups
 			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetExactLevelUp();
