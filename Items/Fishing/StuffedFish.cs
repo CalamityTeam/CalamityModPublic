@@ -40,13 +40,13 @@ namespace CalamityMod.Items.Fishing
             DropHelper.DropItemChance(player, ItemID.Shiverthorn, 0.25f, herbMin, herbMax);
             DropHelper.DropItemChance(player, ItemID.Fireblossom, 0.25f, herbMin, herbMax);
             DropHelper.DropItemChance(player, ItemID.Blinkroot, 0.25f, herbMin, herbMax);
-            DropHelper.DropItemChance(player, ItemID.DaybloomSeeds, 0.20f, seedMin, seedMax);
-            DropHelper.DropItemChance(player, ItemID.MoonglowSeeds, 0.20f, seedMin, seedMax);
-            DropHelper.DropItemChance(player, ItemID.WaterleafSeeds, 0.20f, seedMin, seedMax);
-            DropHelper.DropItemChance(player, ItemID.DeathweedSeeds, 0.20f, seedMin, seedMax);
-            DropHelper.DropItemChance(player, ItemID.ShiverthornSeeds, 0.20f, seedMin, seedMax);
-            DropHelper.DropItemChance(player, ItemID.FireblossomSeeds, 0.20f, seedMin, seedMax);
-            DropHelper.DropItemChance(player, ItemID.BlinkrootSeeds, 0.20f, seedMin, seedMax);
+            DropHelper.DropItemChance(player, ItemID.DaybloomSeeds, 0.2f, seedMin, seedMax);
+            DropHelper.DropItemChance(player, ItemID.MoonglowSeeds, 0.2f, seedMin, seedMax);
+            DropHelper.DropItemChance(player, ItemID.WaterleafSeeds, 0.2f, seedMin, seedMax);
+            DropHelper.DropItemChance(player, ItemID.DeathweedSeeds, 0.2f, seedMin, seedMax);
+            DropHelper.DropItemChance(player, ItemID.ShiverthornSeeds, 0.2f, seedMin, seedMax);
+            DropHelper.DropItemChance(player, ItemID.FireblossomSeeds, 0.2f, seedMin, seedMax);
+            DropHelper.DropItemChance(player, ItemID.BlinkrootSeeds, 0.2f, seedMin, seedMax);
             DropHelper.DropItemChance(player, ItemID.GrassSeeds, 0.1f, seedMin, seedMax);
             DropHelper.DropItemChance(player, ItemID.JungleGrassSeeds, 0.1f, seedMin, seedMax);
             DropHelper.DropItemChance(player, ItemID.MushroomGrassSeeds, 0.1f, seedMin, seedMax);
@@ -59,6 +59,17 @@ namespace CalamityMod.Items.Fishing
 			{
 				DropHelper.DropItemChance(player, thorium.ItemType("MarineKelp"), 0.25f, herbMin, herbMax);
 				DropHelper.DropItemChance(player, thorium.ItemType("MarineKelpSeeds"), 0.1f, seedMin, seedMax);
+			}
+            Mod shadowsOfAbaddon = ModLoader.GetMod("SacredTools");
+            if (shadowsOfAbaddon != null)
+			{
+				DropHelper.DropItemChance(player, shadowsOfAbaddon.ItemType("Welkinbell"), 0.25f, herbMin, herbMax);
+				DropHelper.DropItemChance(player, shadowsOfAbaddon.ItemType("WelkinbellSeeds"), 0.1f, seedMin, seedMax);
+				DropHelper.DropItemCondition(player, shadowsOfAbaddon.ItemType("Illumifern"), Main.hardMode, 0.25f, herbMin, herbMax);
+				DropHelper.DropItemCondition(player, shadowsOfAbaddon.ItemType("IllumifernSeeds"), Main.hardMode, 0.1f, seedMin, seedMax);
+				//There's no mod call for Abaddon being dead
+				//DropHelper.DropItemCondition(player, shadowsOfAbaddon.ItemType("Enduflora"), SacredTools.ModdedWorld.downedAbaddon, 0.25f, herbMin, herbMax);
+				//DropHelper.DropItemCondition(player, shadowsOfAbaddon.ItemType("EndufloraSeeds"), SacredTools.ModdedWorld.downedAbaddon, 0.1f, seedMin, seedMax);
 			}
         }
     }

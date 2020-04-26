@@ -205,16 +205,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BrimstoneWaifuMask>(), 7);
             }
 
-            // if prime hasn't been killed and this is the first time killing brimmy, do the message
-            string key = "Mods.CalamityMod.SteelSkullBossText";
-            Color messageColor = Color.Crimson;
-            if (!NPC.downedMechBoss3 && !CalamityWorld.downedBrimstoneElemental)
-            {
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(key), messageColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
 			//if brimmy hasn't been killed, you can mine charred ore
             string key2 = "Mods.CalamityMod.BrimmyBossText";
             Color messageColor2 = Color.Crimson;

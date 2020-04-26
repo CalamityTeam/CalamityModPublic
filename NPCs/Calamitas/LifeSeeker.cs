@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            npc.buffImmune[24] = true;
+            npc.buffImmune[BuffID.OnFire] = true;
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

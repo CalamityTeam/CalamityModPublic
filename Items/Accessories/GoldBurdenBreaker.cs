@@ -1,6 +1,5 @@
 ﻿using CalamityMod.CalPlayer;
-using CalamityMod.NPCs;
-using CalamityMod.World;
+using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -33,21 +32,25 @@ namespace CalamityMod.Items.Accessories
             { return; }
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dashMod = modPlayer.dashMod == 7 ? 0 : modPlayer.dashMod; //statis belt memes for projectile spam :feelsgreat:
-
-            if (player.velocity.X > 5f)
+            modPlayer.burdenBreakerYeet = true;
+            // Completely remove movement restrictions if you're yeeting with the profaned spear
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] <= 0)
             {
-                player.velocity.X *= 1.025f;
-                if (player.velocity.X >= 500f)
+                if (player.velocity.X > 5f)
                 {
-                    player.velocity.X = 0f;
+                    player.velocity.X *= 1.025f;
+                    if (player.velocity.X >= 500f)
+                    {
+                        player.velocity.X = 0f;
+                    }
                 }
-            }
-            else if (player.velocity.X < -5f)
-            {
-                player.velocity.X *= 1.025f;
-                if (player.velocity.X <= -500f)
+                else if (player.velocity.X < -5f)
                 {
-                    player.velocity.X = 0f;
+                    player.velocity.X *= 1.025f;
+                    if (player.velocity.X <= -500f)
+                    {
+                        player.velocity.X = 0f;
+                    }
                 }
             }
         }

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -32,6 +33,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
             if (projectile.soundDelay == 0)
             {
                 projectile.soundDelay = 8;
@@ -53,56 +55,56 @@ namespace CalamityMod.Projectiles.Rogue
             }
             else
             {
-                float num42 = 30f;
+                float returnSpeed = 30f;
                 float num43 = 5f;
-                Vector2 vector2 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num44 = Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2) - vector2.X;
-                float num45 = Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2) - vector2.Y;
-                float num46 = (float)Math.Sqrt((double)(num44 * num44 + num45 * num45));
-                if (num46 > 3000f)
+                Vector2 projPos = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                float xDist = player.position.X + (float)(player.width / 2) - projPos.X;
+                float yDist = player.position.Y + (float)(player.height / 2) - projPos.Y;
+                float playerDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
+                if (playerDist > 3000f)
                 {
                     projectile.Kill();
                 }
-                num46 = num42 / num46;
-                num44 *= num46;
-                num45 *= num46;
-                if (projectile.velocity.X < num44)
+                playerDist = returnSpeed / playerDist;
+                xDist *= playerDist;
+                yDist *= playerDist;
+                if (projectile.velocity.X < xDist)
                 {
                     projectile.velocity.X = projectile.velocity.X + num43;
-                    if (projectile.velocity.X < 0f && num44 > 0f)
+                    if (projectile.velocity.X < 0f && xDist > 0f)
                     {
                         projectile.velocity.X = projectile.velocity.X + num43;
                     }
                 }
-                else if (projectile.velocity.X > num44)
+                else if (projectile.velocity.X > xDist)
                 {
                     projectile.velocity.X = projectile.velocity.X - num43;
-                    if (projectile.velocity.X > 0f && num44 < 0f)
+                    if (projectile.velocity.X > 0f && xDist < 0f)
                     {
                         projectile.velocity.X = projectile.velocity.X - num43;
                     }
                 }
-                if (projectile.velocity.Y < num45)
+                if (projectile.velocity.Y < yDist)
                 {
                     projectile.velocity.Y = projectile.velocity.Y + num43;
-                    if (projectile.velocity.Y < 0f && num45 > 0f)
+                    if (projectile.velocity.Y < 0f && yDist > 0f)
                     {
                         projectile.velocity.Y = projectile.velocity.Y + num43;
                     }
                 }
-                else if (projectile.velocity.Y > num45)
+                else if (projectile.velocity.Y > yDist)
                 {
                     projectile.velocity.Y = projectile.velocity.Y - num43;
-                    if (projectile.velocity.Y > 0f && num45 < 0f)
+                    if (projectile.velocity.Y > 0f && yDist < 0f)
                     {
                         projectile.velocity.Y = projectile.velocity.Y - num43;
                     }
                 }
                 if (Main.myPlayer == projectile.owner)
                 {
-                    Rectangle rectangle = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
-                    Rectangle value2 = new Rectangle((int)Main.player[projectile.owner].position.X, (int)Main.player[projectile.owner].position.Y, Main.player[projectile.owner].width, Main.player[projectile.owner].height);
-                    if (rectangle.Intersects(value2))
+                    Rectangle projHitbox = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
+                    Rectangle playerHitbox = new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height);
+                    if (projHitbox.Intersects(playerHitbox))
                     {
                         projectile.Kill();
                     }
@@ -120,11 +122,49 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+			int typhoonAmt = 3;
+			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+			{
+				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 84);
+				for (int typhoonCount = 0; typhoonCount < typhoonAmt; typhoonCount++)
+				{
+					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					while (value15.X == 0f && value15.Y == 0f)
+					{
+						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					}
+					value15.Normalize();
+					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+					int typhoon = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
+					Main.projectile[typhoon].Calamity().forceRogue = true;
+					Main.projectile[typhoon].usesLocalNPCImmunity = true;
+            		Main.projectile[typhoon].localNPCHitCooldown = 10;
+				}
+			}
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+			int typhoonAmt = 3;
+			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
+			{
+				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 84);
+				for (int typhoonCount = 0; typhoonCount < typhoonAmt; typhoonCount++)
+				{
+					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					while (value15.X == 0f && value15.Y == 0f)
+					{
+						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					}
+					value15.Normalize();
+					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+					int typhoon = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 3, 0f, projectile.owner, 0f, 1f);
+					Main.projectile[typhoon].Calamity().forceRogue = true;
+					Main.projectile[typhoon].usesLocalNPCImmunity = true;
+            		Main.projectile[typhoon].localNPCHitCooldown = 10;
+				}
+			}
         }
 
         public override void Kill(int timeLeft)

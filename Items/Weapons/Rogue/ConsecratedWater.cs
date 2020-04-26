@@ -12,10 +12,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Consecrated Water");
-            Tooltip.SetDefault("Throws a holy flask of water that explodes into a sacred flame pillar on death\n" +
+            Tooltip.SetDefault("The bottle is surprisingly dusty\n" +
+							   "Throws a holy flask of water that explodes into a sacred flame pillar on death\n" +
                                "The pillar is destroyed if there's no tiles below it\n" +
-                               "Stealth strikes creates three flame pillars instead of one on impact\n" +
-                               "'The bottle is surprisingly dusty'");
+                               "Stealth strikes create three flame pillars instead of one on impact");
         }
 
         public override void SafeSetDefaults()

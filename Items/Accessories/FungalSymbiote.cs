@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fungal Symbiote");
-            Tooltip.SetDefault("True melee weapons emit mushrooms when swung\n" +
-                "Boosts true melee damage by 25%");
+            Tooltip.SetDefault("Various melee weapons emit mushrooms in true melee range\n" +
+                "True melee strikes deal 25% more damage");
         }
 
         public override void SetDefaults()

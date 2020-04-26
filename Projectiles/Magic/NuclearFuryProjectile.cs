@@ -29,7 +29,6 @@ namespace CalamityMod.Projectiles.Magic
             projectile.tileCollide = false;
             projectile.extraUpdates = 2;
             projectile.ignoreWater = true;
-            aiType = ProjectileID.Typhoon;
         }
 
         public override void Kill(int timeLeft)
@@ -50,8 +49,18 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 5;
+			target.buffImmune[BuffID.Wet] = false; //I'm not sorry
+			target.AddBuff(BuffID.Wet, 600);
+			if (projectile.ai[1] != 1f) //Nuclear Fury
+			{
+				target.immune[projectile.owner] = 5;
+			}
         }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.AddBuff(BuffID.Wet, 600);
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

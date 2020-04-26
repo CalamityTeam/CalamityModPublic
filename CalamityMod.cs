@@ -9,6 +9,7 @@ using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
@@ -53,6 +54,7 @@ using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
@@ -75,6 +77,7 @@ using System.IO;
 using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent.Dyes;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -304,6 +307,11 @@ namespace CalamityMod
 
             RipperUI.Reset();
             AstralArcanumUI.Load(this);
+
+			GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
+			GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
+			GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(139, 205, 255), ((float)player.wingTime / (float)player.wingTimeMax))));
+			GameShaders.Hair.BindShader(ModContent.ItemType<StealthHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(186, 85, 211), (player.Calamity().rogueStealth / player.Calamity().rogueStealthMax))));
         }
         #endregion
 
@@ -607,7 +615,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<AetherBeam>(),
                 ModContent.ProjectileType<FlurrystormCannonShooting>(),
                 ModContent.ProjectileType<MagnomalyBeam>(),
-                ModContent.ProjectileType<MagnomalyAura>()
+                ModContent.ProjectileType<MagnomalyAura>(),
+                ModContent.ProjectileType<RainbowTrail>()
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -619,6 +628,7 @@ namespace CalamityMod
                 ProjectileID.LastPrism,
                 ProjectileID.LaserMachinegun,
                 ProjectileID.ChargedBlasterCannon,
+				ProjectileID.MedusaHead,
                 ModContent.ProjectileType<PhangasmBow>(),
                 ModContent.ProjectileType<ContagionBow>(),
                 ModContent.ProjectileType<DaemonsFlameBow>(),
@@ -634,7 +644,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<DarkSparkPrism>(),
                 ModContent.ProjectileType<GhastlyVisageProj>(),
 
-                ModContent.ProjectileType<Projectiles.Ranged.FlakKraken>(),
+                ModContent.ProjectileType<FlakKrakenProj>(),
                 ModContent.ProjectileType<SylvanSlashAttack>(),
                 ModContent.ProjectileType<InfernadoFriendly>()
             };
@@ -1291,7 +1301,6 @@ namespace CalamityMod
 
             twentyDamageBuffList = new List<int>()
             {
-                ItemID.TerraBlade,
                 ItemID.ChainGuillotines,
                 ItemID.FlowerofFrost,
                 ItemID.PoisonStaff,
@@ -1320,7 +1329,6 @@ namespace CalamityMod
             {
                 ItemID.DaedalusStormbow,
                 ItemID.PhoenixBlaster,
-                ItemID.VenusMagnum,
                 ItemID.BlizzardStaff,
                 ItemID.DD2BetsyBow
             };
@@ -1882,6 +1890,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<MoltenAmputatorProj>(),
                 ModContent.ProjectileType<OPHammer>(),
                 ModContent.ProjectileType<SandDollarProj>(),
+                ModContent.ProjectileType<SandDollarStealth>(),
                 ModContent.ProjectileType<SeashellBoomerangProjectile>(),
                 ModContent.ProjectileType<ShroomerangProj>(),
                 ModContent.ProjectileType<TriactisOPHammer>(),

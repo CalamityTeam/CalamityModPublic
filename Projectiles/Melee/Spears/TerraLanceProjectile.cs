@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
+            projectile.Calamity().trueMelee = true;
         }
         public override float InitialSpeed => 3f;
         public override float ReelbackSpeed => 2.4f;
@@ -31,7 +32,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
             Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y,
-                                projectile.velocity.X * 1.4f, projectile.velocity.Y * 1.4f, ModContent.ProjectileType<TerraSpear>(), (int)(projectile.damage * 0.85), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
+                                projectile.velocity.X * 1.4f, projectile.velocity.Y * 1.4f, ModContent.ProjectileType<TerraSpear>(), (int)(projectile.damage * 0.7), projectile.knockBack * 0.7f, projectile.owner, 0f, 0f);
         };
         public override void ExtraBehavior()
         {

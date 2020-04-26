@@ -8,6 +8,7 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.AstrumDeus;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
@@ -43,6 +44,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<Stardust>(), 60, 90);
+            DropHelper.DropItem(player, ItemID.FallenStar, 100, 180);
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<TheMicrowave>(), 3);

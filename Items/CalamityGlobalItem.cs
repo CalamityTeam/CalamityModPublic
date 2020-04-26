@@ -55,7 +55,6 @@ namespace CalamityMod.Items
         #endregion
 
         public bool rogue = false;
-        public bool trueMelee = false;
 
         public int timesUsed = 0;
 
@@ -184,30 +183,6 @@ namespace CalamityMod.Items
 			}
 			if (item.type == ItemID.StarCannon)
 				item.UseSound = null;
-
-            switch (item.type)
-            {
-                case ItemID.Spear:
-                case ItemID.TheRottedFork:
-                case ItemID.Swordfish:
-                case ItemID.Arkhalis:
-                case ItemID.DarkLance:
-                case ItemID.CobaltNaginata:
-                case ItemID.PalladiumPike:
-                case ItemID.MythrilHalberd:
-                case ItemID.OrichalcumHalberd:
-                case ItemID.AdamantiteGlaive:
-                case ItemID.TitaniumTrident:
-                case ItemID.Gungnir:
-                case ItemID.ObsidianSwordfish:
-                case ItemID.MonkStaffT3:
-                case ItemID.MonkStaffT2:
-                case ItemID.MonkStaffT1:
-                    trueMelee = true;
-                    break;
-                default:
-                    break;
-            }
         }
         #endregion
 
@@ -408,7 +383,7 @@ namespace CalamityMod.Items
 			{
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[i].active && (Main.projectile[i].type == ProjectileID.RainbowFront || Main.projectile[i].type == ProjectileID.RainbowBack) && Main.projectile[i].owner == player.whoAmI)
+                    if (Main.projectile[i].active && (Main.projectile[i].type == ModContent.ProjectileType<RainbowFront>() || Main.projectile[i].type == ModContent.ProjectileType<RainbowTrail>()) && Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
                     }
@@ -416,8 +391,7 @@ namespace CalamityMod.Items
 				for (int i = -8; i <= 8; i += 8)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					int rainbow = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.RainbowFront, damage, 0f, player.whoAmI, 0f, 0f);
-					Main.projectile[rainbow].Calamity().forceRanged = true;
+					Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<RainbowFront>(), damage, 0f, player.whoAmI, 0f, 0f);
 				}
 			}
             return true;
@@ -607,7 +581,7 @@ namespace CalamityMod.Items
                             player.QuickMana();
                         }
                     }
-                    if (player.statMana >= manaCost && player.Calamity().profanedSoulWeaponUsage == 0)
+                    if (player.statMana >= manaCost && player.Calamity().profanedSoulWeaponUsage == 0 && !player.silence)
                     {
                         player.manaRegenDelay = (int)player.maxRegenDelay;
                         player.statMana -= manaCost;
@@ -763,6 +737,11 @@ namespace CalamityMod.Items
         public override bool CanUseItem(Item item, Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
+                (item.damage > 0 || item.ammo != AmmoID.None))
+            {
+                return false; // Don't use weapons if you're charging with a spear
+            }
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
             {   
                 if (player.altFunctionUse == 0)
@@ -1528,14 +1507,17 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
             {
-                foreach (TooltipLine line2 in tooltips)
-                {
-                    if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-                    {
-                        line2.text = "Set Bonus: Double tap " + (Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN") + " to call an ancient storm to the cursor location\n" +
-							"Minions deal full damage while wielding weaponry";
-                    }
-                }
+				if (!Main.player[Main.myPlayer].Calamity().forbiddenCirclet)
+				{
+					foreach (TooltipLine line2 in tooltips)
+					{
+						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
+						{
+							line2.text = "Set Bonus: Double tap " + (Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN") + " to call an ancient storm to the cursor location\n" +
+								"Minions deal full damage while wielding magic weapons";
+						}
+					}
+				}
             }
             if (item.type == ItemID.GladiatorHelmet)
             {

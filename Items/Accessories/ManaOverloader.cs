@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Accessories
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mana Overloader");
+            DisplayName.SetDefault("Mana Polarizer");
             Tooltip.SetDefault("Increases max mana by 50 and magic damage by 6%\n" +
                                "Life regen lowered by 3 if mana is above 50% of its maximum\n" +
                                "Spectre healing if mana is below 10% of its maximum");

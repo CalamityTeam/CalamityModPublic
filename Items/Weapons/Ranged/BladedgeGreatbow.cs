@@ -17,12 +17,12 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 26;
+            item.damage = 22;
             item.ranged = true;
             item.width = 74;
             item.height = 24;
-            item.useTime = 24;
-            item.useAnimation = 24;
+            item.useTime = 26;
+            item.useAnimation = 26;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 3.5f;
@@ -64,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 {
                     value9 -= vector7;
                 }
-                int projectile = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ProjectileID.Leaf, damage, 0f, player.whoAmI, 0f, 0f);
+                int projectile = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ProjectileID.Leaf, damage / 2, 0f, player.whoAmI, 0f, 0f);
                 Main.projectile[projectile].Calamity().forceRanged = true;
             }
             return false;

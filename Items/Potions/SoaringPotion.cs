@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Soaring Potion");
             Tooltip.SetDefault("Increases flight time and horizontal flight speed by 10%\n" +
-				"Restores a fraction of your wing flight time whenever you strike an enemy with a true melee weapon\n" +
+				"Restores a fraction of your wing flight time after a true melee strike\n" +
 				"The amount of flight time restored scales with your melee stats and weapon swing speed");
         }
 

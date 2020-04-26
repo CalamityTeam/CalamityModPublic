@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Infernal Spear");
-            Tooltip.SetDefault("Throws a homing spear that explodes on enemy hits");
+            Tooltip.SetDefault("Throws a homing spear that explodes on enemy hits\n" +
+			"Stealth strikes summon fireballs as they fly before exploding into a fiery fountain");
         }
 
         public override void SafeSetDefaults()
@@ -32,6 +33,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 28f;
             item.Calamity().rogue = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
+
+        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            return false;
         }
     }
 }

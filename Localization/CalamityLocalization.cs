@@ -157,6 +157,7 @@ namespace CalamityMod.Localization
                 new [] { "SandstormTrigger", "The desert wind is blowing furiously!" },
 
                 new [] { "ThirdSageBlessingText", "You have been blessed by the Third Sage!" },
+                new [] { "ThirdSageBlessingText2", "The Third Sage has rescinded its blessing..." },
 
                 new [] { "AprilFools", "The LORDE is approaching..." },
                 new [] { "AprilFools2", "A boomer awaits..." }, //possible alternative to GhostBossText4

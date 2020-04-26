@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Potions
         {
             DisplayName.SetDefault("Draconic Elixir");
             Tooltip.SetDefault("Greatly increases wing flight time and speed and increases defense by 16\n" +
-                "God slayer revival heals you to full HP instead of 150 HP when triggered\n" +
-                "Silva invincibility heals you to full HP when triggered\n" +
-                "If you trigger the above heals you cannot drink this potion again for 30 seconds");
+                "God slayer revival heals you to half HP instead of 150 HP when triggered\n" +
+                "Silva invincibility heals you to half HP when triggered\n" +
+                "If you trigger the above heals you cannot drink this potion again for 60 seconds");
         }
 
         public override void SetDefaults()
@@ -34,10 +34,7 @@ namespace CalamityMod.Items.Potions
             item.value = Item.buyPrice(0, 2, 0, 0);
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return !player.Calamity().draconicSurgeCooldown;
-        }
+        public override bool CanUseItem(Player player) => !player.Calamity().draconicSurgeCooldown;
 
         public override void AddRecipes()
         {

@@ -1,6 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Potions;
-using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Environment;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
@@ -485,10 +485,11 @@ namespace CalamityMod.Tiles
 						}
 						if (shootFlames && Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int projectileType = (type != ModContent.TileType<BrimstoneSlag>() && type != ModContent.TileType<CharredOre>()) ? ProjectileID.GeyserTrap : ModContent.ProjectileType<BrimstoneFire>();
-							float randomVelocity = Main.rand.NextFloat() + 0.5f;
-							int proj = Projectile.NewProjectile((float)(i * 16), (float)(j * 16), 0f, -8f * randomVelocity, projectileType, 20, 2f, Main.myPlayer, 0f, 0f);
-							Main.projectile[proj].friendly = false;
+							float ai0 = 0f;
+							if (type == ModContent.TileType<BrimstoneSlag>() || type == ModContent.TileType<CharredOre>())
+								ai0 = 1f;
+							int projectileType = ModContent.ProjectileType<GeyserTelegraph>();
+							int proj = Projectile.NewProjectile((float)(i * 16), (float)(j * 16), 0f, 0f, projectileType, 0, 0f, Main.myPlayer, ai0, 0f);
 							Main.projectile[proj].netUpdate = true;
 						}
 					}

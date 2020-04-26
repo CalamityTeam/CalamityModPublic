@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void AI()
         {
-            if (npc.localAI[0] == 0f)
+            if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
 				if (Main.rand.NextBool(20))
 					npc.catchItem = (short)ModContent.ItemType<GeyserShell>();

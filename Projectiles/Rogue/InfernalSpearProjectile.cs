@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +10,9 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class InfernalSpearProjectile : ModProjectile
     {
+        private float speedX = -3f;
+        private float speedX2 = -5f;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spear");
@@ -28,8 +32,31 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(speedX);
+            writer.Write(speedX2);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            speedX = reader.ReadSingle();
+            speedX2 = reader.ReadSingle();
+        }
+
         public override void AI()
         {
+			if (projectile.timeLeft % 12 == 0)
+			{
+				if (projectile.owner == Main.myPlayer)
+				{
+					if (projectile.Calamity().stealthStrike)
+					{
+						Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<InfernalFireball>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
+					}
+				}
+			}
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {
@@ -46,6 +73,22 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
+			if (projectile.Calamity().stealthStrike)
+			{
+				if (projectile.owner == Main.myPlayer)
+				{
+					for (int x = 0; x < 3; x++)
+					{
+						Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX, -50f, ModContent.ProjectileType<InfernalFireballEruption>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+						speedX += 3f;
+					}
+					for (int x = 0; x < 2; x++)
+					{
+						Projectile.NewProjectile((int)projectile.Center.X, (int)projectile.Center.Y, speedX2, -75f, ModContent.ProjectileType<InfernalFireballEruption>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+						speedX2 += 10f;
+					}
+				}
+			}
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 160;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

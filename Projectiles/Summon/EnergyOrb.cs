@@ -42,12 +42,15 @@ namespace CalamityMod.Projectiles.Summon
             float num473 = projectile.Center.Y;
             float num474 = 400f;
             bool flag17 = false;
-            for (int num475 = 0; num475 < Main.npc.Length; num475++)
+			Player player = Main.player[projectile.owner];
+
+            if (player.HasMinionAttackTargetNPC)
             {
-                if (Main.npc[num475].CanBeChasedBy(projectile, false))
+                NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                if (npc.CanBeChasedBy(projectile, false))
                 {
-                    float num476 = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
-                    float num477 = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
+                    float num476 = npc.position.X + (float)(npc.width / 2);
+                    float num477 = npc.position.Y + (float)(npc.height / 2);
                     float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
                     if (num478 < num474)
                     {
@@ -58,6 +61,26 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
+			else
+			{
+				for (int num475 = 0; num475 < Main.maxNPCs; num475++)
+				{
+					NPC npc = Main.npc[num475];
+					if (npc.CanBeChasedBy(projectile, false))
+					{
+						float num476 = npc.position.X + (float)(npc.width / 2);
+						float num477 = npc.position.Y + (float)(npc.height / 2);
+						float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
+						if (num478 < num474)
+						{
+							num474 = num478;
+							num472 = num476;
+							num473 = num477;
+							flag17 = true;
+						}
+					}
+				}
+			}
             if (flag17)
             {
                 float num483 = 10f;
