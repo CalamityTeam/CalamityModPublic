@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.Center = player.Center + new Vector2(owner.spriteDirection == 1 ? 48f : 22f, -28f);
                 if (player.Calamity().andromedaState == AndromedaPlayerState.SmallRobot)
                 {
-                    projectile.Center = player.Center + new Vector2(owner.spriteDirection == 1 ? -6f : -14f, 0f);
+                    projectile.Center = player.Center + new Vector2(owner.spriteDirection == 1 ? 24f : 2f, 0f);
                 }
             }
 
