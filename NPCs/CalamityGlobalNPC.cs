@@ -15,6 +15,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.SummonItems;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.Abyss;
@@ -5510,6 +5511,7 @@ namespace CalamityMod.NPCs
             if (type == NPCID.Cyborg)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.RocketLauncher, NPC.downedGolemBoss, Item.buyPrice(0, 25));
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<LionHeart>(), CalamityWorld.downedPolterghast);
             }
 
             if (type == NPCID.Pirate)

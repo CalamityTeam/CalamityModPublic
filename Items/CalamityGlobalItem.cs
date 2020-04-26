@@ -3332,6 +3332,14 @@ Provides heat and cold protection in Death Mode";
         public static readonly int RarityDarkBlueBuyPrice = Item.buyPrice(1, 80, 0, 0);
         public static readonly int RarityVioletBuyPrice = Item.buyPrice(2, 50, 0, 0);
         public static readonly int RarityHotPinkBuyPrice = Item.buyPrice(5, 0, 0, 0);
+
+		//These duplicates are for my sanity...
+        public static readonly int Rarity12BuyPrice = Item.buyPrice(1, 20, 0, 0);
+        public static readonly int Rarity13BuyPrice = Item.buyPrice(1, 40, 0, 0);
+        public static readonly int Rarity14BuyPrice = Item.buyPrice(1, 80, 0, 0);
+        public static readonly int Rarity15BuyPrice = Item.buyPrice(2, 50, 0, 0);
+        public static readonly int Rarity16BuyPrice = Item.buyPrice(5, 0, 0, 0);
+
         public static int GetBuyPrice(int rarity)
         {
             switch (rarity)
