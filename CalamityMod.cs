@@ -148,7 +148,9 @@ namespace CalamityMod
         public static List<int> thirtyThreeDamageBuffList; //33% buff
         public static List<int> twentyFiveDamageBuffList; //25% buff
         public static List<int> twentyDamageBuffList; //20% buff
+        public static List<int> tenDamageBuffList; //10% buff
         public static List<int> weaponAutoreuseList;
+        public static List<int> tenDamageNerfList; //10% nerf
         public static List<int> quarterDamageNerfList; //25% nerf
         public static List<int> pumpkinMoonBuffList;
         public static List<int> frostMoonBuffList;
@@ -359,7 +361,9 @@ namespace CalamityMod
             fiftyDamageBuffList = null;
             thirtyThreeDamageBuffList = null;
             twentyFiveDamageBuffList = null;
+            tenDamageBuffList = null;
             weaponAutoreuseList = null;
+            tenDamageNerfList = null;
             quarterDamageNerfList = null;
             pumpkinMoonBuffList = null;
             frostMoonBuffList = null;
@@ -1308,6 +1312,12 @@ namespace CalamityMod
                 ItemID.TacticalShotgun
             };
 
+            tenDamageBuffList = new List<int>()
+            {
+                ItemID.MagnetSphere,
+                ItemID.BatScepter
+            };
+
             weaponAutoreuseList = new List<int>()
             {
                 ItemID.NightsEdge,
@@ -1325,12 +1335,21 @@ namespace CalamityMod
                 ItemID.StylistKilLaKillScissorsIWish
             };
 
+            tenDamageNerfList = new List<int>()
+            {
+                ItemID.Razorpine,
+                ItemID.Phantasm,
+                ItemID.PossessedHatchet,
+                ItemID.Xenopopper
+            };
+
             quarterDamageNerfList = new List<int>()
             {
                 ItemID.DaedalusStormbow,
                 ItemID.PhoenixBlaster,
-                ItemID.BlizzardStaff,
-                ItemID.DD2BetsyBow
+                ItemID.DD2BetsyBow,
+                ItemID.InfluxWaver,
+                ItemID.LaserMachinegun
             };
 
             pumpkinMoonBuffList = new List<int>()

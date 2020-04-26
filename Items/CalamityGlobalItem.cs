@@ -87,7 +87,7 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
                 item.damage *= 4;
-            else if (item.type == ItemID.SpectreStaff)
+            else if (item.type == ItemID.SpectreStaff || item.type == ItemID.ShadowbeamStaff)
                 item.damage *= 3;
             else if (CalamityMod.doubleDamageBuffList?.Contains(item.type) ?? false)
                 item.damage *= 2;
@@ -103,16 +103,16 @@ namespace CalamityMod.Items
                 item.damage = (int)(item.damage * 1.25);
             else if (CalamityMod.twentyDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.2);
-            else if (item.type == ItemID.MagnetSphere)
+            else if (CalamityMod.tenDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.1);
-            else if (item.type == ItemID.Razorpine)
-                item.damage = (int)(item.damage * 0.95);
-            else if (item.type == ItemID.Phantasm)
+            else if (CalamityMod.tenDamageNerfList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 0.9);
             else if (item.type == ItemID.LastPrism)
                 item.damage = (int)(item.damage * 0.85);
             else if (CalamityMod.quarterDamageNerfList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 0.75);
+            else if (item.type == ItemID.BlizzardStaff)
+                item.damage = (int)(item.damage * 0.7);
             else if (item.type == ItemID.StardustDragonStaff)
                 item.damage = (int)(item.damage * 0.5);
 

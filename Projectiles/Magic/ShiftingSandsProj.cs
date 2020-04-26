@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.friendly = true;
             projectile.penetrate = 5;
             projectile.magic = true;
+			projectile.extraUpdates = 2;
         }
 
         public override void AI()

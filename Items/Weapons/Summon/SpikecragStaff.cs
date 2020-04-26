@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 70;
+            item.damage = 56;
             item.mana = 10;
             item.summon = true;
             item.sentry = true;

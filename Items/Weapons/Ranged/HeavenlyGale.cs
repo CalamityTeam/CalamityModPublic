@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 720;
+            item.damage = 740;
             item.ranged = true;
             item.width = 44;
             item.height = 58;
@@ -66,8 +66,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     case 1:
                     case 2:
                     case 3:
-                        type = ModContent.ProjectileType<TealExoArrow>();
-                        dmg = 0.16f;
+                        type = ModContent.ProjectileType<BlueExoArrow>();
                         break;
                     case 4:
                     case 5:
@@ -76,7 +75,8 @@ namespace CalamityMod.Items.Weapons.Ranged
                         break;
                     case 7:
                     case 8:
-                        type = ModContent.ProjectileType<BlueExoArrow>();
+                        type = ModContent.ProjectileType<TealExoArrow>();
+                        dmg = 0.5f;
                         break;
                     case 9:
                         type = ModContent.ProjectileType<GreenExoArrow>();
