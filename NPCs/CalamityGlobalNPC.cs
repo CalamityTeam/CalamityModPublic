@@ -3431,13 +3431,6 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			NPCResists(npc, projectile, damage);
-        }
-
-		#region NPC Resists
-		private void NPCResists(NPC npc, Projectile projectile, int damage)
-		{
-			Player player = Main.player[projectile.owner];
 			if (AstrumDeusIDs.Contains(npc.type))
 			{
 				if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
@@ -3549,7 +3542,7 @@ namespace CalamityMod.NPCs
                 {
                     if (projectile.penetrate == -1)
                         projectile.penetrate = 1;
-                    damage = (int)(damage * 0.01);
+                    damage = (int)(damage * 0.1);
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
@@ -3615,7 +3608,6 @@ namespace CalamityMod.NPCs
 				}
 			}
 		}
-		#endregion
         #endregion
 
         #region On Hit By Item

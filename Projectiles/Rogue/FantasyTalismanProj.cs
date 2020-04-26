@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FantasyTalismanProj : ModProjectile
     {
-		int spiritTimer = 0;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Talisman");
@@ -26,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
             projectile.ignoreWater = true;
             projectile.aiStyle = 1;
-            aiType = 242;
+            aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
             projectile.usesLocalNPCImmunity = true;
@@ -41,64 +39,25 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 175, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
+            CalamityUtils.StickyProjAI(projectile, 15);
             if (projectile.ai[0] == 1f)
             {
-                projectile.tileCollide = false;
-                int num988 = 15;
-                bool flag54 = false;
-                bool flag55 = false;
-                float[] var_2_2CB4E_cp_0 = projectile.localAI;
-                int var_2_2CB4E_cp_1 = 0;
-                float num73 = var_2_2CB4E_cp_0[var_2_2CB4E_cp_1];
-                var_2_2CB4E_cp_0[var_2_2CB4E_cp_1] = num73 + 1f;
-                if (projectile.localAI[0] % 30f == 0f)
-                {
-                    flag55 = true;
-                }
-                int num989 = (int)projectile.ai[1];
-                if (projectile.localAI[0] >= (float)(60 * num988))
-                {
-                    flag54 = true;
-                }
-                else if (num989 < 0 || num989 >= 200)
-                {
-                    flag54 = true;
-                }
-                else if (Main.npc[num989].active && !Main.npc[num989].dontTakeDamage)
-                {
-                    projectile.Center = Main.npc[num989].Center - projectile.velocity * 2f;
-                    projectile.gfxOffY = Main.npc[num989].gfxOffY;
-                    if (flag55)
-                    {
-                        Main.npc[num989].HitEffect(0, 1.0);
-                    }
-                }
-                else
-                {
-                    flag54 = true;
-                }
-                if (flag54)
-                {
-                    projectile.Kill();
-                }
-				spiritTimer++;
-				if (spiritTimer >= 10)
+				if (projectile.timeLeft % 10 == 0)
 				{
-					spiritTimer = 0;
 					if (Main.rand.NextBool(2))
 					{
 						int spiritDamage = projectile.damage / 2;
-						int[] numArray1 = new int[200];
+						int[] numArray1 = new int[Main.maxNPCs];
 						int maxValue1 = 0;
 						int maxValue2 = 0;
-						for (int index = 0; index < 200; ++index)
+						for (int index = 0; index < Main.maxNPCs; ++index)
 						{
 							if (Main.npc[index].CanBeChasedBy((object) projectile, false))
 							{
-								float num2 = Math.Abs(Main.npc[index].position.X + (float) (Main.npc[index].width / 2) - projectile.position.X + (float) (projectile.width / 2)) + Math.Abs(Main.npc[index].position.Y + (float) (Main.npc[index].height / 2) - projectile.position.Y + (float) (projectile.height / 2));
-								if ((double) num2 < 800.0)
+								float num2 = Math.Abs(Main.npc[index].Center.X - projectile.Center.X) + Math.Abs(Main.npc[index].Center.Y - projectile.Center.Y);
+								if (num2 < 800f)
 								{
-									if (Collision.CanHit(projectile.position, 1, 1, Main.npc[index].position, Main.npc[index].width, Main.npc[index].height) && (double) num2 > 50.0)
+									if (Collision.CanHit(projectile.position, 1, 1, Main.npc[index].position, Main.npc[index].width, Main.npc[index].height) && num2 > 50f)
 									{
 										numArray1[maxValue2] = index;
 										++maxValue2;
@@ -121,7 +80,7 @@ namespace CalamityMod.Projectiles.Rogue
 						float num8 = (float) (num4 / num7);
 						float SpeedX = num5 * num8;
 						float SpeedY = num6 * num8;
-						int ghost = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, ProjectileID.SpectreWrath, spiritDamage, 0.0f, projectile.owner, (float) num3, 0.0f);
+						int ghost = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, ProjectileID.SpectreWrath, spiritDamage, 0.0f, projectile.owner, (float)num3, 0f);
 						Main.projectile[ghost].Calamity().forceRogue = true;
 						Main.projectile[ghost].penetrate = 1;
 					}
@@ -137,75 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
-            if (projectile.owner == Main.myPlayer)
-            {
-                for (int i = 0; i < 200; i++)
-                {
-                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
-                        (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
-                    {
-                        if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))
-                        {
-                            bool flag3;
-                            if (Main.npc[i].type == 414)
-                            {
-                                Rectangle rect = Main.npc[i].getRect();
-                                int num5 = 8;
-                                rect.X -= num5;
-                                rect.Y -= num5;
-                                rect.Width += num5 * 2;
-                                rect.Height += num5 * 2;
-                                flag3 = projectile.Colliding(myRect, rect);
-                            }
-                            else
-                            {
-                                flag3 = projectile.Colliding(myRect, Main.npc[i].getRect());
-                            }
-                            if (flag3)
-                            {
-                                if (Main.npc[i].reflectingProjectiles && projectile.CanReflect())
-                                {
-                                    Main.npc[i].ReflectProjectile(projectile.whoAmI);
-                                    return;
-                                }
-                                projectile.ai[0] = 1f;
-                                projectile.ai[1] = (float)i;
-                                projectile.velocity = (Main.npc[i].Center - projectile.Center) * 0.75f;
-                                projectile.netUpdate = true;
-                                projectile.StatusNPC(i);
-                                int num28 = 3;
-                                Point[] array2 = new Point[num28];
-                                int num29 = 0;
-                                for (int l = 0; l < 1000; l++)
-                                {
-                                    if (l != projectile.whoAmI && Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type && Main.projectile[l].ai[0] == 1f && Main.projectile[l].ai[1] == (float)i)
-                                    {
-                                        array2[num29++] = new Point(l, Main.projectile[l].timeLeft);
-                                        if (num29 >= array2.Length)
-                                        {
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (num29 >= array2.Length)
-                                {
-                                    int num30 = 0;
-                                    for (int m = 1; m < array2.Length; m++)
-                                    {
-                                        if (array2[m].Y < array2[num30].Y)
-                                        {
-                                            num30 = m;
-                                        }
-                                    }
-                                    Main.projectile[array2[num30].X].Kill();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            CalamityUtils.ModifyHitNPCSticky(projectile, 3, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
