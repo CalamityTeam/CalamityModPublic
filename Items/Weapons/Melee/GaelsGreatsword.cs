@@ -100,7 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Projectile.NewProjectile(p.ToWorldCoordinates(8f, 0f), Vector2.Zero, ModContent.ProjectileType<LightningThing>(), 0, 0f, player.whoAmI);
                 }
             }
-            if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.5))
+            if (player.itemAnimation == (int)(player.itemAnimationMax * 0.5))
             {
                 player.Calamity().gaelSwipes++;
                 if (player.statLife <= player.statLifeMax2 * 0.5f)

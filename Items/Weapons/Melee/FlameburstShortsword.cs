@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.life <= (target.lifeMax * 0.5f))
             {
-                int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 Main.projectile[boom].Calamity().forceMelee = true;
             }
         }
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.statLife <= (target.statLifeMax2 * 0.5f))
             {
-                int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
+                int boom = Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, player.whoAmI, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 Main.projectile[boom].Calamity().forceMelee = true;
             }
         }

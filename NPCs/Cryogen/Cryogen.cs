@@ -738,7 +738,7 @@ namespace CalamityMod.NPCs.Cryogen
 					{
 						chance = 20;
 					}
-					if (Main.rand.NextBool(50))
+					if (Main.rand.NextBool(chance))
 					{
 						string key = "Mods.CalamityMod.CryogenBossText";
 						Color messageColor = Color.Cyan;
