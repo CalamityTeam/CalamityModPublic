@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
             // Terraria night starts at 7:30 PM, so offset accordingly
             time -= 19.5;
 
-            // Offset time to ensure it is not negative, then change to PM if necessary
+            // Offset time to ensure it is not negative
             if (time < 0D)
                 time += 24D;
 
@@ -81,9 +81,6 @@ namespace CalamityMod.Projectiles.Melee
             // Convert from 24 to 12 hour time
             if (intTime > 12)
                 intTime -= 12;
-            // 12 AM is actually hour zero in 24 hour time
-            if (intTime == 0)
-                intTime = 12;
 
 			float projSpeed = 8f;
 
