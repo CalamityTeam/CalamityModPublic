@@ -72,7 +72,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 30f)
             {
-                projectile.ai[0] = 30f;
 				if (player.HasMinionAttackTargetNPC)
 				{
 					NPC npc = Main.npc[player.MinionAttackTargetNPC];
@@ -168,6 +167,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
+				projectile.ai[0] += 15f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;
@@ -180,9 +180,6 @@ namespace CalamityMod.Projectiles.Summon
             return false;
         }
 
-        public override bool CanDamage()
-		{
-			return projectile.ai[0] >= 30f;
-		}
+        public override bool CanDamage() => projectile.ai[0] >= 30f;
     }
 }

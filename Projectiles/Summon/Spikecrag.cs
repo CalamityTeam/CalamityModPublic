@@ -24,8 +24,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.sentry = true;
             projectile.timeLeft = Projectile.SentryLifeTime;
             projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 15;
         }
 
         public override void AI()
@@ -80,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            if (projectile.owner == Main.myPlayer && homeIn)
+            if (projectile.owner == Main.myPlayer && homeIn && projectile.velocity.Y == 0f)
             {
                 if (projectile.ai[0] != 0f)
                 {
@@ -90,12 +88,12 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] += 1f;
                 if ((projectile.ai[1] % 10f) == 0f)
                 {
-                    int amount = Main.rand.Next(6, 10);
+                    int amount = Main.rand.Next(5, 8);
                     for (int i = 0; i < amount; i++)
                     {
                         float velocityX = Main.rand.NextFloat(-10f, 10f);
                         float velocityY = Main.rand.NextFloat(-15f, -8f);
-                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocityX, velocityY, ModContent.ProjectileType<SpikecragSpike>(), (int)((double)projectile.damage * 0.80), 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocityX, velocityY, ModContent.ProjectileType<SpikecragSpike>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                     }
                 }
             }

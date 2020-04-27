@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 54;
+            item.damage = 49;
             item.magic = true;
             item.mana = 12;
             item.width = 42;
@@ -34,8 +34,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int num6 = 3;
-            for (int index = 0; index < num6; ++index)
+            int beamAmt = 3;
+            for (int index = 0; index < beamAmt; ++index)
             {
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }

@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class DefectiveSphere : RogueWeapon
     {
-        public static int BaseDamage = 115;
+        public static int BaseDamage = 130;
         public static float Speed = 15f;
 
         public override void SetStaticDefaults()

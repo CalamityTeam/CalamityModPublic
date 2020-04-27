@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Magic
                     return;
                 }
 
-				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 600f, 9f, 20f);
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 9f, 20f);
             }
             else
             {
@@ -102,6 +102,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.damage /= 2;
             projectile.Damage();
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 21, 1f, 0f);
             for (int num193 = 0; num193 < 4; num193++)

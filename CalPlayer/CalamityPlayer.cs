@@ -665,6 +665,7 @@ namespace CalamityMod.CalPlayer
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
         public bool vaporfied = false;
+        public bool energyShellCooldown = false;
         #endregion
 
         #region Buff
@@ -1626,6 +1627,7 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
+			energyShellCooldown = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -1914,6 +1916,7 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
+			energyShellCooldown = false;
             #endregion
 
             #region Rogue
@@ -6191,6 +6194,10 @@ namespace CalamityMod.CalPlayer
             if (encased)
             {
                 damage = (int)(damage * 0.7);
+            }
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] > 0 && player.HeldItem.type == ModContent.ItemType<LionHeart>())
+            {
+                damage = (int)(damage * 0.5);
             }
             if (theBee && player.statLife >= player.statLifeMax2 && theBeeCooldown <= 0)
             {
