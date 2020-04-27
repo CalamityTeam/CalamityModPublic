@@ -1727,7 +1727,7 @@ namespace CalamityMod.NPCs
 				}
 
 				npc.ai[2] += 1f;
-				if (npc.ai[2] >= 30f)
+				if (npc.ai[2] >= 45f)
 				{
 					npc.TargetClosest(true);
 					npc.ai[1] = 2f;
