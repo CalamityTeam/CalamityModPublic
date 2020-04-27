@@ -5,8 +5,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class WaterStream : ModProjectile
     {
-        public int addSprayTimer = 20;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stream");
@@ -31,14 +29,12 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.tileCollide = true;
             }
-            addSprayTimer--;
-            if (addSprayTimer <= 0)
+            if (projectile.timeLeft % 20 == 0)
             {
                 if (projectile.owner == Main.myPlayer)
                 {
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<WaterStream2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
-                addSprayTimer = 20;
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
             projectile.scale -= 0.002f;

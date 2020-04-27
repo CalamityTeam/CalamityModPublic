@@ -43,44 +43,38 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 projectile.ai[0] += 1f;
                 int num297 = 32;
-                int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-                if (Main.rand.NextBool(3))
-                {
-                    Main.dust[num299].noGravity = true;
-                    Main.dust[num299].scale *= 4f;
-                    Dust expr_DBEF_cp_0 = Main.dust[num299];
-                    expr_DBEF_cp_0.velocity.X *= 2f;
-                    Dust expr_DC0F_cp_0 = Main.dust[num299];
-                    expr_DC0F_cp_0.velocity.Y *= 2f;
-                }
-                else
-                {
-                    Main.dust[num299].scale *= 2.5f;
-                }
-                Dust expr_DC74_cp_0 = Main.dust[num299];
-                expr_DC74_cp_0.velocity.X *= 1.2f;
-                Dust expr_DC94_cp_0 = Main.dust[num299];
-                expr_DC94_cp_0.velocity.Y *= 1.2f;
-                Main.dust[num299].scale *= num296;
+				int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+				Dust dust = Main.dust[num299];
+				if (Main.rand.NextBool(2))
+				{
+					dust.noGravity = true;
+					dust.scale *= 4f;
+					dust.velocity.X *= 2f;
+					dust.velocity.Y *= 2f;
+				}
+				else
+				{
+					dust.scale *= 2.5f;
+				}
+				dust.velocity.X *= 1.2f;
+				dust.velocity.Y *= 1.2f;
+				dust.scale *= num296;
                 int num399 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                Dust dust2 = Main.dust[num399];
                 if (Main.rand.NextBool(3))
                 {
-                    Main.dust[num399].noGravity = true;
-                    Main.dust[num399].scale *= 6f;
-                    Dust expr_DBEF_cp_0 = Main.dust[num399];
-                    expr_DBEF_cp_0.velocity.X *= 2f;
-                    Dust expr_DC0F_cp_0 = Main.dust[num399];
-                    expr_DC0F_cp_0.velocity.Y *= 2f;
+                    dust2.noGravity = true;
+                    dust2.scale *= 6f;
+                    dust2.velocity.X *= 2f;
+                    dust2.velocity.Y *= 2f;
                 }
                 else
                 {
-                    Main.dust[num399].scale *= 2.5f;
+                    dust2.scale *= 2.5f;
                 }
-                Dust expr_DC74_cp_1 = Main.dust[num399];
-                expr_DC74_cp_1.velocity.X *= 1.2f;
-                Dust expr_DC94_cp_1 = Main.dust[num399];
-                expr_DC94_cp_1.velocity.Y *= 1.2f;
-                Main.dust[num399].scale *= num296;
+                dust2.velocity.X *= 1.2f;
+                dust2.velocity.Y *= 1.2f;
+                dust2.scale *= num296;
             }
             else
             {

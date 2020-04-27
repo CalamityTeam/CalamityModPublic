@@ -914,6 +914,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.sulphurBubbleCooldown--;
 			if (modPlayer.forbiddenCooldown > 0)
 				modPlayer.forbiddenCooldown--;
+			if (modPlayer.tornadoCooldown > 0)
+				modPlayer.tornadoCooldown--;
 			if (modPlayer.ladHearts > 0)
 				modPlayer.ladHearts--;
 			if (modPlayer.titanBoost > 0)

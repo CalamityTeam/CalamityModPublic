@@ -33,13 +33,12 @@ namespace CalamityMod.Projectiles.Magic
                 float num94 = projectile.velocity.Y / 3f * (float)num92;
                 int num95 = 4;
                 int num96 = Dust.NewDust(new Vector2(projectile.position.X + (float)num95, projectile.position.Y + (float)num95), projectile.width - num95 * 2, projectile.height - num95 * 2, 5, 0f, 0f, 100, default, 1.2f);
-                Main.dust[num96].noGravity = true;
-                Main.dust[num96].velocity *= 0.1f;
-                Main.dust[num96].velocity += projectile.velocity * 0.1f;
-                Dust expr_47FA_cp_0 = Main.dust[num96];
-                expr_47FA_cp_0.position.X -= num93;
-                Dust expr_4815_cp_0 = Main.dust[num96];
-                expr_4815_cp_0.position.Y -= num94;
+                Dust dust = Main.dust[num96];
+                dust.noGravity = true;
+                dust.velocity *= 0.1f;
+                dust.velocity += projectile.velocity * 0.1f;
+                dust.position.X -= num93;
+                dust.position.Y -= num94;
             }
             if (Main.rand.NextBool(5))
             {
