@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.NPCDeath7;
             item.useTurn = false;
             item.noMelee = true;
-            item.value = Item.buyPrice(gold: 16);
+            item.value = Item.buyPrice(gold: 36);
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<ValkyrieRayBeam>();
             item.shootSpeed = 25f;

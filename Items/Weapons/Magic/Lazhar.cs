@@ -45,6 +45,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HeatRay);
+            recipe.AddIngredient(ModContent.ItemType<Zapper>());
             recipe.AddIngredient(ItemID.FragmentSolar, 10);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 6);
             recipe.AddTile(TileID.LunarCraftingStation);
