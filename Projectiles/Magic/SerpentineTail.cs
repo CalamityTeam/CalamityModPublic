@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -8,6 +9,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Serpentine");
+            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -35,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
-            int chase = (int)projectile.ai[0];
+            int chase = Projectile.GetByUUID(projectile.owner, (int)projectile.ai[0]);
             float num1064;
             float scaleFactor17;
             float scaleFactor18;
