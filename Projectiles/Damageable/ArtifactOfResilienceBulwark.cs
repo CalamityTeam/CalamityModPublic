@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Damageable
     {
         public int Reformations = 0;
         public const int MaxReformations = 3;
-        public override int LifeMax => 30000;
+        public override int LifeMax => 1;
         public override int MaxDamageImmunityFrames => 5;
         public override DamageSourceType DamageSources => DamageSourceType.FriendlyProjectiles | DamageSourceType.HostileProjectiles | DamageSourceType.HostileNPCs;
         public override LegacySoundStyle HitSound => SoundID.NPCHit3;
@@ -37,10 +37,6 @@ namespace CalamityMod.Projectiles.Damageable
                 dust.scale = Main.rand.NextFloat(1.1f, 1.5f);
                 dust.noGravity = true;
             }
-        }
-        public override void HitEffectProjectile(int damage, Projectile target)
-        {
-            target.Kill();
         }
         public override void DamageKillEffect()
         {
