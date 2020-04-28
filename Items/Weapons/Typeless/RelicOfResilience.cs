@@ -11,16 +11,18 @@ namespace CalamityMod.Items.Weapons.Typeless
     public class RelicOfResilience : ModItem
     {
         public const int CooldownSeconds = 5;
+        public const float WeaknessDR = 0.45f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Relic of Resilience");
             Tooltip.SetDefault("Summons a bulwark at the mouse position\n" +
-                               "The bulwark takes damage from enemies and all projectiles.\n" +
-                               "On death, the bulwark explodes into a burst of shards\n" +
+                               "The bulwark killed by enemies and all projectiles.\n" +
+                               "On death, the bulwark explodes into a rotating burst of shards\n" +
+                               "If an enemy is in the area of the shards, its next attack is much weaker. This effect has a cooldown\n" +
                                "After a bit of time, the shards come together to reform the original bulwark.\n" +
                                $"This reformation can only happen {ArtifactOfResilienceBulwark.MaxReformations} times.\n" +
                                "You gain a small cooldown when summoning a new bulwark.\n" +
-                               "If a bulwark or shard already exists, using this item will relocate them");
+                               "If a bulwark already exists, using this item will relocate it");
         }
 
         public override void SetDefaults()
@@ -46,8 +48,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             player.AddBuff(ModContent.BuffType<ResilienceCooldown>(), CooldownSeconds * 60);
-            if (player.ownedProjectileCounts[item.shoot] > 0 ||
-                player.ownedProjectileCounts[ModContent.ProjectileType<ArtifactOfResilienceShard1>()] > 0)
+            if (player.ownedProjectileCounts[item.shoot] > 0)
             {
                 for (int i = 0; i < Main.projectile.Length; i++)
                 {
@@ -55,33 +56,6 @@ namespace CalamityMod.Items.Weapons.Typeless
                     {
                         Main.projectile[i].Center = Main.MouseWorld;
                         Main.projectile[i].netUpdate = true;
-                    }
-                    else
-                    {
-                        if (Main.projectile[i].modProjectile is ArtifactOfResilienceShard1)
-                        {
-                            ((ArtifactOfResilienceShard1)Main.projectile[i].modProjectile).StartingPosition = Main.MouseWorld;
-                        }
-                        if (Main.projectile[i].modProjectile is ArtifactOfResilienceShard2)
-                        {
-                            ((ArtifactOfResilienceShard2)Main.projectile[i].modProjectile).StartingPosition = Main.MouseWorld;
-                        }
-                        if (Main.projectile[i].modProjectile is ArtifactOfResilienceShard3)
-                        {
-                            ((ArtifactOfResilienceShard3)Main.projectile[i].modProjectile).StartingPosition = Main.MouseWorld;
-                        }
-                        if (Main.projectile[i].modProjectile is ArtifactOfResilienceShard4)
-                        {
-                            ((ArtifactOfResilienceShard4)Main.projectile[i].modProjectile).StartingPosition = Main.MouseWorld;
-                        }
-                        if (Main.projectile[i].modProjectile is ArtifactOfResilienceShard5)
-                        {
-                            ((ArtifactOfResilienceShard5)Main.projectile[i].modProjectile).StartingPosition = Main.MouseWorld;
-                        }
-                        if (Main.projectile[i].modProjectile is ArtifactOfResilienceShard6)
-                        {
-                            ((ArtifactOfResilienceShard6)Main.projectile[i].modProjectile).StartingPosition = Main.MouseWorld;
-                        }
                     }
                 }
             }

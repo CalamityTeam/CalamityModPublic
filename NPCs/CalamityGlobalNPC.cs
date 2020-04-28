@@ -70,6 +70,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
+using CalamityMod.Items.Weapons.Typeless;
 
 namespace CalamityMod.NPCs
 {
@@ -143,6 +144,8 @@ namespace CalamityMod.NPCs
         public int clamDebuff = 0;
         public int sulphurPoison = 0;
         public int ladHearts = 0;
+        public int relicOfResilienceCooldown = 0;
+        public int relicOfResilienceWeakness = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -1365,6 +1368,12 @@ namespace CalamityMod.NPCs
             if (tSad > 0)
             {
                 damage /= 2;
+            }
+
+            if (relicOfResilienceWeakness > 0)
+            {
+                damage = (int)(damage * (1f - RelicOfResilience.WeaknessDR));
+                relicOfResilienceWeakness = 0;
             }
 
             if (modTarget.beeResist)
@@ -3043,7 +3052,11 @@ namespace CalamityMod.NPCs
 				clamDebuff--;
 			if (sulphurPoison > 0)
 				sulphurPoison--;
-			if (ladHearts > 0)
+            if (relicOfResilienceCooldown > 0)
+                relicOfResilienceCooldown--;
+            if (relicOfResilienceWeakness > 0)
+                relicOfResilienceWeakness--;
+            if (ladHearts > 0)
 				ladHearts--;
 
             // Bosses and any specific other NPCs are completely immune to having their movement impaired.
@@ -4479,7 +4492,9 @@ namespace CalamityMod.NPCs
 						buffTextureList.Add(ModContent.GetTexture("CalamityMod/Buffs/StatDebuffs/MarkedforDeath"));
 					if (pearlAura > 0)
 						buffTextureList.Add(ModContent.GetTexture("CalamityMod/Buffs/StatDebuffs/PearlAura"));
-					if (silvaStun > 0)
+                    if (relicOfResilienceWeakness > 0)
+                        buffTextureList.Add(ModContent.GetTexture("CalamityMod/Buffs/StatDebuffs/ProfanedWeakness"));
+                    if (silvaStun > 0)
 						buffTextureList.Add(ModContent.GetTexture("CalamityMod/Buffs/StatDebuffs/SilvaStun"));
 					if (tSad > 0)
 						buffTextureList.Add(ModContent.GetTexture("CalamityMod/Buffs/StatDebuffs/TemporalSadness"));
