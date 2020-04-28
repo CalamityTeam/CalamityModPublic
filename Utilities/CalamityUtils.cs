@@ -2138,6 +2138,33 @@ namespace CalamityMod
             // All work benches count as tables.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
+
+        /// <summary>
+        /// Extension which initializes a ModTile to be a fountain.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        internal static void SetUpFountain(this ModTile mt)
+        {
+			//All fountains are immune to lava
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = false;
+            Main.tileWaterDeath[mt.Type] = false;
+            //TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
+            //TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.addTile(mt.Type);
+            TileID.Sets.HasOutlines[mt.Type] = true;
+
+            TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.Height = 4;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.Origin = new Point16(0, 3);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 2, 0);
+            TileObjectData.addTile(mt.Type);
+        }
         #endregion
         #endregion
 

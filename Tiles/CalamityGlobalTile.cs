@@ -10,6 +10,8 @@ using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,6 +20,7 @@ namespace CalamityMod.Tiles
 {
     public class CalamityGlobalTile : GlobalTile
     {
+        public static IList<ModWaterStyle> WaterStyles => (IList<ModWaterStyle>)typeof(WaterStyleLoader).GetField("waterStyles", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
         public static ushort[] PlantTypes = new ushort[]
         {
             TileID.Plants,

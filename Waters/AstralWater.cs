@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,7 +9,8 @@ namespace CalamityMod.Waters
     {
         public override bool ChooseWaterStyle()
         {
-            return Main.LocalPlayer.Calamity().ZoneAstral;
+			CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
+            return modPlayer.ZoneAstral;
         }
 
         public override int ChooseWaterfallStyle()
