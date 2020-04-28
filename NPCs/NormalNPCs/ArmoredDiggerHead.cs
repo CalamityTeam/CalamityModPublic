@@ -423,7 +423,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonsRemote>(), 3);
             DropHelper.DropItem(npc, ModContent.ItemType<DemonicBoneAsh>(), 2, 4);
         }

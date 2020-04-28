@@ -35,6 +35,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Projectiles.Environment;
+using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -42,6 +43,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
@@ -2274,6 +2276,24 @@ namespace CalamityMod.CalPlayer
                 (double)point.Y > (Main.rockLayer + y * 0.26);
 
             ZoneSulphur = (CalamityWorld.sulphurTiles > 30 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
+
+			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			if (fargos != null)
+			{
+				//Fargo's fountain effects
+				if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SunkenSeaWater").Type)
+				{
+					ZoneSunkenSea = true;
+				}
+				if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SulphuricWater").Type)
+				{
+					ZoneSulphur = true;
+				}
+				if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AstralWater").Type)
+				{
+					ZoneAstral = true;
+				}
+			}
         }
 
         public override bool CustomBiomesMatch(Player other)

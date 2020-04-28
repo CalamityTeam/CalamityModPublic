@@ -5,6 +5,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
@@ -2497,6 +2498,27 @@ Provides heat and cold protection in Death Mode";
                     }
                 }
             }
+
+			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			if (fargos != null)
+			{
+				//Fargo's fountain effects
+				if (item.type == ModContent.ItemType<SunkenSeaFountain>())
+				{
+					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sunken Sea upon activation");
+					tooltips.Add(line);
+				}
+				if (item.type == ModContent.ItemType<SulphurousFountainItem>())
+				{
+					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sulphurous Sea upon activation");
+					tooltips.Add(line);
+				}
+				if (item.type == ModContent.ItemType<AstralFountainItem>())
+				{
+					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Astral upon activation");
+					tooltips.Add(line);
+				}
+			}
         }
         #endregion
 
@@ -2616,6 +2638,7 @@ Provides heat and cold protection in Death Mode";
                         float aegisChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
                         DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
+						DropHelper.DropItemChance(player, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
                         break;
 
                     // Duke Fishron
