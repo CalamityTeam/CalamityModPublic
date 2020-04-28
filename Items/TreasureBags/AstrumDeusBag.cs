@@ -38,6 +38,8 @@ namespace CalamityMod.Items.TreasureBags
             return true;
         }
 
+        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
+
         public override void OpenBossBag(Player player)
         {
             player.TryGettingDevArmor();
