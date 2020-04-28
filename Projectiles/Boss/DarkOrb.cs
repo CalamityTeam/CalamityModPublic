@@ -409,7 +409,7 @@ namespace CalamityMod.Projectiles.Boss
 
 			float wavyVelocity = useSin ? (float)Math.Sin(projectile.ai[1]) : (float)Math.Cos(projectile.ai[1]);
 
-			projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity) * amplitude;
+			projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity).RotatedBy(MathHelper.ToRadians(velocity.ToRotation())) * amplitude;
 		}
 
 		private void LurchForward(float frequncy, float deceleration, float acceleration)
@@ -439,20 +439,30 @@ namespace CalamityMod.Projectiles.Boss
 
 		private void OscillationMotion(float frequncy, bool useSin)
 		{
+			projectile.ai[1] += frequncy;
+
+			float oscillation = useSin ? (float)Math.Sin(projectile.ai[1]) : (float)Math.Cos(projectile.ai[1]);
+
 			if (start)
 			{
 				velocity = projectile.velocity;
 				start = false;
 			}
+			else if (oscillation == 0f)
+			{
+				Player target = Main.player[Player.FindClosest(projectile.Center, 1, 1)];
+				Vector2 vector = target.Center + target.velocity * 20f - projectile.Center;
+				vector.Normalize();
+				vector *= velocity.Length();
+				projectile.velocity = vector;
+			}
+			else
+			{
+				float amplitude = velocity.Length();
 
-			projectile.ai[1] += frequncy;
-
-			float amplitude = velocity.Length();
-
-			float oscillation = useSin ? (float)Math.Sin(projectile.ai[1]) : (float)Math.Cos(projectile.ai[1]);
-
-			projectile.velocity.Normalize();
-			projectile.velocity *= amplitude * oscillation;
+				projectile.velocity.Normalize();
+				projectile.velocity *= amplitude * oscillation;
+			}
 		}
 
 		public override Color? GetAlpha(Color lightColor)

@@ -1405,7 +1405,6 @@ namespace CalamityMod.CalPlayer
 					player.statDefense += 1;
 					player.allDamage += 0.025f;
 					modPlayer.AllCritBoost(1);
-					player.meleeSpeed += 0.025f;
 					player.minionKB += 0.25f;
 					player.moveSpeed += 0.1f;
 				}
@@ -1414,7 +1413,6 @@ namespace CalamityMod.CalPlayer
 					player.statDefense -= 1;
 					player.allDamage -= 0.025f;
 					modPlayer.AllCritBoost(-1);
-					player.meleeSpeed -= 0.025f;
 					player.minionKB -= 0.25f;
 					player.moveSpeed -= 0.1f;
 				}
@@ -2948,13 +2946,11 @@ namespace CalamityMod.CalPlayer
 				if (player.statLife < (int)(player.statLifeMax2 * 0.5))
 				{
 					player.meleeDamage += 0.1f;
-					player.meleeSpeed += 0.1f;
 					player.endurance += 0.1f;
 				}
 				else
 				{
 					player.meleeDamage += 0.05f;
-					player.meleeSpeed += 0.05f;
 					player.endurance += 0.05f;
 				}
 			}
@@ -3472,8 +3468,8 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (player.meleeSpeed < 0.5f)
-				player.meleeSpeed = 0.5f;
+			/*if (player.meleeSpeed < 0.5f)
+				player.meleeSpeed = 0.5f;*/
 
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (player.endurance > 0f)

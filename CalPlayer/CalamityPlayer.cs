@@ -3210,7 +3210,21 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.1f;
             }
-            if (CalamityMod.CalamityConfig.ProficiencyEnabled)
+			if (bloodyWormTooth)
+			{
+				if (player.statLife < (int)(player.statLifeMax2 * 0.5))
+					meleeSpeedMult += 0.1f;
+				else
+					meleeSpeedMult += 0.05f;
+			}
+			if (aquaticScourgeLore)
+			{
+				if (player.wellFed)
+					meleeSpeedMult += 0.025f;
+				else
+					meleeSpeedMult -= 0.025f;
+			}
+			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
             {
                 meleeSpeedMult += GetMeleeSpeedBonus();
             }
