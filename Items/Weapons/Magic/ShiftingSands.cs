@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item20;
             item.shoot = ModContent.ProjectileType<ShiftingSandsProj>();
             item.shootSpeed = 7f;
+			item.autoReuse = true;
         }
 
         public override void AddRecipes()

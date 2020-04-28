@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             Vector2 vector = projectile.position;
-            float num10 = 600f;
+            float num10 = 900f;
             bool flag = false;
             if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {

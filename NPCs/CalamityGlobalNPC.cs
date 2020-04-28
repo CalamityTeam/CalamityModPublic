@@ -3435,11 +3435,11 @@ namespace CalamityMod.NPCs
 
 			if (AstrumDeusIDs.Contains(npc.type))
 			{
-				if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
+				if (projectile.type == ModContent.ProjectileType<RainbowBoom>())
 				{
 					damage = (int)(damage * 0.1);
 				}
-				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
+				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>() || ProjectileID.Sets.StardustDragon[projectile.type])
 				{
 					damage = (int)(damage * 0.2);
 				}

@@ -88,7 +88,7 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
                 item.damage *= 4;
-            else if (item.type == ItemID.SpectreStaff || item.type == ItemID.ShadowbeamStaff)
+            else if (item.type == ItemID.SpectreStaff)
                 item.damage *= 3;
             else if (CalamityMod.doubleDamageBuffList?.Contains(item.type) ?? false)
                 item.damage *= 2;
@@ -114,7 +114,7 @@ namespace CalamityMod.Items
                 item.damage = (int)(item.damage * 0.75);
             else if (item.type == ItemID.BlizzardStaff)
                 item.damage = (int)(item.damage * 0.7);
-            else if (item.type == ItemID.StardustDragonStaff)
+            else if (item.type == ItemID.StardustDragonStaff || item.type == ItemID.LaserMachinegun)
                 item.damage = (int)(item.damage * 0.5);
 
             if (item.type == ItemID.BookStaff)

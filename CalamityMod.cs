@@ -1245,7 +1245,8 @@ namespace CalamityMod
                 ItemID.BreakerBlade,
                 ItemID.MonkStaffT2,
                 ItemID.ProximityMineLauncher,
-                ItemID.FireworksLauncher
+                ItemID.FireworksLauncher,
+                ItemID.ShadowbeamStaff
             };
 
             sixtySixDamageBuffList = new List<int>()
@@ -1337,19 +1338,19 @@ namespace CalamityMod
 
             tenDamageNerfList = new List<int>()
             {
-                ItemID.Razorpine,
-                ItemID.Phantasm,
-                ItemID.PossessedHatchet,
-                ItemID.Xenopopper
+                ItemID.Phantasm
             };
 
             quarterDamageNerfList = new List<int>()
             {
+                ItemID.Razorpine,
                 ItemID.DaedalusStormbow,
                 ItemID.PhoenixBlaster,
                 ItemID.DD2BetsyBow,
                 ItemID.InfluxWaver,
-                ItemID.LaserMachinegun
+                ItemID.LaserMachinegun,
+                ItemID.Xenopopper,
+                ItemID.ElectrosphereLauncher
             };
 
             pumpkinMoonBuffList = new List<int>()

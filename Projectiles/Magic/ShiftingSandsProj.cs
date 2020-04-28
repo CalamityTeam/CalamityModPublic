@@ -24,6 +24,8 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 5;
             projectile.magic = true;
 			projectile.extraUpdates = 2;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -157,11 +159,6 @@ namespace CalamityMod.Projectiles.Magic
                 Main.dust[num228].noLight = true;
                 Main.dust[num228].velocity = vector7;
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.immune[projectile.owner] = 5;
         }
     }
 }
