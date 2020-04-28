@@ -113,6 +113,12 @@ namespace CalamityMod.Projectiles.Summon
         }
         public void ManipulatePlayerValues(Player player)
         {
+            if (!player.active || player.dead)
+            {
+                player.Calamity().andromedaState = AndromedaPlayerState.Inactive;
+                projectile.Kill();
+                return;
+            }
             projectile.Center = player.Center + Vector2.UnitY * (6f + player.gfxOffY);
             player.Calamity().andromedaState = LeftIconActive ? AndromedaPlayerState.SmallRobot : AndromedaPlayerState.LargeRobot;
             player.channel = false;
@@ -392,12 +398,12 @@ namespace CalamityMod.Projectiles.Summon
                 LightningShootOffset = new Vector2(projectile.spriteDirection == 1 ? 14f : -8f, -16f);
             }
 
-            // After a certain period of time, release a burst of 3 fast lightning bolts that arc with time.
+            // After a certain period of time, release a burst of 2 fast lightning bolts that arc with time.
             if (adjustedCooldownTime == RightIconAttackTime - 40 && Main.myPlayer == projectile.owner)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Projectile.NewProjectileDirect(projectile.Center + LightningShootOffset, projectile.DirectionTo(Main.MouseWorld).RotatedBy(MathHelper.TwoPi / 2f * i) * 1.3f,
+                    Projectile.NewProjectileDirect(projectile.Center + LightningShootOffset, projectile.DirectionTo(Main.MouseWorld).RotatedBy(MathHelper.TwoPi / 2f * i) * 1.1f,
                         ModContent.ProjectileType<AndromedaDeathLightning>(),
                         (int)(SpecialLightningBaseDamage * player.AverageDamage()), 1.5f, projectile.owner, Main.rand.Next()).timeLeft = 20 * AndromedaDeathLightning.TrueTimeLeft / 2;
 
@@ -410,7 +416,7 @@ namespace CalamityMod.Projectiles.Summon
                 adjustedCooldownTime >= 80 &&
                 Main.myPlayer == projectile.owner)
             {
-                if (adjustedCooldownTime % 150 == 149 && Main.myPlayer == projectile.owner)
+                if (adjustedCooldownTime == RightIconAttackTime - 160 && Main.myPlayer == projectile.owner)
                 {
                     float startingAngle = Main.rand.NextFloat(MathHelper.TwoPi);
                     for (int i = 0; i < 2; i++)

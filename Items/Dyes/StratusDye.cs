@@ -4,15 +4,18 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
+using Microsoft.Xna.Framework;
+using CalamityMod.Items.Placeables.Ores;
 
 namespace CalamityMod.Items.Dyes
 {
-    public class CeaselessDye : BaseDye
+    public class StratusDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/CeaselessDyeShader")), "DyePass");
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/StratusDyeShader")), "DyePass").
+            UseColor(new Color(36, 86, 163)).UseSecondaryColor(new Color(124, 204, 223)).UseImage("Images/Misc/Perlin");
         public override void SafeSetStaticDefaults()
         {
-            DisplayName.SetDefault("Ceaseless Dye");
+            DisplayName.SetDefault("Stratus Dye");
         }
 
 		public override void SafeSetDefaults()
@@ -25,9 +28,9 @@ namespace CalamityMod.Items.Dyes
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.VoidDye);
-            recipe.AddIngredient(ItemID.ShadowDye);
-            recipe.AddIngredient(ModContent.ItemType<DarkPlasma>());
+            recipe.AddIngredient(ItemID.BottledWater);
+            recipe.AddIngredient(ModContent.ItemType<RuinousSoul>());
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>());
             recipe.AddTile(TileID.DyeVat);
             recipe.SetResult(this);
             recipe.AddRecipe();

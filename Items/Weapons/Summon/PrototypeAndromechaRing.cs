@@ -17,21 +17,19 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prototype Andromecha Ring");
-            Tooltip.SetDefault("Summons an enormous mechanical behemoth that you control\n" +
-                               "Right clicking displays a menu of 3 brackets\n" +
-                               "You can only select 1 of 3 brackets\n" +
-                               "Each bracket grants control over 2 of 3 icons.\n" +
-                               "The left icon is not toggleable and is always on if a bracket entails it\n" +
-                               "If the left icon is enabled, the robot shrinks down to a normal size, returning your hitbox to normal but with weaker attacks\n" +
-                               "The right icon can be clicked, but has a cooldown\n" +
-                               "Clicking the right icon causes you to charge up, and then release bursts of branching lightning\n" +
-                               "The top icon is toggleable\n" +
-                               "The top icon switches between two modes, melee and ranged, which both replace normal attacks\n" +
+            Tooltip.SetDefault("Summons an collosal controllable mech\n" +
+                               "Right click to display the mech's control panel\n" +
+                               "The panel has 3 possible configurations, that you can choose using the brackets on the UI\n" +
+                               "Each bracket powers 2 out of 3 functions, represented by icons on the UI.\n" +
+                               "The bottom left icon shrinks the mech to the size of a player when powered, but weakens its attacks. \n" +
+                               "The bottom right icon charges when powered. At full charge, you can click it to release bursts of branching lightning \n" +
+                               "The top icon alternates between the 2 the primary attacks when clicked. \n" +
+                               "The primary attack replaces your normal attacks. You can only use the primary attack if the top icon is powered\n" +
                                "The melee mode slashes enemies with Regicide, an enormous energy blade\n" +
-                               "The ranged mode releases 3 quick laser beams\n" +
-                               "Only one laser is shot if the player is small\n" +
-                               "Exiting the mount while a boss is alive gives you a temporary cripple" +
-                               "It reminds you of something long lost");
+                               "The ranged mode releases quickly 3 laser beams. Only one laser is shot if the mech is shrunk\n" +
+                               "Exiting the mount while a boss is alive will temporarily hinder your movement\n" +
+                               "The remains of what could have been, forged into a deadly exosuit\n" +
+                                "[c/87ceeb:Now, make them pay.]");
         }
 
         public override void SetDefaults()

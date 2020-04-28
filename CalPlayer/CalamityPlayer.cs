@@ -8616,7 +8616,7 @@ namespace CalamityMod.CalPlayer
                                                 robotTexture.Width / 3, robotTexture.Height / 7);
 
                 DrawData drawData = new DrawData(ModContent.GetTexture(Main.projectile[robot].modProjectile.Texture),
-                                 Main.projectile[robot].Center - Main.screenPosition,
+                                 Main.projectile[robot].Center + Vector2.UnitY * 6f - Main.screenPosition,
                                  frame,
                                  Color.White,
                                  Main.projectile[robot].rotation,

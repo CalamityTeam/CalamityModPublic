@@ -8,26 +8,26 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Dyes
 {
-    public class AstralOrangeDye : BaseDye
+    public class ReaverDye : BaseDye
     {
-        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/AstralOrangeDyeShader")), "DyePass").
-            UseColor(new Color(255, 166, 94)).UseSecondaryColor(new Color(238, 93, 82));
+        public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/ReaverDyeShader")), "DyePass").
+            UseColor(new Color(54, 164, 66)).UseSecondaryColor(new Color(224, 115, 65));
         public override void SafeSetStaticDefaults()
         {
-            DisplayName.SetDefault("Astral Orange Dye");
+            DisplayName.SetDefault("Reaver Dye");
         }
 
 		public override void SafeSetDefaults()
 		{
-            item.rare = 9;
-            item.value = CalamityGlobalItem.Rarity9BuyPrice;
+            item.rare = 7;
+            item.value = CalamityGlobalItem.Rarity7BuyPrice;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.BottledWater);
-            recipe.AddIngredient(ModContent.ItemType<AstralOre>());
+            recipe.AddIngredient(ModContent.ItemType<PerennialOre>(), 4);
             recipe.AddTile(TileID.DyeVat);
             recipe.SetResult(this);
             recipe.AddRecipe();
