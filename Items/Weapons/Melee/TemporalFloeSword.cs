@@ -14,13 +14,14 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Temporal Floe Sword");
             Tooltip.SetDefault("The iceman cometh...\n" +
-                "Fires a frozen sword beam");
+                "Fires a frozen sword beam that splits into two more beams\n" +
+				"The direction of the beams depends on in game time");
         }
 
         public override void SetDefaults()
         {
             item.width = 52;
-            item.damage = 85;
+            item.damage = 95;
             item.melee = true;
             item.useAnimation = 16;
             item.useStyle = 1;

@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,17 +53,53 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item10, projectile.position);
-            for (int num795 = 0; num795 < 27; num795++)
-            {
-                float num796 = projectile.oldVelocity.X * (30f / (float)num795);
-                float num797 = projectile.oldVelocity.Y * (30f / (float)num795);
-                int num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 56, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.8f);
-                Dust dust = Main.dust[num798];
-                dust.noGravity = true;
-                dust.velocity *= 0.5f;
-                num798 = Dust.NewDust(new Vector2(projectile.oldPosition.X - num796, projectile.oldPosition.Y - num797), 8, 8, 56, projectile.oldVelocity.X, projectile.oldVelocity.Y, 100, default, 1.4f);
-                dust.velocity *= 0.05f;
-            }
+
+            // Get Terraria's current strange time variable
+            double time = Main.time;
+
+            // Correct for night time (which for some reason isn't just a different number) by adding 54000.
+            if (!Main.dayTime)
+                time += 54000D;
+
+            // Divide by seconds in an hour
+            time /= 3600D;
+
+            // Terraria night starts at 7:30 PM, so offset accordingly
+            time -= 19.5;
+
+            // Offset time to ensure it is not negative
+            if (time < 0D)
+                time += 24D;
+
+            // Get the decimal (smaller than hours, so minutes) component of time.
+            int intTime = (int)time;
+            double deltaTime = time - intTime;
+
+            // Convert decimal time into an exact number of minutes.
+            deltaTime = (int)(deltaTime * 60D);
+
+            // Convert from 24 to 12 hour time
+            if (intTime > 12)
+                intTime -= 12;
+
+			float projSpeed = 8f;
+
+			float hour = (float)intTime;
+			float hourAngle = MathHelper.PiOver2 - (MathHelper.TwoPi / 12f) * hour;
+			hourAngle *= -1f; //correction because lol
+			Vector2 hourVector = hourAngle.ToRotationVector2() * projSpeed;
+
+			float minute = (float)deltaTime;
+			float minuteAngle = MathHelper.PiOver2 - (MathHelper.TwoPi / 60f) * minute;
+			minuteAngle *= -1f; //correction because pain
+			Vector2 minuteVector = minuteAngle.ToRotationVector2() * projSpeed;
+
+			int projType = ModContent.ProjectileType<TemporalFloeNumberTwo>();
+			int dmg = projectile.damage / 2;
+			float kback = projectile.knockBack * 0.5f;
+
+			Projectile.NewProjectile(projectile.Center, hourVector, projType, dmg, kback, projectile.owner, 0f, 0f);
+			Projectile.NewProjectile(projectile.Center, minuteVector, projType, dmg, kback, projectile.owner, 0f, 0f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

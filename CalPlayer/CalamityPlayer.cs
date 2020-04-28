@@ -522,6 +522,7 @@ namespace CalamityMod.CalPlayer
         public bool snowRuffianSet = false;
         public bool forbiddenCirclet = false;
 		public int forbiddenCooldown = 0;
+		public int tornadoCooldown = 0;
         public bool eskimoSet = false; //vanilla armor
         public bool meteorSet = false; //vanilla armor, for space gun nerf
         public bool victideSet = false;
@@ -1870,6 +1871,7 @@ namespace CalamityMod.CalPlayer
 			doubledHorror = false;
 			sulphurBubbleCooldown = 0;
 			forbiddenCooldown = 0;
+			tornadoCooldown = 0;
 			ladHearts = 0;
 
             alcoholPoisoning = false;
@@ -2646,8 +2648,9 @@ namespace CalamityMod.CalPlayer
                 }
                 if (plagueReaper && plagueReaperCooldown <= 0)
                     plagueReaperCooldown = 1800;
-				if (forbiddenCirclet)
+				if (forbiddenCirclet && forbiddenCooldown <= 0)
 				{
+					forbiddenCooldown = 20;
                     int stormMana = (int)(ForbiddenCirclet.manaCost * player.manaCost);
                     if (player.statMana < stormMana)
                     {

@@ -4946,7 +4946,7 @@ namespace CalamityMod.NPCs
             int fapsol = NPC.FindFirstNPC(ModContent.NPCType<FAP>());
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
             int seahorse = NPC.FindFirstNPC(ModContent.NPCType<SEAHOE>());
-            //int thief = NPC.FindFirstNPC(ModContent.NPCType<THIEF>());
+            int thief = NPC.FindFirstNPC(ModContent.NPCType<THIEF>());
             int angelstatue = NPC.FindFirstNPC(NPCID.Merchant);
 
             switch (npc.type)
@@ -5199,11 +5199,9 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GoblinTinkerer:
-                    int banditIndex = NPC.FindFirstNPC(ModContent.NPCType<THIEF>());
-                    if (Main.rand.NextBool(3) && banditIndex != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
+                    if (Main.rand.NextBool(3) && thief != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
                     {
-                        var thief = Main.npc[banditIndex];
-                        chat = $"Hey, is it just me or have my pockets gotten lighter ever since {thief.GivenName} arrived?";
+                        chat = $"Hey, is it just me or have my pockets gotten lighter ever since " + Main.npc[thief].GivenName + " arrived?";
                     }
                     if (Main.rand.NextBool(10) && NPC.downedMoonlord)
                     {
@@ -5239,6 +5237,11 @@ namespace CalamityMod.NPCs
                     if (Main.rand.NextBool(5) && Main.raining && Main.LocalPlayer.Calamity().ZoneSulphur)
                     {
                         chat = "If this acid rain keeps up, there'll be a shortage of Dirt Blocks soon enough!";
+                    }
+
+                    if (Main.rand.NextBool(7) && thief != -1)
+                    {
+                        chat = "I happen to have several Angel Statues at the moment, a truely rare commodity. Want one?";
                     }
 
                     break;
@@ -5489,6 +5492,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Vilethorn : ItemID.CrimsonRod, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedBoss3);
+                SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(ModContent.NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
             }
 
             if (type == NPCID.ArmsDealer)

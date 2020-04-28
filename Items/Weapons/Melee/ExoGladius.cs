@@ -104,7 +104,7 @@ namespace CalamityMod.Items.Weapons.Melee
             num16 *= num18;
             if (player.whoAmI == Main.myPlayer)
             {
-				Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<ExoGladComet>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 15f, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<ExoGladComet>(), (int)(item.damage * player.MeleeDamage()), 15f, player.whoAmI, 0f, 0f);
             }
         }
 
@@ -144,7 +144,7 @@ namespace CalamityMod.Items.Weapons.Melee
             num16 *= num18;
             if (player.whoAmI == Main.myPlayer)
             {
-				Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<ExoGladComet>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), 15f, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<ExoGladComet>(), (int)(item.damage * player.MeleeDamage()), 15f, player.whoAmI, 0f, 0f);
             }
         }
     }
