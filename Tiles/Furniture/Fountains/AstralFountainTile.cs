@@ -13,7 +13,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 		{
             this.SetUpFountain();
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Astral Fountain");
+			name.SetDefault("Astral Water Fountain");
 			AddMapEntry(new Color(59, 50, 77), name);
             animationFrameHeight = 72;
         }

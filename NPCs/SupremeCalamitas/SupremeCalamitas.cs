@@ -99,7 +99,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.value = Item.buyPrice(10, 0, 0, 0);
 			npc.LifeMaxNERB(5000000, 5500000, 2100000);
             double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -232,6 +232,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool enraged = npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive);
 			Vector2 vectorCenter = npc.Center;
 
 			// Get a target
@@ -449,7 +450,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 4 : 6))
+                    if (bulletHellCounter > (enraged ? 4 : 6))
                     {
                         bulletHellCounter = 0;
                         int damage = expertMode ? 200 : 250; //800 500
@@ -548,7 +549,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         }
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 7 : 9))
+                    if (bulletHellCounter > (enraged ? 7 : 9))
                     {
                         bulletHellCounter = 0;
                         if (bulletHellCounter2 < 1200) //blasts from below
@@ -612,7 +613,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 1f, 0f);
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 9 : 11))
+                    if (bulletHellCounter > (enraged ? 9 : 11))
                     {
                         bulletHellCounter = 0;
                         if (bulletHellCounter2 < 2100) //blasts from above
@@ -686,7 +687,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         passedVar += 1f;
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 10 : 12))
+                    if (bulletHellCounter > (enraged ? 10 : 12))
                     {
                         bulletHellCounter = 0;
                         if (bulletHellCounter2 < 3000) //blasts from below
@@ -759,7 +760,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + (float)Main.rand.Next(-500, 500), -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     bulletHellCounter += 1;
-                    if (bulletHellCounter > ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 12 : 14))
+                    if (bulletHellCounter > (enraged ? 12 : 14))
                     {
                         bulletHellCounter = 0;
                         if (bulletHellCounter2 < 3900) //blasts from above

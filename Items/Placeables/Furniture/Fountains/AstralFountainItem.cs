@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Astral Fountain");
+            DisplayName.SetDefault("Astral Water Fountain");
         }
 
         public override void SetDefaults()
