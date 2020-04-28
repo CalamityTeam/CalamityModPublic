@@ -2,18 +2,19 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
 {
-	public class SunkenSeaFountainTile : ModTile
+	public class AstralFountainTile : ModTile
 	{
 		public override void SetDefaults()
 		{
             this.SetUpFountain();
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Sunken Sea Fountain");
-			AddMapEntry(new Color(104, 195, 255), name);
+			name.SetDefault("Astral Fountain");
+			AddMapEntry(new Color(59, 50, 77), name);
             animationFrameHeight = 72;
         }
 
@@ -21,9 +22,9 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         {
             if (Main.tile[i, j].frameX < 36)
             {
-                if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "SunkenSeaWater"))
+                if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "AstralWater"))
                 {
-                    Main.fountainColor = CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SunkenSeaWater").Type;
+                    Main.fountainColor = CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AstralWater").Type;
                 }
             }
         }
@@ -35,8 +36,8 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 
         public override bool CreateDust(int i, int j, ref int type)
         {
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 1, 0f, 0f, 1, new Color(119, 102, 255), 1f);
-            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 33, 0f, 0f, 1, new Color(255, 255, 255), 1f);
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<AstralBlue>());
+            Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, ModContent.DustType<AstralOrange>());
             return false;
         }
 
@@ -57,7 +58,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<SunkenSeaFountain>());
+			Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<AstralFountainItem>());
         }
 
         public override void HitWire(int i, int j)
@@ -76,7 +77,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<SunkenSeaFountain>();
+            player.showItemIcon2 = ModContent.ItemType<AstralFountainItem>();
         }
     }
 }

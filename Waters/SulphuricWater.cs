@@ -35,7 +35,7 @@ namespace CalamityMod.Waters
 
 			CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
 			bool greenWater = (inXZone && inYZone) || modPlayer.ZoneSulphur;
-            return (greenWater && modPlayer.fountain == 0) || modPlayer.fountain == 3;
+            return greenWater;
         }
 
         public override int ChooseWaterfallStyle()

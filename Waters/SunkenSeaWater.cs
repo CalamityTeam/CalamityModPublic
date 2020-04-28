@@ -10,7 +10,7 @@ namespace CalamityMod.Waters
         public override bool ChooseWaterStyle()
         {
 			CalamityPlayer modPlayer = Main.LocalPlayer.Calamity();
-            return (modPlayer.ZoneSunkenSea && modPlayer.fountain == 0) || modPlayer.fountain == 1;
+            return modPlayer.ZoneSunkenSea;
         }
 
         public override int ChooseWaterfallStyle()

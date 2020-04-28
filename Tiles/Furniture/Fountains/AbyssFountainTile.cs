@@ -6,14 +6,14 @@ using CalamityMod.Items.Placeables.Furniture.Fountains;
 
 namespace CalamityMod.Tiles.Furniture.Fountains
 {
-	public class SunkenSeaFountainTile : ModTile
+	public class AbyssFountainTile : ModTile
 	{
 		public override void SetDefaults()
 		{
             this.SetUpFountain();
 			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Sunken Sea Fountain");
-			AddMapEntry(new Color(104, 195, 255), name);
+			name.SetDefault("Abyss Fountain");
+			AddMapEntry(new Color(71, 93, 107), name);
             animationFrameHeight = 72;
         }
 
@@ -21,9 +21,9 @@ namespace CalamityMod.Tiles.Furniture.Fountains
         {
             if (Main.tile[i, j].frameX < 36)
             {
-                if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "SunkenSeaWater"))
+                if (CalamityGlobalTile.WaterStyles.Any((style) => style.Name == "AbyssWater"))
                 {
-                    Main.fountainColor = CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SunkenSeaWater").Type;
+                    Main.fountainColor = CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AbyssWater").Type;
                 }
             }
         }
@@ -57,7 +57,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
-			Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<SunkenSeaFountain>());
+			Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<AbyssFountainItem>());
         }
 
         public override void HitWire(int i, int j)
@@ -76,7 +76,7 @@ namespace CalamityMod.Tiles.Furniture.Fountains
             Player player = Main.LocalPlayer;
             player.noThrow = 2;
             player.showItemIcon = true;
-            player.showItemIcon2 = ModContent.ItemType<SunkenSeaFountain>();
+            player.showItemIcon2 = ModContent.ItemType<AbyssFountainItem>();
         }
     }
 }

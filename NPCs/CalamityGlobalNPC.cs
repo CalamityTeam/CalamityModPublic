@@ -5605,6 +5605,9 @@ namespace CalamityMod.NPCs
             if (type == NPCID.WitchDoctor)
             {
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<SunkenSeaFountain>());
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<SulphurousFountainItem>());
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AbyssFountainItem>(), Main.hardMode);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AstralFountainItem>(), Main.hardMode);
                 SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, CalamityMod.CalamityConfig.SellBossSummons, price: Item.buyPrice(0, 8));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
