@@ -3523,21 +3523,15 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.38);
                 }
-                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
-                {
-                    damage = (int)(damage * 0.25);
-                }
-                else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = 1;
-                    damage = (int)(damage * 0.1);
-                }
 				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 1;
-                    damage = (int)(damage * 0.01);
+                        projectile.penetrate = 3;
+                    damage = (int)(damage * 0.3);
+                }
+                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
+                {
+                    damage = (int)(damage * 0.25);
                 }
             }
 			else if (AquaticScourgeIDs.Contains(npc.type))
@@ -3550,15 +3544,15 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
-                {
-                    damage = (int)(damage * 0.25);
-                }
 				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 1;
-                    damage = (int)(damage * 0.1);
+                        projectile.penetrate = 3;
+                    damage = (int)(damage * 0.3);
+                }
+                else if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
+                {
+                    damage = (int)(damage * 0.25);
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
