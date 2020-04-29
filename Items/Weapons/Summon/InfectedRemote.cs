@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			return viruliSlots >= 1 && player.ownedProjectileCounts[item.shoot] <= 0;
 		}
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int x = 0; x < Main.projectile.Length; x++)
             {
