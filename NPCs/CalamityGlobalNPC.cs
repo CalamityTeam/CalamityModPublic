@@ -3507,11 +3507,11 @@ namespace CalamityMod.NPCs
 			}
             else if (DestroyerIDs.Contains(npc.type))
             {
-                if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion) || projectile.type == ModContent.ProjectileType<KelvinCatalystStar>())
+                if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion))
                 {
                     damage = (int)(damage * 0.5);
                 }
-                if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<DesecratedBubble>())
+                if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<DesecratedBubble>() || projectile.type == ModContent.ProjectileType<KelvinCatalystStar>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
                 {
                     damage = (int)(damage * 0.75);
                 }
@@ -3529,7 +3529,7 @@ namespace CalamityMod.NPCs
                         projectile.penetrate = 3;
                     damage = (int)(damage * 0.3);
                 }
-                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
+                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>())
                 {
                     damage = (int)(damage * 0.25);
                 }
@@ -3540,7 +3540,11 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.5);
 				}
-                if (projectile.type == ModContent.ProjectileType<FlameBeamTip>() || projectile.type == ModContent.ProjectileType<FlameBeamTip2>() || projectile.type == ModContent.ProjectileType<DormantBrimseekerBab>())
+                if (projectile.type == ModContent.ProjectileType<FlameBeamTip>() || projectile.type == ModContent.ProjectileType<FlameBeamTip2>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
+                {
+                    damage = (int)(damage * 0.7);
+                }
+                if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ModContent.ProjectileType<DormantBrimseekerBab>())
                 {
                     damage = (int)(damage * 0.5);
                 }
@@ -3548,11 +3552,7 @@ namespace CalamityMod.NPCs
                 {
                     if (projectile.penetrate == -1)
                         projectile.penetrate = 3;
-                    damage = (int)(damage * 0.3);
-                }
-                else if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
-                {
-                    damage = (int)(damage * 0.25);
+                    damage = (int)(damage * 0.1);
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
@@ -3583,17 +3583,21 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<GalileosMoon>() || projectile.type == ModContent.ProjectileType<ReaperProjectile>() || projectile.type == ModContent.ProjectileType<BloodBombExplosion>())
+                else if (projectile.type == ModContent.ProjectileType<GalileosMoon>() || projectile.type == ModContent.ProjectileType<BloodBombExplosion>() || projectile.type == ModContent.ProjectileType<GhostFire>())
                 {
                     damage = (int)(damage * 0.6);
                 }
-                else if (projectile.type == ModContent.ProjectileType<GhastlySoulLarge>() || projectile.type == ModContent.ProjectileType<GhastlySoulMedium>() || projectile.type == ModContent.ProjectileType<GhastlySoulSmall>() || projectile.type == ModContent.ProjectileType<GhostFire>())
+                else if (projectile.type == ModContent.ProjectileType<GhastlySoulLarge>() || projectile.type == ModContent.ProjectileType<GhastlySoulMedium>() || projectile.type == ModContent.ProjectileType<GhastlySoulSmall>() || projectile.type == ModContent.ProjectileType<CrescentMoonProj>() || projectile.type == ModContent.ProjectileType<ReaperProjectile>())
                 {
                     damage = (int)(damage * 0.75);
                 }
-                else if (projectile.type == ModContent.ProjectileType<ValedictionBoomerang>() || projectile.type == ProjectileID.LunarFlare)
+                else if (projectile.type == ProjectileID.LunarFlare)
                 {
                     damage = (int)(damage * 0.8);
+                }
+                else if (projectile.type == ModContent.ProjectileType<ValedictionBoomerang>())
+                {
+                    damage = (int)(damage * 0.9);
                 }
             }
 			else if (npc.type == NPCID.CultistBoss)

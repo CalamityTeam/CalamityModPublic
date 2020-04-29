@@ -33,6 +33,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.shootSpeed = 5f;
         }
 
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.6), knockBack, player.whoAmI, 0f, 0f);
+            return false;
+        }
+
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 120);
