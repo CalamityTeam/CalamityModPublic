@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Gatligator);
             recipe.AddIngredient(ItemID.VenusMagnum);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

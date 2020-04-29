@@ -11,8 +11,10 @@ using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Dyes;
+using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
+using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Melee;
@@ -69,6 +71,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
+using CalamityMod.Items.Weapons.Typeless;
 
 namespace CalamityMod.NPCs
 {
@@ -142,6 +145,8 @@ namespace CalamityMod.NPCs
         public int clamDebuff = 0;
         public int sulphurPoison = 0;
         public int ladHearts = 0;
+        public int relicOfResilienceCooldown = 0;
+        public int relicOfResilienceWeakness = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -1364,6 +1369,12 @@ namespace CalamityMod.NPCs
             if (tSad > 0)
             {
                 damage /= 2;
+            }
+
+            if (relicOfResilienceWeakness > 0)
+            {
+                damage = (int)(damage * (1f - RelicOfResilience.WeaknessDR));
+                relicOfResilienceWeakness = 0;
             }
 
             if (modTarget.beeResist)
@@ -3042,7 +3053,11 @@ namespace CalamityMod.NPCs
 				clamDebuff--;
 			if (sulphurPoison > 0)
 				sulphurPoison--;
-			if (ladHearts > 0)
+            if (relicOfResilienceCooldown > 0)
+                relicOfResilienceCooldown--;
+            if (relicOfResilienceWeakness > 0)
+                relicOfResilienceWeakness--;
+            if (ladHearts > 0)
 				ladHearts--;
 
             // Bosses and any specific other NPCs are completely immune to having their movement impaired.
@@ -3434,11 +3449,11 @@ namespace CalamityMod.NPCs
 
 			if (AstrumDeusIDs.Contains(npc.type))
 			{
-				if (projectile.type == ModContent.ProjectileType<RainbowBoom>() || ProjectileID.Sets.StardustDragon[projectile.type])
+				if (projectile.type == ModContent.ProjectileType<RainbowBoom>())
 				{
 					damage = (int)(damage * 0.1);
 				}
-				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>())
+				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ModContent.ProjectileType<BigNuke>() || projectile.type == ModContent.ProjectileType<RainBolt>() || projectile.type == ModContent.ProjectileType<AtlantisSpear2>() || projectile.type == ModContent.ProjectileType<MalachiteBolt>() || ProjectileID.Sets.StardustDragon[projectile.type])
 				{
 					damage = (int)(damage * 0.2);
 				}
@@ -3496,7 +3511,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<FrostShardFriendly>() || projectile.type == ModContent.ProjectileType<DesecratedBubble>())
+                if (projectile.type == ModContent.ProjectileType<FossilShardThrown>() || projectile.type == ModContent.ProjectileType<DesecratedBubble>())
                 {
                     damage = (int)(damage * 0.75);
                 }
@@ -3508,21 +3523,15 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.38);
                 }
-                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
-                {
-                    damage = (int)(damage * 0.25);
-                }
-                else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = 1;
-                    damage = (int)(damage * 0.1);
-                }
 				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 1;
-                    damage = (int)(damage * 0.01);
+                        projectile.penetrate = 3;
+                    damage = (int)(damage * 0.3);
+                }
+                else if (projectile.type == ModContent.ProjectileType<SeasSearingSpout>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
+                {
+                    damage = (int)(damage * 0.25);
                 }
             }
 			else if (AquaticScourgeIDs.Contains(npc.type))
@@ -3535,15 +3544,15 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
-                {
-                    damage = (int)(damage * 0.25);
-                }
 				else if (projectile.type == ModContent.ProjectileType<ProfanedSwordProj>() || projectile.type == ModContent.ProjectileType<BrimstoneSwordExplosion>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 1;
-                    damage = (int)(damage * 0.1);
+                        projectile.penetrate = 3;
+                    damage = (int)(damage * 0.3);
+                }
+                else if (projectile.type == ModContent.ProjectileType<SHPExplosion>() || projectile.type == ModContent.ProjectileType<RainbowTrail>())
+                {
+                    damage = (int)(damage * 0.25);
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
@@ -3566,7 +3575,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == ModContent.NPCType<OldDuke.OldDuke>())
             {
-                if (projectile.type == ModContent.ProjectileType<GalileosMoon>() || projectile.type == ModContent.ProjectileType<CrescentMoonFlail>())
+                if (projectile.type == ModContent.ProjectileType<CrescentMoonFlail>())
                 {
                     damage = (int)(damage * 0.2);
                 }
@@ -3574,11 +3583,11 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<GhastlySoulLarge>() || projectile.type == ModContent.ProjectileType<GhastlySoulMedium>() || projectile.type == ModContent.ProjectileType<GhastlySoulSmall>() || projectile.type == ModContent.ProjectileType<ReaperProjectile>() || projectile.type == ModContent.ProjectileType<BloodBombExplosion>())
+                else if (projectile.type == ModContent.ProjectileType<GalileosMoon>() || projectile.type == ModContent.ProjectileType<ReaperProjectile>() || projectile.type == ModContent.ProjectileType<BloodBombExplosion>())
                 {
                     damage = (int)(damage * 0.6);
                 }
-                else if (projectile.type == ModContent.ProjectileType<GhostFire>())
+                else if (projectile.type == ModContent.ProjectileType<GhastlySoulLarge>() || projectile.type == ModContent.ProjectileType<GhastlySoulMedium>() || projectile.type == ModContent.ProjectileType<GhastlySoulSmall>() || projectile.type == ModContent.ProjectileType<GhostFire>())
                 {
                     damage = (int)(damage * 0.75);
                 }
@@ -4478,7 +4487,9 @@ namespace CalamityMod.NPCs
 						buffTextureList.Add(ModContent.GetTexture("CalamityMod/Buffs/StatDebuffs/MarkedforDeath"));
 					if (pearlAura > 0)
 						buffTextureList.Add(ModContent.GetTexture("CalamityMod/Buffs/StatDebuffs/PearlAura"));
-					if (silvaStun > 0)
+                    if (relicOfResilienceWeakness > 0)
+                        buffTextureList.Add(ModContent.GetTexture("CalamityMod/Buffs/StatDebuffs/ProfanedWeakness"));
+                    if (silvaStun > 0)
 						buffTextureList.Add(ModContent.GetTexture("CalamityMod/Buffs/StatDebuffs/SilvaStun"));
 					if (tSad > 0)
 						buffTextureList.Add(ModContent.GetTexture("CalamityMod/Buffs/StatDebuffs/TemporalSadness"));
@@ -5495,6 +5506,12 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(ModContent.NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
             }
 
+            // Because of the defiled condition, the dye trader does not receive an alert icon when hardmode starts.
+            if (type == NPCID.DyeTrader)
+            {
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<DefiledFlameDye>(), Main.hardMode && CalamityWorld.defiled, Item.buyPrice(0, 10));
+            }
+
             if (type == NPCID.ArmsDealer)
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.Stake, Main.LocalPlayer.HasItem(ModContent.ItemType<Impaler>()));
@@ -5596,6 +5613,10 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.WitchDoctor)
             {
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<SunkenSeaFountain>());
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<SulphurousFountainItem>());
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AbyssFountainItem>(), Main.hardMode);
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<AstralFountainItem>(), Main.hardMode);
                 SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, CalamityMod.CalamityConfig.SellBossSummons, price: Item.buyPrice(0, 8));
                 SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));

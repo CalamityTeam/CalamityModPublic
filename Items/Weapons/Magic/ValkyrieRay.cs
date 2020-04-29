@@ -35,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.NPCDeath7;
             item.useTurn = false;
             item.noMelee = true;
-            item.value = Item.buyPrice(gold: 16);
+            item.value = Item.buyPrice(gold: 36);
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<ValkyrieRayBeam>();
             item.shootSpeed = 25f;
@@ -118,9 +118,11 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HallowedBar, 12);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
-            recipe.AddIngredient(ItemID.SoulofSight, 10);
-            recipe.AddIngredient(ItemID.SoulofFright, 10);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 6);
+            recipe.AddIngredient(ItemID.Ruby);
+            recipe.AddIngredient(ItemID.SoulofSight);
+            recipe.AddIngredient(ItemID.SoulofMight);
+            recipe.AddIngredient(ItemID.SoulofFright);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

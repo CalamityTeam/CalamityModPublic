@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Magic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ModContent.ProjectileType<SolarBeam2>();
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
@@ -45,6 +46,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HeatRay);
+            recipe.AddIngredient(ModContent.ItemType<Zapper>());
             recipe.AddIngredient(ItemID.FragmentSolar, 10);
             recipe.AddIngredient(ItemID.ChlorophyteBar, 6);
             recipe.AddTile(TileID.LunarCraftingStation);

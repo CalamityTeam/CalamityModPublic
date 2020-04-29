@@ -5,6 +5,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
@@ -87,7 +88,7 @@ namespace CalamityMod.Items
 
             if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
                 item.damage *= 4;
-            else if (item.type == ItemID.SpectreStaff || item.type == ItemID.ShadowbeamStaff)
+            else if (item.type == ItemID.SpectreStaff)
                 item.damage *= 3;
             else if (CalamityMod.doubleDamageBuffList?.Contains(item.type) ?? false)
                 item.damage *= 2;
@@ -113,7 +114,7 @@ namespace CalamityMod.Items
                 item.damage = (int)(item.damage * 0.75);
             else if (item.type == ItemID.BlizzardStaff)
                 item.damage = (int)(item.damage * 0.7);
-            else if (item.type == ItemID.StardustDragonStaff)
+            else if (item.type == ItemID.StardustDragonStaff || item.type == ItemID.LaserMachinegun)
                 item.damage = (int)(item.damage * 0.5);
 
             if (item.type == ItemID.BookStaff)
@@ -2497,6 +2498,27 @@ Provides heat and cold protection in Death Mode";
                     }
                 }
             }
+
+			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			if (fargos != null)
+			{
+				//Fargo's fountain effects
+				if (item.type == ModContent.ItemType<SunkenSeaFountain>())
+				{
+					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sunken Sea upon activation");
+					tooltips.Add(line);
+				}
+				if (item.type == ModContent.ItemType<SulphurousFountainItem>())
+				{
+					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sulphurous Sea upon activation");
+					tooltips.Add(line);
+				}
+				if (item.type == ModContent.ItemType<AstralFountainItem>())
+				{
+					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Astral upon activation");
+					tooltips.Add(line);
+				}
+			}
         }
         #endregion
 
@@ -2616,6 +2638,7 @@ Provides heat and cold protection in Death Mode";
                         float aegisChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
                         DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
+						DropHelper.DropItemChance(player, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
                         break;
 
                     // Duke Fishron

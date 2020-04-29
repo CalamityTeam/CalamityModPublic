@@ -2,13 +2,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Dyes
+namespace CalamityMod.Items.Dyes.HairDye
 {
-    public class WingTimeHairDye : ModItem
+    public class AdrenalineHairDye : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wing Time Hair Dye");
+            DisplayName.SetDefault("Adrenaline Hair Dye");
         }
 
 		public override void SetDefaults()
