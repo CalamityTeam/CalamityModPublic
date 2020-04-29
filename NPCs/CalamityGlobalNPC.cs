@@ -5502,12 +5502,6 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedBoss3);
             }
-            
-            // Because of the defiled condition, the dye trader does not receive an alert icon when hardmode starts.
-            if (type == NPCID.DyeTrader)
-            {
-                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<DefiledFlameDye>(), Main.hardMode && CalamityWorld.defiled, Item.buyPrice(0, 10));
-            }
 
             if (type == NPCID.ArmsDealer)
             {
