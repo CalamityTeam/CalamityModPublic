@@ -90,8 +90,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 return;
             }
-            float num = (float)damage * 0.25f;
-            if ((int)num == 0)
+            float healAmt = (float)damage * 0.25f;
+            if ((int)healAmt == 0)
             {
                 return;
             }
@@ -99,9 +99,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 return;
             }
-            Main.player[Main.myPlayer].lifeSteal -= num;
-            int num2 = projectile.owner;
-            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ModContent.ProjectileType<FungalHeal>(), 0, 0f, projectile.owner, (float)num2, num);
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 1f);
         }
     }
 }

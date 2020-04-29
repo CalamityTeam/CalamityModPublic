@@ -103,8 +103,8 @@ namespace CalamityMod.Projectiles.Melee
             {
                 return;
             }
-            float num = (float)damage * 0.01f;
-            if ((int)num == 0)
+            float healAmt = (float)damage * 0.01f;
+            if ((int)healAmt == 0)
             {
                 return;
             }
@@ -112,9 +112,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 return;
             }
-            Main.player[Main.myPlayer].lifeSteal -= num;
-            int num2 = projectile.owner;
-            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ModContent.ProjectileType<Exoheal>(), 0, 0f, projectile.owner, (float)num2, num);
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<Exoheal>(), 1200f, 1f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

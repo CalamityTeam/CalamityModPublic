@@ -40,8 +40,8 @@ namespace CalamityMod.Projectiles.Hybrid
             if (projectile.ai[0] >= 75f)
             {
                 projectile.alpha += 10;
-                projectile.damage = (int)((double)projectile.damage * 0.95);
-                projectile.knockBack = (float)(int)((double)projectile.knockBack * 0.95);
+                projectile.damage = (int)(projectile.damage * 0.95);
+                projectile.knockBack = projectile.knockBack * 0.95f;
                 if (projectile.alpha >= 255)
                 {
                     projectile.active = false;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Hybrid
             }
             if (projectile.ai[0] < 75f)
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
             }
             else
             {
@@ -100,8 +100,8 @@ namespace CalamityMod.Projectiles.Hybrid
             {
                 return;
             }
-            float num = (float)damage * 0.005f;
-            if ((int)num == 0)
+            float healAmt = (float)damage * 0.005f;
+            if ((int)healAmt == 0)
             {
                 return;
             }
@@ -109,15 +109,13 @@ namespace CalamityMod.Projectiles.Hybrid
             {
                 return;
             }
-            Main.player[Main.myPlayer].lifeSteal -= num * 1.5f;
-            int num2 = projectile.owner;
-            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, 305, 0, 0f, projectile.owner, (float)num2, num);
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 1.5f);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            float num = (float)damage * 0.005f;
-            if ((int)num == 0)
+            float healAmt = (float)damage * 0.005f;
+            if ((int)healAmt == 0)
             {
                 return;
             }
@@ -125,9 +123,7 @@ namespace CalamityMod.Projectiles.Hybrid
             {
                 return;
             }
-            Main.player[Main.myPlayer].lifeSteal -= num * 1.5f;
-            int num2 = projectile.owner;
-            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, 305, 0, 0f, projectile.owner, (float)num2, num);
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ProjectileID.VampireHeal, 1200f, 1.5f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
