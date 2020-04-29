@@ -1164,23 +1164,13 @@ namespace CalamityMod.Projectiles
                     (projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type]) &&
                     player.ownedProjectileCounts[ModContent.ProjectileType<PlagueSeeker>()] < 6)
                 {
-                    int newDamage = (int)(projectile.damage * 0.25);
-                    if (newDamage > 30)
-                    {
-                        newDamage = (int)((projectile.damage * 0.25 - 30) * 0.1) + 30;
-                    }
-                    int plague = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueSeeker>(), newDamage, 0f, projectile.owner, 0f, 0f);
+                    int plague = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlagueSeeker>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30), 0f, projectile.owner, 0f, 0f);
                     Main.projectile[plague].Calamity().forceTypeless = false;
                 }
 
                 if (modPlayer.reaverBlast && projectile.melee)
                 {
-                    int newDamage = (int)(projectile.damage * 0.2);
-                    if (newDamage > 30)
-                    {
-                        newDamage = (int)((projectile.damage * 0.2 - 30) * 0.1) + 30;
-                    }
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ReaverBlast>(), newDamage, 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ReaverBlast>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 30), 0f, projectile.owner, 0f, 0f);
                 }
 
                 if (projectile.magic)
@@ -1223,12 +1213,7 @@ namespace CalamityMod.Projectiles
 							}
 							value15.Normalize();
 							value15 *= Main.rand.Next(70, 101) * 0.1f;
-							int newDamage = (int)(projectile.damage * 0.15);
-							if (newDamage > 15)
-							{
-								newDamage = (int)((projectile.damage * 0.15 - 15) * 0.1) + 15;
-							}
-							int proj = Projectile.NewProjectile(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2), value15.X, value15.Y, 569 + Main.rand.Next(3), newDamage, 0f, projectile.owner, 0f, 0f);
+							int proj = Projectile.NewProjectile(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2), value15.X, value15.Y, 569 + Main.rand.Next(3), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 15), 0f, projectile.owner, 0f, 0f);
 							Main.projectile[proj].usesLocalNPCImmunity = true;
 							Main.projectile[proj].localNPCHitCooldown = 30;
 						}
@@ -1250,12 +1235,7 @@ namespace CalamityMod.Projectiles
                 {
                     if (modPlayer.ataxiaGeyser && player.ownedProjectileCounts[ModContent.ProjectileType<ChaosGeyser>()] < 3)
                     {
-                        int newDamage = (int)(projectile.damage * 0.15);
-                        if (newDamage > 35)
-                        {
-                            newDamage = (int)((projectile.damage * 0.15 - 35) * 0.1) + 35;
-                        }
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChaosGeyser>(), newDamage, 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChaosGeyser>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 35), 0f, projectile.owner, 0f, 0f);
                     }
                 }
                 else if (rogue)
@@ -1294,23 +1274,13 @@ namespace CalamityMod.Projectiles
 
 							case 2:
 
-								int newDamage = (int)(projectile.damage * 0.15);
-								if (newDamage > 40)
-								{
-									newDamage = (int)((projectile.damage * 0.15 - 40) * 0.1) + 40;
-								}
-								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocFire>(), newDamage, 0f, projectile.owner, 0f, 0f);
+								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocFire>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 40), 0f, projectile.owner, 0f, 0f);
 
 								break;
 
 							case 3:
 
-								int newDamage2 = (int)(projectile.damage * 0.2);
-								if (newDamage2 > 40)
-								{
-									newDamage = (int)((projectile.damage * 0.2 - 40) * 0.1) + 40;
-								}
-								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocBlast>(), newDamage2, 0f, projectile.owner, 0f, 0f);
+								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<XerocBlast>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 40), 0f, projectile.owner, 0f, 0f);
 
 								break;
 
@@ -1481,12 +1451,7 @@ namespace CalamityMod.Projectiles
 							{
 								if (Main.rand.NextBool(4))
 								{
-									int newDamage = (int)(projectile.damage * 0.25);
-									if (newDamage > 100)
-									{
-										newDamage = (int)((projectile.damage * 0.25 - 100) * 0.1) + 100;
-									}
-									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ApparatusExplosion>(), newDamage, projectile.knockBack * 0.25f, projectile.owner);
+									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ApparatusExplosion>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 100), projectile.knockBack * 0.25f, projectile.owner);
 									modPlayer.jellyDmg = 20f;
 								}
 							}
@@ -1495,13 +1460,8 @@ namespace CalamityMod.Projectiles
 								if (Main.rand.NextBool(3))
 								{
 									int cap = modPlayer.starTaintedGenerator ? 75 : 60;
-									int newDamage = (int)(projectile.damage * 0.5);
-									if (newDamage > cap)
-									{
-										newDamage = (int)((projectile.damage * 0.5 - cap) * 0.1) + cap;
-									}
 									int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SummonAstralExplosion>(),
-										newDamage, 3f, projectile.owner);
+										CalamityUtils.DamageSoftCap(projectile.damage * 0.5, cap), 3f, projectile.owner);
 									modPlayer.jellyDmg = 20f;
 								}
 							}
@@ -1509,13 +1469,8 @@ namespace CalamityMod.Projectiles
 							{
 								if (Main.rand.NextBool(3))
 								{
-									int newDamage = (int)(projectile.damage * 0.25);
-									if (newDamage > 40)
-									{
-										newDamage = (int)((projectile.damage * 0.25 - 40) * 0.1) + 40;
-									}
 									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<IrradiatedAura>(),
-										newDamage, 0f, projectile.owner);
+										CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 40), 0f, projectile.owner);
 									modPlayer.jellyDmg = 20f;
 								}
 							}
@@ -1555,12 +1510,7 @@ namespace CalamityMod.Projectiles
                             }
                             value15.Normalize();
                             value15 *= Main.rand.Next(70, 101) * 0.1f;
-                            int newDamage = (int)(projectile.damage * 0.33);
-                            if (newDamage > 65)
-                            {
-                                newDamage = (int)((projectile.damage * 0.33 - 65) * 0.1) + 65;
-                            }
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TarraEnergy>(), newDamage, 0f, projectile.owner, 0f, 0f);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TarraEnergy>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.33, 65), 0f, projectile.owner, 0f, 0f);
                         }
                     }
                 }
@@ -1739,8 +1689,7 @@ namespace CalamityMod.Projectiles
                             }
                             value15.Normalize();
                             value15 *= Main.rand.Next(70, 101) * 0.1f;
-                            int newDamage = (int)(projectile.damage * 0.33);
-                            int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ProjectileID.LostSoulFriendly, newDamage, 0f, projectile.owner, 0f, 0f);
+                            int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ProjectileID.LostSoulFriendly, (int)(projectile.damage * 0.33), 0f, projectile.owner, 0f, 0f);
 							Main.projectile[soul].Calamity().forceRogue = true;
 							Main.projectile[soul].timeLeft = 300;
 							Main.projectile[soul].tileCollide = false;

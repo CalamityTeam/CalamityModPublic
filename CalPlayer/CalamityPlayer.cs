@@ -5403,12 +5403,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || proj.Calamity().stealthStrike))
                 {
-                    int newDamage = (int)(proj.damage * 0.25);
-                    if (newDamage > 50)
-                    {
-                        newDamage = (int)((proj.damage * 0.25 - 50) * 0.1) + 50;
-                    }
-                    Projectile.NewProjectile(proj.Center.X, proj.Center.Y, 0f, 0f, ModContent.ProjectileType<UmbraphileBoom>(), newDamage, 0f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(proj.Center.X, proj.Center.Y, 0f, 0f, ModContent.ProjectileType<UmbraphileBoom>(), CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50), 0f, player.whoAmI, 0f, 0f);
                 }
                 if (bloodflareMelee && isTrueMelee)
                 {
