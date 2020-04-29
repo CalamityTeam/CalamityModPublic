@@ -3575,7 +3575,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == ModContent.NPCType<OldDuke.OldDuke>())
             {
-                if (projectile.type == ModContent.ProjectileType<GalileosMoon>() || projectile.type == ModContent.ProjectileType<CrescentMoonFlail>())
+                if (projectile.type == ModContent.ProjectileType<CrescentMoonFlail>())
                 {
                     damage = (int)(damage * 0.2);
                 }
@@ -3583,11 +3583,11 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ModContent.ProjectileType<GhastlySoulLarge>() || projectile.type == ModContent.ProjectileType<GhastlySoulMedium>() || projectile.type == ModContent.ProjectileType<GhastlySoulSmall>() || projectile.type == ModContent.ProjectileType<ReaperProjectile>() || projectile.type == ModContent.ProjectileType<BloodBombExplosion>())
+                else if (projectile.type == ModContent.ProjectileType<GalileosMoon>() || projectile.type == ModContent.ProjectileType<ReaperProjectile>() || projectile.type == ModContent.ProjectileType<BloodBombExplosion>())
                 {
                     damage = (int)(damage * 0.6);
                 }
-                else if (projectile.type == ModContent.ProjectileType<GhostFire>())
+                else if (projectile.type == ModContent.ProjectileType<GhastlySoulLarge>() || projectile.type == ModContent.ProjectileType<GhastlySoulMedium>() || projectile.type == ModContent.ProjectileType<GhastlySoulSmall>() || projectile.type == ModContent.ProjectileType<GhostFire>())
                 {
                     damage = (int)(damage * 0.75);
                 }
