@@ -2918,8 +2918,6 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.manaOverloader)
 			{
 				player.magicDamage += 0.06f;
-				if (player.statMana < (int)(player.statManaMax2 * 0.1))
-					player.ghostHeal = true;
 			}
 
 			if (modPlayer.twinsLore)
