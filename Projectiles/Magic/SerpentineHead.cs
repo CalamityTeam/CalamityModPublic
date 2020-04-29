@@ -8,11 +8,10 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class SerpentineHead : ModProjectile
     {
-
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Serpentine");
+            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
         }
 
         public override void SetDefaults()
