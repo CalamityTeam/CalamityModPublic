@@ -625,7 +625,7 @@ namespace CalamityMod.NPCs
 			npc.defense = npc.defDefense;
 
 			// Percent life remaining
-			float lifeRatio = npc.life / npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Variables for buffing the AI
 			bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;
@@ -1130,7 +1130,7 @@ namespace CalamityMod.NPCs
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 1f, 0f, 0f);
 
 			// Percent life remaining
-			float lifeRatio = npc.life / npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Spawn phase 2 Cal
 			if (lifeRatio <= 0.75f && Main.netMode != NetmodeID.MultiplayerClient && !phase2)
@@ -2257,7 +2257,7 @@ namespace CalamityMod.NPCs
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
 			// Percent life remaining
-			float lifeRatio = npc.life / npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Variables
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
@@ -2899,7 +2899,7 @@ namespace CalamityMod.NPCs
 
 					// Calculate phases based on worm HP
 					int astrumDeusTotalHP = 0;
-					double mainDeusHPRatio = npc.life / npc.lifeMax;
+					double mainDeusHPRatio = npc.life / (double)npc.lifeMax;
 					if (calamityGlobalNPC.newAI[0] == 1f)
 					{
 						for (int i = 0; i < Main.maxNPCs; i++)
@@ -3195,7 +3195,7 @@ namespace CalamityMod.NPCs
 				}
 
 				// Life remaining
-				float deusHPRatio = npc.life / npc.lifeMax;
+				float deusHPRatio = npc.life / (float)npc.lifeMax;
 
 				// Only the smaller worm heads use this code
 				if (head)
@@ -3519,7 +3519,7 @@ namespace CalamityMod.NPCs
 				calamityGlobalNPC.unbreakableDR = true;
 			}
 
-			double lifeRatio = (double)npc.life / (double)npc.lifeMax;
+			double lifeRatio = npc.life / (double)npc.lifeMax;
 			int lifePercentage = (int)(100.0 * lifeRatio);
 			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
@@ -3585,7 +3585,7 @@ namespace CalamityMod.NPCs
 					npc.ai[0] = 0f;
 
 					int numDust = (int)(0.2f * MathHelper.TwoPi * num474);
-					float angleIncrement = MathHelper.TwoPi / (float)numDust;
+					float angleIncrement = MathHelper.TwoPi / numDust;
 					Vector2 dustOffset = new Vector2(num474, 0f);
 					dustOffset = dustOffset.RotatedByRandom(MathHelper.TwoPi);
 
@@ -3604,9 +3604,9 @@ namespace CalamityMod.NPCs
 					{
 						if (Collision.CanHit(npc.Center, 1, 1, Main.player[num475].Center, 1, 1))
 						{
-							float num476 = Main.player[num475].position.X + (float)(Main.player[num475].width / 2);
-							float num477 = Main.player[num475].position.Y + (float)(Main.player[num475].height / 2);
-							float num478 = Math.Abs(npc.position.X + (float)(npc.width / 2) - num476) + Math.Abs(npc.position.Y + (float)(npc.height / 2) - num477);
+							float num476 = Main.player[num475].position.X + (Main.player[num475].width / 2);
+							float num477 = Main.player[num475].position.Y + (Main.player[num475].height / 2);
+							float num478 = Math.Abs(npc.position.X + (npc.width / 2) - num476) + Math.Abs(npc.position.Y + (npc.height / 2) - num477);
 
 							if (num478 < num474)
 							{
@@ -3637,10 +3637,10 @@ namespace CalamityMod.NPCs
 					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
 						float num941 = 3f;
-						Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-						float num942 = player.position.X + (float)player.width * 0.5f - vector104.X + (float)Main.rand.Next(-20, 21);
-						float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y + (float)Main.rand.Next(-20, 21);
-						float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
+						Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
+						float num942 = player.position.X + player.width * 0.5f - vector104.X + Main.rand.Next(-20, 21);
+						float num943 = player.position.Y + player.height * 0.5f - vector104.Y + Main.rand.Next(-20, 21);
+						float num944 = (float)Math.Sqrt(num942 * num942 + num943 * num943);
 						num944 = num941 / num944;
 						num942 *= num944;
 						num943 *= num944;
@@ -3661,7 +3661,7 @@ namespace CalamityMod.NPCs
 							for (int i = 0; i < 12; i++)
 							{
 								float ai1 = player.ZoneDungeon ? 0f : 1f;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergyBall2>(), damage, 0f, Main.myPlayer, (float)(i * 30), ai1);
+								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergyBall2>(), damage, 0f, Main.myPlayer, i * 30, ai1);
 							}
 						}
 						else
@@ -3689,10 +3689,10 @@ namespace CalamityMod.NPCs
 			if (!player.ZoneDungeon || CalamityWorld.bossRushActive)
 				num823 = 25f;
 
-			Vector2 vector82 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-			float num825 = player.position.X + (float)(player.width / 2) - vector82.X;
-			float num826 = player.position.Y + (float)(player.height / 2) - vector82.Y;
-			float num827 = (float)Math.Sqrt((double)(num825 * num825 + num826 * num826));
+			Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+			float num825 = player.position.X + (player.width / 2) - vector82.X;
+			float num826 = player.position.Y + (player.height / 2) - vector82.Y;
+			float num827 = (float)Math.Sqrt(num825 * num825 + num826 * num826);
 
 			num827 = num823 / num827;
 			num825 *= num827;
@@ -3724,16 +3724,16 @@ namespace CalamityMod.NPCs
 			}
 
 			if (calamityGlobalNPC.newAI[0] == 0f && npc.life > 0)
-				calamityGlobalNPC.newAI[0] = (float)npc.lifeMax;
+				calamityGlobalNPC.newAI[0] = npc.lifeMax;
 
 			if (npc.life > 0)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					int num660 = (int)((double)npc.lifeMax * 0.26);
-					if ((float)(npc.life + num660) < calamityGlobalNPC.newAI[0])
+					int num660 = (int)(npc.lifeMax * 0.26);
+					if ((npc.life + num660) < calamityGlobalNPC.newAI[0])
 					{
-						calamityGlobalNPC.newAI[0] = (float)npc.life;
+						calamityGlobalNPC.newAI[0] = npc.life;
 						calamityGlobalNPC.newAI[2] += 1f;
 						int glob = revenge ? 8 : 4;
 						if (calamityGlobalNPC.newAI[0] <= 0.5f)
@@ -3806,7 +3806,7 @@ namespace CalamityMod.NPCs
 				npc.timeLeft = 1800;
 
 			// Percent life remaining
-			float lifeRatio = npc.life / npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
@@ -5698,7 +5698,7 @@ namespace CalamityMod.NPCs
 			npc.alpha = 255;
 
 			// Percent life remaining
-			float lifeRatio = npc.life / npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Variables for buffing the AI
 			bool provy = CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive;

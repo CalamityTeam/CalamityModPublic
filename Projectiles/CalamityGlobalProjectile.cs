@@ -1098,23 +1098,43 @@ namespace CalamityMod.Projectiles
 
 						SpawnLifeStealProjectile(projectile, player, heal, ModContent.ProjectileType<SilvaOrb>(), 1200f, 1.5f);
 					}
-					else if (modPlayer.godSlayerMage)
+					else if (projectile.magic)
 					{
-						float healMult = 0.06f;
-						healMult -= projectile.numHits * 0.015f;
-						float heal = projectile.damage * healMult;
-
-						if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
-							goto OTHEREFFECTS;
-
-						SpawnLifeStealProjectile(projectile, player, heal, ModContent.ProjectileType<GodSlayerHealOrb>(), 1200f, 1.5f);
-					}
-					else if (modPlayer.tarraMage)
-					{
-						if (modPlayer.tarraMageHealCooldown <= 0)
+						if (modPlayer.godSlayerMage)
 						{
-							modPlayer.tarraMageHealCooldown = 90;
+							float healMult = 0.06f;
+							healMult -= projectile.numHits * 0.015f;
+							float heal = projectile.damage * healMult;
 
+							if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
+								goto OTHEREFFECTS;
+
+							SpawnLifeStealProjectile(projectile, player, heal, ModContent.ProjectileType<GodSlayerHealOrb>(), 1200f, 1.5f);
+						}
+						else if (modPlayer.tarraMage)
+						{
+							if (modPlayer.tarraMageHealCooldown <= 0)
+							{
+								modPlayer.tarraMageHealCooldown = 90;
+
+								float healMult = 0.1f;
+								healMult -= projectile.numHits * 0.05f;
+								float heal = projectile.damage * healMult;
+
+								if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
+									goto OTHEREFFECTS;
+
+								Main.player[Main.myPlayer].lifeSteal -= heal * 3f;
+								int healAmount = (int)heal;
+								player.statLife += healAmount;
+								player.HealEffect(healAmount);
+
+								if (player.statLife > player.statLifeMax2)
+									player.statLife = player.statLifeMax2;
+							}
+						}
+						else if (modPlayer.ataxiaMage)
+						{
 							float healMult = 0.1f;
 							healMult -= projectile.numHits * 0.05f;
 							float heal = projectile.damage * healMult;
@@ -1122,36 +1142,19 @@ namespace CalamityMod.Projectiles
 							if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 								goto OTHEREFFECTS;
 
-							Main.player[Main.myPlayer].lifeSteal -= heal * 3f;
-							int healAmount = (int)heal;
-							player.statLife += healAmount;
-							player.HealEffect(healAmount);
-
-							if (player.statLife > player.statLifeMax2)
-								player.statLife = player.statLifeMax2;
+							SpawnLifeStealProjectile(projectile, player, heal, ModContent.ProjectileType<AtaxiaHealOrb>(), 1200f, 1.5f);
 						}
-					}
-					else if (modPlayer.ataxiaMage)
-					{
-						float healMult = 0.1f;
-						healMult -= projectile.numHits * 0.05f;
-						float heal = projectile.damage * healMult;
+						else if (modPlayer.manaOverloader)
+						{
+							float healMult = 0.2f;
+							healMult -= projectile.numHits * 0.05f;
+							float heal = projectile.damage * healMult * (player.statMana / (float)player.statManaMax2);
 
-						if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
-							goto OTHEREFFECTS;
+							if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
+								goto OTHEREFFECTS;
 
-						SpawnLifeStealProjectile(projectile, player, heal, ModContent.ProjectileType<AtaxiaHealOrb>(), 1200f, 1.5f);
-					}
-					else if (modPlayer.manaOverloader)
-					{
-						float healMult = 0.2f;
-						healMult -= projectile.numHits * 0.05f;
-						float heal = projectile.damage * healMult * (player.statMana / player.statManaMax2);
-
-						if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
-							goto OTHEREFFECTS;
-
-						SpawnLifeStealProjectile(projectile, player, heal, ModContent.ProjectileType<ManaOverloaderHealOrb>(), 1200f, 2f);
+							SpawnLifeStealProjectile(projectile, player, heal, ModContent.ProjectileType<ManaOverloaderHealOrb>(), 1200f, 1.5f);
+						}
 					}
 				}
 
