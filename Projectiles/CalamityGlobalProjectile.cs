@@ -60,7 +60,6 @@ namespace CalamityMod.Projectiles
 
         // Counters and Timers
         private int counter = 0;
-        private int counter2 = 0;
 
         public int lineColor = 0; //Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         public bool extorterBoost = false;
@@ -743,10 +742,8 @@ namespace CalamityMod.Projectiles
 
 				if (modPlayer.daedalusSplit && rogue)
 				{
-					counter2++;
-					if (counter2 >= 30)
+					if (counter % 30 == 0)
 					{
-						counter2 = 0;
 						if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[90] < 30)
 						{
 							for (int num252 = 0; num252 < 2; num252++)
