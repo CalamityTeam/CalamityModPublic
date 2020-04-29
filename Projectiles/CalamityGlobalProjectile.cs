@@ -2052,7 +2052,7 @@ namespace CalamityMod.Projectiles
 		{
 			Player player = Main.player[projectile.owner];
 
-			//anti sticking movement as a backup
+			//anti sticking movement as a failsafe
             float SAImovement = 0.05f;
             for (int index = 0; index < Main.projectile.Length; index++)
             {
@@ -2079,21 +2079,22 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-            float num16 = 0.5f;
+            float passiveMvtFloat = 0.5f;
             projectile.tileCollide = false;
             float range = 100f;
-            Vector2 vector3 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-            float xDist = player.position.X + (float)(player.width / 2) - vector3.X;
-            float yDist = player.position.Y + (float)(player.height / 2) - vector3.Y;
-            yDist += (float)Main.rand.Next(-10, 21);
-            xDist += (float)Main.rand.Next(-10, 21);
-			//light pets lead the player, normal pets trail the player
-            xDist += (float)(60 * (lightPet ? (float)player.direction : -(float)player.direction));
+            Vector2 projPos = new Vector2(projectile.Center.X, projectile.Center.Y);
+            float xDist = player.Center.X - projPos.X;
+            float yDist = player.Center.Y - projPos.Y;
+            yDist += Main.rand.NextFloat(-10, 20);
+            xDist += Main.rand.NextFloat(-10, 20);
+			//Light pets lead the player, normal pets trail the player
+            xDist += 60f * (lightPet ? (float)player.direction : -(float)player.direction);
             yDist -= 60f;
-            float playerDist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
-            float num21 = 18f;
+			Vector2 playerVector = new Vector2(xDist, yDist);
+            float playerDist = playerVector.Length();
+            float returnSpeed = 18f;
 
-			//if player is close enough, resume normal
+			//If player is close enough, resume normal
             if (playerDist < range && player.velocity.Y == 0f &&
                 projectile.position.Y + (float)projectile.height <= player.position.Y + (float)player.height &&
                 !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
@@ -2104,7 +2105,7 @@ namespace CalamityMod.Projectiles
                 }
             }
 
-			//teleport to player if too far
+			//Teleport to player if too far
             if (playerDist > 2000f)
             {
                 projectile.position.X = player.Center.X - (float)(projectile.width / 2);
@@ -2118,52 +2119,52 @@ namespace CalamityMod.Projectiles
                 {
                     projectile.velocity *= 0.99f;
                 }
-                num16 = 0.01f;
+                passiveMvtFloat = 0.01f;
             }
             else
             {
                 if (playerDist < 100f)
                 {
-                    num16 = 0.1f;
+                    passiveMvtFloat = 0.1f;
                 }
                 if (playerDist > 300f)
                 {
-                    num16 = 1f;
+                    passiveMvtFloat = 1f;
                 }
-                playerDist = num21 / playerDist;
-                xDist *= playerDist;
-                yDist *= playerDist;
+                playerDist = returnSpeed / playerDist;
+                playerVector.X *= playerDist;
+                playerVector.Y *= playerDist;
             }
-            if (projectile.velocity.X < xDist)
+            if (projectile.velocity.X < playerVector.X)
             {
-                projectile.velocity.X = projectile.velocity.X + num16;
-                if (num16 > 0.05f && projectile.velocity.X < 0f)
+                projectile.velocity.X += passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && projectile.velocity.X < 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X + num16;
-                }
-            }
-            if (projectile.velocity.X > xDist)
-            {
-                projectile.velocity.X = projectile.velocity.X - num16;
-                if (num16 > 0.05f && projectile.velocity.X > 0f)
-                {
-                    projectile.velocity.X = projectile.velocity.X - num16;
+                    projectile.velocity.X += passiveMvtFloat;
                 }
             }
-            if (projectile.velocity.Y < yDist)
+            if (projectile.velocity.X > playerVector.X)
             {
-                projectile.velocity.Y = projectile.velocity.Y + num16;
-                if (num16 > 0.05f && projectile.velocity.Y < 0f)
+                projectile.velocity.X -= passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && projectile.velocity.X > 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + num16 * 2f;
+                    projectile.velocity.X -= passiveMvtFloat;
                 }
             }
-            if (projectile.velocity.Y > yDist)
+            if (projectile.velocity.Y < playerVector.Y)
             {
-                projectile.velocity.Y = projectile.velocity.Y - num16;
-                if (num16 > 0.05f && projectile.velocity.Y > 0f)
+                projectile.velocity.Y += passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && projectile.velocity.Y < 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - num16 * 2f;
+                    projectile.velocity.Y += passiveMvtFloat * 2f;
+                }
+            }
+            if (projectile.velocity.Y > playerVector.Y)
+            {
+                projectile.velocity.Y -= passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && projectile.velocity.Y > 0f)
+                {
+                    projectile.velocity.Y -= passiveMvtFloat * 2f;
                 }
             }
 			if (projectile.velocity.X >= 0.25f)
