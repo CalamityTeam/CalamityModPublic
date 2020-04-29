@@ -9,7 +9,7 @@ using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.Dyes;
+using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;

@@ -11,6 +11,7 @@ using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Dyes;
+using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Fountains;
@@ -5509,6 +5510,12 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedBoss3);
                 SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(ModContent.NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
+            }
+
+            // Because of the defiled condition, the dye trader does not receive an alert icon when hardmode starts.
+            if (type == NPCID.DyeTrader)
+            {
+                SetShopItem(ref shop, ref nextSlot, ModContent.ItemType<DefiledFlameDye>(), Main.hardMode && CalamityWorld.defiled, Item.buyPrice(0, 10));
             }
 
             if (type == NPCID.ArmsDealer)
