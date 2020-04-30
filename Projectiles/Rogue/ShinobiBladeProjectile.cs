@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (target.life <= 0)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<ShinobiHealOrb>(), 0, 0, Main.myPlayer, 0, 10);
+				CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], 10, ModContent.ProjectileType<ShinobiHealOrb>(), 1200f, 0f);
             }
         }
 
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (target.statLife <= 0)
             {
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<ShinobiHealOrb>(), 0, 0, Main.myPlayer, 0, 10);
+				CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], 10, ModContent.ProjectileType<ShinobiHealOrb>(), 1200f, 0f);
             }
         }
 

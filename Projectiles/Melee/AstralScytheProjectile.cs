@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.timeLeft = 300;
             projectile.penetrate = 8;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 5;
+            projectile.localNPCHitCooldown = 7;
 			projectile.tileCollide = false;
         }
 

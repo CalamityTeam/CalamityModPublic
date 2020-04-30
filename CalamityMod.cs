@@ -1348,7 +1348,6 @@ namespace CalamityMod
                 ItemID.PhoenixBlaster,
                 ItemID.DD2BetsyBow,
                 ItemID.InfluxWaver,
-                ItemID.LaserMachinegun,
                 ItemID.Xenopopper,
                 ItemID.ElectrosphereLauncher
             };

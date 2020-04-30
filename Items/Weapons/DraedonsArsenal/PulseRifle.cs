@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.useAmmo = AmmoID.Bullet;
 		}
 
-		public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Vector2 velocity = new Vector2(speedX, speedY);
 			if (velocity.Length() > 5f)

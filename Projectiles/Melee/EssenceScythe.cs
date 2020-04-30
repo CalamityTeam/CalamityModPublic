@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.1f, projectile.velocity.Y * 0.1f, ModContent.ProjectileType<EssenceFlame>(), 0, 0, projectile.owner, 0f, 0f);
+					CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], 8, ModContent.ProjectileType<EssenceFlame>(), 1200f, 0f);
                 }
             }
         }

@@ -6,7 +6,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Rogue
+namespace CalamityMod.Projectiles.Hybrid
 {
     public class IllustriousKnife : ModProjectile
     {
@@ -69,8 +69,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 return;
             }
-            float num = (float)damage * 0.015f;
-            if ((int)num == 0)
+            float healAmt = (float)damage * 0.015f;
+            if ((int)healAmt == 0)
             {
                 return;
             }
@@ -78,16 +78,14 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 return;
             }
-            Main.player[Main.myPlayer].lifeSteal -= num * 1.5f;
-            int num2 = projectile.owner;
-            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ModContent.ProjectileType<RoyalHeal>(), 0, 0f, projectile.owner, (float)num2, num);
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 1.5f);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
-            float num = (float)damage * 0.015f;
-            if ((int)num == 0)
+            float healAmt = (float)damage * 0.015f;
+            if ((int)healAmt == 0)
             {
                 return;
             }
@@ -95,9 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 return;
             }
-            Main.player[Main.myPlayer].lifeSteal -= num * 1.5f;
-            int num2 = projectile.owner;
-            Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ModContent.ProjectileType<RoyalHeal>(), 0, 0f, projectile.owner, (float)num2, num);
+			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<RoyalHeal>(), 1200f, 1.5f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
