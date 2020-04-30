@@ -29,22 +29,29 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 1f, 0f, 0f);
-			if (projectile.timeLeft == 300)
-				projectile.damage *= (int)1.2f;
             if (Main.rand.NextBool(5))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 229, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 100);
             }
+			if (projectile.ai[0] == 1f)
+			{
+				projectile.extraUpdates = 1;
+			}
 		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 34);
-			if (Main.rand.NextBool(10)) //idk if this even works
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			damage = (int)(damage * 1.2);
+			if (Main.rand.NextBool(10))
 			{
 				if (!crit)
 					crit = true;
 			}
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 34);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

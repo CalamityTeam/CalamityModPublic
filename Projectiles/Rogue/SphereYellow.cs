@@ -33,6 +33,10 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 229, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 100);
             }
+			if (projectile.ai[0] == 1f)
+			{
+				projectile.extraUpdates = 1;
+			}
 		}
 
         public override bool OnTileCollide(Vector2 oldVelocity)

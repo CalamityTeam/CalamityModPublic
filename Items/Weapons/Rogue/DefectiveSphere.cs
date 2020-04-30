@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -39,7 +40,7 @@ Stealth strikes launch all 4 sphere types at once");
             item.rare = 8;
 
             item.Calamity().rogue = true;
-            item.shoot = ModContent.ProjectileType<SphereSpiked>();
+            item.shoot = ProjectileType<SphereSpiked>();
             item.shootSpeed = Speed;
         }
 
@@ -51,7 +52,7 @@ Stealth strikes launch all 4 sphere types at once");
 			{
 				return true;
 			}
-			else if ((player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[ModContent.ProjectileType<SphereBladed>()] + player.ownedProjectileCounts[ModContent.ProjectileType<SphereYellow>()] + player.ownedProjectileCounts[ModContent.ProjectileType<SphereBlue>()]) >= UseMax)
+			else if ((player.ownedProjectileCounts[item.shoot] + player.ownedProjectileCounts[ProjectileType<SphereBladed>()] + player.ownedProjectileCounts[ProjectileType<SphereYellow>()] + player.ownedProjectileCounts[ProjectileType<SphereBlue>()]) >= UseMax)
 			{
 				return false;
 			}
@@ -63,28 +64,30 @@ Stealth strikes launch all 4 sphere types at once");
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int sphereType = type;
-			if (Main.rand.NextBool(4))
-				sphereType = ModContent.ProjectileType<SphereBladed>();
-			else if (Main.rand.NextBool(3))
-				sphereType = ModContent.ProjectileType<SphereYellow>();
-			else if (Main.rand.NextBool(2))
-				sphereType = ModContent.ProjectileType<SphereBlue>();
-			float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-			float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-			float SpeedX2 = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-			float SpeedY2 = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-			float SpeedX3 = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-			float SpeedY3 = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
-			float SpeedX4 = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
-			float SpeedY4 = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;
+			int sphereType = Utils.SelectRandom(Main.rand, new int[]
+			{
+				type,
+				ProjectileType<SphereBladed>(),
+				ProjectileType<SphereYellow>(),
+				ProjectileType<SphereBlue>()
+			});
+
+			//Kinda ugly but idk how to make it cleaner
+			float SpeedX = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
+			float SpeedY = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
+			float SpeedX2 = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
+			float SpeedY2 = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
+			float SpeedX3 = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
+			float SpeedY3 = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
+			float SpeedX4 = speedX + Main.rand.NextFloat(-30, 30) * 0.05f;
+			float SpeedY4 = speedY + Main.rand.NextFloat(-30, 30) * 0.05f;
 
             if (player.Calamity().StealthStrikeAvailable())
 			{
 				int stealth = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				int stealth2 = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ModContent.ProjectileType<SphereBladed>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				int stealth3 = Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, ModContent.ProjectileType<SphereYellow>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
-				int stealth4 = Projectile.NewProjectile(position.X, position.Y, SpeedX4, SpeedY4, ModContent.ProjectileType<SphereBlue>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
+				int stealth2 = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, ProjectileType<SphereBladed>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
+				int stealth3 = Projectile.NewProjectile(position.X, position.Y, SpeedX3, SpeedY3, ProjectileType<SphereYellow>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
+				int stealth4 = Projectile.NewProjectile(position.X, position.Y, SpeedX4, SpeedY4, ProjectileType<SphereBlue>(), damage / 2, knockBack, player.whoAmI, 0f, 0f);
 				Main.projectile[stealth].Calamity().stealthStrike = true;
 				Main.projectile[stealth2].Calamity().stealthStrike = true;
 				Main.projectile[stealth3].Calamity().stealthStrike = true;
