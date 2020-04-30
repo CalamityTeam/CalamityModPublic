@@ -754,7 +754,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (npc.buffImmune[BuffID.Venom] == false)
+			if (!npc.buffImmune[BuffID.Venom])
 			{
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 			}

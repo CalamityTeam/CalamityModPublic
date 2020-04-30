@@ -3098,11 +3098,14 @@ Provides heat and cold protection in Death Mode";
             if (item.type == ItemID.HandWarmer)
                 modPlayer.handWarmer = true;
 
-            if (item.type == ItemID.CelestialStone || item.type == ItemID.CelestialShell || (item.type == ItemID.MoonStone && !Main.dayTime) ||
-                (item.type == ItemID.SunStone && Main.dayTime))
+            if ((item.type == ItemID.MoonStone && !Main.dayTime) || (item.type == ItemID.SunStone && Main.dayTime))
             {
                 player.Calamity().throwingCrit += 2;
             }
+            if (item.type == ItemID.CelestialStone)
+                player.Calamity().throwingCrit += 2;
+            if (item.type == ItemID.CelestialShell)
+                player.Calamity().throwingCrit += 2;
             if (item.type == ItemID.DestroyerEmblem)
                 player.Calamity().throwingCrit += 8;
             if (item.type == ItemID.EyeoftheGolem)
