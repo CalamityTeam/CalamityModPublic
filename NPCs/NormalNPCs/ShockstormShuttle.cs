@@ -61,10 +61,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                         {
                             num184 = 22;
                         }
-                        int num185 = 435; //projectile ID
+                        int num185 = ProjectileID.MartianTurretBolt; //projectile ID
                         if (Main.rand.NextBool(8))
                         {
-                            num185 = 449; //more powerful projectile ID
+                            num185 = ProjectileID.SaucerLaser; //more powerful projectile ID
                         }
                         value9.X += num180;
                         value9.Y += num182;
@@ -457,7 +457,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                                             }
                                         }
                                     }
-                                    int num185 = 449;
+                                    int num185 = ProjectileID.SaucerLaser;
                                     value9.X += num180;
                                     value9.Y += num182;
                                     for (int num186 = 0; num186 < 2; num186++)

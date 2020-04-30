@@ -1,4 +1,5 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -106,42 +107,40 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     npc.localAI[0] = 0f;
 
-                    Vector2 vector62 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num506 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector62.X;
-                    float num507 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector62.Y;
-                    float num508 = (float)Math.Sqrt((double)(num506 * num506 + num507 * num507));
+                    Vector2 npcPos = new Vector2(npc.Center.X, npc.Center.Y);
+                    float xDist = Main.player[npc.target].Center.X - npcPos.X;
+                    float yDist = Main.player[npc.target].Center.Y - npcPos.Y;
+                    Vector2 projVector = new Vector2(xDist, yDist);
+					float projLength = projVector.Length();
 
-                    float num509 = CalamityWorld.bossRushActive ? 18f : 9f;
-                    int num510 = 11;
+                    float speed = CalamityWorld.bossRushActive ? 18f : 9f;
+                    int damage = 11;
 					if (CalamityWorld.death)
-						num510 += 1;
-					int num511 = ProjectileID.RubyBolt;
+						damage += 1;
+					int type = ModContent.ProjectileType<JewelProjectile>();
 
-                    num508 = num509 / num508;
-                    num506 *= num508;
-                    num507 *= num508;
-                    vector62.X += num506 * 2f;
-                    vector62.Y += num507 * 2f;
+                    projLength = speed / projLength;
+                    projVector.X *= projLength;
+                    projVector.Y *= projLength;
+                    npcPos.X += projVector.X * 2f;
+                    npcPos.Y += projVector.Y * 2f;
 
-                    for (int num621 = 0; num621 < 10; num621++)
+                    for (int dusty = 0; dusty < 10; dusty++)
                     {
-                        Vector2 velocity2 = new Vector2(num506, num507);
-                        velocity2.Normalize();
-                        int num622 = Dust.NewDust(npc.Center, npc.width, npc.height, 90, velocity2.X, velocity2.Y, 100, default, 2f);
-                        Main.dust[num622].velocity *= 1.5f;
-                        Main.dust[num622].noGravity = true;
+                        Vector2 dustVel = projVector;
+                        dustVel.Normalize();
+                        int ruby = Dust.NewDust(npc.Center, npc.width, npc.height, 90, dustVel.X, dustVel.Y, 100, default, 2f);
+                        Main.dust[ruby].velocity *= 1.5f;
+                        Main.dust[ruby].noGravity = true;
                         if (Main.rand.NextBool(2))
                         {
-                            Main.dust[num622].scale = 0.5f;
-                            Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                            Main.dust[ruby].scale = 0.5f;
+                            Main.dust[ruby].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                         }
                     }
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
 
-                    int proj = Projectile.NewProjectile(vector62.X, vector62.Y, num506, num507, num511, num510, 0f, Main.myPlayer, 0f, 0f);
-                    // Protection against projectile cap
-                    if(proj < Main.maxProjectiles)
-                        Main.projectile[proj].Calamity().forceHostile = true;
+                    int proj = Projectile.NewProjectile(npcPos, projVector, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
         }
