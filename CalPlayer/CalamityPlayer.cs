@@ -401,6 +401,7 @@ namespace CalamityMod.CalPlayer
         public bool pAmulet = false;
         public bool fBarrier = false;
         public bool aBrain = false;
+        public bool amalgam = false;
         public bool lol = false;
         public bool raiderTalisman = false;
         public int raiderStack = 0;
@@ -1419,6 +1420,7 @@ namespace CalamityMod.CalPlayer
             pAmulet = false;
             fBarrier = false;
             aBrain = false;
+            amalgam = false;
             frostFlare = false;
             beeResist = false;
             uberBees = false;
@@ -6432,34 +6434,41 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (aBrain)
+                if (aBrain || amalgam)
                 {
                     for (int m = 0; m < Main.maxNPCs; m++)
                     {
                         if (Main.npc[m].active && !Main.npc[m].friendly)
                         {
-                            float arg_67A_0 = (Main.npc[m].Center - player.Center).Length();
-                            float num10 = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
-                            if (num10 > 500f)
+                            float npcDist = (Main.npc[m].Center - player.Center).Length();
+                            float range = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
+                            if (range > 500f)
                             {
-                                num10 = 500f + (num10 - 500f) * 0.75f;
+                                range = 500f + (range - 500f) * 0.75f;
                             }
-                            if (num10 > 700f)
+                            if (range > 700f)
                             {
-                                num10 = 700f + (num10 - 700f) * 0.5f;
+                                range = 700f + (range - 700f) * 0.5f;
                             }
-                            if (num10 > 900f)
+                            if (range > 900f)
                             {
-                                num10 = 900f + (num10 - 900f) * 0.25f;
+                                range = 900f + (range - 900f) * 0.25f;
                             }
-                            if (arg_67A_0 < num10)
+                            if (npcDist < range)
                             {
-                                float num11 = (float)Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
-                                Main.npc[m].AddBuff(BuffID.Confused, (int)num11, false);
+                                float duration = (float)Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
+                                Main.npc[m].AddBuff(BuffID.Confused, (int)duration, false);
+								if (amalgam)
+								{
+									Main.npc[m].AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)duration, false);
+									Main.npc[m].AddBuff(ModContent.BuffType<GodSlayerInferno>(), (int)duration, false);
+									Main.npc[m].AddBuff(ModContent.BuffType<SulphuricPoisoning>(), (int)duration, false);
+									Main.npc[m].AddBuff(ModContent.BuffType<Irradiated>(), (int)duration, false);
+								}
                             }
                         }
                     }
-					//spawn the harmless brain images that are actually projectiles
+					//Spawn the harmless brain images that are actually projectiles
                     Projectile.NewProjectile(player.Center.X + (float)Main.rand.Next(-40, 40), player.Center.Y - (float)Main.rand.Next(20, 60), player.velocity.X * 0.3f, player.velocity.Y * 0.3f, ProjectileID.BrainOfConfusion, 0, 0f, player.whoAmI, 0f, 0f);
                 }
                 if (polarisBoost)
