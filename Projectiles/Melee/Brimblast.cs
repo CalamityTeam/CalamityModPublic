@@ -53,26 +53,23 @@ namespace CalamityMod.Projectiles.Melee
             }
             projectile.rotation += projectile.velocity.X * 0.1f;
             int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
-            Dust expr_8976_cp_0 = Main.dust[num199];
-            expr_8976_cp_0.position.X -= 2f;
-            Dust expr_8994_cp_0 = Main.dust[num199];
-            expr_8994_cp_0.position.Y += 2f;
-            Main.dust[num199].scale += (float)Main.rand.Next(50) * 0.01f;
-            Main.dust[num199].noGravity = true;
-            Dust expr_89E7_cp_0 = Main.dust[num199];
-            expr_89E7_cp_0.velocity.Y -= 4f;
+            Dust dust = Main.dust[num199];
+            dust.position.X -= 2f;
+            dust.position.Y += 2f;
+            dust.scale += (float)Main.rand.Next(50) * 0.01f;
+            dust.noGravity = true;
+            dust.velocity.Y -= 4f;
             if (Main.rand.NextBool(2))
             {
                 int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
-                Dust expr_8A4E_cp_0 = Main.dust[num200];
-                expr_8A4E_cp_0.position.X -= 2f;
-                Dust expr_8A6C_cp_0 = Main.dust[num200];
-                expr_8A6C_cp_0.position.Y += 2f;
-                Main.dust[num200].scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
-                Main.dust[num200].noGravity = true;
-                Main.dust[num200].velocity *= 0.2f;
+                Dust dust2 = Main.dust[num200];
+                dust2.position.X -= 2f;
+                dust2.position.Y += 2f;
+                dust2.scale += 0.3f + (float)Main.rand.Next(50) * 0.01f;
+                dust2.noGravity = true;
+                dust2.velocity *= 0.2f;
             }
-            if ((double)projectile.velocity.Y < 0.25 && (double)projectile.velocity.Y > 0.15)
+            if (projectile.velocity.Y < 0.25f && projectile.velocity.Y > 0.15f)
             {
                 projectile.velocity.X = projectile.velocity.X * 0.8f;
             }

@@ -754,7 +754,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (npc.buffImmune[BuffID.Venom] == false)
+			if (!npc.buffImmune[BuffID.Venom])
 			{
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 			}
@@ -3549,19 +3549,25 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.5);
 				}
-                if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>() || projectile.type == ProjectileType<RainbowTrail>())
+                if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>())
                 {
-                    damage = (int)(damage * 0.7);
+                    damage = (int)(damage * 0.9);
                 }
                 if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>())
                 {
                     damage = (int)(damage * 0.5);
                 }
-				else if (projectile.type == ProjectileType<ProfanedSwordProj>() || projectile.type == ProjectileType<BrimstoneSwordExplosion>())
+				else if (projectile.type == ProjectileType<ProfanedSwordProj>() || projectile.type == ProjectileType<Brimblast>())
                 {
                     if (projectile.penetrate == -1)
-                        projectile.penetrate = 3;
+                        projectile.penetrate = 2;
                     damage = (int)(damage * 0.1);
+                }
+				else if (projectile.type == ProjectileType<BrimstoneSwordExplosion>())
+                {
+                    if (projectile.penetrate == -1)
+                        projectile.penetrate = 2;
+                    damage = (int)(damage * 0.05);
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
@@ -3588,15 +3594,15 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.2);
                 }
-                else if (projectile.type == ProjectileType<CalamariInk>())
+                else if (projectile.type == ProjectileType<GalileosMoon>() || projectile.type == ProjectileType<CalamariInk>())
                 {
                     damage = (int)(damage * 0.5);
                 }
-                else if (projectile.type == ProjectileType<GalileosMoon>() || projectile.type == ProjectileType<BloodBombExplosion>() || projectile.type == ProjectileType<GhostFire>())
+                else if (projectile.type == ProjectileType<BloodBombExplosion>() || projectile.type == ProjectileType<CrescentMoonProj>())
                 {
                     damage = (int)(damage * 0.6);
                 }
-                else if (projectile.type == ProjectileType<GhastlySoulLarge>() || projectile.type == ProjectileType<GhastlySoulMedium>() || projectile.type == ProjectileType<GhastlySoulSmall>() || projectile.type == ProjectileType<CrescentMoonProj>() || projectile.type == ProjectileType<ReaperProjectile>())
+                else if (projectile.type == ProjectileType<GhastlySoulLarge>() || projectile.type == ProjectileType<GhastlySoulMedium>() || projectile.type == ProjectileType<GhastlySoulSmall>() || projectile.type == ProjectileType<GhostFire>())
                 {
                     damage = (int)(damage * 0.75);
                 }
@@ -3604,7 +3610,7 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.8);
                 }
-                else if (projectile.type == ProjectileType<ValedictionBoomerang>())
+                else if (projectile.type == ProjectileType<ReaperProjectile>())
                 {
                     damage = (int)(damage * 0.9);
                 }

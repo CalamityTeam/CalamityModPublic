@@ -17,13 +17,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 60;
+            item.damage = 55;
             item.ranged = true;
             item.width = 66;
             item.height = 34;
-            item.useTime = 2;
-            item.reuseDelay = 10;
-            item.useAnimation = 6;
+            item.useTime = 3;
+            item.reuseDelay = 12;
+            item.useAnimation = 9;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 3.75f;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, 242, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 

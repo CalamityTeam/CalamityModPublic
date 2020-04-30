@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Summon
             float num634 = 800f;
             float num635 = 1200f;
             float num636 = 150f;
-            float num637 = 0.05f;
+            float SAIMovement = 0.05f;
             for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
             {
                 bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<AquaticStarMinion>();
@@ -76,19 +76,19 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     if (projectile.position.X < Main.projectile[num638].position.X)
                     {
-                        projectile.velocity.X = projectile.velocity.X - num637;
+                        projectile.velocity.X -= SAIMovement;
                     }
                     else
                     {
-                        projectile.velocity.X = projectile.velocity.X + num637;
+                        projectile.velocity.X += SAIMovement;
                     }
                     if (projectile.position.Y < Main.projectile[num638].position.Y)
                     {
-                        projectile.velocity.Y = projectile.velocity.Y - num637;
+                        projectile.velocity.Y -= SAIMovement;
                     }
                     else
                     {
-                        projectile.velocity.Y = projectile.velocity.Y + num637;
+                        projectile.velocity.Y += SAIMovement;
                     }
                 }
             }
