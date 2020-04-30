@@ -943,49 +943,45 @@ namespace CalamityMod.NPCs
 						if (CalamityWorld.bossRushActive)
 							projectileSpeed = 12f;
 
-						float num180 = player.position.X + player.width * 0.5f - vectorCenter.X;
-						float num181 = Math.Abs(num180) * 0.1f;
-						float num182 = player.position.Y + player.height * 0.5f - vectorCenter.Y - num181;
-						float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-						npc.netUpdate = true;
-						num183 = projectileSpeed / num183;
-						num180 *= num183;
-						num182 *= num183;
+						int damage = expertMode ? 25 : 30;
 
-						int num184 = expertMode ? 25 : 30;
-						int num185 = ModContent.ProjectileType<BrimstoneHellblast>();
-						vectorCenter.X += num180;
-						vectorCenter.Y += num182;
+						vectorCenter = player.Center - vectorCenter;
 
-						for (int num186 = 0; num186 < 6; num186++)
+						float radialOffset = 0.2f;
+						float diameter = 80f;
+
+						vectorCenter.Y -= Math.Abs(vectorCenter.X) * radialOffset;
+						vectorCenter = Vector2.Normalize(vectorCenter) * projectileSpeed;
+
+						Vector2 velocity = vectorCenter;
+						velocity.Normalize();
+						velocity *= diameter;
+
+						int totalProjectiles = 6;
+						float offsetAngle = (float)Math.PI * radialOffset;
+
+						for (int j = 0; j < totalProjectiles; j++)
 						{
-							num180 = player.position.X + player.width * 0.5f - vectorCenter.X;
-							num182 = player.position.Y + player.height * 0.5f - vectorCenter.Y;
-							num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
-							num183 = projectileSpeed / num183;
-							num180 += Main.rand.Next(-80, 81);
-							num182 += Main.rand.Next(-80, 81);
-							num180 *= num183;
-							num182 *= num183;
-							int projectile = Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, num180, num182, num185, num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
-							Main.projectile[projectile].timeLeft = 300;
-							Main.projectile[projectile].tileCollide = false;
+							float radians = j - (totalProjectiles - 1f) / 2f;
+							Vector2 offset = velocity.RotatedBy(offsetAngle * radians, default);
+							int proj = Projectile.NewProjectile(npc.Center + offset, vectorCenter, ModContent.ProjectileType<BrimstoneHellblast>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+							Main.projectile[proj].timeLeft = 300;
+							Main.projectile[proj].tileCollide = false;
 						}
 
 						vectorCenter = npc.Center;
-						int totalProjectiles = 12;
+						totalProjectiles = 12;
 						float spread = MathHelper.ToRadians(30); // 30 degrees in radians = 0.523599
 						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
 						double deltaAngle = spread / totalProjectiles; // Angle between each projectile, 0.04363325
-						double offsetAngle;
-						float velocity = CalamityWorld.bossRushActive ? 9f : 6f;
+						double offsetAngle2;
 
 						int i;
 						for (i = 0; i < 6; i++)
 						{
-							offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
-							Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<BrimstoneBarrage>(), num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
-							Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<BrimstoneBarrage>(), num184 + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+							offsetAngle2 = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
+							Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(Math.Sin(offsetAngle2) * projectileSpeed), (float)(Math.Cos(offsetAngle2) * projectileSpeed), ModContent.ProjectileType<BrimstoneBarrage>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+							Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(-Math.Sin(offsetAngle2) * projectileSpeed), (float)(-Math.Cos(offsetAngle2) * projectileSpeed), ModContent.ProjectileType<BrimstoneBarrage>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
 						}
 					}
 				}
