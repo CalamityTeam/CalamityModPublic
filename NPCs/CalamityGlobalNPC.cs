@@ -3450,21 +3450,29 @@ namespace CalamityMod.NPCs
 
 			if (AstrumDeusIDs.Contains(npc.type))
 			{
-				if (projectile.type == ProjectileType<RainbowBoom>())
+				if (projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileType<AtlantisSpear2>())
 				{
 					damage = (int)(damage * 0.1);
 				}
-				else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<BigNuke>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileType<AtlantisSpear2>() || projectile.type == ProjectileType<MalachiteBolt>() || ProjectileID.Sets.StardustDragon[projectile.type])
+				else if (ProjectileID.Sets.StardustDragon[projectile.type])
 				{
-					damage = (int)(damage * 0.2);
+					damage = (int)(damage * 0.15);
 				}
-				else if (projectile.type == ProjectileType<PlaguenadeProj>())
+				else if (projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>())
 				{
 					damage = (int)(damage * 0.3);
 				}
-				else if (projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<CosmicTentacle>() || projectile.type == ProjectileType<BrimstoneTentacle>() || projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>())
+				else if (projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>())
+				{
+					damage = (int)(damage * 0.4);
+				}
+				else if (projectile.type == ProjectileType<BigNuke>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
 				{
 					damage = (int)(damage * 0.5);
+				}
+				else if (projectile.type == ProjectileType<CosmicTentacle>() || projectile.type == ProjectileType<BrimstoneTentacle>())
+				{
+					damage = (int)(damage * 0.8);
 				}
 
 				if (projectile.penetrate == -1 && !projectile.minion)
@@ -3658,23 +3666,13 @@ namespace CalamityMod.NPCs
             {
                 if (isSummon && npc.damage > 0)
                 {
-                    switch (Main.rand.Next(3))
-                    {
-                        case 0:
-                            player.AddBuff(BuffType<SpiritGeneratorAtkBuff>(), 120);
-                            break;
-
-                        case 1:
-                            player.AddBuff(BuffType<SpiritGeneratorRegenBuff>(), 120);
-                            break;
-
-                        case 2:
-                            player.AddBuff(BuffType<SpiritGeneratorDefBuff>(), 120);
-                            break;
-
-                        default:
-                            break;
-                    }
+					int buffType = Utils.SelectRandom(Main.rand, new int[]
+					{
+						BuffType<SpiritGeneratorAtkBuff>(),
+						BuffType<SpiritGeneratorRegenBuff>(),
+						BuffType<SpiritGeneratorDefBuff>()
+					});
+                    player.AddBuff(buffType, 120);
                 }
             }
 
@@ -3682,23 +3680,13 @@ namespace CalamityMod.NPCs
             {
                 if (isSummon && npc.damage > 0)
                 {
-                    switch (Main.rand.Next(3))
-                    {
-                        case 0:
-                            player.AddBuff(BuffType<HallowedRuneAtkBuff>(), 120);
-                            break;
-
-                        case 1:
-                            player.AddBuff(BuffType<HallowedRuneRegenBuff>(), 120);
-                            break;
-
-                        case 2:
-                            player.AddBuff(BuffType<HallowedRuneDefBuff>(), 120);
-                            break;
-
-                        default:
-                            break;
-                    }
+					int buffType = Utils.SelectRandom(Main.rand, new int[]
+					{
+						BuffType<HallowedRuneAtkBuff>(),
+						BuffType<HallowedRuneRegenBuff>(),
+						BuffType<HallowedRuneDefBuff>()
+					});
+                    player.AddBuff(buffType, 120);
                 }
             }
 
