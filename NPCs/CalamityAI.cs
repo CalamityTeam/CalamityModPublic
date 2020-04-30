@@ -3328,10 +3328,10 @@ namespace CalamityMod.NPCs
 						if (Main.npc[i].active && Main.npc[i].type == npc.type && i != npc.whoAmI)
 						{
 							Vector2 vector = Main.npc[i].Center - npc.Center;
-							if (vector.Length() < 60f)
+							if (vector.Length() < 80f)
 							{
 								vector.Normalize();
-								vector *= 200f;
+								vector *= 300f;
 								num191 -= vector.X;
 								num192 -= vector.Y;
 							}
