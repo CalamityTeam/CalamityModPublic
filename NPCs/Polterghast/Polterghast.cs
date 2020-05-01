@@ -104,7 +104,7 @@ namespace CalamityMod.NPCs.Polterghast
         public override void AI()
         {
             // Emit light
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.1f, 0.5f, 0.5f);
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.1f, 0.5f, 0.5f);
 
             // whoAmI variable
             CalamityGlobalNPC.ghostBoss = npc.whoAmI;
@@ -121,10 +121,10 @@ namespace CalamityMod.NPCs.Polterghast
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool phase2 = (double)npc.life < (double)npc.lifeMax * (death ? 0.9 : 0.75); //hooks fire beams
-            bool phase3 = (double)npc.life < (double)npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33); //hooks stop shooting and polter begins charging with ghosts spinning around player
-            bool phase4 = (double)npc.life < (double)npc.lifeMax * (revenge ? (death ? 0.5 : 0.33) : 0.2); //starts spitting ghost dudes
-            bool phase5 = (double)npc.life < (double)npc.lifeMax * (revenge ? (death ? 0.25 : 0.1) : 0.05); //starts moving incredibly fast
+            bool phase2 = npc.life < npc.lifeMax * (death ? 0.9 : 0.75); //hooks fire beams
+            bool phase3 = npc.life < npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33); //hooks stop shooting and polter begins charging with ghosts spinning around player
+            bool phase4 = npc.life < npc.lifeMax * (revenge ? (death ? 0.5 : 0.33) : 0.2); //starts spitting ghost dudes
+            bool phase5 = npc.life < npc.lifeMax * (revenge ? (death ? 0.25 : 0.1) : 0.05); //starts moving incredibly fast
 
             // Target
             npc.TargetClosest(true);
@@ -176,15 +176,15 @@ namespace CalamityMod.NPCs.Polterghast
                 }
                 num = num733;
             }
-            num730 /= (float)num732;
-            num731 /= (float)num732;
+            num730 /= num732;
+            num731 /= num732;
 
 			// Velocity and acceleration
 			bool charging = npc.ai[2] >= 300f;
 			bool reset = npc.ai[2] >= 600f;
 			float num734 = 2.5f;
             float num735 = 0.025f;
-            if (!player.ZoneDungeon && !CalamityWorld.bossRushActive && (double)player.position.Y < Main.worldSurface * 16.0)
+            if (!player.ZoneDungeon && !CalamityWorld.bossRushActive && player.position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
@@ -283,16 +283,16 @@ namespace CalamityMod.NPCs.Polterghast
                 num734 += 10f;
             }
 
-            float num738 = (float)Math.Sqrt((double)(num736 * num736 + num737 * num737));
+            float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
             int num739 = 500;
             if (speedBoost)
                 num739 += 250;
             if (expertMode)
                 num739 += 150;
 
-            if (num738 >= (float)num739)
+            if (num738 >= num739)
             {
-                num738 = (float)num739 / num738;
+                num738 = num739 / num738;
                 num736 *= num738;
                 num737 *= num738;
             }
@@ -302,7 +302,7 @@ namespace CalamityMod.NPCs.Polterghast
             vector91 = new Vector2(vector.X, vector.Y);
             num736 = num730 - vector91.X;
             num737 = num731 - vector91.Y;
-            num738 = (float)Math.Sqrt((double)(num736 * num736 + num737 * num737));
+            num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
 
             if (num738 < num734)
             {
@@ -319,7 +319,7 @@ namespace CalamityMod.NPCs.Polterghast
             Vector2 vector92 = new Vector2(vector.X, vector.Y);
             float num740 = player.Center.X - vector92.X;
             float num741 = player.Center.Y - vector92.Y;
-            npc.rotation = (float)Math.Atan2((double)num741, (double)num740) + 1.57f;
+            npc.rotation = (float)Math.Atan2(num741, num740) + MathHelper.PiOver2;
 
             if (npc.velocity.X < num736)
             {
@@ -381,9 +381,9 @@ namespace CalamityMod.NPCs.Polterghast
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
-                            float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
-                            float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+                            float num743 = player.position.X + player.width * 0.5f - vector93.X;
+                            float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+                            float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
                             num745 = num742 / num745;
                             num743 *= num745;
@@ -415,9 +415,9 @@ namespace CalamityMod.NPCs.Polterghast
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
-                            float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
-                            float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+                            float num743 = player.position.X + player.width * 0.5f - vector93.X;
+                            float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+                            float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
                             num745 = num742 / num745;
                             num743 *= num745;
@@ -459,7 +459,7 @@ namespace CalamityMod.NPCs.Polterghast
                         if (Main.rand.NextBool(2))
                         {
                             Main.dust[num622].scale = 0.5f;
-                            Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                            Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                         }
                     }
                     for (int num623 = 0; num623 < 30; num623++)
@@ -474,8 +474,8 @@ namespace CalamityMod.NPCs.Polterghast
 
                 npc.GivenName = "Necroghast";
 
-                npc.damage = (int)((float)npc.defDamage * 1.2f);
-                npc.defense = (int)((float)npc.defDefense * 0.8f);
+                npc.damage = (int)(npc.defDamage * 1.2f);
+                npc.defense = (int)(npc.defDefense * 0.8f);
 
                 if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
@@ -507,9 +507,9 @@ namespace CalamityMod.NPCs.Polterghast
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
-                            float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
-                            float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+                            float num743 = player.position.X + player.width * 0.5f - vector93.X;
+                            float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+                            float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
                             num745 = num742 / num745;
                             num743 *= num745;
@@ -541,9 +541,9 @@ namespace CalamityMod.NPCs.Polterghast
                                 num742 *= 2f;
 
                             Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
-                            float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
-                            float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+                            float num743 = player.position.X + player.width * 0.5f - vector93.X;
+                            float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+                            float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
                             num745 = num742 / num745;
                             num743 *= num745;
@@ -602,7 +602,7 @@ namespace CalamityMod.NPCs.Polterghast
                         if (Main.rand.NextBool(2))
                         {
                             Main.dust[num622].scale = 0.5f;
-                            Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                            Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                         }
                     }
                     for (int num623 = 0; num623 < 30; num623++)
@@ -617,8 +617,8 @@ namespace CalamityMod.NPCs.Polterghast
 
                 npc.GivenName = "Necroplasm";
 
-                npc.damage = (int)((float)npc.defDamage * 1.4f);
-                npc.defense = (int)((float)npc.defDefense * 0.5f);
+                npc.damage = (int)(npc.defDamage * 1.4f);
+                npc.defense = (int)(npc.defDefense * 0.5f);
 
                 if (speedBoost || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
@@ -632,9 +632,9 @@ namespace CalamityMod.NPCs.Polterghast
 					npc.ai[1] = 0f;
 					Vector2 vector93 = new Vector2(vector.X, vector.Y);
 					float num742 = CalamityWorld.bossRushActive ? 7f : 5f;
-					float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
-					float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
-					float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+					float num743 = player.position.X + player.width * 0.5f - vector93.X;
+					float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+					float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
 					num745 = num742 / num745;
 					num743 *= num745;
@@ -648,7 +648,7 @@ namespace CalamityMod.NPCs.Polterghast
 					float rotation = MathHelper.ToRadians(spread);
 					float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 					double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-					double deltaAngle = rotation / (float)numProj;
+					double deltaAngle = rotation / numProj;
 					double offsetAngle;
 					int type = ModContent.ProjectileType<PhantomShot>();
 					for (int i = 0; i < numProj; i++)
@@ -668,15 +668,15 @@ namespace CalamityMod.NPCs.Polterghast
                         npc.localAI[1] = 0f;
 
                         float num757 = 8f;
-                        Vector2 vector94 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                        float num758 = player.position.X + (float)player.width * 0.5f - vector94.X;
+                        Vector2 vector94 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                        float num758 = player.position.X + player.width * 0.5f - vector94.X;
                         float num759 = Math.Abs(num758 * 0.2f);
-                        float num760 = player.position.Y + (float)player.height * 0.5f - vector94.Y;
+                        float num760 = player.position.Y + player.height * 0.5f - vector94.Y;
                         if (num760 > 0f)
                             num759 = 0f;
 
                         num760 -= num759;
-                        float num761 = (float)Math.Sqrt((double)(num758 * num758 + num760 * num760));
+                        float num761 = (float)Math.Sqrt(num758 * num758 + num760 * num760);
                         num761 = num757 / num761;
                         num758 *= num761;
                         num760 *= num761;

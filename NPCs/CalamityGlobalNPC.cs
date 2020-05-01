@@ -81,10 +81,12 @@ namespace CalamityMod.NPCs
         #region Variables
         public float DR { get; set; } = 0f;
 
-        /// <summary>
-        /// If this is set to true, the NPC's DR cannot be reduced via any means. This applies regardless of whether customDR is true or false.
-        /// </summary>
-        public bool unbreakableDR = false;
+		public int KillTime { get; set; } = 0;
+
+		/// <summary>
+		/// If this is set to true, the NPC's DR cannot be reduced via any means. This applies regardless of whether customDR is true or false.
+		/// </summary>
+		public bool unbreakableDR = false;
 
         /// <summary>
         /// Overrides the normal DR math and uses custom DR reductions for each debuff, registered separately.<br></br>
@@ -104,6 +106,7 @@ namespace CalamityMod.NPCs
         // NewAI
         internal const int maxAIMod = 4;
         public float[] newAI = new float[maxAIMod];
+		public int AITimer = 0;
 
         // Town NPC Patreon
         private bool setNewName = true;
@@ -667,11 +670,20 @@ namespace CalamityMod.NPCs
 
             // Apply DR to vanilla NPCs. No vanilla NPCs have DR except in Rev+.
             // This also applies DR to other mods' NPCs who have set up their NPCs to have DR in Rev+.
-            if (CalamityWorld.revenge && CalamityMod.DRValues.ContainsKey(npc.type))
+            if (CalamityWorld.revenge)
             {
-                CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
-                DR = revDR;
-            }
+				if (CalamityMod.DRValues.ContainsKey(npc.type))
+				{
+					CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
+					DR = revDR;
+				}
+
+				if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
+				{
+					CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
+					KillTime = revKillTime;
+				}
+			}
 
             if (npc.boss && CalamityWorld.revenge)
             {
@@ -1137,6 +1149,7 @@ namespace CalamityMod.NPCs
                              effects,
                              0f);
         }
+
         public static void DrawAfterimage(NPC npc, SpriteBatch spriteBatch, Color startingColor, Color endingColor, Texture2D texture = null, 
             Func<NPC, int, float> rotationCalculation = null, bool directioning = false, bool invertedDirection = false)
         {
@@ -1215,6 +1228,7 @@ namespace CalamityMod.NPCs
                     case 1:
                         scalar = 1.0;
                         break;
+
                     case 2:
                         scalar = 0.76;
                         break;
@@ -1475,7 +1489,7 @@ namespace CalamityMod.NPCs
         /// <returns></returns>
         private double ApplyDR(NPC npc, double damage)
         {
-            if (DR <= 0f || damage <= 1.0)
+            if ((DR <= 0f && KillTime == 0) || damage <= 1.0)
                 return damage;
 
             // If the NPC currently has unbreakable DR, it cannot be reduced by any means.
@@ -1486,7 +1500,28 @@ namespace CalamityMod.NPCs
             if (effectiveDR <= 0f)
                 effectiveDR = 0f;
 
-            double newDamage = (1f - effectiveDR) * damage;
+			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
+			if (KillTime > 0 && AITimer < KillTime)
+			{
+				// The limit for how much extra DR the boss can have
+				float extraDRLimit = 1f - effectiveDR;
+
+				// Ranges from 1 to 0
+				float currentHPRatio = npc.life / (float)npc.lifeMax;
+
+				// Ranges from 0 to 1
+				float killTimeRatio = AITimer / (float)KillTime;
+
+				// If the player is damaging the boss too quickly
+				float extraDRScalar = currentHPRatio + killTimeRatio;
+				if (extraDRScalar < 1f)
+				{
+					// Ranges from 0 to (extraDRLimit / 2)
+					effectiveDR += extraDRLimit - (extraDRLimit / (1f + (1f - extraDRScalar)));
+				}
+			}
+
+			double newDamage = (1f - effectiveDR) * damage;
             return newDamage < 1.0 ? 1.0 : newDamage;
         }
 
@@ -1577,7 +1612,7 @@ namespace CalamityMod.NPCs
             {
                 if (npc.type == NPCID.BrainofCthulhu)
                 {
-                    if ((float)npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 0.33f : 0.2f))
+                    if (npc.life / (float)npc.lifeMax < (CalamityWorld.death ? 0.33f : 0.2f))
                         index = -1;
                 }
 
@@ -1585,7 +1620,7 @@ namespace CalamityMod.NPCs
                 {
                     if (npc.type == NPCID.DukeFishron)
                     {
-                        if ((float)npc.life / (float)npc.lifeMax < 0.15f)
+                        if (npc.life / (float)npc.lifeMax < 0.15f)
                             index = -1;
                     }
                 }
@@ -1598,7 +1633,10 @@ namespace CalamityMod.NPCs
         {
             SetPatreonTownNPCName(npc);
 
-            if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>())
+			if (KillTime > 0 && AITimer < KillTime)
+				AITimer++;
+
+			if (npc.type == NPCID.TargetDummy || npc.type == NPCType<SuperDummyNPC>())
             {
                 npc.chaseable = !CalamityPlayer.areThereAnyDamnBosses;
                 npc.dontTakeDamage = CalamityPlayer.areThereAnyDamnBosses;

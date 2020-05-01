@@ -13643,7 +13643,7 @@ namespace CalamityMod.NPCs
 
 					float velocity = CalamityWorld.bossRushActive ? 38f : 30f;
 					Vector2 center23 = npc.Center;
-					Vector2 center24 = Main.npc[(int)Main.npc[(int)npc.ai[3]].localAI[2]].Center;
+					Vector2 center24 = Main.player[npc.target].Center;
 					Vector2 value24 = center24 - center23;
 					value24 = Vector2.Normalize(value24) * velocity;
 
@@ -13657,19 +13657,7 @@ namespace CalamityMod.NPCs
 					{
 						if (Main.npc[num1248].active)
 						{
-							if (Main.npc[num1248].type == NPCID.MoonLordHead && Vector2.Distance(npc.Center, Main.npc[num1248].Center) > 600f)
-							{
-								if (npc.position.X < Main.npc[num1248].position.X)
-									npc.velocity.X = npc.velocity.X - num1247;
-								else
-									npc.velocity.X = npc.velocity.X + num1247;
-
-								if (npc.position.Y < Main.npc[num1248].position.Y)
-									npc.velocity.Y = npc.velocity.Y - num1247;
-								else
-									npc.velocity.Y = npc.velocity.Y + num1247;
-							}
-							else if (num1248 != npc.whoAmI && Main.npc[num1248].type == npc.type)
+							if (num1248 != npc.whoAmI && Main.npc[num1248].type == npc.type)
 							{
 								if (Vector2.Distance(npc.Center, Main.npc[num1248].Center) < 150f)
 								{
