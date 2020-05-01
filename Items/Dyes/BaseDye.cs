@@ -1,3 +1,4 @@
+using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +13,10 @@ namespace CalamityMod.Items.Dyes
         }
         public sealed override void SetStaticDefaults()
         {
-            GameShaders.Armor.BindShader(item.type, ShaderDataToBind);
+            if (!Main.dedServ)
+            {
+                GameShaders.Armor.BindShader(item.type, ShaderDataToBind);
+            }
             SafeSetStaticDefaults();
         }
         public sealed override void SetDefaults()
