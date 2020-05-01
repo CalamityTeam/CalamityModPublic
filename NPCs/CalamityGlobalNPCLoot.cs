@@ -284,18 +284,14 @@ namespace CalamityMod.NPCs
                 {
                     string key = "Mods.CalamityMod.BabyBossText";
                     Color messageColor = Color.Lime;
-                    string key2 = "Mods.CalamityMod.BabyBossText2";
-                    Color messageColor2 = Color.Yellow;
 
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
                         Main.NewText(Language.GetTextValue(key), messageColor);
-                        Main.NewText(Language.GetTextValue(key2), messageColor2);
                     }
                     else if (Main.netMode == NetmodeID.Server)
                     {
                         NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
                     }
                 }
             }
