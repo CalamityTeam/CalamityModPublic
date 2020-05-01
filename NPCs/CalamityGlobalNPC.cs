@@ -1504,7 +1504,7 @@ namespace CalamityMod.NPCs
 			if (KillTime > 0 && AITimer < KillTime)
 			{
 				// The limit for how much extra DR the boss can have
-				float extraDRLimit = 1f - effectiveDR;
+				float extraDRLimit = 1f - DR;
 
 				// Ranges from 1 to 0
 				float currentHPRatio = npc.life / (float)npc.lifeMax;
