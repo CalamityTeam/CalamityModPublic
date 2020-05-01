@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Perforator
             aiType = -1;
             npc.damage = 0;
             npc.width = 30; //324
-            npc.height = 30; //216
+            npc.height = 26; //216
             npc.defense = 0;
             npc.lifeMax = 1000;
             npc.knockBackResist = 0f;
