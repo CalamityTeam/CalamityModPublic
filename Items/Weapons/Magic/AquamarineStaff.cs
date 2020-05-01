@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override Vector2? HoldoutOrigin()
         {
-            return new Vector2(15, 15);
+            return new Vector2(10, 10);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

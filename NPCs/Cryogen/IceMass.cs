@@ -1,4 +1,5 @@
 ﻿using CalamityMod.World;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +11,7 @@ namespace CalamityMod.NPCs.Cryogen
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aurora Spirit");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 5;
         }
 
         public override void SetDefaults()
@@ -27,11 +28,38 @@ namespace CalamityMod.NPCs.Cryogen
                 npc.lifeMax = 30000;
             }
             npc.knockBackResist = 0f;
-            animationType = 472;
             npc.canGhostHeal = false;
             npc.HitSound = SoundID.NPCHit5;
             npc.DeathSound = SoundID.NPCDeath15;
 			npc.coldDamage = true;
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+			int num1 = 1;
+			if (!Main.dedServ)
+			{
+				if (!Main.NPCLoaded[npc.type] || Main.npcTexture[npc.type] == null)
+					return;
+				num1 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
+			}
+			if (npc.velocity.X < 0f)
+				npc.direction = -1;
+			else
+				npc.direction = 1;
+			if (npc.direction == 1)
+				npc.spriteDirection = 1;
+			if (npc.direction == -1)
+				npc.spriteDirection = -1;
+			npc.rotation = (float)Math.Atan2((double)npc.velocity.Y * (double)npc.direction, (double)npc.velocity.X * (double)npc.direction);
+			npc.frameCounter++;
+			if (npc.frameCounter > 4)
+			{
+			  npc.frame.Y += num1;
+			  npc.frameCounter = 0;
+			}
+			if (npc.frame.Y / num1 >= Main.npcFrameCount[npc.type])
+			  npc.frame.Y = 0;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
