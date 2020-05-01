@@ -13641,15 +13641,24 @@ namespace CalamityMod.NPCs
 
 					npc.localAI[2] = MathHelper.Lerp(npc.localAI[2], 1f, 0.2f);
 
-					float velocity = CalamityWorld.bossRushActive ? 38f : 30f;
+					float velocity = CalamityWorld.bossRushActive ? 42f : 36f;
 					Vector2 center23 = npc.Center;
 					Vector2 center24 = Main.player[npc.target].Center;
 					Vector2 value24 = center24 - center23;
 					value24 = Vector2.Normalize(value24) * velocity;
 
-					int num1246 = 30;
-					npc.velocity.X = (npc.velocity.X * (num1246 - 1) + value24.X) / num1246;
-					npc.velocity.Y = (npc.velocity.Y * (num1246 - 1) + value24.Y) / num1246;
+					if (Vector2.Distance(center23, center24) > 300f)
+					{
+						int num1246 = 30;
+						npc.velocity.X = (npc.velocity.X * (num1246 - 1) + value24.X) / num1246;
+						npc.velocity.Y = (npc.velocity.Y * (num1246 - 1) + value24.Y) / num1246;
+					}
+					else
+					{
+						npc.velocity *= 0.8f;
+						if (npc.velocity.Length() < 1f)
+							npc.velocity = Vector2.Zero;
+					}
 
 					// Fly towards Moon Lord Head and stay away from other True Eyes
 					float num1247 = 0.5f;
