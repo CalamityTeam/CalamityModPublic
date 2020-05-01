@@ -2675,7 +2675,7 @@ namespace CalamityMod
         }
 		#endregion
 
-		#region Vanilla Enemy DR
+		#region Boss Kill Times
 		private void SetupBossKillTimes()
 		{
 			bossKillTimes = new SortedDictionary<int, int> {
