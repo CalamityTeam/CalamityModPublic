@@ -1501,7 +1501,7 @@ namespace CalamityMod.NPCs
                 effectiveDR = 0f;
 
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
-			if (KillTime > 0 && AITimer < KillTime)
+			if (KillTime > 0 && AITimer < KillTime && !CalamityWorld.bossRushActive)
 			{
 				// The limit for how much extra DR the boss can have
 				float extraDRLimit = 1f - DR;

@@ -1524,25 +1524,29 @@ namespace CalamityMod.NPCs
                     int whoAmI = npc.whoAmI;
                     float num25 = npc.life / (float)npc.lifeMax;
                     float num26 = npc.ai[0];
+					int aiTimer = calamityGlobalNPC.AITimer;
                     npc.SetDefaultsKeepPlayerInteraction(npc.type);
                     npc.life = (int)(npc.lifeMax * num25);
                     npc.ai[0] = num26;
                     npc.TargetClosest(true);
                     npc.netUpdate = true;
                     npc.whoAmI = whoAmI;
+					calamityGlobalNPC.AITimer = aiTimer;
                 }
                 if (npc.type == NPCID.EaterofWorldsBody && (!Main.npc[(int)npc.ai[0]].active || Main.npc[(int)npc.ai[0]].aiStyle != npc.aiStyle))
                 {
                     int whoAmI2 = npc.whoAmI;
                     float num27 = npc.life / (float)npc.lifeMax;
                     float num28 = npc.ai[1];
-                    npc.SetDefaultsKeepPlayerInteraction(npc.type);
+					int aiTimer = calamityGlobalNPC.AITimer;
+					npc.SetDefaultsKeepPlayerInteraction(npc.type);
                     npc.life = (int)(npc.lifeMax * num27);
                     npc.ai[1] = num28;
                     npc.TargetClosest(true);
                     npc.netUpdate = true;
                     npc.whoAmI = whoAmI2;
-                }
+					calamityGlobalNPC.AITimer = aiTimer;
+				}
 
                 if (!npc.active && Main.netMode == NetmodeID.Server)
                     NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
