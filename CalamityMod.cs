@@ -2744,6 +2744,7 @@ namespace CalamityMod
 				{ ModContent.NPCType<StormWeaverTailNaked>(), 5400 },
 				{ ModContent.NPCType<Signus>(), 7200 },
 				{ ModContent.NPCType<Polterghast>(), 10800 },
+				{ ModContent.NPCType<OldDuke>(), 10800 },
 				{ ModContent.NPCType<DevourerofGodsHead>(), 7200 },
 				{ ModContent.NPCType<DevourerofGodsBody>(), 7200 },
 				{ ModContent.NPCType<DevourerofGodsTail>(), 7200 },
