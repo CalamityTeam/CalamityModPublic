@@ -9296,8 +9296,9 @@ namespace CalamityMod.CalPlayer
             bool isAxe = it.axe > 0;
             bool isHammer = it.hammer > 0;
             bool isPlaced = it.createTile != 0;
-            bool producesNoHitboxes = it.shoot == 0 && it.useStyle == ItemUseStyleID.SwingThrow && it.noMelee;
-            bool playerUsingWeapon = hasDamage && !(isPickaxe || isAxe || isHammer || isPlaced || producesNoHitboxes);
+            bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced;
+            bool producesNoHitboxes = it.shoot == 0 && it.noMelee;
+            bool playerUsingWeapon = hasDamage && !producesNoHitboxes && !hasNonWeaponFunction;
             if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax - 1 && playerUsingWeapon)
                 ConsumeStealthByAttacking();
         }
