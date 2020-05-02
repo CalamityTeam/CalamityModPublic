@@ -1041,6 +1041,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override void NPCLoot()
         {
+            // Stop the countdown -- if you kill DoG in less than 60 frames, this will stop another one from spawning.
+            CalamityWorld.DoGSecondStageCountdown = 0;
+
             DropHelper.DropBags(npc);
 
             DropHelper.DropItem(npc, ModContent.ItemType<SupremeHealingPotion>(), 8, 14);

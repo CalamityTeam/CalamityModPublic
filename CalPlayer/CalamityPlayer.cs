@@ -9228,7 +9228,8 @@ namespace CalamityMod.CalPlayer
             player.rangedCrit += boost;
             player.magicCrit += boost;
             player.thrownCrit += boost;
-            throwingCrit += boost;
+            // Rogue weapons benefit from throwing crit AND rogue crit, so don't add both.
+            // throwingCrit += boost;
         }
         #endregion
 
@@ -9289,7 +9290,14 @@ namespace CalamityMod.CalPlayer
             // This doesn't trigger stealth strike effects (ConsumeStealthStrike instead of StealthStrike)
             // so non-rogue weapons can't call lasers down from the sky and such.
             // Using any item which deals no damage or is a tool doesn't consume stealth.
-            bool playerUsingWeapon = player.HeldItem.damage > 0 && player.HeldItem.pick <= 0 && player.HeldItem.hammer <= 0 && player.HeldItem.axe <= 0;
+            Item it = player.HeldItem;
+            bool hasDamage = it.damage > 0;
+            bool isPickaxe = it.pick > 0;
+            bool isAxe = it.axe > 0;
+            bool isHammer = it.hammer > 0;
+            bool isPlaced = it.createTile != 0;
+            bool producesNoHitboxes = it.shoot == 0 && it.useStyle == ItemUseStyleID.SwingThrow && it.noMelee;
+            bool playerUsingWeapon = hasDamage && !(isPickaxe || isAxe || isHammer || isPlaced || producesNoHitboxes);
             if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax - 1 && playerUsingWeapon)
                 ConsumeStealthByAttacking();
         }
