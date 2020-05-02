@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.World;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace CalamityMod.UI
 {
@@ -257,10 +258,14 @@ namespace CalamityMod.UI
 
         private static void CheckGarbageCornerPos()
         {
-            if (rageDrawPos.X <= 60f && rageDrawPos.Y <= 20f)
+            // This should only happen if something happens to the config file.
+            if (rageDrawPos == Vector2.Zero)
                 rageDrawPos = new Vector2(DefaultRagePosX, DefaultRagePosY);
-            if (adrenDrawPos.X <= 60f && adrenDrawPos.Y <= 20f)
+            rageDrawPos = Vector2.Clamp(rageDrawPos, Vector2.Zero, new Vector2(Main.screenWidth - 104f, Main.screenHeight - 24f));
+
+            if (adrenDrawPos == Vector2.Zero)
                 adrenDrawPos = new Vector2(DefaultAdrenPosX, DefaultAdrenPosY);
+            adrenDrawPos = Vector2.Clamp(adrenDrawPos, Vector2.Zero, new Vector2(Main.screenWidth - 104f, Main.screenHeight - 24f));
         }
 
         private static Vector2 GetShakeOffset()
