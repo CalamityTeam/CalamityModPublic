@@ -9228,7 +9228,8 @@ namespace CalamityMod.CalPlayer
             player.rangedCrit += boost;
             player.magicCrit += boost;
             player.thrownCrit += boost;
-            throwingCrit += boost;
+            // Rogue weapons benefit from throwing crit AND rogue crit, so don't add both.
+            // throwingCrit += boost;
         }
         #endregion
 

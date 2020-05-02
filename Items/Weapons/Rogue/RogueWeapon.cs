@@ -20,16 +20,19 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.summon = false;
         }
 
+        // Simply add the player's dedicated rogue damage.
+        // Rogue weapons are internally throwing so they already benefit from throwing damage boosts.
         // 5E-06 to prevent downrounding is not needed anymore, added by TML itself
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
             add += player.Calamity().throwingDamage - 1f;
         }
 
-        // Calculates a rogue weapon's crit chance using the player's rogue crit chance.
+        // Simply add the player's dedicated rogue crit chance.
+        // Rogue crit isn't boosted by Calamity universal crit boosts, so this won't double-add universal crit.
         public override void GetWeaponCrit(Player player, ref int crit)
         {
-            crit = item.crit + player.Calamity().throwingCrit;
+            crit += player.Calamity().throwingCrit;
         }
 
         public override float UseTimeMultiplier(Player player)
