@@ -88,6 +88,11 @@ namespace CalamityMod
 		[Tooltip("Boosts the player's mining speed by 75%")]
 		public bool MiningSpeedBoost { get; set; }
 
+		[DefaultValue(false)]
+		[Label("Extra Damage Reduction for Bosses")]
+		[Tooltip("Grants extra damage reduction for bosses for every boss encounter, regardless if you've defeated the boss already or not")]
+		public bool ExtraBossDR { get; set; }
+
 		[Label("Boss Health Percentage Boost")]
 		[Tooltip("Boosts the health of bosses to a maximum of +900% health")]
 		[Range(0f, 900f)]
