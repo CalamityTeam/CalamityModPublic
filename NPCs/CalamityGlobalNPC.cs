@@ -4115,10 +4115,6 @@ namespace CalamityMod.NPCs
                             }
                         }
                     }
-                    if (CalamityWorld.downedPolterghast)
-                    {
-                        pool.Add(NPCType<BloodwormNormal>(), AcidRainEvent.BloodwormSpawnRate);
-                    }
                 }
             }
         }
