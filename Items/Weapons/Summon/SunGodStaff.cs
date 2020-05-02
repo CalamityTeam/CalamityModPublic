@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Summon
             position = Main.MouseWorld;
             speedX = 0;
             speedY = 0;
-            for (int x = 0; x < 1000; x++)
+            for (int x = 0; x < Main.maxProjectiles; x++)
             {
                 Projectile projectile = Main.projectile[x];
                 if (projectile.active && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<SolarGod>())

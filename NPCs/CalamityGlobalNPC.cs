@@ -1504,7 +1504,7 @@ namespace CalamityMod.NPCs
 			if (KillTime > 0 && AITimer < KillTime && !CalamityWorld.bossRushActive)
 			{
 				// The limit for how much extra DR the boss can have
-				float extraDRLimit = 1f - DR;
+				float extraDRLimit = (1f - DR) * (!GetDownedBossVariable(npc.type) || CalamityMod.CalamityConfig.ExtraBossDR ? 1.5f : 1f);
 
 				// Ranges from 1 to 0
 				float currentHPRatio = npc.life / (float)npc.lifeMax;
@@ -4115,10 +4115,6 @@ namespace CalamityMod.NPCs
                             }
                         }
                     }
-                    if (CalamityWorld.downedPolterghast)
-                    {
-                        pool.Add(NPCType<BloodwormNormal>(), AcidRainEvent.BloodwormSpawnRate);
-                    }
                 }
             }
         }
@@ -5801,10 +5797,173 @@ namespace CalamityMod.NPCs
             }
             return false;
         }
-        #endregion
+		#endregion
 
-        #region Any Living Players
-        public static bool AnyLivingPlayers()
+		#region Get Downed Boss Variable
+		public static bool GetDownedBossVariable(int type)
+		{
+			switch (type)
+			{
+				case NPCID.KingSlime:
+					return NPC.downedSlimeKing;
+
+				case NPCID.EyeofCthulhu:
+					return NPC.downedBoss1;
+
+				case NPCID.EaterofWorldsHead:
+				case NPCID.EaterofWorldsBody:
+				case NPCID.EaterofWorldsTail:
+				case NPCID.BrainofCthulhu:
+					return NPC.downedBoss2;
+
+				case NPCID.QueenBee:
+					return NPC.downedQueenBee;
+
+				case NPCID.SkeletronHead:
+					return NPC.downedBoss3;
+
+				case NPCID.WallofFlesh:
+				case NPCID.WallofFleshEye:
+					return Main.hardMode;
+
+				case NPCID.TheDestroyer:
+				case NPCID.TheDestroyerBody:
+				case NPCID.TheDestroyerTail:
+					return NPC.downedMechBoss1;
+
+				case NPCID.Spazmatism:
+				case NPCID.Retinazer:
+					return NPC.downedMechBoss2;
+
+				case NPCID.SkeletronPrime:
+					return NPC.downedMechBoss3;
+
+				case NPCID.Plantera:
+					return NPC.downedPlantBoss;
+
+				case NPCID.Golem:
+				case NPCID.GolemHead:
+					return NPC.downedGolemBoss;
+
+				case NPCID.DukeFishron:
+					return NPC.downedFishron;
+
+				case NPCID.CultistBoss:
+					return NPC.downedAncientCultist;
+
+				case NPCID.MoonLordCore:
+				case NPCID.MoonLordHand:
+				case NPCID.MoonLordHead:
+					return NPC.downedMoonlord;
+			}
+
+			if (type == NPCType<DesertScourgeHead>() || type == NPCType<DesertScourgeBody>() || type == NPCType<DesertScourgeTail>())
+			{
+				return CalamityWorld.downedDesertScourge;
+			}
+			else if (type == NPCType<CrabulonIdle>())
+			{
+				return CalamityWorld.downedCrabulon;
+			}
+			else if (type == NPCType<HiveMind.HiveMind>() || type == NPCType<HiveMind.HiveMindP2>())
+			{
+				return CalamityWorld.downedHiveMind;
+			}
+			else if (type == NPCType<PerforatorHive>())
+			{
+				return CalamityWorld.downedPerforator;
+			}
+			else if (type == NPCType<SlimeGodCore>() || type == NPCType<SlimeGod.SlimeGod>() || type == NPCType<SlimeGodRun>() || type == NPCType<SlimeGodSplit>() || type == NPCType<SlimeGodRunSplit>())
+			{
+				return CalamityWorld.downedSlimeGod;
+			}
+			else if (type == NPCType<Cryogen.Cryogen>())
+			{
+				return CalamityWorld.downedCryogen;
+			}
+			else if (type == NPCType<AquaticScourgeHead>() || type == NPCType<AquaticScourgeBody>() || type == NPCType<AquaticScourgeBodyAlt>() || type == NPCType<AquaticScourgeTail>())
+			{
+				return CalamityWorld.downedAquaticScourge;
+			}
+			else if (type == NPCType<BrimstoneElemental.BrimstoneElemental>())
+			{
+				return CalamityWorld.downedBrimstoneElemental;
+			}
+			else if (type == NPCType<Calamitas.Calamitas>() || type == NPCType<CalamitasRun3>())
+			{
+				return CalamityWorld.downedCalamitas;
+			}
+			else if (type == NPCType<Leviathan.Leviathan>() || type == NPCType<Siren>())
+			{
+				return CalamityWorld.downedLeviathan;
+			}
+			else if (type == NPCType<AstrumAureus.AstrumAureus>())
+			{
+				return CalamityWorld.downedAstrageldon;
+			}
+			else if (type == NPCType<AstrumDeusHeadSpectral>() || type == NPCType<AstrumDeusBodySpectral>() || type == NPCType<AstrumDeusTailSpectral>() || type == NPCType<AstrumDeusHead>() || type == NPCType<AstrumDeusBody>() || type == NPCType<AstrumDeusTail>())
+			{
+				return CalamityWorld.downedStarGod;
+			}
+			else if (type == NPCType<PlaguebringerGoliath.PlaguebringerGoliath>())
+			{
+				return CalamityWorld.downedPlaguebringer;
+			}
+			else if (type == NPCType<RavagerBody>())
+			{
+				return CalamityWorld.downedScavenger;
+			}
+			else if (type == NPCType<ProfanedGuardianBoss>())
+			{
+				return CalamityWorld.downedGuardians;
+			}
+			else if (type == NPCType<Bumblefuck>())
+			{
+				return CalamityWorld.downedBumble;
+			}
+			else if (type == NPCType<Providence.Providence>())
+			{
+				return CalamityWorld.downedProvidence;
+			}
+			else if (type == NPCType<DarkEnergy>() || type == NPCType<DarkEnergy2>() || type == NPCType<DarkEnergy3>())
+			{
+				return CalamityWorld.downedSentinel1;
+			}
+			else if (type == NPCType<StormWeaverHeadNaked>() || type == NPCType<StormWeaverBodyNaked>() || type == NPCType<StormWeaverTailNaked>())
+			{
+				return CalamityWorld.downedSentinel2;
+			}
+			else if (type == NPCType<Signus.Signus>())
+			{
+				return CalamityWorld.downedSentinel3;
+			}
+			else if (type == NPCType<Polterghast.Polterghast>())
+			{
+				return CalamityWorld.downedPolterghast;
+			}
+			else if (type == NPCType<OldDuke.OldDuke>())
+			{
+				return CalamityWorld.downedBoomerDuke;
+			}
+			else if (type == NPCType<DevourerofGodsHead>() || type == NPCType<DevourerofGodsBody>() || type == NPCType<DevourerofGodsTail>() || type == NPCType<DevourerofGodsHeadS>() || type == NPCType<DevourerofGodsBodyS>() || type == NPCType<DevourerofGodsTailS>())
+			{
+				return CalamityWorld.downedDoG;
+			}
+			else if (type == NPCType<Yharon.Yharon>())
+			{
+				return CalamityWorld.downedYharon;
+			}
+			else if (type == NPCType<SupremeCalamitas.SupremeCalamitas>())
+			{
+				return CalamityWorld.downedSCal;
+			}
+
+			return false;
+		}
+		#endregion
+
+		#region Any Living Players
+		public static bool AnyLivingPlayers()
         {
             for (int i = 0; i < Main.maxPlayers; i++)
             {

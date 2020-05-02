@@ -48,7 +48,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            projectile.Center = Main.player[projectile.owner].Center + (projectile.ai[1] / 32f).ToRotationVector2() * 95f;
+            projectile.Center = player.Center + (projectile.ai[1] / 32f).ToRotationVector2() * 95f;
             projectile.scale = 1f + (float)Math.Sin(projectile.ai[1] / 40f) * 0.085f;
             projectile.Opacity = 1f - (float)Math.Sin(projectile.ai[1] / 45f) * 0.1f - 0.1f; // Range of 1f to 0.8f
             projectile.rotation += MathHelper.ToRadians(5f);
