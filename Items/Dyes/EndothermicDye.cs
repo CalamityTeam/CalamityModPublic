@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Dyes
 		{
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
-            item.value = CalamityGlobalItem.RarityDarkBlueBuyPrice;
+            item.value = Item.sellPrice(0, 5, 0, 0);
         }
 
         public override void AddRecipes()
