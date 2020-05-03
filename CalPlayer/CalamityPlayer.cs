@@ -9292,12 +9292,13 @@ namespace CalamityMod.CalPlayer
             // Using any item which deals no damage or is a tool doesn't consume stealth.
             Item it = player.HeldItem;
             bool hasDamage = it.damage > 0;
+            bool hasHitboxes = !it.noMelee || it.shoot > 0;
             bool isPickaxe = it.pick > 0;
             bool isAxe = it.axe > 0;
             bool isHammer = it.hammer > 0;
             bool isPlaced = it.createTile != 0;
-            bool producesNoHitboxes = it.shoot == 0 && it.useStyle == ItemUseStyleID.SwingThrow && it.noMelee;
-            bool playerUsingWeapon = hasDamage && !(isPickaxe || isAxe || isHammer || isPlaced || producesNoHitboxes);
+            bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced;
+            bool playerUsingWeapon = hasDamage && hasHitboxes && !hasNonWeaponFunction;
             if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax - 1 && playerUsingWeapon)
                 ConsumeStealthByAttacking();
         }

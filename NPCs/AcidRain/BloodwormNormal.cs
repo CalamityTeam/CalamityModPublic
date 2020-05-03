@@ -1,4 +1,5 @@
 using CalamityMod.Items.SummonItems;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -98,6 +99,12 @@ namespace CalamityMod.NPCs.AcidRain
                 Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
         }
+
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return (spawnInfo.player.Calamity().ZoneSulphur && CalamityWorld.downedPolterghast && !CalamityWorld.rainingAcid) ? SpawnCondition.WormCritter.Chance * 1.569f : 0f;
+        }
+
         public override void OnCatchNPC(Player player, Item item)
         {
             try
