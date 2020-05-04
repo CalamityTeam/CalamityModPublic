@@ -26,17 +26,6 @@ namespace CalamityMod.Buffs
             {
                 player.lavaMax += 420;
             }
-            // Rogue weapons benefit from vanilla throwing crit, so don't double-increase rogue crit chance with these buffs.
-            /*
-            else if (type == BuffID.Rage)
-            {
-                player.Calamity().throwingCrit += 10;
-            }
-            else if (type == BuffID.WellFed)
-            {
-                player.Calamity().throwingCrit += 2;
-            }
-            */
             else if (type >= BuffID.NebulaUpDmg1 && type <= BuffID.NebulaUpDmg3)
             {
                 float nebulaDamage = 0.075f * (float)player.nebulaLevelDamage; //7.5% to 22.5%

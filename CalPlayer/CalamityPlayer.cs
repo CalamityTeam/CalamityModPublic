@@ -224,7 +224,7 @@ namespace CalamityMod.CalPlayer
 
         public float throwingDamage = 1f;
         public float throwingVelocity = 1f;
-        public int throwingCrit = 4;
+        public int throwingCrit = 0;
         public bool throwingAmmoCost75 = false;
         public bool throwingAmmoCost66 = false;
         public bool throwingAmmoCost50 = false;
