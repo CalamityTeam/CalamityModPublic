@@ -839,7 +839,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.SkeletronPrime:
-                    npc.lifeMax = (int)(npc.lifeMax * 1.45);
+                    npc.lifeMax = (int)(npc.lifeMax * 1.9);
                     npc.npcSlots = 12f;
                     break;
 
@@ -978,7 +978,8 @@ namespace CalamityMod.NPCs
                 }
                 else if (npc.type == NPCID.SkeletronPrime)
                 {
-                    npc.npcSlots = 12f;
+					npc.lifeMax = (int)(npc.lifeMax * 1.45);
+					npc.npcSlots = 12f;
                 }
                 else if (npc.type == NPCID.Retinazer)
                 {

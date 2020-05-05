@@ -6377,24 +6377,16 @@ namespace CalamityMod.NPCs
 			// Kill all arms if Prime Head enters phase 2
 			if (phase2 && !allArmsDead)
 			{
-				if (Main.npc[CalamityGlobalNPC.primeCannon].active)
-					KillNPC(Main.npc[CalamityGlobalNPC.primeCannon]);
-
-				if (Main.npc[CalamityGlobalNPC.primeLaser].active)
-					KillNPC(Main.npc[CalamityGlobalNPC.primeLaser]);
-
-				if (Main.npc[CalamityGlobalNPC.primeVice].active)
-					KillNPC(Main.npc[CalamityGlobalNPC.primeVice]);
-
-				if (Main.npc[CalamityGlobalNPC.primeSaw].active)
-					KillNPC(Main.npc[CalamityGlobalNPC.primeSaw]);
-
-				void KillNPC(NPC npc2)
+				for (int i = 0; i < Main.maxNPCs; i++)
 				{
-					npc2.life = -1;
-					npc2.HitEffect(0, 10.0);
-					npc2.active = false;
-					npc2.netUpdate = true;
+					NPC npc2 = Main.npc[i];
+					if (npc2.type == NPCID.PrimeCannon || npc2.type == NPCID.PrimeLaser || npc2.type == NPCID.PrimeSaw || npc2.type == NPCID.PrimeVice)
+					{
+						npc2.life = -1;
+						npc2.HitEffect(0, 10.0);
+						npc2.active = false;
+						npc2.netUpdate = true;
+					}
 				}
 			}
 
@@ -6489,11 +6481,11 @@ namespace CalamityMod.NPCs
                     // Spread of rockets if cannon is dead
                     if (!cannonAlive)
                     {
-                        npc.localAI[2] += allArmsDead ? 2f : 1f;
+                        npc.localAI[2] += allArmsDead ? 1.5f : 1f;
                         if (phase3)
-                            npc.localAI[2] += 1f;
+                            npc.localAI[2] += 0.5f;
 
-                        if (npc.localAI[2] >= 240f)
+                        if (npc.localAI[2] >= 300f)
                         {
                             npc.localAI[2] = 0f;
                             float num502 = CalamityWorld.bossRushActive ? 12f : 8f;
