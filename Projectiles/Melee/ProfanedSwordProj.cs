@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class ProfanedSwordProj : ModProjectile
     {
+		private int explosionCount = 0;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Profaned Sword");
@@ -65,8 +66,16 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
 			if (Main.myPlayer == projectile.owner)
 			{
-				Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(projectile.damage * 0.5), knockback, projectile.owner);
+				if (explosionCount < 3)
+				{
+					Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(projectile.damage * 0.5), knockback, projectile.owner);
+					explosionCount++;
+				}
 			}
+			if (projectile.damage > 1)
+				projectile.damage = (int)(projectile.damage * 0.6);
+			if (projectile.damage <= 0)
+				projectile.damage = 1;
         }
     }
 }
