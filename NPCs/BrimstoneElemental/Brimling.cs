@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
     public class Brimling : ModNPC
     {
         private bool boostDR = false;
-        public static float normalDR = 0.2f;
+        public static float normalDR = 0.15f;
         public static float boostedDR = 0.8f;
 
         public override void SetStaticDefaults()
