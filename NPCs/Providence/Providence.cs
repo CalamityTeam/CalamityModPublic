@@ -763,23 +763,6 @@ namespace CalamityMod.NPCs.Providence
 					num867 *= -1f;
 				}
 
-				if (npc.ai[3] == 0f)
-				{
-					for (int x = 0; x < Main.maxProjectiles; x++)
-					{
-						Projectile projectile = Main.projectile[x];
-						if (projectile.active)
-						{
-							if (projectile.type == ModContent.ProjectileType<HolyFire2>() || projectile.type == ModContent.ProjectileType<HolyFlare>())
-							{
-								projectile.Kill();
-							}
-						}
-					}
-				}
-
-				npc.ai[3] += 1f;
-
 				/*if (npc.velocity.Length() <= 2f)
 					npc.velocity = Vector2.Zero;
 				if (npc.velocity.Length() > 2f)
@@ -845,8 +828,10 @@ namespace CalamityMod.NPCs.Providence
 				if (attackRateMult > 1D)
 					num870 += (int)Math.Ceiling(attackRateMult * 1.6);
 
-				if (npc.ai[3] % num870 == 0f)
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= num870)
 				{
+					npc.ai[1] = 0f;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						if (Main.rand.NextBool(4) && !death)
@@ -856,7 +841,23 @@ namespace CalamityMod.NPCs.Providence
 					}
 				}
 
+				if (npc.ai[3] == 0f)
+				{
+					for (int x = 0; x < Main.maxProjectiles; x++)
+					{
+						Projectile projectile = Main.projectile[x];
+						if (projectile.active)
+						{
+							if (projectile.type == ModContent.ProjectileType<HolyFire2>() || projectile.type == ModContent.ProjectileType<HolyFlare>())
+							{
+								projectile.Kill();
+							}
+						}
+					}
+				}
+
 				// Air is burning text
+				npc.ai[3] += 1f;
 				if (npc.ai[3] >= 450f && !text)
 				{
 					text = true;
