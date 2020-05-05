@@ -275,7 +275,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 }
                 else if (npc.ai[0] == 2.1f)
                 {
-                    npc.damage = (int)((double)npc.defDamage * 1.5);
+                    npc.damage = (int)(npc.defDamage * 1.5);
                     if (npc.velocity.X < 0f)
                     {
                         npc.direction = -1;

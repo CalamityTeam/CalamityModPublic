@@ -3489,29 +3489,29 @@ namespace CalamityMod.NPCs
 
 			if (AstrumDeusIDs.Contains(npc.type))
 			{
-				if (projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileType<AtlantisSpear2>())
+				if (projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileType<AtlantisSpear2>() || ProjectileID.Sets.StardustDragon[projectile.type])
 				{
 					damage = (int)(damage * 0.1);
 				}
-				else if (ProjectileID.Sets.StardustDragon[projectile.type])
-				{
-					damage = (int)(damage * 0.15);
-				}
-				else if (projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>())
+				else if ()
 				{
 					damage = (int)(damage * 0.3);
 				}
-				else if (projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>())
+				else if (projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileID.DD2BetsyArrow)
 				{
 					damage = (int)(damage * 0.4);
 				}
-				else if (projectile.type == ProjectileType<BigNuke>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
+				else if (projectile.type == ProjectileType<BigNuke>() || projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
 				{
 					damage = (int)(damage * 0.5);
 				}
 				else if (projectile.type == ProjectileType<CosmicTentacle>() || projectile.type == ProjectileType<BrimstoneTentacle>())
 				{
-					damage = (int)(damage * 0.8);
+					damage = (int)(damage * 0.6);
+				}
+				else if (projectile.type == ProjectileType<BigNuke>())
+				{
+					damage = (int)(damage * 0.85);
 				}
 
 				if (projectile.penetrate == -1 && !projectile.minion)
@@ -3571,12 +3571,6 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.38);
                 }
-				else if (projectile.type == ProjectileType<ProfanedSwordProj>() || projectile.type == ProjectileType<BrimstoneSwordExplosion>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = 3;
-                    damage = (int)(damage * 0.3);
-                }
                 else if (projectile.type == ProjectileType<SeasSearingSpout>())
                 {
                     damage = (int)(damage * 0.25);
@@ -3596,17 +3590,11 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.5);
                 }
-				else if (projectile.type == ProjectileType<ProfanedSwordProj>() || projectile.type == ProjectileType<Brimblast>())
+				else if (projectile.type == ProjectileType<Brimblast>())
                 {
                     if (projectile.penetrate == -1)
                         projectile.penetrate = 2;
                     damage = (int)(damage * 0.1);
-                }
-				else if (projectile.type == ProjectileType<BrimstoneSwordExplosion>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = 2;
-                    damage = (int)(damage * 0.05);
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
@@ -3648,10 +3636,6 @@ namespace CalamityMod.NPCs
                 else if (projectile.type == ProjectileID.LunarFlare)
                 {
                     damage = (int)(damage * 0.8);
-                }
-                else if (projectile.type == ProjectileType<ReaperProjectile>())
-                {
-                    damage = (int)(damage * 0.9);
                 }
             }
 			else if (npc.type == NPCID.CultistBoss)
