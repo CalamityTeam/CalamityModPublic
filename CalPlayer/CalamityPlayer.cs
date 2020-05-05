@@ -1245,7 +1245,7 @@ namespace CalamityMod.CalPlayer
 
             throwingDamage = 1f;
             throwingVelocity = 1f;
-            throwingCrit = 4;
+            throwingCrit = 0;
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
@@ -1931,7 +1931,7 @@ namespace CalamityMod.CalPlayer
 
             throwingDamage = 1f;
             throwingVelocity = 1f;
-            throwingCrit = 4;
+            throwingCrit = 0;
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
