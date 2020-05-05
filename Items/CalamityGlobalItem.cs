@@ -2787,35 +2787,11 @@ Provides heat and cold protection in Death Mode";
             #region Body
             if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
                 player.Calamity().throwingCrit += 3;
-            else if (item.type == ItemID.PalladiumBreastplate)
-                player.Calamity().throwingCrit += 2;
-            else if (item.type == ItemID.CobaltBreastplate)
-                player.Calamity().throwingCrit += 3;
-            else if (item.type == ItemID.OrichalcumBreastplate)
-                player.Calamity().throwingCrit += 6;
-            else if (item.type == ItemID.TitaniumBreastplate)
-                player.Calamity().throwingCrit += 3;
-            else if (item.type == ItemID.HallowedPlateMail)
-                player.Calamity().throwingCrit += 7;
-            else if (item.type == ItemID.ChlorophytePlateMail)
-                player.Calamity().throwingCrit += 7;
-            else if (item.type == ItemID.Gi)
-                player.Calamity().throwingCrit += 5;
             #endregion
 
             #region Legs
             if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
                 player.Calamity().throwingVelocity += 0.03f;
-            else if (item.type == ItemID.PalladiumLeggings)
-                player.Calamity().throwingCrit += 1;
-            else if (item.type == ItemID.MythrilGreaves)
-                player.Calamity().throwingCrit += 3;
-            else if (item.type == ItemID.AdamantiteLeggings)
-                player.Calamity().throwingCrit += 4;
-            else if (item.type == ItemID.TitaniumLeggings)
-                player.Calamity().throwingCrit += 3;
-            else if (item.type == ItemID.ChlorophyteGreaves)
-                player.Calamity().throwingCrit += 8;
             #endregion
         }
         #endregion
@@ -3098,21 +3074,6 @@ Provides heat and cold protection in Death Mode";
             if (item.type == ItemID.HandWarmer)
                 modPlayer.handWarmer = true;
 
-            if ((item.type == ItemID.MoonStone && !Main.dayTime) || (item.type == ItemID.SunStone && Main.dayTime))
-            {
-                player.Calamity().throwingCrit += 2;
-            }
-            if (item.type == ItemID.CelestialStone)
-                player.Calamity().throwingCrit += 2;
-            if (item.type == ItemID.CelestialShell)
-                player.Calamity().throwingCrit += 2;
-            if (item.type == ItemID.DestroyerEmblem)
-                player.Calamity().throwingCrit += 8;
-            if (item.type == ItemID.EyeoftheGolem)
-                player.Calamity().throwingCrit += 10;
-            if (item.type == ItemID.PutridScent)
-                player.Calamity().throwingCrit += 5;
-
 			// Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
 			if (item.prefix == PrefixID.Hard)
 			{
@@ -3158,7 +3119,6 @@ Provides heat and cold protection in Death Mode";
                 player.rangedCrit -= 1;
                 player.magicCrit -= 1;
                 player.thrownCrit -= 1;
-                player.Calamity().throwingCrit += item.prefix == PrefixID.Lucky ? 3 : 1;
             }
         }
         #endregion

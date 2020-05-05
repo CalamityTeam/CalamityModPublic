@@ -224,7 +224,7 @@ namespace CalamityMod.CalPlayer
 
         public float throwingDamage = 1f;
         public float throwingVelocity = 1f;
-        public int throwingCrit = 4;
+        public int throwingCrit = 0;
         public bool throwingAmmoCost75 = false;
         public bool throwingAmmoCost66 = false;
         public bool throwingAmmoCost50 = false;
@@ -1245,7 +1245,7 @@ namespace CalamityMod.CalPlayer
 
             throwingDamage = 1f;
             throwingVelocity = 1f;
-            throwingCrit = 4;
+            throwingCrit = 0;
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
@@ -1931,7 +1931,7 @@ namespace CalamityMod.CalPlayer
 
             throwingDamage = 1f;
             throwingVelocity = 1f;
-            throwingCrit = 4;
+            throwingCrit = 0;
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
@@ -9296,7 +9296,7 @@ namespace CalamityMod.CalPlayer
             bool isPickaxe = it.pick > 0;
             bool isAxe = it.axe > 0;
             bool isHammer = it.hammer > 0;
-            bool isPlaced = it.createTile != 0;
+            bool isPlaced = it.createTile != -1;
             bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced;
             bool playerUsingWeapon = hasDamage && hasHitboxes && !hasNonWeaponFunction;
             if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax - 1 && playerUsingWeapon)
