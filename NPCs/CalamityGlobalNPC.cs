@@ -3575,11 +3575,6 @@ namespace CalamityMod.NPCs
                 {
                     damage = (int)(damage * 0.25);
                 }
-				else if (projectile.type == ProjectileType<BrimstoneSwordExplosion>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = 3;
-                }
             }
 			else if (AquaticScourgeIDs.Contains(npc.type))
 			{
@@ -3600,11 +3595,6 @@ namespace CalamityMod.NPCs
                     if (projectile.penetrate == -1)
                         projectile.penetrate = 2;
                     damage = (int)(damage * 0.1);
-                }
-				else if (projectile.type == ProjectileType<BrimstoneSwordExplosion>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = 3;
                 }
 			}
             else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
