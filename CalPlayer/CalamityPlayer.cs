@@ -2387,8 +2387,6 @@ namespace CalamityMod.CalPlayer
 
             if (!mediumcoreDeath)
             {
-				if (player.name == "Aleksh" || player.name == "Shark Lad")
-					items.Add(createItem(ModContent.ItemType<JoyfulHeart>()));
                 items.Add(createItem(ModContent.ItemType<StarterBag>()));
                 items.Add(createItem(ModContent.ItemType<Revenge>()));
                 items.Add(createItem(ModContent.ItemType<IronHeart>()));
