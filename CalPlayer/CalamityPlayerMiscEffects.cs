@@ -854,6 +854,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gainRageCooldown--;
 			if (modPlayer.galileoCooldown > 0)
 				modPlayer.galileoCooldown--;
+			if (modPlayer.soundCooldown > 0)
+				modPlayer.soundCooldown--;
 			if (modPlayer.raiderCooldown > 0)
 				modPlayer.raiderCooldown--;
 			if (modPlayer.gSabatonCooldown > 0)

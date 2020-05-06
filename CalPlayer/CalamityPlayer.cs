@@ -178,6 +178,7 @@ namespace CalamityMod.CalPlayer
         public float shieldInvinc = 5f;
         public GaelSwitchPhase gaelSwitchTimer = 0;
         public int galileoCooldown = 0;
+        public int soundCooldown = 0;
         public int planarSpeedBoost = 0;
         public int profanedSoulWeaponUsage = 0;
         public int profanedSoulWeaponType = 0;
@@ -1840,6 +1841,7 @@ namespace CalamityMod.CalPlayer
             gaelSwitchTimer = (GaelSwitchPhase)0;
             planarSpeedBoost = 0;
             galileoCooldown = 0;
+            soundCooldown = 0;
             rage = 0;
             adrenaline = 0;
             raiderStack = 0;
