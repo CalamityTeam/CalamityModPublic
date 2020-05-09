@@ -216,6 +216,9 @@ namespace CalamityMod.NPCs.Yharon
                     return;
                 }
 
+				if (phaseOneLoot)
+					npc.Calamity().AITimer = 0;
+
                 // Don't drop phase 1 loot
                 phaseOneLoot = false;
 
@@ -224,6 +227,12 @@ namespace CalamityMod.NPCs.Yharon
 
                 return;
             }
+
+			if (CalamityWorld.buffedEclipse)
+			{
+				if (npc.Calamity().AITimer < 3600)
+					npc.Calamity().AITimer = 3600;
+			}
 
 			// Phase bools
             bool phase2Check = (double)npc.life <= (double)npc.lifeMax * (revenge ? 0.8 : 0.7);
