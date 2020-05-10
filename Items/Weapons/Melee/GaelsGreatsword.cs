@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gael's Greatsword");
-            Tooltip.SetDefault("Give me that thing, your dark soul\n" +
+            Tooltip.SetDefault("Hand it over, that thing. Your dark soul.\n" +
 							   "First swing fires homing skulls\n" +
                                "Second swing fires a giant, powerful skull\n" +
                                "Third swing deals massive damage\n" +
