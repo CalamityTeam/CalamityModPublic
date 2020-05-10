@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.lifeMax = 7500;
+                npc.lifeMax = 7000;
                 npc.Calamity().DR = 0.4f;
             }
 

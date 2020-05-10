@@ -33,8 +33,8 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 180;
-                npc.lifeMax = 5700;
+                npc.damage = 150;
+                npc.lifeMax = 4500;
                 npc.defense = 65;
                 npc.Calamity().DR = 0.35f;
             }
@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.TargetClosest(false);
             npc.ai[1] += 1f;
-            float maxSpeed = CalamityWorld.downedPolterghast ? 18f : 10.5f;
+            float maxSpeed = CalamityWorld.downedPolterghast ? 12.8f : 10.5f;
             if (npc.target >= 0 && npc.target < 255)
             {
                 Player player = Main.player[npc.target];
@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.AcidRain
                 // And jump/shoot
                 else if (npc.ai[1] % 220f > 180f)
                 {
-                    float yAcceleration = CalamityWorld.downedPolterghast ? 0.11f : 0.05f;
+                    float yAcceleration = CalamityWorld.downedPolterghast ? 0.07f : 0.05f;
                     if (npc.ai[1] % 220f < 200f)
                     {
                         npc.velocity.Y -= yAcceleration;
@@ -177,8 +177,8 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.damage = (int)(npc.damage * 1.2);
-            npc.lifeMax = (int)(npc.lifeMax * 1.3);
+            npc.lifeMax = (int)(npc.lifeMax * 0.8f * bossLifeScale);
+            npc.damage = (int)(npc.damage * 0.85f);
         }
         public override void HitEffect(int hitDirection, double damage)
         {

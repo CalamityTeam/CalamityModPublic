@@ -44,8 +44,8 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 140;
-                npc.lifeMax = 6600;
+                npc.damage = 100;
+                npc.lifeMax = 5000;
                 npc.defense = 33;
                 npc.Calamity().DR = 0.15f;
             }
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.AcidRain
             else
             {
                 npc.Calamity().DR = 0f;
-                float speed = CalamityWorld.downedPolterghast ? 22f : 17f;
+                float speed = CalamityWorld.downedPolterghast ? 17f : 14f;
                 float inertia = CalamityWorld.downedPolterghast ? 20f : 24.5f;
                 if (npc.Distance(player.Center) < 200f)
                     inertia *= 0.667f;

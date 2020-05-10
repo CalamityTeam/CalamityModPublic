@@ -32,9 +32,9 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.Calamity().DR = 0.3f;
-                npc.damage = 160;
-                npc.lifeMax = 6650;
+                npc.Calamity().DR = 0.05f;
+                npc.damage = 120;
+                npc.lifeMax = 5500;
                 npc.defense = 45;
             }
             else if (CalamityWorld.downedAquaticScourge)
@@ -89,10 +89,10 @@ namespace CalamityMod.NPCs.AcidRain
                 float maxSpeedY = 4f;
                 if (CalamityWorld.downedPolterghast)
                 {
-                    acceleration = 0.75f;
-                    yAcceleration = 0.25f;
-                    maxSpeedX = 24f;
-                    maxSpeedY = 9f;
+                    acceleration = 0.6f;
+                    yAcceleration = 0.15f;
+                    maxSpeedX = 20f;
+                    maxSpeedY = 7f;
                 }
                 npc.velocity.X += npc.direction * acceleration;
 
