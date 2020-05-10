@@ -654,7 +654,16 @@ namespace CalamityMod
 
                 ModContent.ProjectileType<FlakKrakenProj>(),
                 ModContent.ProjectileType<SylvanSlashAttack>(),
-                ModContent.ProjectileType<InfernadoFriendly>()
+                ModContent.ProjectileType<InfernadoFriendly>(),
+
+				//Some hostile boss projectiles
+                ModContent.ProjectileType<BrimstoneMonster>(),
+                ModContent.ProjectileType<InfernadoRevenge>(),
+				ModContent.ProjectileType<OverlyDramaticDukeSummoner>(),
+				ModContent.ProjectileType<ProvidenceHolyRay>(),
+				ModContent.ProjectileType<OldDukeVortex>(),
+				ModContent.ProjectileType<BrimstoneRay>(),
+				ModContent.ProjectileType<BrimstoneTargetRay>()
             };
 
             projectileMinionList = new List<int>()
@@ -2686,6 +2695,7 @@ namespace CalamityMod
 				{ NPCID.EaterofWorldsTail, 7200 },
 				{ NPCID.BrainofCthulhu, 5400 },
 				{ NPCID.QueenBee, 7200 },
+				{ NPCID.SkeletronHead, 9000 },
 				{ NPCID.WallofFlesh, 10800 },
 				{ NPCID.WallofFleshEye, 10800 },
 				{ NPCID.Spazmatism, 10800 },
@@ -3403,7 +3413,7 @@ namespace CalamityMod
 
         #region Lighting
         const float MaxCaveDarkness = -0.3f;
-		const float MaxSignusDarkness = -0.5f;
+		const float MaxSignusDarkness = -0.4f;
 		const float MaxAbyssDarkness = -0.7f;
         public override void ModifyLightingBrightness(ref float scale)
         {
@@ -3671,6 +3681,6 @@ namespace CalamityMod
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
         GaelsGreatswordSwingSync,
-        SpawnSuperDummy,
+        SpawnSuperDummy
     }
 }
