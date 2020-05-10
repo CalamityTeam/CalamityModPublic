@@ -280,7 +280,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// If Revengeance Mode is not active, then set rippers to zero
-			else if(player.whoAmI == Main.myPlayer)
+			else if (player.whoAmI == Main.myPlayer)
 			{
 				modPlayer.rage = 0;
 				modPlayer.adrenaline = 0;
@@ -578,7 +578,7 @@ namespace CalamityMod.CalPlayer
 									Vector2 velocity = new Vector2(windVelocity * 0.2f, 3f * Main.rand.NextFloat());
 
 									if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
-										Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 1f, 0f);
+										Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 2f, 0f);
 								}
 							}
 							else

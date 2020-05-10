@@ -1043,7 +1043,7 @@ namespace CalamityMod.Projectiles
 					if (player.ghostHeal)
 					{
 						float num = 0.1f;
-						num -= projectile.numHits * 0.05f;
+						num -= projectile.numHits * 0.025f;
 						if (num < 0f)
 							num = 0f;
 
@@ -1122,7 +1122,7 @@ namespace CalamityMod.Projectiles
 								if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 									goto OTHEREFFECTS;
 
-								Main.player[Main.myPlayer].lifeSteal -= heal * 3f;
+								Main.player[Main.myPlayer].lifeSteal -= heal * 6f;
 								int healAmount = (int)heal;
 								player.statLife += healAmount;
 								player.HealEffect(healAmount);
