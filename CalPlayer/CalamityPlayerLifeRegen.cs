@@ -272,6 +272,10 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.alcoholPoisonLevel++;
 			}
+			if (modPlayer.fabsolVodka)
+			{
+				modPlayer.alcoholPoisonLevel++;
+			}
 			if (modPlayer.fireball)
 			{
 				modPlayer.alcoholPoisonLevel++;
