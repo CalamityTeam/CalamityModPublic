@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Summon
             float antiStickyFloat = 0.05f;
             for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
             {
-				Projectile proj = Main.projectile[index];
+				Projectile proj = Main.projectile[projIndex];
                 bool flag23 = proj.type == ModContent.ProjectileType<CosmicViperSummon>();
                 if (projIndex != projectile.whoAmI && proj.active && proj.owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
                 {
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Summon
                     float targetDist = Vector2.Distance(npc.Center, projectile.Center);
                     if (!foundTarget && targetDist < detectRange)
                     {
-                        detectRange = num646;
+                        detectRange = targetDist;
                         targetVec = npc.Center;
                         foundTarget = true;
                     }
