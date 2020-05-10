@@ -5627,7 +5627,7 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
+			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
 			{
 				if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>()
 					&& proj.active && proj.hostile && player.altFunctionUse == 2 && Main.rand.NextBool(2))
@@ -5832,7 +5832,7 @@ namespace CalamityMod.CalPlayer
                     //1 second for DM lightning, 2 seconds for Storm Weaver/Cultist lightning
                 }
             }
-			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
+			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
 			{
 				if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))
 				{

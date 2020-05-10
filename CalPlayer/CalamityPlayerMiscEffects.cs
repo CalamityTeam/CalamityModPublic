@@ -564,7 +564,7 @@ namespace CalamityMod.CalPlayer
 
 						if (Main.raining)
 						{
-							float frequencyMult = 1f - Main.cloudAlpha; // 1 to 0.11
+							float frequencyMult = (1f - Main.cloudAlpha) * CalamityMod.CalamityConfig.WeatherEffectRateMultiplier; // 3 to 0.055
 
 							Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-1000, 1001), player.Center.Y - (float)Main.rand.Next(700, 801));
 							Tile tileSafely = Framing.GetTileSafely((int)(spawnPoint.X / 16f), (int)(spawnPoint.Y / 16f));

@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
+            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0f, 0.25f, 0.25f);
 
 			if (projectile.ai[0] != 2f)
 				projectile.aiStyle = 1;

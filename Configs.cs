@@ -163,6 +163,14 @@ namespace CalamityMod
 		[Tooltip("Buffs the health of Thorium bosses if Revengeance or Death is enabled")]
 		public bool RevengeanceAndDeathThoriumBossBuff { get; set; }
 
+		[Header("Death Mode Changes")]
+
+		[DefaultValue(1f)]
+		[Range(0.5f, 3f)]
+		[Label("Weather Effect Rate Multiplier")]
+		[Tooltip("Affects all Death Mode weather projectiles, increase to decrease the amount of projectiles, decrease to increase the amount of projectiles")]
+		public float WeatherEffectRateMultiplier { get; set; }
+
 		[Header("Boss Rush Curses")]
 
 		[DefaultValue(false)]
