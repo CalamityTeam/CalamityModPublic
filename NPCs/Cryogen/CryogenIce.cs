@@ -37,12 +37,12 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void AI()
         {
-            npc.alpha -= 3;
+			npc.alpha -= 3;
             if (npc.alpha < 0)
-            {
                 npc.alpha = 0;
-            }
+
             npc.rotation += 0.15f;
+
             if (npc.type == ModContent.NPCType<CryogenIce>())
             {
                 int num989 = (int)npc.ai[0];
@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.Cryogen
                     npc.position = Main.npc[num989].Center;
                     npc.position.X = npc.position.X - (float)(npc.width / 2);
                     npc.position.Y = npc.position.Y - (float)(npc.height / 2);
-                    npc.gfxOffY = Main.npc[num989].gfxOffY;
+                    npc.gfxOffY = Main.npc[num989].gfxOffY + 14;
                     return;
                 }
                 npc.life = 0;

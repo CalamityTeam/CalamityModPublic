@@ -21,7 +21,6 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 50;
             projectile.hostile = true;
             projectile.ignoreWater = true;
-            projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.alpha = 120;
             cooldownSlot = 1;
@@ -29,10 +28,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (projectile.ai[0] == 1f)
-            {
-                projectile.tileCollide = true;
-            }
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -48,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.Kill();
             }
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             if (projectile.ai[1] == 0f)
             {

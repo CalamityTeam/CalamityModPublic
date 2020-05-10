@@ -167,12 +167,9 @@ namespace CalamityMod.NPCs.Cryogen
                 npc.rotation = npc.velocity.X * 0.1f;
             }
 
-            if (!Main.raining && !CalamityWorld.bossRushActive)
-            {
-				CalamityUtils.StartRain();
-            }
+			CalamityMod.StopRain();
 
-            if (!player.active || player.dead)
+			if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];

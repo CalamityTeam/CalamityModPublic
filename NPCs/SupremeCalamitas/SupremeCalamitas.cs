@@ -610,7 +610,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     if (bulletHellCounter2 % 240 == 0) //fireblasts from above
                     {
-                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 1f, 0f);
+                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     bulletHellCounter += 1;
                     if (bulletHellCounter > (enraged ? 9 : 11))
@@ -679,7 +679,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     if (bulletHellCounter2 % 240 == 0) //fireblasts from above
                     {
-                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 1f, 0f);
+                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     if (bulletHellCounter2 % 225 == 0) //giant homing fireballs
                     {
@@ -753,7 +753,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     if (bulletHellCounter2 % 360 == 0) //fireblasts from above
                     {
-                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 1f, 0f);
+                        Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     if (bulletHellCounter2 % 30 == 0) //projectiles that move in wave pattern
                     {
@@ -2241,7 +2241,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
-            return !CalamityUtils.AntiButcher(npc, ref damage, 0.1f);
+            return !CalamityUtils.AntiButcher(npc, ref damage, 0.5f);
         }
 
         public override bool CheckActive()
