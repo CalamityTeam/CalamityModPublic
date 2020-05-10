@@ -1414,14 +1414,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GiantTortoise:
-                    float tortoiseDropRate = Main.expertMode ? 0.2f : 0.142857f;
-                    float shellRoll = Main.rand.NextFloat();
-                    bool fabledShell = shellRoll <= 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    if (shellRoll < tortoiseDropRate) // 1/7 (1/5 EX) chance of getting Giant Tortoise Shell OR Fabled Tortoise Shell replacing it
-                    {
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<GiantTortoiseShell>(), !fabledShell);
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), fabledShell);
-                    }
+					DropHelper.DropItemRIV(npc, ModContent.ItemType<GiantTortoiseShell>(), ModContent.ItemType<FabledTortoiseShell>(), Main.expertMode ? 0.2f : 0.142857f, 0.005f);
                     break;
 
                 case NPCID.GiantShelly:
@@ -1477,18 +1470,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.IchorSticker:
-                    float spearDropRate = Main.expertMode ? 0.05f : 0.04f;
-                    float spearRoll = Main.rand.NextFloat();
-                    bool spearOfDestiny = spearRoll <= 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    if (spearRoll < spearDropRate) // 1/25 (1/20 EX) chance of getting Ichor Spear OR Spear of Destiny replacing it
-                    {
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<IchorSpear>(), !spearOfDestiny);
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<SpearofDestiny>(), spearOfDestiny);
-                    }
+					DropHelper.DropItemRIV(npc, ModContent.ItemType<IchorSpear>(), ModContent.ItemType<SpearofDestiny>(), Main.expertMode ? 0.05f : 0.04f, 0.005f);
                     break;
 
                 case NPCID.Harpy:
-                    int glazeDropRate = CalamityWorld.defiled ? 20 : Main.expertMode ? 60 : 80;
+                    int glazeDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 60 : 80;
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<SkyGlaze>(), NPC.downedBoss1, glazeDropRate, 1, 1);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), Main.hardMode && !npc.SpawnedFromStatue, Main.expertMode ? 2 : 3, 1, 1);
                     break;
@@ -1536,14 +1522,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.PirateCrossbower:
-                    float crossbowDropRate = Main.expertMode ? 0.05f : 0.04f;
-                    float arbalestRoll = Main.rand.NextFloat();
-                    bool arbalest = arbalestRoll <= 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    if (arbalestRoll < crossbowDropRate) // 1/25 (1/20 EX) chance of getting Raider's Glory OR Arbalest replacing it
-                    {
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<RaidersGlory>(), !arbalest);
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<Arbalest>(), arbalest);
-                    }
+					DropHelper.DropItemRIV(npc, ModContent.ItemType<RaidersGlory>(), ModContent.ItemType<Arbalest>(), Main.expertMode ? 0.05f : 0.04f, 0.005f);
                     break;
 
                 case NPCID.GoblinSummoner:

@@ -139,13 +139,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 DropHelper.DropItemChance(npc, ModContent.ItemType<MirrorBlade>(), Main.expertMode ? 3 : 4);
 
                 // Equipment
-                float f = Main.rand.NextFloat();
-                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting The Evolution
-                if (f < 0.2f) // 1/5 chance of getting Arcanum of the Void OR The Evolution replacing it
-                {
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<ArcanumoftheVoid>(), !replaceWithRare);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<TheEvolution>(), replaceWithRare);
-                }
+				DropHelper.DropItemRIV(npc, ModContent.ItemType<ArcanumoftheVoid>(), ModContent.ItemType<TheEvolution>(), 0.2f, DropHelper.RareVariantDropRateFloat);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CeaselessVoidTrophy>(), 10);
