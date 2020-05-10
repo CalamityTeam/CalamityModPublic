@@ -5627,25 +5627,28 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-            if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>()
-                && proj.active && proj.hostile && player.altFunctionUse == 2 && Main.rand.NextBool(2))
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
-                    Main.dust[dustIndex].velocity *= 0.3f;
-                }
-                int damage2 = (int)(GaelsGreatsword.BaseDamage * Main.LocalPlayer.MeleeDamage());
-                proj.hostile = false;
-                proj.friendly = true;
-                proj.velocity *= -1f;
-                proj.damage = damage2;
-                proj.penetrate = 1;
-                player.immune = true;
-                player.immuneNoBlink = true;
-                player.immuneTime = 4;
-                damage = 0;
-            }
+			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
+			{
+				if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>()
+					&& proj.active && proj.hostile && player.altFunctionUse == 2 && Main.rand.NextBool(2))
+				{
+					for (int j = 0; j < 3; j++)
+					{
+						int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
+						Main.dust[dustIndex].velocity *= 0.3f;
+					}
+					int damage2 = (int)(GaelsGreatsword.BaseDamage * Main.LocalPlayer.MeleeDamage());
+					proj.hostile = false;
+					proj.friendly = true;
+					proj.velocity *= -1f;
+					proj.damage = damage2;
+					proj.penetrate = 1;
+					player.immune = true;
+					player.immuneNoBlink = true;
+					player.immuneTime = 4;
+					damage = 0;
+				}
+			}
             int bossRushDamage = (Main.expertMode ? 125 : 150) + (CalamityWorld.bossRushStage / 2);
             if (CalamityWorld.bossRushActive)
             {
@@ -5829,46 +5832,49 @@ namespace CalamityMod.CalPlayer
                     //1 second for DM lightning, 2 seconds for Storm Weaver/Cultist lightning
                 }
             }
-            if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))
-            {
-                player.statLife += damage;
-                player.HealEffect(damage);
-                proj.hostile = false;
-                proj.friendly = true;
-                proj.velocity.X = -proj.velocity.X;
-                proj.velocity.Y = -proj.velocity.Y;
-            }
-            if (projRefRare && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(2))
-            {
-                proj.hostile = false;
-                proj.friendly = true;
-                proj.velocity.X = -proj.velocity.X * 2f;
-                proj.velocity.Y = -proj.velocity.Y * 2f;
-                proj.damage *= 10;
-                projRefRareLifeRegenCounter = 120;
-                projTypeJustHitBy = proj.type;
-            }
-            if (aSparkRare && proj.active && !proj.friendly && proj.hostile && damage > 0)
-            {
-                if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet)
-                {
-                    proj.hostile = false;
-                    proj.friendly = true;
-                    proj.velocity.X = -proj.velocity.X;
-                    proj.velocity.Y = -proj.velocity.Y;
-                    proj.damage *= 8;
-                }
-            }
-            if (daedalusReflect && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(3))
-            {
-                int healAmt = damage / 5;
-                player.statLife += healAmt;
-                player.HealEffect(healAmt);
-                proj.hostile = false;
-                proj.friendly = true;
-                proj.velocity.X = -proj.velocity.X;
-                proj.velocity.Y = -proj.velocity.Y;
-            }
+			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => projectile.type != x))
+			{
+				if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))
+				{
+					player.statLife += damage;
+					player.HealEffect(damage);
+					proj.hostile = false;
+					proj.friendly = true;
+					proj.velocity.X = -proj.velocity.X;
+					proj.velocity.Y = -proj.velocity.Y;
+				}
+				if (projRefRare && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(2))
+				{
+					proj.hostile = false;
+					proj.friendly = true;
+					proj.velocity.X = -proj.velocity.X * 2f;
+					proj.velocity.Y = -proj.velocity.Y * 2f;
+					proj.damage *= 10;
+					projRefRareLifeRegenCounter = 120;
+					projTypeJustHitBy = proj.type;
+				}
+				if (aSparkRare && proj.active && !proj.friendly && proj.hostile && damage > 0)
+				{
+					if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet)
+					{
+						proj.hostile = false;
+						proj.friendly = true;
+						proj.velocity.X = -proj.velocity.X;
+						proj.velocity.Y = -proj.velocity.Y;
+						proj.damage *= 8;
+					}
+				}
+				if (daedalusReflect && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(3))
+				{
+					int healAmt = damage / 5;
+					player.statLife += healAmt;
+					player.HealEffect(healAmt);
+					proj.hostile = false;
+					proj.friendly = true;
+					proj.velocity.X = -proj.velocity.X;
+					proj.velocity.Y = -proj.velocity.Y;
+				}
+			}
         }
         #endregion
 

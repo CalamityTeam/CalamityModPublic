@@ -654,7 +654,16 @@ namespace CalamityMod
 
                 ModContent.ProjectileType<FlakKrakenProj>(),
                 ModContent.ProjectileType<SylvanSlashAttack>(),
-                ModContent.ProjectileType<InfernadoFriendly>()
+                ModContent.ProjectileType<InfernadoFriendly>(),
+
+				//Some hostile boss projectiles
+                ModContent.ProjectileType<BrimstoneMonster>(),
+                ModContent.ProjectileType<InfernadoRevenge>(),
+				ModContent.ProjectileType<OverlyDramaticDukeSummoner>(),
+				ModContent.ProjectileType<ProvidenceHolyRay>(),
+				ModContent.ProjectileType<OldDukeVortex>(),
+				ModContent.ProjectileType<BrimstoneRay>(),
+				ModContent.ProjectileType<BrimstoneTargetRay>()
             };
 
             projectileMinionList = new List<int>()
