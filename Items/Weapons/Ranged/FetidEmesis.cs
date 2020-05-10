@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 				if (player.Calamity().soundCooldown <= 0)
 				{
 					// WoF vomit sound.
-					Main.PlaySound(SoundID.NPCKilled, position.X, position.Y, 13, 0.5f, 0f);
+					Main.PlaySound(SoundID.NPCKilled, (int)position.X, (int)position.Y, 13, 0.5f, 0f);
 					player.Calamity().soundCooldown = 120;
 				}
                 return false;

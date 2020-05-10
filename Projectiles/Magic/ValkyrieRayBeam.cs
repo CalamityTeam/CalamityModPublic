@@ -135,8 +135,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            // If the beam doesn't have a defined projection vector, don't draw anything.
-            if (beamVector == Vector2.Zero)
+            // If the beam doesn't have a defined projection vector or hasn't yet had its velocity set to zero, don't draw anything.
+            if (beamVector == Vector2.Zero || projectile.velocity != Vector2.Zero)
                 return false;
             
             Texture2D tex = Main.projectileTexture[projectile.type];

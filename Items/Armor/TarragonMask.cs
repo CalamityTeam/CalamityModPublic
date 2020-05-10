@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
                 "On every 5th critical strike you will fire a leaf storm\n" +
-                "Magic projectiles have a 50% chance to heal you on enemy hits\n" +
+                "Magic projectiles heal you on enemy hits\n" +
                 "Amount healed is based on projectile damage";
         }
 

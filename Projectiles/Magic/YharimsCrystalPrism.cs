@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -150,7 +149,9 @@ namespace CalamityMod.Projectiles.Magic
             player.heldProj = projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
+
+            // Multiplying by projectile.direction is required due to vanilla spaghetti.
+            player.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
         }
 
         private void SpawnEjectionDust(float charge)
