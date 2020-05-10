@@ -37,12 +37,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int numProj = 2;
-            float rotation = MathHelper.ToRadians(3);
-            for (int i = 0; i < numProj + 1; i++)
+			int index = 7;
+            for (int i = -index; i <= index; i += index)
             {
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, i == 1 ? type : ModContent.ProjectileType<SpearofDestinyProjectile>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
+                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, i != 0 ? type : ModContent.ProjectileType<IchorSpearProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }
