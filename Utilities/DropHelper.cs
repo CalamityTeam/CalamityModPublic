@@ -235,7 +235,7 @@ namespace CalamityMod
         /// <summary>
         /// Drops an item that can be replaced by a given RIV
         /// </summary>
-        /// <param name="npc">The NPC which should drop the item(s).</param>
+        /// <param name="npc">The NPC which should drop the item.</param>
         /// <param name="itemID">The ID of the normal item to drop.</param>
         /// <param name="rareID">The ID of the RIV to drop.</param>
         /// <param name="itemChance">The chance that one of the two will drop. A decimal number <= 1.0.</param>
@@ -248,6 +248,25 @@ namespace CalamityMod
 			{
 				DropItemCondition(npc, itemID, !replaceWithRare);
 				DropItemCondition(npc, rareID, replaceWithRare);
+			}
+        }
+
+        /// <summary>
+        /// Drops an item that can be replaced by a given RIV
+        /// </summary>
+        /// <param name="player">The player which should receive the item.</param>
+        /// <param name="itemID">The ID of the normal item to drop.</param>
+        /// <param name="rareID">The ID of the RIV to drop.</param>
+        /// <param name="itemChance">The chance that one of the two will drop. A decimal number <= 1.0.</param>
+        /// <param name="rareChance">The chance that the RIV will drop. A decimal number <= 1.0.</param>
+        public static void DropItemRIV(Player player, int itemID, int rareID, float itemChance, float rareChance)
+        {
+			float f = Main.rand.NextFloat();
+			bool replaceWithRare = f <= rareChance; // 1/X chance overall of getting RIV
+			if (f <= itemChance) // 1/X chance of getting original OR the RIV replacing it
+			{
+				DropItemCondition(player, itemID, !replaceWithRare);
+				DropItemCondition(player, rareID, replaceWithRare);
 			}
         }
         #endregion
