@@ -51,13 +51,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<Barinade>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<StormSpray>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<SeaboundStaff>(), 3);
-            float f = Main.rand.NextFloat();
-            bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Dune Hopper
-            if (f < 0.3333f) // 1/3 chance of getting Scourge of the Desert OR Dune Hopper replacing it
-            {
-                DropHelper.DropItemCondition(player, ModContent.ItemType<ScourgeoftheDesert>(), !replaceWithRare);
-                DropHelper.DropItemCondition(player, ModContent.ItemType<DuneHopper>(), replaceWithRare);
-            }
+			DropHelper.DropItemRIV(player, ModContent.ItemType<ScourgeoftheDesert>(), ModContent.ItemType<DuneHopper>(), 0.3333f, DropHelper.RareVariantDropRateFloat);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());

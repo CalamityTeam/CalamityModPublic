@@ -295,17 +295,11 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Coral, Main.rand.Next(1, 4));
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Starfish, Main.rand.Next(1, 4));
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Seashell, Main.rand.Next(1, 4));
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<VictoryShard>(), Main.rand.Next(1, 4));
-            if (Main.rand.NextBool(4))
-            {
-                if (Main.rand.NextBool(25))
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<TheTransformer>());
-                else
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AmidiasSpark>());
-            }
+            DropHelper.DropItem(npc, ItemID.Coral, 1, 3);
+            DropHelper.DropItem(npc, ItemID.Starfish, 1, 3);
+            DropHelper.DropItem(npc, ItemID.Seashell, 1, 3);
+            DropHelper.DropItem(npc, ModContent.ItemType<VictoryShard>(), 1, 3);
+            DropHelper.DropItemRIV(npc, ModContent.ItemType<AmidiasSpark>(), ModContent.ItemType<TheTransformer>(), 0.25f, 0.01f);
         }
     }
 }

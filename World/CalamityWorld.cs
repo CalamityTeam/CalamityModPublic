@@ -995,8 +995,8 @@ namespace CalamityMod.World
 
                 // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
                 // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
-				if (startAcidicDownpour || forcedDownpourWithTear)
-				{
+                if ((startAcidicDownpour || forcedDownpourWithTear) && !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
+                {
 					Main.raining = true;
 					Main.cloudBGActive = 1f;
 					Main.numCloudsTemp = Main.cloudLimit;
