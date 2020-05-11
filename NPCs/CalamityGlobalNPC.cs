@@ -2374,7 +2374,7 @@ namespace CalamityMod.NPCs
                 switch (npc.type)
                 {
                     case NPCID.Guide:
-                        switch (Main.rand.Next(37)) // 34 guide names
+                        switch (Main.rand.Next(38)) // 34 guide names
                         {
                             case 0:
                                 npc.GivenName = "Lapp";
@@ -2388,6 +2388,10 @@ namespace CalamityMod.NPCs
                                 npc.GivenName = "StreakistYT";
                                 break;
 
+                            case 3:
+                                npc.GivenName = "Neoplasmatic";
+                                break;
+
                             default:
                                 break;
                         }
@@ -2395,7 +2399,7 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Wizard:
-                        switch (Main.rand.Next(25)) // 23 wizard names
+                        switch (Main.rand.Next(26)) // 23 wizard names
                         {
                             case 0:
                                 npc.GivenName = "Mage One-Trick";
@@ -2403,6 +2407,10 @@ namespace CalamityMod.NPCs
 
                             case 1:
                                 npc.GivenName = "Inorim, son of Ivukey";
+                                break;
+
+                            case 2:
+                                npc.GivenName = "Jensen";
                                 break;
 
                             default:

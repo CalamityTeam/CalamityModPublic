@@ -112,7 +112,6 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 
             float num1446 = goIntoShell ? 1f : (CalamityWorld.bossRushActive ? 12f : 6f);
             int num1447 = 480;
-            float num244;
             if (npc.localAI[1] == 1f)
             {
                 npc.localAI[1] = 0f;
@@ -178,14 +177,13 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 				if (npc.localAI[0] > 240f) //Lower firing cooldown to prevent firing so quickly after a teleport
 					npc.localAI[0] = 240f;
                 Main.PlaySound(SoundID.Item8, npc.Center);
-                for (int num1451 = 0; num1451 < 20; num1451 = num + 1)
+                for (int num1451 = 0; num1451 < 20; num1451++)
                 {
                     int num1452 = Dust.NewDust(npc.position, npc.width, npc.height, 235, 0f, 0f, 100, Color.Transparent, 1f);
                     Dust dust = Main.dust[num1452];
                     dust.velocity *= 3f;
                     Main.dust[num1452].noGravity = true;
                     Main.dust[num1452].scale = 2.5f;
-                    num = num1451;
                 }
             }
             npc.ai[0] += 1f;
