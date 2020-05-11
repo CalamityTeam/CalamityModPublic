@@ -79,31 +79,31 @@ namespace CalamityMod.Projectiles.Rogue
                     if (Main.rand.Next(6) != 0)
                         dust2.noGravity = true;
                 }
-                float num773 = 0.01f;
-                int num774 = 5;
-                int num775 = num774 * 15;
-                int num776 = 0;
+                float scalar = 0.01f;
+                int alphaAmt = 5;
+                int alphaCeiling = alphaAmt * 15;
+                int alphaFloor = 0;
                 if (projectile.localAI[0] > 7f)
                 {
                     if (projectile.localAI[1] == 0f)
                     {
-                        projectile.scale -= num773;
+                        projectile.scale -= scalar;
 
-                        projectile.alpha += num774;
-                        if (projectile.alpha > num775)
+                        projectile.alpha += alphaAmt;
+                        if (projectile.alpha > alphaCeiling)
                         {
-                            projectile.alpha = num775;
+                            projectile.alpha = alphaCeiling;
                             projectile.localAI[1] = 1f;
                         }
                     }
                     else if (projectile.localAI[1] == 1f)
                     {
-                        projectile.scale += num773;
+                        projectile.scale += scalar;
 
-                        projectile.alpha -= num774;
-                        if (projectile.alpha <= num776)
+                        projectile.alpha -= alphaAmt;
+                        if (projectile.alpha <= alphaFloor)
                         {
-                            projectile.alpha = num776;
+                            projectile.alpha = alphaFloor;
                             projectile.localAI[1] = 0f;
                         }
                     }
@@ -127,32 +127,29 @@ namespace CalamityMod.Projectiles.Rogue
                     }
 
                     int whoAmI = -1;
-                    Vector2 value19 = projectile.Center;
-                    float num778 = 300f;
-                    int j;
-                    for (int i = 0; i < 200; i = j + 1)
+                    Vector2 targetSpot = projectile.Center;
+                    float detectRange = 400f;
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
-                        NPC nPC = Main.npc[i];
-                        if (nPC.CanBeChasedBy(projectile, false))
+                        NPC npc = Main.npc[i];
+                        if (npc.CanBeChasedBy(projectile, false))
                         {
-                            Vector2 center = nPC.Center;
-                            float num780 = Vector2.Distance(center, projectile.Center);
-                            if (num780 < num778)
+                            float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+                            if (targetDist < detectRange)
                             {
-                                num778 = num780;
-                                value19 = center;
+                                detectRange = targetDist;
+                                targetSpot = npc.Center;
                                 whoAmI = i;
                             }
                         }
-                        j = i;
                     }
 
                     if (whoAmI >= 0)
                     {
                         projectile.netUpdate = true;
                         projectile.ai[0] += (float)penetrationAmt;
-                        projectile.position = value19 + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * 100f - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
-                        projectile.velocity = Vector2.Normalize(value19 - projectile.Center) * 18f;
+                        projectile.position = targetSpot + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * 100f - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
+                        projectile.velocity = Vector2.Normalize(targetSpot - projectile.Center) * 18f;
                     }
                     else
                         projectile.Kill();
@@ -221,10 +218,7 @@ namespace CalamityMod.Projectiles.Rogue
             Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.3f * colorScale, 0.4f * colorScale, 1f * colorScale);
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, 255, 255, 200) * ((255f - (float)projectile.alpha) / 255f);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 255, 255, 200) * ((255f - (float)projectile.alpha) / 255f);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -283,7 +277,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             Main.PlaySound(SoundID.Item114, projectile.Center);
 
-            int radius = projectile.Calamity().stealthStrike ? 500 : 300;
+            float radius = projectile.Calamity().stealthStrike ? 500f : 300f;
             int numDust = (int)(0.2f * MathHelper.TwoPi * radius);
             float angleIncrement = MathHelper.TwoPi / (float)numDust;
             Vector2 dustOffset = new Vector2(radius, 0f);
@@ -292,10 +286,10 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 dustOffset = dustOffset.RotatedBy(angleIncrement);
                 int dustType = Utils.SelectRandom(Main.rand, new int[]
-    {
+				{
                     226,
                     229
-    });
+				});
                 int dust = Dust.NewDust(projectile.Center, 1, 1, dustType);
                 Main.dust[dust].position = projectile.Center + dustOffset;
                 if (Main.rand.Next(6) != 0)
@@ -309,11 +303,11 @@ namespace CalamityMod.Projectiles.Rogue
 
             for (int i = 0; i < Main.maxNPCs; i++)
             {
-                NPC nPC = Main.npc[i];
-                if (nPC.active && !nPC.dontTakeDamage && !nPC.buffImmune[buffType] && Vector2.Distance(projectile.Center, nPC.Center) <= (float)radius)
+                NPC npc = Main.npc[i];
+                if (npc.active && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(projectile.Center, npc.Center) <= radius)
                 {
-                    if (nPC.FindBuffIndex(buffType) == -1)
-                        nPC.AddBuff(buffType, 180, false);
+                    if (npc.FindBuffIndex(buffType) == -1)
+                        npc.AddBuff(buffType, 180, false);
                 }
             }
         }

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useAnimation = 20;
             item.useStyle = 1;
             item.useTime = 20;
-            item.knockBack = 2f;
+            item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(1, 40, 0, 0);
