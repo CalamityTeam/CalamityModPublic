@@ -354,7 +354,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (modPlayer.harpyWingBoost)
+            if (modPlayer.harpyWingBoost && modPlayer.harpyRing)
             {
                 if (Main.rand.NextBool(5))
                 {
@@ -2867,8 +2867,7 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.HarpyWings)
             {
-				if (modPlayer.harpyRing)
-					modPlayer.harpyWingBoost = true;
+				modPlayer.harpyWingBoost = true;
                 player.moveSpeed += 0.3f;
                 player.noFallDmg = true;
             }
