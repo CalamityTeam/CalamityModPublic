@@ -212,7 +212,7 @@ namespace CalamityMod.NPCs.AcidRain
                     Gore.NewGore(npc.position, -Vector2.UnitY.RotatedByRandom(0.4f) * 4f, mod.GetGoreSlot("Gores/AcidRain/CragmawMireP1Gore3"), npc.scale);
                     npc.localAI[0] = 1f;
                 }
-                npc.Calamity().DR = 0.125f;
+                npc.Calamity().DR = CalamityWorld.revenge ? 0.125f : 0f;
                 npc.HitSound = SoundID.NPCHit1;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
