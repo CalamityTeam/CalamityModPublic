@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Metal Monstrosity");
             Tooltip.SetDefault("This has to hurt\n" +
 							   "Hurls a heavy metal ball that shatters on impact\n" +
-                               "Stealth Strikes cause the ball to release spikes as it travels");
+                               "Stealth strikes cause the ball to release spikes as it travels");
         }
 
         public override void SafeSetDefaults()

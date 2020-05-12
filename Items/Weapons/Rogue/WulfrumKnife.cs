@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Knife");
-            Tooltip.SetDefault("Stealth Strikes make the knife fly further and hit several times at once");
+            Tooltip.SetDefault("Stealth strikes make the knife fly further and hit several times at once");
         }
 
         public override void SafeSetDefaults()
