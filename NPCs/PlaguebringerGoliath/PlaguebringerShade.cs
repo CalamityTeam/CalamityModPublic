@@ -673,6 +673,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
+		public override bool PreNPCLoot(NPC npc) => !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()); //don't drop items in the PBG fight
+
         public override void NPCLoot()
         {
 			DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f, 2, 3);
