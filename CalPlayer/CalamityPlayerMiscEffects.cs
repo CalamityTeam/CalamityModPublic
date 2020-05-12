@@ -340,6 +340,12 @@ namespace CalamityMod.CalPlayer
 				player.height = 212;
 				player.position.Y -= 170;
 			}
+			else if (player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
+			{
+				player.width = 24;
+				player.height = 98;
+				player.position.Y -= 56;
+			}
 			else if (!player.mount.Active)
 			{
 				player.width = 20;

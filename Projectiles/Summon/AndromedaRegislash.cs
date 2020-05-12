@@ -24,6 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minionSlots = 0f;
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
+            projectile.light = 3f;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
         }
@@ -31,9 +32,13 @@ namespace CalamityMod.Projectiles.Summon
 		public override void AI()
 		{
             Player player = Main.player[projectile.owner];
-            Projectile robot = Main.projectile[(int)projectile.ai[0]];
             if (projectile.localAI[0] == 0f)
             {
+                if (CalamityUtils.CountProjectiles(projectile.type) > 1)
+                {
+                    projectile.Kill();
+                    return;
+                }
                 Main.PlaySound(SoundID.DD2_DrakinShot, projectile.Center);
                 projectile.rotation = projectile.AngleTo(Main.MouseWorld);
                 projectile.localAI[0] = 1f;

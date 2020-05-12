@@ -75,7 +75,8 @@ namespace CalamityMod.CalPlayer
     {
         Inactive,
         SmallRobot,
-        LargeRobot
+        LargeRobot,
+        SpecialAttack
     }
 
     public class CalamityPlayer : ModPlayer
@@ -6037,7 +6038,12 @@ namespace CalamityMod.CalPlayer
 
         public override void FrameEffects()
         {
-            if (snowRuffianSet)
+            if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot ||
+                player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
+            {
+                player.head = mod.GetEquipSlot("NoHead", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
+            }
+            else if (snowRuffianSet)
             {
                 player.wings = mod.GetEquipSlot("SnowRuffWings", EquipType.Wings);
                 bool falling = player.gravDir == -1 ? player.velocity.Y < 0.05f : player.velocity.Y > 0.05f;
@@ -6098,10 +6104,6 @@ namespace CalamityMod.CalPlayer
                 player.legs = mod.GetEquipSlot("SirenLegAlt", EquipType.Legs);
                 player.body = mod.GetEquipSlot("SirenBodyAlt", EquipType.Body);
                 player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
-            }
-            else if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
-            {
-                player.head = mod.GetEquipSlot("NoHead", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
             }
             else
             {
@@ -8663,7 +8665,25 @@ namespace CalamityMod.CalPlayer
             }
 
             GiantIbanRobotOfDoom robotEntityInstance = (GiantIbanRobotOfDoom)Main.projectile[robot].modProjectile;
-            if (drawPlayer.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+            if (drawPlayer.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
+            {
+                Texture2D dashTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AndromedaBolt");
+                Rectangle frame = dashTexture.Frame(1, 4, 0, robotEntityInstance.RightIconCooldown / 4 % 4);
+
+                DrawData drawData = new DrawData(dashTexture,
+                                 drawPlayer.Center + new Vector2(0f, -8f) - Main.screenPosition,
+                                 frame,
+                                 Color.White,
+                                 Main.projectile[robot].rotation,
+                                 drawPlayer.Size / 2,
+                                 1f,
+                                 Main.projectile[robot].spriteDirection == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                                 1);
+                drawData.shader = drawPlayer.cBody;
+
+                Main.playerDrawData.Add(drawData);
+            }
+            else if (drawPlayer.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
             {
                 Texture2D robotTexture = ModContent.GetTexture(robotEntityInstance.Texture);
                 Rectangle frame = new Rectangle(robotEntityInstance.FrameX * robotTexture.Width / 3, robotEntityInstance.FrameY * robotTexture.Height / 7,

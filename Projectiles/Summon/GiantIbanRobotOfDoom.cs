@@ -10,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using System.Collections.Generic;
+using CalamityMod.Buffs.Cooldowns;
 
 namespace CalamityMod.Projectiles.Summon
 {
@@ -33,6 +34,7 @@ namespace CalamityMod.Projectiles.Summon
         public bool LeftBracketActive = false;
         public bool RightBracketActive = true; // This is supposed to be the default bracket, according to Iban. Ask him before changing this.
         public bool BottomBracketActive = false;
+        public bool RightIconActive => RightBracketActive || BottomBracketActive;
 
         public bool LeftIconActive = false;
         public bool TopIconActive = false;
@@ -40,9 +42,10 @@ namespace CalamityMod.Projectiles.Summon
         public int RightIconCooldown = 0;
         public const int RightIconAttackTime = 480; // 8 second wait
         public const int RightIconCooldownMax = RightIconAttackTime * 2; // 16 second wait.
+        public const float RightIconLungeSpeed = 28f;
 
         /// <summary>
-        /// This cooldown is set in <see cref="CalamityGlobalItem.PerformAndromedaAttacks"/>, not <see cref="GiantIbanRobotOfDoom"/>
+        /// This cooldown is set in <see cref="CalamityGlobalItem.PerformAndromedaAttacks"/>
         /// </summary>
         public int LaserCooldown = 0;
         public static Vector2 LightningShootOffset;
@@ -101,7 +104,7 @@ namespace CalamityMod.Projectiles.Summon
         }
         public void HandleCooldowns(Player player)
         {
-            if (RightIconCooldown > 0)
+            if (RightIconCooldown > 0 && RightIconActive)
             {
                 RightIconCooldown--; // The shooting of the lightning is done in the SetFrames method.
             }
@@ -122,6 +125,38 @@ namespace CalamityMod.Projectiles.Summon
             projectile.Center = player.Center + Vector2.UnitY * (6f + player.gfxOffY);
             player.Calamity().andromedaState = LeftIconActive ? AndromedaPlayerState.SmallRobot : AndromedaPlayerState.LargeRobot;
             player.channel = false;
+            if (RightIconCooldown > RightIconAttackTime)
+            {
+                player.Calamity().andromedaState = AndromedaPlayerState.SpecialAttack;
+
+                for (int i = 0; i < 4; i++)
+                {
+                    Vector2 spinningPoint = new Vector2(0f, -28f).RotatedBy(RightIconCooldown / 60f * MathHelper.TwoPi)
+                        .RotatedBy(projectile.velocity.ToRotation())
+                        .RotatedBy(MathHelper.Lerp(MathHelper.ToRadians(-40f), MathHelper.ToRadians(40f), i / 4f));
+
+                    Vector2 center = player.Center + new Vector2(6f, -2f).RotatedBy(player.velocity.ToRotation());
+
+                    int idx = Dust.NewDust(center, 0, 0, 226, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[idx].noGravity = true;
+                    Main.dust[idx].position = center + spinningPoint;
+                    Main.dust[idx].velocity = Vector2.Zero;
+                    spinningPoint *= -1f;
+
+                    idx = Dust.NewDust(center, 0, 0, 226, 0f, 0f, 100, default, 0.5f);
+                    Main.dust[idx].noGravity = true;
+                    Main.dust[idx].position = center + spinningPoint;
+                    Main.dust[idx].velocity = Vector2.Zero;
+                }
+                // Exit the charge mode early.
+                if ((player.velocity.X == 0f || player.velocity.Y == 0f) && RightIconCooldown < RightIconCooldownMax - 30f)
+                {
+                    ExitChargeModeEarly(player);
+                }
+                player.velocity = Vector2.Lerp(player.velocity, projectile.DirectionTo(Main.MouseWorld) * RightIconLungeSpeed, 0.225f);
+                projectile.rotation = player.velocity.ToRotation() + MathHelper.PiOver2;
+            }
+            else projectile.rotation = 0f;
             if (player.mount != null) // Kill any mounts
             {
                 player.mount.Dismount(player);
@@ -132,6 +167,12 @@ namespace CalamityMod.Projectiles.Summon
             if (Main.mouseRight && projectile.ai[0] <= 0f)
             {
                 projectile.ai[0] = 30f;
+                // Exit the charge mode early.
+                if (RightIconCooldown > RightIconAttackTime)
+                {
+                    ExitChargeModeEarly(player);
+                    return;
+                }
                 // If the player has any existing UIs, kill them all.
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<AndromedaUI_Background>()] > 0)
                 {
@@ -183,10 +224,6 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     CurrentFrame = 0;
                 }
-            }
-            else
-            {
-                SpecialLightningAttack(player);
             }
         }
         public void SetFlyingFrames(Player player)
@@ -260,8 +297,11 @@ namespace CalamityMod.Projectiles.Summon
         }
         public void SetSpriteDirection(Player player)
         {
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<AndromedaDeathLightning>()] > 0)
+            if (RightIconCooldown > RightIconAttackTime)
+            {
+                projectile.spriteDirection = (Math.Cos(projectile.rotation) > 0).ToDirectionInt();
                 return;
+            }
             if (player.velocity.X != 0) // So that the original sprite direction is maintained when there is no X movement.
             {
                 projectile.spriteDirection = (player.velocity.X > 0).ToDirectionInt();
@@ -378,131 +418,60 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
         }
-        public void SpecialLightningAttack(Player player)
+        public void ExitChargeModeEarly(Player player)
         {
-            int adjustedCooldownTime = RightIconCooldown - RightIconAttackTime;
-            // Ensure the projectile is in the correct frame range
-            if (adjustedCooldownTime > RightIconAttackTime - 10)
+            RightIconCooldown = RightIconAttackTime;
+            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), projectile.Center);
+            SpecialAttackExplosionDust(player);
+        }
+        public void SpecialAttackExplosionDust(Player player)
+        {
+            if (!Main.dedServ)
             {
-                CurrentFrame = 14;
-            }
-            // If it is, increment the frames
-            else if (adjustedCooldownTime > RightIconAttackTime - 40 && adjustedCooldownTime % 10f == 9f)
-            {
-                CurrentFrame++;
-            }
-
-            LightningShootOffset = new Vector2(projectile.spriteDirection == 1 ? 94f : -28f, -24f);
-            if (LeftIconActive)
-            {
-                LightningShootOffset = new Vector2(projectile.spriteDirection == 1 ? 14f : -8f, -16f);
-            }
-
-            // After a certain period of time, release a burst of 2 fast lightning bolts that arc with time.
-            if (adjustedCooldownTime == RightIconAttackTime - 40 && Main.myPlayer == projectile.owner)
-            {
-                for (int i = 0; i < 2; i++)
+                // Petal
+                for (int angleInterval = 0; angleInterval < 10; angleInterval++)
                 {
-                    Projectile.NewProjectileDirect(projectile.Center + LightningShootOffset, projectile.DirectionTo(Main.MouseWorld).RotatedBy(MathHelper.TwoPi / 2f * i) * 1.1f,
-                        ModContent.ProjectileType<AndromedaDeathLightning>(),
-                        (int)(SpecialLightningBaseDamage * player.AverageDamage()), 1.5f, projectile.owner, Main.rand.Next()).timeLeft = 20 * AndromedaDeathLightning.TrueTimeLeft / 2;
-
-                }
-                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), projectile.Center);
-                CurrentFrame = 18;
-            }
-            // After the initial burst, every 2.5 seconds, release slower bolts.
-            if (adjustedCooldownTime <= RightIconAttackTime - 40 &&
-                adjustedCooldownTime >= 80 &&
-                Main.myPlayer == projectile.owner)
-            {
-                if (adjustedCooldownTime == RightIconAttackTime - 160 && Main.myPlayer == projectile.owner)
-                {
-                    float startingAngle = Main.rand.NextFloat(MathHelper.TwoPi);
-                    for (int i = 0; i < 2; i++)
+                    for (int outwardness = 190; outwardness < 360; outwardness += 8)
                     {
-                        Projectile.NewProjectileDirect(projectile.Center + LightningShootOffset, Vector2.UnitY.RotatedBy(MathHelper.TwoPi / 2f * i + startingAngle) * 0.5f,
-                            ModContent.ProjectileType<AndromedaDeathLightning>(),
-                            (int)(SpecialLightningBaseDamage * player.AverageDamage()), 1.5f, projectile.owner, Main.rand.Next());
-                    }
-                    if (!Main.dedServ)
-                    {
-                        for (int i = 0; i < 60; i++)
+                        for (int speedSign = -1; speedSign <= 1; speedSign += 2)
                         {
-                            List<float> circularBurstSpeeds = new List<float>() { 8f, 13f, 19f };
-                            for (int j = 0; j < circularBurstSpeeds.Count; j++)
-                            {
-                                float angle = MathHelper.TwoPi / 32f * i;
-                                Dust dust = Dust.NewDustPerfect(projectile.Center + LightningShootOffset, 133);
-                                dust.velocity = player.velocity + angle.ToRotationVector2() * circularBurstSpeeds[j];
-                                dust.noGravity = true;
-                            }
+                            float angle = MathHelper.Lerp(0f, MathHelper.TwoPi / 10f, (outwardness - 190f) / 170f);
+                            Dust dust = Dust.NewDustPerfect(projectile.Center, 221);
+                            dust.noGravity = true;
+                            dust.scale = 1.6f;
+                            dust.position = player.Center + outwardness * (MathHelper.TwoPi / 10f * angleInterval).ToRotationVector2().RotatedBy(angle);
+                            dust.velocity = player.DirectionTo(dust.position) * 8f * speedSign;
+
+                            dust = Dust.NewDustPerfect(projectile.Center, 221);
+                            dust.noGravity = true;
+                            dust.scale = 1.6f;
+                            dust.position = player.Center + outwardness * (MathHelper.TwoPi / 10f * angleInterval).ToRotationVector2().RotatedBy(-angle);
+                            dust.velocity = player.DirectionTo(dust.position) * 8f * speedSign;
                         }
                     }
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), projectile.Center);
                 }
-                if (!Main.dedServ)
+                // Star
+                int pointsOnStar = 6;
+                for (int k = 0; k < 2; k++)
                 {
-                    float radius = LeftIconActive ? 10f : 24f;
-                    for (int i = 0; i < 16; i++)
+                    for (int i = 0; i < pointsOnStar; i++)
                     {
-                        float angle = MathHelper.TwoPi / 16f * i;
-                        Dust dust = Dust.NewDustPerfect(projectile.Center + LightningShootOffset + angle.ToRotationVector2() * radius, 133);
-                        dust.velocity = Vector2.Zero;
-                        if (Main.rand.NextBool(8))
+                        float angle = MathHelper.Pi * 1.5f - i * MathHelper.TwoPi / pointsOnStar;
+                        float nextAngle = MathHelper.Pi * 1.5f - ((i + 3) % pointsOnStar) * MathHelper.TwoPi / pointsOnStar;
+                        if (k == 1)
+                            nextAngle = MathHelper.Pi * 1.5f - (i + 2) * MathHelper.TwoPi / pointsOnStar;
+                        Vector2 start = angle.ToRotationVector2();
+                        Vector2 end = nextAngle.ToRotationVector2();
+                        int pointsOnStarSegment = 24;
+                        for (int j = 0; j < pointsOnStarSegment; j++)
                         {
-                            dust.velocity.X = -projectile.spriteDirection * 2.4f;
-                            if (LeftIconActive)
-                            {
-                                dust.velocity.X = -projectile.spriteDirection * 2.4f;
-                            }
-                        }
-                        dust.fadeIn = -0.5f;
-                        dust.noGravity = true;
-                    }
-                }
-            }
-
-            // Reduce the player's max Y speed
-            player.velocity.Y = MathHelper.Clamp(player.velocity.Y, -7f, 7f);
-
-            // Light burst effect
-            if (adjustedCooldownTime <= 40)
-            {
-                // Begin frame incrementation again 
-                if (adjustedCooldownTime == 40)
-                {
-                    CurrentFrame++;
-                }
-                // At the apex of the light burst, cause all lightning to disappear and play a sound
-                if (adjustedCooldownTime == 20)
-                {
-                    for (int i = 0; i < Main.projectile.Length; i++)
-                    {
-                        if (Main.projectile[i].active &&
-                            Main.projectile[i].type == ModContent.ProjectileType<AndromedaDeathLightning>() &&
-                            Main.projectile[i].owner == projectile.owner)
-                        {
-                            Main.projectile[i].Kill();
+                            Dust dust = Dust.NewDustPerfect(player.Center, 221);
+                            dust.noGravity = true;
+                            dust.scale = 1.9f;
+                            dust.velocity = Vector2.Lerp(start, end, j / (float)pointsOnStarSegment) * 13f * new Vector2(1.414f, 1f);
                         }
                     }
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire"), projectile.Center);
-                    CurrentFrame++;
                 }
-                float lightRequested;
-                if (adjustedCooldownTime >= 25f)
-                {
-                    lightRequested = MathHelper.Lerp(0f, 1f, 1f - (adjustedCooldownTime - 20f) / 20f); // Begin lighting up
-                }
-                else if (adjustedCooldownTime >= 15f)
-                {
-                    lightRequested = 1f; // Hold the light for 10 frames
-                }
-                else
-                {
-                    lightRequested = MathHelper.Lerp(1f, 0f, 1f - adjustedCooldownTime / 20f); // And fade back to normalcy
-                }
-                MoonlordDeathDrama.RequestLight(lightRequested, projectile.Center);
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => false; // Drawing is done completely by the player.

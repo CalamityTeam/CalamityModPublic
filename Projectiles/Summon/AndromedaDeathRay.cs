@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
     public class AndromedaDeathRay : ModProjectile
     {
         // How long this laser can exist before it is deleted.
-        public const int TrueTimeLeft = 35;
+        public const int TrueTimeLeft = 25;
 
         // Pretty self explanatory
         private const float maximumLength = 2000f;

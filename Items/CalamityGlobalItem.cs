@@ -660,7 +660,8 @@ namespace CalamityMod.Items
                 GiantIbanRobotOfDoom robotModProjectile = ((GiantIbanRobotOfDoom)robot.modProjectile);
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<AndromedaRegislash>()] <= 0 &&
                     robotModProjectile.TopIconActive &&
-                    robotModProjectile.RightIconCooldown <= GiantIbanRobotOfDoom.RightIconAttackTime) // "Melee" attack
+                    (robotModProjectile.RightIconCooldown <= GiantIbanRobotOfDoom.RightIconAttackTime ||
+                     !robotModProjectile.RightIconActive)) // "Melee" attack
                 {
                     int damage = player.Calamity().andromedaState == AndromedaPlayerState.SmallRobot ? GiantIbanRobotOfDoom.RegicideBaseDamageSmall : GiantIbanRobotOfDoom.RegicideBaseDamageLarge;
                     if (item.Calamity().rogue)
@@ -712,9 +713,10 @@ namespace CalamityMod.Items
                     (robotModProjectile.LeftBracketActive || robotModProjectile.RightBracketActive) &&
                     !robotModProjectile.BottomBracketActive &&
                     robotModProjectile.LaserCooldown <= 0 &&
-                    robotModProjectile.RightIconCooldown <= 0) // "Ranged" attack
+                    (robotModProjectile.RightIconCooldown <= GiantIbanRobotOfDoom.RightIconAttackTime ||
+                     !robotModProjectile.RightIconActive)) // "Ranged" attack
                 {
-                    robotModProjectile.LaserCooldown = AndromedaDeathRay.TrueTimeLeft * 2 + 25;
+                    robotModProjectile.LaserCooldown = AndromedaDeathRay.TrueTimeLeft * 2;
                     if (player.Calamity().andromedaState == AndromedaPlayerState.SmallRobot)
                     {
                         robotModProjectile.LaserCooldown = AndromedaDeathRay.TrueTimeLeft + 1;

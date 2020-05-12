@@ -350,11 +350,24 @@ namespace CalamityMod.Projectiles.Summon.AndromedaUI
                     Main.blockMouse = true;
                     if (Main.mouseLeft && Main.projectile[(int)projectile.localAI[0]].ai[0] <= 0f)
                     {
+                        FadeoutTime = FadeoutTimeMax;
                         RightIconCooldown = GiantIbanRobotOfDoom.RightIconCooldownMax;
-                        Main.player[projectile.owner].AddBuff(ModContent.BuffType<AndromedaCooldown>(), RightIconCooldown);
                         // A cooldown value. This ensures that the game will not register another click
                         // one frame after the first one.
                         Main.projectile[(int)projectile.localAI[0]].ai[0] = 30f;
+
+                        // Explosion effect
+                        if (!Main.dedServ)
+                        {
+                            for (int i = 0; i < 80; i++)
+                            {
+                                Dust dust = Dust.NewDustPerfect(Main.projectile[(int)projectile.localAI[0]].Center, Utils.SelectRandom(Main.rand, 226, 263));
+                                dust.velocity = Main.rand.NextVector2Circular(14f, 14f);
+                                dust.fadeIn = 1.1f;
+                                dust.noGravity = true;
+                            }
+                        }
+                        Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), projectile.Center);
                     }
                 }
             }
