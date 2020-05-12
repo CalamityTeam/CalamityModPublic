@@ -45,12 +45,14 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<NightsRay>());
+            recipe.AddIngredient(ModContent.ItemType<ValkyrieRay>());
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CarnageRay>());
+            recipe.AddIngredient(ModContent.ItemType<ValkyrieRay>());
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
