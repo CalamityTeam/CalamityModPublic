@@ -279,7 +279,7 @@ namespace CalamityMod.NPCs
 
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Cyborg, NPCID.Steampunker, NPCID.Wizard, NPCID.WitchDoctor, NPCID.DD2Bartender, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedGolemBoss);
 
-				// If Golem has never been killed, send messages about PBG and Ravager
+				// If Golem has never been killed, send messages about PBG
 				if (!NPC.downedGolemBoss)
                 {
                     string key = "Mods.CalamityMod.BabyBossText";
@@ -1741,6 +1741,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.QueenBee:
+                    DropHelper.DropItemCondition(npc, ItemID.Stinger, !Main.expertMode, 5, 10);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
                     break;
 
@@ -1827,6 +1828,12 @@ namespace CalamityMod.NPCs
             if (CalamityMod.dungeonEnemyBuffList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Ectoblood>(), 2, 1, Main.expertMode ? 3 : 1);
+            }
+
+            // Every type of moss hornet can drop stingers
+            if (CalamityMod.mossHornetList.Contains(npc.type))
+            {
+                DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 1f : 0.6666f);
             }
         }
         #endregion

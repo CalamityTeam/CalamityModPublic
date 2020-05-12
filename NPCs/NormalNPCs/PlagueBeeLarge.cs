@@ -100,7 +100,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
 		public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PlagueCellCluster>(), Main.rand.Next(2, 4));
+			DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 0.5f : 0.25f);
+			DropHelper.DropItem(npc, ModContent.ItemType<PlagueCellCluster>(), 2, 3);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
