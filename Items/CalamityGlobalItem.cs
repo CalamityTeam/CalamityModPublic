@@ -2601,6 +2601,7 @@ Provides heat and cold protection in Death Mode";
 
                     // Queen Bee
                     case ItemID.QueenBeeBossBag:
+                        DropHelper.DropItem(player, ItemID.Stinger, 8, 12);
                         DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
                         break;
 

@@ -10,6 +10,7 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.World;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
@@ -34,10 +35,7 @@ namespace CalamityMod.Items.TreasureBags
             item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void OpenBossBag(Player player)
         {
@@ -45,6 +43,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<PlagueCellCluster>(), 13, 17);
+            DropHelper.DropItem(player, ItemID.Stinger, 4, 8);
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<VirulentKatana>(), 3); // Virulence
