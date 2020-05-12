@@ -40,15 +40,9 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
@@ -78,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PlasmaRod>());
-            recipe.AddIngredient(ModContent.ItemType<Zapper>());
+            recipe.AddIngredient(ModContent.ItemType<Lazhar>());
             recipe.AddIngredient(ModContent.ItemType<SpectreRifle>());
             recipe.AddIngredient(ModContent.ItemType<TwistingNether>(), 3);
             recipe.AddTile(TileID.LunarCraftingStation);
