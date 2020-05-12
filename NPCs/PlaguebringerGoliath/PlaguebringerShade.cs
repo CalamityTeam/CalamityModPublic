@@ -673,7 +673,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
-		public override bool PreNPCLoot(NPC npc) => !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()); //don't drop items in the PBG fight
+		public override bool PreNPCLoot() => !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>()); //don't drop items in the PBG fight
 
         public override void NPCLoot()
         {
