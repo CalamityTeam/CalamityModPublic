@@ -61,14 +61,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				}
 				if (flag && Main.myPlayer == projectile.owner && fireLasers)
 				{
-                    int weaponDamage2 = player.GetWeaponDamage(player.inventory[player.selectedItem]);
+                    int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                     bool flag2 = player.channel && !player.noItems && !player.CCed;
 					if (flag2)
 					{
 						// Consume 2 ammo per shot
-						CalamityGlobalItem.ConsumeAdditionalAmmo(player, player.inventory[player.selectedItem], 2);
+						CalamityGlobalItem.ConsumeAdditionalAmmo(player, player.ActiveItem(), 2);
 
-						float scaleFactor = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+						float scaleFactor = player.ActiveItem().shootSpeed * projectile.scale;
 						Vector2 value2 = vector;
 						Vector2 value3 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY) - value2;
 						if (player.gravDir == -1f)

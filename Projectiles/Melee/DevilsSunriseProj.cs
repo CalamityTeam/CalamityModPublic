@@ -67,8 +67,8 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     float scaleFactor6 = 1f;
 
-                    if (player.inventory[player.selectedItem].shoot == projectile.type)
-                        scaleFactor6 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                    if (player.ActiveItem().shoot == projectile.type)
+                        scaleFactor6 = player.ActiveItem().shootSpeed * projectile.scale;
 
                     Vector2 vector13 = Main.MouseWorld - vector;
                     vector13.Normalize();

@@ -591,7 +591,7 @@ namespace CalamityMod.CalPlayer
 				if (modPlayer.ZoneAbyss || modPlayer.ZoneSulphur)
 					canSulphurFish = true;
 
-				Item item = player.inventory[player.selectedItem];
+				Item item = player.ActiveItem();
 				if (!canSulphurFish || item.fishingPole <= 0 || item.holdStyle != 1)
 					fishingLevel = -1;
 			}

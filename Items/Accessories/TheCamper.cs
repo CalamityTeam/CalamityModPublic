@@ -68,13 +68,13 @@ namespace CalamityMod.Items.Accessories
                             }
                         }
                     }
-                    if (player.HeldItem != null && !player.HeldItem.IsAir && player.HeldItem.stack > 0)
+                    if (player.ActiveItem() != null && !player.ActiveItem().IsAir && player.ActiveItem().stack > 0)
                     {
-                        bool summon = player.HeldItem.summon;
-                        bool rogue = player.HeldItem.Calamity().rogue;
-                        bool melee = player.HeldItem.melee;
-                        bool ranged = player.HeldItem.ranged;
-                        bool magic = player.HeldItem.magic;
+                        bool summon = player.ActiveItem().summon;
+                        bool rogue = player.ActiveItem().Calamity().rogue;
+                        bool melee = player.ActiveItem().melee;
+                        bool ranged = player.ActiveItem().ranged;
+                        bool magic = player.ActiveItem().magic;
                         if (summon)
                         {
                             player.minionKB += 0.10f;

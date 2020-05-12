@@ -650,7 +650,7 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
-            if (player.HeldItem.type == ModContent.ItemType<IgneousExaltation>())
+            if (player.ActiveItem().type == ModContent.ItemType<IgneousExaltation>())
             {
                 bool hasBlades = false;
                 for (int i = 0; i < Main.projectile.Length; i++)
@@ -684,7 +684,7 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
-            if (player.HeldItem.type == ModContent.ItemType<ColdDivinity>())
+            if (player.ActiveItem().type == ModContent.ItemType<ColdDivinity>())
             {
                 bool canContinue = true;
                 int count = 0;

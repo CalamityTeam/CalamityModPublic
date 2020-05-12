@@ -79,12 +79,12 @@ namespace CalamityMod.Projectiles.Typeless
             if (projectile.velocity == Vector2.Zero)
             {
                 // Immediately die if the player is not holding the spear
-                if (player.HeldItem == null)
+                if (player.ActiveItem() == null)
                 {
                     projectile.Kill();
                     return;
                 }
-                if (player.HeldItem.type != ModContent.ItemType<RelicOfDeliverance>())
+                if (player.ActiveItem().type != ModContent.ItemType<RelicOfDeliverance>())
                 {
                     projectile.Kill();
                     return;
