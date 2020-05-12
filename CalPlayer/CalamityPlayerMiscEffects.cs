@@ -1278,7 +1278,7 @@ namespace CalamityMod.CalPlayer
 				player.endurance += 0.01f;
 				player.statDefense += 2;
 			}
-			if (!modPlayer.polarisBoost || player.inventory[player.selectedItem].type != ModContent.ItemType<PolarisParrotfish>())
+			if (!modPlayer.polarisBoost || player.ActiveItem().type != ModContent.ItemType<PolarisParrotfish>())
 			{
 				modPlayer.polarisBoost = false;
 				if (player.FindBuffIndex(ModContent.BuffType<PolarisBuff>()) > -1)
@@ -2534,27 +2534,27 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (CalamityMod.scopedWeaponList.Contains(player.inventory[player.selectedItem].type))
+			if (CalamityMod.scopedWeaponList.Contains(player.ActiveItem().type))
 				player.scope = true;
 
-			if (CalamityMod.highTestFishList.Contains(player.inventory[player.selectedItem].type))
+			if (CalamityMod.highTestFishList.Contains(player.ActiveItem().type))
 				player.accFishingLine = true;
 
-			if (CalamityMod.boomerangList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+			if (CalamityMod.boomerangList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingDamage += 0.1f;
 
-			if (CalamityMod.javelinList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+			if (CalamityMod.javelinList.Contains(player.ActiveItem().type) && player.invis)
 				player.armorPenetration += 5;
 
-			if (CalamityMod.flaskBombList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+			if (CalamityMod.flaskBombList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingVelocity += 0.1f;
 
-			if (CalamityMod.spikyBallList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+			if (CalamityMod.spikyBallList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingCrit += 10;
 
 			if (modPlayer.planarSpeedBoost != 0)
 			{
-				if (player.inventory[player.selectedItem].type != ModContent.ItemType<PrideHuntersPlanarRipper>())
+				if (player.ActiveItem().type != ModContent.ItemType<PrideHuntersPlanarRipper>())
 					modPlayer.planarSpeedBoost = 0;
 			}
 
@@ -2564,10 +2564,10 @@ namespace CalamityMod.CalPlayer
 					!modPlayer.ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly &&
 					!player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
 
-				if (player.ZoneUnderworldHeight && !modPlayer.ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.inventory[player.selectedItem].type))
+				if (player.ZoneUnderworldHeight && !modPlayer.ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
 					player.endurance += 0.03f;
 
-				if ((player.ZoneDesert || player.ZoneUndergroundDesert) && CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type))
+				if ((player.ZoneDesert || player.ZoneUndergroundDesert) && CalamityMod.daggerList.Contains(player.ActiveItem().type))
 					player.scope = true;
 
 				if (modPlayer.ZoneSunkenSea)
@@ -2576,7 +2576,7 @@ namespace CalamityMod.CalPlayer
 					player.ignoreWater = true;
 				}
 
-				if (player.ZoneSnow && CalamityMod.iceWeaponList.Contains(player.inventory[player.selectedItem].type))
+				if (player.ZoneSnow && CalamityMod.iceWeaponList.Contains(player.ActiveItem().type))
 					player.statDefense += 5;
 
 				if (modPlayer.ZoneAstral)
@@ -2585,7 +2585,7 @@ namespace CalamityMod.CalPlayer
 						player.wingTimeMax = (int)((double)player.wingTimeMax * 1.05);
 				}
 
-				if (player.ZoneJungle && CalamityMod.natureWeaponList.Contains(player.inventory[player.selectedItem].type))
+				if (player.ZoneJungle && CalamityMod.natureWeaponList.Contains(player.ActiveItem().type))
 					player.AddBuff(BuffID.DryadsWard, 5, true); // Dryad's Blessing
 
 				if (modPlayer.ZoneAbyss)
@@ -2605,7 +2605,7 @@ namespace CalamityMod.CalPlayer
 					player.endurance += 0.05f;
 				}
 
-				if (player.ZoneRockLayerHeight && ZoneForest && CalamityMod.flaskBombList.Contains(player.inventory[player.selectedItem].type))
+				if (player.ZoneRockLayerHeight && ZoneForest && CalamityMod.flaskBombList.Contains(player.ActiveItem().type))
 					player.blackBelt = true;
 
 				if (player.ZoneHoly)
@@ -3160,7 +3160,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Navy Fishing Rod's electric aura when in-use
-			if (player.inventory[player.selectedItem].type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
+			if (player.ActiveItem().type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
 			{
 				const int FramesPerHit = 120;
 

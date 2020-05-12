@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
 
 			Item heldItem = null;
 			if (player.selectedItem >= 0 && player.selectedItem < Main.maxInventory)
-				heldItem = player.inventory[player.selectedItem];
+				heldItem = player.ActiveItem();
 
 			// Replace the vanilla tooltip with a full stat readout
 			foreach (TooltipLine l in list)

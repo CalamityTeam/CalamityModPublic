@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Typeless
             Player player = Main.player[projectile.owner];
             projectile.Center = player.Center;
 			//if player is dead, null, or stops holding the Lion Heart, kill the projectile
-			if (player.dead || player is null || player.HeldItem.type != ModContent.ItemType<LionHeart>())
+			if (player.dead || player is null || player.ActiveItem().type != ModContent.ItemType<LionHeart>())
 			{
 				projectile.Kill();
 			}

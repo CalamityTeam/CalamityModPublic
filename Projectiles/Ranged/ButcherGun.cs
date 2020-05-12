@@ -85,7 +85,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.ai[1] = (float)(num40 - num41 * num39);
                 flag15 = true;
             }
-            bool flag16 = player.channel && player.HasAmmo(player.inventory[player.selectedItem], true) && !player.noItems && !player.CCed;
+            bool flag16 = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
             if (projectile.localAI[0] > 0f)
             {
                 projectile.localAI[0] -= 1f;
@@ -103,13 +103,13 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 int num42 = 14;
                 float scaleFactor11 = 14f;
-                int weaponDamage2 = player.GetWeaponDamage(player.inventory[player.selectedItem]);
-                float weaponKnockback2 = player.inventory[player.selectedItem].knockBack;
+                int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
+                float weaponKnockback2 = player.ActiveItem().knockBack;
                 if (flag16)
                 {
-                    player.PickAmmo(player.inventory[player.selectedItem], ref num42, ref scaleFactor11, ref flag16, ref weaponDamage2, ref weaponKnockback2, false);
-                    weaponKnockback2 = player.GetWeaponKnockback(player.inventory[player.selectedItem], weaponKnockback2);
-                    float scaleFactor12 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                    player.PickAmmo(player.ActiveItem(), ref num42, ref scaleFactor11, ref flag16, ref weaponDamage2, ref weaponKnockback2, false);
+                    weaponKnockback2 = player.GetWeaponKnockback(player.ActiveItem(), weaponKnockback2);
+                    float scaleFactor12 = player.ActiveItem().shootSpeed * projectile.scale;
                     Vector2 vector19 = vector;
                     Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - vector19;
                     if (player.gravDir == -1f)

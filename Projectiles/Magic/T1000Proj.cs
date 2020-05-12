@@ -75,11 +75,11 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 if (flag && Main.myPlayer == projectile.owner)
                 {
-                    int weaponDamage2 = player.GetWeaponDamage(player.inventory[player.selectedItem]);
-                    bool flag2 = player.channel && player.CheckMana(player.inventory[player.selectedItem].mana, true, false) && !player.noItems && !player.CCed;
+                    int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
+                    bool flag2 = player.channel && player.CheckMana(player.ActiveItem().mana, true, false) && !player.noItems && !player.CCed;
                     if (flag2)
                     {
-                        float scaleFactor = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                        float scaleFactor = player.ActiveItem().shootSpeed * projectile.scale;
                         Vector2 value2 = vector;
                         Vector2 value3 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - value2;
                         if (player.gravDir == -1f)

@@ -2726,7 +2726,7 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.RageHotKey.JustPressed)
             {
-                if (gaelRageCooldown == 0 && player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>() &&
+                if (gaelRageCooldown == 0 && player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() &&
                     rage > 0)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)player.position.X, (int)player.position.Y);
@@ -3376,12 +3376,12 @@ namespace CalamityMod.CalPlayer
         {
             CalamityPlayerMiscEffects.CalamityPostUpdateMiscEffects(player, mod);
 
-            if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>())
+            if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
             {
                 gaelSwitchTimer = GaelSwitchPhase.LoseRage;
                 rage += (int)MathHelper.Min(5, 10000 - rage);
             }
-            else if (player.HeldItem.type != ModContent.ItemType<GaelsGreatsword>() && gaelSwitchTimer == GaelSwitchPhase.LoseRage)
+            else if (player.ActiveItem().type != ModContent.ItemType<GaelsGreatsword>() && gaelSwitchTimer == GaelSwitchPhase.LoseRage)
             {
                 rage = 0;
                 gaelSwitchTimer = GaelSwitchPhase.None;
@@ -3584,7 +3584,7 @@ namespace CalamityMod.CalPlayer
         #region Pre Kill
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (invincible && player.inventory[player.selectedItem].type != ModContent.ItemType<ColdheartIcicle>())
+            if (invincible && player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>())
             {
                 if (player.statLife <= 0)
                 {
@@ -4410,7 +4410,7 @@ namespace CalamityMod.CalPlayer
                         {
                             target.AddBuff(BuffID.Midas, 120, false);
                         }
-                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.inventory[player.selectedItem].type))
+                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
                         {
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
@@ -4728,7 +4728,7 @@ namespace CalamityMod.CalPlayer
                         {
                             target.AddBuff(BuffID.Midas, 120, false);
                         }
-                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.inventory[player.selectedItem].type))
+                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
                         {
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
@@ -4745,7 +4745,7 @@ namespace CalamityMod.CalPlayer
                         target.AddBuff(BuffID.Venom, 120, false);
                     }
                 }
-                if (proj.type == ProjectileID.IchorArrow && player.inventory[player.selectedItem].type == ModContent.ItemType<RaidersGlory>())
+                if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
                 {
                     target.AddBuff(BuffID.Midas, 300, false);
                 }
@@ -4985,7 +4985,7 @@ namespace CalamityMod.CalPlayer
             bool isSummon = proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type);
             bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.Calamity().rogue;
 
-            Item heldItem = player.inventory[player.selectedItem];
+            Item heldItem = player.ActiveItem();
 
             if (isTrueMelee && soaring)
             {
@@ -5629,7 +5629,7 @@ namespace CalamityMod.CalPlayer
         {
 			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
 			{
-				if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>()
+				if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>()
 					&& proj.active && proj.hostile && player.altFunctionUse == 2 && Main.rand.NextBool(2))
 				{
 					for (int j = 0; j < 3; j++)
@@ -6141,7 +6141,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (lol || (invincible && player.inventory[player.selectedItem].type != ModContent.ItemType<ColdheartIcicle>()))
+            if (lol || (invincible && player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>()))
             {
                 return false;
             }
@@ -6233,7 +6233,7 @@ namespace CalamityMod.CalPlayer
             {
                 damage = (int)(damage * 0.7);
             }
-			if (player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] > 0 && player.HeldItem.type == ModContent.ItemType<LionHeart>())
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] > 0 && player.ActiveItem().type == ModContent.ItemType<LionHeart>())
             {
                 damage = (int)(damage * 0.5);
             }
@@ -9296,7 +9296,7 @@ namespace CalamityMod.CalPlayer
             // This doesn't trigger stealth strike effects (ConsumeStealthStrike instead of StealthStrike)
             // so non-rogue weapons can't call lasers down from the sky and such.
             // Using any item which deals no damage or is a tool doesn't consume stealth.
-            Item it = player.HeldItem;
+            Item it = player.ActiveItem();
             bool hasDamage = it.damage > 0;
             bool hasHitboxes = !it.noMelee || it.shoot > 0;
             bool isPickaxe = it.pick > 0;
@@ -9354,7 +9354,7 @@ namespace CalamityMod.CalPlayer
                     stealthGenMoving += 0.15f;
             }
 
-            if (CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            if (CalamityMod.daggerList.Contains(player.ActiveItem().type) && player.invis)
             {
                 stealthGenStandstill += 0.08f;
                 stealthGenMoving += 0.08f;
