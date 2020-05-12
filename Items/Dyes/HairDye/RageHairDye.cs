@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Dyes
+namespace CalamityMod.Items.Dyes.HairDye
 {
     public class RageHairDye : ModItem
     {

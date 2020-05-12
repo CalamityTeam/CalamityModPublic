@@ -146,12 +146,12 @@ namespace CalamityMod.Projectiles.Magic
             {
                 int num42 = ModContent.ProjectileType<GhastlyBlast>();
                 float scaleFactor11 = 6f;
-                int weaponDamage2 = player.GetWeaponDamage(player.inventory[player.selectedItem]);
-                float weaponKnockback2 = player.inventory[player.selectedItem].knockBack;
+                int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
+                float weaponKnockback2 = player.ActiveItem().knockBack;
                 if (flag16)
                 {
-                    weaponKnockback2 = player.GetWeaponKnockback(player.inventory[player.selectedItem], weaponKnockback2);
-                    float scaleFactor12 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                    weaponKnockback2 = player.GetWeaponKnockback(player.ActiveItem(), weaponKnockback2);
+                    float scaleFactor12 = player.ActiveItem().shootSpeed * projectile.scale;
                     Vector2 vector19 = vector;
                     Vector2 value18 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - vector19;
                     if (player.gravDir == -1f)

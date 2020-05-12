@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -23,7 +24,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Cryogen
 {
     [AutoloadBossHead]
@@ -167,12 +167,9 @@ namespace CalamityMod.NPCs.Cryogen
                 npc.rotation = npc.velocity.X * 0.1f;
             }
 
-            if (!Main.raining && !CalamityWorld.bossRushActive)
-            {
-				CalamityUtils.StartRain();
-            }
+			CalamityMod.StopRain();
 
-            if (!player.active || player.dead)
+			if (!player.active || player.dead)
             {
                 npc.TargetClosest(false);
                 player = Main.player[npc.target];
@@ -732,6 +729,25 @@ namespace CalamityMod.NPCs.Cryogen
                     teleportLocationX = 0;
                     iceShard = 0;
                     npc.netUpdate = true;
+
+					int chance = 100;
+					if (DateTime.Now.Month == 4 && DateTime.Now.Day == 1)
+					{
+						chance = 20;
+					}
+					if (Main.rand.NextBool(chance))
+					{
+						string key = "Mods.CalamityMod.CryogenBossText";
+						Color messageColor = Color.Cyan;
+						if (Main.netMode == NetmodeID.SinglePlayer)
+						{
+							Main.NewText(Language.GetTextValue(key), messageColor);
+						}
+						else if (Main.netMode == NetmodeID.Server)
+						{
+							NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+						}
+					}
                 }
             }
 			else if (npc.ai[0] == 5f)

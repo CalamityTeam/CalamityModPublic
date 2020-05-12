@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,13 +15,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 54;
+            item.damage = 49;
             item.magic = true;
             item.mana = 12;
             item.width = 42;
             item.height = 22;
-            item.useTime = 12;
-            item.useAnimation = 12;
+            item.useTime = 15;
+            item.useAnimation = 15;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 3f;
@@ -32,10 +33,10 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shoot = ProjectileID.LaserMachinegunLaser;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int num6 = 3;
-            for (int index = 0; index < num6; ++index)
+            int beamAmt = 3;
+            for (int index = 0; index < beamAmt; ++index)
             {
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }

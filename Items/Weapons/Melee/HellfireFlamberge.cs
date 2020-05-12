@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.width = 58;
-            item.damage = 102;
+            item.damage = 90;
             item.melee = true;
             item.useAnimation = 20;
             item.useStyle = 1;
@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
+				float damageMult = 0.5f;
                 switch (index)
                 {
                     case 0:
@@ -51,11 +52,12 @@ namespace CalamityMod.Items.Weapons.Melee
                         break;
                     case 2:
                         type = ModContent.ProjectileType<ChaosFlameLarge>();
+						damageMult = 0.75f;
                         break;
                     default:
                         break;
                 }
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * damageMult), knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

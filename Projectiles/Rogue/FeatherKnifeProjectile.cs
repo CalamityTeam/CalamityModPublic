@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class FeatherKnifeProjectile : ModProjectile
     {
-        private int featherTimer = 35;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Knife");
@@ -36,21 +34,19 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (featherTimer == 0)
+            if (projectile.timeLeft % 35 == 0)
             {
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int proj = Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.4), projectile.knockBack, projectile.owner);
+                    int proj = Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.4), projectile.knockBack, projectile.owner);
 					Main.projectile[proj].Calamity().forceRogue = true;
                 }
-                featherTimer = 35;
             }
-            featherTimer--;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            int proj = Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)((double)projectile.damage * 0.69), projectile.knockBack, projectile.owner);
+            int proj = Projectile.NewProjectile(projectile.position, new Vector2(projectile.velocity.X / 20, 2), ModContent.ProjectileType<StickyFeatherAero>(), (int)(projectile.damage * 0.69), projectile.knockBack, projectile.owner);
 			Main.projectile[proj].Calamity().forceRogue = true;
         }
 

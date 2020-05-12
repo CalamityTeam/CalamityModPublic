@@ -97,7 +97,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			// Percent life remaining
-			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
@@ -170,7 +170,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					if (npc.velocity.Y > 16f)
 						npc.velocity.Y = 16f;
 
-					if ((double)npc.position.Y > Main.worldSurface * 16.0)
+					if (npc.position.Y > Main.worldSurface * 16.0)
                     {
                         for (int x = 0; x < 200; x++)
                         {
@@ -208,14 +208,14 @@ namespace CalamityMod.NPCs.SlimeGod
 			{
 				if (npc.Calamity().newAI[2] == 0f && npc.life > 0)
 				{
-					npc.Calamity().newAI[2] = (float)npc.lifeMax;
+					npc.Calamity().newAI[2] = npc.lifeMax;
 				}
 				if (npc.life > 0)
 				{
-					int num660 = (int)((double)npc.lifeMax * 0.05);
-					if ((float)(npc.life + num660) < npc.Calamity().newAI[2])
+					int num660 = (int)(npc.lifeMax * 0.05);
+					if ((npc.life + num660) < npc.Calamity().newAI[2])
 					{
-						npc.Calamity().newAI[2] = (float)npc.life;
+						npc.Calamity().newAI[2] = npc.life;
 						npc.Calamity().newAI[3] = 1f;
 					}
 				}
@@ -281,8 +281,8 @@ namespace CalamityMod.NPCs.SlimeGod
 								int playerPosX = (int)player.Center.X / 16 + teleportX;
 								int playerPosY = (int)player.Center.Y / 16 - teleportY;
 
-								npc.ai[2] = (float)playerPosX;
-								npc.ai[3] = (float)playerPosY;
+								npc.ai[2] = playerPosX;
+								npc.ai[3] = playerPosY;
 								npc.localAI[1] = 1f;
 								npc.netUpdate = true;
 							}
@@ -295,7 +295,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							// Teleport to location
 							if (npc.alpha == 255)
 							{
-								Vector2 position = new Vector2(npc.ai[2] * 16f - (float)(npc.width / 2), npc.ai[3] * 16f - (float)(npc.height / 2));
+								Vector2 position = new Vector2(npc.ai[2] * 16f - (npc.width / 2), npc.ai[3] * 16f - (npc.height / 2));
 								npc.position = position;
 							}
 
@@ -304,7 +304,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							if (npc.alpha < 55)
 							{
 								npc.alpha = 55;
-								npc.localAI[0] = (vectorCenter.X - player.Center.X < 0 ? 1f : -1f);
+								npc.localAI[0] = vectorCenter.X - player.Center.X < 0 ? 1f : -1f;
 								npc.localAI[1] = 2f;
 							}
 							npc.netUpdate = true;
@@ -315,7 +315,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							npc.damage = 0;
 
 							// Rotation
-							npc.rotation += (float)npc.direction * 0.3f;
+							npc.rotation += npc.direction * 0.3f;
 
 							// Velocity boost
 							if (npc.localAI[1] == 2f)
@@ -325,11 +325,11 @@ namespace CalamityMod.NPCs.SlimeGod
 							}
 
 							// Spin velocity
-							float velocity = (float)(Math.PI * 2D) / (360f - (npc.ai[1] - ai1));
-							npc.velocity = npc.velocity.RotatedBy((double)(-(double)velocity * npc.localAI[0]));
+							float velocity = MathHelper.TwoPi / (180f - (npc.ai[1] - ai1));
+							npc.velocity = npc.velocity.RotatedBy(-(double)velocity * npc.localAI[0]);
 
 							// Reset and charge at target
-							if (npc.ai[1] >= ai1 + 200f)
+							if (npc.ai[1] >= ai1 + 100f)
 							{
 								npc.ai[1] = 0f;
 								npc.ai[2] = 0f;
@@ -343,18 +343,18 @@ namespace CalamityMod.NPCs.SlimeGod
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								if (npc.ai[1] % 20f == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
+								if (npc.ai[1] % 10f == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
 								{
 									if (expertMode && Main.rand.NextBool(2))
 									{
 										float num179 = revenge ? 2f : 3f;
 										if (CalamityWorld.bossRushActive)
 											num179 = 12f;
-										Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-										float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+										Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+										float num180 = player.position.X + player.width * 0.5f - value9.X;
 										float num181 = Math.Abs(num180) * 0.1f;
-										float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-										float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+										float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
+										float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 										npc.netUpdate = true;
 										num183 = num179 / num183;
 										num180 *= num183;
@@ -372,9 +372,9 @@ namespace CalamityMod.NPCs.SlimeGod
 										}
 										value9.X += num180;
 										value9.Y += num182;
-										num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-										num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-										num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+										num180 = player.position.X + player.width * 0.5f - value9.X;
+										num182 = player.position.Y + player.height * 0.5f - value9.Y;
+										num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 										num183 = num179 / num183;
 										num180 *= num183;
 										num182 *= num183;
@@ -385,11 +385,11 @@ namespace CalamityMod.NPCs.SlimeGod
 										float num179 = revenge ? 6f : 5f;
 										if (CalamityWorld.bossRushActive)
 											num179 = 12f;
-										Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-										float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+										Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+										float num180 = player.position.X + player.width * 0.5f - value9.X;
 										float num181 = Math.Abs(num180) * 0.1f;
-										float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-										float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+										float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
+										float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 										npc.netUpdate = true;
 										num183 = num179 / num183;
 										num180 *= num183;
@@ -407,9 +407,9 @@ namespace CalamityMod.NPCs.SlimeGod
 										}
 										value9.X += num180;
 										value9.Y += num182;
-										num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-										num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-										num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+										num180 = player.position.X + player.width * 0.5f - value9.X;
+										num182 = player.position.Y + player.height * 0.5f - value9.Y;
+										num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 										num183 = num179 / num183;
 										num180 *= num183;
 										num182 *= num183;
@@ -432,11 +432,11 @@ namespace CalamityMod.NPCs.SlimeGod
 								float num179 = revenge ? 2f : 3f;
 								if (CalamityWorld.bossRushActive)
 									num179 = 12f;
-								Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-								float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+								Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+								float num180 = player.position.X + player.width * 0.5f - value9.X;
 								float num181 = Math.Abs(num180) * 0.1f;
-								float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-								float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+								float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
+								float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 								npc.netUpdate = true;
 								num183 = num179 / num183;
 								num180 *= num183;
@@ -454,9 +454,9 @@ namespace CalamityMod.NPCs.SlimeGod
 								}
 								value9.X += num180;
 								value9.Y += num182;
-								num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-								num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-								num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+								num180 = player.position.X + player.width * 0.5f - value9.X;
+								num182 = player.position.Y + player.height * 0.5f - value9.Y;
+								num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 								num183 = num179 / num183;
 								num180 *= num183;
 								num182 *= num183;
@@ -467,11 +467,11 @@ namespace CalamityMod.NPCs.SlimeGod
 								float num179 = revenge ? 6f : 5f;
 								if (CalamityWorld.bossRushActive)
 									num179 = 12f;
-								Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-								float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+								Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+								float num180 = player.position.X + player.width * 0.5f - value9.X;
 								float num181 = Math.Abs(num180) * 0.1f;
-								float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-								float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+								float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
+								float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 								npc.netUpdate = true;
 								num183 = num179 / num183;
 								num180 *= num183;
@@ -491,12 +491,12 @@ namespace CalamityMod.NPCs.SlimeGod
 								value9.Y += num182;
 								for (int num186 = 0; num186 < 2; num186++)
 								{
-									num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-									num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-									num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+									num180 = player.position.X + player.width * 0.5f - value9.X;
+									num182 = player.position.Y + player.height * 0.5f - value9.Y;
+									num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
 									num183 = num179 / num183;
-									num180 += (float)Main.rand.Next(-30, 31);
-									num182 += (float)Main.rand.Next(-30, 31);
+									num180 += Main.rand.Next(-30, 31);
+									num182 += Main.rand.Next(-30, 31);
 									num180 *= num183;
 									num182 *= num183;
 									Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
@@ -524,11 +524,15 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 += 8f;
             }
+			if (hyperMode)
+			{
+				num1372 *= 1.25f;
+			}
 
-            Vector2 vector167 = new Vector2(vectorCenter.X + (float)(npc.direction * 20), vectorCenter.Y + 6f);
-            float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
+            Vector2 vector167 = new Vector2(vectorCenter.X + (npc.direction * 20), vectorCenter.Y + 6f);
+            float num1373 = player.position.X + player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
-            float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
+            float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
             float num1376 = num1372 / num1375;
             num1373 *= num1376;
             num1374 *= num1376;
@@ -548,7 +552,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 {
                     npc.direction = 1;
                 }
-				npc.rotation += (float)npc.direction * 0.3f;
+				npc.rotation += npc.direction * 0.3f;
 				return;
             }
 

@@ -91,18 +91,18 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         float angle = MathHelper.Lerp(-MathHelper.ToRadians(30f), MathHelper.ToRadians(30f), i / 3f);
                         Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center).RotatedBy(angle) * 15f,
-                            ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, 1f, projectile.owner);
+                            ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, projectile.knockBack, projectile.owner);
                     }
                 }
                 if (projectile.ai[1] % radiantOrbAppearRate == radiantOrbAppearRate - 1)
                 {
                     Projectile.NewProjectile(projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(100f, 360f),
-                        projectile.DirectionTo(potentialTarget.Center) * 2f, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, 4f, projectile.owner);
+                        projectile.DirectionTo(potentialTarget.Center) * 2f, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, projectile.knockBack * 4f, projectile.owner);
                     for (int i = 0; i < 4; i++)
                     {
                         float angle = MathHelper.Lerp(-MathHelper.ToRadians(40f), MathHelper.ToRadians(40f), i / 4f);
                         Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center).RotatedBy(angle) * 19f,
-                            ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, 1f, projectile.owner);
+                            ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, projectile.knockBack, projectile.owner);
                     }
                 }
             }

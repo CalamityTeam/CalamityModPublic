@@ -14,13 +14,14 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Temporal Floe Sword");
             Tooltip.SetDefault("The iceman cometh...\n" +
-                "Fires a frozen sword beam");
+                "Fires a frozen sword beam that splits into two more beams\n" +
+				"The direction of the beams depends on in game time");
         }
 
         public override void SetDefaults()
         {
             item.width = 52;
-            item.damage = 85;
+            item.damage = 95;
             item.melee = true;
             item.useAnimation = 16;
             item.useStyle = 1;
@@ -34,6 +35,12 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 8;
             item.shoot = ModContent.ProjectileType<TemporalFloeSwordProjectile>();
             item.shootSpeed = 16f;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 0.65), knockBack, player.whoAmI, 0f, 0f);
+            return false;
         }
 
         public override void AddRecipes()

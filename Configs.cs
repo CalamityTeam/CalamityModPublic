@@ -88,6 +88,11 @@ namespace CalamityMod
 		[Tooltip("Boosts the player's mining speed by 75%")]
 		public bool MiningSpeedBoost { get; set; }
 
+		[DefaultValue(false)]
+		[Label("Extra Damage Reduction for Bosses")]
+		[Tooltip("Grants extra damage reduction for bosses for every boss encounter, regardless if you've defeated the boss already or not")]
+		public bool ExtraBossDR { get; set; }
+
 		[Label("Boss Health Percentage Boost")]
 		[Tooltip("Boosts the health of bosses to a maximum of +900% health")]
 		[Range(0f, 900f)]
@@ -157,6 +162,14 @@ namespace CalamityMod
 		[Label("Revengeance and Death Thorium Boss buff")]
 		[Tooltip("Buffs the health of Thorium bosses if Revengeance or Death is enabled")]
 		public bool RevengeanceAndDeathThoriumBossBuff { get; set; }
+
+		[Header("Death Mode Changes")]
+
+		[DefaultValue(1f)]
+		[Range(0.5f, 3f)]
+		[Label("Weather Effect Rate Multiplier")]
+		[Tooltip("Affects all Death Mode weather projectiles, increase to decrease the amount of projectiles, decrease to increase the amount of projectiles")]
+		public float WeatherEffectRateMultiplier { get; set; }
 
 		[Header("Boss Rush Curses")]
 

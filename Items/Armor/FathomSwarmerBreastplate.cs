@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Fathom Swarmer Breastplate");
             Tooltip.SetDefault("12% increased damage reduction and minion damage\n" +
-				"+1 max minions\n" +
+				"+1 max minion\n" +
                 "Boosted defense and regen increased while submerged in liquid\n" +
 				"Reduces defense loss within the Abyss");
         }

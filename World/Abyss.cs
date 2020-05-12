@@ -714,7 +714,7 @@ namespace CalamityMod.World
         #endregion
 
         #region Generating Chests
-        public const int CheckCutoffDistance = 35;
+        public const int CheckCutoffDistance = 15;
         public static void PlaceRustyChests()
         {
             // Ambiguity bullshit.
@@ -759,40 +759,45 @@ namespace CalamityMod.World
         #endregion
 
         #region Misc Functions
-        public static List<int> YStartBlacklist = new List<int>()
+        public static List<int> YStartWhitelist = new List<int>()
         {
-            TileID.Cloud,
-            TileID.RainCloud,
-            TileID.SnowCloud,
-            TileID.Sunplate,
-            TileID.Tables,
-            TileID.Chairs,
-            TileID.ClosedDoor,
-            TileID.OpenDoor,
-            TileID.Banners,
-            TileID.Crimtane,
-            TileID.Demonite,
-            TileID.Containers
+            TileID.Sand,
+            TileID.Ebonsand,
+            TileID.Crimsand,
+            TileID.Grass,
+            TileID.CorruptGrass,
+            TileID.FleshGrass,
+            TileID.ClayBlock,
+            TileID.Mud,
+            TileID.Copper,
+            TileID.Tin,
+            TileID.Iron,
+            TileID.Lead,
+            TileID.Silver,
+            TileID.Tungsten,
+            TileID.Crimstone,
+            TileID.Ebonstone,
+            TileID.JungleGrass // Yes, this can happen on rare occasion
         };
         public static void DetermineYStart()
         {
-            int maxHeight = int.MaxValue;
-            for (int i = 0; i < 15; i++)
+            int maxHeight = 0;
+            for (int i = 0; i < BiomeWidth; i++)
             {
                 int xCheck = CalamityWorld.abyssSide ?
                     BiomeWidth - i :
                     Main.maxTilesX - BiomeWidth + i;
-                int YStart = 1;
-                while (!Main.tile[xCheck, YStart].active() || YStartBlacklist.Contains(Main.tile[xCheck, YStart].type))
+                int YStart = (int)WorldGen.worldSurfaceLow - 20; // 30 tiles below the absolute lowest a floating island can spawn
+                while (!Main.tile[xCheck, YStart].active() || !YStartWhitelist.Contains(Main.tile[xCheck, YStart].type) ||
+                       Main.tile[xCheck, YStart].type == TileID.LivingWood || Main.tile[xCheck, YStart].type == TileID.LeafBlock)
                 {
                     YStart++;
                     if (YStart > Main.rockLayer - 40)
                         break;
                 }
-                if (maxHeight > YStart)
-                    maxHeight = YStart;
+                maxHeight += YStart;
             }
-            YStart = maxHeight;
+            YStart = maxHeight / BiomeWidth;
         }
         public static void GrowSaplingImmediately(int i, int j)
         {

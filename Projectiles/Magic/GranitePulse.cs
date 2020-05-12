@@ -6,7 +6,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class GranitePulse : ModProjectile
     {
-        public int pulse = 49;
         public float count = 0f;
 
         public override void SetStaticDefaults()
@@ -46,7 +45,7 @@ namespace CalamityMod.Projectiles.Magic
                 int num417 = 0;
                 float num418 = 0f;
                 int num419 = projectile.type;
-                for (int num420 = 0; num420 < 1000; num420++)
+                for (int num420 = 0; num420 < Main.maxProjectiles; num420++)
                 {
                     if (Main.projectile[num420].active && Main.projectile[num420].owner == projectile.owner && Main.projectile[num420].type == num419 && Main.projectile[num420].ai[1] < 3600f)
                     {
@@ -94,8 +93,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 count += 1f;
             }
-            pulse--;
-            if (pulse == 0)
+            if (projectile.timeLeft % 50 == 49)
             {
                 Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 53);
                 projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
@@ -122,7 +120,6 @@ namespace CalamityMod.Projectiles.Magic
                     num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 206, 0f, 0f, 100, default, 0.5f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                pulse = 50;
                 float spread = 45f * 0.0174f;
                 double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
                 double deltaAngle = spread / 8f;

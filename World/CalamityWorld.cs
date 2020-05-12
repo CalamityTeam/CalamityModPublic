@@ -968,21 +968,35 @@ namespace CalamityMod.World
 
             if (rainingAcid)
             {
-				for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
-				{
-					if (Main.player[playerIndex].active)
-					{
-						if (Main.player[playerIndex].Calamity().ZoneSulphur)
-						{
-							startAcidicDownpour = true;
-							CalamityMod.UpdateServerBoolean();
-						}
-					}
-				}
+                if (!startAcidicDownpour)
+                {
+                    int sulphSeaWidth = Abyss.BiomeWidth;
+                    for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
+                    {
+                        // A variable named "player" already exists above, which retrieves the player who is closest to the map center.
+                        Player player2 = Main.player[playerIndex];
+                        if (player2.active)
+                        {
+                            // An artificial biome can be made, and therefore, the event could be started by an artificial biome.
+                            // While fighting the event in an artificial biome is not bad, having it be started by a patch of Sulphurous Sand
+                            // would definitely be strange.
+                            // Because of this, this code is executed based on if the player is in the sea (based on tile count) AND position relative to the naturally generated sea.
+                            if (((player2.Center.X <= (sulphSeaWidth + 60f) * 16f && abyssSide) ||
+                                (player2.Center.X >= (Main.maxTilesX - (sulphSeaWidth + 60f)) * 16f && !abyssSide)) &&
+                                player2.Calamity().ZoneSulphur)
+                            {
+                                startAcidicDownpour = true;
+                                CalamityMod.UpdateServerBoolean();
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
                 // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
-				if (startAcidicDownpour || forcedDownpourWithTear)
-				{
+                if ((startAcidicDownpour || forcedDownpourWithTear) && !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
+                {
 					Main.raining = true;
 					Main.cloudBGActive = 1f;
 					Main.numCloudsTemp = Main.cloudLimit;
@@ -994,7 +1008,7 @@ namespace CalamityMod.World
 				}
 
                 // Summon Old Duke tornado post-Polter as needed
-                if (downedPolterghast && acidRainPoints == 2f)
+                if (downedPolterghast && acidRainPoints == 2)
                 {
                     if (!NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) &&
                     CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)

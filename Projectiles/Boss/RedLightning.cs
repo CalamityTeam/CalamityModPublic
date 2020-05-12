@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Boss
 						Main.dust[num859].scale = 1.2f;
 						num3 = num856;
 					}
-					if (Main.rand.Next(5) == 0)
+					if (Main.rand.NextBool(5))
 					{
 						Vector2 value39 = projectile.velocity.RotatedBy((double)MathHelper.PiOver2, default(Vector2)) * ((float)Main.rand.NextDouble() - 0.5f) * (float)projectile.width;
 						int num860 = Dust.NewDust(projectile.Center + value39 - Vector2.One * 4f, 8, 8, 60, 0f, 0f, 100, default, 1.5f);

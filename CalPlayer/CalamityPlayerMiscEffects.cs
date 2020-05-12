@@ -280,7 +280,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// If Revengeance Mode is not active, then set rippers to zero
-			else if(player.whoAmI == Main.myPlayer)
+			else if (player.whoAmI == Main.myPlayer)
 			{
 				modPlayer.rage = 0;
 				modPlayer.adrenaline = 0;
@@ -595,7 +595,7 @@ namespace CalamityMod.CalPlayer
 
 						if (Main.raining)
 						{
-							float frequencyMult = 1f - Main.cloudAlpha; // 1 to 0.11
+							float frequencyMult = (1f - Main.cloudAlpha) * CalamityMod.CalamityConfig.WeatherEffectRateMultiplier; // 3 to 0.055
 
 							Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-1000, 1001), player.Center.Y - (float)Main.rand.Next(700, 801));
 							Tile tileSafely = Framing.GetTileSafely((int)(spawnPoint.X / 16f), (int)(spawnPoint.Y / 16f));
@@ -609,7 +609,7 @@ namespace CalamityMod.CalPlayer
 									Vector2 velocity = new Vector2(windVelocity * 0.2f, 3f * Main.rand.NextFloat());
 
 									if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
-										Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 1f, 0f);
+										Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 2f, 0f);
 								}
 							}
 							else
@@ -885,6 +885,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.gainRageCooldown--;
 			if (modPlayer.galileoCooldown > 0)
 				modPlayer.galileoCooldown--;
+			if (modPlayer.soundCooldown > 0)
+				modPlayer.soundCooldown--;
 			if (modPlayer.raiderCooldown > 0)
 				modPlayer.raiderCooldown--;
 			if (modPlayer.gSabatonCooldown > 0)
@@ -945,6 +947,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.sulphurBubbleCooldown--;
 			if (modPlayer.forbiddenCooldown > 0)
 				modPlayer.forbiddenCooldown--;
+			if (modPlayer.tornadoCooldown > 0)
+				modPlayer.tornadoCooldown--;
 			if (modPlayer.ladHearts > 0)
 				modPlayer.ladHearts--;
 			if (modPlayer.titanBoost > 0)
@@ -1305,7 +1309,7 @@ namespace CalamityMod.CalPlayer
 				player.endurance += 0.01f;
 				player.statDefense += 2;
 			}
-			if (!modPlayer.polarisBoost || player.inventory[player.selectedItem].type != ModContent.ItemType<PolarisParrotfish>())
+			if (!modPlayer.polarisBoost || player.ActiveItem().type != ModContent.ItemType<PolarisParrotfish>())
 			{
 				modPlayer.polarisBoost = false;
 				if (player.FindBuffIndex(ModContent.BuffType<PolarisBuff>()) > -1)
@@ -1436,7 +1440,6 @@ namespace CalamityMod.CalPlayer
 					player.statDefense += 1;
 					player.allDamage += 0.025f;
 					modPlayer.AllCritBoost(1);
-					player.meleeSpeed += 0.025f;
 					player.minionKB += 0.25f;
 					player.moveSpeed += 0.1f;
 				}
@@ -1445,7 +1448,6 @@ namespace CalamityMod.CalPlayer
 					player.statDefense -= 1;
 					player.allDamage -= 0.025f;
 					modPlayer.AllCritBoost(-1);
-					player.meleeSpeed -= 0.025f;
 					player.minionKB -= 0.25f;
 					player.moveSpeed -= 0.1f;
 				}
@@ -2563,27 +2565,27 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (CalamityMod.scopedWeaponList.Contains(player.inventory[player.selectedItem].type))
+			if (CalamityMod.scopedWeaponList.Contains(player.ActiveItem().type))
 				player.scope = true;
 
-			if (CalamityMod.highTestFishList.Contains(player.inventory[player.selectedItem].type))
+			if (CalamityMod.highTestFishList.Contains(player.ActiveItem().type))
 				player.accFishingLine = true;
 
-			if (CalamityMod.boomerangList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+			if (CalamityMod.boomerangList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingDamage += 0.1f;
 
-			if (CalamityMod.javelinList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+			if (CalamityMod.javelinList.Contains(player.ActiveItem().type) && player.invis)
 				player.armorPenetration += 5;
 
-			if (CalamityMod.flaskBombList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+			if (CalamityMod.flaskBombList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingVelocity += 0.1f;
 
-			if (CalamityMod.spikyBallList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+			if (CalamityMod.spikyBallList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingCrit += 10;
 
 			if (modPlayer.planarSpeedBoost != 0)
 			{
-				if (player.inventory[player.selectedItem].type != ModContent.ItemType<PrideHuntersPlanarRipper>())
+				if (player.ActiveItem().type != ModContent.ItemType<PrideHuntersPlanarRipper>())
 					modPlayer.planarSpeedBoost = 0;
 			}
 
@@ -2593,10 +2595,10 @@ namespace CalamityMod.CalPlayer
 					!modPlayer.ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly &&
 					!player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
 
-				if (player.ZoneUnderworldHeight && !modPlayer.ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.inventory[player.selectedItem].type))
+				if (player.ZoneUnderworldHeight && !modPlayer.ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
 					player.endurance += 0.03f;
 
-				if ((player.ZoneDesert || player.ZoneUndergroundDesert) && CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type))
+				if ((player.ZoneDesert || player.ZoneUndergroundDesert) && CalamityMod.daggerList.Contains(player.ActiveItem().type))
 					player.scope = true;
 
 				if (modPlayer.ZoneSunkenSea)
@@ -2605,7 +2607,7 @@ namespace CalamityMod.CalPlayer
 					player.ignoreWater = true;
 				}
 
-				if (player.ZoneSnow && CalamityMod.iceWeaponList.Contains(player.inventory[player.selectedItem].type))
+				if (player.ZoneSnow && CalamityMod.iceWeaponList.Contains(player.ActiveItem().type))
 					player.statDefense += 5;
 
 				if (modPlayer.ZoneAstral)
@@ -2614,7 +2616,7 @@ namespace CalamityMod.CalPlayer
 						player.wingTimeMax = (int)((double)player.wingTimeMax * 1.05);
 				}
 
-				if (player.ZoneJungle && CalamityMod.natureWeaponList.Contains(player.inventory[player.selectedItem].type))
+				if (player.ZoneJungle && CalamityMod.natureWeaponList.Contains(player.ActiveItem().type))
 					player.AddBuff(BuffID.DryadsWard, 5, true); // Dryad's Blessing
 
 				if (modPlayer.ZoneAbyss)
@@ -2634,7 +2636,7 @@ namespace CalamityMod.CalPlayer
 					player.endurance += 0.05f;
 				}
 
-				if (player.ZoneRockLayerHeight && ZoneForest && CalamityMod.flaskBombList.Contains(player.inventory[player.selectedItem].type))
+				if (player.ZoneRockLayerHeight && ZoneForest && CalamityMod.flaskBombList.Contains(player.ActiveItem().type))
 					player.blackBelt = true;
 
 				if (player.ZoneHoly)
@@ -2949,8 +2951,6 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.manaOverloader)
 			{
 				player.magicDamage += 0.06f;
-				if (player.statMana < (int)(player.statManaMax2 * 0.1))
-					player.ghostHeal = true;
 			}
 
 			if (modPlayer.twinsLore)
@@ -2979,13 +2979,11 @@ namespace CalamityMod.CalPlayer
 				if (player.statLife < (int)(player.statLifeMax2 * 0.5))
 				{
 					player.meleeDamage += 0.1f;
-					player.meleeSpeed += 0.1f;
 					player.endurance += 0.1f;
 				}
 				else
 				{
 					player.meleeDamage += 0.05f;
-					player.meleeSpeed += 0.05f;
 					player.endurance += 0.05f;
 				}
 			}
@@ -3193,7 +3191,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Navy Fishing Rod's electric aura when in-use
-			if (player.inventory[player.selectedItem].type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
+			if (player.ActiveItem().type == ModContent.ItemType<NavyFishingRod>() && player.ownedProjectileCounts[ModContent.ProjectileType<NavyBobber>()] != 0)
 			{
 				const int FramesPerHit = 120;
 
@@ -3503,8 +3501,8 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (player.meleeSpeed < 0.5f)
-				player.meleeSpeed = 0.5f;
+			/*if (player.meleeSpeed < 0.5f)
+				player.meleeSpeed = 0.5f;*/
 
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (player.endurance > 0f)

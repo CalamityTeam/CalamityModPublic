@@ -36,16 +36,16 @@ namespace CalamityMod.NPCs.AcidRain
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 175;
-                npc.lifeMax = 6300;
+                npc.damage = 150;
+                npc.lifeMax = 5001;
                 npc.defense = 58;
-                npc.Calamity().DR = 0.2f;
+				npc.Calamity().RevPlusDR(0.05f);
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 85;
                 npc.lifeMax = 700;
-                npc.Calamity().DR = 0.1f;
+				npc.Calamity().RevPlusDR(0.05f);
             }
 
             npc.knockBackResist = 0f;
@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.AcidRain
                         }
                         if ((Math.Abs(player.Center.Y - npc.Center.Y) > 50f && player.wet) || (!player.wet && npc.ai[1] <= 0f))
                         {
-                            float speedY = CalamityWorld.downedPolterghast ? 15f : 6f;
+                            float speedY = CalamityWorld.downedPolterghast ? 10f : 6f;
                             npc.velocity.Y = (player.Center.Y - npc.Center.Y > 0).ToDirectionInt() * speedY;
                         }
                         if (Math.Abs(npc.velocity.X) < 6f)
@@ -130,10 +130,10 @@ namespace CalamityMod.NPCs.AcidRain
                         npc.velocity.X = npc.ai[2];
                         if (npc.ai[1] > TotalTime - DiveTime * 0.5f)
                         {
-                            float flySpeed = CalamityWorld.downedAquaticScourge ? 0.135f : 0.085f;
+                            float flySpeed = CalamityWorld.downedAquaticScourge ? 0.115f : 0.085f;
                             if (CalamityWorld.downedPolterghast)
                             {
-                                flySpeed = 0.185f;
+                                flySpeed = 0.135f;
                             }
                             npc.velocity.Y -= flySpeed;
                         }
@@ -178,11 +178,11 @@ namespace CalamityMod.NPCs.AcidRain
                         float chargeSpeed = 8f;
                         if (CalamityWorld.downedAquaticScourge)
                         {
-                            chargeSpeed = 17f;
+                            chargeSpeed = 14f;
                         }
                         if (CalamityWorld.downedPolterghast)
                         {
-                            chargeSpeed = 24f;
+                            chargeSpeed = 18f;
                         }
                         npc.velocity = npc.DirectionTo(player.Center) * chargeSpeed;
                     }

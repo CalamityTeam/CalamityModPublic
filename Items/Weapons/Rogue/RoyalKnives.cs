@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using System;
@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Rogue
                 num149 *= num80;
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
-                Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<IllustriousKnife>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }

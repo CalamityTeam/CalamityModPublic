@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,12 +45,12 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddRecipe();
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             position = Main.MouseWorld;
             speedX = 0;
             speedY = 0;
-            for (int x = 0; x < 1000; x++)
+            for (int x = 0; x < Main.maxProjectiles; x++)
             {
                 Projectile projectile = Main.projectile[x];
                 if (projectile.active && projectile.owner == player.whoAmI && projectile.type == ModContent.ProjectileType<SolarGod>())

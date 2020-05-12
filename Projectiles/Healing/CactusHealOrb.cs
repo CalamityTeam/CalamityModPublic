@@ -26,42 +26,12 @@ namespace CalamityMod.Projectiles.Healing
         {
             projectile.velocity.Y *= 0.98f;
 
-            int num487 = projectile.owner;
-            Vector2 vector36 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-            float num489 = Main.player[num487].Center.X - vector36.X;
-            float num490 = Main.player[num487].Center.Y - vector36.Y;
-            float num491 = (float)Math.Sqrt((double)(num489 * num489 + num490 * num490));
-            if (num491 < 50f && projectile.position.X < Main.player[num487].position.X + (float)Main.player[num487].width && projectile.position.X + (float)projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + (float)Main.player[num487].height && projectile.position.Y + (float)projectile.height > Main.player[num487].position.Y)
-            {
-                if (projectile.owner == Main.myPlayer && !Main.player[Main.myPlayer].moonLeech)
-                {
-                    int num492 = 25;
-                    Main.player[num487].HealEffect(num492, false);
-                    Main.player[num487].statLife += num492;
-                    if (Main.player[num487].statLife > Main.player[num487].statLifeMax2)
-                    {
-                        Main.player[num487].statLife = Main.player[num487].statLifeMax2;
-                    }
-                    NetMessage.SendData(66, -1, -1, null, num487, (float)num492, 0f, 0f, 0, 0, 0);
-                }
-                projectile.Kill();
-            }
-			if (Main.player[num487].lifeMagnet && projectile.timeLeft < 120)
-			{
-				float num488 = 12f;
-				num491 = num488 / num491;
-				num489 *= num491;
-				num490 *= num491;
-				projectile.velocity.X = (projectile.velocity.X * 15f + num489) / 16f;
-				projectile.velocity.Y = (projectile.velocity.Y * 15f + num490) / 16f;
-			}
-			float num498 = projectile.velocity.X * 0.2f;
-            float num499 = -(projectile.velocity.Y * 0.2f);
-            int num500 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(0, 200, 0), 1.5f);
-            Dust dust = Main.dust[num500];
-            dust.noGravity = true;
-            dust.position.X -= num498;
-            dust.position.Y -= num499;
+			CalamityGlobalProjectile.HealingProjectile(projectile, 25, projectile.owner, 12f, 15f);
+			int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(0, 200, 0), 1.5f);
+			Dust dust = Main.dust[dusty];
+			dust.noGravity = true;
+			dust.position.X -= projectile.velocity.X * 0.2f;
+			dust.position.Y += projectile.velocity.Y * 0.2f;
         }
     }
 }

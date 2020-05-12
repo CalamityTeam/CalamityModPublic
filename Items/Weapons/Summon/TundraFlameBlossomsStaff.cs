@@ -11,12 +11,13 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tundra Flame Blossoms Staff");
-            Tooltip.SetDefault("Summons three unusual flowers over your head");
+            Tooltip.SetDefault("Summons three unusual flowers over your head\n" +
+			"Each flower consumes one minion slot");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 39;
+            item.damage = 45;
             item.mana = 10;
             item.width = 52;
             item.height = 60;
@@ -32,9 +33,19 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shootSpeed = 10f;
             item.summon = true;
         }
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < 3; //If you already have all 3, no need to resummon
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            for (int x = 0; x < Main.maxProjectiles; x++)
+            {
+                Projectile proj = Main.projectile[x];
+                if (proj.active && proj.owner == player.whoAmI && proj.type == type)
+                {
+                    proj.Kill();
+                }
+            }
             for (int i = 0; i < 3; i++)
             {
                 Projectile blossom = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);

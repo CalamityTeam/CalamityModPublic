@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -16,13 +17,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 60;
+            item.damage = 55;
             item.ranged = true;
             item.width = 66;
             item.height = 34;
-            item.useTime = 2;
-            item.reuseDelay = 10;
-            item.useAnimation = 6;
+            item.useTime = 3;
+            item.reuseDelay = 12;
+            item.useAnimation = 9;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 3.75f;
@@ -44,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             float SpeedX = speedX + (float)Main.rand.Next(-15, 16) * 0.05f;
             float SpeedY = speedY + (float)Main.rand.Next(-15, 16) * 0.05f;
-            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, 242, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             return false;
         }
 
@@ -60,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Gatligator);
             recipe.AddIngredient(ItemID.VenusMagnum);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
+            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 3);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

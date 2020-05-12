@@ -5,6 +5,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
+using CalamityMod.Items.Placeables.Furniture.Fountains;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.Weapons.Magic;
@@ -103,16 +104,16 @@ namespace CalamityMod.Items
                 item.damage = (int)(item.damage * 1.25);
             else if (CalamityMod.twentyDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.2);
-            else if (item.type == ItemID.MagnetSphere)
+            else if (CalamityMod.tenDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.1);
-            else if (item.type == ItemID.Razorpine)
-                item.damage = (int)(item.damage * 0.95);
-            else if (item.type == ItemID.Phantasm)
+            else if (CalamityMod.tenDamageNerfList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 0.9);
-            else if (item.type == ItemID.LastPrism)
-                item.damage = (int)(item.damage * 0.85);
             else if (CalamityMod.quarterDamageNerfList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 0.75);
+            else if (item.type == ItemID.BlizzardStaff)
+                item.damage = (int)(item.damage * 0.7);
+            else if (item.type == ItemID.LaserMachinegun)
+                item.damage = (int)(item.damage * 0.6);
             else if (item.type == ItemID.StardustDragonStaff)
                 item.damage = (int)(item.damage * 0.5);
 
@@ -353,7 +354,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (modPlayer.harpyWingBoost)
+            if (modPlayer.harpyWingBoost && modPlayer.harpyRing)
             {
                 if (Main.rand.NextBool(5))
                 {
@@ -738,7 +739,7 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
-            if (player.HeldItem.type == ModContent.ItemType<IgneousExaltation>())
+            if (player.ActiveItem().type == ModContent.ItemType<IgneousExaltation>())
             {
                 bool hasBlades = false;
                 for (int i = 0; i < Main.projectile.Length; i++)
@@ -772,7 +773,7 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
-            if (player.HeldItem.type == ModContent.ItemType<ColdDivinity>())
+            if (player.ActiveItem().type == ModContent.ItemType<ColdDivinity>())
             {
                 bool canContinue = true;
                 int count = 0;
@@ -2621,6 +2622,27 @@ Provides heat and cold protection in Death Mode";
                     }
                 }
             }
+
+			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			if (fargos != null)
+			{
+				//Fargo's fountain effects
+				if (item.type == ModContent.ItemType<SunkenSeaFountain>())
+				{
+					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sunken Sea upon activation");
+					tooltips.Add(line);
+				}
+				if (item.type == ModContent.ItemType<SulphurousFountainItem>())
+				{
+					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Sulphurous Sea upon activation");
+					tooltips.Add(line);
+				}
+				if (item.type == ModContent.ItemType<AstralFountainItem>())
+				{
+					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Astral upon activation");
+					tooltips.Add(line);
+				}
+			}
         }
         #endregion
 
@@ -2703,6 +2725,7 @@ Provides heat and cold protection in Death Mode";
 
                     // Queen Bee
                     case ItemID.QueenBeeBossBag:
+                        DropHelper.DropItem(player, ItemID.Stinger, 8, 12);
                         DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
                         break;
 
@@ -2740,6 +2763,7 @@ Provides heat and cold protection in Death Mode";
                         float aegisChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<AegisBlade>(), CalamityWorld.revenge, aegisChance);
                         DropHelper.DropItem(player, ModContent.ItemType<EssenceofCinder>(), 8, 13);
+						DropHelper.DropItemChance(player, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
                         break;
 
                     // Duke Fishron
@@ -2890,35 +2914,11 @@ Provides heat and cold protection in Death Mode";
             #region Body
             if (item.type == ItemID.GladiatorBreastplate || item.type == ItemID.ObsidianShirt)
                 player.Calamity().throwingCrit += 3;
-            else if (item.type == ItemID.PalladiumBreastplate)
-                player.Calamity().throwingCrit += 2;
-            else if (item.type == ItemID.CobaltBreastplate)
-                player.Calamity().throwingCrit += 3;
-            else if (item.type == ItemID.OrichalcumBreastplate)
-                player.Calamity().throwingCrit += 6;
-            else if (item.type == ItemID.TitaniumBreastplate)
-                player.Calamity().throwingCrit += 3;
-            else if (item.type == ItemID.HallowedPlateMail)
-                player.Calamity().throwingCrit += 7;
-            else if (item.type == ItemID.ChlorophytePlateMail)
-                player.Calamity().throwingCrit += 7;
-            else if (item.type == ItemID.Gi)
-                player.Calamity().throwingCrit += 5;
             #endregion
 
             #region Legs
             if (item.type == ItemID.GladiatorLeggings || item.type == ItemID.ObsidianPants)
                 player.Calamity().throwingVelocity += 0.03f;
-            else if (item.type == ItemID.PalladiumLeggings)
-                player.Calamity().throwingCrit += 1;
-            else if (item.type == ItemID.MythrilGreaves)
-                player.Calamity().throwingCrit += 3;
-            else if (item.type == ItemID.AdamantiteLeggings)
-                player.Calamity().throwingCrit += 4;
-            else if (item.type == ItemID.TitaniumLeggings)
-                player.Calamity().throwingCrit += 3;
-            else if (item.type == ItemID.ChlorophyteGreaves)
-                player.Calamity().throwingCrit += 8;
             #endregion
         }
         #endregion
@@ -2992,8 +2992,7 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.HarpyWings)
             {
-				if (modPlayer.harpyRing)
-					modPlayer.harpyWingBoost = true;
+				modPlayer.harpyWingBoost = true;
                 player.moveSpeed += 0.3f;
                 player.noFallDmg = true;
             }
@@ -3201,18 +3200,6 @@ Provides heat and cold protection in Death Mode";
             if (item.type == ItemID.HandWarmer)
                 modPlayer.handWarmer = true;
 
-            if (item.type == ItemID.CelestialStone || item.type == ItemID.CelestialShell || (item.type == ItemID.MoonStone && !Main.dayTime) ||
-                (item.type == ItemID.SunStone && Main.dayTime))
-            {
-                player.Calamity().throwingCrit += 2;
-            }
-            if (item.type == ItemID.DestroyerEmblem)
-                player.Calamity().throwingCrit += 8;
-            if (item.type == ItemID.EyeoftheGolem)
-                player.Calamity().throwingCrit += 10;
-            if (item.type == ItemID.PutridScent)
-                player.Calamity().throwingCrit += 5;
-
 			// Hard / Guarding / Armored / Warding give 0.25% / 0.5% / 0.75% / 1% DR
 			if (item.prefix == PrefixID.Hard)
 			{
@@ -3258,7 +3245,6 @@ Provides heat and cold protection in Death Mode";
                 player.rangedCrit -= 1;
                 player.magicCrit -= 1;
                 player.thrownCrit -= 1;
-                player.Calamity().throwingCrit += item.prefix == PrefixID.Lucky ? 3 : 1;
             }
         }
         #endregion
@@ -3456,6 +3442,14 @@ Provides heat and cold protection in Death Mode";
         public static readonly int RarityDarkBlueBuyPrice = Item.buyPrice(1, 80, 0, 0);
         public static readonly int RarityVioletBuyPrice = Item.buyPrice(2, 50, 0, 0);
         public static readonly int RarityHotPinkBuyPrice = Item.buyPrice(5, 0, 0, 0);
+
+		//These duplicates are for my sanity...
+        public static readonly int Rarity12BuyPrice = Item.buyPrice(1, 20, 0, 0);
+        public static readonly int Rarity13BuyPrice = Item.buyPrice(1, 40, 0, 0);
+        public static readonly int Rarity14BuyPrice = Item.buyPrice(1, 80, 0, 0);
+        public static readonly int Rarity15BuyPrice = Item.buyPrice(2, 50, 0, 0);
+        public static readonly int Rarity16BuyPrice = Item.buyPrice(5, 0, 0, 0);
+
         public static int GetBuyPrice(int rarity)
         {
             switch (rarity)

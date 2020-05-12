@@ -9,7 +9,7 @@ using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Ammo.FiniteUse;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.Dyes;
+using CalamityMod.Items.Dyes.HairDye;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
@@ -124,9 +124,10 @@ namespace CalamityMod
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
+		public static SortedDictionary<int, int> bossKillTimes;
 
-        // Lists
-        public static IList<string> donatorList;
+		// Lists
+		public static IList<string> donatorList;
         public static List<int> rangedProjectileExceptionList;
         public static List<int> projectileDestroyExceptionList;
         public static List<int> projectileMinionList;
@@ -149,7 +150,9 @@ namespace CalamityMod
         public static List<int> thirtyThreeDamageBuffList; //33% buff
         public static List<int> twentyFiveDamageBuffList; //25% buff
         public static List<int> twentyDamageBuffList; //20% buff
+        public static List<int> tenDamageBuffList; //10% buff
         public static List<int> weaponAutoreuseList;
+        public static List<int> tenDamageNerfList; //10% nerf
         public static List<int> quarterDamageNerfList; //25% nerf
         public static List<int> pumpkinMoonBuffList;
         public static List<int> frostMoonBuffList;
@@ -236,6 +239,7 @@ namespace CalamityMod
 
             SetupLists();
             SetupVanillaDR();
+			SetupBossKillTimes();
             SetupThoriumBossDR(thorium);
 
             CalamityLocalization.AddLocalizations();
@@ -339,6 +343,8 @@ namespace CalamityMod
 
             DRValues?.Clear();
             DRValues = null;
+			bossKillTimes?.Clear();
+			bossKillTimes = null;
 
             donatorList = null;
             rangedProjectileExceptionList = null;
@@ -362,7 +368,9 @@ namespace CalamityMod
             fiftyDamageBuffList = null;
             thirtyThreeDamageBuffList = null;
             twentyFiveDamageBuffList = null;
+            tenDamageBuffList = null;
             weaponAutoreuseList = null;
+            tenDamageNerfList = null;
             quarterDamageNerfList = null;
             pumpkinMoonBuffList = null;
             frostMoonBuffList = null;
@@ -649,7 +657,16 @@ namespace CalamityMod
 
                 ModContent.ProjectileType<FlakKrakenProj>(),
                 ModContent.ProjectileType<SylvanSlashAttack>(),
-                ModContent.ProjectileType<InfernadoFriendly>()
+                ModContent.ProjectileType<InfernadoFriendly>(),
+
+				//Some hostile boss projectiles
+                ModContent.ProjectileType<BrimstoneMonster>(),
+                ModContent.ProjectileType<InfernadoRevenge>(),
+				ModContent.ProjectileType<OverlyDramaticDukeSummoner>(),
+				ModContent.ProjectileType<ProvidenceHolyRay>(),
+				ModContent.ProjectileType<OldDukeVortex>(),
+				ModContent.ProjectileType<BrimstoneRay>(),
+				ModContent.ProjectileType<BrimstoneTargetRay>()
             };
 
             projectileMinionList = new List<int>()
@@ -1244,7 +1261,8 @@ namespace CalamityMod
                 ItemID.BreakerBlade,
                 ItemID.MonkStaffT2,
                 ItemID.ProximityMineLauncher,
-                ItemID.FireworksLauncher
+                ItemID.FireworksLauncher,
+                ItemID.ShadowbeamStaff
             };
 
             sixtySixDamageBuffList = new List<int>()
@@ -1311,6 +1329,12 @@ namespace CalamityMod
                 ItemID.TacticalShotgun
             };
 
+            tenDamageBuffList = new List<int>()
+            {
+                ItemID.MagnetSphere,
+                ItemID.BatScepter
+            };
+
             weaponAutoreuseList = new List<int>()
             {
                 ItemID.NightsEdge,
@@ -1328,12 +1352,20 @@ namespace CalamityMod
                 ItemID.StylistKilLaKillScissorsIWish
             };
 
+            tenDamageNerfList = new List<int>()
+            {
+                ItemID.Phantasm
+            };
+
             quarterDamageNerfList = new List<int>()
             {
+                ItemID.Razorpine,
                 ItemID.DaedalusStormbow,
                 ItemID.PhoenixBlaster,
-                ItemID.BlizzardStaff,
-                ItemID.DD2BetsyBow
+                ItemID.DD2BetsyBow,
+                ItemID.InfluxWaver,
+                ItemID.Xenopopper,
+                ItemID.ElectrosphereLauncher
             };
 
             pumpkinMoonBuffList = new List<int>()
@@ -2525,13 +2557,14 @@ namespace CalamityMod
                 { NPCID.Crab, 0.05f },
                 { NPCID.Crawdad, 0.2f },
                 { NPCID.Crawdad2, 0.2f },
-                { NPCID.CultistBoss, 0.05f },
+                { NPCID.CultistBoss, 0.1f },
                 { NPCID.DD2Betsy, 0.1f },
                 { NPCID.DD2OgreT2, 0.1f },
                 { NPCID.DD2OgreT3, 0.15f },
                 { NPCID.DeadlySphere, 0.4f },
                 { NPCID.DiabolistRed, 0.2f },
                 { NPCID.DiabolistWhite, 0.2f },
+				{ NPCID.DukeFishron, 0.1f },
                 { NPCID.DungeonGuardian, 0.999999f },
                 { NPCID.DungeonSpirit, 0.2f },
                 { NPCID.ElfCopter, 0.15f },
@@ -2576,7 +2609,9 @@ namespace CalamityMod
                 { NPCID.Paladin, 0.45f },
                 { NPCID.PirateCaptain, 0.05f },
                 { NPCID.PirateShipCannon, 0.15f },
-                { NPCID.PossessedArmor, 0.25f },
+				{ NPCID.Plantera, 0.15f },
+				{ NPCID.PlanterasTentacle, 0.1f },
+				{ NPCID.PossessedArmor, 0.25f },
                 { NPCID.PresentMimic, 0.3f },
                 { NPCID.PrimeCannon, 0.2f },
                 { NPCID.PrimeLaser, 0.2f },
@@ -2617,7 +2652,7 @@ namespace CalamityMod
         #region Thorium Boss DR
         private void SetupThoriumBossDR(Mod thorium)
         {
-            if (thorium is null || !CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
+            if (thorium is null || !CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
                 return;
 
             void ThoriumDR(string npcName, float dr) {
@@ -2650,10 +2685,93 @@ namespace CalamityMod
             ThoriumDR("Omnicide", 0.3f);
             ThoriumDR("Abyssion", 0.35f);
         }
-        #endregion
+		#endregion
 
-        #region Music
-        public override void UpdateMusic(ref int music, ref MusicPriority priority)
+		#region Boss Kill Times
+		private void SetupBossKillTimes()
+		{
+			bossKillTimes = new SortedDictionary<int, int> {
+				{ NPCID.KingSlime, 3600 },
+				{ NPCID.EyeofCthulhu, 5400 },
+				{ NPCID.EaterofWorldsHead, 7200 },
+				{ NPCID.EaterofWorldsBody, 7200 },
+				{ NPCID.EaterofWorldsTail, 7200 },
+				{ NPCID.BrainofCthulhu, 5400 },
+				{ NPCID.QueenBee, 7200 },
+				{ NPCID.SkeletronHead, 9000 },
+				{ NPCID.WallofFlesh, 10800 },
+				{ NPCID.WallofFleshEye, 10800 },
+				{ NPCID.Spazmatism, 10800 },
+				{ NPCID.Retinazer, 10800 },
+				{ NPCID.TheDestroyer, 10800 },
+                { NPCID.TheDestroyerBody, 10800 },
+				{ NPCID.TheDestroyerTail, 10800 },
+				{ NPCID.SkeletronPrime, 10800 },
+				{ NPCID.Plantera, 10800 },
+				{ NPCID.Golem, 10800 },
+				{ NPCID.GolemHead, 3600 },
+				{ NPCID.DukeFishron, 9000 },
+				{ NPCID.CultistBoss, 9000 },
+				{ NPCID.MoonLordCore, 14400 },
+				{ NPCID.MoonLordHand, 7200 },
+				{ NPCID.MoonLordHead, 7200 },
+				{ ModContent.NPCType<DesertScourgeHead>(), 3600 },
+				{ ModContent.NPCType<DesertScourgeBody>(), 3600 },
+				{ ModContent.NPCType<DesertScourgeTail>(), 3600 },
+				{ ModContent.NPCType<CrabulonIdle>(), 5400 },
+				{ ModContent.NPCType<HiveMind>(), 1800 },
+				{ ModContent.NPCType<HiveMindP2>(), 5400 },
+				{ ModContent.NPCType<PerforatorHive>(), 7200 },
+				{ ModContent.NPCType<SlimeGodCore>(), 10800 },
+				{ ModContent.NPCType<SlimeGod>(), 3600 },
+				{ ModContent.NPCType<SlimeGodRun>(), 3600 },
+				{ ModContent.NPCType<SlimeGodSplit>(), 3600 },
+				{ ModContent.NPCType<SlimeGodRunSplit>(), 3600 },
+				{ ModContent.NPCType<Cryogen>(), 10800 },
+				{ ModContent.NPCType<AquaticScourgeHead>(), 7200 },
+				{ ModContent.NPCType<AquaticScourgeBody>(), 7200 },
+				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), 7200 },
+				{ ModContent.NPCType<AquaticScourgeTail>(), 7200 },
+				{ ModContent.NPCType<BrimstoneElemental>(), 10800 },
+				{ ModContent.NPCType<Calamitas>(), 1200 },
+				{ ModContent.NPCType<CalamitasRun3>(), 11400 },
+				{ ModContent.NPCType<Leviathan>(), 9000 },
+				{ ModContent.NPCType<Siren>(), 9000 },
+				{ ModContent.NPCType<AstrumAureus>(), 10800 },
+				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 10800 },
+				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 10800 },
+				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 10800 },
+				{ ModContent.NPCType<AstrumDeusHead>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusBody>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusTail>(), 7200 },
+				{ ModContent.NPCType<PlaguebringerGoliath>(), 10800 },
+				{ ModContent.NPCType<RavagerBody>(), 10800 },
+				{ ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
+				{ ModContent.NPCType<Bumblefuck>(), 7200 },
+				{ ModContent.NPCType<Providence>(), 14400 },
+				{ ModContent.NPCType<DarkEnergy>(), 1200 },
+				{ ModContent.NPCType<DarkEnergy2>(), 1200 },
+				{ ModContent.NPCType<DarkEnergy3>(), 1200 },
+				{ ModContent.NPCType<StormWeaverHeadNaked>(), 5400 },
+				{ ModContent.NPCType<StormWeaverBodyNaked>(), 5400 },
+				{ ModContent.NPCType<StormWeaverTailNaked>(), 5400 },
+				{ ModContent.NPCType<Signus>(), 7200 },
+				{ ModContent.NPCType<Polterghast>(), 10800 },
+				{ ModContent.NPCType<OldDuke>(), 10800 },
+				{ ModContent.NPCType<DevourerofGodsHead>(), 7200 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 7200 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 7200 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 10800 },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 10800 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 10800 },
+				{ ModContent.NPCType<Yharon>(), 10800 },
+				{ ModContent.NPCType<SupremeCalamitas>(), 14400 }
+			};
+		}
+		#endregion
+
+		#region Music
+		public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (Main.musicVolume != 0)
@@ -3298,7 +3416,7 @@ namespace CalamityMod
 
         #region Lighting
         const float MaxCaveDarkness = -0.3f;
-		const float MaxSignusDarkness = -0.5f;
+		const float MaxSignusDarkness = -0.4f;
 		const float MaxAbyssDarkness = -0.7f;
         public override void ModifyLightingBrightness(ref float scale)
         {
@@ -3566,6 +3684,6 @@ namespace CalamityMod
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
         GaelsGreatswordSwingSync,
-        SpawnSuperDummy,
+        SpawnSuperDummy
     }
 }

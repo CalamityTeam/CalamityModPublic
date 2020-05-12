@@ -38,6 +38,8 @@ namespace CalamityMod.Items.TreasureBags
             return true;
         }
 
+        public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
+
         public override void OpenBossBag(Player player)
         {
             player.TryGettingDevArmor();
@@ -55,10 +57,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
-            float f = Main.rand.NextFloat();
-            bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance of getting Hide of Astrum Deus
-            DropHelper.DropItemCondition(player, ModContent.ItemType<AstralBulwark>(), !replaceWithRare);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<HideofAstrumDeus>(), replaceWithRare);
+			DropHelper.DropItemRIV(player, ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), 1f, DropHelper.RareVariantDropRateFloat);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<AstrumDeusMask>(), 7);

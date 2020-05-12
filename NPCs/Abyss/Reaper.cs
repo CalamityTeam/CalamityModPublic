@@ -675,13 +675,7 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DeepSeaDumbbell>(), CalamityWorld.downedPolterghast, 3, 1, 1);
 			if (CalamityWorld.downedPolterghast)
 			{
-				float f = Main.rand.NextFloat();
-				bool replaceWithRare = f <= 0.01f; // 1/100 chance overall of getting The Reaper
-				if (f <= 0.3333f) // 1/3 chance of getting Valediction OR The Reaper replacing it
-				{
-					DropHelper.DropItemCondition(npc, ModContent.ItemType<Valediction>(), !replaceWithRare);
-					DropHelper.DropItemCondition(npc, ModContent.ItemType<TheReaper>(), replaceWithRare);
-				}
+				DropHelper.DropItemRIV(npc, ModContent.ItemType<Valediction>(), ModContent.ItemType<TheReaper>(), 0.3333f, 0.01f);
 			}
         }
 

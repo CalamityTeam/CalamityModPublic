@@ -18,13 +18,13 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 85;
+            item.damage = 50;
             item.magic = true;
             item.mana = 10;
             item.width = 54;
             item.height = 54;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = 24;
+            item.useAnimation = 24;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 4f;
@@ -45,12 +45,14 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<NightsRay>());
+            recipe.AddIngredient(ModContent.ItemType<ValkyrieRay>());
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CarnageRay>());
+            recipe.AddIngredient(ModContent.ItemType<ValkyrieRay>());
             recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 7);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

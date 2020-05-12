@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -43,7 +42,7 @@ namespace CalamityMod.Projectiles.Magic
             Vector2 rrp = player.RotatedRelativePoint(player.MountedCenter, true);
 
             // Update damage based on curent magic damage stat (so Mana Sickness affects it)
-            projectile.damage = (int)((player.HeldItem?.damage ?? 0) * player.MagicDamage());
+            projectile.damage = (int)((player.ActiveItem()?.damage ?? 0) * player.MagicDamage());
 
             // ai[0] is the overall frame counter.
             projectile.ai[0] += 1f;
@@ -78,11 +77,11 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.owner == Main.myPlayer)
             {
                 // Scale seemingly never changes, so this just scales with shoot speed (Yharim's Crystal is 30 by default)
-                float speedTimesScale = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                float speedTimesScale = player.ActiveItem().shootSpeed * projectile.scale;
                 UpdateAim(rrp, speedTimesScale);
 
                 // CheckMana returns true if the mana cost can be paid. If mana isn't consumed this frame, the CheckMana short-circuits out of being evaluated.
-                bool allowContinuedUse = !ShouldConsumeMana() || player.CheckMana(player.inventory[player.selectedItem].mana, true, false);
+                bool allowContinuedUse = !ShouldConsumeMana() || player.CheckMana(player.ActiveItem().mana, true, false);
                 bool crystalStillInUse = player.channel && allowContinuedUse && !player.noItems && !player.CCed;
 
                 // The beams are only projected once (on frame 1).
@@ -150,7 +149,9 @@ namespace CalamityMod.Projectiles.Magic
             player.heldProj = projectile.whoAmI;
             player.itemTime = 2;
             player.itemAnimation = 2;
-            player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
+
+            // Multiplying by projectile.direction is required due to vanilla spaghetti.
+            player.itemRotation = (projectile.velocity * projectile.direction).ToRotation();
         }
 
         private void SpawnEjectionDust(float charge)

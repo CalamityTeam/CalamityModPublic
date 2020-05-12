@@ -34,14 +34,14 @@ namespace CalamityMod.NPCs.AcidRain
             npc.damage = 66;
             npc.lifeMax = 850;
             npc.defense = 15;
-            npc.Calamity().DR = 0.25f;
+            npc.Calamity().RevPlusDR(0.25f);
 
             if (CalamityWorld.downedPolterghast)
             {
-                npc.damage = 160;
-                npc.lifeMax = 7200;
+                npc.damage = 120;
+                npc.lifeMax = 4900;
                 npc.defense = 78;
-                npc.Calamity().DR = 0.4f;
+				npc.Calamity().RevPlusDR(0.4f);
             }
 
             npc.knockBackResist = 0f;
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.AcidRain
                     float speed = 15f;
                     if (CalamityWorld.downedPolterghast)
                     {
-                        speed = 28.5f;
+                        speed = 18.5f;
                     }
 
                     npc.velocity = npc.DirectionTo(player.Center) * speed;
@@ -116,8 +116,8 @@ namespace CalamityMod.NPCs.AcidRain
                         float speedY = 9f;
                         if (CalamityWorld.downedPolterghast)
                         {
-                            speedX = 27f;
-                            speedY = 25f;
+                            speedX = 22f;
+                            speedY = 11f;
                         }
                         npc.velocity = npc.DirectionTo(player.Center) * new Vector2(speedX, speedY);
                         npc.netUpdate = true;

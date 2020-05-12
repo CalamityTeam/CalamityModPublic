@@ -1,4 +1,4 @@
-
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
@@ -24,10 +24,7 @@ namespace CalamityMod.Items.TreasureBags
             item.rare = 1;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void RightClick(Player player)
         {
@@ -54,12 +51,15 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.Torch, 25);
             DropHelper.DropItem(player, ItemID.Chest, 3);
 
-            // Difficulty items
-            DropHelper.DropItem(player, ModContent.ItemType<Death>());
-            DropHelper.DropItem(player, ModContent.ItemType<DefiledRune>());
+            // Difficulty items (doesn't drop in Normal)
+            DropHelper.DropItemCondition(player, ModContent.ItemType<Death>(), Main.expertMode);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<DefiledRune>(), Main.expertMode);
 
             // Speedrun King Slime
             DropHelper.DropItem(player, ItemID.SlimeCrown);
+
+            // The Lad
+            DropHelper.DropItemCondition(player, ModContent.ItemType<JoyfulHeart>(), player.name == "Aleksh" || player.name == "Shark Lad");
 
             // Music box (if music mod installed)
             Mod musicMod = ModLoader.GetMod("CalamityModMusic");

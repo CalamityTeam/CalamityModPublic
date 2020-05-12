@@ -1,4 +1,5 @@
-﻿using CalamityMod.Dusts;
+﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Damageable;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -68,6 +69,23 @@ namespace CalamityMod.Projectiles.Typeless
                     projectile.tileCollide = true;
                     projectile.velocity = Utils.NextVector2Circular(Main.rand, 18f, 9f);
                     projectile.localAI[1] = 1;
+                }
+                if (projectile.modProjectile is ArtifactOfResilienceShard1)
+                {
+                    for (int i = 0; i < Main.npc.Length; i++)
+                    {
+                        if (Main.npc[i].active &&
+                            Main.npc[i].Distance(StartingPosition) < projectile.ai[1] &&
+                            Main.npc[i].damage > 0)
+                        {
+                            if (Main.npc[i].Calamity().relicOfResilienceCooldown <= 0)
+                            {
+                                Main.npc[i].Calamity().relicOfResilienceCooldown = 600;
+                                Main.npc[i].Calamity().relicOfResilienceWeakness = 180;
+                                Main.npc[i].AddBuff(ModContent.BuffType<ProfanedWeakness>(), Main.npc[i].Calamity().relicOfResilienceWeakness);
+                            }
+                        }
+                    }
                 }
             }
             // Falling

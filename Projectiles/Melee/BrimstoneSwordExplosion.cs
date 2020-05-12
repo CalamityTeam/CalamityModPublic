@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
-            projectile.penetrate = -1;
+            projectile.penetrate = 3;
             projectile.timeLeft = 60;
             projectile.melee = true;
             projectile.usesLocalNPCImmunity = true;

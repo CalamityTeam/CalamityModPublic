@@ -35,6 +35,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Projectiles.Environment;
+using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -42,6 +43,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameInput;
@@ -185,6 +187,7 @@ namespace CalamityMod.CalPlayer
         public float shieldInvinc = 5f;
         public GaelSwitchPhase gaelSwitchTimer = 0;
         public int galileoCooldown = 0;
+        public int soundCooldown = 0;
         public int planarSpeedBoost = 0;
         public int profanedSoulWeaponUsage = 0;
         public int profanedSoulWeaponType = 0;
@@ -231,7 +234,7 @@ namespace CalamityMod.CalPlayer
 
         public float throwingDamage = 1f;
         public float throwingVelocity = 1f;
-        public int throwingCrit = 4;
+        public int throwingCrit = 0;
         public bool throwingAmmoCost75 = false;
         public bool throwingAmmoCost66 = false;
         public bool throwingAmmoCost50 = false;
@@ -410,6 +413,7 @@ namespace CalamityMod.CalPlayer
         public bool pAmulet = false;
         public bool fBarrier = false;
         public bool aBrain = false;
+        public bool amalgam = false;
         public bool lol = false;
         public bool raiderTalisman = false;
         public int raiderStack = 0;
@@ -533,6 +537,7 @@ namespace CalamityMod.CalPlayer
         public bool snowRuffianSet = false;
         public bool forbiddenCirclet = false;
 		public int forbiddenCooldown = 0;
+		public int tornadoCooldown = 0;
         public bool eskimoSet = false; //vanilla armor
         public bool meteorSet = false; //vanilla armor, for space gun nerf
         public bool victideSet = false;
@@ -676,6 +681,7 @@ namespace CalamityMod.CalPlayer
         public bool iCantBreathe = false; //Frozen Lungs debuff
         public bool cragsLava = false;
         public bool vaporfied = false;
+        public bool energyShellCooldown = false;
         #endregion
 
         #region Buff
@@ -1252,7 +1258,7 @@ namespace CalamityMod.CalPlayer
 
             throwingDamage = 1f;
             throwingVelocity = 1f;
-            throwingCrit = 4;
+            throwingCrit = 0;
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
@@ -1426,6 +1432,7 @@ namespace CalamityMod.CalPlayer
             pAmulet = false;
             fBarrier = false;
             aBrain = false;
+            amalgam = false;
             frostFlare = false;
             beeResist = false;
             uberBees = false;
@@ -1637,6 +1644,7 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
+			energyShellCooldown = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -1847,6 +1855,7 @@ namespace CalamityMod.CalPlayer
             andromedaState = AndromedaPlayerState.Inactive;
             planarSpeedBoost = 0;
             galileoCooldown = 0;
+            soundCooldown = 0;
             rage = 0;
             adrenaline = 0;
             raiderStack = 0;
@@ -1881,6 +1890,7 @@ namespace CalamityMod.CalPlayer
 			doubledHorror = false;
 			sulphurBubbleCooldown = 0;
 			forbiddenCooldown = 0;
+			tornadoCooldown = 0;
 			ladHearts = 0;
 
             alcoholPoisoning = false;
@@ -1927,6 +1937,7 @@ namespace CalamityMod.CalPlayer
             iCantBreathe = false;
             cragsLava = false;
             vaporfied = false;
+			energyShellCooldown = false;
             #endregion
 
             #region Rogue
@@ -1937,7 +1948,7 @@ namespace CalamityMod.CalPlayer
 
             throwingDamage = 1f;
             throwingVelocity = 1f;
-            throwingCrit = 4;
+            throwingCrit = 0;
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
@@ -2282,6 +2293,24 @@ namespace CalamityMod.CalPlayer
                 (double)point.Y > (Main.rockLayer + y * 0.26);
 
             ZoneSulphur = (CalamityWorld.sulphurTiles > 30 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
+
+			Mod fargos = ModLoader.GetMod("Fargowiltas");
+			if (fargos != null)
+			{
+				//Fargo's fountain effects
+				if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SunkenSeaWater").Type)
+				{
+					ZoneSunkenSea = true;
+				}
+				if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "SulphuricWater").Type)
+				{
+					ZoneSulphur = true;
+				}
+				if (Main.fountainColor == CalamityGlobalTile.WaterStyles.FirstOrDefault((style) => style.Name == "AstralWater").Type)
+				{
+					ZoneAstral = true;
+				}
+			}
         }
 
         public override bool CustomBiomesMatch(Player other)
@@ -2375,8 +2404,6 @@ namespace CalamityMod.CalPlayer
 
             if (!mediumcoreDeath)
             {
-				if (player.name == "Aleksh" || player.name == "Shark Lad")
-					items.Add(createItem(ModContent.ItemType<JoyfulHeart>()));
                 items.Add(createItem(ModContent.ItemType<StarterBag>()));
                 items.Add(createItem(ModContent.ItemType<Revenge>()));
                 items.Add(createItem(ModContent.ItemType<IronHeart>()));
@@ -2656,8 +2683,9 @@ namespace CalamityMod.CalPlayer
                 }
                 if (plagueReaper && plagueReaperCooldown <= 0)
                     plagueReaperCooldown = 1800;
-				if (forbiddenCirclet)
+				if (forbiddenCirclet && forbiddenCooldown <= 0)
 				{
+					forbiddenCooldown = 20;
                     int stormMana = (int)(ForbiddenCirclet.manaCost * player.manaCost);
                     if (player.statMana < stormMana)
                     {
@@ -2713,7 +2741,7 @@ namespace CalamityMod.CalPlayer
             }
             if (CalamityMod.RageHotKey.JustPressed)
             {
-                if (gaelRageCooldown == 0 && player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>() &&
+                if (gaelRageCooldown == 0 && player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() &&
                     rage > 0)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)player.position.X, (int)player.position.Y);
@@ -3220,7 +3248,21 @@ namespace CalamityMod.CalPlayer
             {
                 meleeSpeedMult += 0.1f;
             }
-            if (CalamityMod.CalamityConfig.ProficiencyEnabled)
+			if (bloodyWormTooth)
+			{
+				if (player.statLife < (int)(player.statLifeMax2 * 0.5))
+					meleeSpeedMult += 0.1f;
+				else
+					meleeSpeedMult += 0.05f;
+			}
+			if (aquaticScourgeLore)
+			{
+				if (player.wellFed)
+					meleeSpeedMult += 0.025f;
+				else
+					meleeSpeedMult -= 0.025f;
+			}
+			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
             {
                 meleeSpeedMult += GetMeleeSpeedBonus();
             }
@@ -3349,12 +3391,12 @@ namespace CalamityMod.CalPlayer
         {
             CalamityPlayerMiscEffects.CalamityPostUpdateMiscEffects(player, mod);
 
-            if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>())
+            if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>())
             {
                 gaelSwitchTimer = GaelSwitchPhase.LoseRage;
                 rage += (int)MathHelper.Min(5, 10000 - rage);
             }
-            else if (player.HeldItem.type != ModContent.ItemType<GaelsGreatsword>() && gaelSwitchTimer == GaelSwitchPhase.LoseRage)
+            else if (player.ActiveItem().type != ModContent.ItemType<GaelsGreatsword>() && gaelSwitchTimer == GaelSwitchPhase.LoseRage)
             {
                 rage = 0;
                 gaelSwitchTimer = GaelSwitchPhase.None;
@@ -3574,7 +3616,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (invincible && player.inventory[player.selectedItem].type != ModContent.ItemType<ColdheartIcicle>())
+            if (invincible && player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>())
             {
                 if (player.statLife <= 0)
                 {
@@ -4400,7 +4442,7 @@ namespace CalamityMod.CalPlayer
                         {
                             target.AddBuff(BuffID.Midas, 120, false);
                         }
-                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.inventory[player.selectedItem].type))
+                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
                         {
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
@@ -4718,7 +4760,7 @@ namespace CalamityMod.CalPlayer
                         {
                             target.AddBuff(BuffID.Midas, 120, false);
                         }
-                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.inventory[player.selectedItem].type))
+                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
                         {
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
@@ -4735,7 +4777,7 @@ namespace CalamityMod.CalPlayer
                         target.AddBuff(BuffID.Venom, 120, false);
                     }
                 }
-                if (proj.type == ProjectileID.IchorArrow && player.inventory[player.selectedItem].type == ModContent.ItemType<RaidersGlory>())
+                if (proj.type == ProjectileID.IchorArrow && player.ActiveItem().type == ModContent.ItemType<RaidersGlory>())
                 {
                     target.AddBuff(BuffID.Midas, 300, false);
                 }
@@ -4975,7 +5017,7 @@ namespace CalamityMod.CalPlayer
             bool isSummon = proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type);
             bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.Calamity().rogue;
 
-            Item heldItem = player.inventory[player.selectedItem];
+            Item heldItem = player.ActiveItem();
 
             if (isTrueMelee && soaring)
             {
@@ -5393,12 +5435,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || proj.Calamity().stealthStrike))
                 {
-                    int newDamage = (int)(proj.damage * 0.25);
-                    if (newDamage > 50)
-                    {
-                        newDamage = (int)((proj.damage * 0.25 - 50) * 0.1) + 50;
-                    }
-                    Projectile.NewProjectile(proj.Center.X, proj.Center.Y, 0f, 0f, ModContent.ProjectileType<UmbraphileBoom>(), newDamage, 0f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(proj.Center.X, proj.Center.Y, 0f, 0f, ModContent.ProjectileType<UmbraphileBoom>(), CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50), 0f, player.whoAmI, 0f, 0f);
                 }
                 if (bloodflareMelee && isTrueMelee)
                 {
@@ -5622,25 +5659,28 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-            if (player.HeldItem.type == ModContent.ItemType<GaelsGreatsword>()
-                && proj.active && proj.hostile && player.altFunctionUse == 2 && Main.rand.NextBool(2))
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
-                    Main.dust[dustIndex].velocity *= 0.3f;
-                }
-                int damage2 = (int)(GaelsGreatsword.BaseDamage * Main.LocalPlayer.MeleeDamage());
-                proj.hostile = false;
-                proj.friendly = true;
-                proj.velocity *= -1f;
-                proj.damage = damage2;
-                proj.penetrate = 1;
-                player.immune = true;
-                player.immuneNoBlink = true;
-                player.immuneTime = 4;
-                damage = 0;
-            }
+			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
+			{
+				if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>()
+					&& proj.active && proj.hostile && player.altFunctionUse == 2 && Main.rand.NextBool(2))
+				{
+					for (int j = 0; j < 3; j++)
+					{
+						int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
+						Main.dust[dustIndex].velocity *= 0.3f;
+					}
+					int damage2 = (int)(GaelsGreatsword.BaseDamage * Main.LocalPlayer.MeleeDamage());
+					proj.hostile = false;
+					proj.friendly = true;
+					proj.velocity *= -1f;
+					proj.damage = damage2;
+					proj.penetrate = 1;
+					player.immune = true;
+					player.immuneNoBlink = true;
+					player.immuneTime = 4;
+					damage = 0;
+				}
+			}
             int bossRushDamage = (Main.expertMode ? 125 : 150) + (CalamityWorld.bossRushStage / 2);
             if (CalamityWorld.bossRushActive)
             {
@@ -5824,46 +5864,49 @@ namespace CalamityMod.CalPlayer
                     //1 second for DM lightning, 2 seconds for Storm Weaver/Cultist lightning
                 }
             }
-            if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))
-            {
-                player.statLife += damage;
-                player.HealEffect(damage);
-                proj.hostile = false;
-                proj.friendly = true;
-                proj.velocity.X = -proj.velocity.X;
-                proj.velocity.Y = -proj.velocity.Y;
-            }
-            if (projRefRare && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(2))
-            {
-                proj.hostile = false;
-                proj.friendly = true;
-                proj.velocity.X = -proj.velocity.X * 2f;
-                proj.velocity.Y = -proj.velocity.Y * 2f;
-                proj.damage *= 10;
-                projRefRareLifeRegenCounter = 120;
-                projTypeJustHitBy = proj.type;
-            }
-            if (aSparkRare && proj.active && !proj.friendly && proj.hostile && damage > 0)
-            {
-                if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet)
-                {
-                    proj.hostile = false;
-                    proj.friendly = true;
-                    proj.velocity.X = -proj.velocity.X;
-                    proj.velocity.Y = -proj.velocity.Y;
-                    proj.damage *= 8;
-                }
-            }
-            if (daedalusReflect && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(3))
-            {
-                int healAmt = damage / 5;
-                player.statLife += healAmt;
-                player.HealEffect(healAmt);
-                proj.hostile = false;
-                proj.friendly = true;
-                proj.velocity.X = -proj.velocity.X;
-                proj.velocity.Y = -proj.velocity.Y;
-            }
+			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
+			{
+				if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))
+				{
+					player.statLife += damage;
+					player.HealEffect(damage);
+					proj.hostile = false;
+					proj.friendly = true;
+					proj.velocity.X = -proj.velocity.X;
+					proj.velocity.Y = -proj.velocity.Y;
+				}
+				if (projRefRare && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(2))
+				{
+					proj.hostile = false;
+					proj.friendly = true;
+					proj.velocity.X = -proj.velocity.X * 2f;
+					proj.velocity.Y = -proj.velocity.Y * 2f;
+					proj.damage *= 10;
+					projRefRareLifeRegenCounter = 120;
+					projTypeJustHitBy = proj.type;
+				}
+				if (aSparkRare && proj.active && !proj.friendly && proj.hostile && damage > 0)
+				{
+					if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet)
+					{
+						proj.hostile = false;
+						proj.friendly = true;
+						proj.velocity.X = -proj.velocity.X;
+						proj.velocity.Y = -proj.velocity.Y;
+						proj.damage *= 8;
+					}
+				}
+				if (daedalusReflect && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(3))
+				{
+					int healAmt = damage / 5;
+					player.statLife += healAmt;
+					player.HealEffect(healAmt);
+					proj.hostile = false;
+					proj.friendly = true;
+					proj.velocity.X = -proj.velocity.X;
+					proj.velocity.Y = -proj.velocity.Y;
+				}
+			}
         }
         #endregion
 
@@ -6134,7 +6177,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            if (lol || (invincible && player.inventory[player.selectedItem].type != ModContent.ItemType<ColdheartIcicle>()))
+            if (lol || (invincible && player.ActiveItem().type != ModContent.ItemType<ColdheartIcicle>()))
             {
                 return false;
             }
@@ -6225,6 +6268,10 @@ namespace CalamityMod.CalPlayer
             if (encased)
             {
                 damage = (int)(damage * 0.7);
+            }
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] > 0 && player.ActiveItem().type == ModContent.ItemType<LionHeart>())
+            {
+                damage = (int)(damage * 0.5);
             }
             if (theBee && player.statLife >= player.statLifeMax2 && theBeeCooldown <= 0)
             {
@@ -6427,34 +6474,41 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (aBrain)
+                if (aBrain || amalgam)
                 {
                     for (int m = 0; m < Main.maxNPCs; m++)
                     {
                         if (Main.npc[m].active && !Main.npc[m].friendly)
                         {
-                            float arg_67A_0 = (Main.npc[m].Center - player.Center).Length();
-                            float num10 = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
-                            if (num10 > 500f)
+                            float npcDist = (Main.npc[m].Center - player.Center).Length();
+                            float range = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
+                            if (range > 500f)
                             {
-                                num10 = 500f + (num10 - 500f) * 0.75f;
+                                range = 500f + (range - 500f) * 0.75f;
                             }
-                            if (num10 > 700f)
+                            if (range > 700f)
                             {
-                                num10 = 700f + (num10 - 700f) * 0.5f;
+                                range = 700f + (range - 700f) * 0.5f;
                             }
-                            if (num10 > 900f)
+                            if (range > 900f)
                             {
-                                num10 = 900f + (num10 - 900f) * 0.25f;
+                                range = 900f + (range - 900f) * 0.25f;
                             }
-                            if (arg_67A_0 < num10)
+                            if (npcDist < range)
                             {
-                                float num11 = (float)Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
-                                Main.npc[m].AddBuff(BuffID.Confused, (int)num11, false);
+                                float duration = (float)Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
+                                Main.npc[m].AddBuff(BuffID.Confused, (int)duration, false);
+								if (amalgam)
+								{
+									Main.npc[m].AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)duration, false);
+									Main.npc[m].AddBuff(ModContent.BuffType<GodSlayerInferno>(), (int)duration, false);
+									Main.npc[m].AddBuff(ModContent.BuffType<SulphuricPoisoning>(), (int)duration, false);
+									Main.npc[m].AddBuff(ModContent.BuffType<Irradiated>(), (int)duration, false);
+								}
                             }
                         }
                     }
-					//spawn the harmless brain images that are actually projectiles
+					//Spawn the harmless brain images that are actually projectiles
                     Projectile.NewProjectile(player.Center.X + (float)Main.rand.Next(-40, 40), player.Center.Y - (float)Main.rand.Next(20, 60), player.velocity.X * 0.3f, player.velocity.Y * 0.3f, ProjectileID.BrainOfConfusion, 0, 0f, player.whoAmI, 0f, 0f);
                 }
                 if (polarisBoost)
@@ -9285,7 +9339,8 @@ namespace CalamityMod.CalPlayer
             player.rangedCrit += boost;
             player.magicCrit += boost;
             player.thrownCrit += boost;
-            throwingCrit += boost;
+            // Rogue weapons benefit from throwing crit AND rogue crit, so don't add both.
+            // throwingCrit += boost;
         }
         #endregion
 
@@ -9346,7 +9401,15 @@ namespace CalamityMod.CalPlayer
             // This doesn't trigger stealth strike effects (ConsumeStealthStrike instead of StealthStrike)
             // so non-rogue weapons can't call lasers down from the sky and such.
             // Using any item which deals no damage or is a tool doesn't consume stealth.
-            bool playerUsingWeapon = player.HeldItem.damage > 0 && player.HeldItem.pick <= 0 && player.HeldItem.hammer <= 0 && player.HeldItem.axe <= 0;
+            Item it = player.ActiveItem();
+            bool hasDamage = it.damage > 0;
+            bool hasHitboxes = !it.noMelee || it.shoot > 0;
+            bool isPickaxe = it.pick > 0;
+            bool isAxe = it.axe > 0;
+            bool isHammer = it.hammer > 0;
+            bool isPlaced = it.createTile != -1;
+            bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced;
+            bool playerUsingWeapon = hasDamage && hasHitboxes && !hasNonWeaponFunction;
             if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax - 1 && playerUsingWeapon)
                 ConsumeStealthByAttacking();
         }
@@ -9396,7 +9459,7 @@ namespace CalamityMod.CalPlayer
                     stealthGenMoving += 0.15f;
             }
 
-            if (CalamityMod.daggerList.Contains(player.inventory[player.selectedItem].type) && player.invis)
+            if (CalamityMod.daggerList.Contains(player.ActiveItem().type) && player.invis)
             {
                 stealthGenStandstill += 0.08f;
                 stealthGenMoving += 0.08f;

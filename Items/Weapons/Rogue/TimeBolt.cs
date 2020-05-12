@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useAnimation = 20;
             item.useStyle = 1;
             item.useTime = 20;
-            item.knockBack = 2f;
+            item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.value = Item.buyPrice(1, 40, 0, 0);
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.Calamity().rogue = true;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
             Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();

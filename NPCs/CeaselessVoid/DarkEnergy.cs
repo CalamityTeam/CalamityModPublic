@@ -264,7 +264,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 		public override bool CheckActive()
 		{
-			return false;
+			return CalamityGlobalNPC.voidBoss < 0 || !Main.npc[CalamityGlobalNPC.voidBoss].active;
 		}
 
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)

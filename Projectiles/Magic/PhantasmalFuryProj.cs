@@ -6,8 +6,6 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class PhantasmalFuryProj : ModProjectile
     {
-        int lightTimer = 10;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fury");
@@ -26,14 +24,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            lightTimer--;
-            if (lightTimer == 0)
+            if (projectile.timeLeft % 10 == 0)
             {
                 if (projectile.owner == Main.myPlayer)
                 {
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Phantom>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
-                lightTimer = 10;
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.25f / 255f);
             for (int num457 = 0; num457 < 5; num457++)

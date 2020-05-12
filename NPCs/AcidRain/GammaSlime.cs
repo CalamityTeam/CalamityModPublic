@@ -33,9 +33,9 @@ namespace CalamityMod.NPCs.AcidRain
             npc.width = 40;
             npc.height = 44;
 
-			npc.damage = 145;
-			npc.lifeMax = 6410;
-            npc.Calamity().DR = 0.25f;
+			npc.damage = 130;
+			npc.lifeMax = 5915;
+            npc.Calamity().RevPlusDR(0.15f);
 			npc.defense = 50;
 
             npc.aiStyle = aiType = -1;

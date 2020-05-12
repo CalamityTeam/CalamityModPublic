@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Summon;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 50;
+            item.damage = 60;
             item.mana = 10;
             item.width = 50;
             item.height = 50;
@@ -31,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.summon = true;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             position = Main.MouseWorld;
             speedX = 0;

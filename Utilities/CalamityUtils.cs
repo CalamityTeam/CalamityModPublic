@@ -53,6 +53,7 @@ namespace CalamityMod
         public static CalamityGlobalNPC Calamity(this NPC npc) => npc.GetGlobalNPC<CalamityGlobalNPC>();
         public static CalamityGlobalItem Calamity(this Item item) => item.GetGlobalItem<CalamityGlobalItem>();
         public static CalamityGlobalProjectile Calamity(this Projectile proj) => proj.GetGlobalProjectile<CalamityGlobalProjectile>();
+        public static Item ActiveItem(this Player player) => Main.mouseItem.IsAir ? player.HeldItem : Main.mouseItem;
         #endregion
 
         #region Player Utilities
@@ -302,7 +303,7 @@ namespace CalamityMod
         public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
         {
             Player player = Main.player[Main.myPlayer];
-            Item item = player.inventory[player.selectedItem];
+            Item item = player.ActiveItem();
             float hitbox_X, hitbox_Y;
             float mountOffsetY = player.mount.PlayerOffsetHitbox;
 
@@ -642,6 +643,16 @@ namespace CalamityMod
                 }
             }
         }
+
+		public static int DamageSoftCap(double dmgInput, int cap)
+		{
+			int newDamage = (int)(dmgInput);
+			if (newDamage > cap)
+			{
+				newDamage = (int)((dmgInput - cap) * 0.1) + cap;
+			}
+			return newDamage;
+		}
         #endregion
 
         #region Tile Utilities
@@ -2138,6 +2149,33 @@ namespace CalamityMod
             // All work benches count as tables.
             mt.AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
         }
+
+        /// <summary>
+        /// Extension which initializes a ModTile to be a fountain.
+        /// </summary>
+        /// <param name="mt">The ModTile which is being initialized.</param>
+        internal static void SetUpFountain(this ModTile mt)
+        {
+			//All fountains are immune to lava
+            Main.tileLighted[mt.Type] = true;
+            Main.tileFrameImportant[mt.Type] = true;
+            Main.tileLavaDeath[mt.Type] = false;
+            Main.tileWaterDeath[mt.Type] = false;
+            //TileObjectData.newTile.CopyFrom(TileObjectData.Style3x4);
+            //TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.LavaDeath = false;
+            TileObjectData.addTile(mt.Type);
+            TileID.Sets.HasOutlines[mt.Type] = true;
+
+            TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.Height = 4;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.Origin = new Point16(0, 3);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 2, 0);
+            TileObjectData.addTile(mt.Type);
+        }
         #endregion
         #endregion
 
@@ -2155,12 +2193,12 @@ namespace CalamityMod
         public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor, int xPositionAdditive = 45, float yPositionAdditive = 35f)
         {
             Player player = Main.player[projectile.owner];
-            if (projectile.bobber && player.inventory[player.selectedItem].holdStyle > 0)
+            if (projectile.bobber && player.ActiveItem().holdStyle > 0)
             {
                 float pPosX = player.MountedCenter.X;
                 float pPosY = player.MountedCenter.Y;
                 pPosY += player.gfxOffY;
-                int type = player.inventory[player.selectedItem].type;
+                int type = player.ActiveItem().type;
                 float gravDir = player.gravDir;
 
                 if (type == fishingRodType)

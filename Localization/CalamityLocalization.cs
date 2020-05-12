@@ -28,7 +28,6 @@ namespace CalamityMod.Localization
                 new [] { "PlantBossText", "The ocean depths are trembling." },
 
                 new [] { "BabyBossText", "A plague has befallen the Jungle." },
-                new [] { "BabyBossText2", "An ancient automaton roams the land." },
 
                 new [] { "MoonBossText", "The profaned flame blazes fiercely!" },
                 new [] { "MoonBossText2", "Cosmic terrors are watching..." },

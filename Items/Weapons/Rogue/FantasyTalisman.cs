@@ -20,7 +20,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
         public override void SafeSetDefaults()
         {
             item.width = 34;
-            item.damage = 80;
+            item.damage = 93;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
@@ -57,7 +57,7 @@ Stealth strikes release more souls and leave behind souls as they travel");
             recipe.AddIngredient(ItemID.Silk, 3);
             recipe.AddIngredient(ItemID.Ectoplasm, 5);
             recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 100);
+            recipe.SetResult(this, 150);
             recipe.AddRecipe();
         }
     }

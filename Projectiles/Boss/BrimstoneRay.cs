@@ -53,6 +53,8 @@ namespace CalamityMod.Projectiles.Boss
                 Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + (Main.npc[(int)projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)projectile.ai[1]].Center.Y - 74f);
                 projectile.position = fireFrom - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
             }
+			else
+				projectile.Kill();
 
 			float num801 = 1f;
             projectile.localAI[0] += 1f;

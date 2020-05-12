@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.ai[1] = baseUseTime - modifier * projectile.localAI[0];
                 timeToFire = true;
             }
-            bool canFire = player.channel && player.HasAmmo(player.inventory[player.selectedItem], true) && !player.noItems && !player.CCed;
+            bool canFire = player.channel && player.HasAmmo(player.ActiveItem(), true) && !player.noItems && !player.CCed;
             if (projectile.soundDelay <= 0 && canFire)
             {
                 projectile.soundDelay = baseUseTime - modifier * (int)projectile.localAI[0];
@@ -79,12 +79,12 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     int type = 12;
                     float scaleFactor = 30f;
-                    int damage = player.GetWeaponDamage(player.inventory[player.selectedItem]);
-                    float knockBack = player.inventory[player.selectedItem].knockBack;
+                    int damage = player.GetWeaponDamage(player.ActiveItem());
+                    float knockBack = player.ActiveItem().knockBack;
                     for (int i = 0; i < 5; i++)
                     {
-                        player.PickAmmo(player.inventory[player.selectedItem], ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, false);
-                        knockBack = player.GetWeaponKnockback(player.inventory[player.selectedItem], knockBack);
+                        player.PickAmmo(player.ActiveItem(), ref type, ref scaleFactor, ref canFire, ref damage, ref knockBack, false);
+                        knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);
                         Vector2 playerPosition = player.RotatedRelativePoint(player.MountedCenter, true);
                         projectile.velocity = Main.screenPosition - playerPosition;
                         projectile.velocity.X += Main.mouseX;

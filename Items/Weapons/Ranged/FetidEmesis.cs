@@ -51,8 +51,12 @@ namespace CalamityMod.Items.Weapons.Ranged
                     dust.velocity = Vector2.Normalize(new Vector2(speedX, speedY)).RotatedByRandom(MathHelper.ToRadians(15f));
                     dust.noGravity = true;
                 }
-                // WoF vomit sound.
-                Main.PlaySound(SoundID.NPCKilled, position, 13);
+				if (player.Calamity().soundCooldown <= 0)
+				{
+					// WoF vomit sound.
+					Main.PlaySound(SoundID.NPCKilled, (int)position.X, (int)position.Y, 13, 0.5f, 0f);
+					player.Calamity().soundCooldown = 120;
+				}
                 return false;
             }
             return true;

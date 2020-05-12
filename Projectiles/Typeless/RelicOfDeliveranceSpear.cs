@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -77,6 +78,17 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.ai[0]++;
             if (projectile.velocity == Vector2.Zero)
             {
+                // Immediately die if the player is not holding the spear
+                if (player.ActiveItem() == null)
+                {
+                    projectile.Kill();
+                    return;
+                }
+                if (player.ActiveItem().type != ModContent.ItemType<RelicOfDeliverance>())
+                {
+                    projectile.Kill();
+                    return;
+                }
                 projectile.rotation = projectile.AngleTo(Main.MouseWorld);
                 projectile.Center = player.Center;
                 if (projectile.ai[0] >= WaitTimeRequiredForCharge)

@@ -83,7 +83,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float num114 = num78;
                 float num115 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
-                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, 645, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.5), knockback, i, 0f, (float)Main.rand.Next(3));
+                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, ProjectileID.LunarFlare, (int)(item.damage * player.MeleeDamage() * 0.5), knockback, i, 0f, (float)Main.rand.Next(3));
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
         }
@@ -134,7 +134,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 num79 *= num80;
                 float num114 = num78;
                 float num115 = num79 + (float)Main.rand.Next(-80, 81) * 0.02f;
-                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, 645, (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.5), item.knockBack, i, 0f, (float)Main.rand.Next(3));
+                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, num114, num115, ProjectileID.LunarFlare, (int)(item.damage * player.MeleeDamage() * 0.5), item.knockBack, i, 0f, (float)Main.rand.Next(3));
                 Main.projectile[proj].Calamity().forceMelee = true;
             }
         }

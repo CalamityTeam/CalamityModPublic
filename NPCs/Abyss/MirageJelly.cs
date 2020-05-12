@@ -162,7 +162,9 @@ namespace CalamityMod.NPCs.Abyss
         public override bool? CanBeHitByProjectile(Projectile projectile)
         {
             if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
-                return false;
+            {
+                return hasBeenHit;
+            }
             return null;
         }
 

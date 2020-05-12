@@ -2,13 +2,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Dyes
+namespace CalamityMod.Items.Dyes.HairDye
 {
-    public class AdrenalineHairDye : ModItem
+    public class StealthHairDye : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Adrenaline Hair Dye");
+            DisplayName.SetDefault("Stealth Hair Dye");
         }
 
 		public override void SetDefaults()
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Dyes
 			item.width = 20;
 			item.height = 26;
 			item.maxStack = 99;
-			item.value = Item.buyPrice(gold: 7, silver: 50);
+			item.value = Item.buyPrice(gold: 5);
 			item.rare = 2;
 			item.UseSound = SoundID.Item3;
 			item.useStyle = 2;

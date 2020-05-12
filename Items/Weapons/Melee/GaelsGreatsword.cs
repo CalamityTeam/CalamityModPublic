@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gael's Greatsword");
-            Tooltip.SetDefault("Give me that thing, your dark soul\n" +
+            Tooltip.SetDefault("Hand it over, that thing. Your dark soul.\n" +
 							   "First swing fires homing skulls\n" +
                                "Second swing fires a giant, powerful skull\n" +
                                "Third swing deals massive damage\n" +
@@ -100,7 +100,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Projectile.NewProjectile(p.ToWorldCoordinates(8f, 0f), Vector2.Zero, ModContent.ProjectileType<LightningThing>(), 0, 0f, player.whoAmI);
                 }
             }
-            if (player.itemAnimation == (int)((double)player.itemAnimationMax * 0.5))
+            if (player.itemAnimation == (int)(player.itemAnimationMax * 0.5))
             {
                 player.Calamity().gaelSwipes++;
                 if (player.statLife <= player.statLifeMax2 * 0.5f)

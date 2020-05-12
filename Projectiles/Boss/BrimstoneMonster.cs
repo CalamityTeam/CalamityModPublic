@@ -134,24 +134,24 @@ namespace CalamityMod.Projectiles.Boss
             }
 
 			// Fly away from other brimstone monsters
-			float num1247 = 0.5f;
-			for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
+			float velocity = 0.1f;
+			for (int i = 0; i < Main.maxProjectiles; i++)
 			{
-				if (Main.projectile[num1248].active)
+				if (Main.projectile[i].active)
 				{
-					if (num1248 != projectile.whoAmI && Main.projectile[num1248].type == projectile.type)
+					if (i != projectile.whoAmI && Main.projectile[i].type == projectile.type)
 					{
-						if (Vector2.Distance(projectile.Center, Main.projectile[num1248].Center) < 320f)
+						if (Vector2.Distance(projectile.Center, Main.projectile[i].Center) < 320f)
 						{
-							if (projectile.position.X < Main.projectile[num1248].position.X)
-								projectile.velocity.X -= num1247;
+							if (projectile.position.X < Main.projectile[i].position.X)
+								projectile.velocity.X -= velocity;
 							else
-								projectile.velocity.X += num1247;
+								projectile.velocity.X += velocity;
 
-							if (projectile.position.Y < Main.projectile[num1248].position.Y)
-								projectile.velocity.Y -= num1247;
+							if (projectile.position.Y < Main.projectile[i].position.Y)
+								projectile.velocity.Y -= velocity;
 							else
-								projectile.velocity.Y += num1247;
+								projectile.velocity.Y += velocity;
 						}
 					}
 				}

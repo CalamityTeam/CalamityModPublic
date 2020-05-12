@@ -14,7 +14,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
     public class Brimling : ModNPC
     {
         private bool boostDR = false;
-        public static float normalDR = 0.2f;
+        public static float normalDR = 0.15f;
         public static float boostedDR = 0.8f;
 
         public override void SetStaticDefaults()
@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.width = 60;
             npc.height = 60;
             npc.defense = 0;
-            npc.Calamity().DR = normalDR;
+            npc.Calamity().RevPlusDR(normalDR);
             npc.lifeMax = 4000;
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -108,11 +108,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             }
 
             // Set DR based on boost status
-            npc.Calamity().DR = boostDR ? boostedDR : normalDR;
+            npc.Calamity().DR = boostDR ? boostedDR : CalamityWorld.revenge ? normalDR : 0f;
 
             float num1446 = goIntoShell ? 1f : (CalamityWorld.bossRushActive ? 12f : 6f);
             int num1447 = 480;
-            float num244;
             if (npc.localAI[1] == 1f)
             {
                 npc.localAI[1] = 0f;
@@ -163,35 +162,31 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             if (npc.ai[2] != 0f && npc.ai[3] != 0f)
             {
                 Main.PlaySound(SoundID.Item8, npc.Center);
-                int num;
-                for (int num1449 = 0; num1449 < 20; num1449 = num + 1)
+                for (int num1449 = 0; num1449 < 20; num1449++)
                 {
                     int num1450 = Dust.NewDust(npc.position, npc.width, npc.height, 235, 0f, 0f, 100, Color.Transparent, 1f);
                     Dust dust = Main.dust[num1450];
                     dust.velocity *= 3f;
                     Main.dust[num1450].noGravity = true;
                     Main.dust[num1450].scale = 2.5f;
-                    num = num1449;
                 }
                 npc.Center = new Vector2(npc.ai[2] * 16f, npc.ai[3] * 16f);
                 npc.velocity = Vector2.Zero;
                 npc.ai[2] = 0f;
                 npc.ai[3] = 0f;
+				if (npc.localAI[0] > 240f) //Lower firing cooldown to prevent firing so quickly after a teleport
+					npc.localAI[0] = 240f;
                 Main.PlaySound(SoundID.Item8, npc.Center);
-                for (int num1451 = 0; num1451 < 20; num1451 = num + 1)
+                for (int num1451 = 0; num1451 < 20; num1451++)
                 {
                     int num1452 = Dust.NewDust(npc.position, npc.width, npc.height, 235, 0f, 0f, 100, Color.Transparent, 1f);
                     Dust dust = Main.dust[num1452];
                     dust.velocity *= 3f;
                     Main.dust[num1452].noGravity = true;
                     Main.dust[num1452].scale = 2.5f;
-                    num = num1451;
                 }
             }
-            float[] var_9_48E3C_cp_0 = npc.ai;
-            int var_9_48E3C_cp_1 = 0;
-            num244 = var_9_48E3C_cp_0[var_9_48E3C_cp_1];
-            var_9_48E3C_cp_0[var_9_48E3C_cp_1] = num244 + 1f;
+            npc.ai[0] += 1f;
             if (npc.ai[0] >= (float)num1447 && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (npc.localAI[0] > 260f)

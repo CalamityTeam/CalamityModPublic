@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Magic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,8 +21,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.mana = 17;
             item.width = 56;
             item.height = 26;
-            item.useTime = 12;
-            item.useAnimation = 12;
+            item.useTime = 15;
+            item.useAnimation = 15;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 3.75f;
@@ -34,7 +35,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int randomBullets = 0; randomBullets <= 4; randomBullets++)
             {

@@ -10,6 +10,8 @@ using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,6 +20,7 @@ namespace CalamityMod.Tiles
 {
     public class CalamityGlobalTile : GlobalTile
     {
+        public static IList<ModWaterStyle> WaterStyles => (IList<ModWaterStyle>)typeof(WaterStyleLoader).GetField("waterStyles", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
         public static ushort[] PlantTypes = new ushort[]
         {
             TileID.Plants,
@@ -33,12 +36,12 @@ namespace CalamityMod.Tiles
             (ushort)ModContent.TileType<AstralTallPlants>(),
         };
 
-        public override bool PreHitWire(int i, int j, int type)
-        {
-            return !CalamityWorld.bossRushActive;
-        }
+		public override bool PreHitWire(int i, int j, int type)
+		{
+			return !CalamityWorld.bossRushActive;
+		}
 
-        public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
+		public override bool TileFrame(int i, int j, int type, ref bool resetFrame, ref bool noBreak)
         {
             // Custom plant framing
             for (int k = 0; k < PlantTypes.Length; k++)

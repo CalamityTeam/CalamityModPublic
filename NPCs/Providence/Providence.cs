@@ -168,7 +168,7 @@ namespace CalamityMod.NPCs.Providence
             bool normalAttackRate = true;
 
             // Percent life remaining
-            float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+            float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases
             bool ignoreGuardianAmt = lifeRatio < (death ? 0.2f : 0.15f);
@@ -327,17 +327,17 @@ namespace CalamityMod.NPCs.Providence
 
             // Guardian spawn
             if (bossLife == 0f && npc.life > 0)
-                bossLife = (float)npc.lifeMax;
+                bossLife = npc.lifeMax;
             if (npc.life > 0)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     int num660 = (int)(npc.lifeMax * 0.66);
-                    if ((float)(npc.life + num660) < bossLife)
+                    if ((npc.life + num660) < bossLife)
                     {
-                        bossLife = (float)npc.life;
-                        int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
-                        int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
+                        bossLife = npc.life;
+                        int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
+                        int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                         NPC.NewNPC(x - 100, y - 100, ModContent.NPCType<ProvSpawnDefense>(), 0, 0f, 0f, 0f, 0f, 255);
                         NPC.NewNPC(x + 100, y - 100, ModContent.NPCType<ProvSpawnHealer>(), 0, 0f, 0f, 0f, 0f, 255);
                         NPC.NewNPC(x, y + 100, ModContent.NPCType<ProvSpawnOffense>(), 0, 0f, 0f, 0f, 0f, 255);
@@ -417,13 +417,13 @@ namespace CalamityMod.NPCs.Providence
 
 				if (!targetDead)
 				{
-					npc.velocity.X += (float)flightPath * acceleration;
+					npc.velocity.X += flightPath * acceleration;
 					if (npc.velocity.X > velocity)
 						npc.velocity.X = velocity;
 					if (npc.velocity.X < -velocity)
 						npc.velocity.X = -velocity;
 
-					float num855 = player.position.Y - (npc.position.Y + (float)npc.height);
+					float num855 = player.position.Y - (npc.position.Y + npc.height);
 					if (num855 < (firingLaser ? 150f : 200f)) // 150
 						npc.velocity.Y -= 0.2f;
 					if (num855 > (firingLaser ? 200f : 250f)) // 200
@@ -637,7 +637,7 @@ namespace CalamityMod.NPCs.Providence
 					phase = 0;
 
 				// Reset arrays
-				npc.ai[0] = (float)phase;
+				npc.ai[0] = phase;
 				npc.ai[1] = 0f;
 				npc.ai[2] = 0f;
 				npc.ai[3] = 0f;
@@ -661,15 +661,15 @@ namespace CalamityMod.NPCs.Providence
 
 					num856 = (int)(num856 * attackRateMult);
 
-					if (npc.ai[3] >= (float)num856)
-						npc.ai[3] = (float)-(float)num856;
+					if (npc.ai[3] >= num856)
+						npc.ai[3] = -num856;
 
 					if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						vector.X += npc.velocity.X * 7f;
-						float num857 = player.position.X + (float)player.width * 0.5f - vector.X;
+						float num857 = player.position.X + player.width * 0.5f - vector.X;
 						float num858 = player.Center.Y - vector.Y;
-						float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
+						float num859 = (float)Math.Sqrt(num857 * num857 + num858 * num858);
 
 						float velocityBoost = death ? 2.5f : 2.5f * (1f - lifeRatio);
 						float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
@@ -712,11 +712,11 @@ namespace CalamityMod.NPCs.Providence
 
 					num864 = (int)(num864 * attackRateMult);
 
-					if (npc.ai[3] >= (float)num864)
+					if (npc.ai[3] >= num864)
 					{
 						npc.ai[3] = 0f;
 
-						Vector2 vector113 = new Vector2(vector.X, npc.position.Y + (float)npc.height - 14f);
+						Vector2 vector113 = new Vector2(vector.X, npc.position.Y + npc.height - 14f);
 
 						float num865 = npc.velocity.Y;
 						if (num865 < 0f)
@@ -743,13 +743,13 @@ namespace CalamityMod.NPCs.Providence
 				npc.TargetClosest(true);
 
 				Vector2 vector114 = new Vector2(vector.X, vector.Y + 20f);
-				float num866 = (float)Main.rand.Next(-1000, 1001);
-				float num867 = (float)Main.rand.Next(-1000, 1001);
-				float num868 = (float)Math.Sqrt((double)(num866 * num866 + num867 * num867));
+				float num866 = Main.rand.Next(-1000, 1001);
+				float num867 = Main.rand.Next(-1000, 1001);
+				float num868 = (float)Math.Sqrt(num866 * num866 + num867 * num867);
 				float num869 = 3f;
 
 				if (!targetDead)
-					npc.velocity *= 0.95f;
+					npc.velocity *= 0.9f;
 
 				num868 = num869 / num868;
 				num866 *= num868;
@@ -763,7 +763,63 @@ namespace CalamityMod.NPCs.Providence
 					num867 *= -1f;
 				}
 
-				npc.ai[3] += 1f;
+				/*if (npc.velocity.Length() <= 2f)
+					npc.velocity = Vector2.Zero;
+				if (npc.velocity.Length() > 2f)
+					return;
+
+				float divisor = (expertMode ? 2f : 3f) + (float)Math.Floor(3f * lifeRatio) + (attackRateMult > 1D ? (float)Math.Ceiling(attackRateMult * 1.6) : 0f);
+				int totalProjectiles = 36;
+				int chains = 4;
+				float interval = totalProjectiles / chains * divisor;
+				double patternInterval = Math.Floor(npc.ai[3] / interval);
+				float velocity = 3f;
+
+				if (patternInterval % 2 == 0)
+				{
+					if (npc.ai[3] % divisor == 0f)
+					{
+						double radians = (patternInterval % 4 == 0 ? MathHelper.TwoPi + MathHelper.Pi / 3 : MathHelper.TwoPi) / chains;
+						float radialOffset = MathHelper.ToRadians(npc.ai[2]);
+						Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f);
+
+						for (int i = 0; i < chains; i++)
+						{
+							Vector2 vector2 = new Vector2(0f, -velocity).RotatedBy(radians * i + radialOffset);
+
+							int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
+							if (Main.rand.NextBool(4) && !death)
+								projectileType = ModContent.ProjectileType<HolyLight>();
+
+							Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, 0f);
+						}
+
+						// Radial offset
+						npc.ai[2] += 10f;
+					}
+				}
+				else
+				{
+					npc.ai[2] = 0f;
+
+					totalProjectiles = 16;
+					if (npc.ai[3] % (divisor * totalProjectiles) == 0f)
+					{
+						double radians = MathHelper.TwoPi / totalProjectiles;
+						Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f);
+
+						for (int i = 0; i < totalProjectiles; i++)
+						{
+							Vector2 vector2 = new Vector2(0f, -velocity).RotatedBy(radians * i);
+
+							int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
+							if (Main.rand.NextBool(4) && !death)
+								projectileType = ModContent.ProjectileType<HolyLight>();
+
+							Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, 0f);
+						}
+					}
+				}*/
 
 				int shootBoost = (int)(4f * (1f - lifeRatio));
 
@@ -772,10 +828,10 @@ namespace CalamityMod.NPCs.Providence
 				if (attackRateMult > 1D)
 					num870 += (int)Math.Ceiling(attackRateMult * 1.6);
 
-				if (npc.ai[3] >= (float)num870)
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= num870)
 				{
-					npc.ai[3] = 0f;
-
+					npc.ai[1] = 0f;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						if (Main.rand.NextBool(4) && !death)
@@ -785,7 +841,7 @@ namespace CalamityMod.NPCs.Providence
 					}
 				}
 
-				if (npc.ai[1] == 0f)
+				if (npc.ai[3] == 0f)
 				{
 					for (int x = 0; x < Main.maxProjectiles; x++)
 					{
@@ -801,8 +857,8 @@ namespace CalamityMod.NPCs.Providence
 				}
 
 				// Air is burning text
-				npc.ai[1] += 1f;
-				if (npc.ai[1] >= 450f && !text)
+				npc.ai[3] += 1f;
+				if (npc.ai[3] >= 450f && !text)
 				{
 					text = true;
 					string key = "Mods.CalamityMod.ProfanedBossText";
@@ -815,7 +871,7 @@ namespace CalamityMod.NPCs.Providence
 				}
 
 				// Inflict Icarus Folly
-				if (npc.ai[1] >= 600f)
+				if (npc.ai[3] >= 600f)
 				{
 					if (Main.netMode != NetmodeID.Server)
 					{
@@ -835,7 +891,7 @@ namespace CalamityMod.NPCs.Providence
 								if (Main.rand.NextBool(2))
 								{
 									Main.dust[num622].scale = 0.5f;
-									Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+									Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
 								}
 							}
 
@@ -875,15 +931,15 @@ namespace CalamityMod.NPCs.Providence
 
 					num856 = (int)(num856 * attackRateMult);
 
-					if (npc.ai[3] >= (float)num856)
-						npc.ai[3] = (float)-(float)num856;
+					if (npc.ai[3] >= num856)
+						npc.ai[3] = -num856;
 
 					if (npc.ai[3] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						vector.X += npc.velocity.X * 7f;
-						float num857 = player.position.X + (float)player.width * 0.5f - vector.X;
+						float num857 = player.position.X + player.width * 0.5f - vector.X;
 						float num858 = player.Center.Y - vector.Y;
-						float num859 = (float)Math.Sqrt((double)(num857 * num857 + num858 * num858));
+						float num859 = (float)Math.Sqrt(num857 * num857 + num858 * num858);
 
 						float shootBoost2 = death ? 2.5f : 2.5f * (1f - lifeRatio);
 						float num860 = (expertMode ? 10.25f : 9f) + shootBoost2;
@@ -926,11 +982,11 @@ namespace CalamityMod.NPCs.Providence
 
 					num864 = (int)(num864 * attackRateMult);
 
-					if (npc.ai[3] >= (float)num864)
+					if (npc.ai[3] >= num864)
 					{
 						npc.ai[3] = 0f;
 
-						Vector2 vector113 = new Vector2(vector.X, npc.position.Y + (float)npc.height - 14f);
+						Vector2 vector113 = new Vector2(vector.X, npc.position.Y + npc.height - 14f);
 
 						float num865 = npc.velocity.Y;
 						if (num865 < 0f)
@@ -957,7 +1013,7 @@ namespace CalamityMod.NPCs.Providence
 				npc.TargetClosest(true);
 
 				if (!targetDead)
-					npc.velocity *= 0.95f;
+					npc.velocity *= 0.9f;
 
 				if (npc.ai[1] == 0f)
 				{
@@ -987,11 +1043,11 @@ namespace CalamityMod.NPCs.Providence
 					{
 						npc.ai[2] = 0f;
 
-						Vector2 vector93 = new Vector2(vector.X, vector.Y);
+						Vector2 vector93 = vector;
 						float num742 = expertMode ? 12f : 10f;
-						float num743 = player.position.X + (float)player.width * 0.5f - vector93.X;
-						float num744 = player.position.Y + (float)player.height * 0.5f - vector93.Y;
-						float num745 = (float)Math.Sqrt((double)(num743 * num743 + num744 * num744));
+						float num743 = player.position.X + player.width * 0.5f - vector93.X;
+						float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+						float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
 						num745 = num742 / num745;
 						num743 *= num745;
@@ -1002,7 +1058,7 @@ namespace CalamityMod.NPCs.Providence
 						int seeProjFilesforDmg = 0;
 						int num747 = ModContent.ProjectileType<HolyShot>();
 						Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, seeProjFilesforDmg, 0f, Main.myPlayer, 0f, 0f);
-						Projectile.NewProjectile(player.position.X + (float)Main.rand.Next(-1000, 1000), player.position.Y + (float)Main.rand.Next(-100, 100), 0f, 0f, ModContent.ProjectileType<HolySpear>(), seeProjFilesforDmg, 0f, Main.myPlayer, (float)Main.rand.Next(2), 0f);
+						Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1000), player.position.Y + Main.rand.Next(-100, 100), 0f, 0f, ModContent.ProjectileType<HolySpear>(), seeProjFilesforDmg, 0f, Main.myPlayer, (float)Main.rand.Next(2), 0f);
 					}
 				}
 
@@ -1020,7 +1076,7 @@ namespace CalamityMod.NPCs.Providence
 				npc.TargetClosest(true);
 
 				if (!targetDead)
-					npc.velocity *= 0.95f;
+					npc.velocity *= 0.9f;
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -1042,7 +1098,7 @@ namespace CalamityMod.NPCs.Providence
 
 				Vector2 value19 = new Vector2(27f, 59f);
 
-				float rotation = 450f + (float)(guardianAmt * 18);
+				float rotation = 450f + (guardianAmt * 18);
 
 				npc.ai[2] += 1f;
 				if (npc.ai[2] < 120f)
@@ -1064,9 +1120,9 @@ namespace CalamityMod.NPCs.Providence
 							if (num1221 % 2 == 1)
 								num1223 = 2.8f;
 
-							Vector2 vector199 = vector + ((float)Main.rand.NextDouble() * 6.28318548f).ToRotationVector2() * value19 / 2f;
+							Vector2 vector199 = vector + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * value19 / 2f;
 							int num1224 = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, num1222, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
-							Main.dust[num1224].velocity = Vector2.Normalize(vector - vector199) * 3.5f * (10f - (float)num1220 * 2f) / 10f;
+							Main.dust[num1224].velocity = Vector2.Normalize(vector - vector199) * 3.5f * (10f - num1220 * 2f) / 10f;
 							Main.dust[num1224].noGravity = true;
 							Main.dust[num1224].scale = num1223;
 						}
@@ -1093,13 +1149,13 @@ namespace CalamityMod.NPCs.Providence
 							if (vector200.X < 0f)
 								num1225 = 1f;
 
-							vector200 = vector200.RotatedBy((double)(-(double)num1225 * 6.28318548f / 6f), default);
-							Projectile.NewProjectile(vector.X, vector.Y - 32f, vector200.X, vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), 100, 0f, Main.myPlayer, num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
+							vector200 = vector200.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f, default);
+							Projectile.NewProjectile(vector.X, vector.Y - 32f, vector200.X, vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), 100, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
 							if (revenge)
-								Projectile.NewProjectile(vector.X, vector.Y - 32f, -vector200.X, -vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), 100, 0f, Main.myPlayer, -num1225 * 6.28318548f / rotation, (float)npc.whoAmI);
+								Projectile.NewProjectile(vector.X, vector.Y - 32f, -vector200.X, -vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), 100, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
-							npc.ai[3] = (vector200.ToRotation() + 9.424778f) * num1225;
+							npc.ai[3] = (vector200.ToRotation() + MathHelper.TwoPi + MathHelper.Pi) * num1225;
 							npc.netUpdate = true;
 						}
 					}
@@ -1108,12 +1164,12 @@ namespace CalamityMod.NPCs.Providence
 					if (npc.localAI[1] > 1f)
 						npc.localAI[1] = 1f;
 
-					float num1226 = (float)(npc.ai[3] >= 0f).ToDirectionInt();
+					float num1226 = (npc.ai[3] >= 0f).ToDirectionInt();
 					float num1227 = npc.ai[3];
 					if (num1227 < 0f)
 						num1227 *= -1f;
-					num1227 += -9.424778f;
-					num1227 += num1226 * 6.28318548f / rotation;
+					num1227 += -(MathHelper.TwoPi + MathHelper.Pi);
+					num1227 += num1226 * MathHelper.TwoPi / rotation;
 
 					npc.localAI[0] = num1227;
 				}

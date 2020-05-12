@@ -272,29 +272,26 @@ namespace CalamityMod.NPCs
             else if (npc.type == NPCID.Golem)
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), !Main.expertMode, 5, 10);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<LeadWizard>(), !Main.expertMode, DropHelper.RareVariantDropRateFloat);
                 DropHelper.DropItemCondition(npc, ItemID.Picksaw, true, !NPC.downedGolemBoss);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeGolem>(), true, !NPC.downedGolemBoss);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedGolemBoss, 4, 2, 1);
 
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.ArmsDealer, NPCID.Cyborg, NPCID.Steampunker, NPCID.Wizard, NPCID.WitchDoctor, NPCID.DD2Bartender, ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedGolemBoss);
 
-				// If Golem has never been killed, send messages about PBG and Ravager
+				// If Golem has never been killed, send messages about PBG
 				if (!NPC.downedGolemBoss)
                 {
                     string key = "Mods.CalamityMod.BabyBossText";
                     Color messageColor = Color.Lime;
-                    string key2 = "Mods.CalamityMod.BabyBossText2";
-                    Color messageColor2 = Color.Yellow;
 
                     if (Main.netMode == NetmodeID.SinglePlayer)
                     {
                         Main.NewText(Language.GetTextValue(key), messageColor);
-                        Main.NewText(Language.GetTextValue(key2), messageColor2);
                     }
                     else if (Main.netMode == NetmodeID.Server)
                     {
                         NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
                     }
                 }
             }
@@ -1417,14 +1414,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GiantTortoise:
-                    float tortoiseDropRate = Main.expertMode ? 0.2f : 0.142857f;
-                    float shellRoll = Main.rand.NextFloat();
-                    bool fabledShell = shellRoll <= 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    if (shellRoll < tortoiseDropRate) // 1/7 (1/5 EX) chance of getting Giant Tortoise Shell OR Fabled Tortoise Shell replacing it
-                    {
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<GiantTortoiseShell>(), !fabledShell);
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<FabledTortoiseShell>(), fabledShell);
-                    }
+					DropHelper.DropItemRIV(npc, ModContent.ItemType<GiantTortoiseShell>(), ModContent.ItemType<FabledTortoiseShell>(), Main.expertMode ? 0.2f : 0.142857f, 0.005f);
                     break;
 
                 case NPCID.GiantShelly:
@@ -1480,18 +1470,11 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.IchorSticker:
-                    float spearDropRate = Main.expertMode ? 0.05f : 0.04f;
-                    float spearRoll = Main.rand.NextFloat();
-                    bool spearOfDestiny = spearRoll <= 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    if (spearRoll < spearDropRate) // 1/25 (1/20 EX) chance of getting Ichor Spear OR Spear of Destiny replacing it
-                    {
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<IchorSpear>(), !spearOfDestiny);
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<SpearofDestiny>(), spearOfDestiny);
-                    }
+					DropHelper.DropItemRIV(npc, ModContent.ItemType<IchorSpear>(), ModContent.ItemType<SpearofDestiny>(), Main.expertMode ? 0.05f : 0.04f, 0.005f);
                     break;
 
                 case NPCID.Harpy:
-                    int glazeDropRate = CalamityWorld.defiled ? 20 : Main.expertMode ? 60 : 80;
+                    int glazeDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : Main.expertMode ? 60 : 80;
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<SkyGlaze>(), NPC.downedBoss1, glazeDropRate, 1, 1);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<EssenceofCinder>(), Main.hardMode && !npc.SpawnedFromStatue, Main.expertMode ? 2 : 3, 1, 1);
                     break;
@@ -1539,14 +1522,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.PirateCrossbower:
-                    float crossbowDropRate = Main.expertMode ? 0.05f : 0.04f;
-                    float arbalestRoll = Main.rand.NextFloat();
-                    bool arbalest = arbalestRoll <= 0.005f; // Exact 1/200 chance for rare regardless of difficulty
-                    if (arbalestRoll < crossbowDropRate) // 1/25 (1/20 EX) chance of getting Raider's Glory OR Arbalest replacing it
-                    {
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<RaidersGlory>(), !arbalest);
-                        DropHelper.DropItemCondition(npc, ModContent.ItemType<Arbalest>(), arbalest);
-                    }
+					DropHelper.DropItemRIV(npc, ModContent.ItemType<RaidersGlory>(), ModContent.ItemType<Arbalest>(), Main.expertMode ? 0.05f : 0.04f, 0.005f);
                     break;
 
                 case NPCID.GoblinSummoner:
@@ -1765,6 +1741,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.QueenBee:
+                    DropHelper.DropItemCondition(npc, ItemID.Stinger, !Main.expertMode, 5, 10);
                     DropHelper.DropItemCondition(npc, ModContent.ItemType<HardenedHoneycomb>(), !Main.expertMode, 30, 50);
                     break;
 
@@ -1851,6 +1828,12 @@ namespace CalamityMod.NPCs
             if (CalamityMod.dungeonEnemyBuffList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Ectoblood>(), 2, 1, Main.expertMode ? 3 : 1);
+            }
+
+            // Every type of moss hornet can drop stingers
+            if (CalamityMod.mossHornetList.Contains(npc.type))
+            {
+                DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 1f : 0.6666f);
             }
         }
         #endregion

@@ -38,13 +38,13 @@ namespace CalamityMod.Projectiles.Melee.Spears
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.immune[projectile.owner] = 6;
+            target.immune[projectile.owner] = 7;
             target.AddBuff(ModContent.BuffType<Plague>(), 360);
             if (projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 1.5f, ModContent.ProjectileType<PlagueSeeker>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity * 1.5f, ModContent.ProjectileType<PlagueSeeker>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
         }

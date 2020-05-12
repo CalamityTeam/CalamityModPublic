@@ -31,13 +31,14 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 78;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
-            item.shoot = ModContent.ProjectileType<Oathblade>();
+            item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();
             item.shootSpeed = 3f;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int i = -8; i <= 8; i += 8)
+			int index = 8;
+            for (int i = -index; i <= index; i += index)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
                 Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);

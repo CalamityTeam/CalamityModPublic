@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -15,7 +16,6 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.aiStyle = 1;
             projectile.width = 12;
             projectile.height = 12;
             projectile.hostile = true;
@@ -34,11 +34,26 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
-			if (projectile.ai[0] == 0f)
-				projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0f, 0.25f, 0.25f);
 
-            if (projectile.localAI[0] == 0f || projectile.localAI[0] == 2f)
+			if (projectile.ai[0] != 2f)
+				projectile.aiStyle = 1;
+
+			if (projectile.ai[0] == 0f)
+			{
+				projectile.velocity.Y += 0.2f;
+			}
+			else if (projectile.ai[0] == 2f)
+			{
+				projectile.velocity.Y += 0.1f;
+
+				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+
+				if (projectile.velocity.Y > 6f)
+					projectile.velocity.Y = 6f;
+			}
+
+			if (projectile.localAI[0] == 0f)
             {
                 projectile.scale += 0.01f;
                 projectile.alpha -= 50;
@@ -48,13 +63,13 @@ namespace CalamityMod.Projectiles.Boss
                     projectile.alpha = 0;
                 }
             }
-            else if (projectile.localAI[0] == 1f)
+            else
             {
                 projectile.scale -= 0.01f;
                 projectile.alpha += 50;
                 if (projectile.alpha >= 255)
                 {
-                    projectile.localAI[0] = 2f;
+                    projectile.localAI[0] = 0f;
                     projectile.alpha = 255;
                 }
             }
@@ -68,7 +83,6 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
 			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 27, 0.25f);
-			//Main.PlaySound(SoundID.Item27, projectile.position);
             for (int num373 = 0; num373 < 3; num373++)
             {
                 int num374 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 76, 0f, 0f, 0, default, 1f);

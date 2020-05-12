@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
             projectile.alpha = 255;
             projectile.penetrate = -1;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 1200;
 			projectile.scale = 1.5f;
         }
 

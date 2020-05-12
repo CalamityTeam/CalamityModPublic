@@ -16,14 +16,14 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 95;
+            item.damage = 85;
             item.magic = true;
             item.channel = true;
             item.mana = 20;
             item.width = 58;
             item.height = 58;
-            item.useTime = 18;
-            item.useAnimation = 18;
+            item.useTime = 30;
+            item.useAnimation = 30;
             item.useStyle = 1;
             item.noMelee = true;
             item.knockBack = 5f;
@@ -32,6 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.UseSound = SoundID.Item20;
             item.shoot = ModContent.ProjectileType<ShiftingSandsProj>();
             item.shootSpeed = 7f;
+			item.autoReuse = true;
         }
 
         public override void AddRecipes()

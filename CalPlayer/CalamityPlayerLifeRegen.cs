@@ -272,6 +272,10 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.alcoholPoisonLevel++;
 			}
+			if (modPlayer.fabsolVodka)
+			{
+				modPlayer.alcoholPoisonLevel++;
+			}
 			if (modPlayer.fireball)
 			{
 				modPlayer.alcoholPoisonLevel++;
@@ -533,7 +537,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-            if (modPlayer.weakPetrification || CalamityWorld.bossRushActive)
+            if (modPlayer.weakPetrification)
             {
                 if (player.mount.Active)
                     player.mount.Dismount(player);

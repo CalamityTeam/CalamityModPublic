@@ -12,15 +12,16 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             DisplayName.SetDefault("Apoctosis Array");
             Tooltip.SetDefault("Fires ion blasts that speed up and then explode\n" +
-                "The higher your mana the more damage they will do");
+                "The higher your mana the more damage they will do\n" +
+				"Astral steroids can inhibit the potential of this weapon");
         }
 
         public override void SetDefaults()
         {
             item.width = 98;
-            item.damage = 58;
+            item.damage = 45;
             item.magic = true;
-            item.mana = 12;
+            item.mana = 14;
             item.useAnimation = 7;
             item.useTime = 7;
             item.useStyle = 5;
@@ -45,7 +46,8 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             float manaAmount = (float)player.statMana * 0.01f;
             float damageMult = manaAmount;
-            int projectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * damageMult), knockBack, player.whoAmI, 0.0f, 0.0f);
+			float injectionNerf = player.Calamity().astralInjection ? 0.6f : 1f;
+            int projectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * damageMult * injectionNerf), knockBack, player.whoAmI, 0f, 0f);
             Main.projectile[projectile].scale = manaAmount * 0.375f;
             return false;
         }

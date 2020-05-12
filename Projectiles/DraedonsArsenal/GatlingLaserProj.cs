@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				int fireRate = 2;
 				projectile.ai[1] += 1f;
 				bool flag = false;
-				if (projectile.ai[1] >= (float)fireRate)
+				if (projectile.ai[1] >= fireRate)
 				{
 					projectile.ai[1] = 0f;
 					flag = true;
@@ -61,19 +61,19 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				}
 				if (flag && Main.myPlayer == projectile.owner && fireLasers)
 				{
-                    int weaponDamage2 = player.GetWeaponDamage(player.inventory[player.selectedItem]);
+                    int weaponDamage2 = player.GetWeaponDamage(player.ActiveItem());
                     bool flag2 = player.channel && !player.noItems && !player.CCed;
 					if (flag2)
 					{
 						// Consume 2 ammo per shot
-						CalamityGlobalItem.ConsumeAdditionalAmmo(player, player.inventory[player.selectedItem], 2);
+						CalamityGlobalItem.ConsumeAdditionalAmmo(player, player.ActiveItem(), 2);
 
-						float scaleFactor = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+						float scaleFactor = player.ActiveItem().shootSpeed * projectile.scale;
 						Vector2 value2 = vector;
-						Vector2 value3 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - value2;
+						Vector2 value3 = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY) - value2;
 						if (player.gravDir == -1f)
 						{
-							value3.Y = (float)(Main.screenHeight - Main.mouseY) + Main.screenPosition.Y - value2.Y;
+							value3.Y = Main.screenHeight - Main.mouseY + Main.screenPosition.Y - value2.Y;
 						}
 						Vector2 vector3 = Vector2.Normalize(value3);
 						if (float.IsNaN(vector3.X) || float.IsNaN(vector3.Y))
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 						float velocity = 3f;
 						value2 = projectile.Center;
 						Vector2 spinningpoint = Vector2.Normalize(projectile.velocity) * velocity;
-						spinningpoint = spinningpoint.RotatedBy(Main.rand.NextDouble() * 0.19634954631328583 - 0.098174773156642914, default(Vector2));
+						spinningpoint = spinningpoint.RotatedBy(Main.rand.NextDouble() * 0.19634954631328583 - 0.098174773156642914);
 						if (float.IsNaN(spinningpoint.X) || float.IsNaN(spinningpoint.Y))
 						{
 							spinningpoint = -Vector2.UnitY;
@@ -101,15 +101,18 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 							velocity2.Normalize();
 							velocity2 *= 5f;
 						}
-						float SpeedX = velocity2.X + (float)Main.rand.Next(-1, 2) * 0.01f;
-						float SpeedY = velocity2.Y + (float)Main.rand.Next(-1, 2) * 0.01f;
+						float SpeedX = velocity2.X + Main.rand.Next(-1, 2) * 0.01f;
+						float SpeedY = velocity2.Y + Main.rand.Next(-1, 2) * 0.01f;
 						float ai0 = projectile.ai[0] - 2f; // 0, 1, or 2
 						Projectile.NewProjectile(value2.X, value2.Y, SpeedX, SpeedY, type, weaponDamage2, projectile.knockBack, projectile.owner, ai0, 0f);
 					}
 					else
 					{
-						gatlingLaserLoop.Stop();
+						if (gatlingLaserLoop != null)
+							gatlingLaserLoop.Stop();
+
 						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireEnd"), (int)projectile.position.X, (int)projectile.position.Y);
+
 						projectile.Kill();
 					}
 				}
@@ -122,7 +125,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			player.heldProj = projectile.whoAmI;
 			player.itemTime = 2;
 			player.itemAnimation = 2;
-			player.itemRotation = (float)Math.Atan2((double)(projectile.velocity.Y * (float)projectile.direction), (double)(projectile.velocity.X * (float)projectile.direction));
+			player.itemRotation = (float)Math.Atan2(projectile.velocity.Y * projectile.direction, projectile.velocity.X * projectile.direction);
         }
     }
 }

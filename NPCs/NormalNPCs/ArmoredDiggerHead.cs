@@ -1,7 +1,6 @@
 ﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.SummonItems;
-using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -423,7 +422,6 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemChance(npc, ModContent.ItemType<LeadWizard>(), DropHelper.RareVariantDropRateInt);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonsRemote>(), 3);
             DropHelper.DropItem(npc, ModContent.ItemType<DemonicBoneAsh>(), 2, 4);
         }

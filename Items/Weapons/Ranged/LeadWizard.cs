@@ -16,14 +16,14 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 70;
+            item.damage = 58;
             item.crit += 30;
             item.ranged = true;
             item.width = 66;
             item.height = 34;
-            item.useTime = 2;
-            item.reuseDelay = 10;
-            item.useAnimation = 6;
+            item.useTime = 3;
+            item.reuseDelay = 12;
+            item.useAnimation = 9;
             item.useStyle = 5;
             item.noMelee = true;
             item.knockBack = 5f;
@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             for (int i = 0; i < 2; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i == 1 ? 0 : 2));
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, 242, damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.BulletHighVelocity, damage, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }
