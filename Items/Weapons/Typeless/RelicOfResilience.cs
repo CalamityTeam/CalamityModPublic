@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Typeless
         {
             DisplayName.SetDefault("Relic of Resilience");
             Tooltip.SetDefault("Summons a bulwark at the mouse position\n" +
-                               "The bulwark killed by enemies and all projectiles.\n" +
+                               "The bulwark is killed by enemies and all projectiles.\n" +
                                "On death, the bulwark explodes into a rotating burst of shards\n" +
                                "If an enemy is in the area of the shards, its next attack is much weaker. This effect has a cooldown\n" +
                                "After a bit of time, the shards come together to reform the original bulwark.\n" +
@@ -41,10 +41,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.shootSpeed = 0f;
         }
         public override bool CanUseItem(Player player) => !player.HasBuff(ModContent.BuffType<ResilienceCooldown>());
-        public override bool UseItem(Player player)
-        {
-            return true;
-        }
+        public override bool UseItem(Player player) => true;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             player.AddBuff(ModContent.BuffType<ResilienceCooldown>(), CooldownSeconds * 60);
