@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Defective Sphere");
-            Tooltip.SetDefault(@"Fires a variety deadly spheres with different effects
+            Tooltip.SetDefault(@"Fires a variety of deadly spheres with different effects
 Stacks up to 5
 Stealth strikes launch all 4 sphere types at once");
         }

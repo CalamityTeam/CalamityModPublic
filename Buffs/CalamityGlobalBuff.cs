@@ -71,6 +71,8 @@ namespace CalamityMod.Buffs
         public override void ModifyBuffTip(int type, ref string tip, ref int rare)
         {
             Player player = Main.player[Main.myPlayer];
+
+			//Vanilla buffs
             if (type == BuffID.NebulaUpDmg1)
                 tip = "7.5% increased damage";
             else if (type == BuffID.NebulaUpDmg2)
@@ -108,6 +110,10 @@ namespace CalamityMod.Buffs
 				tip += ". Provides cold protection in Death Mode";
 			else if (type == BuffID.Campfire && CalamityWorld.death)
 				tip += ". Provides cold protection in Death Mode";
+            else if (type == BuffID.Daybreak)
+                tip = "Incinerated by solar rays";
+
+			//Modded buffs
 			else if (type == ModContent.BuffType<Molten>() && CalamityWorld.death)
 				tip += ". Provides cold protection in Death Mode";
             else if (type == ModContent.BuffType<ProfanedBabs>())

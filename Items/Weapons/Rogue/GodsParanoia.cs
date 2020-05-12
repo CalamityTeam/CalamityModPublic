@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("God's Paranoia");
             Tooltip.SetDefault(@"Shoots a speedy homing spiky ball. Stacks up to 10.
-Attaches to enemies and summons localized storm of god slayer kunai
+Attaches to enemies and summons a localized storm of god slayer kunai
 Stealth strikes home in faster and summon kunai at a faster rate
 Right click to delete all existing spiky balls");
         }

@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Lead Tomahawk");
             Tooltip.SetDefault("The tomahawks have more damage for a short time when initially thrown\n" +
-                               "Stealth strikes makes the tomahawks pierce infinitely");
+                               "Stealth strikes pierce infinitely");
         }
 
         public override void SafeSetDefaults()

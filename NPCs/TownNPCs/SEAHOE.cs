@@ -100,7 +100,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (lilBitch != -1)
             {
                 dialogue.Add("Meet me at " + Main.npc[lilBitch].GivenName + "'s house at night. We're going to throw him to the Trashers.");
-                dialogue.Add("Not sure how " + Main.npc[lilBitch].GivenName + " has not been roasted and digested by now, hanging around the sulphuric seas for so long. Peharps it got to his head.");
+                dialogue.Add("Not sure how " + Main.npc[lilBitch].GivenName + " has not been roasted and digested by now, hanging around the sulphuric seas for so long. Perhaps it got to his head.");
             }
 
             int cirrus = NPC.FindFirstNPC(ModContent.NPCType<FAP>());

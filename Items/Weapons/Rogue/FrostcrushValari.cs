@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Frostcrush Valari");
             Tooltip.SetDefault(@"Fires a long ranged boomerang that explodes into icicles on hit
-Stealth strikes throws three short ranged boomerangs along with a spread of icicles");
+Stealth strikes throw three short ranged boomerangs along with a spread of icicles");
         }
 
         public override void SafeSetDefaults()
