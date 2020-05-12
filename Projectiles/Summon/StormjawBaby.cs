@@ -82,8 +82,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 			Vector2 vector2_1 = player.Center;
-			vector2_1.X = vector2_1.X - (float) ((15 + player.width / 2) * player.direction);
-			vector2_1.X = vector2_1.X - (float) (projectile.minionPos * 40 * player.direction);
+			vector2_1.X = vector2_1.X - (float)((15 + player.width / 2) * player.direction);
+			vector2_1.X = vector2_1.X - (float)(projectile.minionPos * 40 * player.direction);
 			int index1 = -1;
 			float num4 = 800f;
 			int num5 = 15;
@@ -217,10 +217,10 @@ namespace CalamityMod.Projectiles.Summon
 					}
 				}
 				if (projectile.velocity.X > 0.5f)
-					projectile.spriteDirection = -1;
-				else if (projectile.velocity.X < -0.5f)
 					projectile.spriteDirection = 1;
-				projectile.rotation = projectile.spriteDirection != 1 ? (float) Math.Atan2((double) projectile.velocity.Y, (double) projectile.velocity.X) + 3.14f : (float) Math.Atan2((double) projectile.velocity.Y, (double) projectile.velocity.X);
+				else if (projectile.velocity.X < -0.5f)
+					projectile.spriteDirection = -1;
+				projectile.rotation = projectile.spriteDirection != 1 ? (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.Pi : (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
 			}
 			if (projectile.ai[0] == 2f) //attack target
 			{
@@ -233,9 +233,9 @@ namespace CalamityMod.Projectiles.Summon
 						projectile.frame = 0;
 						projectile.frameCounter = 0;
 					}
-					else if ((double) Math.Abs(projectile.velocity.X) >= 0.5)
+					else if (Math.Abs(projectile.velocity.X) >= 0.5f)
 					{
-						projectile.frameCounter += (int) Math.Abs(projectile.velocity.X);
+						projectile.frameCounter += (int)Math.Abs(projectile.velocity.X);
 						projectile.frameCounter += 1;
 						if (projectile.frameCounter > 10)
 						{
@@ -251,13 +251,13 @@ namespace CalamityMod.Projectiles.Summon
 						projectile.frameCounter = 0;
 					}
 				}
-				else if ((double) projectile.velocity.Y != 0.0)
+				else if (projectile.velocity.Y != 0f)
 				{
 					projectile.frameCounter = 0;
 					projectile.frame = 0;
 				}
 				projectile.velocity.Y += 0.4f;
-				if ((double) projectile.velocity.Y > 10.0)
+				if (projectile.velocity.Y > 10f)
 					projectile.velocity.Y = 10f;
 
 				sparkCounter += Main.rand.Next(1,4);
@@ -272,7 +272,6 @@ namespace CalamityMod.Projectiles.Summon
 							Main.projectile[spark].Calamity().forceMinion = true;
 							Main.projectile[spark].timeLeft = 120;
 							Main.projectile[spark].penetrate = 3;
-							ProjectileID.Sets.MinionShot[Main.projectile[spark].type] = true;
 							Main.projectile[spark].usesIDStaticNPCImmunity = true;
 							Main.projectile[spark].idStaticNPCHitCooldown = 10;
 							Main.projectile[spark].usesLocalNPCImmunity = false;
@@ -294,27 +293,27 @@ namespace CalamityMod.Projectiles.Summon
 			{
 				float num1 = 700f;
 				float num2 = 20f;
-				if ((double) projectile.position.Y > Main.worldSurface * 16.0)
+				if ((double)projectile.position.Y > Main.worldSurface * 16.0)
 					num1 *= 0.7f;
 				NPC npc = Main.npc[index1];
 				Vector2 center = npc.Center;
 				float num3 = (center - projectile.Center).Length();
 				Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
-				if ((double) num3 < (double) num1)
+				if (num3 < num1)
 				{
 					vector2_1 = center;
-					if ((double) center.Y < (double) projectile.Center.Y - 30.0 && (double) projectile.velocity.Y == 0.0)
+					if (center.Y < projectile.Center.Y - 30f && projectile.velocity.Y == 0f)
 					{
 						float num6 = Math.Abs(center.Y - projectile.Center.Y);
-						if ((double) num6 < 120.0)
+						if (num6 < 120f)
 							projectile.velocity.Y = -10f;
-						else if ((double) num6 < 210.0)
+						else if (num6 < 210f)
 							projectile.velocity.Y = -13f;
-						else if ((double) num6 < 270.0)
+						else if (num6 < 270f)
 							projectile.velocity.Y = -15f;
-						else if ((double) num6 < 310.0)
+						else if (num6 < 310f)
 							projectile.velocity.Y = -17f;
-						else if ((double) num6 < 380.0)
+						else if ( num6 < 380f)
 							projectile.velocity.Y = -18f;
 					}
 				}
@@ -363,10 +362,10 @@ namespace CalamityMod.Projectiles.Summon
 				float num8 = vector2_1.X - projectile.Center.X;
 				if ((double) Math.Abs(num8) > 5.0)
 				{
-					if ((double) num8 < 0.0)
+					if (num8 < 0f)
 					{
 						num7 = -1;
-						if ((double) projectile.velocity.X > -(double) num2)
+						if (projectile.velocity.X > -num2)
 						{
 							projectile.velocity.X -= num1;
 						}
@@ -378,7 +377,7 @@ namespace CalamityMod.Projectiles.Summon
 					else
 					{
 						num7 = 1;
-						if ((double) projectile.velocity.X < (double) num2)
+						if (projectile.velocity.X < num2)
 						{
 							projectile.velocity.X += num1;
 						}
@@ -391,13 +390,13 @@ namespace CalamityMod.Projectiles.Summon
 				else
 				{
 					projectile.velocity.X *= 0.9f;
-					if ((double) Math.Abs(projectile.velocity.X) < (double) num1 * 2.0)
+					if (Math.Abs(projectile.velocity.X) < num1 * 2f)
 						projectile.velocity.X = 0.0f;
 				}
 				if (num7 != 0)
 				{
-					int num9 = (int) ((double) projectile.position.X + (double) (projectile.width / 2)) / 16;
-					int num10 = (int) projectile.position.Y / 16;
+					int num9 = (int)projectile.Center.X / 16;
+					int num10 = (int)projectile.position.Y / 16;
 					int i = num9 + num7 + (int) projectile.velocity.X;
 					for (int j = num10; j < num10 + projectile.height / 16 + 1; ++j)
 					{
@@ -441,17 +440,17 @@ namespace CalamityMod.Projectiles.Summon
 						}
 					}
 				}
-				if ((double) projectile.velocity.X > (double) num3)
+				if (projectile.velocity.X > num3)
 					projectile.velocity.X = num3;
-				if ((double) projectile.velocity.X < -(double) num3)
+				if (projectile.velocity.X < -num3)
 					projectile.velocity.X = -num3;
-				if ((double) projectile.velocity.X < 0.0)
+				if (projectile.velocity.X < 0f)
 					projectile.direction = -1;
-				if ((double) projectile.velocity.X > 0.0)
+				if (projectile.velocity.X > 0f)
 					projectile.direction = 1;
-				if ((double) projectile.velocity.X > (double) num1 && num7 == 1)
+				if (projectile.velocity.X > num1 && num7 == 1)
 					projectile.direction = 1;
-				if ((double) projectile.velocity.X < -(double) num1 && num7 == -1)
+				if (projectile.velocity.X < -num1 && num7 == -1)
 					projectile.direction = -1;
 				projectile.spriteDirection = -projectile.direction;
 				projectile.rotation = 0f;
@@ -467,7 +466,7 @@ namespace CalamityMod.Projectiles.Summon
 						if (xDist > 0)
 							projectile.spriteDirection = projectile.direction;
 					}
-					else if ((double) Math.Abs(projectile.velocity.X) >= 0.5)
+					else if (Math.Abs(projectile.velocity.X) >= 0.5f)
 					{
 						projectile.frameCounter += (int) Math.Abs(projectile.velocity.X);
 						projectile.frameCounter += 1;
@@ -485,18 +484,18 @@ namespace CalamityMod.Projectiles.Summon
 						projectile.frameCounter = 0;
 					}
 				}
-				else if ((double) projectile.velocity.Y != 0.0)
+				else if (projectile.velocity.Y != 0f)
 				{
 					projectile.frameCounter = 0;
 					projectile.frame = 0;
 				}
 				projectile.velocity.Y += 0.4f;
-				if ((double) projectile.velocity.Y > 10.0)
+				if (projectile.velocity.Y > 10f)
 					projectile.velocity.Y = 10f;
 			}
 			if (projectile.ai[0] != 2f)
 			{
-                Rectangle rectangle = new Rectangle((int)((double)projectile.position.X + (double)projectile.velocity.X * 0.5 - 4.0), (int)((double)projectile.position.Y + (double)projectile.velocity.Y * 0.5 - 4.0), projectile.width + 8, projectile.height + 8);
+                Rectangle rectangle = new Rectangle((int)(projectile.position.X + projectile.velocity.X * 0.5f - 4f), (int)(projectile.position.Y + projectile.velocity.Y * 0.5f - 4f), projectile.width + 8, projectile.height + 8);
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[projectile.owner] <= 0)
@@ -517,7 +516,6 @@ namespace CalamityMod.Projectiles.Summon
 										Main.projectile[spark].Calamity().forceMinion = true;
 										Main.projectile[spark].timeLeft = 120;
 										Main.projectile[spark].penetrate = 3;
-										ProjectileID.Sets.MinionShot[Main.projectile[spark].type] = true;
 										Main.projectile[spark].usesIDStaticNPCImmunity = true;
 										Main.projectile[spark].idStaticNPCHitCooldown = 10;
 										Main.projectile[spark].usesLocalNPCImmunity = false;
@@ -537,10 +535,7 @@ namespace CalamityMod.Projectiles.Summon
             return true;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            return false;
-        }
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
         public override void Kill(int timeLeft)
         {
