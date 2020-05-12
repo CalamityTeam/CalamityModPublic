@@ -11,6 +11,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Accessories
 {
@@ -18,21 +19,24 @@ namespace CalamityMod.Items.Accessories
     {
         public const int FireProjectiles = 2;
         public const float FireAngleSpread = 120;
-        public int FireCountdown = 0;
+        public int counter = 0;
+		public const int ProjectileDamage = 2000;
+		public const int FungalClumpDamage = 1000;
+		public const int AuraDamage = 300;
+		public bool WaterBonuses = false;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Amalgam");
             Tooltip.SetDefault("15% increased damage\n" +
-                               "Shade rains down when you are hit\n" +
-                               "You will confuse nearby enemies when you are struck\n" +
-                               "Drops brimstone fireballs from the sky occasionally\n" +
-                               "Brimstone fire rains down while invincibility is active\n" +
+                               "Shade and brimstone fire rain down when you are hit\n" +
+                               "Nearby enemies receive a variety of debuffs when you are hit\n" +
+                               "Brimstone fireballs drop from the sky occasionally\n" +
+                               "Summons a fungal clump to fight for you that leaves behind poisonous seawater\n" +
+                               "75% increased movement speed, 10% increase to all damage, and plus 40 defense while submerged in any liquid\n" +
+							   "The above bonuses also apply when passing through the clump's poisonous seawater\n" +
                                "Temporary immunity to lava, greatly reduces lava burn damage, and 15% increased damage while in lava\n" +
-                               "Summons a fungal clump to fight for you\n" +
-                               "You leave behind poisonous seawater as you move\n" +
-                               "75% increased movement speed, 10% increase to all damage, and plus 40 defense while submerged in liquid\n" +
-                               "If you are damaged while submerged in liquid you will gain a damaging aura for a short time\n" +
+                               "You have a damaging aura that envenoms nearby enemies and increased movement in liquids\n" +
 							   "Provides heat protection in Death Mode");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(9, 6));
         }
@@ -47,147 +51,135 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.fungalClump)
-            {
-                return false;
-            }
-            return true;
-        }
+        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().fungalClump;
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+			//Counter used for aura and Gehenna effects
+            counter++;
+
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.aBrain = true;
+            modPlayer.amalgam = true;
             modPlayer.fungalClump = true;
-            if (player.whoAmI == Main.myPlayer)
-            {
-                if (player.FindBuffIndex(ModContent.BuffType<FungalClumpBuff>()) == -1)
-                {
-                    player.AddBuff(ModContent.BuffType<FungalClumpBuff>(), 3600, true);
-                }
-                if (player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] < 1)
-                {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), (int)(1000f * player.MinionDamage()), 1f, Main.myPlayer, 0f, 0f);
-                }
-            }
-            player.allDamage += 0.15f;
             player.ignoreWater = true;
             player.lavaRose = true;
+            player.allDamage += 0.15f;
             player.lavaMax += 240;
             if (player.lavaWet)
             {
                 player.allDamage += 0.15f;
             }
-            if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
+
+			//emit light
+            Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0f, 0.5f, 1.25f);
+
+			//Summon the Fungal Clump, ai[0] is 1f to indicate this is from the Amalgam, not the Fungal Clump
+            if (player.whoAmI == Main.myPlayer)
+            {
+                if (player.FindBuffIndex(BuffType<FungalClumpBuff>()) == -1)
+                {
+                    player.AddBuff(BuffType<FungalClumpBuff>(), 3600, true);
+                }
+                if (player.ownedProjectileCounts[ProjectileType<FungalClumpMinion>()] < 1)
+                {
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ProjectileType<FungalClumpMinion>(), (int)(FungalClumpDamage * player.MinionDamage()), 1f, player.whoAmI, 1f, 0f);
+                }
+            }
+
+			Rectangle rectangle = new Rectangle((int)(player.position.X + player.velocity.X * 0.5f - 4f), (int)(player.position.Y + player.velocity.Y * 0.5f - 4f), player.width + 8, player.height + 8);
+			for (int i = 0; i < Main.maxProjectiles; i++)
+			{
+				Projectile proj = Main.projectile[i];
+				if (proj.active && proj.friendly && proj.type == ProjectileType<PoisonousSeawater>() && proj.ai[0] == 1f && proj.damage > 0)
+				{
+					Rectangle rect = proj.getRect();
+					if (rectangle.Intersects(rect))
+					{
+						WaterBonuses = true;
+					}
+				}
+			}
+            if (WaterBonuses || player.IsUnderwater())
             {
                 player.allDamage += 0.1f;
                 player.statDefense += 40;
                 player.moveSpeed += 0.75f;
             }
-            if ((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1)
-            {
-                if (player.whoAmI == Main.myPlayer)
-                {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), (int)(2000 * player.AverageDamage()), 0f, player.whoAmI, 0f, 0f);
-                }
-            }
+
             if (player.immune)
             {
                 if (Main.rand.NextBool(20))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        for (int l = 0; l < 1; l++)
-                        {
-                            float x = player.position.X + (float)Main.rand.Next(-400, 400);
-                            float y = player.position.Y - (float)Main.rand.Next(500, 800);
-                            Vector2 vector = new Vector2(x, y);
-                            float num15 = player.position.X + (float)(player.width / 2) - vector.X;
-                            float num16 = player.position.Y + (float)(player.height / 2) - vector.Y;
-                            num15 += (float)Main.rand.Next(-100, 101);
-                            int num17 = 22;
-                            float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-                            num18 = (float)num17 / num18;
-                            num15 *= num18;
-                            num16 *= num18;
-                            int type = Main.rand.NextBool(2) ? ModContent.ProjectileType<AuraRain>() : ModContent.ProjectileType<StandingFire>();
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, type, (int)(2000 * player.AverageDamage()), 1f, player.whoAmI, 0f, 0f);
-                            Main.projectile[num19].tileCollide = false;
-							Main.projectile[num19].usesLocalNPCImmunity = true;
-							Main.projectile[num19].localNPCHitCooldown = 10;
-							Main.projectile[num19].usesIDStaticNPCImmunity = false;
-							Main.projectile[num19].Calamity().forceTypeless = true;
-                        }
+						float x = player.position.X + Main.rand.NextFloat(-400, 400);
+						float y = player.position.Y - Main.rand.NextFloat(500, 800);
+						Vector2 projOrigin = new Vector2(x, y);
+						float xDist = player.Center.X - projOrigin.X;
+						float yDist = player.Center.Y - projOrigin.Y;
+						xDist += Main.rand.NextFloat(-100, 100);
+						float speed = 22f;
+						Vector2 playerVector = new Vector2(xDist, yDist);
+						float playerDist = playerVector.Length();
+						playerDist = speed / playerDist;
+						playerVector.X *= playerDist;
+						playerVector.Y *= playerDist;
+						int type = Main.rand.NextBool(2) ? ProjectileType<AuraRain>() : ProjectileType<StandingFire>();
+						int rain = Projectile.NewProjectile(projOrigin, playerVector, type, (int)(ProjectileDamage * player.AverageDamage()), 1f, player.whoAmI, 0f, 0f);
+						Projectile proj = Main.projectile[rain];
+						proj.tileCollide = false;
+						proj.usesLocalNPCImmunity = true;
+						proj.localNPCHitCooldown = 10;
+						proj.usesIDStaticNPCImmunity = false;
+						proj.Calamity().forceTypeless = true;
                     }
                 }
             }
-            int seaCounter = 0;
-            Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0f, 0.5f, 1.25f);
-            int num = BuffID.Venom;
-            float num2 = 300f;
-            bool flag = seaCounter % 60 == 0;
-            int num3 = (int)(320 * player.AverageDamage());
-            int random = Main.rand.Next(5);
+            int buffType = BuffID.Venom;
+            float auraRange = 300f;
+            int auraDmg = (int)(AuraDamage * player.AverageDamage());
             if (player.whoAmI == Main.myPlayer)
             {
-                if (random == 0 && player.immune && Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
-                {
-                    for (int l = 0; l < Main.maxNPCs; l++)
-                    {
-                        NPC nPC = Main.npc[l];
-                        if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && !nPC.buffImmune[num] && Vector2.Distance(player.Center, nPC.Center) <= num2)
-                        {
-                            if (nPC.FindBuffIndex(num) == -1)
-                            {
-                                nPC.AddBuff(num, 300, false);
-                            }
-                            if (flag)
-                            {
-                                if (player.whoAmI == Main.myPlayer)
-                                {
-                                    Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
-                                }
-                            }
-                        }
-                    }
-                }
+				for (int l = 0; l < Main.maxNPCs; l++)
+				{
+					NPC npc = Main.npc[l];
+					if (npc.active && !npc.friendly && npc.damage > 0 && !npc.dontTakeDamage && Vector2.Distance(player.Center, npc.Center) <= auraRange)
+					{
+						if (npc.FindBuffIndex(buffType) == -1 && !npc.buffImmune[buffType])
+						{
+							npc.AddBuff(buffType, 300, false);
+						}
+						if (counter % 30 == 0)
+						{
+							if (player.whoAmI == Main.myPlayer)
+							{
+								Projectile p = Projectile.NewProjectileDirect(npc.Center, Vector2.Zero, ProjectileType<DirectStrike>(), auraDmg, 0f, player.whoAmI, l);
+							}
+						}
+					}
+				}
             }
-            seaCounter++;
-            if (seaCounter >= 180)
-            {
-            }
-            if (FireCountdown == 0)
-            {
-                FireCountdown = 600;
-            }
-            if (FireCountdown > 0)
-            {
-                FireCountdown--;
-                if (FireCountdown == 0)
-                {
-                    if (player.whoAmI == Main.myPlayer)
-                    {
-                        int speed2 = 25;
-                        float spawnX = Main.rand.Next(1000) - 500 + player.Center.X;
-                        float spawnY = -1000 + player.Center.Y;
-                        Vector2 baseSpawn = new Vector2(spawnX, spawnY);
-                        Vector2 baseVelocity = player.Center - baseSpawn;
-                        baseVelocity.Normalize();
-                        baseVelocity *= speed2;
-                        for (int i = 0; i < FireProjectiles; i++)
-                        {
-                            Vector2 spawn = baseSpawn;
-                            spawn.X = spawn.X + i * 30 - (FireProjectiles * 15);
-                            Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
-                            velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), (int)(2000 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
-                        }
-                    }
-                }
-            }
+			if (counter % 480 == 0)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					int speed = 25;
+					float spawnX = Main.rand.Next(1000) - 500 + player.Center.X;
+					float spawnY = -1000 + player.Center.Y;
+					Vector2 baseSpawn = new Vector2(spawnX, spawnY);
+					Vector2 baseVelocity = player.Center - baseSpawn;
+					baseVelocity.Normalize();
+					baseVelocity *= speed;
+					for (int i = 0; i < FireProjectiles; i++)
+					{
+						Vector2 spawn = baseSpawn;
+						spawn.X += i * 30 - (FireProjectiles * 15);
+						Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
+						velocity.X += 3 * Main.rand.NextFloat() - 1.5f;
+						Projectile.NewProjectile(spawn, velocity, ProjectileType<BrimstoneHellfireballFriendly2>(), (int)(ProjectileDamage * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
+					}
+				}
+			}
         }
 
         public override void AddRecipes()
