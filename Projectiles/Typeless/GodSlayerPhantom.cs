@@ -42,8 +42,8 @@ namespace CalamityMod.Projectiles.Typeless
             int num822 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 0, default, 0.5f);
             Dust dust = Main.dust[num822];
             dust.velocity *= 0.1f;
-            Main.dust[num822].scale = 1.3f;
-            Main.dust[num822].noGravity = true;
+            dust.scale = 1.3f;
+            dust.noGravity = true;
             float num953 = 40f * projectile.ai[1]; //100
             float scaleFactor12 = 8f * projectile.ai[1]; //5
             float num954 = 600f;

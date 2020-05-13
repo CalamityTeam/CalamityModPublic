@@ -30,6 +30,11 @@ namespace CalamityMod.Projectiles.Summon
         }
         public override void AI()
         {
+            int num822 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 0, default, 0.5f);
+            Dust dust = Main.dust[num822];
+            dust.velocity *= 0.1f;
+            dust.scale = 1.3f;
+            dust.noGravity = true;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             projectile.velocity.X *= 0.99f;
             if (projectile.velocity.Y < 9f)
