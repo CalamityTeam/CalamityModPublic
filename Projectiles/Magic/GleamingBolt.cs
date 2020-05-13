@@ -12,8 +12,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 26;
+            projectile.height = 26;
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.timeLeft = 250;
@@ -23,19 +23,16 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
             projectile.velocity.X *= 0.985f;
             projectile.velocity.Y *= 0.985f;
-            for (int dust = 0; dust < 3; dust++)
+            for (int dust = 0; dust < 2; dust++)
             {
-                int randomDust = Main.rand.Next(2);
-                if (randomDust == 0)
-                {
-                    randomDust = 64;
-                }
-                else
-                {
-                    randomDust = 204;
-                }
+				int randomDust = Utils.SelectRandom(Main.rand, new int[]
+				{
+					64,
+					204
+				});
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
@@ -44,29 +41,24 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int k = 0; k < 5; k++)
             {
-                int randomDust = Main.rand.Next(2);
-                if (randomDust == 0)
-                {
-                    randomDust = 64;
-                }
-                else
-                {
-                    randomDust = 204;
-                }
+				int randomDust = Utils.SelectRandom(Main.rand, new int[]
+				{
+					64,
+					204
+				});
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
             float spread = 90f * 0.0174f;
             double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
-            int i;
             if (projectile.owner == Main.myPlayer)
             {
-                for (i = 0; i < 3; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GleamingBolt2>(), (int)((double)projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GleamingBolt2>(), (int)((double)projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GleamingBolt2>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GleamingBolt2>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 105);

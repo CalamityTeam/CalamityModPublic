@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,12 +12,15 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pillar");
+            Main.projFrames[projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
+            projectile.width = 26;
+            projectile.height = 26;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
@@ -27,64 +32,70 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
-            if (projectile.timeLeft > 90)
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
             {
-                projectile.timeLeft = 90;
+                projectile.frame++;
+                projectile.frameCounter = 0;
             }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.25f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
             if (projectile.ai[0] > 7f)
             {
-                float num296 = 1f;
+                float scalar = 1f;
                 if (projectile.ai[0] == 8f)
                 {
-                    num296 = 0.25f;
+                    scalar = 0.25f;
                 }
                 else if (projectile.ai[0] == 9f)
                 {
-                    num296 = 0.5f;
+                    scalar = 0.5f;
                 }
                 else if (projectile.ai[0] == 10f)
                 {
-                    num296 = 0.75f;
+                    scalar = 0.75f;
                 }
                 projectile.ai[0] += 1f;
                 int num297 = 127;
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool(3))
                 {
-                    for (int num298 = 0; num298 < 1; num298++)
-                    {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
-                        if (Main.rand.NextBool(3))
-                        {
-                            Main.dust[num299].noGravity = true;
-                            Main.dust[num299].scale *= 3f;
-                            Dust expr_DBEF_cp_0 = Main.dust[num299];
-                            expr_DBEF_cp_0.velocity.X *= 2f;
-                            Dust expr_DC0F_cp_0 = Main.dust[num299];
-                            expr_DC0F_cp_0.velocity.Y *= 2f;
-                        }
-                        else
-                        {
-                            Main.dust[num299].scale *= 1.5f;
-                        }
-                        Dust expr_DC74_cp_0 = Main.dust[num299];
-                        expr_DC74_cp_0.velocity.X *= 1.2f;
-                        Dust expr_DC94_cp_0 = Main.dust[num299];
-                        expr_DC94_cp_0.velocity.Y *= 1.2f;
-                        Main.dust[num299].scale *= num296;
-                    }
+					int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+					Dust dust = Main.dust[num299];
+					if (Main.rand.NextBool(3))
+					{
+						dust.noGravity = true;
+						dust.scale *= 2f;
+						dust.velocity.X *= 2f;
+						dust.velocity.Y *= 2f;
+					}
+					else
+					{
+						dust.scale *= 1.5f;
+					}
+					dust.velocity.X *= 1.2f;
+					dust.velocity.Y *= 1.2f;
+					dust.scale *= scalar;
                 }
             }
             else
             {
                 projectile.ai[0] += 1f;
             }
-            projectile.rotation += 0.3f * (float)projectile.direction;
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - MathHelper.PiOver2;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.OnFire, 600);
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
     }
 }

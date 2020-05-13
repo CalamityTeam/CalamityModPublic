@@ -13,8 +13,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
+            projectile.width = 8;
+            projectile.height = 8;
             projectile.friendly = true;
             projectile.extraUpdates = 1;
             projectile.penetrate = 2;
@@ -25,9 +25,11 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
+
             Lighting.AddLight(projectile.Center, 0.2f, 0.2f, 0.2f);
 
-            for (int num457 = 0; num457 < 5; num457++)
+            for (int num457 = 0; num457 < 2; num457++)
             {
                 int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default, 1f);
                 Main.dust[num458].noGravity = true;

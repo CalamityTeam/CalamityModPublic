@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
@@ -12,8 +14,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 30;
+            projectile.height = 30;
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.timeLeft = 120;
@@ -21,25 +23,29 @@ namespace CalamityMod.Projectiles.Magic
             projectile.magic = true;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D tex = Main.projectileTexture[projectile.type];
+			if (projectile.ai[0] == 1f)
+				tex = ModContent.GetTexture("CalamityMod/Projectiles/Magic/BeamingThornBlossom");
+
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            return false;
+        }
+
         public override void AI()
         {
+            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
             projectile.velocity.X *= 0.95f;
             projectile.velocity.Y *= 0.985f;
-            for (int dust = 0; dust < 3; dust++)
+            for (int dust = 0; dust < 2; dust++)
             {
-                int randomDust = Main.rand.Next(3);
-                if (randomDust == 0)
-                {
-                    randomDust = 164;
-                }
-                else if (randomDust == 1)
-                {
-                    randomDust = 58;
-                }
-                else
-                {
-                    randomDust = 204;
-                }
+				int randomDust = Utils.SelectRandom(Main.rand, new int[]
+				{
+					164,
+					58,
+					204
+				});
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
@@ -48,33 +54,25 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int k = 0; k < 6; k++)
             {
-                int randomDust = Main.rand.Next(3);
-                if (randomDust == 0)
-                {
-                    randomDust = 164;
-                }
-                else if (randomDust == 1)
-                {
-                    randomDust = 58;
-                }
-                else
-                {
-                    randomDust = 204;
-                }
+				int randomDust = Utils.SelectRandom(Main.rand, new int[]
+				{
+					164,
+					58,
+					204
+				});
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
             float spread = 90f * 0.0174f;
             double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
-            int i;
             if (projectile.owner == Main.myPlayer)
             {
-                for (i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BeamingBolt2>(), (int)((double)projectile.damage * 0.75f), projectile.knockBack, projectile.owner, 0f, 0f);
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BeamingBolt2>(), (int)((double)projectile.damage * 0.75f), projectile.knockBack, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BeamingBolt2>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, projectile.ai[0], 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BeamingBolt2>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, projectile.ai[0], 0f);
                 }
             }
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 105);

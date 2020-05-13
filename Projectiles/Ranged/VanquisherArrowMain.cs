@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class VanquisherArrowMain : ModProjectile
     {
-        private int projCount = 18;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
@@ -32,20 +30,17 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            projCount--;
-            if (projCount <= 0)
+            if (projectile.timeLeft % 18 == 0)
             {
                 if (projectile.owner == Main.myPlayer)
                 {
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ModContent.ProjectileType<VanquisherArrowSplit>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 }
-                projCount = 18;
             }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 origin = new Vector2(0f, 0f);
             Color color = Color.White;
             if (projectile.timeLeft < 85)
             {

@@ -1,6 +1,8 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,12 +13,14 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fireball");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 20;
+            projectile.height = 20;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.aiStyle = 1;
@@ -27,34 +31,35 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
             Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
             if (projectile.wet && !projectile.lavaWet)
             {
                 projectile.Kill();
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int num251 = Main.rand.Next(2, 4);
-                    for (int num252 = 0; num252 < num251; num252++)
+                    int fireballAmt = Main.rand.Next(2, 4);
+                    for (int j = 0; j < fireballAmt; j++)
                     {
-                        Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, -51));
-                        while (value15.X == 0f)
+                        Vector2 velocity = new Vector2(Main.rand.NextFloat(-100f, 100f), Main.rand.NextFloat(-100f, -50f));
+                        while (velocity.X == 0f)
                         {
-                            value15.X = (float)Main.rand.Next(-100, 101);
+                            velocity.X = (float)Main.rand.Next(-100, 101);
                         }
-                        value15.Normalize();
-                        value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<BrimstoneHomer>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                        velocity.Normalize();
+                        velocity *= Main.rand.NextFloat(70f, 100f) * 0.1f;
+                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHomer>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
-                for (int num468 = 0; num468 < 5; num468++)
+                for (int i = 0; i < 2; i++)
                 {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
+                    int brimstone = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+                    Main.dust[brimstone].noGravity = true;
+                    Main.dust[brimstone].velocity *= 0f;
                 }
             }
         }
@@ -80,6 +85,12 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 projectile.velocity *= 0.8f;
             }
+            return false;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
 

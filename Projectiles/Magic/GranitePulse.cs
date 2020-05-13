@@ -11,12 +11,13 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pulse");
+            Main.projFrames[projectile.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
+            projectile.width = 80;
+            projectile.height = 92;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
@@ -27,6 +28,16 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 4)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
             projectile.ai[1] += 1f;
             if (projectile.ai[1] >= 7200f)
             {
@@ -124,10 +135,9 @@ namespace CalamityMod.Projectiles.Magic
                 double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
                 double deltaAngle = spread / 8f;
                 double offsetAngle;
-                int i;
                 if (projectile.owner == Main.myPlayer)
                 {
-                    for (i = 0; i < 4; i++)
+                    for (int i = 0; i < 4; i++)
                     {
                         offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                         Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GraniteEnergy>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

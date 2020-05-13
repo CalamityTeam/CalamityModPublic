@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
+            projectile.width = 8;
+            projectile.height = 8;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.ignoreWater = true;
@@ -27,11 +27,10 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			for (int num468 = 0; num468 < 2; num468++)
-			{
-				int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
-				Main.dust[num469].noGravity = true;
-			}
+            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
+
+			int brimstone = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
+			Main.dust[brimstone].noGravity = true;
 
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 500f, 8f, 20f);
         }
