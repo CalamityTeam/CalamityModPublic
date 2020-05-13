@@ -817,7 +817,9 @@ namespace CalamityMod.Items
 				{
 					if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
 					{
-						if (modPlayer.scarfCooldown)
+						if (modPlayer.dScarfCooldown)
+							player.AddBuff(BuffID.ChaosState, (int)(CalamityPlayer.chaosStateDuration * 1.5), true);
+						else if (modPlayer.scarfCooldown)
 							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration * 2, true);
 						else
 							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration, true);

@@ -367,9 +367,11 @@ namespace CalamityMod.CalPlayer
         public bool vexation = false;
         public bool fBulwark = false;
         public bool dodgeScarf = false;
+        public bool deflectionScarf = false;
         public bool badgeOfBravery = false;
         public bool badgeOfBraveryRare = false;
         public bool scarfCooldown = false;
+        public bool dScarfCooldown = false;
         public bool cryogenSoul = false;
         public bool yInsignia = false;
         public bool eGauntlet = false;
@@ -686,6 +688,7 @@ namespace CalamityMod.CalPlayer
         public bool graxDefense = false;
         public bool encased = false;
         public bool sMeleeBoost = false;
+        public bool dScarfBoost = false;
         public bool tFury = false;
         public bool cadence = false;
         public bool omniscience = false;
@@ -1306,7 +1309,9 @@ namespace CalamityMod.CalPlayer
             fasterRogueLevel = false;
 
             dodgeScarf = false;
+			deflectionScarf = false;
             scarfCooldown = false;
+            dScarfCooldown = false;
 
             elysianAegis = false;
 
@@ -1647,6 +1652,7 @@ namespace CalamityMod.CalPlayer
             graxDefense = false;
             encased = false;
             sMeleeBoost = false;
+            dScarfBoost = false;
             tFury = false;
             cadence = false;
             omniscience = false;
@@ -1910,6 +1916,7 @@ namespace CalamityMod.CalPlayer
             clamity = false;
             snowmanNoseless = false;
             scarfCooldown = false;
+            dScarfCooldown = false;
             godSlayerCooldown = false;
             abyssalDivingSuitCooldown = false;
             abyssalDivingSuitPlateHits = 0;
@@ -1975,6 +1982,7 @@ namespace CalamityMod.CalPlayer
             graxDefense = false;
             encased = false;
             sMeleeBoost = false;
+            dScarfBoost = false;
             tFury = false;
             cadence = false;
             omniscience = false;
@@ -2446,7 +2454,9 @@ namespace CalamityMod.CalPlayer
                             player.Teleport(teleportLocation, 4, 0);
                             NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
-                            if (scarfCooldown)
+							if (dScarfCooldown)
+                                player.AddBuff(BuffID.ChaosState, (int)(chaosStateDuration * 1.5), true);
+                            else if (scarfCooldown)
                                 player.AddBuff(BuffID.ChaosState, chaosStateDuration * 2, true);
                             else
                                 player.AddBuff(BuffID.ChaosState, chaosStateDuration, true);
@@ -2497,7 +2507,9 @@ namespace CalamityMod.CalPlayer
                             player.Teleport(teleportLocation, 1, 0);
                             NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
-                            if (scarfCooldown)
+                            if (dScarfCooldown)
+                                player.AddBuff(BuffID.ChaosState, (int)(chaosStateDuration * 1.5), true);
+                            else if (scarfCooldown)
                                 player.AddBuff(BuffID.ChaosState, chaosStateDuration * 2, true);
                             else
                                 player.AddBuff(BuffID.ChaosState, chaosStateDuration, true);
@@ -3181,6 +3193,10 @@ namespace CalamityMod.CalPlayer
             if (sMeleeBoost)
             {
                 meleeSpeedMult += 0.05f;
+            }
+            if (dScarfBoost)
+            {
+                meleeSpeedMult += 0.15f;
             }
             if (yPower)
             {
@@ -4769,6 +4785,7 @@ namespace CalamityMod.CalPlayer
 			if (item.melee)
 			{
                 double damageAdd = (dodgeScarf ? 0.2 : 0) +
+                    (deflectionScarf ? 0.1 : 0) +
                     ((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2 : 0) +
                     (DoGLore ? 0.5 : 0) +
                     (fungalSymbiote ? 0.25 : 0);
@@ -5019,6 +5036,7 @@ namespace CalamityMod.CalPlayer
 			if (isTrueMelee)
 			{
                 double damageAdd = (dodgeScarf ? 0.2 : 0) +
+                    (deflectionScarf ? 0.1 : 0) +
                     ((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2 : 0) +
                     (DoGLore ? 0.5 : 0) +
                     (fungalSymbiote ? 0.25 : 0);
@@ -7496,9 +7514,9 @@ namespace CalamityMod.CalPlayer
             else if (dashMod > 0 && !player.mount.Active)
             {
                 float dashDistance;
-                if (dashMod == 1) //Counter Scarf
+                if (dashMod == 1) //Counter and Deflection Scarf
                 {
-                    dashDistance = 14.5f;
+                    dashDistance = deflectionScarf ? 16.9f : 14.5f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
@@ -7537,7 +7555,7 @@ namespace CalamityMod.CalPlayer
                     }
                     if (justDashed)
                     {
-                        player.velocity.X = dashDistance * (float)direction; //eoc dash amount
+                        player.velocity.X = dashDistance * (float)direction; //eoc dash amount (deflection = asgard's)
                         Point point = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), player.gravDir * (float)-(float)player.height / 2f + player.gravDir * 2f)).ToTileCoordinates();
                         Point point2 = (player.Center + new Vector2((float)(direction * player.width / 2 + 2), 0f)).ToTileCoordinates();
                         if (WorldGen.SolidOrSlopedTile(point.X, point.Y) || WorldGen.SolidOrSlopedTile(point2.X, point2.Y))
@@ -7940,10 +7958,18 @@ namespace CalamityMod.CalPlayer
 
         private void OnDodge()
         {
-            if (player.whoAmI == Main.myPlayer && dodgeScarf && !scarfCooldown)
+            if (player.whoAmI == Main.myPlayer && dodgeScarf && !scarfCooldown && !dScarfCooldown)
             {
-                player.AddBuff(ModContent.BuffType<ScarfMeleeBoost>(), 540);
-                player.AddBuff(ModContent.BuffType<ScarfCooldown>(), player.chaosState ? 1800 : 900);
+				if (deflectionScarf)
+				{
+					player.AddBuff(ModContent.BuffType<DeflectionScarfBoost>(), CalamityUtils.SecondsToFrames(6f));
+					player.AddBuff(ModContent.BuffType<DeflectionScarfCooldown>(), player.chaosState ? CalamityUtils.SecondsToFrames(20f) : CalamityUtils.SecondsToFrames(13f));
+				}
+				else
+				{
+					player.AddBuff(ModContent.BuffType<ScarfMeleeBoost>(), 540);
+					player.AddBuff(ModContent.BuffType<ScarfCooldown>(), player.chaosState ? 1800 : 900);
+				}
                 player.immune = true;
                 player.immuneTime = player.longInvince ? 100 : 60;
                 for (int k = 0; k < player.hurtCooldowns.Length; k++)

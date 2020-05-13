@@ -1,14 +1,14 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.StatBuffs
 {
-    public class ScarfMeleeBoost : ModBuff
+    public class DeflectionScarfBoost : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Scarf Boost");
-            Description.SetDefault("10% increased damage, 5% increased crit chance, and 5% increased melee speed");
+            DisplayName.SetDefault("Deflection Scarf Boost");
+            Description.SetDefault("10% increased damage, 10% increased crit chance, and 15% increased melee speed");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
             Main.buffNoSave[Type] = true;
@@ -17,7 +17,7 @@ namespace CalamityMod.Buffs.StatBuffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().sMeleeBoost = true;
+            player.Calamity().dScarfBoost = true;
         }
     }
 }
