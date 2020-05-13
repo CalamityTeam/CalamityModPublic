@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -18,10 +19,11 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Elemental Excalibur");
-            Tooltip.SetDefault("Freezes enemies and heals the player on hit\n" +
-                "Fires rainbow beams that change their behavior based on their color\n" +
-				"Right click for true melee");
+            DisplayName.SetDefault("Prismatic Breaker");
+            Tooltip.SetDefault("Seems to belong to a certain magical girl. Radiates with intense cosmic energy.\n" +
+                "Fires a rainbow colored wave\n" +
+				"Right click to instead fire a rainbow laser beam of doom\n" +
+				"The sword is boosted by both melee and ranged damage");
         }
 
         public override void SetDefaults()
@@ -33,21 +35,30 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 3;
             item.useTurn = true;
             item.melee = true;
-            item.knockBack = 8f;
+            item.knockBack = 7f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.width = 92;
-            item.height = 92;
-            item.value = CalamityGlobalItem.Rarity14BuyPrice;
-            item.rare = 10;
+            item.width = 50;
+            item.height = 50;
             item.shoot = ModContent.ProjectileType<PrismaticWave>();
             item.shootSpeed = 12f;
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
+            item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
+		//Cancel out normal melee damage boosts and replace it with the average of melee and ranged damage boosts
+		//all damage boosts should still apply
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        {
+			float damageMult = (player.meleeDamage + player.rangedDamage - 2f) / 2f;
+            add += damageMult - player.meleeDamage;
+		}
+
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
-            Vector2 origin = new Vector2(46f, 44f);
+			//item.width and then item.height - 2f
+            Vector2 origin = new Vector2(25f, 23f);
             spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow"), item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
@@ -55,7 +66,8 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, ModContent.ProjectileType<PrismaticBeam>(), (int)(damage * 1), knockBack, player.whoAmI, 0f, 0f);
+				swing = 0;
+                Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, ModContent.ProjectileType<PrismaticBeam>(), (int)(damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
             }
 			else
 			{
@@ -72,54 +84,29 @@ namespace CalamityMod.Items.Weapons.Melee
 
 		public override bool AltFunctionUse(Player player) => true;
 
+        public override bool CanUseItem(Player player) => base.CanUseItem(player);
+
 		public override void MeleeEffects(Player player, Rectangle hitbox)
         {
             if (Main.rand.NextBool(4))
             {
-                Color color = new Color(255, 0, 0, alpha);
-                switch (Main.rand.Next(12))
-                {
-                    case 0: // Red
-                        break;
-                    case 1: // Orange
-                        color = new Color(255, 128, 0, alpha);
-                        break;
-                    case 2: // Yellow
-                        color = new Color(255, 255, 0, alpha);
-                        break;
-                    case 3: // Lime
-                        color = new Color(128, 255, 0, alpha);
-                        break;
-                    case 4: // Green
-                        color = new Color(0, 255, 0, alpha);
-                        break;
-                    case 5: // Turquoise
-                        color = new Color(0, 255, 128, alpha);
-                        break;
-                    case 6: // Cyan
-                        color = new Color(0, 255, 255, alpha);
-                        break;
-                    case 7: // Light Blue
-                        color = new Color(0, 128, 255, alpha);
-                        break;
-                    case 8: // Blue
-                        color = new Color(0, 0, 255, alpha);
-                        break;
-                    case 9: // Purple
-                        color = new Color(128, 0, 255, alpha);
-                        break;
-                    case 10: // Fuschia
-                        color = new Color(255, 0, 255, alpha);
-                        break;
-                    case 11: // Hot Pink
-                        color = new Color(255, 0, 128, alpha);
-                        break;
-                    default:
-                        break;
-                }
-
-                Dust dust24 = Main.dust[Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 267, 0f, 0f, alpha, color, 0.8f)];
-                dust24.noGravity = true;
+				Color color = Utils.SelectRandom(Main.rand, new Color[]
+				{
+					new Color(255, 0, 0, alpha), //Red
+					new Color(255, 128, 0, alpha), //Orange
+					new Color(255, 255, 0, alpha), //Yellow
+					new Color(128, 255, 0, alpha), //Lime
+					new Color(0, 255, 0, alpha), //Green
+					new Color(0, 255, 128, alpha), //Turquoise
+					new Color(0, 255, 255, alpha), //Cyan
+					new Color(0, 128, 255, alpha), //Light Blue
+					new Color(0, 0, 255, alpha), //Blue
+					new Color(128, 0, 255, alpha), //Purple
+					new Color(255, 0, 255, alpha), //Fuschia
+					new Color(255, 0, 128, alpha) //Hot Pink
+				});
+                Dust rainbow = Main.dust[Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 267, 0f, 0f, alpha, color, 0.8f)];
+                rainbow.noGravity = true;
             }
         }
 

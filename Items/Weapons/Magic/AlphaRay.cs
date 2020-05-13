@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.75), knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigBeamofDeath>(), (int)(damage * 1.75), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {

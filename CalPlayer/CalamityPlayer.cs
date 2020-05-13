@@ -8363,7 +8363,7 @@ namespace CalamityMod.CalPlayer
 
                     // Sword
                     else if (item.type == ModContent.ItemType<Excelsus>() || item.type == ModContent.ItemType<EssenceFlayer>() || item.type == ModContent.ItemType<TheEnforcer>() ||
-                    item.type == ModContent.ItemType<ElementalExcalibur>() || item.type == ModContent.ItemType<TerrorBlade>() || item.type == ModContent.ItemType<EtherealSubjugator>())
+                    item.type == ModContent.ItemType<ElementalExcalibur>() || item.type == ModContent.ItemType<TerrorBlade>() || item.type == ModContent.ItemType<EtherealSubjugator>() || item.type == ModContent.ItemType<PrismaticBreaker>())
                     {
                         Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow");
                         if (item.type == ModContent.ItemType<EssenceFlayer>())
@@ -8376,6 +8376,8 @@ namespace CalamityMod.CalPlayer
                             texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/TerrorBladeGlow");
                         else if (item.type == ModContent.ItemType<EtherealSubjugator>())
                             texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Summon/EtherealSubjugatorGlow");
+                        else if (item.type == ModContent.ItemType<PrismaticBreaker>())
+                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow");
 
                         float yOffset = drawPlayer.gravDir == -1f ? 0f : (float)Main.itemTexture[item.type].Height;
 
