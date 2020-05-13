@@ -31,6 +31,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			item.summon = true;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.Calamity().customRarity = CalamityRarity.Dedicated;
+			item.autoReuse = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

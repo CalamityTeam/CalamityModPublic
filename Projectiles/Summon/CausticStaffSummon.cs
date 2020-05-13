@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Summon
 
 			//Find an enemy
 			Vector2 targetPos = projectile.position;
-			float maxRange = 600f;
+			float maxRange = 900f;
 			bool foundEnemy = false;
 			int targetIndex = -1;
 			//If the player has targetted an enemy, choose that one
@@ -141,9 +141,9 @@ namespace CalamityMod.Projectiles.Summon
 			}
 
 			//If the minion is too far away, return to the player. Max distance increases while attacking
-			float maxDistanceFromPlayer = 900f;
+			float maxDistanceFromPlayer = 1300f;
 			if (foundEnemy)
-				maxDistanceFromPlayer = 1300f;
+				maxDistanceFromPlayer = 1600f;
 			if (Vector2.Distance(player.Center, projectile.Center) > maxDistanceFromPlayer && projectile.ai[0] != 1f)
 			{
 				projectile.ai[0] = 1f;
