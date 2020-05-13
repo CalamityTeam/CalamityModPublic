@@ -25,7 +25,8 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(90);
-            Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.6f);
+			if (Main.rand.NextBool(2))
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.6f);
 
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 500f, 22f, 20f);
         }

@@ -31,6 +31,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+			//Doesn't use += to override vanilla rotation by AI
+			projectile.rotation = projectile.rotation + 0.7f;
+
             Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
             if (projectile.wet && !projectile.lavaWet)
             {
