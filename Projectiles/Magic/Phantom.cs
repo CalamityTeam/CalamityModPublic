@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
+            projectile.rotation += 0.01f;
 
             Lighting.AddLight(projectile.Center, 0.2f, 0.2f, 0.2f);
 

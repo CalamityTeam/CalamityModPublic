@@ -12,6 +12,8 @@ namespace CalamityMod.Projectiles.Magic
         {
             DisplayName.SetDefault("Venusian Cinder");
             Main.projFrames[projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 2;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -108,5 +110,11 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity) => false;
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
+        }
     }
 }

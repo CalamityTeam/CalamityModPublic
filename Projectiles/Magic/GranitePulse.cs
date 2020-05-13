@@ -16,8 +16,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 80;
-            projectile.height = 92;
+            projectile.width = 40;
+            projectile.height = 46;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
@@ -28,6 +28,14 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            projectile.velocity = new Vector2(0f, (float)Math.Sin((double)(6.28318548f * projectile.ai[0] / 300f)) * 0.5f);
+            projectile.ai[0] += 1f;
+            if (projectile.ai[0] >= 300f)
+            {
+                projectile.ai[0] = 0f;
+                projectile.netUpdate = true;
+            }
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
