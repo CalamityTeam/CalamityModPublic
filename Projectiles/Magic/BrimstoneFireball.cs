@@ -23,17 +23,14 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 20;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.aiStyle = 1;
+            projectile.aiStyle = 14;
             projectile.penetrate = 4;
-            aiType = ProjectileID.ThornBall;
             projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-			//Doesn't use += to override vanilla rotation by AI
-			projectile.rotation = projectile.rotation + 0.7f;
-
+			projectile.rotation += projectile.velocity.Y * 0.1f * projectile.direction;
             Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
             if (projectile.wet && !projectile.lavaWet)
             {
