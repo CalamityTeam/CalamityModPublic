@@ -14,9 +14,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Night's Gaze");
-            Tooltip.SetDefault("Throws a spear that shatters when it hits an enemy\n" +
-				"Stealth strikes cause the spear to summon homing stars as it flies\n" +
-				"Strike your foes with this spear of the night");
+            Tooltip.SetDefault("Strike your foes with this spear of the night\n" +
+				"Throws a spear that shatters when it hits an enemy\n" +
+				"Stealth strikes cause the spear to summon homing stars as it flies");
         }
 
         public override void SafeSetDefaults()
@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow");
-			Vector2 origin = new Vector2(texture.Width / 2, texture.Height / 2);
+			Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f - 2f);
 			spriteBatch.Draw(texture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 
