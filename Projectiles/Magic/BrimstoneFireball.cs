@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fireball");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 3;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
@@ -23,14 +23,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 20;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.aiStyle = 14;
             projectile.penetrate = 4;
             projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-			projectile.rotation += projectile.velocity.Y * 0.1f * projectile.direction;
             Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
             if (projectile.wet && !projectile.lavaWet)
             {
@@ -58,6 +56,25 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[brimstone].noGravity = true;
 				Main.dust[brimstone].velocity *= 0f;
             }
+			projectile.ai[0] += 1f;
+			if (projectile.ai[0] > 5f)
+			{
+				projectile.ai[0] = 5f;
+				if (projectile.velocity.Y == 0.0 && projectile.velocity.X != 0.0)
+				{
+					projectile.velocity.X *= 0.97f;
+					if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
+					{
+						projectile.velocity.X = 0f;
+						projectile.netUpdate = true;
+					}
+				}
+				projectile.velocity.Y += 0.2f;
+				projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.1f * projectile.direction;
+			}
+			if (projectile.velocity.Y <= 16f)
+				return;
+			projectile.velocity.Y = 16f;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
