@@ -2,6 +2,7 @@ using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -54,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow");
-			Vector2 origin = texture.Size / 2;
+			Vector2 origin = new Vector2(texture.Width / 2, texture.Height / 2);
 			spriteBatch.Draw(texture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
 		}
 

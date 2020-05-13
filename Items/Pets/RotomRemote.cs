@@ -44,6 +44,13 @@ namespace CalamityMod.Items.Pets
             }
         }
 
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Pets/RotomRemoteGlow");
+			Vector2 origin = new Vector2(texture.Width / 2, texture.Height / 2);
+			spriteBatch.Draw(texture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
