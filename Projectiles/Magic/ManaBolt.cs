@@ -26,8 +26,12 @@ namespace CalamityMod.Projectiles.Magic
             projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.01f * (float)projectile.direction;
             projectile.velocity.X *= 0.985f;
             projectile.velocity.Y *= 0.985f;
-            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			int randomDust = Utils.SelectRandom(Main.rand, new int[]
+			{
+				15,
+				107
+			});
+            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
         }
 
         public override void Kill(int timeLeft)

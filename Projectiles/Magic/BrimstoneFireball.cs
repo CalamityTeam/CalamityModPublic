@@ -31,7 +31,6 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.2f * (float)projectile.direction;
             Lighting.AddLight(projectile.Center, 0.25f, 0f, 0f);
             if (projectile.wet && !projectile.lavaWet)
             {
