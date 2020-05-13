@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.width = 80;
+            item.width = 82;
             item.damage = 800;
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.knockBack = 1f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 80;
+            item.height = 82;
             item.maxStack = 1;
             item.value = Item.buyPrice(1, 40, 0, 0);
             item.rare = 10;
@@ -50,6 +50,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             return true;
         }
+
+		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
+		{
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Rogue/NightsGazeGlow");
+			Vector2 origin = texture.Size / 2;
+			spriteBatch.Draw(texture, item.Center - Main.screenPosition, null, Color.White, rotation, origin, 1f, SpriteEffects.None, 0f);
+		}
 
         public override void AddRecipes()
         {
