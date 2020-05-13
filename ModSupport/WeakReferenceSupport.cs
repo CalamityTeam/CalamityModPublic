@@ -830,6 +830,7 @@ namespace CalamityMod
 				sAssociation.Call("AddMinionInfo", ItemType<CorroslimeStaff>(), BuffType<Corroslime>(), ProjectileType<CorroslimeMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<CrimslimeStaff>(), BuffType<Crimslime>(), ProjectileType<CrimslimeMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<BlackHawkRemote>(), BuffType<BlackHawkBuff>(), ProjectileType<BlackHawkSummon>());
+				sAssociation.Call("AddMinionInfo", ItemType<CausticStaff>(), BuffType<CausticStaffBuff>(), ProjectileType<CausticStaffSummon>());
 				sAssociation.Call("AddMinionInfo", ItemType<AncientIceChunk>(), BuffType<IceClasper>(), ProjectileType<IceClasperMinion>());
 				sAssociation.Call("AddMinionInfo", ItemType<ShellfishStaff>(), BuffType<ShellfishBuff>(), ProjectileType<Shellfish>());
 				sAssociation.Call("AddMinionInfo", ItemType<HauntedScroll>(), BuffType<HauntedDishesBuff>(), ProjectileType<HauntedDishes>());

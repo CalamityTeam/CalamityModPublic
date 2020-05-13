@@ -108,16 +108,16 @@ namespace CalamityMod.Projectiles.Summon
 			bool foundEnemy = false;
 			int targetIndex = -1;
 			//If the player has targetted an enemy, choose that one
-			NPC npc = projectile.OwnerMinionAttackTargetNPC;
-			if (npc != null && npc.CanBeChasedBy(projectile, false))
+			NPC target = projectile.OwnerMinionAttackTargetNPC;
+			if (target != null && target.CanBeChasedBy(projectile, false))
 			{
-				float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-				if (!foundEnemy && targetDist < maxRange && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+				float targetDist = Vector2.Distance(target.Center, projectile.Center);
+				if (!foundEnemy && targetDist < maxRange && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, target.position, target.width, target.height))
 				{
 					maxRange = targetDist;
-					targetPos = npc.Center;
+					targetPos = target.Center;
 					foundEnemy = true;
-					targetIndex = npc.whoAmI;
+					targetIndex = target.whoAmI;
 				}
 			}
 			//else, search through all available NPCs
@@ -125,14 +125,14 @@ namespace CalamityMod.Projectiles.Summon
 			{
 				for (int index = 0; index < Main.maxNPCs; ++index)
 				{
-					NPC npc2 = Main.npc[index];
-					if (npc2.CanBeChasedBy(projectile, false))
+					NPC npc = Main.npc[index];
+					if (npc.CanBeChasedBy(projectile, false))
 					{
-						float targetDist = Vector2.Distance(npc2.Center, projectile.Center);
-						if (!foundEnemy && targetDist < maxRange && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc2.position, npc2.width, npc2.height))
+						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+						if (!foundEnemy && targetDist < maxRange && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
 						{
 							maxRange = targetDist;
-							targetPos = npc2.Center;
+							targetPos = npc.Center;
 							foundEnemy = true;
 							targetIndex = index;
 						}
@@ -179,9 +179,9 @@ namespace CalamityMod.Projectiles.Summon
 					projectile.ai[0] = 1f;
 
 				//Set speed to home in on the player. If returning to the player, go faster
-				float speed = 6f;
+				float speed = 9f;
 				if (projectile.ai[0] == 1f)
-					speed = 15f;
+					speed = 22f;
 
 				//Find the player and align accordingly.  Get in a line if there's more than one.
 				Vector2 playerPos = player.Center - projectile.Center;
@@ -200,8 +200,8 @@ namespace CalamityMod.Projectiles.Summon
 				//Calculate player distance
 				float playerDist = playerPos.Length();
 				//If too far, increase speed
-				if (playerDist > 200f && speed < 9f)
-					speed = 9f;
+				if (playerDist > 200f && speed < 15f)
+					speed = 15f;
 				//If you were trying to chase the player but are close enough now, return to normal
 				if (playerDist < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
 				{
@@ -263,7 +263,7 @@ namespace CalamityMod.Projectiles.Summon
 			//Increment firing cooldown
 			if (projectile.ai[1] > 0f)
 			{
-				++projectile.ai[1];
+				projectile.ai[1] += Main.rand.Next(1,4);
 				if (Main.rand.NextBool(3))
 					++projectile.ai[1];
 			}
@@ -293,7 +293,7 @@ namespace CalamityMod.Projectiles.Summon
 				return;
 
 			//Fire projectile
-			float speedMult = 11f;
+			float speedMult = 16f;
 			targetVec.Normalize();
 			targetVec *= speedMult;
 			int spike = Projectile.NewProjectile(projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

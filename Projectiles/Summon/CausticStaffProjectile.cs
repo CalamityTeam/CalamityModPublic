@@ -25,6 +25,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft = 360;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.extraUpdates = 1;
+			projectile.tileCollide = false;
         }
         public override void AI()
         {
@@ -32,7 +34,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.velocity.X *= 0.99f;
             if (projectile.velocity.Y < 9f)
                 projectile.velocity.Y += 0.085f;
-            projectile.tileCollide = projectile.timeLeft <= 180;
         }
         public override void Kill(int timeLeft)
         {
