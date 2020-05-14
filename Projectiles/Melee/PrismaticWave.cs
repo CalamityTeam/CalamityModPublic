@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.ranged = true;
 			projectile.melee = true;
-            projectile.penetrate = 2;
+            projectile.penetrate = 3;
             projectile.timeLeft = 200;
 			projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
@@ -88,7 +88,8 @@ namespace CalamityMod.Projectiles.Melee
 					new Color(255, 0, 255, alpha), //Fuschia
 					new Color(255, 0, 128, alpha) //Hot Pink
 				});
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 267, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, alpha, color);
+                int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 267, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, alpha, color);
+				Main.dust[rainbow].noGravity = true;
             }
         }
 
@@ -122,7 +123,8 @@ namespace CalamityMod.Projectiles.Melee
 					new Color(255, 0, 255, alpha), //Fuschia
 					new Color(255, 0, 128, alpha) //Hot Pink
 				});
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 267, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, alpha, color);
+                int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 267, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, alpha, color);
+				Main.dust[rainbow].noGravity = true;
             }
         }
 

@@ -15,24 +15,24 @@ namespace CalamityMod.Items.Weapons.Melee
     public class PrismaticBreaker : ModItem
     {
         private int alpha = 50;
-        private int swing = 0;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prismatic Breaker");
             Tooltip.SetDefault("Seems to belong to a certain magical girl. Radiates with intense cosmic energy.\n" +
-                "Fires a rainbow colored wave\n" +
-				"Right click to instead fire a rainbow laser beam of doom\n" +
+                "Fire to charge for a powerful rainbow laser\n" +
+				"Right click to instead swing the sword and fire rainbow colored waves\n" +
 				"The sword is boosted by both melee and ranged damage");
+			Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 500;
+            item.damage = 400;
             item.crit += 8;
             item.useAnimation = 15;
             item.useStyle = 1;
-            item.useTime = 3;
+            item.useTime = 15;
             item.useTurn = true;
             item.melee = true;
             item.knockBack = 7f;
@@ -40,8 +40,8 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.width = 50;
             item.height = 50;
-            item.shoot = ModContent.ProjectileType<PrismaticWave>();
-            item.shootSpeed = 12f;
+            item.shoot = ModContent.ProjectileType<PrismaticBeam>();
+            item.shootSpeed = 14f;
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Dedicated;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
         {
 			float damageMult = (player.meleeDamage + player.rangedDamage - 2f) / 2f;
-            add += damageMult - player.meleeDamage;
+            add += damageMult - player.meleeDamage + 1f;
 		}
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
@@ -66,25 +66,39 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-				swing = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, ModContent.ProjectileType<PrismaticBeam>(), (int)(damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticWave>(), damage * 2, knockBack, player.whoAmI, 0f, 0f);
             }
 			else
 			{
-				swing++;
-				if (swing > 5)
-					swing = 0;
-				if (swing == 5)
-				{
-					Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				}
+                Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, type, damage, knockBack, player.whoAmI, 0f, 0f);
 			}
             return false;
         }
 
 		public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player) => base.CanUseItem(player);
+		public override bool CanUseItem(Player player)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				item.UseSound = SoundID.Item1;
+				item.useStyle = 1;
+				item.useTurn = true;
+				item.autoReuse = true;
+				item.noMelee = false;
+				item.channel = false;
+			}
+			else
+			{
+				item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
+				item.useStyle = 5;
+				item.useTurn = false;
+				item.autoReuse = false;
+				item.noMelee = true;
+				item.channel = true;
+			}
+			return base.CanUseItem(player);
+		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
         {

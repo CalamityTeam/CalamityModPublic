@@ -8270,7 +8270,7 @@ namespace CalamityMod.CalPlayer
                 if ((drawPlayer.itemAnimation > 0 && item.useStyle != 0) || (item.holdStyle > 0 && !drawPlayer.pulley))
                 {
                     // Staff
-                    if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>() || item.type == ModContent.ItemType<FatesReveal>())
+                    if (item.type == ModContent.ItemType<DeathhailStaff>() || item.type == ModContent.ItemType<Vesuvius>() || item.type == ModContent.ItemType<SoulPiercer>() || item.type == ModContent.ItemType<FatesReveal>() || (item.type == ModContent.ItemType<PrismaticBreaker>() && item.useStyle == 5))
                     {
                         Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/DeathhailStaffGlow");
                         if (item.type == ModContent.ItemType<Vesuvius>())
@@ -8279,6 +8279,8 @@ namespace CalamityMod.CalPlayer
                             texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SoulPiercerGlow");
                         else if (item.type == ModContent.ItemType<FatesReveal>())
                             texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/FatesRevealGlow");
+                        else if (item.type == ModContent.ItemType<PrismaticBreaker>())
+                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/PrismaticBreakerGlow");
 
                         float num104 = drawPlayer.itemRotation + 0.785f * (float)drawPlayer.direction;
                         int num105 = 0;
@@ -8363,7 +8365,7 @@ namespace CalamityMod.CalPlayer
 
                     // Sword
                     else if (item.type == ModContent.ItemType<Excelsus>() || item.type == ModContent.ItemType<EssenceFlayer>() || item.type == ModContent.ItemType<TheEnforcer>() ||
-                    item.type == ModContent.ItemType<ElementalExcalibur>() || item.type == ModContent.ItemType<TerrorBlade>() || item.type == ModContent.ItemType<EtherealSubjugator>() || item.type == ModContent.ItemType<PrismaticBreaker>())
+                    item.type == ModContent.ItemType<ElementalExcalibur>() || item.type == ModContent.ItemType<TerrorBlade>() || item.type == ModContent.ItemType<EtherealSubjugator>() || (item.type == ModContent.ItemType<PrismaticBreaker>() && item.useStyle == 1))
                     {
                         Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Melee/ExcelsusGlow");
                         if (item.type == ModContent.ItemType<EssenceFlayer>())
