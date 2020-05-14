@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Melee
 {
     public class PrismaticBeam : ModProjectile
     {
-        private int alpha = 50;
 		public Color[] colors = new Color[]
 		{
 			new Color(255, 0, 0, 50), //Red
