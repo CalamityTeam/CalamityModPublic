@@ -2,7 +2,10 @@
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.IO;
 using Terraria;
+using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
@@ -10,6 +13,8 @@ namespace CalamityMod.Projectiles.Melee
     public class PrismaticBeam : ModProjectile
     {
         private int alpha = 50;
+		private bool playedSound = false;
+		private Color rainbow = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 50);
 
         public override void SetStaticDefaults()
         {
@@ -17,6 +22,7 @@ namespace CalamityMod.Projectiles.Melee
         }
 
 		// Use a different style for constant so it is very clear in code when a constant is used
+		// but only constants copied from example mod ;)
 
 		// The maximum charge value
 		private const float MAX_CHARGE = 100f;
@@ -40,9 +46,6 @@ namespace CalamityMod.Projectiles.Melee
 
 		// Are we at max charge? With c#6 you can simply use => which indicates this is a get only property
 		public bool IsAtMaxCharge => Charge == MAX_CHARGE;
-
-		private bool playedSound = false;
-		private Color rainbow = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, alpha);
 
         public override void SetDefaults()
         {
