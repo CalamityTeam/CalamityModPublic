@@ -14,7 +14,6 @@ namespace CalamityMod.Projectiles.Melee
     {
         private int alpha = 50;
 		private bool playedSound = false;
-		private Color rainbow = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, 50);
 
         public override void SetStaticDefaults()
         {
@@ -71,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
 				Vector2 maxLength = Main.MouseWorld - Main.player[projectile.owner].Center;
 
 				DrawLaser(spriteBatch, Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center,
-					projectile.velocity, 15f, projectile.damage, -MathHelper.PiOver2, projectile.scale, maxLength.Length(), rainbow, (int)MOVE_DISTANCE);
+					projectile.velocity, 15f, projectile.damage, -MathHelper.PiOver2, projectile.scale, maxLength.Length(), new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, alpha), (int)MOVE_DISTANCE);
 			}
 			return false;
 		}
@@ -86,17 +85,17 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				var origin = start + i * unit;
 				spriteBatch.Draw(texture, origin - Main.screenPosition,
-					new Rectangle(0, 26, 28, 26), i < transDist ? Color.Transparent : rainbow, r,
+					new Rectangle(0, 26, 28, 26), i < transDist ? Color.Transparent : new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, alpha), r,
 					new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
 			}
 
 			// Draws the laser 'tail'
 			spriteBatch.Draw(texture, start + unit * (transDist - step) - Main.screenPosition,
-				new Rectangle(0, 0, 28, 26), rainbow, r, new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
+				new Rectangle(0, 0, 28, 26), new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, alpha), r, new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
 
 			// Draws the laser 'head'
 			spriteBatch.Draw(texture, start + (Distance + step) * unit - Main.screenPosition,
-				new Rectangle(0, 52, 28, 26), rainbow, r, new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
+				new Rectangle(0, 52, 28, 26), new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, alpha), r, new Vector2(28 * .5f, 26 * .5f), scale, 0, 0);
 		}
 
 		// Change the way of collision check of the projectile

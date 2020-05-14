@@ -624,7 +624,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<FlurrystormCannonShooting>(),
                 ModContent.ProjectileType<MagnomalyBeam>(),
                 ModContent.ProjectileType<MagnomalyAura>(),
-                ModContent.ProjectileType<RainbowTrail>()
+                ModContent.ProjectileType<RainbowTrail>(),
+                ModContent.ProjectileType<PrismaticBeam>()
             };
 
             projectileDestroyExceptionList = new List<int>()
