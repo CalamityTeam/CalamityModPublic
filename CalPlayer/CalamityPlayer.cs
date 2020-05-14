@@ -523,6 +523,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Armor Set
+        public bool desertProwler = false;
         public bool snowRuffianSet = false;
         public bool forbiddenCirclet = false;
 		public int forbiddenCooldown = 0;
@@ -1526,6 +1527,8 @@ namespace CalamityMod.CalPlayer
 
             astralStarRain = false;
 
+            desertProwler = false;
+
             snowRuffianSet = false;
 
             forbiddenCirclet = false;
@@ -2108,6 +2111,7 @@ namespace CalamityMod.CalPlayer
             ataxiaVolley = false;
             ataxiaBlaze = false;
             hydrothermalSmoke = false;
+            desertProwler = false;
             snowRuffianSet = false;
             forbiddenCirclet = false;
             eskimoSet = false; //vanilla armor
@@ -3903,6 +3907,11 @@ namespace CalamityMod.CalPlayer
             {
                 acidRoundMultiplier = 1D;
             }
+			//Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
+			if (desertProwler && (item.ranged/* || item.type == ModContent.ItemType<PrismaticBreaker>()*/))
+			{
+				flat += 2f;
+			}
         }
 
         public override void GetWeaponKnockback(Item item, ref float knockback)
@@ -4102,6 +4111,19 @@ namespace CalamityMod.CalPlayer
         #region On Hit NPC
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+			if (desertProwler && item.ranged && crit) //for obscure stuff like marnite bayonet
+			{
+				if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						if (player.whoAmI == Main.myPlayer)
+						{
+							Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), (int)(item.damage * player.RangedDamage()), knockback, player.whoAmI, 0f, 0f);
+						}
+					}
+				}
+			}
             if (!item.melee && (int) player.meleeEnchant == 7)
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
 
@@ -4279,6 +4301,19 @@ namespace CalamityMod.CalPlayer
 
             if (!proj.npcProj && !proj.trap)
             {
+				if (desertProwler && proj.ranged && crit)
+				{
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
+					{
+						if (Main.rand.NextBool(15))
+						{
+							if (player.whoAmI == Main.myPlayer)
+							{
+								Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), proj.damage, proj.knockBack, player.whoAmI, 0f, 0f);
+							}
+						}
+					}
+				}
 				if (proj.Calamity().trueMelee)
 					titanBoost = 600;
 
@@ -4436,6 +4471,20 @@ namespace CalamityMod.CalPlayer
         #region PvP
         public override void OnHitPvp(Item item, Player target, int damage, bool crit)
         {
+			if (desertProwler && item.ranged && crit) //for obscure stuff like Marnite Bayonet
+			{
+				if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						if (player.whoAmI == Main.myPlayer)
+						{
+							Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), (int)(item.damage * player.RangedDamage()), item.knockBack, player.whoAmI, 0f, 0f);
+						}
+					}
+				}
+			}
+
             if (!item.melee && (int) player.meleeEnchant == 7)
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
 
@@ -4600,6 +4649,20 @@ namespace CalamityMod.CalPlayer
 
             if (!proj.npcProj && !proj.trap)
             {
+				if (desertProwler && proj.ranged && crit)
+				{
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
+					{
+						if (Main.rand.NextBool(15))
+						{
+							if (player.whoAmI == Main.myPlayer)
+							{
+								Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), proj.damage, proj.knockBack, player.whoAmI, 0f, 0f);
+							}
+						}
+					}
+				}
+
 				if (proj.Calamity().trueMelee)
 					titanBoost = 600;
 
