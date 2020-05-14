@@ -9344,7 +9344,8 @@ namespace CalamityMod.CalPlayer
             bool isAxe = it.axe > 0;
             bool isHammer = it.hammer > 0;
             bool isPlaced = it.createTile != -1;
-            bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced;
+            bool isChannelable = it.channel;
+            bool hasNonWeaponFunction = isPickaxe || isAxe || isHammer || isPlaced || isChannelable;
             bool playerUsingWeapon = hasDamage && hasHitboxes && !hasNonWeaponFunction;
             if (!stealthStrikeThisFrame && player.itemAnimation == player.itemAnimationMax - 1 && playerUsingWeapon)
                 ConsumeStealthByAttacking();
@@ -9448,7 +9449,7 @@ namespace CalamityMod.CalPlayer
             return rogueStealth >= rogueStealthMax * (stealthStrikeHalfCost ? 0.5f : 1f);
         }
 
-        private void ConsumeStealthByAttacking()
+        internal void ConsumeStealthByAttacking()
         {
             stealthStrikeThisFrame = true;
             stealthAcceleration = 1f; // Reset acceleration when you attack
