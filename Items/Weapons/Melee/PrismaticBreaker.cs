@@ -6,6 +6,7 @@ using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,6 +16,30 @@ namespace CalamityMod.Items.Weapons.Melee
     public class PrismaticBreaker : ModItem
     {
         private int alpha = 50;
+		public Color[] colors = new Color[]
+		{
+			new Color(255, 0, 0, 50), //Red
+			new Color(255, 128, 0, 50), //Orange
+			new Color(255, 255, 0, 50), //Yellow
+			new Color(128, 255, 0, 50), //Lime
+			new Color(0, 255, 0, 50), //Green
+			new Color(0, 255, 128, 50), //Turquoise
+			new Color(0, 255, 255, 50), //Cyan
+			new Color(0, 128, 255, 50), //Light Blue
+			new Color(0, 0, 255, 50), //Blue
+			new Color(128, 0, 255, 50), //Purple
+			new Color(255, 0, 255, 50), //Fuschia
+			new Color(255, 0, 128, 50) //Hot Pink
+		};
+		List<Color> colorSet = new List<Color>()
+		{
+			new Color(255, 0, 0, 50), //Red
+			new Color(255, 255, 0, 50), //Yellow
+			new Color(0, 255, 0, 50), //Green
+			new Color(0, 255, 255, 50), //Cyan
+			new Color(0, 0, 255, 50), //Blue
+			new Color(255, 0, 255, 50), //Fuschia
+		};
 
         public override void SetStaticDefaults()
         {
@@ -104,22 +129,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (Main.rand.NextBool(4))
             {
-				Color color = Utils.SelectRandom(Main.rand, new Color[]
-				{
-					new Color(255, 0, 0, alpha), //Red
-					new Color(255, 128, 0, alpha), //Orange
-					new Color(255, 255, 0, alpha), //Yellow
-					new Color(128, 255, 0, alpha), //Lime
-					new Color(0, 255, 0, alpha), //Green
-					new Color(0, 255, 128, alpha), //Turquoise
-					new Color(0, 255, 255, alpha), //Cyan
-					new Color(0, 128, 255, alpha), //Light Blue
-					new Color(0, 0, 255, alpha), //Blue
-					new Color(128, 0, 255, alpha), //Purple
-					new Color(255, 0, 255, alpha), //Fuschia
-					new Color(255, 0, 128, alpha) //Hot Pink
-				});
-                Dust rainbow = Main.dust[Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 267, 0f, 0f, alpha, color, 0.8f)];
+                Dust rainbow = Main.dust[Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 267, 0f, 0f, alpha, Main.rand.Next(colors), 0.8f)];
                 rainbow.noGravity = true;
             }
         }

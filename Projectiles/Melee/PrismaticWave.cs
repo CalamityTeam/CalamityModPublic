@@ -1,8 +1,10 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -13,6 +15,30 @@ namespace CalamityMod.Projectiles.Melee
     public class PrismaticWave : ModProjectile
     {
         private int alpha = 50;
+		public Color[] colors = new Color[]
+		{
+			new Color(255, 0, 0, 50), //Red
+			new Color(255, 128, 0, 50), //Orange
+			new Color(255, 255, 0, 50), //Yellow
+			new Color(128, 255, 0, 50), //Lime
+			new Color(0, 255, 0, 50), //Green
+			new Color(0, 255, 128, 50), //Turquoise
+			new Color(0, 255, 255, 50), //Cyan
+			new Color(0, 128, 255, 50), //Light Blue
+			new Color(0, 0, 255, 50), //Blue
+			new Color(128, 0, 255, 50), //Purple
+			new Color(255, 0, 255, 50), //Fuschia
+			new Color(255, 0, 128, 50) //Hot Pink
+		};
+		List<Color> colorSet = new List<Color>()
+		{
+			new Color(255, 0, 0, 50), //Red
+			new Color(255, 255, 0, 50), //Yellow
+			new Color(0, 255, 0, 50), //Green
+			new Color(0, 255, 255, 50), //Cyan
+			new Color(0, 0, 255, 50), //Blue
+			new Color(255, 0, 255, 50), //Fuschia
+		};
 
         public override void SetStaticDefaults()
         {
@@ -31,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ranged = true;
 			projectile.melee = true;
             projectile.penetrate = 3;
-            projectile.timeLeft = 200;
+            projectile.timeLeft = 360;
 			projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
@@ -73,57 +99,33 @@ namespace CalamityMod.Projectiles.Melee
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
             if (Main.rand.NextBool(2))
             {
-				Color color = Utils.SelectRandom(Main.rand, new Color[]
-				{
-					new Color(255, 0, 0, alpha), //Red
-					new Color(255, 128, 0, alpha), //Orange
-					new Color(255, 255, 0, alpha), //Yellow
-					new Color(128, 255, 0, alpha), //Lime
-					new Color(0, 255, 0, alpha), //Green
-					new Color(0, 255, 128, alpha), //Turquoise
-					new Color(0, 255, 255, alpha), //Cyan
-					new Color(0, 128, 255, alpha), //Light Blue
-					new Color(0, 0, 255, alpha), //Blue
-					new Color(128, 0, 255, alpha), //Purple
-					new Color(255, 0, 255, alpha), //Fuschia
-					new Color(255, 0, 128, alpha) //Hot Pink
-				});
-                int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 267, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, alpha, color);
+                int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 267, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, alpha, Main.rand.Next(colors));
 				Main.dust[rainbow].noGravity = true;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			if (projectile.timeLeft > 195)
+			if (projectile.timeLeft > 355)
 				return false;
 
 			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
             return false;
         }
 
-        public override Color? GetAlpha(Color lightColor) => new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, alpha);
+        public override Color? GetAlpha(Color lightColor)
+		{
+			int colorIndex = (int)(Main.GlobalTime / 2 % colorSet.Count);
+			Color currentColor = colorSet[colorIndex];
+			Color nextColor = colorSet[(colorIndex + 1) % colorSet.Count];
+			return Color.Lerp(currentColor, nextColor, Main.GlobalTime % 2f > 1f ? 1f : Main.GlobalTime % 1f);
+		}
 
         public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 3; k++)
             {
-				Color color = Utils.SelectRandom(Main.rand, new Color[]
-				{
-					new Color(255, 0, 0, alpha), //Red
-					new Color(255, 128, 0, alpha), //Orange
-					new Color(255, 255, 0, alpha), //Yellow
-					new Color(128, 255, 0, alpha), //Lime
-					new Color(0, 255, 0, alpha), //Green
-					new Color(0, 255, 128, alpha), //Turquoise
-					new Color(0, 255, 255, alpha), //Cyan
-					new Color(0, 128, 255, alpha), //Light Blue
-					new Color(0, 0, 255, alpha), //Blue
-					new Color(128, 0, 255, alpha), //Purple
-					new Color(255, 0, 255, alpha), //Fuschia
-					new Color(255, 0, 128, alpha) //Hot Pink
-				});
-                int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 267, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, alpha, color);
+                int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 267, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, alpha, Main.rand.Next(colors));
 				Main.dust[rainbow].noGravity = true;
             }
         }
