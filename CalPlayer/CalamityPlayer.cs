@@ -8354,7 +8354,7 @@ namespace CalamityMod.CalPlayer
 
                     // Bow and Book
                     else if (item.type == ModContent.ItemType<Deathwind>() || item.type == ModContent.ItemType<Apotheosis>() || item.type == ModContent.ItemType<CleansingBlaze>() ||
-                    item.type == ModContent.ItemType<SubsumingVortex>())
+                    item.type == ModContent.ItemType<SubsumingVortex>() || item.type == ModContent.ItemType<AuroraBlazer>())
                     {
                         Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow");
                         int offsetX = 10;
@@ -8372,6 +8372,11 @@ namespace CalamityMod.CalPlayer
                         {
                             texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow");
                             offsetX = 9;
+                        }
+                        else if (item.type == ModContent.ItemType<AuroraBlazer>())
+                        {
+                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow");
+                            offsetX = 44;
                         }
 
                         Vector2 vector13 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 2));

@@ -357,7 +357,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("AstrumAureus", out float order);
 				int type = NPCType<AstrumAureus>();
 				int summon = ItemType<AstralChunk>();
-				List<int> loot = new List<int>() { ItemType<AstrageldonBag>(), ItemType<Stardust>(), ItemID.FallenStar, ItemType<Nebulash>(), ItemType<BorealisBomber>(), ItemType<GravistarSabaton>(), ItemType<AstralJelly>(), ItemID.HallowedKey, ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemType<StarlightFuelCell>(), ItemID.GreaterHealingPotion };
+				List<int> loot = new List<int>() { ItemType<AstrageldonBag>(), ItemType<Stardust>(), ItemID.FallenStar, ItemType<Nebulash>(), ItemType<AuroraBlazer>(),ItemType<BorealisBomber>(), ItemType<GravistarSabaton>(), ItemType<AstralJelly>(), ItemID.HallowedKey, ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemType<StarlightFuelCell>(), ItemID.GreaterHealingPotion };
 				List<int> collection = new List<int>() { ItemType<AstrageldonTrophy>(), ItemType<AureusMask>(), ItemType<KnowledgeAstrumAureus>() };
 				string instructions = $"Use an [i:{summon}] at Night in the Astral Biome";
 				string despawn = CalamityUtils.ColorMessage("Astrum Aureus’ program has been executed. Initiate recall.", new Color(0xFF, 0xD7, 0x00));
