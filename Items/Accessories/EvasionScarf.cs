@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Neck)]
-    public class DeflectionScarf : ModItem
+    public class EvasionScarf : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Deflection Scarf");
+            DisplayName.SetDefault("Evasion Scarf");
             Tooltip.SetDefault("True melee strikes deal 30% more damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
                 "After a dodge you will be granted a buff to all damage, melee speed, and all crit chance for a short time\n" +
@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dodgeScarf = true;
-            modPlayer.deflectionScarf = true;
+            modPlayer.evasionScarf = true;
             modPlayer.dashMod = 1;
         }
 
@@ -41,9 +41,8 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CounterScarf>());
-            recipe.AddIngredient(ItemID.SoulofMight, 5);
-            recipe.AddIngredient(ItemID.SoulofSight, 5);
-            recipe.AddIngredient(ItemID.SoulofFright, 5);
+            recipe.AddIngredient(ItemID.SoulofNight, 5);
+            recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddIngredient(ItemID.Silk, 15);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

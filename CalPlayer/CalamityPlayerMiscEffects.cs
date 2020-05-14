@@ -2342,7 +2342,7 @@ namespace CalamityMod.CalPlayer
 				player.meleeDamage += 0.2f;
 			}
 
-			if (modPlayer.dScarfBoost)
+			if (modPlayer.eScarfBoost)
 			{
 				player.allDamage += 0.1f;
 				modPlayer.AllCritBoost(10);

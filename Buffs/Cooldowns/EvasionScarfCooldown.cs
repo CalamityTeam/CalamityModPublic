@@ -3,11 +3,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Cooldowns
 {
-    public class DeflectionScarfCooldown : ModBuff
+    public class EvasionScarfCooldown : ModBuff
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Deflection Scarf Cooldown");
+            DisplayName.SetDefault("Evasion Scarf Cooldown");
             Description.SetDefault("Your dodge is recharging");
             Main.debuff[Type] = true;
             Main.pvpBuff[Type] = true;
@@ -18,7 +18,7 @@ namespace CalamityMod.Buffs.Cooldowns
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.Calamity().dScarfCooldown = true;
+            player.Calamity().eScarfCooldown = true;
         }
     }
 }
