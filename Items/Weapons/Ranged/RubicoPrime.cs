@@ -28,7 +28,6 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAnimation = 300;
             item.autoReuse = false;
 
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire");
             item.useStyle = 5;
             item.noMelee = true;
             item.width = 82;

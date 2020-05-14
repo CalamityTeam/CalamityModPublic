@@ -1,10 +1,13 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
     public class ImpactRound : ModProjectile
     {
+		private bool initialized = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Impact Round");
@@ -30,9 +33,20 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.localNPCHitCooldown = 10;
         }
 
+		public override void AI()
+		{
+			if (!initialized)
+			{
+				initialized = true;
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeWeaponFire"), (int)projectile.position.X, (int)projectile.position.Y);
+			}
+		}
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.timeLeft < 600;
+
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            double damageMult = 1.0;
+            double damageMult = 1D;
 			if (crit)
 			{
 				damageMult += 0.25;
