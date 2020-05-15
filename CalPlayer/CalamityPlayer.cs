@@ -5207,7 +5207,7 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
             }
-            if (uberBees && (proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Bee || proj.type == ProjectileID.Wasp || proj.type == ModContent.ProjectileType<PlaguenadeBee>()))
+            if (uberBees && (proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Bee || proj.type == ProjectileID.Wasp || proj.type == ModContent.ProjectileType<PlaguenadeBee>() || proj.type == ModContent.ProjectileType<PlaguePrincess>() || proj.type == ModContent.ProjectileType<BabyPlaguebringer>() || proj.type == ModContent.ProjectileType<PlagueBeeSmall>()))
             {
                 damage += Main.rand.Next(20, 31);
             }
