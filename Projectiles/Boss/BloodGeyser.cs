@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.timeLeft < 180)
                 projectile.tileCollide = true;
 
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
 
             int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 5, 0f, 0f, 100, default, 0.5f);
             Main.dust[num469].noGravity = true;
@@ -40,5 +40,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 120);
         }
-    }
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(250, 50, 50, projectile.alpha);
+		}
+	}
 }
