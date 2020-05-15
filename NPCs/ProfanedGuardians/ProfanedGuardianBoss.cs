@@ -14,8 +14,6 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 
 namespace CalamityMod.NPCs.ProfanedGuardians
@@ -108,7 +106,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             CalamityGlobalNPC.doughnutBoss = npc.whoAmI;
 
             // Percent life remaining
-            float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+            float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			Vector2 vectorCenter = npc.Center;
 			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[1] == 0f)
@@ -200,7 +198,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             {
                 if (Main.rand.Next(3) < num1009)
                 {
-                    int num1012 = Dust.NewDust(vectorCenter - new Vector2((float)num1010), num1010 * 2, num1010 * 2, (int)CalamityDusts.ProfanedFire, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
+                    int num1012 = Dust.NewDust(vectorCenter - new Vector2(num1010), num1010 * 2, num1010 * 2, (int)CalamityDusts.ProfanedFire, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
                     Main.dust[num1012].noGravity = true;
                     Main.dust[num1012].velocity *= 0.2f;
                     Main.dust[num1012].fadeIn = 1f;
@@ -216,58 +214,35 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
                     Main.PlaySound(SoundID.Item20, npc.position);
 
-                    Vector2 center = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    int totalProjectiles = 18;
-                    float spread = MathHelper.ToRadians(20);
-                    double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
-                    double deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
-                    float velocity = 5f;
-                    int damage = expertMode ? 50 : 60;
-                    int projectileType = ModContent.ProjectileType<ProfanedSpear>();
+                    int totalProjectiles = 10;
+					float velocity = 5f;
+					int damage = expertMode ? 50 : 60;
+					int projectileType = ModContent.ProjectileType<ProfanedSpear>();
 
-                    double offsetAngle;
-                    int i;
                     switch (spearType)
                     {
                         case 0:
-                            for (i = 0; i < 9; i++)
-                            {
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
-                                Projectile.NewProjectile(center.X, center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(center.X, center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-                            }
-                            break;
+							break;
                         case 1:
                             totalProjectiles = 12;
-                            spread = MathHelper.ToRadians(30); // 30 degrees in radians = 0.523599
-                            startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
-                            deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
                             velocity = 5.5f;
-                            for (i = 0; i < 6; i++)
-                            {
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
-                                Projectile.NewProjectile(center.X, center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(center.X, center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-                            }
                             break;
                         case 2:
                             totalProjectiles = 8;
-                            spread = MathHelper.ToRadians(45); // 30 degrees in radians = 0.523599
-                            startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
-                            deltaAngle = spread / (float)totalProjectiles; // Angle between each projectile, 0.04363325
                             velocity = 6f;
-                            for (i = 0; i < 4; i++)
-                            {
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
-                                Projectile.NewProjectile(center.X, center.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(center.X, center.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
-                            }
                             break;
                         default:
                             break;
                     }
 
-                    spearType++;
+					float radians = MathHelper.TwoPi / totalProjectiles;
+					for (int i = 0; i < totalProjectiles; i++)
+					{
+						Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
+						Projectile.NewProjectile(npc.Center, vector255, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+					}
+
+					spearType++;
                     if (spearType > 2)
                         spearType = 0;
                 }
@@ -287,7 +262,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     flag64 = true;
                 }
                 float num1014 = 8f;
-                flag64 = flag64 && vector126.ToRotation() > 3.14159274f / num1014 && vector126.ToRotation() < 3.14159274f - 3.14159274f / num1014;
+                flag64 = flag64 && vector126.ToRotation() > MathHelper.Pi / num1014 && vector126.ToRotation() < MathHelper.Pi - MathHelper.Pi / num1014;
                 if (num1013 > 1200f || !flag64)
                 {
                     npc.velocity.X = (npc.velocity.X * (num1000 - 1f) + vector127.X) / num1000;
@@ -337,8 +312,8 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     {
                         Main.PlaySound(SoundID.Item20, npc.position);
                         int damage = expertMode ? 55 : 70;
-                        Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (float)(npc.width + 20) / 2f + vectorCenter;
-                        int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, (float)(npc.direction * 2), 4f, ModContent.ProjectileType<FlareDust>(), damage, 0f, Main.myPlayer, 0f, 0f); //changed
+                        Vector2 vector173 = Vector2.Normalize(player.Center - vectorCenter) * (npc.width + 20) / 2f + vectorCenter;
+						int projectile = Projectile.NewProjectile((int)vector173.X, (int)vector173.Y, npc.direction * 2, 4f, ModContent.ProjectileType<FlareDust>(), damage, 0f, Main.myPlayer, 0f, 0f);
                         Main.projectile[projectile].timeLeft = 120;
                         Main.projectile[projectile].velocity.X = 0f;
                         Main.projectile[projectile].velocity.Y = 0f;
@@ -363,7 +338,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     vec2.Normalize();
                     if (vec2.HasNaNs())
                     {
-                        vec2 = new Vector2((float)npc.direction, 0f);
+                        vec2 = new Vector2(npc.direction, 0f);
                     }
                     npc.velocity = (npc.velocity * (num1000 - 1f) + vec2 * (npc.velocity.Length() + num1006)) / num1000;
                 }
@@ -388,7 +363,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 5;
@@ -402,16 +377,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 					Color color38 = lightColor;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
@@ -425,9 +400,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 					Color color41 = color37;
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 = npc.GetAlpha(color41);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					color41 *= (num153 - num163) / 15f;
+					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}

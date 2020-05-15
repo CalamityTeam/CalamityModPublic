@@ -10,14 +10,11 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.Localization;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs
 {
@@ -6456,25 +6453,17 @@ namespace CalamityMod.NPCs
                         if (npc.localAI[1] >= 480f)
                         {
                             npc.localAI[1] = 0f;
-                            Vector2 shootFromVector = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                            int totalProjectiles = 12;
-                            float spread = MathHelper.ToRadians(30); // 30 degrees in radians = 0.523599
-                            double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
-                            double deltaAngle = spread / totalProjectiles; // Angle between each projectile, 0.04363325
-                            double offsetAngle;
-                            float velocity = CalamityWorld.bossRushActive ? 6.5f : 5f;
-                            int damage = 31;
-							if (death)
-								damage += 3;
-							int i;
-                            for (i = 0; i < 6; i++)
-                            {
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
-                                int proj = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ProjectileID.DeathLaser, damage, 0f, Main.myPlayer, 0f, 0f);
-                                int proj2 = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ProjectileID.DeathLaser, damage, 0f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[proj].timeLeft = 300;
-                                Main.projectile[proj2].timeLeft = 300;
-                            }
+
+							int totalProjectiles = 12;
+							float radians = MathHelper.TwoPi / totalProjectiles;
+							int damage = death ? 34 : 31;
+							float velocity = CalamityWorld.bossRushActive ? 6.5f : 5f;
+							for (int k = 0; k < totalProjectiles; k++)
+							{
+								Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
+								int proj = Projectile.NewProjectile(npc.Center, vector255, ProjectileID.DeathLaser, damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].timeLeft = 300;
+							}
                         }
                     }
 
@@ -6589,25 +6578,17 @@ namespace CalamityMod.NPCs
                         if (npc.localAI[1] >= 45f)
                         {
                             npc.localAI[1] = 0f;
-                            Vector2 shootFromVector = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                            int totalProjectiles = 12;
-                            float spread = MathHelper.ToRadians(30); // 30 degrees in radians = 0.523599
-                            double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
-                            double deltaAngle = spread / totalProjectiles; // Angle between each projectile, 0.04363325
-                            double offsetAngle;
-                            float velocity = CalamityWorld.bossRushActive ? 6.5f : 5f;
-                            int damage = 31;
-							if (death)
-								damage += 3;
-							int i;
-                            for (i = 0; i < 6; i++)
-                            {
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
-                                int proj = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ProjectileID.DeathLaser, damage, 0f, Main.myPlayer, 0f, 0f);
-                                int proj2 = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ProjectileID.DeathLaser, damage, 0f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[proj].timeLeft = 300;
-                                Main.projectile[proj2].timeLeft = 300;
-                            }
+
+							int totalProjectiles = 12;
+							float radians = MathHelper.TwoPi / totalProjectiles;
+							int damage = death ? 34 : 31;
+							float velocity = CalamityWorld.bossRushActive ? 6.5f : 5f;
+							for (int k = 0; k < totalProjectiles; k++)
+							{
+								Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
+								int proj = Projectile.NewProjectile(npc.Center, vector255, ProjectileID.DeathLaser, damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].timeLeft = 300;
+							}
                         }
                     }
 
@@ -7126,23 +7107,17 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] >= 120f)
                     {
                         npc.localAI[0] = 0f;
-                        Vector2 shootFromVector = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                        int totalProjectiles = 12;
-                        float spread = MathHelper.ToRadians(30); // 30 degrees in radians = 0.523599
-                        double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
-                        double deltaAngle = spread / totalProjectiles; // Angle between each projectile, 0.04363325
-                        double offsetAngle;
-                        float velocity = CalamityWorld.bossRushActive ? 6.5f : 5f;
-                        int damage = 31;
-						if (death)
-							damage += 3;
-						int i;
-                        for (i = 0; i < 6; i++)
-                        {
-                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
-                            Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ProjectileID.DeathLaser, damage, 0f, Main.myPlayer, 0f, 0f);
-                            Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ProjectileID.DeathLaser, damage, 0f, Main.myPlayer, 0f, 0f);
-                        }
+
+						int totalProjectiles = 12;
+						float radians = MathHelper.TwoPi / totalProjectiles;
+						int damage = death ? 34 : 31;
+						float velocity = CalamityWorld.bossRushActive ? 6.5f : 5f;
+						for (int k = 0; k < totalProjectiles; k++)
+						{
+							Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
+							int proj = Projectile.NewProjectile(npc.Center, vector255, ProjectileID.DeathLaser, damage, 0f, Main.myPlayer, 0f, 0f);
+							Main.projectile[proj].timeLeft = 300;
+						}
                     }
                 }
             }

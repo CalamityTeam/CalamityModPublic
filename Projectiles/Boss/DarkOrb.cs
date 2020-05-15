@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Boss
 
 					bool useSin = projectile.ai[0] == 3f;
 
-					WavyMotion(0.1f, 0f, useSin);
+					WavyMotion(0.1f, 0f, useSin, false);
 
 					break;
 
@@ -166,9 +166,11 @@ namespace CalamityMod.Projectiles.Boss
 					{
 						if (projectile.owner == Main.myPlayer)
 						{
-							for (int i = 0; i < 4; i++)
+							int totalProjectiles = 4;
+							float radians = MathHelper.TwoPi / totalProjectiles;
+							for (int i = 0; i < totalProjectiles; i++)
 							{
-								Vector2 vector = new Vector2(0f, -8f).RotatedBy(MathHelper.PiOver2 * i);
+								Vector2 vector = new Vector2(0f, -8f).RotatedBy(radians * i);
 								Projectile.NewProjectile(projectile.Center, vector, projectile.type, projectile.damage, 0f, Main.myPlayer, Main.rand.Next(6), 0f);
 							}
 						}
@@ -187,9 +189,11 @@ namespace CalamityMod.Projectiles.Boss
 					{
 						if (projectile.owner == Main.myPlayer)
 						{
-							for (int i = 0; i < 8; i++)
+							int totalProjectiles = 8;
+							float radians = MathHelper.TwoPi / totalProjectiles;
+							for (int i = 0; i < totalProjectiles; i++)
 							{
-								Vector2 vector = new Vector2(0f, -8f).RotatedBy(MathHelper.PiOver4 * i);
+								Vector2 vector = new Vector2(0f, -8f).RotatedBy(radians * i);
 								Projectile.NewProjectile(projectile.Center, vector, projectile.type, projectile.damage, 0f, Main.myPlayer, Main.rand.Next(2), 0f);
 							}
 						}
@@ -207,7 +211,7 @@ namespace CalamityMod.Projectiles.Boss
 					bool splitThrice = projectile.timeLeft < 450;
 
 					if (splitOnce)
-						WavyMotion(0.05f, 2f, true);
+						WavyMotion(0.05f, 2f, true, true);
 
 					projectile.localAI[0] += 1f;
 
@@ -215,8 +219,8 @@ namespace CalamityMod.Projectiles.Boss
 					{
 						if (projectile.owner == Main.myPlayer)
 						{
-							float randomRotation = MathHelper.ToRadians(Main.rand.NextFloat() * 60f);
-							float radians = MathHelper.TwoPi / 3f + randomRotation;
+							int totalProjectiles = 3;
+							float radians = MathHelper.TwoPi / totalProjectiles;
 							int spread = 8;
 
 							if (splitOnce)
@@ -229,7 +233,7 @@ namespace CalamityMod.Projectiles.Boss
 							vector.Normalize();
 							vector *= 3f;
 
-							for (int i = 0; i < 3; i++)
+							for (int i = 0; i < totalProjectiles; i++)
 							{
 								Vector2 vector2 = splitOnce ? projectile.velocity.RotatedBy(MathHelper.ToRadians(i * spread)) : new Vector2(0f, -3f).RotatedBy(radians * i);
 
@@ -394,7 +398,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
         }
 
-		private void WavyMotion(float frequency, float amplitude, bool useSin)
+		private void WavyMotion(float frequency, float amplitude, bool useSin, bool waveWithVelocity)
 		{
 			if (start)
 			{
@@ -409,7 +413,10 @@ namespace CalamityMod.Projectiles.Boss
 
 			float wavyVelocity = useSin ? (float)Math.Sin(projectile.ai[1]) : (float)Math.Cos(projectile.ai[1]);
 
-			projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity).RotatedBy(MathHelper.ToRadians(velocity.ToRotation())) * amplitude;
+			if (waveWithVelocity)
+				projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity) * amplitude;
+			else
+				projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity).RotatedBy(MathHelper.ToRadians(velocity.ToRotation())) * amplitude;
 		}
 
 		private void LurchForward(float frequncy, float deceleration, float acceleration)

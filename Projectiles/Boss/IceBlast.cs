@@ -20,12 +20,13 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 10;
             projectile.penetrate = -1;
             projectile.hostile = true;
+			projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            Lighting.AddLight((int)((projectile.position.X + (projectile.width / 2)) / 16f), (int)((projectile.position.Y + (projectile.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
             int num3;
             for (int num322 = 0; num322 < 2; num322 = num3 + 1)
             {
