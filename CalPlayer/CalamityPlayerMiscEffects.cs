@@ -876,10 +876,12 @@ namespace CalamityMod.CalPlayer
 				modPlayer.nanoFlareCooldown--;
 			if (modPlayer.spectralVeilImmunity > 0)
 				modPlayer.spectralVeilImmunity--;
-			if (modPlayer.plaguedFuelPackCooldown > 0)
-				modPlayer.plaguedFuelPackCooldown--;
+			if (modPlayer.jetPackCooldown > 0)
+				modPlayer.jetPackCooldown--;
 			if (modPlayer.plaguedFuelPackDash > 0)
 				modPlayer.plaguedFuelPackDash--;
+			if (modPlayer.blunderBoosterDash > 0)
+				modPlayer.blunderBoosterDash--;
 			if (modPlayer.theBeeCooldown > 0)
 				modPlayer.theBeeCooldown--;
 			if (modPlayer.jellyDmg > 0f)
@@ -1695,6 +1697,31 @@ namespace CalamityMod.CalPlayer
 				for (int i = 0; i < 3; i++)
 				{
 					int dust = Dust.NewDust(player.Center, 1, 1, 89, player.velocity.X * -0.1f, player.velocity.Y * -0.1f, 100, default, 3.5f);
+					Main.dust[dust].noGravity = true;
+					Main.dust[dust].velocity *= 1.2f;
+					Main.dust[dust].velocity.Y -= 0.15f;
+				}
+			}
+
+			// Blunder Booster effects
+			if (modPlayer.blunderBoosterDash > 0)
+			{
+				int velocityMult = modPlayer.blunderBoosterDash > 1 ? 35 : 5;
+				player.velocity = new Vector2(modPlayer.blunderBoosterDirection, -1) * velocityMult;
+
+				int lightningCount = Main.rand.Next(2, 7);
+				for (int i = 0; i < lightningCount; i++)
+				{
+					Vector2 lightningVel = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+					lightningVel.Normalize();
+					lightningVel *= Main.rand.NextFloat(1f, 2f);
+					int projectile = Projectile.NewProjectile(player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), (int)(30 * player.RogueDamage()), 0, player.whoAmI, Main.rand.Next(2), 0f);
+					Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
+				}
+
+				for (int i = 0; i < 3; i++)
+				{
+					int dust = Dust.NewDust(player.Center, 1, 1, 60, player.velocity.X * -0.1f, player.velocity.Y * -0.1f, 100, default, 3.5f);
 					Main.dust[dust].noGravity = true;
 					Main.dust[dust].velocity *= 1.2f;
 					Main.dust[dust].velocity.Y -= 0.15f;
@@ -3403,12 +3430,35 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			if (modPlayer.blunderBooster)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] < 1)
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<BlunderBoosterAura>(), (int)(30 * player.RogueDamage()), 0f, player.whoAmI, 0f, 0f);
+				}
+			}
+			else if (player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] != 0)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					for (int i = 0; i < Main.maxProjectiles; i++)
+					{
+						if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<BlunderBoosterAura>() && Main.projectile[i].owner == player.whoAmI)
+						{
+							Main.projectile[i].Kill();
+							break;
+						}
+					}
+				}
+			}
+
 			if (modPlayer.tesla)
 			{
 				if (player.whoAmI == Main.myPlayer)
 				{
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), (int)(10 * player.AverageDamage()), 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), (int)(10 * player.AverageDamage()), 0f, player.whoAmI, 0f, 0f);
 				}
 			}
 			else if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)

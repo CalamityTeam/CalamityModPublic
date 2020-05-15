@@ -223,7 +223,7 @@ namespace CalamityMod
             MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitater Effect", "U");
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
-            PlaguePackHotKey = RegisterHotKey("Plagued Fuel Pack Dash", "Q");
+            PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
 
             if (!Main.dedServ)
             {

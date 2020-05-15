@@ -503,8 +503,12 @@ namespace CalamityMod.CalPlayer
         public bool sandCloakCooldown = false;
         public bool spectralVeil = false;
         public int spectralVeilImmunity = 0;
+        public bool hasJetpack = false;
+        public bool blunderBooster = false;
         public bool plaguedFuelPack = false;
-        public int plaguedFuelPackCooldown = 0;
+        public int jetPackCooldown = 0;
+        public int blunderBoosterDash = 0;
+        public int blunderBoosterDirection = 0;
         public int plaguedFuelPackDash = 0;
         public int plaguedFuelPackDirection = 0;
         public bool veneratedLocket = false;
@@ -1596,7 +1600,9 @@ namespace CalamityMod.CalPlayer
             sandCloak = false;
             sandCloakCooldown = false;
             spectralVeil = false;
+            hasJetpack = false;
             plaguedFuelPack = false;
+            blunderBooster = false;
             veneratedLocket = false;
 
             alcoholPoisoning = false;
@@ -1864,7 +1870,9 @@ namespace CalamityMod.CalPlayer
             reforges = 0;
             polarisBoostCounter = 0;
             spectralVeilImmunity = 0;
-            plaguedFuelPackCooldown = 0;
+            jetPackCooldown = 0;
+            blunderBoosterDash = 0;
+            blunderBoosterDirection = 0;
             plaguedFuelPackDash = 0;
             plaguedFuelPackDirection = 0;
             theBeeCooldown = 0;
@@ -2524,15 +2532,27 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (CalamityMod.PlaguePackHotKey.JustPressed && plaguedFuelPack && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
-                wearingRogueArmor && rogueStealthMax > 0 && plaguedFuelPackCooldown == 0 && !player.mount.Active)
+            if (CalamityMod.PlaguePackHotKey.JustPressed && hasJetpack && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
+                wearingRogueArmor && rogueStealthMax > 0 && jetPackCooldown == 0 && !player.mount.Active)
             {
-                plaguedFuelPackCooldown = 90;
-                plaguedFuelPackDash = 10;
-                plaguedFuelPackDirection = player.direction;
-                rogueStealth -= rogueStealthMax * 0.25f;
-                Main.PlaySound(2, player.position, 66);
-                Main.PlaySound(2, player.position, 34);
+				if (blunderBooster)
+				{
+					jetPackCooldown = 90;
+					blunderBoosterDash = 15;
+					blunderBoosterDirection = player.direction;
+					rogueStealth -= rogueStealthMax * 0.25f;
+					Main.PlaySound(2, player.position, 66);
+					Main.PlaySound(2, player.position, 34);
+				}
+				else if (plaguedFuelPack)
+				{
+					jetPackCooldown = 90;
+					plaguedFuelPackDash = 10;
+					plaguedFuelPackDirection = player.direction;
+					rogueStealth -= rogueStealthMax * 0.25f;
+					Main.PlaySound(2, player.position, 66);
+					Main.PlaySound(2, player.position, 34);
+				}
             }
             if (CalamityMod.TarraHotKey.JustPressed)
             {
