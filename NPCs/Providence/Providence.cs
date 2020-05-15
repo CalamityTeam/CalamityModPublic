@@ -470,7 +470,7 @@ namespace CalamityMod.NPCs.Providence
 							phase = 3;
 							break; // 1575 or 1500
 						case 1:
-							phase = 5;
+							phase = 2;
 							break; // 1875 or 1800
 						case 2:
 							phase = 0;
@@ -763,7 +763,7 @@ namespace CalamityMod.NPCs.Providence
 					num867 *= -1f;
 				}
 
-				/*if (npc.velocity.Length() <= 2f)
+				if (npc.velocity.Length() <= 2f)
 					npc.velocity = Vector2.Zero;
 				if (npc.velocity.Length() > 2f)
 					return;
@@ -774,54 +774,55 @@ namespace CalamityMod.NPCs.Providence
 				float interval = totalProjectiles / chains * divisor;
 				double patternInterval = Math.Floor(npc.ai[3] / interval);
 				float velocity = 3f;
+				Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f);
 
-				if (patternInterval % 2 == 0)
+				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					if (npc.ai[3] % divisor == 0f)
+					if (patternInterval % 2 == 0)
 					{
-						double radians = (patternInterval % 4 == 0 ? MathHelper.TwoPi + MathHelper.Pi / 3 : MathHelper.TwoPi) / chains;
-						float radialOffset = MathHelper.ToRadians(npc.ai[2]);
-						Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f);
-
-						for (int i = 0; i < chains; i++)
+						if (npc.ai[3] % divisor == 0f)
 						{
-							Vector2 vector2 = new Vector2(0f, -velocity).RotatedBy(radians * i + radialOffset);
+							Vector2 spinningPoint = calamityGlobalNPC.newAI[1] % 2f == 0f ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
+							double radians = MathHelper.TwoPi / chains;
+							for (int i = 0; i < chains; i++)
+							{
+								Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.ai[2]));
 
-							int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
-							if (Main.rand.NextBool(4) && !death)
-								projectileType = ModContent.ProjectileType<HolyLight>();
+								int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
+								if (Main.rand.NextBool(4) && !death)
+									projectileType = ModContent.ProjectileType<HolyLight>();
 
-							Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, 0f);
+							}
+
+							// Radial offset
+							npc.ai[2] += 10f;
 						}
+					}
+					else
+					{
+						npc.ai[2] = 0f;
 
-						// Radial offset
-						npc.ai[2] += 10f;
+						totalProjectiles = 16;
+						if (npc.ai[3] % (divisor * totalProjectiles) == 0f)
+						{
+							calamityGlobalNPC.newAI[1] += 1f;
+							double radians = MathHelper.TwoPi / totalProjectiles;
+							for (int i = 0; i < totalProjectiles; i++)
+							{
+								Vector2 vector2 = new Vector2(0f, -velocity).RotatedBy(radians * i);
+
+								int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
+								if (Main.rand.NextBool(4) && !death)
+									projectileType = ModContent.ProjectileType<HolyLight>();
+
+								Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, 0f);
+							}
+						}
 					}
 				}
-				else
-				{
-					npc.ai[2] = 0f;
 
-					totalProjectiles = 16;
-					if (npc.ai[3] % (divisor * totalProjectiles) == 0f)
-					{
-						double radians = MathHelper.TwoPi / totalProjectiles;
-						Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f);
-
-						for (int i = 0; i < totalProjectiles; i++)
-						{
-							Vector2 vector2 = new Vector2(0f, -velocity).RotatedBy(radians * i);
-
-							int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
-							if (Main.rand.NextBool(4) && !death)
-								projectileType = ModContent.ProjectileType<HolyLight>();
-
-							Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, 0f);
-						}
-					}
-				}*/
-
-				int shootBoost = (int)(4f * (1f - lifeRatio));
+				/*int shootBoost = (int)(4f * (1f - lifeRatio));
 
 				int num870 = (expertMode ? 3 : 4) - shootBoost;
 
@@ -839,7 +840,7 @@ namespace CalamityMod.NPCs.Providence
 						else
 							Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyBurnOrb>(), 0, 0f, Main.myPlayer, 0f, 0f);
 					}
-				}
+				}*/
 
 				if (npc.ai[3] == 0f)
 				{

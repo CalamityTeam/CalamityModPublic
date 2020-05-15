@@ -1,17 +1,12 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
+﻿using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Boss;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
-using CalamityMod.Projectiles;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -84,9 +79,11 @@ namespace CalamityMod.NPCs.OldDuke
             if (vector.Length() < 40f || npc.ai[3] >= 900f)
             {
                 npc.dontTakeDamage = false;
-                CheckDead();
                 npc.life = 0;
-                return;
+				npc.HitEffect(0, 10.0);
+				npc.checkDead();
+				npc.active = false;
+				return;
             }
             npc.ai[3] += 1f;
             npc.dontTakeDamage = (npc.ai[3] >= 600f ? false : true);
@@ -97,14 +94,14 @@ namespace CalamityMod.NPCs.OldDuke
                 return;
             }
             float num1372 = 12f;
-            Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
-            float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
+            Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);
+            float num1373 = player.position.X + player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
-            float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
+            float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
             float num1376 = num1372 / num1375;
             num1373 *= num1376;
             num1374 *= num1376;
-            npc.ai[0] -= (float)Main.rand.Next(6);
+            npc.ai[0] -= Main.rand.Next(6);
             if (num1375 < 300f || npc.ai[0] > 0f)
             {
                 if (num1375 < 300f)
@@ -176,56 +173,49 @@ namespace CalamityMod.NPCs.OldDuke
         {
             Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 12);
 
-            npc.position.X = npc.position.X + (float)(npc.width / 2);
-            npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+            npc.position.X = npc.position.X + (npc.width / 2);
+            npc.position.Y = npc.position.Y + (npc.height / 2);
             npc.width = (npc.height = 96);
-            npc.position.X = npc.position.X - (float)(npc.width / 2);
-            npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+            npc.position.X = npc.position.X - (npc.width / 2);
+            npc.position.Y = npc.position.Y - (npc.height / 2);
 
             for (int num621 = 0; num621 < 15; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default(Color), 2f);
+                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.Next(2) == 0)
                 {
                     Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
                 Main.dust[num622].noGravity = true;
             }
 
             for (int num623 = 0; num623 < 30; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default(Color), 3f);
+                int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default(Color), 2f);
+                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
                 Main.dust[num624].noGravity = true;
             }
 
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Vector2 valueBoom = npc.Center;
 				int totalProjectiles = 4;
-				float spreadBoom = MathHelper.ToRadians(90);
-                double startAngleBoom = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spreadBoom / 2;
-                double deltaAngleBoom = spreadBoom / (float)totalProjectiles;
-                double offsetAngleBoom;
-                int iBoom;
-				int damageBoom = Main.expertMode ? 55 : 70;
-				int projectileType = ModContent.ProjectileType<SandTooth>();
-				Projectile.NewProjectile(valueBoom.X, valueBoom.Y, 0f, 0f, ModContent.ProjectileType<SandPoisonCloud>(), damageBoom, 0f, Main.myPlayer, 0f, 0f);
-				for (iBoom = 0; iBoom < 2; iBoom++)
-                {
-					float velocity = (float)Main.rand.Next(7, 11);
-                    offsetAngleBoom = (startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f) + 32f * iBoom;
-                    int proj = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * velocity), (float)(Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+				float radians = MathHelper.TwoPi / totalProjectiles;
+				int damage = Main.expertMode ? 55 : 70;
+				for (int k = 0; k < totalProjectiles; k++)
+				{
+					float velocity = Main.rand.Next(7, 11);
+					Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
+					int proj = Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<SandTooth>(), damage, 0f, Main.myPlayer, 0f, 0f);
 					Main.projectile[proj].timeLeft = 360;
-                    int proj2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * velocity), (float)(-Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
-					Main.projectile[proj2].timeLeft = 360;
 				}
+				Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<SandPoisonCloud>(), damage, 0f, Main.myPlayer, 0f, 0f);
             }
+
             return true;
         }
 
@@ -233,13 +223,13 @@ namespace CalamityMod.NPCs.OldDuke
 		{
 			for (int k = 0; k < 3; k++)
 			{
-				Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default(Color), 1f);
+				Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
 			}
 			if (npc.life <= 0)
 			{
 				for (int k = 0; k < 15; k++)
 				{
-					Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default(Color), 1f);
+					Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.SulfurousSeaAcid, hitDirection, -1f, 0, default, 1f);
 				}
 			}
 		}

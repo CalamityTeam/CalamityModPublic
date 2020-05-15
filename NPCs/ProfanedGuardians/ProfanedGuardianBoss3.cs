@@ -11,8 +11,6 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.ProfanedGuardians
 {
     [AutoloadBossHead]
@@ -136,7 +134,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     {
                         dustType = 107;
                     }
-                    int num1012 = Dust.NewDust(npc.Center - new Vector2((float)num1010), num1010 * 2, num1010 * 2, dustType, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
+                    int num1012 = Dust.NewDust(npc.Center - new Vector2(num1010), num1010 * 2, num1010 * 2, dustType, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default, 1.5f);
                     Main.dust[num1012].noGravity = true;
                     Main.dust[num1012].velocity *= 0.2f;
                     Main.dust[num1012].fadeIn = 1f;
@@ -153,7 +151,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Vector2 vector96 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num784 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.X - vector96.X;
                 float num785 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.Y - vector96.Y;
-                float num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
+                float num786 = (float)Math.Sqrt(num784 * num784 + num785 * num785);
                 if (num786 > 90f)
                 {
                     num786 = 21f / num786; //8f
@@ -173,7 +171,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     vector96 = new Vector2(npc.Center.X, npc.Center.Y);
                     num784 = player.Center.X - vector96.X;
                     num785 = player.Center.Y - vector96.Y;
-                    num786 = (float)Math.Sqrt((double)(num784 * num784 + num785 * num785));
+                    num786 = (float)Math.Sqrt(num784 * num784 + num785 * num785);
                     num786 = 21f / num786; //8f
                     npc.velocity.X = num784 * num786;
                     npc.velocity.Y = num785 * num786;
@@ -190,7 +188,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                 Vector2 vector97 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num787 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.X - vector97.X;
                 float num788 = Main.npc[CalamityGlobalNPC.doughnutBoss].Center.Y - vector97.Y;
-                float num789 = (float)Math.Sqrt((double)(num787 * num787 + num788 * num788));
+                float num789 = (float)Math.Sqrt(num787 * num787 + num788 * num788);
                 if (num789 > 700f)
                 {
                     npc.ai[0] = 0f;
@@ -206,20 +204,15 @@ namespace CalamityMod.NPCs.ProfanedGuardians
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                     {
                         Main.PlaySound(SoundID.Item20, npc.position);
-                        Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                        float spread = 45f * 0.0174f;
-                        double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-                        double deltaAngle = spread / 8f;
-                        double offsetAngle;
-                        int damage = 0;
-                        int projectileShot = ModContent.ProjectileType<HealOrbProv>();
-                        int i;
-                        for (i = 0; i < 3; i++)
-                        {
-                            offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-                            Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), projectileShot, damage, 0f, Main.myPlayer, 0f, 0f);
-                        }
+
+						float velocity = 5f;
+						int totalProjectiles = 6;
+						float radians = MathHelper.TwoPi / totalProjectiles;
+						for (int i = 0; i < totalProjectiles; i++)
+						{
+							Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
+							Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<HealOrbProv>(), 0, 0f, Main.myPlayer, 0f, 0f);
+						}
                     }
                 }
             }
@@ -233,7 +226,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
 			Texture2D texture2D16 = ModContent.GetTexture("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBoss3Glow2");
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 5;
@@ -245,16 +238,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 					Color color38 = lightColor;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
@@ -269,16 +262,16 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 					Color color41 = color37;
 					color41 = Color.Lerp(color41, color36, amount9);
 					color41 = npc.GetAlpha(color41);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+					color41 *= (num153 - num163) / 15f;
+					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector44 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 					vector44 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector44, npc.frame, color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
 					Color color43 = color42;
 					color43 = Color.Lerp(color43, color36, amount9);
 					color43 = npc.GetAlpha(color43);
-					color43 *= (float)(num153 - num163) / 15f;
+					color43 *= (num153 - num163) / 15f;
 					spriteBatch.Draw(texture2D16, vector44, npc.frame, color43, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
