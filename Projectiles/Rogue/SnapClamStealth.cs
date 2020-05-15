@@ -10,6 +10,8 @@ namespace CalamityMod.Projectiles.Rogue
         public bool openClam = true;
         public bool onEnemy = false;
 
+        public override string Texture => "CalamityMod/Projectiles/Rogue/SnapClamProj";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Snap Clam");
