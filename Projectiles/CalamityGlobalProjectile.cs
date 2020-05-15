@@ -65,7 +65,15 @@ namespace CalamityMod.Projectiles
         public int lineColor = 0; //Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         public bool extorterBoost = false;
 
-        public bool overridesMinionDamagePrevention = false;
+		// Organic/Inorganic Boosts
+		public bool hasOrganicEnemyHitBoost = false;
+		public bool hasInorganicEnemyHitBoost = false;
+		public float organicEnemyHitBoost = 0f;
+		public float inorganicEnemyHitBoost = 0f;
+		public Action<NPC> organicEnemyHitEffect = null;
+		public Action<NPC> inorganicEnemyHitEffect = null;
+
+		public bool overridesMinionDamagePrevention = false;
 
         #region SetDefaults
         public override void SetDefaults(Projectile projectile)
@@ -953,6 +961,40 @@ namespace CalamityMod.Projectiles
             {
 				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
 					crit = true;
+			}
+
+			// Super dummies have nearly 10 million max HP (which is used in damage calculations).
+			// This can very easily cause damage numbers that are unrealistic for the weapon.
+			// As a result, they are omitted in this code.
+			if (!target.boss && target.type != NPCType<SuperDummyNPC>())
+			{
+				if (target.HitSound != SoundID.NPCHit1 && target.HitSound != SoundID.NPCHit6 && target.HitSound != SoundID.NPCHit7 &&
+					target.HitSound != SoundID.NPCHit8 && target.HitSound != SoundID.NPCHit9 && target.HitSound != SoundID.NPCHit12 &&
+					target.HitSound != SoundID.NPCHit13 && target.HitSound != SoundID.NPCHit14 && target.HitSound != SoundID.NPCHit18 &&
+					target.HitSound != SoundID.NPCHit19 && target.HitSound != SoundID.NPCHit20 && target.HitSound != SoundID.NPCHit21 &&
+					target.HitSound != SoundID.NPCHit22 && target.HitSound != SoundID.NPCHit23 && target.HitSound != SoundID.NPCHit24 &&
+					target.HitSound != SoundID.NPCHit25 && target.HitSound != SoundID.NPCHit26 && target.HitSound != SoundID.NPCHit27 &&
+					target.HitSound != SoundID.NPCHit28 && target.HitSound != SoundID.NPCHit29 && target.HitSound != SoundID.NPCHit31 &&
+					target.HitSound != SoundID.NPCHit32 && target.HitSound != SoundID.NPCHit33 && target.HitSound != SoundID.NPCHit35 &&
+					target.HitSound != SoundID.NPCHit37 && target.HitSound != SoundID.NPCHit38 && target.HitSound != SoundID.NPCHit40 &&
+					target.HitSound != SoundID.NPCHit43 && target.HitSound != SoundID.NPCHit44 && target.HitSound != SoundID.NPCHit45 &&
+					target.HitSound != SoundID.NPCHit46 && target.HitSound != SoundID.NPCHit47 && target.HitSound != SoundID.NPCHit48 &&
+					target.HitSound != SoundID.NPCHit50 && target.HitSound != SoundID.NPCHit51 && target.HitSound != SoundID.NPCHit55 &&
+					target.HitSound != SoundID.NPCHit56 && target.HitSound != SoundID.NPCHit57 && hasInorganicEnemyHitBoost)
+				{
+					damage += (int)(target.lifeMax * inorganicEnemyHitBoost);
+					Main.NewText(inorganicEnemyHitBoost);
+					inorganicEnemyHitEffect?.Invoke(target);
+				}
+				if (target.HitSound != SoundID.NPCHit4 && target.HitSound != SoundID.NPCHit41 && target.HitSound != SoundID.NPCHit2 &&
+					target.HitSound != SoundID.NPCHit5 && target.HitSound != SoundID.NPCHit11 && target.HitSound != SoundID.NPCHit30 &&
+					target.HitSound != SoundID.NPCHit34 && target.HitSound != SoundID.NPCHit36 && target.HitSound != SoundID.NPCHit42 &&
+					target.HitSound != SoundID.NPCHit49 && target.HitSound != SoundID.NPCHit52 && target.HitSound != SoundID.NPCHit53 &&
+					target.HitSound != SoundID.NPCHit54 && target.HitSound != null && hasOrganicEnemyHitBoost)
+				{
+					damage += (int)(target.lifeMax * organicEnemyHitBoost);
+					organicEnemyHitEffect?.Invoke(target);
+				}
 			}
 		}
 		#endregion
