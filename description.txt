@@ -1,13 +1,13 @@
 The Calamity Mod currently adds:
 
-20+ new bosses
-A brand new event
-A lot of new enemies, ores, and items
-5 new modes for extra challenge
-6 new biomes and several new structures
-Buffs and nerfs to certain vanilla features in order to maintain balance
-Buffs and nerfs to certain vanilla items that were either too weak or too strong
-Cross-content support for various other mods
+- 20+ new bosses
+- A brand new event
+- A lot of new enemies, ores, and items
+- 5 new modes for extra challenge
+- 6 new biomes and several new structures
+- Buffs and nerfs to certain vanilla features in order to maintain balance
+- Buffs and nerfs to certain vanilla items that were either too weak or too strong
+- Cross-content support for various other mods
 
 PLEASE BE ADVISED:
 

@@ -54,5 +54,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             target.AddBuff(BuffID.Ichor, 180);
         }
-    }
+
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(200, 200, 50, projectile.alpha);
+		}
+	}
 }

@@ -183,12 +183,6 @@ namespace CalamityMod.NPCs
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
-									Vector2 valueBoom = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-									float spreadBoom = 15f * 0.0174f;
-									double startAngleBoom = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spreadBoom / 2;
-									double deltaAngleBoom = spreadBoom / 8f;
-									double offsetAngleBoom;
-									int iBoom;
 									int damageBoom = Main.expertMode ? 23 : 28;
 									float velocity = revenge ? 7.5f : 6.5f;
 									if (death)
@@ -196,16 +190,16 @@ namespace CalamityMod.NPCs
 									if (CalamityWorld.bossRushActive)
 										velocity = 11f;
 
-									for (iBoom = 0; iBoom < 15; iBoom++)
+									int totalProjectiles = 30;
+									float radians = MathHelper.TwoPi / totalProjectiles;
+									for (int i = 0; i < totalProjectiles; i++)
 									{
 										int projectileType = Main.rand.NextBool(2) ? ModContent.ProjectileType<SandTooth>() : ModContent.ProjectileType<SandBlast>();
 										if (projectileType == ModContent.ProjectileType<SandTooth>())
-										{
 											damageBoom = Main.expertMode ? 25 : 30;
-										}
-										offsetAngleBoom = startAngleBoom + deltaAngleBoom * (iBoom + iBoom * iBoom) / 2f + 32f * iBoom;
-										int boom1 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(Math.Sin(offsetAngleBoom) * velocity), (float)(Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
-										int boom2 = Projectile.NewProjectile(valueBoom.X, valueBoom.Y, (float)(-Math.Sin(offsetAngleBoom) * velocity), (float)(-Math.Cos(offsetAngleBoom) * velocity), projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
+
+										Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
+										Projectile.NewProjectile(npc.Center, vector255, projectileType, damageBoom, 0f, Main.myPlayer, 0f, 0f);
 									}
 
 									damageBoom = Main.expertMode ? 28 : 33;
@@ -959,7 +953,6 @@ namespace CalamityMod.NPCs
 
 						int totalProjectiles = 6;
 						float offsetAngle = (float)Math.PI * radialOffset;
-
 						for (int j = 0; j < totalProjectiles; j++)
 						{
 							float radians = j - (totalProjectiles - 1f) / 2f;
@@ -969,19 +962,12 @@ namespace CalamityMod.NPCs
 							Main.projectile[proj].tileCollide = false;
 						}
 
-						vectorCenter = npc.Center;
 						totalProjectiles = 12;
-						float spread = MathHelper.ToRadians(30); // 30 degrees in radians = 0.523599
-						double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2; // Where the projectiles start spawning at, don't change this
-						double deltaAngle = spread / totalProjectiles; // Angle between each projectile, 0.04363325
-						double offsetAngle2;
-
-						int i;
-						for (i = 0; i < 6; i++)
+						float radians2 = MathHelper.TwoPi / totalProjectiles;
+						for (int k = 0; k < totalProjectiles; k++)
 						{
-							offsetAngle2 = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i; // Used to be 32
-							Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(Math.Sin(offsetAngle2) * projectileSpeed), (float)(Math.Cos(offsetAngle2) * projectileSpeed), ModContent.ProjectileType<BrimstoneBarrage>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
-							Projectile.NewProjectile(vectorCenter.X, vectorCenter.Y, (float)(-Math.Sin(offsetAngle2) * projectileSpeed), (float)(-Math.Cos(offsetAngle2) * projectileSpeed), ModContent.ProjectileType<BrimstoneBarrage>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
+							Vector2 vector255 = new Vector2(0f, -projectileSpeed).RotatedBy(radians2 * k);
+							Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<BrimstoneBarrage>(), damage + (provy ? 30 : 0), 0f, Main.myPlayer, 1f, 0f);
 						}
 					}
 				}
@@ -2330,21 +2316,14 @@ namespace CalamityMod.NPCs
                         // Fire astral flames while teleporting
                         if ((npc.ai[0] >= 5f && npc.ai[0] != 7) || calamityGlobalNPC.enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
-                            Vector2 shootFromVector = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                            float spread = 45f * 0.0174f;
-                            double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-                            double deltaAngle = spread / 8f;
-                            double offsetAngle;
-                            int i;
                             float velocity = CalamityWorld.bossRushActive ? 10f : 7f;
-                            for (i = 0; i < 4; i++)
-                            {
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(Math.Sin(offsetAngle) * velocity),
-                                    (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<AstralFlame>(), laserDamage, 0f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, (float)(-Math.Sin(offsetAngle) * velocity),
-                                    (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<AstralFlame>(), laserDamage, 0f, Main.myPlayer, 0f, 0f);
-                            }
+							int totalProjectiles = 8;
+							float radians = MathHelper.TwoPi / totalProjectiles;
+							for (int i = 0; i < totalProjectiles; i++)
+							{
+								Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * i);
+								Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<AstralFlame>(), laserDamage, 0f, Main.myPlayer, 0f, 0f);
+							}
                         }
 
                         // Fire astral lasers while falling or walking

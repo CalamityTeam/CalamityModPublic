@@ -1,5 +1,4 @@
-﻿using CalamityMod;
-using CalamityMod.Buffs.DamageOverTime;
+﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -23,7 +22,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
 namespace CalamityMod.NPCs.Cryogen
 {
     [AutoloadBossHead]
@@ -114,7 +112,7 @@ namespace CalamityMod.NPCs.Cryogen
 
         public override void AI()
         {
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 1f, 1f);
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 1f, 1f);
 
 			// Get a target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -130,16 +128,16 @@ namespace CalamityMod.NPCs.Cryogen
 
             if ((int)npc.ai[0] + 1 > currentPhase && currentPhase < 6)
             {
-                handlePhaseTransition((int)npc.ai[0] + 1);
+                HandlePhaseTransition((int)npc.ai[0] + 1);
             }
 
 			if (npc.ai[2] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient && (npc.ai[0] < 4f || CalamityWorld.bossRushActive)) //spawn shield for phase 0 1 2 3, not 4 5 6
             {
                 int num6 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<CryogenIce>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                npc.ai[2] = (float)(num6 + 1);
+                npc.ai[2] = num6 + 1;
                 npc.localAI[1] = -1f;
                 npc.netUpdate = true;
-                Main.npc[num6].ai[0] = (float)npc.whoAmI;
+                Main.npc[num6].ai[0] = npc.whoAmI;
                 Main.npc[num6].netUpdate = true;
             }
 
@@ -197,27 +195,21 @@ namespace CalamityMod.NPCs.Cryogen
             else if (npc.timeLeft < 1800)
                 npc.timeLeft = 1800;
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (npc.ai[0] < 5f || !revenge || (double)npc.life >= (double)npc.lifeMax * 0.15))
+            if (Main.netMode != NetmodeID.MultiplayerClient && expertMode && (npc.ai[0] < 5f || !revenge || npc.life >= npc.lifeMax * 0.15))
             {
                 time++;
                 if (time >= 600)
                 {
-                    Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 					int totalProjectiles = 4;
-					float spread = MathHelper.ToRadians(90);
-                    double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-                    double deltaAngle = spread / (float)totalProjectiles;
-                    double offsetAngle;
-                    int i;
-                    int num184 = 25;
-                    float velocity = CalamityWorld.bossRushActive ? 12f : 4f;
-
-                    for (i = 0; i < 2; i++)
-                    {
-                        offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                        Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBomb>(), num184, 0f, Main.myPlayer, 0f, 0f);
-                        Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBomb>(), num184, 0f, Main.myPlayer, 0f, 0f);
-                    }
+					float radians = MathHelper.TwoPi / totalProjectiles;
+					int damage = 25;
+					float velocity = CalamityWorld.bossRushActive ? 12f : 4f;
+					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
+					for (int k = 0; k < totalProjectiles; k++)
+					{
+						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+						Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBomb>(), damage, 0f, Main.myPlayer, 0f, 0f);
+					}
                     time = 0;
                 }
             }
@@ -233,20 +225,15 @@ namespace CalamityMod.NPCs.Cryogen
                         npc.netUpdate = true;
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
-                            Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            float spread = 45f * 0.0174f;
-                            double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-                            double deltaAngle = spread / 8f;
-                            double offsetAngle;
-                            int num184 = expertMode ? 20 : 23;
-                            float velocity = CalamityWorld.bossRushActive ? 12f : 8f;
-                            int i;
-                            for (i = 0; i < 8; i++)
-                            {
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
-                            }
+							int totalProjectiles = 16;
+							float radians = MathHelper.TwoPi / totalProjectiles;
+							int damage = Main.expertMode ? 20 : 23;
+							float velocity = CalamityWorld.bossRushActive ? 12f : 8f;
+							for (int k = 0; k < totalProjectiles; k++)
+							{
+								Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
+								Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+							}
                         }
                     }
                 }
@@ -254,7 +241,7 @@ namespace CalamityMod.NPCs.Cryogen
                 Vector2 vector142 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num1243 = player.Center.X - vector142.X;
                 float num1244 = player.Center.Y - vector142.Y;
-                float num1245 = (float)Math.Sqrt((double)(num1243 * num1243 + num1244 * num1244));
+                float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
                 float num1246 = isChill ? 4f : 8f;
                 if (death)
                 {
@@ -271,7 +258,7 @@ namespace CalamityMod.NPCs.Cryogen
                 npc.velocity.Y = (npc.velocity.Y * 50f + num1244) / 51f;
 
 				double HPMult = death ? 0.95 : 0.83 + multAdd;
-                if ((double)npc.life < (double)npc.lifeMax * HPMult)
+                if (npc.life < npc.lifeMax * HPMult)
                 {
 					npc.TargetClosest(true);
 					npc.ai[0] = 1f;
@@ -289,22 +276,15 @@ namespace CalamityMod.NPCs.Cryogen
                         npc.localAI[0] = 0f;
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
-                            Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            float spread = 45f * 0.0174f;
-                            double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-                            double deltaAngle = spread / 8f;
-                            double offsetAngle;
-                            int num184 = expertMode ? 20 : 23;
-                            float projVelocity = CalamityWorld.bossRushActive ? 12f : 8f;
-                            int i;
-                            for (i = 0; i < 6; i++)
-                            {
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * projVelocity), (float)(Math.Cos(offsetAngle) * projVelocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
-                                int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * projVelocity), (float)(-Math.Cos(offsetAngle) * projVelocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[ice].timeLeft = 300;
-                                Main.projectile[ice2].timeLeft = 300;
-                            }
+							int totalProjectiles = 12;
+							float radians = MathHelper.TwoPi / totalProjectiles;
+							int damage = Main.expertMode ? 20 : 23;
+							float velocity2 = CalamityWorld.bossRushActive ? 12f : 8f;
+							for (int k = 0; k < totalProjectiles; k++)
+							{
+								Vector2 vector255 = new Vector2(0f, -velocity2).RotatedBy(radians * k);
+								Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+							}
                         }
                     }
                 }
@@ -340,7 +320,7 @@ namespace CalamityMod.NPCs.Cryogen
 						npc.velocity.Y = -velocity;
 				}
 
-				if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 300f)
+				if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 300f)
 				{
 					if (npc.velocity.X > 0f)
 						npc.velocity.X *= 0.98f;
@@ -350,7 +330,7 @@ namespace CalamityMod.NPCs.Cryogen
 					if (npc.velocity.X > velocity)
 						npc.velocity.X = velocity;
 				}
-				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 300f)
+				if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 300f)
 				{
 					if (npc.velocity.X < 0f)
 						npc.velocity.X *= 0.98f;
@@ -362,7 +342,7 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 
 				double HPMult = death ? 0.8 : 0.66 + multAdd;
-				if ((double)npc.life < (double)npc.lifeMax * HPMult)
+				if (npc.life < npc.lifeMax * HPMult)
                 {
 					npc.TargetClosest(true);
 					npc.ai[0] = 2f;
@@ -384,22 +364,15 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             if (Main.rand.NextBool(2))
                             {
-                                Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                                float spread = 45f * 0.0174f;
-                                double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-                                double deltaAngle = spread / 8f;
-                                double offsetAngle;
-                                int num184 = expertMode ? 20 : 23;
-                                float velocity = CalamityWorld.bossRushActive ? 14f : 9f;
-                                int i;
-                                for (i = 0; i < 6; i++)
-                                {
-                                    offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                    int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity), (float)(Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
-                                    int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity), (float)(-Math.Cos(offsetAngle) * velocity), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
-                                    Main.projectile[ice].timeLeft = 300;
-                                    Main.projectile[ice2].timeLeft = 300;
-                                }
+								int totalProjectiles = 12;
+								float radians = MathHelper.TwoPi / totalProjectiles;
+								int damage = Main.expertMode ? 20 : 23;
+								float velocity = CalamityWorld.bossRushActive ? 14f : 9f;
+								for (int k = 0; k < totalProjectiles; k++)
+								{
+									Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
+									Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+								}
                             }
                             else
                             {
@@ -407,11 +380,11 @@ namespace CalamityMod.NPCs.Cryogen
                                 if (CalamityWorld.bossRushActive)
                                     num179 = 14f;
 
-                                Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                                float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+                                Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                                float num180 = player.position.X + player.width * 0.5f - value9.X;
                                 float num181 = Math.Abs(num180) * 0.1f;
-                                float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-                                float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                                float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
+                                float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
                                 num183 = num179 / num183;
                                 num180 *= num183;
                                 num182 *= num183;
@@ -421,12 +394,12 @@ namespace CalamityMod.NPCs.Cryogen
                                 value9.Y += num182;
                                 for (int num186 = 0; num186 < 15; num186++)
                                 {
-                                    num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                                    num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-                                    num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                                    num180 = player.position.X + player.width * 0.5f - value9.X;
+                                    num182 = player.position.Y + player.height * 0.5f - value9.Y;
+                                    num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
                                     num183 = num179 / num183;
-                                    num180 += (float)Main.rand.Next(-180, 181);
-                                    num182 += (float)Main.rand.Next(-180, 181);
+                                    num180 += Main.rand.Next(-180, 181);
+                                    num182 += Main.rand.Next(-180, 181);
                                     num180 *= num183;
                                     Projectile.NewProjectile(value9.X, value9.Y, num180, -8f, num185, num184, 0f, Main.myPlayer, 0f, 0f);
                                 }
@@ -438,7 +411,7 @@ namespace CalamityMod.NPCs.Cryogen
                 Vector2 vector142 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num1243 = player.Center.X - vector142.X;
                 float num1244 = player.Center.Y - vector142.Y;
-                float num1245 = (float)Math.Sqrt((double)(num1243 * num1243 + num1244 * num1244));
+                float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
                 float num1246 = isChill ? 6f : 12f;
                 if (death)
                 {
@@ -455,7 +428,7 @@ namespace CalamityMod.NPCs.Cryogen
                 npc.velocity.Y = (npc.velocity.Y * 50f + num1244) / 51f;
 
 				double HPMult = death ? 0.7 : 0.49 + multAdd;
-				if ((double)npc.life < (double)npc.lifeMax * HPMult)
+				if (npc.life < npc.lifeMax * HPMult)
                 {
 					npc.TargetClosest(true);
 					npc.ai[0] = 3f;
@@ -477,11 +450,11 @@ namespace CalamityMod.NPCs.Cryogen
                             if (CalamityWorld.bossRushActive)
                                 num179 = 14f;
 
-                            Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
+                            Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                            float num180 = player.position.X + player.width * 0.5f - value9.X;
                             float num181 = Math.Abs(num180) * 0.1f;
-                            float num182 = player.position.Y + (float)player.height * 0.5f - value9.Y - num181;
-                            float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                            float num182 = player.position.Y + player.height * 0.5f - value9.Y - num181;
+                            float num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
                             npc.netUpdate = true;
                             num183 = num179 / num183;
                             num180 *= num183;
@@ -492,12 +465,12 @@ namespace CalamityMod.NPCs.Cryogen
                             value9.Y += num182;
                             for (int num186 = 0; num186 < 15; num186++)
                             {
-                                num180 = player.position.X + (float)player.width * 0.5f - value9.X;
-                                num182 = player.position.Y + (float)player.height * 0.5f - value9.Y;
-                                num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                                num180 = player.position.X + player.width * 0.5f - value9.X;
+                                num182 = player.position.Y + player.height * 0.5f - value9.Y;
+                                num183 = (float)Math.Sqrt(num180 * num180 + num182 * num182);
                                 num183 = num179 / num183;
-                                num180 += (float)Main.rand.Next(-360, 361);
-                                num182 += (float)Main.rand.Next(-360, 361);
+                                num180 += Main.rand.Next(-360, 361);
+                                num182 += Main.rand.Next(-360, 361);
                                 num180 *= num183;
                                 Projectile.NewProjectile(value9.X, value9.Y, num180, -2.5f, num185, num184, 0f, Main.myPlayer, 1f, 0f);
                             }
@@ -536,7 +509,7 @@ namespace CalamityMod.NPCs.Cryogen
 						npc.velocity.Y = -velocity;
 				}
 
-				if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 300f)
+				if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 300f)
 				{
 					if (npc.velocity.X > 0f)
 						npc.velocity.X *= 0.98f;
@@ -546,7 +519,7 @@ namespace CalamityMod.NPCs.Cryogen
 					if (npc.velocity.X > velocity)
 						npc.velocity.X = velocity;
 				}
-				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 300f)
+				if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 300f)
 				{
 					if (npc.velocity.X < 0f)
 						npc.velocity.X *= 0.98f;
@@ -558,7 +531,7 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 
 				double HPMult = death ? 0.55 : 0.32 + multAdd;
-				if ((double)npc.life < (double)npc.lifeMax * HPMult)
+				if (npc.life < npc.lifeMax * HPMult)
                 {
 					npc.TargetClosest(true);
 					npc.ai[0] = 4f;
@@ -577,21 +550,15 @@ namespace CalamityMod.NPCs.Cryogen
                         npc.localAI[0] = 0f;
                         if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                         {
-                            Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                            float spread = 45f * 0.0174f;
-                            double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-                            double deltaAngle = spread / 8f;
-                            double offsetAngle;
-                            int num184 = expertMode ? 20 : 23;
-                            int i;
-                            for (i = 0; i < 6; i++)
-                            {
-                                offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                                int ice = Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * 9f), (float)(Math.Cos(offsetAngle) * 9f), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
-                                int ice2 = Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * 9f), (float)(-Math.Cos(offsetAngle) * 9f), ModContent.ProjectileType<IceBlast>(), num184, 0f, Main.myPlayer, 0f, 0f);
-                                Main.projectile[ice].timeLeft = 300;
-                                Main.projectile[ice2].timeLeft = 300;
-                            }
+							int totalProjectiles = 12;
+							float radians = MathHelper.TwoPi / totalProjectiles;
+							int damage = Main.expertMode ? 20 : 23;
+							float velocity = CalamityWorld.bossRushActive ? 14f : 9f;
+							for (int k = 0; k < totalProjectiles; k++)
+							{
+								Vector2 vector255 = new Vector2(0f, -velocity).RotatedBy(radians * k);
+								Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBlast>(), damage, 0f, Main.myPlayer, 0f, 0f);
+							}
                         }
                     }
                 }
@@ -599,7 +566,7 @@ namespace CalamityMod.NPCs.Cryogen
                 Vector2 vector142 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num1243 = player.Center.X - vector142.X;
                 float num1244 = player.Center.Y - vector142.Y;
-                float num1245 = (float)Math.Sqrt((double)(num1243 * num1243 + num1244 * num1244));
+                float num1245 = (float)Math.Sqrt(num1243 * num1243 + num1244 * num1244);
                 float speed = revenge ? 5.5f : 5f;
                 if (CalamityWorld.bossRushActive)
                 {
@@ -642,7 +609,7 @@ namespace CalamityMod.NPCs.Cryogen
                                 else
                                     num1251 -= Main.rand.Next(min, max);
 
-                                if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height))
+                                if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2(num1250 * 16, num1251 * 16), 1, 1, player.position, player.width, player.height))
                                     break;
 
                                 if (num1249 > 100)
@@ -659,7 +626,7 @@ namespace CalamityMod.NPCs.Cryogen
                 }
                 else if (npc.ai[1] == 1f)
                 {
-                    Vector2 position = new Vector2((float)teleportLocationX * 16f - (float)(npc.width / 2), (float)iceShard * 16f - (float)(npc.height / 2));
+                    Vector2 position = new Vector2(teleportLocationX * 16f - (npc.width / 2), iceShard * 16f - (npc.height / 2));
                     for (int m = 0; m < 5; m++)
                     {
                         int dust = Dust.NewDust(position, npc.width, npc.height, 67, 0f, 0f, 100, default, 2f);
@@ -695,7 +662,7 @@ namespace CalamityMod.NPCs.Cryogen
                 }
 
 				double HPMult = death ? 0.4 : 0.15 + multAdd;
-				if ((double)npc.life < (double)npc.lifeMax * HPMult)
+				if (npc.life < npc.lifeMax * HPMult)
                 {
                     for (int num621 = 0; num621 < 40; num621++)
                     {
@@ -704,7 +671,7 @@ namespace CalamityMod.NPCs.Cryogen
                         if (Main.rand.NextBool(2))
                         {
                             Main.dust[num622].scale = 0.5f;
-                            Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                            Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                         }
                     }
                     for (int num623 = 0; num623 < 70; num623++)
@@ -716,7 +683,7 @@ namespace CalamityMod.NPCs.Cryogen
                         Main.dust[num624].velocity *= 2f;
                     }
 
-                    float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                    float randomSpread = Main.rand.Next(-200, 200) / 100;
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore1"), 1f);
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore2"), 1f);
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/CryoGore3"), 1f);
@@ -752,10 +719,10 @@ namespace CalamityMod.NPCs.Cryogen
             }
 			else if (npc.ai[0] == 5f)
 			{
-                npc.damage = (int)((float)npc.defDamage * 1.5f);
+                npc.damage = (int)(npc.defDamage * 1.5f);
 
 				double HPMult = death ? 0.25 : 0.15;
-				if (revenge && (double)npc.life < (double)npc.lifeMax * HPMult)
+				if (revenge && npc.life < npc.lifeMax * HPMult)
 				{
 					if (npc.ai[1] == 60f)
 						npc.velocity = Vector2.Normalize(player.Center - npc.Center) * (CalamityWorld.bossRushActive ? 30f : (isChill ? 18f : 24f));
@@ -785,7 +752,7 @@ namespace CalamityMod.NPCs.Cryogen
 						npc.rotation = npc.velocity.X * 0.15f;
 					}
 					else
-						npc.rotation += (float)npc.direction * 0.5f;
+						npc.rotation += npc.direction * 0.5f;
 
 					return;
 				}
@@ -795,16 +762,16 @@ namespace CalamityMod.NPCs.Cryogen
                 {
                     num1372 = 32f;
                 }
-                Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
-                float num1373 = player.position.X + (float)player.width * 0.5f - vector167.X;
+                Vector2 vector167 = new Vector2(npc.Center.X + (npc.direction * 20), npc.Center.Y + 6f);
+                float num1373 = player.position.X + player.width * 0.5f - vector167.X;
                 float num1374 = player.Center.Y - vector167.Y;
-                float num1375 = (float)Math.Sqrt((double)(num1373 * num1373 + num1374 * num1374));
+                float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
                 float num1376 = num1372 / num1375;
                 num1373 *= num1376;
                 num1374 *= num1376;
                 iceShard--;
 
-				if ((double)npc.life < (double)npc.lifeMax * (0.1 + multAdd) || death)
+				if (npc.life < npc.lifeMax * (0.1 + multAdd) || death)
                 {
                     if (num1375 < 170f || iceShard > 0)
                     {
@@ -812,11 +779,11 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             iceShard = 17;
                         }
-                        npc.rotation += (float)npc.direction * 0.5f;
+                        npc.rotation += npc.direction * 0.5f;
                         return;
                     }
                 }
-                else if ((double)npc.life < (double)npc.lifeMax * (0.125 + multAdd))
+                else if (npc.life < npc.lifeMax * (0.125 + multAdd))
                 {
                     if (num1375 < 190f || iceShard > 0)
                     {
@@ -824,7 +791,7 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             iceShard = 19;
                         }
-                        npc.rotation += (float)npc.direction * 0.35f;
+                        npc.rotation += npc.direction * 0.35f;
                         return;
                     }
                 }
@@ -836,7 +803,7 @@ namespace CalamityMod.NPCs.Cryogen
                         {
                             iceShard = 20;
                         }
-                        npc.rotation += (float)npc.direction * 0.3f;
+                        npc.rotation += npc.direction * 0.3f;
                         return;
                     }
                 }
@@ -860,19 +827,15 @@ namespace CalamityMod.NPCs.Cryogen
 				time++;
 				if (time >= 75)
 				{
-					Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-					float spread = 45f * 0.0174f;
-					double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
-					double deltaAngle = spread / 4f;
-					double offsetAngle;
-					int i;
-					int num184 = 25;
+					int totalProjectiles = 4;
+					float radians = MathHelper.TwoPi / totalProjectiles;
+					int damage = 25;
 					float velocity2 = CalamityWorld.bossRushActive ? 16f : 6f;
-					for (i = 0; i < 2; i++)
+					Vector2 spinningPoint = Main.rand.NextBool(2) ? new Vector2(0f, -velocity2) : Vector2.Normalize(new Vector2(-velocity2, -velocity2)) * velocity2;
+					for (int k = 0; k < totalProjectiles; k++)
 					{
-						offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-						Projectile.NewProjectile(value9.X, value9.Y, (float)(Math.Sin(offsetAngle) * velocity2), (float)(Math.Cos(offsetAngle) * velocity2), ModContent.ProjectileType<IceBomb>(), num184, 0f, Main.myPlayer, 0f, 0f);
-						Projectile.NewProjectile(value9.X, value9.Y, (float)(-Math.Sin(offsetAngle) * velocity2), (float)(-Math.Cos(offsetAngle) * velocity2), ModContent.ProjectileType<IceBomb>(), num184, 0f, Main.myPlayer, 0f, 0f);
+						Vector2 vector255 = spinningPoint.RotatedBy(radians * k);
+						Projectile.NewProjectile(npc.Center, vector255, ModContent.ProjectileType<IceBomb>(), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
 					time = 0;
 				}
@@ -919,7 +882,7 @@ namespace CalamityMod.NPCs.Cryogen
 						npc.velocity.Y = -velocity;
 				}
 
-				if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + 350f)
+				if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 350f)
 				{
 					if (npc.velocity.X > 0f)
 						npc.velocity.X *= 0.98f;
@@ -929,7 +892,7 @@ namespace CalamityMod.NPCs.Cryogen
 					if (npc.velocity.X > velocity)
 						npc.velocity.X = velocity;
 				}
-				if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - 350f)
+				if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 350f)
 				{
 					if (npc.velocity.X < 0f)
 						npc.velocity.X *= 0.98f;
@@ -941,24 +904,24 @@ namespace CalamityMod.NPCs.Cryogen
 				}
 			}
 
-			if (!revenge || (double)npc.life >= (double)npc.lifeMax * (death ? 0.25 : 0.15))
+			if (!revenge || npc.life >= npc.lifeMax * (death ? 0.25 : 0.15))
 			{
 				if (npc.ai[3] == 0f && npc.life > 0)
 				{
-					npc.ai[3] = (float)npc.lifeMax;
+					npc.ai[3] = npc.lifeMax;
 				}
 				if (npc.life > 0)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						int num660 = (int)((double)npc.lifeMax * 0.075);
-						if ((float)(npc.life + num660) < npc.ai[3])
+						int num660 = (int)(npc.lifeMax * 0.075);
+						if ((npc.life + num660) < npc.ai[3])
 						{
-							npc.ai[3] = (float)npc.life;
+							npc.ai[3] = npc.life;
 							for (int num662 = 0; num662 < 2; num662++)
 							{
-								int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
-								int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
+								int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
+								int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
 								int random = 1;
 								switch ((int)npc.ai[0])
 								{
@@ -1001,7 +964,7 @@ namespace CalamityMod.NPCs.Cryogen
 			}
         }
 
-        private void handlePhaseTransition (int newPhase)
+        private void HandlePhaseTransition(int newPhase)
         {
             int chipGoreAmount = newPhase >= 5 ? 3 : newPhase >= 3 ? 2 : 1;
             for (int i = 1; i < chipGoreAmount; i++)

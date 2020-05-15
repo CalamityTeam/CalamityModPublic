@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Boss
 			distance += (projectile.ai[1] == 1f ? 2D : 1D);
 			projectile.position.X = startingPosX - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
 			projectile.position.Y = startingPosY - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
-			projectile.ai[0] += 1f;
+			projectile.ai[0] += 0.5f;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
