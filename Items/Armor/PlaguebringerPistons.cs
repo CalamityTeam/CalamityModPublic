@@ -1,69 +1,64 @@
-﻿using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
+using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Materials;
+using CalamityMod.Projectiles.Rogue;
+using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items.Armor
 {
-    public class BloomStone : ModItem
+    [AutoloadEquip(EquipType.Legs)]
+    public class PlaguebringerPistons : ModItem
     {
+        public int counter = 0;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bloom Stone");
-            Tooltip.SetDefault("One of the ancient relics\n" +
-                "Enemies that get near you take damage and all damage is increased by 3%\n" +
-                "You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(4, 7));
+            DisplayName.SetDefault("Plaguebringer Pistons");
+            Tooltip.SetDefault("13% increased minion damage and 15% increased movement speed\n" +
+			"You grow flowers on the grass beneath you, chance to grow very random dye plants on grassless dirt\n" +
+			"You spawn bees while sprinting or dashing");
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = Item.buyPrice(0, 15, 0, 0);
-            item.rare = 5;
-            item.accessory = true;
+            item.width = 18;
+            item.height = 18;
+            item.defense = 8;
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
-        public override void UpdateAccessory(Player player, bool hideVisual)
+        public override void UpdateEquip(Player player)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, 0.25f, 0.4f, 0.2f);
-            player.allDamage += 0.03f;
-            int bloomCounter = 0;
-            int num = 186;
-            float num2 = 150f;
-            bool flag = bloomCounter % 60 == 0;
-            int num3 = (int)(10 * player.AverageDamage());
-            int random = Main.rand.Next(10);
-            if (player.whoAmI == Main.myPlayer)
-            {
-                if (random == 0)
-                {
-                    for (int l = 0; l < Main.maxNPCs; l++)
+            player.minionDamage += 0.13f;
+            player.moveSpeed += 0.15f;
+
+			//Spawn bees while sprinting or dashing
+			counter++;
+			if (counter % 12 == 0)
+			{
+				if ((Math.Abs(player.velocity.X) >= 5 || Math.Abs(player.velocity.Y) >= 5) && player.whoAmI == Main.myPlayer)
+				{
+                    int beeCount = 1;
+                    if (Main.rand.NextBool(3))
+                        ++beeCount;
+                    if (Main.rand.NextBool(3))
+                        ++beeCount;
+                    if (player.strongBees && Main.rand.NextBool(3))
+                        ++beeCount;
+					int damage = 30;
+					damage = (int)(damage * player.MinionDamage());
+                    for (int index = 0; index < beeCount; ++index)
                     {
-                        NPC nPC = Main.npc[l];
-                        if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && !nPC.buffImmune[num] && Vector2.Distance(player.Center, nPC.Center) <= num2)
-                        {
-                            if (nPC.FindBuffIndex(num) == -1)
-                            {
-                                nPC.AddBuff(num, 120, false);
-                            }
-                            if (flag)
-                            {
-                                if (player.whoAmI == Main.myPlayer)
-                                {
-                                    Projectile p = Projectile.NewProjectileDirect(nPC.Center, Vector2.Zero, ModContent.ProjectileType<DirectStrike>(), num3, 0f, player.whoAmI, l);
-                                }
-                            }
-                        }
+                        int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-35f, 35f) * 0.02f, Main.rand.NextFloat(-35f, 35f) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlaguenadeBee>() : player.beeType()), damage, player.beeKB(0f), player.whoAmI, 0f, 0f);
+                        Main.projectile[bee].Calamity().forceMinion = true;
+                        Main.projectile[bee].usesLocalNPCImmunity = true;
+                        Main.projectile[bee].localNPCHitCooldown = 10;
+                        Main.projectile[bee].penetrate = 2;
                     }
-                }
-            }
-            bloomCounter++;
+				}
+			}
 
 			//Flower Boots code
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)
@@ -168,5 +163,17 @@ namespace CalamityMod.Items.Accessories
                 }
             }
         }
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.BeeGreaves);
+			recipe.AddIngredient(ItemID.FlowerBoots);
+			recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
+			recipe.AddTile(TileID.MythrilAnvil);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
     }
 }

@@ -700,6 +700,10 @@ namespace CalamityMod
 			if (setBonus == "plaguereaper" || setBonus == "plague reaper")
 				return mp.plagueReaper;
 
+			// Plaguebringer
+			if (setBonus == "plaguebringer" || setBonus == "plaguebringerpatron" || setBonus == "plaguebringer patron")
+				return mp.plaguebringerPatronSet;
+
 			// Astral
 			if (setBonus == "astral")
 				return mp.astralStarRain;
@@ -1037,6 +1041,13 @@ namespace CalamityMod
 			if (setBonus == "plaguereaper" || setBonus == "plague reaper")
 			{
 				mp.plagueReaper = enabled;
+				return true;
+			}
+
+			// Plaguebringer
+			if (setBonus == "plaguebringer" || setBonus == "plaguebringerpatron" || setBonus == "plaguebringer patron")
+			{
+				mp.plaguebringerPatronSet = enabled;
 				return true;
 			}
 
