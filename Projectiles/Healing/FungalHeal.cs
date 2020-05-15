@@ -26,14 +26,14 @@ namespace CalamityMod.Projectiles.Healing
             if (projectile.localAI[0] == 0f)
             {
                 Player player = Main.player[projectile.owner];
-                if ((player.inventory[player.selectedItem].summon &&
-                    !player.inventory[player.selectedItem].melee &&
-                    !player.inventory[player.selectedItem].ranged &&
-                    !player.inventory[player.selectedItem].magic &&
-                    !player.inventory[player.selectedItem].Calamity().rogue) ||
-                    player.inventory[player.selectedItem].hammer > 0 ||
-                    player.inventory[player.selectedItem].pick > 0 ||
-                    player.inventory[player.selectedItem].axe > 0)
+                if ((player.ActiveItem().summon &&
+                    !player.ActiveItem().melee &&
+                    !player.ActiveItem().ranged &&
+                    !player.ActiveItem().magic &&
+                    !player.ActiveItem().Calamity().rogue) ||
+                    player.ActiveItem().hammer > 0 ||
+                    player.ActiveItem().pick > 0 ||
+                    player.ActiveItem().axe > 0)
                 {
                     projectile.timeLeft = 600;
                 }

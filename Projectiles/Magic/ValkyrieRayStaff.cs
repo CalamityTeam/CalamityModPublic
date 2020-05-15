@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
             // Calculate how quickly the staff should charge. Charge increases by some number close to 1 every frame.
             // Speed increasing reforges make this number greater than 1. Slowing reforges make it smaller than 1.
             if (projectile.localAI[0] == 0f)
-                projectile.localAI[0] = 47f / Main.player[projectile.owner].HeldItem.useTime;
+                projectile.localAI[0] = 47f / player.ActiveItem().useTime;
 
             // Increment the timer for the staff. If the timer has passed 47, destroy it.
             projectile.ai[0] += projectile.localAI[0];

@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 num26 = 5f;
             }
-            projectile.damage = (int)(player.inventory[player.selectedItem].damage * player.RangedDamage());
+            projectile.damage = (int)(player.ActiveItem().damage * player.RangedDamage());
             projectile.ai[0] += 1f;
             projectile.ai[1] += 1f;
             int num27 = 10;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
                 flag10 = true;
                 if (Main.myPlayer == projectile.owner)
                 {
-                    float scaleFactor5 = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
+                    float scaleFactor5 = player.ActiveItem().shootSpeed * projectile.scale;
                     Vector2 value12 = vector;
                     Vector2 value13 = Main.screenPosition + new Vector2((float)Main.mouseX, (float)Main.mouseY) - value12;
                     if (player.gravDir == -1f)

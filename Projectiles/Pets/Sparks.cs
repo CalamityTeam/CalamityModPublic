@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Pets
 
 					if (new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height).Intersects(new Rectangle((int)item.position.X, (int)item.position.Y, item.width, item.height)))
 					{
-						if (projectile.owner == Main.myPlayer && (player.inventory[player.selectedItem].type != 0 || player.itemAnimation <= 0))
+						if (projectile.owner == Main.myPlayer && (player.ActiveItem().type != 0 || player.itemAnimation <= 0))
 						{
 							// TODO, fix this maybe?
 							if (!ItemLoader.OnPickup(item, player))

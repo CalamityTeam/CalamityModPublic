@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Summon
         public static Item FalseGun = null;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tactical Plague Engine");
+            DisplayName.SetDefault("Tactical Plague Jet");
             Main.projFrames[projectile.type] = 3;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -128,6 +128,12 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.spriteDirection = -1;
                 }
                 projectile.rotation = projectile.rotation.AngleTowards(0f, 0.2f);
+
+                if (distanceVector.Length() > 2700f)
+                {
+                    projectile.Center = player.Center;
+                    projectile.netUpdate = true;
+                }
             }
             else
             {

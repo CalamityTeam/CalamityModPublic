@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Blazing Star");
             Tooltip.SetDefault("Stacks up to 3\n" +
-                               "Stealth strikes releases all stars at once with infinite piercing");
+                               "Stealth strikes release all stars at once with infinite piercing");
         }
 
         public override void SafeSetDefaults()

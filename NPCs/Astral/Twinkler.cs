@@ -32,16 +32,9 @@ namespace CalamityMod.NPCs.Astral
             //bannerItem = ModContent.ItemType<Items.TwinklerBanner>();
         }
 
+        public override bool? CanBeHitByItem(Player player, Item item) => true;
 
-        public override bool? CanBeHitByItem(Player player, Item item)
-        {
-            return true;
-        }
-
-        public override bool? CanBeHitByProjectile(Projectile projectile)
-        {
-            return true;
-        }
+        public override bool? CanBeHitByProjectile(Projectile projectile) => true;
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -86,7 +79,31 @@ namespace CalamityMod.NPCs.Astral
             }
         }
 
-		/// </summary> I don't think this works btw.  Copying from ExampleCritter.cs failed me ~Ben =(
+		public override bool Autoload(ref string name)
+		{
+			IL.Terraria.Wiring.HitWireSingle += HookStatue;
+			return base.Autoload(ref name);
+		}
+
+		/// <summary>
+		/// Change the following code sequence in Wiring.HitWireSingle
+		/// num8 = (int) Utils.SelectRandom<short>(Main.rand, new short[2]
+		/// {
+		/// 	355,
+		/// 	358
+		/// });
+		/// 
+		/// to 
+		/// 
+		/// var arr = new short[2]
+		/// {
+		/// 	355,
+		/// 	358
+		/// });
+		/// arr = arr.ToList().Add(id).ToArray();
+		/// num8 = Utils.SelectRandom(Main.rand, arr);
+		/// 
+		/// </summary>
 		/// <param name="il"></param>
 		private void HookStatue(ILContext il)
 		{
@@ -123,14 +140,9 @@ namespace CalamityMod.NPCs.Astral
 					;
 				}
 
-				// not enough switch instructions
-				if (targets.Length < 54 - offset)
-				{
-					continue;
-				}
-
-				var target = targets[54 - offset];
-				if (target == null)
+				// get the label for case 54: if it exists
+				int case54Index = 54 - offset;
+				if (case54Index < 0 || case54Index >= targets.Length || !(targets[case54Index] is ILLabel target))
 				{
 					continue;
 				}

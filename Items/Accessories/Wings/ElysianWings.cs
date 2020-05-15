@@ -35,6 +35,7 @@ namespace CalamityMod.Items.Accessories.Wings
             player.moveSpeed += 0.4f;
             player.lavaMax += 240;
             player.wingTimeMax = 200;
+            player.noFallDmg = true;
             modPlayer.elysianFire = true;
             if (hideVisual)
             {

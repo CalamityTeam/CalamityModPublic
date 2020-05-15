@@ -7,6 +7,8 @@ namespace CalamityMod.Items.Accessories
 {
     public class FungalClump : ModItem
     {
+		public const int FungalClumpDamage = 10;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fungal Clump");
@@ -24,15 +26,7 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.fungalClump)
-            {
-                return false;
-            }
-            return true;
-        }
+        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().fungalClump;
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
@@ -46,7 +40,7 @@ namespace CalamityMod.Items.Accessories
                 }
                 if (player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] < 1)
                 {
-                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), (int)(10 * player.MinionDamage()), 1f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ModContent.ProjectileType<FungalClumpMinion>(), (int)(FungalClumpDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
                 }
             }
         }

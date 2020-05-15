@@ -1,6 +1,8 @@
 ﻿using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Healing;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,6 +11,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class FungalClumpMinion : ModProjectile
     {
+		private bool returnToPlayer = false;
+		private bool amalgam = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fungal Clump");
@@ -25,7 +29,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.minionSlots = 0f;
-            projectile.aiStyle = 54;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.timeLeft *= 5;
@@ -35,15 +38,16 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == ModContent.ProjectileType<FungalClumpMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
+
+            bool correctMinion = projectile.type == ModContent.ProjectileType<FungalClumpMinion>();
             if (!modPlayer.fungalClump)
             {
                 projectile.active = false;
                 return;
             }
-            if (flag64)
+            if (correctMinion)
             {
                 if (player.dead)
                 {
@@ -54,6 +58,9 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
+			amalgam = projectile.ai[0] == 1f;
+
+			//Initializing dust and damage
             if (projectile.localAI[0] == 0f)
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
@@ -71,6 +78,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 projectile.localAI[0] += 1f;
             }
+
+			//Flexible damage correction
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int damage2 = (int)((float)projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
@@ -78,11 +87,178 @@ namespace CalamityMod.Projectiles.Summon
                     player.MinionDamage());
                 projectile.damage = damage2;
             }
+
+			//Periodically create dust
             if (Main.rand.NextBool(16))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f);
             }
-        }
+
+			//Anti-sticky movement failsafe
+            float SAIMovement = 0.05f;
+            for (int i = 0; i < Main.maxProjectiles; i++)
+            {
+				Projectile proj = Main.projectile[i];
+                bool typeCheck = proj.type == ModContent.ProjectileType<FungalClumpMinion>();
+                if (i != projectile.whoAmI && proj.active && proj.owner == projectile.owner && typeCheck && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < (float)projectile.width)
+                {
+                    if (projectile.position.X < proj.position.X)
+                    {
+                        projectile.velocity.X -= SAIMovement;
+                    }
+                    else
+                    {
+                        projectile.velocity.X += SAIMovement;
+                    }
+                    if (projectile.position.Y < proj.position.Y)
+                    {
+                        projectile.velocity.Y -= SAIMovement;
+                    }
+                    else
+                    {
+                        projectile.velocity.Y += SAIMovement;
+                    }
+                }
+            }
+
+			//If summoned by Amalgam, trail poisonous seawater
+			if (Math.Abs(projectile.velocity.X) > 0.1f || Math.Abs(projectile.velocity.Y) > 0.1f)
+            {
+                if (projectile.owner == Main.myPlayer)
+                {
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), projectile.damage, 0f, projectile.owner, 1f, 0f);
+                }
+            }
+
+			//If too far from player, increase speed to chase after player
+			float playerRange = 500f;
+			//Range is boosted if chasing after an enemy
+			if (projectile.ai[1] != 0f || projectile.friendly)
+				playerRange = amalgam ? 2000f : 1400f;
+			if (Math.Abs(projectile.Center.X - player.Center.X) + Math.Abs(projectile.Center.Y - player.Center.Y) > playerRange)
+				returnToPlayer = true;
+
+			//Find an npc to target, or if minion targetting is used, choose that npc
+			Vector2 center = projectile.Center;
+			float range = 900f;
+			bool npcFound = false;
+			if (!returnToPlayer)
+			{
+				projectile.tileCollide = true;
+				NPC target = projectile.OwnerMinionAttackTargetNPC;
+				if (target != null && target.CanBeChasedBy(projectile, false))
+				{
+					float extraDistance = (target.width / 2) + (target.height / 2);
+
+					if (Vector2.Distance(target.Center, projectile.Center) < (range + extraDistance) && Collision.CanHit(projectile.position, projectile.width, projectile.height, target.position, target.width, target.height))
+					{
+						center = target.Center;
+						npcFound = true;
+					}
+				}
+				if (!npcFound)
+				{
+					for (int index = 0; index < Main.maxNPCs; ++index)
+					{
+						NPC npc = Main.npc[index];
+						if (npc.CanBeChasedBy(projectile, false))
+						{
+							float extraDistance = (npc.width / 2) + (npc.height / 2);
+
+							if (Vector2.Distance(npc.Center, projectile.Center) < (range + extraDistance) && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+							{
+								center = npc.Center;
+								npcFound = true;
+							}
+						}
+					}
+				}
+			}
+
+			//Tile collision depends on if returning to the player or not
+			projectile.tileCollide = !returnToPlayer;
+
+			if (!npcFound)
+			{
+				projectile.friendly = true;
+				float homingSpeed = amalgam ? 12f : 8f;
+				float turnSpeed = 20f;
+				if (returnToPlayer) //move faster if returning to the player
+					homingSpeed = amalgam ? 30f : 12f;
+				Vector2 projPos = new Vector2(projectile.Center.X, projectile.Center.Y);
+				float xDist = player.Center.X - projPos.X;
+				float yDist = player.Center.Y - projPos.Y - 60f;
+				Vector2 playerVector = new Vector2(xDist, yDist);
+				float playerDist = playerVector.Length();
+				if (playerDist < 100f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+					projectile.ai[0] = 0f;
+				if (playerDist > 2000f)
+				{
+					projectile.position.X = player.Center.X - projectile.width / 2;
+					projectile.position.Y = player.Center.Y - projectile.width / 2;
+				}
+				if (playerDist > 70f)
+				{
+					Vector2 homeInVector = projectile.DirectionTo(playerVector);
+					if (homeInVector.HasNaNs())
+						homeInVector = Vector2.UnitY;
+
+					projectile.velocity = (projectile.velocity * turnSpeed + homeInVector * homingSpeed) / (turnSpeed + 1f);
+				}
+				else
+				{
+					if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+					{
+						projectile.velocity.X = -0.15f;
+						projectile.velocity.Y = -0.05f;
+					}
+					projectile.velocity *= 1.01f;
+				}
+				projectile.friendly = false;
+				projectile.rotation = projectile.velocity.X * 0.05f;
+				if (Math.Abs(projectile.velocity.X) <= 0f)
+					return;
+				projectile.spriteDirection = -projectile.direction;
+			}
+			else
+			{
+				if (projectile.ai[1] == -1f)
+					projectile.ai[1] = 17f;
+				if (projectile.ai[1] > 0f)
+				{
+					projectile.ai[1] -= 1f;
+				}
+				if (projectile.ai[1] == 0f)
+				{
+					projectile.friendly = true;
+					float minionSpeed = amalgam ? 20f : 8f;
+					float turnSpeed = 14f;
+					Vector2 projPos = new Vector2(projectile.Center.X, projectile.Center.Y);
+					float xDist = center.X - projPos.X;
+					float yDist = center.Y - projPos.Y - 60f;
+					Vector2 targetVector = new Vector2(xDist, yDist);
+					float targetDist = targetVector.Length();
+					if (targetDist < 100f)
+						minionSpeed = amalgam ? 25f : 10f;
+
+					Vector2 homeInVector = projectile.DirectionTo(targetVector);
+					if (homeInVector.HasNaNs())
+						homeInVector = Vector2.UnitY;
+
+					projectile.velocity = (projectile.velocity * turnSpeed + homeInVector * minionSpeed) / (turnSpeed + 1f);
+				}
+				else
+				{
+					projectile.friendly = false;
+					if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) < 10f)
+						projectile.velocity *= 1.05f;
+				}
+				projectile.rotation = projectile.velocity.X * 0.05f;
+				if (Math.Abs(projectile.velocity.X) <= 0.2f)
+					return;
+				projectile.spriteDirection = -projectile.direction;
+			}
+		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -90,7 +266,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 return;
             }
-            float healAmt = (float)damage * 0.25f;
+            float healAmt = damage * 0.25f;
             if ((int)healAmt == 0)
             {
                 return;

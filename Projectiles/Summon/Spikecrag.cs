@@ -60,25 +60,22 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity.Y = 10f;
             }
 
-            float centerX = projectile.Center.X;
-            float centerY = projectile.Center.Y;
-            float num474 = 1000f;
-            bool homeIn = false;
-            for (int i = 0; i < Main.maxNPCs; i++)
-            {
-                if (Main.npc[i].CanBeChasedBy(projectile, false))
-                {
-                    float num476 = Main.npc[i].position.X + (float)(Main.npc[i].width / 2);
-                    float num477 = Main.npc[i].position.Y + (float)(Main.npc[i].height / 2);
-                    float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
-                    if (num478 < num474)
-                    {
-                        num474 = num478;
-                        homeIn = true;
-                    }
-                }
-            }
-            if (projectile.owner == Main.myPlayer && homeIn && projectile.velocity.Y == 0f)
+			float maxDistance = 1000f;
+			bool homeIn = false;
+
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (Main.npc[i].CanBeChasedBy(projectile, false))
+				{
+					float extraDistance = (float)(Main.npc[i].width / 2) + (Main.npc[i].height / 2);
+
+					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
+					{
+						homeIn = true;
+					}
+				}
+			}
+            if (projectile.owner == Main.myPlayer && homeIn)
             {
                 if (projectile.ai[0] != 0f)
                 {
@@ -99,18 +96,8 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool CanDamage() => false;
     }
 }

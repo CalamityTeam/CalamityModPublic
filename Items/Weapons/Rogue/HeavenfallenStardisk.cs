@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Heavenfallen Stardisk");
             Tooltip.SetDefault("Throws a stardisk upwards which then launches itself towards your mouse cursor,\n" +
                                "explodes into several astral energy bolts if the thrower is moving vertically when throwing it and during its impact\n" +
-							   "Stealth strikes spawn astral energy bolts from the sky as it flies");
+							   "Stealth strikes rain astral energy bolts from the sky");
         }
 
         public override void SafeSetDefaults()

@@ -354,7 +354,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (modPlayer.harpyWingBoost)
+            if (modPlayer.harpyWingBoost && modPlayer.harpyRing)
             {
                 if (Main.rand.NextBool(5))
                 {
@@ -650,7 +650,7 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
-            if (player.HeldItem.type == ModContent.ItemType<IgneousExaltation>())
+            if (player.ActiveItem().type == ModContent.ItemType<IgneousExaltation>())
             {
                 bool hasBlades = false;
                 for (int i = 0; i < Main.projectile.Length; i++)
@@ -684,7 +684,7 @@ namespace CalamityMod.Items
                 }
                 return false;
             }
-            if (player.HeldItem.type == ModContent.ItemType<ColdDivinity>())
+            if (player.ActiveItem().type == ModContent.ItemType<ColdDivinity>())
             {
                 bool canContinue = true;
                 int count = 0;
@@ -2601,6 +2601,7 @@ Provides heat and cold protection in Death Mode";
 
                     // Queen Bee
                     case ItemID.QueenBeeBossBag:
+                        DropHelper.DropItem(player, ItemID.Stinger, 8, 12);
                         DropHelper.DropItem(player, ModContent.ItemType<HardenedHoneycomb>(), 50, 75);
                         break;
 
@@ -2867,8 +2868,7 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.HarpyWings)
             {
-				if (modPlayer.harpyRing)
-					modPlayer.harpyWingBoost = true;
+				modPlayer.harpyWingBoost = true;
                 player.moveSpeed += 0.3f;
                 player.noFallDmg = true;
             }

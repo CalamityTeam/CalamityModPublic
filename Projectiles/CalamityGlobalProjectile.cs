@@ -604,7 +604,7 @@ namespace CalamityMod.Projectiles
             {
                 if (projectile.timeLeft > 570) //all of these have a time left of 600 or 660
                 {
-                    if (player.inventory[player.selectedItem].type == ItemID.BeesKnees)
+                    if (player.ActiveItem().type == ItemID.BeesKnees)
                     {
                         projectile.magic = false;
                         projectile.ranged = true;

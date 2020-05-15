@@ -53,6 +53,7 @@ namespace CalamityMod
         public static CalamityGlobalNPC Calamity(this NPC npc) => npc.GetGlobalNPC<CalamityGlobalNPC>();
         public static CalamityGlobalItem Calamity(this Item item) => item.GetGlobalItem<CalamityGlobalItem>();
         public static CalamityGlobalProjectile Calamity(this Projectile proj) => proj.GetGlobalProjectile<CalamityGlobalProjectile>();
+        public static Item ActiveItem(this Player player) => Main.mouseItem.IsAir ? player.HeldItem : Main.mouseItem;
         #endregion
 
         #region Player Utilities
@@ -302,7 +303,7 @@ namespace CalamityMod
         public static Rectangle FixSwingHitbox(float hitboxWidth, float hitboxHeight)
         {
             Player player = Main.player[Main.myPlayer];
-            Item item = player.inventory[player.selectedItem];
+            Item item = player.ActiveItem();
             float hitbox_X, hitbox_Y;
             float mountOffsetY = player.mount.PlayerOffsetHitbox;
 
@@ -2192,12 +2193,12 @@ namespace CalamityMod
         public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor, int xPositionAdditive = 45, float yPositionAdditive = 35f)
         {
             Player player = Main.player[projectile.owner];
-            if (projectile.bobber && player.inventory[player.selectedItem].holdStyle > 0)
+            if (projectile.bobber && player.ActiveItem().holdStyle > 0)
             {
                 float pPosX = player.MountedCenter.X;
                 float pPosY = player.MountedCenter.Y;
                 pPosY += player.gfxOffY;
-                int type = player.inventory[player.selectedItem].type;
+                int type = player.ActiveItem().type;
                 float gravDir = player.gravDir;
 
                 if (type == fishingRodType)

@@ -974,10 +974,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             }
         }
 
-        public override bool CheckActive()
-        {
-            return canDespawn;
-        }
+        public override bool CheckActive() => canDespawn;
 
         public override void HitEffect(int hitDirection, double damage)
         {
@@ -1134,6 +1131,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             {
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<PlagueCellCluster>(), 10, 14);
+                DropHelper.DropItemSpray(npc, ItemID.Stinger, 3, 5);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<VirulentKatana>(), 4); // Virulence

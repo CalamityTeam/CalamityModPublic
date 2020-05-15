@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Ammo
 
         public override bool ConsumeAmmo(Player player)
         {
-            return !(player.itemAnimation < player.HeldItem.useAnimation - 3);
+            return !(player.itemAnimation < player.ActiveItem().useAnimation - 3);
         }
     }
 }
