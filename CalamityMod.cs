@@ -1866,7 +1866,8 @@ namespace CalamityMod
                 ModContent.ItemType<Shroomer>(),
                 ModContent.ItemType<SpectreRifle>(),
                 ModContent.ItemType<Svantechnical>(),
-                ModContent.ItemType<Skullmasher>()
+                ModContent.ItemType<Skullmasher>(),
+                ModContent.ItemType<TyrannysEnd>()
             };
 
             boomerangList = new List<int>()
