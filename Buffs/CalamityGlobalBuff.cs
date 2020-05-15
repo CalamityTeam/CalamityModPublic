@@ -71,95 +71,83 @@ namespace CalamityMod.Buffs
         public override void ModifyBuffTip(int type, ref string tip, ref int rare)
         {
             Player player = Main.player[Main.myPlayer];
-            if (type == BuffID.NebulaUpDmg1)
-                tip = "7.5% increased damage";
-            else if (type == BuffID.NebulaUpDmg2)
-                tip = "15% increased damage";
-            else if (type == BuffID.NebulaUpDmg3)
-                tip = "22.5% increased damage";
-            else if (type == BuffID.WeaponImbueVenom || type == BuffID.WeaponImbueCursedFlames || type == BuffID.WeaponImbueFire || type == BuffID.WeaponImbueGold ||
-                type == BuffID.WeaponImbueIchor || type == BuffID.WeaponImbueNanites || type == BuffID.WeaponImbuePoison)
-                tip = "Rogue and " + tip;
-            else if (type == BuffID.WeaponImbueConfetti)
-                tip = "All attacks cause confetti to appear";
-            else if (type == BuffID.IceBarrier)
-                tip = "Damage taken is reduced by 15%";
-            else if (type == BuffID.ChaosState)
-                tip = "Rod of Discord teleports are disabled";
-            else if (type == BuffID.Ichor)
+
+			//Vanilla buffs
+            switch (type)
             {
-                tip = "Defense reduced by 20";
-                if (CalamityWorld.revenge)
-                    tip += ". All damage taken increased by 25%";
-            }
-            else if (type == BuffID.CursedInferno && CalamityWorld.revenge)
-                tip += ". All damage taken increased by 20%";
-            else if (type == BuffID.Warmth)
-			{
-                tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
-				if (CalamityWorld.death)
-					tip += ". Provides cold protection in Death Mode";
-			}
-            else if (type == BuffID.Invisibility)
-                tip += ". Grants rogue bonuses while holding certain rogue weapons";
-			else if (type == BuffID.ObsidianSkin && CalamityWorld.death)
-				tip += ". Provides heat protection in Death Mode";
-			else if (type == BuffID.Inferno && CalamityWorld.death)
-				tip += ". Provides cold protection in Death Mode";
-			else if (type == BuffID.Campfire && CalamityWorld.death)
-				tip += ". Provides cold protection in Death Mode";
-			else if (type == ModContent.BuffType<Molten>() && CalamityWorld.death)
-				tip += ". Provides cold protection in Death Mode";
-            else if (type == ModContent.BuffType<ProfanedBabs>())
-            {
-                bool offense = player.Calamity().gOffense;
-                bool defense = player.Calamity().gDefense;
-                if (player.Calamity().profanedCrystal && (!player.Calamity().profanedCrystalBuffs && !CalamityWorld.downedSCal))
-                {
-                    tip = "The Profaned Babs will accompany you!";
-                }
-                else if (offense && defense)
-                {
-                    tip = "The Profaned Babs will fight for and defend you!";
-                }
-                else if (offense || defense)
-                {
-                    tip = "The " + (offense ? "Offensive" : "Defensive") + " Duo will " + (offense ? "fight for and heal you!" : "protect and heal you!");
-                }
-            }
-            else if (type == ModContent.BuffType<ProfanedCrystalBuff>())
-            {
-                if (player.Calamity().profanedCrystalBuffs)
-                {
-                    if (player.Calamity().endoCooper)
-                    {
-                        tip = "An ascended ice construct is suppressing your true potential..";
-                    }
-                    else if (player.Calamity().magicHat)
-                    {
-                        tip = "A magical hat overwhelms your senses, squandering your true potential..";
-                    }
-                    else
-                    {
-                        bool offense = (Main.dayTime && !player.wet) || player.lavaWet;
-                        bool enrage = player.statLife <= (int)(player.statLifeMax2 * 0.5);
-                        tip = "You are an emissary of the profaned goddess now!\n" +
-                            (offense ? "The " + (Main.dayTime ? "light of the sun" : "heat of the lava") + " empowers your offensive capabilities" : 
-                            "The " + (player.wet ? (player.honeyWet ? "honey cools" : "water douses") : "darkness of night cools") + " your flames, empowering your defensive capabilities") +
-                            (enrage ? "\nYour weakened life force fuels your desperate attacks" : ""); 
-                    }
-                }
-                else if (CalamityWorld.downedSCal)
-                {
-                    tip = "Your profaned soul is constrained by your insufficient summoning powers";
-                }
-            }
-            else if (type == ModContent.BuffType<Horror>())
-            {
-                if (player.Calamity().laudanum || player.Calamity().draedonsHeart)
-                {
-					tip = "The horror fuels your strength";
-				}
+                case BuffID.NebulaUpDmg1:
+                    tip = "7.5% increased damage";
+                    break;
+
+                case BuffID.NebulaUpDmg2:
+                    tip = "15% increased damage";
+                    break;
+
+                case BuffID.NebulaUpDmg3:
+                    tip = "22.5% increased damage";
+                    break;
+
+                case BuffID.WeaponImbueVenom:
+                case BuffID.WeaponImbueCursedFlames:
+                case BuffID.WeaponImbueFire:
+                case BuffID.WeaponImbueGold:
+                case BuffID.WeaponImbueIchor:
+                case BuffID.WeaponImbueNanites:
+                case BuffID.WeaponImbuePoison:
+                    tip = "Rogue and " + tip;
+                    break;
+
+                case BuffID.WeaponImbueConfetti:
+                    tip = "All attacks cause confetti to appear";
+                    break;
+
+                case BuffID.IceBarrier:
+                    tip = "Damage taken is reduced by 15%";
+                    break;
+
+                case BuffID.ChaosState:
+                    tip = "Rod of Discord teleports are disabled";
+                    break;
+
+                case BuffID.Ichor:
+                    tip = "Defense reduced by 20";
+					if (CalamityWorld.revenge)
+						tip += ". All damage taken increased by 25%";
+                    break;
+
+                case BuffID.CursedInferno:
+					if (CalamityWorld.revenge)
+						tip += ". All damage taken increased by 20%";
+                    break;
+
+                case BuffID.Warmth:
+                    tip += ". Immunity to the Chilled, Frozen, and Glacial State debuffs";
+					if (CalamityWorld.death)
+						tip += ". Provides cold protection in Death Mode";
+                    break;
+
+                case BuffID.Invisibility:
+                    tip += ". Grants rogue bonuses while holding certain rogue weapons";
+                    break;
+
+                case BuffID.ObsidianSkin:
+					if (CalamityWorld.death)
+						tip += ". Provides heat protection in Death Mode";
+                    break;
+
+                case BuffID.Inferno:
+					if (CalamityWorld.death)
+						tip += ". Provides cold protection in Death Mode";
+                    break;
+
+                case BuffID.Campfire:
+					if (CalamityWorld.death)
+						tip += ". Provides cold protection in Death Mode";
+                    break;
+
+                case BuffID.Daybreak:
+                    tip = "Incinerated by solar rays";
+                    break;
             }
         }
     }

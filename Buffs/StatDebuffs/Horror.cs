@@ -19,5 +19,14 @@ namespace CalamityMod.Buffs.StatDebuffs
         {
             player.Calamity().horror = true;
         }
+
+        public override void ModifyBuffTip(ref string tip, ref int rare)
+        {
+            Player player = Main.player[Main.myPlayer];
+			if (player.Calamity().laudanum || player.Calamity().draedonsHeart)
+			{
+				tip = "The horror fuels your strength";
+			}
+		}
     }
 }

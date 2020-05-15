@@ -12,9 +12,9 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Epidemic Shredder");
-            Tooltip.SetDefault("Throws a plagued boomerang that releases plague seekers when it hits tiles or enemies\n" +
-                               "Stealth strikes makes the boomerang release plague seekers constantly as it travels\n" +
-                               "'Contrary to its name, it will probably cause an epidemic if used incorrectly'");
+            Tooltip.SetDefault("Contrary to its name, it will probably cause an epidemic if used incorrectly\n" +
+							   "Throws a plagued boomerang that releases plague seekers when it hits tiles or enemies\n" +
+                               "Stealth strikes cause the boomerang release plague seekers constantly as it travels");
         }
 
         public override void SafeSetDefaults()

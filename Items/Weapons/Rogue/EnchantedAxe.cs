@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             DisplayName.SetDefault("Enchanted Axe");
             Tooltip.SetDefault("Throws a high velocity axe that returns to you after travelling a short distance or hitting a wall\n" +
                                "At the furthest point from the player, a magical axe that travels through walls will be cast towards the nearest enemy\n" +
-                               "Stealth strikes makes the axe fly further, throwing out many other magical axes in all directions");
+                               "Stealth strikes make the axe fly further, throwing out many other magical axes in all directions");
         }
 
         public override void SafeSetDefaults()

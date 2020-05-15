@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Melee
 		{
 			DisplayName.SetDefault("Cosmic Shiv");
 			Tooltip.SetDefault("Definitely don't underestimate the power of shivs\n" +
-							   "Fires a cosmic beam that home in on enemies\n" +
+							   "Fires a cosmic beam that homes in on enemies\n" +
                                "Upon hitting an enemy, a barrage of offscreen objects home in on the enemy as well as raining stars");
 		}
 

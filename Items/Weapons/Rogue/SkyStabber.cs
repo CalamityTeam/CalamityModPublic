@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             DisplayName.SetDefault("Sky Stabber");
             Tooltip.SetDefault("Shoots a gravity-defying spiky ball. Stacks up to 4.\n" +
-                "Stealth strikes makes the balls rain feathers onto enemies when they hit\n" +
+                "Stealth strikes make the balls rain feathers onto enemies when they hit\n" +
 				"Right click to delete all existing spiky balls");
         }
 
