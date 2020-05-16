@@ -11,6 +11,12 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class AuroradicalStar : ModProjectile
     {
+		public int[] dustTypes = new int[]
+		{
+			ModContent.DustType<AstralBlue>(),
+			ModContent.DustType<AstralOrange>()
+		};
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Auroradical Star");
@@ -58,12 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.ai[0] += 1f;
             if (projectile.ai[0] > 15f)
             {
-				int dustType = Utils.SelectRandom(Main.rand, new int[]
-				{
-					ModContent.DustType<AstralBlue>(),
-					ModContent.DustType<AstralOrange>()
-				});
-                int astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 0.8f);
+                int astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 100, default, 0.8f);
                 Main.dust[astral].noGravity = true;
                 Main.dust[astral].velocity *= 0f;
             }
@@ -160,18 +161,13 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.localNPCHitCooldown = 10;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.Damage();
-			int dustType = Utils.SelectRandom(Main.rand, new int[]
-			{
-				ModContent.DustType<AstralBlue>(),
-				ModContent.DustType<AstralOrange>()
-			});
             for (int d = 0; d < 2; d++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 50, default, 1f);
+                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 50, default, 1f);
             }
             for (int d = 0; d < 20; d++)
             {
-                int astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1.5f);
+                int astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, Main.rand.Next(dustTypes), 0f, 0f, 0, default, 1.5f);
                 Main.dust[astral].noGravity = true;
                 Main.dust[astral].velocity *= 3f;
                 astral = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 50, default, 1f);

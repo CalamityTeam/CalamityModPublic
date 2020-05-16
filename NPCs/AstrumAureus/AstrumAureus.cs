@@ -9,6 +9,7 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.TownNPCs;
@@ -360,6 +361,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Nebulash>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AuroraBlazer>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AlulaAustralis>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BorealisBomber>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AuroradicalThrow>(), 4);
 
