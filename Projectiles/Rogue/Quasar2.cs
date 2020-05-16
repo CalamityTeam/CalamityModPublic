@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
             float num474 = 600f;
-            for (int num475 = 0; num475 < 200; num475++)
+            for (int num475 = 0; num475 < Main.maxNPCs; num475++)
             {
                 if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
                 {
@@ -90,6 +90,13 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
+			if (projectile.Calamity().stealthStrike && projectile.owner == Main.myPlayer)
+			{
+				int boomer = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<RadiantExplosion>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 1f);
+				Main.projectile[boomer].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+				Main.projectile[boomer].height = Main.projectile[boomer].width = 280;
+				Main.projectile[boomer].Center = projectile.Center;
+			}
         }
     }
 }

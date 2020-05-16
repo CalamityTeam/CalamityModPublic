@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Quasar");
-            Tooltip.SetDefault("Succ");
+            Tooltip.SetDefault("Succ\n" +
+			"Stealth strikes spawn more explosions");
         }
 
         public override void SafeSetDefaults()
@@ -38,7 +39,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 1f, 0f);
+            int knife = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+            Main.projectile[knife].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
     }
