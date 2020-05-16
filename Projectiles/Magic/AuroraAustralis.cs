@@ -11,7 +11,6 @@ namespace CalamityMod.Projectiles.Magic
     {
         private static float CosFrequency = 0.05f;
         private static float CosAmplitude = 0.008f;
-        private static float RotationIncrement = 0.26f;
 		public int[] dustTypes = new int[]
 		{
 			ModContent.DustType<AstralBlue>(),
@@ -36,7 +35,6 @@ namespace CalamityMod.Projectiles.Magic
 
             CosFrequency = 0.15f;
             CosAmplitude = 0.06f;
-            RotationIncrement = 0.26f;
         }
 
         public override void AI()

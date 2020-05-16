@@ -720,6 +720,7 @@ namespace CalamityMod.CalPlayer
         public bool bounding = false;
         public bool triumph = false;
         public bool penumbra = false;
+        public bool shadow = false;
         public bool photosynthesis = false;
         public bool astralInjection = false;
         public bool gravityNormalizer = false;
@@ -1670,6 +1671,7 @@ namespace CalamityMod.CalPlayer
             bounding = false;
             triumph = false;
             penumbra = false;
+            shadow = false;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
@@ -1999,6 +2001,7 @@ namespace CalamityMod.CalPlayer
             bounding = false;
             triumph = false;
             penumbra = false;
+            shadow = false;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
@@ -5964,7 +5967,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Can Hit
-
         public override bool? CanHitNPC(Item item, NPC target)
         {
             if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
@@ -5982,7 +5984,6 @@ namespace CalamityMod.CalPlayer
             }
             return null;
         }
-
         #endregion
 
         #region Fishing
@@ -6044,7 +6045,7 @@ namespace CalamityMod.CalPlayer
                     num79 *= num80;
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)((float)damage * 0.15f), (int)(knockBack), player.whoAmI, 0f, (float)Main.rand.Next(15));
+                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.15f), (int)(knockBack), player.whoAmI, 0f, (float)Main.rand.Next(15));
                     Main.projectile[p].knockBack /= 2;
                     Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
                     if (StealthStrikeAvailable())
@@ -9458,6 +9459,11 @@ namespace CalamityMod.CalPlayer
             {
                 stealthGenStandstill += 0.08f;
                 stealthGenMoving += 0.08f;
+            }
+			if (shadow)
+            {
+                stealthGenStandstill += 0.1f;
+                stealthGenMoving += 0.1f;
             }
 
             if (etherealExtorter && Main.moonPhase == 3) // 3 = Waning Crescent

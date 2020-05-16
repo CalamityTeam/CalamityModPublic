@@ -2332,6 +2332,12 @@ namespace CalamityMod.CalPlayer
 				player.moveSpeed += 0.05f;
 			}
 
+			if (modPlayer.shadow)
+			{
+				if (player.FindBuffIndex(BuffID.Invisibility) > -1)
+					player.ClearBuff(BuffID.Invisibility);
+			}
+
 			if (modPlayer.irradiated)
 			{
 				if (modPlayer.boomerDukeLore)

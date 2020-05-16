@@ -1382,6 +1382,76 @@ namespace CalamityMod.Projectiles
 						}
 						target.AddBuff(BuffID.Venom, 240);
 					}
+
+					if (modPlayer.shadow)
+					{
+						if (CalamityMod.javelinProjList.Contains(projectile.type))
+						{
+							int randrot = Main.rand.Next(-30, 391);
+							Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
+							Projectile.NewProjectile(projectile.Center, SoulSpeed, ModContent.ProjectileType<PenumbraSoul>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.1, 60), 3f, projectile.owner, 0f, 0f);
+						}
+						if (CalamityMod.spikyBallProjList.Contains(projectile.type))
+						{
+							int scythe = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 0f, 0f);
+            				Main.projectile[scythe].usesLocalNPCImmunity = true;
+            				Main.projectile[scythe].localNPCHitCooldown = 10;
+							Main.projectile[scythe].penetrate = 2;
+						}
+						if (CalamityMod.daggerProjList.Contains(projectile.type))
+						{
+							Vector2 shardVelocity = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f));
+							shardVelocity.Normalize();
+							shardVelocity *= 5f;
+							int shard = Projectile.NewProjectile(projectile.Center, shardVelocity, ModContent.ProjectileType<EquanimityDarkShard>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 60), 0f, projectile.owner);
+							Main.projectile[shard].timeLeft = 150;
+						}
+						if (CalamityMod.boomerangProjList.Contains(projectile.type))
+						{
+							int spiritDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 60);
+							int[] numArray1 = new int[Main.maxNPCs];
+							int maxValue1 = 0;
+							int maxValue2 = 0;
+							for (int index = 0; index < Main.maxNPCs; ++index)
+							{
+								if (Main.npc[index].CanBeChasedBy((object)projectile, false))
+								{
+									float num2 = Math.Abs(Main.npc[index].Center.X - projectile.Center.X) + Math.Abs(Main.npc[index].Center.Y - projectile.Center.Y);
+									if (num2 < 800f)
+									{
+										if (Collision.CanHit(projectile.position, 1, 1, Main.npc[index].position, Main.npc[index].width, Main.npc[index].height) && num2 > 50f)
+										{
+											numArray1[maxValue2] = index;
+											++maxValue2;
+										}
+										else if (maxValue2 == 0)
+										{
+											numArray1[maxValue1] = index;
+											++maxValue1;
+										}
+									}
+								}
+							}
+							if (maxValue1 == 0 && maxValue2 == 0)
+								return;
+							int num3 = maxValue2 <= 0 ? numArray1[Main.rand.Next(maxValue1)] : numArray1[Main.rand.Next(maxValue2)];
+							double num4 = 4.0;
+							float num5 = (float)Main.rand.Next(-100, 101);
+							float num6 = (float)Main.rand.Next(-100, 101);
+							double num7 = Math.Sqrt((double)num5 * (double)num5 + (double)num6 * (double)num6);
+							float num8 = (float)(num4 / num7);
+							float SpeedX = num5 * num8;
+							float SpeedY = num6 * num8;
+							int ghost = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, ProjectileID.SpectreWrath, spiritDamage, 0f, projectile.owner, (float)num3, 0f);
+							Main.projectile[ghost].Calamity().forceRogue = true;
+							Main.projectile[ghost].penetrate = 1;
+						}
+						if (CalamityMod.flaskBombProjList.Contains(projectile.type))
+						{
+							int blackhole = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowBlackhole>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 0f, 0f);
+							Main.projectile[blackhole].Center = projectile.Center;
+						}
+					}
                 }
                 else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
                 {

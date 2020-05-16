@@ -769,6 +769,10 @@ namespace CalamityMod.Items
                 }
                 return true;
             }
+            if (item.type == ItemID.InvisibilityPotion && player.FindBuffIndex(ModContent.BuffType<ShadowBuff>()) > -1)
+            {
+                return false;
+            }
             if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(ModContent.BuffType<Cadence>()) > -1)
             {
                 return false;
