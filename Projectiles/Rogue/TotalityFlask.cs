@@ -53,6 +53,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
+			if (projectile.owner != Main.myPlayer)
+				return;
+
 			//glass-pot break sound
 			Main.PlaySound(13, (int) projectile.position.X, (int) projectile.position.Y, 1, 1f, 0f);
 
@@ -79,19 +82,16 @@ namespace CalamityMod.Projectiles.Rogue
 				dust2.velocity *= 3f;
 			}
             int num251 = Main.rand.Next(2, 4);
-            if (projectile.owner == Main.myPlayer)
-            {
-                for (int num252 = 0; num252 < num251; num252++)
-                {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TotalityTar>(), (int)(projectile.damage * 0.3), 0f, Main.myPlayer, 0f, 0f);
-                }
+			for (int num252 = 0; num252 < num251; num252++)
+			{
+				Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+				while (value15.X == 0f && value15.Y == 0f)
+				{
+					value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+				}
+				value15.Normalize();
+				value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
+				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TotalityTar>(), (int)(projectile.damage * 0.3), 0f, Main.myPlayer, 0f, 0f);
 			}
         }
     }
