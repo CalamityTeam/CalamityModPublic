@@ -470,7 +470,7 @@ namespace CalamityMod.NPCs.Providence
 							phase = 3;
 							break; // 1575 or 1500
 						case 1:
-							phase = 2;
+							phase = 5;
 							break; // 1875 or 1800
 						case 2:
 							phase = 0;
@@ -641,6 +641,7 @@ namespace CalamityMod.NPCs.Providence
 				npc.ai[1] = 0f;
 				npc.ai[2] = 0f;
 				npc.ai[3] = 0f;
+				calamityGlobalNPC.newAI[1] = 0f;
 			}
 
 			// Holy blasts
@@ -742,31 +743,16 @@ namespace CalamityMod.NPCs.Providence
 
 				npc.TargetClosest(true);
 
-				Vector2 vector114 = new Vector2(vector.X, vector.Y + 20f);
-				float num866 = Main.rand.Next(-1000, 1001);
-				float num867 = Main.rand.Next(-1000, 1001);
-				float num868 = (float)Math.Sqrt(num866 * num866 + num867 * num867);
-				float num869 = 3f;
-
 				if (!targetDead)
-					npc.velocity *= 0.9f;
-
-				num868 = num869 / num868;
-				num866 *= num868;
-				num867 *= num868;
-				vector114.X += num866 * 32f;
-				vector114.Y += num867 * 32f;
-
-				if (Vector2.Distance(player.Center, vector) < 32f)
 				{
-					num866 *= -1f;
-					num867 *= -1f;
+					if (npc.velocity.Length() <= 2f)
+						npc.velocity = Vector2.Zero;
+					if (npc.velocity.Length() > 2f)
+					{
+						npc.velocity *= 0.9f;
+						return;
+					}
 				}
-
-				if (npc.velocity.Length() <= 2f)
-					npc.velocity = Vector2.Zero;
-				if (npc.velocity.Length() > 2f)
-					return;
 
 				float divisor = (expertMode ? 2f : 3f) + (float)Math.Floor(3f * lifeRatio) + (attackRateMult > 1D ? (float)Math.Ceiling(attackRateMult * 1.6) : 0f);
 				int totalProjectiles = 36;
@@ -821,26 +807,6 @@ namespace CalamityMod.NPCs.Providence
 						}
 					}
 				}
-
-				/*int shootBoost = (int)(4f * (1f - lifeRatio));
-
-				int num870 = (expertMode ? 3 : 4) - shootBoost;
-
-				if (attackRateMult > 1D)
-					num870 += (int)Math.Ceiling(attackRateMult * 1.6);
-
-				npc.ai[1] += 1f;
-				if (npc.ai[1] >= num870)
-				{
-					npc.ai[1] = 0f;
-					if (Main.netMode != NetmodeID.MultiplayerClient)
-					{
-						if (Main.rand.NextBool(4) && !death)
-							Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyLight>(), 0, 0f, Main.myPlayer, 0f, 0f);
-						else
-							Projectile.NewProjectile(vector114.X, vector114.Y, num866, num867, ModContent.ProjectileType<HolyBurnOrb>(), 0, 0f, Main.myPlayer, 0f, 0f);
-					}
-				}*/
 
 				if (npc.ai[3] == 0f)
 				{
@@ -1014,7 +980,15 @@ namespace CalamityMod.NPCs.Providence
 				npc.TargetClosest(true);
 
 				if (!targetDead)
-					npc.velocity *= 0.9f;
+				{
+					if (npc.velocity.Length() <= 2f)
+						npc.velocity = Vector2.Zero;
+					if (npc.velocity.Length() > 2f)
+					{
+						npc.velocity *= 0.9f;
+						return;
+					}
+				}
 
 				if (npc.ai[1] == 0f)
 				{
@@ -1044,22 +1018,30 @@ namespace CalamityMod.NPCs.Providence
 					{
 						npc.ai[2] = 0f;
 
-						Vector2 vector93 = vector;
-						float num742 = expertMode ? 12f : 10f;
-						float num743 = player.position.X + player.width * 0.5f - vector93.X;
-						float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
-						float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+						float velocity = 3f;
+						int damage = expertMode ? 52 : 65;
+						int projectileType = ModContent.ProjectileType<HolySpear>();
 
-						num745 = num742 / num745;
-						num743 *= num745;
-						num744 *= num745;
-						vector93.X += num743 * 3f;
-						vector93.Y += num744 * 3f;
+						if (calamityGlobalNPC.newAI[2] % 2f == 0f)
+						{
+							int totalProjectiles = 12;
+							double radians = MathHelper.TwoPi / totalProjectiles;
+							Vector2 spinningPoint = Vector2.Normalize(new Vector2(-calamityGlobalNPC.newAI[1], -velocity)) * velocity;
 
-						int seeProjFilesforDmg = 0;
-						int num747 = ModContent.ProjectileType<HolyShot>();
-						Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, seeProjFilesforDmg, 0f, Main.myPlayer, 0f, 0f);
-						Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1000), player.position.Y + Main.rand.Next(-100, 100), 0f, 0f, ModContent.ProjectileType<HolySpear>(), seeProjFilesforDmg, 0f, Main.myPlayer, (float)Main.rand.Next(2), 0f);
+							for (int i = 0; i < totalProjectiles; i++)
+							{
+								Vector2 vector2 = spinningPoint.RotatedBy(radians * i);
+								Projectile.NewProjectile(vector, vector2, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+							}
+
+							calamityGlobalNPC.newAI[1] += 0.2f;
+						}
+
+						calamityGlobalNPC.newAI[2] += 1f;
+
+						velocity = expertMode ? 12f : 10f;
+						Vector2 velocity2 = Vector2.Normalize(player.Center - vector) * velocity;
+						Projectile.NewProjectile(vector, velocity2, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
 					}
 				}
 
