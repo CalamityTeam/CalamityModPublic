@@ -3,9 +3,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles.Rogue
 {
-    public class AtlantisSpear2 : ModProjectile
+    public class BrackishSpear2 : ModProjectile
     {
 		public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
 
@@ -23,8 +23,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.magic = true;
+            projectile.Calamity().rogue = true;
             aiType = ProjectileID.CrystalVileShardShaft;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 10;
         }
 
         public override void AI()
@@ -68,6 +70,18 @@ namespace CalamityMod.Projectiles.Magic
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 600);
+            target.AddBuff(BuffID.Poisoned, 600);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 600);
+            target.AddBuff(BuffID.Poisoned, 600);
+        }
 
         public override void Kill(int timeLeft)
         {

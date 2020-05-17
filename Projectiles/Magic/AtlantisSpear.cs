@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.magic = true;
-            aiType = 493;
+            aiType = ProjectileID.CrystalVileShardHead;
         }
 
         public override void AI()
@@ -41,14 +42,14 @@ namespace CalamityMod.Projectiles.Magic
                     }
                     if (Main.myPlayer == projectile.owner)
                     {
-                        int num48 = projectile.type;
+                        int projType = projectile.type;
                         if (projectile.ai[1] >= (float)(12 + Main.rand.Next(2)))
                         {
-                            num48 = ModContent.ProjectileType<AtlantisSpear2>();
+                            projType = ModContent.ProjectileType<AtlantisSpear2>();
                         }
-                        int num49 = projectile.damage;
-                        float num50 = projectile.knockBack;
-                        int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, num48, num49, num50, projectile.owner, 0f, projectile.ai[1] + 1f);
+                        int dmg = projectile.damage;
+                        float kBack = projectile.knockBack;
+                        int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, projType, dmg, kBack, projectile.owner, 0f, projectile.ai[1] + 1f);
                         NetMessage.SendData(27, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
@@ -76,10 +77,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 200, 200, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -93,7 +91,7 @@ namespace CalamityMod.Projectiles.Magic
             for (int i = 0; i < numProj; i++)
             {
                 Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<AtlantisSpear2>(), (int)(double)projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<AtlantisSpear2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Main.projectile[projectile2].penetrate = 1;
             }
             for (int k = 0; k < 3; k++)

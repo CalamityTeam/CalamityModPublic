@@ -3,9 +3,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles.Rogue
 {
-    public class AtlantisSpear2 : ModProjectile
+    public class BrackishSpear : ModProjectile
     {
 		public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
 
@@ -23,8 +23,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
-            projectile.magic = true;
-            aiType = ProjectileID.CrystalVileShardShaft;
+            projectile.Calamity().rogue = true;
+            aiType = ProjectileID.CrystalVileShardHead;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 6;
         }
 
         public override void AI()
@@ -41,6 +43,18 @@ namespace CalamityMod.Projectiles.Magic
                     {
                         projectile.ai[1] += 1f;
                         projectile.position += projectile.velocity * 1f;
+                    }
+                    if (Main.myPlayer == projectile.owner)
+                    {
+                        int projType = projectile.type;
+                        if (projectile.ai[1] >= (float)(12 + Main.rand.Next(2)))
+                        {
+                            projType = ModContent.ProjectileType<BrackishSpear2>();
+                        }
+                        int dmg = projectile.damage;
+                        float kBack = projectile.knockBack;
+                        int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, projType, dmg, kBack, projectile.owner, 0f, projectile.ai[1] + 1f);
+                        NetMessage.SendData(27, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }
@@ -69,8 +83,28 @@ namespace CalamityMod.Projectiles.Magic
 
         public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 600);
+            target.AddBuff(BuffID.Poisoned, 600);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Venom, 600);
+            target.AddBuff(BuffID.Poisoned, 600);
+        }
+
         public override void Kill(int timeLeft)
         {
+            int numProj = 2;
+            float rotation = MathHelper.ToRadians(20);
+            for (int i = 0; i < numProj; i++)
+            {
+                Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<BrackishSpear2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Main.projectile[projectile2].penetrate = 1;
+            }
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 206, projectile.oldVelocity.X * 0.005f, projectile.oldVelocity.Y * 0.005f);
