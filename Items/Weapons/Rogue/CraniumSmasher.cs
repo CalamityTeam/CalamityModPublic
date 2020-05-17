@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cranium Smasher");
-            Tooltip.SetDefault("Throws disks that roll on the ground, occasionally launches an explosive disk");
+            Tooltip.SetDefault("Throws disks that roll on the ground, occasionally launches an explosive disk\n" +
+			"Stealth strikes launch an explosive disk that can pierce several enemies");
         }
 
         public override void SafeSetDefaults()
@@ -36,7 +37,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.rand.Next(0, 5) == 0)
+			if (player.Calamity().StealthStrikeAvailable())
+			{
+                type = ModContent.ProjectileType<CraniumSmasherStealth>();
+			}
+            else if (Main.rand.NextBool(5))
             {
                 damage = (int)(damage * 1.25f);
                 type = ModContent.ProjectileType<CraniumSmasherExplosive>();
@@ -45,7 +50,8 @@ namespace CalamityMod.Items.Weapons.Rogue
             {
                 type = ModContent.ProjectileType<CraniumSmasherProj>();
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
     }
