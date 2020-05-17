@@ -48,8 +48,8 @@ namespace CalamityMod.Projectiles.Rogue
 						Vector2 velocity = projectile.Center - startPos;
                         velocity.X += (float)Main.rand.Next(-100, 101);
 						float travelDist = velocity.Length();
-                        float starSpeed = 29f;
-                        travelDist = starSpeed / travelDist;
+                        float spearSpeed = 29f;
+                        travelDist = spearSpeed / travelDist;
                         velocity.X *= travelDist;
                         velocity.Y *= travelDist;
                         Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * dmgKBMult), projectile.knockBack * dmgKBMult, projectile.owner, 0f, 0f);

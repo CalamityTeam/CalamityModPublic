@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
 
-            if (projectile.timeLeft < 55)
+            if (projectile.timeLeft < 55 && projectile.ai[1] != 1f)
             {
                 projectile.tileCollide = true;
             }
