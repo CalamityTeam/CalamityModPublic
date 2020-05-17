@@ -1,9 +1,11 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class DuststormCloud : ModProjectile
+	public class DuststormCloudStealth : ModProjectile
 	{
+		public override string Texture => "CalamityMod/Projectiles/Rogue/DuststormCloud";
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Cloud");
@@ -22,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.timeLeft = 3600;
 			projectile.Calamity().rogue = true;
 			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 5;
+			projectile.idStaticNPCHitCooldown = 4;
 		}
 
 		public override void AI()
@@ -37,13 +39,13 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				projectile.frame = 0;
 			}
-			projectile.velocity *= 0.995f;
+			projectile.velocity *= 0.998f;
 			projectile.ai[1] += 1f;
 			if (projectile.ai[1] >= 120f)
 			{
 				if (projectile.alpha < 255)
 				{
-					projectile.alpha += 5;
+					projectile.alpha += 3;
 					if (projectile.alpha > 255)
 					{
 						projectile.alpha = 255;
