@@ -3390,17 +3390,30 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] > 1 ||
-				player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalHealer>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] > 1 ||
-				player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] > 1)
+			int brimmy = ModContent.ProjectileType<BrimstoneElementalMinion>();
+			int siren = ModContent.ProjectileType<WaterElementalMinion>();
+			int healer = ModContent.ProjectileType<SandElementalHealer>();
+			int sandy = ModContent.ProjectileType<SandElementalMinion>();
+			int cloudy = ModContent.ProjectileType<CloudElementalMinion>();
+			int fungal = ModContent.ProjectileType<FungalClumpMinion>();
+			int howl = ModContent.ProjectileType<HowlsHeartHowl>();
+			int calcifer = ModContent.ProjectileType<HowlsHeartCalcifer>();
+			int turnip = ModContent.ProjectileType<HowlsHeartTurnipHead>();
+			if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||
+				player.ownedProjectileCounts[healer] > 1 || player.ownedProjectileCounts[sandy] > 1 ||
+				player.ownedProjectileCounts[cloudy] > 1 || player.ownedProjectileCounts[fungal] > 1 ||
+				player.ownedProjectileCounts[howl] > 1 || player.ownedProjectileCounts[calcifer] > 1 ||
+				player.ownedProjectileCounts[turnip] > 1)
 			{
 				for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
 				{
 					if (Main.projectile[projIndex].active && Main.projectile[projIndex].owner == player.whoAmI)
 					{
-						if (Main.projectile[projIndex].type == ModContent.ProjectileType<BrimstoneElementalMinion>() || Main.projectile[projIndex].type == ModContent.ProjectileType<WaterElementalMinion>() ||
-							Main.projectile[projIndex].type == ModContent.ProjectileType<SandElementalHealer>() || Main.projectile[projIndex].type == ModContent.ProjectileType<SandElementalMinion>() ||
-							Main.projectile[projIndex].type == ModContent.ProjectileType<CloudElementalMinion>() || Main.projectile[projIndex].type == ModContent.ProjectileType<FungalClumpMinion>())
+						if (Main.projectile[projIndex].type == brimmy || Main.projectile[projIndex].type == siren ||
+							Main.projectile[projIndex].type == healer || Main.projectile[projIndex].type == sandy ||
+							Main.projectile[projIndex].type == cloudy || Main.projectile[projIndex].type == fungal ||
+							Main.projectile[projIndex].type == howl || Main.projectile[projIndex].type == calcifer ||
+							Main.projectile[projIndex].type == turnip)
 						{
 							Main.projectile[projIndex].Kill();
 						}

@@ -481,6 +481,7 @@ namespace CalamityMod.CalPlayer
         public bool brimstoneWaifu = false;
         public bool sirenWaifu = false;
         public bool fungalClump = false;
+        public bool howlsHeart = false;
         public bool darkGodSheath = false;
         public bool inkBomb = false;
         public bool inkBombCooldown = false;
@@ -851,6 +852,7 @@ namespace CalamityMod.CalPlayer
         public bool tundraFlameBlossom = false;
         public bool causticDragon = false;
         public bool plaguebringerPatronSummon = false;
+        public bool howlTrio = false;
         #endregion
 
         #region Biome
@@ -1791,6 +1793,7 @@ namespace CalamityMod.CalPlayer
             sirenWaifu = false;
             allWaifus = false;
             fungalClump = false;
+            howlsHeart = false;
             redDevil = false;
             valkyrie = false;
             slimeGod = false;
@@ -1824,6 +1827,7 @@ namespace CalamityMod.CalPlayer
             tundraFlameBlossom = false;
             causticDragon = false;
 			plaguebringerPatronSummon = false;
+			howlTrio = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
