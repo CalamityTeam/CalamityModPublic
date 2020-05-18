@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.Melee
 		{
 			DisplayName.SetDefault("Corpus Avertor");
 			Tooltip.SetDefault("Seems like it has worn down over time\n" +
-							   "The lower your HP the more damage this weapon does and heals the player on enemy hits");
+				"Attacks grant lifesteal based on damage dealt\n" +
+				"The lower your HP the more damage this weapon does and heals the player on enemy hits");
 		}
 
 		public override void SetDefaults()
