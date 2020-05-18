@@ -47,20 +47,12 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < 3; i++)
                     {
                         float dustVelocity = Main.rand.NextFloat(0f, 0.5f);
-                        int dustToUse = Main.rand.Next(0, 3);
-                        int dustType = 0;
-                        switch (dustToUse)
-                        {
-                            case 0:
-                                dustType = 109;
-                                break;
-                            case 1:
-                                dustType = 111;
-                                break;
-                            case 2:
-                                dustType = 132;
-                                break;
-                        }
+						int dustType = Utils.SelectRandom(Main.rand, new int[]
+						{
+							109,
+							111,
+							132
+						});
 
                         int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
                         Main.dust[dust].noGravity = true;
@@ -131,20 +123,12 @@ namespace CalamityMod.Projectiles.Rogue
         {
             for (int i = 0; i < 5; i++)
             {
-                int dustToUse = Main.rand.Next(0, 3);
-                int dustType = 0;
-                switch (dustToUse)
-                {
-                    case 0:
-                        dustType = 109;
-                        break;
-                    case 1:
-                        dustType = 111;
-                        break;
-                    case 2:
-                        dustType = 132;
-                        break;
-                }
+				int dustType = Utils.SelectRandom(Main.rand, new int[]
+				{
+					109,
+					111,
+					132
+				});
 
                 int dust = Dust.NewDust(projectile.Center, 1, 1, dustType, projectile.velocity.X, projectile.velocity.Y, 0, default, 1.5f);
                 Main.dust[dust].noGravity = true;

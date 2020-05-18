@@ -936,6 +936,8 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(255, Main.DiscoG, 0);
                         if (item.type == ModContent.ItemType<PristineFury>())
 							tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
+                        if (item.type == ModContent.ItemType<LeonidProgenitor>())
+							tt2.overrideColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
                         break;
                 }
             }
