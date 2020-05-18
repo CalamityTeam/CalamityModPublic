@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Bolter");
-            Tooltip.SetDefault("Fires three bouncing energy bolts");
+            Tooltip.SetDefault("Fires three sliding energy bolts");
         }
 
         public override void SetDefaults()
