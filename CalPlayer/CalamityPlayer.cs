@@ -612,6 +612,11 @@ namespace CalamityMod.CalPlayer
         public bool ataxiaGeyser = false;
         public float xerocDmg;
         public bool xerocSet = false;
+        public bool prismaticSet = false;
+        public bool prismaticHelmet = false;
+        public bool prismaticRegalia = false;
+        public bool prismaticGreaves = false;
+		public int prismaticLasers = 0;
         public bool silvaSet = false;
         public bool silvaMelee = false;
         public bool silvaRanged = false;
@@ -676,6 +681,7 @@ namespace CalamityMod.CalPlayer
         public bool cragsLava = false;
         public bool vaporfied = false;
         public bool energyShellCooldown = false;
+        public bool prismaticCooldown = false;
         #endregion
 
         #region Buff
@@ -1560,6 +1566,10 @@ namespace CalamityMod.CalPlayer
             fathomSwarmerVisage = false;
             fathomSwarmerBreastplate = false;
             fathomSwarmerTail = false;
+            prismaticSet = false;
+            prismaticHelmet = false;
+            prismaticRegalia = false;
+            prismaticGreaves = false;
 
             tarraSet = false;
             tarraMelee = false;
@@ -1647,6 +1657,7 @@ namespace CalamityMod.CalPlayer
             cragsLava = false;
             vaporfied = false;
 			energyShellCooldown = false;
+			prismaticCooldown = false;
 
             revivify = false;
             trinketOfChiBuff = false;
@@ -1897,6 +1908,7 @@ namespace CalamityMod.CalPlayer
 			forbiddenCooldown = 0;
 			tornadoCooldown = 0;
 			ladHearts = 0;
+			prismaticLasers = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -1944,6 +1956,7 @@ namespace CalamityMod.CalPlayer
             cragsLava = false;
             vaporfied = false;
 			energyShellCooldown = false;
+			prismaticCooldown = false;
             #endregion
 
             #region Rogue
@@ -2118,6 +2131,10 @@ namespace CalamityMod.CalPlayer
             fathomSwarmerVisage = false;
             fathomSwarmerBreastplate = false;
             fathomSwarmerTail = false;
+            prismaticSet = false;
+            prismaticHelmet = false;
+            prismaticRegalia = false;
+            prismaticGreaves = false;
             astralStarRain = false;
             plagueReaper = false;
             plagueReaperCooldown = 0;
@@ -2725,6 +2742,8 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 				}
+				if (prismaticSet && !prismaticCooldown && prismaticLasers == 0)
+					prismaticLasers = CalamityUtils.SecondsToFrames(35f);
             }
             if (CalamityMod.AstralArcanumUIHotkey.JustPressed && astralArcanum)
             {

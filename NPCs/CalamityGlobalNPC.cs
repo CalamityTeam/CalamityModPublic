@@ -1374,6 +1374,14 @@ namespace CalamityMod.NPCs
                 }
             }
 
+			if (modTarget.prismaticHelmet && !CalamityPlayer.areThereAnyDamnBosses)
+			{
+				if (npc.lifeMax < 500)
+				{
+					return false;
+				}
+			}
+
             return true;
         }
         #endregion
