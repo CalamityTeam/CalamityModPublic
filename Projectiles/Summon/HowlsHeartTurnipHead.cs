@@ -142,8 +142,8 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.alpha += 15;
                 if (projectile.alpha >= 255)
                 {
-                    projectile.Center.X = player.Center.X;
-                    projectile.Center.Y = player.Center.Y - 5f;
+                    projectile.position.X = player.position.X;
+                    projectile.position.Y = player.position.Y - 5f;
                     fly = false;
                     projectile.alpha = 0;
                 }
