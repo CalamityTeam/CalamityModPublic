@@ -426,7 +426,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BirdSeed>(), 3);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<BirdSeed>(), 4);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BumblefuckMask>(), 7);
