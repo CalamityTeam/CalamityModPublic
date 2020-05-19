@@ -736,6 +736,10 @@ namespace CalamityMod
 					return mp.tarraThrowing;
 			}
 
+			// Prismatic
+			if (setBonus == "prismatic" || setBonus == "prism")
+				return mp.prismaticSet;
+
 			// Bloodflare
 			switch (setBonus)
 			{
@@ -1098,6 +1102,13 @@ namespace CalamityMod
 					mp.tarraSet = enabled;
 					mp.tarraThrowing = enabled;
 					return true;
+			}
+
+			// Prismatic
+			if (setBonus == "prismatic" || setBonus == "prism")
+			{
+				mp.prismaticSet = enabled;
+				return true;
 			}
 
 			// Bloodflare
