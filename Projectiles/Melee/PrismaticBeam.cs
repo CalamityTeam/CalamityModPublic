@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Doom");
+            DisplayName.SetDefault("Prismatic Beam");
         }
 
 		// Use a different style for constant so it is very clear in code when a constant is used
