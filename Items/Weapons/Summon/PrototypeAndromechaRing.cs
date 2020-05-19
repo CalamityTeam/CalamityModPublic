@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prototype Andromecha Ring");
-            Tooltip.SetDefault("Summons an collosal controllable mech\n" +
+            Tooltip.SetDefault("Summons an colossal controllable mech\n" +
                                "Right click to display the mech's control panel\n" +
                                "The panel has 3 possible configurations, that you can choose using the brackets on the UI\n" +
                                "Each bracket powers 2 out of 3 functions, represented by icons on the UI.\n" +
