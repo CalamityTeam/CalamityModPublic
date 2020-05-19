@@ -2151,35 +2151,29 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Weapons
 
-            if (Main.rand.NextFloat() > 0.00365876f)
-            {
-                // All non-hybrid weapons are listed twice so that the drop rates are actually equal between each unique weapon
-                DropHelper.DropItemFromSetCondition(npc, Main.expertMode,
-                    ModContent.ItemType<Animus>(), ModContent.ItemType<Animus>(),
-                    ModContent.ItemType<Azathoth>(), ModContent.ItemType<Azathoth>(),
-                    ModContent.ItemType<Contagion>(), ModContent.ItemType<Contagion>(),
-                    ModContent.ItemType<CrystylCrusher>(), ModContent.ItemType<CrystylCrusher>(),
-                    ModContent.ItemType<DraconicDestruction>(), ModContent.ItemType<DraconicDestruction>(),
-                    ModContent.ItemType<Earth>(), ModContent.ItemType<Earth>(),
-                    ModContent.ItemType<Fabstaff>(), ModContent.ItemType<Fabstaff>(),
-                    ModContent.ItemType<RoyalKnivesMelee>(), ModContent.ItemType<RoyalKnives>(), // Illustrious Knives
-                    ModContent.ItemType<NanoblackReaperMelee>(), ModContent.ItemType<NanoblackReaperRogue>(),
-                    ModContent.ItemType<RedSun>(), ModContent.ItemType<RedSun>(),
-                    ModContent.ItemType<ScarletDevil>(), ModContent.ItemType<ScarletDevil>(),
-                    ModContent.ItemType<SomaPrime>(), ModContent.ItemType<SomaPrime>(),
-                    ModContent.ItemType<BlushieStaff>(), ModContent.ItemType<BlushieStaff>(), // Staff of Blushie
-                    ModContent.ItemType<Svantechnical>(), ModContent.ItemType<Svantechnical>(),
-                    ModContent.ItemType<Judgement>(), ModContent.ItemType<Judgement>(),
-                    ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
-                    ModContent.ItemType<Megafleet>(), ModContent.ItemType<Megafleet>(), // Voidragon
-                    ModContent.ItemType<Endogenesis>(), ModContent.ItemType<Endogenesis>(),
-                    ModContent.ItemType<BensUmbrella>(), ModContent.ItemType<BensUmbrella>() //Temporal Umbrella
-                );
-            }
-            else
-            {
-                DropHelper.DropItemFromSetCondition(npc, Main.expertMode, ModContent.ItemType<PrototypeAndromechaRing>());
-            }
+			// All non-hybrid weapons are listed twice so that the drop rates are actually equal between each unique weapon
+			DropHelper.DropItemFromSetCondition(npc, Main.expertMode,
+				ModContent.ItemType<Animus>(), ModContent.ItemType<Animus>(),
+				ModContent.ItemType<Azathoth>(), ModContent.ItemType<Azathoth>(),
+				ModContent.ItemType<Contagion>(), ModContent.ItemType<Contagion>(),
+				ModContent.ItemType<CrystylCrusher>(), ModContent.ItemType<CrystylCrusher>(),
+				ModContent.ItemType<DraconicDestruction>(), ModContent.ItemType<DraconicDestruction>(),
+				ModContent.ItemType<Earth>(), ModContent.ItemType<Earth>(),
+				ModContent.ItemType<Fabstaff>(), ModContent.ItemType<Fabstaff>(),
+				ModContent.ItemType<RoyalKnivesMelee>(), ModContent.ItemType<RoyalKnives>(), // Illustrious Knives
+				ModContent.ItemType<NanoblackReaperMelee>(), ModContent.ItemType<NanoblackReaperRogue>(),
+				ModContent.ItemType<RedSun>(), ModContent.ItemType<RedSun>(),
+				ModContent.ItemType<ScarletDevil>(), ModContent.ItemType<ScarletDevil>(),
+				ModContent.ItemType<SomaPrime>(), ModContent.ItemType<SomaPrime>(),
+				ModContent.ItemType<BlushieStaff>(), ModContent.ItemType<BlushieStaff>(), // Staff of Blushie
+				ModContent.ItemType<Svantechnical>(), ModContent.ItemType<Svantechnical>(),
+				ModContent.ItemType<Judgement>(), ModContent.ItemType<Judgement>(),
+				ModContent.ItemType<TriactisTruePaladinianMageHammerofMightMelee>(), ModContent.ItemType<TriactisTruePaladinianMageHammerofMight>(),
+				ModContent.ItemType<Megafleet>(), ModContent.ItemType<Megafleet>(), // Voidragon
+				ModContent.ItemType<Endogenesis>(), ModContent.ItemType<Endogenesis>(),
+				ModContent.ItemType<BensUmbrella>(), ModContent.ItemType<BensUmbrella>(), //Temporal Umbrella
+				ModContent.ItemType<PrototypeAndromechaRing>(), ModContent.ItemType<PrototypeAndromechaRing>()
+			);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), CalamityWorld.revenge);
 
             // Vanity
