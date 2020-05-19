@@ -1,5 +1,6 @@
-﻿using CalamityMod.Items.Weapons.Magic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,6 +12,8 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bolt");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
@@ -26,6 +29,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(45);
             Lighting.AddLight(projectile.Center, 0.25f, 0.2f, 0f);
             if (projectile.wet && !projectile.lavaWet)
             {
@@ -36,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 73);
                 projectile.localAI[0] += 1f;
             }
-            for (int num457 = 0; num457 < 5; num457++)
+            for (int num457 = 0; num457 < 3; num457++)
             {
                 int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1.2f);
                 Main.dust[num458].noGravity = true;
@@ -74,6 +78,12 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.NewProjectile(cinderPos, cinderVel, ModContent.ProjectileType<VenusianFlame>(), cinderDamage, cinderKB, projectile.owner, 0f, 0f);
                 }
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
     }
 }

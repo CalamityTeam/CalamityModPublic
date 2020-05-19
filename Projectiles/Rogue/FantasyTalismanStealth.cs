@@ -45,10 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (projectile.owner == Main.myPlayer)
 					{
-						int sGhost = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileID.LostSoulFriendly, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
-						Main.projectile[sGhost].Calamity().forceRogue = true;
-						Main.projectile[sGhost].penetrate = 1;
-						Main.projectile[sGhost].timeLeft = 240;
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<LostSoulFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 					}
 				}
 			}

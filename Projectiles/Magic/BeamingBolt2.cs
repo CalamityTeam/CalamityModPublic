@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -13,34 +14,35 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 14;
+            projectile.height = 14;
             projectile.friendly = true;
-            projectile.alpha = 255;
+            projectile.alpha = 0;
             projectile.timeLeft = 120;
             projectile.penetrate = 1;
             projectile.magic = true;
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D tex = Main.projectileTexture[projectile.type];
+			if (projectile.ai[0] == 1f)
+				tex = ModContent.GetTexture("CalamityMod/Projectiles/Magic/BeamingThorn");
+
+            spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, projectile.GetAlpha(lightColor), projectile.rotation, tex.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            return false;
+        }
+
         public override void AI()
         {
-            for (int dust = 0; dust < 2; dust++)
-            {
-                int randomDust = Main.rand.Next(3);
-                if (randomDust == 0)
-                {
-                    randomDust = 164;
-                }
-                else if (randomDust == 1)
-                {
-                    randomDust = 58;
-                }
-                else
-                {
-                    randomDust = 204;
-                }
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
+			int randomDust = Utils.SelectRandom(Main.rand, new int[]
+			{
+				164,
+				58,
+				204
+			});
+			Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 20f, 20f);
         }
@@ -49,19 +51,12 @@ namespace CalamityMod.Projectiles.Magic
         {
             for (int k = 0; k < 3; k++)
             {
-                int randomDust = Main.rand.Next(3);
-                if (randomDust == 0)
-                {
-                    randomDust = 164;
-                }
-                else if (randomDust == 1)
-                {
-                    randomDust = 58;
-                }
-                else
-                {
-                    randomDust = 204;
-                }
+				int randomDust = Utils.SelectRandom(Main.rand, new int[]
+				{
+					164,
+					58,
+					204
+				});
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
         }

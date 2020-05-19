@@ -65,6 +65,7 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
 using CalamityMod.UI;
@@ -257,6 +258,8 @@ namespace CalamityMod
             AddEquipTexture(new SirenHeadAlt(), null, EquipType.Head, "SirenHeadAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Head");
             AddEquipTexture(new SirenBodyAlt(), null, EquipType.Body, "SirenBodyAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Body", "CalamityMod/Items/Accessories/SirenTransAlt_Arms");
             AddEquipTexture(new SirenLegsAlt(), null, EquipType.Legs, "SirenLegAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Legs");
+
+            AddEquipTexture(new AndromedaHead(), null, EquipType.Head, "NoHead", "CalamityMod/ExtraTextures/AndromedaWithout_Head");
 
             AddEquipTexture(new PopoHead(), null, EquipType.Head, "PopoHead", "CalamityMod/Items/Accessories/Vanity/Popo_Head");
             AddEquipTexture(new PopoNoselessHead(), null, EquipType.Head, "PopoNoselessHead", "CalamityMod/Items/Accessories/Vanity/PopoNoseless_Head");
@@ -1774,7 +1777,6 @@ namespace CalamityMod
 				ModContent.ProjectileType<RedLightningFeather>(),
 				ModContent.ProjectileType<RedLightning>(),
 				ModContent.ProjectileType<HolyBlast>(),
-				ModContent.ProjectileType<HolyShot>(),
 				ModContent.ProjectileType<HolySpear>(),
 				ModContent.ProjectileType<ProvidenceCrystalShard>(),
 				ModContent.ProjectileType<ProvidenceHolyRay>(),
@@ -2868,7 +2870,8 @@ namespace CalamityMod
                             bool acidRain = CalamityWorld.rainingAcid;
                             if (calamityModMusic != null)
                             {
-                                string musicChoice = acidRain ? CalamityWorld.downedPolterghast ? "Sounds/Music/AcidRain1" : "Sounds/Music/AcidRain1" : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
+	                            string rainMusic = "Sounds/Music/AcidRain";
+	                            string musicChoice = acidRain ? rainMusic + (CalamityWorld.downedPolterghast ? "2" : "1") : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
                                 music = calamityModMusic.GetSoundSlot(SoundType.Music, musicChoice);
                                 
                             }
