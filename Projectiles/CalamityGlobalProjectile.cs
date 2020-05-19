@@ -1687,9 +1687,7 @@ namespace CalamityMod.Projectiles
                             }
                             value15.Normalize();
                             value15 *= Main.rand.Next(70, 101) * 0.1f;
-                            int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ProjectileID.LostSoulFriendly, (int)(projectile.damage * 0.33), 0f, projectile.owner, 0f, 0f);
-							Main.projectile[soul].Calamity().forceRogue = true;
-							Main.projectile[soul].timeLeft = 300;
+                            int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<LostSoulFriendly>(), (int)(projectile.damage * 0.33), 0f, projectile.owner, 0f, 0f);
 							Main.projectile[soul].tileCollide = false;
                         }
                     }

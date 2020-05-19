@@ -13,8 +13,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
+            projectile.width = 12;
+            projectile.height = 12;
             projectile.friendly = true;
             projectile.penetrate = 1;
             projectile.tileCollide = true;
@@ -24,7 +24,9 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.6f);
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(90);
+			if (Main.rand.NextBool(2))
+				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 229, 0f, 0f, 100, default, 0.6f);
 
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 500f, 22f, 20f);
         }

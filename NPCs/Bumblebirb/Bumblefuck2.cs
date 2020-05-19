@@ -13,11 +13,11 @@ namespace CalamityMod.NPCs.Bumblebirb
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Draconic Swarmer");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 5;
 			NPCID.Sets.TrailingMode[npc.type] = 1;
 		}
 
-        public override string Texture => "CalamityMod/NPCs/Bumblebirb/Birb";
+        public override string Texture => "CalamityMod/NPCs/Bumblebirb/BumbleFolly";
 
         public override void SetDefaults()
         {
@@ -27,7 +27,6 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.damage = 110;
             npc.width = 120;
             npc.height = 80;
-            npc.scale = 0.66f;
             npc.defense = 20;
             npc.LifeMaxNERB(20000, 25000, 60000);
             npc.knockBackResist = 0f;
