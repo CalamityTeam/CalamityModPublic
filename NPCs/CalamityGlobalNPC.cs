@@ -3513,10 +3513,6 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.6);
 				}
-				else if (projectile.type == ProjectileType<BigNuke>())
-				{
-					damage = (int)(damage * 0.85);
-				}
 
 				if (projectile.penetrate == -1 && !projectile.minion)
 				{
