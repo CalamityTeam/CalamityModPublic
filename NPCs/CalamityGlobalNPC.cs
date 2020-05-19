@@ -3505,13 +3505,17 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.4);
 				}
-				else if (projectile.type == ProjectileType<BigNuke>() || projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
+				else if (projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
 				{
 					damage = (int)(damage * 0.5);
 				}
 				else if (projectile.type == ProjectileType<CosmicTentacle>() || projectile.type == ProjectileType<BrimstoneTentacle>())
 				{
 					damage = (int)(damage * 0.6);
+				}
+				else if (projectile.type == ProjectileType<BigNuke>())
+				{
+					damage = (int)(damage * 0.85);
 				}
 
 				if (projectile.penetrate == -1 && !projectile.minion)
