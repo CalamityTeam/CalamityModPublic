@@ -1374,7 +1374,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-			if (modTarget.prismaticHelmet && !CalamityPlayer.areThereAnyDamnBosses)
+			if (target.Calamity().prismaticHelmet && !CalamityPlayer.areThereAnyDamnBosses)
 			{
 				if (npc.lifeMax < 500)
 				{
