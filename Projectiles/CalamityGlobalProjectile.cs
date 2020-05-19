@@ -983,7 +983,6 @@ namespace CalamityMod.Projectiles
 					target.HitSound != SoundID.NPCHit56 && target.HitSound != SoundID.NPCHit57 && hasInorganicEnemyHitBoost)
 				{
 					damage += (int)(target.lifeMax * inorganicEnemyHitBoost);
-					Main.NewText(inorganicEnemyHitBoost);
 					inorganicEnemyHitEffect?.Invoke(target);
 				}
 				if (target.HitSound != SoundID.NPCHit4 && target.HitSound != SoundID.NPCHit41 && target.HitSound != SoundID.NPCHit2 &&
