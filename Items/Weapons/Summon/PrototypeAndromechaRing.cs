@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Summon
                                "The panel has 3 possible configurations, that you can choose using the brackets on the UI\n" +
                                "Each bracket powers 2 out of 3 functions, represented by icons on the UI.\n" +
                                "The bottom left icon shrinks the mech to the size of a player when powered, but weakens its attacks. \n" +
-                               "The bottom right icon charges when powered. At full charge, you can click it to release bursts of branching lightning \n" +
+                               "The bottom right icon charges when powered. At full charge, you can click it to release bursts of branching lightning.\n" +
                                "The top icon alternates between the 2 the primary attacks when clicked. \n" +
                                "The primary attack replaces your normal attacks. You can only use the primary attack if the top icon is powered\n" +
                                "The melee mode slashes enemies with Regicide, an enormous energy blade\n" +
