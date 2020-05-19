@@ -1776,7 +1776,6 @@ namespace CalamityMod
 				ModContent.ProjectileType<RedLightningFeather>(),
 				ModContent.ProjectileType<RedLightning>(),
 				ModContent.ProjectileType<HolyBlast>(),
-				ModContent.ProjectileType<HolyShot>(),
 				ModContent.ProjectileType<HolySpear>(),
 				ModContent.ProjectileType<ProvidenceCrystalShard>(),
 				ModContent.ProjectileType<ProvidenceHolyRay>(),
@@ -2867,7 +2866,8 @@ namespace CalamityMod
                             bool acidRain = CalamityWorld.rainingAcid;
                             if (calamityModMusic != null)
                             {
-                                string musicChoice = acidRain ? CalamityWorld.downedPolterghast ? "Sounds/Music/AcidRain1" : "Sounds/Music/AcidRain1" : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
+	                            string rainMusic = "Sounds/Music/AcidRain";
+	                            string musicChoice = acidRain ? rainMusic + (CalamityWorld.downedPolterghast ? "2" : "1") : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
                                 music = calamityModMusic.GetSoundSlot(SoundType.Music, musicChoice);
                                 
                             }
