@@ -1,7 +1,9 @@
 ﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -15,14 +17,14 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
+            projectile.width = 14;
+            projectile.height = 14;
             projectile.hostile = true;
             projectile.tileCollide = false;
             projectile.penetrate = 1;
             projectile.timeLeft = 480;
             projectile.aiStyle = 1;
-            aiType = 1;
+            aiType = ProjectileID.WoodenArrowFriendly;
         }
 
         public override void AI()
@@ -48,6 +50,33 @@ namespace CalamityMod.Projectiles.Boss
 			if (Math.Abs(projectile.velocity.X) > 2f)
 				projectile.velocity.X *= 0.99f;
         }
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+			int drawStart = height * projectile.frame;
+			Vector2 origin = projectile.Size / 2;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+			return false;
+		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture = Main.projectileTexture[projectile.type];
+			int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+			int drawStart = height * projectile.frame;
+			Vector2 origin = projectile.Size / 2;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/MushBombGlow"), projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, height)), Color.White, projectile.rotation, origin, projectile.scale, spriteEffects, 0f);
+		}
 
         public override void Kill(int timeLeft)
         {
