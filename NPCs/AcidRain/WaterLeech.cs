@@ -1,5 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -173,6 +174,12 @@ namespace CalamityMod.NPCs.AcidRain
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<Irradiated>(), 120);
+        }
+
+        public override void NPCLoot()
+        {
+			float dropChance = CalamityWorld.downedAquaticScourge ? 0.01f : 0.05f;
+            DropHelper.DropItemChance(npc, ModContent.ItemType<ParasiticSceptor>(), dropChance);
         }
     }
 }

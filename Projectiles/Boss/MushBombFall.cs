@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Boss
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D texture = Main.projectileTexture[projectile.type];
-			int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+			int height = texture.Height / Main.projFrames[projectile.type];
 			int drawStart = height * projectile.frame;
 			Vector2 origin = projectile.Size / 2;
 			SpriteEffects spriteEffects = SpriteEffects.None;
@@ -68,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D texture = Main.projectileTexture[projectile.type];
-			int height = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+			int height = texture.Height / Main.projFrames[projectile.type];
 			int drawStart = height * projectile.frame;
 			Vector2 origin = projectile.Size / 2;
 			SpriteEffects spriteEffects = SpriteEffects.None;
