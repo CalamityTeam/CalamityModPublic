@@ -7,7 +7,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Nimbus");
-            //Main.projFrames[projectile.type] = 6;
+            Main.projFrames[projectile.type] = 6;
         }
 
         public override void SetDefaults()
@@ -21,16 +21,16 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            /*projectile.frameCounter++;
+            projectile.frameCounter++;
             if (projectile.frameCounter > 8)
             {
                 projectile.frameCounter = 0;
                 projectile.frame++;
-                if (projectile.frame > 5)
+                if (projectile.frame >= Main.projFrames[projectile.type])
                 {
                     projectile.frame = 0;
                 }
-            }*/
+            }
             projectile.ai[1] += 1f;
             if (projectile.ai[1] >= 7200f)
             {
