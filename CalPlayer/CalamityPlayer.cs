@@ -845,6 +845,7 @@ namespace CalamityMod.CalPlayer
         public bool rustyDrone = false;
         public bool tundraFlameBlossom = false;
         public bool starSwallowerPetFroge = false;
+        public bool snakeEyes = false;
         #endregion
 
         #region Biome
@@ -1812,6 +1813,7 @@ namespace CalamityMod.CalPlayer
             rustyDrone = false;
             tundraFlameBlossom = false;
             starSwallowerPetFroge = false;
+            snakeEyes = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
