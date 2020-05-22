@@ -1374,6 +1374,14 @@ namespace CalamityMod.NPCs
                 }
             }
 
+			if (target.Calamity().prismaticHelmet && !CalamityPlayer.areThereAnyDamnBosses)
+			{
+				if (npc.lifeMax < 500)
+				{
+					return false;
+				}
+			}
+
             return true;
         }
         #endregion
@@ -5623,6 +5631,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Wizard)
             {
+                SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
                 SetShopItem(ref shop, ref nextSlot, ItemType<CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemType<AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));

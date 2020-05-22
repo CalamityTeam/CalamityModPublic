@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
@@ -40,6 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.AddIngredient(ModContent.ItemType<VirulentKatana>());
             recipe.AddIngredient(ItemID.BeeKeeper);
             recipe.AddIngredient(ItemID.FragmentSolar, 10);
+			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
@@ -52,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int i = 0; i < 3; i++)
             {
                 int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
-                    player.beeDamage((int)(item.damage * (player.allDamage + player.meleeDamage - 1f)) / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
+                    player.beeDamage((int)(item.damage * player.MeleeDamage()) / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
                 Main.projectile[bee].penetrate = 1;
                 Main.projectile[bee].Calamity().forceMelee = true;
             }
@@ -64,7 +66,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int i = 0; i < 3; i++)
             {
                 int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, player.beeType(),
-                    player.beeDamage((int)(item.damage * (player.allDamage + player.meleeDamage - 1f)) / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
+                    player.beeDamage((int)(item.damage * player.MeleeDamage()) / 3), player.beeKB(0f), player.whoAmI, 0f, 0f);
                 Main.projectile[bee].penetrate = 1;
                 Main.projectile[bee].Calamity().forceMelee = true;
             }

@@ -3011,6 +3011,7 @@ namespace CalamityMod.NPCs.Yharon
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PhoenixFlameBarrage>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AngryChickenStaff>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedTrident>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<FinalDawn>(), 4);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);

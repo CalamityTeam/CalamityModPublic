@@ -627,7 +627,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<FlurrystormCannonShooting>(),
                 ModContent.ProjectileType<MagnomalyBeam>(),
                 ModContent.ProjectileType<MagnomalyAura>(),
-                ModContent.ProjectileType<RainbowTrail>()
+                ModContent.ProjectileType<RainbowTrail>(),
+                ModContent.ProjectileType<PrismaticBeam>()
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -1867,7 +1868,8 @@ namespace CalamityMod
                 ModContent.ItemType<Shroomer>(),
                 ModContent.ItemType<SpectreRifle>(),
                 ModContent.ItemType<Svantechnical>(),
-                ModContent.ItemType<Skullmasher>()
+                ModContent.ItemType<Skullmasher>(),
+                ModContent.ItemType<TyrannysEnd>()
             };
 
             boomerangList = new List<int>()
@@ -2100,7 +2102,8 @@ namespace CalamityMod
                 ModContent.ItemType<ContaminatedBile>(),
                 ModContent.ItemType<AcidicRainBarrel>(),
                 ModContent.ItemType<SkyfinBombers>(),
-                ModContent.ItemType<SpentFuelContainer>()
+                ModContent.ItemType<SpentFuelContainer>(),
+                ModContent.ItemType<SealedSingularity>()
             };
 
             flaskBombProjList = new List<int>()
@@ -2128,7 +2131,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<ContaminatedBileFlask>(),
                 ModContent.ProjectileType<GreenDonkeyKongReference>(),
                 ModContent.ProjectileType<SkyfinNuke>(),
-                ModContent.ProjectileType<SpentFuelContainerProjectile>()
+                ModContent.ProjectileType<SpentFuelContainerProjectile>(),
+                ModContent.ProjectileType<SealedSingularityProj>()
             };
 
             spikyBallList = new List<int>()

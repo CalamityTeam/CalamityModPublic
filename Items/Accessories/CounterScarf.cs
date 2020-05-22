@@ -26,6 +26,8 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
+        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().dodgeScarf;
+
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();

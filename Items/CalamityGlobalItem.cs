@@ -354,6 +354,23 @@ namespace CalamityMod.Items
                     }
                 }
             }
+            if (modPlayer.prismaticRegalia) //0 - 99
+            {
+                if (item.magic && Main.rand.Next(0, 100) >= 90)
+                {
+                    if (player.whoAmI == Main.myPlayer)
+                    {
+						for (int i = -5; i <= 5; i += 5)
+						{
+							if (i != 0)
+							{
+								Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
+								Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 1.3), 2f, player.whoAmI, 0f, 0f);
+							}
+						}
+                    }
+                }
+            }
             if (modPlayer.harpyWingBoost && modPlayer.harpyRing)
             {
                 if (Main.rand.NextBool(5))
@@ -928,7 +945,9 @@ namespace CalamityMod.Items
 				{
 					if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
 					{
-						if (modPlayer.scarfCooldown)
+						if (modPlayer.eScarfCooldown)
+							player.AddBuff(BuffID.ChaosState, (int)(CalamityPlayer.chaosStateDuration * 1.5), true);
+						else if (modPlayer.scarfCooldown)
 							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration * 2, true);
 						else
 							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration, true);

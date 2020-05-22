@@ -41,27 +41,16 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
-        public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-                item.damage = (int)((double)BaseDamage * 1.5);
-            else
-                item.damage = BaseDamage;
-
-            return base.CanUseItem(player);
-        }
+        public override bool CanUseItem(Player player) => base.CanUseItem(player);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
                 type = ModContent.ProjectileType<MadAlchemistsCocktailAlt>();
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((float)BaseDamage * 1.5f * player.magicDamage), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)(damage * 1.5f), knockBack, player.whoAmI, 0f, 0f);
             }
             else
             {
@@ -83,7 +72,7 @@ namespace CalamityMod.Items.Weapons.Magic
                         break;
                 }
 
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((float)BaseDamage * player.magicDamage), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
 
                 FlaskType++;
                 if (FlaskType > 3)

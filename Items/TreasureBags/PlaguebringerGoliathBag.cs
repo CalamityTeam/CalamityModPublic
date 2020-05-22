@@ -43,6 +43,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<PlagueCellCluster>(), 13, 17);
+            DropHelper.DropItem(player, ModContent.ItemType<InfectedArmorPlating>(), 16, 20);
             DropHelper.DropItem(player, ItemID.Stinger, 4, 8);
 
             // Weapons

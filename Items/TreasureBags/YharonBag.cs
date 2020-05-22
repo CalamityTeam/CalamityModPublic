@@ -52,6 +52,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<PhoenixFlameBarrage>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<AngryChickenStaff>(), 3); // Yharon Kindle Staff
             DropHelper.DropItemChance(player, ModContent.ItemType<ProfanedTrident>(), 3); // Infernal Spear
+            DropHelper.DropItemChance(player, ModContent.ItemType<FinalDawn>(), 3);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<YharimsGift>());

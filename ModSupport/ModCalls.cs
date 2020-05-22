@@ -700,6 +700,10 @@ namespace CalamityMod
 			if (setBonus == "plaguereaper" || setBonus == "plague reaper")
 				return mp.plagueReaper;
 
+			// Plaguebringer
+			if (setBonus == "plaguebringer" || setBonus == "plaguebringerpatron" || setBonus == "plaguebringer patron")
+				return mp.plaguebringerPatronSet;
+
 			// Astral
 			if (setBonus == "astral")
 				return mp.astralStarRain;
@@ -731,6 +735,10 @@ namespace CalamityMod
 				case "tarragon rogue":
 					return mp.tarraThrowing;
 			}
+
+			// Prismatic
+			if (setBonus == "prismatic" || setBonus == "prism")
+				return mp.prismaticSet;
 
 			// Bloodflare
 			switch (setBonus)
@@ -1040,6 +1048,13 @@ namespace CalamityMod
 				return true;
 			}
 
+			// Plaguebringer
+			if (setBonus == "plaguebringer" || setBonus == "plaguebringerpatron" || setBonus == "plaguebringer patron")
+			{
+				mp.plaguebringerPatronSet = enabled;
+				return true;
+			}
+
 			// Astral
 			if (setBonus == "astral")
 			{
@@ -1087,6 +1102,13 @@ namespace CalamityMod
 					mp.tarraSet = enabled;
 					mp.tarraThrowing = enabled;
 					return true;
+			}
+
+			// Prismatic
+			if (setBonus == "prismatic" || setBonus == "prism")
+			{
+				mp.prismaticSet = enabled;
+				return true;
 			}
 
 			// Bloodflare
