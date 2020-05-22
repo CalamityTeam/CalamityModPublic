@@ -20,10 +20,10 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 75;
+            item.damage = 80;
             item.knockBack = 4.5f;
             item.melee = true;
-            item.useAnimation = item.useTime = 15;
+            item.useAnimation = item.useTime = 14;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<TenebreusTidesProjectile>();
             item.shootSpeed = 12f;

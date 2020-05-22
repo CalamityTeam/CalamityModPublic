@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 		public override void SetDefaults()
 		{
-			item.damage = 4000;
+			item.damage = 4200;
 			item.crit += 35;
 			item.knockBack = 9.5f;
 			item.ranged = true;
@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PiercingBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<PiercingBullet>(), damage, knockBack, player.whoAmI, 0f, 0f);
 			return false;
 		}
 	}

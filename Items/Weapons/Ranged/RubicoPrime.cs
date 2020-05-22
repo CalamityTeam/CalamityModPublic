@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 5600;
+            item.damage = 4000;
             item.ranged = true;
             item.crit += 40;
             item.knockBack = 10f;
