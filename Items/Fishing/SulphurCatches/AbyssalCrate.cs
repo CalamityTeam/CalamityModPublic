@@ -89,14 +89,14 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAquaticScourgeAcidRain,
                 ModContent.ItemType<SkyfinBombers>(),
                 ModContent.ItemType<NuclearRod>(),
-                ModContent.ItemType<SulphuricGrabber>(),
+                ModContent.ItemType<SulphurousGrabber>(),
                 ModContent.ItemType<FlakToxicannon>(),
                 ModContent.ItemType<SpentFuelContainer>(),
                 ModContent.ItemType<SlitheringEels>(),
                 ModContent.ItemType<BelchingSaxophone>());
 
             // Equipment
-            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 1f,
+            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3,
                 ModContent.ItemType<StrangeOrb>(),
                 ModContent.ItemType<DepthCharm>(),
                 ModContent.ItemType<IronBoots>(),
