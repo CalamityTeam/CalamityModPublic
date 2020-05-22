@@ -40,10 +40,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             item.useStyle = 1;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void RightClick(Player player)
         {
@@ -61,7 +58,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             }
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAM && Main.hardMode, 0.2f,
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAM && Main.hardMode,
                 ModContent.ItemType<ShellfishStaff>(),
                 ModContent.ItemType<ClamCrusher>(),
                 ModContent.ItemType<Poseidon>(),

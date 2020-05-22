@@ -4,6 +4,11 @@ using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.World;
 using Terraria;
@@ -36,10 +41,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             item.useStyle = 1;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void RightClick(Player player)
         {
@@ -76,8 +78,25 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
                 DropHelper.DropItemChance(player, ModContent.ItemType<ReaperTooth>(), 0.25f, 5, 10);
             }
 
+            // Weapons
+            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3,
+                ModContent.ItemType<Archerfish>(),
+                ModContent.ItemType<BallOFugu>(),
+                ModContent.ItemType<HerringStaff>(),
+                ModContent.ItemType<Lionfish>(),
+                ModContent.ItemType<BlackAnurian>());
+
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAquaticScourgeAcidRain,
+                ModContent.ItemType<SkyfinBombers>(),
+                ModContent.ItemType<NuclearRod>(),
+                ModContent.ItemType<SulphuricGrabber>(),
+                ModContent.ItemType<FlakToxicannon>(),
+                ModContent.ItemType<SpentFuelContainer>(),
+                ModContent.ItemType<SlitheringEels>(),
+                ModContent.ItemType<BelchingSaxophone>());
+
             // Equipment
-            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 0.25f,
+            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 1f,
                 ModContent.ItemType<StrangeOrb>(),
                 ModContent.ItemType<DepthCharm>(),
                 ModContent.ItemType<IronBoots>(),
