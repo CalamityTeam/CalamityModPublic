@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories
             {
                 if (random == 0)
                 {
-                    for (int l = 0; l < 200; l++)
+                    for (int l = 0; l < Main.maxNPCs; l++)
                     {
                         NPC nPC = Main.npc[l];
                         if (nPC.active && !nPC.friendly && nPC.damage > 0 && !nPC.dontTakeDamage && !nPC.buffImmune[num] && Vector2.Distance(player.Center, nPC.Center) <= num2)
@@ -64,98 +64,105 @@ namespace CalamityMod.Items.Accessories
                 }
             }
             bloomCounter++;
+
+			//Flower Boots code
             if (player.whoAmI == Main.myPlayer && player.velocity.Y == 0f && player.grappling[0] == -1)
             {
-                int num4 = (int)player.Center.X / 16;
-                int num5 = (int)(player.position.Y + (float)player.height - 1f) / 16;
-                if (Main.tile[num4, num5] == null)
+                int x = (int)player.Center.X / 16;
+                int y = (int)(player.position.Y + (float)player.height - 1f) / 16;
+				Tile tile = Main.tile[x, y];
+                if (tile == null)
                 {
-                    Main.tile[num4, num5] = new Tile();
+                    tile = new Tile();
                 }
-                if (!Main.tile[num4, num5].active() && Main.tile[num4, num5].liquid == 0 && Main.tile[num4, num5 + 1] != null && WorldGen.SolidTile(num4, num5 + 1))
+                if (!tile.active() && tile.liquid == 0 && Main.tile[x, y + 1] != null && WorldGen.SolidTile(x, y + 1))
                 {
-                    Main.tile[num4, num5].frameY = 0;
-                    Main.tile[num4, num5].slope(0);
-                    Main.tile[num4, num5].halfBrick(false);
-                    if (Main.tile[num4, num5 + 1].type == 0)
+                    tile.frameY = 0;
+                    tile.slope(0);
+                    tile.halfBrick(false);
+					//On dirt blocks, there's a small chance to grow a dye plant
+                    if (Main.tile[x, y + 1].type == TileID.Dirt)
                     {
                         if (Main.rand.NextBool(1000))
                         {
-                            Main.tile[num4, num5].active(true);
-                            Main.tile[num4, num5].type = 227;
-                            Main.tile[num4, num5].frameX = (short)(34 * Main.rand.Next(1, 13));
-                            while (Main.tile[num4, num5].frameX == 144)
+                            tile.active(true);
+                            tile.type = TileID.DyePlants;
+                            tile.frameX = (short)(34 * Main.rand.Next(1, 13));
+                            while (tile.frameX == 144)
                             {
-                                Main.tile[num4, num5].frameX = (short)(34 * Main.rand.Next(1, 13));
+                                tile.frameX = (short)(34 * Main.rand.Next(1, 13));
                             }
                         }
                         if (Main.netMode == NetmodeID.MultiplayerClient)
                         {
-                            NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
+                            NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
                         }
                     }
-                    if (Main.tile[num4, num5 + 1].type == 2)
+					//On grass, grow flowers
+                    if (Main.tile[x, y + 1].type == TileID.Grass)
                     {
                         if (Main.rand.NextBool(2))
                         {
-                            Main.tile[num4, num5].active(true);
-                            Main.tile[num4, num5].type = 3;
-                            Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(6, 11));
-                            while (Main.tile[num4, num5].frameX == 144)
+                            tile.active(true);
+                            tile.type = TileID.Plants;
+                            tile.frameX = (short)(18 * Main.rand.Next(6, 11));
+                            while (tile.frameX == 144)
                             {
-                                Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(6, 11));
+                                tile.frameX = (short)(18 * Main.rand.Next(6, 11));
                             }
                         }
                         else
                         {
-                            Main.tile[num4, num5].active(true);
-                            Main.tile[num4, num5].type = 73;
-                            Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(6, 21));
-                            while (Main.tile[num4, num5].frameX == 144)
+                            tile.active(true);
+                            tile.type = TileID.Plants2;
+                            tile.frameX = (short)(18 * Main.rand.Next(6, 21));
+                            while (tile.frameX == 144)
                             {
-                                Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(6, 21));
+                                tile.frameX = (short)(18 * Main.rand.Next(6, 21));
                             }
                         }
                         if (Main.netMode == NetmodeID.MultiplayerClient)
                         {
-                            NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
+                            NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
                         }
                     }
-                    else if (Main.tile[num4, num5 + 1].type == 109)
+					//On hallowed grass, grow hallowed flowers
+                    else if (Main.tile[x, y + 1].type == TileID.HallowedGrass)
                     {
                         if (Main.rand.NextBool(2))
                         {
-                            Main.tile[num4, num5].active(true);
-                            Main.tile[num4, num5].type = 110;
-                            Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(4, 7));
-                            while (Main.tile[num4, num5].frameX == 90)
+                            tile.active(true);
+                            tile.type = TileID.HallowedPlants;
+                            tile.frameX = (short)(18 * Main.rand.Next(4, 7));
+                            while (tile.frameX == 90)
                             {
-                                Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(4, 7));
+                                tile.frameX = (short)(18 * Main.rand.Next(4, 7));
                             }
                         }
                         else
                         {
-                            Main.tile[num4, num5].active(true);
-                            Main.tile[num4, num5].type = 113;
-                            Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(2, 8));
-                            while (Main.tile[num4, num5].frameX == 90)
+                            tile.active(true);
+                            tile.type = TileID.HallowedPlants2;
+                            tile.frameX = (short)(18 * Main.rand.Next(2, 8));
+                            while (tile.frameX == 90)
                             {
-                                Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(2, 8));
+                                tile.frameX = (short)(18 * Main.rand.Next(2, 8));
                             }
                         }
                         if (Main.netMode == NetmodeID.MultiplayerClient)
                         {
-                            NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
+                            NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
                         }
                     }
-                    else if (Main.tile[num4, num5 + 1].type == 60)
+					//On jungle grass, grow jungle flowers
+                    else if (Main.tile[x, y + 1].type == TileID.JungleGrass)
                     {
-                        Main.tile[num4, num5].active(true);
-                        Main.tile[num4, num5].type = 74;
-                        Main.tile[num4, num5].frameX = (short)(18 * Main.rand.Next(9, 17));
+                        tile.active(true);
+                        tile.type = TileID.JunglePlants2;
+                        tile.frameX = (short)(18 * Main.rand.Next(9, 17));
                         if (Main.netMode == NetmodeID.MultiplayerClient)
                         {
-                            NetMessage.SendTileSquare(-1, num4, num5, 1, TileChangeType.None);
+                            NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
                         }
                     }
                 }

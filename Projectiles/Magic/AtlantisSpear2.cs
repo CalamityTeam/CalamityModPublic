@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
     public class AtlantisSpear2 : ModProjectile
     {
+		public override string Texture => "CalamityMod/Projectiles/Magic/AtlantisSpear";
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Atlantis Spear");
@@ -21,7 +24,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.magic = true;
-            aiType = 494;
+            aiType = ProjectileID.CrystalVileShardShaft;
         }
 
         public override void AI()
@@ -64,10 +67,7 @@ namespace CalamityMod.Projectiles.Magic
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(200, 200, 200, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
 
         public override void Kill(int timeLeft)
         {

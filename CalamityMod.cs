@@ -65,6 +65,7 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
 using CalamityMod.UI;
@@ -223,7 +224,7 @@ namespace CalamityMod
             MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitater Effect", "U");
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
-            PlaguePackHotKey = RegisterHotKey("Plagued Fuel Pack Dash", "Q");
+            PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
 
             if (!Main.dedServ)
             {
@@ -257,6 +258,8 @@ namespace CalamityMod
             AddEquipTexture(new SirenHeadAlt(), null, EquipType.Head, "SirenHeadAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Head");
             AddEquipTexture(new SirenBodyAlt(), null, EquipType.Body, "SirenBodyAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Body", "CalamityMod/Items/Accessories/SirenTransAlt_Arms");
             AddEquipTexture(new SirenLegsAlt(), null, EquipType.Legs, "SirenLegAlt", "CalamityMod/Items/Accessories/SirenTransAlt_Legs");
+
+            AddEquipTexture(new AndromedaHead(), null, EquipType.Head, "NoHead", "CalamityMod/ExtraTextures/AndromedaWithout_Head");
 
             AddEquipTexture(new PopoHead(), null, EquipType.Head, "PopoHead", "CalamityMod/Items/Accessories/Vanity/Popo_Head");
             AddEquipTexture(new PopoNoselessHead(), null, EquipType.Head, "PopoNoselessHead", "CalamityMod/Items/Accessories/Vanity/PopoNoseless_Head");
@@ -624,7 +627,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<FlurrystormCannonShooting>(),
                 ModContent.ProjectileType<MagnomalyBeam>(),
                 ModContent.ProjectileType<MagnomalyAura>(),
-                ModContent.ProjectileType<RainbowTrail>()
+                ModContent.ProjectileType<RainbowTrail>(),
+                ModContent.ProjectileType<PrismaticBeam>()
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -1864,7 +1868,8 @@ namespace CalamityMod
                 ModContent.ItemType<Shroomer>(),
                 ModContent.ItemType<SpectreRifle>(),
                 ModContent.ItemType<Svantechnical>(),
-                ModContent.ItemType<Skullmasher>()
+                ModContent.ItemType<Skullmasher>(),
+                ModContent.ItemType<TyrannysEnd>()
             };
 
             boomerangList = new List<int>()
@@ -2047,6 +2052,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<LunarKunaiProj>(),
                 ModContent.ProjectileType<MalachiteProj>(),
                 ModContent.ProjectileType<MalachiteBolt>(),
+                ModContent.ProjectileType<MalachiteStealth>(),
                 ModContent.ProjectileType<MonkeyDart>(),
                 ModContent.ProjectileType<MycorootProj>(),
                 ModContent.ProjectileType<MythrilKnifeProjectile>(),
@@ -2097,7 +2103,8 @@ namespace CalamityMod
                 ModContent.ItemType<ContaminatedBile>(),
                 ModContent.ItemType<AcidicRainBarrel>(),
                 ModContent.ItemType<SkyfinBombers>(),
-                ModContent.ItemType<SpentFuelContainer>()
+                ModContent.ItemType<SpentFuelContainer>(),
+                ModContent.ItemType<SealedSingularity>()
             };
 
             flaskBombProjList = new List<int>()
@@ -2120,12 +2127,14 @@ namespace CalamityMod
                 ModContent.ProjectileType<MeteorFistProj>(),
                 ModContent.ProjectileType<CraniumSmasherProj>(),
                 ModContent.ProjectileType<CraniumSmasherExplosive>(),
+                ModContent.ProjectileType<CraniumSmasherStealth>(),
                 ModContent.ProjectileType<DestructionStar>(),
                 ModContent.ProjectileType<DestructionBolt>(),
                 ModContent.ProjectileType<ContaminatedBileFlask>(),
                 ModContent.ProjectileType<GreenDonkeyKongReference>(),
                 ModContent.ProjectileType<SkyfinNuke>(),
-                ModContent.ProjectileType<SpentFuelContainerProjectile>()
+                ModContent.ProjectileType<SpentFuelContainerProjectile>(),
+                ModContent.ProjectileType<SealedSingularityProj>()
             };
 
             spikyBallList = new List<int>()
@@ -2863,7 +2872,8 @@ namespace CalamityMod
                             bool acidRain = CalamityWorld.rainingAcid;
                             if (calamityModMusic != null)
                             {
-                                string musicChoice = acidRain ? CalamityWorld.downedPolterghast ? "Sounds/Music/AcidRain1" : "Sounds/Music/AcidRain1" : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
+	                            string rainMusic = "Sounds/Music/AcidRain";
+	                            string musicChoice = acidRain ? rainMusic + (CalamityWorld.downedPolterghast ? "2" : "1") : "Sounds/Music/Sulphur"; //replace first acidrain1 once second theme is added.
                                 music = calamityModMusic.GetSoundSlot(SoundType.Music, musicChoice);
                                 
                             }

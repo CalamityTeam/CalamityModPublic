@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -24,7 +25,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.ignoreWater = true;
             projectile.aiStyle = 1;
-            aiType = 242;
+            aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
         }
@@ -42,7 +43,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int x = 0; x < 8; x++)
                 {
-                    float xPos = projectile.ai[0] > 0 ? projectile.position.X + 500 : projectile.position.X - 500;
+                    float xPos = x > 4 ? projectile.position.X + 500 : projectile.position.X - 500;
                     Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-500, 501));
                     float num80 = xPos;
                     float speedX = (float)target.position.X - vector2.X;
@@ -53,7 +54,7 @@ namespace CalamityMod.Projectiles.Ranged
                     speedY *= dir * 150;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<AMR2>(), (int)((double)projectile.damage * 0.1), 1f, projectile.owner);
+                        Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.1), 1f, projectile.owner);
                     }
                 }
             }

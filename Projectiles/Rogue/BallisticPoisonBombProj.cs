@@ -91,13 +91,13 @@ namespace CalamityMod.Projectiles.Rogue
                 if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
                 {
                     projectile.velocity.X = projectile.velocity.X * 0.97f;
-                    if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
+                    if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
                     {
                         projectile.velocity.X = 0f;
                         projectile.netUpdate = true;
                     }
                 }
-                projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+                projectile.velocity.Y += 0.2f;
             }
             projectile.rotation += projectile.velocity.X * 0.1f;
         }

@@ -59,10 +59,7 @@ Stealth strikes release energy as they fly");
             recipe.AddIngredient(ModContent.ItemType<ShockGrenade>(), 200);
             recipe.AddIngredient(ModContent.ItemType<Penumbra>());
             recipe.AddIngredient(ModContent.ItemType<StarofDestruction>());
-            recipe.AddIngredient(ModContent.ItemType<DuststormInABottle>());
-
-			//replaces Duststorm in a Bottle when added
-			//recipe.AddIngredient(ModContent.ItemType<SealedSingularity>());
+			recipe.AddIngredient(ModContent.ItemType<SealedSingularity>());
 
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());

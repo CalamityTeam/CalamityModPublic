@@ -657,6 +657,15 @@ namespace CalamityMod
             r.AddTile(TileID.Loom);
             r.SetResult(ItemID.HandWarmer);
             r.AddRecipe();
+
+            // Flower Boots
+            r = GetNewRecipe();
+            r.AddIngredient(ItemID.Silk, 7);
+            r.AddIngredient(ItemID.JungleRose);
+            r.AddIngredient(ItemID.JungleGrassSeeds, 5);
+            r.AddTile(TileID.Loom);
+            r.SetResult(ItemID.FlowerBoots);
+            r.AddRecipe();
         }
         #endregion
 

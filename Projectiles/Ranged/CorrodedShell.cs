@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class CorrodedShell : ModProjectile
     {
-        public int auraTimer = 3;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shell");
@@ -35,8 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.velocity.Y *= 0.9995f;
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
-            auraTimer--;
-            if (auraTimer <= 0)
+            if (projectile.timeLeft % 3 == 0)
             {
                 if (projectile.owner == Main.myPlayer)
                 {
@@ -44,7 +42,6 @@ namespace CalamityMod.Projectiles.Ranged
 					Main.projectile[aura].Calamity().forceRanged = true;
 					Main.projectile[aura].timeLeft = 40;
                 }
-                auraTimer = 3;
             }
         }
 

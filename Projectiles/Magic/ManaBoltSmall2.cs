@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using System;
+using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -11,10 +13,10 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
+            projectile.width = 10;
+            projectile.height = 10;
             projectile.friendly = true;
-            projectile.alpha = 255;
+            projectile.alpha = 0;
             projectile.penetrate = 1;
             projectile.timeLeft = 60;
             projectile.magic = true;
@@ -22,9 +24,11 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
             projectile.velocity.X *= 0.975f;
             projectile.velocity.Y *= 0.975f;
-            Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+			if (Main.rand.NextBool(2))
+				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 107, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
         }
 
         public override void Kill(int timeLeft)

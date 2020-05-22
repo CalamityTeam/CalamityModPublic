@@ -1,4 +1,6 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -64,7 +66,26 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Venom, 200);
+			if (!projectile.Calamity().stealthStrike)
+				return;
+
+            target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			if (!projectile.Calamity().stealthStrike)
+				return;
+
+            target.AddBuff(BuffID.CursedInferno, 300);
+            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+            target.AddBuff(ModContent.BuffType<Irradiated>(), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
         }
     }
 }

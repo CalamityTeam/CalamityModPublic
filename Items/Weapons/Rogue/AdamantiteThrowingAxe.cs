@@ -1,4 +1,6 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
@@ -8,6 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Adamantite Throwing Axe");
+            Tooltip.SetDefault("Stealth strikes summon lightning bolts on enemy hits");
         }
 
         public override void SafeSetDefaults()
@@ -30,6 +33,18 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<AdamantiteThrowingAxeProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			if (player.Calamity().StealthStrikeAvailable())
+			{
+				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Main.projectile[stealth].Calamity().stealthStrike = true;
+				Main.projectile[stealth].usesLocalNPCImmunity = true;
+				return false;
+			}
+			return true;
         }
 
         public override void AddRecipes()

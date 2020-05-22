@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 if (projectile.timeLeft > 350)
                     projectile.velocity *= 1.06f;
-                projectile.damage = (int) ((double)originalDamage * 1.25);
+                projectile.damage = (int)(originalDamage * 1.25);
 				CalamityGlobalProjectile.HomeInOnNPC(projectile, true, 1500f, 20f, 20f);
             }
         }

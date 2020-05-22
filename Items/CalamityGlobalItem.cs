@@ -354,6 +354,23 @@ namespace CalamityMod.Items
                     }
                 }
             }
+            if (modPlayer.prismaticRegalia) //0 - 99
+            {
+                if (item.magic && Main.rand.Next(0, 100) >= 90)
+                {
+                    if (player.whoAmI == Main.myPlayer)
+                    {
+						for (int i = -5; i <= 5; i += 5)
+						{
+							if (i != 0)
+							{
+								Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
+								Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 1.3), 2f, player.whoAmI, 0f, 0f);
+							}
+						}
+                    }
+                }
+            }
             if (modPlayer.harpyWingBoost && modPlayer.harpyRing)
             {
                 if (Main.rand.NextBool(5))
@@ -636,6 +653,97 @@ namespace CalamityMod.Items
 
         #endregion
 
+        #region Andromeda Dev Item Attacks
+        private bool PerformAndromedaAttacks(Item item, Player player)
+        {
+            if (player.whoAmI != Main.myPlayer)
+                return false;
+
+            int robotIndex = -1;
+
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                if (Main.projectile[i].active &&
+                    Main.projectile[i].type == ModContent.ProjectileType<GiantIbanRobotOfDoom>() &&
+                    Main.projectile[i].owner == player.whoAmI)
+                {
+                    robotIndex = i;
+                    break;
+                }
+            }
+            if (robotIndex != -1)
+            {
+                Projectile robot = Main.projectile[robotIndex];
+                GiantIbanRobotOfDoom robotModProjectile = ((GiantIbanRobotOfDoom)robot.modProjectile);
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<AndromedaRegislash>()] <= 0 &&
+                    robotModProjectile.TopIconActive &&
+                    (robotModProjectile.RightIconCooldown <= GiantIbanRobotOfDoom.RightIconAttackTime ||
+                     !robotModProjectile.RightIconActive)) // "Melee" attack
+                {
+                    int damage = player.Calamity().andromedaState == AndromedaPlayerState.SmallRobot ? GiantIbanRobotOfDoom.RegicideBaseDamageSmall : GiantIbanRobotOfDoom.RegicideBaseDamageLarge;
+                    if (item.Calamity().rogue)
+                    {
+                        damage = (int)(damage * player.RogueDamage());
+                    }
+                    if (item.melee)
+                    {
+                        damage = (int)(damage * player.MeleeDamage());
+                    }
+                    if (item.ranged)
+                    {
+                        damage = (int)(damage * player.RangedDamage());
+                    }
+                    if (item.magic)
+                    {
+                        damage = (int)(damage * player.MagicDamage());
+                    }
+                    if (item.summon)
+                    {
+                        damage = (int)(damage * player.MinionDamage());
+                    }
+                    Projectile blade = Projectile.NewProjectileDirect(robot.Center + (robot.spriteDirection > 0).ToDirectionInt() * robot.width / 2 * Vector2.UnitX, 
+                               Vector2.Zero, ModContent.ProjectileType<AndromedaRegislash>(), damage, 15f, player.whoAmI, Projectile.GetByUUID(robot.owner, robot.whoAmI));
+
+                    if (item.Calamity().rogue)
+                    {
+                        blade.Calamity().forceRogue = true;
+                    }
+                    if (item.melee)
+                    {
+                        blade.Calamity().forceMelee = true;
+                    }
+                    if (item.ranged)
+                    {
+                        blade.Calamity().forceRanged = true;
+                    }
+                    if (item.magic)
+                    {
+                        blade.Calamity().forceMagic = true;
+                    }
+                    if (item.summon)
+                    {
+                        blade.Calamity().forceMinion = true;
+                    }
+                }
+
+                if (!robotModProjectile.TopIconActive &&
+                    (robotModProjectile.LeftBracketActive || robotModProjectile.RightBracketActive) &&
+                    !robotModProjectile.BottomBracketActive &&
+                    robotModProjectile.LaserCooldown <= 0 &&
+                    (robotModProjectile.RightIconCooldown <= GiantIbanRobotOfDoom.RightIconAttackTime ||
+                     !robotModProjectile.RightIconActive)) // "Ranged" attack
+                {
+                    robotModProjectile.LaserCooldown = AndromedaDeathRay.TrueTimeLeft * 2;
+                    if (player.Calamity().andromedaState == AndromedaPlayerState.SmallRobot)
+                    {
+                        robotModProjectile.LaserCooldown = AndromedaDeathRay.TrueTimeLeft + 1;
+                    }
+                }
+            }
+            return false;
+        }
+        #endregion
+
         #region Use Item Changes
 
         public override bool AltFunctionUse(Item item, Player player)
@@ -743,6 +851,26 @@ namespace CalamityMod.Items
             {
                 return false; // Don't use weapons if you're charging with a spear
             }
+
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0 &&
+                item.fishingPole > 0)
+            {
+                return false;
+            }
+
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0 && 
+                item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
+            {
+                if (player.altFunctionUse == 0)
+                {
+                    return PerformAndromedaAttacks(item, player);
+                }
+                else
+                {
+                    return AltFunctionUse(item, player);
+                }
+            }
+
             if (modPlayer.profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
             {   
                 if (player.altFunctionUse == 0)
@@ -768,6 +896,10 @@ namespace CalamityMod.Items
                     }
                 }
                 return true;
+            }
+            if (item.type == ItemID.InvisibilityPotion && player.FindBuffIndex(ModContent.BuffType<ShadowBuff>()) > -1)
+            {
+                return false;
             }
             if ((item.type == ItemID.RegenerationPotion || item.type == ItemID.LifeforcePotion) && player.FindBuffIndex(ModContent.BuffType<Cadence>()) > -1)
             {
@@ -817,7 +949,9 @@ namespace CalamityMod.Items
 				{
 					if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
 					{
-						if (modPlayer.scarfCooldown)
+						if (modPlayer.eScarfCooldown)
+							player.AddBuff(BuffID.ChaosState, (int)(CalamityPlayer.chaosStateDuration * 1.5), true);
+						else if (modPlayer.scarfCooldown)
 							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration * 2, true);
 						else
 							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration, true);
@@ -912,6 +1046,21 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(129, 29, 149);
                         if (item.type == ModContent.ItemType<Svantechnical>())
                             tt2.overrideColor = new Color(220, 20, 60);
+                        if (item.type == ModContent.ItemType<PrototypeAndromechaRing>())
+                        {
+                            if (Main.GlobalTime % 1f < 0.6f)
+                            {
+                                tt2.overrideColor = new Color(89, 229, 255);
+                            }
+                            else if (Main.GlobalTime % 1f < 0.8f)
+                            {
+                                tt2.overrideColor = Color.Lerp(new Color(89, 229, 255), Color.White, (Main.GlobalTime % 1f - 0.6f) / 0.2f);
+                            }
+                            else
+                            {
+                                tt2.overrideColor = Color.Lerp(Color.White, new Color(89, 229, 255), (Main.GlobalTime % 1f - 0.8f) / 0.2f);
+                            }
+                        }
 
                         // Uniquely colored legendary weapons and Yharim's Crystal
                         if (item.type == ModContent.ItemType<AegisBlade>() || item.type == ModContent.ItemType<YharimsCrystal>())
@@ -932,6 +1081,8 @@ namespace CalamityMod.Items
                             tt2.overrideColor = new Color(255, Main.DiscoG, 0);
                         if (item.type == ModContent.ItemType<PristineFury>())
 							tt2.overrideColor = CalamityUtils.ColorSwap(new Color(255, 168, 53), new Color(255, 249, 0), 2f);
+                        if (item.type == ModContent.ItemType<LeonidProgenitor>())
+							tt2.overrideColor = CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 3f);
                         break;
                 }
             }

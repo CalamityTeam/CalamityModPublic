@@ -585,6 +585,28 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            if (irradiated > 0)
+            {
+                int projectileCount = 0;
+                for (int j = 0; j < Main.maxProjectiles; j++)
+                {
+                    if (Main.projectile[j].active && Main.projectile[j].type == ProjectileType<WaterLeechProj>() &&
+                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
+                    {
+                        projectileCount++;
+                    }
+                }
+
+                if (projectileCount > 0)
+                {
+					ApplyDPSDebuff(irradiated, projectileCount * 20, projectileCount * 4, ref npc.lifeRegen, ref damage);
+                }
+				else
+				{
+					ApplyDPSDebuff(irradiated, 20, 4, ref npc.lifeRegen, ref damage);
+				}
+            }
+
             // Exo Freeze, Glacial State and Temporal Sadness don't work on bosses or other specific enemies.
             if (!npc.boss && !CalamityMod.movementImpairImmuneList.Contains(npc.type))
             {
@@ -623,7 +645,6 @@ namespace CalamityMod.NPCs
 			}
 
 			ApplyDPSDebuff(vaporfied, 30, 6, ref npc.lifeRegen, ref damage);
-            ApplyDPSDebuff(irradiated, 20, 4, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bFlames, 40, 8, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(hFlames, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(pFlames, 100, 20, ref npc.lifeRegen, ref damage);
@@ -1373,6 +1394,14 @@ namespace CalamityMod.NPCs
                     cooldownSlot = 1;
                 }
             }
+
+			if (target.Calamity().prismaticHelmet && !CalamityPlayer.areThereAnyDamnBosses)
+			{
+				if (npc.lifeMax < 500)
+				{
+					return false;
+				}
+			}
 
             return true;
         }
@@ -2523,10 +2552,14 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Dryad:
-                        switch (Main.rand.Next(22)) // 21 Dryad names
+                        switch (Main.rand.Next(23)) // 21 Dryad names
                         {
                             case 0:
                                 npc.GivenName = "Rythmi";
+                                break;
+
+                            case 1:
+                                npc.GivenName = "Izuna"; 
                                 break;
 
                             default:
@@ -3505,7 +3538,7 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.4);
 				}
-				else if (projectile.type == ProjectileType<BigNuke>() || projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
+				else if (projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
 				{
 					damage = (int)(damage * 0.5);
 				}
@@ -5623,6 +5656,7 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Wizard)
             {
+                SetShopItem(ref shop, ref nextSlot, ItemType<HowlsHeart>());
                 SetShopItem(ref shop, ref nextSlot, ItemType<CharredIdol>(), CalamityWorld.downedBrimstoneElemental, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemType<AstralChunk>(), CalamityWorld.downedAstrageldon, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.MagicMissile, price: Item.buyPrice(0, 5));

@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SpearofDestinyProjectile : ModProjectile
     {
+		private bool initialized = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spear");
@@ -26,10 +28,21 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.timeLeft = 600;
             aiType = ProjectileID.BoneJavelin;
             projectile.Calamity().rogue = true;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = 10;
         }
 
         public override void AI()
         {
+			if (!initialized)
+			{
+				if (projectile.Calamity().stealthStrike)
+				{
+					projectile.penetrate++;
+					projectile.tileCollide = false;
+				}
+				initialized = true;
+			}
             if (Main.rand.NextBool(4))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 246, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
@@ -49,8 +62,9 @@ namespace CalamityMod.Projectiles.Rogue
 				if (Main.npc[i].CanBeChasedBy(projectile, false))
 				{
 					float extraDistance = (float)(Main.npc[i].width / 2) + (float)(Main.npc[i].height / 2);
+					bool canHit = projectile.Calamity().stealthStrike || Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
 
-					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1))
+					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
 					{
 						center = Main.npc[i].Center;
 						homeIn = true;
@@ -93,5 +107,14 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.AddBuff(BuffID.Ichor, 120);
         }
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			if (projectile.Calamity().stealthStrike)
+			{
+				Texture2D tex = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SpearofDestinyGlow");
+				spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, tex.Size() / 2, projectile.scale, SpriteEffects.None, 0f);
+			}
+		}
     }
 }

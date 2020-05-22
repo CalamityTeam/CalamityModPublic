@@ -36,24 +36,24 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.timeLeft % 5 == 0) //congrats Pinkie... every 5 ticks
             {
-                if (Main.rand.NextBool(2))
+                if (Main.rand.NextBool(2) && Main.myPlayer == projectile.owner)
                 {
+					float dmgKBMult = Main.rand.NextFloat(0.32f, 0.56f);
                     int spearAmt = Main.rand.Next(1, 4); //1 to 3 spears
                     for (int n = 0; n < spearAmt; n++)
                     {
-                        float x = projectile.position.X + (float)Main.rand.Next(-400, 400);
-                        float y = projectile.position.Y - (float)Main.rand.Next(500, 800);
-                        Vector2 vector = new Vector2(x, y);
-                        float num13 = projectile.position.X + (float)(projectile.width / 2) - vector.X;
-                        float num14 = projectile.position.Y + (float)(projectile.height / 2) - vector.Y;
-                        num13 += (float)Main.rand.Next(-100, 101);
-                        int num15 = 29;
-                        float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                        num16 = (float)num15 / num16;
-                        num13 *= num16;
-                        num14 *= num16;
-                        Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * Main.rand.NextFloat(0.32f, 0.56f)), projectile.knockBack * Main.rand.NextFloat(0.32f, 0.56f), projectile.owner, 0f, 0f);
-                    } //very complicated and painful
+                        float xStart = projectile.position.X + Main.rand.Next(-400, 400);
+                        float yStart = projectile.position.Y - Main.rand.Next(500, 800);
+                        Vector2 startPos = new Vector2(xStart, yStart);
+						Vector2 velocity = projectile.Center - startPos;
+                        velocity.X += (float)Main.rand.Next(-100, 101);
+						float travelDist = velocity.Length();
+                        float spearSpeed = 29f;
+                        travelDist = spearSpeed / travelDist;
+                        velocity.X *= travelDist;
+                        velocity.Y *= travelDist;
+                        Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * dmgKBMult), projectile.knockBack * dmgKBMult, projectile.owner, 0f, 0f);
+                    }
                 }
             }
             if (projectile.ai[0] == 0f)

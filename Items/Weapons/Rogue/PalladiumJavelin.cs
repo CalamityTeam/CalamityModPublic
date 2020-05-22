@@ -1,4 +1,6 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
@@ -8,6 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Palladium Javelin");
+            Tooltip.SetDefault("Stealth strikes split into more javelins");
         }
 
         public override void SafeSetDefaults()
@@ -31,6 +34,15 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<PalladiumJavelinProjectile>();
             item.shootSpeed = 16f;
             item.Calamity().rogue = true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			int javelin = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+			Main.projectile[javelin].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+			if (!player.Calamity().StealthStrikeAvailable())
+				Main.projectile[javelin].usesLocalNPCImmunity = false;
+			return false;
         }
 
         public override void AddRecipes()

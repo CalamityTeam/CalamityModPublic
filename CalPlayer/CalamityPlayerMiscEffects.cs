@@ -19,6 +19,7 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
@@ -315,6 +316,43 @@ namespace CalamityMod.CalPlayer
 				modPlayer.stealthUIAlpha += 0.035f;
 				modPlayer.stealthUIAlpha = MathHelper.Clamp(modPlayer.stealthUIAlpha, 0f, 1f);
 			}
+
+			if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot ||
+				player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0)
+			{
+				player.controlHook = player.releaseHook = false;
+			}
+
+			if (modPlayer.andromedaCripple > 0)
+			{
+				player.velocity = Vector2.Clamp(player.velocity, new Vector2(-11f, -8f), new Vector2(11f, 8f));
+				modPlayer.andromedaCripple--;
+			}
+
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] <= 0 &&
+				player.Calamity().andromedaState != AndromedaPlayerState.Inactive)
+			{
+				player.Calamity().andromedaState = AndromedaPlayerState.Inactive;
+			}
+
+			if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+			{
+				player.width = 152;
+				player.height = 212;
+				player.position.Y -= 170;
+			}
+			else if (player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
+			{
+				player.width = 24;
+				player.height = 98;
+				player.position.Y -= 56;
+			}
+			else if (!player.mount.Active)
+			{
+				player.width = 20;
+				player.height = 42;
+			}
+
 			// Proficiency level ups
 			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
 				modPlayer.GetExactLevelUp();
@@ -876,10 +914,12 @@ namespace CalamityMod.CalPlayer
 				modPlayer.nanoFlareCooldown--;
 			if (modPlayer.spectralVeilImmunity > 0)
 				modPlayer.spectralVeilImmunity--;
-			if (modPlayer.plaguedFuelPackCooldown > 0)
-				modPlayer.plaguedFuelPackCooldown--;
+			if (modPlayer.jetPackCooldown > 0)
+				modPlayer.jetPackCooldown--;
 			if (modPlayer.plaguedFuelPackDash > 0)
 				modPlayer.plaguedFuelPackDash--;
+			if (modPlayer.blunderBoosterDash > 0)
+				modPlayer.blunderBoosterDash--;
 			if (modPlayer.theBeeCooldown > 0)
 				modPlayer.theBeeCooldown--;
 			if (modPlayer.jellyDmg > 0f)
@@ -922,6 +962,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.ladHearts--;
 			if (modPlayer.titanBoost > 0)
 				modPlayer.titanBoost--;
+			if (modPlayer.prismaticLasers > 0)
+				modPlayer.prismaticLasers--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -1701,6 +1743,31 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			// Blunder Booster effects
+			if (modPlayer.blunderBoosterDash > 0)
+			{
+				int velocityMult = modPlayer.blunderBoosterDash > 1 ? 35 : 5;
+				player.velocity = new Vector2(modPlayer.blunderBoosterDirection, -1) * velocityMult;
+
+				int lightningCount = Main.rand.Next(2, 7);
+				for (int i = 0; i < lightningCount; i++)
+				{
+					Vector2 lightningVel = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1));
+					lightningVel.Normalize();
+					lightningVel *= Main.rand.NextFloat(1f, 2f);
+					int projectile = Projectile.NewProjectile(player.Center, lightningVel, ModContent.ProjectileType<BlunderBoosterLightning>(), (int)(30 * player.RogueDamage()), 0, player.whoAmI, Main.rand.Next(2), 0f);
+					Main.projectile[projectile].timeLeft = Main.rand.Next(180, 240);
+				}
+
+				for (int i = 0; i < 3; i++)
+				{
+					int dust = Dust.NewDust(player.Center, 1, 1, 60, player.velocity.X * -0.1f, player.velocity.Y * -0.1f, 100, default, 3.5f);
+					Main.dust[dust].noGravity = true;
+					Main.dust[dust].velocity *= 1.2f;
+					Main.dust[dust].velocity.Y -= 0.15f;
+				}
+			}
+
 			// Gravistar Sabaton effects
 			if (modPlayer.gSabaton)
 			{
@@ -2305,6 +2372,12 @@ namespace CalamityMod.CalPlayer
 				player.moveSpeed += 0.05f;
 			}
 
+			if (modPlayer.shadow)
+			{
+				if (player.FindBuffIndex(BuffID.Invisibility) > -1)
+					player.ClearBuff(BuffID.Invisibility);
+			}
+
 			if (modPlayer.irradiated)
 			{
 				if (modPlayer.boomerDukeLore)
@@ -2342,6 +2415,11 @@ namespace CalamityMod.CalPlayer
 				player.meleeDamage += 0.2f;
 			}
 
+			if (modPlayer.eScarfBoost)
+			{
+				player.allDamage += 0.1f;
+				modPlayer.AllCritBoost(10);
+			}
 			if (modPlayer.sMeleeBoost)
 			{
 				player.allDamage += 0.1f;
@@ -2656,6 +2734,12 @@ namespace CalamityMod.CalPlayer
 			}
 
 			if (modPlayer.soaring)
+			{
+				if (player.wingTimeMax > 0)
+					player.wingTimeMax = (int)(player.wingTimeMax * 1.1);
+			}
+
+			if (modPlayer.prismaticGreaves)
 			{
 				if (player.wingTimeMax > 0)
 					player.wingTimeMax = (int)(player.wingTimeMax * 1.1);
@@ -3385,19 +3469,55 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (player.ownedProjectileCounts[ModContent.ProjectileType<BrimstoneElementalMinion>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<WaterElementalMinion>()] > 1 ||
-				player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalHealer>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<SandElementalMinion>()] > 1 ||
-				player.ownedProjectileCounts[ModContent.ProjectileType<CloudElementalMinion>()] > 1 || player.ownedProjectileCounts[ModContent.ProjectileType<FungalClumpMinion>()] > 1)
+			int brimmy = ModContent.ProjectileType<BrimstoneElementalMinion>();
+			int siren = ModContent.ProjectileType<WaterElementalMinion>();
+			int healer = ModContent.ProjectileType<SandElementalHealer>();
+			int sandy = ModContent.ProjectileType<SandElementalMinion>();
+			int cloudy = ModContent.ProjectileType<CloudElementalMinion>();
+			int fungal = ModContent.ProjectileType<FungalClumpMinion>();
+			int howl = ModContent.ProjectileType<HowlsHeartHowl>();
+			int calcifer = ModContent.ProjectileType<HowlsHeartCalcifer>();
+			int turnip = ModContent.ProjectileType<HowlsHeartTurnipHead>();
+			if (player.ownedProjectileCounts[brimmy] > 1 || player.ownedProjectileCounts[siren] > 1 ||
+				player.ownedProjectileCounts[healer] > 1 || player.ownedProjectileCounts[sandy] > 1 ||
+				player.ownedProjectileCounts[cloudy] > 1 || player.ownedProjectileCounts[fungal] > 1 ||
+				player.ownedProjectileCounts[howl] > 1 || player.ownedProjectileCounts[calcifer] > 1 ||
+				player.ownedProjectileCounts[turnip] > 1)
 			{
 				for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
 				{
 					if (Main.projectile[projIndex].active && Main.projectile[projIndex].owner == player.whoAmI)
 					{
-						if (Main.projectile[projIndex].type == ModContent.ProjectileType<BrimstoneElementalMinion>() || Main.projectile[projIndex].type == ModContent.ProjectileType<WaterElementalMinion>() ||
-							Main.projectile[projIndex].type == ModContent.ProjectileType<SandElementalHealer>() || Main.projectile[projIndex].type == ModContent.ProjectileType<SandElementalMinion>() ||
-							Main.projectile[projIndex].type == ModContent.ProjectileType<CloudElementalMinion>() || Main.projectile[projIndex].type == ModContent.ProjectileType<FungalClumpMinion>())
+						if (Main.projectile[projIndex].type == brimmy || Main.projectile[projIndex].type == siren ||
+							Main.projectile[projIndex].type == healer || Main.projectile[projIndex].type == sandy ||
+							Main.projectile[projIndex].type == cloudy || Main.projectile[projIndex].type == fungal ||
+							Main.projectile[projIndex].type == howl || Main.projectile[projIndex].type == calcifer ||
+							Main.projectile[projIndex].type == turnip)
 						{
 							Main.projectile[projIndex].Kill();
+						}
+					}
+				}
+			}
+
+			if (modPlayer.blunderBooster)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] < 1)
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<BlunderBoosterAura>(), (int)(30 * player.RogueDamage()), 0f, player.whoAmI, 0f, 0f);
+				}
+			}
+			else if (player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] != 0)
+			{
+				if (player.whoAmI == Main.myPlayer)
+				{
+					for (int i = 0; i < Main.maxProjectiles; i++)
+					{
+						if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<BlunderBoosterAura>() && Main.projectile[i].owner == player.whoAmI)
+						{
+							Main.projectile[i].Kill();
+							break;
 						}
 					}
 				}
@@ -3408,7 +3528,7 @@ namespace CalamityMod.CalPlayer
 				if (player.whoAmI == Main.myPlayer)
 				{
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), (int)(10 * player.AverageDamage()), 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), (int)(10 * player.AverageDamage()), 0f, player.whoAmI, 0f, 0f);
 				}
 			}
 			else if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)
@@ -3424,6 +3544,90 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 				}
+			}
+
+			if (modPlayer.prismaticLasers > 1800 && player.whoAmI == Main.myPlayer)
+			{
+				float shootSpeed = 18f;
+				int dmg = (int)(150 * player.MagicDamage());
+				Vector2 startPos = player.RotatedRelativePoint(player.MountedCenter, true);
+				Vector2 velocity = Main.MouseWorld - startPos;
+				if (player.gravDir == -1f)
+				{
+					velocity.Y = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - startPos.Y;
+				}
+				float travelDist = velocity.Length();
+				if ((float.IsNaN(velocity.X) && float.IsNaN(velocity.Y)) || (velocity.X == 0f && velocity.Y == 0f))
+				{
+					velocity.X = (float)player.direction;
+					velocity.Y = 0f;
+					travelDist = shootSpeed;
+				}
+				else
+				{
+					travelDist = shootSpeed / travelDist;
+				}
+
+				int laserAmt = 2;
+				for (int index = 0; index < laserAmt; index++)
+				{
+					startPos = new Vector2(player.Center.X + (float)(Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+					startPos.X = (startPos.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
+					startPos.Y -= (float)(100 * index);
+					velocity.X = (float)Main.mouseX + Main.screenPosition.X - startPos.X;
+					velocity.Y = (float)Main.mouseY + Main.screenPosition.Y - startPos.Y;
+					if (velocity.Y < 0f)
+					{
+						velocity.Y *= -1f;
+					}
+					if (velocity.Y < 20f)
+					{
+						velocity.Y = 20f;
+					}
+					travelDist = velocity.Length();
+					travelDist = shootSpeed / travelDist;
+					velocity.X *= travelDist;
+					velocity.Y *= travelDist;
+					velocity.X += (float)Main.rand.Next(-50, 51) * 0.02f;
+					velocity.Y += (float)Main.rand.Next(-50, 51) * 0.02f;
+					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<MagicNebulaShot>(), dmg, 4f, player.whoAmI, 0f, (float)Main.rand.Next(10));
+				}
+				Main.PlaySound(SoundID.Item12, player.position);
+			}
+			if (modPlayer.prismaticLasers == 1800)
+			{
+				//Set the cooldown
+				player.AddBuff(ModContent.BuffType<PrismaticCooldown>(), CalamityUtils.SecondsToFrames(30f), true);
+			}
+			if (modPlayer.prismaticLasers == 1)
+			{
+				//Spawn some dust since you can use it again
+                int dustAmt = 36;
+                for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
+                {
+					Color color = Utils.SelectRandom(Main.rand, new Color[]
+					{
+						new Color(255, 0, 0, 50), //Red
+						new Color(255, 128, 0, 50), //Orange
+						new Color(255, 255, 0, 50), //Yellow
+						new Color(128, 255, 0, 50), //Lime
+						new Color(0, 255, 0, 50), //Green
+						new Color(0, 255, 128, 50), //Turquoise
+						new Color(0, 255, 255, 50), //Cyan
+						new Color(0, 128, 255, 50), //Light Blue
+						new Color(0, 0, 255, 50), //Blue
+						new Color(128, 0, 255, 50), //Purple
+						new Color(255, 0, 255, 50), //Fuschia
+						new Color(255, 0, 128, 50) //Hot Pink
+					});
+                    Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
+                    vector6 = vector6.RotatedBy((double)((float)(dustIndex - (dustAmt / 2 - 1)) * MathHelper.TwoPi / (float)dustAmt), default) + player.Center;
+                    Vector2 vector7 = vector6 - player.Center;
+                    int dusty = Dust.NewDust(vector6 + vector7, 0, 0, 267, vector7.X * 1f, vector7.Y * 1f, 100, color, 1f);
+                    Main.dust[dusty].noGravity = true;
+                    Main.dust[dusty].noLight = true;
+                    Main.dust[dusty].velocity = vector7;
+                }
 			}
 
 			if (modPlayer.theBee)

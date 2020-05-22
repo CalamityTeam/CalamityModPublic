@@ -17687,14 +17687,14 @@ namespace CalamityMod.NPCs
                     maxVelocity = 1f;
                 }
                 maxVelocity *= 1.5f;
-                if (npcType < 310)
+                if (npcType < 310) //Pogo stick Scarecrows
                 {
                     if (npc.velocity.Y == 0f)
                     {
                         npc.velocity.X *= 0.85f;
-                        if (npc.velocity.X > -0.3 && (double)npc.velocity.X < 0.3)
+                        if (npc.velocity.X > -0.3f && npc.velocity.X < 0.3f)
                         {
-                            npc.velocity.Y = -9f;
+                            npc.velocity.Y = -9f; //-7f normally
                             npc.velocity.X = maxVelocity * (float)npc.direction;
                         }
                     }

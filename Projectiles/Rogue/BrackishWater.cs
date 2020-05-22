@@ -31,15 +31,11 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21);
                 projectile.localAI[0] += 1f;
             }
-            int randomDust = Main.rand.Next(2);
-            if (randomDust == 0)
-            {
-                randomDust = 33;
-            }
-            else
-            {
-                randomDust = 89;
-            }
+			int randomDust = Utils.SelectRandom(Main.rand, new int[]
+			{
+				33,
+				89
+			});
             for (int num457 = 0; num457 < 3; num457++)
             {
                 int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, randomDust, 0f, 0f, 100, default, 1.2f);
@@ -53,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BrackishWaterBlast>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrackishWaterBlast>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
         }
 

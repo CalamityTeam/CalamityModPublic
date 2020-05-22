@@ -1,4 +1,3 @@
-
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -32,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.ai[0] == 0f)
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(45);
             }
 
             if (projectile.Calamity().stealthStrike)
@@ -119,8 +118,9 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 origin = new Vector2(projectile.width / 2, projectile.height / 2);
-            spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Rogue/NightsGazeProjectileGlow"), projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/NightsGazeProjectileGlow");
+			Vector2 origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, origin, 1f, SpriteEffects.None, 0f);
         }
 
         public override void Kill(int timeLeft)
