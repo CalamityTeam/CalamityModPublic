@@ -27,7 +27,7 @@ The life regen boost is stronger if below 75% health");
             item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.useAnimation = 17;
             item.useTime = 17;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.healLife = 240;

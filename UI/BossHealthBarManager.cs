@@ -1,4 +1,4 @@
-﻿using CalamityMod.Events;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumDeus;

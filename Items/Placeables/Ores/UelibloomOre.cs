@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Ores
@@ -15,7 +16,7 @@ namespace CalamityMod.Items.Placeables.Ores
         public override void SetDefaults()
         {
             item.createTile = ModContent.TileType<Tiles.Ores.UelibloomOre>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;

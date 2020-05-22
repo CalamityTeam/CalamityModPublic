@@ -1326,8 +1326,9 @@ namespace CalamityMod.World
                                 case 19:
                                     for (int doom = 0; doom < Main.maxNPCs; doom++)
                                     {
-                                        if (Main.npc[doom].active && (Main.npc[doom].type == 493 || Main.npc[doom].type == 422 || Main.npc[doom].type == 507 ||
-                                            Main.npc[doom].type == 517))
+                                        bool isPillar = Main.npc[doom].type == NPCID.LunarTowerStardust || Main.npc[doom].type == NPCID.LunarTowerVortex ||
+                                                        Main.npc[doom].type == NPCID.LunarTowerNebula || Main.npc[doom].type == NPCID.LunarTowerSolar;
+                                        if (Main.npc[doom].active && isPillar)
                                         {
                                             Main.npc[doom].active = false;
                                             Main.npc[doom].netUpdate = true;

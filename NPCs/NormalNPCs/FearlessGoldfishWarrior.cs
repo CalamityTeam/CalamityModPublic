@@ -1,4 +1,4 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -292,7 +292,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                                 }
                                 if (Main.netMode == NetmodeID.Server & flag24)
                                 {
-                                    NetMessage.SendData(19, -1, -1, null, 0, (float)num170, (float)(num171 - 1), (float)npc.direction, 0, 0, 0);
+                                    NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 0, (float)num170, (float)(num171 - 1), (float)npc.direction, 0, 0, 0);
                                 }
                             }
                             if (Main.tile[num170, num171 - 1].type == 388)
@@ -305,7 +305,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                                 }
                                 if (Main.netMode == NetmodeID.Server & flag25)
                                 {
-                                    NetMessage.SendData(19, -1, -1, null, 4, (float)num170, (float)(num171 - 1), 0f, 0, 0, 0);
+                                    NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 4, (float)num170, (float)(num171 - 1), 0f, 0, 0, 0);
                                 }
                             }
                         }

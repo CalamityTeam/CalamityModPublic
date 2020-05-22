@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Tools
             item.useAnimation = 19;
             item.useTurn = true;
             item.axe = AxePower;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Tools
             else
             {
                 item.axe = AxePower;
-                item.shoot = 0;
+                item.shoot = ProjectileID.None;
                 item.shootSpeed = 0f;
             }
             return base.CanUseItem(player);

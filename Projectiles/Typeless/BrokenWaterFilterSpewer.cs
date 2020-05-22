@@ -1,4 +1,4 @@
-﻿using CalamityMod.Dusts;
+using CalamityMod.Dusts;
 using CalamityMod.Items.SummonItems.Invasion;
 using Microsoft.Xna.Framework;
 using Terraria;

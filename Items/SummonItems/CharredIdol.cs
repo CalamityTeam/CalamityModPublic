@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.BrimstoneElemental;
 using Terraria;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.SummonItems
             item.rare = 6;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
         }
 

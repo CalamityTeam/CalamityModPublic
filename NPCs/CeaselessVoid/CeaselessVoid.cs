@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;

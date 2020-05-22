@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
@@ -526,7 +526,7 @@ namespace CalamityMod.NPCs.SlimeGod
 						Main.npc[num664].ai[1] = 0f;
 						if (Main.netMode == NetmodeID.Server && num664 < 200)
 						{
-							NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
                 }

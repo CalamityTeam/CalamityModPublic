@@ -25,7 +25,7 @@ Stealth strikes don't slow down and souls always deal full damage");
 
             item.width = 62;
             item.height = 68;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.noUseGraphic = true;
 

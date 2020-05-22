@@ -23,14 +23,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.crit += 22;
             item.useTime = 25;
             item.useAnimation = 25;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;
             item.UseSound = SoundID.Item40;
             item.autoReuse = false;
-            item.shoot = 297;
+            item.shoot = ProjectileID.LostSoulFriendly;
             item.shootSpeed = 24f;
             item.useAmmo = 97;
         }
@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, 297, damage, knockBack, player.whoAmI, 0f, 0f);
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.LostSoulFriendly, damage, knockBack, player.whoAmI, 0f, 0f);
             Main.projectile[proj].Calamity().forceRanged = true;
             return false;
         }

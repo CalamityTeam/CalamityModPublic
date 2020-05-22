@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Typeless.FiniteUse
             item.height = 28;
             item.useTime = 21;
             item.useAnimation = 21;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 8f;
             item.value = Item.buyPrice(0, 48, 0, 0);

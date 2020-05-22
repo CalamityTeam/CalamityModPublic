@@ -24,7 +24,7 @@ Makes you floaty and reduces defense by 12");
             item.rare = 4;
             item.useAnimation = 17;
             item.useTime = 17;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<CaribbeanRumBuff>();

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
             Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * 10f, 8f, new Utils.PerLinePoint(DelegateMethods.CastLightOpen));
             if (projectile.alpha > 0)
             {
-                Main.PlaySound(2, projectile.Center, 9);
+                Main.PlaySound(SoundID.Item9, projectile.Center);
                 projectile.alpha = 0;
                 projectile.scale = 1.1f;
                 projectile.frame = Main.rand.Next(14);
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void Kill(int timeLeft)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+            Main.PlaySound(SoundID.Item10, projectile.position);
             int num487 = Main.rand.Next(4, 10);
             for (int num488 = 0; num488 < num487; num488++)
             {

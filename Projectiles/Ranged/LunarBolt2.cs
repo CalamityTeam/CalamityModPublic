@@ -1,5 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -62,7 +63,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.ai[0] == 0f)
             {
                 Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-                Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 10);
+                Main.PlaySound(SoundID.Item10, projectile.Center);
                 projectile.ai[0]++;
             }
             return false;

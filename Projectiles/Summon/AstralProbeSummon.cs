@@ -170,7 +170,7 @@ namespace CalamityMod.Projectiles.Summon
                 int num658 = ModContent.ProjectileType<AstralProbeRound>();
                 if (flag25 && projectile.ai[1] == 0f && vector46 != projectile.position)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 12, 0.5f, 0f);
+                    Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 12, 0.5f, 0f);
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner)
                     {

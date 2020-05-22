@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;

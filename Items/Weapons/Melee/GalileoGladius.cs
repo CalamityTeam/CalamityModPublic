@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = 3;
+            item.useStyle = ItemUseStyleID.Stabbing;
             item.useTurn = false;
             item.useAnimation = 10;
             item.useTime = 10;

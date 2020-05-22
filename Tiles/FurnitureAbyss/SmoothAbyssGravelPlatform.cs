@@ -10,7 +10,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
         public override void SetDefaults()
         {
             this.SetUpPlatform();
-            soundType = 21;
+            soundType = SoundID.Tink;
             AddMapEntry(new Color(191, 142, 111));
             drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.SmoothAbyssGravelPlatform>();
             disableSmartCursor = true;

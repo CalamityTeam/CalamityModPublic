@@ -272,7 +272,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
             for (int num193 = 0; num193 < 2; num193++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 50, default, 1f);

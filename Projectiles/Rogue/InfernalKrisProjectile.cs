@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
                 }
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
-                Main.PlaySound(2, projectile.position, 74);
+                Main.PlaySound(SoundID.Item74, projectile.position);
             }
         }
 
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
                 }
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
-                Main.PlaySound(2, projectile.position, 74);
+                Main.PlaySound(SoundID.Item74, projectile.position);
             }
         }
 
@@ -156,7 +156,7 @@ namespace CalamityMod.Projectiles.Rogue
                 }
             }
 
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Item74, projectile.position);
             projectile.Kill();
             return false;
         }
@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.NewProjectile(projectile.Center, sparkVelocity, ModContent.ProjectileType<InfernalKrisCinder>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
                 }
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<InfernalKrisExplosion>(), (int)(projectile.damage * 0.4f), 0, projectile.owner, 0, 0);
-                Main.PlaySound(2, projectile.position, 74);
+                Main.PlaySound(SoundID.Item74, projectile.position);
             }
         }
     }

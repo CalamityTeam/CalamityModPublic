@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Weapons.Ranged;
@@ -118,7 +118,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public void Boom()
         {
-            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 14);
+            Main.PlaySound(SoundID.NPCDeath14, (int)npc.position.X, (int)npc.position.Y);
             if (Main.netMode != NetmodeID.MultiplayerClient && puffedUp)
             {
                 int damageBoom = 100;

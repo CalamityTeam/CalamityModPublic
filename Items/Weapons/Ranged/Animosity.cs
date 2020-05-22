@@ -24,14 +24,14 @@ Right click to fire a burst of bullets");
             item.useTime = 4;
             item.reuseDelay = 15;
             item.useAnimation = 12;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;
             item.UseSound = SoundID.Item31;
             item.autoReuse = true;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 11f;
             item.useAmmo = 97;
         }

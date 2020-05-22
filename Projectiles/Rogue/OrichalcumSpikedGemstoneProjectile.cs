@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.velocity.Y != velocity.Y && (velocity.Y < -3f || velocity.Y > 3f))
             {
                 Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-                Main.PlaySound(0, (int)projectile.Center.X, (int)projectile.Center.Y, 1);
+                Main.PlaySound(SoundID.Dig, projectile.Center);
             }
             if (projectile.velocity.X != velocity.X)
             {

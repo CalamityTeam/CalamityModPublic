@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.height = 28;
 			item.useAnimation = 8;
 			item.useTime = 8;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.UseSound = SoundID.Item1;
 			item.rare = 1;
 			item.fishingPole = 10;

@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.AstralSnow
             dustType = 173;
             drop = ModContent.ItemType<Items.Placeables.AstralIce>();
 
-            soundType = 2;
+            soundType = SoundID.Item;
             soundStyle = 50;
 
             AddMapEntry(new Color(153, 143, 168));

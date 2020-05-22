@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.crit += 20;
             item.noMelee = true;
             item.useAnimation = 18;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = 18;
             item.knockBack = 8.5f;
             item.UseSound = SoundID.Item8;

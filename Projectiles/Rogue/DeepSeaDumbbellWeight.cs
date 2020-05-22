@@ -1,8 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepSeaDumbbellWeight : ModProjectile
@@ -35,7 +37,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
+            Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
 
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 36;

@@ -24,7 +24,7 @@ Stealth strikes are trailed by homing wind slashes");
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 18;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 18;
             item.knockBack = 5f;
             item.UseSound = SoundID.Item1;

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Tiles.Ores;
+using CalamityMod.Tiles.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Placeables.Ores
         public override void SetDefaults()
         {
             item.createTile = ModContent.TileType<ExodiumOre>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;

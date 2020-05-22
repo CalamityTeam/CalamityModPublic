@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
     public class ProfanedCrystal : ModTile
@@ -18,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeSmoothTiles(Type);
 
-            soundType = 13;
+            soundType = SoundID.Shatter;
             mineResist = 1f;
             minPick = 225;
             drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedCrystal>();

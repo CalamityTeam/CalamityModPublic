@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Ranged
 {
     public class BoltArrow : ModProjectile
@@ -47,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
             return true;
         }
 
@@ -63,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.localNPCHitCooldown = 10;
 			projectile.damage = (int)(projectile.damage * 0.6f);
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
+            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
             int num212 = Main.rand.Next(10, 20);
             for (int num213 = 0; num213 < num212; num213++)
             {

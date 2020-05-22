@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class BrinyTyphoonBubble : ModProjectile
@@ -94,7 +96,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 96);
+            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 96);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

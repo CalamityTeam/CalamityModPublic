@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -180,7 +180,7 @@ namespace CalamityMod.NPCs.HiveMind
                             Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
                             if (Main.netMode == NetmodeID.Server && num664 < 200)
                             {
-                                NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
                             }
                         }
                         return;
@@ -311,7 +311,7 @@ namespace CalamityMod.NPCs.HiveMind
                     if (NPC.CountNPCS(ModContent.NPCType<HiveMindP2>()) < 1)
                     {
                         NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveMindP2>(), npc.whoAmI, 0f, 0f, 0f, 0f, npc.target);
-                        Main.PlaySound(15, (int)npc.Center.X, (int)npc.Center.Y, 0);
+                        Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
                     }
                 }
             }

@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 92);
+                Main.PlaySound(SoundID.Item92, projectile.position);
                 projectile.localAI[0] += 1f;
             }
             Lighting.AddLight(projectile.Center, 0.1f, 1f, 2f);

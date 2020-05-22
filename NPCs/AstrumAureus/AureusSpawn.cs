@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -291,7 +291,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override bool CheckDead()
         {
-            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
             npc.damage = 150;

@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles
 {
     public class Cinderplate : ModTile
@@ -15,7 +17,7 @@ namespace CalamityMod.Tiles
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 1f;
             minPick = 65;
             drop = ModContent.ItemType<Items.Placeables.Cinderplate>();

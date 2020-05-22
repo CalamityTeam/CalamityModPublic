@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 55;
             item.melee = true;
             item.useAnimation = 21;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 21;
             item.knockBack = 5.25f;
             item.UseSound = SoundID.Item1;
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.life <= 0)
             {
-                Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 74);
+                Main.PlaySound(SoundID.Item74, (int)target.position.X, (int)target.position.Y);
                 target.position.X += (float)(target.width / 2);
                 target.position.Y += (float)(target.height / 2);
                 target.position.X -= (float)(target.width / 2);
@@ -86,7 +86,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (target.statLife <= 0)
             {
-                Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 74);
+                Main.PlaySound(SoundID.Item74, (int)target.position.X, (int)target.position.Y);
                 target.position.X += (float)(target.width / 2);
                 target.position.Y += (float)(target.height / 2);
                 target.position.X -= (float)(target.width / 2);

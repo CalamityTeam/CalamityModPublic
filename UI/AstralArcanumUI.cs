@@ -1,4 +1,4 @@
-﻿
+
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -134,7 +134,7 @@ namespace CalamityMod.UI
             {
                 LastHovered = selectedCircle;
                 if (LastHovered != -1)
-                    Main.PlaySound(12, -1, -1, 1, 1f, 0f);
+                    Main.PlaySound(SoundID.MenuTick, -1, -1, 1, 1f, 0f);
             }
 
             string text = "Select";
@@ -158,11 +158,11 @@ namespace CalamityMod.UI
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     p.TeleportationPotion();
-                    Main.PlaySound(2, (int)p.position.X, (int)p.position.Y, 6, 1f, 0f);
+                    Main.PlaySound(SoundID.Item, (int)p.position.X, (int)p.position.Y, 6, 1f, 0f);
                 }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    NetMessage.SendData(73, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.TeleportationPotion, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
                 }
             }
             else

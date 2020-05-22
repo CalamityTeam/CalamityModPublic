@@ -1,5 +1,7 @@
-﻿using CalamityMod.Items.Placeables.Walls;
+using CalamityMod.Items.Placeables.Walls;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Placeables
 {
     public class EutrophicSand : ModItem
@@ -12,7 +14,7 @@ namespace CalamityMod.Items.Placeables
         public override void SetDefaults()
         {
             item.createTile = ModContent.TileType<Tiles.SunkenSea.EutrophicSand>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;
@@ -27,7 +29,7 @@ namespace CalamityMod.Items.Placeables
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<EutrophicSandWallSafe>(), 4);
-            recipe.AddTile(18);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

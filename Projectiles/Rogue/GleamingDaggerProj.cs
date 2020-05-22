@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -124,7 +125,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             projectile.Kill();
             return false;
         }

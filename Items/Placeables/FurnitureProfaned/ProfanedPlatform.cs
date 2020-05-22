@@ -1,3 +1,4 @@
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureProfaned
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedPlatform>();
         }
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ProfanedRock>());
             recipe.SetResult(this, 2);
-            recipe.AddTile(412);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
         }
     }

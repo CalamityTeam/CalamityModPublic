@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -37,7 +37,7 @@ Summons a barrage of petals and waterfalls on enemy hits");
             item.noMelee = true;
             item.noUseGraphic = true;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort");
             item.channel = true;
 

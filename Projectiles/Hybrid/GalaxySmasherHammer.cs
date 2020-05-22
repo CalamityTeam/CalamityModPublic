@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
@@ -164,7 +164,7 @@ namespace CalamityMod.Projectiles.Hybrid
             }
 
             // Makes an explosion sound.
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
 
             // Applies God Slayer Inferno on contact.
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 480);
@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Hybrid
             }
 
             // Makes an explosion sound.
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
 
             // Applies God Slayer Inferno on contact.
             target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 480);

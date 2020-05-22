@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Tools
             item.useAnimation = 27;
             item.useTurn = true;
             item.axe = 30;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 8;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;

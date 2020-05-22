@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAnimation = 71;
             item.autoReuse = true;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TankCannon");
             item.noMelee = true;
 

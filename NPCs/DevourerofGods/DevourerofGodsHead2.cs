@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 if (!npc.active && Main.netMode == NetmodeID.Server)
                 {
-                    NetMessage.SendData(28, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
                 }
             }
             if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
@@ -301,7 +301,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         num195 = 20f;
                     }
                     npc.soundDelay = (int)num195;
-                    Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
+                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1);
                 }
                 num193 = (float)System.Math.Sqrt((double)(num191 * num191 + num192 * num192));
                 float num196 = System.Math.Abs(num191);

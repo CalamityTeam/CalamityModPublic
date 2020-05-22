@@ -1,4 +1,4 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Magic
 
                         int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2),
                             projectile.velocity.X, projectile.velocity.Y, num48, projectile.damage, projectile.knockBack, projectile.owner, 0f, projectile.ai[1] + 1f);
-                        NetMessage.SendData(27, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }

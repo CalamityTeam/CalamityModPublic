@@ -1,9 +1,10 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -33,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.soundDelay == 0)
             {
                 projectile.soundDelay = -1;
-                Main.PlaySound(2, projectile.Center, 122);
+                Main.PlaySound(SoundID.Item122, projectile.position);
             }
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= num1125)

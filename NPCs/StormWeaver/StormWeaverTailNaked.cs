@@ -1,4 +1,4 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

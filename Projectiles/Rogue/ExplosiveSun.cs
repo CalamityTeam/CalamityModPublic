@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Damage();
 			if (Main.rand.NextBool(3))
             {
-				Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14, 0.5f);
+				Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 14, 0.5f);
 			}
             for (int num621 = 0; num621 < 5; num621++)
             {

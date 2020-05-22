@@ -29,7 +29,7 @@ Right click to use as a hammer");
             item.useTurn = true;
             item.pick = PickPower;
             item.hammer = HammerPower;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3.5f;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = 8;

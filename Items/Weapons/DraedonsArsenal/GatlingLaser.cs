@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.autoReuse = false;
 			item.channel = true;
 
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireStart");
 			item.noMelee = true;
 

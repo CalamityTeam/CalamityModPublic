@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.useTime = 15;
             item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.maxStack = 2;
             item.knockBack = 3.5f;
             item.autoReuse = true;

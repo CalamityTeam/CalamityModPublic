@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 109, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
             }
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 159, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);

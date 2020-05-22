@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.Leviathan
             }
             if (Main.rand.NextBool(600))
             {
-                Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, (sirenAlive && !death) ? soundChoice : soundChoiceRage);
+                Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, (sirenAlive && !death) ? soundChoice : soundChoiceRage);
             }
 
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -326,7 +326,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 					if (flag103 && (spawnParasea || spawnAberration))
                     {
-                        Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, soundChoice);
+                        Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, soundChoice);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
 							int type = spawnAberration ? ModContent.NPCType<AquaticAberration>() : ModContent.NPCType<Parasea>();
@@ -464,7 +464,7 @@ namespace CalamityMod.NPCs.Leviathan
                             npc.velocity.X = num1045 * num1047;
                             npc.velocity.Y = num1046 * num1047;
                             npc.spriteDirection = npc.direction;
-                            Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, soundChoiceRage);
+                            Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, soundChoiceRage);
                             return;
                         }
 

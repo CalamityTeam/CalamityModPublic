@@ -3,6 +3,7 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
@@ -24,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.height = 12;
             item.useTime = 12;
             item.useAnimation = 12;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.channel = true;

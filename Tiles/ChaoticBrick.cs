@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles
 {
     public class ChaoticBrick : ModTile
@@ -15,7 +17,7 @@ namespace CalamityMod.Tiles
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Chaotic Brick");
             AddMapEntry(new Color(255, 0, 0), name);
-            soundType = 21;
+            soundType = SoundID.Tink;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)

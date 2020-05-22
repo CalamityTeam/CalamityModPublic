@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -434,7 +434,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                         {
                             if (npc.localAI[0] == 0f)
                             {
-                                Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 15);
+                                Main.PlaySound(SoundID.NPCDeath15, npc.position);
                                 npc.localAI[0] = -1f;
                                 for (int num621 = 0; num621 < 25; num621++)
                                 {

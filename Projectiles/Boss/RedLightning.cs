@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.Dusts;
 using CalamityMod.World;

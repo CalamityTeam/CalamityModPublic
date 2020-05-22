@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.PermanentBoosters
             item.useAnimation = 30;
             item.rare = 4;
             item.useTime = 30;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item122;
             item.consumable = true;
         }

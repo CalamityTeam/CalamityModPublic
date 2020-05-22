@@ -29,13 +29,13 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 51, 1f, 0f);
+            Main.PlaySound(SoundID.NPCHit51, projectile.position);
             return true;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 51, 1f, 0f);
+            Main.PlaySound(SoundID.NPCHit51, projectile.position);
         }
 
 		public override void AI()

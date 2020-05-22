@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
@@ -24,7 +24,7 @@ Stealth strikes spawn smaller spears to fly along side it");
 
             item.width = 56;
             item.height = 56;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.noUseGraphic = true;
 

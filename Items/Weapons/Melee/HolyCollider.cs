@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 400;
             item.melee = true;
             item.useAnimation = 22;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 22;
             item.useTurn = true;
             item.knockBack = 7.75f;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, player.position);
             for (int num621 = 0; num621 < 30; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 2f);
@@ -71,7 +71,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, player.position);
             for (int num621 = 0; num621 < 30; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 244, 0f, 0f, 100, default, 2f);

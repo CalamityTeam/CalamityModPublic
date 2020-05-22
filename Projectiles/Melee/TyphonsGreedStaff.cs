@@ -1,9 +1,11 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class TyphonsGreedStaff : ModProjectile
@@ -182,13 +184,13 @@ namespace CalamityMod.Projectiles.Melee
                 for (int i = 0; i < 200; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
+                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == NPCID.Guide && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
                         if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))
                         {
                             bool flag3;
-                            if (Main.npc[i].type == 414)
+                            if (Main.npc[i].type == NPCID.SolarCrawltipedeTail)
                             {
                                 Rectangle rect = Main.npc[i].getRect();
                                 int num5 = 8;

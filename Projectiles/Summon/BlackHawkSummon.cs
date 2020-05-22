@@ -237,7 +237,7 @@ namespace CalamityMod.Projectiles.Summon
                 int num658 = ModContent.ProjectileType<BlackHawkBullet>();
                 if (flag25 && projectile.ai[1] == 0f)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                    Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
                     projectile.ai[1] += 2f;
                     if (Main.myPlayer == projectile.owner)
                     {

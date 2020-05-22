@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using System;
 using Terraria;
 using Terraria.ModLoader;

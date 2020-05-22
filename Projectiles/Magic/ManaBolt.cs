@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -54,7 +55,7 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ManaBoltSmall2>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+            Main.PlaySound(SoundID.Item10, projectile.position);
         }
     }
 }

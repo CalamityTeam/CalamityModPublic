@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
@@ -284,7 +284,7 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public void BlowUp()
         {
-            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 60);
+            Main.PlaySound(SoundID.NPCDeath60, npc.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 Vector2 valueBoom = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
