@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,15 +28,11 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 107);
-            int randomDust = Main.rand.Next(2);
-            if (randomDust == 0)
-            {
-                randomDust = 33;
-            }
-            else
-            {
-                randomDust = 89;
-            }
+			int randomDust = Utils.SelectRandom(Main.rand, new int[]
+			{
+				33,
+				89
+			});
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.oldVelocity.X, projectile.oldVelocity.Y);
@@ -47,7 +44,13 @@ namespace CalamityMod.Projectiles.Rogue
             int i;
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<BrackishWaterBlast>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				if (projectile.Calamity().stealthStrike)
+				{
+					Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, -32f, ModContent.ProjectileType<BrackishSpear>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+				}
+
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BrackishWaterBlast>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+
                 for (i = 0; i < 4; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;

@@ -518,8 +518,12 @@ namespace CalamityMod.CalPlayer
         public bool sandCloakCooldown = false;
         public bool spectralVeil = false;
         public int spectralVeilImmunity = 0;
+        public bool hasJetpack = false;
+        public bool blunderBooster = false;
         public bool plaguedFuelPack = false;
-        public int plaguedFuelPackCooldown = 0;
+        public int jetPackCooldown = 0;
+        public int blunderBoosterDash = 0;
+        public int blunderBoosterDirection = 0;
         public int plaguedFuelPackDash = 0;
         public int plaguedFuelPackDirection = 0;
         public bool veneratedLocket = false;
@@ -538,6 +542,7 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Armor Set
+        public bool desertProwler = false;
         public bool snowRuffianSet = false;
         public bool forbiddenCirclet = false;
 		public int forbiddenCooldown = 0;
@@ -739,6 +744,7 @@ namespace CalamityMod.CalPlayer
         public bool bounding = false;
         public bool triumph = false;
         public bool penumbra = false;
+        public bool shadow = false;
         public bool photosynthesis = false;
         public bool astralInjection = false;
         public bool gravityNormalizer = false;
@@ -1555,6 +1561,8 @@ namespace CalamityMod.CalPlayer
 
             astralStarRain = false;
 
+            desertProwler = false;
+
             snowRuffianSet = false;
 
             forbiddenCirclet = false;
@@ -1628,7 +1636,9 @@ namespace CalamityMod.CalPlayer
             sandCloak = false;
             sandCloakCooldown = false;
             spectralVeil = false;
+            hasJetpack = false;
             plaguedFuelPack = false;
+            blunderBooster = false;
             veneratedLocket = false;
 
             alcoholPoisoning = false;
@@ -1698,6 +1708,7 @@ namespace CalamityMod.CalPlayer
             bounding = false;
             triumph = false;
             penumbra = false;
+            shadow = false;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
@@ -1903,10 +1914,12 @@ namespace CalamityMod.CalPlayer
             reforges = 0;
             polarisBoostCounter = 0;
             spectralVeilImmunity = 0;
-            andromedaCripple = 0;
-            plaguedFuelPackCooldown = 0;
+            jetPackCooldown = 0;
+            blunderBoosterDash = 0;
+            blunderBoosterDirection = 0;
             plaguedFuelPackDash = 0;
             plaguedFuelPackDirection = 0;
+            andromedaCripple = 0;
             theBeeCooldown = 0;
             killSpikyBalls = false;
             moonCrownCooldown = 0;
@@ -2035,6 +2048,7 @@ namespace CalamityMod.CalPlayer
             bounding = false;
             triumph = false;
             penumbra = false;
+            shadow = false;
             photosynthesis = false;
             astralInjection = false;
             gravityNormalizer = false;
@@ -2161,6 +2175,7 @@ namespace CalamityMod.CalPlayer
             ataxiaVolley = false;
             ataxiaBlaze = false;
             hydrothermalSmoke = false;
+            desertProwler = false;
             snowRuffianSet = false;
             forbiddenCirclet = false;
             eskimoSet = false; //vanilla armor
@@ -2577,15 +2592,27 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (CalamityMod.PlaguePackHotKey.JustPressed && plaguedFuelPack && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
-                wearingRogueArmor && rogueStealthMax > 0 && plaguedFuelPackCooldown == 0 && !player.mount.Active)
+            if (CalamityMod.PlaguePackHotKey.JustPressed && hasJetpack && Main.myPlayer == player.whoAmI && rogueStealth >= rogueStealthMax * 0.25f &&
+                wearingRogueArmor && rogueStealthMax > 0 && jetPackCooldown == 0 && !player.mount.Active)
             {
-                plaguedFuelPackCooldown = 90;
-                plaguedFuelPackDash = 10;
-                plaguedFuelPackDirection = player.direction;
-                rogueStealth -= rogueStealthMax * 0.25f;
-                Main.PlaySound(2, player.position, 66);
-                Main.PlaySound(2, player.position, 34);
+				if (blunderBooster)
+				{
+					jetPackCooldown = 90;
+					blunderBoosterDash = 15;
+					blunderBoosterDirection = player.direction;
+					rogueStealth -= rogueStealthMax * 0.25f;
+					Main.PlaySound(2, player.position, 66);
+					Main.PlaySound(2, player.position, 34);
+				}
+				else if (plaguedFuelPack)
+				{
+					jetPackCooldown = 90;
+					plaguedFuelPackDash = 10;
+					plaguedFuelPackDirection = player.direction;
+					rogueStealth -= rogueStealthMax * 0.25f;
+					Main.PlaySound(2, player.position, 66);
+					Main.PlaySound(2, player.position, 34);
+				}
             }
             if (CalamityMod.TarraHotKey.JustPressed)
             {
@@ -3983,6 +4010,11 @@ namespace CalamityMod.CalPlayer
             {
                 acidRoundMultiplier = 1D;
             }
+			//Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
+			if (desertProwler && (item.ranged/* || item.type == ModContent.ItemType<PrismaticBreaker>()*/))
+			{
+				flat += 2f;
+			}
         }
 
         public override void GetWeaponKnockback(Item item, ref float knockback)
@@ -4182,6 +4214,19 @@ namespace CalamityMod.CalPlayer
         #region On Hit NPC
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+			if (desertProwler && item.ranged && crit) //for obscure stuff like marnite bayonet
+			{
+				if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						if (player.whoAmI == Main.myPlayer)
+						{
+							Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), (int)(item.damage * player.RangedDamage()), knockback, player.whoAmI, 0f, 0f);
+						}
+					}
+				}
+			}
             if (!item.melee && (int) player.meleeEnchant == 7)
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
 
@@ -4359,6 +4404,19 @@ namespace CalamityMod.CalPlayer
 
             if (!proj.npcProj && !proj.trap)
             {
+				if (desertProwler && proj.ranged && crit)
+				{
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
+					{
+						if (Main.rand.NextBool(15))
+						{
+							if (player.whoAmI == Main.myPlayer)
+							{
+								Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), proj.damage, proj.knockBack, player.whoAmI, 0f, 0f);
+							}
+						}
+					}
+				}
 				if (proj.Calamity().trueMelee)
 					titanBoost = 600;
 
@@ -4516,6 +4574,20 @@ namespace CalamityMod.CalPlayer
         #region PvP
         public override void OnHitPvp(Item item, Player target, int damage, bool crit)
         {
+			if (desertProwler && item.ranged && crit) //for obscure stuff like Marnite Bayonet
+			{
+				if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						if (player.whoAmI == Main.myPlayer)
+						{
+							Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), (int)(item.damage * player.RangedDamage()), item.knockBack, player.whoAmI, 0f, 0f);
+						}
+					}
+				}
+			}
+
             if (!item.melee && (int) player.meleeEnchant == 7)
                 Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
 
@@ -4680,6 +4752,20 @@ namespace CalamityMod.CalPlayer
 
             if (!proj.npcProj && !proj.trap)
             {
+				if (desertProwler && proj.ranged && crit)
+				{
+					if (player.ownedProjectileCounts[ModContent.ProjectileType<DesertMark>()] < 1 && player.ownedProjectileCounts[ModContent.ProjectileType<DesertTornado>()] < 1)
+					{
+						if (Main.rand.NextBool(15))
+						{
+							if (player.whoAmI == Main.myPlayer)
+							{
+								Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<DesertMark>(), proj.damage, proj.knockBack, player.whoAmI, 0f, 0f);
+							}
+						}
+					}
+				}
+
 				if (proj.Calamity().trueMelee)
 					titanBoost = 600;
 
@@ -5980,7 +6066,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Can Hit
-
         public override bool? CanHitNPC(Item item, NPC target)
         {
             if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
@@ -5998,7 +6083,6 @@ namespace CalamityMod.CalPlayer
             }
             return null;
         }
-
         #endregion
 
         #region Fishing
@@ -6060,7 +6144,7 @@ namespace CalamityMod.CalPlayer
                     num79 *= num80;
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)((float)damage * 0.15f), (int)(knockBack), player.whoAmI, 0f, (float)Main.rand.Next(15));
+                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.15f), (int)(knockBack), player.whoAmI, 0f, (float)Main.rand.Next(15));
                     Main.projectile[p].knockBack /= 2;
                     Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
                     if (StealthStrikeAvailable())
@@ -6120,6 +6204,7 @@ namespace CalamityMod.CalPlayer
                     player.velocity.Y *= 0.9f;
                     player.wingFrame = 3;
 					player.noFallDmg = true;
+					player.fallStart = (int)(player.position.Y / 16f);
                 }
             }
             else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
@@ -8540,7 +8625,7 @@ namespace CalamityMod.CalPlayer
 
                     // Bow and Book
                     else if (item.type == ModContent.ItemType<Deathwind>() || item.type == ModContent.ItemType<Apotheosis>() || item.type == ModContent.ItemType<CleansingBlaze>() ||
-                    item.type == ModContent.ItemType<SubsumingVortex>())
+                    item.type == ModContent.ItemType<SubsumingVortex>() || item.type == ModContent.ItemType<AuroraBlazer>())
                     {
                         Texture2D texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/DeathwindGlow");
                         int offsetX = 10;
@@ -8558,6 +8643,11 @@ namespace CalamityMod.CalPlayer
                         {
                             texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Magic/SubsumingVortexGlow");
                             offsetX = 9;
+                        }
+                        else if (item.type == ModContent.ItemType<AuroraBlazer>())
+                        {
+                            texture = ModContent.GetTexture("CalamityMod/Items/Weapons/Ranged/AuroraBlazerGlow");
+                            offsetX = 44;
                         }
 
                         Vector2 vector13 = new Vector2((float)(Main.itemTexture[item.type].Width / 2), (float)(Main.itemTexture[item.type].Height / 2));
@@ -8630,7 +8720,7 @@ namespace CalamityMod.CalPlayer
                 !drawPlayer.dead &&
                 (!drawPlayer.wet || !item.noWet))
             {
-                if (item.type == ModContent.ItemType<FlurrystormCannon>() || item.type == ModContent.ItemType<MepheticSprayer>() || item.type == ModContent.ItemType<BrimstoneFlameblaster>() || item.type == ModContent.ItemType<BrimstoneFlamesprayer>() || item.type == ModContent.ItemType<SparkSpreader>() || item.type == ModContent.ItemType<HalleysInferno>() || item.type == ModContent.ItemType<CleansingBlaze>() || item.type == ModContent.ItemType<ElementalEruption>() || item.type == ModContent.ItemType<TheEmpyrean>() || item.type == ModContent.ItemType<Meowthrower>() || item.type == ModContent.ItemType<OverloadedBlaster>() || item.type == ModContent.ItemType<TerraFlameburster>() || item.type == ModContent.ItemType<Photoviscerator>() || item.type == ModContent.ItemType<Shadethrower>() || item.type == ModContent.ItemType<BloodBoiler>() || item.type == ModContent.ItemType<PristineFury>())
+                if (item.type == ModContent.ItemType<FlurrystormCannon>() || item.type == ModContent.ItemType<MepheticSprayer>() || item.type == ModContent.ItemType<BrimstoneFlameblaster>() || item.type == ModContent.ItemType<BrimstoneFlamesprayer>() || item.type == ModContent.ItemType<SparkSpreader>() || item.type == ModContent.ItemType<HalleysInferno>() || item.type == ModContent.ItemType<CleansingBlaze>() || item.type == ModContent.ItemType<ElementalEruption>() || item.type == ModContent.ItemType<TheEmpyrean>() || item.type == ModContent.ItemType<Meowthrower>() || item.type == ModContent.ItemType<OverloadedBlaster>() || item.type == ModContent.ItemType<TerraFlameburster>() || item.type == ModContent.ItemType<Photoviscerator>() || item.type == ModContent.ItemType<Shadethrower>() || item.type == ModContent.ItemType<BloodBoiler>() || item.type == ModContent.ItemType<PristineFury>() || item.type == ModContent.ItemType<AuroraBlazer>())
                 {
                     Color color89 = drawInfo.middleArmorColor = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)(drawPlayer.position.X + drawPlayer.width * 0.5) / 16, (int)(drawPlayer.position.Y + drawPlayer.height * 0.5) / 16, Color.White), drawInfo.shadow);
                     SpriteEffects spriteEffects = player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
@@ -8666,6 +8756,8 @@ namespace CalamityMod.CalPlayer
                         thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_Shadethrower");
                     else if (item.type == ModContent.ItemType<PristineFury>())
                         thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_PristineFury");
+                    else if (item.type == ModContent.ItemType<AuroraBlazer>())
+                        thingToDraw = ModContent.GetTexture("CalamityMod/ExtraTextures/Tanks/Backpack_AuroraBlazer");
 
                     float num25 = -4f;
                     float num24 = -8f;
@@ -9718,6 +9810,11 @@ namespace CalamityMod.CalPlayer
             {
                 stealthGenStandstill += 0.08f;
                 stealthGenMoving += 0.08f;
+            }
+			if (shadow)
+            {
+                stealthGenStandstill += 0.1f;
+                stealthGenMoving += 0.1f;
             }
 
             if (etherealExtorter && Main.moonPhase == 3) // 3 = Waning Crescent

@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -40,6 +41,17 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.rotation -= 1.57f;
             }
+			if (projectile.timeLeft % 12 == 0)
+			{
+				if (projectile.owner == Main.myPlayer)
+				{
+					if (projectile.Calamity().stealthStrike)
+					{
+						int star = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ModContent.ProjectileType<XerocStar>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+						Main.projectile[star].Calamity().rogue = true;
+					}
+				}
+			}
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

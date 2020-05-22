@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lunarian Bow");
-            Tooltip.SetDefault("Fires two bouncing energy bolts");
+            Tooltip.SetDefault("Fires two sliding energy bolts");
         }
 
         public override void SetDefaults()

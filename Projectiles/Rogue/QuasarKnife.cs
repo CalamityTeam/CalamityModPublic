@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
             float num474 = 600f;
-            for (int num475 = 0; num475 < 200; num475++)
+            for (int num475 = 0; num475 < Main.maxNPCs; num475++)
             {
                 if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
                 {
@@ -82,7 +82,12 @@ namespace CalamityMod.Projectiles.Rogue
                         }
                         speed.Normalize();
                         speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2.5f;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<Quasar2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                        int knife = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<Quasar2>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+						Main.projectile[knife].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
+						if (projectile.Calamity().stealthStrike)
+						{
+							Main.projectile[knife].timeLeft = 120;
+						}
                     }
                     Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RadiantExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

@@ -224,7 +224,7 @@ namespace CalamityMod
             MomentumCapacitatorHotkey = RegisterHotKey("Momentom Capacitater Effect", "U");
             SandCloakHotkey = RegisterHotKey("Sand Cloak Effect", "C");
             SpectralVeilHotKey = RegisterHotKey("Spectral Veil Teleport", "Z");
-            PlaguePackHotKey = RegisterHotKey("Plagued Fuel Pack Dash", "Q");
+            PlaguePackHotKey = RegisterHotKey("Booster Dash", "Q");
 
             if (!Main.dedServ)
             {
@@ -2052,6 +2052,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<LunarKunaiProj>(),
                 ModContent.ProjectileType<MalachiteProj>(),
                 ModContent.ProjectileType<MalachiteBolt>(),
+                ModContent.ProjectileType<MalachiteStealth>(),
                 ModContent.ProjectileType<MonkeyDart>(),
                 ModContent.ProjectileType<MycorootProj>(),
                 ModContent.ProjectileType<MythrilKnifeProjectile>(),
@@ -2126,6 +2127,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<MeteorFistProj>(),
                 ModContent.ProjectileType<CraniumSmasherProj>(),
                 ModContent.ProjectileType<CraniumSmasherExplosive>(),
+                ModContent.ProjectileType<CraniumSmasherStealth>(),
                 ModContent.ProjectileType<DestructionStar>(),
                 ModContent.ProjectileType<DestructionBolt>(),
                 ModContent.ProjectileType<ContaminatedBileFlask>(),

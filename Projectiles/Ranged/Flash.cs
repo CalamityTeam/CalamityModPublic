@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Items.Weapons.Rogue;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -28,6 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.5f / 255f);
+			Color dustColor = projectile.ai[1] == 1f ? CalamityUtils.ColorSwap(LeonidProgenitor.blueColor, LeonidProgenitor.purpleColor, 1f) : default;
             bool flag15 = false;
             bool flag16 = false;
             if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
@@ -72,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 264, 0f, 0f, 100, default, 2f);
+                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 264, 0f, 0f, 100, dustColor, 2f);
                 Dust dust = Main.dust[num467];
                 dust.noGravity = true;
                 dust.position.X = projectile.Center.X;

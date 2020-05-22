@@ -36,9 +36,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.shootSpeed = 32f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
     }
 }
