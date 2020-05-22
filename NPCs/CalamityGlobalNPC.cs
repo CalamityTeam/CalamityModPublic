@@ -5951,22 +5951,40 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		#region Any Living Players
+		#region Player Counts
 		public static bool AnyLivingPlayers()
         {
             for (int i = 0; i < Main.maxPlayers; i++)
             {
-                if (Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost)
+                if (Main.player[i] != null && Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost)
                 {
                     return true;
                 }
             }
             return false;
         }
-        #endregion
 
-        #region Should Affect NPC
-        public static bool ShouldAffectNPC(NPC target)
+		public static int GetActivePlayerCount()
+		{
+			if (Main.netMode == NetmodeID.SinglePlayer)
+			{
+				return 1;
+			}
+
+			int players = 0;
+			for (int i = 0; i < 255; i++)
+			{
+				if (Main.player[i] != null && Main.player[i].active)
+				{
+					players++;
+				}
+			}
+			return players;
+		}
+		#endregion
+
+		#region Should Affect NPC
+		public static bool ShouldAffectNPC(NPC target)
         {
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage &&
                 target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&

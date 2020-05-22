@@ -2504,7 +2504,7 @@ namespace CalamityMod.NPCs
 
                         if (revenge)
                         {
-                            if (player.position.Y < npc.position.Y + npc.height)
+                            if (player.position.Y < npc.Bottom.Y)
                                 npc.velocity.Y = -14.5f;
                             else
                                 npc.velocity.Y = 1f;
@@ -2551,19 +2551,22 @@ namespace CalamityMod.NPCs
                 }
                 else
                 {
-                    // Set velocities while falling, this happens before the stomp
-                    // Fall through
-                    if (npc.target >= 0 && revenge && ((player.position.Y > npc.position.Y + npc.height && npc.velocity.Y > 0f) || (player.position.Y < npc.position.Y + npc.height && npc.velocity.Y < 0f)))
-                        npc.noTileCollide = true;
-                    else
-                        npc.noTileCollide = false;
+					// Set velocities while falling, this happens before the stomp
+					// Fall through
+					if (!player.dead && revenge)
+					{
+						if ((player.position.Y > npc.Bottom.Y && npc.velocity.Y > 0f) || (player.position.Y < npc.Bottom.Y && npc.velocity.Y < 0f))
+							npc.noTileCollide = true;
+						else if ((npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y) || (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height)))
+							npc.noTileCollide = false;
+					}
 
-                    if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width)
+					if (npc.position.X < player.position.X && npc.position.X + npc.width > player.position.X + player.width)
                     {
                         npc.velocity.X *= 0.9f;
 
-                        if (player.position.Y > npc.position.Y + npc.height)
-                        {
+						if (npc.Bottom.Y < player.position.Y)
+						{
 							float fallSpeedBoost = death ? 0.8f : 0.8f * (1f - lifeRatio);
                             float fallSpeed = 0.8f + fallSpeedBoost;
                             npc.velocity.Y += fallSpeed;
