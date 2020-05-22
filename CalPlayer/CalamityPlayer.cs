@@ -2349,6 +2349,10 @@ namespace CalamityMod.CalPlayer
 
             ZoneSulphur = (CalamityWorld.sulphurTiles > 30 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
 
+			//Overriding 1.4's ass req boosts
+			if (Main.snowTiles > 300)
+				player.ZoneSnow = true;
+
 			Mod fargos = ModLoader.GetMod("Fargowiltas");
 			if (fargos != null)
 			{
