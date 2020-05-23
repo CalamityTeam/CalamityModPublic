@@ -53,6 +53,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using CalamityMod.NPCs.Cryogen;
 
 namespace CalamityMod.CalPlayer
 {
@@ -846,6 +847,7 @@ namespace CalamityMod.CalPlayer
         public bool tundraFlameBlossom = false;
         public bool starSwallowerPetFroge = false;
         public bool snakeEyes = false;
+        public bool poleWarper = false;
         #endregion
 
         #region Biome
@@ -1814,6 +1816,7 @@ namespace CalamityMod.CalPlayer
             tundraFlameBlossom = false;
             starSwallowerPetFroge = false;
             snakeEyes = false;
+            poleWarper = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -2202,6 +2205,19 @@ namespace CalamityMod.CalPlayer
 
             bool usePlague = NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>());
             player.ManageSpecialBiomeVisuals("CalamityMod:PlaguebringerGoliath", usePlague);
+
+            bool useCryogen = NPC.AnyNPCs(ModContent.NPCType<Cryogen>());
+            if (SkyManager.Instance["CalamityMod:Cryogen"] != null && useCryogen != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
+            {
+                if (useCryogen)
+                {
+                    SkyManager.Instance.Activate("CalamityMod:Cryogen", player.Center);
+                }
+                else
+                {
+                    SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
+                }
+            }
 
             Point point = player.Center.ToTileCoordinates();
             bool aboveGround = point.Y > Main.maxTilesY - 320;
