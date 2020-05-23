@@ -5829,7 +5829,7 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Any Events
-		public static bool AnyEvents()
+		public static bool AnyEvents(Player player)
 		{
 			if (Main.invasionType > 0)
 				return true;
