@@ -56,6 +56,9 @@ namespace CalamityMod.CalPlayer
 			// Bool for any existing bosses, true if any boss NPC is active
 			CalamityPlayer.areThereAnyDamnBosses = CalamityGlobalNPC.AnyBossNPCS();
 
+			// Bool for any existing events, true if any event is active
+			CalamityPlayer.areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents();
+
 			// If any boss NPC is active, apply Zen to the player to reduce spawn rate
 			if (CalamityPlayer.areThereAnyDamnBosses)
 			{

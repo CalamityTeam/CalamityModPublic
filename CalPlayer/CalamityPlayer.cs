@@ -85,6 +85,7 @@ namespace CalamityMod.CalPlayer
 
         #region No Category
         public static bool areThereAnyDamnBosses = false;
+        public static bool areThereAnyDamnEvents = false;
         public bool drawBossHPBar = true;
         public bool shouldDrawSmallText = true;
         private const int saveVersion = 0;
@@ -96,7 +97,8 @@ namespace CalamityMod.CalPlayer
         public int actualMaxLife = 0;
         public int deathModeUnderworldTime = 0;
         public int deathModeBlizzardTime = 0;
-        public static int chaosStateDuration = 600;
+        public static int chaosStateDuration = 360;
+        public static int chaosStateDurationBoss = 600;
         public bool killSpikyBalls = false;
         public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
@@ -2516,12 +2518,14 @@ namespace CalamityMod.CalPlayer
                             player.Teleport(teleportLocation, 4, 0);
                             NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
+							int duration = chaosStateDuration;
+							if (areThereAnyDamnBosses || areThereAnyDamnEvents)
+								duration = chaosStateDurationBoss;
 							if (eScarfCooldown)
-                                player.AddBuff(BuffID.ChaosState, (int)(chaosStateDuration * 1.5), true);
-                            else if (scarfCooldown)
-                                player.AddBuff(BuffID.ChaosState, chaosStateDuration * 2, true);
-                            else
-                                player.AddBuff(BuffID.ChaosState, chaosStateDuration, true);
+								duration = (int)(chaosStateDuration * 1.5);
+							else if (scarfCooldown)
+								duration = chaosStateDuration * 2;
+							player.AddBuff(BuffID.ChaosState, duration, true);
                         }
                     }
                 }
@@ -2569,12 +2573,14 @@ namespace CalamityMod.CalPlayer
                             player.Teleport(teleportLocation, 1, 0);
                             NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
-                            if (eScarfCooldown)
-                                player.AddBuff(BuffID.ChaosState, (int)(chaosStateDuration * 1.5), true);
-                            else if (scarfCooldown)
-                                player.AddBuff(BuffID.ChaosState, chaosStateDuration * 2, true);
-                            else
-                                player.AddBuff(BuffID.ChaosState, chaosStateDuration, true);
+							int duration = chaosStateDuration;
+							if (areThereAnyDamnBosses || areThereAnyDamnEvents)
+								duration = chaosStateDurationBoss;
+							if (eScarfCooldown)
+								duration = (int)(chaosStateDuration * 1.5);
+							else if (scarfCooldown)
+								duration = chaosStateDuration * 2;
+							player.AddBuff(BuffID.ChaosState, duration, true);
 
                             int numDust = 40;
                             Vector2 step = playerToTeleport / numDust;

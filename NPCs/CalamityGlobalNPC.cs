@@ -5828,6 +5828,23 @@ namespace CalamityMod.NPCs
         }
 		#endregion
 
+		#region Any Events
+		public static bool AnyEvents()
+		{
+			if (Main.invasionType > 0)
+				return true;
+			if (player.PillarZone())
+				return true;
+			if (DD2Event.Ongoing)
+				return true;
+			if ((player.ZoneOverworldHeight || player.ZoneSkyHeight) && (Main.eclipse || Main.bloodMoon || Main.pumpkinMoon || Main.snowMoon))
+				return true;
+			if (CalamityWorld.rainingAcid && player.InSulphur())
+				return true;
+			return false;
+		}
+		#endregion
+
 		#region Get Downed Boss Variable
 		public static bool GetDownedBossVariable(int type)
 		{
