@@ -48,33 +48,22 @@ Right click to delete all existing spiky balls");
 
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (player.altFunctionUse == 2)
-            {
-                if (player.ownedProjectileCounts[item.shoot] > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+		public override bool CanUseItem(Player player)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				item.shoot = 0;
+				item.shootSpeed = 0f;
+				return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] > 0;
+			}
 			else
 			{
+				item.shoot = ModContent.ProjectileType<GodsParanoiaProj>();
+				item.shootSpeed = 5f;
 				int UseMax = item.stack;
-
-				if (player.ownedProjectileCounts[item.shoot] >= UseMax)
-				{
-					return false;
-				}
-				else
-				{
-					return true;
-				}
+				return player.ownedProjectileCounts[ModContent.ProjectileType<GodsParanoiaProj>()] < UseMax;
 			}
-        }
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
