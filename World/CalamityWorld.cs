@@ -1827,7 +1827,7 @@ namespace CalamityMod.World
 				}
             }
 
-            if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient)
+            if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient && !Main.hardMode)
                 CalamityUtils.StopSandstorm();
 
             if (Main.netMode != NetmodeID.MultiplayerClient)
