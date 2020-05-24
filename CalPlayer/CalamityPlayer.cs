@@ -102,6 +102,7 @@ namespace CalamityMod.CalPlayer
         public bool killSpikyBalls = false;
         public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
+        public int waterLeechTarget = -1;
         #endregion
 
         #region External variables -- Only set by Mod.Call
@@ -8807,8 +8808,8 @@ namespace CalamityMod.CalPlayer
         }
 
 		public override void PreUpdate()
-		{
-			tailFrameUp++;
+        {
+            tailFrameUp++;
 			if (tailFrameUp == 8)
 			{
 				tailFrame++;
@@ -11103,6 +11104,7 @@ namespace CalamityMod.CalPlayer
                 int frame = HandlePSCAnimationFrames(animType);
                 player.legFrame.Y = player.legFrame.Height * frame;
             }
+            waterLeechTarget = -1;
         }
 
         #endregion
