@@ -152,16 +152,18 @@ namespace CalamityMod.Projectiles.Summon
 					projectile.ai[0] = 0f;
 				Vector2 vector46 = projectile.position;
 				bool flag25 = false;
+				Vector2 value = new Vector2(0.5f);
 				if (player.HasMinionAttackTargetNPC)
 				{
 					NPC npc = Main.npc[player.MinionAttackTargetNPC];
 					if (npc.CanBeChasedBy(projectile, false))
 					{
+						Vector2 vector2 = npc.position + npc.Size * value;
 						float num646 = Vector2.Distance(npc.Center, projectile.Center);
 						if (!flag25 && num646 < num633)
 						{
 							num633 = num646;
-							vector46 = npc.Center;
+							vector46 = vector2;
 							flag25 = true;
 						}
 					}
@@ -170,14 +172,15 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					for (int num645 = 0; num645 < Main.maxNPCs; num645++)
 					{
-						NPC nPC2 = Main.npc[num645];
-						if (nPC2.CanBeChasedBy(projectile, false))
+						NPC npc = Main.npc[num645];
+						if (npc.CanBeChasedBy(projectile, false))
 						{
-							float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
+							Vector2 vector2 = npc.position + npc.Size * value;
+							float num646 = Vector2.Distance(npc.Center, projectile.Center);
 							if (!flag25 && num646 < num633)
 							{
 								num633 = num646;
-								vector46 = nPC2.Center;
+								vector46 = vector2;
 								flag25 = true;
 							}
 						}
@@ -273,14 +276,14 @@ namespace CalamityMod.Projectiles.Summon
 				if (projectile.ai[0] == 0f)
 				{
 					float scaleFactor3 = 6f;
-					int num658 = (Main.rand.NextBool(2) ? ModContent.ProjectileType<PlantSeedGreen>() : ModContent.ProjectileType<PlantSeed>());
+					int projType = (Main.rand.NextBool(2) ? ModContent.ProjectileType<PlantSeedGreen>() : ModContent.ProjectileType<PlantSeed>());
 					int projDmg = (int)(projectile.damage * 0.7f);
 					float speedMult = 1f;
 					if (Main.rand.NextBool(4))
 					{
-						num658 = ModContent.ProjectileType<PlantThornBall>();
+						projType = ModContent.ProjectileType<PlantThornBall>();
 					}
-					if (num658 == ModContent.ProjectileType<PlantThornBall>())
+					if (projType == ModContent.ProjectileType<PlantThornBall>())
 					{
 						speedMult = 2f;
 						projDmg = (int)(projectile.damage * 1.2f);
@@ -294,7 +297,7 @@ namespace CalamityMod.Projectiles.Summon
 							Vector2 value19 = vector46 - projectile.Center;
 							value19.Normalize();
 							value19 *= scaleFactor3;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X * speedMult, value19.Y * speedMult, num658, projDmg, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value19.X * speedMult, value19.Y * speedMult, projType, projDmg, 0f, projectile.owner, 0f, 0f);
 							projectile.netUpdate = true;
 						}
 					}
@@ -326,16 +329,18 @@ namespace CalamityMod.Projectiles.Summon
 				}
 				Vector2 vector46 = projectile.position;
 				bool flag25 = false;
+				Vector2 value = new Vector2(0.5f);
 				if (player.HasMinionAttackTargetNPC)
 				{
 					NPC npc = Main.npc[player.MinionAttackTargetNPC];
 					if (npc.CanBeChasedBy(projectile, false))
 					{
+						Vector2 vector2 = npc.position + npc.Size * value;
 						float num646 = Vector2.Distance(npc.Center, projectile.Center);
 						if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
 						{
 							num633 = num646;
-							vector46 = npc.Center;
+							vector46 = vector2;
 							flag25 = true;
 						}
 					}
@@ -344,14 +349,15 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					for (int num645 = 0; num645 < Main.maxNPCs; num645++)
 					{
-						NPC nPC2 = Main.npc[num645];
-						if (nPC2.CanBeChasedBy(projectile, false))
+						NPC npc = Main.npc[num645];
+						if (npc.CanBeChasedBy(projectile, false))
 						{
-							float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
+							Vector2 vector2 = npc.position + npc.Size * value;
+							float num646 = Vector2.Distance(npc.Center, projectile.Center);
 							if ((Vector2.Distance(projectile.Center, vector46) > num646 && num646 < num633) || !flag25)
 							{
 								num633 = num646;
-								vector46 = nPC2.Center;
+								vector46 = vector2;
 								flag25 = true;
 							}
 						}

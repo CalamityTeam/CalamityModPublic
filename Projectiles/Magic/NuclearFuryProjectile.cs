@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,6 +31,96 @@ namespace CalamityMod.Projectiles.Magic
             projectile.extraUpdates = 2;
             projectile.ignoreWater = true;
         }
+
+		public override void AI()
+		{
+			projectile.localAI[1] += 1f;
+			if (projectile.localAI[1] > 10f && Main.rand.NextBool(3))
+			{
+				int num = 6;
+				for (int index1 = 0; index1 < num; ++index1)
+				{
+					Vector2 vector2_1 = (Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width, (float)projectile.height) / 2f).RotatedBy((double)(index1 - (num / 2 - 1)) * Math.PI / (double)num, new Vector2()) + projectile.Center;
+					Vector2 vector2_2 = ((Main.rand.NextFloat() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * (float)Main.rand.Next(3, 8);
+					int index2 = Dust.NewDust(vector2_1 + vector2_2, 0, 0, 217, vector2_2.X * 2f, vector2_2.Y * 2f, 100, new Color(), 1.4f);
+					Dust dust = Main.dust[index2];
+					dust.noGravity = true;
+					dust.noLight = true;
+					dust.velocity /= 4f;
+					dust.velocity -= projectile.velocity;
+				}
+				projectile.alpha -= 5;
+				if (projectile.alpha < 50)
+					projectile.alpha = 50;
+				projectile.rotation += projectile.velocity.X * 0.1f;
+				projectile.frame = (int)(projectile.localAI[1] / 3f) % 3;
+				Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 0.1f, 0.4f, 0.6f);
+			}
+			int num1 = -1;
+			Vector2 vector2 = projectile.Center;
+			float num2 = 500f;
+            Vector2 value = new Vector2(0.5f);
+			if (projectile.localAI[0] > 0f)
+			{
+				projectile.localAI[0] -= 1f;
+			}
+			if (projectile.ai[0] == 0f && projectile.localAI[0] == 0f)
+			{
+				for (int index = 0; index < Main.maxNPCs; ++index)
+				{
+					NPC npc = Main.npc[index];
+					if (npc.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == (index + 1f)))
+					{
+						Vector2 center = npc.position + npc.Size * value;
+						float num3 = Vector2.Distance(center, vector2);
+						if (num3 < num2 && Collision.CanHit(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
+						{
+							num2 = num3;
+							vector2 = center;
+							num1 = index;
+						}
+					}
+				}
+				if (num1 >= 0)
+				{
+					projectile.ai[0] = num1 + 1f;
+					projectile.netUpdate = true;
+				}
+			}
+			if (projectile.localAI[0] == 0f && projectile.ai[0] == 0f)
+				projectile.localAI[0] = 30f;
+			bool flag = false;
+			if (projectile.ai[0] != 0f)
+			{
+				int index = (int)(projectile.ai[0] - 1);
+				if (Main.npc[index].active && !Main.npc[index].dontTakeDamage && Main.npc[index].immune[projectile.owner] == 0)
+				{
+					if ((Math.Abs(projectile.Center.X - Main.npc[index].Center.X) + Math.Abs(projectile.Center.Y - Main.npc[index].Center.Y)) < 1000f)
+					{
+						flag = true;
+						vector2 = Main.npc[index].Center;
+					}
+				}
+				else
+				{
+					projectile.ai[0] = 0f;
+					flag = false;
+					projectile.netUpdate = true;
+				}
+			}
+			if (flag)
+			{
+				double num3 = (double)(vector2 - projectile.Center).ToRotation() - (double)projectile.velocity.ToRotation();
+				if (num3 > Math.PI)
+					num3 -= 2.0 * Math.PI;
+				if (num3 < -1.0 * Math.PI)
+					num3 += 2.0 * Math.PI;
+				projectile.velocity = projectile.velocity.RotatedBy(num3 * 0.1, new Vector2());
+			}
+			float num4 = projectile.velocity.Length();
+			projectile.velocity.Normalize();
+			projectile.velocity = projectile.velocity * (num4 + 1f / 400f);
+		}
 
         public override void Kill(int timeLeft)
         {

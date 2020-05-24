@@ -116,16 +116,18 @@ namespace CalamityMod.Projectiles.Summon
             }
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
+            Vector2 value = new Vector2(0.5f);
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
+                    Vector2 vector2 = npc.position + npc.Size * value;
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
                     if (!flag25 && num646 < num633 && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                     {
                         num633 = num646;
-                        vector46 = npc.Center;
+                        vector46 = vector2;
                         flag25 = true;
                     }
                 }
@@ -137,11 +139,12 @@ namespace CalamityMod.Projectiles.Summon
                     NPC npc = Main.npc[num645];
                     if (npc.CanBeChasedBy(projectile, false))
                     {
+						Vector2 vector2 = npc.position + npc.Size * value;
                         float num646 = Vector2.Distance(npc.Center, projectile.Center);
                         if (!flag25 && num646 < num633 && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
                             num633 = num646;
-                            vector46 = npc.Center;
+                            vector46 = vector2;
                             flag25 = true;
                         }
                     }

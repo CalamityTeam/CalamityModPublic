@@ -54,7 +54,6 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ModLoader.Config;
-using System.Linq;
 
 namespace CalamityMod.CalPlayer
 {
