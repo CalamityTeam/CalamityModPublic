@@ -58,7 +58,7 @@ namespace CalamityMod.Events
             { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
+            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) }
         };
 
         public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPolter = new Dictionary<int, AcidRainSpawnData>()
@@ -71,7 +71,7 @@ namespace CalamityMod.Events
             { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) },
+            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) },
             { ModContent.NPCType<GammaSlime>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
         };
 
