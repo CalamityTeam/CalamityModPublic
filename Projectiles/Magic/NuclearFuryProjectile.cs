@@ -23,7 +23,6 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 60;
             projectile.alpha = 255;
             projectile.friendly = true;
-            projectile.aiStyle = 71;
             projectile.magic = true;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
