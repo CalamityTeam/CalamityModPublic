@@ -14,21 +14,20 @@ namespace CalamityMod.Projectiles.Rogue
         public override void SetDefaults()
         {
             projectile.friendly = true;
-            projectile.width = 25;
-            projectile.height = 25;
+            projectile.width = projectile.height = 25;
             projectile.Calamity().rogue = true;
+			projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
             //Rotation and gravity
             projectile.rotation += 0.6f * projectile.direction;
-            projectile.velocity.Y = projectile.velocity.Y + 0.27f;
+            projectile.velocity.Y += 0.27f;
             if (projectile.velocity.Y > 16f)
             {
                 projectile.velocity.Y = 16f;
             }
-
         }
 
         public override void Kill(int timeLeft)
@@ -48,10 +47,9 @@ namespace CalamityMod.Projectiles.Rogue
             Texture2D texture;
             switch (projectile.ai[0])
             {
-                
-                case 2f: texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SealedSingularityGore2");
+                case 1f: texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SealedSingularityGore2");
                          break;
-                case 3f: texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SealedSingularityGore3");
+                case 2f: texture = ModContent.GetTexture("CalamityMod/Projectiles/Rogue/SealedSingularityGore3");
                          break;
                 default: texture = Main.projectileTexture[projectile.type];
                          break;
