@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Hybrid
             projectile.aiStyle = 3;
             projectile.timeLeft = 400;
             aiType = ProjectileID.WoodenBoomerang;
-            projectile.Calamity().rogue = true;
+            projectile.melee = true;
         }
 
         public override void AI()

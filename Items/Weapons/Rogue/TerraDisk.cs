@@ -58,6 +58,7 @@ A max of three disks can be active at a time");
         {
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             Main.projectile[proj].Calamity().forceRogue = true;
+			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 
