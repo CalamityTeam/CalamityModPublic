@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (foundTarget)
             {
-                projectile.rotation = (targetVec - projectile.Center).ToRotation() + MathHelper.Pi;
+				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
             }
             else
             {

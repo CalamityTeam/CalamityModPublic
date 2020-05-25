@@ -258,11 +258,11 @@ namespace CalamityMod.Projectiles.Summon
 				}
 				if (flag25)
 				{
-					projectile.rotation = (vector46 - projectile.Center).ToRotation() + 3.14159274f;
+					projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46) + MathHelper.Pi, 0.1f);
 				}
 				else
 				{
-					projectile.rotation = projectile.velocity.ToRotation() + 3.14159274f;
+					projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
 				}
 				if (projectile.ai[1] > 0f)
 				{
