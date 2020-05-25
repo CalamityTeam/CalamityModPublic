@@ -4001,6 +4001,11 @@ namespace CalamityMod.CalPlayer
             {
                 add += 0.05f;
             }
+			//Boost (or lower) the weapon's damage if it has a stealth strike available and an associated prefix
+			if (item.Calamity().rogue && player.Calamity().StealthStrikeAvailable() && item.prefix > 0)
+			{
+				mult += item.Calamity().StealthStrikeDamage - 1f;
+			}
 
             if (item.ranged)
             {

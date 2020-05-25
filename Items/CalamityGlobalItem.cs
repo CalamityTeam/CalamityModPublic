@@ -32,6 +32,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.Utilities;
 
 namespace CalamityMod.Items
 {
@@ -56,6 +57,7 @@ namespace CalamityMod.Items
         #endregion
 
         public bool rogue = false;
+        public float StealthStrikeDamage;
 
         public int timesUsed = 0;
 
@@ -66,6 +68,46 @@ namespace CalamityMod.Items
             get => (int)customRarity;
             set => customRarity = (CalamityRarity)value;
         }
+
+		#region Modifiers
+		public CalamityGlobalItem()
+		{
+			StealthStrikeDamage = 1.0f;
+		}
+
+		public override GlobalItem Clone(Item item, Item itemClone)
+		{
+			CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
+			myClone.StealthStrikeDamage = StealthStrikeDamage;
+			return myClone;
+		}
+
+		public override int ChoosePrefix(Item item, UnifiedRandom rand)
+		{
+			if (rogue)
+			{
+				WeightedRandom<string> newPrefix = new WeightedRandom<string>();
+				newPrefix.Add("Pointy", 1);
+				newPrefix.Add("Sharp", 1);
+				newPrefix.Add("Feathered", 1);
+				newPrefix.Add("Sleek", 1);
+				newPrefix.Add("Hefty", 1);
+				newPrefix.Add("Mighty", 1);
+				newPrefix.Add("Glorious", 1);
+				newPrefix.Add("Serrated", 1);
+				newPrefix.Add("Vicious", 1);
+				newPrefix.Add("Lethal", 1);
+				newPrefix.Add("Flawless", 1);
+				newPrefix.Add("Radical", 1);
+				newPrefix.Add("Blunt", 1);
+				newPrefix.Add("Flimsy", 1);
+				newPrefix.Add("Unbalanced", 1);
+				newPrefix.Add("Atrocious", 1);
+				return mod.GetPrefix(newPrefix).Type;
+			}
+			return -1;
+		}
+		#endregion
 
         #region SetDefaults
         public override void SetDefaults(Item item)
@@ -965,6 +1007,7 @@ namespace CalamityMod.Items
         #region Modify Tooltips
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
+			#region Custom Rarities#
             TooltipLine tt2 = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
             if (tt2 != null)
             {
@@ -1086,6 +1129,34 @@ namespace CalamityMod.Items
                         break;
                 }
             }
+			#endregion
+
+			#region Rogue Modifier Display
+			if (rogue)
+			{
+				if (item.prefix > 0)
+				{
+					float ssDmgBoost = item.Calamity().StealthStrikeDamage - 1f;
+					if (ssDmgBoost > 0)
+					{
+						TooltipLine StealthBonus = new TooltipLine(mod, "PrefixSSDmg", "+" + Math.Round(ssDmgBoost * 100f) + "% stealth strike damage")
+						{
+							isModifier = true
+						};
+						tooltips.Add(StealthBonus);
+					}
+					else if (ssDmgBoost < 0)
+					{
+						TooltipLine StealthBonus = new TooltipLine(mod, "PrefixSSDmg", "-" + Math.Round(Math.Abs(ssDmgBoost) * 100f) + "% stealth strike damage")
+						{
+							isModifier = true,
+							isModifierBad = true
+						};
+						tooltips.Add(StealthBonus);
+					}
+				}
+			}
+			#endregion
 
 			/*if (item.ammo == 97)
             {
