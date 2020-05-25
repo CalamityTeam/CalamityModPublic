@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Mounts
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Folly Feed");
+            DisplayName.SetDefault("Bird Seed");
             Tooltip.SetDefault("Summons a monstrosity");
         }
 
