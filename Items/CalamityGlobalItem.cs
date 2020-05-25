@@ -2781,7 +2781,7 @@ Provides heat and cold protection in Death Mode";
 
                     // Plantera
                     case ItemID.PlanteraBossBag:
-                        DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 8, 11);
+                        DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
                         float bFluxChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<BlossomFlux>(), CalamityWorld.revenge, bFluxChance);
                         DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
