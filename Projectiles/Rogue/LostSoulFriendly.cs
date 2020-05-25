@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            if (projectile.frameCounter > 8)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
