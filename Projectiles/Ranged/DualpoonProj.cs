@@ -4,11 +4,11 @@ using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class TriploonProj : ModProjectile
+    public class DualpoonProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Triploon");
+            DisplayName.SetDefault("Dualpoon");
         }
 
         public override void SetDefaults()
