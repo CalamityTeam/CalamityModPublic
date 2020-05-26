@@ -44,7 +44,7 @@ namespace CalamityMod.Prefixes
 
 		public override void ModifyValue(ref float valueMult)
 		{
-			float extraValue = 1f + (2.56f * (stealthGenBonus - 1f));
+			float extraValue = 1f + (2.5f * (stealthGenBonus - 1f));
 			valueMult *= extraValue;
 		}
 
