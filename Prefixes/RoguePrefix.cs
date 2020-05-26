@@ -1,3 +1,5 @@
+using CalamityMod.Items.Weapons.Rogue;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -59,16 +61,20 @@ namespace CalamityMod.Prefixes
 
 		public override void Apply(Item item)
 		{
-			item.Calamity().StealthStrikeDamage = stealthDmgMult;
+			ModItem moddedItem = item.modItem;
+			if(moddedItem != null && moddedItem is RogueWeapon rogueWep)
+			{
+				rogueWep.StealthStrikeDamage = stealthDmgMult;
+			}
 		}
 
 		public override void ModifyValue(ref float valueMult)
 		{
-			float extraValue = 1f + (0.333f * (stealthDmgMult - 1f));
+			float extraValue = 1f + (2f * (stealthDmgMult - 1f));
 			valueMult *= extraValue;
 		}
 
-		public override bool CanRoll(Item item) => item.Calamity().rogue;
+		public override bool CanRoll(Item item) => item.Calamity().rogue && !item.consumable;
 
 		public override void SetStats(ref float damageMult, ref float knockbackMult, ref float useTimeMult, ref float scaleMult, ref float shootSpeedMult, ref float manaMult, ref int critBonus)
 		{
@@ -83,6 +89,14 @@ namespace CalamityMod.Prefixes
 			string name = prefixType.ToString();
 			mod.AddPrefix(name, new RoguePrefix(damageMult, useTimeMult, critBonus, shootSpeedMult, stealthDmgMult));
 			RogueModifiers.Add(mod.GetPrefix(name).Type);
+		}
+
+		public override void ValidateItem(Item item, ref bool invalid)
+		{
+			if (item.damage == Math.Round(item.damage * damageMult))
+				invalid = true;
+			if (item.useAnimation == Math.Round(item.useAnimation * useTimeMult))
+				invalid = true;
 		}
 	}
 

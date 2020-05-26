@@ -56,56 +56,31 @@ namespace CalamityMod.Items
         }
         #endregion
 
-        public bool rogue = false;
-        public float StealthStrikeDamage;
+		public bool rogue = false;
+		public float StealthGenBonus;
 
-        public int timesUsed = 0;
+		public int timesUsed = 0;
 
-        // Rarity is provided both as the classic int and the new enum.
-        public CalamityRarity customRarity = CalamityRarity.NoEffect;
-        public int postMoonLordRarity 
-        {
-            get => (int)customRarity;
-            set => customRarity = (CalamityRarity)value;
-        }
+		// Rarity is provided both as the classic int and the new enum.
+		public CalamityRarity customRarity = CalamityRarity.NoEffect;
+		public int postMoonLordRarity 
+		{
+			get => (int)customRarity;
+			set => customRarity = (CalamityRarity)value;
+		}
 
+		///See RogueWeapon.cs for rogue modifier shit
 		#region Modifiers
 		public CalamityGlobalItem()
 		{
-			StealthStrikeDamage = 1.0f;
+			StealthGenBonus = 1f;
 		}
 
 		public override GlobalItem Clone(Item item, Item itemClone)
 		{
 			CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
-			myClone.StealthStrikeDamage = StealthStrikeDamage;
+			myClone.StealthGenBonus = StealthGenBonus;
 			return myClone;
-		}
-
-		public override int ChoosePrefix(Item item, UnifiedRandom rand)
-		{
-			if (rogue)
-			{
-				WeightedRandom<string> newPrefix = new WeightedRandom<string>();
-				newPrefix.Add("Pointy", 1);
-				newPrefix.Add("Sharp", 1);
-				newPrefix.Add("Feathered", 1);
-				newPrefix.Add("Sleek", 1);
-				newPrefix.Add("Hefty", 1);
-				newPrefix.Add("Mighty", 1);
-				newPrefix.Add("Glorious", 1);
-				newPrefix.Add("Serrated", 1);
-				newPrefix.Add("Vicious", 1);
-				newPrefix.Add("Lethal", 1);
-				newPrefix.Add("Flawless", 1);
-				newPrefix.Add("Radical", 1);
-				newPrefix.Add("Blunt", 1);
-				newPrefix.Add("Flimsy", 1);
-				newPrefix.Add("Unbalanced", 1);
-				newPrefix.Add("Atrocious", 1);
-				return mod.GetPrefix(newPrefix).Type;
-			}
-			return -1;
 		}
 		#endregion
 
@@ -1131,28 +1106,19 @@ namespace CalamityMod.Items
             }
 			#endregion
 
-			#region Rogue Modifier Display
-			if (rogue)
+			#region Accessory Modifier Display
+			if (item.accessory)
 			{
-				if (item.prefix > 0)
+				if (!item.social && item.prefix > 0)
 				{
-					float ssDmgBoost = item.Calamity().StealthStrikeDamage - 1f;
-					if (ssDmgBoost > 0)
+					float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
+					if (stealthGenBoost > 0)
 					{
-						TooltipLine StealthBonus = new TooltipLine(mod, "PrefixSSDmg", "+" + Math.Round(ssDmgBoost * 100f) + "% stealth strike damage")
+						TooltipLine StealthGen = new TooltipLine(mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
 						{
 							isModifier = true
 						};
-						tooltips.Add(StealthBonus);
-					}
-					else if (ssDmgBoost < 0)
-					{
-						TooltipLine StealthBonus = new TooltipLine(mod, "PrefixSSDmg", "-" + Math.Round(Math.Abs(ssDmgBoost) * 100f) + "% stealth strike damage")
-						{
-							isModifier = true,
-							isModifierBad = true
-						};
-						tooltips.Add(StealthBonus);
+						tooltips.Add(StealthGen);
 					}
 				}
 			}
@@ -3025,6 +2991,15 @@ Provides heat and cold protection in Death Mode";
         public override void UpdateAccessory(Item item, Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
+
+			if (item.prefix > 0)
+			{
+				float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
+				if (stealthGenBoost > 0)
+				{
+					modPlayer.accStealthGenBoost += stealthGenBoost;
+				}
+			}
 
             if (item.type == ItemID.FireGauntlet)
             {
