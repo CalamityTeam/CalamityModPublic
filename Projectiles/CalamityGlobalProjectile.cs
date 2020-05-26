@@ -2159,6 +2159,21 @@ namespace CalamityMod.Projectiles
 			projectile.spriteDirection = projectile.direction;
 			projectile.rotation = projectile.velocity.X * tiltFloat;
 		}
+		public static void ExpandHitboxBy(Projectile projectile, int width, int height)
+		{
+			projectile.position = projectile.Center;
+			projectile.width = width;
+			projectile.height = height;
+			projectile.position -= projectile.Size * 0.5f;
+		}
+		public static void ExpandHitboxBy(Projectile projectile, int newSize)
+		{
+			ExpandHitboxBy(projectile, newSize, newSize);
+		}
+		public static void ExpandHitboxBy(Projectile projectile, float expandRatio)
+		{
+			ExpandHitboxBy(projectile, (int)(projectile.width * expandRatio), (int)(projectile.height * expandRatio));
+		}
 		#endregion
 	}
 }

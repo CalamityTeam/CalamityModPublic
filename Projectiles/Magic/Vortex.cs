@@ -2,7 +2,6 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,6 +9,25 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class Vortex : ModProjectile
     {
+        public float TargetCheckCooldown
+        {
+            get => projectile.localAI[0];
+            set => projectile.localAI[0] = value;
+        }
+        public float Time
+        {
+            get => projectile.localAI[1];
+            set => projectile.localAI[1] = value;
+        }
+        public int TargetIndex
+        {
+            get => (int)projectile.ai[0];
+            set => projectile.ai[0] = value;
+        }
+        public const float AngularMovementSpeed = 0.1f;
+        public const float Acceleration = 0.0025f;
+        public const float TargetCheckInterval = 30f;
+        public const float MaximumTargetDistance = 1200f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vortex");
@@ -24,10 +42,10 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.penetrate = 10;
-            projectile.timeLeft = 300;
+            projectile.penetrate = 1;
             projectile.tileCollide = true;
             projectile.extraUpdates = 4;
+            projectile.timeLeft = 115 * projectile.extraUpdates;
             projectile.ignoreWater = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
@@ -35,119 +53,98 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.localAI[1] += 1f;
+            // At the very beginning, start without a target.
+            if (Time == 0f)
+            {
+                TargetIndex = -1;
+            }
+            Time++;
             if (projectile.localAI[1] > 10f && Main.rand.NextBool(3))
             {
-                int num713 = 5;
-                for (int num714 = 0; num714 < num713; num714++)
-                {
-                    Vector2 vector58 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width, (float)projectile.height) / 2f;
-                    vector58 = vector58.RotatedBy((double)(num714 - (num713 / 2 - 1)) * 3.1415926535897931 / (double)(float)num713, default) + projectile.Center;
-                    Vector2 value25 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * (float)Main.rand.Next(3, 8);
-                    int num715 = Dust.NewDust(vector58 + value25, 0, 0, 66, value25.X * 2f, value25.Y * 2f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.7f);
-                    Main.dust[num715].noGravity = true;
-                    Main.dust[num715].noLight = true;
-                    Main.dust[num715].velocity /= 4f;
-                    Main.dust[num715].velocity -= projectile.velocity;
-                }
-                projectile.alpha -= 5;
-                if (projectile.alpha < 50)
-                {
-                    projectile.alpha = 50;
-                }
-                projectile.rotation += projectile.velocity.X * 0.1f;
-                Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, (float)Main.DiscoR / 200f, (float)Main.DiscoG / 200f, (float)Main.DiscoB / 200f);
+                VisualEffects();
             }
-            int num716 = -1;
-            Vector2 vector59 = projectile.Center;
-            float num717 = 350f * projectile.ai[1];
-            if (projectile.localAI[0] > 0f)
-            {
-                projectile.localAI[0] -= 1f;
-            }
-            if (projectile.ai[0] == 0f && projectile.localAI[0] == 0f)
-            {
-                for (int num718 = 0; num718 < 200; num718++)
-                {
-                    NPC nPC6 = Main.npc[num718];
-                    if (nPC6.CanBeChasedBy(projectile, false) && (projectile.ai[0] == 0f || projectile.ai[0] == (float)(num718 + 1)))
-                    {
-                        Vector2 center4 = nPC6.Center;
-                        float num719 = Vector2.Distance(center4, vector59);
-                        if (num719 < num717 && Collision.CanHit(projectile.position, projectile.width, projectile.height, nPC6.position, nPC6.width, nPC6.height))
-                        {
-                            num717 = num719;
-                            vector59 = center4;
-                            num716 = num718;
-                        }
-                    }
-                }
-                if (num716 >= 0)
-                {
-                    projectile.ai[0] = (float)(num716 + 1);
-                    projectile.netUpdate = true;
-                }
-            }
-            if (projectile.localAI[0] == 0f && projectile.ai[0] == 0f)
-            {
-                projectile.localAI[0] = 30f;
-            }
-            bool flag32 = false;
-            if (projectile.ai[0] != 0f)
-            {
-                int num720 = (int)(projectile.ai[0] - 1f);
-                if (Main.npc[num720].active && !Main.npc[num720].dontTakeDamage && Main.npc[num720].immune[projectile.owner] == 0)
-                {
-                    float num721 = Main.npc[num720].position.X + (float)(Main.npc[num720].width / 2);
-                    float num722 = Main.npc[num720].position.Y + (float)(Main.npc[num720].height / 2);
-                    float num723 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num721) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num722);
-                    if (num723 < 1000f)
-                    {
-                        flag32 = true;
-                        vector59 = Main.npc[num720].Center;
-                    }
-                }
-                else
-                {
-                    projectile.ai[0] = 0f;
-                    flag32 = false;
-                    projectile.netUpdate = true;
-                }
-            }
-            if (flag32)
-            {
-                Vector2 v = vector59 - projectile.Center;
-                float num724 = projectile.velocity.ToRotation();
-                float num725 = v.ToRotation();
-                float num726 = num725 - num724;
-                num726 = MathHelper.WrapAngle(num726);
-                projectile.velocity = projectile.velocity.RotatedBy(num726 * 0.1, default);
-            }
-            float num727 = projectile.velocity.Length();
-            projectile.velocity.Normalize();
-            projectile.velocity *= num727 + 0.0025f;
+            Movement(HandleTargeting());
+            projectile.rotation += projectile.velocity.X * 0.1f;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
+        public bool HandleTargeting()
         {
-            projectile.penetrate--;
-            if (projectile.penetrate <= 0)
+            float targetCheckDistance = 350f * projectile.ai[1];
+
+            // Reduce a cooldown. Nothing special here.
+            if (TargetCheckCooldown > 0f)
             {
-                projectile.Kill();
+                TargetCheckCooldown--;
             }
-            else
+
+            // Attempt to find a target if the projectile has none.
+            if (TargetIndex == -1 && TargetCheckCooldown <= 0f)
             {
-                projectile.ai[0] += 0.1f;
-                if (projectile.velocity.X != oldVelocity.X)
+                NPC potentialTarget = projectile.Center.ClosestNPCAt(targetCheckDistance, true);
+                if (potentialTarget != null)
+                    TargetIndex = potentialTarget.whoAmI;
+                projectile.netUpdate = true;
+            }
+            if (TargetCheckCooldown <= 0f && TargetIndex == -1)
+            {
+                TargetCheckCooldown = TargetCheckInterval;
+            }
+            bool stillCanReachTarget = false;
+            // Ensure that the target is still in reach if there is indeed a target.
+            if (TargetIndex != -1)
+            {
+                stillCanReachTarget = projectile.Distance(Main.npc[TargetIndex].Center) < MaximumTargetDistance;
+                if (!stillCanReachTarget)
                 {
-                    projectile.velocity.X = -oldVelocity.X;
-                }
-                if (projectile.velocity.Y != oldVelocity.Y)
-                {
-                    projectile.velocity.Y = -oldVelocity.Y;
+                    TargetIndex = -1;
+                    projectile.netUpdate = true;
                 }
             }
-            return false;
+            return stillCanReachTarget;
+        }
+
+        public void VisualEffects()
+        {
+            // Generate idle circular dust and light after 10 frames.
+            if (!Main.dedServ)
+            {
+                int dustCount = 5;
+                for (int i = 0; i < dustCount; i++)
+                {
+                    Vector2 spawnPosition = projectile.Center + projectile.Size.RotatedBy(i / (float)dustCount * MathHelper.TwoPi) * 0.5f;
+                    Vector2 velocity = Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * Main.rand.NextFloat(6f, 16f);
+                    Dust dust = Dust.NewDustPerfect(spawnPosition, 66, velocity, 0, Main.DiscoColor, 0.7f);
+                    dust.noGravity = true;
+                    dust.noLight = true;
+                    dust.velocity = -projectile.velocity;
+                }
+            }
+            // Fade in.
+            projectile.alpha -= 5;
+            if (projectile.alpha < 50)
+            {
+                projectile.alpha = 50;
+            }
+            // And make rainbow light.
+            Lighting.AddLight(projectile.Center / 16, Main.DiscoColor.ToVector3());
+        }
+
+        public void Movement(bool stillCanReachTarget)
+        {
+            // Homing sharply towards the target in a circular fashion.
+            // The way this type of homing is by determining the offset between the angle to the target and the velocity's angle.
+            // This offset can be thought of as how much, in radians, the velocity would need to rotate to move towards the target.
+            // Then, the velocity is rotated by that offset (which, as established, would give perfect homing) multiplied by a <1 factor.
+            // This causes the velocity to constantly rotate sharply towards the target.
+            if (stillCanReachTarget)
+            {
+                float angleOffsetToTarget = projectile.AngleTo(Main.npc[TargetIndex].Center) - projectile.velocity.ToRotation();
+                angleOffsetToTarget = MathHelper.WrapAngle(angleOffsetToTarget); // Ensure the offset is in the range of -pi to pi.
+                projectile.velocity = projectile.velocity.RotatedBy(angleOffsetToTarget * AngularMovementSpeed);
+            }
+            // Accelerate constantly with time.
+            float oldSpeed = projectile.velocity.Length();
+            projectile.velocity = projectile.velocity.SafeNormalize(Vector2.UnitY) * (oldSpeed + Acceleration);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
