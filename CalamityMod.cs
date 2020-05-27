@@ -1287,7 +1287,9 @@ namespace CalamityMod
                 ItemID.WaspGun,
                 ItemID.Keybrand,
                 ItemID.PulseBow,
-                ItemID.PaladinsHammer
+                ItemID.PaladinsHammer,
+                ItemID.SolarEruption,
+                ItemID.DayBreak
             };
 
             thirtyThreeDamageBuffList = new List<int>()

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -22,7 +23,9 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.extraUpdates = 2;
             projectile.aiStyle = 93;
-            aiType = 514;
+            aiType = ProjectileID.NailFriendly;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 1;
         }
 
         public override void AI()
@@ -42,11 +45,6 @@ namespace CalamityMod.Projectiles.Ranged
                     Main.dust[num469].velocity *= 0f;
                 }
             }
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.immune[projectile.owner] = 1;
         }
 
         public override void Kill(int timeLeft)

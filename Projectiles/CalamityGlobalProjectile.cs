@@ -122,8 +122,16 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.ButchersChainsaw:
                     trueMelee = true;
                     break;
+
                 case ProjectileID.StarWrath:
                     projectile.penetrate = projectile.maxPenetrate = 1;
+                    break;
+
+                case ProjectileID.Spazmamini:
+                case ProjectileID.Retanimini:
+                case ProjectileID.MiniRetinaLaser:
+                    projectile.localNPCHitCooldown = 10;
+                    projectile.usesLocalNPCImmunity = true;
                     break;
                 default:
                     break;
@@ -1519,8 +1527,8 @@ namespace CalamityMod.Projectiles
 							{
 								if (Main.rand.NextBool(4))
 								{
-									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 100), projectile.knockBack * 0.25f, projectile.owner);
-									modPlayer.jellyDmg = 20f;
+									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 90), projectile.knockBack * 0.25f, projectile.owner);
+									modPlayer.jellyDmg = 25f;
 								}
 							}
 							else if (modPlayer.starbusterCore)

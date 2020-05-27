@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.aiStyle = 1;
-            aiType = 242;
+            aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = 1;
             projectile.timeLeft = 90;
         }
@@ -49,6 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.damage /= 2;
             projectile.Damage();
         }
     }
