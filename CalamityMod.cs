@@ -1368,7 +1368,8 @@ namespace CalamityMod
                 ItemID.DD2BetsyBow,
                 ItemID.InfluxWaver,
                 ItemID.Xenopopper,
-                ItemID.ElectrosphereLauncher
+                ItemID.ElectrosphereLauncher,
+                ItemID.OpticStaff //Note: got local i frames so it should be better
             };
 
             pumpkinMoonBuffList = new List<int>()

@@ -126,7 +126,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (projectile.owner == Main.myPlayer && amalgam)
                 {
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), projectile.damage, 0f, projectile.owner, 1f, 0f);
+                    int water = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PoisonousSeawater>(), projectile.damage, 0f, projectile.owner, 1f, 0f);
+					Main.projectile[water].usesIDStaticNPCImmunity = true;
+					Main.projectile[water].usesLocalNPCImmunity = false;
                 }
             }
 
