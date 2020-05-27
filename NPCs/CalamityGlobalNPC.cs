@@ -4670,6 +4670,10 @@ namespace CalamityMod.NPCs
 				{
 					DrawNewInventoryAlert(npc);
 				}
+				else if (npc.type == NPCType<WITCH>() && Main.LocalPlayer.Calamity().newCalamitasInventory)
+				{
+					DrawNewInventoryAlert(npc);
+				}
 				else
 				{
 					switch (npc.type)
@@ -5735,6 +5739,10 @@ namespace CalamityMod.NPCs
 					else if (types[i] == NPCType<THIEF>())
 					{
 						Main.LocalPlayer.Calamity().newBanditInventory = true;
+					}
+					else if (types[i] == NPCType<WITCH>())
+					{
+						Main.LocalPlayer.Calamity().newCalamitasInventory = true;
 					}
 					else
 					{

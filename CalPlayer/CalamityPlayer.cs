@@ -132,6 +132,7 @@ namespace CalamityMod.CalPlayer
 		public bool newCirrusInventory = false;
 		public bool newAmidiasInventory = false;
 		public bool newBanditInventory = false;
+		public bool newCalamitasInventory = false;
 		#endregion
 
 		#region Stat Meter
@@ -972,6 +973,7 @@ namespace CalamityMod.CalPlayer
 			newCirrusInventory = false;
 			newAmidiasInventory = false;
 			newBanditInventory = false;
+			newCalamitasInventory = false;
 		}
 
         public override TagCompound Save()
@@ -1019,6 +1021,7 @@ namespace CalamityMod.CalPlayer
 			boost.AddWithCondition("newCirrusInventory", newCirrusInventory);
 			boost.AddWithCondition("newAmidiasInventory", newAmidiasInventory);
 			boost.AddWithCondition("newBanditInventory", newBanditInventory);
+			boost.AddWithCondition("newCalamitasInventory", newCalamitasInventory);
 
 			return new TagCompound
             {
@@ -1090,6 +1093,7 @@ namespace CalamityMod.CalPlayer
 			newCirrusInventory = boost.Contains("newCirrusInventory");
 			newAmidiasInventory = boost.Contains("newAmidiasInventory");
 			newBanditInventory = boost.Contains("newBanditInventory");
+			newCalamitasInventory = boost.Contains("newCalamitasInventory");
 
 			rage = tag.GetAsInt("stress");
             adrenaline = tag.GetAsInt("adrenaline");
@@ -1191,6 +1195,7 @@ namespace CalamityMod.CalPlayer
 
 				BitsByte flags6 = reader.ReadByte();
 				newBanditInventory = flags6[0];
+				newCalamitasInventory = flags6[1];
 			}
             else
             {
