@@ -1391,13 +1391,14 @@ namespace CalamityMod.Projectiles
 						target.AddBuff(BuffID.Venom, 240);
 					}
 
-					if (modPlayer.shadow)
+					if (modPlayer.shadow && modPlayer.shadowPotCooldown <= 0)
 					{
 						if (CalamityMod.javelinProjList.Contains(projectile.type))
 						{
 							int randrot = Main.rand.Next(-30, 391);
 							Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
 							Projectile.NewProjectile(projectile.Center, SoulSpeed, ModContent.ProjectileType<PenumbraSoul>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.1, 60), 3f, projectile.owner, 0f, 0f);
+							modPlayer.shadowPotCooldown = 30;
 						}
 						if (CalamityMod.spikyBallProjList.Contains(projectile.type))
 						{
@@ -1405,6 +1406,7 @@ namespace CalamityMod.Projectiles
             				Main.projectile[scythe].usesLocalNPCImmunity = true;
             				Main.projectile[scythe].localNPCHitCooldown = 10;
 							Main.projectile[scythe].penetrate = 2;
+							modPlayer.shadowPotCooldown = 30;
 						}
 						if (CalamityMod.daggerProjList.Contains(projectile.type))
 						{
@@ -1413,6 +1415,7 @@ namespace CalamityMod.Projectiles
 							shardVelocity *= 5f;
 							int shard = Projectile.NewProjectile(projectile.Center, shardVelocity, ModContent.ProjectileType<EquanimityDarkShard>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 60), 0f, projectile.owner);
 							Main.projectile[shard].timeLeft = 150;
+							modPlayer.shadowPotCooldown = 30;
 						}
 						if (CalamityMod.boomerangProjList.Contains(projectile.type))
 						{
@@ -1453,11 +1456,13 @@ namespace CalamityMod.Projectiles
 							int ghost = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, ProjectileID.SpectreWrath, spiritDamage, 0f, projectile.owner, (float)num3, 0f);
 							Main.projectile[ghost].Calamity().forceRogue = true;
 							Main.projectile[ghost].penetrate = 1;
+							modPlayer.shadowPotCooldown = 30;
 						}
 						if (CalamityMod.flaskBombProjList.Contains(projectile.type))
 						{
 							int blackhole = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowBlackhole>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 0f, 0f);
 							Main.projectile[blackhole].Center = projectile.Center;
+							modPlayer.shadowPotCooldown = 30;
 						}
 					}
                 }
