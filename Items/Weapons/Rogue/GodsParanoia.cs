@@ -69,12 +69,7 @@ Right click to delete all existing spiky balls");
         {
             CalamityPlayer modPlayer = player.Calamity();
 			modPlayer.killSpikyBalls = false;
-            if (player.altFunctionUse == 2)
-			{
-				modPlayer.killSpikyBalls = true;
-				return false;
-			}
-            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
+            if (modPlayer.StealthStrikeAvailable()) //setting the stealth strike
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
@@ -85,6 +80,8 @@ Right click to delete all existing spiky balls");
 
         public override bool AltFunctionUse(Player player)
         {
+            CalamityPlayer modPlayer = player.Calamity();
+			modPlayer.killSpikyBalls = true;
             return true;
         }
 
