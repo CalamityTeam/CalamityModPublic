@@ -2419,6 +2419,19 @@ namespace CalamityMod
 			float colorMePurple = (float)((Math.Sin(timeMult * Main.GlobalTime) + 1) * 0.5f);
 			return Color.Lerp(firstColor, secondColor, colorMePurple);
 		}
+        /// <summary>
+        /// Returns a color lerp that supports multiple colors.
+        /// </summary>
+        /// <param name="increment">The 0-1 incremental value used when interpolating.</param>
+        /// <param name="colors">The various colors to interpolate across.</param>
+        /// <returns></returns>
+        public static Color MulticolorLerp(float increment, params Color[] colors)
+        {
+            int currentColorIndex = (int)(increment * colors.Length);
+            Color currentColor = colors[currentColorIndex];
+            Color nextColor = colors[(currentColorIndex + 1) % colors.Length];
+            return Color.Lerp(currentColor, nextColor, increment * colors.Length % 1f);
+        }
         #endregion
 
         #region Miscellaneous Utilities

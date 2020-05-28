@@ -632,7 +632,9 @@ namespace CalamityMod
                 ModContent.ProjectileType<MagnomalyBeam>(),
                 ModContent.ProjectileType<MagnomalyAura>(),
                 ModContent.ProjectileType<RainbowTrail>(),
-                ModContent.ProjectileType<PrismaticBeam>()
+                ModContent.ProjectileType<PrismaticBeam>(),
+                ModContent.ProjectileType<ExoLight>(),
+                ModContent.ProjectileType<ExoLightBomb>()
             };
 
             projectileDestroyExceptionList = new List<int>()
