@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 600;
+            item.damage = 1200;
             item.crit += 8;
             item.useStyle = 1;
             item.useTime = item.useAnimation = 15;
@@ -90,7 +90,7 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
-				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticWave>(), (int)(damage * 1.75), knockBack, player.whoAmI, 0f, 0f);
+				Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PrismaticWave>(), (int)(damage * 1), knockBack, player.whoAmI, 0f, 0f);
             }
 			else
 			{
