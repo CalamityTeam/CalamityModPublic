@@ -7753,7 +7753,7 @@ namespace CalamityMod.CalPlayer
                 float dashDistance;
                 if (dashMod == 1) //Counter and Evasion Scarf
                 {
-                    dashDistance = evasionScarf ? 16.9f : 14.5f;
+                    dashDistance = evasionScarf ? 16.3f : 14.5f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
