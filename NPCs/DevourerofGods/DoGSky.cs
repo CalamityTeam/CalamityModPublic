@@ -27,12 +27,12 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         private float GetIntensity()
         {
-            if (this.UpdateDoGIndex())
+            if (UpdateDoGIndex())
             {
                 float x = 0f;
-                if (this.DoGIndex != -1)
+                if (DoGIndex != -1)
                 {
-                    x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.DoGIndex].Center);
+                    x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[DoGIndex].Center);
                 }
                 return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.5f;
             }
@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
         public override Color OnTileColor(Color inColor)
         {
-            float intensity = this.GetIntensity();
+            float intensity = GetIntensity();
             return new Color(Vector4.Lerp(new Vector4(0.5f, 0.8f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
         }
 
@@ -70,8 +70,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
                 if (Main.npc[CalamityGlobalNPC.DoGHead].active)
                 {
-                    float intensity = this.GetIntensity();
-                    if ((double)Main.npc[CalamityGlobalNPC.DoGHead].life < (double)Main.npc[CalamityGlobalNPC.DoGHead].lifeMax * 0.15 || CalamityWorld.death)
+                    float intensity = GetIntensity();
+                    if (Main.npc[CalamityGlobalNPC.DoGHead].life < Main.npc[CalamityGlobalNPC.DoGHead].lifeMax * 0.15 || CalamityWorld.death)
                     {
                         spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight),
                             Color.Black * (intensity + 0.5f));

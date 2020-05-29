@@ -73,7 +73,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.justHit || (double)npc.life <= (double)npc.lifeMax * 0.98 || Main.player[npc.target].chaosState)
+            if (npc.justHit || npc.life <= npc.lifeMax * 0.98 || Main.player[npc.target].chaosState)
             {
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 340 : 170;
@@ -106,7 +106,6 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.TargetClosest(true);
             }
-            npc.velocity.Length();
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (!TailSpawned && npc.ai[0] == 0f)
@@ -237,44 +236,21 @@ namespace CalamityMod.NPCs.Abyss
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
-            int num42 = -1;
-            int num43 = (int)(Main.player[npc.target].Center.X / 16f);
-            int num44 = (int)(Main.player[npc.target].Center.Y / 16f);
-            for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
-            {
-                for (int num46 = num44; num46 <= num44 + 15; num46++)
-                {
-                    if (WorldGen.SolidTile2(num45, num46))
-                    {
-                        num42 = num46;
-                        break;
-                    }
-                }
-                if (num42 > 0)
-                {
-                    break;
-                }
-            }
-            if (num42 > 0)
-            {
-                num42 *= 16;
-                float num47 = (float)(num42 - 600); //800
-                if (!detectsPlayer)
-                {
-                    num192 = num47;
-                    if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 400f) //500
-                    {
-                        if (npc.velocity.X > 0f)
-                        {
-                            num191 = Main.player[npc.target].Center.X + 500f; //600
-                        }
-                        else
-                        {
-                            num191 = Main.player[npc.target].Center.X - 500f; //600
-                        }
-                    }
-                }
-            }
+			if (!detectsPlayer)
+			{
+				num192 += 800;
+				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 400f) //500
+				{
+					if (npc.velocity.X > 0f)
+					{
+						num191 = Main.player[npc.target].Center.X + 500f; //600
+					}
+					else
+					{
+						num191 = Main.player[npc.target].Center.X - 500f; //600
+					}
+				}
+			}
             if (detectsPlayer)
             {
                 num188 = 7.5f;
@@ -299,40 +275,6 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.velocity.Normalize();
                     npc.velocity *= num49;
-                }
-            }
-            if (!detectsPlayer)
-            {
-                for (int num51 = 0; num51 < 200; num51++)
-                {
-                    if (Main.npc[num51].active && Main.npc[num51].type == npc.type && num51 != npc.whoAmI)
-                    {
-                        Vector2 vector3 = Main.npc[num51].Center - npc.Center;
-                        if (vector3.Length() < 400f)
-                        {
-                            vector3.Normalize();
-                            vector3 *= 1000f;
-                            num191 -= vector3.X;
-                            num192 -= vector3.Y;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (int num52 = 0; num52 < 200; num52++)
-                {
-                    if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI)
-                    {
-                        Vector2 vector4 = Main.npc[num52].Center - npc.Center;
-                        if (vector4.Length() < 60f)
-                        {
-                            vector4.Normalize();
-                            vector4 *= 200f;
-                            num191 -= vector4.X;
-                            num192 -= vector4.Y;
-                        }
-                    }
                 }
             }
             num191 = (float)((int)(num191 / 16f) * 16);

@@ -8135,7 +8135,7 @@ namespace CalamityMod.NPCs
             {
                 velocity = 10f;
                 acceleration = 0.1f;
-                if (tentaclesDead)
+                if (tentaclesDead || spawnMoreTentacles)
                 {
                     velocity = 12f;
                     acceleration = 0.12f;
@@ -8425,7 +8425,7 @@ namespace CalamityMod.NPCs
 
                 // If tentacles are alive, gain high defense
                 if (!tentaclesDead)
-                    npc.defense = 9999;
+                    npc.defense = spawnMoreTentacles ? 99 : 9999;
                 npc.chaseable = tentaclesDead;
 
                 // Spawn gore
@@ -8516,7 +8516,7 @@ namespace CalamityMod.NPCs
 					}
 
 					// Fire spread of spore clouds
-					if (tentaclesDead)
+					if (tentaclesDead || spawnMoreTentacles)
 					{
 						float shootBoost = death ? 1f : 2f * (0.5f - lifeRatio);
 						calamityGlobalNPC.newAI[0] += 1f + shootBoost;
