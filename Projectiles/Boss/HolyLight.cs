@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
@@ -9,7 +10,6 @@ namespace CalamityMod.Projectiles.Boss
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Light");
-            Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -19,31 +19,29 @@ namespace CalamityMod.Projectiles.Boss
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
+			projectile.alpha = 255;
             projectile.penetrate = 1;
-            projectile.timeLeft = 240;
+            projectile.timeLeft = 200;
         }
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode;
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
-            projectile.velocity.X *= 1.01f;
-            projectile.velocity.Y *= 1.01f;
-            int num487 = (int)Player.FindClosest(projectile.position, projectile.width, projectile.height);
-            Vector2 vector36 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+			if (projectile.ai[0] < 80f)
+			{
+				projectile.ai[0] += 1f;
+
+				if (projectile.timeLeft < 160)
+					projectile.timeLeft = 160;
+			}
+
+			bool expertMode = Main.expertMode;
+            projectile.velocity *= 1.01f;
+            int num487 = Player.FindClosest(projectile.position, projectile.width, projectile.height);
+            Vector2 vector36 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
             float num489 = Main.player[num487].Center.X - vector36.X;
             float num490 = Main.player[num487].Center.Y - vector36.Y;
-            float num491 = (float)Math.Sqrt((double)(num489 * num489 + num490 * num490));
-            if (num491 < 50f && projectile.position.X < Main.player[num487].position.X + (float)Main.player[num487].width && projectile.position.X + (float)projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + (float)Main.player[num487].height && projectile.position.Y + (float)projectile.height > Main.player[num487].position.Y)
+            float num491 = (float)Math.Sqrt(num489 * num489 + num490 * num490);
+            if (num491 < 50f && projectile.position.X < Main.player[num487].position.X + Main.player[num487].width && projectile.position.X + projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + Main.player[num487].height && projectile.position.Y + projectile.height > Main.player[num487].position.Y)
             {
                 int num492 = expertMode ? 50 : 35;
                 Main.player[num487].HealEffect(num492, false);
@@ -52,25 +50,56 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     Main.player[num487].statLife = Main.player[num487].statLifeMax2;
                 }
-                NetMessage.SendData(66, -1, -1, null, num487, (float)num492, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(66, -1, -1, null, num487, num492, 0f, 0f, 0, 0, 0);
                 projectile.Kill();
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(150, 255, 0, projectile.alpha);
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D value = Main.projectileTexture[projectile.type];
+			Color baseColor = new Color(100, 255, 0, 255);
+			Color color33 = baseColor * 0.5f;
+			color33.A = 0;
+			Vector2 vector28 = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+			Color color34 = color33;
+			Vector2 origin5 = value.Size() / 2f;
+			Color color35 = color33 * 0.5f;
+			float num162 = CalamityUtils.GetLerpValue(15f, 30f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
+			Vector2 vector29 = new Vector2(0.5f, 1f) * num162;
+			Vector2 vector30 = new Vector2(0.5f, 1f) * num162;
+			color34 *= num162;
+			color35 *= num162;
 
-        public override void Kill(int timeLeft)
+			int num163 = 0;
+			Vector2 position3 = vector28 + projectile.velocity.SafeNormalize(Vector2.Zero) * CalamityUtils.GetLerpValue(0.5f, 1f, projectile.localAI[0] / 60f, clamped: true) * num163;
+
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(value, position3, null, color34, (float)Math.PI / 2f, origin5, vector29, spriteEffects, 0);
+			spriteBatch.Draw(value, position3, null, color34, 0f, origin5, vector30, spriteEffects, 0);
+			spriteBatch.Draw(value, position3, null, color35, (float)Math.PI / 2f, origin5, vector29 * 0.6f, spriteEffects, 0);
+			spriteBatch.Draw(value, position3, null, color35, 0f, origin5, vector30 * 0.6f, spriteEffects, 0);
+
+			spriteBatch.Draw(value, position3, null, color34, MathHelper.PiOver4, origin5, vector29 * 0.6f, spriteEffects, 0);
+			spriteBatch.Draw(value, position3, null, color34, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.6f, spriteEffects, 0);
+			spriteBatch.Draw(value, position3, null, color35, MathHelper.PiOver4, origin5, vector29 * 0.36f, spriteEffects, 0);
+			spriteBatch.Draw(value, position3, null, color35, MathHelper.PiOver4 * 3f, origin5, vector30 * 0.36f, spriteEffects, 0);
+
+			return false;
+		}
+
+		public override void Kill(int timeLeft)
         {
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
+            projectile.position.X = projectile.position.X + (projectile.width / 2);
+            projectile.position.Y = projectile.position.Y + (projectile.height / 2);
             projectile.width = 50;
             projectile.height = 50;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.position.X = projectile.position.X - (projectile.width / 2);
+            projectile.position.Y = projectile.position.Y - (projectile.height / 2);
             for (int num621 = 0; num621 < 10; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 2f);
@@ -78,7 +107,7 @@ namespace CalamityMod.Projectiles.Boss
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
             }
             for (int num623 = 0; num623 < 15; num623++)

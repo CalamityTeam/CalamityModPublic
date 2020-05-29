@@ -359,40 +359,18 @@ namespace CalamityMod.NPCs
 			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 			float num191 = player.position.X + (player.width / 2);
 			float num192 = player.position.Y + (player.height / 2);
-			int num42 = -1;
-			int num43 = (int)(player.Center.X / 16f);
-			int num44 = (int)(player.Center.Y / 16f);
 
 			if (head && !doSpiral)
 			{
-				for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
+				if (calamityGlobalNPC.newAI[0] != 1f)
 				{
-					for (int num46 = num44; num46 <= num44 + 15; num46++)
+					num192 += 400;
+					if (Math.Abs(npc.Center.X - player.Center.X) < 500f)
 					{
-						if (WorldGen.SolidTile2(num45, num46))
-						{
-							num42 = num46;
-							break;
-						}
-					}
-					if (num42 > 0)
-						break;
-				}
-
-				if (num42 > 0)
-				{
-					num42 *= 16;
-					float num47 = num42 + (notOcean ? 800 : 400); //800
-					if (calamityGlobalNPC.newAI[0] != 1f)
-					{
-						num192 = num47;
-						if (Math.Abs(npc.Center.X - player.Center.X) < (notOcean ? 500f : 400f)) //500
-						{
-							if (npc.velocity.X > 0f)
-								num191 = player.Center.X + (notOcean ? 600f : 480f); //600
-							else
-								num191 = player.Center.X - (notOcean ? 600f : 480f); //600
-						}
+						if (npc.velocity.X > 0f)
+							num191 = player.Center.X + 600f;
+						else
+							num191 = player.Center.X - 600f;
 					}
 				}
 
@@ -5173,7 +5151,7 @@ namespace CalamityMod.NPCs
 					Vector2 vortexSpawn = vector + npc.velocity.RotatedBy(MathHelper.PiOver2 * -npc.direction) * spinTime / MathHelper.TwoPi;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Projectile.NewProjectile(vortexSpawn.X, vortexSpawn.Y, 0f, 0f, ModContent.ProjectileType<OldDukeVortex>(), damage, 0f, Main.myPlayer, vortexSpawn.X, vortexSpawn.Y);
+						Projectile.NewProjectile(vortexSpawn, Vector2.Zero, ModContent.ProjectileType<OldDukeVortex>(), damage, 0f, Main.myPlayer, vortexSpawn.X, vortexSpawn.Y);
 					}
 				}
 
@@ -5580,7 +5558,7 @@ namespace CalamityMod.NPCs
 					Vector2 vortexSpawn = vector + npc.velocity.RotatedBy(MathHelper.PiOver2 * -npc.direction) * spinTime / MathHelper.TwoPi;
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Projectile.NewProjectile(vortexSpawn.X, vortexSpawn.Y, 0f, 0f, ModContent.ProjectileType<OldDukeVortex>(), damage, 0f, Main.myPlayer, vortexSpawn.X, vortexSpawn.Y);
+						Projectile.NewProjectile(vortexSpawn, Vector2.Zero, ModContent.ProjectileType<OldDukeVortex>(), damage, 0f, Main.myPlayer, vortexSpawn.X, vortexSpawn.Y);
 					}
 				}
 
@@ -6714,7 +6692,7 @@ namespace CalamityMod.NPCs
 						}
 					}
 				}
-                if (Main.player[npc.target].dead && flag14)
+                if ((Main.player[npc.target].dead || !Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height)) && flag14)
                 {
                     flag14 = false;
                 }
@@ -6778,10 +6756,10 @@ namespace CalamityMod.NPCs
 								num8 = speed / num8;
 								num6 *= num8;
 								num7 *= num8;
-								int damage = 40;
+								int damage = 50;
 								if (Main.expertMode)
 								{
-									damage = 30;
+									damage = 40;
 								}
 								int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 25f : -25f), npc.Center.Y + (Main.player[npc.target].position.Y > npc.Center.Y ? 5f : -5f), num6, num7, ProjectileID.EyeBeam, damage, 0f, Main.myPlayer, 0f, 0f);
 								Main.projectile[beam].tileCollide = true;
@@ -6806,10 +6784,10 @@ namespace CalamityMod.NPCs
                                     num8 = speed / num8;
                                     num6 *= num8;
                                     num7 *= num8;
-                                    int damage = 25;
+                                    int damage = 35;
                                     if (Main.expertMode)
                                     {
-                                        damage = 19;
+                                        damage = 25;
                                     }
                                     int beam = Projectile.NewProjectile(npc.Center.X + (npc.spriteDirection == 1 ? 10f : -10f), npc.Center.Y, num6, num7, ModContent.ProjectileType<SulphuricAcidMist>(), damage, 0f, Main.myPlayer, 0f, 0f);
                                 }

@@ -9,9 +9,7 @@ using CalamityMod.Items.Armor;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.DifficultyItems;
-using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Mounts;
-using CalamityMod.Items.Pets;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -53,8 +51,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.ModLoader.Config;
-using System.Linq;
 
 namespace CalamityMod.CalPlayer
 {
@@ -5752,12 +5748,35 @@ namespace CalamityMod.CalPlayer
                 if (damage < bossRushDamage)
                     damage = bossRushDamage;
             }
+
+			if (areThereAnyDamnBosses && CalamityMod.bossVelocityDamageScaleValues.ContainsKey(npc.type))
+			{
+				CalamityMod.bossVelocityDamageScaleValues.TryGetValue(npc.type, out float velocityScalar);
+
+				if (((npc.type == NPCID.EyeofCthulhu || npc.type == NPCID.Spazmatism) && npc.ai[0] >= 2f) || (npc.type == NPCID.Plantera && npc.life / (float)npc.lifeMax <= 0.5f))
+					velocityScalar = CalamityMod.bitingEnemeyVelocityScale;
+
+				if (npc.velocity == Vector2.Zero)
+				{
+					damage = (int)(damage * velocityScalar);
+				}
+				else
+				{
+					float amount = npc.velocity.Length() / npc.Calamity().maxVelocity;
+					if (amount > 1f)
+						amount = 1f;
+
+					damage = (int)(damage * MathHelper.Lerp(velocityScalar, 1.1f, amount));
+				}
+			}
+
             if (triumph)
             {
-                double HPMultiplier = 0.15 * (1.0 - ((double)npc.life / (double)npc.lifeMax));
+                double HPMultiplier = 0.15 * (1.0 - (npc.life / (double)npc.lifeMax));
                 int damageReduction = (int)(damage * HPMultiplier);
                 damage -= damageReduction;
             }
+
             if (aSparkRare)
             {
                 if (npc.type == NPCID.BlueJellyfish || npc.type == NPCID.PinkJellyfish || npc.type == NPCID.GreenJellyfish ||
@@ -5765,6 +5784,7 @@ namespace CalamityMod.CalPlayer
                     npc.type == NPCID.MartianTurret || npc.type == ModContent.NPCType<StormlionCharger>() || npc.type == ModContent.NPCType<GhostBell>() || npc.type == ModContent.NPCType<BoxJellyfish>())
                     damage /= 2;
             }
+
             if (fleshTotem && !fleshTotemCooldown)
             {
                 player.AddBuff(ModContent.BuffType<FleshTotemCooldown>(), 1200, false); //20 seconds
