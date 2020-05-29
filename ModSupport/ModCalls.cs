@@ -560,6 +560,10 @@ namespace CalamityMod
 
 			// LATER -- no summon set bonuses are written well. all use two bools, neither of which actually controls the function
 
+			// Desert Prowler
+			if (setBonus == "desertprowler" || setBonus == "desert prowler")
+				return mp.desertProwler;
+
 			// Snow Ruffian
 			if (setBonus == "snowruffian" || setBonus == "snow ruffian")
 				return mp.snowRuffianSet;
@@ -848,6 +852,13 @@ namespace CalamityMod
 		{
 			CalamityPlayer mp = p.Calamity();
 			setBonus = setBonus.ToLower();
+
+			// Desert Prowler
+			if (setBonus == "desert prowler" || setBonus == "desert prowler")
+			{
+				mp.snowRuffianSet = enabled;
+				return true;
+			}
 
 			// Snow Ruffian
 			if (setBonus == "snowruffian" || setBonus == "snow ruffian")

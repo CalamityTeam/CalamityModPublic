@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Spear of Destiny");
-            Tooltip.SetDefault("Throws three spears with the outer two having homing capabilities");
+            Tooltip.SetDefault("Throws three spears with the outer two having homing capabilities\n" +
+			"Stealth strikes cause all three spears to home in, ignore tiles, and pierce more");
         }
 
         public override void SafeSetDefaults()
@@ -40,8 +41,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 			int index = 7;
             for (int i = -index; i <= index; i += index)
             {
+				int projType = (i != 0 || player.Calamity().StealthStrikeAvailable()) ? type : ModContent.ProjectileType<IchorSpearProj>();
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, i != 0 ? type : ModContent.ProjectileType<IchorSpearProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                int spear = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, projType, damage, knockBack, player.whoAmI, 0f, 0f);
+				Main.projectile[spear].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             }
             return false;
         }

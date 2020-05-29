@@ -26,21 +26,27 @@ namespace CalamityMod.NPCs.Providence
 
         private float GetIntensity()
         {
-            if (this.UpdatePIndex())
+            if (UpdatePIndex())
             {
                 float x = 0f;
-                if (this.ProvIndex != -1)
+                if (ProvIndex != -1)
                 {
-                    x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[this.ProvIndex].Center);
+                    x = Vector2.Distance(Main.player[Main.myPlayer].Center, Main.npc[ProvIndex].Center);
                 }
-                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * 0.25f;
+
+				float spawnAnimationTimer = 180f;
+				float intensityScalar = Main.dayTime ? 0.25f : 0.2f;
+				if (Main.npc[CalamityGlobalNPC.holyBoss].Calamity().newAI[3] < spawnAnimationTimer)
+					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[CalamityGlobalNPC.holyBoss].Calamity().newAI[3] / spawnAnimationTimer);
+
+                return (1f - Utils.SmoothStep(3000f, 6000f, x)) * intensityScalar;
             }
             return 0f; //0.5
         }
 
         public override Color OnTileColor(Color inColor)
         {
-            float intensity = this.GetIntensity();
+            float intensity = GetIntensity();
             return new Color(Vector4.Lerp(new Vector4(0.5f, 0.8f, 1f, 1f), inColor.ToVector4(), 1f - intensity));
         }
 
@@ -67,8 +73,9 @@ namespace CalamityMod.NPCs.Providence
         {
             if (maxDepth >= 0 && minDepth < 0)
             {
-                float intensity = this.GetIntensity();
-                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), new Color(255, 200, 100) * intensity);
+                float intensity = GetIntensity();
+				Color color = Main.dayTime ? new Color(255, 200, 100) : new Color(100, 150, 255);
+                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), color * intensity);
             }
         }
 

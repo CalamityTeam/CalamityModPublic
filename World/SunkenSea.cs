@@ -17,12 +17,12 @@ namespace CalamityMod.World
 
             public Hub(Vector2 position)
             {
-                this.Position = position;
+                Position = position;
             }
 
             public Hub(float x, float y)
             {
-                this.Position = new Vector2(x, y);
+                Position = new Vector2(x, y);
             }
         }
 
@@ -47,19 +47,19 @@ namespace CalamityMod.World
                 }
                 if (x > 0 && hubMap[x - 1, y])
                 {
-                    this.SearchForCluster(hubMap, pointCluster, x - 1, y, level);
+                    SearchForCluster(hubMap, pointCluster, x - 1, y, level);
                 }
                 if (x < hubMap.GetLength(0) - 1 && hubMap[x + 1, y])
                 {
-                    this.SearchForCluster(hubMap, pointCluster, x + 1, y, level);
+                    SearchForCluster(hubMap, pointCluster, x + 1, y, level);
                 }
                 if (y > 0 && hubMap[x, y - 1])
                 {
-                    this.SearchForCluster(hubMap, pointCluster, x, y - 1, level);
+                    SearchForCluster(hubMap, pointCluster, x, y - 1, level);
                 }
                 if (y < hubMap.GetLength(1) - 1 && hubMap[x, y + 1])
                 {
-                    this.SearchForCluster(hubMap, pointCluster, x, y + 1, level);
+                    SearchForCluster(hubMap, pointCluster, x, y + 1, level);
                 }
             }
 
@@ -78,9 +78,9 @@ namespace CalamityMod.World
 
             public void Generate(int width, int height) //Creates clusters for cluster group
             {
-                this.Width = width;
-                this.Height = height;
-                base.Clear();
+                Width = width;
+                Height = height;
+                Clear();
                 bool[,] array = new bool[width, height];
                 int num = (width >> 1) - 1;
                 int num2 = (height >> 1) - 1;
@@ -88,8 +88,8 @@ namespace CalamityMod.World
                 Point point = new Point(num, num2);
                 for (int i = point.Y - num2; i <= point.Y + num2; i++)
                 {
-                    float num4 = (float)num / (float)num2 * (float)(i - point.Y);
-                    int num5 = Math.Min(num, (int)Math.Sqrt((double)((float)num3 - num4 * num4)));
+                    float num4 = num / num2 * (i - point.Y);
+                    int num5 = Math.Min(num, (int)Math.Sqrt(num3 - num4 * num4));
                     for (int j = point.X - num5; j <= point.X + num5; j++)
                     {
                         array[j, i] = WorldGen.genRand.Next(2) == 0;
@@ -103,7 +103,7 @@ namespace CalamityMod.World
                         if (array[k, l] && WorldGen.genRand.Next(2) == 0)
                         {
                             List<Point> list2 = new List<Point>();
-                            this.SearchForCluster(array, list2, k, l, 2);
+                            SearchForCluster(array, list2, k, l, 2);
                             if (list2.Count > 2)
                             {
                                 list.Add(list2);
@@ -139,19 +139,19 @@ namespace CalamityMod.World
                         int index = array2[x, y];
                         if (x > 0)
                         {
-                            this.AttemptClaim(x - 1, y, array2, list, index);
+                            AttemptClaim(x - 1, y, array2, list, index);
                         }
                         if (x < array2.GetLength(0) - 1)
                         {
-                            this.AttemptClaim(x + 1, y, array2, list, index);
+                            AttemptClaim(x + 1, y, array2, list, index);
                         }
                         if (y > 0)
                         {
-                            this.AttemptClaim(x, y - 1, array2, list, index);
+                            AttemptClaim(x, y - 1, array2, list, index);
                         }
                         if (y < array2.GetLength(1) - 1)
                         {
-                            this.AttemptClaim(x, y + 1, array2, list, index);
+                            AttemptClaim(x, y + 1, array2, list, index);
                         }
                     }
                 }
@@ -186,9 +186,9 @@ namespace CalamityMod.World
                     {
                         foreach (Point current4 in current3)
                         {
-                            cluster.Add(new Hub((float)current4.X + (WorldGen.genRand.NextFloat() - 0.5f) * 0.5f, (float)current4.Y + (WorldGen.genRand.NextFloat() - 0.5f) * 0.5f));
+                            cluster.Add(new Hub(current4.X + (WorldGen.genRand.NextFloat() - 0.5f) * 0.5f, current4.Y + (WorldGen.genRand.NextFloat() - 0.5f) * 0.5f));
                         }
-                        base.Add(cluster);
+                        Add(cluster);
                     }
                 }
             }
@@ -196,10 +196,10 @@ namespace CalamityMod.World
 
         private static void PlaceClusters(ClusterGroup clusters, Point start, Vector2 scale) //Places tile/wall clusters in Sunken Sea area
         {
-            int num = (int)(scale.X * (float)clusters.Width);
-            int num2 = (int)(scale.Y * (float)clusters.Height);
-            Vector2 value = new Vector2((float)num, (float)num2);
-            Vector2 value2 = new Vector2((float)clusters.Width, (float)clusters.Height);
+            int num = (int)(scale.X * clusters.Width);
+            int num2 = (int)(scale.Y * clusters.Height);
+            Vector2 value = new Vector2(num, num2);
+            Vector2 value2 = new Vector2(clusters.Width, clusters.Height);
             for (int i = -20; i < num + 20; i++)
             {
                 for (int j = -20; j < num2 + 20; j++)
@@ -209,8 +209,8 @@ namespace CalamityMod.World
                     float num5 = 0f;
                     int num6 = i + start.X;
                     int num7 = j + start.Y;
-                    Vector2 vector = new Vector2((float)i, (float)j) / value * value2;
-                    float num8 = (new Vector2((float)i, (float)j) / value * 2f - Vector2.One).Length();
+                    Vector2 vector = new Vector2(i, j) / value * value2;
+                    float num8 = (new Vector2(i, j) / value * 2f - Vector2.One).Length();
                     for (int k = 0; k < clusters.Count; k++)
                     {
                         Cluster cluster = clusters[k];
@@ -303,17 +303,17 @@ namespace CalamityMod.World
         private static void AddTileVariance(ClusterGroup clusters, Point start, Vector2 scale, float size) /*Adds tile variation to the generated tile clusters and generates open areas with sea prism ore;
             Generates sea prism crystals on prism ore and occasionally on navystone*/
         {
-            int num = (int)(scale.X * (float)clusters.Width);
-            int num2 = (int)(scale.Y * (float)clusters.Height);
+            int num = (int)(scale.X * clusters.Width);
+            int num2 = (int)(scale.Y * clusters.Height);
             bool genCentalHole = true;
             Rectangle rectangle = default;
-            int radius = (int)(((float)WorldGen.genRand.Next(24, 28)) * size); //Radius of the generated hole
+            int radius = (int)(WorldGen.genRand.Next(24, 28) * size); //Radius of the generated hole
             int diameter = radius * 2;
             Point point = new Point(WorldGen.UndergroundDesertLocation.Left + (WorldGen.UndergroundDesertLocation.Width / 2),
                 WorldGen.UndergroundDesertLocation.Bottom + (WorldGen.UndergroundDesertLocation.Height / 3)); //Around the center of the Sunken Sea area
             ShapeData holeShape = new ShapeData();
-            float outerRadiusPercentage = (float)((double)WorldGen.genRand.Next(40, 56) * 0.01); //Small radius for ore patch to fit inside holes
-            int sunkenSeaBottom = WorldGen.UndergroundDesertLocation.Bottom + (int)((double)WorldGen.UndergroundDesertLocation.Height * 0.7);
+            float outerRadiusPercentage = (float)(WorldGen.genRand.Next(40, 56) * 0.01); //Small radius for ore patch to fit inside holes
+            int sunkenSeaBottom = WorldGen.UndergroundDesertLocation.Bottom + (int)(WorldGen.UndergroundDesertLocation.Height * 0.7);
             int smallHoles = 0;
             int amt = (int)(4f * size); //Scale amount of holes with world size
             for (int i = -20; i < num + 20; i++)
@@ -341,7 +341,7 @@ namespace CalamityMod.World
                             new Actions.SetFrames(true)
                         }));
 
-                        WorldUtils.Gen(point, new Shapes.Circle((int)((float)radius * outerRadiusPercentage)), Actions.Chain(new GenAction[] //Smallest is 6
+                        WorldUtils.Gen(point, new Shapes.Circle((int)(radius * outerRadiusPercentage)), Actions.Chain(new GenAction[] //Smallest is 6
                         {
                             new Modifiers.Blotches(2, 0.3).Output(holeShape),
                             new Actions.SetTile((ushort)ModContent.TileType<Navystone>(), true) //Place outer shell
@@ -355,13 +355,13 @@ namespace CalamityMod.World
                             new Actions.SetFrames(true)
                         }));
 
-                        WorldUtils.Gen(point, new Shapes.Circle((int)((float)radius * (outerRadiusPercentage * 0.6f))), Actions.Chain(new GenAction[] //Smallest is 4
+                        WorldUtils.Gen(point, new Shapes.Circle((int)(radius * (outerRadiusPercentage * 0.6f))), Actions.Chain(new GenAction[] //Smallest is 4
                         {
                             new Modifiers.Blotches(2, 0.3),
                             new Actions.SetTile((ushort)ModContent.TileType<SeaPrism>(), true) //Place prism
                         }));
 
-                        WorldUtils.Gen(point, new Shapes.Circle((int)((float)radius * (outerRadiusPercentage * 0.3f))), Actions.Chain(new GenAction[] //Smallest is 2
+                        WorldUtils.Gen(point, new Shapes.Circle((int)(radius * (outerRadiusPercentage * 0.3f))), Actions.Chain(new GenAction[] //Smallest is 2
                         {
                             new Modifiers.Blotches(2, 0.3).Output(holeShape),
                             new Actions.ClearTile(true), //Clear all tiles
@@ -381,7 +381,7 @@ namespace CalamityMod.World
                     if (smallHoles < amt && WorldGen.genRand.Next(3) == 0 && !rectangle.Contains(point))
                     {
                         smallHoles++;
-                        int radiusSmall = (int)(((float)WorldGen.genRand.Next(8, 11)) * size);
+                        int radiusSmall = (int)(WorldGen.genRand.Next(8, 11) * size);
                         WorldUtils.Gen(point, new Shapes.Circle(radiusSmall), Actions.Chain(new GenAction[]
                         {
                             new Modifiers.Blotches(2, 0.45).Output(holeShape),
@@ -397,8 +397,8 @@ namespace CalamityMod.World
                             new Actions.SetFrames(true)
                         }));
 
-                        outerRadiusPercentage = (float)((double)WorldGen.genRand.Next(65, 81) * 0.01);
-                        WorldUtils.Gen(point, new Shapes.Circle((int)((float)radiusSmall * outerRadiusPercentage)), Actions.Chain(new GenAction[] //Smallest is 4
+                        outerRadiusPercentage = (float)(WorldGen.genRand.Next(65, 81) * 0.01);
+                        WorldUtils.Gen(point, new Shapes.Circle((int)(radiusSmall * outerRadiusPercentage)), Actions.Chain(new GenAction[] //Smallest is 4
                         {
                             new Modifiers.Blotches(2, 0.3).Output(holeShape),
                             new Actions.SetTile((ushort)ModContent.TileType<Navystone>(), true) //Place outer shell
@@ -412,13 +412,13 @@ namespace CalamityMod.World
                             new Actions.SetFrames(true)
                         }));
 
-                        WorldUtils.Gen(point, new Shapes.Circle((int)((float)radiusSmall * (outerRadiusPercentage * 0.6f))), Actions.Chain(new GenAction[] //Smallest is 2
+                        WorldUtils.Gen(point, new Shapes.Circle((int)(radiusSmall * (outerRadiusPercentage * 0.6f))), Actions.Chain(new GenAction[] //Smallest is 2
                         {
                             new Modifiers.Blotches(2, 0.3),
                             new Actions.SetTile((ushort)ModContent.TileType<SeaPrism>(), true) //Place prism
                         }));
 
-                        WorldUtils.Gen(point, new Shapes.Circle((int)((float)radiusSmall * (outerRadiusPercentage * 0.3f))), Actions.Chain(new GenAction[] //Smallest is 1
+                        WorldUtils.Gen(point, new Shapes.Circle((int)(radiusSmall * (outerRadiusPercentage * 0.3f))), Actions.Chain(new GenAction[] //Smallest is 1
                         {
                             new Modifiers.Blotches(2, 0.3).Output(holeShape),
                             new Actions.ClearTile(true), //Clear center
@@ -501,11 +501,11 @@ namespace CalamityMod.World
                                     tile3.type = (ushort)ModContent.TileType<SeaPrismCrystals>();
                                     if (Main.tile[num5 - 1, num6].type == ModContent.TileType<SeaPrismCrystals>())
                                     {
-                                        Main.tile[num5 - 1, num6].frameY = (short)(2 * 18);
+                                        Main.tile[num5 - 1, num6].frameY = 2 * 18;
                                     }
                                     else if (Main.tile[num5 + 1, num6].type == ModContent.TileType<SeaPrismCrystals>())
                                     {
-                                        Main.tile[num5 + 1, num6].frameY = (short)(3 * 18);
+                                        Main.tile[num5 + 1, num6].frameY = 3 * 18;
                                     }
                                     tile3.frameX = (short)(WorldGen.genRand.Next(18) * 18);
                                     tile3.active(true);
@@ -519,11 +519,11 @@ namespace CalamityMod.World
                                     tile3.type = (ushort)ModContent.TileType<SeaPrismCrystals>();
                                     if (Main.tile[num5, num6 - 1].type == ModContent.TileType<SeaPrismCrystals>())
                                     {
-                                        Main.tile[num5, num6 - 1].frameY = (short)(0 * 18);
+                                        Main.tile[num5, num6 - 1].frameY = 0 * 18;
                                     }
                                     else if (Main.tile[num5, num6 + 1].type == ModContent.TileType<SeaPrismCrystals>())
                                     {
-                                        Main.tile[num5, num6 + 1].frameY = (short)(1 * 18);
+                                        Main.tile[num5, num6 + 1].frameY = 1 * 18;
                                     }
                                     tile3.frameX = (short)(WorldGen.genRand.Next(18) * 18);
                                     tile3.active(true);
@@ -576,19 +576,19 @@ namespace CalamityMod.World
         public static bool Place(Point origin)
         {
             // 1 on Small, 1.52 on Medium, 2 on Large
-            float scale = (float)Main.maxTilesX / 4200f;
+            float scale = Main.maxTilesX / 4200f;
             // Clamp scale to prevent problems on extra large worlds
             scale = MathHelper.Clamp(scale, 1f, 2f);
             int sunkenSeaAreaX = (int)(80f * scale); //80f
             int sunkenSeaAreaY = (int)((WorldGen.genRand.NextFloat() + 1f) * 60f * scale); //80f
-            float radius = (float)WorldGen.genRand.Next(6, 10);
+            float radius = WorldGen.genRand.Next(6, 10);
             Vector2 vector = new Vector2(4f, 2f); //4, 2
             ClusterGroup clusterGroup = new ClusterGroup();
             clusterGroup.Generate(sunkenSeaAreaX, sunkenSeaAreaY);
-            SunkenSea.PlaceClusters(clusterGroup, origin, vector);
-            SunkenSea.AddTileVariance(clusterGroup, origin, vector, scale);
-            int num4 = (int)(vector.X * (float)clusterGroup.Width);
-            int num5 = (int)(vector.Y * (float)clusterGroup.Height);
+            PlaceClusters(clusterGroup, origin, vector);
+            AddTileVariance(clusterGroup, origin, vector, scale);
+            int num4 = (int)(vector.X * clusterGroup.Width);
+            int num5 = (int)(vector.Y * clusterGroup.Height);
             for (int i = -40; i < num4 + 40; i++) //40
             {
                 for (int j = -40; j < num5 + 40; j++) //40

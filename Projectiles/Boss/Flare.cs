@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
+			projectile.extraUpdates = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -59,6 +60,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.ai[0] += 1f;
 			num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
 			projectile.velocity.Y = projectile.velocity.Y + num632;
+
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] > 10f)
 			{

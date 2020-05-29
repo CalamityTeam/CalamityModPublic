@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            int numProj = 2;
+            int numProj = projectile.Calamity().stealthStrike ? 3 : 2;
             float rotation = MathHelper.ToRadians(20);
             if (projectile.owner == Main.myPlayer)
             {
@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            int numProj = 2;
+            int numProj = projectile.Calamity().stealthStrike ? 3 : 2;
             float rotation = MathHelper.ToRadians(20);
             if (projectile.owner == Main.myPlayer)
             {

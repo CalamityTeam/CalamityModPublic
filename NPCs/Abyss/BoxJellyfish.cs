@@ -21,11 +21,11 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             npc.noGravity = true;
-            npc.damage = 22;
+            npc.damage = 44;
             npc.width = 30;
             npc.height = 33;
             npc.defense = 5;
-            npc.lifeMax = 45;
+            npc.lifeMax = 90;
             npc.alpha = 20;
             npc.aiStyle = -1;
             aiType = -1;
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.Abyss
                 if (npc.velocity.Y == 0f)
                 {
                     npc.velocity.X = npc.velocity.X * 0.98f;
-                    if ((double)npc.velocity.X > -0.01 && (double)npc.velocity.X < 0.01)
+                    if (npc.velocity.X > -0.01 && npc.velocity.X < 0.01)
                     {
                         npc.velocity.X = 0f;
                     }
@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.Abyss
             }
             bool flag16 = false;
             npc.TargetClosest(false);
-            if (Main.player[npc.target].wet && !Main.player[npc.target].dead)
+            if (Main.player[npc.target].wet && !Main.player[npc.target].dead && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
             {
                 flag16 = true;
             }

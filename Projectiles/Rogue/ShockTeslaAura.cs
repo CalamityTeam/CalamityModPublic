@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             if (CalamityGlobalNPC.ShouldAffectNPC(target))
             {
-                float knockbackMultiplier = knockback - target.knockBackResist;
+                float knockbackMultiplier = knockback - (1f - target.knockBackResist);
                 if (knockbackMultiplier < 0)
                 {
                     knockbackMultiplier = 0;

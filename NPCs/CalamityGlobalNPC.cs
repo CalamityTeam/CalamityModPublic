@@ -1,10 +1,7 @@
-using CalamityMod;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.Placeables;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Potions;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
@@ -39,7 +36,6 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
@@ -65,13 +61,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.NPCs
@@ -98,6 +92,9 @@ namespace CalamityMod.NPCs
 
 		// Iron Heart (currently unimplemented)
 		// private int ironHeartDamage = 0;
+
+		// Max velocity used in contact damage scaling
+		public float maxVelocity = 0f;
 
 		// Town NPC shop alert animation variables
 		private int shopAlertAnimTimer = 0;
@@ -585,6 +582,28 @@ namespace CalamityMod.NPCs
                 }
             }
 
+            if (irradiated > 0)
+            {
+                int projectileCount = 0;
+                for (int j = 0; j < Main.maxProjectiles; j++)
+                {
+                    if (Main.projectile[j].active && Main.projectile[j].type == ProjectileType<WaterLeechProj>() &&
+                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
+                    {
+                        projectileCount++;
+                    }
+                }
+
+                if (projectileCount > 0)
+                {
+					ApplyDPSDebuff(irradiated, projectileCount * 20, projectileCount * 4, ref npc.lifeRegen, ref damage);
+                }
+				else
+				{
+					ApplyDPSDebuff(irradiated, 20, 4, ref npc.lifeRegen, ref damage);
+				}
+            }
+
             // Exo Freeze, Glacial State and Temporal Sadness don't work on bosses or other specific enemies.
             if (!npc.boss && !CalamityMod.movementImpairImmuneList.Contains(npc.type))
             {
@@ -623,7 +642,6 @@ namespace CalamityMod.NPCs
 			}
 
 			ApplyDPSDebuff(vaporfied, 30, 6, ref npc.lifeRegen, ref damage);
-            ApplyDPSDebuff(irradiated, 20, 4, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bFlames, 40, 8, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(hFlames, 50, 10, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(pFlames, 100, 20, ref npc.lifeRegen, ref damage);
@@ -1019,19 +1037,6 @@ namespace CalamityMod.NPCs
             {
                 npc.width = npc.height = 36;
             }
-
-			//Reduce damage in Death Mode by the Beach
-			if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses)
-			{
-				if (npc.type == NPCID.Sharkron)
-				{
-					npc.damage = 25;
-				}
-				if (npc.type == NPCID.Sharkron2)
-				{
-					npc.damage = 50;
-				}
-			}
 
             if (npc.type == NPCID.CultistBoss)
             {
@@ -1511,8 +1516,14 @@ namespace CalamityMod.NPCs
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
 			if (KillTime > 0 && AITimer < KillTime && !CalamityWorld.bossRushActive)
 			{
+				float DRScalar = !GetDownedBossVariable(npc.type) || CalamityMod.CalamityConfig.ExtraBossDR ? 1.5f : 1f;
+
+				// Boost Providence timed DR during the night
+				if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
+					DRScalar = 10f;
+
 				// The limit for how much extra DR the boss can have
-				float extraDRLimit = (1f - DR) * (!GetDownedBossVariable(npc.type) || CalamityMod.CalamityConfig.ExtraBossDR ? 1.5f : 1f);
+				float extraDRLimit = (1f - DR) * DRScalar;
 
 				// Ranges from 1 to 0
 				float currentHPRatio = npc.life / (float)npc.lifeMax;
@@ -1640,6 +1651,12 @@ namespace CalamityMod.NPCs
         public override bool PreAI(NPC npc)
         {
             SetPatreonTownNPCName(npc);
+
+			if (CalamityPlayer.areThereAnyDamnBosses)
+			{
+				if (npc.velocity.Length() > maxVelocity)
+					maxVelocity = npc.velocity.Length();
+			}
 
 			if (KillTime > 0 && AITimer < KillTime)
 				AITimer++;
@@ -2531,10 +2548,14 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.Dryad:
-                        switch (Main.rand.Next(22)) // 21 Dryad names
+                        switch (Main.rand.Next(23)) // 21 Dryad names
                         {
                             case 0:
                                 npc.GivenName = "Rythmi";
+                                break;
+
+                            case 1:
+                                npc.GivenName = "Izuna"; 
                                 break;
 
                             default:
@@ -3567,7 +3588,7 @@ namespace CalamityMod.NPCs
 			}
             else if (DestroyerIDs.Contains(npc.type))
             {
-                if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion))
+                if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
                 {
                     damage = (int)(damage * 0.5);
                 }
@@ -5960,22 +5981,40 @@ namespace CalamityMod.NPCs
 		}
 		#endregion
 
-		#region Any Living Players
+		#region Player Counts
 		public static bool AnyLivingPlayers()
         {
             for (int i = 0; i < Main.maxPlayers; i++)
             {
-                if (Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost)
+                if (Main.player[i] != null && Main.player[i].active && !Main.player[i].dead && !Main.player[i].ghost)
                 {
                     return true;
                 }
             }
             return false;
         }
-        #endregion
 
-        #region Should Affect NPC
-        public static bool ShouldAffectNPC(NPC target)
+		public static int GetActivePlayerCount()
+		{
+			if (Main.netMode == NetmodeID.SinglePlayer)
+			{
+				return 1;
+			}
+
+			int players = 0;
+			for (int i = 0; i < 255; i++)
+			{
+				if (Main.player[i] != null && Main.player[i].active)
+				{
+					players++;
+				}
+			}
+			return players;
+		}
+		#endregion
+
+		#region Should Affect NPC
+		public static bool ShouldAffectNPC(NPC target)
         {
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage &&
                 target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&

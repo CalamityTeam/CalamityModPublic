@@ -5,7 +5,10 @@ using CalamityMod.Items.Mounts;
 using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.AstrumAureus;
 using CalamityMod.World;
 using Terraria;
@@ -34,10 +37,7 @@ namespace CalamityMod.Items.TreasureBags
             item.rare = 9;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void OpenBossBag(Player player)
         {
@@ -50,7 +50,10 @@ namespace CalamityMod.Items.TreasureBags
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<Nebulash>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AuroraBlazer>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AlulaAustralis>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<BorealisBomber>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AuroradicalThrow>(), 3);
 
             // Equipment
             DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), CalamityWorld.revenge && NPC.downedMoonlord);

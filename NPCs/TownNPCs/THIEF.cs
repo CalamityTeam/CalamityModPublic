@@ -140,7 +140,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.hardMode)
             {
                 PossibleDialogs.Add("With all of this new stuff cropping up, looks like we got some easy loot and new items to craft up, eh? Well, YOU craft them, I'll steal em.");
-                PossibleDialogs.Add("Draedon thinks he can build awesome machines but he don't know how much crap I've stolen from him and sold by dismantling his drones.");
+                PossibleDialogs.Add("Draedon thinks he can build awesome machines, but he doesn't know how much crap I've stolen from him and sold by dismantling his drones.");
                 PossibleDialogs.Add("Gramma always said never to invade ancient temples or you'll be cursed and die. Let's say both of us attest that is untrue. We're still alive. Somewhat.");
             }
             if (NPC.downedMoonlord)
