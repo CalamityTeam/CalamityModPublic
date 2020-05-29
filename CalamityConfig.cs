@@ -13,12 +13,13 @@ namespace CalamityMod
 		public static CalamityConfig Instance;
 		public override ConfigScope Mode => ConfigScope.ClientSide;
 
+		// Clamps values that would cause ugly problems if loaded directly without sanitization.
 		[OnDeserialized]
 		internal void ClampValues(StreamingContext context)
 		{
-			BossHealthPercentageBoost = Utils.Clamp(BossHealthPercentageBoost, MinBossHealthBoost, MaxBossHealthBoost);
+			BossHealthBoost = Utils.Clamp(BossHealthBoost, MinBossHealthBoost, MaxBossHealthBoost);
 			MeterShake = Utils.Clamp(MeterShake, MinMeterShake, MaxMeterShake);
-			WeatherEffectRateMultiplier = Utils.Clamp(WeatherEffectRateMultiplier, MinWeatherMultiplier, MaxWeatherMultiplier);
+			DeathWeatherMultiplier = Utils.Clamp(DeathWeatherMultiplier, MinWeatherMultiplier, MaxWeatherMultiplier);
 		}
 
 		[Header("Graphics Changes")]
@@ -39,7 +40,7 @@ namespace CalamityMod
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Adds an icon that appears over Town NPCs when they have new items in their shops.")]
-		public bool TownNPCNewShopInventoryAlertDisplay { get; set; }
+		public bool ShopNewAlert { get; set; }
 
 		[Header("UI Changes")]
 
@@ -47,19 +48,19 @@ namespace CalamityMod
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Enables Calamity's boss health bar in the bottom right corner of the screen.")]
-		public bool DrawBossBar { get; set; }
+		public bool BossHealthBar { get; set; }
 
 		[Label("Boss Health Bar Extra Info")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
-		[Tooltip("Adds small text under the Calamity boss health bar.\nThis text displays either the boss's exact health or number of remaining parts or segments.")]
-		public bool DrawSmallText { get; set; }
+		[Tooltip("Adds extra info to the Calamity boss health bar.\nThis displays either the boss's exact health or number of remaining parts or segments.")]
+		public bool BossHealthBarExtraInfo { get; set; }
 
 		[Label("Boss and Miniboss Debuff Display")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Adds an array of debuff icons above all bosses and minibosses.")]
-		public bool EnemyDebuffDisplay { get; set; }
+		public bool DebuffDisplay { get; set; }
 
 		[BackgroundColor(192, 54, 64, 192)]
 		[Label("Lock Meter Positions")]
@@ -101,13 +102,13 @@ namespace CalamityMod
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Enables the Proficiency system which allows the player to gain slight stat bonuses by persistently using one damage class.\nDisabling the system does not remove levels players already have, but disables their stat bonuses and prevents experience gain.")]
-		public bool ProficiencyEnabled { get; set; }
+		public bool Proficiency { get; set; }
 
 		[Label("Sell Vanilla Boss Summons")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Adds vanilla boss summons to NPC shops after the corresponding boss is defeated.\nThis does not affect Calamity's boss summons, which are always sold.\nTo apply changes, close and reopen the shop.")]
-		public bool SellBossSummons { get; set; }
+		public bool SellVanillaSummons { get; set; }
 
 		[Label("Boost Mining Speed")]
 		[BackgroundColor(192, 54, 64, 192)]
@@ -119,7 +120,7 @@ namespace CalamityMod
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
 		[Tooltip("Always activates Reactive Boss DR, even if the boss has already been defeated.\nReactive Boss DR makes bosses smoothly take less damage if they are being killed very quickly.\nThis effect is always active on bosses that have not yet been defeated.\nIn almost all cases, Reactive Boss DR has no noticeable effect when enabled.")]
-		public bool ExtraBossDR { get; set; }
+		public bool ReactiveBossDR { get; set; }
 
 		private const float MinBossHealthBoost = 0f;
 		private const float MaxBossHealthBoost = 900f;
@@ -132,7 +133,7 @@ namespace CalamityMod
 		[DrawTicks]
 		[DefaultValue(MinBossHealthBoost)]
 		[Tooltip("Globally boosts the health of all bosses.\nDoes not affect bosses that are already spawned.")]
-		public float BossHealthPercentageBoost { get; set; }
+		public float BossHealthBoost { get; set; }
 
 		[Header("Expert Mode Changes")]
 
@@ -140,25 +141,25 @@ namespace CalamityMod
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Disables Expert Mode doubling the duration of all debuffs inflicted on the player.\nCalamity is balanced with the assumption that this setting is enabled.")]
-		public bool ExpertDebuffDurationReduction { get; set; }
+		public bool NerfExpertDebuffs { get; set; }
 
 		[Label("Rework Chilled Water")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("When enabled, water in the Snow and Ice biomes will rapidly drain the player's breath instead of inflicting Chilled.")]
-		public bool ExpertChilledWaterRemoval { get; set; }
+		public bool ReworkChilledWater { get; set; }
 
 		[Label("Reduce Celestial Pillar Kill Count")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Reduces the kills required to destroy a Celestial Pillar shield in Expert Mode from 150 to 100.\nThis makes the value equivalent to Normal Mode.")]
-		public bool ExpertPillarEnemyKillCountReduction { get; set; }
+		public bool NerfExpertPillars { get; set; }
 
 		[Label("Disable Expert Enemy Spawns in Towns")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
 		[Tooltip("Counteracts Expert Mode allowing enemies to spawn near towns by vastly decreasing spawn rates.\nThis can have unintended side effects such as making critters difficult to find.")]
-		public bool DisableExpertEnemySpawnsNearHouse { get; set; }
+		public bool DisableExpertTownSpawns { get; set; }
 
 		[Header("Revengeance Mode Changes")]
 
@@ -166,13 +167,13 @@ namespace CalamityMod
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
 		[Tooltip("Buffs Thorium bosses if Revengeance Mode or Death Mode is active.\nThe buff gives them extra health and DR, but has no other changes.")]
-		public bool RevengeanceAndDeathThoriumBossBuff { get; set; }
+		public bool BuffThoriumBosses { get; set; }
 
 		[Label("Rage and Adrenaline")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(true)]
 		[Tooltip("Enables Rage and Adrenaline, the two Revengeance Mode mechanics.")]
-		public bool AdrenalineAndRage { get; set; }
+		public bool Rippers { get; set; }
 
 		private const float MinMeterShake = 0f;
 		private const float MaxMeterShake = 4f;
@@ -232,7 +233,7 @@ namespace CalamityMod
 		[DrawTicks]
 		[DefaultValue(1f)]
 		[Tooltip("Adjusts the delay between Death Mode weather hazards such as lightning.\nDecreasing this value makes hazards more frequent.\nIncreasing this value makes hazards less frequent.")]
-		public float WeatherEffectRateMultiplier { get; set; }
+		public float DeathWeatherMultiplier { get; set; }
 
 		[Header("Boss Rush Curses")]
 

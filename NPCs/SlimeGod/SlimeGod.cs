@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.scale = 1.1f;
             npc.defense = 10;
             npc.LifeMaxNERB(4000, 5500, 2200000);
-            double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;

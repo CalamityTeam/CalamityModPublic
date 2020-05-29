@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.height = 44;
             npc.defense = 6;
             npc.LifeMaxNERB(4000, 5000, 2500000);
-            double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;

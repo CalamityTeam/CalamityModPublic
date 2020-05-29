@@ -178,7 +178,7 @@ namespace CalamityMod.World
         #region Initialize
         public override void Initialize()
         {
-            if (CalamityConfig.Instance.ExpertPillarEnemyKillCountReduction)
+            if (CalamityConfig.Instance.NerfExpertPillars)
             {
                 NPC.LunarShieldPowerExpert = 100;
             }
@@ -1508,7 +1508,7 @@ namespace CalamityMod.World
 
                     if (modPlayer.bossZen || DoGSecondStageCountdown > 0)
                         spawnRate *= 50D;
-                    if (modPlayer.zen || (CalamityConfig.Instance.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
+                    if (modPlayer.zen || (CalamityConfig.Instance.DisableExpertTownSpawns && player.townNPCs > 1f && Main.expertMode))
                         spawnRate *= 2D;
                     if (modPlayer.tranquilityCandle)
                         spawnRate *= 1.67D;

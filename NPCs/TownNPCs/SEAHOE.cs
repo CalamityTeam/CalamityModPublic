@@ -287,7 +287,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
                 nextSlot++;
             }
-            if (NPC.downedFishron && CalamityConfig.Instance.SellBossSummons)
+            if (NPC.downedFishron && CalamityConfig.Instance.SellVanillaSummons)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);

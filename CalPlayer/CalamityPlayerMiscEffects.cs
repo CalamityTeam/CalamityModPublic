@@ -49,7 +49,7 @@ namespace CalamityMod.CalPlayer
 				modPlayer.fearmongerRegenFrames--;
 
 			// Reduce the expert debuff time multiplier to the normal mode multiplier
-			if (CalamityConfig.Instance.ExpertDebuffDurationReduction)
+			if (CalamityConfig.Instance.NerfExpertDebuffs)
 				Main.expertDebuffTime = 1f;
 
 			// Bool for any existing bosses, true if any boss NPC is active
@@ -177,7 +177,7 @@ namespace CalamityMod.CalPlayer
 						player.immuneTime = 120;
 
 					// Adrenaline and Rage
-					if (CalamityConfig.Instance.AdrenalineAndRage)
+					if (CalamityConfig.Instance.Rippers)
 					{
 						// This is how much Rage will be changed by this frame.
 						float rageDiff = 0;
@@ -356,7 +356,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Proficiency level ups
-			if (CalamityConfig.Instance.ProficiencyEnabled)
+			if (CalamityConfig.Instance.Proficiency)
 				modPlayer.GetExactLevelUp();
 
 			// Max mana bonuses
@@ -420,7 +420,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
 			}
-			if (CalamityConfig.Instance.ExpertChilledWaterRemoval)
+			if (CalamityConfig.Instance.ReworkChilledWater)
 			{
 				if (Main.expertMode && player.ZoneSnow && player.wet && !player.lavaWet && !player.honeyWet)
 				{
@@ -604,7 +604,7 @@ namespace CalamityMod.CalPlayer
 
 						if (Main.raining)
 						{
-							float frequencyMult = (1f - Main.cloudAlpha) * CalamityConfig.Instance.WeatherEffectRateMultiplier; // 3 to 0.055
+							float frequencyMult = (1f - Main.cloudAlpha) * CalamityConfig.Instance.DeathWeatherMultiplier; // 3 to 0.055
 
 							Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-1000, 1001), player.Center.Y - (float)Main.rand.Next(700, 801));
 							Tile tileSafely = Framing.GetTileSafely((int)(spawnPoint.X / 16f), (int)(spawnPoint.Y / 16f));
@@ -3656,7 +3656,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (CalamityConfig.Instance.ProficiencyEnabled)
+			if (CalamityConfig.Instance.Proficiency)
 				modPlayer.GetStatBonuses();
 		}
 		#endregion

@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
                 npc.lifeMax *= 8;
                 npc.value *= 3f;
             }
-            double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;

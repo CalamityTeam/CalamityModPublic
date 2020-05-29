@@ -88,7 +88,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
             }
-            double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
         }
 

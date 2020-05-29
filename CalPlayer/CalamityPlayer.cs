@@ -2877,7 +2877,7 @@ namespace CalamityMod.CalPlayer
                     }
                     rage = 0;
                 }
-                if (rage == rageMax && CalamityConfig.Instance.AdrenalineAndRage && !rageModeActive)
+                if (rage == rageMax && CalamityConfig.Instance.Rippers && !rageModeActive)
                 {
                     Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 64; num502++)
@@ -2900,7 +2900,7 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<RageMode>(), RageDuration);
                 }
             }
-            if (CalamityMod.AdrenalineHotKey.JustPressed && CalamityConfig.Instance.AdrenalineAndRage && CalamityWorld.revenge)
+            if (CalamityMod.AdrenalineHotKey.JustPressed && CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
             {
                 if (adrenaline == adrenalineMax && !adrenalineModeActive)
                 {
@@ -3239,7 +3239,7 @@ namespace CalamityMod.CalPlayer
 
         public override void UpdateEquips(ref bool wallSpeedBuff, ref bool tileSpeedBuff, ref bool tileRangeBuff)
         {
-            if (CalamityConfig.Instance.DrawBossBar)
+            if (CalamityConfig.Instance.BossHealthBar)
             {
                 drawBossHPBar = true;
             }
@@ -3247,7 +3247,7 @@ namespace CalamityMod.CalPlayer
             {
                 drawBossHPBar = false;
             }
-            if (CalamityConfig.Instance.DrawSmallText)
+            if (CalamityConfig.Instance.BossHealthBarExtraInfo)
             {
                 shouldDrawSmallText = true;
             }
@@ -3352,7 +3352,7 @@ namespace CalamityMod.CalPlayer
 				else
 					meleeSpeedMult -= 0.025f;
 			}
-			if (CalamityConfig.Instance.ProficiencyEnabled)
+			if (CalamityConfig.Instance.Proficiency)
             {
                 meleeSpeedMult += GetMeleeSpeedBonus();
             }
@@ -4957,7 +4957,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageMult += 1.25;
             }
-            if (CalamityWorld.revenge && CalamityConfig.Instance.AdrenalineAndRage)
+            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
             {
                 bool DHorHoD = draedonsHeart || heartOfDarkness;
                 if (rageModeActive && adrenalineModeActive)
@@ -5103,7 +5103,7 @@ namespace CalamityMod.CalPlayer
                         player.HealEffect(healAmount);
                     }
                 }
-                if (CalamityConfig.Instance.ProficiencyEnabled)
+                if (CalamityConfig.Instance.Proficiency)
                 {
                     if (gainLevelCooldown <= 0)
                     {
@@ -5129,7 +5129,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                 }
-                if (CalamityWorld.revenge && CalamityConfig.Instance.AdrenalineAndRage)
+                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
                 {
                     if (item.melee)
                     {
@@ -5285,7 +5285,7 @@ namespace CalamityMod.CalPlayer
                     damageMult += 0.5;
                 }
             }
-            if (CalamityWorld.revenge && CalamityConfig.Instance.AdrenalineAndRage)
+            if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
             {
                 bool DHorHoD = draedonsHeart || heartOfDarkness;
                 if (rageModeActive && adrenalineModeActive)
@@ -5622,7 +5622,7 @@ namespace CalamityMod.CalPlayer
                 {
                     polarisBoostCounter += 1;
                 }
-                if (CalamityConfig.Instance.ProficiencyEnabled)
+                if (CalamityConfig.Instance.Proficiency)
                 {
                     if (gainLevelCooldown <= 0) //max is 12501 to avoid setting off fireworks forever
                     {
@@ -5729,7 +5729,7 @@ namespace CalamityMod.CalPlayer
                     raiderStack++;
                     raiderCooldown = 30;
                 }
-                if (CalamityWorld.revenge && CalamityConfig.Instance.AdrenalineAndRage)
+                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
                 {
                     if (isTrueMelee)
                     {
@@ -5825,7 +5825,7 @@ namespace CalamityMod.CalPlayer
             }
             if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
-                if (CalamityWorld.revenge && CalamityConfig.Instance.AdrenalineAndRage && !npc.SpawnedFromStatue)
+                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && !npc.SpawnedFromStatue)
                 {
                     gainRageCooldown = 60;
                     int stressGain = damage * (profanedRage ? 3 : 2);
@@ -5950,7 +5950,7 @@ namespace CalamityMod.CalPlayer
 
             if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
-                if (CalamityWorld.revenge && CalamityConfig.Instance.AdrenalineAndRage && !CalamityMod.trapProjectileList.Contains(proj.type))
+                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && !CalamityMod.trapProjectileList.Contains(proj.type))
                 {
                     gainRageCooldown = 60;
                     int stressGain = damage * (profanedRage ? 3 : 2);
@@ -6475,7 +6475,7 @@ namespace CalamityMod.CalPlayer
                 if (!CalamityWorld.downedBossAny)
                     damage = (int)(damage * 0.8);
 
-                if (CalamityConfig.Instance.AdrenalineAndRage)
+                if (CalamityConfig.Instance.Rippers)
                 {
                     if (adrenaline == adrenalineMax && !adrenalineModeActive)
                         damage = (int)(damage * 0.5);
@@ -6524,7 +6524,7 @@ namespace CalamityMod.CalPlayer
             modStealth = 1f;
             if (player.whoAmI == Main.myPlayer)
             {
-                if (CalamityConfig.Instance.AdrenalineAndRage && CalamityWorld.revenge)
+                if (CalamityConfig.Instance.Rippers && CalamityWorld.revenge)
                 {
                     if (!adrenalineModeActive && damage > 0) //to prevent paladin's shield ruining adren even with 0 dmg taken
 					{

@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 npc.lifeMax = 400000;
             }
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.noGravity = true;

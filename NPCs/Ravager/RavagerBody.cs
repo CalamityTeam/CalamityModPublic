@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.Ravager
                 npc.lifeMax *= 7;
                 npc.value *= 1.5f;
             }
-            double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             aiType = -1;
