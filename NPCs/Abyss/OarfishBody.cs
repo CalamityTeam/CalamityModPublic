@@ -15,11 +15,11 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SetDefaults()
         {
-            npc.damage = 20; //70
+            npc.damage = 30; //70
             npc.width = 16; //28
             npc.height = 16; //28
             npc.defense = 20;
-            npc.lifeMax = 2000;
+            npc.lifeMax = 4000;
             npc.aiStyle = -1; //new
             aiType = -1; //new
             npc.knockBackResist = 0f;
@@ -51,19 +51,6 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
-            /*if (npc.velocity.X < 0f)
-            {
-                npc.spriteDirection = -1;
-            }
-            else if (npc.velocity.X > 0f)
-            {
-                npc.spriteDirection = 1;
-            }*/
             bool flag = false;
             if (npc.ai[1] <= 0f)
             {
@@ -90,10 +77,6 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.alpha = 0;
                 }
-            }
-            if (Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(false);
             }
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
@@ -124,14 +107,14 @@ namespace CalamityMod.NPCs.Abyss
                 npc.velocity = Vector2.Zero;
                 npc.position.X = npc.position.X + num191;
                 npc.position.Y = npc.position.Y + num192;
-                /*if (num191 < 0f)
+                if (num191 < 0f)
                 {
                     npc.spriteDirection = -1;
                 }
                 else if (num191 > 0f)
                 {
                     npc.spriteDirection = 1;
-                }*/
+                }
             }
         }
 

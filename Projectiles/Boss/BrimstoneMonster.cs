@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Boss
             }
 
 			// Fly away from other brimstone monsters
-			float velocity = 0.1f;
+			float velocity = 0.05f;
 			for (int i = 0; i < Main.maxProjectiles; i++)
 			{
 				if (Main.projectile[i].active)

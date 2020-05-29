@@ -1,4 +1,3 @@
-using CalamityMod;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Events;
@@ -31,6 +30,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
@@ -49,7 +49,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.ModLoader.Config;
 using Terraria.World.Generation;
 
 namespace CalamityMod.World
@@ -924,7 +923,7 @@ namespace CalamityMod.World
                         WorldGen.UndergroundDesertLocation.Width, WorldGen.UndergroundDesertLocation.Height / 2);
 
             // Player variable, always finds the closest player relative to the center of the map
-            int closestPlayer = (int)Player.FindClosest(new Vector2((float)(Main.maxTilesX / 2), (float)Main.worldSurface / 2f) * 16f, 0, 0);
+            int closestPlayer = Player.FindClosest(new Vector2(Main.maxTilesX / 2, (float)Main.worldSurface / 2f) * 16f, 0, 0);
 			Player player = Main.player[closestPlayer];
 			CalamityPlayer modPlayer = player.Calamity();
 
@@ -1037,8 +1036,101 @@ namespace CalamityMod.World
 				startAcidicDownpour = false;
 			}
 
-            // Boss Rush shit
-            if (bossRushActive)
+			// Lumenyl crystal, tenebris spread and sea prism crystal spawn rates
+			int l = 0;
+			float mult2 = 1.5E-05f * Main.worldRate;
+			while (l < Main.maxTilesX * Main.maxTilesY * mult2)
+			{
+				int x = WorldGen.genRand.Next(10, Main.maxTilesX - 10);
+				int y = WorldGen.genRand.Next((int)Main.worldSurface - 1, Main.maxTilesY - 20);
+
+				if (Main.tile[x, y] != null)
+				{
+					if (Main.tile[x, y].nactive())
+					{
+						int tileType = Main.tile[x, y].type;
+						bool tenebris = tileType == ModContent.TileType<Tenebris>() && downedCalamitas;
+
+						if (CalamityGlobalTile.GrowthTiles.Contains(tileType) || tenebris)
+						{
+							int growthChance = tenebris ? 4 : 2;
+							if (tileType == ModContent.TileType<Navystone>())
+								growthChance *= 5;
+
+							if (Main.rand.NextBool(growthChance))
+							{
+								switch (WorldGen.genRand.Next(4))
+								{
+									case 0:
+										x++;
+										break;
+									case 1:
+										x--;
+										break;
+									case 2:
+										y++;
+										break;
+									case 3:
+										y--;
+										break;
+									default:
+										break;
+								}
+
+								if (Main.tile[x, y] != null)
+								{
+									Tile tile = Main.tile[x, y];
+									bool growTile = tenebris ? (tile.active() && tile.type == ModContent.TileType<PlantyMush>()) : (!tile.active() && tile.liquid >= 128);
+									bool meetsAdditionalGrowConditions = tile.slope() == 0 && !tile.halfBrick() && !tile.lava();
+									if (growTile && meetsAdditionalGrowConditions)
+									{
+										int tileType2 = ModContent.TileType<SeaPrismCrystals>();
+
+										if (tileType == ModContent.TileType<Voidstone>())
+											tileType2 = ModContent.TileType<LumenylCrystals>();
+
+										if (CanPlaceBasedOnProximity(x, y, tileType2) || tenebris)
+										{
+											tile.type = tenebris ? (ushort)tileType : (ushort)tileType2;
+
+											if (!tenebris)
+											{
+												tile.active(true);
+												if (Main.tile[x, y + 1].active() && Main.tileSolid[Main.tile[x, y + 1].type] && Main.tile[x, y + 1].slope() == 0 && !Main.tile[x, y + 1].halfBrick())
+												{
+													tile.frameY = 0;
+												}
+												else if (Main.tile[x, y - 1].active() && Main.tileSolid[Main.tile[x, y - 1].type] && Main.tile[x, y - 1].slope() == 0 && !Main.tile[x, y - 1].halfBrick())
+												{
+													tile.frameY = 18;
+												}
+												else if (Main.tile[x + 1, y].active() && Main.tileSolid[Main.tile[x + 1, y].type] && Main.tile[x + 1, y].slope() == 0 && !Main.tile[x + 1, y].halfBrick())
+												{
+													tile.frameY = 36;
+												}
+												else if (Main.tile[x - 1, y].active() && Main.tileSolid[Main.tile[x - 1, y].type] && Main.tile[x - 1, y].slope() == 0 && !Main.tile[x - 1, y].halfBrick())
+												{
+													tile.frameY = 54;
+												}
+												tile.frameX = (short)(WorldGen.genRand.Next(18) * 18);
+											}
+
+											WorldGen.SquareTileFrame(x, y, true);
+
+											if (Main.netMode == 2)
+												NetMessage.SendTileSquare(-1, x, y, 1, TileChangeType.None);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				l++;
+			}
+
+			// Boss Rush shit
+			if (bossRushActive)
             {
                 // Prevent Moon Lord from spawning naturally
                 if (NPC.MoonLordCountdown > 0)
@@ -1844,10 +1936,35 @@ namespace CalamityMod.World
                 }
             }
         }
-        #endregion
+		#endregion
 
-        #region ChangeTime
-        public static void ChangeTime(bool day)
+		#region Check Placement Proximity
+		private bool CanPlaceBasedOnProximity(int x, int y, int tileType)
+		{
+			if (tileType == ModContent.TileType<LumenylCrystals>() && !downedCalamitas)
+				return false;
+
+			int minDistanceFromOtherTiles = 6;
+			int sameTilesNearby = 0;
+			for (int i = x - minDistanceFromOtherTiles; i < x + minDistanceFromOtherTiles; i++)
+			{
+				for (int j = y - minDistanceFromOtherTiles; j < y + minDistanceFromOtherTiles; j++)
+				{
+					if (Main.tile[i, j].active() && Main.tile[i, j].type == tileType)
+					{
+						sameTilesNearby++;
+						if (sameTilesNearby > 1)
+							return false;
+					}
+				}
+			}
+
+			return true;
+		}
+		#endregion
+
+		#region ChangeTime
+		public static void ChangeTime(bool day)
         {
             Main.time = 0.0;
             Main.dayTime = day;
