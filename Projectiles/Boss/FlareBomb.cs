@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
             float num953 = revenge ? 110f : 100f; //100
-            float scaleFactor12 = revenge ? 27f : 25f; //5
+            float scaleFactor12 = revenge ? 35f : 30f; //5
             float num954 = 40f;
             if (projectile.timeLeft > 30 && projectile.alpha > 0)
             {

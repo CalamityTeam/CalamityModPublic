@@ -124,7 +124,14 @@ namespace CalamityMod
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
+
+		// Boss Kill Time data structure
 		public static SortedDictionary<int, int> bossKillTimes;
+
+		// Boss velocity scaling data structure
+		public static SortedDictionary<int, float> bossVelocityDamageScaleValues;
+		public const float velocityScaleMin = 0.5f;
+		public const float bitingEnemeyVelocityScale = 0.8f;
 
 		// Lists
 		public static IList<string> donatorList;
@@ -240,6 +247,7 @@ namespace CalamityMod
             SetupLists();
             SetupVanillaDR();
 			SetupBossKillTimes();
+			SetupBossVelocityScalingValues();
             SetupThoriumBossDR(thorium);
 
             CalamityLocalization.AddLocalizations();
@@ -345,6 +353,8 @@ namespace CalamityMod
             DRValues = null;
 			bossKillTimes?.Clear();
 			bossKillTimes = null;
+			bossVelocityDamageScaleValues?.Clear();
+			bossVelocityDamageScaleValues = null;
 
             donatorList = null;
             rangedProjectileExceptionList = null;
@@ -2695,6 +2705,8 @@ namespace CalamityMod
 		#region Boss Kill Times
 		private void SetupBossKillTimes()
 		{
+			// 3600 = 1 minute
+
 			bossKillTimes = new SortedDictionary<int, int> {
 				{ NPCID.KingSlime, 3600 },
 				{ NPCID.EyeofCthulhu, 5400 },
@@ -2702,6 +2714,7 @@ namespace CalamityMod
 				{ NPCID.EaterofWorldsBody, 7200 },
 				{ NPCID.EaterofWorldsTail, 7200 },
 				{ NPCID.BrainofCthulhu, 5400 },
+				{ NPCID.Creeper, 1800 },
 				{ NPCID.QueenBee, 7200 },
 				{ NPCID.SkeletronHead, 9000 },
 				{ NPCID.WallofFlesh, 10800 },
@@ -2713,7 +2726,7 @@ namespace CalamityMod
 				{ NPCID.TheDestroyerTail, 10800 },
 				{ NPCID.SkeletronPrime, 10800 },
 				{ NPCID.Plantera, 10800 },
-				{ NPCID.Golem, 10800 },
+				{ NPCID.Golem, 9000 },
 				{ NPCID.GolemHead, 3600 },
 				{ NPCID.DukeFishron, 9000 },
 				{ NPCID.CultistBoss, 9000 },
@@ -2740,8 +2753,8 @@ namespace CalamityMod
 				{ ModContent.NPCType<BrimstoneElemental>(), 10800 },
 				{ ModContent.NPCType<Calamitas>(), 1200 },
 				{ ModContent.NPCType<CalamitasRun3>(), 11400 },
-				{ ModContent.NPCType<Leviathan>(), 9000 },
-				{ ModContent.NPCType<Siren>(), 9000 },
+				{ ModContent.NPCType<Leviathan>(), 10800 },
+				{ ModContent.NPCType<Siren>(), 10800 },
 				{ ModContent.NPCType<AstrumAureus>(), 10800 },
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 10800 },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 10800 },
@@ -2770,7 +2783,138 @@ namespace CalamityMod
 				{ ModContent.NPCType<DevourerofGodsBodyS>(), 10800 },
 				{ ModContent.NPCType<DevourerofGodsTailS>(), 10800 },
 				{ ModContent.NPCType<Yharon>(), 10800 },
-				{ ModContent.NPCType<SupremeCalamitas>(), 14400 }
+				{ ModContent.NPCType<SupremeCalamitas>(), 18000 }
+			};
+		}
+		#endregion
+
+		#region Boss Velocity Contact Damage Scale Values
+		private void SetupBossVelocityScalingValues()
+		{
+			bossVelocityDamageScaleValues = new SortedDictionary<int, float> {
+				{ NPCID.KingSlime, velocityScaleMin },
+				{ NPCID.EyeofCthulhu, velocityScaleMin }, // Increases in phase 2
+				{ NPCID.EaterofWorldsHead, bitingEnemeyVelocityScale },
+				{ NPCID.EaterofWorldsBody, velocityScaleMin },
+				{ NPCID.EaterofWorldsTail, velocityScaleMin },
+				{ NPCID.Creeper, velocityScaleMin },
+				{ NPCID.BrainofCthulhu, velocityScaleMin },
+				{ NPCID.QueenBee, velocityScaleMin },
+				{ NPCID.SkeletronHead, velocityScaleMin },
+				{ NPCID.SkeletronHand, velocityScaleMin },
+				{ NPCID.TheHungry, bitingEnemeyVelocityScale },
+				{ NPCID.TheHungryII, bitingEnemeyVelocityScale },
+				{ NPCID.LeechHead, bitingEnemeyVelocityScale },
+				{ NPCID.LeechBody, velocityScaleMin },
+				{ NPCID.LeechTail, velocityScaleMin },
+				{ NPCID.Spazmatism, velocityScaleMin }, // Increases in phase 2
+				{ NPCID.Retinazer, velocityScaleMin },
+				{ NPCID.TheDestroyer, bitingEnemeyVelocityScale },
+				{ NPCID.TheDestroyerBody, velocityScaleMin },
+				{ NPCID.TheDestroyerTail, velocityScaleMin },
+				{ NPCID.Probe, velocityScaleMin },
+				{ NPCID.SkeletronPrime, velocityScaleMin },
+				{ NPCID.PrimeCannon, velocityScaleMin },
+				{ NPCID.PrimeLaser, velocityScaleMin },
+				{ NPCID.PrimeSaw, velocityScaleMin },
+				{ NPCID.PrimeVice, velocityScaleMin },
+				{ NPCID.Plantera, velocityScaleMin }, // Increases in phase 2
+				{ NPCID.PlanterasTentacle, bitingEnemeyVelocityScale },
+				{ NPCID.Golem, velocityScaleMin },
+				{ NPCID.GolemFistLeft, velocityScaleMin },
+				{ NPCID.GolemFistRight, velocityScaleMin },
+				{ NPCID.GolemHead, velocityScaleMin },
+				{ NPCID.DukeFishron, velocityScaleMin },
+				{ ModContent.NPCType<DesertScourgeHead>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<DesertScourgeBody>(), velocityScaleMin },
+				{ ModContent.NPCType<DesertScourgeTail>(), velocityScaleMin },
+				{ ModContent.NPCType<DesertScourgeHeadSmall>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<DesertScourgeBodySmall>(), velocityScaleMin },
+				{ ModContent.NPCType<DesertScourgeTailSmall>(), velocityScaleMin },
+				{ ModContent.NPCType<CrabulonIdle>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<HiveMindP2>(), velocityScaleMin },
+				{ ModContent.NPCType<PerforatorHive>(), velocityScaleMin },
+				{ ModContent.NPCType<PerforatorHeadLarge>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<PerforatorBodyLarge>(), velocityScaleMin },
+				{ ModContent.NPCType<PerforatorTailLarge>(), velocityScaleMin },
+				{ ModContent.NPCType<PerforatorHeadMedium>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<PerforatorBodyMedium>(), velocityScaleMin },
+				{ ModContent.NPCType<PerforatorTailMedium>(), velocityScaleMin },
+				{ ModContent.NPCType<PerforatorHeadSmall>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<PerforatorBodySmall>(), velocityScaleMin },
+				{ ModContent.NPCType<PerforatorTailSmall>(), velocityScaleMin },
+				{ ModContent.NPCType<SlimeGodCore>(), velocityScaleMin },
+				{ ModContent.NPCType<SlimeGod>(), velocityScaleMin },
+				{ ModContent.NPCType<SlimeGodRun>(), velocityScaleMin },
+				{ ModContent.NPCType<SlimeGodSplit>(), velocityScaleMin },
+				{ ModContent.NPCType<SlimeGodRunSplit>(), velocityScaleMin },
+				{ ModContent.NPCType<SlimeSpawnCorrupt>(), velocityScaleMin },
+				{ ModContent.NPCType<Cryogen>(), velocityScaleMin },
+				{ ModContent.NPCType<Cryocore>(), velocityScaleMin },
+				{ ModContent.NPCType<Cryocore2>(), velocityScaleMin },
+				{ ModContent.NPCType<IceMass>(), velocityScaleMin },
+				{ ModContent.NPCType<AquaticScourgeHead>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<AquaticScourgeBody>(), velocityScaleMin },
+				{ ModContent.NPCType<AquaticScourgeBodyAlt>(), velocityScaleMin },
+				{ ModContent.NPCType<AquaticScourgeTail>(), velocityScaleMin },
+				{ ModContent.NPCType<BrimstoneElemental>(), velocityScaleMin },
+				{ ModContent.NPCType<Calamitas>(), velocityScaleMin },
+				{ ModContent.NPCType<CalamitasRun3>(), velocityScaleMin },
+				{ ModContent.NPCType<Leviathan>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<Siren>(), velocityScaleMin },
+				{ ModContent.NPCType<AstrumAureus>(), velocityScaleMin },
+				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
+				{ ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
+				{ ModContent.NPCType<AstrumDeusHead>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<AstrumDeusBody>(), velocityScaleMin },
+				{ ModContent.NPCType<AstrumDeusTail>(), velocityScaleMin },
+				{ ModContent.NPCType<AstrumDeusProbe3>(), velocityScaleMin },
+				{ ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
+				{ ModContent.NPCType<PlaguebringerShade>(), velocityScaleMin },
+				{ ModContent.NPCType<PlagueBeeG>(), velocityScaleMin },
+				{ ModContent.NPCType<PlagueBeeLargeG>(), velocityScaleMin },
+				{ ModContent.NPCType<RavagerBody>(), velocityScaleMin },
+				{ ModContent.NPCType<RavagerClawLeft>(), velocityScaleMin },
+				{ ModContent.NPCType<RavagerClawRight>(), velocityScaleMin },
+				{ ModContent.NPCType<RavagerLegLeft>(), velocityScaleMin },
+				{ ModContent.NPCType<RavagerLegRight>(), velocityScaleMin },
+				{ ModContent.NPCType<RockPillar>(), velocityScaleMin },
+				{ ModContent.NPCType<ProfanedGuardianBoss>(), velocityScaleMin },
+				{ ModContent.NPCType<ProfanedGuardianBoss2>(), velocityScaleMin },
+				{ ModContent.NPCType<ProfanedGuardianBoss3>(), velocityScaleMin },
+				{ ModContent.NPCType<Bumblefuck>(), velocityScaleMin },
+				{ ModContent.NPCType<Bumblefuck2>(), velocityScaleMin },
+				{ ModContent.NPCType<CeaselessVoid>(), velocityScaleMin },
+				{ ModContent.NPCType<DarkEnergy>(), velocityScaleMin },
+				{ ModContent.NPCType<DarkEnergy2>(), velocityScaleMin },
+				{ ModContent.NPCType<DarkEnergy3>(), velocityScaleMin },
+				{ ModContent.NPCType<StormWeaverHead>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<StormWeaverBody>(), velocityScaleMin },
+				{ ModContent.NPCType<StormWeaverTail>(), velocityScaleMin },
+				{ ModContent.NPCType<StormWeaverHeadNaked>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<StormWeaverBodyNaked>(), velocityScaleMin },
+				{ ModContent.NPCType<StormWeaverTailNaked>(), velocityScaleMin },
+				{ ModContent.NPCType<StasisProbe>(), velocityScaleMin },
+				{ ModContent.NPCType<StasisProbeNaked>(), velocityScaleMin },
+				{ ModContent.NPCType<Signus>(), velocityScaleMin },
+				{ ModContent.NPCType<CosmicLantern>(), velocityScaleMin },
+				{ ModContent.NPCType<Polterghast>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<PolterPhantom>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<OldDuke>(), velocityScaleMin },
+				{ ModContent.NPCType<DevourerofGodsHead>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<DevourerofGodsBody>(), velocityScaleMin },
+				{ ModContent.NPCType<DevourerofGodsTail>(), velocityScaleMin },
+				{ ModContent.NPCType<DevourerofGodsHead2>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<DevourerofGodsBody2>(), velocityScaleMin },
+				{ ModContent.NPCType<DevourerofGodsTail2>(), velocityScaleMin },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), bitingEnemeyVelocityScale },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), velocityScaleMin },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), velocityScaleMin },
+				{ ModContent.NPCType<Yharon>(), velocityScaleMin },
+				{ ModContent.NPCType<DetonatingFlare>(), velocityScaleMin },
+				{ ModContent.NPCType<DetonatingFlare2>(), velocityScaleMin },
+				{ ModContent.NPCType<SupremeCalamitas>(), velocityScaleMin }
 			};
 		}
 		#endregion

@@ -29,11 +29,11 @@ namespace CalamityMod.NPCs.Abyss
         {
             npc.noGravity = true;
             npc.lavaImmune = true;
-            npc.damage = 60;
+            npc.damage = 90;
             npc.width = 126;
             npc.height = 66;
             npc.defense = 999999;
-            npc.lifeMax = 200;
+            npc.lifeMax = 400;
             npc.aiStyle = -1;
             aiType = -1;
             npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     flag14 = true;
                 }
-                if ((!player.wet || player.dead) && flag14)
+                if ((!player.wet || player.dead || !Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height)) && flag14)
                 {
                     flag14 = false;
                 }
