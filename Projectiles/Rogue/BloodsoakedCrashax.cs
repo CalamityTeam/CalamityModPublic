@@ -98,7 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int stealth = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Blood>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
                 Main.projectile[stealth].Calamity().forceRogue = true;
             }
-            if (!target.canGhostHeal) //canGhostHeal be like lol
+            if (!target.canGhostHeal || player.moonLeech) //canGhostHeal be like lol
             {
                 return;
             }

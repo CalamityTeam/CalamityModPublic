@@ -86,13 +86,13 @@ namespace CalamityMod.Items.Weapons.Melee
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
-            {
-                return;
-            }
             if (Main.rand.NextBool(2))
             {
                 target.defense -= 50;
+            }
+            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
+            {
+                return;
             }
             int heal = Main.rand.Next(1, 69);
             player.statLife += heal;
@@ -145,6 +145,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<EarthProj>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, player.whoAmI, 0f, (float)Main.rand.Next(10));
             }
+			if (player.moonLeech)
+				return;
             int heal = Main.rand.Next(1, 69);
             player.statLife += heal;
             player.HealEffect(heal);

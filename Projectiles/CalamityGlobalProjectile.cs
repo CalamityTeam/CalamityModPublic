@@ -1045,7 +1045,7 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
-				if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>())
+				if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
 				{
 					// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
 					if (player.ghostHeal)
@@ -1823,6 +1823,8 @@ namespace CalamityMod.Projectiles
 
 		public static void SpawnLifeStealProjectile(Projectile projectile, Player player, float healAmount, int healProjectileType, float distanceRequired, float cooldownMultiplier)
 		{
+			if (Main.player[Main.myPlayer].moonLeech)
+				return;
 			Main.player[Main.myPlayer].lifeSteal -= healAmount * cooldownMultiplier;
 			float num13 = 0f;
 			int num14 = projectile.owner;
