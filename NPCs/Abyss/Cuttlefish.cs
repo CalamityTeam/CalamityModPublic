@@ -26,11 +26,11 @@ namespace CalamityMod.NPCs.Abyss
         {
             npc.noGravity = true;
             npc.chaseable = false;
-            npc.damage = 17;
+            npc.damage = 34;
             npc.width = 50;
             npc.height = 28;
             npc.defense = 12;
-            npc.lifeMax = 55;
+            npc.lifeMax = 110;
             npc.aiStyle = -1;
             aiType = -1;
             npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.ai[2] = -16f;
                 }
-                if (npc.velocity.X != 0f || npc.velocity.Y < 0f || npc.velocity.Y > 2f || npc.justHit || npc.localAI[0] >= 420f)
+                if (npc.justHit)
                 {
                     npc.ai[2] = -16f;
                 }

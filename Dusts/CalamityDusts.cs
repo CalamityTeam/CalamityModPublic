@@ -12,6 +12,7 @@
         Phantoplasm = 60,
         Plague = 46,
         ProfanedFire = 244,
+		Nightwither = 185,
         PurpleCosmolite = 173
     }
 }
