@@ -3,6 +3,7 @@ using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
@@ -465,7 +466,108 @@ namespace CalamityMod.Projectiles
 					}
                 }
             }
-            return true;
+
+			if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses)
+			{
+				if (projectile.type == ProjectileID.Sharknado || projectile.type == ProjectileID.Cthulunado)
+				{
+					int num520 = 10;
+					int num521 = 15;
+					float num522 = 1f;
+					int num523 = 150;
+					int num524 = 42;
+					if (projectile.type == ProjectileID.Cthulunado)
+					{
+						num520 = 16;
+						num521 = 16;
+						num522 = 1.5f;
+					}
+					if (projectile.velocity.X != 0f)
+					{
+						projectile.direction = (projectile.spriteDirection = -Math.Sign(projectile.velocity.X));
+					}
+					projectile.frameCounter++;
+					if (projectile.frameCounter > 2)
+					{
+						projectile.frame++;
+						projectile.frameCounter = 0;
+					}
+					if (projectile.frame >= 6)
+					{
+						projectile.frame = 0;
+					}
+					if (projectile.localAI[0] == 0f && Main.myPlayer == projectile.owner)
+					{
+						projectile.localAI[0] = 1f;
+						projectile.position.X += projectile.width / 2;
+						projectile.position.Y += projectile.height / 2;
+						projectile.scale = ((float)(num520 + num521) - projectile.ai[1]) * num522 / (float)(num521 + num520);
+						projectile.width = (int)((float)num523 * projectile.scale);
+						projectile.height = (int)((float)num524 * projectile.scale);
+						projectile.position.X -= projectile.width / 2;
+						projectile.position.Y -= projectile.height / 2;
+						projectile.netUpdate = true;
+					}
+					if (projectile.ai[1] != -1f)
+					{
+						projectile.scale = ((float)(num520 + num521) - projectile.ai[1]) * num522 / (float)(num521 + num520);
+						projectile.width = (int)((float)num523 * projectile.scale);
+						projectile.height = (int)((float)num524 * projectile.scale);
+					}
+					if (!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+					{
+						projectile.alpha -= 30;
+						if (projectile.alpha < 60)
+						{
+							projectile.alpha = 60;
+						}
+						if (projectile.type == ProjectileID.Cthulunado && projectile.alpha < 100)
+						{
+							projectile.alpha = 100;
+						}
+					}
+					else
+					{
+						projectile.alpha += 30;
+						if (projectile.alpha > 150)
+						{
+							projectile.alpha = 150;
+						}
+					}
+					if (projectile.ai[0] > 0f)
+					{
+						projectile.ai[0] -= 1f;
+					}
+					if (projectile.ai[0] == 1f && projectile.ai[1] > 0f && projectile.owner == Main.myPlayer)
+					{
+						projectile.netUpdate = true;
+						Vector2 center2 = projectile.Center;
+						center2.Y -= (float)num524 * projectile.scale / 2f;
+						float num525 = ((float)(num520 + num521) - projectile.ai[1] + 1f) * num522 / (float)(num521 + num520);
+						center2.Y -= (float)num524 * num525 / 2f;
+						center2.Y += 2f;
+						Projectile.NewProjectile(center2, projectile.velocity, projectile.type, projectile.damage, projectile.knockBack, projectile.owner, 10f, projectile.ai[1] - 1f);
+					}
+					if (projectile.ai[0] <= 0f)
+					{
+						float num529 = (float)Math.PI / 30f;
+						float num530 = (float)projectile.width / 5f;
+						if (projectile.type == ProjectileID.Cthulunado)
+						{
+							num530 *= 2f;
+						}
+						float num531 = (float)(Math.Cos(num529 * (-projectile.ai[0])) - 0.5) * num530;
+						projectile.position.X -= num531 * (float)(-projectile.direction);
+						projectile.ai[0] -= 1f;
+						num531 = (float)(Math.Cos(num529 * (-projectile.ai[0])) - 0.5) * num530;
+						projectile.position.X += num531 * (float)(-projectile.direction);
+					}
+
+					return false;
+				}
+			}
+
+			return true;
         }
         #endregion
 
@@ -1681,10 +1783,13 @@ namespace CalamityMod.Projectiles
 
             int frameHeight = texture.Height / Main.projFrames[projectile.type];
             int frameY = frameHeight * projectile.frame;
+			float scale = projectile.scale;
+			float rotation = projectile.rotation;
 
-            Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
+			Rectangle rectangle = new Rectangle(0, frameY, texture.Width, frameHeight);
+			Vector2 origin = rectangle.Size() / 2f;
 
-            SpriteEffects spriteEffects = SpriteEffects.None;
+			SpriteEffects spriteEffects = SpriteEffects.None;
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
@@ -1698,7 +1803,7 @@ namespace CalamityMod.Projectiles
                         {
                             Vector2 drawPos = projectile.oldPos[i] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
                             Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - i) / projectile.oldPos.Length);
-                            Main.spriteBatch.Draw(texture, drawPos, rectangle, color, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
+                            Main.spriteBatch.Draw(texture, drawPos, rectangle, color, rotation, origin, scale, spriteEffects, 0f);
                         }
                         break;
 
@@ -1712,7 +1817,7 @@ namespace CalamityMod.Projectiles
                             color26 = projectile.GetAlpha(color26);
                             float num164 = whyIsThisAlwaysEight - k;
                             color26 *= num164 / (ProjectileID.Sets.TrailCacheLength[projectile.type] * 1.5f);
-                            Main.spriteBatch.Draw(texture, projectile.oldPos[k] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, color26, projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
+                            Main.spriteBatch.Draw(texture, projectile.oldPos[k] + centerOffset - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, color26, rotation, origin, scale, spriteEffects, 0f);
                             k += afterimageCounter;
                         }
                         break;
@@ -1724,7 +1829,7 @@ namespace CalamityMod.Projectiles
 
             // Draw the projectile itself
             Vector2 startPos = drawCentered ? projectile.Center : projectile.position;
-            Main.spriteBatch.Draw(texture, startPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, projectile.GetAlpha(lightColor), projectile.rotation, rectangle.Size() / 2f, projectile.scale, spriteEffects, 0f);
+            Main.spriteBatch.Draw(texture, startPos - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), rectangle, projectile.GetAlpha(lightColor), rotation, origin, scale, spriteEffects, 0f);
         }
         #endregion
 

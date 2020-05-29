@@ -24,11 +24,11 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             npc.noGravity = true;
-            npc.damage = 20;
+            npc.damage = 40;
             npc.width = 60;
             npc.height = 26;
             npc.defense = 25;
-            npc.lifeMax = 240;
+            npc.lifeMax = 480;
             npc.aiStyle = -1;
             aiType = -1;
             npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;

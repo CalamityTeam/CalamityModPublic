@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-			if (npc.justHit || (double)npc.life <= (double)npc.lifeMax * 0.99 || CalamityWorld.bossRushActive)
+			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || CalamityWorld.bossRushActive)
 			{
 				Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 				if (calamityModMusic != null)

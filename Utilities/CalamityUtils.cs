@@ -2611,6 +2611,37 @@ namespace CalamityMod
         }
 
 		public static int SecondsToFrames(float seconds) => (int)(seconds * 60);
-        #endregion
-    }
+
+		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 Main.cs function
+		public static float GetLerpValue(float from, float to, float t, bool clamped = false)
+		{
+			if (clamped)
+			{
+				if (from < to)
+				{
+					if (t < from)
+					{
+						return 0f;
+					}
+					if (t > to)
+					{
+						return 1f;
+					}
+				}
+				else
+				{
+					if (t < to)
+					{
+						return 1f;
+					}
+					if (t > from)
+					{
+						return 0f;
+					}
+				}
+			}
+			return (t - from) / (to - from);
+		}
+		#endregion
+	}
 }

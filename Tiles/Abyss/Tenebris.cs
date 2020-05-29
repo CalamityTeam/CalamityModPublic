@@ -1,8 +1,6 @@
-
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.Abyss
@@ -47,48 +45,6 @@ namespace CalamityMod.Tiles.Abyss
                     Main.tile[i, j].liquid = 255;
                     Main.tile[i, j].lava(false);
                 }
-            }
-        }
-
-        public override void RandomUpdate(int i, int j)
-        {
-            if (Main.rand.NextBool(5))
-			{
-				if (CalamityWorld.downedCalamitas)
-				{
-					int random = WorldGen.genRand.Next(4);
-					if (random == 0)
-					{
-						i++;
-					}
-					if (random == 1)
-					{
-						i--;
-					}
-					if (random == 2)
-					{
-						j++;
-					}
-					if (random == 3)
-					{
-						j--;
-					}
-					if (Main.tile[i, j] != null)
-					{
-						if (Main.tile[i, j].active())
-						{
-							if (Main.tile[i, j].type == ModContent.TileType<PlantyMush>() && !Main.tile[i, j].lava())
-							{
-								Main.tile[i, j].type = (ushort)ModContent.TileType<Tenebris>();
-								WorldGen.SquareTileFrame(i, j, true);
-								if (Main.netMode == 2)
-								{
-									NetMessage.SendTileSquare(-1, i, j, 1, TileChangeType.None);
-								}
-							}
-						}
-					}
-				}
             }
         }
 
