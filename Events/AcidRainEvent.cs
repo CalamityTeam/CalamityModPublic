@@ -132,9 +132,9 @@ namespace CalamityMod.Events
                     }
                 }
                 if (CalamityWorld.downedPolterghast)
-                    return (int)(180 * Math.Log(playerCount + Math.E - 1));
+                    return (int)(140 * Math.Log(playerCount + Math.E - 1));
                 else if (CalamityWorld.downedAquaticScourge)
-                    return (int)(125 * Math.Log(playerCount + Math.E - 1));
+                    return (int)(115 * Math.Log(playerCount + Math.E - 1));
                 else
                     return (int)(90 * Math.Log(playerCount + Math.E - 1));
             }
