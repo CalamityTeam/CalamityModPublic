@@ -3535,6 +3535,10 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.1);
 				}
+                else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
+                {
+                    damage = (int)(damage * 0.2);
+                }
 				else if (projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileID.DD2BetsyArrow)
 				{
 					damage = (int)(damage * 0.4);
