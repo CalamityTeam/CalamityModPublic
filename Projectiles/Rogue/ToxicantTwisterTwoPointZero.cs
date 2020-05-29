@@ -112,39 +112,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 			else
 			{
-				Vector2 center = projectile.Center;
-				float maxDistance = 600f;
-				bool homeIn = false;
-
-				for (int i = 0; i < Main.maxNPCs; i++)
-				{
-					if (Main.npc[i].CanBeChasedBy(projectile, false))
-					{
-						float extraDistance = (float)(Main.npc[i].width / 2) + (Main.npc[i].height / 2);
-
-						bool canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[i].Center, 1, 1);
-
-						if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
-						{
-							center = Main.npc[i].Center;
-							homeIn = true;
-							break;
-						}
-					}
-				}
-
-				if (homeIn && projectile.ai[0] == 0f)
-				{
-					Vector2 homeInVector = projectile.DirectionTo(center);
-					if (homeInVector.HasNaNs())
-						homeInVector = Vector2.UnitY;
-
-					projectile.velocity = (projectile.velocity * 20f + homeInVector * 20f) / (21f);
-				}
-				else
-				{
-					projectile.ai[0] = 1f;
-				}
+				CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 20f, 20f);
 			}
         }
 
