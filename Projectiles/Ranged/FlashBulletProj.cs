@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
             Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 93);
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Flash>(), (int)((double)projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<Flash>(), (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
             }
             for (int k = 0; k < 5; k++)
             {

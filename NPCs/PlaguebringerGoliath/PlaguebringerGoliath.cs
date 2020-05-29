@@ -123,7 +123,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.gfxOffY = charging ? -40 : -50;
             npc.width = npc.frame.Width / 2;
             npc.height = (int)(npc.frame.Height * (charging ? 1.5f : 1.8f));
-            //npc.ai[0] = 3f;
 
             // Mode variables
             bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
@@ -131,10 +130,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 
             // Light
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0.7f, 0f);
 
             // Show message
-            if (!halfLife && ((double)npc.life <= (double)npc.lifeMax * 0.5 || death))
+            if (!halfLife && (npc.life <= npc.lifeMax * 0.5 || death))
             {
                 string key = "Mods.CalamityMod.PlagueBossText";
                 Color messageColor = Color.Lime;
@@ -165,7 +164,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             // Defense gain
             if (expertMode)
             {
-                int num1040 = death ? 20 : (int)(20f * (1f - (float)npc.life / (float)npc.lifeMax));
+                int num1040 = death ? 20 : (int)(20f * (1f - npc.life / (float)npc.lifeMax));
                 npc.defense = npc.defDefense + num1040;
             }
 
@@ -179,13 +178,13 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             Vector2 distFromPlayer = player.Center - vectorCenter;
 
             // Enrage
-            bool aboveGroundEnrage = ((double)player.position.Y < Main.worldSurface * 16.0 || player.position.Y > (float)((Main.maxTilesY - 200) * 16)) && !CalamityWorld.bossRushActive;
+            bool aboveGroundEnrage = (player.position.Y < Main.worldSurface * 16.0 || player.position.Y > ((Main.maxTilesY - 200) * 16)) && !CalamityWorld.bossRushActive;
 
             bool jungleEnrage = false;
             if (!player.ZoneJungle && !CalamityWorld.bossRushActive)
                 jungleEnrage = true;
 
-			bool diagonalDash = revenge && ((double)npc.life <= (double)npc.lifeMax * 0.8 || death);
+			bool diagonalDash = revenge && (npc.life <= npc.lifeMax * 0.8 || death);
 
 			if (npc.ai[0] != 0f && npc.ai[0] != 4f)
 			{
@@ -248,7 +247,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             num596 = 3;
                     }
 
-                    while ((float)num596 == num595);
+                    while (num596 == num595);
                     if (num596 == 0 && diagonalDash && distFromPlayer.Length() < 1800f)
                     {
                         switch (Main.rand.Next(3))
@@ -264,7 +263,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 break;
                         }
                     }
-                    npc.ai[0] = (float)num596;
+                    npc.ai[0] = num596;
                     npc.ai[1] = 0f;
                     npc.ai[2] = 0f;
                 }
@@ -276,15 +275,15 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				float num1044 = revenge ? 28f : 26f;
 				if (aboveGroundEnrage)
 					num1044 += 6f;
-				if ((double)npc.life < (double)npc.lifeMax * 0.66 || death)
+				if (npc.life < npc.lifeMax * 0.66 || death)
 					num1044 += 2f;
-				if ((double)npc.life < (double)npc.lifeMax * 0.33 || death)
+				if (npc.life < npc.lifeMax * 0.33 || death)
 					num1044 += 2f;
 				if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					num1044 += 2f;
 
 				int num1043 = 2;
-                if ((npc.ai[1] > (float)(2 * num1043) && npc.ai[1] % 2f == 0f) || distFromPlayer.Length() > 1800f)
+                if ((npc.ai[1] > (2 * num1043) && npc.ai[1] % 2f == 0f) || distFromPlayer.Length() > 1800f)
                 {
                     npc.ai[0] = -1f;
                     npc.ai[1] = 0f;
@@ -300,7 +299,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     float playerLocation = vectorCenter.X - player.Center.X;
 
-                    if (Math.Abs(npc.Center.Y - (player.Center.Y - (float)chargeDistance)) < 20f)
+                    if (Math.Abs(npc.Center.Y - (player.Center.Y - chargeDistance)) < 20f)
                     {
 						if (diagonalDash)
 						{
@@ -324,14 +323,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.ai[1] += 1f;
                         npc.ai[2] = 0f;
 
-                        float num1045 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
-                        float num1046 = player.position.Y + (float)(player.height / 2) - vectorCenter.Y;
-                        float num1047 = (float)Math.Sqrt((double)(num1045 * num1045 + num1046 * num1046));
+                        float num1045 = player.position.X + (player.width / 2) - vectorCenter.X;
+                        float num1046 = player.position.Y + (player.height / 2) - vectorCenter.Y;
+                        float num1047 = (float)Math.Sqrt(num1045 * num1045 + num1046 * num1046);
 
                         num1047 = num1044 / num1047;
                         npc.velocity.X = num1045 * num1047;
                         npc.velocity.Y = num1046 * num1047;
-						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+						npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
 						npc.Calamity().newAI[1] = npc.velocity.X;
 						npc.Calamity().newAI[2] = npc.velocity.Y;
@@ -350,12 +349,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     float num1048 = revenge ? 14f : 12f;
                     float num1049 = revenge ? 0.25f : 0.22f;
-                    if ((double)npc.life < (double)npc.lifeMax * 0.66 || death)
+                    if (npc.life < npc.lifeMax * 0.66 || death)
                     {
                         num1048 += 1f;
                         num1049 += 0.05f;
                     }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.33 || death)
+                    if (npc.life < npc.lifeMax * 0.33 || death)
                     {
                         num1048 += 1f;
                         num1049 += 0.05f;
@@ -366,7 +365,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1049 += 0.1f;
                     }
 
-                    if (vectorCenter.Y < (player.Center.Y - (float)chargeDistance))
+                    if (vectorCenter.Y < (player.Center.Y - chargeDistance))
                         npc.velocity.Y += num1049;
                     else
                         npc.velocity.Y -= num1049;
@@ -377,9 +376,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.velocity.Y = num1048;
 
                     if (Math.Abs(vectorCenter.X - player.Center.X) > 650f)
-                        npc.velocity.X += num1049 * (float)npc.direction;
+                        npc.velocity.X += num1049 * npc.direction;
                     else if (Math.Abs(vectorCenter.X - player.Center.X) < 500f)
-                        npc.velocity.X -= num1049 * (float)npc.direction;
+                        npc.velocity.X -= num1049 * npc.direction;
                     else
                         npc.velocity.X *= 0.8f;
 
@@ -412,16 +411,16 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1050 = 300;
                     else if (aboveGroundEnrage || CalamityWorld.bossRushActive)
                         num1050 = 400;
-                    else if ((double)npc.life < (double)npc.lifeMax * 0.33 || death)
+                    else if (npc.life < npc.lifeMax * 0.33 || death)
                         num1050 = revenge ? 450 : 475;
-                    else if ((double)npc.life < (double)npc.lifeMax * 0.66)
+                    else if (npc.life < npc.lifeMax * 0.66)
                         num1050 = revenge ? 475 : 500;
 
                     int num1051 = 1;
                     if (vectorCenter.X < player.Center.X)
                         num1051 = -1;
 
-					if (npc.direction == num1051 && (Math.Abs(vectorCenter.X - player.Center.X) > (float)num1050 || Math.Abs(vectorCenter.Y - player.Center.Y) > (float)num1050))
+					if (npc.direction == num1051 && (Math.Abs(vectorCenter.X - player.Center.X) > num1050 || Math.Abs(vectorCenter.Y - player.Center.Y) > num1050))
 					{
 						npc.ai[2] = 1f;
 					}
@@ -451,17 +450,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     npc.velocity *= 0.9f;
                     float num1052 = revenge ? 0.12f : 0.1f;
-                    if ((double)npc.life < (double)npc.lifeMax * 0.8 || death)
+                    if (npc.life < npc.lifeMax * 0.8 || death)
                     {
                         npc.velocity *= 0.98f;
                         num1052 += 0.05f;
                     }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.6 || death)
+                    if (npc.life < npc.lifeMax * 0.6 || death)
                     {
                         npc.velocity *= 0.98f;
                         num1052 += 0.05f;
                     }
-                    if ((double)npc.life < (double)npc.lifeMax * 0.4 || death)
+                    if (npc.life < npc.lifeMax * 0.4 || death)
                     {
                         npc.velocity *= 0.98f;
                         num1052 += 0.05f;
@@ -490,12 +489,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.direction = playerLocation < 0 ? 1 : -1;
                 npc.spriteDirection = npc.direction;
 
-                float num1055 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
-                float num1056 = player.position.Y + (float)(player.height / 2) - 200f - vectorCenter.Y;
-                float num1057 = (float)Math.Sqrt((double)(num1055 * num1055 + num1056 * num1056));
+                float num1055 = player.position.X + (player.width / 2) - vectorCenter.X;
+                float num1056 = player.position.Y + (player.height / 2) - 200f - vectorCenter.Y;
+                float num1057 = (float)Math.Sqrt(num1055 * num1055 + num1056 * num1056);
                 if (num1057 < 600f)
                 {
-                    npc.ai[0] = ((double)npc.life <= (double)npc.lifeMax * 0.66 || death) ? 5f : 1f;
+                    npc.ai[0] = (npc.life <= npc.lifeMax * 0.66 || death) ? 5f : 1f;
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
                     return;
@@ -513,16 +512,16 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.TargetClosest(true);
 
                 Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y - 40f);
-                vector119.X += (npc.direction * 120);
-                float num1058 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
-                float num1059 = player.position.Y + (float)(player.height / 2) - vectorCenter.Y;
-                float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
+                vector119.X += npc.direction * 120;
+                float num1058 = player.position.X + (player.width / 2) - vectorCenter.X;
+                float num1059 = player.position.Y + (player.height / 2) - vectorCenter.Y;
+                float num1060 = (float)Math.Sqrt(num1058 * num1058 + num1059 * num1059);
 
                 npc.ai[1] += 1f;
-                npc.ai[1] += (float)(num1038 / 2);
-                if ((double)npc.life < (double)npc.lifeMax * 0.75)
+                npc.ai[1] += num1038 / 2;
+                if (npc.life < npc.lifeMax * 0.75)
                     npc.ai[1] += 0.25f;
-                if ((double)npc.life < (double)npc.lifeMax * 0.5)
+                if (npc.life < npc.lifeMax * 0.5)
                     npc.ai[1] += 0.25f;
 
                 bool flag103 = false;
@@ -554,9 +553,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         if (NPC.CountNPCS(ModContent.NPCType<PlagueBeeLargeG>()) < 2)
                         {
                             int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y, randomAmt, 0, 0f, 0f, 0f, 0f, 255);
-                            Main.npc[num1062].velocity.X = (float)Main.rand.Next(-200, 201) * (CalamityWorld.bossRushActive ? 0.04f : 0.02f);
-                            Main.npc[num1062].velocity.Y = (float)Main.rand.Next(-200, 201) * (CalamityWorld.bossRushActive ? 0.04f : 0.02f);
-                            Main.npc[num1062].localAI[0] = 60f;
+
+							Main.npc[num1062].velocity = player.Center - npc.Center;
+							Main.npc[num1062].velocity.Normalize();
+							Main.npc[num1062].velocity *= (CalamityWorld.bossRushActive ? 12f : 6f);
+
+							Main.npc[num1062].localAI[0] = 60f;
                             Main.npc[num1062].netUpdate = true;
                         }
                     }
@@ -588,17 +590,17 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.TargetClosest(true);
 
                 Vector2 vector119 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y - 40f);
-                vector119.X += (npc.direction * 120);
-                float num1058 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
-                float num1059 = player.position.Y + (float)(player.height / 2) - vectorCenter.Y;
-                float num1060 = (float)Math.Sqrt((double)(num1058 * num1058 + num1059 * num1059));
+                vector119.X += npc.direction * 120;
+                float num1058 = player.position.X + (player.width / 2) - vectorCenter.X;
+                float num1059 = player.position.Y + (player.height / 2) - vectorCenter.Y;
+                float num1060 = (float)Math.Sqrt(num1058 * num1058 + num1059 * num1059);
 
                 npc.ai[1] += 1f;
-                npc.ai[1] += (float)(num1038 / 2);
+                npc.ai[1] += num1038 / 2;
                 bool flag103 = false;
-                if ((double)npc.life < (double)npc.lifeMax * 0.25 || death)
+                if (npc.life < npc.lifeMax * 0.25 || death)
                     npc.ai[1] += 0.25f;
-                if ((double)npc.life < (double)npc.lifeMax * 0.1 || death)
+                if (npc.life < npc.lifeMax * 0.1 || death)
                     npc.ai[1] += 0.25f;
 
                 if (npc.ai[1] > 40f)
@@ -621,9 +623,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                             NPC.NewNPC((int)vector119.X, (int)vector119.Y, ModContent.NPCType<PlaguebringerShade>(), 0, 0f, 0f, 0f, 0f, 255);
 
                         float projectileSpeed = revenge ? 6f : 5f;
-                        float num1071 = player.position.X + (float)player.width * 0.5f - vector119.X;
-                        float num1072 = player.position.Y + (float)player.height * 0.5f - vector119.Y;
-                        float num1073 = (float)Math.Sqrt((double)(num1071 * num1071 + num1072 * num1072));
+						if (CalamityWorld.bossRushActive)
+							projectileSpeed *= 2f;
+
+                        float num1071 = player.position.X + player.width * 0.5f - vector119.X;
+                        float num1072 = player.position.Y + player.height * 0.5f - vector119.Y;
+                        float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
 
                         num1073 = projectileSpeed / num1073;
                         num1071 *= num1073;
@@ -663,27 +668,10 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 Vector2 vector121 = new Vector2(npc.direction == 1 ? npc.getRect().BottomLeft().X : npc.getRect().BottomRight().X, npc.getRect().Bottom().Y - 40f);
                 vector121.X += (npc.direction * 120);
 
-                npc.ai[1] += 1f;
-                bool flag104 = false;
-                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                {
-                    if (npc.ai[1] % 10f == 9f)
-                        flag104 = true;
-                }
-                else if ((double)npc.life < (double)npc.lifeMax * 0.1 || death || aboveGroundEnrage)
-                {
-                    if (npc.ai[1] % 20f == 19f)
-                        flag104 = true;
-                }
-                else if ((double)npc.life < (double)npc.lifeMax * 0.5)
-                {
-                    if (npc.ai[1] % 25f == 24f)
-                        flag104 = true;
-                }
-                else if (npc.ai[1] % 30f == 29f)
-                    flag104 = true;
+				npc.ai[1] += 1f;
+				int num650 = ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 10 : ((npc.life < npc.lifeMax * 0.1 || death || aboveGroundEnrage) ? 20 : ((npc.life < npc.lifeMax * 0.5) ? 25 : 30)));
 
-                if (flag104 && vectorCenter.Y < player.position.Y)
+                if (npc.ai[1] % (float)num650 == (float)(num650 - 1) && vectorCenter.Y < player.position.Y)
                 {
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
 
@@ -695,9 +683,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         if (CalamityWorld.bossRushActive)
                             projectileSpeed *= 1.5f;
 
-                        float num1071 = player.position.X + (float)player.width * 0.5f - vector121.X;
-                        float num1072 = player.position.Y + (float)player.height * 0.5f - vector121.Y;
-                        float num1073 = (float)Math.Sqrt((double)(num1071 * num1071 + num1072 * num1072));
+                        float num1071 = player.position.X + player.width * 0.5f - vector121.X;
+                        float num1072 = player.position.Y + player.height * 0.5f - vector121.Y;
+                        float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
                         num1073 = projectileSpeed / num1073;
                         num1071 *= num1073;
                         num1072 *= num1073;
@@ -707,7 +695,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         if (expertMode)
                         {
                             num1074 = 32;
-                            int damageBoost = death ? 5 : (int)(6f * (1f - (float)npc.life / (float)npc.lifeMax));
+                            int damageBoost = death ? 5 : (int)(6f * (1f - npc.life / (float)npc.lifeMax));
                             num1074 += damageBoost;
 
                             if (Main.rand.NextBool(6))
@@ -734,8 +722,8 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 npc.direction = playerLocation < 0 ? 1 : -1;
                 npc.spriteDirection = npc.direction;
 
-                if (npc.ai[1] >= 300f)
-                {
+				if (npc.ai[1] > (float)num650 * 10f)
+				{
                     npc.ai[0] = -1f;
                     npc.ai[1] = 3f;
                     npc.netUpdate = true;
@@ -750,7 +738,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					num1044 = 32f;
 
 				int num1043 = 2;
-                if (npc.ai[1] > (float)(2 * num1043) && npc.ai[1] % 2f == 0f)
+                if (npc.ai[1] > (2 * num1043) && npc.ai[1] % 2f == 0f)
                 {
                     MissileCountdown = 0;
                     npc.ai[0] = -1f;
@@ -790,7 +778,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                                 {
                                     Vector2 spawn = vectorCenter;
                                     spawn.X += i * 27 - (MissileProjectiles * 12); // -96 to 93
-                                    Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / (float)MissileProjectiles)));
+                                    Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-MissileAngleSpread / 2 + (MissileAngleSpread * i / MissileProjectiles)));
                                     Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<HiveBombGoliath>(), damage, 0f, Main.myPlayer, 0f, player.position.Y);
                                 }
                             }
@@ -801,14 +789,14 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.ai[1] += 1f;
                         npc.ai[2] = 0f;
 
-                        float num1045 = player.position.X + (float)(player.width / 2) - vectorCenter.X;
-                        float num1046 = player.position.Y - 500f + (float)(player.height / 2) - vectorCenter.Y;
-                        float num1047 = (float)Math.Sqrt((double)(num1045 * num1045 + num1046 * num1046));
+                        float num1045 = player.position.X + (player.width / 2) - vectorCenter.X;
+                        float num1046 = player.position.Y - 500f + (player.height / 2) - vectorCenter.Y;
+                        float num1047 = (float)Math.Sqrt(num1045 * num1045 + num1046 * num1046);
 
                         num1047 = num1044 / num1047;
                         npc.velocity.X = num1045 * num1047;
                         npc.velocity.Y = num1046 * num1047;
-						npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
+						npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
 
 						npc.direction = playerLocation < 0 ? 1 : -1;
                         npc.spriteDirection = npc.direction;
@@ -840,9 +828,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.velocity.Y = num1048;
 
                     if (Math.Abs(vectorCenter.X - player.Center.X) > 600f)
-                        npc.velocity.X += 0.15f * (float)npc.direction;
+                        npc.velocity.X += 0.15f * npc.direction;
                     else if (Math.Abs(vectorCenter.X - player.Center.X) < 300f)
-                        npc.velocity.X -= 0.15f * (float)npc.direction;
+                        npc.velocity.X -= 0.15f * npc.direction;
                     else
                         npc.velocity.X *= 0.8f;
 
@@ -875,7 +863,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                     if (vectorCenter.X < player.Center.X)
                         num1051 = -1;
-                    if (npc.direction == num1051 && Math.Abs(vectorCenter.X - player.Center.X) > (float)num1050)
+                    if (npc.direction == num1051 && Math.Abs(vectorCenter.X - player.Center.X) > num1050)
                         npc.ai[2] = 1f;
 
                     if (npc.ai[2] != 1f)
@@ -956,7 +944,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 if (npc.velocity.Y < -5f)
                     npc.velocity.Y = -5f;
             }
-            if (npc.position.X + (float)(npc.width / 2) > player.position.X + (float)(player.width / 2) + xPos)
+            if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + xPos)
             {
                 if (npc.velocity.X > 0f)
                     npc.velocity.X *= 0.98f;
@@ -964,7 +952,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 if (npc.velocity.X > 8f)
                     npc.velocity.X = 8f;
             }
-            if (npc.position.X + (float)(npc.width / 2) < player.position.X + (float)(player.width / 2) - xPos)
+            if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - xPos)
             {
                 if (npc.velocity.X < 0f)
                     npc.velocity.X *= 0.98f;
@@ -986,12 +974,12 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             {
                 for (int i = 1; i < 7; i++)
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("PlaguebringerGoliathGore" + i), 2f);
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 100;
                 npc.height = 100;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 46, 0f, 0f, 100, default, 2f);
@@ -999,7 +987,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 70; num623++)
@@ -1054,16 +1042,16 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					Color color38 = lightColor;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture.Width, (float)(texture.Height / frameCount)) * npc.scale / 2f;
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture.Width, texture.Height / frameCount) * npc.scale / 2f;
 					vector41 += vector11 * npc.scale + posOffset;
 					spriteBatch.Draw(texture, vector41, new Rectangle?(rectangle), color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture.Width, (float)(texture.Height / frameCount)) * npc.scale / 2f;
+			vector43 -= new Vector2(texture.Width, texture.Height / frameCount) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + posOffset;
 			spriteBatch.Draw(texture, vector43, new Rectangle?(rectangle), npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 
@@ -1075,9 +1063,9 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 				{
 					Color color41 = color37;
 					color41 = Color.Lerp(color41, color36, amount9);
-					color41 *= (float)(num153 - num163) / 15f;
-					Vector2 vector44 = npc.oldPos[num163] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector44 -= new Vector2((float)glowTexture.Width, (float)(glowTexture.Height / frameCount)) * npc.scale / 2f;
+					color41 *= (num153 - num163) / 15f;
+					Vector2 vector44 = npc.oldPos[num163] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector44 -= new Vector2(glowTexture.Width, glowTexture.Height / frameCount) * npc.scale / 2f;
 					vector44 += vector11 * npc.scale + posOffset;
 					spriteBatch.Draw(glowTexture, vector44, new Rectangle?(rectangle), color41, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
@@ -1131,6 +1119,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             {
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<PlagueCellCluster>(), 10, 14);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<InfectedArmorPlating>(), 13, 17);
                 DropHelper.DropItemSpray(npc, ItemID.Stinger, 3, 5);
 
                 // Weapons

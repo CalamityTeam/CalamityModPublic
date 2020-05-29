@@ -45,16 +45,11 @@ namespace CalamityMod.Projectiles.Rogue
 				{
 					if (projectile.Calamity().stealthStrike)
 					{
-						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ModContent.ProjectileType<PhantasmalRuinGhost>(), (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, ModContent.ProjectileType<PhantasmalRuinGhost>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
 					}
 					else
 					{
-						if (Main.rand.NextBool(3))
-						{
-							int soul = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, Main.rand.NextFloat(-2,2), ProjectileID.LostSoulFriendly, (int)((double)projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
-							Main.projectile[soul].Calamity().forceRogue = true;
-							Main.projectile[soul].timeLeft = 180;
-						}
+						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, projectile.velocity.X * 0f, Main.rand.NextFloat(-2,2), ModContent.ProjectileType<LostSoulFriendly>(), (int)(projectile.damage * 0.5), projectile.knockBack, projectile.owner, 0f, 0f);
 					}
 				}
 			}

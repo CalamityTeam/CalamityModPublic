@@ -560,6 +560,10 @@ namespace CalamityMod
 
 			// LATER -- no summon set bonuses are written well. all use two bools, neither of which actually controls the function
 
+			// Desert Prowler
+			if (setBonus == "desertprowler" || setBonus == "desert prowler")
+				return mp.desertProwler;
+
 			// Snow Ruffian
 			if (setBonus == "snowruffian" || setBonus == "snow ruffian")
 				return mp.snowRuffianSet;
@@ -700,6 +704,10 @@ namespace CalamityMod
 			if (setBonus == "plaguereaper" || setBonus == "plague reaper")
 				return mp.plagueReaper;
 
+			// Plaguebringer
+			if (setBonus == "plaguebringer" || setBonus == "plaguebringerpatron" || setBonus == "plaguebringer patron")
+				return mp.plaguebringerPatronSet;
+
 			// Astral
 			if (setBonus == "astral")
 				return mp.astralStarRain;
@@ -731,6 +739,10 @@ namespace CalamityMod
 				case "tarragon rogue":
 					return mp.tarraThrowing;
 			}
+
+			// Prismatic
+			if (setBonus == "prismatic" || setBonus == "prism")
+				return mp.prismaticSet;
 
 			// Bloodflare
 			switch (setBonus)
@@ -840,6 +852,13 @@ namespace CalamityMod
 		{
 			CalamityPlayer mp = p.Calamity();
 			setBonus = setBonus.ToLower();
+
+			// Desert Prowler
+			if (setBonus == "desert prowler" || setBonus == "desert prowler")
+			{
+				mp.snowRuffianSet = enabled;
+				return true;
+			}
 
 			// Snow Ruffian
 			if (setBonus == "snowruffian" || setBonus == "snow ruffian")
@@ -1040,6 +1059,13 @@ namespace CalamityMod
 				return true;
 			}
 
+			// Plaguebringer
+			if (setBonus == "plaguebringer" || setBonus == "plaguebringerpatron" || setBonus == "plaguebringer patron")
+			{
+				mp.plaguebringerPatronSet = enabled;
+				return true;
+			}
+
 			// Astral
 			if (setBonus == "astral")
 			{
@@ -1087,6 +1113,13 @@ namespace CalamityMod
 					mp.tarraSet = enabled;
 					mp.tarraThrowing = enabled;
 					return true;
+			}
+
+			// Prismatic
+			if (setBonus == "prismatic" || setBonus == "prism")
+			{
+				mp.prismaticSet = enabled;
+				return true;
 			}
 
 			// Bloodflare

@@ -612,20 +612,20 @@ namespace CalamityMod
 
 								//Count how many projectiles are attached, delete as necessary
                                 Point[] array2 = new Point[maxStick];
-                                int num29 = 0;
+                                int projCount = 0;
                                 for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
                                 {
 									Projectile proj = Main.projectile[projIndex];
                                     if (projIndex != projectile.whoAmI && proj.active && proj.owner == Main.myPlayer && proj.type == projectile.type && proj.ai[0] == 1f && proj.ai[1] == (float)npcIndex)
                                     {
-                                        array2[num29++] = new Point(projIndex, proj.timeLeft);
-                                        if (num29 >= array2.Length)
+                                        array2[projCount++] = new Point(projIndex, proj.timeLeft);
+                                        if (projCount >= array2.Length)
                                         {
                                             break;
                                         }
                                     }
                                 }
-                                if (num29 >= array2.Length)
+                                if (projCount >= array2.Length)
                                 {
                                     int num30 = 0;
                                     for (int m = 1; m < array2.Length; m++)
@@ -2173,7 +2173,8 @@ namespace CalamityMod
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Origin = new Point16(0, 3);
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 2, 0);
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 2, 0);
             TileObjectData.addTile(mt.Type);
         }
         #endregion
@@ -2610,6 +2611,37 @@ namespace CalamityMod
         }
 
 		public static int SecondsToFrames(float seconds) => (int)(seconds * 60);
-        #endregion
-    }
+
+		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 Main.cs function
+		public static float GetLerpValue(float from, float to, float t, bool clamped = false)
+		{
+			if (clamped)
+			{
+				if (from < to)
+				{
+					if (t < from)
+					{
+						return 0f;
+					}
+					if (t > to)
+					{
+						return 1f;
+					}
+				}
+				else
+				{
+					if (t < to)
+					{
+						return 1f;
+					}
+					if (t > from)
+					{
+						return 0f;
+					}
+				}
+			}
+			return (t - from) / (to - from);
+		}
+		#endregion
+	}
 }

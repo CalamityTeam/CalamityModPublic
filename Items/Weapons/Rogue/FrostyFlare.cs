@@ -1,4 +1,5 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,8 +11,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Frosty Flare");
-            Tooltip.SetDefault("Sticks to enemies\n" +
-                "Generates a localized hailstorm\n'Do not insert in flare gun'");
+            Tooltip.SetDefault("Do not insert in flare gun\n" +
+				"Sticks to enemies\n" +
+                "Generates a localized hailstorm\n" +
+				"Stealth strikes trail snowflakes and summon phantom copies instead of ice shards");
         }
 
         public override void SafeSetDefaults()
@@ -35,6 +38,17 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.maxStack = 999;
             item.consumable = true;
             item.Calamity().rogue = true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			if (player.Calamity().StealthStrikeAvailable())
+			{
+				int gemstone = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<FrostyFlareStealth>(), damage, knockBack, player.whoAmI, 0f, 0f);
+				Main.projectile[gemstone].Calamity().stealthStrike = true;
+				return false;
+			}
+			return true;
         }
     }
 }

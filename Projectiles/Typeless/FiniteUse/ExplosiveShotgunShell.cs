@@ -60,6 +60,8 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
             projectile.Damage();
         }
     }

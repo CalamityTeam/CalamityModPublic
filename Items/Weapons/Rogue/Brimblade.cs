@@ -1,5 +1,8 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Magic;
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +14,8 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Brimblade");
-            Tooltip.SetDefault("Throws a blade that splits on enemy hits");
+            Tooltip.SetDefault("Throws a blade that splits on enemy hits\n" +
+			"Stealth strikes split further and cause the player to launch a barrage of brimstone darts");
         }
 
         public override void SafeSetDefaults()
@@ -32,6 +36,24 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<BrimbladeProj>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			if (player.Calamity().StealthStrikeAvailable())
+			{
+				int blade = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Main.projectile[blade].Calamity().stealthStrike = true;
+
+				for (int i = -6; i <= 6; i += 4)
+				{
+					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
+					int dart = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<SeethingDischargeBrimstoneBarrage>(), damage / 2, knockBack * 0.5f, player.whoAmI, 0f, 0f);
+					Main.projectile[dart].Calamity().forceRogue = true;
+				}
+				return false;
+			}
+			return true;
         }
 
         public override void AddRecipes()

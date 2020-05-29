@@ -1,4 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Typeless;
@@ -54,6 +55,41 @@ namespace CalamityMod.Projectiles.Rogue
                     Main.dust[num469].velocity *= 0f;
                 }
             }
+
+			if (projectile.ai[1] == 1f) //Quasar Stealth Strike
+			{
+				float num472 = projectile.Center.X;
+				float num473 = projectile.Center.Y;
+				float num474 = 600f;
+				for (int num475 = 0; num475 < Main.maxNPCs; num475++)
+				{
+					if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1) && !CalamityPlayer.areThereAnyDamnBosses)
+					{
+						float npcCenterX = Main.npc[num475].position.X + (float)(Main.npc[num475].width / 2);
+						float npcCenterY = Main.npc[num475].position.Y + (float)(Main.npc[num475].height / 2);
+						float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - npcCenterX) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - npcCenterY);
+						if (num478 < num474)
+						{
+							if (Main.npc[num475].position.X < num472)
+							{
+								Main.npc[num475].velocity.X += 0.25f;
+							}
+							else
+							{
+								Main.npc[num475].velocity.X -= 0.25f;
+							}
+							if (Main.npc[num475].position.Y < num473)
+							{
+								Main.npc[num475].velocity.Y += 0.25f;
+							}
+							else
+							{
+								Main.npc[num475].velocity.Y -= 0.25f;
+							}
+						}
+					}
+				}
+			}
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

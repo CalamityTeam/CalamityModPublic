@@ -1,4 +1,6 @@
 using CalamityMod.Projectiles.Rogue;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
@@ -8,6 +10,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Orichalcum Spiked Gemstone");
+            Tooltip.SetDefault("Stealth strikes last longer and summon petals on enemy hits");
         }
 
         public override void SafeSetDefaults()
@@ -31,6 +34,20 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shoot = ModContent.ProjectileType<OrichalcumSpikedGemstoneProjectile>();
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+			if (player.Calamity().StealthStrikeAvailable())
+			{
+				int gemstone = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Main.projectile[gemstone].Calamity().stealthStrike = true;
+				Main.projectile[gemstone].usesLocalNPCImmunity = true;
+				Main.projectile[gemstone].timeLeft = 900;
+				Main.projectile[gemstone].penetrate = -1;
+				return false;
+			}
+			return true;
         }
 
         public override void AddRecipes()

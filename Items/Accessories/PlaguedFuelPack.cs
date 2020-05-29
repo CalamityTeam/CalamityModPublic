@@ -26,8 +26,11 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
         }
 
+        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().hasJetpack;
+
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
+			player.Calamity().hasJetpack = true;
             player.Calamity().throwingDamage += 0.05f;
             player.Calamity().throwingVelocity += 0.15f;
             player.Calamity().plaguedFuelPack = true;

@@ -1,6 +1,8 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,17 +13,17 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fireball");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 20;
+            projectile.height = 20;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.aiStyle = 1;
             projectile.penetrate = 4;
-            aiType = ProjectileID.ThornBall;
             projectile.timeLeft = 300;
         }
 
@@ -33,30 +35,46 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.Kill();
                 if (projectile.owner == Main.myPlayer)
                 {
-                    int num251 = Main.rand.Next(2, 4);
-                    for (int num252 = 0; num252 < num251; num252++)
+                    int fireballAmt = Main.rand.Next(2, 4);
+                    for (int j = 0; j < fireballAmt; j++)
                     {
-                        Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, -51));
-                        while (value15.X == 0f)
+                        Vector2 velocity = new Vector2(Main.rand.NextFloat(-100f, 100f), Main.rand.NextFloat(-100f, -50f));
+                        while (velocity.X == 0f)
                         {
-                            value15.X = (float)Main.rand.Next(-100, 101);
+                            velocity.X = (float)Main.rand.Next(-100, 101);
                         }
-                        value15.Normalize();
-                        value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), value15.X, value15.Y, ModContent.ProjectileType<BrimstoneHomer>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
+                        velocity.Normalize();
+                        velocity *= Main.rand.NextFloat(70f, 100f) * 0.1f;
+                        Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHomer>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
                     }
                 }
             }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
-                for (int num468 = 0; num468 < 5; num468++)
-                {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
-                }
+				int brimstone = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 2f);
+				Main.dust[brimstone].noGravity = true;
+				Main.dust[brimstone].velocity *= 0f;
             }
+			projectile.ai[0] += 1f;
+			if (projectile.ai[0] > 5f)
+			{
+				projectile.ai[0] = 5f;
+				if (projectile.velocity.Y == 0.0 && projectile.velocity.X != 0.0)
+				{
+					projectile.velocity.X *= 0.97f;
+					if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
+					{
+						projectile.velocity.X = 0f;
+						projectile.netUpdate = true;
+					}
+				}
+				projectile.velocity.Y += 0.2f;
+				projectile.rotation += (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y)) * 0.1f * projectile.direction;
+			}
+			if (projectile.velocity.Y <= 16f)
+				return;
+			projectile.velocity.Y = 16f;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -80,6 +98,12 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 projectile.velocity *= 0.8f;
             }
+            return false;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
 

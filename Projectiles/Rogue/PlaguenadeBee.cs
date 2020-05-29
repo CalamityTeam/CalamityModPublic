@@ -30,11 +30,11 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.velocity.X > 0f)
             {
-                projectile.spriteDirection = 1;
+                projectile.spriteDirection = projectile.direction = 1;
             }
             else if (projectile.velocity.X < 0f)
             {
-                projectile.spriteDirection = -1;
+                projectile.spriteDirection = projectile.direction = -1;
             }
             projectile.rotation = projectile.velocity.X * 0.05f;
             projectile.frameCounter++;

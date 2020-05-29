@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -9,6 +10,8 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class HolySpear : ModProjectile
     {
+		Vector2 velocity = Vector2.Zero;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Spear");
@@ -24,8 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.alpha = 100;
-            projectile.timeLeft = 900;
+            projectile.timeLeft = 200;
             cooldownSlot = 1;
         }
 
@@ -33,80 +35,143 @@ namespace CalamityMod.Projectiles.Boss
         {
             writer.Write(projectile.localAI[0]);
             writer.Write(projectile.localAI[1]);
-        }
+			writer.WriteVector2(velocity);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
             projectile.localAI[1] = reader.ReadSingle();
-        }
+			velocity = reader.ReadVector2();
+		}
 
         public override void AI()
         {
-            if (projectile.timeLeft > 815)
-            {
-                if (projectile.ai[0] == 0f)
-                    projectile.velocity.X = 1f;
-                else
-                    projectile.velocity.X = -1f;
-            }
-            else
-            {
-                if (projectile.ai[0] == 0f)
-                    projectile.velocity.X = 15f;
-                else
-                    projectile.velocity.X = -15f;
-            }
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57079637f;
-            if (projectile.localAI[0] == 0f && projectile.timeLeft < 815)
-            {
-                projectile.localAI[0] = 1f;
-                Main.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, projectile.Center);
-            }
-            int num746 = Main.expertMode ? 52 : 65;
-			if (projectile.timeLeft == 815)
-				projectile.damage = num746;
-			if (projectile.timeLeft < 85)
-				projectile.damage = 0;
-        }
+			if (projectile.localAI[0] == 0f)
+			{
+				projectile.localAI[0] = 1f;
+				Main.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, projectile.Center);
 
-        public override bool CanHitPlayer(Player target)
-		{
-            if (projectile.timeLeft > 815 || projectile.timeLeft < 85)
-            {
-                return false;
-            }
-            return true;
-        }
+				if (projectile.ai[0] == 1f)
+					velocity = projectile.velocity;
+			}
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            if (projectile.timeLeft > 883)
-            {
-                projectile.localAI[1] += 5f;
-                byte b2 = (byte)(((int)projectile.localAI[1]) * 3);
-                byte a2 = (byte)((float)projectile.alpha * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
-            }
-            if (projectile.timeLeft < 85)
-            {
-                byte b2 = (byte)(projectile.timeLeft * 3);
-                byte a2 = (byte)((float)projectile.alpha * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
-            }
-            return new Color(255, 255, 255, projectile.alpha);
+			if (projectile.ai[0] == 0f)
+			{
+				projectile.ai[1] += 1f;
+
+				float slowGateValue = 90f;
+				float fastGateValue = 30f;
+				float minVelocity = 3f;
+				float maxVelocity = 12f;
+				float extremeVelocity = 16f;
+				float deceleration = 0.95f;
+				float acceleration = 1.2f;
+
+				if (projectile.localAI[1] > 480f)
+				{
+					if (projectile.velocity.Length() < extremeVelocity)
+						projectile.velocity *= acceleration;
+				}
+				else
+				{
+					if (projectile.ai[1] <= slowGateValue)
+					{
+						if (projectile.velocity.Length() > minVelocity)
+							projectile.velocity *= deceleration;
+					}
+					else if (projectile.ai[1] < slowGateValue + fastGateValue)
+					{
+						if (projectile.velocity.Length() < maxVelocity)
+							projectile.velocity *= acceleration;
+					}
+					else
+						projectile.ai[1] = 0f;
+				}
+			}
+			else
+			{
+				float frequency = 0.1f;
+				float amplitude = 2f;
+
+				projectile.ai[1] += frequency;
+
+				float wavyVelocity = (float)Math.Sin(projectile.ai[1]);
+
+				projectile.velocity = velocity + new Vector2(wavyVelocity, wavyVelocity).RotatedBy(MathHelper.ToRadians(velocity.ToRotation())) * amplitude;
+			}
+
+			if (projectile.localAI[1] < 540f)
+			{
+				projectile.localAI[1] += 1f;
+
+				if (projectile.timeLeft < 160)
+					projectile.timeLeft = 160;
+			}
+
+			projectile.Opacity = MathHelper.Lerp(240f, 220f, projectile.timeLeft);
+
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
-            return false;
+			Texture2D value = Main.projectileTexture[projectile.type];
+			int green = projectile.ai[0] != 0f ? 255 : 100;
+			int blue = projectile.ai[0] != 0f ? 0 : 100;
+			Color baseColor = new Color(255, green, blue, 255);
+
+			if (!Main.dayTime)
+			{
+				int red = projectile.ai[0] != 0f ? 0 : 100;
+				green = projectile.ai[0] != 0f ? 255 : 100;
+				baseColor = new Color(red, green, 255, 255);
+			}
+
+			Color color33 = baseColor * 0.5f;
+			color33.A = 0;
+			Vector2 vector28 = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
+			Color color34 = color33;
+			Vector2 origin5 = value.Size() / 2f;
+			Color color35 = color33 * 0.5f;
+			float num162 = CalamityUtils.GetLerpValue(15f, 30f, projectile.timeLeft, clamped: true) * CalamityUtils.GetLerpValue(240f, 200f, projectile.timeLeft, clamped: true) * (1f + 0.2f * (float)Math.Cos(Main.GlobalTime % 30f / 0.5f * ((float)Math.PI * 2f) * 3f)) * 0.8f;
+			Vector2 vector29 = new Vector2(1f, 1.5f) * num162;
+			Vector2 vector30 = new Vector2(0.5f, 1f) * num162;
+			color34 *= num162;
+			color35 *= num162;
+
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			if (CalamityMod.CalamityConfig.Afterimages)
+			{
+				for (int i = 0; i < projectile.oldPos.Length; i++)
+				{
+					Vector2 drawPos = projectile.oldPos[i] + vector28;
+					Color color = projectile.GetAlpha(color34) * ((projectile.oldPos.Length - i) / projectile.oldPos.Length);
+					Main.spriteBatch.Draw(value, drawPos, null, color, projectile.rotation, origin5, vector29, spriteEffects, 0f);
+					Main.spriteBatch.Draw(value, drawPos, null, color, projectile.rotation, origin5, vector30, spriteEffects, 0f);
+
+					color = projectile.GetAlpha(color35) * ((projectile.oldPos.Length - i) / projectile.oldPos.Length);
+					Main.spriteBatch.Draw(value, drawPos, null, color, projectile.rotation, origin5, vector29 * 0.6f, spriteEffects, 0f);
+					Main.spriteBatch.Draw(value, drawPos, null, color, projectile.rotation, origin5, vector30 * 0.6f, spriteEffects, 0f);
+				}
+			}
+
+			spriteBatch.Draw(value, vector28, null, color34, projectile.rotation, origin5, vector29, spriteEffects, 0);
+			spriteBatch.Draw(value, vector28, null, color34, projectile.rotation, origin5, vector30, spriteEffects, 0);
+			spriteBatch.Draw(value, vector28, null, color35, projectile.rotation, origin5, vector29 * 0.6f, spriteEffects, 0);
+			spriteBatch.Draw(value, vector28, null, color35, projectile.rotation, origin5, vector30 * 0.6f, spriteEffects, 0);
+
+			return false;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-        }
+			int buffType = Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+			target.AddBuff(buffType, 120);
+		}
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {

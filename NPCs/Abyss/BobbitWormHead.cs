@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.Abyss
                 npc.noTileCollide = true;
                 npc.collideX = false;
                 npc.collideY = false;
-                float num663 = 11f;
+                float num663 = 16f;
                 Vector2 vector80 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num664 = Main.player[npc.target].Center.X - vector80.X;
                 float num665 = Main.player[npc.target].Center.Y - vector80.Y;
@@ -144,7 +144,7 @@ namespace CalamityMod.NPCs.Abyss
             else if (npc.ai[0] == 3f)
             {
                 npc.noTileCollide = true;
-                float num671 = 11f;
+                float num671 = 16f;
                 float num672 = 0.25f;
                 Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num673 = Main.player[npc.target].Center.X - vector82.X;

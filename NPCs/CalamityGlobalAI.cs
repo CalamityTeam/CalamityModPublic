@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs
             bool phase2 = lifeRatio < 0.5f || death;
 
             // Spawn crystal in phase 2
-            if (phase2 && !NPC.AnyNPCs(ModContent.NPCType<KingSlimeJewel>()))
+            if (phase2 && !NPC.AnyNPCs(ModContent.NPCType<KingSlimeJewel>()) && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 Vector2 vector = npc.Center + new Vector2(-40f, -(float)npc.height / 2);
                 for (int num621 = 0; num621 < 20; num621++)
@@ -164,22 +164,27 @@ namespace CalamityMod.NPCs
                 npc.netUpdate = true;
             }
 
-            // Despawn
-            if (Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-                if (Main.player[npc.target].dead)
-                {
-                    npc.timeLeft = 0;
-                    if (Main.player[npc.target].Center.X < npc.Center.X)
-                        npc.direction = 1;
-                    else
-                        npc.direction = -1;
-                }
-            }
+			// Despawn
+			int despawnDistance = 500;
+			if (Main.player[npc.target].dead || Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) / 16f > (float)despawnDistance)
+			{
+				npc.TargetClosest(true);
+				if (Main.player[npc.target].dead || Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) / 16f > (float)despawnDistance)
+				{
+					if (npc.timeLeft > 10)
+						npc.timeLeft = 10;
 
-            // Faster fall
-            if (npc.velocity.Y > 0f && CalamityWorld.bossRushActive)
+					//EncourageDespawn(10);
+
+					if (Main.player[npc.target].Center.X < npc.Center.X)
+						npc.direction = 1;
+					else
+						npc.direction = -1;
+				}
+			}
+
+			// Faster fall
+			if (npc.velocity.Y > 0f && CalamityWorld.bossRushActive)
                 npc.velocity.Y += 0.1f;
 
             // Activate teleport
@@ -200,10 +205,14 @@ namespace CalamityMod.NPCs
                     int num236 = 0;
                     int num237 = 7;
                     int num238 = 0;
+
                     bool flag10 = false;
-                    if (vector30.Length() > 2000f)
+                    if (npc.localAI[0] >= 360f || vector30.Length() > 2000f)
                     {
-                        flag10 = true;
+						if (npc.localAI[0] >= 360f)
+							npc.localAI[0] = 360f;
+
+						flag10 = true;
                         num238 = 100;
                     }
 
@@ -220,26 +229,22 @@ namespace CalamityMod.NPCs
                             int num241 = num240;
                             int num242 = 0;
 
-                            bool flag11 = Main.tile[num239, num241].nactive() && Main.tileSolid[Main.tile[num239, num241].type] && !Main.tileSolidTop[Main.tile[num239, num241].type];
-                            if (flag11)
+                            if (Main.tile[num239, num241].nactive() && Main.tileSolid[Main.tile[num239, num241].type] && !Main.tileSolidTop[Main.tile[num239, num241].type])
                             {
                                 num242 = 1;
                             }
                             else
                             {
-                                while (num242 < 150 && num241 + num242 < Main.maxTilesY)
-                                {
-                                    int num243 = num241 + num242;
-                                    bool flag12 = Main.tile[num239, num243].nactive() && Main.tileSolid[Main.tile[num239, num243].type] && !Main.tileSolidTop[Main.tile[num239, num243].type];
-                                    if (flag12)
-                                    {
-                                        num242--;
-                                        break;
-                                    }
-                                    int num = num242;
-                                    num242 = num + 1;
-                                }
-                            }
+								for (; num242 < 150 && num241 + num242 < Main.maxTilesY; num242++)
+								{
+									int y = num241 + num242;
+									if (Main.tile[num239, y].nactive() && Main.tileSolid[Main.tile[num239, y].type] && !Main.tileSolidTop[Main.tile[num239, y].type])
+									{
+										num242--;
+										break;
+									}
+								}
+							}
                             num240 += num242;
 
                             bool flag13 = true;
@@ -252,7 +257,8 @@ namespace CalamityMod.NPCs
                             {
                                 npc.localAI[1] = num239 * 16 + 8;
                                 npc.localAI[2] = num240 * 16 + 16;
-                                break;
+								flag10 = true;
+								break;
                             }
                         }
                     }
@@ -266,8 +272,31 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // Get closer to activating teleport
-            if (!Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
+			if (!Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0) || Math.Abs(npc.Top.Y - Main.player[npc.target].Bottom.Y) > 160f)
+			{
+				npc.ai[2] += 1f;
+
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+					npc.localAI[0] += 1f;
+			}
+			else if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				npc.localAI[0] -= 1f;
+
+				if (npc.localAI[0] < 0f)
+					npc.localAI[0] = 0f;
+			}
+
+			if (npc.timeLeft < 10 && (npc.ai[0] != 0f || npc.ai[1] != 0f))
+			{
+				npc.ai[0] = 0f;
+				npc.ai[1] = 0f;
+				npc.netUpdate = true;
+				flag8 = false;
+			}
+
+			// Get closer to activating teleport
+			if (!Collision.CanHitLine(npc.Center, 0, 0, Main.player[npc.target].Center, 0, 0))
                 npc.ai[2] += 1f;
             if (Math.Abs(npc.Top.Y - Main.player[npc.target].Bottom.Y) > 320f)
                 npc.ai[2] += 1f;
@@ -280,7 +309,7 @@ namespace CalamityMod.NPCs
             {
                 flag8 = true;
                 npc.aiAction = 1;
-                npc.ai[0] += 1f;
+				npc.ai[0] += 1f;
                 num234 = MathHelper.Clamp((60f - npc.ai[0]) / 60f, 0f, 1f);
                 num234 = 0.5f + num234 * 0.5f;
 
@@ -306,14 +335,12 @@ namespace CalamityMod.NPCs
 
                 if (!flag9)
                 {
-                    int num;
-                    for (int num245 = 0; num245 < 10; num245 = num + 1)
+                    for (int num245 = 0; num245 < 10; num245++)
                     {
                         int num246 = Dust.NewDust(npc.position + Vector2.UnitX * -20f, npc.width + 40, npc.height, 4, npc.velocity.X, npc.velocity.Y, 150, new Color(78, 136, 255, 80), 2f);
                         Main.dust[num246].noGravity = true;
                         dust = Main.dust[num246];
                         dust.velocity *= 0.5f;
-                        num = num245;
                     }
                 }
             }
@@ -342,14 +369,12 @@ namespace CalamityMod.NPCs
                     npc.TargetClosest(true);
                 }
 
-                int num;
-                for (int num247 = 0; num247 < 10; num247 = num + 1)
+                for (int num247 = 0; num247 < 10; num247++)
                 {
                     int num248 = Dust.NewDust(npc.position + Vector2.UnitX * -20f, npc.width + 40, npc.height, 4, npc.velocity.X, npc.velocity.Y, 150, new Color(78, 136, 255, 80), 2f);
                     Main.dust[num248].noGravity = true;
                     dust = Main.dust[num248];
                     dust.velocity *= 2f;
-                    num = num247;
                 }
             }
 
@@ -447,97 +472,91 @@ namespace CalamityMod.NPCs
             dust = Main.dust[num249];
             dust.velocity *= 0.5f;
 
-            if (npc.life > 0)
-            {
-                // Adjust size npcd on HP
-                lifeRatio = lifeRatio * 0.5f + 0.75f;
-                lifeRatio *= num234;
-                if (lifeRatio != npc.scale)
-                {
-                    npc.position.X += npc.width / 2;
-                    npc.position.Y += npc.height;
-                    npc.scale = lifeRatio;
-                    npc.width = (int)(98f * npc.scale);
-                    npc.height = (int)(92f * npc.scale);
-                    npc.position.X -= npc.width / 2;
-                    npc.position.Y -= npc.height;
-                }
+			if (npc.life <= 0)
+				return false;
 
-                // Slime spawning
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    int num251 = (int)(npc.lifeMax * 0.05);
-                    if (npc.life + num251 < npc.ai[3])
-                    {
-                        npc.ai[3] = npc.life;
-                        int num252 = Main.rand.Next(2, 4);
-                        int num;
-                        for (int num253 = 0; num253 < num252; num253 = num + 1)
-                        {
-                            int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
-                            int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
+            // Adjust size npcd on HP
+            lifeRatio = lifeRatio * 0.5f + 0.75f;
+            lifeRatio *= num234;
+			if (lifeRatio != npc.scale)
+			{
+				npc.position.X += npc.width / 2;
+				npc.position.Y += npc.height;
+				npc.scale = lifeRatio;
+				npc.width = (int)(98f * npc.scale);
+				npc.height = (int)(92f * npc.scale);
+				npc.position.X -= npc.width / 2;
+				npc.position.Y -= npc.height;
+			}
 
-                            int random = phase2 ? 10 : 8;
-                            int npcType = Main.rand.Next(random);
-                            switch (npcType)
-                            {
-                                case 0:
-                                    npcType = NPCID.BlueSlime;
-                                    break;
-                                case 1:
-                                    npcType = NPCID.YellowSlime;
-                                    break;
-                                case 2:
-                                    npcType = NPCID.RedSlime;
-                                    break;
-                                case 3:
-                                    npcType = NPCID.PurpleSlime;
-                                    break;
-                                case 4:
-                                    npcType = NPCID.GreenSlime;
-                                    break;
-                                case 5:
-                                    npcType = NPCID.IceSlime;
-                                    break;
-                                case 6:
-                                case 7:
-                                case 8:
-                                case 9:
-                                    npcType = NPCID.SlimeSpiked;
-                                    break;
-                                default:
-                                    break;
-                            }
+			// Slime spawning
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				int num251 = (int)(npc.lifeMax * 0.05);
+				if (npc.life + num251 < npc.ai[3])
+				{
+					npc.ai[3] = npc.life;
+					int num252 = Main.rand.Next(2, 4);
+					for (int num253 = 0; num253 < num252; num253++)
+					{
+						int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
+						int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
 
-                            if ((Main.raining || CalamityWorld.bossRushActive) && Main.rand.NextBool(10))
-                            {
-                                npcType = NPCID.UmbrellaSlime;
+						int random = phase2 ? 10 : 8;
+						int npcType = Main.rand.Next(random);
+						switch (npcType)
+						{
+							case 0:
+								npcType = NPCID.BlueSlime;
+								break;
+							case 1:
+								npcType = NPCID.YellowSlime;
+								break;
+							case 2:
+								npcType = NPCID.RedSlime;
+								break;
+							case 3:
+								npcType = NPCID.PurpleSlime;
+								break;
+							case 4:
+								npcType = NPCID.GreenSlime;
+								break;
+							case 5:
+								npcType = NPCID.IceSlime;
+								break;
+							case 6:
+							case 7:
+							case 8:
+							case 9:
+								npcType = NPCID.SlimeSpiked;
+								break;
+							default:
+								break;
+						}
 
-                                if (Main.rand.NextBool(5) && Main.hardMode)
-                                    npcType = NPCID.RainbowSlime;
-                            }
+						if ((Main.raining || CalamityWorld.bossRushActive) && Main.rand.NextBool(10))
+						{
+							npcType = NPCID.UmbrellaSlime;
 
-                            if (Main.rand.NextBool(250))
-                                npcType = NPCID.Pinky;
+							if (Main.rand.NextBool(5) && Main.hardMode)
+								npcType = NPCID.RainbowSlime;
+						}
 
-                            int num255 = NPC.NewNPC(x, y, npcType, 0, 0f, 0f, 0f, 0f, 255);
-                            Main.npc[num255].SetDefaults(npcType, -1f);
-                            Main.npc[num255].velocity.X = Main.rand.Next(-15, 16) * 0.1f;
-                            Main.npc[num255].velocity.Y = Main.rand.Next(-30, 1) * 0.1f;
-                            Main.npc[num255].ai[0] = -1000 * Main.rand.Next(3);
-                            Main.npc[num255].ai[1] = 0f;
+						if (Main.rand.NextBool(250))
+							npcType = NPCID.Pinky;
 
-                            if (Main.netMode == NetmodeID.Server && num255 < Main.maxNPCs)
-                                NetMessage.SendData(23, -1, -1, null, num255, 0f, 0f, 0f, 0, 0, 0);
+						int num255 = NPC.NewNPC(x, y, npcType, 0, 0f, 0f, 0f, 0f, 255);
+						Main.npc[num255].SetDefaults(npcType, -1f);
+						Main.npc[num255].velocity.X = Main.rand.Next(-15, 16) * 0.1f;
+						Main.npc[num255].velocity.Y = Main.rand.Next(-30, 1) * 0.1f;
+						Main.npc[num255].ai[0] = -1000 * Main.rand.Next(3);
+						Main.npc[num255].ai[1] = 0f;
 
-                            num = num253;
-                        }
-                    }
-                }
-            }
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+						if (Main.netMode == NetmodeID.Server && num255 < Main.maxNPCs)
+							NetMessage.SendData(23, -1, -1, null, num255, 0f, 0f, 0f, 0, 0, 0);
+					}
+				}
+			}
 
             return false;
         }
@@ -1356,9 +1375,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
         #endregion
@@ -1371,7 +1387,7 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
             // Total body segments
-            float totalSegments = death ? 73f : 63f;
+            float totalSegments = GetEaterOfWorldsSegmentsCountRevDeath();
 
             // Count segments remaining
             float segmentCount = NPC.CountNPCS(NPCID.EaterofWorldsHead) + NPC.CountNPCS(NPCID.EaterofWorldsBody) + NPC.CountNPCS(NPCID.EaterofWorldsTail); // 2f to 65f
@@ -1846,15 +1862,17 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
-        #endregion
 
-        #region Buffed Brain of Cthulhu AI
-        public static bool BuffedBrainofCthulhuAI(NPC npc, bool enraged, Mod mod, bool chaos)
+		public static int GetEaterOfWorldsSegmentsCountRevDeath()
+		{
+			return CalamityWorld.death ? 80 : 75;
+		}
+		#endregion
+
+		#region Buffed Brain of Cthulhu AI
+		public static bool BuffedBrainofCthulhuAI(NPC npc, bool enraged, Mod mod, bool chaos)
         {
             // whoAmI variable
             NPC.crimsonBoss = npc.whoAmI;
@@ -1863,7 +1881,8 @@ namespace CalamityMod.NPCs
             if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] == 0f)
             {
                 npc.localAI[0] = 1f;
-                for (int num789 = 0; num789 < 20; num789++)
+				int brainOfCthuluCreepersCount = GetBrainOfCthuluCreepersCountRevDeath();
+				for (int num789 = 0; num789 < brainOfCthuluCreepersCount; num789++)
                 {
                     float num790 = npc.Center.X;
                     float num791 = npc.Center.Y;
@@ -1923,8 +1942,11 @@ namespace CalamityMod.NPCs
                 bool phase5 = lifeRatio < 0.3f || death;
                 bool spinning = npc.ai[0] == -4f;
 
-                // Gain defense while spinning
-                npc.defense = npc.defDefense + (spinning ? 7 : 0);
+				// KnockBack
+				float baseKnockBackResist = death ? 0.4f : 0.45f;
+
+				// Gain defense while spinning
+				npc.defense = npc.defDefense + (spinning ? 7 : 0);
 
                 // Take damage
                 npc.dontTakeDamage = false;
@@ -1972,8 +1994,8 @@ namespace CalamityMod.NPCs
                         // Teleport
                         if (npc.ai[1] >= 115f)
                         {
-							float knockBackResistBoost = death ? 0.44f : 0.45f * (1f - lifeRatio);
-                            npc.knockBackResist = 0.45f - knockBackResistBoost;
+							if (npc.knockBackResist == 0f)
+								npc.knockBackResist = GetCrimsonBossKnockBack(npc, CalamityGlobalNPC.GetActivePlayerCount(), lifeRatio, baseKnockBackResist);
 
                             npc.ai[0] = -7f;
                             npc.ai[1] = 0f;
@@ -2011,8 +2033,8 @@ namespace CalamityMod.NPCs
 							}
 							else
 							{
-								float knockBackResistBoost = death ? 0.44f : 0.45f * (1f - lifeRatio);
-								npc.knockBackResist = 0.45f - knockBackResistBoost;
+								if (npc.knockBackResist == 0f)
+									npc.knockBackResist = GetCrimsonBossKnockBack(npc, CalamityGlobalNPC.GetActivePlayerCount(), lifeRatio, baseKnockBackResist);
 							}
 
                             npc.ai[0] = !spin ? -7f : -4f;
@@ -2114,8 +2136,8 @@ namespace CalamityMod.NPCs
 							npc.knockBackResist = 0f;
 						else
 						{
-							float knockBackResistBoost = death ? 0.44f : 0.45f * (1f - lifeRatio);
-							npc.knockBackResist = 0.45f - knockBackResistBoost;
+							if (npc.knockBackResist == 0f)
+								npc.knockBackResist = GetCrimsonBossKnockBack(npc, CalamityGlobalNPC.GetActivePlayerCount(), lifeRatio, baseKnockBackResist);
 						}
 
                         npc.ai[0] = charge ? -6f : -5f;
@@ -2132,8 +2154,8 @@ namespace CalamityMod.NPCs
 					// Adjust knockback
 					if (npc.ai[0] == -1f)
 					{
-						float knockBackResistBoost = death ? 0.44f : 0.45f * (1f - lifeRatio);
-						npc.knockBackResist = 0.45f - knockBackResistBoost;
+						if (npc.knockBackResist == 0f)
+							npc.knockBackResist = GetCrimsonBossKnockBack(npc, CalamityGlobalNPC.GetActivePlayerCount(), lifeRatio, baseKnockBackResist);
 					}
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2281,7 +2303,7 @@ namespace CalamityMod.NPCs
             {
                 // Creeper count
                 int creeperCount = NPC.CountNPCS(NPCID.Creeper);
-                int creeperScale = 21 - creeperCount; // 1 to 20
+                int creeperScale = GetBrainOfCthuluCreepersCountRevDeath() + 1 - creeperCount; // 1 to 20
                 bool phase2 = creeperCount <= 0;
 
                 // Go to phase 2
@@ -2410,9 +2432,6 @@ namespace CalamityMod.NPCs
             if (npc.localAI[3] > 0f)
                 npc.localAI[3] -= 1f;
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
 
@@ -2428,7 +2447,7 @@ namespace CalamityMod.NPCs
 
             // Creeper count, 0 to 20
             int creeperCount = NPC.CountNPCS(NPCID.Creeper);
-            bool phase2 = creeperCount <= 5;
+            bool phase2 = creeperCount <= (CalamityWorld.death ? 7 : 6);
 
             // Adjust knockback
             if (phase2)
@@ -2463,7 +2482,7 @@ namespace CalamityMod.NPCs
                 }
 
                 // Charge at target
-                int creeperScale = 21 - creeperCount; // 1 to 20
+                int creeperScale = GetBrainOfCthuluCreepersCountRevDeath() + 1 - creeperCount;
                 npc.ai[1] += 0.5f + (creeperScale * 0.25f);
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] >= 240f)
                 {
@@ -2499,36 +2518,60 @@ namespace CalamityMod.NPCs
                     npc.ai[0] = 0f;
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
-        #endregion
 
-        #region Buffed Queen Bee AI
-        public static bool BuffedQueenBeeAI(NPC npc, Mod mod, bool chaos)
+		public static int GetBrainOfCthuluCreepersCountRevDeath()
+		{
+			return CalamityWorld.death ? 30 : 25;
+		}
+
+		private static float GetCrimsonBossKnockBack(NPC npc, int numPlayers, float lifeScale, float baseKnockBackResist)
+		{
+			float balance = 1f;
+			float boost = 0.35f;
+
+			for (int i = 1; i < numPlayers; i++)
+			{
+				balance += boost;
+				boost += (1f - boost) / 3f;
+			}
+
+			if (balance > 8f)
+				balance = (balance * 2f + 8f) / 3f;
+			if (balance > 1000f)
+				balance = 1000f;
+
+			float KBResist = baseKnockBackResist * lifeScale;
+			float KBResistMultiplier = 1f - baseKnockBackResist * 0.4f;
+			for (float num = 1f; num < balance; num += 0.34f)
+			{
+				if ((double)KBResist < 0.05)
+				{
+					KBResist = 0f;
+					break;
+				}
+				KBResist *= KBResistMultiplier;
+			}
+
+			return KBResist;
+		}
+		#endregion
+
+		#region Buffed Queen Bee AI
+		public static bool BuffedQueenBeeAI(NPC npc, Mod mod, bool chaos)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
-            // Increase bee spawn rate during bee spawning phase based on number of players near the boss
-            int playerNearBoss = 0;
-            int num;
-            for (int num593 = 0; num593 < Main.maxPlayers; num593 = num + 1)
-            {
-                if (Main.player[num593].active && !Main.player[num593].dead && (npc.Center - Main.player[num593].Center).Length() < 1000f)
-                    playerNearBoss++;
+			int enrageScale = 0;
+			if ((double)(npc.position.Y / 16f) < Main.worldSurface)
+				enrageScale++;
+			if (!Main.player[npc.target].ZoneJungle)
+				enrageScale++;
 
-                num = num593;
-            }
-
-            bool enrage = false;
-            if (CalamityWorld.bossRushActive || !Main.player[npc.target].ZoneJungle || Main.player[npc.target].position.Y < Main.worldSurface * 16.0 || Main.player[npc.target].position.Y > ((Main.maxTilesY - 200) * 16))
-                enrage = true;
-
-            // Boost defense and damage as health decreases
-            int statBoost = (int)(20f * (1f - npc.life / (float)npc.lifeMax));
+			// Boost defense and damage as health decreases
+			int statBoost = (int)(20f * (1f - npc.life / (float)npc.lifeMax));
 			if (death)
 			{
 				npc.defense = npc.defDefense + 20;
@@ -2544,68 +2587,101 @@ namespace CalamityMod.NPCs
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead || !Main.player[npc.target].active)
                 npc.TargetClosest(true);
 
-            // Despawn
-            if (Main.player[npc.target].dead)
-            {
-                if (npc.position.Y < Main.worldSurface * 16.0 + 2000.0)
-                    npc.velocity.Y += 0.04f;
-                if (npc.position.X < (Main.maxTilesX * 8))
-                    npc.velocity.X -= 0.04f;
-                else
-                    npc.velocity.X += 0.04f;
+			// Despawn
+			float num616 = Vector2.Distance(npc.Center, Main.player[npc.target].Center);
+			if (npc.ai[0] != 5f)
+			{
+				if (npc.timeLeft < 60)
+					npc.timeLeft = 60;
+				if (num616 > 3000f)
+					npc.ai[0] = 4f;
+			}
+			if (Main.player[npc.target].dead)
+				npc.ai[0] = 5f;
 
-                if (npc.timeLeft > 10)
-                {
-                    npc.timeLeft = 10;
-                    return false;
-                }
-            }
+			if (npc.ai[0] == 5f)
+			{
+				npc.velocity.Y *= 0.98f;
 
-            // Pick a random phase
-            else if (npc.ai[0] == -1f)
+				if (npc.velocity.X < 0f)
+					npc.direction = -1;
+				else
+					npc.direction = 1;
+
+				npc.spriteDirection = npc.direction;
+
+				if (npc.position.X < (float)(Main.maxTilesX * 8))
+				{
+					if (npc.velocity.X > 0f)
+						npc.velocity.X *= 0.98f;
+					else
+						npc.localAI[0] = 1f;
+
+					npc.velocity.X -= 0.08f;
+				}
+				else
+				{
+					if (npc.velocity.X < 0f)
+						npc.velocity.X *= 0.98f;
+					else
+						npc.localAI[0] = 1f;
+
+					npc.velocity.X += 0.08f;
+				}
+
+				if (npc.timeLeft > 10)
+					npc.timeLeft = 10;
+			}
+
+			// Pick a random phase
+			else if (npc.ai[0] == -1f)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    float num595 = npc.ai[1];
-                    int phase;
-                    do
-                    {
-                        if (enrage)
-                        {
-                            phase = Main.rand.Next(2);
-                            if (phase == 1)
-                                phase = 3;
-                        }
-                        else
-                        {
-                            phase = Main.rand.Next(3);
-                            if (phase == 1)
-                                phase = 2;
-                            else if (phase == 2)
-                                phase = 3;
-                        }
-                    }
-                    while (phase == num595);
-                    npc.ai[0] = phase;
-                    npc.ai[1] = 0f;
-                    npc.ai[2] = 0f;
-                }
+					float num617 = npc.ai[1];
+					int num618;
+					do
+					{
+						num618 = Main.rand.Next(3);
+						switch (num618)
+						{
+							case 1:
+								num618 = 2;
+								break;
+							case 2:
+								num618 = 3;
+								break;
+						}
+					}
+					while ((float)num618 == num617);
+					npc.ai[0] = num618;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
+				}
             }
 
             // Charging phase
             else if (npc.ai[0] == 0f)
             {
                 // Number of charges
-                int chargeAmt = 2;
-                if (npc.life < npc.lifeMax / 3 || death || enrage)
+                int chargeAmt = 2 + enrageScale;
+                if (npc.life < npc.lifeMax / 3 || death)
                     chargeAmt++;
+
+				// Switch to a random phase if chargeAmt has been exceeded
+				if (npc.ai[1] > (2 * chargeAmt) && npc.ai[1] % 2f == 0f)
+                {
+                    npc.ai[0] = -1f;
+                    npc.ai[1] = 0f;
+                    npc.ai[2] = 0f;
+                    npc.netUpdate = true;
+                    return false;
+                }
 
 				// Charge velocity
 				float speed = 16f;
 				if (CalamityWorld.bossRushActive)
 					speed += 12f;
-				else if (enrage)
-					speed += 8f;
 				else
 				{
 					if (npc.life < npc.lifeMax * 0.75 || death)
@@ -2618,22 +2694,16 @@ namespace CalamityMod.NPCs
 				if (npc.life < npc.lifeMax * 0.1 || death)
 					speed += 2f;
 
-				// Switch to a random phase if chargeAmt has been exceeded
-				if (npc.ai[1] > (2 * chargeAmt) && npc.ai[1] % 2f == 0f)
-                {
-                    npc.ai[0] = -1f;
-                    npc.ai[1] = 0f;
-                    npc.ai[2] = 0f;
-                    npc.netUpdate = true;
-                    return false;
-                }
+				speed += 8f * (float)enrageScale;
 
 				// Line up and initiate charge
-                if (npc.ai[1] % 2f == 0f)
+				if (npc.ai[1] % 2f == 0f)
                 {
                     // Get target and initiate charge
                     npc.TargetClosest(true);
-                    if (Math.Abs(npc.position.Y + (npc.height / 2) - (Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2))) < 20f)
+					float num620 = 20f;
+					num620 += (float)(20 * enrageScale);
+					if (Math.Abs(npc.position.Y + (npc.height / 2) - (Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2))) < num620)
                     {
                         // Set AI variables and speed
                         npc.localAI[0] = 1f;
@@ -2659,37 +2729,31 @@ namespace CalamityMod.NPCs
                     npc.localAI[0] = 0f;
                     float num602 = 12f;
                     float num603 = 0.15f;
-                    if (enrage)
+					if (npc.life < npc.lifeMax * 0.75 || death)
 					{
-						num602 += 6f;
-						num603 += 0.2f;
+						num602 += 1f;
+						num603 += 0.05f;
 					}
-                    else
-                    {
-                        if (npc.life < npc.lifeMax * 0.75 || death)
-                        {
-                            num602 += 1f;
-                            num603 += 0.05f;
-                        }
-                        if (npc.life < npc.lifeMax * 0.5 || death)
-                        {
-                            num602 += 1f;
-                            num603 += 0.05f;
-                        }
-                        if (npc.life < npc.lifeMax * 0.25 || death)
-                        {
-                            num602 += 2f;
-                            num603 += 0.05f;
-                        }
-                    }
+					if (npc.life < npc.lifeMax * 0.5 || death)
+					{
+						num602 += 1f;
+						num603 += 0.05f;
+					}
+					if (npc.life < npc.lifeMax * 0.25 || death)
+					{
+						num602 += 2f;
+						num603 += 0.05f;
+					}
                     if (npc.life < npc.lifeMax * 0.1 || death)
                     {
                         num602 += 2f;
                         num603 += 0.1f;
                     }
+					num602 += (float)(3 * enrageScale);
+					num603 += 0.5f * (float)enrageScale;
 
-                    // Velocity calculations
-                    if (npc.position.Y + (npc.height / 2) < Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2))
+					// Velocity calculations
+					if (npc.position.Y + (npc.height / 2) < Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2))
                         npc.velocity.Y += num603;
                     else
                         npc.velocity.Y -= num603;
@@ -2731,24 +2795,34 @@ namespace CalamityMod.NPCs
 
                     // Charging distance from player
                     int num604 = 500;
-                    if (enrage)
-                        num604 = 225;
-                    else if (npc.life < npc.lifeMax * 0.33 || death)
+                    if (npc.life < npc.lifeMax * 0.33 || death)
                         num604 = 300;
                     else if (npc.life < npc.lifeMax * 0.66)
                         num604 = 450;
+					num604 -= 100 * enrageScale;
 
-                    // Get which side of the player the boss is on
-                    int num605 = 1;
+					// Get which side of the player the boss is on
+					int num605 = 1;
                     if (npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + (Main.player[npc.target].width / 2))
                         num605 = -1;
 
-                    // If boss is in correct position, slow down, if not, reset
-                    if (npc.direction == num605 && Math.Abs(npc.position.X + (npc.width / 2) - (Main.player[npc.target].position.X + (Main.player[npc.target].width / 2))) > num604)
-                        npc.ai[2] = 1f;
+					// If boss is in correct position, slow down, if not, reset
+					bool flag35 = false;
+					if (npc.direction == num605 && Math.Abs(npc.position.X + (npc.width / 2) - (Main.player[npc.target].position.X + (Main.player[npc.target].width / 2))) > num604)
+					{
+						npc.ai[2] = 1f;
+						flag35 = true;
+					}
+					if (Math.Abs(npc.Center.Y - Main.player[npc.target].Center.Y) > (float)num604 * 1.5f)
+					{
+						npc.ai[2] = 1f;
+						flag35 = true;
+					}
+					if (enrageScale > 0 && flag35)
+						npc.velocity *= 0.5f;
 
 					// Keep moving
-                    if (npc.ai[2] != 1f)
+					if (npc.ai[2] != 1f)
                     {
 						// Velocity fix if Queen Bee is slowed
 						if (npc.velocity.Length() < speed)
@@ -2767,24 +2841,28 @@ namespace CalamityMod.NPCs
                     npc.spriteDirection = npc.direction;
                     npc.localAI[0] = 0f;
                     npc.velocity *= 0.9f;
+
                     float num606 = 0.1f;
-                    if (npc.life < npc.lifeMax / 2 || death || enrage)
+                    if (npc.life < npc.lifeMax / 2 || death)
                     {
                         npc.velocity *= 0.9f;
                         num606 += 0.05f;
                     }
-                    if (npc.life < npc.lifeMax / 3 || death || enrage)
+                    if (npc.life < npc.lifeMax / 3 || death)
                     {
                         npc.velocity *= 0.9f;
                         num606 += 0.05f;
                     }
-                    if (npc.life < npc.lifeMax / 5 || death || enrage)
+                    if (npc.life < npc.lifeMax / 5 || death)
                     {
                         npc.velocity *= 0.9f;
                         num606 += 0.05f;
                     }
 
-                    if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < num606)
+					if (enrageScale > 0)
+						npc.velocity *= 0.7f;
+
+					if (Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y) < num606)
                     {
                         npc.ai[2] = 0f;
                         npc.ai[1] += 1f;
@@ -2864,8 +2942,14 @@ namespace CalamityMod.NPCs
 
                 // Bee spawn timer
                 npc.ai[1] += 1f;
-                npc.ai[1] += (playerNearBoss / 2);
-                if (npc.life < npc.lifeMax * 0.75 || death)
+				int num638 = 0;
+				for (int num639 = 0; num639 < 255; num639++)
+				{
+					if (Main.player[num639].active && !Main.player[num639].dead && (npc.Center - Main.player[num639].Center).Length() < 1000f)
+						num638++;
+				}
+				npc.ai[1] += num638 / 2;
+				if (npc.life < npc.lifeMax * 0.75 || death)
                     npc.ai[1] += 0.25f;
                 if (npc.life < npc.lifeMax * 0.5 || death)
                     npc.ai[1] += 0.25f;
@@ -2875,7 +2959,8 @@ namespace CalamityMod.NPCs
                     npc.ai[1] += 0.25f;
 
                 bool spawnBee = false;
-                if (npc.ai[1] > 15f)
+				int num640 = 15 - 12 * enrageScale;
+				if (npc.ai[1] > num640)
                 {
                     npc.ai[1] = 0f;
                     npc.ai[2] += 1f;
@@ -2898,10 +2983,12 @@ namespace CalamityMod.NPCs
                             spawnType = CalamityMod.hornetList[Main.rand.Next(hornetAmt)];
 
                         int spawn = NPC.NewNPC((int)vector76.X, (int)vector76.Y, spawnType, 0, 0f, 0f, 0f, 0f, 255);
-                        Main.npc[spawn].velocity.X = Main.rand.Next(-200, 201) * 0.002f;
-                        Main.npc[spawn].velocity.Y = Main.rand.Next(-200, 201) * 0.002f;
 
-                        if (!CalamityMod.hornetList.Contains(spawnType))
+						Main.npc[spawn].velocity = Main.player[npc.target].Center - npc.Center;
+						Main.npc[spawn].velocity.Normalize();
+						Main.npc[spawn].velocity *= 5f;
+
+						if (!CalamityMod.hornetList.Contains(spawnType))
                             Main.npc[spawn].localAI[0] = 60f;
 
                         Main.npc[spawn].netUpdate = true;
@@ -2969,33 +3056,22 @@ namespace CalamityMod.NPCs
                 float num622 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - 300f - vector79.Y;
                 float num623 = (float)Math.Sqrt(num621 * num621 + num622 * num622);
 
-                // Stinger fire counter
-                npc.ai[1] += 1f;
-                bool shoot = false;
-                if (npc.life < npc.lifeMax * 0.33 || death || enrage)
-                {
-                    if (npc.ai[1] % 15f == 14f)
-                        shoot = true;
-                }
-                else if (npc.life < npc.lifeMax * 0.66)
-                {
-                    if (npc.ai[1] % 25f == 24f)
-                        shoot = true;
-                }
-                else if (npc.ai[1] % 30f == 29f)
-                    shoot = true;
+				npc.ai[1] += 1f;
+				int num650 = ((npc.life < npc.lifeMax * 0.25) ? 15 : ((npc.life < npc.lifeMax * 0.5) ? 20 : ((npc.life < npc.lifeMax * 0.75) ? 25 : 30)));
+				num650 -= 5 * enrageScale;
 
                 // Fire stingers
-                if (shoot && npc.position.Y + npc.height < Main.player[npc.target].position.Y && Collision.CanHit(vector78, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                if (npc.ai[1] % (float)num650 == (float)(num650 - 1) && npc.position.Y + npc.height < Main.player[npc.target].position.Y && Collision.CanHit(vector78, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
                     Main.PlaySound(SoundID.Item17, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num624 = CalamityWorld.bossRushActive ? 16f : 12f;
-                        if (npc.life < npc.lifeMax * 0.33 || enrage || death)
+                        if (npc.life < npc.lifeMax * 0.33 || death)
                             num624 += 3f;
+						num624 += (float)(7 * enrageScale);
 
-                        float num625 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector78.X;
+						float num625 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector78.X;
                         float num626 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector78.Y;
 						float num627 = (float)Math.Sqrt(num625 * num625 + num626 * num626);
                         num627 = num624 / num627;
@@ -3013,10 +3089,14 @@ namespace CalamityMod.NPCs
 
                 // Movement calculations
                 float num620 = CalamityWorld.bossRushActive ? 0.1f : 0.075f;
-                if (!Collision.CanHit(new Vector2(vector78.X, vector78.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+				num620 += 0.2f * (float)enrageScale;
+				if (!Collision.CanHit(new Vector2(vector78.X, vector78.Y - 30f), 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
                     num620 = CalamityWorld.bossRushActive ? 0.125f : 0.1f;
-                    vector79 = vector78;
+					if (enrageScale > 0)
+						num620 = 0.5f;
+
+					vector79 = vector78;
                     num621 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector79.X;
                     num622 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector79.Y;
 
@@ -3075,8 +3155,10 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                // Go to a random phase
-                if (npc.ai[1] > (CalamityWorld.bossRushActive ? 240f : 400f))
+				// Go to a random phase
+				float num660 = 20f;
+				num660 -= (float)(5 * enrageScale);
+				if (npc.ai[1] > (float)num650 * num660)
                 {
                     npc.ai[0] = -1f;
                     npc.ai[1] = 3f;
@@ -3084,10 +3166,32 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
+			else if (npc.ai[0] == 4f)
+			{
+				npc.localAI[0] = 1f;
+				float num661 = 14f;
+				float num662 = 14f;
 
-            if (Main.netMode == NetmodeID.Server)
+				Vector2 value2 = Main.player[npc.target].Center - npc.Center;
+				value2.Normalize();
+				value2 *= num661;
+
+				npc.velocity = (npc.velocity * num662 + value2) / (num662 + 1f);
+				if (npc.velocity.X < 0f)
+					npc.direction = -1;
+				else
+					npc.direction = 1;
+
+				npc.spriteDirection = npc.direction;
+
+				if (num616 < 2000f)
+				{
+					npc.ai[0] = -1f;
+					npc.localAI[0] = 0f;
+				}
+			}
+
+			if (Main.netMode == NetmodeID.Server)
                 NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 
             npc.netSpam = 5;
@@ -3543,9 +3647,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
 
@@ -3759,9 +3860,6 @@ namespace CalamityMod.NPCs
             }
             else if (npc.ai[2] == 5f && ((npc.velocity.X > 0f && npc.position.X + (npc.width / 2) > Main.player[npc.target].position.X + (Main.player[npc.target].width / 2)) || (npc.velocity.X < 0f && npc.position.X + (npc.width / 2) < Main.player[npc.target].position.X + (Main.player[npc.target].width / 2)) || npc.velocity == Vector2.Zero))
                 npc.ai[2] = 0f;
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -4134,9 +4232,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
 
@@ -4264,9 +4359,6 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -4833,9 +4925,6 @@ namespace CalamityMod.NPCs
                 if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
                     npc.netUpdate = true;
             }
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -5522,9 +5611,6 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -6276,9 +6362,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
         #endregion
@@ -6881,9 +6964,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
 
@@ -7121,9 +7201,6 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -7380,9 +7457,6 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -7693,9 +7767,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
 
@@ -7978,9 +8049,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
         #endregion
@@ -7997,9 +8065,10 @@ namespace CalamityMod.NPCs
             // Phases based on HP
             bool phase2 = lifeRatio <= 0.5f;
             bool phase3 = lifeRatio < 0.25f || (death && phase2);
+			bool spawnMoreTentacles = lifeRatio < 0.1f;
 
-            // Variables and target
-            bool enrage = false;
+			// Variables and target
+			bool enrage = false;
             bool despawn = false;
             npc.TargetClosest(true);
 
@@ -8066,7 +8135,7 @@ namespace CalamityMod.NPCs
             {
                 velocity = 10f;
                 acceleration = 0.1f;
-                if (tentaclesDead)
+                if (tentaclesDead || spawnMoreTentacles)
                 {
                     velocity = 12f;
                     acceleration = 0.12f;
@@ -8343,11 +8412,20 @@ namespace CalamityMod.NPCs
                             int num750 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                         }
                     }
-                }
+
+					if (spawnMoreTentacles && npc.localAI[0] == 2f)
+					{
+						npc.localAI[0] = 3f;
+						for (int num749 = 0; num749 < 8; num749++)
+						{
+							int num750 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+						}
+					}
+				}
 
                 // If tentacles are alive, gain high defense
                 if (!tentaclesDead)
-                    npc.defense = 9999;
+                    npc.defense = spawnMoreTentacles ? 99 : 9999;
                 npc.chaseable = tentaclesDead;
 
                 // Spawn gore
@@ -8438,7 +8516,7 @@ namespace CalamityMod.NPCs
 					}
 
 					// Fire spread of spore clouds
-					if (tentaclesDead)
+					if (tentaclesDead || spawnMoreTentacles)
 					{
 						float shootBoost = death ? 1f : 2f * (0.5f - lifeRatio);
 						calamityGlobalNPC.newAI[0] += 1f + shootBoost;
@@ -8533,9 +8611,6 @@ namespace CalamityMod.NPCs
                         npc.defense = 9999;
                 }
             }
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -8798,8 +8873,8 @@ namespace CalamityMod.NPCs
             // whoAmI variable
             NPC.golemBoss = npc.whoAmI;
 
-            // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
@@ -8991,8 +9066,8 @@ namespace CalamityMod.NPCs
 
                         npc.velocity.X = velocityX * npc.direction;
 
-                        if (Main.player[npc.target].position.Y < npc.position.Y + npc.height)
-                            npc.velocity.Y = (!flag43 && !flag40) ? -15.1f : -12.1f;
+                        if (Main.player[npc.target].position.Y < npc.Bottom.Y)
+                            npc.velocity.Y = ((!flag43 && !flag40) ? -15.1f : -12.1f) + (enrage ? -4f : 0f);
                         else
                             npc.velocity.Y = 1f;
 
@@ -9077,20 +9152,22 @@ namespace CalamityMod.NPCs
                 {
                     npc.TargetClosest(true);
 
-                    // Fall through
-                    if (npc.target >= 0 &&
-                        ((Main.player[npc.target].position.Y > npc.position.Y + npc.height && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.position.Y + npc.height && npc.velocity.Y < 0f)))
-                        npc.noTileCollide = true;
-                    else
-                        npc.noTileCollide = false;
+					// Fall through
+					if (!Main.player[npc.target].dead)
+					{
+						if ((Main.player[npc.target].position.Y > npc.Bottom.Y && npc.velocity.Y > 0f) || (Main.player[npc.target].position.Y < npc.Bottom.Y && npc.velocity.Y < 0f))
+							npc.noTileCollide = true;
+						else if ((npc.velocity.Y > 0f && npc.Bottom.Y > Main.player[npc.target].Top.Y) || (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].Center, 1, 1) && !Collision.SolidCollision(npc.position, npc.width, npc.height)))
+							npc.noTileCollide = false;
+					}
 
                     // Velocity when falling
                     if (npc.position.X < Main.player[npc.target].position.X && npc.position.X + npc.width > Main.player[npc.target].position.X + Main.player[npc.target].width)
                     {
                         npc.velocity.X *= 0.9f;
 
-                        if (Main.player[npc.target].position.Y > npc.position.Y + npc.height)
-                        {
+						if (npc.Bottom.Y < Main.player[npc.target].position.Y)
+						{
 							float fallSpeedBoost = death ? 0.8f : 0.8f * (1f - lifeRatio);
                             float fallSpeed = 0.2f + fallSpeedBoost;
                             if (enrage)
@@ -9133,9 +9210,6 @@ namespace CalamityMod.NPCs
                     npc.active = false;
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
 
@@ -9162,7 +9236,7 @@ namespace CalamityMod.NPCs
             npc.dontTakeDamage = flag41 || flag42;
 
             // Stay in position on top of body
-            float num650 = 16f;
+            float num650 = 28f;
             Vector2 vector80 = new Vector2(npc.Center.X, npc.Center.Y);
             float num651 = Main.npc[NPC.golemBoss].Center.X - vector80.X;
             float num652 = Main.npc[NPC.golemBoss].Center.Y - vector80.Y;
@@ -9382,9 +9456,6 @@ namespace CalamityMod.NPCs
             }
             npc.ai[0] = 0f;
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
 
@@ -9590,9 +9661,6 @@ namespace CalamityMod.NPCs
 
 				NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 
-				if (ModLoader.GetMod("FargowiltasSouls") != null)
-					ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
 				return false;
 			}
 
@@ -9682,9 +9750,6 @@ namespace CalamityMod.NPCs
             }
 
             NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -10742,9 +10807,6 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
         #endregion
@@ -11796,9 +11858,6 @@ namespace CalamityMod.NPCs
             // Take damage or not
             npc.dontTakeDamage = dontTakeDamage;
             npc.chaseable = npc.ai[0] != -1f && npc.ai[0] != 5f;
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -14821,9 +14880,6 @@ namespace CalamityMod.NPCs
             }
             npc.rotation = npc.velocity.X * -0.02f;
 
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
-
             return false;
         }
 
@@ -14998,9 +15054,6 @@ namespace CalamityMod.NPCs
                 if ((npc.velocity.X > 0f && npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2)) || (npc.velocity.X < 0f && npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2)) || num886 > 800f)
                     npc.ai[2] = 0f;
             }
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -15275,9 +15328,6 @@ namespace CalamityMod.NPCs
                 npc.ai[2] = 0f;
                 npc.ai[3] = 0f;
             }
-
-            if (ModLoader.GetMod("FargowiltasSouls") != null)
-                ModLoader.GetMod("FargowiltasSouls").Call("FargoSoulsAI", npc.whoAmI);
 
             return false;
         }
@@ -17637,14 +17687,14 @@ namespace CalamityMod.NPCs
                     maxVelocity = 1f;
                 }
                 maxVelocity *= 1.5f;
-                if (npcType < 310)
+                if (npcType < 310) //Pogo stick Scarecrows
                 {
                     if (npc.velocity.Y == 0f)
                     {
                         npc.velocity.X *= 0.85f;
-                        if (npc.velocity.X > -0.3 && (double)npc.velocity.X < 0.3)
+                        if (npc.velocity.X > -0.3f && npc.velocity.X < 0.3f)
                         {
-                            npc.velocity.Y = -9f;
+                            npc.velocity.Y = -9f; //-7f normally
                             npc.velocity.X = maxVelocity * (float)npc.direction;
                         }
                     }
