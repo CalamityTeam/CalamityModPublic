@@ -2,14 +2,13 @@ using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Ravager
 {
-    public class FlamePillar : ModNPC
+	public class FlamePillar : ModNPC
     {
         public override void SetStaticDefaults()
         {

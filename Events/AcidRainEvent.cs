@@ -1,4 +1,3 @@
-using CalamityMod.ILEditing;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -12,7 +11,7 @@ using Terraria.Localization;
 
 namespace CalamityMod.Events
 {
-    public enum AcidRainSpawnRequirement
+	public enum AcidRainSpawnRequirement
     {
         Water,
         Land,
@@ -219,7 +218,7 @@ namespace CalamityMod.Events
                 // In short, leave this alone.
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainSync);
                     netMessage.Write(CalamityWorld.rainingAcid);
                     netMessage.Write(CalamityWorld.acidRainPoints);
@@ -227,14 +226,14 @@ namespace CalamityMod.Events
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainUIDrawFadeSync);
                     netMessage.Write(CalamityWorld.acidRainExtraDrawTime);
                     netMessage.Send();
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainOldDukeSummonSync);
                     netMessage.Write(CalamityWorld.triedToSummonOldDuke);
                     netMessage.Send();

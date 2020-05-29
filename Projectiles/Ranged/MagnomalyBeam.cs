@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +8,7 @@ using CalamityMod.Buffs.StatDebuffs;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class MagnomalyBeam : ModProjectile
+	public class MagnomalyBeam : ModProjectile
     {
         public override void SetStaticDefaults()
         {

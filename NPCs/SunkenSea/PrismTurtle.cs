@@ -3,14 +3,13 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
-    public class PrismTurtle : ModNPC
+	public class PrismTurtle : ModNPC
     {
         public bool hasBeenHit = false;
 

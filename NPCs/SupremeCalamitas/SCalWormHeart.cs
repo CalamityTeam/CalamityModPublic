@@ -1,12 +1,11 @@
 using CalamityMod.Projectiles.Rogue;
-using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
-    public class SCalWormHeart : ModNPC
+	public class SCalWormHeart : ModNPC
     {
         public override void SetStaticDefaults()
         {

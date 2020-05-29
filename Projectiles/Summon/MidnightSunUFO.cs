@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
-using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MidnightSunUFO : ModProjectile
+	public class MidnightSunUFO : ModProjectile
     {
         public const float DistanceToCheck = 2600f;
         public override void SetStaticDefaults()

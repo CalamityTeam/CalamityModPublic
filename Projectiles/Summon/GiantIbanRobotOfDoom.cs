@@ -5,16 +5,13 @@ using CalamityMod.Projectiles.Summon.AndromedaUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
-using System.Collections.Generic;
-using CalamityMod.Buffs.Cooldowns;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AndromedaHead : EquipTexture
+	public class AndromedaHead : EquipTexture
     {
         public override bool DrawHead() => false;
     }

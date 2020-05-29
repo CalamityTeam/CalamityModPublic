@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Projectiles.Damageable;
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Typeless
 {
-    public class RelicOfResilience : ModItem
+	public class RelicOfResilience : ModItem
     {
         public const int CooldownSeconds = 5;
         public const float WeaknessDR = 0.45f;

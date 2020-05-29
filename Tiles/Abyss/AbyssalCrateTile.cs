@@ -1,14 +1,12 @@
-using CalamityMod.Dusts;
 using CalamityMod.Items.Fishing.SulphurCatches;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Abyss
 {
-    public class AbyssalCrateTile : ModTile
+	public class AbyssalCrateTile : ModTile
     {
         public override void SetDefaults()
         {

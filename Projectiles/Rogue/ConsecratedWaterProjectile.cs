@@ -1,4 +1,3 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ConsecratedWaterProjectile : ModProjectile
+	public class ConsecratedWaterProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {

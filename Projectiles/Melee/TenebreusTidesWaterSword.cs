@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TenebreusTidesWaterSword : ModProjectile
+	public class TenebreusTidesWaterSword : ModProjectile
     {
         private int penetrationAmt = 4;
 		private bool dontDraw = false;

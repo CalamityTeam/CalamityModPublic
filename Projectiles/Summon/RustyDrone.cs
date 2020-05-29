@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.Summon;
-using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class RustyDrone : ModProjectile
+	public class RustyDrone : ModProjectile
     {
         public const float PlayerHomingInertia = 32f;
         public const float PlayerHomingSpeed = 11f;

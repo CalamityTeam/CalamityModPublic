@@ -1,11 +1,10 @@
 using CalamityMod.Buffs.DamageOverTime;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-    public class DiseasedPikeSpear : BaseSpearProjectile
+	public class DiseasedPikeSpear : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {

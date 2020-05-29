@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ShockGrenadeExplosion : ModProjectile
+	public class ShockGrenadeExplosion : ModProjectile
     {
         private const float radius = 100f;
 

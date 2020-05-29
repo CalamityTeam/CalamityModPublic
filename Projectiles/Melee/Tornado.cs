@@ -1,5 +1,4 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Tornado : ModProjectile
+	public class Tornado : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -34,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.soundDelay == 0)
             {
                 projectile.soundDelay = -1;
-                Main.PlaySound(SoundID.Item122, projectile.position);
+                Main.PlaySound(SoundID.Item122, projectile.Center);
             }
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= num1125)

@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class FungalHeal : ModProjectile
+	public class FungalHeal : ModProjectile
     {
         public override void SetStaticDefaults()
         {

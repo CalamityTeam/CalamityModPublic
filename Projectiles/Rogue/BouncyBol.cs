@@ -1,15 +1,11 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BouncyBol : ModProjectile
+	public class BouncyBol : ModProjectile
     {
         private bool hasHitEnemy = false;
         private int targetNPC = -1;

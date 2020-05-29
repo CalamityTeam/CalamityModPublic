@@ -5,12 +5,10 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class StormWeaverHead : ModNPC
     {
         private const float BoltAngleSpread = 170;
@@ -50,7 +48,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 else
                     music = MusicID.Boss3;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -166,7 +164,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     if (BoltCountdown == 0)
                     {
                         int speed2 = revenge ? 8 : 7;
-                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             speed2 += 1;
                         }

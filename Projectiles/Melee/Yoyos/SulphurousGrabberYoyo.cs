@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class SulphurousGrabberYoyo : ModProjectile
+	public class SulphurousGrabberYoyo : ModProjectile
     {
 		private int bubbleCounter = 0;
 		private bool bubbleStronk = false;

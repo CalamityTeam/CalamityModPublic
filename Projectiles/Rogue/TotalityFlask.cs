@@ -1,12 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TotalityFlask : ModProjectile
+	public class TotalityFlask : ModProjectile
     {
         public override void SetStaticDefaults()
         {

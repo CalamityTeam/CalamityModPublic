@@ -1,13 +1,12 @@
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class BigCoral : ModProjectile
+	public class BigCoral : ModProjectile
     {
         public override void SetStaticDefaults()
         {

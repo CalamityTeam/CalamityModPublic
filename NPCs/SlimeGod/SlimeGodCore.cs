@@ -9,7 +9,6 @@ using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
@@ -20,13 +19,10 @@ using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.SlimeGod
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class SlimeGodCore : ModNPC
     {
 		int buffedSlime = 0;
@@ -44,7 +40,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.height = 44;
             npc.defense = 6;
             npc.LifeMaxNERB(4000, 5000, 2500000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             NPCID.Sets.TrailCacheLength[npc.type] = 8;
             NPCID.Sets.TrailingMode[npc.type] = 1;
@@ -520,7 +516,7 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = 22f;
             }
-            if (npc.Calamity().enraged > 0 || player.gravDir == -1f || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (npc.Calamity().enraged > 0 || player.gravDir == -1f || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 num1372 += 8f;
             }
@@ -591,7 +587,7 @@ namespace CalamityMod.NPCs.SlimeGod
             float num160 = 0f;
             int num161 = num159;
             spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, spriteEffects, 0);
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityMod.CalamityConfig.Afterimages)
+            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
             {
                 Color color26 = npc.GetAlpha(color25);
                 {

@@ -4,13 +4,12 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crags
 {
-    public class CalamityEye : ModNPC
+	public class CalamityEye : ModNPC
     {
         public override void SetStaticDefaults()
         {

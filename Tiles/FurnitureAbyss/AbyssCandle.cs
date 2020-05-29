@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
-    public class AbyssCandle : ModTile
+	public class AbyssCandle : ModTile
     {
         public override void SetDefaults()
         {

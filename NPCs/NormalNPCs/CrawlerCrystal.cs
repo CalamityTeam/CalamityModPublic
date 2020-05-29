@@ -1,15 +1,13 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
-using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class CrawlerCrystal : ModNPC
+	public class CrawlerCrystal : ModNPC
     {
         private bool detected = false;
 

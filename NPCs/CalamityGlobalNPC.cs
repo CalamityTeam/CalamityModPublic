@@ -71,7 +71,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.NPCs
 {
-    public class CalamityGlobalNPC : GlobalNPC
+	public class CalamityGlobalNPC : GlobalNPC
     {
         #region Variables
         public float DR { get; set; } = 0f;
@@ -1132,7 +1132,7 @@ namespace CalamityMod.NPCs
 
             if ((npc.boss && npc.type != NPCID.MartianSaucerCore && npc.type < NPCID.Count) || CalamityMod.bossHPScaleList.Contains(npc.type))
             {
-                double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+                double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
                 npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             }
         }
@@ -1186,7 +1186,7 @@ namespace CalamityMod.NPCs
             Texture2D npcTexture = texture ?? Main.npcTexture[npc.type];
             Vector2 origin = npc.Size * 0.5f;
             int afterimageCounter = 1;
-            while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && CalamityMod.CalamityConfig.Afterimages)
+            while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && CalamityConfig.Instance.Afterimages)
             {
                 Color colorToDraw = Color.Lerp(drawColor, endingColor, afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type]);
                 colorToDraw *= afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type];
@@ -1269,7 +1269,7 @@ namespace CalamityMod.NPCs
         #region Scale Thorium Boss Health
         private void ScaleThoriumBossHealth(NPC npc, Mod mod)
         {
-            if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
+            if (CalamityConfig.Instance.RevengeanceAndDeathThoriumBossBuff)
             {
                 Mod thorium = ModLoader.GetMod("ThoriumMod");
                 if (thorium != null)
@@ -3046,7 +3046,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
-                bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
+                bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
                 switch (npc.type)
                 {
@@ -3251,7 +3251,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
-                if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
+                if (CalamityConfig.Instance.RevengeanceAndDeathThoriumBossBuff)
                 {
                     Mod thorium = ModLoader.GetMod("ThoriumMod");
                     if (thorium != null)
@@ -4033,7 +4033,7 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 1.4);
                 maxSpawns = (int)(maxSpawns * 0.4f);
             }
-			if (player.Calamity().zen || (CalamityMod.CalamityConfig.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
+			if (player.Calamity().zen || (CalamityConfig.Instance.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
 			{
 				spawnRate = (int)(spawnRate * 2.5);
 				maxSpawns = (int)(maxSpawns * 0.3f);
@@ -4478,7 +4478,7 @@ namespace CalamityMod.NPCs
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
             }
 
-            if (enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 return new Color(200, 50, 50, npc.alpha);
             }
@@ -4490,7 +4490,7 @@ namespace CalamityMod.NPCs
         {
 			if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f))
 			{
-				if (CalamityMod.CalamityConfig.EnemyDebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type)))
+				if (CalamityConfig.Instance.EnemyDebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type)))
 				{
 					List<Texture2D> buffTextureList = new List<Texture2D>();
 
@@ -4653,7 +4653,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (CalamityMod.CalamityConfig.TownNPCNewShopInventoryAlertDisplay && npc.townNPC)
+			if (CalamityConfig.Instance.TownNPCNewShopInventoryAlertDisplay && npc.townNPC)
 			{
 				if (npc.type == NPCType<DILF>() && Main.LocalPlayer.Calamity().newPermafrostInventory)
 				{
@@ -5587,8 +5587,8 @@ namespace CalamityMod.NPCs
             {
                 SetShopItem(ref shop, ref nextSlot, ItemType<StealthHairDye>(), Main.LocalPlayer.Calamity().rogueStealthMax > 0f && Main.LocalPlayer.Calamity().wearingRogueArmor);
                 SetShopItem(ref shop, ref nextSlot, ItemType<WingTimeHairDye>(), Main.LocalPlayer.wingTimeMax > 0);
-                SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage);
-                SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage);
+                SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.AdrenalineAndRage);
+                SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.AdrenalineAndRage);
             }
 
             if (type == NPCID.Cyborg)
@@ -5606,11 +5606,11 @@ namespace CalamityMod.NPCs
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 2));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 3));
+                SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing && CalamityConfig.Instance.SellBossSummons, Item.buyPrice(0, 2));
+                SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1 && CalamityConfig.Instance.SellBossSummons, Item.buyPrice(0, 3));
                 SetShopItem(ref shop, ref nextSlot, ItemType<DecapoditaSprout>(), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
-                SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 6));
-                SetShopItem(ref shop, ref nextSlot, ItemID.WormFood, NPC.downedBoss2 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 6));
+                SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2 && CalamityConfig.Instance.SellBossSummons, Item.buyPrice(0, 6));
+                SetShopItem(ref shop, ref nextSlot, ItemID.WormFood, NPC.downedBoss2 && CalamityConfig.Instance.SellBossSummons, Item.buyPrice(0, 6));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Main.expertMode && NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormFood>(), CalamityWorld.downedPerforator, Item.buyPrice(0, 10));
@@ -5655,9 +5655,9 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Steampunker)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1 && CalamityConfig.Instance.SellBossSummons, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2 && CalamityConfig.Instance.SellBossSummons, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3 && CalamityConfig.Instance.SellBossSummons, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemType<AstralSolution>(), price: Item.buyPrice(0, 0, 5));
             }
 
@@ -5670,7 +5670,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(3));
+                SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord && CalamityConfig.Instance.SellBossSummons, Item.buyPrice(3));
                 SetShopItem(ref shop, ref nextSlot, ItemType<ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(5));
             }
 
@@ -5680,10 +5680,10 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemType<SulphurousFountainItem>());
                 SetShopItem(ref shop, ref nextSlot, ItemType<AbyssFountainItem>(), Main.hardMode);
                 SetShopItem(ref shop, ref nextSlot, ItemType<AstralFountainItem>(), Main.hardMode);
-                SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, CalamityMod.CalamityConfig.SellBossSummons, price: Item.buyPrice(0, 8));
-                SetShopItem(ref shop, ref nextSlot, ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, CalamityConfig.Instance.SellBossSummons, price: Item.buyPrice(0, 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityConfig.Instance.SellBossSummons, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 30));
+                SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss && CalamityConfig.Instance.SellBossSummons, Item.buyPrice(0, 30));
                 SetShopItem(ref shop, ref nextSlot, ItemType<GypsyPowder>(), NPC.downedGolemBoss, Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, ItemType<AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));

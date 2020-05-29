@@ -1,11 +1,9 @@
 using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class PlaguebringerBab : ModProjectile
+	public class PlaguebringerBab : ModProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using MonoMod.Cil;
 using System;
 using CalamityMod.Dusts;
@@ -6,11 +5,10 @@ using CalamityMod.Items.Critters;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.NPCs.Astral
 {
-    public class Twinkler : ModNPC
+	public class Twinkler : ModNPC
     {
         public override void SetStaticDefaults()
         {

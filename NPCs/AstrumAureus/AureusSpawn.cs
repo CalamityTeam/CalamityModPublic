@@ -219,7 +219,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			float amount9 = 0.5f;
 			int num153 = 10;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -242,7 +242,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AureusSpawnGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

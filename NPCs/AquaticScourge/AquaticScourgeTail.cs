@@ -1,14 +1,11 @@
 using Microsoft.Xna.Framework;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
-    public class AquaticScourgeTail : ModNPC
+	public class AquaticScourgeTail : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +24,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.knockBackResist = 0f;
             npc.alpha = 255;
             npc.LifeMaxNERB(73000, 85000, 10000000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

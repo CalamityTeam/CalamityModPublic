@@ -1,11 +1,10 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria.ID;
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls; // If you are using c# 6, you can use: "using static Terraria.Localization.GameCulture;" which would mean you could just write "DisplayName.AddTranslation(German, "");"
 
 namespace CalamityMod.Items.Placeables.Walls
 {
-    public class AstralMonolithWall : ModItem
+	public class AstralMonolithWall : ModItem
     {
         public override void SetStaticDefaults()
         {

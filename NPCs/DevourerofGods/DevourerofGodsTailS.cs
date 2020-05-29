@@ -7,12 +7,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class DevourerofGodsTailS : ModNPC
     {
         private int invinceTime = 720;
@@ -36,7 +34,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.height = 140;
             npc.defense = 50;
             npc.LifeMaxNERB(1150000, 1350000, 9200000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
             npc.aiStyle = -1;

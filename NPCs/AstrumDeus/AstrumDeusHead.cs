@@ -1,24 +1,15 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using CalamityMod.Projectiles.Magic;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Projectiles.Summon;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class AstrumDeusHead : ModNPC
     {
         public override void SetStaticDefaults()
@@ -35,7 +26,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.defense = 20;
             npc.Calamity().RevPlusDR(0.1f);
 			npc.LifeMaxNERB(12000, 18000, 360000);
-			double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+			double HPBoost = (double)CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;

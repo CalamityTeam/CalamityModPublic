@@ -339,7 +339,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			float amount9 = 0.5f;
 			int num153 = npc.ai[0] == 2.1f ? 7 : 0;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{

@@ -2,14 +2,13 @@ using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.GameContent.Dyes;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Dyes
 {
-    public class ReaverDye : BaseDye
+	public class ReaverDye : BaseDye
     {
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/ReaverDyeShader")), "DyePass").
             UseColor(new Color(54, 164, 66)).UseSecondaryColor(new Color(224, 115, 65));

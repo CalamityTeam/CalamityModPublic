@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class RainBolt : ModProjectile
+	public class RainBolt : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(SoundID.Item9, projectile.position);
+                Main.PlaySound(SoundID.Item9, projectile.Center);
                 projectile.localAI[0] += 1f;
             }
 
@@ -41,7 +40,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item60, projectile.position);
+            Main.PlaySound(SoundID.Item60, projectile.Center);
             for (int k = 0; k < 5; k++)
             {
                 int rain = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB));

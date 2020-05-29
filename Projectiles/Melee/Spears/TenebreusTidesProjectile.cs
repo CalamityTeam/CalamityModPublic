@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -8,7 +7,7 @@ using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee.Spears
 {
-    public class TenebreusTidesProjectile : BaseSpearProjectile
+	public class TenebreusTidesProjectile : BaseSpearProjectile
     {
         public override void SetStaticDefaults()
         {

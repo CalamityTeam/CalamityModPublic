@@ -85,7 +85,7 @@ namespace CalamityMod.Items.Accessories
                         
                 }
                 
-                tooltips.Insert(index+1, new TooltipLine(CalamityMod.instance, "Tooltip1", "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]\nMerchants will reject a defiled soul such as this."));
+                tooltips.Insert(index+1, new TooltipLine(CalamityMod.Instance, "Tooltip1", "[c/f05a5a:The soul within this crystal has been defiled by the powerful magic of a supreme witch]\nMerchants will reject a defiled soul such as this."));
             }
             else if (Main.player[Main.myPlayer].Calamity().profanedCrystalBuffs)
             {

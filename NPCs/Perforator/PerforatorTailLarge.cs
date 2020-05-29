@@ -1,17 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Potions;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Perforator
 {
-    public class PerforatorTailLarge : ModNPC
+	public class PerforatorTailLarge : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +22,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.height = 78;
             npc.defense = 12;
 			npc.LifeMaxNERB(2500, 2700, 800000);
-			double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+			double HPBoost = (double)CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;

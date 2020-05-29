@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PhantasmalRuinProj : ModProjectile
+	public class PhantasmalRuinProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

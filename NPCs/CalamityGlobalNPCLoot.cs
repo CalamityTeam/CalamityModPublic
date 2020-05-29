@@ -13,8 +13,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.Abyss;
-using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumDeus;
@@ -26,7 +24,6 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Ravager;
@@ -46,7 +43,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs
 {
-    public class CalamityGlobalNPCLoot : GlobalNPC
+	public class CalamityGlobalNPCLoot : GlobalNPC
     {
         #region Instance Per Entity
         public override bool InstancePerEntity => false;
@@ -201,7 +198,7 @@ namespace CalamityMod.NPCs
 
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
-				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss2 || !CalamityMod.CalamityConfig.SellBossSummons);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss2 || !CalamityConfig.Instance.SellBossSummons);
 			}
             else if (npc.type == NPCID.TheDestroyer)
             {
@@ -210,7 +207,7 @@ namespace CalamityMod.NPCs
 
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3);
-				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss1 || !CalamityMod.CalamityConfig.SellBossSummons);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss1 || !CalamityConfig.Instance.SellBossSummons);
 			}
             else if (npc.type == NPCID.SkeletronPrime)
             {
@@ -220,7 +217,7 @@ namespace CalamityMod.NPCs
 
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);
-				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss3 || !CalamityMod.CalamityConfig.SellBossSummons);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Steampunker }, NPC.downedMechBoss3 || !CalamityConfig.Instance.SellBossSummons);
             }
             else if (npc.type == NPCID.Plantera)
             {
@@ -309,7 +306,7 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDukeFishron>(), true, !NPC.downedFishron);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedPlantBoss, 4, 2, 1);
 
-				npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, NPC.downedFishron || !CalamityMod.CalamityConfig.SellBossSummons);
+				npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<SEAHOE>() }, NPC.downedFishron || !CalamityConfig.Instance.SellBossSummons);
 			}
             else if (npc.type == NPCID.CultistBoss)
             {
@@ -347,7 +344,7 @@ namespace CalamityMod.NPCs
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMoonlord, 5, 2, 1);
 
 				npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, NPC.downedMoonlord);
-				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Wizard }, NPC.downedMoonlord || !CalamityMod.CalamityConfig.SellBossSummons);
+				npc.Calamity().SetNewShopVariable(new int[] { NPCID.Wizard }, NPC.downedMoonlord || !CalamityConfig.Instance.SellBossSummons);
 
 				string key = "Mods.CalamityMod.MoonBossText";
                 Color messageColor = Color.Orange;

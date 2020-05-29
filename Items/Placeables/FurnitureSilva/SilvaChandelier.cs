@@ -1,10 +1,9 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureSilva
 {
-    public class SilvaChandelier : ModItem
+	public class SilvaChandelier : ModItem
     {
         public override void SetStaticDefaults()
         {

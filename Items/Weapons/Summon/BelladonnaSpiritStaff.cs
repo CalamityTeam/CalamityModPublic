@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class BelladonnaSpiritStaff : ModItem
+	public class BelladonnaSpiritStaff : ModItem
     {
         public override void SetStaticDefaults()
         {

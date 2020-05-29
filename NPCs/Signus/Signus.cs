@@ -16,11 +16,9 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Signus
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class Signus : ModNPC
     {
         private int phaseSwitch = 0;
@@ -59,7 +57,7 @@ namespace CalamityMod.NPCs.Signus
                 else
                     music = MusicID.Boss4;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -220,7 +218,7 @@ namespace CalamityMod.NPCs.Signus
                 {
                     speed = expertMode ? 16f : 14f;
                 }
-                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     speed += 3f;
                 }
@@ -397,7 +395,7 @@ namespace CalamityMod.NPCs.Signus
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num1070 = 15f;
-                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num1070 += 3f;
                         }
@@ -712,7 +710,7 @@ namespace CalamityMod.NPCs.Signus
 			float rotation = npc.rotation;
 			float offsetY = npc.gfxOffY;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -734,7 +732,7 @@ namespace CalamityMod.NPCs.Signus
 
 			Color color40 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

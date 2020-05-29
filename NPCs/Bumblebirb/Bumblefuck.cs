@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			global.multDRReductions.Add(BuffID.Ichor, 0.88f);
 			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
 			npc.LifeMaxNERB(227500, 252500, 3000000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
@@ -259,7 +259,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 				color = lightColor;
 			}
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += num154)
 				{
@@ -314,7 +314,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 				}
 			}
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num160 = 0; num160 < num156; num160++)
 				{
@@ -356,7 +356,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 					color40 *= num161;
 				}
 
-				if (CalamityMod.CalamityConfig.Afterimages)
+				if (CalamityConfig.Instance.Afterimages)
 				{
 					for (int num163 = 1; num163 < num153; num163 += num154)
 					{

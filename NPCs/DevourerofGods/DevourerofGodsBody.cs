@@ -9,11 +9,9 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.DevourerofGods
 {
-    public class DevourerofGodsBody : ModNPC
+	public class DevourerofGodsBody : ModNPC
     {
         private int invinceTime = 360;
 
@@ -33,7 +31,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             global.DR = CalamityWorld.death ? 0.95f : 0.925f;
             global.unbreakableDR = true;
 			npc.LifeMaxNERB(675000, 750000);
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;

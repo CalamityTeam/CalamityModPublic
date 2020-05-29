@@ -2,12 +2,11 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class ToxicHeart : ModItem
+	public class ToxicHeart : ModItem
     {
         public override void SetStaticDefaults()
         {

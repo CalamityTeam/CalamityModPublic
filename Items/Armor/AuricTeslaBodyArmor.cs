@@ -1,14 +1,13 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Body)]
+	[AutoloadEquip(EquipType.Body)]
     public class AuricTeslaBodyArmor : ModItem
     {
         public override void SetStaticDefaults()

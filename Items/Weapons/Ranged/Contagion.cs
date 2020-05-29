@@ -3,12 +3,11 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Contagion : ModItem
+	public class Contagion : ModItem
     {
         public override void SetStaticDefaults()
         {

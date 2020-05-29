@@ -1,14 +1,13 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class AstrealDefeat : ModItem
+	public class AstrealDefeat : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BarrelShrapnel : ModProjectile
+	public class BarrelShrapnel : ModProjectile
     {
         public bool hitTile = false;
         public override void SetStaticDefaults()

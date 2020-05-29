@@ -27,7 +27,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.DevourerofGods
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class DevourerofGodsHeadS : ModNPC
     {
         private bool tail = false;
@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.height = 186;
             npc.defense = 50;
             npc.LifeMaxNERB(1150000, 1350000, 9200000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthPercentageBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
             npc.aiStyle = -1;
@@ -304,7 +304,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     calamityGlobalNPC.newAI[0] = 0f;
 
                 // Laser walls
-                if (!speedBoost2 && (laserWallPhase == 1 || calamityGlobalNPC.enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)))
+                if (!speedBoost2 && (laserWallPhase == 1 || calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)))
                 {
                     laserShoot += 1;
 

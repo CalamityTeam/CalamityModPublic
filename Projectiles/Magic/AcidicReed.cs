@@ -1,11 +1,10 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class AcidicReed : ModProjectile
+	public class AcidicReed : ModProjectile
     {
         public override void SetStaticDefaults()
         {
