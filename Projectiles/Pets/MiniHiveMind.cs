@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Pets
 				projectile.alpha = 255;
 			if (charging > 0)
 			{
-				projectile.rotation.AngleTowards(projectile.AngleTo(Vector2.Zero), 0.1f);
+				projectile.rotation.AngleTowards(0f, 0.1f);
 			}
 
 			//Animation
