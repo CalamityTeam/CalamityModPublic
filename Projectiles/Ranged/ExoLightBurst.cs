@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
         public const float MaxDistanceFromTarget = 1350f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Light");
+            DisplayName.SetDefault("Exo Flare");
             ProjectileID.Sets.NeedsUUID[projectile.type] = true;
         }
 

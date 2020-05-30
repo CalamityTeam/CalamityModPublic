@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Ranged
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Light");
+            DisplayName.SetDefault("Exo Light");
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 15;
         }

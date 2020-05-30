@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             DisplayName.SetDefault("Photoviscerator");
             Tooltip.SetDefault("90% chance to not consume gel\n" +
                 "Left clicking unleashes a spread of burning light that homes in on and sticks to enemies\n" +
-                "Right clicking fires a stream of exo flames and light bombs that explode into homing sparks");
+                "Right click to fire homing flares which stick to enemies and incinerate them");
         }
 
         public override void SetDefaults()
