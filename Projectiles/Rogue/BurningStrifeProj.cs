@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.ShadowFlame, 180);
             if (projectile.Calamity().stealthStrike && projectile.penetrate != 1)
             {
-                Main.PlaySound(2, projectile.Center, 103);
+                Main.PlaySound(SoundID.Item, projectile.Center, 103);
                 int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
                 Main.projectile[proj].Center = projectile.Center;
                 Main.projectile[proj].Calamity().rogue = true;
@@ -69,7 +69,7 @@ namespace CalamityMod.Projectiles.Rogue
             target.AddBuff(BuffID.ShadowFlame, 180);
             if (projectile.Calamity().stealthStrike && projectile.penetrate != 1)
             {
-                Main.PlaySound(2, projectile.Center, 103);
+                Main.PlaySound(SoundID.Item, projectile.Center, 103);
                 int proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
                 Main.projectile[proj].Center = projectile.Center;
                 Main.projectile[proj].Calamity().rogue = true;
@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
             int proj;
-            Main.PlaySound(2, projectile.Center, 103);
+            Main.PlaySound(SoundID.Item, projectile.Center, 103);
             if(projectile.Calamity().stealthStrike)
                 proj = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowflameExplosionBig>(), (int)(projectile.damage * 0.25), projectile.knockBack, projectile.owner);
             else

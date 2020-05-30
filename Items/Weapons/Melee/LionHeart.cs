@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
             item.damage = 700;
             item.knockBack = 5.5f;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 15;
             item.useTime = 15;
             item.shootSpeed = 0f;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			}
 			else
 			{
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 			}
 			return base.CanUseItem(player);
 		}

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.knockBack = 13;
             item.crit += 8;
             item.melee = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.NPCHit42;
             item.width = 80;
             item.height = 80;
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Melee
                     Main.dust[d].noGravity = true;
                     Main.dust[d].position = player.Center;
                 }
-                Main.PlaySound(2, player.position, 70);
+                Main.PlaySound(SoundID.Item70, player.position);
             }
             // Resets the weapon usage if the alt fire collides with the ground
             if (RoxAlt && player.ownedProjectileCounts[ModContent.ProjectileType<RoxSlam>()] <= 0)
@@ -118,14 +118,14 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 player.itemLocation.X -= 32f * player.direction;
                 player.itemLocation.Y -= 60f;
-                item.useStyle = 4;
+                item.useStyle = ItemUseStyleID.HoldingUp;
                 RoxAlt = true;
             }
             //Modifies to use style and hold out of the main fire mode
             else
             {
                 player.itemLocation += new Vector2(-7.5f * player.direction, 8.5f * player.gravDir).RotatedBy(player.itemRotation);
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 RoxAlt = false;
             }
         }
@@ -207,7 +207,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (item.useStyle == 4)
+            if (item.useStyle == ItemUseStyleID.HoldingUp)
             {
                 //Spawns a projectile on the tip of the sword in the alt fire
                 float positionx;
@@ -255,7 +255,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            if (item.useStyle == 4)
+            if (item.useStyle == ItemUseStyleID.HoldingUp)
             {
 				if (player.whoAmI == Main.myPlayer)
 				{
@@ -278,7 +278,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (item.useStyle == 4)
+            if (item.useStyle == ItemUseStyleID.HoldingUp)
             {
 				if (player.whoAmI == Main.myPlayer)
 				{

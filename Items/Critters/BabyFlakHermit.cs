@@ -1,6 +1,7 @@
 using CalamityMod.NPCs.AcidRain;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Critters
 {
@@ -13,7 +14,7 @@ namespace CalamityMod.Items.Critters
 
         public override void SetDefaults()
         {
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.autoReuse = true;
             item.useTurn = true;
             item.useAnimation = 15;

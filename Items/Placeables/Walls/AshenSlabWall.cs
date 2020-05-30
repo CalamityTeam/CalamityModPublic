@@ -1,6 +1,8 @@
 using CalamityMod.Items.Placeables.FurnitureAshen;
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Placeables.Walls
 {
     public class AshenSlabWall : ModItem
@@ -18,7 +20,7 @@ namespace CalamityMod.Items.Placeables.Walls
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 7;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.rare = 3;
             item.consumable = true;
             item.createWall = ModContent.WallType<WallTiles.AshenSlabWall>();
@@ -29,7 +31,7 @@ namespace CalamityMod.Items.Placeables.Walls
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<AshenSlab>());
             recipe.SetResult(this, 4);
-            recipe.AddTile(18);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
         }
     }

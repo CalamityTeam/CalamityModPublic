@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.mana = 12;
             item.useAnimation = 7;
             item.useTime = 7;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 6.75f;
             item.UseSound = SoundID.Item91;
             item.autoReuse = true;

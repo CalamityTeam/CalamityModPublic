@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -62,10 +62,10 @@ namespace CalamityMod.Projectiles.Boss
 		}
 
         public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 12);
+		{
+			Main.PlaySound(SoundID.NPCDeath12, projectile.position);
 
-            int num226 = 8;
+			int num226 = 8;
             for (int num227 = 0; num227 < num226; num227++)
             {
                 Vector2 vector6 = Vector2.Normalize(projectile.velocity) * new Vector2((float)projectile.width / 2f, (float)projectile.height) * 0.75f;

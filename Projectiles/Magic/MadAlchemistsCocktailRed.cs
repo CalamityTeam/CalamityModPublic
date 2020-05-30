@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Magic
             float num52 = 3.8f;
             Vector2 value3 = (0f - 1.57079637f).ToRotationVector2();
             Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20, 2f, 0f);
+            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 20, 2f, 0f);
             Main.PlaySound(SoundID.Item107, projectile.position);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);

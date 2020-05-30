@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -226,7 +226,7 @@ namespace CalamityMod.Projectiles.Summon
                 int num658 = ModContent.ProjectileType<GhostFire>();
                 if (flag25 && projectile.ai[1] == 0f)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                    Main.PlaySound(SoundID.Item20, projectile.position);
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner)
                     {

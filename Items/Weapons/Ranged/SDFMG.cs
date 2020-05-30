@@ -27,14 +27,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.crit += 15;
             item.useTime = 2;
             item.useAnimation = 2;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2.75f;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 16f;
             item.useAmmo = 97;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;

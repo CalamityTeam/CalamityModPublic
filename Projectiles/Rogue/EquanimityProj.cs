@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Rogue
                 return false;
             }
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             recall = true;
             projectile.tileCollide = false;
             return false;

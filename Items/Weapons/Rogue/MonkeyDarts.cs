@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.maxStack = 999;
             item.width = 27;
             item.height = 27;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
             item.useTime = 20;
             item.useAnimation = 20;

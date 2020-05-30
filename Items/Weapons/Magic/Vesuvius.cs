@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useAnimation = 20;
             item.useTime = 20;
             item.noMelee = true;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item88;
             item.autoReuse = true;

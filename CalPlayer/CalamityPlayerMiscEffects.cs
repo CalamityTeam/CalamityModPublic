@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Cooldowns;
+using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
@@ -629,7 +629,7 @@ namespace CalamityMod.CalPlayer
 									int randomFrequency = (int)(50f * frequencyMult);
 									if (player.miscCounter == 280 && Main.rand.NextBool(randomFrequency) && player.ownedProjectileCounts[ProjectileID.Cthulunado] < 1)
 									{
-										Main.PlaySound(4, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y, 19, 1f, 0f);
+										Main.PlaySound(SoundID.NPCDeath19, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y);
 										int num331 = (int)(sharknadoSpawnPoint.Y / 16f);
 										int num332 = (int)(sharknadoSpawnPoint.X / 16f);
 										int num333 = 100;
@@ -680,7 +680,7 @@ namespace CalamityMod.CalPlayer
 							{
 								if (player.miscCounter == 280 && Main.rand.NextBool(10) && player.ownedProjectileCounts[ProjectileID.Sharknado] < 1)
 								{
-									Main.PlaySound(4, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y, 19, 1f, 0f);
+									Main.PlaySound(SoundID.NPCDeath19, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y);
 									int num331 = (int)(sharknadoSpawnPoint.Y / 16f);
 									int num332 = (int)(sharknadoSpawnPoint.X / 16f);
 									int num333 = 100;
@@ -2126,7 +2126,7 @@ namespace CalamityMod.CalPlayer
 						{
 							modPlayer.aquaticBoost = 0f;
 							if (Main.netMode == NetmodeID.MultiplayerClient)
-								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+								NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
 				}
@@ -2160,7 +2160,7 @@ namespace CalamityMod.CalPlayer
 						{
 							modPlayer.modStealth = 0f;
 							if (Main.netMode == NetmodeID.MultiplayerClient)
-								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+								NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
 				}
@@ -2199,7 +2199,7 @@ namespace CalamityMod.CalPlayer
 						{
 							modPlayer.modStealth = 0f;
 							if (Main.netMode == NetmodeID.MultiplayerClient)
-								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+								NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
 				}
@@ -2245,7 +2245,7 @@ namespace CalamityMod.CalPlayer
 						flag14 = true;
 
 					if (modPlayer.shieldInvinc == 0f && num29 != modPlayer.shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
-						NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+						NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 
 					float damageBoost = (5f - modPlayer.shieldInvinc) * 0.03f;
 					player.allDamage += damageBoost;
@@ -2272,7 +2272,7 @@ namespace CalamityMod.CalPlayer
 						flag14 = true;
 
 					if (modPlayer.shieldInvinc == 5f && num30 != modPlayer.shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
-						NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+						NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 				}
 
 				// Emit dust

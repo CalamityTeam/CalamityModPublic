@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Buffs.DamageOverTime;
 using System.Collections.Generic;
 using Terraria;

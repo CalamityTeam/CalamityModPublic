@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Main.projectile[proj].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                         spread -= Main.rand.Next(2, 6);
                     }
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+                    Main.PlaySound(SoundID.Item27, projectile.position);
                     projectile.active = false;
                     for (int num621 = 0; num621 < 8; num621++)
                     {
@@ -95,25 +95,25 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int) ((double) damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ShatteredExplosion>(), (int)((double)projectile.damage * 0.15), projectile.knockBack, projectile.owner, 0f, 0f);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             return true;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            Main.PlaySound(SoundID.Item27, projectile.position);
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 246, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);

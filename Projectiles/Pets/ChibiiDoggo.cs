@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Pets
             int type = mod.NPCType(doggoType);
 
             int n = NPC.NewNPC((int)projectile.position.X, (int)projectile.position.Y, type);
-            NetMessage.SendData(23, -1, -1, (NetworkText)null, n, 0.0f, 0.0f, 0.0f, 0, 0, 0);
+            NetMessage.SendData(MessageID.SyncNPC, -1, -1, (NetworkText)null, n, 0.0f, 0.0f, 0.0f, 0, 0, 0);
             Main.npc[n].netUpdate = true;
         }
 
@@ -223,7 +223,7 @@ namespace CalamityMod.Projectiles.Pets
                     }
                     else
                     {
-                        Main.PlaySound(15, (int)player.position.X, (int)player.position.Y, 2, 2f); //REEEEEEE
+                        Main.PlaySound(SoundID.Roar, (int)player.position.X, (int)player.position.Y, 2, 2f); //REEEEEEE
                     }
                     notlocalai1 = -600f;
                 }

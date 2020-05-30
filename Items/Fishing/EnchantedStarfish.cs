@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Fishing
             item.height = 26;
             item.useAnimation = 30;
             item.useTime = 30;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item29;
             item.consumable = true;
 			item.maxStack = 999;

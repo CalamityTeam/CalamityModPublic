@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -237,7 +237,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (flag11)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 105);
+                    Main.PlaySound(SoundID.Item105, (int)projectile.position.X, (int)projectile.position.Y);
                     int num251 = Main.rand.Next(5, 8);
                     for (int num252 = 0; num252 < num251; num252++)
                     {

@@ -79,7 +79,7 @@ namespace CalamityMod.NPCs
 					int variable = 10;
 					if (calamityGlobalNPC.newAI[3] % 60f == 0f && npcPosX > variable && npcPosY > variable && npcPosX < Main.maxTilesX - variable && npcPosY < Main.maxTilesY - variable)
 					{
-						Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
+						Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
 
 						Vector2 spawnPosition = new Vector2(npcPosX * 16, npcPosY * 16);
 
@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs
 							Main.npc[lol].ai[2] = npc.whoAmI;
 							Main.npc[lol].ai[1] = Previous;
 							Main.npc[Previous].ai[0] = lol;
-							NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
 							Previous = lol;
 						}
 						calamityGlobalNPC.newAI[2] = 1f;
@@ -179,7 +179,7 @@ namespace CalamityMod.NPCs
 							{
 								npc.localAI[0] = 0f;
 								npc.netUpdate = true;
-								Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
+								Main.PlaySound(SoundID.NPCKilled, (int)npc.position.X, (int)npc.position.Y, 13);
 
 								if (Main.netMode != NetmodeID.MultiplayerClient)
 								{
@@ -236,7 +236,7 @@ namespace CalamityMod.NPCs
 								npc.TargetClosest(true);
 								if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 								{
-									Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 17);
+									Main.PlaySound(SoundID.Item17, (int)npc.position.X, (int)npc.position.Y);
 									Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
 									float num942 = player.position.X + player.width * 0.5f - vector104.X;
 									float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
@@ -1029,7 +1029,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.ai[1] == 180f)
 						{
-							Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 104);
+							Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 104);
 							Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
 							laserVelocity2.Normalize();
 							Projectile.NewProjectile(source, laserVelocity2, ModContent.ProjectileType<BrimstoneRay>(), 40 + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, npc.whoAmI);
@@ -1057,7 +1057,7 @@ namespace CalamityMod.NPCs
 					}
 
 					if (npc.ai[1] % playSoundTimer == 0f)
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 20);
+						Main.PlaySound(SoundID.Item20, (int)npc.position.X, (int)npc.position.Y);
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -1131,7 +1131,7 @@ namespace CalamityMod.NPCs
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
+						Main.PlaySound(SoundID.Item74, (int)npc.position.X, (int)npc.position.Y);
 						for (int I = 0; I < 5; I++)
 						{
 							int FireEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 72) * 150)), (int)(npc.Center.Y + (Math.Cos(I * 72) * 150)), ModContent.NPCType<SoulSeeker>(), npc.whoAmI, 0, 0, 0, -1);
@@ -1831,7 +1831,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[2] > 22f)
 					{
 						npc.localAI[2] = 0f;
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
+						Main.PlaySound(SoundID.Item34, (int)npc.position.X, (int)npc.position.Y);
 					}
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -1866,7 +1866,7 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.ai[1] == 1f)
 				{
-					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+					Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y);
 					npc.rotation = num842;
 
 					float num870 = 14f;
@@ -2104,7 +2104,7 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[2] > 36f)
 					{
 						npc.localAI[2] = 0f;
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 34);
+						Main.PlaySound(SoundID.Item34, (int)npc.position.X, (int)npc.position.Y);
 					}
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2139,7 +2139,7 @@ namespace CalamityMod.NPCs
 			{
 				if (npc.ai[1] == 1f)
 				{
-					Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+					Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y);
 					npc.rotation = num842;
 
 					float num870 = 16f;
@@ -2286,7 +2286,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] >= 180f)
                     {
                         npc.localAI[0] = 0f;
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 33);
+                        Main.PlaySound(SoundID.Item33, (int)npc.position.X, (int)npc.position.Y);
                         int laserDamage = expertMode ? 32 : 37;
                         if (NPC.downedMoonlord && revenge && !CalamityWorld.bossRushActive)
                             laserDamage *= 3;
@@ -2647,7 +2647,7 @@ namespace CalamityMod.NPCs
                 if (npc.soundDelay == 0)
                 {
                     npc.soundDelay = 15;
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 109);
+                    Main.PlaySound(SoundID.Item109, (int)npc.position.X, (int)npc.position.Y);
                 }
 
                 // Emit dust to make the teleport pretty
@@ -2690,7 +2690,7 @@ namespace CalamityMod.NPCs
                 if (npc.soundDelay == 0)
                 {
                     npc.soundDelay = 15;
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 109);
+                    Main.PlaySound(SoundID.Item109, (int)npc.position.X, (int)npc.position.Y);
                 }
 
                 // Emit dust to make the teleport pretty
@@ -2812,7 +2812,7 @@ namespace CalamityMod.NPCs
 							Main.npc[lol].ai[2] = npc.whoAmI;
 							Main.npc[lol].ai[1] = Previous;
 							Main.npc[Previous].ai[0] = lol;
-							NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
 							Previous = lol;
 						}
 						calamityGlobalNPC.newAI[1] = 1f;
@@ -3164,7 +3164,7 @@ namespace CalamityMod.NPCs
 					{
 						if (calamityGlobalNPC.newAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
+							Main.PlaySound(SoundID.Item74, (int)npc.position.X, (int)npc.position.Y);
 							for (int I = 0; I < 3; I++)
 							{
 								int FireEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 120) * 75)), (int)(npc.Center.Y + (Math.Cos(I * 120) * 75)), ModContent.NPCType<AstrumDeusProbe>(), npc.whoAmI, 0, 0, 0, -1);
@@ -3179,7 +3179,7 @@ namespace CalamityMod.NPCs
 					{
 						if (calamityGlobalNPC.newAI[0] == 1f && Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
+							Main.PlaySound(SoundID.Item74, (int)npc.position.X, (int)npc.position.Y);
 							for (int I = 0; I < 5; I++)
 							{
 								int FireEye = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 72) * 150)), (int)(npc.Center.Y + (Math.Cos(I * 72) * 150)), ModContent.NPCType<AstrumDeusProbe2>(), npc.whoAmI, 0, 0, 0, -1);
@@ -3343,7 +3343,7 @@ namespace CalamityMod.NPCs
 								num195 = 20f;
 
 							npc.soundDelay = (int)num195;
-							Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1);
+							Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y);
 						}
 
 						num193 = (float)Math.Sqrt(num191 * num191 + num192 * num192);
@@ -3848,7 +3848,7 @@ namespace CalamityMod.NPCs
 				npc.netSpam = 5;
 				if (Main.netMode == NetmodeID.Server)
 				{
-					NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 				}
 				return;
 			}
@@ -4021,7 +4021,7 @@ namespace CalamityMod.NPCs
 				npc.netSpam = 5;
 				if (Main.netMode == NetmodeID.Server)
 				{
-					NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 				}
 			}
 
@@ -6030,7 +6030,7 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.ai[1] == 180f)
 						{
-							Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 104);
+							Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 104);
 							Vector2 laserVelocity2 = new Vector2(npc.localAI[0], npc.localAI[1]);
 							laserVelocity2.Normalize();
 
@@ -6071,7 +6071,7 @@ namespace CalamityMod.NPCs
 					}
 
 					if (npc.ai[1] % playSoundTimer == 0f)
-						Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 20);
+						Main.PlaySound(SoundID.Item20, (int)npc.position.X, (int)npc.position.Y);
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
@@ -6401,7 +6401,7 @@ namespace CalamityMod.NPCs
 					npc.velocity.Y -= bounciness;
 					if (npc.type == ModContent.NPCType<DespairStone>())
 					{
-						Main.PlaySound(2, npc.Center, 14);
+						Main.PlaySound(SoundID.Item14, npc.Center);
 						for (int k = 0; k < 10; k++)
 						{
 							Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, 0f, -1f, 0, default, 1f);
@@ -6409,7 +6409,7 @@ namespace CalamityMod.NPCs
 					}
 					if (npc.type == ModContent.NPCType<Bohldohr>())
 					{
-						Main.PlaySound(3, npc.Center, 7);
+						Main.PlaySound(SoundID.NPCHit, npc.Center, 7);
 					}
 					if (DogPhase2)
 					{

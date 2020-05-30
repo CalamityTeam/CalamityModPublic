@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -265,7 +265,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         Main.npc[segment].ai[2] = (float)npc.whoAmI;
                         Main.npc[segment].ai[1] = (float)Previous;
                         Main.npc[Previous].ai[0] = (float)segment;
-                        NetMessage.SendData(23, -1, -1, null, segment, 0f, 0f, 0f, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, segment, 0f, 0f, 0f, 0);
                         Previous = segment;
                     }
                     tail = true;
@@ -312,10 +312,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                     int divisor = CalamityWorld.bossRushActive ? 90 : 120;
 
 					if (laserShoot % divisor == 0)
-					{
-						Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 12);
+                    {
+                        Main.PlaySound(SoundID.Item12, (int)npc.position.X, (int)npc.position.Y);
 
-						float targetPosY = player.position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
+                        float targetPosY = player.position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
 
 						// Side walls
 						for (int x = 0; x < totalShots; x++)

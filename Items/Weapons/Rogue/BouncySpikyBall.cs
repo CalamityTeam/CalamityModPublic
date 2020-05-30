@@ -23,7 +23,7 @@ Stealth strikes provide a bigger boost after richocheting");
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 18;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 18;
             item.knockBack = 1f;
             item.UseSound = SoundID.Item1;

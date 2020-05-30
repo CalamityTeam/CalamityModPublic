@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -57,7 +58,7 @@ namespace CalamityMod.Projectiles.Magic
                     projectile.soundDelay = num3 - num4 * num2;
                     if (projectile.ai[0] != 1f)
                     {
-                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 91);
+                        Main.PlaySound(SoundID.Item91, projectile.position);
                     }
                 }
                 if (projectile.ai[1] == 1f && projectile.ai[0] != 1f)

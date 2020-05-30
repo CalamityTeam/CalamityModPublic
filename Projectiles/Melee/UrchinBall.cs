@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Melee
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
             projectile.ai[0] = 1f;
             projectile.netUpdate = true;
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             return false;
         }
 

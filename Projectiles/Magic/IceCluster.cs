@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.localAI[1] == 0f)
             {
                 projectile.localAI[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 120);
+                Main.PlaySound(SoundID.Item120, projectile.position);
             }
             projectile.ai[0] += 1f;
             if (projectile.ai[1] == 1f)

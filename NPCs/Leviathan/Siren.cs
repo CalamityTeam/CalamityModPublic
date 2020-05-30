@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
@@ -208,7 +208,7 @@ namespace CalamityMod.NPCs.Leviathan
 
             // Play sound
             if (Main.rand.NextBool(300))
-                Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 35);
+                Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 35);
 
             // Time left
             if (npc.timeLeft < 1800)
@@ -370,7 +370,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 if (Collision.CanHit(vector119, 1, 1, player.position, player.width, player.height) && flag103)
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 85);
+                    Main.PlaySound(SoundID.Item85, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int num1061 = 371;

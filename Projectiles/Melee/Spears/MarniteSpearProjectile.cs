@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.BaseProjectiles;
+using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class MarniteSpearProjectile : BaseSpearProjectile

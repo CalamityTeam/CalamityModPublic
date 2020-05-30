@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 27, 0.25f);
+			Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 27, 0.25f);
             for (int num373 = 0; num373 < 3; num373++)
             {
                 int num374 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 76, 0f, 0f, 0, default, 1f);

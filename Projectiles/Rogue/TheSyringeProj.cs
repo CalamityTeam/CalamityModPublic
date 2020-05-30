@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 107);
+            Main.PlaySound(SoundID.Item107, projectile.position);
             for (int k = 0; k < 7; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 89, projectile.oldVelocity.X, projectile.oldVelocity.Y);

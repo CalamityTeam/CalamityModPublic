@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.FurniturePlaguedPlate
 {
     public class PlaguedPlate : ModTile
@@ -11,7 +13,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 3f;
             minPick = 210;
             drop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlate>();

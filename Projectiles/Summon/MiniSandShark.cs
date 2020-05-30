@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 19, 1f, 0f);
+                Main.PlaySound(SoundID.NPCDeath19, projectile.position);
             }
             if (projectile.ai[0] >= 45f)
             {
@@ -78,7 +78,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.localNPCHitCooldown = 10;
 			projectile.damage /= 2;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

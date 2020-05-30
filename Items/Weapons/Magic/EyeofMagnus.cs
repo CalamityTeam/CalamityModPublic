@@ -2,6 +2,8 @@ using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class EyeofMagnus : ModItem
@@ -20,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 5;
             item.useAnimation = 20;
             item.useTime = 20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 2f;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
             item.magic = true;

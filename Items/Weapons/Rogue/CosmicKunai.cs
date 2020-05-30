@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.useTime = 2;
             item.useAnimation = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5f;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.rare = 10;
             item.shoot = ModContent.ProjectileType<CosmicKunaiProj>();
             item.shootSpeed = 28f;
-            item.rare = 9;
             item.Calamity().rogue = true;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }

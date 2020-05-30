@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 20;
             item.useTime = 28;
             item.useAnimation = 28;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 2.25f;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 22f;
             item.useAmmo = 97;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
         }
 
         public override void AddRecipes()

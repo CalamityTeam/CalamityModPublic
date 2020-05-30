@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Mounts;
+using CalamityMod.Items.Mounts;
 using Terraria;
 using Terraria.ModLoader;
 

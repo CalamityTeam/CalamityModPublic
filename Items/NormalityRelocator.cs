@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Ores;
 using System.Collections.Generic;

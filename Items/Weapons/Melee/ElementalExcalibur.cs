@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = BaseDamage;
             item.crit += 10;
             item.useAnimation = 14;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 14;
             item.useTurn = true;
             item.melee = true;
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
 			}
 			else

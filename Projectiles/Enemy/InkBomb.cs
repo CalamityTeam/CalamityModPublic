@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 28);
+            Main.PlaySound(SoundID.NPCDeath28, projectile.position);
             int num251 = Main.rand.Next(5, 8);
             if (projectile.owner == Main.myPlayer)
             {

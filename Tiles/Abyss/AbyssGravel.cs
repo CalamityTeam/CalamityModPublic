@@ -21,7 +21,7 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(0, 0, 0));
             mineResist = 10f;
             minPick = 65;
-            soundType = 21;
+            soundType = SoundID.Tink;
             dustType = 33;
         }
 

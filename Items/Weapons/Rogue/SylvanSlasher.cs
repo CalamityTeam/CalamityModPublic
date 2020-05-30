@@ -1,6 +1,7 @@
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
 {
@@ -23,7 +24,7 @@ Does not consume stealth and cannot stealth strike");
             item.noUseGraphic = true;
             item.channel = true;
             item.useAnimation = 25;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = 5;
             item.knockBack = 3f;
             item.autoReuse = false;
