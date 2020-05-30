@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
+            Main.PlaySound(SoundID.Item92, projectile.Center);
             int num212 = Main.rand.Next(15, 30);
             for (int num213 = 0; num213 < num212; num213++)
             {

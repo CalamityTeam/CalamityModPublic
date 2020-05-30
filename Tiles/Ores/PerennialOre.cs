@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.Ores
 {
     public class PerennialOre : ModTile
@@ -22,7 +24,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(200, 250, 100), name);
             mineResist = 3f;
             minPick = 200;
-            soundType = 21;
+            soundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

@@ -21,13 +21,13 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.consumable = true;
             item.noUseGraphic = true;
             item.useAnimation = 13;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 13;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 24;
-            item.shoot = 330;
+            item.shoot = ProjectileID.StarAnise;
             item.maxStack = 999;
             item.value = 1200;
             item.rare = 4;

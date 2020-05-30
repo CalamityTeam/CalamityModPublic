@@ -1,4 +1,4 @@
-﻿using Terraria.ModLoader;
+using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria;
 using CalamityMod.Projectiles.Summon;

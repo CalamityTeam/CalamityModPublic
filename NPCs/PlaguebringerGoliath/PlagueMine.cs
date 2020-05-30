@@ -1,4 +1,4 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -144,7 +144,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 		public override bool CheckDead()
         {
-            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, npc.position);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
             npc.damage = 200;

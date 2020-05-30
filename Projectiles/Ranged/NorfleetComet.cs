@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                    Main.PlaySound(SoundID.Item9, projectile.position);
                 }
             }
             projectile.localAI[0] += 1f;
@@ -102,7 +102,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<NorfleetExplosion>(), (int)((double)projectile.damage * 0.3), projectile.knockBack * 0.1f, projectile.owner, 0f, 0f);
             }
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 10);
+            Main.PlaySound(SoundID.Item10, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 144;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

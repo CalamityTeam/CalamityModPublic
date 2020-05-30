@@ -1,8 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class PlagueFang : ModProjectile
@@ -59,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 27);
             for (int num301 = 0; num301 < 7; num301++)
             {
                 int num302 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 163, 0f, 0f, 100, default, 1f);

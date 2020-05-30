@@ -2,6 +2,7 @@ using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.height = 30;
             item.useTime = 38;
             item.useAnimation = 38;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6f;
             item.value = Item.buyPrice(0, 80, 0, 0);

@@ -23,7 +23,7 @@ Stealth strikes explode into energy stars");
 
             item.width = 28;
             item.height = 34;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.noUseGraphic = true;
 

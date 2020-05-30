@@ -1,5 +1,7 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Placeables.FurnitureAbyss
 {
     public class AbyssDresser : ModItem
@@ -17,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAbyss
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 0;
             item.createTile = ModContent.TileType<Tiles.FurnitureAbyss.AbyssDresser>();

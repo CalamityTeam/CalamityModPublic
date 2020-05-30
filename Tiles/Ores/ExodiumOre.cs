@@ -1,8 +1,10 @@
-﻿
+
 using CalamityMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.Ores
 {
     public class ExodiumOre : ModTile
@@ -19,7 +21,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(51, 48, 68), name);
             mineResist = 5f;
             minPick = 225;
-            soundType = 21;
+            soundType = SoundID.Tink;
             Main.tileValue[Type] = 760;
             Main.tileSpelunker[Type] = true;
             drop = ModContent.ItemType<ExodiumClusterOre>();

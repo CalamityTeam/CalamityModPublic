@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.useTime = 19;
 			item.useAnimation = 19;
             item.UseSound = SoundID.Item13;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.mana = 10;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;

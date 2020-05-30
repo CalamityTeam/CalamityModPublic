@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;

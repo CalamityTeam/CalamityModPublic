@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.World;
 using Terraria;
@@ -81,7 +81,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, 612, 0, 0f, Main.myPlayer);
+                Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ProjectileID.SolarWhipSwordExplosion, 0, 0f, Main.myPlayer);
             }
         }
 

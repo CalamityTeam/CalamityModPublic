@@ -1,10 +1,11 @@
-﻿
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Gores
 {
@@ -146,7 +147,7 @@ namespace CalamityMod.Gores
                     gore.frameCounter = 0;
                     if (gore.type != 716 && gore.type != 717 && gore.type != 943)
                     {
-                        Main.PlaySound(39, (int)gore.position.X + 8, (int)gore.position.Y + 8, Main.rand.Next(2), 1f, 0f);
+                        Main.PlaySound(SoundID.Drip, (int)gore.position.X + 8, (int)gore.position.Y + 8, Main.rand.Next(2), 1f, 0f);
                     }
                 }
             }
@@ -158,7 +159,7 @@ namespace CalamityMod.Gores
                     gore.frameCounter = 0;
                     if (gore.type != 716 && gore.type != 717 && gore.type != 943)
                     {
-                        Main.PlaySound(39, (int)gore.position.X + 8, (int)gore.position.Y + 8, 2, 1f, 0f);
+                        Main.PlaySound(SoundID.Drip, (int)gore.position.X + 8, (int)gore.position.Y + 8, 2, 1f, 0f);
                     }
                     ((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(gore.position + new Vector2(8f, 8f), 1f, RippleShape.Square, 0f);
                 }

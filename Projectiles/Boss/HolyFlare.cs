@@ -1,8 +1,9 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -81,7 +82,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+            Main.PlaySound(SoundID.Item20, projectile.Center);
             projectile.position.X = projectile.position.X + (projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (projectile.height / 2);
             projectile.width = 50;

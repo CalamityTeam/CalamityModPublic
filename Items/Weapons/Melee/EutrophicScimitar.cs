@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 78;
             item.useTime = 38;
             item.useAnimation = 38;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2;
             item.shoot = ModContent.ProjectileType<EutrophicScimitarProj>();
             item.shootSpeed = 17;

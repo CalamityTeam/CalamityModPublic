@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeSmoothTiles(Type);
 
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 4f;
             minPick = 225;
             drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.RunicProfanedBrick>();

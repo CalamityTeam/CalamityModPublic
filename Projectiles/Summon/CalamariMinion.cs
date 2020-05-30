@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -94,14 +94,14 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.rand.NextBool(600))
             {
-                Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 35);
+                Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 35);
             }
             if (projectile.ai[0] == 2f)
             {
                 projectile.ai[1] -= 1f;
                 if (projectile.ai[1] > 3f)
                 {
-                    Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 34);
+                    Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 34);
                     int num = Dust.NewDust(projectile.Center, 0, 0, 109, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.4f);
                     Main.dust[num].scale = 0.5f + (float)Main.rand.NextDouble() * 0.3f;
                     Main.dust[num].velocity /= 2.5f;
@@ -342,7 +342,7 @@ namespace CalamityMod.Projectiles.Summon
                         projectile.ai[1] += 1f;
                         if (Main.myPlayer == projectile.owner)
                         {
-                            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 111);
+                            Main.PlaySound(SoundID.Item111, (int)projectile.position.X, (int)projectile.position.Y);
                             Vector2 vector7 = vector - projectile.Center;
                             vector7.Normalize();
                             vector7 *= scaleFactor4;

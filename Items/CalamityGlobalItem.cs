@@ -317,7 +317,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
+                        Main.PlaySound(SoundID.Item20, (int)player.position.X, (int)player.position.Y);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;

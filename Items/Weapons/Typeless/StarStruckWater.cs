@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 
         public override void SetDefaults()
         {
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.shootSpeed = 14f;
 			item.rare = 3;
 			item.damage = 20;

@@ -1,7 +1,8 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Enemy
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.NPCDeath14, (int)projectile.position.X, (int)projectile.position.Y);
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
             projectile.width = 50;

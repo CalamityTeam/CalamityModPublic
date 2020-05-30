@@ -23,7 +23,7 @@ Stealth strikes grant the Mushy buff to the user on enemy hits and summon homing
             item.noUseGraphic = true;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 1.5f;
             item.UseSound = SoundID.Item1;
             item.height = 50;

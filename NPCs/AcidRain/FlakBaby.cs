@@ -1,4 +1,4 @@
-﻿using CalamityMod.Dusts;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Pets;

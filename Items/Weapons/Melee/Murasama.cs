@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Melee
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.noUseGraphic = true;
             item.channel = true;
             item.useAnimation = 25;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = 5;
             item.knockBack = 6.5f;
             item.autoReuse = false;

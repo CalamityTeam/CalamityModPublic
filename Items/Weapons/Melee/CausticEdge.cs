@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.melee = true;
             item.useTurn = true;
             item.useAnimation = 27;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 27;
             item.knockBack = 5f;
             item.UseSound = SoundID.Item1;

@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            Main.PlaySound(SoundID.Item27, projectile.position);
 
             projectile.damage /= 3;
             projectile.position = projectile.Center;

@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.PermanentBoosters
             item.height = 20;
             item.useAnimation = 30;
             item.useTime = 30;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item4;
             item.consumable = true;
             item.rare = 10;

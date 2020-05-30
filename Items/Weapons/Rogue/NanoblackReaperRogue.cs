@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noMelee = true;
             item.noUseGraphic = true;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item18;
 
             item.rare = 10;

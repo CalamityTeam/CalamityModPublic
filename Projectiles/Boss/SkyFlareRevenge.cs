@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
+            Main.PlaySound(SoundID.Item20, projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

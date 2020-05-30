@@ -1,7 +1,8 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -41,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                    Main.PlaySound(SoundID.Item9, (int)projectile.position.X, (int)projectile.position.Y);
                 }
             }
             projectile.alpha -= 15;
@@ -86,7 +87,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+            Main.PlaySound(SoundID.Item10, (int)projectile.position.X, (int)projectile.position.Y);
             for (int k = 0; k < 15; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 229, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<Celestus2>(), (int)(projectile.damage * 0.7f), projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122);
+            Main.PlaySound(SoundID.Item122, (int)projectile.position.X, (int)projectile.position.Y);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -166,7 +166,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 2f), (float)(-Math.Cos(offsetAngle) * 2f), ModContent.ProjectileType<Celestus2>(), (int)(projectile.damage * 0.7f), projectile.knockBack, projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122);
+            Main.PlaySound(SoundID.Item122, (int)projectile.position.X, (int)projectile.position.Y);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

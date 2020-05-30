@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
@@ -1037,7 +1037,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
+                        Main.PlaySound(SoundID.Item74, npc.position);
                         for (int I = 0; I < 20; I++)
                         {
                             int FireEye = NPC.NewNPC((int)(vectorCenter.X + (Math.Sin(I * 18) * 300)), (int)(vectorCenter.Y + (Math.Cos(I * 18) * 300)), ModContent.NPCType<SoulSeekerSupreme>(), npc.whoAmI, 0, 0, 0, -1);
@@ -1631,7 +1631,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         for (int num388 = 0; num388 < 50; num388++)
                             Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
-                        Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        Main.PlaySound(SoundID.Roar, npc.position);
                     }
                 }
 

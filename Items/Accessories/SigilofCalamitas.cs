@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;

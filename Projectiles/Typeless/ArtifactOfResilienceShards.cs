@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Damageable;
 using Microsoft.Xna.Framework;

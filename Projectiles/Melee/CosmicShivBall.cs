@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Melee
                     target.StrikeNPC(damage, 0f, 0, crit, false, false);
 
                     if (Main.netMode != NetmodeID.SinglePlayer)
-                        NetMessage.SendData(28, -1, -1, null, i, damage, 0f, 0f, crit ? 1 : 0, 0, 0);
+                        NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, i, damage, 0f, 0f, crit ? 1 : 0, 0, 0);
                 }
             }
         }

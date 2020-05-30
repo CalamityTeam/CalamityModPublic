@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.FurnitureCosmilite
 {
     public class CosmiliteBrick : ModTile
@@ -11,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureCosmilite
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 5f;
             minPick = 275;
             drop = ModContent.ItemType<Items.Placeables.FurnitureCosmilite.CosmiliteBrick>();

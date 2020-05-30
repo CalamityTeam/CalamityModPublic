@@ -1,4 +1,4 @@
-﻿using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Crabulon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.SummonItems
             item.rare = 2;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
         }
 

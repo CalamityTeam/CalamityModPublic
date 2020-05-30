@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -47,7 +48,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 73);
+                Main.PlaySound(SoundID.Item73, projectile.position);
             }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 12f)
@@ -65,7 +66,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.Damage();
             for (int num621 = 0; num621 < 20; num621++)
             {

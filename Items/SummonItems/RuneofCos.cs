@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.StormWeaver;
@@ -27,7 +27,7 @@ namespace CalamityMod.Items.SummonItems
             item.height = 20;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.rare = 9;
             item.UseSound = SoundID.Item44;
             item.consumable = false;

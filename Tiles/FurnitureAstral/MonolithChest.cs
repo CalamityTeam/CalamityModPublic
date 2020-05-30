@@ -114,7 +114,7 @@ namespace CalamityMod.Tiles.FurnitureAstral
                 {
                     if (player.chest < 0)
                     {
-                        Main.PlaySound(4, Style: 22, volumeScale: 0.5f);
+                        Main.PlaySound(SoundID.NPCKilled, Style: 22, volumeScale: 0.5f);
                     }
                 }
             }

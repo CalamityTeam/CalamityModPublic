@@ -1,6 +1,7 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless.FiniteUse
 {
@@ -36,13 +37,13 @@ namespace CalamityMod.Projectiles.Typeless.FiniteUse
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             return true;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 32;
             projectile.position.X = projectile.position.X - projectile.width / 2;

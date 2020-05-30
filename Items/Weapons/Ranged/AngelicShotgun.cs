@@ -34,7 +34,7 @@ Fighting 'til the war's won");
             item.useTime = 26;
             item.useAnimation = 26;
             item.UseSound = SoundID.Item38;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
 
             item.rare = 10;
             item.value = Item.buyPrice(1, 20, 0, 0);

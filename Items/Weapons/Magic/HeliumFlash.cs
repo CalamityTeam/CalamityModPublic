@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.autoReuse = true;
             item.noMelee = true;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item73;
 
             item.rare = 10;

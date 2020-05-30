@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
 
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                Main.PlaySound(SoundID.Item9, projectile.position);
                 projectile.localAI[0] += 1f;
             }
 
@@ -40,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 60);
+            Main.PlaySound(SoundID.Item60, projectile.position);
             for (int k = 0; k < 5; k++)
             {
                 int rain = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, 0f, 0f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB));

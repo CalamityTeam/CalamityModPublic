@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.height = 30;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7f;
             item.value = Item.buyPrice(0, 80, 0, 0);

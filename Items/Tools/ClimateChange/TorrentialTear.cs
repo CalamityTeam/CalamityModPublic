@@ -1,4 +1,4 @@
-﻿using CalamityMod.Events;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
             item.rare = 5;
             item.useAnimation = 20;
             item.useTime = 20;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item66;
             item.consumable = false;
         }

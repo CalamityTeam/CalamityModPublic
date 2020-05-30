@@ -114,7 +114,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 34);
+            Main.PlaySound(SoundID.NPCHit34, projectile.position);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

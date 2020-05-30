@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useAnimation = 24;
             item.useTime = 24;
             item.useTurn = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4.25f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

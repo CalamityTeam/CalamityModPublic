@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;

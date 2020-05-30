@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useTime = 30;
             item.useAnimation = 30;
             item.useTurn = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item102;
             item.autoReuse = true;

@@ -1,5 +1,6 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Accessories
 {
@@ -17,7 +18,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.value = Item.buyPrice(0, 15, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Lime;
             item.accessory = true;
         }
 

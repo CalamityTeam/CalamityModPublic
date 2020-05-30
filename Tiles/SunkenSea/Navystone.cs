@@ -25,7 +25,7 @@ namespace CalamityMod.Tiles.SunkenSea
             AddMapEntry(new Color(0, 50, 50), name);
             mineResist = 2f;
             minPick = 55;
-            soundType = 21;
+            soundType = SoundID.Tink;
         }
 
         public override bool CanKillTile(int i, int j, ref bool blockDamaged)

@@ -1,4 +1,4 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 50, default(Color), 2.6f);
             }
-            Main.PlaySound(2, projectile.position, 45);
+            Main.PlaySound(SoundID.Item45, projectile.position);
             Vector2 explode = new Vector2(0f, 0f);
             Projectile.NewProjectile(projectile.Center, explode, ModContent.ProjectileType<PartisanExplosion>(), projectile.damage/2, projectile.knockBack * 1.3f, projectile.owner);
         }

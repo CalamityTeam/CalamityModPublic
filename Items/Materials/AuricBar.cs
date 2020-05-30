@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

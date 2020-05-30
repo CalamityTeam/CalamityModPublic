@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
             if ((double)npc.life <= (double)npc.lifeMax * 0.5 && Main.netMode != NetmodeID.MultiplayerClient)
             {
-                Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 1);
+                Main.PlaySound(SoundID.NPCDeath1, npc.position);
                 Vector2 spawnAt = vector + new Vector2(0f, (float)npc.height / 2f);
                 NPC.NewNPC((int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodSplit>());
                 NPC.NewNPC((int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodSplit>());
@@ -537,7 +537,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             Main.npc[num664].ai[1] = 0f;
                             if (Main.netMode == NetmodeID.Server && num664 < 200)
                             {
-                                NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
                             }
                         }
                     }

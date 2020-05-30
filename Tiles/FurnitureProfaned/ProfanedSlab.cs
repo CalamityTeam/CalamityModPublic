@@ -3,6 +3,7 @@ using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Tiles.FurnitureProfaned
             CalamityUtils.MergeSmoothTiles(Type);
             CalamityUtils.SetMerge(Type, ModContent.TileType<ProfanedRock>());
 
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 4f;
             minPick = 225;
             drop = ModContent.ItemType<Items.Placeables.FurnitureProfaned.ProfanedSlab>();

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Critters;

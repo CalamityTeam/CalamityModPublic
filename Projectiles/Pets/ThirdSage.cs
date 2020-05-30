@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Pets
             }
             else if (projectile.frame == 4 && projectile.ai[1] >= 45)
             {
-                Main.PlaySound(29, projectile.position, 32);
+                Main.PlaySound(SoundID.Zombie, projectile.position, 32);
             }
             else if (projectile.frame > 6)
             {

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 fireInTheBlob(projectile.Calamity().stealthStrike ? Main.rand.Next(3, 5) : Main.rand.Next(1, 3));
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+            Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);
@@ -84,7 +84,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 fireInTheBlob(projectile.Calamity().stealthStrike ? Main.rand.Next(3, 5) : Main.rand.Next(1, 3));
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+            Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 244, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);

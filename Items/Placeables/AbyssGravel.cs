@@ -1,4 +1,6 @@
-﻿using Terraria.ModLoader;
+using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Placeables
 {
     public class AbyssGravel : ModItem
@@ -11,7 +13,7 @@ namespace CalamityMod.Items.Placeables
         public override void SetDefaults()
         {
             item.createTile = ModContent.TileType<Tiles.Abyss.AbyssGravel>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;

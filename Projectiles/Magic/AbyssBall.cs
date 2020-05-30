@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class AbyssBall : ModProjectile
@@ -40,7 +42,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
             for (int num621 = 0; num621 < 30; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1.2f);

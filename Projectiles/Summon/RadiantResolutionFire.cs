@@ -1,4 +1,4 @@
-﻿using CalamityMod.Dusts;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             for (int i = 0; i < 20; i++)
             {
                 Dust dust = Dust.NewDustPerfect(projectile.Center, (int)CalamityDusts.ProfanedFire);

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Rogue
 			});
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21);
+                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 21);
                 projectile.localAI[0] += 1f;
             }
             bool flag15 = false;
