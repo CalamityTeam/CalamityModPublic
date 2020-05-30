@@ -555,10 +555,8 @@ namespace CalamityMod.NPCs
                         if (Main.netMode == NetmodeID.Server && num255 < Main.maxNPCs)
                             NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num255, 0f, 0f, 0f, 0, 0, 0);
                     }
-                    }
                 }
             }
-
             return false;
         }
         #endregion

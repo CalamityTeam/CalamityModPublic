@@ -5,16 +5,15 @@ using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
-using CalamityMod.Items.Armor;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
+using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
@@ -28,12 +27,12 @@ using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
-using CalamityMod.Projectiles.Environment;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -52,7 +51,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.ModLoader.Config;
 
 namespace CalamityMod.CalPlayer
 {
@@ -7139,11 +7137,10 @@ namespace CalamityMod.CalPlayer
                 player.immuneTime += iFramesToAdd;
             }
         }
-    }
-    #endregion
+        #endregion
 
-    #region Kill Player
-    public void KillPlayer()
+        #region Kill Player
+        public void KillPlayer()
         {
             deathCount++;
             if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)

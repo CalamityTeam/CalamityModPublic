@@ -53,7 +53,6 @@ namespace CalamityMod.Projectiles.Boss
                     Main.player[num487].statLife = Main.player[num487].statLifeMax2;
                 }
                 NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, num487, num492, 0f, 0f, 0, 0, 0);
-                z
                 projectile.Kill();
             }
         }
