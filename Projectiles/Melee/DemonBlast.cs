@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blast");
+            DisplayName.SetDefault("Devil Fork");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
             ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
