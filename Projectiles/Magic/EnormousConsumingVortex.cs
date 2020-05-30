@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
         public const float RadialOffsetVarianceFactor = 0.1f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vortex");
+            DisplayName.SetDefault("Subsuming Vortex");
             ProjectileID.Sets.NeedsUUID[projectile.type] = true;
         }
 
