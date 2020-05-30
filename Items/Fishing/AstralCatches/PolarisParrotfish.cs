@@ -2,6 +2,7 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             item.height = 34;
             item.useTime = 21;
             item.useAnimation = 21;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2.25f;
             item.value = Item.buyPrice(0, 36, 0, 0);

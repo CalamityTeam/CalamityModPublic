@@ -37,7 +37,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float spread = 22.5f * 0.01 * MathHelper.PiOver2;
+            float spread = 22.5f * 0.01f * MathHelper.PiOver2;
             double startAngle = Math.Atan2(speedX, speedY) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
