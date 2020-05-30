@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.PiOver2;
             projectile.velocity.X *= 0.975f;
             projectile.velocity.Y *= 0.975f;
-			if (Main.rand.NextBool(2))
+			if (projectile.timeLeft % 4 == 0)
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 15, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
         }
 

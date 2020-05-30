@@ -58,7 +58,7 @@ namespace CalamityMod.Events
             { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
+            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) }
         };
 
         public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPolter = new Dictionary<int, AcidRainSpawnData>()
@@ -71,7 +71,7 @@ namespace CalamityMod.Events
             { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) },
+            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) },
             { ModContent.NPCType<GammaSlime>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
         };
 
@@ -132,9 +132,9 @@ namespace CalamityMod.Events
                     }
                 }
                 if (CalamityWorld.downedPolterghast)
-                    return (int)(180 * Math.Log(playerCount + Math.E - 1));
+                    return (int)(140 * Math.Log(playerCount + Math.E - 1));
                 else if (CalamityWorld.downedAquaticScourge)
-                    return (int)(125 * Math.Log(playerCount + Math.E - 1));
+                    return (int)(115 * Math.Log(playerCount + Math.E - 1));
                 else
                     return (int)(90 * Math.Log(playerCount + Math.E - 1));
             }

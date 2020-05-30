@@ -123,8 +123,16 @@ namespace CalamityMod.Projectiles
                 case ProjectileID.ButchersChainsaw:
                     trueMelee = true;
                     break;
+
                 case ProjectileID.StarWrath:
                     projectile.penetrate = projectile.maxPenetrate = 1;
+                    break;
+
+                case ProjectileID.Spazmamini:
+                case ProjectileID.Retanimini:
+                case ProjectileID.MiniRetinaLaser:
+                    projectile.localNPCHitCooldown = 10;
+                    projectile.usesLocalNPCImmunity = true;
                     break;
                 default:
                     break;
@@ -1139,7 +1147,7 @@ namespace CalamityMod.Projectiles
 					}
 				}
 
-				if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>())
+				if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
 				{
 					// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
 					if (player.ghostHeal)
@@ -1485,13 +1493,14 @@ namespace CalamityMod.Projectiles
 						target.AddBuff(BuffID.Venom, 240);
 					}
 
-					if (modPlayer.shadow)
+					if (modPlayer.shadow && modPlayer.shadowPotCooldown <= 0)
 					{
 						if (CalamityMod.javelinProjList.Contains(projectile.type))
 						{
 							int randrot = Main.rand.Next(-30, 391);
 							Vector2 SoulSpeed = new Vector2(13f, 13f).RotatedBy(MathHelper.ToRadians(randrot));
 							Projectile.NewProjectile(projectile.Center, SoulSpeed, ModContent.ProjectileType<PenumbraSoul>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.1, 60), 3f, projectile.owner, 0f, 0f);
+							modPlayer.shadowPotCooldown = 30;
 						}
 						if (CalamityMod.spikyBallProjList.Contains(projectile.type))
 						{
@@ -1499,6 +1508,7 @@ namespace CalamityMod.Projectiles
             				Main.projectile[scythe].usesLocalNPCImmunity = true;
             				Main.projectile[scythe].localNPCHitCooldown = 10;
 							Main.projectile[scythe].penetrate = 2;
+							modPlayer.shadowPotCooldown = 30;
 						}
 						if (CalamityMod.daggerProjList.Contains(projectile.type))
 						{
@@ -1507,6 +1517,7 @@ namespace CalamityMod.Projectiles
 							shardVelocity *= 5f;
 							int shard = Projectile.NewProjectile(projectile.Center, shardVelocity, ModContent.ProjectileType<EquanimityDarkShard>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 60), 0f, projectile.owner);
 							Main.projectile[shard].timeLeft = 150;
+							modPlayer.shadowPotCooldown = 30;
 						}
 						if (CalamityMod.boomerangProjList.Contains(projectile.type))
 						{
@@ -1547,11 +1558,13 @@ namespace CalamityMod.Projectiles
 							int ghost = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, SpeedX, SpeedY, ProjectileID.SpectreWrath, spiritDamage, 0f, projectile.owner, (float)num3, 0f);
 							Main.projectile[ghost].Calamity().forceRogue = true;
 							Main.projectile[ghost].penetrate = 1;
+							modPlayer.shadowPotCooldown = 30;
 						}
 						if (CalamityMod.flaskBombProjList.Contains(projectile.type))
 						{
 							int blackhole = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShadowBlackhole>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 0f, 0f);
 							Main.projectile[blackhole].Center = projectile.Center;
+							modPlayer.shadowPotCooldown = 30;
 						}
 					}
                 }
@@ -1621,8 +1634,8 @@ namespace CalamityMod.Projectiles
 							{
 								if (Main.rand.NextBool(4))
 								{
-									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 100), projectile.knockBack * 0.25f, projectile.owner);
-									modPlayer.jellyDmg = 20f;
+									Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<ApparatusExplosion>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 90), projectile.knockBack * 0.25f, projectile.owner);
+									modPlayer.jellyDmg = 25f;
 								}
 							}
 							else if (modPlayer.starbusterCore)
@@ -1915,6 +1928,8 @@ namespace CalamityMod.Projectiles
 
 		public static void SpawnLifeStealProjectile(Projectile projectile, Player player, float healAmount, int healProjectileType, float distanceRequired, float cooldownMultiplier)
 		{
+			if (Main.player[Main.myPlayer].moonLeech)
+				return;
 			Main.player[Main.myPlayer].lifeSteal -= healAmount * cooldownMultiplier;
 			float num13 = 0f;
 			int num14 = projectile.owner;
@@ -2132,6 +2147,231 @@ namespace CalamityMod.Projectiles
 				projectile.velocity.Y = (projectile.velocity.Y * N + playerVector.Y) / (N + 1f);
 			}
 		}
+
+		public static void ChargingMinionAI(Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging)
+		{
+            Player player = Main.player[projectile.owner];
+            CalamityPlayer modPlayer = player.Calamity();
+
+			//Anti sticky movement to prevent stacking
+            float antiStickMvt = 0.05f;
+            for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
+            {
+				Projectile proj = Main.projectile[projIndex];
+                bool typeCheck = proj.type == projectile.type;
+                if (projIndex != projectile.whoAmI && proj.active && proj.owner == projectile.owner && typeCheck && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
+                {
+                    if (projectile.position.X < proj.position.X)
+                    {
+                        projectile.velocity.X -= antiStickMvt;
+                    }
+                    else
+                    {
+                        projectile.velocity.X += antiStickMvt;
+                    }
+                    if (projectile.position.Y < proj.position.Y)
+                    {
+                        projectile.velocity.Y -= antiStickMvt;
+                    }
+                    else
+                    {
+                        projectile.velocity.Y += antiStickMvt;
+                    }
+                }
+            }
+
+			//Breather time between charges as like a reset
+            bool chargeDelay = false;
+            if (projectile.ai[0] == 2f)
+            {
+                projectile.ai[1] += 1f;
+                projectile.extraUpdates = initialUpdates + (projectile.type == ModContent.ProjectileType<CloudElementalMinion>() ? 2 : 1);
+                if (projectile.ai[1] > chargeDelayTime)
+                {
+                    projectile.ai[1] = 1f;
+                    projectile.ai[0] = 0f;
+                    projectile.extraUpdates = initialUpdates;
+                    projectile.numUpdates = 0;
+                    projectile.netUpdate = true;
+                }
+                else
+                {
+                    chargeDelay = true;
+                }
+            }
+            if (chargeDelay)
+            {
+                return;
+            }
+
+			//Find a target
+            float maxDist = range;
+            Vector2 targetVec = projectile.position;
+            bool foundTarget = false;
+            Vector2 half = new Vector2(0.5f);
+			//Prioritize the targeted enemy if possible
+            if (player.HasMinionAttackTargetNPC)
+            {
+                NPC npc = Main.npc[player.MinionAttackTargetNPC];
+                if (npc.CanBeChasedBy(projectile, false))
+                {
+					//Check the size of the target to make it easier to hit fat targets like Levi
+                    Vector2 sizeCheck = npc.position + npc.Size * half;
+                    float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+					//Some minions will ignore tiles when choosing a target like Ice Claspers, others will not
+					bool canHit = true;
+					if (!tileVision)
+						canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
+                    if (!foundTarget && targetDist < maxDist && canHit)
+                    {
+                        maxDist = targetDist;
+                        targetVec = sizeCheck;
+                        foundTarget = true;
+                    }
+                }
+            }
+			//If no npc is specifically targetted, check through the entire array
+            else
+            {
+                for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
+                {
+                    NPC npc = Main.npc[npcIndex];
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+						Vector2 sizeCheck = npc.position + npc.Size * half;
+                        float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+						bool canHit = true;
+						if (!tileVision)
+							canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
+                        if (!foundTarget && targetDist < maxDist && canHit)
+                        {
+                            maxDist = targetDist;
+                            targetVec = sizeCheck;
+                            foundTarget = true;
+                        }
+                    }
+                }
+            }
+
+			//If the player is too far, return to the player. Range is increased while attacking something.
+            float distBeforeForcedReturn = maxPlayerDist;
+            if (foundTarget)
+            {
+                distBeforeForcedReturn = extraMaxPlayerDist;
+            }
+            if (Vector2.Distance(player.Center, projectile.Center) > distBeforeForcedReturn)
+            {
+                projectile.ai[0] = 1f;
+                projectile.netUpdate = true;
+            }
+
+			//Go to the target if you found one
+            if (foundTarget && projectile.ai[0] == 0f)
+            {
+				//Some minions don't ignore tiles while charging like brittle stars
+				projectile.tileCollide = !ignoreTilesWhenCharging;
+                Vector2 targetSpot = targetVec - projectile.Center;
+                float targetDist = targetSpot.Length();
+                targetSpot.Normalize();
+				//Tries to get the minion in the sweet spot of 200 pixels away but the minion also charges so idk what good it does
+                if (targetDist > 200f)
+                {
+                    float speed = goToSpeed; //8
+                    targetSpot *= speed;
+                    projectile.velocity = (projectile.velocity * 40f + targetSpot) / 41f;
+                }
+                else
+                {
+                    float speed = -goBackSpeed; //-4
+                    targetSpot *= speed;
+                    projectile.velocity = (projectile.velocity * 40f + targetSpot) / 41f; //41
+                }
+            }
+
+			//Movement for idle or returning to the player
+            else
+            {
+				//Ignore tiles so they don't get stuck everywhere like Optic Staff
+				projectile.tileCollide = false;
+
+                bool returningToPlayer = false;
+                if (!returningToPlayer)
+                {
+                    returningToPlayer = projectile.ai[0] == 1f;
+                }
+
+				//Player distance calculations
+                Vector2 playerVec = player.Center - projectile.Center + new Vector2(0f, -60f);
+                float playerDist = playerVec.Length();
+
+				//If the minion is actively returning, move faster
+                float playerHomeSpeed = 6f;
+                if (returningToPlayer)
+                {
+                    playerHomeSpeed = 15f;
+                }
+				//Move somewhat faster if the player is kinda far~ish
+                if (playerDist > 200f && playerHomeSpeed < 8f)
+                {
+                    playerHomeSpeed = 8f;
+                }
+				//Return to normal if close enough to the player
+                if (playerDist < safeDist && returningToPlayer && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+                {
+                    projectile.ai[0] = 0f;
+                    projectile.netUpdate = true;
+                }
+				//Teleport to the player if abnormally far
+                if (playerDist > 2000f)
+                {
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
+                    projectile.netUpdate = true;
+                }
+				//If more than 70 pixels away, move toward the player
+                if (playerDist > 70f)
+                {
+                    playerVec.Normalize();
+                    playerVec *= playerHomeSpeed;
+                    projectile.velocity = (projectile.velocity * 40f + playerVec) / 41f;
+                }
+				//Minions never stay still
+                else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+                {
+                    projectile.velocity.X = -0.15f;
+                    projectile.velocity.Y = -0.05f;
+                }
+            }
+
+			//Increment attack counter randomly
+            if (projectile.ai[1] > 0f)
+            {
+                projectile.ai[1] += (float)Main.rand.Next(1, 4);
+            }
+			//If high enough, prepare to attack
+            if (projectile.ai[1] > chargeCounterMax)
+            {
+                projectile.ai[1] = 0f;
+                projectile.netUpdate = true;
+            }
+
+			//Charge at an enemy if not on cooldown
+            if (projectile.ai[0] == 0f)
+            {
+                if (projectile.ai[1] == 0f && foundTarget && maxDist < 500f)
+                {
+                    projectile.ai[1] += 1f;
+                    if (Main.myPlayer == projectile.owner)
+                    {
+                        projectile.ai[0] = 2f;
+                        Vector2 targetPos = targetVec - projectile.Center;
+                        targetPos.Normalize();
+                        projectile.velocity = targetPos * chargeSpeed; //8
+                        projectile.netUpdate = true;
+                    }
+                }
+            }
+        }
 
 		public static void FloatingPetAI(Projectile projectile, bool faceRight, float tiltFloat, bool lightPet = false)
 		{

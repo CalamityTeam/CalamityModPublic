@@ -52,6 +52,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.ModLoader.Config;
 
 namespace CalamityMod.CalPlayer
 {
@@ -82,6 +83,7 @@ namespace CalamityMod.CalPlayer
 
         #region No Category
         public static bool areThereAnyDamnBosses = false;
+        public static bool areThereAnyDamnEvents = false;
         public bool drawBossHPBar = true;
         public bool shouldDrawSmallText = true;
         private const int saveVersion = 0;
@@ -93,10 +95,12 @@ namespace CalamityMod.CalPlayer
         public int actualMaxLife = 0;
         public int deathModeUnderworldTime = 0;
         public int deathModeBlizzardTime = 0;
-        public static int chaosStateDuration = 600;
+        public static int chaosStateDuration = 360;
+        public static int chaosStateDurationBoss = 600;
         public bool killSpikyBalls = false;
         public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
+        public int waterLeechTarget = -1;
         #endregion
 
         #region External variables -- Only set by Mod.Call
@@ -191,6 +195,7 @@ namespace CalamityMod.CalPlayer
         public int profanedSoulWeaponType = 0;
         public int hurtSoundTimer = 0;
         public int danceOfLightCharge = 0;
+        public int shadowPotCooldown = 0;
         #endregion
 
         #region Sound
@@ -1898,6 +1903,7 @@ namespace CalamityMod.CalPlayer
             planarSpeedBoost = 0;
             galileoCooldown = 0;
             soundCooldown = 0;
+            shadowPotCooldown = 0;
             rage = 0;
             adrenaline = 0;
             raiderStack = 0;
@@ -2350,6 +2356,10 @@ namespace CalamityMod.CalPlayer
 
             ZoneSulphur = (CalamityWorld.sulphurTiles > 30 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
 
+			//Overriding 1.4's ass req boosts
+			if (Main.snowTiles > 300)
+				player.ZoneSnow = true;
+
 			Mod fargos = ModLoader.GetMod("Fargowiltas");
 			if (fargos != null)
 			{
@@ -2513,12 +2523,14 @@ namespace CalamityMod.CalPlayer
                             player.Teleport(teleportLocation, 4, 0);
                             NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
+							int duration = chaosStateDuration;
+							if (areThereAnyDamnBosses || areThereAnyDamnEvents)
+								duration = chaosStateDurationBoss;
 							if (eScarfCooldown)
-                                player.AddBuff(BuffID.ChaosState, (int)(chaosStateDuration * 1.5), true);
-                            else if (scarfCooldown)
-                                player.AddBuff(BuffID.ChaosState, chaosStateDuration * 2, true);
-                            else
-                                player.AddBuff(BuffID.ChaosState, chaosStateDuration, true);
+								duration = (int)(chaosStateDuration * 1.5);
+							else if (scarfCooldown)
+								duration = chaosStateDuration * 2;
+							player.AddBuff(BuffID.ChaosState, duration, true);
                         }
                     }
                 }
@@ -2566,12 +2578,14 @@ namespace CalamityMod.CalPlayer
                             player.Teleport(teleportLocation, 1, 0);
                             NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, teleportLocation.X, teleportLocation.Y, 1, 0, 0);
 
-                            if (eScarfCooldown)
-                                player.AddBuff(BuffID.ChaosState, (int)(chaosStateDuration * 1.5), true);
-                            else if (scarfCooldown)
-                                player.AddBuff(BuffID.ChaosState, chaosStateDuration * 2, true);
-                            else
-                                player.AddBuff(BuffID.ChaosState, chaosStateDuration, true);
+							int duration = chaosStateDuration;
+							if (areThereAnyDamnBosses || areThereAnyDamnEvents)
+								duration = chaosStateDurationBoss;
+							if (eScarfCooldown)
+								duration = (int)(chaosStateDuration * 1.5);
+							else if (scarfCooldown)
+								duration = chaosStateDuration * 2;
+							player.AddBuff(BuffID.ChaosState, duration, true);
 
                             int numDust = 40;
                             Vector2 step = playerToTeleport / numDust;
@@ -4012,9 +4026,9 @@ namespace CalamityMod.CalPlayer
                 acidRoundMultiplier = 1D;
             }
 			//Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
-			if (desertProwler && (item.ranged/* || item.type == ModContent.ItemType<PrismaticBreaker>()*/))
+			if (desertProwler && (item.ranged || item.type == ModContent.ItemType<PrismaticBreaker>()))
 			{
-				flat += 2f;
+				flat += 1f;
 			}
         }
 
@@ -7768,7 +7782,7 @@ namespace CalamityMod.CalPlayer
                 float dashDistance;
                 if (dashMod == 1) //Counter and Evasion Scarf
                 {
-                    dashDistance = evasionScarf ? 16.9f : 14.5f;
+                    dashDistance = evasionScarf ? 16.3f : 14.5f;
                     int direction = 0;
                     bool justDashed = false;
                     if (dashTimeMod > 0)
@@ -8277,7 +8291,7 @@ namespace CalamityMod.CalPlayer
             {
 				if (evasionScarf)
 				{
-					player.AddBuff(ModContent.BuffType<EvasionScarfBoost>(), CalamityUtils.SecondsToFrames(6f));
+					player.AddBuff(ModContent.BuffType<EvasionScarfBoost>(), CalamityUtils.SecondsToFrames(9f));
 					player.AddBuff(ModContent.BuffType<EvasionScarfCooldown>(), player.chaosState ? CalamityUtils.SecondsToFrames(20f) : CalamityUtils.SecondsToFrames(13f));
 				}
 				else
@@ -8822,8 +8836,8 @@ namespace CalamityMod.CalPlayer
         }
 
 		public override void PreUpdate()
-		{
-			tailFrameUp++;
+        {
+            tailFrameUp++;
 			if (tailFrameUp == 8)
 			{
 				tailFrame++;
@@ -11122,6 +11136,7 @@ namespace CalamityMod.CalPlayer
                 int frame = HandlePSCAnimationFrames(animType);
                 player.legFrame.Y = player.legFrame.Height * frame;
             }
+            waterLeechTarget = -1;
         }
 
         #endregion

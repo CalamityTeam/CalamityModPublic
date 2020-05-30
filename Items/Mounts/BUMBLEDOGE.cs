@@ -18,7 +18,6 @@ namespace CalamityMod.Items.Mounts
             mountData.fatigueMax = 0;
             mountData.fallDamage = 0f;
             mountData.runSpeed = 12f;
-            mountData.dashSpeed = 12f;
             mountData.heightBoost = 44;
             mountData.acceleration = 0.2f;
             mountData.jumpHeight = 10;
@@ -56,7 +55,7 @@ namespace CalamityMod.Items.Mounts
             mountData.swimFrameDelay = mountData.inAirFrameDelay;
             mountData.swimFrameStart = mountData.inAirFrameStart;
 
-            mountData.dashSpeed = 25f;
+            mountData.dashSpeed = 18.5f;
             mountData.dashingFrameCount = mountData.flyingFrameCount;
             mountData.dashingFrameDelay = 5;
             mountData.dashingFrameStart = mountData.flyingFrameStart;

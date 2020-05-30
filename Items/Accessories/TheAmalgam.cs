@@ -97,6 +97,10 @@ namespace CalamityMod.Items.Accessories
 					{
 						WaterBonuses = true;
 					}
+					else if (!player.IsUnderwater())
+					{
+						WaterBonuses = false;
+					}
 				}
 			}
             if (WaterBonuses || player.IsUnderwater())

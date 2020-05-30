@@ -144,7 +144,7 @@ namespace CalamityMod.Projectiles.Ranged
                 if (Main.myPlayer == projectile.owner)
                     if (projectile.Hitbox.Intersects(player.Hitbox))
 					{
-						if (Main.rand.NextBool(3))
+						if (Main.rand.NextBool(3) && !Main.player[projectile.owner].moonLeech)
 						{
 							player.statLife += 1;
 							player.HealEffect(1);
@@ -158,7 +158,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
             target.AddBuff(ModContent.BuffType<BurningBlood>(), 360);
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)
             {
                 return;
             }

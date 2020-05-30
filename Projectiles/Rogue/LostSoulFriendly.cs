@@ -25,12 +25,14 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.timeLeft = 240;
             projectile.Calamity().rogue = true;
+			projectile.extraUpdates = 1;
+			projectile.alpha = 150;
         }
 
         public override void AI()
         {
             projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
+            if (projectile.frameCounter > 8)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
@@ -47,12 +49,13 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 43);
             for (int j = 0; j <= 10; j++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 175, 0f, 0f, 100, default, 1f);
             }
         }
+
+        public override Color? GetAlpha(Color lightColor) => new Color(150, 150, 150, 150);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

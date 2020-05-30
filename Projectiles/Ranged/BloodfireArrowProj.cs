@@ -80,7 +80,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
+            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || Main.player[projectile.owner].moonLeech)
             {
                 return;
             }
@@ -90,7 +91,6 @@ namespace CalamityMod.Projectiles.Ranged
                 player.statLife += 1;
                 player.HealEffect(1);
             }
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

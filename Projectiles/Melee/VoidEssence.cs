@@ -193,8 +193,8 @@ namespace CalamityMod.Projectiles.Melee
 
         private void SpawnTentacle(Vector2 tentacleVelocity)
         {
-            int damage = Nadir.BaseDamage;
-            float kb = 7f;
+            int damage = projectile.damage;
+            float kb = projectile.knockBack;
 
             // Randomize tentacle behavior variables
             float ai0 = Main.rand.NextFloat(0.01f, 0.08f);

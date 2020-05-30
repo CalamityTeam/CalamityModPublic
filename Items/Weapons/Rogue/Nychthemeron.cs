@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
             if (player.Calamity().StealthStrikeAvailable())
             {
-                for (int j = 0; j < item.stack - player.ownedProjectileCounts[item.shoot]; j++)
+                for (int j = 0; j < item.stack - player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()]; j++)
                 {
                     float spread = 2;
                     int pIndex = Projectile.NewProjectile(position.X, position.Y, speedX + Main.rand.NextFloat(-spread, spread), speedY + Main.rand.NextFloat(-spread, spread), type, damage, knockBack, player.whoAmI, 0f, 1f);
@@ -79,10 +79,22 @@ namespace CalamityMod.Items.Weapons.Rogue
             return false;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return player.ownedProjectileCounts[item.shoot] < item.stack && player.altFunctionUse != 2;
-        }
+		public override bool CanUseItem(Player player)
+		{
+			if (player.altFunctionUse == 2)
+			{
+				item.shoot = 0;
+				item.shootSpeed = 0f;
+				return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] > 0;
+			}
+			else
+			{
+				item.shoot = ModContent.ProjectileType<NychthemeronProjectile>();
+				item.shootSpeed = 6f;
+				int UseMax = item.stack;
+				return player.ownedProjectileCounts[ModContent.ProjectileType<NychthemeronProjectile>()] < UseMax;
+			}
+		}
 
         public override void AddRecipes()
         {

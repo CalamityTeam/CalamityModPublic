@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,10 +35,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = 931;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
         public override bool ConsumeAmmo(Player player)
         {
@@ -57,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 Main.projectile[projectile].timeLeft = 200;
                 Main.projectile[projectile].Calamity().forceRanged = true;
             }
-            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ProjectileID.LostSoulFriendly, damage, knockBack, player.whoAmI, 0f, 0f);
+            int proj = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LostSoulFriendly>(), damage, knockBack, player.whoAmI, 0f, 0f);
             Main.projectile[proj].timeLeft = 600;
             Main.projectile[proj].Calamity().forceRanged = true;
             return false;

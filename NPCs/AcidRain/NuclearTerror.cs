@@ -14,9 +14,10 @@ namespace CalamityMod.NPCs.AcidRain
 {
     public class NuclearTerror : ModNPC
     {
-        public bool Walking = false;
         public int AttackIndex = 0;
         public int DelayTime = 0;
+        public bool Dying = false;
+        public bool Walking = false;
         public float JumpTimer = 0f;
         public Vector2 ShootPosition;
         public static readonly int[] PhaseArray = new int[]
@@ -61,6 +62,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.dontTakeDamage);
+            writer.Write(Dying);
             writer.Write(Walking);
             writer.Write(AttackIndex);
             writer.Write(DelayTime);
@@ -70,6 +72,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
+            Dying = reader.ReadBoolean();
             Walking = reader.ReadBoolean();
             AttackIndex = reader.ReadInt32();
             DelayTime = reader.ReadInt32();
@@ -78,8 +81,8 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override void AI()
         {
-            Lighting.AddLight(npc.Center, (npc.dontTakeDamage ? Color.Lime.ToVector3() : Color.White.ToVector3()) * 2f);
-            if (npc.dontTakeDamage)
+            Lighting.AddLight(npc.Center, (Dying ? Color.Lime.ToVector3() : Color.White.ToVector3()) * 2f);
+            if (Dying)
                 return;
             bool phase2 = npc.life / (float)npc.lifeMax < 0.5f;
             if (DelayTime > 0)
@@ -103,7 +106,7 @@ namespace CalamityMod.NPCs.AcidRain
             }
             Player player = Main.player[npc.target];
             npc.defDamage = 170;
-            npc.damage = npc.dontTakeDamage ? 0 : npc.defDamage;
+            npc.damage = Dying ? 0 : npc.defDamage;
             TeleportCheck(player);
             npc.ai[0]++;
             Walking = false;
@@ -347,7 +350,7 @@ namespace CalamityMod.NPCs.AcidRain
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
-            int framesNeeded = npc.dontTakeDamage ? 7 : 6;
+            int framesNeeded = Dying ? 7 : 6;
             if (Walking)
             {
                 framesNeeded = 8 - (int)Math.Ceiling(Math.Abs(npc.velocity.X) / 5f); // Walk faster the faster we're moving
@@ -357,7 +360,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.frame.Y += frameHeight;
                 npc.frameCounter = 0;
             }
-            if (npc.dontTakeDamage)
+            if (Dying)
             {
                 if (npc.frame.Y < frameHeight * 8)
                 {
@@ -402,16 +405,17 @@ namespace CalamityMod.NPCs.AcidRain
         }
         public override bool CheckDead()
         {
-            if (!npc.dontTakeDamage)
+            if (!Dying)
             {
                 npc.active = true;
                 npc.life = 1;
                 npc.dontTakeDamage = true;
+                Dying = true;
                 npc.velocity = Vector2.Zero;
                 npc.netUpdate = true;
                 return false;
             }
-            return true;
+            return Dying;
         }
         public override void HitEffect(int hitDirection, double damage)
         {

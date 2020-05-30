@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Hybrid
             aiType = ProjectileID.WoodenBoomerang;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 3;
-            projectile.Calamity().rogue = true;
+            projectile.melee = true;
         }
 
         public override void AI()

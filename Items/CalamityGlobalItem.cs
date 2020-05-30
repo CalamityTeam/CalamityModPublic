@@ -966,12 +966,14 @@ namespace CalamityMod.Items
 				{
 					if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
 					{
+						int duration = CalamityPlayer.chaosStateDuration;
+						if (CalamityPlayer.areThereAnyDamnBosses || CalamityPlayer.areThereAnyDamnEvents)
+							duration = CalamityPlayer.chaosStateDurationBoss;
 						if (modPlayer.eScarfCooldown)
-							player.AddBuff(BuffID.ChaosState, (int)(CalamityPlayer.chaosStateDuration * 1.5), true);
+							duration = (int)(CalamityPlayer.chaosStateDuration * 1.5);
 						else if (modPlayer.scarfCooldown)
-							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration * 2, true);
-						else
-							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration, true);
+							duration = CalamityPlayer.chaosStateDuration * 2;
+						player.AddBuff(BuffID.ChaosState, duration, true);
 					}
 				}
 			}
@@ -2816,7 +2818,7 @@ Provides heat and cold protection in Death Mode";
 
                     // Plantera
                     case ItemID.PlanteraBossBag:
-                        DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 8, 11);
+                        DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
                         float bFluxChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<BlossomFlux>(), CalamityWorld.revenge, bFluxChance);
                         DropHelper.DropItemChance(player, ItemID.JungleKey, 5);

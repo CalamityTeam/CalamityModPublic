@@ -1303,7 +1303,9 @@ namespace CalamityMod
                 ItemID.WaspGun,
                 ItemID.Keybrand,
                 ItemID.PulseBow,
-                ItemID.PaladinsHammer
+                ItemID.PaladinsHammer,
+                ItemID.SolarEruption,
+                ItemID.DayBreak
             };
 
             thirtyThreeDamageBuffList = new List<int>()
@@ -1382,7 +1384,8 @@ namespace CalamityMod
                 ItemID.DD2BetsyBow,
                 ItemID.InfluxWaver,
                 ItemID.Xenopopper,
-                ItemID.ElectrosphereLauncher
+                ItemID.ElectrosphereLauncher,
+                ItemID.OpticStaff //Note: got local i frames so it should be better
             };
 
             pumpkinMoonBuffList = new List<int>()
