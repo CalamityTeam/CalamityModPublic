@@ -68,7 +68,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 Vector2 velocity = new Vector2(speedX, speedY);
                 position += velocity.ToRotation().ToRotationVector2() * 80f;
-                Projectile.NewProjectile(position, velocity.SafeNormalize(Vector2.Zero) * 17f, ModContent.ProjectileType<ExoLightBurst>(), damage * 3, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, velocity.SafeNormalize(Vector2.Zero) * 17f, ModContent.ProjectileType<ExoLightBurst>(), (int)(damage * 2.3), knockBack, player.whoAmI);
             }
             else
             {
