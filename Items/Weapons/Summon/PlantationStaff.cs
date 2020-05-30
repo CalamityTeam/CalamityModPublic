@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.width = 66;
             item.height = 70;
             item.useTime = item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = Item.buyPrice(0, 80, 0, 0);

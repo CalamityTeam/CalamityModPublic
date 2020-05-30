@@ -20,7 +20,7 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(76, 58, 59));
             mineResist = 1f;
             minPick = 55;
-            soundType = 0;
+            soundType = SoundID.Dig;
         }
 
         public override void NumDust(int i, int j, bool fail, ref int num)
@@ -86,7 +86,7 @@ namespace CalamityMod.Tiles.Abyss
                             Main.tile[num53, num54].type = (ushort)ModContent.TileType<SulphurousVines>();
                             Main.tile[num53, num54].active(true);
                             WorldGen.SquareTileFrame(num53, num54, true);
-                            if (Main.netMode == 2)
+                            if (Main.netMode == NetmodeID.Server)
                             {
                                 NetMessage.SendTileSquare(-1, num53, num54, 3, TileChangeType.None);
                             }

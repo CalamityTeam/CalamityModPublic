@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = projectile.height = 128;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
             int num251 = Main.rand.Next(3, 5);
             if (projectile.owner == Main.myPlayer)
             {

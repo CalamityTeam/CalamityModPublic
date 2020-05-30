@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 950;
             item.melee = true;
             item.useAnimation = 18;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 18;
             item.useTurn = true;
             item.knockBack = 8f;
@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 {
                     Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, 58, 1, false, 0, false, false);
                 }
-                Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 14);
+                Main.PlaySound(SoundID.Item14, target.position);
                 target.position.X += (float)(target.width / 2);
                 target.position.Y += (float)(target.height / 2);
                 target.position.X -= (float)(target.width / 2);

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Pets;
+using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
@@ -19,14 +19,14 @@ namespace CalamityMod.Items.Pets
         public override void SetDefaults()
         {
             item.damage = 0;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 20;
             item.useTime = 20;
             item.noMelee = true;
             item.width = 30;
             item.height = 30;
             item.value = Item.sellPrice(1, 0, 0, 0);
-            item.shoot = 0; // neither kendra nor bear is the direct "shoot"
+            item.shoot = ProjectileID.None; // neither kendra nor bear is the direct "shoot"
             item.buffType = ModContent.BuffType<FurtasticDuoBuff>();
             item.rare = 6;
             item.UseSound = SoundID.Item44;

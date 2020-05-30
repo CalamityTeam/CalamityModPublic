@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -86,7 +87,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (count == 0f)
             {
-                Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 53);
+                Main.PlaySound(SoundID.NPCHit53, projectile.position);
                 projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
                 projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
                 projectile.width = 20;
@@ -115,7 +116,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (projectile.timeLeft % 50 == 49)
             {
-                Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 53);
+                Main.PlaySound(SoundID.NPCHit53, projectile.position);
                 projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
                 projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
                 projectile.width = 20;

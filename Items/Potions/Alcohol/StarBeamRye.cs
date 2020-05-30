@@ -25,7 +25,7 @@ Reduces defense by 6 and life regen by 1");
             item.rare = 3;
             item.useAnimation = 17;
             item.useTime = 17;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<StarBeamRyeBuff>();

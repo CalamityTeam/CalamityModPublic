@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -23,7 +23,7 @@ Consuming it does something that cannot be reversed");
             item.maxStack = 99;
             item.useAnimation = 30;
             item.useTime = 30;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item4;
             item.consumable = true;
         }

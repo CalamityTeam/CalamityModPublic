@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Pets
             item.damage = 0;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.width = 30;
             item.height = 34;

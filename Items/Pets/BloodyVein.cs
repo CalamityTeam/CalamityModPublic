@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Pets;
+using CalamityMod.Buffs.Pets;
 using CalamityMod.Projectiles.Pets;
 using Terraria;
 using Terraria.ID;
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Pets
             item.damage = 0;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.width = 24;
             item.height = 48;

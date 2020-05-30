@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -146,7 +146,7 @@ namespace CalamityMod.Projectiles.Hybrid
 
             // Play the Lunar Flare sound centered on the user, not the target (consistent with Lunar Flare and Stellar Striker)
             Player user = Main.player[projectile.owner];
-            Main.PlaySound(2, (int)user.position.X, (int)user.position.Y, 88);
+            Main.PlaySound(SoundID.Item88, projectile.position);
             projectile.netUpdate = true;
 
             int numFlares = 2;
@@ -212,7 +212,7 @@ namespace CalamityMod.Projectiles.Hybrid
 
             // Play the Lunar Flare sound centered on the user, not the target (consistent with Lunar Flare and Stellar Striker)
             Player user = Main.player[projectile.owner];
-            Main.PlaySound(2, (int)user.position.X, (int)user.position.Y, 88);
+            Main.PlaySound(SoundID.Item88, projectile.position);
             projectile.netUpdate = true;
 
             int numFlares = 2;

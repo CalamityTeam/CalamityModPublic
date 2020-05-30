@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Ranged;
+using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee

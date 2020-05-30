@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
@@ -67,7 +67,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
                     {
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
+                        Main.PlaySound(SoundID.Item42, npc.position);
                         for (int n = 0; n < 5; n++)
                         {
                             Vector2 vector4 = new Vector2((float)(n - 2), -4f);
@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient && spikeTimer == 0f)
                     {
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
+                        Main.PlaySound(SoundID.Item42, npc.position);
                         num15 = Main.player[npc.target].position.Y - vector3.Y - (float)Main.rand.Next(0, 200);
                         num16 = (float)Math.Sqrt((double)(num14 * num14 + num15 * num15));
                         num16 = 6.5f / num16;

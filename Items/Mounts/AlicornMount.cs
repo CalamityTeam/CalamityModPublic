@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Mounts;
+using CalamityMod.Buffs.Mounts;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;

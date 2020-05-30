@@ -1,6 +1,7 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.NPCs.AcidRain;
+using Terraria.ID;
 
 namespace CalamityMod.Items.SummonItems
 {
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.SummonItems
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
             item.bait = 69420;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.autoReuse = true;
             item.useTurn = true;
             item.useAnimation = 15;

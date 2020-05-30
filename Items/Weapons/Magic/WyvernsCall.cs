@@ -26,7 +26,7 @@ Fires wyverns and colored feathers from the sky that stick to enemies and tiles 
             item.height = 74;
             item.useTime = 23;
             item.useAnimation = 23;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4.75f;
             item.value = Item.buyPrice(0, 36, 0, 0);

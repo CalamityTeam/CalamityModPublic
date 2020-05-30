@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -249,7 +249,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner)
                     {
-                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 8);
+                        Main.PlaySound(SoundID.Item8, projectile.position);
                         Vector2 value19 = vector46 - projectile.Center;
                         value19.Normalize();
                         value19 *= velocity;

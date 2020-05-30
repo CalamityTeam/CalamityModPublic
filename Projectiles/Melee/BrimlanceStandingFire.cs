@@ -1,8 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class BrimlanceStandingFire : ModProjectile
@@ -55,7 +57,7 @@ namespace CalamityMod.Projectiles.Melee
             if (projectile.ai[1] == 0f && projectile.type >= 326 && projectile.type <= 328)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 13);
+                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 13);
             }
             int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 100, default, 1f);
             Dust expr_8976_cp_0 = Main.dust[num199];

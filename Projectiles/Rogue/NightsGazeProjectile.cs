@@ -70,9 +70,9 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(projectile.Center, velocity * speed, projectileType, projectileDamage, 5f, projectile.owner, 0f, moveDuration);
             }
 
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62, 0.6f);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 68, 0.2f);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122, 0.4f);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 62, 0.6f);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 68, 0.2f);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 122, 0.4f);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -97,15 +97,15 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(projectile.Center, velocity * speed, projectileType, projectileDamage, 5f, projectile.owner, 0f, moveDuration);
             }
 
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62, 0.6f);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 68, 0.2f);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 122, 0.4f);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 62, 0.6f);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 68, 0.2f);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 122, 0.4f);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             projectile.Kill();
             return false;
         }

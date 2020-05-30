@@ -1,8 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class DeepSeaDumbbell3 : ModProjectile
@@ -36,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
+            Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
 
             if (projectile.owner == Main.myPlayer)
             {
@@ -75,7 +77,7 @@ namespace CalamityMod.Projectiles.Rogue
 
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
 
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
+            Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
 
             if (projectile.owner == Main.myPlayer)
             {
@@ -109,7 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
 
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
+            Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 43, 0.35f, 0f);
 
             if (projectile.owner == Main.myPlayer)
             {

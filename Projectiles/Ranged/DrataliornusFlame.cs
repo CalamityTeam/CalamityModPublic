@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (timeLeft != 0)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14, 1f, 0f);
+                Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
 
                 if (projectile.ai[0] != 0f && projectile.owner == Main.myPlayer) //if empowered, make exo arrow and dragon dust
                 {

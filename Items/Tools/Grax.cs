@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Tools
             item.damage = 500;
             item.melee = true;
             item.useAnimation = 16;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 4;
             item.useTurn = true;
             item.axe = 50;

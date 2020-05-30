@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using System;

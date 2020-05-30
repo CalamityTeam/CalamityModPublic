@@ -1,4 +1,4 @@
-﻿using CalamityMod.Dusts;
+using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Environment;
 using Microsoft.Xna.Framework;
 using System;

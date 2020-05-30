@@ -1,4 +1,4 @@
-﻿using CalamityMod;
+using CalamityMod;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +25,7 @@ namespace CalamityMod.Items.PermanentBoosters
             item.height = 44;
             item.useAnimation = 30;
             item.useTime = 30;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item122;
             item.consumable = true;
             item.rare = 10;

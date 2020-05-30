@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.ai[1] == 0f && projectile.type >= 326 && projectile.type <= 328)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 13);
+                Main.PlaySound(SoundID.Item13, projectile.position);
             }
 			if (Main.rand.NextBool(2))
 			{

@@ -1,10 +1,11 @@
-﻿using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -87,7 +88,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.localAI[0] >= (Main.dayTime ? 300f : 30f))
             {
                 projectile.localAI[0] = 0f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 109);
+                Main.PlaySound(SoundID.Item109, projectile.position);
                 projectile.netUpdate = true;
                 if (projectile.owner == Main.myPlayer)
                 {

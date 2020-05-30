@@ -45,15 +45,15 @@ namespace CalamityMod.Projectiles.Pets
 
 					if (new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height).Intersects(new Rectangle((int)item.position.X, (int)item.position.Y, item.width, item.height)))
 					{
-						if (projectile.owner == Main.myPlayer && (player.ActiveItem().type != 0 || player.itemAnimation <= 0))
+						if (projectile.owner == Main.myPlayer && (player.ActiveItem().type != ItemID.None || player.itemAnimation <= 0))
 						{
 							// TODO, fix this maybe?
 							if (!ItemLoader.OnPickup(item, player))
 							{
 							    Main.item[itemIndex] = new Item();
-								if (Main.netMode == 1)
+								if (Main.netMode == NetmodeID.MultiplayerClient)
 								{
-									NetMessage.SendData(21, -1, -1, null, itemIndex, 0f, 0f, 0f, 0, 0, 0);
+									NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemIndex, 0f, 0f, 0f, 0, 0, 0);
 								}
 							    continue;
 							}
@@ -115,9 +115,9 @@ namespace CalamityMod.Projectiles.Pets
 							else
 							{
 								Main.item[itemIndex] = player.GetItem(projectile.owner, item, false, false);
-								if (Main.netMode == 1)
+								if (Main.netMode == NetmodeID.MultiplayerClient)
 								{
-									NetMessage.SendData(21, -1, -1, null, itemIndex, 0f, 0f, 0f, 0, 0, 0);
+									NetMessage.SendData(MessageID.SyncItem, -1, -1, null, itemIndex, 0f, 0f, 0f, 0, 0, 0);
 								}
 							}
 						}
@@ -134,7 +134,7 @@ namespace CalamityMod.Projectiles.Pets
 					{
 						npc.life = 0;
 						npc.active = false;
-						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 2);
+						Main.PlaySound(SoundID.Item2, projectile.position);
 						npc.netUpdate = true;
 					}
 				}

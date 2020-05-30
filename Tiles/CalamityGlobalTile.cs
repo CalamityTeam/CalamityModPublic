@@ -135,7 +135,7 @@ namespace CalamityMod.Tiles
                 {
                     WorldGen.KillTile(xPos, yPos, false, false, false);
                     if (!Main.tile[xPos, yPos].active() && Main.netMode != NetmodeID.SinglePlayer)
-                        NetMessage.SendData(17, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
                 }
             }
 			

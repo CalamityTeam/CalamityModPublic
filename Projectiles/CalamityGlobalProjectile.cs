@@ -397,7 +397,7 @@ namespace CalamityMod.Projectiles
 
 						if (projectile.localAI[0] == 0f)
 						{
-							Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 104, 1f, 0f);
+							Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 104, 1f, 0f);
 						}
 
 						float num801 = 1f;
@@ -866,7 +866,7 @@ namespace CalamityMod.Projectiles
 								}
 								value15.Normalize();
 								value15 *= Main.rand.Next(70, 101) * 0.1f;
-								int shard = Projectile.NewProjectile(projectile.oldPosition.X + (projectile.width / 2), projectile.oldPosition.Y + (projectile.height / 2), value15.X, value15.Y, 90, (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+								int shard = Projectile.NewProjectile(projectile.oldPosition + projectile.Size * 0.5f, value15, ProjectileID.CrystalShard, (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
 								Main.projectile[shard].ranged = false;
 							}
 						}
@@ -1140,9 +1140,9 @@ namespace CalamityMod.Projectiles
 						int nebulaBooster = Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, boosterType, 1, false, 0, false, false);
 						Main.item[nebulaBooster].velocity.Y = Main.rand.Next(-20, 1) * 0.2f;
 						Main.item[nebulaBooster].velocity.X = Main.rand.Next(10, 31) * 0.2f * projectile.direction;
-						if (Main.netMode == 1)
+						if (Main.netMode == NetmodeID.MultiplayerClient)
 						{
-							NetMessage.SendData(21, -1, -1, null, nebulaBooster, 0f, 0f, 0f, 0, 0, 0);
+							NetMessage.SendData(MessageID.SyncItem, -1, -1, null, nebulaBooster, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
 				}
@@ -1285,7 +1285,7 @@ namespace CalamityMod.Projectiles
                 {
                     if (modPlayer.silvaMage && projectile.penetrate == 1 && Main.rand.Next(0, 100) >= 97)
                     {
-                        Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 103);
+                        Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 103);
                         projectile.position = projectile.Center;
                         projectile.width = projectile.height = 96;
                         projectile.position.X -= projectile.width / 2;
@@ -1854,7 +1854,7 @@ namespace CalamityMod.Projectiles
             {
                 if (modPlayer.providenceLore && projectile.friendly && projectile.damage > 0 && (projectile.melee || projectile.ranged || projectile.magic || rogue))
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                    Main.PlaySound(SoundID.Item20, (int)projectile.position.X, (int)projectile.position.Y);
                     for (int dustIndex = 0; dustIndex < 3; dustIndex++)
                     {
                         int dust = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, (int)CalamityDusts.ProfanedFire, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 1f);
@@ -2126,7 +2126,7 @@ namespace CalamityMod.Projectiles
 					{
 						player.statLife = player.statLifeMax2;
 					}
-					NetMessage.SendData(66, -1, -1, null, target, healAmt, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, target, healAmt, 0f, 0f, 0, 0, 0);
 				}
 				projectile.Kill();
 			}

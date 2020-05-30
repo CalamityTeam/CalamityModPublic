@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -150,7 +150,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     int seeker = NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<DriedSeekerHead>());
                     if (Main.netMode == NetmodeID.Server && seeker < 200)
                     {
-                        NetMessage.SendData(23, -1, -1, null, seeker, 0f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, seeker, 0f, 0f, 0f, 0, 0, 0);
                     }
                     npc.netUpdate = true;
                 }

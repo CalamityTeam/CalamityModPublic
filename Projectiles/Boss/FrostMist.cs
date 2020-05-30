@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 30);
+                Main.PlaySound(SoundID.Item30, projectile.position);
             }
             projectile.localAI[1] += 1f;
             if (projectile.localAI[1] == 16f)

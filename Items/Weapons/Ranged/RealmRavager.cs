@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 32;
             item.useTime = 22;
             item.useAnimation = 22;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 80, 0, 0);
@@ -38,7 +38,8 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int index = 0; index < Main.rand.Next(3,5); ++index) //3 to 4 bullets
+            int numBullets = Main.rand.NextBool() ? 4 : 3;
+            for (int index = 0; index < numBullets; ++index)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;

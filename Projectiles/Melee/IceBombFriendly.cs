@@ -1,7 +1,9 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class IceBombFriendly : ModProjectile
@@ -35,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            Main.PlaySound(SoundID.Item27, projectile.position);
             float spread = 90f * 0.0174f;
             double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
@@ -46,9 +48,9 @@ namespace CalamityMod.Projectiles.Melee
                 for (i = 0; i < 2; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                    int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), 349, 30, 2f, projectile.owner, 0f, 0f);
+                    int projectile1 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, 30, 2f, projectile.owner, 0f, 0f);
                     Main.projectile[projectile1].Calamity().forceMelee = true;
-                    int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), 349, 30, 2f, projectile.owner, 0f, 0f);
+                    int projectile2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.FrostShard, 30, 2f, projectile.owner, 0f, 0f);
                     Main.projectile[projectile2].Calamity().forceMelee = true;
                 }
             }

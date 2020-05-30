@@ -1,9 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -44,9 +45,9 @@ namespace CalamityMod.Projectiles.Boss
             flareShootTimer--;
             if (flareShootTimer <= 0)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
-                projectile.position.X = projectile.position.X + (projectile.width / 2);
-                projectile.position.Y = projectile.position.Y + (projectile.height / 2);
+                Main.PlaySound(SoundID.Item20, projectile.Center);
+                projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+                projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
                 projectile.width = 50;
                 projectile.height = 50;
                 projectile.position.X = projectile.position.X - (projectile.width / 2);
@@ -60,7 +61,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                Main.PlaySound(SoundID.Item20, projectile.Center);
             }
             projectile.velocity *= 0.975f;
             projectile.frameCounter++;
@@ -91,9 +92,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
-            projectile.position.X = projectile.position.X + (projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (projectile.height / 2);
+            Main.PlaySound(SoundID.Item20, projectile.Center);
+            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
+            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
             projectile.width = 150;
             projectile.height = 150;
             projectile.position.X = projectile.position.X - (projectile.width / 2);

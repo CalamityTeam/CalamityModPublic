@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.ChaoticBrick>();
         }
@@ -27,13 +27,13 @@ namespace CalamityMod.Items.Placeables
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.StoneBlock, 1);
             recipe.AddIngredient(ModContent.ItemType<ChaoticOre>(), 1);
-            recipe.AddTile(17);
+            recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
 
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ChaoticBrickWall>(), 4);
-            recipe.AddTile(18);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
         }

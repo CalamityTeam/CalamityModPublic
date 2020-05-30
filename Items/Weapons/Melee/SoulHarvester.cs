@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 98;
             item.melee = true;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 20;
             item.useTurn = true;
             item.knockBack = 7.5f;
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.CursedInferno, 300);
             if (target.life <= (target.lifeMax * 0.15f))
             {
-                Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14);
+                Main.PlaySound(SoundID.Item14, target.position);
 
                 // DEFECT -- HiveBombExplosion does not exist.
                 // Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveBombExplosion>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), knockback, Main.myPlayer);
@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.CursedInferno, 300);
             if (target.statLife <= (target.statLifeMax * 0.15f))
             {
-                Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 14);
+                Main.PlaySound(SoundID.Item14, target.position);
 
                 // DEFECT -- HiveBombExplosion does not exist.
                 // Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<HiveBombExplosion>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)), item.knockBack, Main.myPlayer);

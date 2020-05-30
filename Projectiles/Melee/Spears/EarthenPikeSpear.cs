@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ModLoader;

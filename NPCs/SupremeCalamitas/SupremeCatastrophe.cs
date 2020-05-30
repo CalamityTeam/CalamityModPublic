@@ -1,4 +1,4 @@
-﻿using CalamityMod.Dusts;
+using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     npc.ai[2] = 0f;
                     float num689 = 7f;
                     int num690 = expertMode ? 150 : 200; //600 500
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 20);
+                    Main.PlaySound(SoundID.Item20, npc.position);
                     float spread = 45f * 0.0174f;
                     double startAngle = Math.Atan2(npc.velocity.X, npc.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;

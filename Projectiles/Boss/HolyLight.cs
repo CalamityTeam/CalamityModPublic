@@ -1,8 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Boss
 {
     public class HolyLight : ModProjectile
@@ -50,7 +52,7 @@ namespace CalamityMod.Projectiles.Boss
                 {
                     Main.player[num487].statLife = Main.player[num487].statLifeMax2;
                 }
-                NetMessage.SendData(66, -1, -1, null, num487, num492, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, num487, num492, 0f, 0f, 0, 0, 0);
                 projectile.Kill();
             }
         }
@@ -93,7 +95,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             projectile.position.X = projectile.position.X + (projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (projectile.height / 2);
             projectile.width = 50;

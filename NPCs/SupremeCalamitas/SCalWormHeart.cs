@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Rogue;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;

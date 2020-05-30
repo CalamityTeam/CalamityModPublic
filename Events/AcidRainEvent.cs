@@ -1,4 +1,4 @@
-﻿using CalamityMod.ILEditing;
+using CalamityMod.ILEditing;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;

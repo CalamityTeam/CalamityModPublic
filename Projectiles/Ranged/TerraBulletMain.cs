@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Ranged
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TerraBulletSplit>(), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 118);
+            Main.PlaySound(SoundID.Item118, projectile.position);
         }
     }
 }

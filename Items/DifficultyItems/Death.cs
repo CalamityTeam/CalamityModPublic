@@ -1,4 +1,4 @@
-﻿using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.DifficultyItems
             item.height = 28;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item119;
             item.consumable = false;
         }

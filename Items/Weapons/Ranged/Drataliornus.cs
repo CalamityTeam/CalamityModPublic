@@ -27,7 +27,7 @@ Right click to fire two devastating barrages of five empowered fireballs.
             item.damage = 700;
             item.knockBack = 1f;
             item.shootSpeed = 18f;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 10;
             item.useTime = 10;
             item.reuseDelay = 0;

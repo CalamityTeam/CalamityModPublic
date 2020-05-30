@@ -1,4 +1,4 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.Potions;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Potions
             item.useAnimation = 17;
             item.useTime = 17;
             item.rare = 1;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item2;
             item.consumable = true;
             item.value = Item.buyPrice(0, 0, 50, 0);

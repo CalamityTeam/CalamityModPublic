@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables.Walls;
+using CalamityMod.Items.Placeables.Walls;
 using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria;
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables
         {
             ItemID.Sets.ExtractinatorMode[item.type] = item.type;
             item.createTile = ModContent.TileType<Tiles.AstralDesert.AstralFossil>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddTile(18);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.AddIngredient(ModContent.ItemType<AstralFossilWall>(), 4);
             recipe.SetResult(this, 1);
             recipe.AddRecipe();
