@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -201,7 +201,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner && player.statLife < player.statLifeMax2)
                     {
-                        Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 6);
+                        Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 6);
                         int num226 = 36;
                         for (int num227 = 0; num227 < num226; num227++)
                         {

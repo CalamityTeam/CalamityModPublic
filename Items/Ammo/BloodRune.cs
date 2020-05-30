@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ModLoader;
 

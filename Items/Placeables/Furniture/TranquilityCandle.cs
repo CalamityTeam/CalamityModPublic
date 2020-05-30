@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 500;
             item.createTile = ModContent.TileType<Tiles.Furniture.TranquilityCandle>();
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Placeables.Furniture
 			recipe.AddIngredient(ModContent.ItemType<CoreofEleum>(), 2);
 			recipe.AddIngredient(ModContent.ItemType<ZenPotion>());
             recipe.SetResult(this);
-            recipe.AddTile(18);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
         }
     }

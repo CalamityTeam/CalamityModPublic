@@ -1,6 +1,7 @@
 using CalamityMod.Tiles;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 namespace CalamityMod.Items.Placeables.Banners
 {
     public class NovaBanner : ModItem
@@ -14,7 +15,7 @@ namespace CalamityMod.Items.Placeables.Banners
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.rare = 1;
             item.value = Item.buyPrice(0, 0, 10, 0);

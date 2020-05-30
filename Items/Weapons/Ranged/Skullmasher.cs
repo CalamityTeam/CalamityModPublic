@@ -1,6 +1,7 @@
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Ranged
 {
@@ -22,14 +23,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 30;
             item.useTime = 60;
             item.useAnimation = 60;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(1, 80, 0, 0);
             item.rare = 10;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             item.autoReuse = true;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 12f;
             item.useAmmo = 97;
             item.Calamity().customRarity = CalamityRarity.RareVariant;

@@ -142,8 +142,8 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			if (Main.rand.NextBool(6))
 			{
-				Main.PlaySound(4, (int)projectile.Center.X, (int)projectile.Center.Y, 39, 1f, 0f);
-			}
+                Main.PlaySound(SoundID.NPCDeath39, projectile.position);
+            }
         }
 
         // Cannot deal damage for the first several frames of existence.

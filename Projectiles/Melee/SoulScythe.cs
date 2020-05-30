@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Melee
             target.AddBuff(ModContent.BuffType<Plague>(), 300);
             if (target.life <= (target.lifeMax * 0.15f))
             {
-                Main.PlaySound(2, (int)target.position.X, (int)target.position.Y, 14);
+                Main.PlaySound(SoundID.Item14, projectile.position);
                 if (projectile.owner == Main.myPlayer)
                 {
 					Projectile.NewProjectile(target.Center.X, target.Center.Y, projectile.velocity.X * 0f, projectile.velocity.Y * 0f, ModContent.ProjectileType<SoulScytheExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

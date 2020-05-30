@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.consumable = true;
             item.useAnimation = 18;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 18;
             item.knockBack = 1f;
             item.autoReuse = true;
@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(4, (int)player.position.X, (int)player.position.Y, 9, 2, 0);
+            Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 9, 2, 0);
 
             if (player.Calamity().StealthStrikeAvailable())
             {

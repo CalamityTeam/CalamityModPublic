@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Buffs.Mounts;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Summon.AndromedaUI;

@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.FurnitureAbyss
 {
     public class SmoothAbyssGravel : ModTile
@@ -17,7 +19,7 @@ namespace CalamityMod.Tiles.FurnitureAbyss
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeWithAbyss(Type);
 
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 2f;
             minPick = 65;
             drop = ModContent.ItemType<Items.Placeables.FurnitureAbyss.SmoothAbyssGravel>();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
 			if (lunarEnhance)
 			{
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+				Main.PlaySound(SoundID.Item14, projectile.position);
 				projectile.position = projectile.Center;
 				projectile.width = projectile.height = 28;
 				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

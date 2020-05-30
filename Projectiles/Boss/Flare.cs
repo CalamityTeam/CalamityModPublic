@@ -1,4 +1,4 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
+            Main.PlaySound(SoundID.Item20, projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

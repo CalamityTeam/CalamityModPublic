@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
@@ -187,7 +187,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         npc.velocity.X = num1045 * num1047;
                         npc.velocity.Y = num1046 * num1047;
                         npc.spriteDirection = npc.direction;
-                        Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+                        Main.PlaySound(SoundID.Roar, npc.position);
                         return;
                     }
                     npc.localAI[0] = 0f;
@@ -364,7 +364,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 }
                 if (Collision.CanHit(vector119, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height) && flag103)
                 {
-                    Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 8);
+                    Main.PlaySound(SoundID.NPCHit8, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         int num1061;
@@ -472,7 +472,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 }
                 if (flag104 && npc.position.Y + (float)npc.height < Main.player[npc.target].position.Y && Collision.CanHit(vector121, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
+                    Main.PlaySound(SoundID.Item42, npc.position);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num1070 = 6f;
@@ -583,7 +583,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             if (Main.netMode == NetmodeID.Server)
             {
-                NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
 

@@ -24,7 +24,7 @@ Stealth strikes leak tar as they fly");
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 28;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 28;
             item.knockBack = 5f;
             item.UseSound = SoundID.Item106;

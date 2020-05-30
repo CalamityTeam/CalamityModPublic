@@ -34,7 +34,7 @@ Right click to delete all existing spiky balls");
             item.height = 1;
             item.useTime = 15;
             item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = knockBack;
             item.value = Item.buyPrice(0, 18, 0, 0);
             item.rare = 10;

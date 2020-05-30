@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables
         {
             ItemID.Sets.ExtractinatorMode[item.type] = item.type;
             item.createTile = ModContent.TileType<Tiles.Astral.AstralSilt>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;

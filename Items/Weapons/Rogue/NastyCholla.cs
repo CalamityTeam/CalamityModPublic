@@ -29,7 +29,7 @@ Stealth strikes throw five at once");
 			item.maxStack = 999;
 			item.consumable = true;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 20;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;

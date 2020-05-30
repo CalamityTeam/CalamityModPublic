@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 9;
             item.useAnimation = 9;
             item.useTurn = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;

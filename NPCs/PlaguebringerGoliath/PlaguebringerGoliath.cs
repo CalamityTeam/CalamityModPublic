@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -340,7 +340,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 						if (npc.spriteDirection != 1)
 							npc.rotation += (float)Math.PI;
 
-						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0);
+						Main.PlaySound(SoundID.Roar, npc.position);
                         return;
                     }
 
@@ -534,7 +534,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (flag103)
                 {
-                    Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 8);
+                    Main.PlaySound(SoundID.NPCHit8, npc.position);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -612,7 +612,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (flag103)
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 88);
+                    Main.PlaySound(SoundID.Item88, npc.position);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -673,7 +673,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
                 if (npc.ai[1] % (float)num650 == (float)(num650 - 1) && vectorCenter.Y < player.position.Y)
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
+                    Main.PlaySound(SoundID.Item42, npc.position);
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
@@ -759,7 +759,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     {
                         if (MissileCountdown == 1)
                         {
-                            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 116);
+                            Main.PlaySound(SoundID.Item116, npc.position);
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
@@ -922,7 +922,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             if (Main.netMode == NetmodeID.Server)
             {
-                NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
 

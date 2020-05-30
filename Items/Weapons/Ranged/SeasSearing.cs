@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useTime = 5;
             item.useAnimation = 15;
             item.reuseDelay = 20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
             item.rare = 5;

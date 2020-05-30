@@ -24,7 +24,7 @@ Stealth strikes are faster and explode into 5 bubbles");
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 25;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 25;
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;

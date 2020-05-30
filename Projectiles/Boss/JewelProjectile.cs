@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-			Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+			Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
 			for (int index1 = 0; index1 < 15; ++index1)
 			{
 				int ruby = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 90, projectile.oldVelocity.X, projectile.oldVelocity.Y, 50, new Color(), 1.2f);

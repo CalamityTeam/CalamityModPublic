@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.rare = 5;
             item.useAnimation = 15;
             item.useTime = 15;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 4.5f;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");
             item.autoReuse = true;

@@ -1,4 +1,5 @@
 using CalamityMod.Tiles.Furniture;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.Trophies
 {
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Trophies
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 50000;
             item.rare = 1;

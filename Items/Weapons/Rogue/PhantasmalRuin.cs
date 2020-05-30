@@ -24,7 +24,7 @@ Stealth strikes summon ghost clones instead of lost souls");
 
             item.width = 102;
             item.height = 98;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.noUseGraphic = true;
 

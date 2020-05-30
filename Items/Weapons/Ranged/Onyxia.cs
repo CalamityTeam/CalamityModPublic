@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -26,14 +26,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 34;
             item.useTime = 9;
             item.useAnimation = 9;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4.5f;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
             item.UseSound = SoundID.Item36;
             item.autoReuse = true;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder; // wait why
             item.shootSpeed = 28f;
             item.useAmmo = 97;
             item.Calamity().customRarity = CalamityRarity.Violet;

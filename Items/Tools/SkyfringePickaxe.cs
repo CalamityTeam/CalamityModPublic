@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Tools
             item.useAnimation = 16;
             item.useTurn = true;
             item.pick = 95;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2.5f;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;

@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Pets
 						Main.gore[heart].velocity *= 5f;
 					}
 
-					Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 15); //mouse squeak sound
+					Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 15); //mouse squeak sound
 
 					float radius = 240f; // 15 blocks
 					for (int j = 0; j < Main.maxNPCs; j++)

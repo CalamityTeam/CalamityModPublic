@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (projectile.localAI[1] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 60);
+                Main.PlaySound(SoundID.Item60, projectile.position);
                 projectile.localAI[1] += 1f;
             }
             projectile.alpha -= 40;
@@ -97,7 +97,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 60);
+            Main.PlaySound(SoundID.Item60, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 400;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using System.IO;
 using Terraria;

@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 24;
             item.useAnimation = 24;
             item.useTurn = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;

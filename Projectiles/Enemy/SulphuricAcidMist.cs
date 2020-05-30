@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Enemy
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 111);
+                Main.PlaySound(SoundID.Item111, projectile.position);
             }
             if (projectile.velocity.X < 0f)
             {

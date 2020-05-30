@@ -1,4 +1,4 @@
-﻿
+
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using Terraria;
@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Placeables
         public override void SetDefaults()
         {
             item.createTile = ModContent.TileType<Tiles.AstralBar>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;

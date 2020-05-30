@@ -23,7 +23,7 @@ namespace CalamityMod.Items
             item.height = 30;
             item.useTime = 15;
             item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.value = 0;
             item.rare = 1;

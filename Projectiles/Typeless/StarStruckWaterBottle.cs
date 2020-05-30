@@ -1,7 +1,9 @@
-﻿using CalamityMod.Dusts;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Typeless
 {
     public class StarStruckWaterBottle : ModProjectile
@@ -34,7 +36,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (projectile.owner == Main.myPlayer)
             {
-				Main.PlaySound(13, (int) projectile.position.X, (int) projectile.position.Y, 1, 1f, 0.0f);
+				Main.PlaySound(SoundID.Shatter, (int) projectile.position.X, (int) projectile.position.Y, 1, 1f, 0.0f);
 				for (int index = 0; index < 5; ++index)
 					Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 13, 0f, 0f, 0, new Color(), 1f);
 				for (int index1 = 0; index1 < 30; ++index1)

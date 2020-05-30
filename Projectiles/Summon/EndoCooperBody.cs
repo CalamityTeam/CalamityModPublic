@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Magic;
@@ -315,7 +315,7 @@ namespace CalamityMod.Projectiles.Summon
                         switch (AttackMode)
                         {
                             case 0:
-                                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 15);
+                                    Main.PlaySound(SoundID.Item15, (int)projectile.position.X, (int)projectile.position.Y);
                                     Vector2 aimlaser = objectivepos - projectile.Center;
                                     aimlaser.Normalize();
                                     aimlaser = aimlaser.RotatedBy(MathHelper.ToRadians(30 * -laserdirection));

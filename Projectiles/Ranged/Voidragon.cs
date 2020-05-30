@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.soundDelay == 0)
             {
                 projectile.soundDelay = 150 + Main.rand.Next(40);
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 92);
+                Main.PlaySound(SoundID.Item92, projectile.position);
             }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 12f)
@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<PlasmaExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+            Main.PlaySound(SoundID.Item10, projectile.position);
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 173, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);

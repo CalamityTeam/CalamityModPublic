@@ -33,7 +33,7 @@ namespace CalamityMod.Items.Tools
             item.height = 70;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 9f;
 			item.shootSpeed = 14f;
             item.value = Item.buyPrice(5, 0, 0, 0);
@@ -60,11 +60,11 @@ namespace CalamityMod.Items.Tools
 			if (player.altFunctionUse == 2)
 			{
 				item.pick = PickPower;
-				item.shoot = 0;
+				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
 				item.tileBoost += 50;
 				item.UseSound = SoundID.Item1;
-				item.useStyle = 1;
+				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = 2;
 				item.useAnimation = 10;
 				item.useTurn = true;
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Tools
 				item.shootSpeed = LaserSpeed;
 				item.tileBoost = 0;
 				item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
-				item.useStyle = 5;
+				item.useStyle = ItemUseStyleID.HoldingOut;
 				item.useTime = 20;
 				item.useAnimation = 20;
 				item.useTurn = false;

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables;
 using Microsoft.Xna.Framework;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Tools
             item.useTurn = true;
             item.axe = 30;
             item.hammer = 150;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;

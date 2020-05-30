@@ -1,4 +1,4 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Mounts
             item.height = 20;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.rare = 9;
             item.value = Item.buyPrice(1, 0, 0, 0);
             item.expert = true;

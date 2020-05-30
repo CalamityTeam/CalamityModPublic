@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using System;
 using System.IO;
 using Microsoft.Xna.Framework;
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.OldDuke
 					else
 						npc.velocity = new Vector2(npc.ai[2], npc.ai[3]);
 
-					Main.PlaySound(4, (int)npc.Center.X, (int)npc.Center.Y, 19, 1f, 0f);
+					Main.PlaySound(SoundID.NPCDeath19, npc.position);
 				}
 
 				npc.ai[1] += 1f;
@@ -201,10 +201,10 @@ namespace CalamityMod.NPCs.OldDuke
 		}
 
         public override bool CheckDead()
-        {
-            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 12);
+		{
+			Main.PlaySound(SoundID.NPCDeath12, npc.position);
 
-            npc.position.X = npc.position.X + (npc.width / 2);
+			npc.position.X = npc.position.X + (npc.width / 2);
             npc.position.Y = npc.position.Y + (npc.height / 2);
             npc.width = npc.height = 96;
             npc.position.X = npc.position.X - (npc.width / 2);

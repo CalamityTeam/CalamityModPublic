@@ -1,5 +1,6 @@
-﻿using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Abyss;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Materials
 {
@@ -14,7 +15,7 @@ namespace CalamityMod.Items.Materials
         public override void SetDefaults()
         {
             item.createTile = ModContent.TileType<LumenylCrystals>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;

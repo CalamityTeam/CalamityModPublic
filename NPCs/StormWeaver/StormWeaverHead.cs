@@ -1,4 +1,4 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -154,7 +154,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     npc.netUpdate = true;
                     float xPos = Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f;
                     Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
-                    Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
                 if (BoltCountdown == 0)
                 {
@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.StormWeaver
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                             Vector2 vector94 = Main.player[npc.target].Center - spawn2;
                             float ai = (float)Main.rand.Next(100);
-                            Projectile.NewProjectile(spawn2.X, spawn2.Y, velocity.X, velocity.Y, 466, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
+                            Projectile.NewProjectile(spawn2.X, spawn2.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
                         }
                     }
                 }

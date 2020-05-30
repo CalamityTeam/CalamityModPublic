@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables.Ores;
+using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Materials
         {
             item.createTile = ModContent.TileType<ChaoticBarPlaced>();
 			item.noUseGraphic = true; //no use graphic because animated things swing their entire sheet
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;

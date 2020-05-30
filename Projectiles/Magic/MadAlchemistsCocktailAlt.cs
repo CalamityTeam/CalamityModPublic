@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
             float num52 = 2.5f;
             Vector2 value3 = (0f - 1.57079637f).ToRotationVector2();
             Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20, 1f, 0f);
+            Main.PlaySound(SoundID.Item20, projectile.Center);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = height;
             projectile.Center = projectile.position;

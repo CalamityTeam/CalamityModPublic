@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAnimation = 24;
             item.reuseDelay = 9;
             item.useTime = 4;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2.25f;
             item.value = Item.buyPrice(0, 36, 0, 0);
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.UseSound = null;
             item.autoReuse = true;
             item.shootSpeed = 20f;
-            item.shoot = 587;
+            item.shoot = ProjectileID.PainterPaintball;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 vector2 += new Vector2(num208, num209);
             }
-            Projectile.NewProjectile(position.X, position.Y - player.gravDir * 4f, num208, num209, 587, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(12) / 6f);
+            Projectile.NewProjectile(position.X, position.Y - player.gravDir * 4f, num208, num209, ProjectileID.PainterPaintball, damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(12) / 6f);
             return false;
         }
 

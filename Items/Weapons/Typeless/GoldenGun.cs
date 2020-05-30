@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.height = 36;
             item.useTime = 15;
             item.useAnimation = 15;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 4, 0, 0);

@@ -24,12 +24,12 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useAnimation = 15;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 15;
 			item.knockBack = 3f;
 			item.UseSound = SoundID.Item1;
 			item.autoReuse = true;
-			item.value = Item.buyPrice(0, 80, 0, 0);
+			item.value = Item.buyPrice(gold: 80);
 			item.rare = 8;
 			item.Calamity().customRarity = CalamityRarity.Dedicated;
 			item.shoot = ModContent.ProjectileType<CorpusAvertorProj>();

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -955,7 +955,7 @@ namespace CalamityMod.NPCs.Cryogen
 								int num664 = NPC.NewNPC(x, y, randomSpawn, 0, 0f, 0f, 0f, 0f, 255);
 								if (Main.netMode == NetmodeID.Server && num664 < 200)
 								{
-									NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+									NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
 								}
 							}
 						}
@@ -972,7 +972,7 @@ namespace CalamityMod.NPCs.Cryogen
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/CryoChipGore" + i), 1f);
             }
             currentPhase = newPhase;
-            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 15);
+            Main.PlaySound(SoundID.NPCDeath14, (int)npc.position.X, (int)npc.position.Y);
         }
 
 

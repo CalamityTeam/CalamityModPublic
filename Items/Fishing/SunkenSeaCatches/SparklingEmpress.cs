@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 			item.useTime = 20;
 			item.useAnimation = 20;
 			item.UseSound = SoundID.Item13;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.shootSpeed = 14f;
 			item.shoot = ModContent.ProjectileType<SparklingBeam>();
 			item.value = Item.sellPrice(silver: 40);

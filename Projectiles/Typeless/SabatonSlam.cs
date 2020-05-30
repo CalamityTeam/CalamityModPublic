@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Typeless
 {
     public class SabatonSlam : ModProjectile
@@ -31,7 +33,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
 			//Spawns the shockwave
 			Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<SabatonBoom>(), 300, 12, projectile.owner);
-			Main.PlaySound(2, projectile.position, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             Player player = Main.player[projectile.owner];
             player.Calamity().gSabatonFall = 0;
 			projectile.Kill();

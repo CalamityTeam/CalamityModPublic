@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Mounts;
+using CalamityMod.Buffs.Mounts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

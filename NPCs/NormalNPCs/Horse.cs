@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.Items.Weapons.Melee;
@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             if (npc.life <= 0)
             {
-                Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+                Main.PlaySound(SoundID.Item14, npc.position);
                 npc.position.X = npc.position.X + (float)(npc.width / 2);
                 npc.position.Y = npc.position.Y + (float)(npc.height / 2);
                 npc.width = 160;
@@ -176,7 +176,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 if (npc.localAI[0] >= 300f)
                 {
                     npc.localAI[0] = 0f;
-                    Main.PlaySound(3, (int)(npc.position.X + (float)(npc.width / 2)), (int)(npc.position.Y + (float)(npc.height / 2)), 41);
+                    Main.PlaySound(SoundID.NPCHit43, npc.Center);
                     npc.TargetClosest(true);
                     if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {

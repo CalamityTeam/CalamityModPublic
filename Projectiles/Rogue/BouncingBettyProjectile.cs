@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
         //This is definitely not a near copy of the Blast Barrel nosiree :>
         private void Explode()
         {
-            Main.PlaySound(2, projectile.Center, 14);
+            Main.PlaySound(SoundID.Item, projectile.Center, 14);
             bool stealthS = projectile.Calamity().stealthStrike;
             Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), ModContent.ProjectileType<BettyExplosion>(), projectile.damage, 8f, projectile.owner);
             if (stealthS)
@@ -81,7 +81,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(2, projectile.Center, 14);
+            Main.PlaySound(SoundID.Item, projectile.Center, 14);
             Explode();
             projectile.velocity *= -1f;
         }

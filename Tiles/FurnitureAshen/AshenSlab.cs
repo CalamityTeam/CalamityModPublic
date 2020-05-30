@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class AshenSlab : ModTile
@@ -12,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
             drop = ModContent.ItemType<Items.Placeables.FurnitureAshen.AshenSlab>();
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 5f;
             minPick = 180;
             AddMapEntry(new Color(40, 24, 48));

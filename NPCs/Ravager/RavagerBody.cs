@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -267,7 +267,7 @@ namespace CalamityMod.NPCs.Ravager
                         Vector2 shootFromVector = new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f);
                         int damage = 40;
                         float velocity = CalamityWorld.bossRushActive ? 18f : 12f;
-                        int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, 258, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                        int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, ProjectileID.Fireball, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -304,7 +304,7 @@ namespace CalamityMod.NPCs.Ravager
                         Vector2 shootFromVector = new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f);
                         int damage = 40;
                         float velocity = CalamityWorld.bossRushActive ? -18f : -12f;
-                        int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, 258, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                        int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, ProjectileID.Fireball, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
