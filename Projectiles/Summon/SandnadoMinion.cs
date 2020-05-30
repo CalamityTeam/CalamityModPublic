@@ -103,7 +103,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             Vector2 vector = projectile.position;
-            float num10 = 900f;
+            float num10 = 1200f;
             bool flag = false;
             if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
@@ -157,12 +157,12 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            int num16 = 750;
+            float num16 = 1000f;
             if (flag)
             {
-                num16 = 2000;
+                num16 = 2500f;
             }
-            if (Vector2.Distance(player.Center, projectile.Center) > (float)num16)
+            if (Vector2.Distance(player.Center, projectile.Center) > num16)
             {
                 projectile.ai[0] = 1f;
                 projectile.netUpdate = true;
