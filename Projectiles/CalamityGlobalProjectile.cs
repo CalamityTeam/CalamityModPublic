@@ -2167,15 +2167,12 @@ namespace CalamityMod.Projectiles
             float passiveMvtFloat = 0.5f;
             projectile.tileCollide = false;
             float range = 100f;
-            Vector2 projPos = new Vector2(projectile.Center.X, projectile.Center.Y);
-            float xDist = player.Center.X - projPos.X;
-            float yDist = player.Center.Y - projPos.Y;
-            yDist += Main.rand.NextFloat(-10, 20);
-            xDist += Main.rand.NextFloat(-10, 20);
+			Vector2 playerVector = player.Center - projectile.Center;
+            playerVector.Y += Main.rand.NextFloat(-10f, 20f);
+            playerVector.X += Main.rand.NextFloat(-10f, 20f);
 			//Light pets lead the player, normal pets trail the player
-            xDist += 60f * (lightPet ? (float)player.direction : -(float)player.direction);
-            yDist -= 60f;
-			Vector2 playerVector = new Vector2(xDist, yDist);
+            playerVector.X += 60f * (lightPet ? player.direction : -player.direction);
+            playerVector.Y -= 60f;
             float playerDist = playerVector.Length();
             float returnSpeed = 18f;
 
