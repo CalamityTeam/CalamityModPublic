@@ -10,32 +10,51 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class Photoviscerator : ModItem
     {
+        public const int CooldownTime = 60 * 7; // 7 second cooldown.
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Photoviscerator");
             Tooltip.SetDefault("90% chance to not consume gel\n" +
-                "Fires a stream of exo flames that literally melts everything");
+                "Fires a stream of exo flames and light that explodes into homing sparks\n" +
+                "Right click to fire homing flares which stick to enemies and incinerate them");
         }
 
         public override void SetDefaults()
         {
-            item.damage = 250;
+            item.damage = 230;
             item.ranged = true;
             item.width = 84;
             item.height = 30;
             item.useTime = 2;
             item.useAnimation = 10;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item34;
             item.value = Item.buyPrice(2, 50, 0, 0);
             item.rare = 10;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<ExoFire>();
             item.shootSpeed = 6f;
-            item.useAmmo = 23;
+            item.useAmmo = AmmoID.Gel;
             item.Calamity().customRarity = CalamityRarity.Violet;
+        }
+
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override bool CanUseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                item.shoot = ModContent.ProjectileType<ExoLightBurst>();
+                item.useTime = item.useAnimation = 27;
+            }
+            else
+            {
+                item.useTime = 2;
+                item.useAnimation = 10;
+                item.shoot = ModContent.ProjectileType<ExoFire>();
+            }
+            return base.CanUseItem(player);
         }
 
         public override Vector2? HoldoutOffset()
@@ -45,11 +64,33 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int i = 0; i < 2; i++)
+            if (player.altFunctionUse == 2)
             {
-                float SpeedX = speedX + (float)Main.rand.Next(-5, 6) * 0.05f;
-                float SpeedY = speedY + (float)Main.rand.Next(-5, 6) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                Vector2 velocity = new Vector2(speedX, speedY);
+                position += velocity.ToRotation().ToRotationVector2() * 80f;
+                Projectile.NewProjectile(position, velocity.SafeNormalize(Vector2.Zero) * 17f, ModContent.ProjectileType<ExoLightBurst>(), damage * 3, knockBack, player.whoAmI);
+            }
+            else
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Vector2 velocity = new Vector2(speedX, speedY).RotatedByRandom(0.05f);
+                    Projectile.NewProjectile(position, velocity, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
+                }
+                if (Main.rand.NextBool(8))
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        Vector2 velocity = new Vector2(speedX, speedY) * 2f;
+                        position += velocity.ToRotation().ToRotationVector2() * 64f;
+                        int yDirection = (i == 0).ToDirectionInt();
+                        velocity = velocity.RotatedBy(0.2f * yDirection);
+                        Projectile lightBomb = Projectile.NewProjectileDirect(position, velocity, ModContent.ProjectileType<ExoLightBomb>(), damage, knockBack, player.whoAmI);
+
+                        lightBomb.localAI[1] = yDirection;
+                        lightBomb.netUpdate = true;
+                    }
+                }
             }
             return false;
         }
