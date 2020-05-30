@@ -41,10 +41,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             item.useStyle = 1;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void RightClick(Player player)
         {
@@ -65,7 +62,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             }
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAstrageldon, 0.2f,
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAstrageldon,
                 ModContent.ItemType<StellarKnife>(),
                 ModContent.ItemType<AstralachneaStaff>(),
                 ModContent.ItemType<TitanArm>(),

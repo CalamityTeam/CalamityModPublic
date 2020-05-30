@@ -1,5 +1,6 @@
 ﻿using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -15,6 +16,7 @@ namespace CalamityMod.Items.Accessories
                 "Increased minion knockback\n" +
                 "Grants shadowflame powers to all minions\n" +
                 "Minions make enemies cry on hit");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
 
         public override void SetDefaults()

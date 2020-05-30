@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Accessories
 				}
 				if (player.ownedProjectileCounts[ProjectileType<HowlsHeartHowl>()] < 1)
 				{
-					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ProjectileType<HowlsHeartHowl>(), (int)(HowlDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -1f, ProjectileType<HowlsHeartHowl>(), (int)(HowlDamage * player.MinionDamage()), 1f, player.whoAmI, 0f, 1f);
 				}
 				if (player.ownedProjectileCounts[ProjectileType<HowlsHeartCalcifer>()] < 1)
 				{

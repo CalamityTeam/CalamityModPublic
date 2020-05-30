@@ -8,8 +8,8 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ancient Medallion");
-            Tooltip.SetDefault("A very old temple medallion\n" +
+            DisplayName.SetDefault("Death Whistle");
+            Tooltip.SetDefault("A very old temple whistle\n" +
                 "Summons the Ravager");
         }
 
@@ -35,7 +35,7 @@ namespace CalamityMod.Items.SummonItems
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-100, 101)), (int)(player.position.Y - 250f), ModContent.NPCType<RavagerBody>(), 0, 0f, 0f, 0f, 0f, 255);
-                Main.PlaySound(SoundID.Roar, player.position, 0);
+                Main.PlaySound(SoundID.Roar, player.position, 2);
             }
             return true;
         }

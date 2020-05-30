@@ -220,7 +220,8 @@ namespace CalamityMod
                 ItemID.SonarPotion,
                 ItemID.GenderChangePotion,
                 ItemID.LovePotion,
-                ItemID.StinkPotion
+                ItemID.StinkPotion,
+                ItemID.RecallPotion
             };
             ModRecipe r;
 

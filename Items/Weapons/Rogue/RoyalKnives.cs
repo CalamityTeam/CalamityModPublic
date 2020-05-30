@@ -93,7 +93,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 num149 *= num80;
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
-                Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int knife = Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 0f);
+				Main.projectile[knife].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             }
             return false;
         }

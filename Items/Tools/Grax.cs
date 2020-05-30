@@ -15,7 +15,8 @@ namespace CalamityMod.Items.Tools
 
         public override void SetDefaults()
         {
-            item.width = 60;
+            item.width = 62;
+            item.height = 62;
             item.damage = 500;
             item.melee = true;
             item.useAnimation = 16;
@@ -27,7 +28,6 @@ namespace CalamityMod.Items.Tools
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 60;
             item.tileBoost += 5;
             item.value = Item.buyPrice(1, 20, 0, 0);
             item.rare = 10;

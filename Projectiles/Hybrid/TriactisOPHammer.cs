@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Hybrid
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.extraUpdates = 3;
-            projectile.Calamity().rogue = true;
+            projectile.melee = true;
         }
 
         public override void AI()

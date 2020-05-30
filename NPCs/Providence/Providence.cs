@@ -1307,7 +1307,7 @@ namespace CalamityMod.NPCs.Providence
             {
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<UnholyEssence>(), 20, 30);
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<DivineGeode>(), 10, 15);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<DivineGeode>(), 15, 20);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<HolyCollider>(), 4);

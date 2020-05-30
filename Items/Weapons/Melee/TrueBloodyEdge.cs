@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy)
+            if (target.type == NPCID.TargetDummy || player.moonLeech)
             {
                 return;
             }
@@ -67,6 +67,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+			if (player.moonLeech)
+				return;
             int healAmount = Main.rand.Next(6) + 1;
             if (Main.rand.NextBool(2))
             {

@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 target.defense -= 15;
             }
-            if (target.defense <= 0 && target.canGhostHeal)
+            if (target.defense <= 0 && target.canGhostHeal && !player.moonLeech)
             {
                 player.statLife += 4;
                 player.HealEffect(4);
@@ -58,7 +58,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), knockback, player.whoAmI);
             }
-            if (target.life <= 0)
+            if (target.life <= 0 && !player.moonLeech)
             {
                 float randomSpeedX = (float)Main.rand.Next(9);
                 float randomSpeedY = (float)Main.rand.Next(6, 15);
@@ -79,7 +79,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, randomSpeedX, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)(item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), item.knockBack, player.whoAmI);
                 Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, -randomSpeedY, ModContent.ProjectileType<RainBolt>(), (int)((float)item.damage * (player.allDamage + player.meleeDamage - 1f) * 0.75f), item.knockBack, player.whoAmI);
             }
-            if (target.statLife <= 0)
+            if (target.statLife <= 0 && !player.moonLeech)
             {
                 float randomSpeedX = (float)Main.rand.Next(9);
                 float randomSpeedY = (float)Main.rand.Next(6, 15);
