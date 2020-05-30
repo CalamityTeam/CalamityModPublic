@@ -130,7 +130,7 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.BlizzardStaff)
                 item.damage = (int)(item.damage * 0.7);
             else if (item.type == ItemID.LaserMachinegun)
-                item.damage = (int)(item.damage * 0.6);
+                item.damage = (int)(item.damage * 0.65);
             else if (item.type == ItemID.StardustDragonStaff)
                 item.damage = (int)(item.damage * 0.5);
 
