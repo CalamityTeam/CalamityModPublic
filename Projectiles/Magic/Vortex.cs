@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
         public const float MaximumTargetDistance = 1200f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Vortex");
+            DisplayName.SetDefault("Subsuming Vortex");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 20;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
