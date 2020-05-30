@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         public override void SafeSetDefaults()
         {
             item.width = 22;
-            item.damage = 8;
+            item.damage = 11;
             item.noMelee = true;
             item.consumable = true;
             item.noUseGraphic = true;
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.autoReuse = true;
             item.height = 38;
             item.maxStack = 999;
-            item.value = 100;
+            item.value = Item.buyPrice(0, 0, 1, 0);
             item.rare = 1;
             item.shoot = ModContent.ProjectileType<WulfrumKnifeProj>();
             item.shootSpeed = 12f;

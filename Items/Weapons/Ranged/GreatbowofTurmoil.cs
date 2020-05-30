@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 27;
+            item.damage = 31;
             item.ranged = true;
             item.width = 18;
             item.height = 36;
@@ -38,26 +38,26 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num117 = 0.314159274f;
-            int num118 = 3;
-            Vector2 vector7 = new Vector2(speedX, speedY);
-            vector7.Normalize();
-            vector7 *= 40f;
-            bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
-            for (int num119 = 0; num119 < num118; num119++)
+            Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
+            float piOverTen = MathHelper.Pi * 0.1f;
+            int arrowAmt = 3;
+            Vector2 velocity = new Vector2(speedX, speedY);
+            velocity.Normalize();
+            velocity *= 40f;
+            bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
+            for (int projIndex = 0; projIndex < arrowAmt; projIndex++)
             {
-                float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
-                if (!flag11)
+                float num120 = (float)projIndex - ((float)arrowAmt - 1f) / 2f;
+                Vector2 offset = velocity.RotatedBy((double)(piOverTen * num120), default);
+                if (!canHit)
                 {
-                    value9 -= vector7;
+                    offset -= velocity;
                 }
 				if (type == ProjectileID.WoodenArrowFriendly)
 				{
 					type = ProjectileID.FireArrow;
 				}
-                int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
+                int num121 = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[num121].noDropItem = true;
             }
             for (int i = 0; i < 2; i++)
@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                     default:
                         break;
                 }
-                int index = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.5f), knockBack, player.whoAmI, 0f, 0f);
+                int index = Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, (int)(damage * 0.5f), knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[index].noDropItem = true;
                 Main.projectile[index].usesLocalNPCImmunity = true;
                 Main.projectile[index].localNPCHitCooldown = 10;

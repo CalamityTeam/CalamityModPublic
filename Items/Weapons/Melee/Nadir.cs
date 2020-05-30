@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Nadir : ModItem
     {
-        public static int BaseDamage = 800;
+        public static int BaseDamage = 700;
         public static float ShootSpeed = 12f;
 
         public override void SetStaticDefaults()

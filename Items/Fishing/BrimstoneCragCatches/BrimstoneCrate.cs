@@ -31,10 +31,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
             item.useStyle = 1;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void RightClick(Player player)
         {

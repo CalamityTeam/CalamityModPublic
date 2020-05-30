@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Asgard's Valor");
             Tooltip.SetDefault("Grants immunity to fire blocks and knockback\n" +
-                "Immune to most debuffs including Brimstone Flames, Holy Flames, and Glacial State\n" +
+                "Immune to most debuffs including Brimstone Flames, and Glacial State\n" +
                 "10% damage reduction while submerged in liquid\n" +
                 "+20 max life\n" +
                 "Grants a holy dash which can be used to ram enemies\n" +
@@ -51,7 +51,6 @@ namespace CalamityMod.Items.Accessories
             player.buffImmune[BuffID.Cursed] = true;
             player.buffImmune[BuffID.Darkness] = true;
             player.buffImmune[ModContent.BuffType<BrimstoneFlames>()] = true;
-            player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
             player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
             player.statLifeMax2 += 20;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))

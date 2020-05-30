@@ -63,10 +63,7 @@ namespace CalamityMod.Items.Weapons.Melee
             return false;
         }
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+		public override bool AltFunctionUse(Player player) => true;
 
 		public override bool CanUseItem(Player player)
 		{
@@ -157,7 +154,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.Ichor, 240);
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
             {
                 return;
             }
@@ -177,6 +174,8 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.Ichor, 240);
+			if (player.moonLeech)
+				return;
             int healAmount = Main.rand.Next(10) + 10;
             player.statLife += healAmount;
             player.HealEffect(healAmount);

@@ -121,6 +121,7 @@ namespace CalamityMod
         public static Texture2D AstralSky;
         public static Effect CustomShader;
         public static Effect LightShader;
+        public static Effect TentacleShader;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
@@ -286,6 +287,7 @@ namespace CalamityMod
             AstralSky = ModContent.GetTexture("CalamityMod/ExtraTextures/AstralSky");
             CustomShader = GetEffect("Effects/CustomShader");
             LightShader = GetEffect("Effects/LightBurstShader");
+            TentacleShader = GetEffect("Effects/TentacleShader");
 
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -319,6 +321,8 @@ namespace CalamityMod
 
             Filters.Scene["CalamityMod:LightBurst"] = new Filter(new ScreenShaderData(new Ref<Effect>(LightShader), "BurstPass"), EffectPriority.VeryHigh);
             Filters.Scene["CalamityMod:LightBurst"].Load();
+
+            GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
 
             RipperUI.Reset();
             AstralArcanumUI.Load(this);
@@ -638,7 +642,9 @@ namespace CalamityMod
                 ModContent.ProjectileType<MagnomalyBeam>(),
                 ModContent.ProjectileType<MagnomalyAura>(),
                 ModContent.ProjectileType<RainbowTrail>(),
-                ModContent.ProjectileType<PrismaticBeam>()
+                ModContent.ProjectileType<PrismaticBeam>(),
+                ModContent.ProjectileType<ExoLight>(),
+                ModContent.ProjectileType<ExoLightBomb>()
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -1297,7 +1303,9 @@ namespace CalamityMod
                 ItemID.WaspGun,
                 ItemID.Keybrand,
                 ItemID.PulseBow,
-                ItemID.PaladinsHammer
+                ItemID.PaladinsHammer,
+                ItemID.SolarEruption,
+                ItemID.DayBreak
             };
 
             thirtyThreeDamageBuffList = new List<int>()
@@ -1376,7 +1384,8 @@ namespace CalamityMod
                 ItemID.DD2BetsyBow,
                 ItemID.InfluxWaver,
                 ItemID.Xenopopper,
-                ItemID.ElectrosphereLauncher
+                ItemID.ElectrosphereLauncher,
+                ItemID.OpticStaff //Note: got local i frames so it should be better
             };
 
             pumpkinMoonBuffList = new List<int>()

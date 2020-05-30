@@ -40,8 +40,7 @@ namespace CalamityMod.Items.Potions
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<Shadowfish>());
             recipe.AddIngredient(ItemID.InvisibilityPotion);
-            recipe.AddIngredient(ItemID.AlchemyTable);
-            recipe.AddTile(TileID.Bottles);
+            recipe.AddTile(TileID.AlchemyTable);
             recipe.SetResult(this, 2);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);

@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Hybrid
             projectile.timeLeft = 600;
             projectile.alpha = 55;
             aiType = ProjectileID.WoodenBoomerang;
-            projectile.Calamity().rogue = true;
+            projectile.melee = true;
         }
 
         public override void AI()
@@ -57,7 +57,10 @@ namespace CalamityMod.Projectiles.Hybrid
             if (projectile.owner == Main.myPlayer)
             {
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[proj].Calamity().forceRogue = true;
+				if (projectile.melee)
+					Main.projectile[proj].Calamity().forceMelee = true;
+				else
+					Main.projectile[proj].Calamity().forceRogue = true;
             }
         }
 
@@ -67,7 +70,10 @@ namespace CalamityMod.Projectiles.Hybrid
             if (projectile.owner == Main.myPlayer)
             {
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[proj].Calamity().forceRogue = true;
+				if (projectile.melee)
+					Main.projectile[proj].Calamity().forceMelee = true;
+				else
+					Main.projectile[proj].Calamity().forceRogue = true;
             }
         }
     }

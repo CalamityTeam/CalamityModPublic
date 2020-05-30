@@ -9,6 +9,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -627,6 +628,7 @@ namespace CalamityMod.NPCs.Leviathan
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Atlantis>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BrackishFlask>(), 4);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanTeeth>(), 4);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<GastricBelcherStaff>(), 4);
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<LureofEnthrallment>(), 4);

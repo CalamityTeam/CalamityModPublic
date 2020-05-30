@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override void SafeSetDefaults()
 		{
-			item.damage = 100;
+			item.damage = 108;
 			item.shootSpeed = 15f;
 			item.shoot = ModContent.ProjectileType<ApoctolithProj>();
 			item.width = 66;

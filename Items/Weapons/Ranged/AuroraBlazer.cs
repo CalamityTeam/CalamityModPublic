@@ -18,10 +18,10 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 101;
+            item.damage = 49;
             item.ranged = true;
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = 18;
+            item.useAnimation = 18;
             item.knockBack = 2f;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<AuroraFire>();
