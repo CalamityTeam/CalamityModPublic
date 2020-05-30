@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Magic
         public const float MaxEnemyDistance = 1450f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tentacle");
+            DisplayName.SetDefault("Exo Tentacle");
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 75;
         }
