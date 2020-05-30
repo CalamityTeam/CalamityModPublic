@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Weapons.Melee
 {
 	public class Murasama : ModItem
@@ -24,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
 		{
 			item.height = 128;
 			item.width = 56;
-			item.damage = 999;
+			item.damage = 20001;
 			item.crit += 30;
 			item.melee = true;
 			item.noMelee = true;
@@ -43,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 14));
 		}
 
-		private Rectangle getCurrentFrame()
+		internal Rectangle GetCurrentFrame()
 		{
 			//0 = 6 frames, 8 = 3 frames]
 			int applicableCounter = frame == 0 ? 36 : frame == 8 ? 24 : 6;
@@ -53,25 +55,21 @@ namespace CalamityMod.Items.Weapons.Melee
 				frameCounter = -1;
 				frame = frame == 13 ? 0 : frame + 1;
 			}
-
-			//if (!Main.gamePaused)
-			//{
-				frameCounter++;
-			//}
+			frameCounter++;
 			return new Rectangle(0, item.height * frame, item.width, item.height);
 		}
 
 		public override bool PreDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
 		{
-			Texture2D tex = ModContent.GetTexture(Texture);
-			spriteBatch.Draw(tex, position, getCurrentFrame(), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
+			Texture2D texture = ModContent.GetTexture(Texture);
+			spriteBatch.Draw(texture, position, GetCurrentFrame(), Color.White, 0f, origin, scale, SpriteEffects.None, 0);
 			return false;
 		}
 
 		public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
-			Texture2D tex = ModContent.GetTexture(Texture);
-			spriteBatch.Draw(tex, item.position - Main.screenPosition + new Vector2(), getCurrentFrame(), Color.White, 0f, new Vector2(), 1f, SpriteEffects.None, 0);
+			Texture2D texture = ModContent.GetTexture(Texture);
+			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
 			return false;
 		}
 
