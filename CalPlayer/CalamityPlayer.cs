@@ -14,6 +14,7 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
@@ -228,6 +229,7 @@ namespace CalamityMod.CalPlayer
         public bool stealthStrikeHalfCost = false;
         public bool stealthStrikeAlwaysCrits = false;
         public bool wearingRogueArmor = false;
+        public float accStealthGenBoost = 0f;
 
         public float throwingDamage = 1f;
         public float throwingVelocity = 1f;
@@ -1281,6 +1283,7 @@ namespace CalamityMod.CalPlayer
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
+			accStealthGenBoost = 0f;
 
             dashMod = 0;
             externalAbyssLight = 0;
@@ -9841,6 +9844,10 @@ namespace CalamityMod.CalPlayer
 
             if (etherealExtorter && Main.moonPhase == 3) // 3 = Waning Crescent
                 stealthGenStandstill += 0.15f;
+
+			//Accessory modifiers can boost these stats
+			stealthGenStandstill += accStealthGenBoost;
+			stealthGenMoving += accStealthGenBoost;
 
             //
             // Other code which affects stealth generation goes here.

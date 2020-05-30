@@ -32,6 +32,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.Utilities;
 
 namespace CalamityMod.Items
 {
@@ -55,17 +56,33 @@ namespace CalamityMod.Items
         }
         #endregion
 
-        public bool rogue = false;
+		public bool rogue = false;
+		public float StealthGenBonus;
 
-        public int timesUsed = 0;
+		public int timesUsed = 0;
 
-        // Rarity is provided both as the classic int and the new enum.
-        public CalamityRarity customRarity = CalamityRarity.NoEffect;
-        public int postMoonLordRarity 
-        {
-            get => (int)customRarity;
-            set => customRarity = (CalamityRarity)value;
-        }
+		// Rarity is provided both as the classic int and the new enum.
+		public CalamityRarity customRarity = CalamityRarity.NoEffect;
+		public int postMoonLordRarity 
+		{
+			get => (int)customRarity;
+			set => customRarity = (CalamityRarity)value;
+		}
+
+		///See RogueWeapon.cs for rogue modifier shit
+		#region Modifiers
+		public CalamityGlobalItem()
+		{
+			StealthGenBonus = 1f;
+		}
+
+		public override GlobalItem Clone(Item item, Item itemClone)
+		{
+			CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
+			myClone.StealthGenBonus = StealthGenBonus;
+			return myClone;
+		}
+		#endregion
 
         #region SetDefaults
         public override void SetDefaults(Item item)
@@ -965,6 +982,7 @@ namespace CalamityMod.Items
         #region Modify Tooltips
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
+			#region Custom Rarities#
             TooltipLine tt2 = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
             if (tt2 != null)
             {
@@ -1086,6 +1104,25 @@ namespace CalamityMod.Items
                         break;
                 }
             }
+			#endregion
+
+			#region Accessory Modifier Display
+			if (item.accessory)
+			{
+				if (!item.social && item.prefix > 0)
+				{
+					float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
+					if (stealthGenBoost > 0)
+					{
+						TooltipLine StealthGen = new TooltipLine(mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
+						{
+							isModifier = true
+						};
+						tooltips.Add(StealthGen);
+					}
+				}
+			}
+			#endregion
 
 			/*if (item.ammo == 97)
             {
@@ -2954,6 +2991,15 @@ Provides heat and cold protection in Death Mode";
         public override void UpdateAccessory(Item item, Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
+
+			if (item.prefix > 0)
+			{
+				float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
+				if (stealthGenBoost > 0)
+				{
+					modPlayer.accStealthGenBoost += stealthGenBoost;
+				}
+			}
 
             if (item.type == ItemID.FireGauntlet)
             {
