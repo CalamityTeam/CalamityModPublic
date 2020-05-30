@@ -71,7 +71,33 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.TargetClosest(false);
                 npc.localAI[0] = 1f;
             }
+
+            // Anti-sticky movement and player targeting detection (only one leech and attack the player at once)
             Player player = Main.player[npc.target];
+            bool playerAlreadyTargeted = false;
+            float antiStickyAcceleration = 0.25f;
+            for (int i = 0; i < Main.npc.Length; i++)
+            {
+                if (Main.npc[i].type == npc.type &&
+                    Main.npc[i].whoAmI != npc.whoAmI &&
+                    Main.npc[i].active)
+                {
+                    if (Main.npc[i].target == npc.target && !playerAlreadyTargeted)
+                    {
+                        playerAlreadyTargeted = true;
+                    }
+                    if (Main.npc[i].Hitbox.Intersects(npc.Hitbox))
+                    {
+                        npc.velocity += npc.DirectionFrom(Main.npc[i].Center) * antiStickyAcceleration;
+                    }
+                }
+            }
+
+            if (!playerAlreadyTargeted || player.Calamity().waterLeechTarget == -1)
+            {
+                player.Calamity().waterLeechTarget = npc.whoAmI;
+            }
+
             // Latch onto player
             if (npc.ai[0] == 1f)
             {
@@ -114,14 +140,14 @@ namespace CalamityMod.NPCs.AcidRain
                     npc.netUpdate = true;
                 }
             }
-            else if (player.wet)
+            else if (player.wet && player.Calamity().waterLeechTarget == npc.whoAmI)
             {
-                float speed = player.wet ? 23f : 15f;
+                float speed = player.wet ? 23f : 17f;
                 float swimIntertia = 24f;
                 if (CalamityWorld.downedPolterghast)
                 {
                     speed *= 1.6f;
-                    swimIntertia = 13f;
+                    swimIntertia = 17f;
                 }
                 npc.velocity = (npc.velocity * (swimIntertia - 1f) + npc.DirectionTo(player.Center) * speed) / swimIntertia;
             }

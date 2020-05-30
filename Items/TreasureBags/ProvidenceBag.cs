@@ -45,7 +45,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<UnholyEssence>(), 25, 35);
-            DropHelper.DropItem(player, ModContent.ItemType<DivineGeode>(), 15, 25);
+            DropHelper.DropItem(player, ModContent.ItemType<DivineGeode>(), 20, 30);
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<HolyCollider>(), 3);

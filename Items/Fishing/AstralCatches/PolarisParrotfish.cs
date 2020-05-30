@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
 
         public override void SetDefaults()
         {
-            item.damage = 60;
+            item.damage = 55;
             item.ranged = true;
             item.width = 38;
             item.height = 34;

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 20;
+            item.damage = 15;
             item.magic = true;
             item.mana = 7;
             item.width = 34;
@@ -31,64 +31,60 @@ namespace CalamityMod.Items.Weapons.Magic
             item.rare = 2;
             item.UseSound = SoundID.Item8;
             item.autoReuse = true;
-            item.shoot = 590;
+            item.shoot = ProjectileID.TruffleSpore;
             item.shootSpeed = 1f;
         }
 
-        public override Vector2? HoldoutOrigin()
-        {
-            return new Vector2(15, 15);
-        }
+        public override Vector2? HoldoutOrigin() => new Vector2(15, 15);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int i = Main.myPlayer;
-            float num72 = item.shootSpeed;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            Vector2 value = Vector2.UnitX.RotatedBy((double)player.fullRotation, default);
-            Vector2 vector3 = Main.MouseWorld + vector2;
-            float num78 = (float)Main.mouseX + Main.screenPosition.X + vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y + vector2.Y;
+            float speed = item.shootSpeed;
+            Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
+            float xDist = (float)Main.mouseX + Main.screenPosition.X + source.X;
+            float yDist = (float)Main.mouseY + Main.screenPosition.Y + source.Y;
+			Vector2 spawnVec = new Vector2(xDist, yDist);
             if (player.gravDir == -1f)
             {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight + (float)Main.mouseY + vector2.Y;
+                spawnVec.Y = Main.screenPosition.Y + (float)Main.screenHeight + (float)Main.mouseY + source.Y;
             }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            float distance = spawnVec.Length();
+            if ((float.IsNaN(spawnVec.X) && float.IsNaN(spawnVec.Y)) || (spawnVec.X == 0f && spawnVec.Y == 0f))
             {
-                num78 = (float)player.direction;
-                num79 = 0f;
-                num80 = num72;
+                spawnVec.X = (float)player.direction;
+                spawnVec.Y = 0f;
+                distance = speed;
             }
             else
             {
-                num80 = num72 / num80;
+                distance = speed / distance;
             }
 
-            int num107 = 3;
-            for (int num108 = 0; num108 < num107; num108++)
+            int projAmt = 3;
+            for (int projIndex = 0; projIndex < projAmt; projIndex++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
-                vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-100, 101);
-                vector2.Y -= (float)(50 * num108);
-                num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-                num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-                if (num79 < 0f)
+                source = new Vector2(player.Center.X + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y);
+                source.X = (source.X + player.Center.X) / 2f + (float)Main.rand.Next(-100, 101);
+                source.Y -= (float)(50 * projIndex);
+                spawnVec.X = (float)Main.mouseX + Main.screenPosition.X - source.X;
+                spawnVec.Y = (float)Main.mouseY + Main.screenPosition.Y - source.Y;
+                if (spawnVec.Y < 0f)
                 {
-                    num79 *= -1f;
+                    spawnVec.Y *= -1f;
                 }
-                if (num79 < 20f)
+                if (spawnVec.Y < 20f)
                 {
-                    num79 = 20f;
+                    spawnVec.Y = 20f;
                 }
-                num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-                num80 = num72 / num80;
-                num78 *= num80;
-                num79 *= num80;
-                float speedX4 = num78 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                float speedY5 = num79 + (float)Main.rand.Next(-180, 181) * 0.02f;
-                int proj = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, damage, knockBack, i, 0f, (float)Main.rand.Next(3));
+                distance = spawnVec.Length();
+                distance = speed / distance;
+                spawnVec.X *= distance;
+                spawnVec.Y *= distance;
+                spawnVec.X += (float)Main.rand.Next(-180, 181) * 0.02f;
+                spawnVec.Y += (float)Main.rand.Next(-180, 181) * 0.02f;
+                int proj = Projectile.NewProjectile(source, spawnVec, type, damage, knockBack, player.whoAmI, 0f, Main.rand.Next(3));
                 Main.projectile[proj].Calamity().forceMagic = true;
+                Main.projectile[proj].timeLeft = CalamityUtils.SecondsToFrames(8f);
             }
             return false;
         }

@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dreadmine Turret");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
         }
 
@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 1)
+            if (projectile.frame >= Main.projFrames[projectile.type])
             {
                 projectile.frame = 0;
             }

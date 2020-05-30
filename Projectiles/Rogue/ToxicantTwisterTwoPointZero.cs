@@ -58,52 +58,50 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.PlaySound(SoundID.Item7, projectile.position);
             }
 
-            // Returns after some number of frames in the air
-            if (projectile.timeLeft < lifeTime - 180)
+            // Returns after 2.5 seconds in the air
+            if (projectile.timeLeft < lifeTime - 150)
                 projectile.ai[0] = 1f;
 
             if (projectile.ai[0] != 0f)
             {
-                float returnSpeed = 18f * 1.6f;
+                float returnSpeed = 30f;
                 float acceleration = 1.4f;
 
                 Player owner = Main.player[projectile.owner];
 
                 // Delete the projectile if it's excessively far away.
-                Vector2 playerCenter = owner.Center;
-                float xDist = playerCenter.X - projectile.Center.X;
-                float yDist = playerCenter.Y - projectile.Center.Y;
-                float dist = (float)Math.Sqrt((double)(xDist * xDist + yDist * yDist));
+				Vector2 projVector = owner.Center - projectile.Center;
+                float dist = projVector.Length();
                 if (dist > 3000f)
                     projectile.Kill();
 
                 dist = returnSpeed / dist;
-                xDist *= dist;
-                yDist *= dist;
+                projVector.X *= dist;
+                projVector.Y *= dist;
 
                 // Home back in on the player.
-                if (projectile.velocity.X < xDist)
+                if (projectile.velocity.X < projVector.X)
                 {
-                    projectile.velocity.X = projectile.velocity.X + acceleration;
-                    if (projectile.velocity.X < 0f && xDist > 0f)
+                    projectile.velocity.X += acceleration;
+                    if (projectile.velocity.X < 0f && projVector.X > 0f)
                         projectile.velocity.X += acceleration;
                 }
-                else if (projectile.velocity.X > xDist)
+                else if (projectile.velocity.X > projVector.X)
                 {
-                    projectile.velocity.X = projectile.velocity.X - acceleration;
-                    if (projectile.velocity.X > 0f && xDist < 0f)
+                    projectile.velocity.X -= acceleration;
+                    if (projectile.velocity.X > 0f && projVector.X < 0f)
                         projectile.velocity.X -= acceleration;
                 }
-                if (projectile.velocity.Y < yDist)
+                if (projectile.velocity.Y < projVector.Y)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + acceleration;
-                    if (projectile.velocity.Y < 0f && yDist > 0f)
+                    projectile.velocity.Y += acceleration;
+                    if (projectile.velocity.Y < 0f && projVector.Y > 0f)
                         projectile.velocity.Y += acceleration;
                 }
-                else if (projectile.velocity.Y > yDist)
+                else if (projectile.velocity.Y > projVector.Y)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - acceleration;
-                    if (projectile.velocity.Y > 0f && yDist < 0f)
+                    projectile.velocity.Y -= acceleration;
+                    if (projectile.velocity.Y > 0f && projVector.Y < 0f)
                         projectile.velocity.Y -= acceleration;
                 }
 
@@ -120,6 +118,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+			if (projectile.penetrate < 3)
+				projectile.ai[0] = 1f;
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
             for (int k = 0; k < 10; k++)
@@ -132,6 +132,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+			if (projectile.penetrate < 3)
+				projectile.ai[0] = 1f;
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
             Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
             for (int k = 0; k < 10; k++)

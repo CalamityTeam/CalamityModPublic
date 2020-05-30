@@ -183,7 +183,6 @@ namespace CalamityMod.Projectiles.Hybrid
                 float laserSpeed = Main.rand.NextFloat(15f, 18f);
                 Vector2 velocity = startDir * (-laserSpeed);
 
-                // NebulaShot projectile adjusts its own damage type based on ai[0]
                 if (projectile.owner == Main.myPlayer)
                 {
                     int proj = Projectile.NewProjectile(startPoint, velocity, laserID, laserDamage, laserKB, projectile.owner);

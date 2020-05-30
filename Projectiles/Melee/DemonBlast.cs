@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,46 +14,52 @@ namespace CalamityMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blast");
+            DisplayName.SetDefault("Devil Fork");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 30;
+            projectile.height = 30;
             projectile.friendly = true;
-            projectile.aiStyle = 1;
             projectile.penetrate = -1;
             projectile.extraUpdates = 5;
             projectile.tileCollide = false;
             projectile.melee = true;
+			projectile.alpha = 180;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
+			projectile.timeLeft = 300;
         }
 
         public override void AI()
         {
-            if (projectile.ai[1] != -1f && projectile.position.Y > projectile.ai[1])
-            {
-                projectile.tileCollide = true;
-            }
+			int dustType = Utils.SelectRandom(Main.rand, new int[]
+			{
+				173,
+				(int)CalamityDusts.Brimstone,
+				172
+			});
             if (projectile.position.HasNaNs())
             {
                 projectile.Kill();
                 return;
             }
-            bool flag5 = WorldGen.SolidTile(Framing.GetTileSafely((int)projectile.position.X / 16, (int)projectile.position.Y / 16));
-            Dust dust6 = Main.dust[Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 0, default, 1f)];
-            dust6.position = projectile.Center;
-            dust6.velocity = Vector2.Zero;
-            dust6.noGravity = true;
-            if (flag5)
+            bool tileCheck = WorldGen.SolidTile(Framing.GetTileSafely((int)projectile.position.X / 16, (int)projectile.position.Y / 16));
+            Dust dust = Main.dust[Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f)];
+            dust.position = projectile.Center;
+            dust.velocity = Vector2.Zero;
+            dust.noGravity = true;
+            if (tileCheck)
             {
-                dust6.noLight = true;
+                dust.noLight = true;
             }
             if (projectile.ai[1] == -1f)
             {
                 projectile.ai[0] += 1f;
                 projectile.velocity = Vector2.Zero;
-                projectile.tileCollide = false;
                 projectile.penetrate = -1;
                 projectile.position = projectile.Center;
                 projectile.width = projectile.height = 140;
@@ -58,36 +69,32 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     projectile.alpha = 0;
                 }
-                if (++projectile.frameCounter >= projectile.MaxUpdates * 3)
-                {
-                    projectile.frameCounter = 0;
-                    projectile.frame++;
-                }
-                if (projectile.ai[0] >= (float)(Main.projFrames[projectile.type] * projectile.MaxUpdates * 3))
+                if (projectile.ai[0] >= projectile.MaxUpdates * 3)
                 {
                     projectile.Kill();
                 }
                 return;
             }
-            projectile.alpha = 255;
+			else
+				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.ToRadians(45);
             if (projectile.numUpdates == 0)
             {
-                int num158 = -1;
-                float num159 = 60f;
-                for (int num160 = 0; num160 < 200; num160++)
+                int targetIndex = -1;
+                float detectRange = 60f;
+                for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                 {
-                    NPC nPC = Main.npc[num160];
-                    if (nPC.CanBeChasedBy(projectile, false))
+                    NPC npc = Main.npc[npcIndex];
+                    if (npc.CanBeChasedBy(projectile, false))
                     {
-                        float num161 = projectile.Distance(nPC.Center);
-                        if (num161 < num159 && Collision.CanHitLine(projectile.Center, 0, 0, nPC.Center, 0, 0))
+                        float npcDist = projectile.Distance(npc.Center);
+                        if (npcDist < detectRange && Collision.CanHitLine(projectile.Center, 0, 0, npc.Center, 0, 0))
                         {
-                            num159 = num161;
-                            num158 = num160;
+                            detectRange = npcDist;
+                            targetIndex = npcIndex;
                         }
                     }
                 }
-                if (num158 != -1)
+                if (targetIndex != -1)
                 {
                     projectile.ai[0] = 0f;
                     projectile.ai[1] = -1f;
@@ -98,34 +105,57 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-            bool flag = WorldGen.SolidTile(Framing.GetTileSafely((int)projectile.position.X / 16, (int)projectile.position.Y / 16));
+            Main.PlaySound(SoundID.Item14, projectile.position);
+            bool tileCheck = WorldGen.SolidTile(Framing.GetTileSafely((int)projectile.position.X / 16, (int)projectile.position.Y / 16));
             for (int m = 0; m < 4; m++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1.5f);
+				int dustType = Utils.SelectRandom(Main.rand, new int[]
+				{
+					173,
+					(int)CalamityDusts.Brimstone,
+					172
+				});
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 1.5f);
             }
             for (int n = 0; n < 4; n++)
             {
-                int num10 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 0, default, 2.5f);
-                Main.dust[num10].noGravity = true;
-                Main.dust[num10].velocity *= 3f;
-                if (flag)
+				int dustType = Utils.SelectRandom(Main.rand, new int[]
+				{
+					173,
+					(int)CalamityDusts.Brimstone,
+					172
+				});
+                int dustInt = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 2.5f);
+                Main.dust[dustInt].noGravity = true;
+                Main.dust[dustInt].velocity *= 3f;
+                if (tileCheck)
                 {
-                    Main.dust[num10].noLight = true;
+                    Main.dust[dustInt].noLight = true;
                 }
-                num10 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1.5f);
-                Main.dust[num10].velocity *= 2f;
-                Main.dust[num10].noGravity = true;
-                if (flag)
+                dustInt = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 1.5f);
+                Main.dust[dustInt].velocity *= 2f;
+                Main.dust[dustInt].noGravity = true;
+                if (tileCheck)
                 {
-                    Main.dust[num10].noLight = true;
+                    Main.dust[dustInt].noLight = true;
                 }
             }
+        }
+
+		//glowmask effect
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, projectile.alpha);
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+            return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.ShadowFlame, 300);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             projectile.Kill();
         }
     }
