@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Walls;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.FurnitureProfaned.ProfanedRock>();
         }
@@ -29,18 +29,18 @@ namespace CalamityMod.Items.Placeables.FurnitureProfaned
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ProfanedRockWall>(), 4);
             recipe.SetResult(this);
-            recipe.AddTile(18);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>());
             recipe.AddIngredient(ItemID.StoneBlock, 20);
             recipe.SetResult(this, 20);
-            recipe.AddTile(412);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ProfanedPlatform>(), 2);
             recipe.SetResult(this);
-            recipe.AddTile(412);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
         }
     }

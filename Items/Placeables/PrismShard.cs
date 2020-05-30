@@ -1,5 +1,6 @@
-﻿using CalamityMod.Tiles.SunkenSea;
+using CalamityMod.Tiles.SunkenSea;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
@@ -13,7 +14,7 @@ namespace CalamityMod.Items.Placeables
         public override void SetDefaults()
         {
             item.createTile = ModContent.TileType<SeaPrismCrystals>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;

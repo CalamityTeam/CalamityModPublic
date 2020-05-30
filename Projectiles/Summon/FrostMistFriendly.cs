@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -54,7 +54,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 30);
+                Main.PlaySound(SoundID.Item30, projectile.position);
             }
             if (projectile.localAI[0] == 0f)
             {

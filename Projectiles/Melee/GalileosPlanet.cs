@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Melee
                 dust.shader = GameShaders.Armor.GetSecondaryShader(47, Main.LocalPlayer);
             }
 
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 43);
+            Main.PlaySound(SoundID.NPCDeath43, projectile.position);
 
             for (int i = 0; i < 155; i++)
             {

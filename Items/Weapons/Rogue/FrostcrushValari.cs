@@ -31,7 +31,7 @@ Stealth strikes throw three short ranged boomerangs along with a spread of icicl
             item.useAnimation = 19;
             item.width = 32;
             item.height = 46;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shootSpeed = Speed;

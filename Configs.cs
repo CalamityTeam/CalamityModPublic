@@ -1,4 +1,4 @@
-﻿using CalamityMod.UI;
+using CalamityMod.UI;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.ComponentModel;

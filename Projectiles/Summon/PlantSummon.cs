@@ -290,7 +290,7 @@ namespace CalamityMod.Projectiles.Summon
 					}
 					if (projectile.ai[1] == 0f && flag25 && num633 < 500f)
 					{
-						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+						Main.PlaySound(SoundID.Item20, projectile.position);
 						projectile.ai[1] += 1f;
 						if (Main.myPlayer == projectile.owner)
 						{

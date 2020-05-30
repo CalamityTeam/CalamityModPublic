@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 90;
             item.melee = true;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 20;
             item.useTurn = true;
             item.knockBack = 7.75f;
@@ -36,7 +36,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
+            Main.PlaySound(SoundID.Item20, player.position);
             for (int index = 0; index < 3; ++index)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;

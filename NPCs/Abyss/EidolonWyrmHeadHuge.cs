@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.Abyss
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
                         Main.npc[lol].ai[1] = (float)Previous;
                         Main.npc[Previous].ai[0] = (float)lol;
-                        NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
                         Previous = lol;
                     }
                     TailSpawned = true;
@@ -157,8 +157,8 @@ namespace CalamityMod.NPCs.Abyss
                         int random = Main.rand.Next(3);
                         if (random == 0)
                         {
-                            Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
-                            Projectile.NewProjectile(-vector2.X, -vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(-vector2.X, -vector2.Y, 0f, 0f, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
                         }
                         else if (random == 1)
                         {
@@ -171,8 +171,8 @@ namespace CalamityMod.NPCs.Abyss
                             for (int n = 0; n < 1; n++)
                             {
                                 Vector2 vector4 = vec * 4f;
-                                Projectile.NewProjectile(vector2.X, vector2.Y, vector4.X, vector4.Y, 464, damage, 0f, Main.myPlayer, 0f, 1f);
-                                Projectile.NewProjectile(-vector2.X, -vector2.Y, -vector4.X, -vector4.Y, 464, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(vector2.X, vector2.Y, vector4.X, vector4.Y, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
+                                Projectile.NewProjectile(-vector2.X, -vector2.Y, -vector4.X, -vector4.Y, ProjectileID.CultistBossIceMist, damage, 0f, Main.myPlayer, 0f, 1f);
                             }
                         }
                         else
@@ -483,7 +483,7 @@ namespace CalamityMod.NPCs.Abyss
                         {
                             Main.npc[k].life = 0;
                             Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(23, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
                         }
                     }
                 }

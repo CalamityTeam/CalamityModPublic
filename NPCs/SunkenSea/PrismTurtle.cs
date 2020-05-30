@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;

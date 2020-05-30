@@ -28,7 +28,7 @@ Fires night wyverns and stars from the sky that stick to enemies and tiles and e
             item.height = 74;
             item.useTime = 21;
             item.useAnimation = 21;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.2f;
             item.value = Item.buyPrice(1, 40, 0, 0);

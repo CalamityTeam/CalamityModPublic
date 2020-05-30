@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 24;
             item.useTime = 15;
             item.useAnimation = 15;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2.75f;
             item.value = Item.buyPrice(0, 95, 0, 0);

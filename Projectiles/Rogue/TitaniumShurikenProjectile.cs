@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

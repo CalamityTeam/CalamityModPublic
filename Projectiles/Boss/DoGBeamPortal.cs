@@ -1,8 +1,9 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -54,7 +55,7 @@ namespace CalamityMod.Projectiles.Boss
             beamTimer--;
             if (beamTimer <= 0)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
+                Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
                 float spread = 30f * 0.0174f;
                 double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
                 double deltaAngle = spread / 8f;
@@ -103,7 +104,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 92);
+                Main.PlaySound(SoundID.Item92, (int)projectile.Center.X, (int)projectile.Center.Y);
                 for (int num621 = 0; num621 < 30; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1.2f);

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
@@ -475,7 +475,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                                 }
                             }
                         }
-                        Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 12);
+                        Main.PlaySound(SoundID.Item12, npc.position);
                     }
                     npc.netUpdate = true;
                 }

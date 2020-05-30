@@ -1,4 +1,4 @@
-﻿using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
 using CalamityMod.Tiles.AstralDesert;
 using CalamityMod.Tiles.AstralSnow;

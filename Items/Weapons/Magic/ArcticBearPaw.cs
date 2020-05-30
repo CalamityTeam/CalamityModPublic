@@ -22,7 +22,7 @@ Fires spiritual claws that ignore walls and confuse enemies");
             item.height = 22;
             item.useTime = 28;
             item.useAnimation = 28;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTurn = false;
             item.noMelee = true;
             item.knockBack = 10f;

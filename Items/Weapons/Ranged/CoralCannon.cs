@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.crit += 10;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7.5f;
             item.value = Item.buyPrice(0, 2, 0, 0);

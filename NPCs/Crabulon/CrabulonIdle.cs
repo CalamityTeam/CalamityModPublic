@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -165,7 +165,7 @@ namespace CalamityMod.NPCs.Crabulon
                         float num353 = 10f;
                         int num354 = expertMode ? 12 : 16;
                         int num355 = ModContent.ProjectileType<MushBomb>();
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
+                        Main.PlaySound(SoundID.Item42, (int)npc.position.X, (int)npc.position.Y);
                         if (CalamityWorld.bossRushActive)
                         {
                             num353 += 3f;
@@ -525,7 +525,7 @@ namespace CalamityMod.NPCs.Crabulon
                             Main.npc[num664].velocity.Y = (float)Main.rand.Next(-50, -31) * 0.1f;
                             if (Main.netMode == NetmodeID.Server && num664 < 200)
                             {
-                                NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
                             }
                         }
                     }

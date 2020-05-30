@@ -1,4 +1,3 @@
-
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -25,7 +24,7 @@ namespace CalamityMod.Tiles.SunkenSea
             AddMapEntry(new Color(0, 150, 200), name);
             mineResist = 3f;
             minPick = 55;
-            soundType = 21;
+            soundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

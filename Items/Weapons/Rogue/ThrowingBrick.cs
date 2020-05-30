@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Rogue;
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 20;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5f;
             item.crit = 20;
             item.value = Item.buyPrice(0, 0, 0, 50);

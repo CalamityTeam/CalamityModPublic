@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
                             projectile.ai[0] == 1f ? 1f : 0f, 0f);
                         Main.projectile[stabber2].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
                     }
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+                    Main.PlaySound(SoundID.Item14, projectile.position);
                     int boomer = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<RadiantExplosion>(), (int)(projectile.damage * 0.75f), projectile.knockBack, projectile.owner, 0f, 0f);
                     Main.projectile[boomer].Calamity().stealthStrike = projectile.Calamity().stealthStrike;
 					if (projectile.Calamity().stealthStrike)
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            Main.PlaySound(SoundID.Item27, projectile.position);
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, ModContent.DustType<AstralBlue>(), projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);

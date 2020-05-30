@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Melee
             Lighting.AddLight(projectile.Center, 1f, 1f, 1f);
             if (!madeCoolMagicSound)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9); //starfury sound
+                Main.PlaySound(SoundID.Item9, projectile.position); // Starfury sound
                 madeCoolMagicSound = true;
             }
             projectile.ai[0]++;

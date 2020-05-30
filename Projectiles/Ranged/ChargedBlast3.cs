@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -95,7 +96,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 0f, 0f);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
+            Main.PlaySound(SoundID.Item62, (int)projectile.position.X, (int)projectile.position.Y);
             projectile.penetrate--;
             if (projectile.penetrate <= 0)
             {
@@ -119,7 +120,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void Kill(int timeLeft)
         {
             Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<ChargedDartExplosion>(), projectile.damage / 4, projectile.knockBack, projectile.owner, 1f, 0f);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
+            Main.PlaySound(SoundID.Item62, (int)projectile.position.X, (int)projectile.position.Y);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

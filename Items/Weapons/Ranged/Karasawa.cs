@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAnimation = 52;
             item.autoReuse = true;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/MechGaussRifle");
             item.noMelee = true;
 

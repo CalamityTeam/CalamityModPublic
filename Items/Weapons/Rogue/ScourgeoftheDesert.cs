@@ -22,7 +22,7 @@ Stealth strikes gain damage as they damage enemies");
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 20;
             item.knockBack = 3.5f;
             item.UseSound = SoundID.Item1;

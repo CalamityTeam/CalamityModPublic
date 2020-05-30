@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class Rox1 : ModProjectile
@@ -57,7 +59,7 @@ namespace CalamityMod.Projectiles.Melee
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 191, -projectile.velocity.X * 0.4f, -projectile.velocity.Y * 0.4f, 120, default, 1.2f);
             }
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             projectile.Kill();
             return false;
         }

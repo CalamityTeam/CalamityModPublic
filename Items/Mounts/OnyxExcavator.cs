@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Mounts;
+using CalamityMod.Buffs.Mounts;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Ores;
@@ -191,7 +191,7 @@ namespace CalamityMod.Items.Mounts
                                     WorldGen.KillTile(num824, num825, false, false, false);
                                     if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
                                     {
-                                        NetMessage.SendData(17, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
+                                        NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
                                     }
                                 }
                             }

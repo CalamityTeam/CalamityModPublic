@@ -3778,7 +3778,7 @@ namespace CalamityMod.NPCs
         #region Check Dead
         public override bool CheckDead(NPC npc)
         {
-            if (npc.lifeMax > 1000 && npc.type != 288 &&
+            if (npc.lifeMax > 1000 && npc.type != NPCID.DungeonSpirit &&
                 npc.type != NPCType<PhantomSpirit>() &&
                 npc.type != NPCType<PhantomSpiritS>() &&
                 npc.type != NPCType<PhantomSpiritM>() &&
@@ -3849,7 +3849,7 @@ namespace CalamityMod.NPCs
 
                                     if (Main.netMode == NetmodeID.Server && num263 < 200)
                                     {
-                                        NetMessage.SendData(23, -1, -1, null, num263, 0f, 0f, 0f, 0, 0, 0);
+                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num263, 0f, 0f, 0f, 0, 0, 0);
                                     }
 
                                     num = num262;
@@ -6112,7 +6112,7 @@ namespace CalamityMod.NPCs
 						}
 						else
 						{
-							NetMessage.SendData(61, -1, -1, null, plr, (float)type, 0f, 0f, 0, 0, 0);
+							NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, plr, (float)type, 0f, 0f, 0, 0, 0);
 						}
 					}
 

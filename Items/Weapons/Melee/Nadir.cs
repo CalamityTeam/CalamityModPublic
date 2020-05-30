@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.noMelee = true;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item1;
 
             item.rare = 10;

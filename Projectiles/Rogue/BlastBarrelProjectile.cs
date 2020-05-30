@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -65,7 +65,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             bool stealthS = projectile.Calamity().stealthStrike;
             int projectileCount = 12;
-            Main.PlaySound(2, projectile.Center, 14);
+            Main.PlaySound(SoundID.Item, projectile.Center, 14);
             //aka can bounce multiple times
             if (stealthS)
             {

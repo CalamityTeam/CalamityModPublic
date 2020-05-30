@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.ai[0] == 0f)
             {
                 projectile.ai[0] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 12);
+                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 12);
             }
             if (projectile.alpha > 0)
             {

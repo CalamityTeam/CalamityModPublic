@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void Kill(int timeLeft)
 		{
 			bool stealth = projectile.Calamity().stealthStrike;
-			Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 107); //change
+			Main.PlaySound(SoundID.Item107, projectile.Center);
 			for (int k = 0; k < 15; k++)
 			{
 				Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 85, projectile.oldVelocity.X, projectile.oldVelocity.Y);

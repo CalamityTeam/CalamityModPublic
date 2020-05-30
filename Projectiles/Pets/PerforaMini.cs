@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Pets;
+using CalamityMod.Buffs.Pets;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.useTime = 28;
             item.useAnimation = 28;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
 
             item.rare = 10;

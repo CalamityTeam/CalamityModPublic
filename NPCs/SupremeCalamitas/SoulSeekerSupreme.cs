@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;

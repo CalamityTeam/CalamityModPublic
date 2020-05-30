@@ -1,4 +1,4 @@
-﻿namespace CalamityMod.Dusts
+namespace CalamityMod.Dusts
 {
     public enum CalamityDusts : int
     {

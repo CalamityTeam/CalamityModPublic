@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
 
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, (Main.rand.NextBool(2) ? 93 : 92), 0.5f, 0f);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, (Main.rand.NextBool(2) ? 93 : 92), 0.5f, 0f);
 
             for (int i = 0; i < 5; i++)
             {

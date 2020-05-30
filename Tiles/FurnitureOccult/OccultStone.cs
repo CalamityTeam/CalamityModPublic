@@ -1,8 +1,10 @@
-﻿using CalamityMod.Dusts.Furniture;
+using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.FurnitureOccult
 {
     public class OccultStone : ModTile
@@ -20,7 +22,7 @@ namespace CalamityMod.Tiles.FurnitureOccult
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeSmoothTiles(Type);
 
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 10f;
             minPick = 200;
             drop = ModContent.ItemType<Items.Placeables.FurnitureOccult.OccultStone>();

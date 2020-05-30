@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables
 {
@@ -12,7 +13,7 @@ namespace CalamityMod.Items.Placeables
         public override void SetDefaults()
         {
             item.createTile = ModContent.TileType<Tiles.Crags.BrimstoneSlag>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;

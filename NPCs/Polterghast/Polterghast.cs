@@ -1,4 +1,4 @@
-﻿using CalamityMod;
+using CalamityMod;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
@@ -443,7 +443,7 @@ namespace CalamityMod.NPCs.Polterghast
                 {
                     npc.ai[0] += 1f;
 
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
+                    Main.PlaySound(SoundID.Item122, npc.position);
 
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Polt"), 1f);
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Polt2"), 1f);
@@ -586,7 +586,7 @@ namespace CalamityMod.NPCs.Polterghast
                         }
                     }
 
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 122);
+                    Main.PlaySound(SoundID.Item122, npc.position);
 
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Polt"), 1f);
                     Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Polt2"), 1f);

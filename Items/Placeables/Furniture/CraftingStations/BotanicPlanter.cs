@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.value = 0;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.BotanicPlanter>();
@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             recipe.AddIngredient(ModContent.ItemType<UelibloomBrick>(), 20);
             recipe.AddIngredient(ItemID.JungleSpores, 5);
             recipe.SetResult(this, 1);
-            recipe.AddTile(412);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
         }
     }
