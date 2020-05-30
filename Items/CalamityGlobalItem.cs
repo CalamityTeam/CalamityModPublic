@@ -82,6 +82,12 @@ namespace CalamityMod.Items
 			myClone.StealthGenBonus = StealthGenBonus;
 			return myClone;
 		}
+
+		public override bool NewPreReforge(Item item)
+		{
+			StealthGenBonus = 1f;
+			return true;
+		}
 		#endregion
 
         #region SetDefaults
