@@ -56,6 +56,9 @@ namespace CalamityMod.CalPlayer
 			// Bool for any existing bosses, true if any boss NPC is active
 			CalamityPlayer.areThereAnyDamnBosses = CalamityGlobalNPC.AnyBossNPCS();
 
+			// Bool for any existing events, true if any event is active
+			CalamityPlayer.areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(player);
+
 			// If any boss NPC is active, apply Zen to the player to reduce spawn rate
 			if (CalamityPlayer.areThereAnyDamnBosses)
 			{
@@ -894,6 +897,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.galileoCooldown--;
 			if (modPlayer.soundCooldown > 0)
 				modPlayer.soundCooldown--;
+			if (modPlayer.shadowPotCooldown > 0)
+				modPlayer.shadowPotCooldown--;
 			if (modPlayer.raiderCooldown > 0)
 				modPlayer.raiderCooldown--;
 			if (modPlayer.gSabatonCooldown > 0)
@@ -3549,7 +3554,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.prismaticLasers > 1800 && player.whoAmI == Main.myPlayer)
 			{
 				float shootSpeed = 18f;
-				int dmg = (int)(150 * player.MagicDamage());
+				int dmg = (int)(50 * player.MagicDamage());
 				Vector2 startPos = player.RotatedRelativePoint(player.MountedCenter, true);
 				Vector2 velocity = Main.MouseWorld - startPos;
 				if (player.gravDir == -1f)
@@ -3568,7 +3573,7 @@ namespace CalamityMod.CalPlayer
 					travelDist = shootSpeed / travelDist;
 				}
 
-				int laserAmt = 2;
+				int laserAmt = Main.rand.Next(2);
 				for (int index = 0; index < laserAmt; index++)
 				{
 					startPos = new Vector2(player.Center.X + (float)(Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
@@ -3590,7 +3595,8 @@ namespace CalamityMod.CalPlayer
 					velocity.Y *= travelDist;
 					velocity.X += (float)Main.rand.Next(-50, 51) * 0.02f;
 					velocity.Y += (float)Main.rand.Next(-50, 51) * 0.02f;
-					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<MagicNebulaShot>(), dmg, 4f, player.whoAmI, 0f, (float)Main.rand.Next(10));
+					int laser = Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<MagicNebulaShot>(), dmg, 4f, player.whoAmI, 0f, Main.rand.Next(10));
+					Main.projectile[laser].localNPCHitCooldown = 5;
 				}
 				Main.PlaySound(SoundID.Item12, player.position);
 			}

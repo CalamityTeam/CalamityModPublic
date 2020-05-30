@@ -93,8 +93,9 @@ namespace CalamityMod.Projectiles.Rogue
 
 					for (int i = 0; i < Main.maxPlayers; i++)
 					{
+						Player owner = Main.player[projectile.owner];
 						Player player = Main.player[i];
-						if ((Main.player[projectile.owner].team != player.team || player.team == 0) && !player.dead && !player.buffImmune[buffType] && Vector2.Distance(projectile.Center, player.Center) <= radius)
+						if ((owner.team != player.team || player.team == 0)  && player.hostile && owner.hostile && !player.dead && !player.buffImmune[buffType] && Vector2.Distance(projectile.Center, player.Center) <= radius)
 						{
 							if (player.FindBuffIndex(buffType) == -1)
 								player.AddBuff(buffType, 180, false);

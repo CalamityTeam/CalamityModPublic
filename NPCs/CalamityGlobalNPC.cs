@@ -63,6 +63,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -3530,6 +3531,10 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.1);
 				}
+                else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
+                {
+                    damage = (int)(damage * 0.2);
+                }
 				else if (projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileID.DD2BetsyArrow)
 				{
 					damage = (int)(damage * 0.4);
@@ -5306,6 +5311,11 @@ namespace CalamityMod.NPCs
                         chat = "I happen to have several Angel Statues at the moment, a truely rare commodity. Want one?";
                     }
 
+                    if (Main.rand.NextBool(7) && CalamityWorld.death)
+                    {
+                        chat = "The caverns have become increasingly dark as of late, so I stocked up on some special torches if you have the funds.";
+                    }
+
                     break;
 
                 case NPCID.Mechanic:
@@ -5555,6 +5565,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedBoss3);
                 SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch, CalamityWorld.death);
             }
 
             // Because of the defiled condition, the dye trader does not receive an alert icon when hardmode starts.
@@ -5816,6 +5827,23 @@ namespace CalamityMod.NPCs
             }
             return false;
         }
+		#endregion
+
+		#region Any Events
+		public static bool AnyEvents(Player player)
+		{
+			if (Main.invasionType > 0)
+				return true;
+			if (player.PillarZone())
+				return true;
+			if (DD2Event.Ongoing)
+				return true;
+			if ((player.ZoneOverworldHeight || player.ZoneSkyHeight) && (Main.eclipse || Main.bloodMoon || Main.pumpkinMoon || Main.snowMoon))
+				return true;
+			if (CalamityWorld.rainingAcid && player.InSulphur())
+				return true;
+			return false;
+		}
 		#endregion
 
 		#region Get Downed Boss Variable

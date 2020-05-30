@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,8 +9,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class ExoFire : ModProjectile
     {
-        public bool speedXChoice = false;
-        public bool speedYChoice = false;
+        public bool ProducedAcceleration = false;
 
         public override void SetStaticDefaults()
         {
@@ -18,8 +18,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
+            projectile.width = 24;
+            projectile.height = 24;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
@@ -27,22 +27,18 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.extraUpdates = 10;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 180;
         }
 
         public override void AI()
         {
             float speedX = 1f;
             float speedY = 1f;
-            if (!speedXChoice)
+            if (!ProducedAcceleration)
             {
                 speedX = Main.rand.NextBool(2) ? 1.03f : 0.97f;
-                speedXChoice = true;
-            }
-            if (!speedYChoice)
-            {
-                speedY = Main.rand.NextBool(2) ? 1.03f : 0.97f;
-                speedYChoice = true;
+                projectile.velocity *= Utils.RandomVector2(Main.rand, 0.97f, 1.03f);
+                ProducedAcceleration = true;
             }
             projectile.velocity.X *= speedX;
             projectile.velocity.X *= speedY;
