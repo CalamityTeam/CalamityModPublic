@@ -1,13 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TitaniumClone : ModProjectile
+	public class TitaniumClone : ModProjectile
     {
         private static float RotationIncrement = 0.22f;
         public override void SetStaticDefaults()

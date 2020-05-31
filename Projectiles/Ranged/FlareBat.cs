@@ -1,11 +1,9 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class FlareBat : ModProjectile
+	public class FlareBat : ModProjectile
     {
         public override void SetStaticDefaults()
         {

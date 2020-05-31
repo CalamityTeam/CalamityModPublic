@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture
 {
-    public class TranquilityCandle : ModTile
+	public class TranquilityCandle : ModTile
     {
         public override void SetDefaults()
         {

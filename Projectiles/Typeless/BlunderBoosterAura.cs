@@ -1,18 +1,14 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Potions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class BlunderBoosterAura : ModProjectile
+	public class BlunderBoosterAura : ModProjectile
     {
         private const float radius = 98f;
         private const int framesX = 3;

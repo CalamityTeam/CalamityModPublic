@@ -1,13 +1,12 @@
-using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
- 
+
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FinalDawnThrow2 : ModProjectile
+	public class FinalDawnThrow2 : ModProjectile
     {
         bool HasHitEnemy = false;
         public override void SetStaticDefaults()

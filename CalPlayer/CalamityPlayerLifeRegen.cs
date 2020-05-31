@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.CalPlayer
 {
@@ -474,7 +472,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegenCount = 0;
             }
 
-            if (CalamityMod.CalamityConfig.LethalLava || CalamityWorld.death) //always occurs in Death regardless of config
+            if (CalamityConfig.Instance.LethalLava || CalamityWorld.death) //always occurs in Death regardless of config
             {
                 if (Main.myPlayer == player.whoAmI)
                 {
@@ -924,7 +922,7 @@ namespace CalamityMod.CalPlayer
 
 			if (CalamityWorld.bossRushActive)
 			{
-				if (CalamityMod.CalamityConfig.BossRushHealthCurse)
+				if (CalamityConfig.Instance.BossRushHealthCurse)
 				{
 					if (player.lifeRegen > 0)
 						player.lifeRegen = 0;

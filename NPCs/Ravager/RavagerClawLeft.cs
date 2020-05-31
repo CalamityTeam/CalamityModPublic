@@ -7,11 +7,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Ravager
 {
-    public class RavagerClawLeft : ModNPC
+	public class RavagerClawLeft : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -67,7 +65,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.lifeMax = 260000;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 

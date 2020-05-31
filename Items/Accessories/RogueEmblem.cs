@@ -1,10 +1,9 @@
-using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class RogueEmblem : ModItem
+	public class RogueEmblem : ModItem
     {
         public override void SetStaticDefaults()
         {

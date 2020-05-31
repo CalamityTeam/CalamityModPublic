@@ -1,16 +1,12 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
-using CalamityMod.Projectiles.Enemy;
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Flounder : ModNPC
+	public class Flounder : ModNPC
     {
         public override void SetStaticDefaults()
         {

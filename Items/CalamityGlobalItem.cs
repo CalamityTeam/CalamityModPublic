@@ -28,7 +28,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -36,7 +35,7 @@ using Terraria.Utilities;
 
 namespace CalamityMod.Items
 {
-    public class CalamityGlobalItem : GlobalItem
+	public class CalamityGlobalItem : GlobalItem
     {
         #region Instances
         public override bool InstancePerEntity

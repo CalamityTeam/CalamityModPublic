@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class ForbiddenSunProjectile : ModProjectile
+	public class ForbiddenSunProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {

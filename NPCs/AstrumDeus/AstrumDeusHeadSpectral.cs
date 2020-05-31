@@ -11,11 +11,6 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.Projectiles.Magic;
-using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,12 +19,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AstrumDeus
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class AstrumDeusHeadSpectral : ModNPC
     {
         public override void SetStaticDefaults()
@@ -46,7 +39,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.height = 56;
             npc.defense = 25;
 			npc.LifeMaxNERB(37500, 53800, 1300000);
-			double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+			double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -112,7 +105,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -136,7 +129,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 			Color color42 = Color.Lerp(Color.White, Color.Orange, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

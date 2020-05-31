@@ -10,12 +10,11 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.BrimstoneElemental;
 using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class BrimstoneWaifuBag : ModItem
+	public class BrimstoneWaifuBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<BrimstoneElemental>();
 

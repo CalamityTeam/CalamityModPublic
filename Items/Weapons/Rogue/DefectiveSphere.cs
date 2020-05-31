@@ -2,12 +2,11 @@ using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class DefectiveSphere : RogueWeapon
+	public class DefectiveSphere : RogueWeapon
     {
         public static int BaseDamage = 130;
         public static float Speed = 15f;

@@ -1,11 +1,10 @@
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.SummonItems
 {
-    public class ProfanedCore : ModItem
+	public class ProfanedCore : ModItem
     {
         public override void SetStaticDefaults()
         {

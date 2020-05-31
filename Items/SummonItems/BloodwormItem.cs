@@ -1,11 +1,10 @@
-using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.NPCs.AcidRain;
 using Terraria.ID;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class BloodwormItem : ModItem
+	public class BloodwormItem : ModItem
     {
         public override void SetStaticDefaults()
         {

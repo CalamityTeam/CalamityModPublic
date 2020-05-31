@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -7,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class HowlsHeartHowl : ModProjectile
+	public class HowlsHeartHowl : ModProjectile
     {
         public bool initialized = false;
 

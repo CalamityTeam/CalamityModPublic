@@ -2,7 +2,6 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Pets;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Magic;
@@ -20,7 +19,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.TownNPCs
 {
-    [AutoloadHead]
+	[AutoloadHead]
     public class DILF : ModNPC
     {
         public override void SetStaticDefaults()

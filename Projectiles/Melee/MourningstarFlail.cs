@@ -1,11 +1,10 @@
 using CalamityMod.Projectiles.BaseProjectiles;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class MourningstarFlail : BaseWhipProjectile
+	public class MourningstarFlail : BaseWhipProjectile
     {
         public override void SetStaticDefaults()
         {

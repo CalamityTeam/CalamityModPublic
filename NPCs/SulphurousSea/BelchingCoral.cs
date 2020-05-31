@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Items.Materials;
@@ -13,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class BelchingCoral : ModNPC
+	public class BelchingCoral : ModNPC
     {
         public const float CheckDistance = 480f;
         public override void SetStaticDefaults()

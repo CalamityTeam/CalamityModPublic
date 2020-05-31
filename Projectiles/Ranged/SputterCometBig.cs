@@ -5,11 +5,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using System;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SputterCometBig : ModProjectile
+	public class SputterCometBig : ModProjectile
     {
         public override void SetStaticDefaults()
         {

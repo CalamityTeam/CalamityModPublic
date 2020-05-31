@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Leviathan
 {
-    public class SirenIce : ModNPC
+	public class SirenIce : ModNPC
     {
         public override void SetStaticDefaults()
         {

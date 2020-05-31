@@ -1,9 +1,7 @@
-using CalamityMod.Projectiles.Ranged;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
-    public class AstralSand : ModItem
+	public class AstralSand : ModItem
     {
         public override void SetStaticDefaults()
         {

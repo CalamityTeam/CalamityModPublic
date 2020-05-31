@@ -1,4 +1,3 @@
-using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Abyss;
@@ -13,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.World
 {
-    public class Abyss : ModWorld
+	public class Abyss : ModWorld
     {
         public static int BiomeWidth
         {
@@ -627,10 +626,10 @@ namespace CalamityMod.World
                                 int type = WorldGen.genRand.Next(6);
                                 type++;
                                 int height = heightFromType(type);
-                                PlaceStalactite(trueX, y, height, (ushort)CalamityMod.instance.TileType($"SulphurousStalactite{type}"));
+                                PlaceStalactite(trueX, y, height, (ushort)CalamityMod.Instance.TileType($"SulphurousStalactite{type}"));
                                 if (WorldGen.SolidTile(trueX, y + dy + 1))
                                 {
-                                    PlaceStalacmite(trueX, y + dy, height, (ushort)CalamityMod.instance.TileType($"SulphurousStalacmite{type}"));
+                                    PlaceStalacmite(trueX, y + dy, height, (ushort)CalamityMod.Instance.TileType($"SulphurousStalacmite{type}"));
                                 }
                                 
                                 // Reset the slope/half brick variables for the tiles below/above the pairs, so that it doesn't look like there's an

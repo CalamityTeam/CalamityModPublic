@@ -1,13 +1,11 @@
-using CalamityMod.Items.Placeables;
 using CalamityMod.Tiles.LivingFire;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.LivingFire
 {
-    public class LivingBrimstoneFireBlock : ModItem
+	public class LivingBrimstoneFireBlock : ModItem
     {
         public override void SetStaticDefaults()
         {

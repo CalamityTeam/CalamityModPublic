@@ -2,11 +2,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class TotalityTar : ModProjectile
+	public class TotalityTar : ModProjectile
     {
         public override void SetStaticDefaults()
         {

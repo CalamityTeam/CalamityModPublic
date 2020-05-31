@@ -1,14 +1,13 @@
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee.Yoyos
 {
-    public class CnidarianYoyo : ModProjectile
+	public class CnidarianYoyo : ModProjectile
     {
         public override void SetStaticDefaults()
         {

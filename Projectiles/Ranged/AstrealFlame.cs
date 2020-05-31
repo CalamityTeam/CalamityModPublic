@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class AstrealFlame : ModProjectile
+	public class AstrealFlame : ModProjectile
     {
         public override void SetStaticDefaults()
         {

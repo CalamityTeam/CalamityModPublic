@@ -2,13 +2,12 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class DarkSunRing : ModItem
+	public class DarkSunRing : ModItem
     {
         public override void SetStaticDefaults()
         {

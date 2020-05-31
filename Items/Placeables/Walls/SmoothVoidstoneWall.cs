@@ -1,11 +1,10 @@
 using CalamityMod.Items.Placeables.FurnitureVoid;
 using CalamityMod.Tiles.Furniture.CraftingStations;
-using Terraria.ID;
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
 namespace CalamityMod.Items.Placeables.Walls
 {
-    public class SmoothVoidstoneWall : ModItem
+	public class SmoothVoidstoneWall : ModItem
     {
         public override void SetStaticDefaults()
         {

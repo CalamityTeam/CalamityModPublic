@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class EyeofExtinction : ModItem
+	public class EyeofExtinction : ModItem
     {
         public override void SetStaticDefaults()
         {

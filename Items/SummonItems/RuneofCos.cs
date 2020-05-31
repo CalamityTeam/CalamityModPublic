@@ -3,14 +3,13 @@ using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.World;
-using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class RuneofCos : ModItem
+	public class RuneofCos : ModItem
     {
         public override void SetStaticDefaults()
         {

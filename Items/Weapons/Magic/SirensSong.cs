@@ -1,13 +1,11 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class SirensSong : ModItem
+	public class SirensSong : ModItem
     {
         public override void SetStaticDefaults()
         {

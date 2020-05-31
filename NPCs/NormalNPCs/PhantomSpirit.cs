@@ -3,13 +3,12 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class PhantomSpirit : ModNPC
+	public class PhantomSpirit : ModNPC
     {
         public override void SetStaticDefaults()
         {

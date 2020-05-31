@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Environment
 {
-    public class LightningMark : ModProjectile
+	public class LightningMark : ModProjectile
     {
         public override void SetStaticDefaults()
         {

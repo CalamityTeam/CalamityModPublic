@@ -1,5 +1,4 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Dusts;
 using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AstralProbeSummon : ModProjectile
+	public class AstralProbeSummon : ModProjectile
     {
         private double rotation = 0;
 

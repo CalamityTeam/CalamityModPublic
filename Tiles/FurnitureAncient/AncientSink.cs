@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureAncient
 {
-    public class AncientSink : ModTile
+	public class AncientSink : ModTile
     {
         public override void SetDefaults()
         {

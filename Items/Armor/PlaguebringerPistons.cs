@@ -1,4 +1,3 @@
-using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using System;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Legs)]
+	[AutoloadEquip(EquipType.Legs)]
     public class PlaguebringerPistons : ModItem
     {
         public int counter = 0;

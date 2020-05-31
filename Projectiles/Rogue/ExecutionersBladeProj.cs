@@ -1,14 +1,13 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ExecutionersBladeProj : ModProjectile
+	public class ExecutionersBladeProj : ModProjectile
     {
 
         private void handleStealth(Vector2 position, int damage, bool crit, float knockback)
