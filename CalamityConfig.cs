@@ -116,11 +116,11 @@ namespace CalamityMod
 		[Tooltip("Increases the player's mining speed by 75%.\nThis does not affect drills.")]
 		public bool MiningSpeedBoost { get; set; }
 
-		[Label("Always Enable Reactive Boss DR")]
+		[Label("Never Weaken Reactive Boss DR")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
-		[Tooltip("Always activates Reactive Boss DR, even if the boss has already been defeated.\nReactive Boss DR makes bosses smoothly take less damage if they are being killed very quickly.\nThis effect is always active on bosses that have not yet been defeated.\nIn almost all cases, Reactive Boss DR has no noticeable effect when enabled.")]
-		public bool ReactiveBossDR { get; set; }
+		[Tooltip("Sets Reactive Boss DR to always be full strength, even if the boss has already been defeated.\nIf disabled, the effect is only 66% as powerful after the boss has been defeated.\n\nReactive Boss DR makes bosses smoothly take less damage if they are being killed very quickly.\nIn most cases, the system has no noticeable effect.")]
+		public bool FullPowerReactiveBossDR { get; set; }
 
 		private const float MinBossHealthBoost = 0f;
 		private const float MaxBossHealthBoost = 900f;
