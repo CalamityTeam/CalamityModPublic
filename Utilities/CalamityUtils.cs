@@ -930,6 +930,137 @@ namespace CalamityMod
                 }
             }
         }
+
+		public static void FloatingPetAI(this Projectile projectile, bool faceRight, float tiltFloat, bool lightPet = false)
+		{
+			Player player = Main.player[projectile.owner];
+
+			//anti sticking movement as a failsafe
+            float SAImovement = 0.05f;
+			for (int k = 0; k < Main.maxProjectiles; k++)
+			{
+				Projectile otherProj = Main.projectile[k];
+				// Short circuits to make the loop as fast as possible
+				if (!otherProj.active || otherProj.owner != projectile.owner || !Main.projPet[otherProj.type] || k == projectile.whoAmI)
+					continue;
+
+				// If the other projectile is indeed another pet owned by the same player and they're too close, nudge them away.
+				bool isPet = Main.projPet[otherProj.type];
+				float taxicabDist = Math.Abs(projectile.position.X - otherProj.position.X) + Math.Abs(projectile.position.Y - otherProj.position.Y);
+				if (isPet && taxicabDist < projectile.width)
+				{
+					if (projectile.position.X < otherProj.position.X)
+						projectile.velocity.X -= SAImovement;
+					else
+						projectile.velocity.X += SAImovement;
+
+					if (projectile.position.Y < otherProj.position.Y)
+						projectile.velocity.Y -= SAImovement;
+					else
+						projectile.velocity.Y += SAImovement;
+				}
+			}
+
+            float passiveMvtFloat = 0.5f;
+            projectile.tileCollide = false;
+            float range = 100f;
+            Vector2 projPos = new Vector2(projectile.Center.X, projectile.Center.Y);
+            float xDist = player.Center.X - projPos.X;
+            float yDist = player.Center.Y - projPos.Y;
+            yDist += Main.rand.NextFloat(-10, 20);
+            xDist += Main.rand.NextFloat(-10, 20);
+			//Light pets lead the player, normal pets trail the player
+            xDist += 60f * (lightPet ? (float)player.direction : -(float)player.direction);
+            yDist -= 60f;
+			Vector2 playerVector = new Vector2(xDist, yDist);
+            float playerDist = playerVector.Length();
+            float returnSpeed = 18f;
+
+			//If player is close enough, resume normal
+            if (playerDist < range && player.velocity.Y == 0f &&
+                projectile.position.Y + projectile.height <= player.position.Y + player.height &&
+                !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+            {
+                if (projectile.velocity.Y < -6f)
+                {
+                    projectile.velocity.Y = -6f;
+                }
+            }
+
+			//Teleport to player if too far
+            if (playerDist > 2000f)
+            {
+                projectile.position.X = player.Center.X - projectile.width / 2;
+                projectile.position.Y = player.Center.Y - projectile.height / 2;
+                projectile.netUpdate = true;
+            }
+
+            if (playerDist < 50f)
+            {
+                if (Math.Abs(projectile.velocity.X) > 2f || Math.Abs(projectile.velocity.Y) > 2f)
+                {
+                    projectile.velocity *= 0.99f;
+                }
+                passiveMvtFloat = 0.01f;
+            }
+            else
+            {
+                if (playerDist < 100f)
+                {
+                    passiveMvtFloat = 0.1f;
+                }
+                if (playerDist > 300f)
+                {
+                    passiveMvtFloat = 1f;
+                }
+                playerDist = returnSpeed / playerDist;
+                playerVector.X *= playerDist;
+                playerVector.Y *= playerDist;
+            }
+            if (projectile.velocity.X < playerVector.X)
+            {
+                projectile.velocity.X += passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && projectile.velocity.X < 0f)
+                {
+                    projectile.velocity.X += passiveMvtFloat;
+                }
+            }
+            if (projectile.velocity.X > playerVector.X)
+            {
+                projectile.velocity.X -= passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && projectile.velocity.X > 0f)
+                {
+                    projectile.velocity.X -= passiveMvtFloat;
+                }
+            }
+            if (projectile.velocity.Y < playerVector.Y)
+            {
+                projectile.velocity.Y += passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && projectile.velocity.Y < 0f)
+                {
+                    projectile.velocity.Y += passiveMvtFloat * 2f;
+                }
+            }
+            if (projectile.velocity.Y > playerVector.Y)
+            {
+                projectile.velocity.Y -= passiveMvtFloat;
+                if (passiveMvtFloat > 0.05f && projectile.velocity.Y > 0f)
+                {
+                    projectile.velocity.Y -= passiveMvtFloat * 2f;
+                }
+            }
+			if (projectile.velocity.X >= 0.25f)
+			{
+				projectile.direction = faceRight ? 1 : -1;
+			}
+			else if (projectile.velocity.X < -0.25f)
+			{
+				projectile.direction = faceRight ? -1 : 1;
+			}
+			//Tilting and change directions
+			projectile.spriteDirection = projectile.direction;
+			projectile.rotation = projectile.velocity.X * tiltFloat;
+		}
         #endregion
 
         #region Tile Utilities
