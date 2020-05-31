@@ -767,11 +767,13 @@ namespace CalamityMod
             Vector2 targetVec = projectile.position;
             bool foundTarget = false;
             Vector2 half = new Vector2(0.5f);
+			bool isButterfly = projectile.type == ModContent.ProjectileType<PurpleButterfly>();
+			bool fishronCheck = npc.type == NPCID.DukeFishron && npc.active && isButterfly;
 			//Prioritize the targeted enemy if possible
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                if (npc.CanBeChasedBy(projectile, false))
+                if (npc.CanBeChasedBy(projectile, false) || fishronCheck)
                 {
 					//Check the size of the target to make it easier to hit fat targets like Levi
                     Vector2 sizeCheck = npc.position + npc.Size * half;
@@ -794,7 +796,7 @@ namespace CalamityMod
                 for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
                 {
                     NPC npc = Main.npc[npcIndex];
-                    if (npc.CanBeChasedBy(projectile, false))
+                    if (npc.CanBeChasedBy(projectile, false) || fishronCheck)
                     {
 						Vector2 sizeCheck = npc.position + npc.Size * half;
                         float targetDist = Vector2.Distance(npc.Center, projectile.Center);
