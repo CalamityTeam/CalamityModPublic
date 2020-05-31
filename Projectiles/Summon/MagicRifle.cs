@@ -73,6 +73,7 @@ namespace CalamityMod.Projectiles.Summon
 					NPC npc = Main.npc[npcIndex];
 					if (npc.CanBeChasedBy(projectile, false) && canHome)
 					{
+						Vector2 sizeCheck = npc.position + npc.Size * half;
 						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
 						if (!foundTarget && targetDist < homingRange)
 						{
