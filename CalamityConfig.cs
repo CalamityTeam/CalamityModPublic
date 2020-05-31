@@ -82,7 +82,7 @@ namespace CalamityMod
 		[Tooltip("The X position of the Stealth Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
 		public float StealthMeterPosX { get; set; }
 
-		[Label("Stealth Meter Position Y")]
+		[Label("Stealth Meter Y Position")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[SliderColor(224, 165, 56, 128)]
 		[Range(0f, 2160f)]
@@ -196,7 +196,7 @@ namespace CalamityMod
 		[Tooltip("The X position of the Rage Meter.\nThe meter can be dragged with the mouse if Lock Meter Positions is disabled.")]
 		public float RageMeterPosX { get; set; }
 
-		[Label("Rage Meter Position Y")]
+		[Label("Rage Meter Y Position")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[SliderColor(224, 165, 56, 128)]
 		[Range(0f, 2160f)]
