@@ -29,6 +29,10 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
 			Player player = Main.player[projectile.owner];
+
+			if (player.dead || player is null || Main.myPlayer != projectile.owner)
+				projectile.Kill();
+
             projectile.Center = player.Center;
             player.heldProj = projectile.whoAmI;
             projectile.spriteDirection = (projectile.velocity.X > 0).ToDirectionInt();
