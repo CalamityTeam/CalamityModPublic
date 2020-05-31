@@ -3743,6 +3743,7 @@ namespace CalamityMod
                     case CalamityModMessageType.AcidRainSync:
                         CalamityWorld.rainingAcid = reader.ReadBoolean();
                         CalamityWorld.acidRainPoints = reader.ReadInt32();
+                        CalamityWorld.timeSinceAcidRainKill = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.AcidRainUIDrawFadeSync:
                         CalamityWorld.acidRainExtraDrawTime = reader.ReadInt32();
