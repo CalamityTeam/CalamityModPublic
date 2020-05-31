@@ -90,31 +90,7 @@ namespace CalamityMod.Projectiles.Summon
 						player.MinionDamage());
 					projectile.damage = damage2;
 				}
-				float antiStickyFloat = 0.05f;
-				for (int index = 0; index < Main.maxProjectiles; index++)
-				{
-					Projectile proj = Main.projectile[index];
-					bool flag23 = proj.type == ModContent.ProjectileType<VileFeederSummon>();
-					if (index != projectile.whoAmI && proj.active && proj.owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < (float)projectile.width)
-					{
-						if (projectile.position.X < proj.position.X)
-						{
-							projectile.velocity.X = projectile.velocity.X - antiStickyFloat;
-						}
-						else
-						{
-							projectile.velocity.X = projectile.velocity.X + antiStickyFloat;
-						}
-						if (projectile.position.Y < proj.position.Y)
-						{
-							projectile.velocity.Y = projectile.velocity.Y - antiStickyFloat;
-						}
-						else
-						{
-							projectile.velocity.Y = projectile.velocity.Y + antiStickyFloat;
-						}
-					}
-				}
+				projectile.MinionAntiClump();
 				projectile.frameCounter++;
 				if (projectile.frameCounter > 3)
 				{

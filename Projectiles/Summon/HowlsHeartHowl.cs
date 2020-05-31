@@ -85,22 +85,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//Anti sticky movement although there should only be one
-			float antiStickyFloat = 0.05f;
-			for (int index = 0; index < Main.maxProjectiles; ++index)
-			{
-				Projectile proj = Main.projectile[index];
-				if (index != projectile.whoAmI && proj.active && (proj.owner == projectile.owner && proj.type == projectile.type) && (double)Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-				{
-					if (projectile.position.X < proj.position.X)
-						projectile.velocity.X -= antiStickyFloat;
-					else
-						projectile.velocity.X += antiStickyFloat;
-					if (projectile.position.Y < proj.position.Y)
-						projectile.velocity.Y -= antiStickyFloat;
-					else
-						projectile.velocity.Y += antiStickyFloat;
-				}
-			}
+			projectile.MinionAntiClump();
 
 			//Set tile collision for only when trying to return to the player
 			projectile.tileCollide = projectile.ai[0] != 1f;

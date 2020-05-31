@@ -9,8 +9,6 @@ namespace CalamityMod.Projectiles.Summon
 {
 	public class BlackHawkSummon : ModProjectile
 	{
-		private const float PushawayForce = 0.05f;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Black Hawk");
@@ -89,29 +87,7 @@ namespace CalamityMod.Projectiles.Summon
 					projectile.timeLeft = 2;
 				}
 			}
-			for (int k = 0; k < Main.maxProjectiles; k++)
-			{
-				Projectile otherProj = Main.projectile[k];
-				// Short circuits to make the loop as fast as possible
-				if (!otherProj.active || otherProj.owner != projectile.owner || !otherProj.minion || k == projectile.whoAmI)
-					continue;
-
-				// If the other projectile is indeed a Black Hawk owned by the same player and they're too close, nudge them away.
-				bool isBlackHawk = otherProj.type == projectile.type;
-				float taxicabDist = Math.Abs(projectile.position.X - otherProj.position.X) + Math.Abs(projectile.position.Y - otherProj.position.Y);
-				if (isBlackHawk && taxicabDist < projectile.width)
-				{
-					if (projectile.position.X < otherProj.position.X)
-						projectile.velocity.X = projectile.velocity.X - PushawayForce;
-					else
-						projectile.velocity.X = projectile.velocity.X + PushawayForce;
-
-					if (projectile.position.Y < otherProj.position.Y)
-						projectile.velocity.Y = projectile.velocity.Y - PushawayForce;
-					else
-						projectile.velocity.Y = projectile.velocity.Y + PushawayForce;
-				}
-			}
+			projectile.MinionAntiClump();
 			Vector2 vector46 = projectile.position;
 			bool flag25 = false;
 			if (player.HasMinionAttackTargetNPC)

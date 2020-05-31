@@ -104,31 +104,7 @@ namespace CalamityMod.Projectiles.Summon
 			}
 
 			//Anti sticky movement to prevent overlapping minions
-			float antiStickMvt = 0.05f;
-			for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
-			{
-				Projectile proj = Main.projectile[projIndex];
-				bool correctMinion = proj.type == ModContent.ProjectileType<GastricBelcher>();
-				if (projIndex != projectile.whoAmI && proj.active && proj.owner == projectile.owner && correctMinion && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-				{
-					if (projectile.position.X < proj.position.X)
-					{
-						projectile.velocity.X -= antiStickMvt;
-					}
-					else
-					{
-						projectile.velocity.X += antiStickMvt;
-					}
-					if (projectile.position.Y < proj.position.Y)
-					{
-						projectile.velocity.Y -= antiStickMvt;
-					}
-					else
-					{
-						projectile.velocity.Y += antiStickMvt;
-					}
-				}
-			}
+			projectile.MinionAntiClump();
 
 			//Find a target
 			float maxDistance = 700f;
