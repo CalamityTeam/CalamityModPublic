@@ -1806,7 +1806,7 @@ namespace CalamityMod.Projectiles
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
             {
                 Vector2 centerOffset = drawCentered ? projectile.Size / 2f : Vector2.Zero;
                 switch (trailingMode)

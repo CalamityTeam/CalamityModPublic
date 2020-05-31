@@ -1,12 +1,11 @@
 using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureBotanic
 {
-    public class BotanicSink : ModTile
+	public class BotanicSink : ModTile
     {
         public override void SetDefaults()
         {

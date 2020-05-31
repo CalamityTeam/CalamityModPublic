@@ -5,11 +5,10 @@ using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.World;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
 
 namespace CalamityMod.UI
 {
-    public class RipperUI
+	public class RipperUI
     {
         public const float DefaultRagePosX = 500f;
         public const float DefaultRagePosY = 30f;
@@ -33,10 +32,10 @@ namespace CalamityMod.UI
 
         public static void Reset()
         {
-            bool configExists = CalamityMod.CalamityConfig != null;
+            bool configExists = CalamityConfig.Instance != null;
 
-            rageDrawPos = configExists ? new Vector2(CalamityMod.CalamityConfig.RageMeterPosX, CalamityMod.CalamityConfig.RageMeterPosY) : Vector2.Zero;
-            adrenDrawPos = configExists ? new Vector2(CalamityMod.CalamityConfig.AdrenalineMeterPosX, CalamityMod.CalamityConfig.AdrenalineMeterPosY) : Vector2.Zero;
+            rageDrawPos = configExists ? new Vector2(CalamityConfig.Instance.RageMeterPosX, CalamityConfig.Instance.RageMeterPosY) : Vector2.Zero;
+            adrenDrawPos = configExists ? new Vector2(CalamityConfig.Instance.AdrenalineMeterPosX, CalamityConfig.Instance.AdrenalineMeterPosY) : Vector2.Zero;
             rageDragOffset = null;
             adrenDragOffset = null;
             rageAnimFrame = -1;
@@ -48,7 +47,7 @@ namespace CalamityMod.UI
         public static void Draw(SpriteBatch spriteBatch, Player player)
         {
             // If Revengeance isn't on, or Rage and Adrenaline are turned off, don't draw anything.
-            if (!CalamityWorld.revenge || !CalamityMod.CalamityConfig.AdrenalineAndRage)
+            if (!CalamityWorld.revenge || !CalamityConfig.Instance.Rippers)
                 return;
 
             // If for some reason either of the bars has been thrown into the corner (likely to 0,0 by default), put them at their default positions
@@ -188,7 +187,7 @@ namespace CalamityMod.UI
                 Main.instance.MouseText($"Rage: {(int)modPlayer.rage} / {(int)modPlayer.rageMax}");
 
                 // The bar is draggable if enabled in config.
-                if (!CalamityMod.CalamityConfig.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
+                if (!CalamityConfig.Instance.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
                 {
                     // On the first frame new mouse input comes in, set the offset. Otherwise do nothing.
                     if (rageDragOffset is null)
@@ -202,7 +201,7 @@ namespace CalamityMod.UI
                 Main.instance.MouseText($"Adrenaline: {(int)modPlayer.adrenaline} / {(int)modPlayer.adrenalineMax}");
 
                 // The bar is draggable if enabled in config.
-                if (!CalamityMod.CalamityConfig.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
+                if (!CalamityConfig.Instance.MeterPosLock && mouseInput.LeftButton == ButtonState.Pressed)
                 {
                     // On the first frame new mouse input comes in, set the offset. Otherwise do nothing.
                     if (adrenDragOffset is null)
@@ -226,33 +225,33 @@ namespace CalamityMod.UI
                 if (rageDragOffset.HasValue)
                 {
                     rageDragOffset = null;
-                    if (CalamityMod.CalamityConfig.RageMeterPosX != rageDrawPos.X)
+                    if (CalamityConfig.Instance.RageMeterPosX != rageDrawPos.X)
                     {
-                        CalamityMod.CalamityConfig.RageMeterPosX = rageDrawPos.X;
+                        CalamityConfig.Instance.RageMeterPosX = rageDrawPos.X;
                         updateCfg = true;
                     }
-                    if (CalamityMod.CalamityConfig.RageMeterPosY != rageDrawPos.Y)
+                    if (CalamityConfig.Instance.RageMeterPosY != rageDrawPos.Y)
                     {
-                        CalamityMod.CalamityConfig.RageMeterPosY = rageDrawPos.Y;
+                        CalamityConfig.Instance.RageMeterPosY = rageDrawPos.Y;
                         updateCfg = true;
                     }
                 }
                 if (adrenDragOffset.HasValue)
                 {
                     adrenDragOffset = null;
-                    if (CalamityMod.CalamityConfig.AdrenalineMeterPosX != adrenDrawPos.X)
+                    if (CalamityConfig.Instance.AdrenalineMeterPosX != adrenDrawPos.X)
                     {
-                        CalamityMod.CalamityConfig.AdrenalineMeterPosX = adrenDrawPos.X;
+                        CalamityConfig.Instance.AdrenalineMeterPosX = adrenDrawPos.X;
                         updateCfg = true;
                     }
-                    if (CalamityMod.CalamityConfig.AdrenalineMeterPosY != adrenDrawPos.Y)
+                    if (CalamityConfig.Instance.AdrenalineMeterPosY != adrenDrawPos.Y)
                     {
-                        CalamityMod.CalamityConfig.AdrenalineMeterPosY = adrenDrawPos.Y;
+                        CalamityConfig.Instance.AdrenalineMeterPosY = adrenDrawPos.Y;
                         updateCfg = true;
                     }
                 }
                 if (updateCfg)
-                    CalamityMod.SaveConfig(CalamityMod.CalamityConfig);
+                    CalamityMod.SaveConfig(CalamityConfig.Instance);
             }
         }
 
@@ -270,7 +269,7 @@ namespace CalamityMod.UI
 
         private static Vector2 GetShakeOffset()
         {
-            float shake = CalamityMod.CalamityConfig.MeterShake;
+            float shake = CalamityConfig.Instance.MeterShake;
             float shakeX = Main.rand.NextFloat(-shake, shake);
             float shakeY = Main.rand.NextFloat(-shake, shake);
             return new Vector2(shakeX, shakeY);

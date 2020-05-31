@@ -1,12 +1,11 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Buffs.DamageOverTime;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Body)]
+	[AutoloadEquip(EquipType.Body)]
     public class DesertProwlerShirt : ModItem
     {
         public override void SetStaticDefaults()

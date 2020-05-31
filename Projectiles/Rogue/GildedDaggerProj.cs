@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,7 +7,7 @@ using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class GildedDaggerProj : ModProjectile
+	public class GildedDaggerProj : ModProjectile
     {
         private bool hasHitEnemy = false;
         private int targetNPC = -1;

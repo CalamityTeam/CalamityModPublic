@@ -1,19 +1,14 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.NPCs.BrimstoneElemental;
-using CalamityMod.Dusts;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class RedLightning : ModProjectile
+	public class RedLightning : ModProjectile
     {
         public override void SetStaticDefaults()
         {

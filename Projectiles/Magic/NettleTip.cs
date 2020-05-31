@@ -1,9 +1,8 @@
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class NettleTip : ModProjectile
+	public class NettleTip : ModProjectile
     {
         public override void SetStaticDefaults()
         {

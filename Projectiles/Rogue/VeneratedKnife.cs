@@ -1,6 +1,3 @@
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -10,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class VeneratedKnife : ModProjectile
+	public class VeneratedKnife : ModProjectile
     {
         int lifetime = 150;
 

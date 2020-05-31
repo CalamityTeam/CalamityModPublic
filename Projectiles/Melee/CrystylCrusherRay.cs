@@ -1,11 +1,6 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.NPCs.BrimstoneElemental;
-using CalamityMod.Dusts;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.Enums;
 using Terraria.GameContent.Achievements;
@@ -13,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CrystylCrusherRay : ModProjectile
+	public class CrystylCrusherRay : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -136,7 +131,7 @@ namespace CalamityMod.Projectiles.Melee
 			//Play cool sound when fully charged
 			if (playedSound == false)
 			{
-				Main.PlaySound(SoundID.Item68, (int)projectile.position.X, (int)projectile.position.Y);
+				Main.PlaySound(SoundID.Item68, projectile.Center);
 				playedSound = true;
 			}
 

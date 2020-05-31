@@ -3,13 +3,12 @@ using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ExoGladSpears : ModProjectile
+	public class ExoGladSpears : ModProjectile
     {
         private Color currentColor = Color.Black;
 

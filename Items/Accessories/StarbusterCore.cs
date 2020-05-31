@@ -1,13 +1,9 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Projectiles.Typeless;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class StarbusterCore : ModItem
+	public class StarbusterCore : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,11 +1,10 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class AlphaSeeker : ModProjectile
+	public class AlphaSeeker : ModProjectile
     {
         public static float moveSpeed = 2f;
         public static float rotateSpeed = 0.04f;

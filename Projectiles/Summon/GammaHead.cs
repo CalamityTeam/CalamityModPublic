@@ -5,14 +5,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class GammaHead : ModProjectile
+	public class GammaHead : ModProjectile
     {
         public Vector2 DeltaPosition;
         public int BulletShootCounter;

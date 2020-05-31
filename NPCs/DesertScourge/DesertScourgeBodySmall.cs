@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.DesertScourge
 {
-    public class DesertScourgeBodySmall : ModNPC
+	public class DesertScourgeBodySmall : ModNPC
     {
         public override void SetStaticDefaults()
         {

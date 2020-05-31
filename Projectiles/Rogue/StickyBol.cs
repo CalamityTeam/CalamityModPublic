@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class StickyBol : ModProjectile
+	public class StickyBol : ModProjectile
     {
         public override void SetStaticDefaults()
         {

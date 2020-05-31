@@ -1,12 +1,11 @@
 using CalamityMod.Tiles.Furniture;
 using CalamityMod.Items.Critters;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.Furniture
 {
-    public class TwinklerInABottle : ModItem
+	public class TwinklerInABottle : ModItem
     {
         public override void SetStaticDefaults()
         {

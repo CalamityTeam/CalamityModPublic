@@ -10,7 +10,6 @@ using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
-using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.SlimeGod;
@@ -31,7 +30,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-    /*
+	/*
     Heyo! Here's some things you might need to know about this class and where to change things:
 
     In the "Load" method is where the "OneToMany" dictionary is updated.
@@ -54,7 +53,7 @@ namespace CalamityMod.UI
     That should be it -- ask if you have any questions!
     */
 
-    internal static class BossHealthBarManager
+	internal static class BossHealthBarManager
     {
         private static readonly int MAX_BARS = 4;
 

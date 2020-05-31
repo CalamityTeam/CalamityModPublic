@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class TenebreusTidesWaterSpear : ModProjectile
+	public class TenebreusTidesWaterSpear : ModProjectile
     {
         public override string Texture => "CalamityMod/Projectiles/Magic/UndinesRetributionSpear";
 

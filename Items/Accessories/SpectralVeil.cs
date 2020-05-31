@@ -1,12 +1,10 @@
-using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class SpectralVeil : ModItem
+	public class SpectralVeil : ModItem
     {
         public override void SetStaticDefaults()
         {

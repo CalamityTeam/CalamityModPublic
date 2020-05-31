@@ -3,12 +3,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using System;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class MetalShard : ModProjectile
+	public class MetalShard : ModProjectile
     {
         public override void SetStaticDefaults()
         {

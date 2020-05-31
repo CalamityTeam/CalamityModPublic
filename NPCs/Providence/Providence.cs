@@ -70,7 +70,7 @@ namespace CalamityMod.NPCs.Providence
             global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
             npc.LifeMaxNERB(440000, 500000, 12500000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -774,7 +774,7 @@ namespace CalamityMod.NPCs.Providence
 
 					int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
 					int num856 = (expertMode ? 24 : 26) - shootBoost;
-					if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						num856 = 20;
 
 					num856 = (int)(num856 * attackRateMult);
@@ -791,7 +791,7 @@ namespace CalamityMod.NPCs.Providence
 
 						float velocityBoost = death ? 2.5f : 2.5f * (1f - lifeRatio);
 						float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
-						if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							num860 = 12.75f;
 
 						if (revenge)
@@ -1046,7 +1046,7 @@ namespace CalamityMod.NPCs.Providence
 
 					int shootBoost = death ? 9 : (int)(10f * (1f - lifeRatio));
 					int num864 = (expertMode ? 73 : 77) - shootBoost;
-					if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						num864 = 63;
 
 					num864 = (int)(num864 * attackRateMult);
@@ -1097,7 +1097,7 @@ namespace CalamityMod.NPCs.Providence
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
 					float shootBoost = death ? 1f : 1f * (1f - lifeRatio);
-					npc.ai[2] += ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 1.5f : 1f) + shootBoost;
+					npc.ai[2] += ((npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 1.5f : 1f) + shootBoost;
 
 					if (CalamityWorld.bossRushActive)
 						npc.ai[2] += 0.25f;
@@ -1471,7 +1471,7 @@ namespace CalamityMod.NPCs.Providence
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -1494,7 +1494,7 @@ namespace CalamityMod.NPCs.Providence
 			Color color37 = Color.Lerp(Color.White, Main.dayTime ? Color.Yellow : Color.Cyan, 0.5f) * npc.Opacity;
 			Color color42 = Color.Lerp(Color.White, Main.dayTime ? Color.Violet : Color.BlueViolet, 0.5f) * npc.Opacity;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

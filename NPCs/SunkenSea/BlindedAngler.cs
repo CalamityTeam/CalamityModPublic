@@ -3,14 +3,13 @@ using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
-    public class BlindedAngler : ModNPC
+	public class BlindedAngler : ModNPC
     {
         public override void SetStaticDefaults()
         {

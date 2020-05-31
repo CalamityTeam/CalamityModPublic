@@ -1,13 +1,10 @@
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.GameContent.Achievements;
 namespace CalamityMod.Items.Fishing
 {
-    public class EnchantedStarfish : ModItem
+	public class EnchantedStarfish : ModItem
     {
         public override void SetStaticDefaults()
         {

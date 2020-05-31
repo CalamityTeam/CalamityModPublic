@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class SoulPiercer : ModItem
+	public class SoulPiercer : ModItem
     {
         public override void SetStaticDefaults()
         {

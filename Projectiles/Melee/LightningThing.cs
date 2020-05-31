@@ -3,10 +3,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.World;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class LightningThing : ModProjectile
+	public class LightningThing : ModProjectile
     {
         public override void SetStaticDefaults()
         {

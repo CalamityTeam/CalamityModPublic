@@ -1,12 +1,9 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Placeables.Ores;
-using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
@@ -16,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
-    public class SunkenCrate : ModItem
+	public class SunkenCrate : ModItem
     {
         public override void SetStaticDefaults()
         {

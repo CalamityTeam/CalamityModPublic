@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class TransfusionTrail : ModProjectile
+	public class TransfusionTrail : ModProjectile
     {
         public override void SetStaticDefaults()
         {

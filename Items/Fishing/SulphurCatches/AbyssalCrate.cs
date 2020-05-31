@@ -1,8 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -17,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.SulphurCatches
 {
-    public class AbyssalCrate : ModItem
+	public class AbyssalCrate : ModItem
     {
         public override void SetStaticDefaults()
         {

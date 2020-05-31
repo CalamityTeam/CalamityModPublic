@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.Cooldowns;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon.AndromedaUI
 {
-    public class AndromedaUI_Background : ModProjectile
+	public class AndromedaUI_Background : ModProjectile
     {
         public int FadeoutTime = -1;
         public Vector2 PlayerOffset = Vector2.Zero;

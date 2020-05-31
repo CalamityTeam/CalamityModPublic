@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class TeslaCannonShot : ModProjectile
+	public class TeslaCannonShot : ModProjectile
     {
 		private int[] dustArray = new int[7] { 56, 111, 137, 160, 206, 229, 226 };
 

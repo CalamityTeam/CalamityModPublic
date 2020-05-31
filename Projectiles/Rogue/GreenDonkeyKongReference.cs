@@ -1,4 +1,3 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class GreenDonkeyKongReference : ModProjectile
+	public class GreenDonkeyKongReference : ModProjectile
     {
         public float cooldown = 0f;
         public float oldVelocityX = 0f;
@@ -63,7 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             bool stealthS = projectile.Calamity().stealthStrike;
             int projectileCount = 8;
-            Main.PlaySound(SoundID.Item14, projectile.position);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             if (stealthS)
             {
                 projectileCount += 5; //more shit the closer we are to death

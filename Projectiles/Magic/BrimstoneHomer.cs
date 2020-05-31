@@ -1,12 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
-    public class BrimstoneHomer : ModProjectile
+	public class BrimstoneHomer : ModProjectile
     {
         public override void SetStaticDefaults()
         {

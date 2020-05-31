@@ -1,13 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class BrimseekerAuraBall : ModProjectile
+	public class BrimseekerAuraBall : ModProjectile
     {
         public static float MovementSpeed = 4f;
         public static float RotationalSpeed = 0.08f;

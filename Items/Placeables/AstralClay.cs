@@ -1,9 +1,7 @@
-using CalamityMod.Items.Placeables.Walls;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
-    public class AstralClay : ModItem
+	public class AstralClay : ModItem
     {
         public override void SetStaticDefaults()
         {

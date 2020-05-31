@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Items.Materials;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Bonebreaker : ModItem
+	public class Bonebreaker : ModItem
     {
 		public const int BaseDamage = 60;
 

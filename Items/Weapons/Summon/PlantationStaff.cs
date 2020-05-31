@@ -1,7 +1,6 @@
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class PlantationStaff : ModItem
+	public class PlantationStaff : ModItem
     {
         public override void SetStaticDefaults()
         {

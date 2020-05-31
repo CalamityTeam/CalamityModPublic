@@ -1,13 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class AuroraAustralis : ModProjectile
+	public class AuroraAustralis : ModProjectile
     {
         private static float CosFrequency = 0.05f;
         private static float CosAmplitude = 0.008f;
