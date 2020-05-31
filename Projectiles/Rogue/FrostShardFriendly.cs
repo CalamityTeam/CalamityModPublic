@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-			if (projectile.ai[0] != 1f)
+			if (projectile.ai[0] != 1f || Main.rand.NextBool(20))
 				Main.PlaySound(SoundID.Item27, projectile.position);
             for (int index1 = 0; index1 < 3; ++index1)
             {
