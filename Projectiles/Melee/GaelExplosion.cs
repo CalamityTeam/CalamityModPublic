@@ -2,10 +2,12 @@ using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Melee
 {
-	public class GaelExplosion : ModProjectile
+    public class GaelExplosion : ModProjectile
     {
         public override void SetStaticDefaults()
         {
