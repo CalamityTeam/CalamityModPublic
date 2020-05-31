@@ -173,12 +173,12 @@ namespace CalamityMod.Projectiles.Summon
 			if (foundTarget)
 			{
 				projectile.spriteDirection = projectile.direction = ((targetVec.X - projectile.Center.X) > 0).ToDirectionInt();
-				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + (projectile.spriteDirection == 1 ? MathHelper.ToRadians(315) : MathHelper.ToRadians(225)), 0.1f);
+				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + (projectile.spriteDirection == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(135)), 0.1f);
 			}
 			else
 			{
 				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? MathHelper.ToRadians(315) : MathHelper.ToRadians(225));
+				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? MathHelper.ToRadians(45) : MathHelper.ToRadians(135));
 			}
 
 			//Increment attack cooldown
