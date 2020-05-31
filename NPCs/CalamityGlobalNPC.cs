@@ -1517,14 +1517,14 @@ namespace CalamityMod.NPCs
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
 			if (KillTime > 0 && AITimer < KillTime && !CalamityWorld.bossRushActive)
 			{
-                float DRScalar = !GetDownedBossVariable(npc.type) || CalamityMod.CalamityConfig.ExtraBossDR ? 1.5f : 1f;
+                float DRScalar = !GetDownedBossVariable(npc.type) || CalamityConfig.Instance.ReactiveBossDR ? 1.5f : 1f;
 
                 // Boost Providence timed DR during the night
                 if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
 
                 // The limit for how much extra DR the boss can have
-                float extraDRLimit = (1f - DR) * (!GetDownedBossVariable(npc.type) || CalamityConfig.Instance.ExtraBossDR ? 1.5f : 1f);
+                float extraDRLimit = (1f - DR) * DRScalar;
 
 				// Ranges from 1 to 0
 				float currentHPRatio = npc.life / (float)npc.lifeMax;
