@@ -1,10 +1,11 @@
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-	public class NanoFlare : ModProjectile
+    public class NanoFlare : ModProjectile
     {
         public override void SetStaticDefaults()
         {

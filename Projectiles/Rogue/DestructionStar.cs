@@ -2,11 +2,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class DestructionStar : ModProjectile
+    public class DestructionStar : ModProjectile
     {
 		public int hitCount = 0;
         private static float Radius = 43f;
@@ -78,7 +79,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             Vector2 vector2 = new Vector2(20f, 20f);
 			for (int index1 = 0; index1 < 10; ++index1)
 			{

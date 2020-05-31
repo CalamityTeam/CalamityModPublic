@@ -2,11 +2,12 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-	public class SludgeSplotch : RogueWeapon
+    public class SludgeSplotch : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

@@ -1,12 +1,13 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-	public class ExplosiveSun : ModProjectile
+    public class ExplosiveSun : ModProjectile
     {
         public override void SetStaticDefaults()
         {
