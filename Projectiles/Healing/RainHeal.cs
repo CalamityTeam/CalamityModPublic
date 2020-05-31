@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Healing
         {
             projectile.velocity.X *= 0.985f;
             projectile.velocity.Y *= 0.985f;
-			CalamityGlobalProjectile.HealingProjectile(projectile, 8, projectile.owner, 12f, 15f, false);
+			projectile.HealingProjectile(8, projectile.owner, 12f, 15f, false);
 
 			float num498 = projectile.velocity.X * 0.2f;
             float num499 = -(projectile.velocity.Y * 0.2f);

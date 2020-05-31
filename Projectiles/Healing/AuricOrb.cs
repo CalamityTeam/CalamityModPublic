@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Healing
                 }
             }
 
-			CalamityGlobalProjectile.HealingProjectile(projectile, (int)projectile.ai[1], (int)projectile.ai[0], 6f, 15f);
+			projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 6f, 15f);
             return;
         }
 
