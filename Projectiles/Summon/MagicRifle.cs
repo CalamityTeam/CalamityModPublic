@@ -172,12 +172,12 @@ namespace CalamityMod.Projectiles.Summon
             if (flag25)
             {
 				projectile.spriteDirection = projectile.direction = ((vector46.X - projectile.Center.X) > 0).ToDirectionInt();
-                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46) + (projectile.spriteDirection == 1 ? MathHelper.ToRadians(315) : MathHelper.ToRadians(135)), 0.1f);
+                projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46) + (projectile.spriteDirection == 1 ? MathHelper.ToRadians(315) : MathHelper.ToRadians(225)), 0.1f);
             }
             else
             {
 				projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
-				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? MathHelper.ToRadians(315) : MathHelper.ToRadians(135));
+				projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? MathHelper.ToRadians(315) : MathHelper.ToRadians(225));
             }
             if (projectile.ai[1] > 0f)
             {
