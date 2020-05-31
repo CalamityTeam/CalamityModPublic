@@ -139,7 +139,7 @@ namespace CalamityMod.World
                 }
                 PutItemInChest(ref chest, ItemID.GoldCoin, goldCoins);
             }
-            else if (type == ModContent.TileType<RustyChestLocked>())
+            else if (type == ModContent.TileType<RustyChestTile>())
             {
                 // 15-29 torches (in accordence with vanilla)
                 PutItemInChest(ref chest, ItemID.Torch, 15, 29);
