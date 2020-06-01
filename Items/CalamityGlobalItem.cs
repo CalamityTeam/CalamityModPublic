@@ -2811,7 +2811,7 @@ Provides heat and cold protection in Death Mode";
                         DropHelper.DropItemChance(player, ModContent.ItemType<BlackHawkRemote>(), 3);
                         DropHelper.DropItemChance(player, ModContent.ItemType<BlastBarrel>(), 3);
                         DropHelper.DropItemChance(player, ModContent.ItemType<RogueEmblem>(), 4);
-                        DropHelper.DropItemFromSetChance(player, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
+                        DropHelper.DropItemFromSetChance(player, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<MLGRune>(), !CalamityWorld.demonMode); // Demon Trophy
                         break;
 
