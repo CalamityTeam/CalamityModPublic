@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 velocity = new Vector2(speedX, speedY).RotatedByRandom(0.05f);
-                    Projectile.NewProjectile(position, velocity, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(position, velocity, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 }
                 if (Main.rand.NextBool(8))
                 {
