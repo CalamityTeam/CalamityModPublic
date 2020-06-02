@@ -58,7 +58,7 @@ namespace CalamityMod.Projectiles.Boss
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Texture2D value = Main.projectileTexture[projectile.type];
-			Color baseColor = new Color(100, 255, 0, 255);
+			Color baseColor = new Color(100, 255, 100, 255);
 			Color color33 = baseColor * 0.5f;
 			color33.A = 0;
 			Vector2 vector28 = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);

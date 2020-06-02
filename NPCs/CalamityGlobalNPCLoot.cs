@@ -13,8 +13,6 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
-using CalamityMod.NPCs.Abyss;
-using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumDeus;
@@ -26,7 +24,6 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Ravager;
@@ -1342,12 +1339,6 @@ namespace CalamityMod.NPCs
                     if (lastPlayer >= 0)
                     {
                         CalamityWorld.ChangeTime(false);
-
-                        for (int x = 0; x < 10; x++)
-                        {
-                            NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<AstrumDeusHead>());
-                        }
-
                         NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<AstrumDeusHeadSpectral>());
                         CalamityMod.astralKillCount = 0;
                     }

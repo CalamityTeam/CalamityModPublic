@@ -1044,10 +1044,89 @@ namespace CalamityMod.World
 				int x = WorldGen.genRand.Next(10, Main.maxTilesX - 10);
 				int y = WorldGen.genRand.Next((int)Main.worldSurface - 1, Main.maxTilesY - 20);
 
+				int y2 = y - 1;
+				if (y2 < 10)
+					y2 = 10;
+
 				if (Main.tile[x, y] != null)
 				{
 					if (Main.tile[x, y].nactive())
 					{
+						if (Main.tile[x, y].liquid <= 32)
+						{
+							if (Main.tile[x, y].type == TileID.JungleGrass)
+							{
+								if (Main.tile[x, y2].liquid == 0)
+								{
+									// Plantera Bulbs pre-mech
+									if (WorldGen.genRand.Next(1500) == 0)
+									{
+										if (Main.hardMode && (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3))
+										{
+											bool placeBulb = true;
+											int minDistanceFromOtherBulbs = 150;
+											for (int i = x - minDistanceFromOtherBulbs; i < x + minDistanceFromOtherBulbs; i += 2)
+											{
+												for (int j = y - minDistanceFromOtherBulbs; j < y + minDistanceFromOtherBulbs; j += 2)
+												{
+													if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].active() && Main.tile[i, j].type == TileID.PlanteraBulb)
+													{
+														placeBulb = false;
+														break;
+													}
+												}
+											}
+
+											if (placeBulb)
+											{
+												WorldGen.PlaceJunglePlant(x, y2, TileID.PlanteraBulb, 0, 0);
+												WorldGen.SquareTileFrame(x, y2);
+												WorldGen.SquareTileFrame(x + 2, y2);
+												WorldGen.SquareTileFrame(x - 1, y2);
+												if (Main.tile[x, y2].type == TileID.PlanteraBulb && Main.netMode == NetmodeID.Server)
+												{
+													NetMessage.SendTileSquare(-1, x, y2, 5);
+												}
+											}
+										}
+									}
+
+									// Life Fruit pre-mech
+									int random = Main.expertMode ? 30 : 40;
+									if (WorldGen.genRand.Next(random) == 0)
+									{
+										if (Main.hardMode && !NPC.downedMechBossAny)
+										{
+											bool placeFruit = true;
+											int minDistanceFromOtherFruit = Main.expertMode ? 50 : 60;
+											for (int i = x - minDistanceFromOtherFruit; i < x + minDistanceFromOtherFruit; i += 2)
+											{
+												for (int j = y - minDistanceFromOtherFruit; j < y + minDistanceFromOtherFruit; j += 2)
+												{
+													if (i > 1 && i < Main.maxTilesX - 2 && j > 1 && j < Main.maxTilesY - 2 && Main.tile[i, j].active() && Main.tile[i, j].type == TileID.LifeFruit)
+													{
+														placeFruit = false;
+														break;
+													}
+												}
+											}
+
+											if (placeFruit)
+											{
+												WorldGen.PlaceJunglePlant(x, y2, TileID.LifeFruit, WorldGen.genRand.Next(3), 0);
+												WorldGen.SquareTileFrame(x, y2);
+												WorldGen.SquareTileFrame(x + 1, y2 + 1);
+												if (Main.tile[x, y2].type == TileID.LifeFruit && Main.netMode == NetmodeID.Server)
+												{
+													NetMessage.SendTileSquare(-1, x, y2, 4);
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+
 						int tileType = Main.tile[x, y].type;
 						bool tenebris = tileType == ModContent.TileType<Tenebris>() && downedCalamitas;
 
@@ -1364,10 +1443,6 @@ namespace CalamityMod.World
                                     break;
                                 case 29:
                                     ChangeTime(false);
-                                    for (int x = 0; x < 10; x++)
-                                    {
-                                        NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<AstrumDeusHead>());
-                                    }
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<AstrumDeusHeadSpectral>());
                                     break;
                                 case 30:

@@ -2546,7 +2546,7 @@ namespace CalamityMod.NPCs
 			float KBResistMultiplier = 1f - baseKnockBackResist * 0.4f;
 			for (float num = 1f; num < balance; num += 0.34f)
 			{
-				if ((double)KBResist < 0.05)
+				if (KBResist < 0.05)
 				{
 					KBResist = 0f;
 					break;
@@ -2565,10 +2565,13 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			int enrageScale = 0;
-			if ((double)(npc.position.Y / 16f) < Main.worldSurface)
+			if ((npc.position.Y / 16f) < Main.worldSurface)
 				enrageScale++;
 			if (!Main.player[npc.target].ZoneJungle)
 				enrageScale++;
+
+			if (CalamityWorld.bossRushActive)
+				enrageScale = 0;
 
 			// Boost defense and damage as health decreases
 			int statBoost = (int)(20f * (1f - npc.life / (float)npc.lifeMax));
@@ -2610,7 +2613,7 @@ namespace CalamityMod.NPCs
 
 				npc.spriteDirection = npc.direction;
 
-				if (npc.position.X < (float)(Main.maxTilesX * 8))
+				if (npc.position.X < (Main.maxTilesX * 8))
 				{
 					if (npc.velocity.X > 0f)
 						npc.velocity.X *= 0.98f;
@@ -4379,13 +4382,17 @@ namespace CalamityMod.NPCs
             float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases based on life percentage
-            bool phase2 = lifeRatio < 0.66f || death;
-            bool phase3 = lifeRatio < 0.33f || death;
+            bool phase2 = lifeRatio < 0.85f || death;
+			bool phase3 = lifeRatio < 0.7f || death;
+			bool startFlightPhase = lifeRatio < 0.5f || death;
+			bool phase4 = lifeRatio < 0.25f;
+			bool phase5 = lifeRatio < 0.1f;
 
 			// Flight timer
+			float newAISet = phase5 ? 900f : phase4 ? 450f : 0f;
 			calamityGlobalNPC.newAI[3] += 1f;
 			if (calamityGlobalNPC.newAI[3] >= 1800f)
-				calamityGlobalNPC.newAI[3] = 0f;
+				calamityGlobalNPC.newAI[3] = newAISet;
 
             // Set worm variable for worms
             if (npc.ai[3] > 0f)
@@ -4401,10 +4408,7 @@ namespace CalamityMod.NPCs
 			bool targetFloatingUp = player.gravDir == -1f;
 
 			// Phase for flying at the player
-			bool flyAtTarget = calamityGlobalNPC.newAI[3] >= 900f && (lifeRatio < 0.5f || death);
-
-			// Velocity
-			npc.velocity.Length();
+			bool flyAtTarget = calamityGlobalNPC.newAI[3] >= 900f && startFlightPhase;
 
             // Dust on spawn and alpha effects
             if (npc.type == NPCID.TheDestroyer || (npc.type != NPCID.TheDestroyer && Main.npc[(int)npc.ai[1]].alpha < 128))
@@ -4499,10 +4503,10 @@ namespace CalamityMod.NPCs
                 }
 
                 // Fire lasers
-                if (npc.type == NPCID.TheDestroyerBody && Vector2.Distance(player.Center, npc.Center) > (flyAtTarget ? 320f : 80f))
+                if (npc.type == NPCID.TheDestroyerBody && Vector2.Distance(player.Center, npc.Center) > 80f && !flyAtTarget)
                 {
                     // Laser rate of fire
-                    int shootTime = 1 + (int)Math.Ceiling(((enraged || configBossRushBoost) ? 7D : 3D) * lifeRatio);
+                    int shootTime = 2 + (int)Math.Ceiling(((enraged || configBossRushBoost) ? 5D : 2D) * (1f - lifeRatio));
                     if (CalamityWorld.bossRushActive)
                         shootTime += 1;
 
@@ -4560,11 +4564,6 @@ namespace CalamityMod.NPCs
                                 {
                                     damage += 4;
                                     projectileType = ModContent.ProjectileType<DestroyerHomingLaser>();
-                                }
-                                else if (phase2)
-                                {
-                                    damage += 2;
-                                    projectileType = ModContent.ProjectileType<DestroyerFrostLaser>();
                                 }
                             }
                             else
@@ -4701,6 +4700,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+
 			float fallSpeedBoost = death ? 5f : 5f * (1f - lifeRatio);
             fallSpeed += fallSpeedBoost;
 
@@ -4709,6 +4709,13 @@ namespace CalamityMod.NPCs
 			float turnSpeedBoost = death ? (targetFloatingUp ? 0.3f : 0.15f) : ((targetFloatingUp ? 0.3f : 0.15f) * (1f - lifeRatio));
 			float speed = 0.1f + speedBoost;
             float turnSpeed = 0.15f + turnSpeedBoost;
+
+			if (flyAtTarget)
+			{
+				float speedMultiplier = phase5 ? 2f : phase4 ? 1.5f : 1f;
+				speed *= speedMultiplier;
+				fallSpeed *= speedMultiplier;
+			}
 
             if (CalamityWorld.bossRushActive)
             {
@@ -13543,6 +13550,12 @@ namespace CalamityMod.NPCs
             }
 			else if (npc.type == NPCID.MoonLordFreeEye)
 			{
+				if (Main.npc[(int)npc.ai[3]].ai[0] == 2f)
+				{
+					npc.HitEffect(0, 9999.0);
+					npc.active = false;
+				}
+
 				if (calamityGlobalNPC.newAI[0] == 0f)
 				{
 					int eyeCount = NPC.CountNPCS(npc.type);

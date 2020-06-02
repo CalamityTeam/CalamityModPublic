@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 npc.lifeMax = 120000;
             }
-            npc.knockBackResist = 0.95f;
+            npc.knockBackResist = 0.4f;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
@@ -44,12 +44,6 @@ namespace CalamityMod.NPCs.AstrumDeus
         public override void AI()
         {
             bool revenge = CalamityWorld.revenge;
-            if (CalamityGlobalNPC.astrumDeusHeadMain < 0 || !Main.npc[CalamityGlobalNPC.astrumDeusHeadMain].active)
-            {
-                npc.active = false;
-                npc.netUpdate = true;
-                return;
-            }
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
@@ -66,16 +60,16 @@ namespace CalamityMod.NPCs.AstrumDeus
                 num *= 1.5f;
                 num2 *= 1.5f;
             }
-            Vector2 vector = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num4 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num5 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
-            num4 = (float)((int)(num4 / 8f) * 8);
-            num5 = (float)((int)(num5 / 8f) * 8);
-            vector.X = (float)((int)(vector.X / 8f) * 8);
-            vector.Y = (float)((int)(vector.Y / 8f) * 8);
+            Vector2 vector = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+            float num4 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
+            float num5 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
+            num4 = (int)(num4 / 8f) * 8;
+            num5 = (int)(num5 / 8f) * 8;
+            vector.X = (int)(vector.X / 8f) * 8;
+            vector.Y = (int)(vector.Y / 8f) * 8;
             num4 -= vector.X;
             num5 -= vector.Y;
-            float num6 = (float)Math.Sqrt((double)(num4 * num4 + num5 * num5));
+            float num6 = (float)Math.Sqrt(num4 * num4 + num5 * num5);
             float num7 = num6;
             bool flag = false;
             if (num6 > 600f)
@@ -119,7 +113,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             }
             if (Main.player[npc.target].dead)
             {
-                num4 = (float)npc.direction * num / 2f;
+                num4 = npc.direction * num / 2f;
                 num5 = -num / 2f;
             }
             if (npc.velocity.X < num4)
@@ -155,17 +149,17 @@ namespace CalamityMod.NPCs.AstrumDeus
             num11 /= 16;
             if (!WorldGen.SolidTile(num10, num11))
             {
-                Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.3f, 0f, 0.25f);
+                Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.3f, 0f, 0.25f);
             }
             if (num4 > 0f)
             {
                 npc.spriteDirection = 1;
-                npc.rotation = (float)Math.Atan2((double)num5, (double)num4);
+                npc.rotation = (float)Math.Atan2(num5, num4);
             }
             if (num4 < 0f)
             {
                 npc.spriteDirection = -1;
-                npc.rotation = (float)Math.Atan2((double)num5, (double)num4) + 3.14f;
+                npc.rotation = (float)Math.Atan2(num5, num4) + 3.14f;
             }
             float num12 = 0.7f;
             if (npc.collideX)
@@ -185,11 +179,11 @@ namespace CalamityMod.NPCs.AstrumDeus
             {
                 npc.netUpdate = true;
                 npc.velocity.Y = npc.oldVelocity.Y * -num12;
-                if (npc.velocity.Y > 0f && (double)npc.velocity.Y < 1.5)
+                if (npc.velocity.Y > 0f && npc.velocity.Y < 1.5)
                 {
                     npc.velocity.Y = 2f;
                 }
-                if (npc.velocity.Y < 0f && (double)npc.velocity.Y > -1.5)
+                if (npc.velocity.Y < 0f && npc.velocity.Y > -1.5)
                 {
                     npc.velocity.Y = -2f;
                 }
@@ -221,9 +215,9 @@ namespace CalamityMod.NPCs.AstrumDeus
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
@@ -256,12 +250,12 @@ namespace CalamityMod.NPCs.AstrumDeus
 
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 30;
                 npc.height = 30;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 5; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 100, default, 2f);
@@ -269,7 +263,7 @@ namespace CalamityMod.NPCs.AstrumDeus
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 10; num623++)
@@ -291,25 +285,25 @@ namespace CalamityMod.NPCs.AstrumDeus
                     {
                         scaleFactor10 = 1f;
                     }
-                    int num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+                    int num626 = Gore.NewGore(new Vector2(npc.position.X + (npc.width / 2) - 24f, npc.position.Y + (npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
                     Main.gore[num626].velocity *= scaleFactor10;
                     Gore expr_13AB6_cp_0 = Main.gore[num626];
                     expr_13AB6_cp_0.velocity.X += 1f;
                     Gore expr_13AD6_cp_0 = Main.gore[num626];
                     expr_13AD6_cp_0.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+                    num626 = Gore.NewGore(new Vector2(npc.position.X + (npc.width / 2) - 24f, npc.position.Y + (npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
                     Main.gore[num626].velocity *= scaleFactor10;
                     Gore expr_13B79_cp_0 = Main.gore[num626];
                     expr_13B79_cp_0.velocity.X -= 1f;
                     Gore expr_13B99_cp_0 = Main.gore[num626];
                     expr_13B99_cp_0.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+                    num626 = Gore.NewGore(new Vector2(npc.position.X + (npc.width / 2) - 24f, npc.position.Y + (npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
                     Main.gore[num626].velocity *= scaleFactor10;
                     Gore expr_13C3C_cp_0 = Main.gore[num626];
                     expr_13C3C_cp_0.velocity.X += 1f;
                     Gore expr_13C5C_cp_0 = Main.gore[num626];
                     expr_13C5C_cp_0.velocity.Y -= 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
+                    num626 = Gore.NewGore(new Vector2(npc.position.X + (npc.width / 2) - 24f, npc.position.Y + (npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
                     Main.gore[num626].velocity *= scaleFactor10;
                     Gore expr_13CFF_cp_0 = Main.gore[num626];
                     expr_13CFF_cp_0.velocity.X -= 1f;

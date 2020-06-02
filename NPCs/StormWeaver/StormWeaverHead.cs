@@ -145,17 +145,22 @@ namespace CalamityMod.NPCs.StormWeaver
                     }
                     tail = true;
                 }
+
                 int damage = expertMode ? 62 : 75;
-                npc.localAI[0] += 1f;
-                if (npc.localAI[0] >= 360f)
-                {
-                    npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
-                    npc.netUpdate = true;
-                    float xPos = Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f;
-                    Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
-                    Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
-                }
+				if (expertMode)
+				{
+					npc.localAI[0] += 1f;
+					if (npc.localAI[0] >= 360f)
+					{
+						npc.localAI[0] = 0f;
+						npc.TargetClosest(true);
+						npc.netUpdate = true;
+						float xPos = Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f;
+						Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
+						Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
+
                 if (BoltCountdown == 0)
                 {
                     BoltCountdown = 600;
@@ -296,9 +301,10 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             else
             {
-                num188 = revenge ? 14f : 13f;
-                num189 = revenge ? 0.44f : 0.4f;
-                if (!Main.player[npc.target].ZoneSkyHeight && CalamityWorld.DoGSecondStageCountdown <= 0)
+                num188 = revenge ? 11f : 10f;
+                num189 = revenge ? 0.31f : 0.28f;
+
+                if (!Main.player[npc.target].ZoneSkyHeight && CalamityWorld.DoGSecondStageCountdown <= 0 && expertMode)
                 {
                     num188 *= 2f;
                     num189 *= 2f;

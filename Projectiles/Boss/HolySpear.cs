@@ -117,14 +117,14 @@ namespace CalamityMod.Projectiles.Boss
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
 			Texture2D value = Main.projectileTexture[projectile.type];
-			int green = projectile.ai[0] != 0f ? 255 : 100;
-			int blue = projectile.ai[0] != 0f ? 0 : 100;
+			int green = projectile.ai[0] != 0f ? 255 : 125;
+			int blue = projectile.ai[0] != 0f ? 0 : 125;
 			Color baseColor = new Color(255, green, blue, 255);
 
 			if (!Main.dayTime)
 			{
-				int red = projectile.ai[0] != 0f ? 0 : 100;
-				green = projectile.ai[0] != 0f ? 255 : 100;
+				int red = projectile.ai[0] != 0f ? 100 : 175;
+				green = projectile.ai[0] != 0f ? 255 : 175;
 				baseColor = new Color(red, green, 255, 255);
 			}
 

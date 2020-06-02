@@ -679,7 +679,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
-                    if (bulletHellCounter2 % 225 == 0) //giant homing fireballs
+                    if (bulletHellCounter2 % 225 == 0 && expertMode) //giant homing fireballs
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 1f * uDieLul, ModContent.ProjectileType<BrimstoneMonster>(), damage, 0f, Main.myPlayer, 0f, passedVar);
                         passedVar += 1f;

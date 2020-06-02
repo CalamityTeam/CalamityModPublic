@@ -66,7 +66,6 @@ using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Skies;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -1645,7 +1644,6 @@ namespace CalamityMod
 			{
 				NPCID.TheDestroyer,
 				NPCID.SolarCrawltipedeHead,
-				ModContent.NPCType<AstrumDeusHead>(),
 				ModContent.NPCType<AstrumDeusHeadSpectral>(),
 				ModContent.NPCType<ProfanedGuardianBoss>(),
 				ModContent.NPCType<Bumblefuck>(),
@@ -2756,12 +2754,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<Leviathan>(), 10800 },
 				{ ModContent.NPCType<Siren>(), 10800 },
 				{ ModContent.NPCType<AstrumAureus>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHead>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusBody>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusTail>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 5400 },
+				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 5400 },
+				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 5400 },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), 10800 },
 				{ ModContent.NPCType<RavagerBody>(), 10800 },
 				{ ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
@@ -2776,12 +2771,12 @@ namespace CalamityMod
 				{ ModContent.NPCType<Signus>(), 7200 },
 				{ ModContent.NPCType<Polterghast>(), 10800 },
 				{ ModContent.NPCType<OldDuke>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsHead>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 10800 },
+				{ ModContent.NPCType<DevourerofGodsHead>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
 				{ ModContent.NPCType<Yharon>(), 10800 },
 				{ ModContent.NPCType<SupremeCalamitas>(), 18000 }
 			};
@@ -2866,9 +2861,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusHead>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<AstrumDeusBody>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusTail>(), velocityScaleMin },
 				{ ModContent.NPCType<AstrumDeusProbe3>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerShade>(), velocityScaleMin },

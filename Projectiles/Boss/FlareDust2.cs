@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
 
 						projectile.ai[1] += 0.1f;
 
-						float amplitude = velocity.Length();
+						float amplitude = 2f;
 
 						float wavyVelocity = (float)Math.Cos(projectile.ai[1]);
 
@@ -99,7 +99,7 @@ namespace CalamityMod.Projectiles.Boss
 
 						projectile.ai[1] += 0.1f;
 
-						float amplitude = velocity.Length();
+						float amplitude = 2f;
 
 						float wavyVelocity = (float)Math.Sin(projectile.ai[1]);
 

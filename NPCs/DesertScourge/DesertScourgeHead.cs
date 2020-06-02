@@ -18,18 +18,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.DesertScourge
 {
     [AutoloadBossHead]
     public class DesertScourgeHead : ModNPC
     {
         private bool flies = false;
-        private float speed = 15f;
-        private float turnSpeed = 0.15f;
-        private const int minLength = 30;
-        private const int maxLength = 31;
+        private float speed = 8f;
+        private float turnSpeed = 0.08f;
         private bool TailSpawned = false;
 
         public override void SetStaticDefaults()
@@ -89,17 +85,28 @@ namespace CalamityMod.NPCs.DesertScourge
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
-			float speedMult = expertMode ? 1.5f : 1.45f;
-            if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                speedMult = 2f;
-            if (CalamityWorld.bossRushActive)
-                speedMult *= 2f;
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
-			float speedBoost = death ? speedMult : speedMult - ((float)npc.life / (float)npc.lifeMax);
-			speed = 13f * speedBoost;
-            turnSpeed = 0.13f * speedBoost;
+			if (expertMode)
+			{
+				speed += death ? 10f : 10f * (1f - lifeRatio);
+				turnSpeed += death ? 0.1f : 0.1f * (1f - lifeRatio);
+			}
 
-            if (npc.ai[3] > 0f)
+			if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			{
+				speed *= 2f;
+				turnSpeed *= 2f;
+			}
+
+			if (CalamityWorld.bossRushActive)
+			{
+				speed *= 2f;
+				turnSpeed *= 2f;
+			}
+
+			if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
             }
@@ -123,7 +130,8 @@ namespace CalamityMod.NPCs.DesertScourge
                 if (!TailSpawned && npc.ai[0] == 0f)
                 {
                     int Previous = npc.whoAmI;
-                    for (int num36 = 0; num36 < maxLength; num36++)
+					int minLength = expertMode ? 30 : 25;
+                    for (int num36 = 0; num36 < minLength + 1; num36++)
                     {
                         int lol;
                         if (num36 >= 0 && num36 < minLength)
@@ -135,9 +143,9 @@ namespace CalamityMod.NPCs.DesertScourge
                             lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<DesertScourgeTail>(), npc.whoAmI);
                         }
                         Main.npc[lol].realLife = npc.whoAmI;
-                        Main.npc[lol].ai[2] = (float)npc.whoAmI;
-                        Main.npc[lol].ai[1] = (float)Previous;
-                        Main.npc[Previous].ai[0] = (float)lol;
+                        Main.npc[lol].ai[2] = npc.whoAmI;
+                        Main.npc[lol].ai[1] = Previous;
+                        Main.npc[Previous].ai[0] = lol;
                         NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
                         Previous = lol;
                     }
@@ -145,9 +153,9 @@ namespace CalamityMod.NPCs.DesertScourge
                 }
             }
             int num180 = (int)(npc.position.X / 16f) - 1;
-            int num181 = (int)((npc.position.X + (float)npc.width) / 16f) + 2;
+            int num181 = (int)((npc.position.X + npc.width) / 16f) + 2;
             int num182 = (int)(npc.position.Y / 16f) - 1;
-            int num183 = (int)((npc.position.Y + (float)npc.height) / 16f) + 2;
+            int num183 = (int)((npc.position.Y + npc.height) / 16f) + 2;
             if (num180 < 0)
             {
                 num180 = 0;

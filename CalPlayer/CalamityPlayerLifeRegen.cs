@@ -102,8 +102,8 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 16;
-            }
+				lifeRegenLost += 16;
+			}
 
             if (modPlayer.vaporfied)
             {
@@ -111,8 +111,8 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 8;
-            }
+				lifeRegenLost += 8;
+			}
 
 			if (modPlayer.cragsLava)
 			{
@@ -198,7 +198,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 20;
+				lifeRegenLost += 16;
             }
 
             if (modPlayer.pFlames)

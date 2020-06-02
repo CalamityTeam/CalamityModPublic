@@ -182,8 +182,8 @@ namespace CalamityMod.NPCs.Polterghast
 			// Velocity and acceleration
 			bool charging = npc.ai[2] >= 300f;
 			bool reset = npc.ai[2] >= 600f;
-			float num734 = 2.5f;
-            float num735 = 0.025f;
+			float num734 = 10f; // max should be 21
+            float num735 = 0.05f; // max should be 0.13
             if (!player.ZoneDungeon && !CalamityWorld.bossRushActive && player.position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
@@ -191,8 +191,8 @@ namespace CalamityMod.NPCs.Polterghast
                     despawnBoost = true;
 
                 speedBoost = true;
-                num734 += 2f;
-                num735 += 0.025f;
+                num734 += 5f;
+                num735 += 0.05f;
             }
             else
                 despawnTimer++;
@@ -207,16 +207,16 @@ namespace CalamityMod.NPCs.Polterghast
 
 			if (phase2)
             {
-                num734 += 1.5f;
-                num735 += 0.01f;
+                num734 += 2.5f;
+                num735 += 0.02f;
 			}
 
 			if (!phase3)
 			{
 				if (charging)
 				{
-					num734 += phase2 ? 9.5f : 8.5f;
-					num735 += phase2 ? 0.05f : 0.045f;
+					num734 += phase2 ? 4.5f : 3.5f;
+					num735 += phase2 ? 0.03f : 0.025f;
 				}
 
 				npc.ai[2] += 1f;
@@ -230,8 +230,8 @@ namespace CalamityMod.NPCs.Polterghast
 			{
 				if (charging)
 				{
-					num734 += phase5 ? 14.5f : 10.5f;
-					num735 += phase5 ? 0.085f : 0.055f;
+					num734 += phase5 ? 8.5f : 4.5f;
+					num735 += phase5 ? 0.06f : 0.03f;
 				}
 				else
 				{
@@ -266,10 +266,8 @@ namespace CalamityMod.NPCs.Polterghast
 
             if (expertMode)
             {
-                num734 += revenge ? 1.5f : 1f;
-                num734 *= revenge ? 1.2f : 1.1f;
-                num735 += revenge ? 0.015f : 0.01f;
-                num735 *= revenge ? 1.2f : 1.1f;
+                num734 += revenge ? 5f : 3.5f;
+                num735 += revenge ? 0.035f : 0.025f;
             }
 
             Vector2 vector91 = new Vector2(num730, num731);
@@ -568,7 +566,7 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 npc.HitSound = SoundID.NPCHit36;
 
-                if (!spawnGhost)
+                if (!spawnGhost && expertMode)
                 {
                     spawnGhost = true;
 
