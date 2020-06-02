@@ -1,12 +1,10 @@
-﻿using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BettyExplosion : ModProjectile
+	public class BettyExplosion : ModProjectile
     {
         public override void SetStaticDefaults()
         {

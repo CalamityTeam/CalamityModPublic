@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatBuffs;
+using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -19,7 +19,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.Crabulon
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class CrabulonIdle : ModNPC
     {
         private int shotSpacing = 1000;
@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.Crabulon
             npc.height = 160;
             npc.defense = 8;
             npc.LifeMaxNERB(3000, 4000, 11000000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.Crabulon
                         float num353 = 10f;
                         int num354 = expertMode ? 12 : 16;
                         int num355 = ModContent.ProjectileType<MushBomb>();
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 42);
+                        Main.PlaySound(SoundID.Item42, (int)npc.position.X, (int)npc.position.Y);
                         if (CalamityWorld.bossRushActive)
                         {
                             num353 += 3f;
@@ -241,7 +241,7 @@ namespace CalamityMod.NPCs.Crabulon
                     num823 = 2f;
                 if (CalamityWorld.bossRushActive)
                     num823 = 12f;
-                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                     num823 = 16f;
 
                 if (Math.Abs(npc.Center.X - player.Center.X) < 50f)
@@ -503,7 +503,7 @@ namespace CalamityMod.NPCs.Crabulon
                         {
                             num626 += 1f;
                         }
-                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num626 += 3f;
                         }
@@ -551,7 +551,7 @@ namespace CalamityMod.NPCs.Crabulon
                             Main.npc[num664].velocity.Y = Main.rand.Next(-50, -31) * 0.1f;
                             if (Main.netMode == NetmodeID.Server && num664 < 200)
                             {
-                                NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
                             }
                         }
                     }

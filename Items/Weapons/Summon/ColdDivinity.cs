@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.width = 52;
             item.height = 50;
             item.useTime = item.useAnimation = 25;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 4.5f;
             item.value = Item.buyPrice(0, 48, 0, 0);

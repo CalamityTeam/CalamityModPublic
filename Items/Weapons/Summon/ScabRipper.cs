@@ -1,14 +1,12 @@
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class ScabRipper : ModItem
+	public class ScabRipper : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.width = 66;
             item.height = 70;
             item.useTime = item.useAnimation = 35;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 0.5f;
             item.value = Item.buyPrice(0, 2, 0, 0);

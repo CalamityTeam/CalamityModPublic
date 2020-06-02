@@ -4,7 +4,6 @@ using CalamityMod.Items;
 using CalamityMod.Projectiles;
 using CalamityMod.World;
 using System;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Terraria;
 
 namespace CalamityMod

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
@@ -18,8 +18,8 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Tools;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -120,6 +120,7 @@ namespace CalamityMod
         public static Texture2D AstralSky;
         public static Effect CustomShader;
         public static Effect LightShader;
+        public static Effect TentacleShader;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
@@ -207,13 +208,12 @@ namespace CalamityMod
         internal Mod thorium = null;
         public bool fargosMutant = false;
 
-		internal static Configs CalamityConfig;
-		internal static CalamityMod instance;
+		internal static CalamityMod Instance;
 
         #region Load
         public override void Load()
         {
-			instance = this;
+			Instance = this;
 			heartOriginal2 = Main.heartTexture;
 			heartOriginal = Main.heart2Texture;
 			rainOriginal = Main.rainTexture;
@@ -285,6 +285,7 @@ namespace CalamityMod
             AstralSky = ModContent.GetTexture("CalamityMod/ExtraTextures/AstralSky");
             CustomShader = GetEffect("Effects/CustomShader");
             LightShader = GetEffect("Effects/LightBurstShader");
+            TentacleShader = GetEffect("Effects/TentacleShader");
 
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -318,6 +319,8 @@ namespace CalamityMod
 
             Filters.Scene["CalamityMod:LightBurst"] = new Filter(new ScreenShaderData(new Ref<Effect>(LightShader), "BurstPass"), EffectPriority.VeryHigh);
             Filters.Scene["CalamityMod:LightBurst"].Load();
+
+            GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
 
             RipperUI.Reset();
             AstralArcanumUI.Load(this);
@@ -427,8 +430,7 @@ namespace CalamityMod
             thorium = null;
             fargosMutant = false;
 
-			CalamityConfig = null;
-			instance = null;
+			Instance = null;
 
             BossHealthBarManager.Unload();
             base.Unload();
@@ -465,15 +467,15 @@ namespace CalamityMod
         #endregion
 
         #region ConfigCrap
-        internal static void SaveConfig(Configs CalamityConfig)
+        internal static void SaveConfig(CalamityConfig cfg)
 		{
 			// in-game ModConfig saving from mod code is not supported yet in tmodloader, and subject to change, so we need to be extra careful.
 			// This code only supports client configs, and doesn't call onchanged. It also doesn't support ReloadRequired or anything else.
 			MethodInfo saveMethodInfo = typeof(ConfigManager).GetMethod("Save", BindingFlags.Static | BindingFlags.NonPublic);
 			if (saveMethodInfo != null)
-				saveMethodInfo.Invoke(null, new object[] { CalamityConfig });
+				saveMethodInfo.Invoke(null, new object[] { cfg });
 			else
-				instance.Logger.Warn("In-game SaveConfig failed, code update required");
+				Instance.Logger.Warn("In-game SaveConfig failed, code update required");
 		}
 		#endregion
 
@@ -637,7 +639,9 @@ namespace CalamityMod
                 ModContent.ProjectileType<MagnomalyBeam>(),
                 ModContent.ProjectileType<MagnomalyAura>(),
                 ModContent.ProjectileType<RainbowTrail>(),
-                ModContent.ProjectileType<PrismaticBeam>()
+                ModContent.ProjectileType<PrismaticBeam>(),
+                ModContent.ProjectileType<ExoLight>(),
+                ModContent.ProjectileType<ExoLightBomb>()
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -1296,7 +1300,9 @@ namespace CalamityMod
                 ItemID.WaspGun,
                 ItemID.Keybrand,
                 ItemID.PulseBow,
-                ItemID.PaladinsHammer
+                ItemID.PaladinsHammer,
+                ItemID.SolarEruption,
+                ItemID.DayBreak
             };
 
             thirtyThreeDamageBuffList = new List<int>()
@@ -1375,7 +1381,8 @@ namespace CalamityMod
                 ItemID.DD2BetsyBow,
                 ItemID.InfluxWaver,
                 ItemID.Xenopopper,
-                ItemID.ElectrosphereLauncher
+                ItemID.ElectrosphereLauncher,
+                ItemID.OpticStaff //Note: got local i frames so it should be better
             };
 
             pumpkinMoonBuffList = new List<int>()
@@ -2418,7 +2425,7 @@ namespace CalamityMod
             };
 
             Mod thorium = ModLoader.GetMod("ThoriumMod");
-            if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff && thorium != null)
+            if (CalamityConfig.Instance.BuffThoriumBosses && thorium != null)
             {
                 enemyImmunityList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
                 enemyImmunityList.Add(thorium.NPCType("QueenJelly"));
@@ -2538,10 +2545,10 @@ namespace CalamityMod
 
             legOverrideList = new List<int>()
             {
-                instance.GetEquipSlot("ProviLegs", EquipType.Legs),
-                instance.GetEquipSlot("SirenLegAlt", EquipType.Legs),
-                instance.GetEquipSlot("SirenLeg", EquipType.Legs),
-                instance.GetEquipSlot("PopoLeg", EquipType.Legs)
+                Instance.GetEquipSlot("ProviLegs", EquipType.Legs),
+                Instance.GetEquipSlot("SirenLegAlt", EquipType.Legs),
+                Instance.GetEquipSlot("SirenLeg", EquipType.Legs),
+                Instance.GetEquipSlot("PopoLeg", EquipType.Legs)
             };
         }
         #endregion
@@ -2665,7 +2672,7 @@ namespace CalamityMod
         #region Thorium Boss DR
         private void SetupThoriumBossDR(Mod thorium)
         {
-            if (thorium is null || !CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
+            if (thorium is null || !CalamityConfig.Instance.BuffThoriumBosses)
                 return;
 
             void ThoriumDR(string npcName, float dr) {
@@ -3778,7 +3785,7 @@ namespace CalamityMod
         {
             if (Main.netMode == NetmodeID.Server)
             {
-                NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.WorldData, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
             }
         }
         #endregion

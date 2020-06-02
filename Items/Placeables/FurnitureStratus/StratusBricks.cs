@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Placeables.Walls;
 using Terraria.ID;
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.FurnitureStratus.StratusBricks>();
         }
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>(), 1);
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 1);
             recipe.SetResult(this, 50);
-            recipe.AddTile(412);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<StratusWall>(), 4);
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<StratusPlatform>(), 2);
             recipe.SetResult(this);
-            recipe.AddTile(412);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
         }
     }

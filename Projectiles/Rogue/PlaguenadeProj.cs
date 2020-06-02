@@ -1,7 +1,8 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -78,8 +79,8 @@ namespace CalamityMod.Projectiles.Rogue
                     Projectile.NewProjectile(projectile.position.X, projectile.position.Y, speedX, speedY, ModContent.ProjectileType<PlaguenadeBee>(), Main.player[projectile.owner].beeDamage(projectile.damage), Main.player[projectile.owner].beeKB(0f), Main.myPlayer, 0f, 0f);
                 }
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-			if (projectile.Calamity().stealthStrike)
+            Main.PlaySound(SoundID.Item14, projectile.position);
+            if (projectile.Calamity().stealthStrike)
 			{
 				projectile.position = projectile.Center;
 				projectile.width = projectile.height = 75;

@@ -351,12 +351,12 @@ namespace CalamityMod.Projectiles.Summon
                 {
 					NPC npc = Main.npc[i];
                     if (npc.active && !npc.dontTakeDamage && npc.defense < 9999 &&
-                        ((projectile.friendly && (!npc.friendly || (npc.type == 22 && projectile.owner < Main.maxPlayers && player.killGuide) || (npc.type == 54 && projectile.owner < Main.maxPlayers && player.killClothier))) && (projectile.owner < 0 || npc.immune[projectile.owner] == 0 || projectile.maxPenetrate == 1)))
+                        ((projectile.friendly && (!npc.friendly || (npc.type == NPCID.Guide && projectile.owner < Main.maxPlayers && player.killGuide) || (npc.type == NPCID.Clothier && projectile.owner < Main.maxPlayers && player.killClothier))) && (projectile.owner < 0 || npc.immune[projectile.owner] == 0 || projectile.maxPenetrate == 1)))
                     {
                         if (npc.noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(npc))
                         {
                             bool flag3;
-                            if (npc.type == 414)
+                            if (npc.type == NPCID.SolarCrawltipedeTail)
                             {
                                 Rectangle rect = npc.getRect();
                                 int num5 = 8;

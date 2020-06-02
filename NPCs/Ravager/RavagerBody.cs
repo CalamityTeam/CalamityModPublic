@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -50,7 +50,7 @@ namespace CalamityMod.NPCs.Ravager
                 npc.lifeMax *= 7;
                 npc.value *= 1.5f;
             }
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -267,7 +267,7 @@ namespace CalamityMod.NPCs.Ravager
                         Vector2 shootFromVector = new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f);
                         int damage = 40;
                         float velocity = CalamityWorld.bossRushActive ? 18f : 12f;
-                        int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, 258, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                        int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, ProjectileID.Fireball, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -304,7 +304,7 @@ namespace CalamityMod.NPCs.Ravager
                         Vector2 shootFromVector = new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f);
                         int damage = 40;
                         float velocity = CalamityWorld.bossRushActive ? -18f : -12f;
-                        int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, 258, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
+                        int laser = Projectile.NewProjectile(shootFromVector.X, shootFromVector.Y, velocity, 0f, ProjectileID.Fireball, damage + (provy ? 30 : 0), 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -400,11 +400,11 @@ namespace CalamityMod.NPCs.Ravager
 								npc.ai[1] += 1f;
 						}
 
-						if ((!rightClawActive && !leftClawActive) || death || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if ((!rightClawActive && !leftClawActive) || death || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             npc.ai[1] += 1f;
-                        if (!headActive || death || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (!headActive || death || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             npc.ai[1] += 1f;
-                        if ((!rightLegActive && !leftLegActive) || death || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if ((!rightLegActive && !leftLegActive) || death || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             npc.ai[1] += 1f;
                     }
 
@@ -416,7 +416,7 @@ namespace CalamityMod.NPCs.Ravager
 
 						bool shouldFall = player.position.Y >= npc.Bottom.Y;
 						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
-						float velocityX = ((enrage || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + velocityXBoost;
+						float velocityX = ((enrage || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + velocityXBoost;
 						float velocityY = -16f;
 
 						if (expertMode)
@@ -521,7 +521,7 @@ namespace CalamityMod.NPCs.Ravager
 
 						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
                         float velocityX = 3f + velocityXBoost;
-                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             velocityX += 3f;
                         if (!rightClawActive || death)
                             velocityX += 1f;

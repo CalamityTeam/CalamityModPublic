@@ -1,7 +1,8 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -39,7 +40,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.localNPCHitCooldown = 10;
 			projectile.damage /= 2;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
+            Main.PlaySound(SoundID.Item92, projectile.position);
             int count = Main.rand.Next(6, 15);
             for (int i = 0; i < count; i++)
             {

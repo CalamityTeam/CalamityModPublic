@@ -3,13 +3,12 @@ using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ExoGladSpears : ModProjectile
+	public class ExoGladSpears : ModProjectile
     {
         private Color currentColor = Color.Black;
 
@@ -143,8 +142,8 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 74, 1f, 0f);
-			int dustType = Utils.SelectRandom(Main.rand, new int[]
+            Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
+            int dustType = Utils.SelectRandom(Main.rand, new int[]
 			{
 				107,
 				234,

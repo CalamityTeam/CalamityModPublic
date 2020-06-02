@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
@@ -49,7 +48,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			CalamityUtils.ModifyHitNPCSticky(projectile, 4, false);
+			CalamityUtils.ModifyHitNPCSticky(projectile, 3, false);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

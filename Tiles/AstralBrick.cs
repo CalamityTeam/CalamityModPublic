@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Tiles
         {
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
-            soundType = 21;
+            soundType = SoundID.Tink;
             minPick = 150;
             drop = ModContent.ItemType<Items.Placeables.AstralBrick>();
             AddMapEntry(new Color(128, 128, 158));

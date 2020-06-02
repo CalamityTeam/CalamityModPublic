@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.Melee
 {
     public class Nadir : ModItem
     {
-        public static int BaseDamage = 800;
+        public static int BaseDamage = 700;
         public static float ShootSpeed = 12f;
 
         public override void SetStaticDefaults()
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.noMelee = true;
 
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item1;
 
             item.rare = 10;

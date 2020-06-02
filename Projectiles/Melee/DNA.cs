@@ -1,7 +1,9 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class DNA : ModProjectile
@@ -49,7 +51,7 @@ namespace CalamityMod.Projectiles.Melee
                         int num49 = projectile.damage;
                         float num50 = projectile.knockBack;
                         int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, num48, num49, num50, projectile.owner, 0f, projectile.ai[1] + 1f);
-                        NetMessage.SendData(27, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }

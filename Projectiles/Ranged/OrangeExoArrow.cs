@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 20;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14, 1f, 0f);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             for (int num193 = 0; num193 < 4; num193++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 127, 0f, 0f, 50, default, 1f);

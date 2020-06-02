@@ -1,13 +1,12 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.LivingFire;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Placeables.LivingFire
 {
-    public class LivingGodSlayerFireBlock : ModItem
+	public class LivingGodSlayerFireBlock : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Placeables.LivingFire
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<LivingGodSlayerFireBlockTile>();
         }

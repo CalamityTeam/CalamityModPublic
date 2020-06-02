@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -36,7 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                 }
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 92);
+                Main.PlaySound(SoundID.Item92, projectile.position);
             }
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
@@ -81,7 +82,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
             return true;
         }
 
@@ -96,7 +97,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
+            Main.PlaySound(SoundID.Item92, projectile.position);
             for (int num621 = 0; num621 < 10; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);

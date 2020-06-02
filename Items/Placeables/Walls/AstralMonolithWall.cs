@@ -1,7 +1,7 @@
-﻿using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
-using WallTiles = CalamityMod.Walls; // If you are using c# 6, you can use: "using static Terraria.Localization.GameCulture;" which would mean you could just write "DisplayName.AddTranslation(German, "");"
+using WallTiles = CalamityMod.Walls;
 
 namespace CalamityMod.Items.Placeables.Walls
 {
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Placeables.Walls
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createWall = ModContent.WallType<WallTiles.AstralMonolithWall>();
         }

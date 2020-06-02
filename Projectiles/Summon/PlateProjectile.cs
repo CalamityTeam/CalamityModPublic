@@ -1,11 +1,10 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlateProjectile : ModProjectile
+	public class PlateProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -44,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(13, (int)projectile.Center.X, (int)projectile.Center.Y);
+            Main.PlaySound(SoundID.Shatter, (int)projectile.Center.X, (int)projectile.Center.Y);
             if (projectile.owner == Main.myPlayer)
             {
                 for (int index = 0; index < 3; ++index)

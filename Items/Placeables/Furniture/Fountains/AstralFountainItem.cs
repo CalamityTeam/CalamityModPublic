@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Tiles.Furniture.Fountains;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Placeables.Furniture.Fountains
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Placeables.Furniture.Fountains
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 0;

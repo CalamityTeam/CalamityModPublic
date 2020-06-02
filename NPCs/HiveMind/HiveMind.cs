@@ -1,15 +1,13 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.HiveMind
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class HiveMind : ModNPC
     {
         int burrowTimer = 720;
@@ -28,7 +26,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.height = 120;
             npc.defense = 10;
             npc.LifeMaxNERB(1200, 1800, 350000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -170,7 +168,7 @@ namespace CalamityMod.NPCs.HiveMind
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                             int num663 = ModContent.NPCType<HiveBlob>();
-                            if (Main.rand.NextBool(3) || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (Main.rand.NextBool(3) || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             {
                                 num663 = ModContent.NPCType<DankCreeper>();
                             }
@@ -178,7 +176,7 @@ namespace CalamityMod.NPCs.HiveMind
                             Main.npc[num664].SetDefaults(num663, -1f);
                             if (Main.netMode == NetmodeID.Server && num664 < 200)
                             {
-                                NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
                             }
                         }
                         return;
@@ -309,7 +307,7 @@ namespace CalamityMod.NPCs.HiveMind
                     if (NPC.CountNPCS(ModContent.NPCType<HiveMindP2>()) < 1)
                     {
                         NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveMindP2>(), npc.whoAmI, 0f, 0f, 0f, 0f, npc.target);
-                        Main.PlaySound(15, (int)npc.Center.X, (int)npc.Center.Y, 0);
+                        Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
                     }
                 }
             }

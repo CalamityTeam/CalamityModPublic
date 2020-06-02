@@ -1,10 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class AstrealFlame : ModProjectile
+	public class AstrealFlame : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -45,7 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = projectile.height = 48;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 74);
+            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 74);
             for (int num621 = 0; num621 < 10; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 2f);

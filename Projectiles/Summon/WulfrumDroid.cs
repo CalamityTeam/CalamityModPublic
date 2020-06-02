@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class WulfrumDroid : ModProjectile
+	public class WulfrumDroid : ModProjectile
     {
         public float dust = 0f;
 

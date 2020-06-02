@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 112;
             item.melee = true;
             item.useAnimation = 17;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 17;
             item.useTurn = true;
             item.knockBack = 6.25f;
@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
             {
                 return;
             }
@@ -80,6 +80,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
+			if (player.moonLeech)
+				return;
             int healAmount = Main.rand.Next(2) + 2;
             player.statLife += healAmount;
             player.HealEffect(healAmount);

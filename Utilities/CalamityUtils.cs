@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs;
@@ -382,7 +382,7 @@ namespace CalamityMod
 
             // Hitbox size adjustments
             Rectangle hitbox = new Rectangle((int)hitbox_X, (int)hitbox_Y, 32, 32);
-            if (item.damage >= 0 && item.type > 0 && !item.noMelee && player.itemAnimation > 0)
+            if (item.damage >= 0 && item.type > ItemID.None && !item.noMelee && player.itemAnimation > 0)
             {
                 if (!Main.dedServ)
                 {
@@ -400,7 +400,7 @@ namespace CalamityMod
                 }
 
                 // Broadsword use style
-                if (item.useStyle == 1)
+                if (item.useStyle == ItemUseStyleID.SwingThrow)
                 {
                     // Third hitbox size adjustments
                     if (player.itemAnimation < player.itemAnimationMax * 0.333)
@@ -1069,7 +1069,7 @@ namespace CalamityMod
                 WorldGen.KillTile(i, j, false, false, false);
                 if (!Main.tile[i, j].active() && Main.netMode != NetmodeID.SinglePlayer)
                 {
-                    NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)i, (float)j, 0f, 0, 0, 0);
                 }
             }
         }
@@ -1129,7 +1129,7 @@ namespace CalamityMod
             }
             if (player.editedChestName)
             {
-                NetMessage.SendData(33, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
                 player.editedChestName = false;
             }
 
@@ -1143,7 +1143,7 @@ namespace CalamityMod
                 }
                 else
                 {
-                    NetMessage.SendData(31, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.RequestChestOpen, -1, -1, null, left, (float)top, 0f, 0f, 0, 0, 0);
                     Main.stackSplit = 600;
                 }
             }
@@ -1470,7 +1470,7 @@ namespace CalamityMod
                 NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
                 player.editedChestName = false;
             }
-            if (Main.netMode == 1 && !isLocked)
+            if (Main.netMode == NetmodeID.MultiplayerClient && !isLocked)
             {
                 // Right clicking the chest you currently have open closes it. This counts as interaction.
                 if (left == player.chestX && top == player.chestY && player.chest >= 0)
@@ -1496,7 +1496,7 @@ namespace CalamityMod
                     // If you right click the locked chest and you can unlock it, it unlocks itself but does not open. This counts as interaction.
                     if (Chest.Unlock(left, top))
                     {
-                        if (Main.netMode == 1)
+                        if (Main.netMode == NetmodeID.MultiplayerClient)
                         {
                             NetMessage.SendData(MessageID.Unlock, -1, -1, null, player.whoAmI, 1f, (float)left, (float)top);
                         }
@@ -2419,6 +2419,19 @@ namespace CalamityMod
 			float colorMePurple = (float)((Math.Sin(timeMult * Main.GlobalTime) + 1) * 0.5f);
 			return Color.Lerp(firstColor, secondColor, colorMePurple);
 		}
+        /// <summary>
+        /// Returns a color lerp that supports multiple colors.
+        /// </summary>
+        /// <param name="increment">The 0-1 incremental value used when interpolating.</param>
+        /// <param name="colors">The various colors to interpolate across.</param>
+        /// <returns></returns>
+        public static Color MulticolorLerp(float increment, params Color[] colors)
+        {
+            int currentColorIndex = (int)(increment * colors.Length);
+            Color currentColor = colors[currentColorIndex];
+            Color nextColor = colors[(currentColorIndex + 1) % colors.Length];
+            return Color.Lerp(currentColor, nextColor, increment * colors.Length % 1f);
+        }
         #endregion
 
         #region Miscellaneous Utilities

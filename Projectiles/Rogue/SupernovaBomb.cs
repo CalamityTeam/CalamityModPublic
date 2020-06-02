@@ -82,9 +82,9 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = projectile.height = 128;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
 
-			//spawn projectiles
+            //spawn projectiles
             int num251 = Main.rand.Next(3, 5);
             if (projectile.owner == Main.myPlayer)
             {

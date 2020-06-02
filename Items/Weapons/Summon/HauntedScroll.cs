@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class HauntedScroll : ModItem
+	public class HauntedScroll : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.width = 52;
             item.height = 52;
             item.useTime = item.useAnimation = 25;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 3f;
             item.value = Item.buyPrice(0, 36, 0, 0);

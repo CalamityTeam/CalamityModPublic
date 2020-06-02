@@ -78,18 +78,18 @@ namespace CalamityMod.Projectiles.Ranged
         }
 
         public override void Kill(int timeLeft)
-        {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 96);
-            for (int k = 0; k < 5; k++)
+		{
+			Main.PlaySound(SoundID.Item96, projectile.position);
+			for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 202, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, new Color(60, Main.DiscoG, 190));
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 96);
-            target.AddBuff(BuffID.Wet, 240);
+		{
+			Main.PlaySound(SoundID.Item96, projectile.position);
+			target.AddBuff(BuffID.Wet, 240);
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);
 
             int type = ModContent.ProjectileType<SeasSearingBubble>();

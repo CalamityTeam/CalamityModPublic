@@ -1,17 +1,16 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.BaseProjectiles;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CosmicDischargeFlail : BaseWhipProjectile
+	public class CosmicDischargeFlail : BaseWhipProjectile
     {
         public override void SetStaticDefaults()
         {

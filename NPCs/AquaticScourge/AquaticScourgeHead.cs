@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.LoreItems;
@@ -12,22 +12,18 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.TownNPCs;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor.Vanity;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class AquaticScourgeHead : ModNPC
     {
         public override void SetStaticDefaults()
@@ -46,7 +42,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.aiStyle = -1;
             aiType = -1;
             npc.LifeMaxNERB(73000, 85000, 10000000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -266,7 +262,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                         {
                             Main.npc[k].life = 0;
                             Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(23, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
                         }
                     }
                 }

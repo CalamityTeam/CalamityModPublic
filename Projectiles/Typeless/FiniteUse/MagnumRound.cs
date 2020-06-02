@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.Providence;
 using Terraria;

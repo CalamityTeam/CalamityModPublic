@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.Pets;
@@ -1770,9 +1770,9 @@ namespace CalamityMod.World
                                 break;
                             case TileID.LeafBlock:
                                 WorldGen.KillTile(x, y);
-								if (Main.netMode == 1)
+								if (Main.netMode == NetmodeID.MultiplayerClient)
 								{
-									NetMessage.SendData(17, -1, -1, null, 0, x, y);
+									NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, x, y);
 								}
                                 break;
                             case TileID.LargePiles:

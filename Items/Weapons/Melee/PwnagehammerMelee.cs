@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Hybrid;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.noUseGraphic = true;
             item.autoReuse = true;
             item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.knockBack = 10f;
             item.UseSound = SoundID.Item1;
@@ -32,13 +31,6 @@ namespace CalamityMod.Items.Weapons.Melee
             item.rare = 6;
             item.shoot = ModContent.ProjectileType<PwnagehammerProj>();
             item.shootSpeed = 12f;
-        }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            Main.projectile[proj].Calamity().forceMelee = true;
-            return false;
         }
 
         public override void AddRecipes()

@@ -16,16 +16,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 58;
+            item.width = 56;
+            item.height = 56;
             item.damage = 25;
             item.melee = true;
             item.useAnimation = 25;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 25;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = false;
-            item.height = 58;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;
             item.shoot = ModContent.ProjectileType<BloodScythe>();

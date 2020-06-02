@@ -20,9 +20,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.width = 76;
             item.height = 32;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.useStyle = 5;
+            item.useTime = 22;
+            item.useAnimation = 22;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 80, 0, 0);
@@ -31,17 +31,15 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 30f;
             item.shoot = ModContent.ProjectileType<RealmRavagerBullet>();
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int index = 0; index < 5; ++index)
+            int numBullets = Main.rand.NextBool() ? 4 : 3;
+            for (int index = 0; index < numBullets; ++index)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-75, 76) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-75, 76) * 0.05f;

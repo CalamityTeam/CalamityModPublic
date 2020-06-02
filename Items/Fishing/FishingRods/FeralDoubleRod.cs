@@ -1,14 +1,12 @@
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Materials;
 namespace CalamityMod.Items.Fishing.FishingRods
 {
-    public class FeralDoubleRod : ModItem
+	public class FeralDoubleRod : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -24,8 +22,8 @@ namespace CalamityMod.Items.Fishing.FishingRods
 			item.height = 28;
 			item.useAnimation = 8;
 			item.useTime = 8;
-			item.useStyle = 1;
-			item.UseSound = SoundID.Item1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.UseSound = SoundID.Item1;
 			item.fishingPole = 40;
 			item.shootSpeed = 16f;
 			item.shoot = ModContent.ProjectileType<FeralDoubleBobber>();

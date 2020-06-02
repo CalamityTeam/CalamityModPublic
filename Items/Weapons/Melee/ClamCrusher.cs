@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.height = 60;
             item.useTime = 50;
             item.useAnimation = 50;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.knockBack = 10f;

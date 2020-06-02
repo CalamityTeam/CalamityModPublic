@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.spriteDirection == -1)
                 spriteEffects = SpriteEffects.FlipHorizontally;
 
-            if (CalamityMod.CalamityConfig.Afterimages)
+            if (CalamityConfig.Instance.Afterimages)
             {
                 for (int i = 0; i < projectile.oldPos.Length; i++)
                 {

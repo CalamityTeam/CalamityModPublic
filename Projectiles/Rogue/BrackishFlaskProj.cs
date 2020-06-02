@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -27,12 +27,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 107);
-			int randomDust = Utils.SelectRandom(Main.rand, new int[]
-			{
-				33,
-				89
-			});
+            Main.PlaySound(SoundID.Item107, projectile.Center);
+            int randomDust = Utils.SelectRandom(Main.rand, new int[]
+            {
+                33,
+                89
+            });
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, randomDust, projectile.oldVelocity.X, projectile.oldVelocity.Y);

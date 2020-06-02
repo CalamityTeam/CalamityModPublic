@@ -25,13 +25,13 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useAnimation = 20;
             item.useTime = 20;
             item.useTurn = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.height = 62;
             item.value = Item.buyPrice(0, 80, 0, 0);
-            item.rare = 8;
+            item.rare = ItemRarityID.Yellow;
             item.shootSpeed = 4f;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
@@ -59,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 item.useTime = 20;
                 item.useAnimation = 20;
                 item.UseSound = SoundID.Item1;
-                item.shoot = 0;
+                item.shoot = ProjectileID.None;
             }
             return base.CanUseItem(player);
         }

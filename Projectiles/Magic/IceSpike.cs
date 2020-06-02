@@ -1,12 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class IceSpike : ModProjectile
+	public class IceSpike : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -38,7 +37,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            Main.PlaySound(SoundID.Item27, projectile.position);
             for (int k = 0; k < 5; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 67, 0f, 0f);

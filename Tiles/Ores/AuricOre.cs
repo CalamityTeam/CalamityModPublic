@@ -3,6 +3,8 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.Ores
 {
     public class AuricOre : ModTile
@@ -25,7 +27,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(255, 200, 0), name);
             mineResist = 10f;
             minPick = 275;
-            soundType = 21;
+            soundType = SoundID.Tink;
         }
 
         public override bool CanExplode(int i, int j)

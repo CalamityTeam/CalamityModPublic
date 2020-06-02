@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Typeless
                     projectile.ai[0] = 10 + Main.rand.Next(10);
                     float maxDistance = hentai ? 900f : 600f;
                     int target = -1;
-                    for (int i = 0; i < 200; i++)
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
                         NPC npc = Main.npc[i];
                         if (npc.CanBeChasedBy(projectile))
@@ -194,7 +194,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].lifeSteal > 0f && target.type != NPCID.TargetDummy)
+            if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].lifeSteal > 0f && target.type != NPCID.TargetDummy && !Main.player[projectile.owner].moonLeech)
             {
                 int healAmount = 10 * damage / projectile.damage; //should always be around max, less if enemy has defense/DR
                 if (healAmount > 0)
@@ -213,7 +213,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].lifeSteal > 0f)
+            if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].lifeSteal > 0f && !Main.player[projectile.owner].moonLeech)
             {
                 int healAmount = 10 * damage / projectile.damage; //should always be around max, less if enemy has defense/DR
                 if (healAmount > 0)

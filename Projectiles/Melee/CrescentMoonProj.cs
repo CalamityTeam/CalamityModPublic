@@ -1,14 +1,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Buffs.DamageOverTime;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CrescentMoonProj : ModProjectile
+	public class CrescentMoonProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -43,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.soundDelay = 30 + Main.rand.Next(50);
                 if (Main.rand.NextBool(10))
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                    Main.PlaySound(SoundID.Item9, (int)projectile.position.X, (int)projectile.position.Y);
                 }
             }
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Magic
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
+                Main.PlaySound(SoundID.Item74, projectile.position);
                 projectile.localAI[0] += 1f;
             }
             float num461 = 25f;

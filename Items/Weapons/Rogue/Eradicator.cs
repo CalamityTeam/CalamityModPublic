@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.autoReuse = true;
             item.useAnimation = 19;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 19;
             item.knockBack = 7f;
             item.UseSound = SoundID.Item1;
@@ -34,6 +34,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 12f;
             item.Calamity().rogue = true;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            Main.projectile[proj].Calamity().forceRogue = true;
+			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            return false;
         }
 
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)

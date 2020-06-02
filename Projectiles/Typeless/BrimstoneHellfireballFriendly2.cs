@@ -1,8 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Typeless
 {
     public class BrimstoneHellfireballFriendly2 : ModProjectile
@@ -30,7 +32,7 @@ namespace CalamityMod.Projectiles.Typeless
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
                 projectile.localAI[0] += 1f;
             }
             for (int num457 = 0; num457 < 5; num457++)

@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Ranged
 				projectile.width = projectile.height = 192;
 				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
 				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-				Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+				Main.PlaySound(SoundID.Item14, projectile.position);
 				//DO NOT REMOVE THIS PROJECTILE
 				Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<MagnomalyExplosion>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 

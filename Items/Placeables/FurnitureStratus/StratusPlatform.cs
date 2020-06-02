@@ -1,3 +1,4 @@
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.FurnitureStratus
 {
@@ -16,7 +17,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.FurnitureStratus.StratusPlatform>();
         }
@@ -26,7 +27,7 @@ namespace CalamityMod.Items.Placeables.FurnitureStratus
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<StratusBricks>(), 1);
             recipe.SetResult(this, 2);
-            recipe.AddTile(412);
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.AddRecipe();
         }
     }

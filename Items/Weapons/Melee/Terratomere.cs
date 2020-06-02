@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 125;
             item.melee = true;
             item.useAnimation = 21;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 21;
             item.useTurn = true;
             item.knockBack = 7f;
@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Frostburn, 600);
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.Ichor, 300);
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
             {
                 return;
             }
@@ -110,6 +110,8 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Frostburn, 600);
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.Ichor, 300);
+			if (player.moonLeech)
+				return;
             int healAmount = Main.rand.Next(3) + 2;
             player.statLife += healAmount;
             player.HealEffect(healAmount);

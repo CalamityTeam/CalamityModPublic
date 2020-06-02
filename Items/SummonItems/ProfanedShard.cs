@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.ProfanedGuardians;
 using Terraria;
 using Terraria.ID;
@@ -23,7 +23,7 @@ namespace CalamityMod.Items.SummonItems
             item.maxStack = 20;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }

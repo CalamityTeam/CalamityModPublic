@@ -17,17 +17,17 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 76;
+            item.width = 74;
+            item.height = 74;
             item.damage = 64;
             item.melee = true;
             item.useAnimation = 25;
             item.useTime = 25;
             item.useTurn = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.height = 76;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.shoot = ModContent.ProjectileType<ForbiddenOathbladeProjectile>();

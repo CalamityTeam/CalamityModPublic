@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using System.Collections.Generic;
 using Terraria;
@@ -26,7 +26,7 @@ Grants Well Fed");
             item.useAnimation = 17;
             item.useTime = 17;
             item.rare = 3;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.potion = true;

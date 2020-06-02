@@ -1,6 +1,7 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Magic
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.height = 32;
             item.useTime = 24;
             item.useAnimation = 24;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6.75f;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound");

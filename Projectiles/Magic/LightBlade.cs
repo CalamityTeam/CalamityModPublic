@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Weapons.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(3, (int)projectile.Center.X, (int)projectile.Center.Y, 3);
+            Main.PlaySound(SoundID.NPCHit3, projectile.position);
             int numDust = Main.rand.Next(4, 10);
             for (int i = 0; i < numDust; i++)
             {

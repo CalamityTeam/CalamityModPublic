@@ -1,8 +1,9 @@
-﻿using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.SummonItems
 {
     public class ProfanedCore : ModItem
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.SummonItems
             item.maxStack = 20;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Turquoise;

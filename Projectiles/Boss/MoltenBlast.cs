@@ -1,10 +1,11 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -67,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
                     }
                 }
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                Main.PlaySound(SoundID.Item20, projectile.position);
             }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 30f)
@@ -120,10 +121,10 @@ namespace CalamityMod.Projectiles.Boss
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<MoltenBlob>(), projectile.damage, 0f, projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+            Main.PlaySound(SoundID.Item20, projectile.Center);
 
-			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
-			for (int num193 = 0; num193 < 3; num193++)
+            int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+            for (int num193 = 0; num193 < 3; num193++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 50, default, 1.5f);
             }

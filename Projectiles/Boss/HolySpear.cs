@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -6,9 +6,10 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Boss
 {
-    public class HolySpear : ModProjectile
+	public class HolySpear : ModProjectile
     {
 		Vector2 velocity = Vector2.Zero;
 
@@ -144,7 +145,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.spriteDirection == -1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int i = 0; i < projectile.oldPos.Length; i++)
 				{

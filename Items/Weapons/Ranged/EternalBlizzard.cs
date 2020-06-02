@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 62;
             item.useTime = 18;
             item.useAnimation = 18;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTurn = false;
             item.noMelee = true;
             item.knockBack = 3f;

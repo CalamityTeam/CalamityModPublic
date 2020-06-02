@@ -2,14 +2,13 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Brimblade : RogueWeapon
+	public class Brimblade : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.autoReuse = true;
             item.useAnimation = 18;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 18;
             item.knockBack = 6.5f;
             item.UseSound = SoundID.Item1;

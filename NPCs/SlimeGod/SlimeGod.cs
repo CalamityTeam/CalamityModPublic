@@ -1,5 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Potions;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -9,11 +8,9 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.SlimeGod
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class SlimeGod : ModNPC
     {
         private float bossLife;
@@ -32,7 +29,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.scale = 1.1f;
             npc.defense = 10;
             npc.LifeMaxNERB(4000, 5500, 2200000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -110,7 +107,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
             if ((double)npc.life <= (double)npc.lifeMax * 0.5 && Main.netMode != NetmodeID.MultiplayerClient && expertMode)
             {
-                Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 1);
+                Main.PlaySound(SoundID.NPCDeath1, npc.position);
                 Vector2 spawnAt = vector + new Vector2(0f, (float)npc.height / 2f);
                 NPC.NewNPC((int)spawnAt.X - 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodSplit>());
                 NPC.NewNPC((int)spawnAt.X + 30, (int)spawnAt.Y, ModContent.NPCType<SlimeGodSplit>());
@@ -537,7 +534,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             Main.npc[num664].ai[1] = 0f;
                             if (Main.netMode == NetmodeID.Server && num664 < 200)
                             {
-                                NetMessage.SendData(23, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
                             }
                         }
                     }

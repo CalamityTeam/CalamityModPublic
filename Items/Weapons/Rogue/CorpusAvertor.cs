@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useAnimation = 15;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 15;
 			item.knockBack = 3f;
 			item.UseSound = SoundID.Item1;
@@ -46,7 +46,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
+			int dagger = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 0f, 1f);
+			Main.projectile[dagger].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
 			return false;
 		}
 	}

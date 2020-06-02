@@ -1,6 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.autoReuse = true;
             item.useAnimation = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 10;
             item.knockBack = 50f;
             item.UseSound = SoundID.Item1;
@@ -34,6 +35,14 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.shootSpeed = 25f;
             item.Calamity().rogue = true;
             item.Calamity().customRarity = CalamityRarity.Developer;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            Main.projectile[proj].Calamity().forceRogue = true;
+			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            return false;
         }
 
         public override void AddRecipes()

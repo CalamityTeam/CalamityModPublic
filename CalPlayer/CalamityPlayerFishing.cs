@@ -1,11 +1,10 @@
-﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Fishing;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Fishing.SulphurCatches;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
-using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Melee;
@@ -13,7 +12,6 @@ using CalamityMod.NPCs;
 using CalamityMod.NPCs.OldDuke;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -22,7 +20,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.CalPlayer
 {
-    public class CalamityPlayerFishing
+	public class CalamityPlayerFishing
     {
         #region Catch Fish
         public static void CalamityCatchFish(Player player, ref Item fishingRod, ref Item bait, ref int power, ref int liquidType, ref int poolSize,

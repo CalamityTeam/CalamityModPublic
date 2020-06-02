@@ -1,14 +1,12 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Rogue;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class SeaUrchin : ModNPC
+	public class SeaUrchin : ModNPC
     {
         public override void SetStaticDefaults()
         {

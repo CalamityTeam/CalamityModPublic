@@ -1,4 +1,4 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

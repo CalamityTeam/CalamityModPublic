@@ -1,4 +1,4 @@
-﻿using CalamityMod.Events;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AquaticScourge;
 using CalamityMod.NPCs.AstrumDeus;
@@ -30,7 +30,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.UI
 {
-    /*
+	/*
     Heyo! Here's some things you might need to know about this class and where to change things:
 
     In the "Load" method is where the "OneToMany" dictionary is updated.
@@ -53,7 +53,7 @@ namespace CalamityMod.UI
     That should be it -- ask if you have any questions!
     */
 
-    internal static class BossHealthBarManager
+	internal static class BossHealthBarManager
     {
         private static readonly int MAX_BARS = 4;
 

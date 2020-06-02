@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class NastyCholla : RogueWeapon
+	public class NastyCholla : RogueWeapon
     {
         public static int BaseDamage = 9;
 
@@ -29,7 +28,7 @@ Stealth strikes throw five at once");
 			item.maxStack = 999;
 			item.consumable = true;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 20;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;

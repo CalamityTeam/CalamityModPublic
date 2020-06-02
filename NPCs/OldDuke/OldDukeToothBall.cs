@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Boss;
 using System;
 using System.IO;
@@ -171,7 +171,7 @@ namespace CalamityMod.NPCs.OldDuke
 
         public override bool CheckDead()
         {
-            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 12);
+            Main.PlaySound(SoundID.Item14, npc.position);
 
             npc.position.X = npc.position.X + (npc.width / 2);
             npc.position.Y = npc.position.Y + (npc.height / 2);

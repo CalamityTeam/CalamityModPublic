@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Hybrid
             projectile.timeLeft = 120;
             projectile.extraUpdates = 3;
             aiType = ProjectileID.PaladinsHammerFriendly;
-            projectile.Calamity().rogue = true;
+            projectile.melee = true;
         }
 
         public override void AI()

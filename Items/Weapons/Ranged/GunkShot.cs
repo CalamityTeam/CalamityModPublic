@@ -22,14 +22,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 30;
             item.useTime = 32;
             item.useAnimation = 32;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 3.5f;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 4;
             item.UseSound = SoundID.Item36;
             item.autoReuse = true;
-            item.shoot = 10;
+            item.shoot = ProjectileID.PurificationPowder;
             item.shootSpeed = 5f;
             item.useAmmo = 97;
         }

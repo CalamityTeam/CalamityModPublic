@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Terraria;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.SummonItems
             item.height = 20;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Turquoise;

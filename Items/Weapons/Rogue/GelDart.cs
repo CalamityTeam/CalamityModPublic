@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GelDart : RogueWeapon
+	public class GelDart : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.consumable = true;
             item.noUseGraphic = true;
             item.useAnimation = 11;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 11;
             item.knockBack = 2.5f;
             item.UseSound = SoundID.Item1;

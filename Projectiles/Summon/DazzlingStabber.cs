@@ -3,14 +3,13 @@ using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class DazzlingStabber : ModProjectile
+	public class DazzlingStabber : ModProjectile
     {
         public const float DistanceToCheck = 1500f;
         public override void SetStaticDefaults()

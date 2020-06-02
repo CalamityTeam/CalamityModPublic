@@ -1,12 +1,9 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Critters;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Placeables.Ores;
-using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.SunkenSea;
 using CalamityMod.World;
@@ -16,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.SunkenSeaCatches
 {
-    public class SunkenCrate : ModItem
+	public class SunkenCrate : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -37,13 +34,10 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void RightClick(Player player)
         {
@@ -61,7 +55,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             }
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAM && Main.hardMode, 0.2f,
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAM && Main.hardMode,
                 ModContent.ItemType<ShellfishStaff>(),
                 ModContent.ItemType<ClamCrusher>(),
                 ModContent.ItemType<Poseidon>(),

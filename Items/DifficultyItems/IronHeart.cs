@@ -1,15 +1,14 @@
-﻿using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.DifficultyItems
 {
-    public class IronHeart : ModItem
+	public class IronHeart : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +27,7 @@ namespace CalamityMod.Items.DifficultyItems
             item.rare = 9;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item119;
             item.consumable = false;
         }

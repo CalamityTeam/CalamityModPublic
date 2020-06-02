@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.FurnitureStratus
 
             CalamityUtils.MergeWithGeneral(Type);
 
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 5f;
             minPick = 225;
             drop = ModContent.ItemType<Items.Placeables.FurnitureStratus.StratusBricks>();

@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MagicRifle : ModProjectile
+	public class MagicRifle : ModProjectile
     {
 		private int counter = 0;
 		private bool canHome = false;
@@ -197,7 +196,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
 					if (Main.rand.NextBool(6))
 					{
-						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20, 0.1f);
+						Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20, 0.1f);
 					}
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner)

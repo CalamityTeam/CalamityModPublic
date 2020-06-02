@@ -222,7 +222,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (foundTarget)
             {
-                projectile.rotation = (targetVec - projectile.Center).ToRotation() + MathHelper.Pi;
+				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(targetVec) + MathHelper.Pi, 0.1f);
             }
             else
             {
@@ -254,8 +254,8 @@ namespace CalamityMod.Projectiles.Summon
                 float speedMult = 6f;
                 if (foundTarget && projectile.ai[1] == 0f)
                 {
-					//play cool sound
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                    //play cool sound
+                    Main.PlaySound(SoundID.Item20, (int)projectile.position.X, (int)projectile.position.Y);
                     projectile.ai[1] += 2f;
                     if (Main.myPlayer == projectile.owner)
                     {

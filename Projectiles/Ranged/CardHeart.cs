@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
             return true;
         }
 
@@ -60,11 +60,11 @@ namespace CalamityMod.Projectiles.Ranged
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 360);
-            if (target.type == NPCID.TargetDummy)
+            Player player = Main.player[projectile.owner];
+            if (target.type == NPCID.TargetDummy || player.moonLeech)
             {
                 return;
             }
-            Player player = Main.player[projectile.owner];
 			player.statLife += 1;
 			player.HealEffect(1);
         }

@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles
 {
     public class PerennialBrick : ModTile
@@ -16,7 +18,7 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeDecorativeTiles(Type);
 
             drop = ModContent.ItemType<Items.Placeables.PerennialBrick>();
-            soundType = 21;
+            soundType = SoundID.Tink;
             minPick = 150;
             AddMapEntry(new Color(17, 133, 46));
             animationFrameHeight = 90;

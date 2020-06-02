@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Cooldowns;
+using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.Buffs.StatBuffs;
@@ -16,7 +16,6 @@ using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Magic;
@@ -50,11 +49,14 @@ namespace CalamityMod.CalPlayer
 				modPlayer.fearmongerRegenFrames--;
 
 			// Reduce the expert debuff time multiplier to the normal mode multiplier
-			if (CalamityMod.CalamityConfig.ExpertDebuffDurationReduction)
+			if (CalamityConfig.Instance.NerfExpertDebuffs)
 				Main.expertDebuffTime = 1f;
 
 			// Bool for any existing bosses, true if any boss NPC is active
 			CalamityPlayer.areThereAnyDamnBosses = CalamityGlobalNPC.AnyBossNPCS();
+
+			// Bool for any existing events, true if any event is active
+			CalamityPlayer.areThereAnyDamnEvents = CalamityGlobalNPC.AnyEvents(player);
 
 			// If any boss NPC is active, apply Zen to the player to reduce spawn rate
 			if (CalamityPlayer.areThereAnyDamnBosses)
@@ -175,7 +177,7 @@ namespace CalamityMod.CalPlayer
 						player.immuneTime = 120;
 
 					// Adrenaline and Rage
-					if (CalamityMod.CalamityConfig.AdrenalineAndRage)
+					if (CalamityConfig.Instance.Rippers)
 					{
 						// This is how much Rage will be changed by this frame.
 						float rageDiff = 0;
@@ -354,7 +356,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Proficiency level ups
-			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
+			if (CalamityConfig.Instance.Proficiency)
 				modPlayer.GetExactLevelUp();
 
 			// Max mana bonuses
@@ -418,7 +420,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
 			}
-			if (CalamityMod.CalamityConfig.ExpertChilledWaterRemoval)
+			if (CalamityConfig.Instance.ReworkChilledWater)
 			{
 				if (Main.expertMode && player.ZoneSnow && player.wet && !player.lavaWet && !player.honeyWet)
 				{
@@ -602,7 +604,7 @@ namespace CalamityMod.CalPlayer
 
 						if (Main.raining)
 						{
-							float frequencyMult = (1f - Main.cloudAlpha) * CalamityMod.CalamityConfig.WeatherEffectRateMultiplier; // 3 to 0.055
+							float frequencyMult = (1f - Main.cloudAlpha) * CalamityConfig.Instance.DeathWeatherMultiplier; // 3 to 0.055
 
 							Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-1000, 1001), player.Center.Y - (float)Main.rand.Next(700, 801));
 							Tile tileSafely = Framing.GetTileSafely((int)(spawnPoint.X / 16f), (int)(spawnPoint.Y / 16f));
@@ -626,7 +628,7 @@ namespace CalamityMod.CalPlayer
 									int randomFrequency = (int)(50f * frequencyMult);
 									if (player.miscCounter == 280 && Main.rand.NextBool(randomFrequency) && player.ownedProjectileCounts[ProjectileID.Cthulunado] < 1)
 									{
-										Main.PlaySound(4, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y, 19, 1f, 0f);
+										Main.PlaySound(SoundID.NPCDeath19, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y);
 										int num331 = (int)(sharknadoSpawnPoint.Y / 16f);
 										int num332 = (int)(sharknadoSpawnPoint.X / 16f);
 										int num333 = 100;
@@ -677,7 +679,7 @@ namespace CalamityMod.CalPlayer
 							{
 								if (player.miscCounter == 280 && Main.rand.NextBool(10) && player.ownedProjectileCounts[ProjectileID.Sharknado] < 1)
 								{
-									Main.PlaySound(4, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y, 19, 1f, 0f);
+									Main.PlaySound(SoundID.NPCDeath19, (int)sharknadoSpawnPoint.X, (int)sharknadoSpawnPoint.Y);
 									int num331 = (int)(sharknadoSpawnPoint.Y / 16f);
 									int num332 = (int)(sharknadoSpawnPoint.X / 16f);
 									int num333 = 100;
@@ -894,6 +896,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.galileoCooldown--;
 			if (modPlayer.soundCooldown > 0)
 				modPlayer.soundCooldown--;
+			if (modPlayer.shadowPotCooldown > 0)
+				modPlayer.shadowPotCooldown--;
 			if (modPlayer.raiderCooldown > 0)
 				modPlayer.raiderCooldown--;
 			if (modPlayer.gSabatonCooldown > 0)
@@ -2121,7 +2125,7 @@ namespace CalamityMod.CalPlayer
 						{
 							modPlayer.aquaticBoost = 0f;
 							if (Main.netMode == NetmodeID.MultiplayerClient)
-								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+								NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
 				}
@@ -2155,7 +2159,7 @@ namespace CalamityMod.CalPlayer
 						{
 							modPlayer.modStealth = 0f;
 							if (Main.netMode == NetmodeID.MultiplayerClient)
-								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+								NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
 				}
@@ -2194,7 +2198,7 @@ namespace CalamityMod.CalPlayer
 						{
 							modPlayer.modStealth = 0f;
 							if (Main.netMode == NetmodeID.MultiplayerClient)
-								NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+								NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 						}
 					}
 				}
@@ -2240,7 +2244,7 @@ namespace CalamityMod.CalPlayer
 						flag14 = true;
 
 					if (modPlayer.shieldInvinc == 0f && num29 != modPlayer.shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
-						NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+						NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 
 					float damageBoost = (5f - modPlayer.shieldInvinc) * 0.03f;
 					player.allDamage += damageBoost;
@@ -2267,7 +2271,7 @@ namespace CalamityMod.CalPlayer
 						flag14 = true;
 
 					if (modPlayer.shieldInvinc == 5f && num30 != modPlayer.shieldInvinc && Main.netMode == NetmodeID.MultiplayerClient)
-						NetMessage.SendData(84, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+						NetMessage.SendData(MessageID.PlayerStealth, -1, -1, null, player.whoAmI, 0f, 0f, 0f, 0, 0, 0);
 				}
 
 				// Emit dust
@@ -3549,7 +3553,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.prismaticLasers > 1800 && player.whoAmI == Main.myPlayer)
 			{
 				float shootSpeed = 18f;
-				int dmg = (int)(150 * player.MagicDamage());
+				int dmg = (int)(50 * player.MagicDamage());
 				Vector2 startPos = player.RotatedRelativePoint(player.MountedCenter, true);
 				Vector2 velocity = Main.MouseWorld - startPos;
 				if (player.gravDir == -1f)
@@ -3568,7 +3572,7 @@ namespace CalamityMod.CalPlayer
 					travelDist = shootSpeed / travelDist;
 				}
 
-				int laserAmt = 2;
+				int laserAmt = Main.rand.Next(2);
 				for (int index = 0; index < laserAmt; index++)
 				{
 					startPos = new Vector2(player.Center.X + (float)(Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
@@ -3590,7 +3594,8 @@ namespace CalamityMod.CalPlayer
 					velocity.Y *= travelDist;
 					velocity.X += (float)Main.rand.Next(-50, 51) * 0.02f;
 					velocity.Y += (float)Main.rand.Next(-50, 51) * 0.02f;
-					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<MagicNebulaShot>(), dmg, 4f, player.whoAmI, 0f, (float)Main.rand.Next(10));
+					int laser = Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<MagicNebulaShot>(), dmg, 4f, player.whoAmI, 0f, Main.rand.Next(10));
+					Main.projectile[laser].localNPCHitCooldown = 5;
 				}
 				Main.PlaySound(SoundID.Item12, player.position);
 			}
@@ -3651,7 +3656,7 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (CalamityMod.CalamityConfig.ProficiencyEnabled)
+			if (CalamityConfig.Instance.Proficiency)
 				modPlayer.GetStatBonuses();
 		}
 		#endregion

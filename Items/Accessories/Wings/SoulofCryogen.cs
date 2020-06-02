@@ -1,13 +1,12 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories.Wings
 {
-    [AutoloadEquip(EquipType.Wings)]
+	[AutoloadEquip(EquipType.Wings)]
     public class SoulofCryogen : ModItem
     {
         public override void SetStaticDefaults()

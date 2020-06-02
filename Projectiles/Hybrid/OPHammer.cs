@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Hybrid
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.extraUpdates = 2;
-            projectile.Calamity().rogue = true;
+            projectile.melee = true;
         }
 
         public override void AI()
@@ -118,7 +118,10 @@ namespace CalamityMod.Projectiles.Hybrid
             if (projectile.owner == Main.myPlayer)
             {
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[proj].Calamity().forceRogue = true;
+				if (projectile.melee)
+					Main.projectile[proj].Calamity().forceMelee = true;
+				else
+					Main.projectile[proj].Calamity().forceRogue = true;
             }
         }
 
@@ -128,7 +131,10 @@ namespace CalamityMod.Projectiles.Hybrid
             if (projectile.owner == Main.myPlayer)
             {
                 int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0.85f + Main.rand.NextFloat() * 1.15f);
-                Main.projectile[proj].Calamity().forceRogue = true;
+				if (projectile.melee)
+					Main.projectile[proj].Calamity().forceMelee = true;
+				else
+					Main.projectile[proj].Calamity().forceRogue = true;
             }
         }
 

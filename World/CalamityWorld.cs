@@ -53,7 +53,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.World
 {
-    public class CalamityWorld : ModWorld
+	public class CalamityWorld : ModWorld
     {
         #region Vars
         public static int DoGSecondStageCountdown = 0;
@@ -178,7 +178,7 @@ namespace CalamityMod.World
         #region Initialize
         public override void Initialize()
         {
-            if (CalamityMod.CalamityConfig.ExpertPillarEnemyKillCountReduction)
+            if (CalamityConfig.Instance.NerfExpertPillars)
             {
                 NPC.LunarShieldPowerExpert = 100;
             }
@@ -1405,8 +1405,9 @@ namespace CalamityMod.World
                                 case 19:
                                     for (int doom = 0; doom < Main.maxNPCs; doom++)
                                     {
-                                        if (Main.npc[doom].active && (Main.npc[doom].type == 493 || Main.npc[doom].type == 422 || Main.npc[doom].type == 507 ||
-                                            Main.npc[doom].type == 517))
+                                        bool isPillar = Main.npc[doom].type == NPCID.LunarTowerStardust || Main.npc[doom].type == NPCID.LunarTowerVortex ||
+                                                        Main.npc[doom].type == NPCID.LunarTowerNebula || Main.npc[doom].type == NPCID.LunarTowerSolar;
+                                        if (Main.npc[doom].active && isPillar)
                                         {
                                             Main.npc[doom].active = false;
                                             Main.npc[doom].netUpdate = true;
@@ -1582,7 +1583,7 @@ namespace CalamityMod.World
 
                     if (modPlayer.bossZen || DoGSecondStageCountdown > 0)
                         spawnRate *= 50D;
-                    if (modPlayer.zen || (CalamityMod.CalamityConfig.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
+                    if (modPlayer.zen || (CalamityConfig.Instance.DisableExpertTownSpawns && player.townNPCs > 1f && Main.expertMode))
                         spawnRate *= 2D;
                     if (modPlayer.tranquilityCandle)
                         spawnRate *= 1.67D;
@@ -1994,7 +1995,7 @@ namespace CalamityMod.World
 				}
             }
 
-            if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient)
+            if (!downedDesertScourge && Main.netMode != NetmodeID.MultiplayerClient && !Main.hardMode)
                 CalamityUtils.StopSandstorm();
 
             if (Main.netMode != NetmodeID.MultiplayerClient)

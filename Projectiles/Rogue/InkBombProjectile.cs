@@ -1,5 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
         private void CreateInk()
         {
 			Player player = Main.player[projectile.owner];
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             for (int i = 0; i < 20; i++)
             {
                 int projType = Main.rand.Next(0, 3);

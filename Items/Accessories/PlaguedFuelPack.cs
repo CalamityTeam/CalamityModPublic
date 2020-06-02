@@ -1,12 +1,10 @@
-﻿using CalamityMod.CalPlayer;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class PlaguedFuelPack : ModItem
+	public class PlaguedFuelPack : ModItem
     {
         public override void SetStaticDefaults()
         {

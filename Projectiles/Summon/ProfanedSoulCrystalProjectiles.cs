@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
@@ -157,7 +157,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 Split(false, false);
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
             for (int num193 = 0; num193 < 6; num193++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 50, default, 1.5f);
@@ -336,7 +336,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void Kill(int timeLeft)
         {
 
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
             projectile.width = projectile.height = 200;
@@ -736,7 +736,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
             projectile.width = projectile.height = 200;
@@ -850,7 +850,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
             if (!Main.rand.NextBool(3)) //1 in 3 chance for dust
                 return;
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
@@ -1133,7 +1133,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 27);
             Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(3.1415927410125732);
             float num69 = (float)Main.rand.Next(7, 13);
             Vector2 value5 = new Vector2(2.1f, 2f);
@@ -1305,7 +1305,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 14);
             if (Main.rand.NextBool(3))
             {
                 projectile.position.X = projectile.position.X + (float)(projectile.width / 2);

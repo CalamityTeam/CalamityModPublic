@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SandDollar : RogueWeapon
+	public class SandDollar : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noUseGraphic = true;
             item.useTime = 15;
             item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.maxStack = 2;
             item.knockBack = 3.5f;
             item.autoReuse = true;

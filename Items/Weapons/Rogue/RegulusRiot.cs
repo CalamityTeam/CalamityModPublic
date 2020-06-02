@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class RegulusRiot : RogueWeapon
+	public class RegulusRiot : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +22,7 @@ Stealth strikes explode into energy stars");
 
             item.width = 28;
             item.height = 34;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.noUseGraphic = true;
 

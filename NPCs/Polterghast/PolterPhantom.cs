@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.Polterghast
             npc.width = 90;
             npc.height = 120;
 			npc.LifeMaxNERB(130000, 150000, 900000);
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -247,7 +247,7 @@ namespace CalamityMod.NPCs.Polterghast
 			float amount9 = 0.5f;
 			int num153 = 7;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{

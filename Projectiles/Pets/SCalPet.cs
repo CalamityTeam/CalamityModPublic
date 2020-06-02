@@ -1,11 +1,9 @@
 using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class SCalPet : ModProjectile
+	public class SCalPet : ModProjectile
     {
         public override void SetStaticDefaults()
         {

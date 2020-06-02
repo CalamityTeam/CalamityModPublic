@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
@@ -29,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.noUseGraphic = true;
 			item.autoReuse = true;
 			item.useAnimation = 30;
-			item.useStyle = 1;
+			item.useStyle = ItemUseStyleID.SwingThrow;
 			item.useTime = 30;
 			item.knockBack = 2f;
 			item.UseSound = SoundID.Item1;

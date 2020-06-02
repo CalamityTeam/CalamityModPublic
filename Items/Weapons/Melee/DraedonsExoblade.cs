@@ -4,7 +4,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,28 +23,28 @@ namespace CalamityMod.Items.Weapons.Melee
 							   "The lower your HP the more damage this blade does and heals the player on enemy hits");
 		}
 
-		public override void SetDefaults()
-		{
-			item.width = 80;
-			item.damage = 5000;
-			item.useAnimation = 14;
-			item.useStyle = 1;
-			item.useTime = 14;
-			item.useTurn = true;
-			item.melee = true;
-			item.knockBack = 9f;
-			item.UseSound = SoundID.Item1;
-			item.autoReuse = true;
-			item.height = 114;
-			item.value = Item.buyPrice(2, 50, 0, 0);
-			item.rare = 10;
-			item.shoot = ModContent.ProjectileType<Exobeam>();
-			item.shootSpeed = 19f;
-			item.Calamity().customRarity = CalamityRarity.Violet;
-		}
+        public override void SetDefaults()
+        {
+            item.width = 80;
+            item.damage = 5000;
+            item.useAnimation = 14;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useTime = 14;
+            item.useTurn = true;
+            item.melee = true;
+            item.knockBack = 9f;
+            item.UseSound = SoundID.Item1;
+            item.autoReuse = true;
+            item.height = 114;
+            item.value = Item.buyPrice(2, 50, 0, 0);
+            item.rare = 10;
+            item.shoot = ModContent.ProjectileType<Exobeam>();
+            item.shootSpeed = 19f;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+        }
 
-		// Gains 100% of missing health as base damage.
-		public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+        // Gains 100% of missing health as base damage.
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
 			int lifeAmount = player.statLifeMax2 - player.statLife;
 			flat += lifeAmount * player.MeleeDamage();
@@ -74,7 +73,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			target.AddBuff(BuffID.Frostburn, 120);
 			target.AddBuff(BuffID.OnFire, 120);
 			target.AddBuff(BuffID.Ichor, 120);
-			Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 88);
+			Main.PlaySound(SoundID.Item88, player.Center);
 			float xPos = player.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
 			float yPos = player.position.Y + Main.rand.Next(-800, 801);
 			Vector2 startPos = new Vector2(xPos, yPos);
@@ -92,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Melee
 					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * player.MeleeDamage()), knockback, player.whoAmI, 0f, ai1);
 				}
 			}
-			if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+			if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
 			{
 				return;
 			}
@@ -116,7 +115,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			target.AddBuff(BuffID.Frostburn, 120);
 			target.AddBuff(BuffID.OnFire, 120);
 			target.AddBuff(BuffID.Ichor, 120);
-			Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 88);
+			Main.PlaySound(SoundID.Item88, player.Center);
 			float xPos = player.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
 			float yPos = player.position.Y + Main.rand.Next(-800, 801);
 			Vector2 startPos = new Vector2(xPos, yPos);
@@ -134,6 +133,8 @@ namespace CalamityMod.Items.Weapons.Melee
 					Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<Exocomet>(), (int)(item.damage * player.MeleeDamage()), item.knockBack, player.whoAmI, 0f, ai1);
 				}
 			}
+			if (player.moonLeech)
+				return;
 			int healAmount = Main.rand.Next(5) + 5;
 			player.statLife += healAmount;
 			player.HealEffect(healAmount);

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items;
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Critters;
@@ -220,7 +220,8 @@ namespace CalamityMod
                 ItemID.SonarPotion,
                 ItemID.GenderChangePotion,
                 ItemID.LovePotion,
-                ItemID.StinkPotion
+                ItemID.StinkPotion,
+                ItemID.RecallPotion
             };
             ModRecipe r;
 

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.mana = 26;
             item.useTime = ChargeFrames + CooldownFrames;
             item.useAnimation = ChargeFrames + CooldownFrames;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.NPCDeath7;
             item.useTurn = false;
             item.noMelee = true;

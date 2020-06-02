@@ -1,4 +1,3 @@
-﻿using CalamityMod.ILEditing;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -12,7 +11,7 @@ using Terraria.Localization;
 
 namespace CalamityMod.Events
 {
-    public enum AcidRainSpawnRequirement
+	public enum AcidRainSpawnRequirement
     {
         Water,
         Land,
@@ -58,7 +57,7 @@ namespace CalamityMod.Events
             { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
+            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) }
         };
 
         public static Dictionary<int, AcidRainSpawnData> PossibleEnemiesPolter = new Dictionary<int, AcidRainSpawnData>()
@@ -71,7 +70,7 @@ namespace CalamityMod.Events
             { ModContent.NPCType<Skyfin>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<Trilobite>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
             { ModContent.NPCType<WaterLeech>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Water) },
-            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) },
+            { ModContent.NPCType<SulfurousSkater>(), new AcidRainSpawnData(1, 0.4f, AcidRainSpawnRequirement.Anywhere) },
             { ModContent.NPCType<GammaSlime>(), new AcidRainSpawnData(1, 1f, AcidRainSpawnRequirement.Anywhere) }
         };
 
@@ -132,9 +131,9 @@ namespace CalamityMod.Events
                     }
                 }
                 if (CalamityWorld.downedPolterghast)
-                    return (int)(180 * Math.Log(playerCount + Math.E - 1));
+                    return (int)(140 * Math.Log(playerCount + Math.E - 1));
                 else if (CalamityWorld.downedAquaticScourge)
-                    return (int)(125 * Math.Log(playerCount + Math.E - 1));
+                    return (int)(115 * Math.Log(playerCount + Math.E - 1));
                 else
                     return (int)(90 * Math.Log(playerCount + Math.E - 1));
             }
@@ -219,7 +218,7 @@ namespace CalamityMod.Events
                 // In short, leave this alone.
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainSync);
                     netMessage.Write(CalamityWorld.rainingAcid);
                     netMessage.Write(CalamityWorld.acidRainPoints);
@@ -227,14 +226,14 @@ namespace CalamityMod.Events
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainUIDrawFadeSync);
                     netMessage.Write(CalamityWorld.acidRainExtraDrawTime);
                     netMessage.Send();
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.AcidRainOldDukeSummonSync);
                     netMessage.Write(CalamityWorld.triedToSummonOldDuke);
                     netMessage.Send();

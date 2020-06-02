@@ -1,14 +1,11 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class LatcherMineProjectile : ModProjectile
+	public class LatcherMineProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -121,8 +118,9 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
+                    // TODO -- replace the 318 here with whatever projectileID that is
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
+                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == NPCID.Guide && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
                         if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))
@@ -202,7 +200,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            Main.PlaySound(SoundID.Dig, projectile.Center);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = (projectile.Calamity().stealthStrike ? 240 : 100);
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

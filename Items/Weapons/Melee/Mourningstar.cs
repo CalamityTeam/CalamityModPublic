@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Mourningstar : ModItem
+	public class Mourningstar : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +27,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.melee = true;
             item.useAnimation = 10;
             item.useTime = 10;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 2.5f;
             item.UseSound = SoundID.Item116;
             item.value = Item.buyPrice(1, 20, 0, 0);

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(4, (int)projectile.Center.X, (int)projectile.Center.Y, 39, 1f, 0f);
+            Main.PlaySound(SoundID.NPCDeath39, projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

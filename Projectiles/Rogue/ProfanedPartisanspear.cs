@@ -1,14 +1,12 @@
-﻿using Terraria;
-using Terraria.ID;
+using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ProfanedPartisanspear : ModProjectile
+	public class ProfanedPartisanspear : ModProjectile
     {
 		public int timer = 0;
 

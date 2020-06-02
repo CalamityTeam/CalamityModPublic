@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
@@ -117,15 +117,17 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.tileCollide = false;
             }
+            Vector2 value = new Vector2(0.5f);
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
+					Vector2 vector2 = npc.position + npc.Size * value;
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
                     if ((!flag25 && num646 < num633) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                     {
-                        vector46 = npc.Center;
+                        vector46 = vector2;
                         flag25 = true;
                     }
                 }
@@ -134,14 +136,15 @@ namespace CalamityMod.Projectiles.Summon
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
-                    NPC nPC2 = Main.npc[num645];
-                    if (nPC2.CanBeChasedBy(projectile, false))
+                    NPC npc = Main.npc[num645];
+                    if (npc.CanBeChasedBy(projectile, false))
                     {
-                        float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if ((!flag25 && num646 < num633) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC2.position, nPC2.width, nPC2.height))
+						Vector2 vector2 = npc.position + npc.Size * value;
+                        float num646 = Vector2.Distance(npc.Center, projectile.Center);
+                        if ((!flag25 && num646 < num633) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
                             num633 = num646;
-                            vector46 = nPC2.Center;
+                            vector46 = vector2;
                             flag25 = true;
                         }
                     }

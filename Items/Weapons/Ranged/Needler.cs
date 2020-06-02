@@ -16,13 +16,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 38;
+            item.damage = 45;
             item.ranged = true;
             item.width = 44;
             item.height = 26;
             item.useTime = 18;
             item.useAnimation = 18;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.5f;
             item.value = Item.buyPrice(0, 36, 0, 0);
@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.autoReuse = true;
             item.shootSpeed = 9f;
             item.shoot = ModContent.ProjectileType<NeedlerProj>();
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
         public override Vector2? HoldoutOffset()

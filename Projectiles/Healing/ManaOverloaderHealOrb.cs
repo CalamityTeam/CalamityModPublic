@@ -1,10 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class ManaOverloaderHealOrb : ModProjectile
+	public class ManaOverloaderHealOrb : ModProjectile
     {
         public override void SetStaticDefaults()
         {

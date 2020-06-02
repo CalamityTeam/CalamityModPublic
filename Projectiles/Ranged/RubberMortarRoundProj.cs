@@ -1,4 +1,4 @@
-﻿using CalamityMod.Tiles.Abyss;
+using CalamityMod.Tiles.Abyss;
 using CalamityMod.Walls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             for (int num621 = 0; num621 < 40; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
@@ -159,7 +159,7 @@ namespace CalamityMod.Projectiles.Ranged
                                 WorldGen.KillTile(num824, num825, false, false, false);
                                 if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
                                 {
-                                    NetMessage.SendData(17, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
+                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
                                 }
                             }
                             for (int num829 = num824 - 1; num829 <= num824 + 1; num829++)
@@ -171,7 +171,7 @@ namespace CalamityMod.Projectiles.Ranged
                                         WorldGen.KillWall(num829, num830, false);
                                         if (Main.tile[num829, num830].wall == 0 && Main.netMode != NetmodeID.SinglePlayer)
                                         {
-                                            NetMessage.SendData(17, -1, -1, null, 2, (float)num829, (float)num830, 0f, 0, 0, 0);
+                                            NetMessage.SendData(MessageID.TileChange, -1, -1, null, 2, (float)num829, (float)num830, 0f, 0, 0, 0);
                                         }
                                     }
                                 }
@@ -182,14 +182,14 @@ namespace CalamityMod.Projectiles.Ranged
                 AchievementsHelper.CurrentlyMining = false;
                 if (Main.netMode != NetmodeID.SinglePlayer)
                 {
-                    NetMessage.SendData(29, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
                 }
                 if (!projectile.noDropItem)
                 {
                     int num831 = -1;
                     if (Main.netMode == NetmodeID.MultiplayerClient && num831 >= 0)
                     {
-                        NetMessage.SendData(21, -1, -1, null, num831, 1f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, num831, 1f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }
@@ -226,7 +226,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             for (int num621 = 0; num621 < 40; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
@@ -327,7 +327,7 @@ namespace CalamityMod.Projectiles.Ranged
                                 WorldGen.KillTile(num824, num825, false, false, false);
                                 if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
                                 {
-                                    NetMessage.SendData(17, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
+                                    NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
                                 }
                             }
                             for (int num829 = num824 - 1; num829 <= num824 + 1; num829++)
@@ -339,7 +339,7 @@ namespace CalamityMod.Projectiles.Ranged
                                         WorldGen.KillWall(num829, num830, false);
                                         if (Main.tile[num829, num830].wall == 0 && Main.netMode != NetmodeID.SinglePlayer)
                                         {
-                                            NetMessage.SendData(17, -1, -1, null, 2, (float)num829, (float)num830, 0f, 0, 0, 0);
+                                            NetMessage.SendData(MessageID.TileChange, -1, -1, null, 2, (float)num829, (float)num830, 0f, 0, 0, 0);
                                         }
                                     }
                                 }
@@ -350,14 +350,14 @@ namespace CalamityMod.Projectiles.Ranged
                 AchievementsHelper.CurrentlyMining = false;
                 if (Main.netMode != NetmodeID.SinglePlayer)
                 {
-                    NetMessage.SendData(29, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
+                    NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
                 }
                 if (!projectile.noDropItem)
                 {
                     int num831 = -1;
                     if (Main.netMode == NetmodeID.MultiplayerClient && num831 >= 0)
                     {
-                        NetMessage.SendData(21, -1, -1, null, num831, 1f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncItem, -1, -1, null, num831, 1f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }

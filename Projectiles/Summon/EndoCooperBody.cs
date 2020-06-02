@@ -1,7 +1,6 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class EndoCooperBody : ModProjectile
+	public class EndoCooperBody : ModProjectile
     {
         private int AttackMode = 0;
         private int LimbID = 0;
@@ -315,7 +314,7 @@ namespace CalamityMod.Projectiles.Summon
                         switch (AttackMode)
                         {
                             case 0:
-                                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 15);
+                                    Main.PlaySound(SoundID.Item15, (int)projectile.position.X, (int)projectile.position.Y);
                                     Vector2 aimlaser = objectivepos - projectile.Center;
                                     aimlaser.Normalize();
                                     aimlaser = aimlaser.RotatedBy(MathHelper.ToRadians(30 * -laserdirection));

@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.Abyss
 {
@@ -19,7 +20,7 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(150, 100, 50));
             mineResist = 1f;
             minPick = 55;
-            soundType = 0;
+            soundType = SoundID.Dig;
             SetModPalmTree(new AcidWoodTree());
         }
 

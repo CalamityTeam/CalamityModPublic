@@ -1,16 +1,15 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.CeaselessVoid;
 using CalamityMod.NPCs.Signus;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.World;
-using CalamityMod.Projectiles.Typeless;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class RuneofCos : ModItem
+	public class RuneofCos : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.SummonItems
             item.height = 20;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.rare = 9;
             item.UseSound = SoundID.Item44;
             item.consumable = false;

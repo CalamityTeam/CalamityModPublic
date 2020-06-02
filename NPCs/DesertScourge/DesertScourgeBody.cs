@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -6,12 +6,10 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.DesertScourge
 {
-    public class DesertScourgeBody : ModNPC
+	public class DesertScourgeBody : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +25,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.defense = 6;
             npc.Calamity().RevPlusDR(0.05f);
             npc.LifeMaxNERB(2300, 2650, 16500000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
@@ -99,7 +97,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
-                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                 {
                     npc.localAI[0] += 4f;
                 }
@@ -150,7 +148,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     int seeker = NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, ModContent.NPCType<DriedSeekerHead>());
                     if (Main.netMode == NetmodeID.Server && seeker < 200)
                     {
-                        NetMessage.SendData(23, -1, -1, null, seeker, 0f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, seeker, 0f, 0f, 0f, 0, 0, 0);
                     }
                     npc.netUpdate = true;
                 }

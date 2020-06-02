@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 2;
+            projectile.localNPCHitCooldown = 4;
             projectile.Calamity().trueMelee = true;
         }
         public override float InitialSpeed => 5.5f;
@@ -34,8 +34,8 @@ namespace CalamityMod.Projectiles.Melee.Spears
         public override float ForwardSpeed => 1.1f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>
         {
-            int damage = Nadir.BaseDamage / 5;
-            float kb = 5.5f;
+            int damage = projectile.damage / 4;
+            float kb = projectile.knockBack * 0.5f;
             Vector2 projPos = projectile.Center + projectile.velocity;
             Vector2 projVel = projectile.velocity * 0.75f;
             if (projectile.owner == Main.myPlayer)

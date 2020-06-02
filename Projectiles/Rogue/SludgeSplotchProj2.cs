@@ -1,14 +1,12 @@
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SludgeSplotchProj2 : ModProjectile
+	public class SludgeSplotchProj2 : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -46,8 +44,8 @@ namespace CalamityMod.Projectiles.Rogue
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 28, 0.3f, 0);
+            Main.PlaySound(SoundID.Dig, projectile.position);
+            Main.PlaySound(SoundID.NPCKilled, (int)projectile.position.X, (int)projectile.position.Y, 28, 0.3f, 0);
             projectile.Kill();
             return false;
         }

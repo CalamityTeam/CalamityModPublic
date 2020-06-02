@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.Ores
 {
     public class AerialiteOre : ModTile
@@ -20,7 +22,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(0, 255, 255), name);
             mineResist = 2f;
             minPick = 65;
-            soundType = 21;
+            soundType = SoundID.Tink;
             Main.tileSpelunker[Type] = true;
         }
 

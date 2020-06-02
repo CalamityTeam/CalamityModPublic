@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             item.width = 38;
             item.height = 38;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.useAnimation = 30;
             item.useTime = 30;
             item.channel = true;

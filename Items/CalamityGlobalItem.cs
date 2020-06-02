@@ -28,14 +28,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.Utilities;
 
 namespace CalamityMod.Items
 {
-    public class CalamityGlobalItem : GlobalItem
+	public class CalamityGlobalItem : GlobalItem
     {
         #region Instances
         public override bool InstancePerEntity
@@ -55,17 +55,33 @@ namespace CalamityMod.Items
         }
         #endregion
 
-        public bool rogue = false;
+		public bool rogue = false;
+		public float StealthGenBonus;
 
-        public int timesUsed = 0;
+		public int timesUsed = 0;
 
-        // Rarity is provided both as the classic int and the new enum.
-        public CalamityRarity customRarity = CalamityRarity.NoEffect;
-        public int postMoonLordRarity 
-        {
-            get => (int)customRarity;
-            set => customRarity = (CalamityRarity)value;
-        }
+		// Rarity is provided both as the classic int and the new enum.
+		public CalamityRarity customRarity = CalamityRarity.NoEffect;
+		public int postMoonLordRarity 
+		{
+			get => (int)customRarity;
+			set => customRarity = (CalamityRarity)value;
+		}
+
+		///See RogueWeapon.cs for rogue modifier shit
+		#region Modifiers
+		public CalamityGlobalItem()
+		{
+			StealthGenBonus = 1f;
+		}
+
+		public override GlobalItem Clone(Item item, Item itemClone)
+		{
+			CalamityGlobalItem myClone = (CalamityGlobalItem)base.Clone(item, itemClone);
+			myClone.StealthGenBonus = StealthGenBonus;
+			return myClone;
+		}
+		#endregion
 
         #region SetDefaults
         public override void SetDefaults(Item item)
@@ -300,7 +316,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 20);
+                        Main.PlaySound(SoundID.Item20, (int)player.position.X, (int)player.position.Y);
                         float spread = 45f * 0.0174f;
                         double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                         double deltaAngle = spread / 8f;
@@ -949,12 +965,14 @@ namespace CalamityMod.Items
 				{
 					if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
 					{
+						int duration = CalamityPlayer.chaosStateDuration;
+						if (CalamityPlayer.areThereAnyDamnBosses || CalamityPlayer.areThereAnyDamnEvents)
+							duration = CalamityPlayer.chaosStateDurationBoss;
 						if (modPlayer.eScarfCooldown)
-							player.AddBuff(BuffID.ChaosState, (int)(CalamityPlayer.chaosStateDuration * 1.5), true);
+							duration = (int)(CalamityPlayer.chaosStateDuration * 1.5);
 						else if (modPlayer.scarfCooldown)
-							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration * 2, true);
-						else
-							player.AddBuff(BuffID.ChaosState, CalamityPlayer.chaosStateDuration, true);
+							duration = CalamityPlayer.chaosStateDuration * 2;
+						player.AddBuff(BuffID.ChaosState, duration, true);
 					}
 				}
 			}
@@ -965,6 +983,7 @@ namespace CalamityMod.Items
         #region Modify Tooltips
         public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
+			#region Custom Rarities#
             TooltipLine tt2 = tooltips.FirstOrDefault(x => x.Name == "ItemName" && x.mod == "Terraria");
             if (tt2 != null)
             {
@@ -1086,6 +1105,25 @@ namespace CalamityMod.Items
                         break;
                 }
             }
+			#endregion
+
+			#region Accessory Modifier Display
+			if (item.accessory)
+			{
+				if (!item.social && item.prefix > 0)
+				{
+					float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
+					if (stealthGenBoost > 0)
+					{
+						TooltipLine StealthGen = new TooltipLine(mod, "PrefixStealthGenBoost", "+" + Math.Round(stealthGenBoost * 100f) + "% stealth generation")
+						{
+							isModifier = true
+						};
+						tooltips.Add(StealthGen);
+					}
+				}
+			}
+			#endregion
 
 			/*if (item.ammo == 97)
             {
@@ -2779,7 +2817,7 @@ Provides heat and cold protection in Death Mode";
 
                     // Plantera
                     case ItemID.PlanteraBossBag:
-                        DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 8, 11);
+                        DropHelper.DropItem(player, ModContent.ItemType<LivingShard>(), 16, 22);
                         float bFluxChance = DropHelper.LegendaryDropRateFloat;
                         DropHelper.DropItemCondition(player, ModContent.ItemType<BlossomFlux>(), CalamityWorld.revenge, bFluxChance);
                         DropHelper.DropItemChance(player, ItemID.JungleKey, 5);
@@ -2954,6 +2992,15 @@ Provides heat and cold protection in Death Mode";
         public override void UpdateAccessory(Item item, Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
+
+			if (item.prefix > 0)
+			{
+				float stealthGenBoost = item.Calamity().StealthGenBonus - 1f;
+				if (stealthGenBoost > 0)
+				{
+					modPlayer.accStealthGenBoost += stealthGenBoost;
+				}
+			}
 
             if (item.type == ItemID.FireGauntlet)
             {

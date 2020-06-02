@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Melee
 {
     public class RoxSlam : ModProjectile
@@ -40,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
 				player.fallStart = (int)(player.position.Y / 16f);
                 //Spawns the shockwave
                 Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<RoxShockwave>(), 300, 12, projectile.owner);
-                Main.PlaySound(2, projectile.position, 14);
+                Main.PlaySound(SoundID.Item14, projectile.position);
                 projectile.Kill();
                 //Pretty things
                 for (int dustexplode = 0; dustexplode < 360; dustexplode++)
@@ -59,7 +61,7 @@ namespace CalamityMod.Projectiles.Melee
                 player.velocity.Y = -14f;
 				//reset player fall damage
 				player.fallStart = (int)(player.position.Y / 16f);
-                Main.PlaySound(21, projectile.position);
+                Main.PlaySound(SoundID.Tink, projectile.position);
                 projectile.Kill();
 
                 return false;

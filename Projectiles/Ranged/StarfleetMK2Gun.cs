@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Ranged
                     case 540:
                         projectile.localAI[0] += 1f;
                         projectile.ai[0] = -1f;
-                        Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+                        Main.PlaySound(SoundID.Item14, projectile.position);
                         int num226 = 36;
                         for (int num227 = 0; num227 < num226; num227++)
                         {

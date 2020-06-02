@@ -1,14 +1,13 @@
-﻿using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Cryogen
 {
-    public class CryogenIce : ModNPC
+	public class CryogenIce : ModNPC
     {
         public override void SetStaticDefaults()
         {

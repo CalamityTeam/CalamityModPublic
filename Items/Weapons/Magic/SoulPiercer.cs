@@ -5,11 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class SoulPiercer : ModItem
+	public class SoulPiercer : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.height = 64;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 8f;
             item.value = Item.buyPrice(1, 80, 0, 0);

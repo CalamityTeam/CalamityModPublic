@@ -3,11 +3,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class Vehemenc : ModItem
+	public class Vehemenc : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -29,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.height = 44;
             item.useTime = 50;
             item.useAnimation = 50;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5.75f;
             item.value = Item.buyPrice(1, 0, 0, 0);

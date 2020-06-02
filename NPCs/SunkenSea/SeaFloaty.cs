@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.Items.Placeables.Banners;
 using System.IO;
 using Terraria;
 using Terraria.ID;

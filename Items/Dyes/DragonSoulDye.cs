@@ -4,11 +4,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework;
 
 namespace CalamityMod.Items.Dyes
 {
-    public class DragonSoulDye : BaseDye
+	public class DragonSoulDye : BaseDye
     {
         public override ArmorShaderData ShaderDataToBind => new ArmorShaderData(new Ref<Effect>(mod.GetEffect("Effects/Dyes/DragonSoulDyeShader")), "DyePass");
         public override void SafeSetStaticDefaults()

@@ -1,5 +1,3 @@
-
-using CalamityMod.Tiles.Astral;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.AstralSnow
 {
-    public class AstralIce : ModTile
+	public class AstralIce : ModTile
     {
         public override void SetDefaults()
         {
@@ -22,7 +20,7 @@ namespace CalamityMod.Tiles.AstralSnow
             dustType = 173;
             drop = ModContent.ItemType<Items.Placeables.AstralIce>();
 
-            soundType = 2;
+            soundType = SoundID.Item;
             soundStyle = 50;
 
             AddMapEntry(new Color(153, 143, 168));

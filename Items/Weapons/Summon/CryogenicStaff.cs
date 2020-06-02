@@ -24,7 +24,7 @@ Fire rate and range increase the longer it targets an enemy");
             item.width = 40;
             item.height = 40;
             item.useTime = item.useAnimation = 25;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 48, 0, 0);

@@ -1,12 +1,10 @@
-﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class CircletTornado : ModProjectile
+	public class CircletTornado : ModProjectile
     {
         public override void SetStaticDefaults()
         {

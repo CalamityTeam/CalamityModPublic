@@ -1,13 +1,10 @@
 using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class BabyGhostBell : ModProjectile
+	public class BabyGhostBell : ModProjectile
     {
         private bool underwater = false;
 

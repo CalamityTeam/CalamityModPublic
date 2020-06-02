@@ -2,6 +2,8 @@ using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Weapons.Summon
 {
     public class EnergyStaff : ModItem
@@ -22,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.width = 66;
             item.height = 68;
             item.useTime = item.useAnimation = 15;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(1, 20, 0, 0);

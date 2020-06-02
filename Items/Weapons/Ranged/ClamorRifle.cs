@@ -2,6 +2,8 @@ using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Weapons.Ranged
 {
     public class ClamorRifle : ModItem
@@ -14,13 +16,13 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 32;
+            item.damage = 27;
             item.ranged = true;
             item.width = 64;
             item.height = 30;
             item.useTime = 13;
             item.useAnimation = 13;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2.5f;
             item.value = Item.buyPrice(0, 36, 0, 0);

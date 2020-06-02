@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles.Astral
             dustType = ModContent.DustType<AstralBasic>();
             drop = ModContent.ItemType<Items.Placeables.AstralStone>();
 
-            soundType = 21;
+            soundType = SoundID.Tink;
 
             AddMapEntry(new Color(45, 36, 63));
 

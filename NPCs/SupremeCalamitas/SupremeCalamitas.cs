@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
@@ -96,7 +96,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             global.multDRReductions.Add(BuffID.CursedInferno, 0.91f);
             npc.value = Item.buyPrice(10, 0, 0, 0);
 			npc.LifeMaxNERB(5000000, 5500000, 2100000);
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -230,7 +230,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			bool enraged = npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive);
+			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive);
 			Vector2 vectorCenter = npc.Center;
 
 			// Get a target
@@ -1037,7 +1037,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     }
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 74);
+                        Main.PlaySound(SoundID.Item74, npc.position);
                         for (int I = 0; I < 20; I++)
                         {
                             int FireEye = NPC.NewNPC((int)(vectorCenter.X + (Math.Sin(I * 18) * 300)), (int)(vectorCenter.Y + (Math.Cos(I * 18) * 300)), ModContent.NPCType<SoulSeekerSupreme>(), npc.whoAmI, 0, 0, 0, -1);
@@ -1631,7 +1631,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         for (int num388 = 0; num388 < 50; num388++)
                             Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
-                        Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 0, 1f, 0f);
+                        Main.PlaySound(SoundID.Roar, npc.position);
                     }
                 }
 
@@ -2288,7 +2288,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			float amount9 = 0.5f;
 			int num153 = 7;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -2311,7 +2311,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 			texture2D15 = npc.ai[0] > 1f ? ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitas2Glow") : ModContent.GetTexture("CalamityMod/NPCs/SupremeCalamitas/SupremeCalamitasGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

@@ -1,11 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ClamorRifleProj : ModProjectile
+	public class ClamorRifleProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -62,10 +61,10 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<ClamorRifleProjSplit>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<ClamorRifleProjSplit>(), (int)(projectile.damage * 0.45), 0f, projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 118);
+            Main.PlaySound(SoundID.Item118, projectile.Center);
         }
     }
 }

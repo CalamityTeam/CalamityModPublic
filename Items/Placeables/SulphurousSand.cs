@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+using Terraria.ID;
+using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables
 {
     public class SulphurousSand : ModItem
@@ -11,7 +12,7 @@ namespace CalamityMod.Items.Placeables
         public override void SetDefaults()
         {
             item.createTile = ModContent.TileType<Tiles.Abyss.SulphurousSandNoWater>();
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddTile(18);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.AddIngredient(ModContent.ItemType<Walls.SulphurousSandWall>(), 4);
             recipe.SetResult(this);
             recipe.AddRecipe();

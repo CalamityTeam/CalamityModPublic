@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -15,8 +15,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 140;
-            projectile.height = 44;
+            projectile.width = 152;
+            projectile.height = 58;
             projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -219,7 +219,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			float amount9 = 0.5f;
 			int num153 = 10;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -242,7 +242,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/AstrumAureus/AureusSpawnGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -291,7 +291,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 
         public override bool CheckDead()
         {
-            Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)npc.position.X, (int)npc.position.Y, 14);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
             npc.damage = 150;

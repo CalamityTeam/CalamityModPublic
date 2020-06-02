@@ -1,5 +1,7 @@
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Placeables.Walls
 {
     public class EutrophicSandWall : ModItem
@@ -13,7 +15,7 @@ namespace CalamityMod.Items.Placeables.Walls
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 7;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createWall = ModContent.WallType<WallTiles.EutrophicSandWall>();
         }

@@ -1,10 +1,9 @@
-using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Potions
 {
-    public class TeslaBuff : ModBuff
+	public class TeslaBuff : ModBuff
     {
         public override void SetDefaults()
         {

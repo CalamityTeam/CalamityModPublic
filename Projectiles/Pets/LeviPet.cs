@@ -1,11 +1,9 @@
-﻿using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using System;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class LeviPet : ModProjectile
+	public class LeviPet : ModProjectile
     {
         public override void SetStaticDefaults()
         {

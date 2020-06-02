@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Items;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class LuminousStriker : RogueWeapon
+	public class LuminousStriker : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -30,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 30;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 30;
             item.knockBack = 6f;
             item.UseSound = SoundID.Item1;

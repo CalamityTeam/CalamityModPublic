@@ -40,8 +40,13 @@ namespace CalamityMod.Projectiles.Rogue
 			projectile.ai[0]++;
 			if (projectile.ai[0] > 120f)
 			{
-				projectile.alpha -= 15;
-				if (projectile.alpha <= 0)
+				projectile.scale *= 0.98f;
+				projectile.position = projectile.Center;
+				projectile.width = (int)(projectile.width * projectile.scale);
+				projectile.height = (int)(projectile.height * projectile.scale);
+				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
+				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+				if (projectile.scale <= 0.05f)
 					projectile.Kill();
 			}
             projectile.rotation += projectile.direction * 0.05f;

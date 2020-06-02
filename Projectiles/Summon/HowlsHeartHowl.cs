@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -7,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class HowlsHeartHowl : ModProjectile
+	public class HowlsHeartHowl : ModProjectile
     {
         public bool initialized = false;
 
@@ -25,7 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.height = 54;
             projectile.netImportant = true;
             projectile.friendly = true;
-            projectile.minionSlots = 1f;
+            projectile.minionSlots = 0f;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.timeLeft *= 5;

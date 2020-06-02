@@ -1,5 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -24,7 +25,7 @@ namespace CalamityMod.Projectiles.Typeless
         {
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 73);
+                Main.PlaySound(SoundID.Item73, projectile.position);
                 projectile.localAI[0] += 1f;
             }
             for (int num457 = 0; num457 < 3; num457++)
