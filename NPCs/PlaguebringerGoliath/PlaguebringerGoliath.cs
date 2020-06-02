@@ -22,8 +22,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.PlaguebringerGoliath
 {
     [AutoloadBossHead]
@@ -56,7 +54,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.defense = 40;
             npc.Calamity().RevPlusDR(0.25f);
 			npc.LifeMaxNERB(58500, 77275, 3700000);
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -282,7 +280,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 					num1044 += 2f;
 				if (lifeRatio < 0.33f || death)
 					num1044 += 2f;
-				if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+				if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					num1044 += 2f;
 
 				int num1043 = 2;
@@ -362,7 +360,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                         num1048 += 1f;
                         num1049 += 0.05f;
                     }
-                    if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                     {
                         num1048 += 2f;
                         num1049 += 0.1f;
@@ -410,7 +408,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     npc.spriteDirection = npc.direction;
 
                     int num1050 = revenge ? 525 : 550;
-                    if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                    if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         num1050 = 300;
                     else if (aboveGroundEnrage || CalamityWorld.bossRushActive)
                         num1050 = 400;
@@ -672,7 +670,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 vector121.X += (npc.direction * 120);
 
 				npc.ai[1] += 1f;
-				int num650 = ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 10 : ((lifeRatio < 0.1f || death || aboveGroundEnrage) ? 20 : ((lifeRatio < 0.5f) ? 25 : 30)));
+				int num650 = ((npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 10 : ((lifeRatio < 0.1f || death || aboveGroundEnrage) ? 20 : ((lifeRatio < 0.5f) ? 25 : 30)));
 
                 if (npc.ai[1] % (float)num650 == (float)(num650 - 1) && vectorCenter.Y < player.position.Y)
                 {
@@ -681,7 +679,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float projectileSpeed = revenge ? 6.5f : 6f;
-                        if (jungleEnrage || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (jungleEnrage || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             projectileSpeed += 10f;
                         if (CalamityWorld.bossRushActive)
                             projectileSpeed *= 1.5f;
@@ -925,7 +923,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
             if (Main.netMode == NetmodeID.Server)
             {
-                NetMessage.SendData(23, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, npc.whoAmI, 0f, 0f, 0f, 0, 0, 0);
             }
         }
 
@@ -1038,7 +1036,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			if (npc.ai[0] != 0f && npc.ai[0] != 4f)
 				num153 = 7;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -1060,7 +1058,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

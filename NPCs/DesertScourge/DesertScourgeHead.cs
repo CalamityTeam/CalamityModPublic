@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.width = 32;
             npc.height = 80;
             npc.LifeMaxNERB(2300, 2650, 16500000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = 6;
             aiType = -1;
@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.DesertScourge
 				turnSpeed += death ? 0.1f : 0.1f * (1f - lifeRatio);
 			}
 
-			if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 			{
 				speed *= 2f;
 				turnSpeed *= 2f;
@@ -146,7 +146,7 @@ namespace CalamityMod.NPCs.DesertScourge
                         Main.npc[lol].ai[2] = npc.whoAmI;
                         Main.npc[lol].ai[1] = Previous;
                         Main.npc[Previous].ai[0] = lol;
-                        NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
                         Previous = lol;
                     }
                     TailSpawned = true;
@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000;
+                int num954 = (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000;
                 if (CalamityWorld.bossRushActive)
                     num954 /= 2;
 

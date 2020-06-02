@@ -38,7 +38,7 @@ namespace CalamityMod.NPCs.DevourerofGods
             npc.height = 104;
             npc.defense = 50;
 			npc.LifeMaxNERB(675000, 750000);
-			double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.takenDamageMultiplier = 1.25f;
             npc.aiStyle = -1;
@@ -196,7 +196,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                         Main.npc[segment].ai[2] = (float)npc.whoAmI;
                         Main.npc[segment].ai[1] = (float)Previous;
                         Main.npc[Previous].ai[0] = (float)segment;
-                        NetMessage.SendData(23, -1, -1, null, segment, 0f, 0f, 0f, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, segment, 0f, 0f, 0f, 0);
                         Previous = segment;
                     }
                     tail = true;

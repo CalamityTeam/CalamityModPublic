@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.height = 200;
             npc.defense = 150;
             npc.LifeMaxNERB(2275000, 2525000, 3700000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -257,7 +257,7 @@ namespace CalamityMod.NPCs.Yharon
             float acceleration = expertMode ? 0.7f : 0.69f;
             float velocity = expertMode ? 11f : 10.8f;
 
-			if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
 				acceleration = 0.95f;
 				velocity = 14f;
@@ -286,7 +286,7 @@ namespace CalamityMod.NPCs.Yharon
 			float fastChargeVelocityMultiplier = 1.5f;
 			int fastChargeTelegraphTimer = 120;
 
-            if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 chargeTime = 40;
                 chargeSpeed = 35f;
@@ -1592,7 +1592,7 @@ namespace CalamityMod.NPCs.Yharon
 
 			float teleportPhaseTimer = 45f;
 
-			if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 acceleration = 1.2f;
                 velocity = 18f;
@@ -2479,7 +2479,7 @@ namespace CalamityMod.NPCs.Yharon
 			else
 				color = lightColor;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += num154)
 				{
@@ -2530,7 +2530,7 @@ namespace CalamityMod.NPCs.Yharon
 				scaleFactor9 = 20f;
 			}
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num160 = 0; num160 < num156; num160++)
 				{
@@ -2607,7 +2607,7 @@ namespace CalamityMod.NPCs.Yharon
 					color46 *= num162;
 				}
 
-				if (CalamityMod.CalamityConfig.Afterimages)
+				if (CalamityConfig.Instance.Afterimages)
 				{
 					for (int num163 = 1; num163 < num153; num163 += num154)
 					{

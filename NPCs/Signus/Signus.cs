@@ -16,8 +16,6 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Signus
 {
     [AutoloadBossHead]
@@ -59,8 +57,8 @@ namespace CalamityMod.NPCs.Signus
                 else
                     music = MusicID.Boss4;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
@@ -213,7 +211,7 @@ namespace CalamityMod.NPCs.Signus
                 if (expertMode)
                     speed += death ? 4f : 4f * (float)(1D - lifeRatio);
 
-                if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                     speed += 3f;
 
                 float num795 = player.Center.X - vectorCenter.X;
@@ -317,12 +315,12 @@ namespace CalamityMod.NPCs.Signus
 						int num660 = NPC.NewNPC((int)(player.position.X + 750f), (int)player.position.Y, ModContent.NPCType<SignusBomb>(), 0, 0f, 0f, 0f, 0f, 255);
                         if (Main.netMode == NetmodeID.Server)
                         {
-                            NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
                         }
                         int num661 = NPC.NewNPC((int)(player.position.X - 750f), (int)player.position.Y, ModContent.NPCType<SignusBomb>(), 0, 0f, 0f, 0f, 0f, 255);
                         if (Main.netMode == NetmodeID.Server)
                         {
-                            NetMessage.SendData(23, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
                         }
                         for (int num621 = 0; num621 < 5; num621++)
                         {
@@ -388,7 +386,7 @@ namespace CalamityMod.NPCs.Signus
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num1070 = 15f;
-                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             num1070 += 3f;
                         }
@@ -471,12 +469,12 @@ namespace CalamityMod.NPCs.Signus
                             int num660 = NPC.NewNPC((int)(player.position.X + spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>(), 0, 0f, 0f, 0f, 0f, 255);
                             if (Main.netMode == NetmodeID.Server)
                             {
-                                NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
                             }
                             int num661 = NPC.NewNPC((int)(player.position.X - spawnX), (int)(player.position.Y + spawnY), ModContent.NPCType<CosmicLantern>(), 0, 0f, 0f, 0f, 0f, 255);
                             if (Main.netMode == NetmodeID.Server)
                             {
-                                NetMessage.SendData(23, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
+                                NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num661, 0f, 0f, 0f, 0, 0, 0);
                             }
                             spawnY -= 60;
                         }
@@ -694,7 +692,7 @@ namespace CalamityMod.NPCs.Signus
 			float rotation = npc.rotation;
 			float offsetY = npc.gfxOffY;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -716,7 +714,7 @@ namespace CalamityMod.NPCs.Signus
 
 			Color color40 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

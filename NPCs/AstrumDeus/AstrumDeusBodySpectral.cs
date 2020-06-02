@@ -1,6 +1,5 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -26,7 +25,7 @@ namespace CalamityMod.NPCs.AstrumDeus
             npc.height = 44;
             npc.defense = 50;
 			npc.LifeMaxNERB(187500, 225000, 6500000);
-			double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -90,7 +89,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -114,7 +113,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f) * npc.Opacity;
 			Color color42 = Color.Lerp(Color.White, Color.Orange, 0.5f) * npc.Opacity;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -170,7 +169,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 						int num660 = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), ModContent.NPCType<AstrumDeusProbe3>(), 0, 0f, 0f, 0f, 0f, 255);
 						if (Main.netMode == NetmodeID.Server && num660 < 200)
 						{
-							NetMessage.SendData(23, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
 						}
 						npc.netUpdate = true;
 					}
