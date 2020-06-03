@@ -2768,24 +2768,21 @@ namespace CalamityMod.NPCs
 
 					if (calamityGlobalNPC.newAI[2] == splitAnimationTime)
 					{
-						if (head)
+						if (Main.netMode != NetmodeID.MultiplayerClient && !doubleWormPhase)
 						{
-							if (Main.netMode != NetmodeID.MultiplayerClient && !doubleWormPhase)
-							{
-								int npc2 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<AstrumDeusHeadSpectral>(), 0, 0f, 0f, 0f, 0f, 255);
-								Main.npc[npc2].Calamity().newAI[0] = 1f;
-								int npc3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<AstrumDeusHeadSpectral>(), 0, 0f, 0f, 0f, 0f, 255);
-								Main.npc[npc3].Calamity().newAI[0] = 2f;
-								Main.npc[npc3].Calamity().newAI[3] = 600f;
-							}
+							int npc2 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<AstrumDeusHeadSpectral>(), 0, 0f, 0f, 0f, 0f, 255);
+							Main.npc[npc2].Calamity().newAI[0] = 1f;
+							int npc3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<AstrumDeusHeadSpectral>(), 0, 0f, 0f, 0f, 0f, 255);
+							Main.npc[npc3].Calamity().newAI[0] = 2f;
+							Main.npc[npc3].Calamity().newAI[3] = 600f;
+						}
 
-							for (int num957 = 0; num957 < Main.maxNPCs; num957++)
+						for (int i = 0; i < Main.maxNPCs; i++)
+						{
+							if (Main.npc[i].Calamity().newAI[0] == 0f || despawnRemainingWorm)
 							{
-								if (Main.npc[num957].Calamity().newAI[0] == 0f || despawnRemainingWorm)
-								{
-									if (Main.npc[num957].type == ModContent.NPCType<AstrumDeusHeadSpectral>() || Main.npc[num957].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[num957].type == ModContent.NPCType<AstrumDeusTailSpectral>())
-										Main.npc[num957].active = false;
-								}
+								if (Main.npc[i].type == ModContent.NPCType<AstrumDeusHeadSpectral>() || Main.npc[i].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[i].type == ModContent.NPCType<AstrumDeusTailSpectral>())
+									Main.npc[i].active = false;
 							}
 						}
 
@@ -3213,10 +3210,10 @@ namespace CalamityMod.NPCs
 
 					npc.localAI[0] += 1f;
 					float shootProjectile = 600 / shootTime;
+					float timer = npc.ai[0] + 15f;
+					float divisor = timer + shootProjectile;
 					if (!flyAtTarget)
 					{
-						float timer = npc.ai[0] + 12f;
-						float divisor = timer + shootProjectile;
 						if (npc.localAI[0] % divisor == 0f)
 						{
 							npc.TargetClosest(true);
@@ -3253,7 +3250,7 @@ namespace CalamityMod.NPCs
 					}
 					else
 					{
-						if (npc.localAI[0] % shootProjectile == 0f)
+						if (npc.localAI[0] % divisor == 0f && npc.ai[0] % 2f == 0f)
 						{
 							int num945 = expertMode ? 45 : 60;
 							int num946 = ModContent.ProjectileType<DeusMine>();

@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 160;
             npc.height = 120;
             npc.defense = 9999;
-            npc.Calamity().RevPlusDR(0.3f);
+			npc.DR_NERD(0.3f);
             npc.lifeMax = Main.hardMode ? 7500 : 1250;
             npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.aiStyle = -1;

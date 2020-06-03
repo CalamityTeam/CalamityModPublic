@@ -47,9 +47,8 @@ namespace CalamityMod.NPCs.Polterghast
             npc.width = 90;
             npc.height = 120;
             npc.defense = 90;
-            CalamityGlobalNPC global = npc.Calamity();
-            global.DR = 0.15f;
-            global.customDR = true;
+			npc.DR_NERD(0.15f, null, null, null, true);
+			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.Ichor, 0.88f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
             npc.LifeMaxNERB(412500, 495000, 3250000);

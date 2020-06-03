@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.width = 86;
             npc.height = 88;
             npc.defense = 12;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.LifeMaxNERB(17900, 26300, 3000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);

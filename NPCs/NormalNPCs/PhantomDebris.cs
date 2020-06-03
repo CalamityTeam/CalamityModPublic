@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 44;
             npc.height = 22;
             npc.defense = 20;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.lifeMax = NPC.downedMoonlord ? 1600 : 120;
             npc.aiStyle = -1;
             aiType = -1;

@@ -31,14 +31,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.width = 120;
             npc.height = 120;
             npc.defense = 100;
-            CalamityGlobalNPC global = npc.Calamity();
-            global.DR = CalamityWorld.bossRushActive ? 0.6f : CalamityWorld.death ? 0.75f : 0.7f;
-            global.customDR = true;
+			npc.DR_NERD(0.7f, 0.7f, 0.75f, 0.6f, true);
+			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.Ichor, 0.9f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.91f);
 			npc.LifeMaxNERB(1200000, 1500000);
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

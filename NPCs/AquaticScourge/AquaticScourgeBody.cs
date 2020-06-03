@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.width = 32;
             npc.height = 32;
             npc.defense = 20;
-            npc.Calamity().RevPlusDR(0.05f);
+			npc.DR_NERD(0.05f);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;

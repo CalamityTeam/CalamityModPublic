@@ -19,8 +19,6 @@ namespace CalamityMod.Items.DifficultyItems
                 "Activates adrenaline. When adrenaline is maxed press B to activate adrenaline mode.\n" +
                 "You gain adrenaline whenever a boss is alive. Getting hit drops adrenaline back to 0.\n" +
                 "All enemies drop 50% more cash.\n" +
-                "All enemies gain a new damage reduction stat, which can be reduced by applying various debuffs to them.\n" +
-                "The amount of this damage reduction stat varies based on enemy type.\n" +
                 "Makes certain enemies immune to life steal and nerfs the effectiveness of life steal.\n" +
                 "Increases enemy damage by 25% and spawn rates by 15%.\n" +
                 "Nerfs the effectiveness of the Titanium Armor set bonus.\n" +
