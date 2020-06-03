@@ -82,9 +82,8 @@ namespace CalamityMod.NPCs.Yharon
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
 
-            CalamityGlobalNPC global = npc.Calamity();
-            global.DR = Phase1_DR;
-            global.customDR = true;
+			npc.DR_NERD(Phase1_DR, null, null, null, true);
+			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
 

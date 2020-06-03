@@ -42,9 +42,8 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.width = 130;
             npc.height = 100;
             npc.defense = 40;
+			npc.DR_NERD(0.1f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
-			global.DR = 0.1f;
-			global.customDR = true;
 			global.multDRReductions.Add(BuffID.Ichor, 0.88f);
 			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
 			npc.LifeMaxNERB(227500, 252500, 3000000);

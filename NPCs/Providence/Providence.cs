@@ -64,9 +64,8 @@ namespace CalamityMod.NPCs.Providence
             npc.width = 600;
             npc.height = 450;
             npc.defense = 50;
-            CalamityGlobalNPC global = npc.Calamity();
-            global.DR = normalDR;
-            global.customDR = true;
+			npc.DR_NERD(normalDR, null, null, null, true);
+			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
             npc.LifeMaxNERB(440000, 500000, 12500000);

@@ -89,9 +89,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.width = 120;
             npc.height = 120;
             npc.defense = 120;
-            CalamityGlobalNPC global = npc.Calamity();
-            global.DR = CalamityWorld.bossRushActive ? bossRushDR : CalamityWorld.death ? deathDR : normalDR;
-            global.customDR = true;
+			npc.DR_NERD(normalDR, normalDR, deathDR, bossRushDR, true);
+			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.Ichor, 0.9f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.91f);
             npc.value = Item.buyPrice(10, 0, 0, 0);

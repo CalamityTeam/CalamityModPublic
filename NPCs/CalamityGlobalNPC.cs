@@ -293,6 +293,19 @@ namespace CalamityMod.NPCs
 			NPCType<AquaticScourgeTail>()
 		};
 
+		public static List<int> PerforatorIDs = new List<int>
+		{
+			NPCType<PerforatorHeadLarge>(),
+			NPCType<PerforatorBodyLarge>(),
+			NPCType<PerforatorTailLarge>(),
+			NPCType<PerforatorHeadMedium>(),
+			NPCType<PerforatorBodyMedium>(),
+			NPCType<PerforatorTailMedium>(),
+			NPCType<PerforatorHeadSmall>(),
+			NPCType<PerforatorBodySmall>(),
+			NPCType<PerforatorTailSmall>()
+		};
+
 		public static List<int> DesertScourgeIDs = new List<int>
 		{
 			NPCType<DesertScourgeHead>(),
@@ -319,6 +332,27 @@ namespace CalamityMod.NPCs
 			NPCType<StormWeaverHeadNaked>(),
 			NPCType<StormWeaverBodyNaked>(),
 			NPCType<StormWeaverTailNaked>()
+		};
+
+		public static List<int> GrenadeResistIDs = new List<int>
+		{
+			ProjectileID.Grenade,
+			ProjectileID.StickyGrenade,
+			ProjectileID.BouncyGrenade,
+			ProjectileID.Bomb,
+			ProjectileID.StickyBomb,
+			ProjectileID.BouncyBomb,
+			ProjectileID.Dynamite,
+			ProjectileID.StickyDynamite,
+			ProjectileID.BouncyDynamite,
+			ProjectileID.Explosives,
+			ProjectileID.ExplosiveBunny,
+			ProjectileID.PartyGirlGrenade,
+			ProjectileID.BombFish,
+			ProjectileID.Beenade,
+			ProjectileID.Bee,
+			ProjectileID.GiantBee
+			//ProjectileID.ScarabBomb
 		};
 		#endregion
 
@@ -682,21 +716,18 @@ namespace CalamityMod.NPCs
                 newAI[m] = 0f;
             }
 
-            // Apply DR to vanilla NPCs. No vanilla NPCs have DR except in Rev+.
-            // This also applies DR to other mods' NPCs who have set up their NPCs to have DR in Rev+.
-            if (CalamityWorld.revenge)
-            {
-				if (CalamityMod.DRValues.ContainsKey(npc.type))
-				{
-					CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
-					DR = revDR;
-				}
+			// Apply DR to vanilla NPCs.
+			// This also applies DR to other mods' NPCs who have set up their NPCs to have DR.
+			if (CalamityMod.DRValues.ContainsKey(npc.type))
+			{
+				CalamityMod.DRValues.TryGetValue(npc.type, out float newDR);
+				DR = newDR;
+			}
 
-				if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
-				{
-					CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
-					KillTime = revKillTime;
-				}
+			if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
+			{
+				CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
+				KillTime = revKillTime;
 			}
 
             if (npc.boss && CalamityWorld.revenge)
@@ -1011,17 +1042,6 @@ namespace CalamityMod.NPCs
             {
                 npc.canGhostHeal = false;
             }
-        }
-
-        /// <summary>
-        /// Sets the DR of this NPC only if Revengeance Mode is enabled. Otherwise sets DR to zero.
-        /// </summary>
-        /// <param name="dr">The DR to set, assuming Rev+ difficulty.</param>
-        /// <returns>Whether Revengeance Mode is currently enabled.</returns>
-        public bool RevPlusDR(float dr)
-        {
-            DR = CalamityWorld.revenge ? dr : 0f;
-            return CalamityWorld.revenge;
         }
         #endregion
 
@@ -3526,183 +3546,196 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (AstrumDeusIDs.Contains(npc.type))
+			// Expert Mode resists, mostly worms
+			if (Main.expertMode)
 			{
-				if (projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileType<AtlantisSpear2>() || ProjectileID.Sets.StardustDragon[projectile.type])
+				if (AstrumDeusIDs.Contains(npc.type))
 				{
-					damage = (int)(damage * 0.1);
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+
+					if (projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileType<AtlantisSpear2>() || ProjectileID.Sets.StardustDragon[projectile.type])
+					{
+						damage = (int)(damage * 0.1);
+					}
+					else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
+					{
+						damage = (int)(damage * 0.2);
+					}
+					else if (projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileID.DD2BetsyArrow)
+					{
+						damage = (int)(damage * 0.4);
+					}
+					else if (projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
+					{
+						damage = (int)(damage * 0.5);
+					}
+					else if (projectile.type == ProjectileType<CosmicTentacle>() || projectile.type == ProjectileType<BrimstoneTentacle>())
+					{
+						damage = (int)(damage * 0.6);
+					}
+					else if (projectile.type == ProjectileType<BigNuke>())
+					{
+						damage = (int)(damage * 0.85);
+					}
 				}
-                else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
-                {
-                    damage = (int)(damage * 0.2);
-                }
-				else if (projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileID.DD2BetsyArrow)
+				else if (StormWeaverIDs.Contains(npc.type))
 				{
-					damage = (int)(damage * 0.4);
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+
+					if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
+					{
+						damage = (int)(damage * 0.9);
+					}
+					else if (projectile.type == ProjectileType<MoltenAmputatorProj>() || projectile.type == ProjectileType<MoltenBlobThrown>())
+					{
+						if (projectile.penetrate == -1)
+							projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
+						damage = (int)(damage * 0.75);
+					}
+					else if (projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>())
+					{
+						damage = (int)(damage * 0.5);
+					}
+					else if (ProjectileID.Sets.StardustDragon[projectile.type])
+					{
+						damage = (int)(damage * 0.1);
+					}
 				}
-				else if (projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
+				else if (DestroyerIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+
+					if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>() || projectile.type == ProjectileType<RainbowTrail>())
+					{
+						damage = (int)(damage * 0.75);
+					}
+					else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
+					{
+						damage = (int)(damage * 0.5);
+					}
+					else if (projectile.type == ProjectileType<SulphuricNukesplosion>())
+					{
+						damage = (int)(damage * 0.38);
+					}
+					else if (projectile.type == ProjectileType<SeasSearingSpout>())
+					{
+						damage = (int)(damage * 0.25);
+					}
+				}
+				else if (AquaticScourgeIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+
+					if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>())
+					{
+						damage = (int)(damage * 0.9);
+					}
+					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>())
+					{
+						damage = (int)(damage * 0.5);
+					}
+					else if (projectile.type == ProjectileType<Brimblast>())
+					{
+						if (projectile.penetrate == -1)
+							projectile.penetrate = 2;
+						damage = (int)(damage * 0.1);
+					}
+				}
+				else if (PerforatorIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+				}
+				else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
+				{
+					if (npc.type == NPCID.Creeper)
+						GrenadeResist(projectile, ref damage);
+
+					PierceResistGlobal(projectile, ref damage);
+
+					if (projectile.type == ProjectileType<SparklingBeam>())
+					{
+						damage = (int)(damage * 0.7);
+					}
+				}
+				else if (DesertScourgeIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+				}
+			}
+
+			// Other projectile resists
+			if (npc.type == NPCType<OldDuke.OldDuke>())
+			{
+				if (projectile.type == ProjectileType<CrescentMoonFlail>())
+				{
+					damage = (int)(damage * 0.2);
+				}
+				else if (projectile.type == ProjectileType<GalileosMoon>() || projectile.type == ProjectileType<CalamariInk>())
 				{
 					damage = (int)(damage * 0.5);
 				}
-				else if (projectile.type == ProjectileType<CosmicTentacle>() || projectile.type == ProjectileType<BrimstoneTentacle>())
+				else if (projectile.type == ProjectileType<BloodBombExplosion>() || projectile.type == ProjectileType<CrescentMoonProj>())
 				{
 					damage = (int)(damage * 0.6);
 				}
-				else if (projectile.type == ProjectileType<BigNuke>())
+				else if (projectile.type == ProjectileType<GhastlySoulLarge>() || projectile.type == ProjectileType<GhastlySoulMedium>() || projectile.type == ProjectileType<GhastlySoulSmall>() || projectile.type == ProjectileType<GhostFire>())
 				{
-					damage = (int)(damage * 0.85);
+					damage = (int)(damage * 0.75);
 				}
-
-				if (projectile.penetrate == -1 && !projectile.minion)
+				else if (projectile.type == ProjectileID.LunarFlare)
 				{
-					damage = (int)(damage * 0.2);
-				}
-				else if (projectile.penetrate > 1 && projectile.type != ProjectileType<BrinySpout>())
-				{
-					damage /= projectile.penetrate;
+					damage = (int)(damage * 0.8);
 				}
 			}
-			else if (StormWeaverIDs.Contains(npc.type))
-			{
-				if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
-				{
-                    damage = (int)(damage * 0.9);
-				}
-                else if (projectile.type == ProjectileType<MoltenAmputatorProj>() || projectile.type == ProjectileType<MoltenBlobThrown>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
-                    damage = (int)(damage * 0.75);
-                }
-                else if (projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>())
-                {
-                    damage = (int)(damage * 0.5);
-                }
-				else if (ProjectileID.Sets.StardustDragon[projectile.type])
-				{
-					damage = (int)(damage * 0.1);
-				}
-
-				if (projectile.penetrate == -1 && !projectile.minion)
-				{
-					damage = (int)(damage * 0.2);
-				}
-				else if (projectile.penetrate > 1)
-				{
-					damage /= projectile.penetrate;
-				}
-			}
-            else if (DestroyerIDs.Contains(npc.type))
-            {
-                if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
-                {
-                    damage = (int)(damage * 0.5);
-                }
-                if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>() || projectile.type == ProjectileType<RainbowTrail>())
-                {
-                    damage = (int)(damage * 0.75);
-                }
-                else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
-                {
-                    damage = (int)(damage * 0.5);
-                }
-                else if (projectile.type == ProjectileType<SulphuricNukesplosion>())
-                {
-                    damage = (int)(damage * 0.38);
-                }
-                else if (projectile.type == ProjectileType<SeasSearingSpout>())
-                {
-                    damage = (int)(damage * 0.25);
-                }
-            }
-			else if (AquaticScourgeIDs.Contains(npc.type))
-			{
-				if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
-				{
-					damage = (int)(damage * 0.5);
-				}
-                if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>())
-                {
-                    damage = (int)(damage * 0.9);
-                }
-                if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>())
-                {
-                    damage = (int)(damage * 0.5);
-                }
-				else if (projectile.type == ProjectileType<Brimblast>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = 2;
-                    damage = (int)(damage * 0.1);
-                }
-			}
-            else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
-            {
-                if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
-                {
-                    damage = (int)(damage * 0.6);
-                }
-                if (projectile.type == ProjectileType<SparklingBeam>())
-                {
-                    damage = (int)(damage * 0.7);
-                }
-            }
-            else if (DesertScourgeIDs.Contains(npc.type))
-            {
-                if (projectile.type == ProjectileType<Spark>())
-                {
-                    damage = (int)(damage * 0.7);
-                }
-            }
-            else if (npc.type == NPCType<OldDuke.OldDuke>())
-            {
-                if (projectile.type == ProjectileType<CrescentMoonFlail>())
-                {
-                    damage = (int)(damage * 0.2);
-                }
-                else if (projectile.type == ProjectileType<GalileosMoon>() || projectile.type == ProjectileType<CalamariInk>())
-                {
-                    damage = (int)(damage * 0.5);
-                }
-                else if (projectile.type == ProjectileType<BloodBombExplosion>() || projectile.type == ProjectileType<CrescentMoonProj>())
-                {
-                    damage = (int)(damage * 0.6);
-                }
-                else if (projectile.type == ProjectileType<GhastlySoulLarge>() || projectile.type == ProjectileType<GhastlySoulMedium>() || projectile.type == ProjectileType<GhastlySoulSmall>() || projectile.type == ProjectileType<GhostFire>())
-                {
-                    damage = (int)(damage * 0.75);
-                }
-                else if (projectile.type == ProjectileID.LunarFlare)
-                {
-                    damage = (int)(damage * 0.8);
-                }
-            }
 			else if (npc.type == NPCID.CultistBoss)
 			{
-                if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
-                {
+				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
+				{
 					damage = (int)(damage * 0.75);
 				}
 			}
-            else if (npc.type == NPCID.DukeFishron)
+			else if (npc.type == NPCID.DukeFishron)
 			{
-                if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
-                {
+				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
+				{
 					damage = (int)(damage * 1.35);
 				}
 			}
-            else if (npc.type == NPCType<Providence.Providence>())
+			else if (npc.type == NPCType<Providence.Providence>())
 			{
-                if (projectile.type == ProjectileType<ElementalAxeMinion>())
-                {
+				if (projectile.type == ProjectileType<ElementalAxeMinion>())
+				{
 					damage = (int)(damage * 1.5);
 				}
 			}
 		}
-        #endregion
 
-        #region On Hit By Item
-        public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+		private void GrenadeResist(Projectile projectile, ref int damage)
+		{
+			if (GrenadeResistIDs.Contains(projectile.type))
+				damage = (int)(damage * 0.2);
+		}
+
+		private void PierceResistGlobal(Projectile projectile, ref int damage)
+		{
+			if (projectile.minion)
+				return;
+
+			if (projectile.penetrate == -1)
+				damage = (int)(damage * 0.5);
+			else if (projectile.penetrate > 1)
+				damage = (int)MathHelper.Clamp(damage * (float)Math.Pow(0.9, projectile.penetrate), damage * 0.5f, damage);
+		}
+		#endregion
+
+		#region On Hit By Item
+		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
         {
             if (player.Calamity().bloodflareSet)
             {

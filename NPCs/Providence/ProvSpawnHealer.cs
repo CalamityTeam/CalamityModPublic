@@ -26,14 +26,14 @@ namespace CalamityMod.NPCs.Providence
             npc.width = 100;
             npc.height = 80;
             npc.defense = 35;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 40000;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 400000;
             }
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;
