@@ -1,8 +1,10 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Items.Placeables.FurnitureSilva
 {
-	public class SilvaChest : ModItem
+    public class SilvaChest : ModItem
     {
         public override void SetStaticDefaults()
         {

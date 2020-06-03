@@ -88,7 +88,7 @@ namespace CalamityMod.World
                 Point point = new Point(num, num2);
                 for (int i = point.Y - num2; i <= point.Y + num2; i++)
                 {
-                    float num4 = num / num2 * (i - point.Y);
+                    float num4 = num / num2 * (float)(i - point.Y);
                     int num5 = Math.Min(num, (int)Math.Sqrt(num3 - num4 * num4));
                     for (int j = point.X - num5; j <= point.X + num5; j++)
                     {

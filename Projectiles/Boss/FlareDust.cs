@@ -9,9 +9,6 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class FlareDust : ModProjectile
     {
-		private bool start = true;
-		private Vector2 center = Vector2.Zero;
-		private Vector2 velocity = Vector2.Zero;
 		private double distance = 0D;
 
 		public override void SetStaticDefaults()
@@ -36,19 +33,13 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(projectile.localAI[0]);
-			writer.Write(start);
-			writer.WriteVector2(center);
 			writer.Write(distance);
-			writer.WriteVector2(velocity);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			projectile.localAI[0] = reader.ReadSingle();
-			start = reader.ReadBoolean();
-			center = reader.ReadVector2();
 			distance = reader.ReadDouble();
-			velocity = reader.ReadVector2();
 		}
 
 		public override void AI()
@@ -75,32 +66,23 @@ namespace CalamityMod.Projectiles.Boss
 				return;
 			}
 
-			if (start)
-			{
-				center = projectile.Center;
-				velocity = Vector2.Normalize(Main.player[Player.FindClosest(projectile.Center, 1, 1)].Center - projectile.Center) * 2f;
-				start = false;
-			}
-
-			center += velocity;
-
 			double rad = MathHelper.ToRadians(projectile.ai[1]);
 
-			float amount = 1f - projectile.localAI[0] / 180f;
-			if (amount < 0f)
-				amount = 0f;
+			float amount = projectile.localAI[0] / 300f;
+			if (amount > 1f)
+				amount = 1f;
 
 			distance += MathHelper.Lerp(1f, 3f, amount);
 
 			if (projectile.ai[0] == 0f)
 			{
-				projectile.position.X = center.X - (int)(Math.Sin(rad) * distance) - projectile.width / 2;
-				projectile.position.Y = center.Y - (int)(Math.Cos(rad) * distance) - projectile.height / 2;
+				projectile.position.X = projectile.Center.X - (int)(Math.Sin(rad) * distance) - projectile.width / 2;
+				projectile.position.Y = projectile.Center.Y - (int)(Math.Cos(rad) * distance) - projectile.height / 2;
 			}
 			else
 			{
-				projectile.position.X = center.X - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
-				projectile.position.Y = center.Y - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
+				projectile.position.X = projectile.Center.X - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
+				projectile.position.Y = projectile.Center.Y - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
 			}
 
 			projectile.ai[1] += (0.25f + amount) * 0.5f;

@@ -1339,12 +1339,6 @@ namespace CalamityMod.NPCs
                     if (lastPlayer >= 0)
                     {
                         CalamityWorld.ChangeTime(false);
-
-                        for (int x = 0; x < 10; x++)
-                        {
-                            NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<AstrumDeusHead>());
-                        }
-
                         NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<AstrumDeusHeadSpectral>());
                         CalamityMod.astralKillCount = 0;
                     }

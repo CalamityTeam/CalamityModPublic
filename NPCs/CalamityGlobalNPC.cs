@@ -170,7 +170,6 @@ namespace CalamityMod.NPCs
         public static int leviathan = -1;
         public static int siren = -1;
         public static int scavenger = -1;
-        public static int astrumDeusHeadMain = -1;
         public static int energyFlame = -1;
         public static int doughnutBoss = -1;
         public static int holyBossAttacker = -1;
@@ -281,9 +280,6 @@ namespace CalamityMod.NPCs
 		/// </summary>
 		public static List<int> AstrumDeusIDs = new List<int>
 		{
-			NPCType<AstrumDeusHead>(),
-			NPCType<AstrumDeusBody>(),
-			NPCType<AstrumDeusTail>(),
 			NPCType<AstrumDeusHeadSpectral>(),
 			NPCType<AstrumDeusBodySpectral>(),
 			NPCType<AstrumDeusTailSpectral>()
@@ -375,7 +371,6 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref leviathan, NPCType<Leviathan.Leviathan>());
             ResetSavedIndex(ref siren, NPCType<Siren>());
             ResetSavedIndex(ref scavenger, NPCType<RavagerBody>());
-            ResetSavedIndex(ref astrumDeusHeadMain, NPCType<AstrumDeusHeadSpectral>());
             ResetSavedIndex(ref energyFlame, NPCType<ProfanedEnergyBody>());
             ResetSavedIndex(ref doughnutBoss, NPCType<ProfanedGuardianBoss>());
             ResetSavedIndex(ref holyBossAttacker, NPCType<ProvSpawnOffense>());
@@ -1428,15 +1423,22 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
+			// Damage reduction on spawn
 			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
 			{
-				if (DestroyerIDs.Contains(npc.type))
+				if (DestroyerIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type))
 				{
-					if (newAI[1] < 480f || newAI[2] > 0f)
+					if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 					{
 						damage *= 0.01;
 					}
 				}
+			}
+
+			// Large Deus worm takes reduced damage to last a long enough time
+			if (AstrumDeusIDs.Contains(npc.type) && newAI[0] == 0f)
+			{
+				damage *= 0.8;
 			}
 
             // Override hand/head eye 'death' code and use custom 'death' code instead, this is here just in case the AI code fails
@@ -2917,8 +2919,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 29:
-                    if (!AstrumDeusIDs.Contains(npc.type) && npc.type != NPCType<AstrumDeusProbe>() &&
-						npc.type != NPCType<AstrumDeusProbe2>() && npc.type != NPCType<AstrumDeusProbe3>())
+                    if (!AstrumDeusIDs.Contains(npc.type) && npc.type != NPCType<AstrumDeusProbe3>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -5948,7 +5949,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedAstrageldon;
 			}
-			else if (type == NPCType<AstrumDeusHeadSpectral>() || type == NPCType<AstrumDeusBodySpectral>() || type == NPCType<AstrumDeusTailSpectral>() || type == NPCType<AstrumDeusHead>() || type == NPCType<AstrumDeusBody>() || type == NPCType<AstrumDeusTail>())
+			else if (type == NPCType<AstrumDeusHeadSpectral>() || type == NPCType<AstrumDeusBodySpectral>() || type == NPCType<AstrumDeusTailSpectral>())
 			{
 				return CalamityWorld.downedStarGod;
 			}

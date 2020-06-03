@@ -122,6 +122,7 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(npc.dontTakeDamage);
             writer.Write(npc.chaseable);
             writer.Write(npc.canGhostHeal);
+			writer.Write(npc.localAI[2]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -137,6 +138,7 @@ namespace CalamityMod.NPCs.Providence
             npc.dontTakeDamage = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
             npc.canGhostHeal = reader.ReadBoolean();
+			npc.localAI[2] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -214,13 +216,15 @@ namespace CalamityMod.NPCs.Providence
 			// Phase times
 			float phaseTime = nightTime ? 240f : 300f;
 			float crystalPhaseTime = nightTime ? 60f : 120f;
+			float attackDelayAfterCocoon = 90f;
 
 			// Phases
 			bool ignoreGuardianAmt = lifeRatio < (death ? 0.2f : 0.15f);
             bool phase2 = (lifeRatio < 0.75f || death) && !nightTime;
+			bool delayAttacks = npc.localAI[2] > 0f;
 
-            // Projectile fire rate multiplier
-            double attackRateMult = 1D;
+			// Projectile fire rate multiplier
+			double attackRateMult = 1D;
 
             // Distance X needed from target in order to fire holy or molten blasts
             float distanceNeededToShoot = revenge ? 360f : 420f;
@@ -385,16 +389,18 @@ namespace CalamityMod.NPCs.Providence
 							bossLife = npc.life;
 							int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
 							int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
-							NPC.NewNPC(x - 100, y - 100, ModContent.NPCType<ProvSpawnDefense>(), 0, 0f, 0f, 0f, 0f, 255);
-							NPC.NewNPC(x + 100, y - 100, ModContent.NPCType<ProvSpawnHealer>(), 0, 0f, 0f, 0f, 0f, 255);
-							NPC.NewNPC(x, y + 100, ModContent.NPCType<ProvSpawnOffense>(), 0, 0f, 0f, 0f, 0f, 255);
+							NPC.NewNPC(x - 100, y - 100, ModContent.NPCType<ProvSpawnDefense>());
+							NPC.NewNPC(x + 100, y - 100, ModContent.NPCType<ProvSpawnHealer>());
+							NPC.NewNPC(x, y + 100, ModContent.NPCType<ProvSpawnOffense>());
 						}
 					}
 				}
 			}
 
             // Set DR based on current attack phase
-            npc.Calamity().DR = (npc.ai[0] == 2f || npc.ai[0] == 5f || npc.ai[0] == 7f || spawnAnimation) ? cocoonDR : normalDR;
+            npc.Calamity().DR = (npc.ai[0] == 2f || npc.ai[0] == 5f || npc.ai[0] == 7f || spawnAnimation) ?
+				cocoonDR : delayAttacks ?
+				MathHelper.Lerp(normalDR, cocoonDR, npc.localAI[2] / attackDelayAfterCocoon) : normalDR;
 
             // Movement
             if (npc.ai[0] != 2f && npc.ai[0] != 5f)
@@ -497,9 +503,6 @@ namespace CalamityMod.NPCs.Providence
 			// Phase switch
 			if (npc.ai[0] == -1f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				phaseChange++;
 				if (phaseChange > 14)
 					phaseChange = 0;
@@ -693,6 +696,10 @@ namespace CalamityMod.NPCs.Providence
 				if (Math.Abs(vector.X - player.Center.X) > 5600f)
 					phase = 0;
 
+				// Reset attack delay for laser
+				if (phase == 7)
+					npc.localAI[2] = 0f;
+
 				// Reset arrays
 				npc.ai[0] = phase;
 				npc.ai[1] = 0f;
@@ -705,9 +712,6 @@ namespace CalamityMod.NPCs.Providence
 			// Holy blasts
 			else if (npc.ai[0] == 0f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				if (spawnAnimation)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[3] == 0f)
@@ -767,6 +771,13 @@ namespace CalamityMod.NPCs.Providence
 					return;
 				}
 
+				// Attack delay after cocoon phase
+				if (delayAttacks)
+				{
+					npc.localAI[2] -= 1f;
+					return;
+				}
+
 				float num852 = Math.Abs(vector.X - player.Center.X);
 				if (num852 > distanceNeededToShoot && npc.position.Y < player.position.Y)
 				{
@@ -815,8 +826,12 @@ namespace CalamityMod.NPCs.Providence
 			// Holy fire
 			else if (npc.ai[0] == 1f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
+				// Attack delay after cocoon phase
+				if (delayAttacks)
+				{
+					npc.localAI[2] -= 1f;
+					return;
+				}
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -853,9 +868,6 @@ namespace CalamityMod.NPCs.Providence
 			// Cocoon flames
 			else if (npc.ai[0] == 2f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				npc.TargetClosest(true);
 
 				if (!targetDead)
@@ -885,6 +897,7 @@ namespace CalamityMod.NPCs.Providence
 						{
 							Vector2 spinningPoint = calamityGlobalNPC.newAI[1] % 2f == 0f ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
 							double radians = MathHelper.TwoPi / chains;
+							Main.PlaySound(SoundID.Item20, npc.position);
 							for (int i = 0; i < chains; i++)
 							{
 								Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.ai[2]));
@@ -909,6 +922,7 @@ namespace CalamityMod.NPCs.Providence
 						{
 							calamityGlobalNPC.newAI[1] += 1f;
 							double radians = MathHelper.TwoPi / totalProjectiles;
+							Main.PlaySound(SoundID.Item20, npc.position);
 							for (int i = 0; i < totalProjectiles; i++)
 							{
 								Vector2 vector2 = new Vector2(0f, -velocity).RotatedBy(radians * i);
@@ -980,14 +994,19 @@ namespace CalamityMod.NPCs.Providence
 
 					text = false;
 					npc.ai[0] = -1f;
+					npc.localAI[2] = attackDelayAfterCocoon;
 				}
 			}
 
 			// Molten blasts
 			else if (npc.ai[0] == 3f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
+				// Attack delay after cocoon phase
+				if (delayAttacks)
+				{
+					npc.localAI[2] -= 1f;
+					return;
+				}
 
 				float num852 = Math.Abs(vector.X - player.Center.X);
 				if (num852 > distanceNeededToShoot && npc.position.Y < player.position.Y)
@@ -1037,8 +1056,12 @@ namespace CalamityMod.NPCs.Providence
 			// Holy bombs
 			else if (npc.ai[0] == 4f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
+				// Attack delay after cocoon phase
+				if (delayAttacks)
+				{
+					npc.localAI[2] -= 1f;
+					return;
+				}
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -1075,9 +1098,6 @@ namespace CalamityMod.NPCs.Providence
 			// Cocoon spears
 			else if (npc.ai[0] == 5f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				npc.TargetClosest(true);
 
 				if (!targetDead)
@@ -1135,15 +1155,15 @@ namespace CalamityMod.NPCs.Providence
 
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= phaseTime)
+				{
 					npc.ai[0] = -1f;
+					npc.localAI[2] = attackDelayAfterCocoon;
+				}
 			}
 
 			// Crystal
 			else if (npc.ai[0] == 6f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				npc.TargetClosest(true);
 
 				if (!targetDead)
@@ -1166,9 +1186,6 @@ namespace CalamityMod.NPCs.Providence
 			// Holy ray
 			else if (npc.ai[0] == 7f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				Vector2 value19 = new Vector2(27f, 59f);
 
 				float rotation = 450f + (guardianAmt * 18);

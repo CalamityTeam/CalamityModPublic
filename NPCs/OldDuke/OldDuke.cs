@@ -39,9 +39,9 @@ namespace CalamityMod.NPCs.OldDuke
             npc.aiStyle = -1;
 			aiType = -1;
             npc.damage = 200;
-            npc.defense = 140;
+            npc.defense = 100;
 			CalamityGlobalNPC global = npc.Calamity();
-			global.DR = 0.6f;
+			global.DR = 0.5f;
 			global.customDR = true;
 			npc.lifeMax = CalamityWorld.revenge ? 1000000 : 750000;
             npc.knockBackResist = 0f;

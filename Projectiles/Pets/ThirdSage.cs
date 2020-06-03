@@ -1,9 +1,11 @@
 using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Pets
 {
-	public class ThirdSage : ModProjectile
+    public class ThirdSage : ModProjectile
     {
         public override void SetStaticDefaults()
         {

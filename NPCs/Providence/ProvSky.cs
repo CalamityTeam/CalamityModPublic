@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.Providence
                 }
 
 				float spawnAnimationTimer = 180f;
-				float intensityScalar = Main.dayTime ? 0.25f : 0.2f;
+				float intensityScalar = 0.25f;
 				if (Main.npc[CalamityGlobalNPC.holyBoss].Calamity().newAI[3] < spawnAnimationTimer)
 					intensityScalar = MathHelper.Lerp(0f, intensityScalar, Main.npc[CalamityGlobalNPC.holyBoss].Calamity().newAI[3] / spawnAnimationTimer);
 
