@@ -1,6 +1,8 @@
 using CalamityMod.Dusts;
 using CalamityMod.Items.Placeables.LivingFire;
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
