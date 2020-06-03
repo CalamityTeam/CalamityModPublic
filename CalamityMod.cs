@@ -66,6 +66,7 @@ using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Tiles.LivingFire;
 using CalamityMod.Skies;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -194,6 +195,7 @@ namespace CalamityMod
         public static List<int> highTestFishList;
         public static List<int> flamethrowerList;
         public static List<int> forceItemList;
+        public static List<int> livingFireBlockList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -417,6 +419,7 @@ namespace CalamityMod
             highTestFishList = null;
             flamethrowerList = null;
             forceItemList = null;
+            livingFireBlockList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -2344,6 +2347,19 @@ namespace CalamityMod
 				ItemID.SoulofSight,
 				ItemID.GreaterHealingPotion,
 				ItemID.SuperHealingPotion
+            };
+
+            livingFireBlockList = new List<int>()
+            {
+                ModContent.TileType<LivingGodSlayerFireBlockTile>(),
+                ModContent.TileType<LivingHolyFireBlockTile>(),
+                ModContent.TileType<LivingBrimstoneFireBlockTile>(),
+				TileID.LivingFire,
+				TileID.LivingCursedFire,
+				TileID.LivingDemonFire,
+				TileID.LivingFrostFire,
+				TileID.LivingIchor,
+				TileID.LivingUltrabrightFire
             };
 
             zombieList = new List<int>()
