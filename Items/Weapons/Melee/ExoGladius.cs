@@ -81,15 +81,7 @@ namespace CalamityMod.Items.Weapons.Melee
 					player.hurtCooldowns[1] = 10;
             }
 
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
 
             float x = target.Center.X + (float)Main.rand.Next(-400, 400);
             float y = target.Center.Y - (float)Main.rand.Next(500, 800);
@@ -121,15 +113,7 @@ namespace CalamityMod.Items.Weapons.Melee
 					player.hurtCooldowns[1] = 10;
             }
 
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
 
             float x = target.Center.X + (float)Main.rand.Next(-400, 400);
             float y = target.Center.Y - (float)Main.rand.Next(500, 800);
