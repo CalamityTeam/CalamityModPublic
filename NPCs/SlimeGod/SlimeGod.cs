@@ -105,7 +105,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 npc.position.Y = (float)(player.Center.Y / 16) * 16f - (float)(npc.height / 2) - 150f;
             }
 
-            if ((double)npc.life <= (double)npc.lifeMax * 0.5 && Main.netMode != NetmodeID.MultiplayerClient)
+            if ((double)npc.life <= (double)npc.lifeMax * 0.5 && Main.netMode != NetmodeID.MultiplayerClient && expertMode)
             {
                 Main.PlaySound(SoundID.NPCDeath1, npc.position);
                 Vector2 spawnAt = vector + new Vector2(0f, (float)npc.height / 2f);

@@ -41,7 +41,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.height = 214;
             npc.defense = 55;
             npc.value = Item.buyPrice(0, 25, 0, 0);
-            npc.Calamity().RevPlusDR(0.4f);
+			npc.DR_NERD(0.4f);
             npc.LifeMaxNERB(42700, 53500, 4600000);
             if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
             {
@@ -185,7 +185,7 @@ namespace CalamityMod.NPCs.Ravager
                 npc.dontTakeDamage = false;
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
+                    if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && revenge)
                         Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<WeakPetrification>(), 2);
                 }
             }
@@ -419,7 +419,7 @@ namespace CalamityMod.NPCs.Ravager
 						float velocityX = ((enrage || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 8f : 4f) + velocityXBoost;
 						float velocityY = -16f;
 
-						if (revenge)
+						if (expertMode)
 						{
 							npc.noTileCollide = true;
 							if (shouldFall)
@@ -457,17 +457,20 @@ namespace CalamityMod.NPCs.Ravager
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (NPC.CountNPCS(ModContent.NPCType<RockPillar>()) < 2)
-                        {
-                            NPC.NewNPC((int)npc.Center.X - 360, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC((int)npc.Center.X + 360, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
-                        }
+						if (expertMode)
+						{
+							if (NPC.CountNPCS(ModContent.NPCType<RockPillar>()) < 2)
+							{
+								NPC.NewNPC((int)npc.Center.X - 360, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
+								NPC.NewNPC((int)npc.Center.X + 360, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
+							}
 
-                        if (NPC.CountNPCS(ModContent.NPCType<FlamePillar>()) < 2)
-                        {
-                            NPC.NewNPC((int)player.Center.X - 180, (int)player.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
-                            NPC.NewNPC((int)player.Center.X + 180, (int)player.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
-                        }
+							if (NPC.CountNPCS(ModContent.NPCType<FlamePillar>()) < 2)
+							{
+								NPC.NewNPC((int)player.Center.X - 180, (int)player.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
+								NPC.NewNPC((int)player.Center.X + 180, (int)player.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
+							}
+						}
                     }
 
 					if (revenge)
@@ -490,7 +493,7 @@ namespace CalamityMod.NPCs.Ravager
                     npc.TargetClosest(true);
 
 					// Fall through
-					if (!player.dead && revenge)
+					if (!player.dead && expertMode)
 					{
 						if ((player.position.Y > npc.Bottom.Y && npc.velocity.Y > 0f) || (player.position.Y < npc.Bottom.Y && npc.velocity.Y < 0f))
 							npc.noTileCollide = true;

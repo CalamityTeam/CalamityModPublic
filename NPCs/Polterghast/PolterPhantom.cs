@@ -29,8 +29,8 @@ namespace CalamityMod.NPCs.Polterghast
             npc.width = 90;
             npc.height = 120;
 			npc.LifeMaxNERB(130000, 150000, 900000);
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
@@ -138,19 +138,17 @@ namespace CalamityMod.NPCs.Polterghast
 
             if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {
-                num734 = 18.5f;
-                num735 = 0.12f;
+                num734 = 21f;
+                num735 = 0.13f;
             }
 
-            if (expertMode)
-            {
-                num734 += revenge ? 1.5f : 1f;
-                num734 *= revenge ? 1.2f : 1.1f;
-                num735 += revenge ? 0.015f : 0.01f;
-                num735 *= revenge ? 1.2f : 1.1f;
-            }
+			if (expertMode)
+			{
+				num734 += revenge ? 5f : 3.5f;
+				num735 += revenge ? 0.035f : 0.025f;
+			}
 
-            Vector2 vector91 = new Vector2(num730, num731);
+			Vector2 vector91 = new Vector2(num730, num731);
             float num736 = Main.player[npc.target].Center.X - vector91.X;
             float num737 = Main.player[npc.target].Center.Y - vector91.Y;
 

@@ -164,7 +164,7 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<BlastBarrel>(), !Main.expertMode, 5, 1, 1);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<RogueEmblem>(), !Main.expertMode, 8, 1, 1);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<IbarakiBox>(), !Main.hardMode, Main.hardMode ? 0.1f : 1f); // 100% chance on first kill, 10% chance afterwards
-                DropHelper.DropItemFromSetCondition(npc, !Main.expertMode, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
+                DropHelper.DropItemFromSetCondition(npc, !Main.expertMode, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
 
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeUnderworld>(), true, !Main.hardMode);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeWallofFlesh>(), true, !Main.hardMode);
@@ -1339,12 +1339,6 @@ namespace CalamityMod.NPCs
                     if (lastPlayer >= 0)
                     {
                         CalamityWorld.ChangeTime(false);
-
-                        for (int x = 0; x < 10; x++)
-                        {
-                            NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<AstrumDeusHead>());
-                        }
-
                         NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<AstrumDeusHeadSpectral>());
                         CalamityMod.astralKillCount = 0;
                     }
@@ -1620,16 +1614,18 @@ namespace CalamityMod.NPCs
         private void AcidRainProgression(NPC npc)
         {
             Dictionary<int, AcidRainSpawnData> possibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+
             if (CalamityWorld.downedAquaticScourge)
                 possibleEnemies = AcidRainEvent.PossibleEnemiesAS;
             if (CalamityWorld.downedPolterghast)
                 possibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
+
             if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type) && CalamityWorld.rainingAcid)
             {
                 CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
                 if (CalamityWorld.downedPolterghast)
                 {
-                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
+                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
                 }
             }
             Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : AcidRainEvent.PossibleMinibossesAS;
@@ -1638,7 +1634,7 @@ namespace CalamityMod.NPCs
                 CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
                 if (CalamityWorld.downedPolterghast)
                 {
-                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
+                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
                 }
             }
 
@@ -1651,6 +1647,7 @@ namespace CalamityMod.NPCs
                 CalamityWorld.triedToSummonOldDuke = false;
                 CalamityWorld.acidRainPoints = 0;
             }
+            CalamityWorld.timeSinceAcidRainKill = 0;
             AcidRainEvent.UpdateInvasion();
         }
         #endregion

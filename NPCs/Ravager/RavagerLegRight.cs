@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.width = 60;
             npc.height = 60;
             npc.defense = 40;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 22010;
             npc.knockBackResist = 0f;
             aiType = -1;

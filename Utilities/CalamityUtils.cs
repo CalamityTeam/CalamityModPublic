@@ -166,13 +166,36 @@ namespace CalamityMod
                 npc.lifeMax = revengeance.Value;
             }
         }
-        /// <summary>
-        /// Detects nearby hostile NPCs from a given point
-        /// </summary>
-        /// <param name="origin">The position where we wish to check for nearby NPCs</param>
-        /// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
-        /// <param name="bossPriority">Whether bosses should be prioritized in targetting or not</param>
-        public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool bossPriority = false)
+		/// <summary>
+		/// Allows you to set the DR value of a NPC to different values based on the mode.
+		/// </summary>
+		/// <param name="npc">The NPC whose DR value you are trying to set.</param>
+		/// <param name="normal">The value DR will be set to in normal mode.</param>
+		/// <param name="revengeance">The value DR will be set to in Revegeneance mode.</param>
+		/// <param name="bossRush">The value DR will be set to during the Boss Rush.</param>
+		public static void DR_NERD(this NPC npc, float normal, float? revengeance = null, float? death = null, float? bossRush = null, bool? customDR = null)
+		{
+			npc.Calamity().DR = normal;
+
+			if (bossRush.HasValue && CalamityWorld.bossRushActive)
+			{
+				npc.Calamity().DR = bossRush.Value;
+			}
+			else if (revengeance.HasValue && CalamityWorld.revenge)
+			{
+				npc.Calamity().DR = CalamityWorld.death ? death.Value : revengeance.Value;
+			}
+
+			if (customDR.HasValue)
+				npc.Calamity().customDR = true;
+		}
+		/// <summary>
+		/// Detects nearby hostile NPCs from a given point
+		/// </summary>
+		/// <param name="origin">The position where we wish to check for nearby NPCs</param>
+		/// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
+		/// <param name="bossPriority">Whether bosses should be prioritized in targetting or not</param>
+		public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool bossPriority = false)
         {
             NPC closestTarget = null;
             float distance = maxDistanceToCheck;

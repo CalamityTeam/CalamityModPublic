@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.Perforator
 			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>()))
 				wormsAlive++;
 
-			if (largeWormAlive)
+			if (largeWormAlive && expertMode)
 			{
 				npc.dontTakeDamage = true;
 			}

@@ -89,14 +89,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.width = 120;
             npc.height = 120;
             npc.defense = 120;
-            CalamityGlobalNPC global = npc.Calamity();
-            global.DR = CalamityWorld.bossRushActive ? bossRushDR : CalamityWorld.death ? deathDR : normalDR;
-            global.customDR = true;
+			npc.DR_NERD(normalDR, normalDR, deathDR, bossRushDR, true);
+			CalamityGlobalNPC global = npc.Calamity();
             global.multDRReductions.Add(BuffID.Ichor, 0.9f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.91f);
             npc.value = Item.buyPrice(10, 0, 0, 0);
 			npc.LifeMaxNERB(5000000, 5500000, 2100000);
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -679,7 +678,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
-                    if (bulletHellCounter2 % 225 == 0) //giant homing fireballs
+                    if (bulletHellCounter2 % 225 == 0 && expertMode) //giant homing fireballs
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 1f * uDieLul, ModContent.ProjectileType<BrimstoneMonster>(), damage, 0f, Main.myPlayer, 0f, passedVar);
                         passedVar += 1f;

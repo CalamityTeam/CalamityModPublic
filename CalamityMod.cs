@@ -66,6 +66,7 @@ using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.Tiles.LivingFire;
 using CalamityMod.Skies;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -194,6 +195,7 @@ namespace CalamityMod
         public static List<int> highTestFishList;
         public static List<int> flamethrowerList;
         public static List<int> forceItemList;
+        public static List<int> livingFireBlockList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -417,6 +419,7 @@ namespace CalamityMod
             highTestFishList = null;
             flamethrowerList = null;
             forceItemList = null;
+            livingFireBlockList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -1651,7 +1654,6 @@ namespace CalamityMod
 			{
 				NPCID.TheDestroyer,
 				NPCID.SolarCrawltipedeHead,
-				ModContent.NPCType<AstrumDeusHead>(),
 				ModContent.NPCType<AstrumDeusHeadSpectral>(),
 				ModContent.NPCType<ProfanedGuardianBoss>(),
 				ModContent.NPCType<Bumblefuck>(),
@@ -2347,6 +2349,19 @@ namespace CalamityMod
 				ItemID.SuperHealingPotion
             };
 
+            livingFireBlockList = new List<int>()
+            {
+                ModContent.TileType<LivingGodSlayerFireBlockTile>(),
+                ModContent.TileType<LivingHolyFireBlockTile>(),
+                ModContent.TileType<LivingBrimstoneFireBlockTile>(),
+				TileID.LivingFire,
+				TileID.LivingCursedFire,
+				TileID.LivingDemonFire,
+				TileID.LivingFrostFire,
+				TileID.LivingIchor,
+				TileID.LivingUltrabrightFire
+            };
+
             zombieList = new List<int>()
             {
                 NPCID.Zombie,
@@ -2762,12 +2777,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<Leviathan>(), 10800 },
 				{ ModContent.NPCType<Siren>(), 10800 },
 				{ ModContent.NPCType<AstrumAureus>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHead>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusBody>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusTail>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 5400 },
+				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 5400 },
+				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 5400 },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), 10800 },
 				{ ModContent.NPCType<RavagerBody>(), 10800 },
 				{ ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
@@ -2782,12 +2794,12 @@ namespace CalamityMod
 				{ ModContent.NPCType<Signus>(), 7200 },
 				{ ModContent.NPCType<Polterghast>(), 10800 },
 				{ ModContent.NPCType<OldDuke>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsHead>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 10800 },
+				{ ModContent.NPCType<DevourerofGodsHead>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
 				{ ModContent.NPCType<Yharon>(), 10800 },
 				{ ModContent.NPCType<SupremeCalamitas>(), 18000 }
 			};
@@ -2872,9 +2884,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusHead>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<AstrumDeusBody>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusTail>(), velocityScaleMin },
 				{ ModContent.NPCType<AstrumDeusProbe3>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerShade>(), velocityScaleMin },
@@ -3740,6 +3749,7 @@ namespace CalamityMod
                     case CalamityModMessageType.AcidRainSync:
                         CalamityWorld.rainingAcid = reader.ReadBoolean();
                         CalamityWorld.acidRainPoints = reader.ReadInt32();
+                        CalamityWorld.timeSinceAcidRainKill = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.AcidRainUIDrawFadeSync:
                         CalamityWorld.acidRainExtraDrawTime = reader.ReadInt32();

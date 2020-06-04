@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             npc.width = 300;
             npc.height = 120;
             npc.defense = 60;
-            npc.Calamity().RevPlusDR(0.25f);
+			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(8000, 11000);
             npc.aiStyle = -1;
             aiType = -1;

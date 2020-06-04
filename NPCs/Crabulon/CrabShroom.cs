@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs.Crabulon
 
         public override void AI()
         {
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.2f, 0.4f);
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.2f, 0.4f);
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             float speed = revenge ? 1.25f : 1f;
             Player player = Main.player[npc.target];
@@ -55,7 +55,7 @@ namespace CalamityMod.NPCs.Crabulon
                 npc.velocity.Y = speed;
             }
             npc.TargetClosest(true);
-            if (npc.position.X + (float)npc.width < player.position.X)
+            if (npc.position.X + npc.width < player.position.X)
             {
                 if (npc.velocity.X < 0f)
                 {
@@ -63,7 +63,7 @@ namespace CalamityMod.NPCs.Crabulon
                 }
                 npc.velocity.X += (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
             }
-            else if (npc.position.X > player.position.X + (float)player.width)
+            else if (npc.position.X > player.position.X + player.width)
             {
                 if (npc.velocity.X > 0f)
                 {
@@ -85,9 +85,9 @@ namespace CalamityMod.NPCs.Crabulon
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height / Main.npcFrameCount[npc.type])) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);

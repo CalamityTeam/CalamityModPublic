@@ -52,14 +52,29 @@ namespace CalamityMod.NPCs.Perforator
         {
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			float speedMult = expertMode ? 1.5f : 1.425f;
-            if (CalamityWorld.bossRushActive)
-                speedMult = 3f;
 
-			float speedBoost = death ? speedMult : speedMult - ((float)npc.life / (float)npc.lifeMax);
-            speed = 17f * speedBoost;
-            turnSpeed = 0.15f * speedBoost;
-            if (npc.ai[3] > 0f)
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			if (expertMode)
+			{
+				speed += death ? 10f : 10f * (1f - lifeRatio);
+				turnSpeed += death ? 0.1f : 0.1f * (1f - lifeRatio);
+			}
+
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			{
+				speed *= 2f;
+				turnSpeed *= 2f;
+			}
+
+			if (CalamityWorld.bossRushActive)
+			{
+				speed *= 2f;
+				turnSpeed *= 2f;
+			}
+
+			if (npc.ai[3] > 0f)
             {
                 npc.realLife = (int)npc.ai[3];
             }
@@ -68,14 +83,15 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				npc.TargetClosest(true);
 			}
+
 			Player player = Main.player[npc.target];
 
-			npc.velocity.Length();
             npc.alpha -= 42;
             if (npc.alpha < 0)
             {
                 npc.alpha = 0;
             }
+
             if (!TailSpawned)
             {
                 int Previous = npc.whoAmI;
