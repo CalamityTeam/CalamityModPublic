@@ -71,6 +71,7 @@ namespace CalamityMod.World
             GenerateUpperSea();
             CreateWater();
             GenerateHardenedSandstone();
+            RemoveStupidTilesAboveSea();
             SettleWater(); // The island Y spawn position calculations are relative to water. Settling the water before doing these calculations is ideal.
             GenerateIslands();
             GenerateVentsAndFossils();
@@ -323,13 +324,6 @@ namespace CalamityMod.World
                                     }
                                 }
                             }
-                        }
-                    }
-                    else if (WorldGen.genRand.NextBool(10))
-                    {
-                        for (int i = 0; i < 20; i++)
-                        {
-                            TileLoader.RandomUpdate(trueX, y, Main.tile[trueX, y].type);
                         }
                     }
                 }
@@ -742,7 +736,7 @@ namespace CalamityMod.World
                             SulphSeaTiles.Contains(CalamityUtils.ParanoidTileRetrieval(x, y + 1).type) &&
                             CalamityUtils.ParanoidTileRetrieval(x, y + 1).active())
                         {
-                            chest = WorldGenerationMethods.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestLocked>(), tileStyle: 1);
+                            chest = WorldGenerationMethods.AddChestWithLoot(x, y, (ushort)ModContent.TileType<RustyChestTile>());
                         }
                     }
                 }
@@ -757,9 +751,30 @@ namespace CalamityMod.World
         }
         #endregion
 
+        #region Removal of stupid Tiles above the Sea
+        public static void RemoveStupidTilesAboveSea()
+        {
+            for (int x = 0; x < BiomeWidth; x++)
+            {
+                int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+                for (int y = YStart - 100; y < YStart + 60; y++)
+                {
+                    if (YStartWhitelist.Contains(CalamityUtils.ParanoidTileRetrieval(trueX, y).type))
+                    {
+                        if (Main.tile[trueX, y] == null)
+                            Main.tile[trueX, y] = new Tile();
+                        Main.tile[trueX, y].active(false);
+                    }
+                }
+            }
+        }
+        #endregion
+
         #region Misc Functions
         public static List<int> YStartWhitelist = new List<int>()
         {
+            TileID.Stone,
+            TileID.Dirt,
             TileID.Sand,
             TileID.Ebonsand,
             TileID.Crimsand,
@@ -776,12 +791,26 @@ namespace CalamityMod.World
             TileID.Tungsten,
             TileID.Crimstone,
             TileID.Ebonstone,
+            TileID.HardenedSand,
+            TileID.CorruptHardenedSand,
+            TileID.CrimsonHardenedSand,
+            TileID.Coral,
+            TileID.BeachPiles,
+            TileID.Plants,
+            TileID.Plants2,
+            TileID.SmallPiles,
+            TileID.LargePiles,
+            TileID.LargePiles2,
+            TileID.Trees,
+            TileID.Vines,
+            TileID.CrimsonVines,
+            TileID.Containers,
             TileID.JungleGrass // Yes, this can happen on rare occasion
         };
         public static void DetermineYStart()
         {
             int maxHeight = 0;
-            for (int i = 0; i < BiomeWidth; i++)
+            for (int i = 0; i < BiomeWidth - 18; i++)
             {
                 int xCheck = CalamityWorld.abyssSide ?
                     BiomeWidth - i :

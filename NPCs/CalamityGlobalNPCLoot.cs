@@ -1614,16 +1614,18 @@ namespace CalamityMod.NPCs
         private void AcidRainProgression(NPC npc)
         {
             Dictionary<int, AcidRainSpawnData> possibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
+
             if (CalamityWorld.downedAquaticScourge)
                 possibleEnemies = AcidRainEvent.PossibleEnemiesAS;
             if (CalamityWorld.downedPolterghast)
                 possibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
+
             if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type) && CalamityWorld.rainingAcid)
             {
                 CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
                 if (CalamityWorld.downedPolterghast)
                 {
-                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
+                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
                 }
             }
             Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : AcidRainEvent.PossibleMinibossesAS;
@@ -1632,7 +1634,7 @@ namespace CalamityMod.NPCs
                 CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
                 if (CalamityWorld.downedPolterghast)
                 {
-                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(2, CalamityWorld.acidRainPoints); // Cap at 2. The last points are for Old Duke.
+                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
                 }
             }
 
@@ -1645,6 +1647,7 @@ namespace CalamityMod.NPCs
                 CalamityWorld.triedToSummonOldDuke = false;
                 CalamityWorld.acidRainPoints = 0;
             }
+            CalamityWorld.timeSinceAcidRainKill = 0;
             AcidRainEvent.UpdateInvasion();
         }
         #endregion
