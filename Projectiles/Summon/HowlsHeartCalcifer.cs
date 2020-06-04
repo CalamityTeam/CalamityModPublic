@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             Lighting.AddLight(projectile.Center, 0.75f, 0.485f, 0f);
-			CalamityGlobalProjectile.FloatingPetAI(projectile, false, 0.04f, true);
+			projectile.FloatingPetAI(false, 0.04f, true);
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {

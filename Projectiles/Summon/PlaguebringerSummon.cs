@@ -82,31 +82,7 @@ namespace CalamityMod.Projectiles.Summon
 			if (!modPlayer.plaguebringerPatronSet)
 				projectile.Kill();
 
-            float SAIMovement = 0.05f;
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-				Projectile proj = Main.projectile[i];
-                bool minionTypeCheck = proj.type == ModContent.ProjectileType<PlaguebringerSummon>() || Main.projPet[proj.type];
-                if (i != projectile.whoAmI && proj.active && proj.owner == projectile.owner && minionTypeCheck && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X -= SAIMovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += SAIMovement;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y -= SAIMovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += SAIMovement;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
 
             int buffType = ModContent.BuffType<Plague>();
             float range = auraRange;

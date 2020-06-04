@@ -81,6 +81,12 @@ namespace CalamityMod.Items
 			myClone.StealthGenBonus = StealthGenBonus;
 			return myClone;
 		}
+
+		public override bool NewPreReforge(Item item)
+		{
+			StealthGenBonus = 1f;
+			return true;
+		}
 		#endregion
 
         #region SetDefaults
@@ -129,7 +135,7 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.BlizzardStaff)
                 item.damage = (int)(item.damage * 0.7);
             else if (item.type == ItemID.LaserMachinegun)
-                item.damage = (int)(item.damage * 0.6);
+                item.damage = (int)(item.damage * 0.65);
             else if (item.type == ItemID.StardustDragonStaff)
                 item.damage = (int)(item.damage * 0.5);
 
@@ -2805,7 +2811,7 @@ Provides heat and cold protection in Death Mode";
                         DropHelper.DropItemChance(player, ModContent.ItemType<BlackHawkRemote>(), 3);
                         DropHelper.DropItemChance(player, ModContent.ItemType<BlastBarrel>(), 3);
                         DropHelper.DropItemChance(player, ModContent.ItemType<RogueEmblem>(), 4);
-                        DropHelper.DropItemFromSetChance(player, 5, ItemID.CorruptionKey, ItemID.CrimsonKey);
+                        DropHelper.DropItemFromSetChance(player, 0.2f, ItemID.CorruptionKey, ItemID.CrimsonKey);
                         DropHelper.DropItemCondition(player, ModContent.ItemType<MLGRune>(), !CalamityWorld.demonMode); // Demon Trophy
                         break;
 

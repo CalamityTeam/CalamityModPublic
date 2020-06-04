@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 1750;
+            item.damage = 1666;
             item.crit += 20;
             item.ranged = true;
             item.width = 84;
@@ -41,17 +41,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = 23;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-15, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
-        public override bool ConsumeAmmo(Player player)
-        {
-            if (Main.rand.Next(0, 100) < 50)
-                return false;
-            return true;
-        }
+        public override bool ConsumeAmmo(Player player) => Main.rand.Next(100) >= 50;
 
         public override void AddRecipes()
         {
