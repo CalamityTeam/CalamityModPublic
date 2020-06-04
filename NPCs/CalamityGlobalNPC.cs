@@ -545,11 +545,11 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                npc.lifeRegen -= projectileCount * 350;
+                npc.lifeRegen -= projectileCount * 250;
 
-                if (damage < projectileCount * 70)
+                if (damage < projectileCount * 50)
                 {
-                    damage = projectileCount * 70;
+                    damage = projectileCount * 50;
                 }
             }
 

@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Fishing.SunkenSeaCatches
             }
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAM && Main.hardMode,
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedCLAM && Main.hardMode, 0.2f,
                 ModContent.ItemType<ShellfishStaff>(),
                 ModContent.ItemType<ClamCrusher>(),
                 ModContent.ItemType<Poseidon>(),
