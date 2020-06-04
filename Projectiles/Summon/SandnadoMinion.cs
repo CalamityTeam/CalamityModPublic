@@ -77,31 +77,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            float num8 = 0.1f;
-            float num9 = (float)projectile.width * 2f;
-            for (int j = 0; j < Main.maxProjectiles; j++)
-            {
-                if (j != projectile.whoAmI && Main.projectile[j].active && Main.projectile[j].owner == projectile.owner && Main.projectile[j].type == projectile.type &&
-                    Math.Abs(projectile.position.X - Main.projectile[j].position.X) + Math.Abs(projectile.position.Y - Main.projectile[j].position.Y) < num9)
-                {
-                    if (projectile.position.X < Main.projectile[j].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num8;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + num8;
-                    }
-                    if (projectile.position.Y < Main.projectile[j].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num8;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num8;
-                    }
-                }
-            }
+			projectile.MinionAntiClump(0.1f);
             Vector2 vector = projectile.position;
             float num10 = 900f;
             bool flag = false;

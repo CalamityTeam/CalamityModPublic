@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace CalamityMod.Items.Weapons.Melee
 {

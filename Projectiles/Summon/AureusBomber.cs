@@ -70,32 +70,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//anti sticking movement
-            float SAImovement = 0.05f;
-			float width = (float) projectile.width;
-            for (int indexNPC = 0; indexNPC < Main.projectile.Length; indexNPC++)
-            {
-				Projectile proj = Main.projectile[indexNPC];
-                bool myType = proj.type == ModContent.ProjectileType<AureusBomber>();
-                if (indexNPC != projectile.whoAmI && proj.active && proj.owner == projectile.owner && myType && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X -= SAImovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += SAImovement;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y -= SAImovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += SAImovement;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
 
 			//get in a line
 			Vector2 idlePosition = player.Center;
