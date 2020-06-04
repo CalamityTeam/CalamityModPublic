@@ -11,6 +11,8 @@ namespace CalamityMod.Items.Weapons.Ranged
     public class Photoviscerator : ModItem
     {
         public const int CooldownTime = 60 * 7; // 7 second cooldown.
+		public const double AltFireDamageMult = 3.0;
+		
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Photoviscerator");
@@ -21,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 230;
+            item.damage = 370;
             item.ranged = true;
             item.width = 84;
             item.height = 30;
@@ -68,7 +70,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             {
                 Vector2 velocity = new Vector2(speedX, speedY);
                 position += velocity.ToRotation().ToRotationVector2() * 80f;
-                Projectile.NewProjectile(position, velocity.SafeNormalize(Vector2.Zero) * 17f, ModContent.ProjectileType<ExoLightBurst>(), (int)(damage * 2.3), knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, velocity.SafeNormalize(Vector2.Zero) * 17f, ModContent.ProjectileType<ExoLightBurst>(), (int)(damage * AltFireDamageMult), knockBack, player.whoAmI);
             }
             else
             {
