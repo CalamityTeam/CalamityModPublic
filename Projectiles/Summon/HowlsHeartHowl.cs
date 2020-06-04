@@ -85,7 +85,6 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//Anti sticky movement although there should only be one
-			projectile.MinionAntiClump();
 
 			//Set tile collision for only when trying to return to the player
 			projectile.tileCollide = projectile.ai[0] != 1f;

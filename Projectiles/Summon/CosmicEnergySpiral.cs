@@ -70,7 +70,6 @@ namespace CalamityMod.Projectiles.Summon
             float num634 = 1600f; //800
             float num635 = 2400f; //1200
             float num636 = 800f;
-			projectile.MinionAntiClump();
             projectile.rotation += projectile.velocity.X * 0.1f;
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
