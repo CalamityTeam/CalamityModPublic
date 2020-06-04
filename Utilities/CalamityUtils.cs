@@ -1,3 +1,5 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.Items.Tools.ClimateChange;
@@ -122,6 +124,25 @@ namespace CalamityMod
         {
             return player.inventory.Any(item => items.Contains(item.type));
         }
+
+		/// <summary>
+		/// Inflict typical exo weapon debuffs in pvp.
+		/// </summary>
+		/// <param name="target">The Player attacked.</param>
+		/// <param name="multiplier">Debuff time multiplier if needed.</param>
+		/// <returns>Inflicts debuffs if the target isn't immune.</returns>
+		public static void ExoDebuffs(this Player target, float multiplier = 1f)
+		{
+			target.AddBuff(ModContent.BuffType<ExoFreeze>(), (int)(30 * multiplier));
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
+			target.AddBuff(ModContent.BuffType<GlacialState>(), (int)(120 * multiplier));
+			target.AddBuff(ModContent.BuffType<Plague>(), (int)(120 * multiplier));
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), (int)(120 * multiplier));
+			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
+			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
+			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
+			target.AddBuff(BuffID.Ichor, (int)(120 * multiplier));
+		}
         #endregion
 
         #region NPC Utilities
@@ -264,6 +285,35 @@ namespace CalamityMod
 				return true;
 			}
 			return false;
+		}
+
+		/// <summary>
+		/// Inflict typical exo weapon debuffs. This helps bypass the 5 debuff limit by checking if the NPC already has it.
+		/// </summary>
+		/// <param name="target">The NPC attacked.</param>
+		/// <param name="multiplier">Debuff time multiplier if needed.</param>
+		/// <returns>Inflicts debuffs if they can.</returns>
+		public static void ExoDebuffs(this NPC target, float multiplier = 1f)
+		{
+			CalamityGlobalNPC modTarget = target.Calamity();
+			if (modTarget.eFreeze <= 0)
+				target.AddBuff(ModContent.BuffType<ExoFreeze>(), (int)(30 * multiplier));
+			if (modTarget.bFlames <= 0)
+				target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
+			if (modTarget.gState <= 0)
+				target.AddBuff(ModContent.BuffType<GlacialState>(), (int)(120 * multiplier));
+			if (modTarget.pFlames <= 0)
+				target.AddBuff(ModContent.BuffType<Plague>(), (int)(120 * multiplier));
+			if (modTarget.hFlames <= 0)
+				target.AddBuff(ModContent.BuffType<HolyFlames>(), (int)(120 * multiplier));
+			if (!target.onFire2)
+				target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
+			if (!target.onFrostBurn)
+				target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
+			if (!target.onFire)
+				target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
+			if (!target.ichor)
+				target.AddBuff(BuffID.Ichor, (int)(120 * multiplier));
 		}
         #endregion
 

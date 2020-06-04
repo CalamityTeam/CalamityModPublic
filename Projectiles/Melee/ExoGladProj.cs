@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -152,16 +150,55 @@ namespace CalamityMod.Projectiles.Melee
 				num14 *= num16;
 				int num17 = Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<ExoGladSpears>(), (int)((double)projectile.damage * 0.5), swordKB, projectile.owner, 0f, 0f);
 			}
+			target.ExoDebuffs();
+        }
 
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            int type = ModContent.ProjectileType<ExoGladiusBeam>();
+            int numSwords = Main.rand.Next(1,4);
+            float swordKB = projectile.knockBack;
+            for (int i = 0; i < numSwords; ++i)
+            {
+                float startOffsetX = Main.rand.NextFloat(1000f, 1400f) * (Main.rand.NextBool() ? -1f : 1f);
+                float startOffsetY = Main.rand.NextFloat(80f, 900f) * (Main.rand.NextBool() ? -1f : 1f);
+                Vector2 startPos = new Vector2(target.Center.X + startOffsetX, target.Center.Y + startOffsetY);
+                float dx = target.Center.X - startPos.X;
+                float dy = target.Center.Y - startPos.Y;
+
+                dx += Main.rand.NextFloat(-5f, 5f);
+                dy += Main.rand.NextFloat(-5f, 5f);
+                float speed = Main.rand.NextFloat(24f, 30f);
+                float dist = (float)Math.Sqrt((double)(dx * dx + dy * dy));
+                dist = speed / dist;
+                dx *= dist;
+                dy *= dist;
+                Vector2 swordVel = new Vector2(dx, dy);
+                float angle = Main.rand.NextFloat(MathHelper.TwoPi);
+                if (projectile.owner == Main.myPlayer)
+                {
+                    int idx = Projectile.NewProjectile(startPos, swordVel, type, (int)((double)projectile.damage * 0.25), swordKB, projectile.owner, 0f, 0f);
+                    Main.projectile[idx].rotation = angle;
+                }
+            }
+
+			int spearAmt = Main.rand.Next(1,4);
+			for (int n = 0; n < spearAmt; n++)
+			{
+				float x = projectile.position.X + (float)Main.rand.Next(-400, 400);
+				float y = projectile.position.Y + (float)Main.rand.Next(800, 1000);
+				Vector2 vector = new Vector2(x, y);
+				float num13 = projectile.position.X + (float)(projectile.width / 2) - vector.X;
+				float num14 = projectile.position.Y + (float)(projectile.height / 2) - vector.Y;
+				num13 += (float)Main.rand.Next(-100, 101);
+				int num15 = 29;
+				float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
+				num16 = (float)num15 / num16;
+				num13 *= num16;
+				num14 *= num16;
+				int num17 = Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<ExoGladSpears>(), (int)((double)projectile.damage * 0.5), swordKB, projectile.owner, 0f, 0f);
+			}
+			target.ExoDebuffs();
         }
     }
 }
