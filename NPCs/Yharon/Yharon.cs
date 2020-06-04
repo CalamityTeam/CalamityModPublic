@@ -6,7 +6,6 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
-using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -280,27 +279,27 @@ namespace CalamityMod.NPCs.Yharon
             }
 
 			// Timers and velocity for charging
-            int chargeTime = expertMode ? 60 : 70;
-            float chargeSpeed = expertMode ? 26f : 24f;
+            int chargeTime = expertMode ? 40 : 45;
+            float chargeSpeed = expertMode ? 28f : 26f;
 			float fastChargeVelocityMultiplier = 1.5f;
 			int fastChargeTelegraphTimer = 120;
 
             if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
-                chargeTime = 40;
-                chargeSpeed = 35f;
+                chargeTime = 30;
+                chargeSpeed = 40f;
             }
             else if (phase3Change)
             {
-                chargeTime = 50;
-                chargeSpeed = 28f;
+                chargeTime = 35;
+                chargeSpeed = 30f;
             }
             else if (isCharging && phase2Change)
             {
-                chargeTime = expertMode ? 55 : 65;
+                chargeTime = expertMode ? 38 : 43;
 
                 if (expertMode)
-                    chargeSpeed = 27f;
+                    chargeSpeed = 28.5f;
             }
 
 			if (revenge)
@@ -948,16 +947,13 @@ namespace CalamityMod.NPCs.Yharon
 				if (npc.ai[2] == 0f)
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
-					flareDustBulletHellSpawn = vectorCenter + npc.velocity.RotatedBy(MathHelper.PiOver2 * -npc.direction) * spinTime / MathHelper.TwoPi;
+					flareDustBulletHellSpawn = vectorCenter + npc.velocity.RotatedBy(MathHelper.PiOver2 * -npc.direction) * spinTime / (MathHelper.TwoPi * 3f);
 				}
 
 				npc.ai[2] += 1f;
 
 				if (npc.ai[2] % flareDustSpawnDivisor == 0f)
                 {
-					if (npc.ai[2] >= 120f)
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
-
 					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
 						SpawnDetonatingFlares(flareDustBulletHellSpawn, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare2>() });
@@ -1264,16 +1260,13 @@ namespace CalamityMod.NPCs.Yharon
 				if (npc.ai[2] == 0f)
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
-					flareDustBulletHellSpawn = vectorCenter + npc.velocity.RotatedBy(MathHelper.PiOver2 * -npc.direction) * spinTime / MathHelper.TwoPi;
+					flareDustBulletHellSpawn = vectorCenter + npc.velocity.RotatedBy(MathHelper.PiOver2 * -npc.direction) * spinTime / (MathHelper.TwoPi * 3f);
 				}
 
 				npc.ai[2] += 1f;
 
 				if (npc.ai[2] % flareDustSpawnDivisor == 0f)
 				{
-					if (npc.ai[2] >= 120f)
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
-
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 						SpawnDetonatingFlares(flareDustBulletHellSpawn, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare>(), ModContent.NPCType<DetonatingFlare2>() });
 				}
@@ -1281,7 +1274,7 @@ namespace CalamityMod.NPCs.Yharon
 				if (npc.ai[2] % flareDustSpawnDivisor2 == 0f)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						DoFlareDustBulletHell(1, flareDustPhaseTimer, projectileDamage, 4, 4f, 1.5f, false);
+						DoFlareDustBulletHell(1, flareDustPhaseTimer, projectileDamage, 4, 6f, 3f, false);
 				}
 
 				npc.velocity = npc.velocity.RotatedBy(-(double)spinPhaseRotation * (float)npc.direction);
@@ -1562,8 +1555,8 @@ namespace CalamityMod.NPCs.Yharon
 			float phaseSwitchTimer = expertMode ? 30f : 32f;
 			float acceleration = expertMode ? 0.92f : 0.9f;
             float velocity = expertMode ? 13.5f : 13f;
-			float chargeTime = expertMode ? 47f : 50f;
-            float chargeSpeed = expertMode ? 28f : 27f;
+			float chargeTime = expertMode ? 32f : 35f;
+            float chargeSpeed = expertMode ? 32f : 30f;
 			float fastChargeVelocityMultiplier = 1.5f;
 			int fastChargeTelegraphTimer = 120;
 
@@ -1595,8 +1588,8 @@ namespace CalamityMod.NPCs.Yharon
             {
                 acceleration = 1.2f;
                 velocity = 18f;
-				chargeTime = 35f;
-                chargeSpeed = 34f;
+				chargeTime = 25f;
+                chargeSpeed = 45f;
             }
 			else if (revenge)
 			{
@@ -2024,30 +2017,24 @@ namespace CalamityMod.NPCs.Yharon
             {
                 npc.velocity = npc.velocity.RotatedBy(-(double)spinRotation * (float)npc.direction);
 
-                npc.position.Y = npc.position.Y - 0.1f;
-                npc.position += npc.DirectionTo(targetData.Center) * 10f;
+                /*npc.position.Y = npc.position.Y - 0.1f;
+                npc.position += npc.DirectionTo(targetData.Center) * 10f;*/
 
                 npc.rotation -= spinRotation * npc.direction;
 
 				if (npc.ai[1] == 1f)
 				{
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
-					flareDustBulletHellSpawn = npc.Center + npc.velocity.RotatedBy(MathHelper.PiOver2 * -npc.direction) * spinTime / MathHelper.TwoPi;
+					flareDustBulletHellSpawn = npc.Center + npc.velocity.RotatedBy(MathHelper.PiOver2 * -npc.direction) * spinTime / (MathHelper.TwoPi * 3f);
 				}
 
 				npc.ai[1] += 1f;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-					if (npc.ai[1] % flareDustSpawnDivisor == 0f)
-					{
-						if (npc.ai[1] >= 120f)
-							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
-					}
-
 					if (phase3)
 					{
 						if (npc.ai[1] % flareDustSpawnDivisor2 == 0f)
-							DoFlareDustBulletHell(1, (int)spinPhaseTimer, projectileDamage, 5, 4f, phase4 ? 3f : 1.5f, true);
+							DoFlareDustBulletHell(1, (int)spinPhaseTimer, projectileDamage, 5, 6f, phase4 ? 6f : 3f, true);
 					}
 					else if (phase2)
 					{
@@ -2123,13 +2110,13 @@ namespace CalamityMod.NPCs.Yharon
 
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
-
-						if (expertMode)
-							DoFireRing(600, projectileDamage);
-
 						if (npc.ai[1] == 20f || npc.ai[1] == 80f || npc.ai[1] == 140f)
 						{
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
+
+							if (expertMode)
+								DoFireRing(300, projectileDamage);
+
 							Vector2 vector7 = npc.Center + (MathHelper.TwoPi * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 100f * (0.6f + Main.rand.NextFloat() * 0.4f);
 
 							if (Vector2.Distance(vector7, targetData.Center) > 150f)

@@ -160,21 +160,6 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (Main.expertMode)
-            {
-                if (npc.life > 0 && Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(25))
-                {
-					if (NPC.CountNPCS(ModContent.NPCType<AstrumDeusProbe3>()) < 3)
-					{
-						int num660 = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), ModContent.NPCType<AstrumDeusProbe3>(), 0, 0f, 0f, 0f, 0f, 255);
-						if (Main.netMode == NetmodeID.Server && num660 < 200)
-						{
-							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num660, 0f, 0f, 0f, 0, 0, 0);
-						}
-						npc.netUpdate = true;
-					}
-                }
-            }
             if (npc.life <= 0)
             {
                 npc.position.X = npc.position.X + (npc.width / 2);

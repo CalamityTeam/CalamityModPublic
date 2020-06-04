@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.ai[0] == 0f)
             {
                 npc.noTileCollide = true;
-                float num659 = 14f;
+                float num659 = 21f;
                 if (npc.life < npc.lifeMax / 2 || death)
                 {
                     num659 += 1f;
@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.Ravager
                     }
                     if (npc.life < npc.lifeMax / 5 || death)
                     {
-                        npc.ai[1] += 10f;
+                        npc.ai[1] += 5f;
                     }
                     if (npc.ai[1] >= 60f)
                     {
@@ -160,15 +160,15 @@ namespace CalamityMod.NPCs.Ravager
                 float num663 = 12f;
                 if (npc.life < npc.lifeMax / 2 || death)
                 {
-                    num663 += 4f;
+                    num663 += 2f;
                 }
                 if (npc.life < npc.lifeMax / 3 || death)
                 {
-                    num663 += 4f;
+                    num663 += 2f;
                 }
                 if (npc.life < npc.lifeMax / 5 || death)
                 {
-                    num663 += 10f;
+                    num663 += 5f;
                 }
                 Vector2 vector80 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num664 = Main.player[npc.target].Center.X - vector80.X;

@@ -69,9 +69,9 @@ namespace CalamityMod.Projectiles.Boss
 				start = false;
 			}
 
-			double deg = (double)projectile.ai[0];
+			double deg = projectile.ai[0];
 			double rad = deg * (Math.PI / 180);
-			distance += (projectile.ai[1] == 1f ? 2D : 1D);
+			distance += projectile.ai[1] == 1f ? 2D : 1D;
 			projectile.position.X = startingPosX - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
 			projectile.position.Y = startingPosY - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
 			projectile.ai[0] += 0.5f;

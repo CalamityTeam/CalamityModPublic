@@ -2939,7 +2939,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 29:
-                    if (!AstrumDeusIDs.Contains(npc.type) && npc.type != NPCType<AstrumDeusProbe3>())
+                    if (!AstrumDeusIDs.Contains(npc.type))
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -3554,7 +3554,7 @@ namespace CalamityMod.NPCs
 					GrenadeResist(projectile, ref damage);
 					PierceResistGlobal(projectile, ref damage);
 
-					if (projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileType<AtlantisSpear2>() || ProjectileID.Sets.StardustDragon[projectile.type])
+					/*if (projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileType<AtlantisSpear2>() || ProjectileID.Sets.StardustDragon[projectile.type])
 					{
 						damage = (int)(damage * 0.1);
 					}
@@ -3577,7 +3577,7 @@ namespace CalamityMod.NPCs
 					else if (projectile.type == ProjectileType<BigNuke>())
 					{
 						damage = (int)(damage * 0.85);
-					}
+					}*/
 				}
 				else if (StormWeaverIDs.Contains(npc.type))
 				{

@@ -90,20 +90,20 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			if (expertMode)
 			{
-				speed += death ? 10f : 10f * (1f - lifeRatio);
-				turnSpeed += death ? 0.1f : 0.1f * (1f - lifeRatio);
+				speed += death ? 6f : 6f * (1f - lifeRatio);
+				turnSpeed += death ? 0.06f : 0.06f * (1f - lifeRatio);
 			}
 
 			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 			{
-				speed *= 2f;
-				turnSpeed *= 2f;
+				speed *= 1.25f;
+				turnSpeed *= 1.25f;
 			}
 
 			if (CalamityWorld.bossRushActive)
 			{
-				speed *= 2f;
-				turnSpeed *= 2f;
+				speed *= 1.25f;
+				turnSpeed *= 1.25f;
 			}
 
 			if (npc.ai[3] > 0f)

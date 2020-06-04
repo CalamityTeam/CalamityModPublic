@@ -14,8 +14,8 @@ namespace CalamityMod.NPCs.Perforator
     {
         private const int MsgType = 23;
         private bool flies = false;
-        private float speed = 21f;
-        private float turnSpeed = 0.19f;
+        private float speed = 16f;
+        private float turnSpeed = 0.14f;
         private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 3 : 6;
         private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 4 : 7;
         private bool TailSpawned = false;
@@ -57,20 +57,20 @@ namespace CalamityMod.NPCs.Perforator
 
 			if (expertMode)
 			{
-				speed += death ? 10f : 10f * (1f - lifeRatio);
-				turnSpeed += death ? 0.1f : 0.1f * (1f - lifeRatio);
+				speed += death ? 9f : 9f * (1f - lifeRatio);
+				turnSpeed += death ? 0.08f : 0.08f * (1f - lifeRatio);
 			}
 
 			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 			{
-				speed *= 2f;
-				turnSpeed *= 2f;
+				speed *= 1.25f;
+				turnSpeed *= 1.25f;
 			}
 
 			if (CalamityWorld.bossRushActive)
 			{
-				speed *= 2f;
-				turnSpeed *= 2f;
+				speed *= 1.25f;
+				turnSpeed *= 1.25f;
 			}
 
 			if (npc.ai[3] > 0f)

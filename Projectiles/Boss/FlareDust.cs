@@ -9,6 +9,9 @@ namespace CalamityMod.Projectiles.Boss
 {
     public class FlareDust : ModProjectile
     {
+		private bool start = true;
+		private float startingPosX = 0f;
+		private float startingPosY = 0f;
 		private double distance = 0D;
 
 		public override void SetStaticDefaults()
@@ -33,12 +36,18 @@ namespace CalamityMod.Projectiles.Boss
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(projectile.localAI[0]);
+			writer.Write(start);
+			writer.Write(startingPosX);
+			writer.Write(startingPosY);
 			writer.Write(distance);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			projectile.localAI[0] = reader.ReadSingle();
+			start = reader.ReadBoolean();
+			startingPosX = reader.ReadSingle();
+			startingPosY = reader.ReadSingle();
 			distance = reader.ReadDouble();
 		}
 
@@ -58,34 +67,35 @@ namespace CalamityMod.Projectiles.Boss
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 
 			if (projectile.ai[0] == 2f)
-			{
-				projectile.ai[1] += 0.05f;
-
-				projectile.velocity *= MathHelper.Lerp(0.95f, 1.05f, (float)Math.Abs(Math.Sin(projectile.ai[1])));
-
 				return;
+
+			if (start)
+			{
+				startingPosX = projectile.Center.X;
+				startingPosY = projectile.Center.Y;
+				start = false;
 			}
 
 			double rad = MathHelper.ToRadians(projectile.ai[1]);
 
-			float amount = projectile.localAI[0] / 300f;
+			float amount = projectile.localAI[0] / 180f;
 			if (amount > 1f)
 				amount = 1f;
 
-			distance += MathHelper.Lerp(1f, 3f, amount);
+			distance += MathHelper.Lerp(1f, 6f, amount);
 
 			if (projectile.ai[0] == 0f)
 			{
-				projectile.position.X = projectile.Center.X - (int)(Math.Sin(rad) * distance) - projectile.width / 2;
-				projectile.position.Y = projectile.Center.Y - (int)(Math.Cos(rad) * distance) - projectile.height / 2;
+				projectile.position.X = startingPosX - (int)(Math.Sin(rad) * distance) - projectile.width / 2;
+				projectile.position.Y = startingPosY - (int)(Math.Cos(rad) * distance) - projectile.height / 2;
 			}
 			else
 			{
-				projectile.position.X = projectile.Center.X - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
-				projectile.position.Y = projectile.Center.Y - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
+				projectile.position.X = startingPosX - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
+				projectile.position.Y = startingPosY - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
 			}
 
-			projectile.ai[1] += (0.25f + amount) * 0.5f;
+			projectile.ai[1] += (1.1f - amount) * 0.5f;
 			projectile.localAI[0] += 1f;
 		}
 

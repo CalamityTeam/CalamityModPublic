@@ -127,7 +127,7 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			// Percent life remaining
-			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
             // Phases based on life percentage
             bool phase2 = lifeRatio < 0.5f || death;
@@ -166,10 +166,10 @@ namespace CalamityMod.NPCs
 
 			// Despawn
 			int despawnDistance = 500;
-			if (Main.player[npc.target].dead || Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) / 16f > (float)despawnDistance)
+			if (Main.player[npc.target].dead || Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) / 16f > despawnDistance)
 			{
 				npc.TargetClosest(true);
-				if (Main.player[npc.target].dead || Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) / 16f > (float)despawnDistance)
+				if (Main.player[npc.target].dead || Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) / 16f > despawnDistance)
 				{
 					if (npc.timeLeft > 10)
 						npc.timeLeft = 10;
@@ -4710,8 +4710,9 @@ namespace CalamityMod.NPCs
 
 			if (flyAtTarget)
 			{
-				float speedMultiplier = phase5 ? 2f : phase4 ? 1.5f : 1f;
+				float speedMultiplier = phase5 ? 1.3f : phase4 ? 1.15f : 1f;
 				speed *= speedMultiplier;
+				turnSpeed *= speedMultiplier;
 				fallSpeed *= speedMultiplier;
 			}
 
@@ -9071,8 +9072,17 @@ namespace CalamityMod.NPCs
 
                         npc.velocity.X = velocityX * npc.direction;
 
-                        if (Main.player[npc.target].position.Y < npc.Bottom.Y)
-                            npc.velocity.Y = ((!flag43 && !flag40) ? -15.1f : -12.1f) + (enrage ? -4f : 0f);
+						float distanceBelowTarget = npc.position.Y - (Main.player[npc.target].position.Y + 80f);
+						float speedMult = 1f;
+
+						if (distanceBelowTarget > 0f && !flag43 && !flag40)
+							speedMult += distanceBelowTarget * 0.002f;
+						
+						if (speedMult > 2f)
+							speedMult = 2f;
+
+						if (Main.player[npc.target].position.Y < npc.Bottom.Y)
+                            npc.velocity.Y = (((!flag43 && !flag40) ? -15.1f : -12.1f) + (enrage ? -4f : 0f)) * speedMult;
                         else
                             npc.velocity.Y = 1f;
 

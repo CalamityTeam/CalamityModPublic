@@ -91,19 +91,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             if (npc.ai[0] == 0f)
             {
-                float num659 = 14f;
-                if (npc.life < npc.lifeMax / 2)
-                {
-                    num659 += 3f;
-                }
-                if (npc.life < npc.lifeMax / 3)
-                {
-                    num659 += 3f;
-                }
-                if (npc.life < npc.lifeMax / 5)
-                {
-                    num659 += 8f;
-                }
+                float num659 = 21f;
                 Vector2 vector79 = new Vector2(center.X, center.Y);
                 float num660 = Main.npc[CalamityGlobalNPC.scavenger].Center.X - vector79.X;
                 float num661 = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - vector79.Y;

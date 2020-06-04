@@ -1553,7 +1553,7 @@ namespace CalamityMod.NPCs
 				if (CalamityWorld.bossRushActive)
 					chargeVelocity *= 1.5f;
 
-				Vector2 vector = Vector2.Normalize(player.Center + player.velocity * 20f - npc.Center);
+				Vector2 vector = Vector2.Normalize(player.Center + player.velocity * 10f - npc.Center);
 				npc.velocity = vector * chargeVelocity;
 
 				npc.ai[1] = 3f;
@@ -2387,6 +2387,8 @@ namespace CalamityMod.NPCs
                 float num823 = CalamityWorld.bossRushActive ? 8f : 5f;
 				if (expertMode)
 					num823 += death ? 3f : 3f * (1f - lifeRatio);
+				if (revenge)
+					num823 += Math.Abs(npc.Center.X - player.Center.X) * 0.005f;
 
 				// Set walking direction
 				if (Math.Abs(npc.Center.X - player.Center.X) < 200f)
@@ -2483,17 +2485,29 @@ namespace CalamityMod.NPCs
 
 						npc.velocity.X = velocityX * npc.direction;
 
-                        if (expertMode)
+						float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
+						float speedMult = 1f;
+
+						if (revenge)
+						{
+							if (distanceBelowTarget > 0f)
+								speedMult += distanceBelowTarget * 0.002f;
+
+							if (speedMult > 2f)
+								speedMult = 2f;
+						}
+
+						if (expertMode)
                         {
                             if (player.position.Y < npc.Bottom.Y)
-                                npc.velocity.Y = -14.5f;
+                                npc.velocity.Y = -14.5f * speedMult;
                             else
                                 npc.velocity.Y = 1f;
 
                             npc.noTileCollide = true;
                         }
                         else
-                            npc.velocity.Y = -14.5f;
+                            npc.velocity.Y = -14.5f * speedMult;
 
                         npc.ai[0] = 4f;
                         npc.ai[1] = 0f;
@@ -2766,26 +2780,46 @@ namespace CalamityMod.NPCs
 					calamityGlobalNPC.newAI[2] += despawnRemainingWorm ? 10f : 1f;
 					npc.Opacity = MathHelper.Clamp(1f - (calamityGlobalNPC.newAI[2] / splitAnimationTime), 0f, 1f);
 
-					if (calamityGlobalNPC.newAI[2] == splitAnimationTime)
-					{
-						if (Main.netMode != NetmodeID.MultiplayerClient && !doubleWormPhase)
-						{
-							int npc2 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<AstrumDeusHeadSpectral>(), 0, 0f, 0f, 0f, 0f, 255);
-							Main.npc[npc2].Calamity().newAI[0] = 1f;
-							int npc3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<AstrumDeusHeadSpectral>(), 0, 0f, 0f, 0f, 0f, 255);
-							Main.npc[npc3].Calamity().newAI[0] = 2f;
-							Main.npc[npc3].Calamity().newAI[3] = 600f;
-						}
+					bool despawning = calamityGlobalNPC.newAI[2] == splitAnimationTime;
 
+					if (despawning)
+					{
 						for (int i = 0; i < Main.maxNPCs; i++)
 						{
 							if (Main.npc[i].Calamity().newAI[0] == 0f || despawnRemainingWorm)
 							{
-								if (Main.npc[i].type == ModContent.NPCType<AstrumDeusHeadSpectral>() || Main.npc[i].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[i].type == ModContent.NPCType<AstrumDeusTailSpectral>())
+								if (Main.npc[i].type == npc.type || Main.npc[i].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[i].type == ModContent.NPCType<AstrumDeusTailSpectral>())
 									Main.npc[i].active = false;
 							}
 						}
 
+						if (!doubleWormPhase)
+						{
+							if (Main.netMode != NetmodeID.MultiplayerClient)
+							{
+								NPC.SpawnOnPlayer(npc.FindClosestPlayer(), npc.type);
+								NPC.SpawnOnPlayer(npc.FindClosestPlayer(), npc.type);
+							}
+
+							for (int i = 0; i < Main.maxNPCs; i++)
+							{
+								if (Main.npc[i].Calamity().newAI[0] == 0f && Main.npc[i].type == npc.type && i != npc.whoAmI)
+								{
+									Main.npc[i].Calamity().newAI[0] = calamityGlobalNPC.newAI[0] + 1f;
+
+									if (Main.npc[i].Calamity().newAI[0] == 2f)
+										Main.npc[i].Calamity().newAI[3] = 600f;
+
+									Main.npc[i].velocity = Vector2.Normalize(player.Center - Main.npc[i].Center) * 16f;
+
+									Main.npc[i].netUpdate = true;
+
+									calamityGlobalNPC.newAI[0] += 1f;
+									if (calamityGlobalNPC.newAI[0] >= 2f)
+										break;
+								}
+							}
+						}
 						return;
 					}
 				}
@@ -2966,7 +3000,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[1] = 0f;
 
 				// Despawn
-				float fallSpeed = 20f;
+				float fallSpeed = 16f;
 				if (player.dead || Main.dayTime)
 				{
 					flag2 = false;
@@ -2974,7 +3008,7 @@ namespace CalamityMod.NPCs
 					npc.velocity.Y -= velocity;
 					if ((double)npc.position.Y < Main.topWorld + 16f)
 					{
-						fallSpeed = 40f;
+						fallSpeed = 32f;
 						npc.velocity.Y -= velocity;
 					}
 
@@ -2999,9 +3033,9 @@ namespace CalamityMod.NPCs
 
 				if (flyAtTarget)
 				{
-					float speedMultiplier = phase5 ? 2f : phase4 ? 1.5f : 1f;
+					float speedMultiplier = phase5 ? 1.3f : phase4 ? 1.15f : 1f;
 					speed *= speedMultiplier;
-					fallSpeed *= speedMultiplier;
+					turnSpeed *= speedMultiplier;
 				}
 
 				if (CalamityWorld.bossRushActive)
@@ -3214,7 +3248,7 @@ namespace CalamityMod.NPCs
 					float divisor = timer + shootProjectile;
 					if (!flyAtTarget)
 					{
-						if (npc.localAI[0] % divisor == 0f)
+						if (npc.localAI[0] % divisor == 0f && npc.ai[0] % 2f == 0f)
 						{
 							npc.TargetClosest(true);
 							if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Vector2.Distance(player.Center, npc.Center) > 80f)

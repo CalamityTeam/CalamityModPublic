@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.timeLeft = 1800;
             }
-            float speed = 12f;
+            float speed = 21f;
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             float centerX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - center.X;
             float centerY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;

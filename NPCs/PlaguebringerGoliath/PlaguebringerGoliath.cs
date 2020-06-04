@@ -52,7 +52,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.width = 198;
             npc.height = 198;
             npc.defense = 40;
-			npc.DR_NERD(0.25f);
+			npc.DR_NERD(0.35f);
 			npc.LifeMaxNERB(58500, 77275, 3700000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);

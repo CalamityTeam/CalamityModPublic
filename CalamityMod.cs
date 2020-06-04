@@ -2868,7 +2868,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusProbe3>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerShade>(), velocityScaleMin },
 				{ ModContent.NPCType<PlagueBeeG>(), velocityScaleMin },

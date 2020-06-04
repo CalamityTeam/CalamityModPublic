@@ -373,6 +373,10 @@ namespace CalamityMod.NPCs.Crabulon
                     {
 						int velocityX = CalamityWorld.bossRushActive ? 12 : 4;
 						float velocityY = CalamityWorld.bossRushActive ? -16f : -12f;
+
+						float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
+						float speedMult = 1f;
+
 						if (revenge)
 						{
 							switch ((int)npc.ai[3])
@@ -392,6 +396,14 @@ namespace CalamityMod.NPCs.Crabulon
 								default:
 									break;
 							}
+
+							if (distanceBelowTarget > 0f)
+								speedMult += distanceBelowTarget * 0.002f;
+
+							if (speedMult > 2f)
+								speedMult = 2f;
+
+							velocityY *= speedMult;
 						}
 
 						if (expertMode)
