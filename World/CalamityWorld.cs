@@ -111,6 +111,8 @@ namespace CalamityMod.World
         public static bool forcedRainAlready = false;
         public static bool forcedDownpourWithTear = false;
         public static int forceRainTimer = 0;
+        public static int timeSinceAcidRainKill = 0;
+        public static int timeSinceAcidStarted = 0;
         public static float AcidRainCompletionRatio
         {
             get
@@ -967,6 +969,17 @@ namespace CalamityMod.World
 
             if (rainingAcid)
             {
+                timeSinceAcidRainKill++;
+                timeSinceAcidStarted++;
+
+                // If enough time has passed, and no enemy has been killed, end the invasion early.
+                // The player almost certainly does not want to deal with it.
+                if (timeSinceAcidRainKill >= AcidRainEvent.InvasionNoKillPersistTime)
+                {
+                    acidRainPoints = 0;
+                    triedToSummonOldDuke = false;
+                    AcidRainEvent.UpdateInvasion(false);
+                }
                 if (!startAcidicDownpour)
                 {
                     int sulphSeaWidth = Abyss.BiomeWidth;
@@ -984,6 +997,8 @@ namespace CalamityMod.World
                                 (player2.Center.X >= (Main.maxTilesX - (sulphSeaWidth + 60f)) * 16f && !abyssSide)) &&
                                 player2.Calamity().ZoneSulphur)
                             {
+                                // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
+                                // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
                                 startAcidicDownpour = true;
                                 CalamityMod.UpdateServerBoolean();
                                 break;
@@ -992,22 +1007,37 @@ namespace CalamityMod.World
                     }
                 }
 
-                // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
-                // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
-                if ((startAcidicDownpour || forcedDownpourWithTear) && !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
+                // Stop the rain if the Old Duke is present for visibility during the fight.
+                if (Main.raining && NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
                 {
-					Main.raining = true;
-					Main.cloudBGActive = 1f;
-					Main.numCloudsTemp = Main.cloudLimit;
-					Main.numClouds = Main.numCloudsTemp;
-					Main.windSpeedTemp = 0.72f;
-					Main.windSpeedSet = Main.windSpeedTemp;
-					Main.weatherCounter = 600;
-					Main.maxRaining = 0.89f;
-				}
+                    Main.raining = false;
+                    CalamityMod.UpdateServerBoolean();
+                }
+
+                // If the rain stops for whatever reason, end the invasion.
+                // This is primarily done for compatibility, so that if another mod wants to manipulate the weather,
+                // they can without having to deal with endless rain.
+                if (!Main.raining && !NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) && timeSinceAcidStarted > 20)
+                {
+                    acidRainPoints = 0;
+                    triedToSummonOldDuke = false;
+                    AcidRainEvent.UpdateInvasion(false);
+                }
+                else if (timeSinceAcidStarted < 20)
+                {
+                    Main.raining = true;
+                    Main.cloudBGActive = 1f;
+                    Main.numCloudsTemp = Main.cloudLimit;
+                    Main.numClouds = Main.numCloudsTemp;
+                    Main.windSpeedTemp = 0.72f;
+                    Main.windSpeedSet = Main.windSpeedTemp;
+                    Main.weatherCounter = 60 * 60 * 10; // 10 minutes of rain. Remember, once the rain goes away, so does the invasion.
+                    Main.rainTime = Main.weatherCounter;
+                    Main.maxRaining = 0.89f;
+                }
 
                 // Summon Old Duke tornado post-Polter as needed
-                if (downedPolterghast && acidRainPoints == 2)
+                if (downedPolterghast && acidRainPoints == 1)
                 {
                     if (!NPC.AnyNPCs(ModContent.NPCType<OldDuke>()) &&
                     CalamityUtils.CountProjectiles(ModContent.ProjectileType<OverlyDramaticDukeSummoner>()) <= 0)
@@ -1033,7 +1063,9 @@ namespace CalamityMod.World
             }
 			else
 			{
-				startAcidicDownpour = false;
+                if (timeSinceAcidStarted != 0)
+                    timeSinceAcidStarted = 0;
+                startAcidicDownpour = false;
 			}
 
 			// Lumenyl crystal, tenebris spread and sea prism crystal spawn rates
