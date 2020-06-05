@@ -29,9 +29,9 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.buffImmune[k] = true;
             }
-            npc.HitSound = SoundID.NPCHit4;
-            npc.DeathSound = SoundID.NPCDeath14;
-        }
+			npc.HitSound = SoundID.NPCHit41;
+			npc.DeathSound = SoundID.NPCDeath14;
+		}
 
         public override void AI()
         {
@@ -102,7 +102,7 @@ namespace CalamityMod.NPCs.Ravager
 
 						npc.noTileCollide = true;
 						npc.velocity.X = 12 * npc.direction;
-                        npc.velocity.Y = -21.5f;
+                        npc.velocity.Y = -28.5f;
                         npc.ai[0] = 1f;
                         npc.ai[1] = 0f;
                     }

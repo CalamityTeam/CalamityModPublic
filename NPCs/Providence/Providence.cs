@@ -222,6 +222,19 @@ namespace CalamityMod.NPCs.Providence
             bool phase2 = (lifeRatio < 0.75f || death) && !nightTime;
 			bool delayAttacks = npc.localAI[2] > 0f;
 
+			// Spear phase
+			float spearRateIncrease = death ? 1f : 1f * (1f - lifeRatio);
+			float enragedSpearRateIncrease = 0.5f;
+			float bossRushSpearRateIncrease = 0.25f;
+			float baseSpearRate = 18f;
+			float spearRate = 1f + spearRateIncrease;
+
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+				spearRate += enragedSpearRateIncrease;
+
+			if (CalamityWorld.bossRushActive)
+				spearRate += bossRushSpearRateIncrease;
+
 			// Projectile fire rate multiplier
 			double attackRateMult = 1D;
 
@@ -894,12 +907,16 @@ namespace CalamityMod.NPCs.Providence
 					{
 						if (npc.ai[3] % divisor == 0f)
 						{
-							Vector2 spinningPoint = calamityGlobalNPC.newAI[1] % 2f == 0f ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
+							bool normalSpread = calamityGlobalNPC.newAI[1] % 2f == 0f;
+							Vector2 spinningPoint = normalSpread ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity));
 							double radians = MathHelper.TwoPi / chains;
 							Main.PlaySound(SoundID.Item20, npc.position);
 							for (int i = 0; i < chains; i++)
 							{
 								Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.ai[2]));
+
+								if (!normalSpread)
+									vector2 *= velocity;
 
 								int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
 								if (Main.rand.NextBool(4) && !death)
@@ -932,6 +949,9 @@ namespace CalamityMod.NPCs.Providence
 
 								Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, 0f);
 							}
+
+							Vector2 velocity2 = Vector2.Normalize(player.Center - fireFrom) * velocity;
+							Projectile.NewProjectile(fireFrom, velocity2, ModContent.ProjectileType<HolyBurnOrb>(), 0, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 				}
@@ -1115,16 +1135,14 @@ namespace CalamityMod.NPCs.Providence
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					float shootBoost = death ? 1f : 1f * (1f - lifeRatio);
-					npc.ai[2] += ((npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 1.5f : 1f) + shootBoost;
-
-					if (CalamityWorld.bossRushActive)
-						npc.ai[2] += 0.25f;
-
-					double count = 18D * attackRateMult;
-					if (npc.ai[2] >= (float)count)
+					npc.ai[2] += spearRate;
+					if (npc.ai[2] >= (float)(baseSpearRate * attackRateMult))
 					{
 						npc.ai[2] = 0f;
+
+						Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f);
+
+						Main.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, fireFrom);
 
 						float velocity = 3f;
 						int projectileType = ModContent.ProjectileType<HolySpear>();
@@ -1133,22 +1151,23 @@ namespace CalamityMod.NPCs.Providence
 						{
 							int totalProjectiles = 12;
 							double radians = MathHelper.TwoPi / totalProjectiles;
-							Vector2 spinningPoint = Vector2.Normalize(new Vector2(-calamityGlobalNPC.newAI[1], -velocity)) * velocity;
+							Vector2 spinningPoint = Vector2.Normalize(new Vector2(-calamityGlobalNPC.newAI[1], -velocity));
 
 							for (int i = 0; i < totalProjectiles; i++)
 							{
-								Vector2 vector2 = spinningPoint.RotatedBy(radians * i);
-								Projectile.NewProjectile(vector, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer, 0f, 0f);
+								Vector2 vector2 = spinningPoint.RotatedBy(radians * i) * velocity;
+								Projectile.NewProjectile(fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer, 0f, 0f);
 							}
 
-							calamityGlobalNPC.newAI[1] += 0.2f;
+							float radialOffset = MathHelper.Lerp(0.2f, 0.4f, spearRateIncrease);
+							calamityGlobalNPC.newAI[1] += radialOffset;
 						}
 
 						calamityGlobalNPC.newAI[2] += 1f;
 
 						velocity = expertMode ? 12f : 10f;
-						Vector2 velocity2 = Vector2.Normalize(player.Center - vector) * velocity;
-						Projectile.NewProjectile(vector, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
+						Vector2 velocity2 = Vector2.Normalize(player.Center - fireFrom) * velocity;
+						Projectile.NewProjectile(fireFrom, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
 					}
 				}
 

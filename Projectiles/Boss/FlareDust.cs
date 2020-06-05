@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 840;
+            projectile.timeLeft = 560;
             cooldownSlot = 1;
         }
 
@@ -78,11 +78,15 @@ namespace CalamityMod.Projectiles.Boss
 
 			double rad = MathHelper.ToRadians(projectile.ai[1]);
 
-			float amount = projectile.localAI[0] / 180f;
+			float amount = projectile.localAI[0] / 120f;
 			if (amount > 1f)
 				amount = 1f;
 
-			distance += MathHelper.Lerp(1f, 6f, amount);
+			distance += MathHelper.Lerp(1f, 9f, amount);
+
+			int timeGateValue = 120;
+			if (projectile.timeLeft < timeGateValue)
+				distance += MathHelper.Lerp(0f, 9f, (timeGateValue - projectile.timeLeft) / timeGateValue);
 
 			if (projectile.ai[0] == 0f)
 			{

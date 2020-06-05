@@ -43,6 +43,13 @@ namespace CalamityMod.Projectiles.Boss
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
             float num953 = revenge ? 110f : 100f;
             float scaleFactor12 = revenge ? 35f : 30f;
+
+			if (projectile.ai[1] == 1f)
+			{
+				num953 *= 0.7f;
+				scaleFactor12 *= 0.7f;
+			}
+
             float num954 = 40f;
             if (projectile.timeLeft > 30 && projectile.alpha > 0)
             {

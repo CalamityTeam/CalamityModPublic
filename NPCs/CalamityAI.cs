@@ -2784,15 +2784,6 @@ namespace CalamityMod.NPCs
 
 					if (despawning)
 					{
-						for (int i = 0; i < Main.maxNPCs; i++)
-						{
-							if (Main.npc[i].Calamity().newAI[0] == 0f || despawnRemainingWorm)
-							{
-								if (Main.npc[i].type == npc.type || Main.npc[i].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[i].type == ModContent.NPCType<AstrumDeusTailSpectral>())
-									Main.npc[i].active = false;
-							}
-						}
-
 						if (!doubleWormPhase)
 						{
 							if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -2820,6 +2811,13 @@ namespace CalamityMod.NPCs
 								}
 							}
 						}
+
+						for (int i = 0; i < Main.maxNPCs; i++)
+						{
+							if (i == npc.whoAmI || Main.npc[i].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[i].type == ModContent.NPCType<AstrumDeusTailSpectral>())
+								Main.npc[i].active = false;
+						}
+
 						return;
 					}
 				}

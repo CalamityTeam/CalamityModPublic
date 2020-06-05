@@ -553,11 +553,13 @@ namespace CalamityMod.NPCs.Ravager
 							npc.noTileCollide = false;
 					}
 
-					Vector2 targetVector = npc.ai[0] == 2f ? player.Center + player.velocity.SafeNormalize(Vector2.UnitY) * 40f : player.Center;
+					float amount = death ? 1f : 1f - lifeRatio;
+					float unitsAhead = MathHelper.Lerp(48f, 160f, amount);
+					Vector2 targetVector = npc.ai[0] == 2f ? player.Center + player.velocity.SafeNormalize(Vector2.UnitY) * unitsAhead : player.Center;
 
 					if (npc.ai[0] == 2f && npc.ai[1] == 0f)
 					{
-						float aimY = targetVector.Y - 320f;
+						float aimY = targetVector.Y - 240f;
 						if (npc.Top.Y > aimY)
 						{
 							if (npc.velocity.Y > velocityY)
@@ -578,14 +580,14 @@ namespace CalamityMod.NPCs.Ravager
 						{
 							float stopBeforeFallTime = 30f;
 							if (expertMode)
-								stopBeforeFallTime -= 15f * (1f - lifeRatio);
+								stopBeforeFallTime -= death ? 15f : 15f * (1f - lifeRatio);
 
-							if (npc.ai[1] < 30f)
+							if (npc.ai[1] < stopBeforeFallTime)
 							{
 								npc.ai[1] += 1f;
 								npc.velocity = Vector2.Zero;
 							}
-							else if (npc.Bottom.Y < player.position.Y)
+							else
 							{
 								float fallSpeedBoost = death ? 1.2f : 1.2f * (1f - lifeRatio);
 								float fallSpeed = 1.2f + fallSpeedBoost;
@@ -633,6 +635,9 @@ namespace CalamityMod.NPCs.Ravager
                             velocityX += 1f;
                         if (!leftLegActive || death)
                             velocityX += 1f;
+
+						if (npc.ai[0] == 2f)
+							velocityX *= 1.4f;
 
                         if (npc.velocity.X < -velocityX)
                             npc.velocity.X = -velocityX;
