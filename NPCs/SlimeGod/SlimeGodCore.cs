@@ -3,7 +3,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -654,7 +653,7 @@ namespace CalamityMod.NPCs.SlimeGod
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 25, 40);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<OverloadedBlaster>(), 4);
@@ -667,7 +666,6 @@ namespace CalamityMod.NPCs.SlimeGod
                 DropHelper.DropItemFromSetChance(npc, 7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
                 // Other
-                DropHelper.DropItem(npc, ModContent.ItemType<StaticRefiner>());
             }
 
             // Mark the Slime God as dead
