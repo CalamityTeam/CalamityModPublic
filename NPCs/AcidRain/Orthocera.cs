@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.AcidRain
 				npc.DR_NERD(0.35f);
             }
 
-            npc.knockBackResist = 0f;
+            npc.knockBackResist = 0.6f;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
