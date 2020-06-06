@@ -93,9 +93,9 @@ namespace CalamityMod.Prefixes
 
 		public override void ValidateItem(Item item, ref bool invalid)
 		{
-			if (item.damage == Math.Round(item.damage * damageMult))
+			if (item.damage == Math.Round(item.damage * damageMult) && damageMult != 1f)
 				invalid = true;
-			if (item.useAnimation == Math.Round(item.useAnimation * useTimeMult))
+			if (item.useAnimation == Math.Round(item.useAnimation * useTimeMult) && useTimeMult != 1f)
 				invalid = true;
 		}
 	}
