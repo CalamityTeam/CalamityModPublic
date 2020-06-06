@@ -5157,7 +5157,7 @@ namespace CalamityMod.CalPlayer
         {
             if (proj.Calamity().rogue)
             {
-                crit = Main.rand.Next(1, 101) < throwingCrit;
+                crit = Main.rand.Next(1, 101) < (throwingCrit + player.thrownCrit);
             }
 
             if (proj.npcProj || proj.trap)
