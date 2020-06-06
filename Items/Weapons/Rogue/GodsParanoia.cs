@@ -1,4 +1,3 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,7 +9,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class GodsParanoia : RogueWeapon
+	public class GodsParanoia : RogueWeapon
     {
         private static int damage = 125;
         private static int knockBack = 5;
@@ -34,7 +33,7 @@ Right click to delete all existing spiky balls");
             item.height = 1;
             item.useTime = 15;
             item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = knockBack;
             item.value = Item.buyPrice(0, 18, 0, 0);
             item.rare = 10;

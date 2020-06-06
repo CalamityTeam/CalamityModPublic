@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.LoreItems
             item.height = 20;
             item.rare = 2;
             item.autoReuse = false;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 20;
             item.useTime = 20;
             item.UseSound = SoundID.Item8;
@@ -61,7 +61,7 @@ namespace CalamityMod.Items.LoreItems
 						if ((Main.tile[num275, num276].wall != 87 || (double)num276 <= Main.worldSurface || NPC.downedPlantBoss) && !Collision.SolidCollision(vector31, player.width, player.height))
 						{
 							player.Teleport(vector31, 1, 0);
-							NetMessage.SendData(65, -1, -1, null, 0, (float)player.whoAmI, vector31.X, vector31.Y, 1, 0, 0);
+							NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, (float)player.whoAmI, vector31.X, vector31.Y, 1, 0, 0);
 							player.AddBuff(BuffID.ChaosState, 480, true);
 							player.AddBuff(BuffID.Confused, 150, true);
 						}

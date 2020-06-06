@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -48,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (projectile.localAI[1] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
+                Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
             }
             projectile.localAI[1] += 1f;
             if (projectile.localAI[1] >= 180f)

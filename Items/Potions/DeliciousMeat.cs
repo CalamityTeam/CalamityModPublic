@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Potions
             item.useAnimation = 17;
             item.useTime = 17;
             item.UseSound = SoundID.Item2;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.useTurn = true;
             item.buffType = BuffID.WellFed;
             item.buffTime = 108000;

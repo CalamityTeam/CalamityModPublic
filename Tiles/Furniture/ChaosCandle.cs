@@ -1,15 +1,13 @@
 using CalamityMod.Buffs.Placeables;
-using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Furniture
 {
-    public class ChaosCandle : ModTile
+	public class ChaosCandle : ModTile
     {
         public override void SetDefaults()
         {

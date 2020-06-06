@@ -1,6 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ProfanedSwordProj : ModProjectile
+	public class ProfanedSwordProj : ModProjectile
     {
 		private int explosionCount = 0;
         public override void SetStaticDefaults()
@@ -68,7 +67,7 @@ namespace CalamityMod.Projectiles.Melee
 			{
 				if (explosionCount < 3)
 				{
-					Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimlanceHellfireExplosion>(), (int)(projectile.damage * 0.5), knockback, projectile.owner);
+					Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrimstoneSwordExplosion>(), (int)(projectile.damage * 0.5), knockback, projectile.owner);
 					explosionCount++;
 				}
 			}

@@ -1,16 +1,17 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
     public class FlareDust : ModProjectile
     {
 		private bool start = true;
-		private Vector2 center = Vector2.Zero;
-		private Vector2 velocity = Vector2.Zero;
+		private float startingPosX = 0f;
+		private float startingPosY = 0f;
 		private double distance = 0D;
 
 		public override void SetStaticDefaults()
@@ -28,7 +29,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 840;
+            projectile.timeLeft = 560;
             cooldownSlot = 1;
         }
 
@@ -36,18 +37,18 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			writer.Write(projectile.localAI[0]);
 			writer.Write(start);
-			writer.WriteVector2(center);
+			writer.Write(startingPosX);
+			writer.Write(startingPosY);
 			writer.Write(distance);
-			writer.WriteVector2(velocity);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			projectile.localAI[0] = reader.ReadSingle();
 			start = reader.ReadBoolean();
-			center = reader.ReadVector2();
+			startingPosX = reader.ReadSingle();
+			startingPosY = reader.ReadSingle();
 			distance = reader.ReadDouble();
-			velocity = reader.ReadVector2();
 		}
 
 		public override void AI()
@@ -66,43 +67,39 @@ namespace CalamityMod.Projectiles.Boss
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 
 			if (projectile.ai[0] == 2f)
-			{
-				projectile.ai[1] += 0.05f;
-
-				projectile.velocity *= MathHelper.Lerp(0.95f, 1.05f, (float)Math.Abs(Math.Sin(projectile.ai[1])));
-
 				return;
-			}
 
 			if (start)
 			{
-				center = projectile.Center;
-				velocity = Vector2.Normalize(Main.player[Player.FindClosest(projectile.Center, 1, 1)].Center - projectile.Center) * 2f;
+				startingPosX = projectile.Center.X;
+				startingPosY = projectile.Center.Y;
 				start = false;
 			}
 
-			center += velocity;
-
 			double rad = MathHelper.ToRadians(projectile.ai[1]);
 
-			float amount = 1f - projectile.localAI[0] / 180f;
-			if (amount < 0f)
-				amount = 0f;
+			float amount = projectile.localAI[0] / 120f;
+			if (amount > 1f)
+				amount = 1f;
 
-			distance += MathHelper.Lerp(1f, 3f, amount);
+			distance += MathHelper.Lerp(1f, 9f, amount);
+
+			int timeGateValue = 120;
+			if (projectile.timeLeft < timeGateValue)
+				distance += MathHelper.Lerp(0f, 9f, (timeGateValue - projectile.timeLeft) / timeGateValue);
 
 			if (projectile.ai[0] == 0f)
 			{
-				projectile.position.X = center.X - (int)(Math.Sin(rad) * distance) - projectile.width / 2;
-				projectile.position.Y = center.Y - (int)(Math.Cos(rad) * distance) - projectile.height / 2;
+				projectile.position.X = startingPosX - (int)(Math.Sin(rad) * distance) - projectile.width / 2;
+				projectile.position.Y = startingPosY - (int)(Math.Cos(rad) * distance) - projectile.height / 2;
 			}
 			else
 			{
-				projectile.position.X = center.X - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
-				projectile.position.Y = center.Y - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
+				projectile.position.X = startingPosX - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
+				projectile.position.Y = startingPosY - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
 			}
 
-			projectile.ai[1] += (0.25f + amount) * 0.5f;
+			projectile.ai[1] += (1.1f - amount) * 0.5f;
 			projectile.localAI[0] += 1f;
 		}
 
@@ -122,7 +119,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 48;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

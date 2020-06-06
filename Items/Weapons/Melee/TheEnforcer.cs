@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 1900;
             item.melee = true;
             item.useAnimation = 17;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 17;
             item.useTurn = true;
             item.knockBack = 9f;
@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 73);
+            Main.PlaySound(SoundID.Item73, player.position);
             int i = Main.myPlayer;
             float num72 = 6f;
             float num74 = 7f;
@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 73);
+            Main.PlaySound(SoundID.Item73, player.position);
             int i = Main.myPlayer;
             float num72 = 6f;
             float num74 = 7f;

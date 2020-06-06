@@ -4,6 +4,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.World;
 using Terraria;
@@ -52,6 +53,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<Atlantis>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<BrackishFlask>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanTeeth>(), 3);
+            DropHelper.DropItemChance(player, ModContent.ItemType<GastricBelcherStaff>(), 3);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<LeviathanAmbergris>());

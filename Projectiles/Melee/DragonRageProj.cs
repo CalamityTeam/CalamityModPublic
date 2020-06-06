@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+using CalamityMod.Projectiles.Typeless;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -33,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                Main.PlaySound(SoundID.Item20, (int)projectile.position.X, (int)projectile.position.Y);
                 projectile.localAI[0] += 1f;
             }
             if (projectile.localAI[1] <= 60f)
@@ -48,7 +49,8 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, 612, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile explosion = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FuckYou>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                explosion.Calamity().forceMelee = true;
             }
         }
 
@@ -63,7 +65,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
             projectile.width = 100;

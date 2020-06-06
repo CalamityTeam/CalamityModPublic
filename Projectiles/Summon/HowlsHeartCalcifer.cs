@@ -1,13 +1,10 @@
 using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class HowlsHeartCalcifer : ModProjectile
+	public class HowlsHeartCalcifer : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -49,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             Lighting.AddLight(projectile.Center, 0.75f, 0.485f, 0f);
-			CalamityGlobalProjectile.FloatingPetAI(projectile, false, 0.04f, true);
+			projectile.FloatingPetAI(false, 0.04f, true);
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
             {

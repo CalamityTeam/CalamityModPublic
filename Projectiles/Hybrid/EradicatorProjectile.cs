@@ -1,14 +1,13 @@
-﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Hybrid
 {
-    public class EradicatorProjectile : ModProjectile
+	public class EradicatorProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {

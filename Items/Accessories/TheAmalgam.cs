@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
@@ -6,7 +6,6 @@ using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -15,7 +14,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class TheAmalgam : ModItem
+	public class TheAmalgam : ModItem
     {
         public const int FireProjectiles = 2;
         public const float FireAngleSpread = 120;

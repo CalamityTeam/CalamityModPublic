@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.frame = 0;
 			}
 
-			CalamityGlobalProjectile.ChargingMinionAI(projectile, 500f, 800f, 1200f, 400f, 0, 30f, 8f, -4f, 40f, 8f, false, true);
+			projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, -4f, 40f, 8f, false, true);
         }
     }
 }

@@ -1,11 +1,10 @@
-using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing
 {
-    public class Spadefish : ModItem
+	public class Spadefish : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Fishing
             item.useAnimation = 20;
             item.useTurn = true;
             item.pick = 30;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 2, 0, 0);
             item.rare = 2;

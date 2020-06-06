@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
-    public class DragoonDrizzlefish : ModItem
+	public class DragoonDrizzlefish : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +25,7 @@ Revenge is a dish best served flaming hot");
             item.height = 30;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 4, 0, 0);

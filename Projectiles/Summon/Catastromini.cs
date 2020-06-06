@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
 
-			CalamityGlobalProjectile.ChargingMinionAI(projectile, 700f, 1100f, 2400f, 150f, 0, 40f, 8f, -4f, 40f, 8f, false, true);
+			projectile.ChargingMinionAI(700f, 1100f, 2400f, 150f, 0, 40f, 8f, -4f, 40f, 8f, false, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

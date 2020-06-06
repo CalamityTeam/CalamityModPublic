@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.useAnimation = 35;
 			item.autoReuse = true;
 
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PulseRifleFire");
 			item.noMelee = true;
 

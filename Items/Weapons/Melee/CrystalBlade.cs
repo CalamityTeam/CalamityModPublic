@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 45;
             item.melee = true;
             item.useAnimation = 25;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 25;
             item.useTurn = true;
             item.knockBack = 4.5f;

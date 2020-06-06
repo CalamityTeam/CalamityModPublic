@@ -1,14 +1,13 @@
-﻿using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.NormalNPCs
 {
-    public class KingSlimeJewel : ModNPC
+	public class KingSlimeJewel : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -138,7 +137,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                             Main.dust[ruby].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                         }
                     }
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 8);
+                    Main.PlaySound(SoundID.Item8, npc.position);
 
                     int proj = Projectile.NewProjectile(npcPos, projVector, type, damage, 0f, Main.myPlayer, 0f, 0f);
                 }

@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 25;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 25;
             item.knockBack = 16f;
             item.UseSound = SoundID.Item1;
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.altFunctionUse == 2)
             {
-                item.useStyle = 4;
+                item.useStyle = ItemUseStyleID.HoldingUp;
                 item.useAnimation = 45;
                 item.useTime = 45;
                 item.noMelee = false;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             }
             else
             {
-                item.useStyle = 1;
+                item.useStyle = ItemUseStyleID.SwingThrow;
                 item.useAnimation = 25;
                 item.useTime = 25;
                 item.noMelee = true;

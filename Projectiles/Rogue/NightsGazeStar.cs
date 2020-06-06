@@ -91,7 +91,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                    Main.PlaySound(SoundID.Item9, projectile.position);
                 }
             }
         }

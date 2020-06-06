@@ -1,4 +1,4 @@
-﻿using CalamityMod.NPCs;
+using CalamityMod.NPCs;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.SummonItems
             item.rare = 8;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
         }
 

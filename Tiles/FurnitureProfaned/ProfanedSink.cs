@@ -1,12 +1,11 @@
 using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Tiles.FurnitureProfaned
 {
-    public class ProfanedSink : ModTile
+	public class ProfanedSink : ModTile
     {
         public override void SetDefaults()
         {

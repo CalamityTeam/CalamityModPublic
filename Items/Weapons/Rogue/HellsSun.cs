@@ -1,4 +1,3 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -9,7 +8,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class HellsSun : RogueWeapon
+	public class HellsSun : RogueWeapon
     {
         private static int damage = 84;
         private static int knockBack = 5;
@@ -35,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 1;
             item.useTime = 15;
             item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = knockBack;
             item.value = Item.buyPrice(0, 12, 0, 0);
             item.rare = 10;

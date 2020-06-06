@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -7,11 +7,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Providence
 {
-    public class ProvSpawnHealer : ModNPC
+	public class ProvSpawnHealer : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -28,14 +26,14 @@ namespace CalamityMod.NPCs.Providence
             npc.width = 100;
             npc.height = 80;
             npc.defense = 35;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 40000;
             if (CalamityWorld.bossRushActive)
             {
                 npc.lifeMax = 400000;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.noTileCollide = true;
@@ -177,7 +175,7 @@ namespace CalamityMod.NPCs.Providence
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -201,7 +199,7 @@ namespace CalamityMod.NPCs.Providence
 			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 			Color color42 = Color.Lerp(Color.White, Color.Violet, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

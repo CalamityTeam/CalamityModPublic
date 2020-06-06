@@ -1,4 +1,3 @@
-using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using System.Collections.Generic;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class BlunderBooster : ModItem
+	public class BlunderBooster : ModItem
     {
         public override void SetStaticDefaults()
         {

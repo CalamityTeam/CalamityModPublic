@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.Abyss
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Sulphurous Vines");
             AddMapEntry(new Color(0, 50, 0), name);
-            soundType = 6;
+            soundType = SoundID.Grass;
             dustType = 2;
         }
 
@@ -42,7 +42,7 @@ namespace CalamityMod.Tiles.Abyss
                         WorldGen.KillTile(i, j + 1, false, false, false);
                         if (!Main.tile[i, j + 1].active() && Main.netMode != NetmodeID.SinglePlayer)
                         {
-                            NetMessage.SendData(17, -1, -1, null, 0, (float)i, (float)j + 1, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)i, (float)j + 1, 0f, 0, 0, 0);
                         }
                     }
                 }

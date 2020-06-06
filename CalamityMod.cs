@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
@@ -18,8 +18,8 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Tools;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -66,7 +66,7 @@ using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Tiles.LivingFire;
 using CalamityMod.Skies;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -121,6 +121,7 @@ namespace CalamityMod
         public static Texture2D AstralSky;
         public static Effect CustomShader;
         public static Effect LightShader;
+        public static Effect TentacleShader;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
@@ -194,6 +195,7 @@ namespace CalamityMod
         public static List<int> highTestFishList;
         public static List<int> flamethrowerList;
         public static List<int> forceItemList;
+        public static List<int> livingFireBlockList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -208,13 +210,12 @@ namespace CalamityMod
         internal Mod thorium = null;
         public bool fargosMutant = false;
 
-		internal static Configs CalamityConfig;
-		internal static CalamityMod instance;
+		internal static CalamityMod Instance;
 
         #region Load
         public override void Load()
         {
-			instance = this;
+			Instance = this;
 			heartOriginal2 = Main.heartTexture;
 			heartOriginal = Main.heart2Texture;
 			rainOriginal = Main.rainTexture;
@@ -286,6 +287,7 @@ namespace CalamityMod
             AstralSky = ModContent.GetTexture("CalamityMod/ExtraTextures/AstralSky");
             CustomShader = GetEffect("Effects/CustomShader");
             LightShader = GetEffect("Effects/LightBurstShader");
+            TentacleShader = GetEffect("Effects/TentacleShader");
 
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -319,6 +321,8 @@ namespace CalamityMod
 
             Filters.Scene["CalamityMod:LightBurst"] = new Filter(new ScreenShaderData(new Ref<Effect>(LightShader), "BurstPass"), EffectPriority.VeryHigh);
             Filters.Scene["CalamityMod:LightBurst"].Load();
+
+            GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
 
             RipperUI.Reset();
             AstralArcanumUI.Load(this);
@@ -415,6 +419,7 @@ namespace CalamityMod
             highTestFishList = null;
             flamethrowerList = null;
             forceItemList = null;
+            livingFireBlockList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -428,8 +433,7 @@ namespace CalamityMod
             thorium = null;
             fargosMutant = false;
 
-			CalamityConfig = null;
-			instance = null;
+			Instance = null;
 
             BossHealthBarManager.Unload();
             base.Unload();
@@ -466,15 +470,15 @@ namespace CalamityMod
         #endregion
 
         #region ConfigCrap
-        internal static void SaveConfig(Configs CalamityConfig)
+        internal static void SaveConfig(CalamityConfig cfg)
 		{
 			// in-game ModConfig saving from mod code is not supported yet in tmodloader, and subject to change, so we need to be extra careful.
 			// This code only supports client configs, and doesn't call onchanged. It also doesn't support ReloadRequired or anything else.
 			MethodInfo saveMethodInfo = typeof(ConfigManager).GetMethod("Save", BindingFlags.Static | BindingFlags.NonPublic);
 			if (saveMethodInfo != null)
-				saveMethodInfo.Invoke(null, new object[] { CalamityConfig });
+				saveMethodInfo.Invoke(null, new object[] { cfg });
 			else
-				instance.Logger.Warn("In-game SaveConfig failed, code update required");
+				Instance.Logger.Warn("In-game SaveConfig failed, code update required");
 		}
 		#endregion
 
@@ -638,7 +642,9 @@ namespace CalamityMod
                 ModContent.ProjectileType<MagnomalyBeam>(),
                 ModContent.ProjectileType<MagnomalyAura>(),
                 ModContent.ProjectileType<RainbowTrail>(),
-                ModContent.ProjectileType<PrismaticBeam>()
+                ModContent.ProjectileType<PrismaticBeam>(),
+                ModContent.ProjectileType<ExoLight>(),
+                ModContent.ProjectileType<ExoLightBomb>()
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -1648,7 +1654,6 @@ namespace CalamityMod
 			{
 				NPCID.TheDestroyer,
 				NPCID.SolarCrawltipedeHead,
-				ModContent.NPCType<AstrumDeusHead>(),
 				ModContent.NPCType<AstrumDeusHeadSpectral>(),
 				ModContent.NPCType<ProfanedGuardianBoss>(),
 				ModContent.NPCType<Bumblefuck>(),
@@ -2344,6 +2349,19 @@ namespace CalamityMod
 				ItemID.SuperHealingPotion
             };
 
+            livingFireBlockList = new List<int>()
+            {
+                ModContent.TileType<LivingGodSlayerFireBlockTile>(),
+                ModContent.TileType<LivingHolyFireBlockTile>(),
+                ModContent.TileType<LivingBrimstoneFireBlockTile>(),
+				TileID.LivingFire,
+				TileID.LivingCursedFire,
+				TileID.LivingDemonFire,
+				TileID.LivingFrostFire,
+				TileID.LivingIchor,
+				TileID.LivingUltrabrightFire
+            };
+
             zombieList = new List<int>()
             {
                 NPCID.Zombie,
@@ -2423,7 +2441,7 @@ namespace CalamityMod
             };
 
             Mod thorium = ModLoader.GetMod("ThoriumMod");
-            if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff && thorium != null)
+            if (CalamityConfig.Instance.BuffThoriumBosses && thorium != null)
             {
                 enemyImmunityList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
                 enemyImmunityList.Add(thorium.NPCType("QueenJelly"));
@@ -2543,10 +2561,10 @@ namespace CalamityMod
 
             legOverrideList = new List<int>()
             {
-                instance.GetEquipSlot("ProviLegs", EquipType.Legs),
-                instance.GetEquipSlot("SirenLegAlt", EquipType.Legs),
-                instance.GetEquipSlot("SirenLeg", EquipType.Legs),
-                instance.GetEquipSlot("PopoLeg", EquipType.Legs)
+                Instance.GetEquipSlot("ProviLegs", EquipType.Legs),
+                Instance.GetEquipSlot("SirenLegAlt", EquipType.Legs),
+                Instance.GetEquipSlot("SirenLeg", EquipType.Legs),
+                Instance.GetEquipSlot("PopoLeg", EquipType.Legs)
             };
         }
         #endregion
@@ -2670,7 +2688,7 @@ namespace CalamityMod
         #region Thorium Boss DR
         private void SetupThoriumBossDR(Mod thorium)
         {
-            if (thorium is null || !CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
+            if (thorium is null || !CalamityConfig.Instance.BuffThoriumBosses)
                 return;
 
             void ThoriumDR(string npcName, float dr) {
@@ -2759,12 +2777,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<Leviathan>(), 10800 },
 				{ ModContent.NPCType<Siren>(), 10800 },
 				{ ModContent.NPCType<AstrumAureus>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHead>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusBody>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusTail>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 5400 },
+				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 5400 },
+				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 5400 },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), 10800 },
 				{ ModContent.NPCType<RavagerBody>(), 10800 },
 				{ ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
@@ -2779,12 +2794,12 @@ namespace CalamityMod
 				{ ModContent.NPCType<Signus>(), 7200 },
 				{ ModContent.NPCType<Polterghast>(), 10800 },
 				{ ModContent.NPCType<OldDuke>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsHead>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 10800 },
+				{ ModContent.NPCType<DevourerofGodsHead>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
 				{ ModContent.NPCType<Yharon>(), 10800 },
 				{ ModContent.NPCType<SupremeCalamitas>(), 18000 }
 			};
@@ -2869,10 +2884,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusHead>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<AstrumDeusBody>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusTail>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusProbe3>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerShade>(), velocityScaleMin },
 				{ ModContent.NPCType<PlagueBeeG>(), velocityScaleMin },
@@ -3737,6 +3748,7 @@ namespace CalamityMod
                     case CalamityModMessageType.AcidRainSync:
                         CalamityWorld.rainingAcid = reader.ReadBoolean();
                         CalamityWorld.acidRainPoints = reader.ReadInt32();
+                        CalamityWorld.timeSinceAcidRainKill = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.AcidRainUIDrawFadeSync:
                         CalamityWorld.acidRainExtraDrawTime = reader.ReadInt32();
@@ -3789,7 +3801,7 @@ namespace CalamityMod
         {
             if (Main.netMode == NetmodeID.Server)
             {
-                NetMessage.SendData(7, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
+                NetMessage.SendData(MessageID.WorldData, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
             }
         }
         #endregion

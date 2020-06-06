@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
 using System;
@@ -21,7 +21,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 64;
             npc.height = 38;
             npc.defense = 15;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 150;
             npc.aiStyle = -1;
             aiType = -1;
@@ -475,7 +475,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                                 }
                             }
                         }
-                        Main.PlaySound(2, (int)npc.Center.X, (int)npc.Center.Y, 12);
+                        Main.PlaySound(SoundID.Item12, npc.position);
                     }
                     npc.netUpdate = true;
                 }

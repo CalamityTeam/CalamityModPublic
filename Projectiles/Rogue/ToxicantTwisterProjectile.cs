@@ -1,14 +1,12 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ToxicantTwisterProjectile : ModProjectile
+	public class ToxicantTwisterProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -50,7 +48,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+            Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, 
@@ -62,7 +60,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 180);
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+            Main.PlaySound(SoundID.Item20, projectile.position);
             for (int k = 0; k < 10; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity,

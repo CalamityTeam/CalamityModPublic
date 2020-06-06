@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Healing;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
@@ -95,31 +95,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//Anti-sticky movement failsafe
-            float SAIMovement = 0.05f;
-            for (int i = 0; i < Main.maxProjectiles; i++)
-            {
-				Projectile proj = Main.projectile[i];
-                bool typeCheck = proj.type == ModContent.ProjectileType<FungalClumpMinion>();
-                if (i != projectile.whoAmI && proj.active && proj.owner == projectile.owner && typeCheck && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X -= SAIMovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += SAIMovement;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y -= SAIMovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += SAIMovement;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
 
 			//If summoned by Amalgam, trail poisonous seawater
 			if (Math.Abs(projectile.velocity.X) > 0.1f || Math.Abs(projectile.velocity.Y) > 0.1f)

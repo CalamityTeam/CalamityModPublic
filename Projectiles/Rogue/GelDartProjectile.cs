@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Rogue
 					if (projectile.velocity != oldVelocity)
 					{
 						projectile.velocity = Main.rand.NextFloat(-1.15f, -0.85f) * oldVelocity * 1.35f;
-						Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 56); //minecart bumper sound
+                        Main.PlaySound(SoundID.Item56, projectile.position); // Minecart bumper sound
 					}
 				}
 				else

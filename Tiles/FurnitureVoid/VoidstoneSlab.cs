@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.FurnitureVoid
 {
     public class VoidstoneSlab : ModTile
@@ -11,7 +13,7 @@ namespace CalamityMod.Tiles.FurnitureVoid
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = true;
             Main.tileBlockLight[Type] = true;
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 7f;
             minPick = 180;
             drop = ModContent.ItemType<Items.Placeables.FurnitureVoid.VoidstoneSlab>();

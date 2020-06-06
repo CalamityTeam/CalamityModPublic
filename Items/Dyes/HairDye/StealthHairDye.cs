@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Dyes.HairDye
 			item.value = Item.buyPrice(gold: 5);
 			item.rare = 2;
 			item.UseSound = SoundID.Item3;
-			item.useStyle = 2;
+			item.useStyle = ItemUseStyleID.EatingUsing;
 			item.useTurn = true;
 			item.useAnimation = 17;
 			item.useTime = 17;

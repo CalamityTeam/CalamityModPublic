@@ -23,7 +23,7 @@ namespace CalamityMod.Tiles.Abyss
             AddMapEntry(new Color(150, 100, 50));
             mineResist = 1f;
             minPick = 55;
-            soundType = 0;
+            soundType = SoundID.Dig;
             SetModPalmTree(new AcidWoodTree());
         }
 
@@ -130,7 +130,7 @@ namespace CalamityMod.Tiles.Abyss
                 if (!Main.tile[i, tileLocationY].active())
                 {
                     if (!CalamityPlayer.areThereAnyDamnBosses && Main.tile[i, tileLocationY].liquid == 255 && Main.tile[i, tileLocationY - 1].liquid == 255 &&
-                        Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != 1)
+                        Main.tile[i, tileLocationY - 2].liquid == 255 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         Projectile.NewProjectile((float)(i * 16 + 16), (float)(tileLocationY * 16 + 16), 0f, -0.1f, ModContent.ProjectileType<SulphuricAcidBubble>(), 0, 2f, Main.myPlayer, 0f, 0f);
                     }
@@ -158,7 +158,7 @@ namespace CalamityMod.Tiles.Abyss
                                     Main.tile[i, tileLocationY - 4].liquid == 255)
                                 {
                                     WorldGen.PlaceTile(i, tileLocationY, 81, true, false, -1, 0);
-                                    if (Main.netMode == 2 && Main.tile[i, tileLocationY].active())
+                                    if (Main.netMode == NetmodeID.Server && Main.tile[i, tileLocationY].active())
                                     {
                                         NetMessage.SendTileSquare(-1, i, tileLocationY, 1, TileChangeType.None);
                                     }
@@ -182,7 +182,7 @@ namespace CalamityMod.Tiles.Abyss
                                 if (num15 < num14)
                                 {
                                     WorldGen.PlaceTile(i, tileLocationY, 324, true, false, -1, Main.rand.Next(2));
-                                    if (Main.netMode == 2 && Main.tile[i, tileLocationY].active())
+                                    if (Main.netMode == NetmodeID.Server && Main.tile[i, tileLocationY].active())
                                     {
                                         NetMessage.SendTileSquare(-1, i, tileLocationY, 1, TileChangeType.None);
                                     }
@@ -237,7 +237,7 @@ namespace CalamityMod.Tiles.Abyss
                             Main.tile[num53, num54].type = (ushort)ModContent.TileType<SulphurousVines>();
                             Main.tile[num53, num54].active(true);
                             WorldGen.SquareTileFrame(num53, num54, true);
-                            if (Main.netMode == 2)
+                            if (Main.netMode == NetmodeID.Server)
                             {
                                 NetMessage.SendTileSquare(-1, num53, num54, 3, TileChangeType.None);
                             }

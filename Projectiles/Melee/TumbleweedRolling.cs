@@ -1,5 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -27,7 +28,7 @@ namespace CalamityMod.Projectiles.Melee
                 (projectile.velocity.Y != projectile.velocity.Y && (projectile.velocity.Y < -3f || projectile.velocity.Y > 3f)))
             {
                 Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-                Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 11);
+                Main.PlaySound(SoundID.NPCHit11, projectile.position);
             }
             if (projectile.velocity.X != projectile.velocity.X)
             {
@@ -47,7 +48,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 15);
+            Main.PlaySound(SoundID.NPCDeath15, projectile.position);
             for (int num621 = 0; num621 < 20; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 32, 0f, 0f, 100, default, 1.2f);

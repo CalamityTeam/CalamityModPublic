@@ -1,4 +1,4 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Potions
             item.useAnimation = 17;
             item.useTime = 17;
             item.rare = 7;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.healMana = 200;
             item.UseSound = SoundID.Item3;
             item.consumable = true;

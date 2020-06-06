@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 80;
             npc.height = 40;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.25f);
+			npc.DR_NERD(0.25f);
             npc.lifeMax = 10000;
             npc.knockBackResist = 0f;
             aiType = -1;

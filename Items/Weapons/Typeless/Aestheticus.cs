@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Typeless
             item.rare = 3;
             item.useAnimation = 25;
             item.useTime = 25;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item109;
             item.autoReuse = true;

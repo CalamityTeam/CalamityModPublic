@@ -1,18 +1,14 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Tools;
-using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class BensUmbrella : ModItem
+	public class BensUmbrella : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             item.mana = 99;
             item.damage = 963;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 74;
             item.height = 72;
             item.useTime = item.useAnimation = 10;

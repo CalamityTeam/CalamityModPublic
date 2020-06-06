@@ -26,7 +26,7 @@ Stealth strikes summon more lightning and travel faster");
 
             item.width = 56;
             item.height = 56;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.noUseGraphic = true;
 

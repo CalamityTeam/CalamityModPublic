@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SphereBlue : ModProjectile
+	public class SphereBlue : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -56,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(4, (int)projectile.Center.X, (int)projectile.Center.Y, 37);
+            Main.PlaySound(SoundID.NPCDeath37, projectile.position);
             for (int num625 = 0; num625 < 3; num625++)
             {
                 float scaleFactor10 = 0.33f;

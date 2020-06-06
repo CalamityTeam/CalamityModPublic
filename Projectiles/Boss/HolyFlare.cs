@@ -1,8 +1,9 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -67,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
 
 		public override Color? GetAlpha(Color lightColor)
 		{
-			return Main.dayTime ? new Color(250, 150, 0, projectile.alpha) : new Color(0, 150, 250, projectile.alpha);
+			return Main.dayTime ? new Color(250, 150, 0, projectile.alpha) : new Color(100, 200, 250, projectile.alpha);
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -81,7 +82,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+            Main.PlaySound(SoundID.Item20, projectile.Center);
             projectile.position.X = projectile.position.X + (projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (projectile.height / 2);
             projectile.width = 50;

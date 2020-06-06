@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class Leviatitan : ModItem
+	public class Leviatitan : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 28;
             item.useTime = 9;
             item.useAnimation = 9;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(0, 60, 0, 0);

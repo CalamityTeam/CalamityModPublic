@@ -1,6 +1,8 @@
 using CalamityMod.Projectiles.Magic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class CalamitasInferno : ModItem
@@ -20,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.height = 30;
             item.useTime = 25;
             item.useAnimation = 25;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 7.5f;
             item.value = Item.buyPrice(0, 60, 0, 0);

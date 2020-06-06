@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             npc.width = 300;
             npc.height = 120;
             npc.defense = 60;
-            npc.Calamity().RevPlusDR(0.25f);
+			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(8000, 11000);
             npc.aiStyle = -1;
             aiType = -1;
@@ -434,7 +434,7 @@ namespace CalamityMod.NPCs.GreatSandShark
                         {
                             if (npc.localAI[0] == 0f)
                             {
-                                Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 15);
+                                Main.PlaySound(SoundID.NPCDeath15, npc.position);
                                 npc.localAI[0] = -1f;
                                 for (int num621 = 0; num621 < 25; num621++)
                                 {
@@ -597,7 +597,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityMod.CalamityConfig.Afterimages)
+            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
             {
                 Color color26 = npc.GetAlpha(color25);
                 {

@@ -1,15 +1,10 @@
-using System;
 using Terraria;
-using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Typeless;
-using CalamityMod.CalPlayer;
-using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SealedSingularityProj : ModProjectile
+	public class SealedSingularityProj : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SealedSingularity";
 

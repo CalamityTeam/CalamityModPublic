@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Accessories;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Magic;
@@ -29,7 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 80;
             npc.height = 140;
             npc.defense = 18;
-            npc.Calamity().RevPlusDR(0.05f);
+			npc.DR_NERD(0.05f);
             npc.lifeMax = 6000;
             if (CalamityWorld.downedProvidence)
             {

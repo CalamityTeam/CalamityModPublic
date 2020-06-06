@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
@@ -68,7 +68,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override bool CheckDead()
         {
-            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 14);
+            Main.PlaySound(SoundID.NPCDeath14, npc.position);
             npc.position.X = npc.position.X + (float)(npc.width / 2);
             npc.position.Y = npc.position.Y + (float)(npc.height / 2);
             npc.width = npc.height = 40;

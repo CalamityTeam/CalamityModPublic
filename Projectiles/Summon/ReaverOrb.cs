@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.Summon
 						Main.projectile[spore].usesLocalNPCImmunity = true;
 						Main.projectile[spore].localNPCHitCooldown = 30;
                     }
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 77);
+                    Main.PlaySound(SoundID.Item77, projectile.position);
                     projectile.ai[0] = 50f;
                 }
             }

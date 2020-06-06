@@ -25,7 +25,7 @@ Stealth strikes release energy as they fly");
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 24;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 24;
             item.knockBack = 8f;
             item.UseSound = SoundID.Item15;

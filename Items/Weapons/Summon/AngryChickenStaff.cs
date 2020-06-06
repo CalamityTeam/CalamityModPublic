@@ -2,6 +2,8 @@ using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Weapons.Summon
 {
     public class AngryChickenStaff : ModItem
@@ -18,7 +20,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             item.mana = 50;
             item.damage = 160;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 32;
             item.height = 32;
             item.useTime = item.useAnimation = 10;

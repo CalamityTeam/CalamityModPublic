@@ -1,13 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Magic
 {
-    public class EventHorizonBlackhole : ModProjectile
+	public class EventHorizonBlackhole : ModProjectile
     {
 		public int killCounter = 21;
 

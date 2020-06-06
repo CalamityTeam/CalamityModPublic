@@ -1,8 +1,9 @@
-﻿
+
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.Astral
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Tiles.Astral
             dustType = ModContent.DustType<AstralBasic>();
 
             soundStyle = 1;
-            soundType = 6;
+            soundType = SoundID.Grass;
 
             AddMapEntry(new Color(127, 111, 144));
 

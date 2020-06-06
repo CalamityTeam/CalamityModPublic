@@ -1,4 +1,4 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -57,7 +57,7 @@ namespace CalamityMod.NPCs.DesertScourge
                     Main.npc[lol].ai[2] = (float)npc.whoAmI;
                     Main.npc[lol].ai[1] = (float)Previous;
                     Main.npc[Previous].ai[0] = (float)lol;
-                    NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
+                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
                     Previous = lol;
                 }
                 TailSpawned = true;

@@ -3,6 +3,7 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ID;
 using Terraria.ModLoader;
 using WallTiles = CalamityMod.Walls;
+
 namespace CalamityMod.Items.Placeables.Walls
 {
     public class SmoothVoidstoneWall : ModItem
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Placeables.Walls
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 7;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createWall = ModContent.WallType<WallTiles.SmoothVoidstoneWall>();
         }

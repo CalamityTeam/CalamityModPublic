@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             projectile.rotation += 0.075f;
 
-			CalamityGlobalProjectile.ChargingMinionAI(projectile, 1600f, 1800f, 2500f, 400f, 1, 30f, 24f, -12f, 30f, 16f, true, true);
+			projectile.ChargingMinionAI(1600f, 1800f, 2500f, 400f, 1, 30f, 24f, -12f, 30f, 16f, true, true);
         }
 
         public override Color? GetAlpha(Color lightColor)

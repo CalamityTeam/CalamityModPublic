@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 180;
             npc.height = 180;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.05f);
+			npc.DR_NERD(0.05f);
             npc.lifeMax = 220000;
             npc.aiStyle = -1;
             aiType = -1;
@@ -92,7 +92,7 @@ namespace CalamityMod.NPCs.Abyss
                 }
                 if (Main.rand.NextBool(300))
                 {
-                    Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 34);
+                    Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 34);
                 }
                 npc.noTileCollide = false;
                 if (npc.ai[0] == 0f)
@@ -340,7 +340,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     if (Main.rand.NextBool(300))
                     {
-                        Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 34);
+                        Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 34);
                     }
                     if (npc.ai[3] > 0f && !Collision.SolidCollision(npc.position, npc.width, npc.height))
                     {
@@ -420,7 +420,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     if (Main.rand.NextBool(300))
                     {
-                        Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, 35);
+                        Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, 35);
                     }
                     npc.localAI[2] = 0f;
                     npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.02f;

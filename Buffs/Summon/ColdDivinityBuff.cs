@@ -1,11 +1,10 @@
-﻿using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Summon;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs.Summon
 {
-    public class ColdDivinityBuff : ModBuff
+	public class ColdDivinityBuff : ModBuff
     {
         public override void SetDefaults()
         {

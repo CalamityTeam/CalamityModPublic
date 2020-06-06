@@ -1,5 +1,4 @@
-﻿using CalamityMod.Dusts;
-using CalamityMod.World;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class CragmawBubble : ModProjectile
+	public class CragmawBubble : ModProjectile
     {
         public override void SetStaticDefaults()
         {

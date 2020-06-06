@@ -1,11 +1,12 @@
 using CalamityMod.Tiles.Ores;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.Crags
 {
-    public class BrimstoneSlag : ModTile
+	public class BrimstoneSlag : ModTile
     {
         private const short subsheetWidth = 450;
         private const short subsheetHeight = 198;
@@ -19,7 +20,7 @@ namespace CalamityMod.Tiles.Crags
             CalamityUtils.MergeWithHell(Type);
             CalamityUtils.SetMerge(Type, ModContent.TileType<CharredOre>());
 
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 3f;
             minPick = 180;
             drop = ModContent.ItemType<Items.Placeables.BrimstoneSlag>();

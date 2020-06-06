@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PowerfulRaven : ModProjectile
+	public class PowerfulRaven : ModProjectile
     {
         public const float DistanceToCheck = 3200f;
         public const float TeleportDistance = 2700f;

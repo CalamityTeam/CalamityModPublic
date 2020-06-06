@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Pets;
+using CalamityMod.Projectiles.Pets;
 using Terraria;
 using Terraria.ModLoader;
 

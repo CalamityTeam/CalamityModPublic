@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.Abyss
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
                         Main.npc[lol].ai[1] = (float)Previous;
                         Main.npc[Previous].ai[0] = (float)lol;
-                        NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
                         Previous = lol;
                     }
                     TailSpawned = true;
@@ -383,7 +383,7 @@ namespace CalamityMod.NPCs.Abyss
                         {
                             Main.npc[k].life = 0;
                             Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(23, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
                         }
                     }
                 }

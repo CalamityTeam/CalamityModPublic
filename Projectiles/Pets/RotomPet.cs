@@ -1,13 +1,11 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Pets
 {
-    public class RotomPet : ModProjectile
+	public class RotomPet : ModProjectile
     {
         private int biome = 0;
 		private float dust = 0f;
@@ -75,7 +73,7 @@ namespace CalamityMod.Projectiles.Pets
                 dust += 1f;
             }
 
-			CalamityGlobalProjectile.FloatingPetAI(projectile, true, 0.05f);
+			projectile.FloatingPetAI(true, 0.05f);
 
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)

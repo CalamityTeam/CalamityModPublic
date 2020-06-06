@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             item.autoReuse = true;
             item.useTime = 26;
             item.useAnimation = 26;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 24;
             item.height = 22;
             item.UseSound = SoundID.Item1;

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -140,9 +140,9 @@ namespace CalamityMod.Projectiles.Summon
         {
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
 			if (playSound)
-			{
-				Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 74);
-			}
+            {
+                Main.PlaySound(SoundID.Item74, projectile.position);
+            }
 			playSound = false;
 		}
     }

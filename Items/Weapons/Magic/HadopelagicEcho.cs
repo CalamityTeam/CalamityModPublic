@@ -4,6 +4,8 @@ using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class HadopelagicEcho : ModItem
@@ -29,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useTime = 8;
             item.reuseDelay = 20;
             item.useAnimation = 30;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1.5f;
             item.value = Item.buyPrice(2, 50, 0, 0);

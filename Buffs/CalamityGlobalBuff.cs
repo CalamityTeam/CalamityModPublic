@@ -1,8 +1,4 @@
-using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Summon;
-using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Summon;
 using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Buffs
 {
-    public class CalamityGlobalBuff : GlobalBuff
+	public class CalamityGlobalBuff : GlobalBuff
     {
         public override void Update(int type, Player player, ref int buffIndex)
         {

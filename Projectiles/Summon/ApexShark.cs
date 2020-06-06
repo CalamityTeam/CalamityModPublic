@@ -1,8 +1,7 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class ApexShark : ModProjectile
+	public class ApexShark : ModProjectile
     {
         private int HitCooldown = 0;
         public override void SetStaticDefaults()
@@ -95,31 +94,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            float num637 = 0.05f;
-            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
-            {
-                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<ApexShark>();
-                if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner &&
-                    flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num638].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + num637;
-                    }
-                    if (projectile.position.Y < Main.projectile[num638].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num637;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
             bool flag24 = false;
             if (projectile.ai[0] == 2f)
             {
@@ -276,7 +251,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 70, 0.5f);
+            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 70, 0.5f);
             projectile.velocity = new Vector2(0f, 5f).RotatedBy(projectile.velocity.ToRotation() + 1.5f);
             int sand = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SandExplosion>(), (int)(projectile.damage * 0.7f), (int)(projectile.knockBack * 0.7f), projectile.owner, 0f, 0f);
             Main.projectile[sand].Center = projectile.Center;

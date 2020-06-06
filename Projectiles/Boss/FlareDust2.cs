@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -73,7 +74,7 @@ namespace CalamityMod.Projectiles.Boss
 
 						projectile.ai[1] += 0.1f;
 
-						float amplitude = velocity.Length();
+						float amplitude = 2f;
 
 						float wavyVelocity = (float)Math.Cos(projectile.ai[1]);
 
@@ -99,7 +100,7 @@ namespace CalamityMod.Projectiles.Boss
 
 						projectile.ai[1] += 0.1f;
 
-						float amplitude = velocity.Length();
+						float amplitude = 2f;
 
 						float wavyVelocity = (float)Math.Sin(projectile.ai[1]);
 
@@ -127,7 +128,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 48;
             projectile.position.X = projectile.position.X - (projectile.width / 2);

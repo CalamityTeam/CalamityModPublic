@@ -1,5 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Items.Materials;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs.AquaticScourge;
@@ -14,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Mauler : ModNPC
+	public class Mauler : ModNPC
     {
         private bool hasBeenHit = false;
 
@@ -31,7 +30,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.width = 180;
             npc.height = 90;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.05f);
+			npc.DR_NERD(0.05f);
             npc.lifeMax = 165000;
             npc.aiStyle = -1;
             aiType = -1;
@@ -284,7 +283,7 @@ namespace CalamityMod.NPCs.SulphurousSea
 
         public void BlowUp()
         {
-            Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 60);
+            Main.PlaySound(SoundID.NPCDeath60, npc.Center);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 Vector2 valueBoom = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);

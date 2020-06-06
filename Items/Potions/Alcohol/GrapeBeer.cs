@@ -25,7 +25,7 @@ Reduces defense by 2 and movement speed by 5%");
             item.rare = 1;
             item.useAnimation = 17;
             item.useTime = 17;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.healLife = 100;
             item.consumable = true;

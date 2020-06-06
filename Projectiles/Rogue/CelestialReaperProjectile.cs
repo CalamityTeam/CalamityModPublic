@@ -1,13 +1,10 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.NPCs.NormalNPCs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class CelestialReaperProjectile : ModProjectile
+	public class CelestialReaperProjectile : ModProjectile
     {
         public int HomingCooldown = 0;
         public override void SetStaticDefaults()

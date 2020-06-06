@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-    public class TeslaCannonShot : ModProjectile
+	public class TeslaCannonShot : ModProjectile
     {
 		private int[] dustArray = new int[7] { 56, 111, 137, 160, 206, 229, 226 };
 
@@ -144,11 +143,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			{
 				if (projectile.ai[1] >= 0f)
 				{
-					if (target.HitSound != SoundID.NPCHit4 && target.HitSound != SoundID.NPCHit41 && target.HitSound != SoundID.NPCHit2 &&
-						target.HitSound != SoundID.NPCHit5 && target.HitSound != SoundID.NPCHit11 && target.HitSound != SoundID.NPCHit30 &&
-						target.HitSound != SoundID.NPCHit34 && target.HitSound != SoundID.NPCHit36 && target.HitSound != SoundID.NPCHit42 &&
-						target.HitSound != SoundID.NPCHit49 && target.HitSound != SoundID.NPCHit52 && target.HitSound != SoundID.NPCHit53 &&
-						target.HitSound != SoundID.NPCHit54 && target.HitSound != null)
+					if (target.Organic())
 					{
 						target.velocity.X = 0f;
 						target.velocity.Y = 0f;

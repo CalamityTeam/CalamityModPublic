@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 92);
+                Main.PlaySound(SoundID.Item92, projectile.position);
                 projectile.localAI[0] += 1f;
             }
             Lighting.AddLight(projectile.Center, 0f, 0.2f, 0.4f);

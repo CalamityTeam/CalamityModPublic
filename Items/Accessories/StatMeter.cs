@@ -1,6 +1,5 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.World;
-using System;
 using System.Collections.Generic;
 using System.Text;
 using Terraria;
@@ -75,7 +74,7 @@ namespace CalamityMod.Items.Accessories
 			StringBuilder sb = new StringBuilder("Displays almost all player stats\nOffensive stats displayed vary with held item\n\n", 1024);
 
 			// Only append rippers stats in Rev+, if rippers are enabled.
-			if (CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage)
+			if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers)
 			{
 				sb.Append("Adrenaline Charge Time: ").Append(modPlayer.adrenalineChargeStat)
 					.Append(" seconds | Rage Damage Boost: ").Append(modPlayer.rageDamageStat)

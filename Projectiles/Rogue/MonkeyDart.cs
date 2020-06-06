@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             //Dust splash
             int dustsplash = 0;
             while (dustsplash < 4)
@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     //Code for bouncing
                     Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-                    Main.PlaySound(0, projectile.position);
+                    Main.PlaySound(SoundID.Dig, projectile.position);
                     if (projectile.velocity.X != oldVelocity.X)
                     {
                         projectile.velocity.X = -oldVelocity.X;

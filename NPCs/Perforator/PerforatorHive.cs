@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.Perforator
             npc.height = 100;
             npc.defense = 4;
             npc.LifeMaxNERB(3750, 5400, 2700000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.Perforator
 			if (NPC.AnyNPCs(ModContent.NPCType<PerforatorHeadSmall>()))
 				wormsAlive++;
 
-			if (largeWormAlive)
+			if (largeWormAlive && expertMode)
 			{
 				npc.dontTakeDamage = true;
 			}
@@ -135,7 +135,7 @@ namespace CalamityMod.NPCs.Perforator
 				if (npc.localAI[0] >= (float)Main.rand.Next(300, 901) && npc.position.Y + (float)npc.height < player.position.Y && Vector2.Distance(player.Center, npc.Center) > 80f)
 				{
 					npc.localAI[0] = 0f;
-					Main.PlaySound(3, (int)npc.position.X, (int)npc.position.Y, 20);
+					Main.PlaySound(SoundID.NPCHit20, npc.position);
 
 					for (int num621 = 0; num621 < 8; num621++)
 					{

@@ -30,7 +30,7 @@ namespace CalamityMod.Tiles.Ores
             name.SetDefault("Astral Ore");
             AddMapEntry(new Color(255, 153, 255), name);
             mineResist = 5f;
-            soundType = 21;
+            soundType = SoundID.Tink;
 
             TileID.Sets.Ore[Type] = true;
             TileID.Sets.ChecksForMerge[Type] = true;

@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.useAnimation = 25;
             item.width = 32;
             item.height = 46;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
             item.shootSpeed = Speed;
             item.shoot = ModContent.ProjectileType<KylieBoomerang>();

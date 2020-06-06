@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Pets
         public override void SetDefaults()
         {
             item.damage = 0;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 20;
             item.useTime = 20;
             item.noMelee = true;

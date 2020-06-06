@@ -3,6 +3,8 @@ using CalamityMod.Tiles.Crags;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.Ores
 {
     public class CharredOre : ModTile
@@ -26,7 +28,7 @@ namespace CalamityMod.Tiles.Ores
             AddMapEntry(new Color(17, 16, 26), name);
             mineResist = 6f;
             minPick = 180;
-            soundType = 21;
+            soundType = SoundID.Tink;
             dustType = 235;
             Main.tileSpelunker[Type] = true;
         }

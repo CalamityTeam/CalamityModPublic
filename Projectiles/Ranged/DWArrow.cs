@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Ranged
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 12);
+                Main.PlaySound(SoundID.Item12, (int)projectile.position.X, (int)projectile.position.Y);
             }
 
             // Force damage type based on AI variable (this is outdated code and the weapons themselves should set the force variables)

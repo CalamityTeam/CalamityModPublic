@@ -1,4 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -7,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class PhantasmalSoul : ModProjectile
+	public class PhantasmalSoul : ModProjectile
     {
         private int originDamage;
         private int divider = 10;
@@ -142,8 +141,8 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 			if (Main.rand.NextBool(6))
 			{
-				Main.PlaySound(4, (int)projectile.Center.X, (int)projectile.Center.Y, 39, 1f, 0f);
-			}
+                Main.PlaySound(SoundID.NPCDeath39, projectile.position);
+            }
         }
 
         // Cannot deal damage for the first several frames of existence.

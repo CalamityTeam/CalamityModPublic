@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             if (projectile.localAI[1] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 60);
+                Main.PlaySound(SoundID.Item60, (int)projectile.position.X, (int)projectile.position.Y);
                 projectile.localAI[1] += 1f;
             }
             counter++;
@@ -173,7 +173,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(29, (int)projectile.Center.X, (int)projectile.Center.Y, 103);
+            Main.PlaySound(SoundID.Zombie, (int)projectile.Center.X, (int)projectile.Center.Y, 103);
             for (int num193 = 0; num193 < 3; num193++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 107, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);

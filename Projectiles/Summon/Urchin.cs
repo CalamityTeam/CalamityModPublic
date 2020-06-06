@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Summon
                         Main.projectile[spore].minion = true;
                         Main.projectile[spore].minionSlots = 0f;
                     }
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 42);
+                    Main.PlaySound(SoundID.Item42, projectile.position);
                     projectile.ai[0] = 60f;
                 }
             }

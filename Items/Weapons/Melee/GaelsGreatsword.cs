@@ -1,5 +1,4 @@
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -9,7 +8,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class GaelsGreatsword : ModItem
+	public class GaelsGreatsword : ModItem
     {
         //Help, they're forcing me to slave away at Calamity until I die! - Dominic
 
@@ -133,7 +132,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
-                    var netMessage = CalamityMod.instance.GetPacket();
+                    var netMessage = CalamityMod.Instance.GetPacket();
                     netMessage.Write((byte)CalamityModMessageType.GaelsGreatswordSwingSync);
                     netMessage.Write((byte)player.whoAmI);
                     netMessage.Write(player.Calamity().gaelSwipes);

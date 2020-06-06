@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(0, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 72;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);

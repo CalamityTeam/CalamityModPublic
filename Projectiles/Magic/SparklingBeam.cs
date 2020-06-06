@@ -6,6 +6,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.Magic
 {
@@ -169,7 +170,7 @@ namespace CalamityMod.Projectiles.Magic
 			//Play cool sound when fully charged
 			if (playedSound == false)
 			{
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 68);
+				Main.PlaySound(SoundID.Item68, projectile.position);
 				playedSound = true;
 			}
 

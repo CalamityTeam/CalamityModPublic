@@ -19,10 +19,10 @@ namespace CalamityMod.Items.Placeables.Furniture
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 500;
-            item.createTile = ModContent.TileType<RustyChestLocked>();
+            item.createTile = ModContent.TileType<RustyChestTile>();
         }
         public override void AddRecipes()
         {

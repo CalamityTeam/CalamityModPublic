@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Enemy
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 17);
+                Main.PlaySound(SoundID.Item17, (int)projectile.position.X, (int)projectile.position.Y);
             }
             projectile.ai[0] += 1f;
             if (projectile.ai[0] >= 5f)

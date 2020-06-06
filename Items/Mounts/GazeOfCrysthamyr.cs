@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.Mounts
             item.height = 16;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.rare = 10;
             item.value = Item.buyPrice(3, 0, 0, 0);
             item.UseSound = SoundID.NPCHit56;

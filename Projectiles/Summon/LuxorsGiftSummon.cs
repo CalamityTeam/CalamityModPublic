@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -94,7 +94,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
 
-			CalamityGlobalProjectile.ChargingMinionAI(projectile, 700f, 1000f, 2200f, 150f, 0, 40f, 9f, -4f, 40f, 9f, true, true);
+			projectile.ChargingMinionAI(700f, 1000f, 2200f, 150f, 0, 40f, 9f, -4f, 40f, 9f, true, true);
 
             projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
         }

@@ -1,7 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -71,7 +72,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(4, (int)projectile.Center.X, (int)projectile.Center.Y, 19);
+            Main.PlaySound(SoundID.NPCDeath19, projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

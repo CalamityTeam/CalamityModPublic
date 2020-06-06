@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using System;
@@ -23,7 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 160;
             npc.height = 160;
             npc.defense = 38;
-            npc.Calamity().RevPlusDR(0.05f);
+			npc.DR_NERD(0.05f);
             npc.lifeMax = 16000;
             npc.knockBackResist = 0f;
             aiType = -1;

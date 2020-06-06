@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
 using CalamityMod.NPCs.AstrumDeus;
@@ -25,21 +25,17 @@ namespace CalamityMod.Items.SummonItems
             item.rare = 9;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
         }
 
         public override bool CanUseItem(Player player)
         {
-            return !Main.dayTime && player.Calamity().ZoneAstral && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHead>()) && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>());
+            return !Main.dayTime && player.Calamity().ZoneAstral && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>());
         }
 
         public override bool UseItem(Player player)
         {
-            for (int x = 0; x < 10; x++)
-            {
-                NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AstrumDeusHead>());
-            }
             NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AstrumDeusHeadSpectral>());
             Main.PlaySound(SoundID.Roar, player.position, 0);
             return true;

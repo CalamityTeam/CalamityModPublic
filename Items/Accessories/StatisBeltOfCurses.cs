@@ -1,14 +1,13 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class StatisBeltOfCurses : ModItem
+	public class StatisBeltOfCurses : ModItem
     {
         public override void SetStaticDefaults()
         {
