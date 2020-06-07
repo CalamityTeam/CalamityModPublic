@@ -6173,6 +6173,21 @@ namespace CalamityMod.CalPlayer
 						if (bannerNPCType == ModContent.NPCType<ProfanedEnergyBody>())
 							reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<Providence>());
 					}
+					else if (proj.type == ProjectileID.EyeBeam)
+					{
+						if (bannerNPCType == ModContent.NPCType<Laserfish>())
+							reduceDamage = !NPC.AnyNPCs(NPCID.Golem);
+					}
+					else if (proj.type == ProjectileID.CultistBossIceMist || proj.type == ProjectileID.CultistBossLightningOrbArc)
+					{
+						if (bannerNPCType == ModContent.NPCType<EidolonWyrmHead>() || bannerNPCType == ModContent.NPCType<Eidolist>())
+							reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(NPCID.CultistBoss) && proj.Calamity().lineColor != 1;
+					}
+					else if (proj.type == ProjectileID.SaucerScrap)
+					{
+						if (bannerNPCType == ModContent.NPCType<ArmoredDiggerHead>())
+							reduceDamage = Main.invasionType != InvasionID.MartianMadness && (!NPC.AnyNPCs(NPCID.TheDestroyer) || !CalamityWorld.revenge);
+					}
 					else
 					{
 						switch (proj.type)
@@ -6258,7 +6273,7 @@ namespace CalamityMod.CalPlayer
 							case ProjectileID.InfernoHostileBolt:
 								if (bannerNPCType == NPCID.DiabolistRed || bannerNPCType == NPCID.DiabolistWhite)
 								{
-									reduceDamage = !NPC.AnyNPCs(NPCID.Golem);
+									reduceDamage = !NPC.AnyNPCs(NPCID.Golem) || !CalamityWorld.revenge;
 								}
 								break;
 
@@ -6500,35 +6515,6 @@ namespace CalamityMod.CalPlayer
 									reduceDamage = true;
 								}
 								break;
-
-							case ProjectileID.EyeBeam:
-							{
-								if (bannerNPCType == ModContent.NPCType<Laserfish>())
-								{
-									reduceDamage = !NPC.AnyNPCs(NPCID.Golem);
-								}
-								break;
-							}
-
-							case ProjectileID.CultistBossIceMist:
-							case ProjectileID.CultistBossLightningOrbArc:
-							{
-								if (bannerNPCType == ModContent.NPCType<EidolonWyrmHead>() || bannerNPCType == ModContent.NPCType<Eidolist>())
-								{
-									//line color check is for death mode lightning
-									reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(NPCID.CultistBoss) && proj.Calamity().lineColor != 1;
-								}
-								break;
-							}
-
-							case ProjectileID.SaucerScrap:
-							{
-								if (bannerNPCType == ModContent.NPCType<ArmoredDiggerHead>())
-								{
-									reduceDamage = Main.invasionType != InvasionID.MartianMadness && (!NPC.AnyNPCs(NPCID.TheDestroyer) || !CalamityWorld.revenge);
-								}
-								break;
-							}
 						}
 					}
 
