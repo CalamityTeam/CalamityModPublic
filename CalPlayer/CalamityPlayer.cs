@@ -6966,7 +6966,7 @@ namespace CalamityMod.CalPlayer
             double damageMult = 1.0 +
                 (dArtifact ? 0.25 : 0.0) +
                 (DoGLore ? 0.1 : 0.0) +
-                ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * (double)player.beetleOrbs) : 0.0) +
+                ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0.0) +
                 (enraged ? 0.25 : 0.0) +
                 ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0.0) +
                 ((bloodPact && Main.rand.NextBool(4)) ? 1.5 : 0.0);
@@ -6975,9 +6975,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (player.chaosState)
                     damageMult += 0.25;
-                if (player.ichor)
-                    damageMult += 0.25;
-                else if (player.onFire2)
+                if (player.ichor || player.onFire2)
                     damageMult += 0.2;
             }
 
@@ -6987,7 +6985,7 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge)
             {
                 customDamage = true;
-                double newDamage = (double)damage - (player.statDefense * 0.75);
+                double newDamage = damage - (player.statDefense * 0.75);
                 double newDamageLimit = 5.0 + (Main.hardMode ? 5.0 : 0.0) + (NPC.downedPlantBoss ? 5.0 : 0.0) + (NPC.downedMoonlord ? 5.0 : 0.0); //5, 10, 15, 20
                 if (newDamage < newDamageLimit)
                 {
@@ -7003,7 +7001,7 @@ namespace CalamityMod.CalPlayer
             }
             if (purpleCandle)
             {
-                damage = (int)((double)damage - (player.statDefense * 0.05));
+                damage = (int)(damage - (player.statDefense * 0.05));
             }
             // Fearmonger set provides 15% multiplicative DR that ignores caps during the Holiday Moons.
             // To prevent abuse, this effect does not work if there are any bosses alive.
@@ -8170,7 +8168,7 @@ namespace CalamityMod.CalPlayer
                 float num8 = 0.985f;
                 float num9 = Math.Max(player.accRunSpeed, player.maxRunSpeed);
                 float num10 = 0.94f;
-                int num11 = 20;
+                int delay = 20;
 				if (dashMod == 1) //Counter Scarf
                 {
                     for (int k = 0; k < 2; k++)
@@ -8267,6 +8265,7 @@ namespace CalamityMod.CalPlayer
                         }
                     }
                     num7 = 12.5f; //14
+					delay = 30;
                 }
                 else if (dashMod == 7) //Statis' Belt of Curses
                 {
@@ -8324,7 +8323,7 @@ namespace CalamityMod.CalPlayer
                         player.velocity.X = player.velocity.X * num10;
                         return;
                     }
-                    player.dashDelay = num11;
+                    player.dashDelay = delay;
                     if (player.velocity.X < 0f)
                     {
                         player.velocity.X = -num9;

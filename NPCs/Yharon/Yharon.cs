@@ -982,7 +982,8 @@ namespace CalamityMod.NPCs.Yharon
 					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
 						SpawnDetonatingFlares(flareDustBulletHellSpawn, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare2>() });
-						DoFlareDustBulletHell(0, flareDustSpawnDivisor, projectileDamage, 36, 0f, 0f, false);
+						int totalProjectiles = 38 - (int)(npc.ai[2] / 15f); // 36 for first ring, 18 for last ring
+						DoFlareDustBulletHell(0, flareDustSpawnDivisor, projectileDamage, totalProjectiles, 0f, 0f, false);
 					}
                 }
 
@@ -1607,7 +1608,7 @@ namespace CalamityMod.NPCs.Yharon
 			float chargeTime = expertMode ? 32f : 35f;
             float chargeSpeed = expertMode ? 32f : 30f;
 			float fastChargeVelocityMultiplier = 1.5f;
-			int fastChargeTelegraphTimer = 120;
+			int fastChargeTelegraphTimer = phase4 ? 60 : 120;
 
 			float fireballBreathTimer = 60f;
             float fireballBreathPhaseTimer = fireballBreathTimer + 120f;
@@ -1621,7 +1622,7 @@ namespace CalamityMod.NPCs.Yharon
             float splittingFireballBreathYVelocityTimer = 40f;
             float splittingFireballBreathPhaseTimer = splittingFireballBreathTimer + splittingFireballBreathTimer2 + splittingFireballBreathYVelocityTimer;
 
-            float spinPhaseTimer = 240f;
+            float spinPhaseTimer = phase4 ? 180f : 240f;
 			float spinTime = spinPhaseTimer / 2;
 			float spinRotation = MathHelper.TwoPi * 3 / spinTime;
 			float spinPhaseVelocity = 25f;
@@ -1866,7 +1867,7 @@ namespace CalamityMod.NPCs.Yharon
 							npc.rotation = npc.rotation.AngleTowards(newRotation, amount);
 
 						npc.localAI[1] += 1f;
-						if (npc.localAI[1] == fastChargeTelegraphTimer - 60)
+						if (npc.localAI[1] == fastChargeTelegraphTimer - (phase4 ? 30 : 60))
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
 
 						return;
@@ -2127,12 +2128,15 @@ namespace CalamityMod.NPCs.Yharon
 						// For phase 4: Rotate spiral by 18 * (240 / 16) = +135 degrees and then back -135 degrees
 
 						if (npc.ai[1] % flareDustSpawnDivisor3 == 0f)
-							DoFlareDustBulletHell(1, (int)spinPhaseTimer, projectileDamage, phase4 ? 12 : 10, 12f, phase4 ? 18f : 9f, true);
+							DoFlareDustBulletHell(1, (int)spinPhaseTimer, projectileDamage, phase4 ? 12 : 10, phase4 ? 16f : 12f, phase4 ? 18f : 9f, true);
 					}
 					else if (phase2)
 					{
 						if (npc.ai[1] % flareDustSpawnDivisor == 0f)
-							DoFlareDustBulletHell(0, (int)spinPhaseTimer, projectileDamage, 36, 0f, 0f, true);
+						{
+							int totalProjectiles = 38 - (int)(npc.ai[1] / 12f); // 36 for first ring, 18 for last ring
+							DoFlareDustBulletHell(0, (int)spinPhaseTimer, projectileDamage, totalProjectiles, 0f, 0f, true);
+						}
 					}
 					else
 					{
@@ -2279,7 +2283,7 @@ namespace CalamityMod.NPCs.Yharon
                 }
 
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= teleportPhaseTimer)
+                if (npc.ai[2] >= teleportPhaseTimer * (phase4 ? 0.5f : 1f))
                 {
                     npc.ai[0] = 1f;
                     npc.ai[1] = 0f;
@@ -2908,10 +2912,12 @@ namespace CalamityMod.NPCs.Yharon
 
 			if (chargeTelegraph)
 			{
-				int num86 = 120;
-				if (npc.localAI[1] < num86 - 60 || npc.localAI[1] > num86 - 20)
+				bool phase4 = startSecondAI && npc.life <= npc.lifeMax * 0.15 && (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+
+				int num86 = phase4 ? 60 : 120;
+				if (npc.localAI[1] < num86 - (phase4 ? 30 : 60) || npc.localAI[1] > num86 - (phase4 ? 10 : 20))
 				{
-					npc.frameCounter += 1D;
+					npc.frameCounter += phase4 ? 2D : 1D;
 					if (npc.frameCounter > 5D)
 					{
 						npc.frameCounter = 0D;
@@ -2925,7 +2931,7 @@ namespace CalamityMod.NPCs.Yharon
 				else
 				{
 					npc.frame.Y = frameHeight * 5;
-					if (npc.localAI[1] > num86 - 50 && npc.localAI[1] < num86 - 25)
+					if (npc.localAI[1] > num86 - (phase4 ? 25 : 50) && npc.localAI[1] < num86 - (phase4 ? 12 : 25))
 					{
 						npc.frame.Y = frameHeight * 6;
 					}

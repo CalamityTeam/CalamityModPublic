@@ -84,9 +84,9 @@ namespace CalamityMod.Projectiles.Boss
 
 			distance += MathHelper.Lerp(1f, 9f, amount);
 
-			int timeGateValue = 120;
+			int timeGateValue = 180;
 			if (projectile.timeLeft < timeGateValue)
-				distance += MathHelper.Lerp(0f, 9f, (timeGateValue - projectile.timeLeft) / timeGateValue);
+				distance += 6f;
 
 			if (projectile.ai[0] == 0f)
 			{
