@@ -83,7 +83,6 @@ namespace CalamityMod.NPCs.Yharon
 
 			npc.DR_NERD(Phase1_DR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
-            global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
 
             npc.noGravity = true;

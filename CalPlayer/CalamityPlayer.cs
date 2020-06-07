@@ -4277,18 +4277,19 @@ namespace CalamityMod.CalPlayer
             {
                 if (eGauntlet)
                 {
-                    target.AddBuff(BuffID.CursedInferno, 120, false);
-                    target.AddBuff(BuffID.Frostburn, 120, false);
-                    target.AddBuff(BuffID.Ichor, 120, false);
-                    target.AddBuff(BuffID.Venom, 120, false);
-                    target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                    target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
-                    target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, false);
+					int duration = 90;
+                    target.AddBuff(BuffID.CursedInferno, duration / 2, false);
+                    target.AddBuff(BuffID.Frostburn, duration, false);
+                    target.AddBuff(BuffID.Ichor, duration, false);
+                    target.AddBuff(BuffID.Venom, duration, false);
+                    target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), duration, false);
+                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), duration, false);
+                    target.AddBuff(ModContent.BuffType<HolyFlames>(), duration, false);
+                    target.AddBuff(ModContent.BuffType<Plague>(), duration, false);
+                    target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration, false);
                     if (Main.rand.NextBool(5))
                     {
-                        target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
+                        target.AddBuff(ModContent.BuffType<GlacialState>(), duration, false);
                     }
                 }
                 if (cryogenSoul || frostFlare)
@@ -4372,7 +4373,7 @@ namespace CalamityMod.CalPlayer
                     player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
                     player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
                 {
-                    target.AddBuff(BuffID.CursedInferno, 120, false);
+                    target.AddBuff(BuffID.CursedInferno, 90, false);
                     target.AddBuff(BuffID.Venom, 120, false);
                 }
             }
@@ -4469,18 +4470,19 @@ namespace CalamityMod.CalPlayer
                 {
                     if (eGauntlet)
                     {
-                        target.AddBuff(BuffID.CursedInferno, 120, false);
-                        target.AddBuff(BuffID.Frostburn, 120, false);
-                        target.AddBuff(BuffID.Ichor, 120, false);
-                        target.AddBuff(BuffID.Venom, 120, false);
-                        target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-                        target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                        target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
-                        target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, false);
+						int duration = 90;
+                        target.AddBuff(BuffID.CursedInferno, duration / 2, false);
+                        target.AddBuff(BuffID.Frostburn, duration, false);
+                        target.AddBuff(BuffID.Ichor, duration, false);
+                        target.AddBuff(BuffID.Venom, duration, false);
+                        target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), duration, false);
+                        target.AddBuff(ModContent.BuffType<AbyssalFlames>(), duration, false);
+                        target.AddBuff(ModContent.BuffType<HolyFlames>(), duration, false);
+                        target.AddBuff(ModContent.BuffType<Plague>(), duration, false);
+                        target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration, false);
                         if (Main.rand.NextBool(5))
                         {
-                            target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
+                            target.AddBuff(ModContent.BuffType<GlacialState>(), duration, false);
                         }
                     }
                     if (aWeapon)
@@ -4584,7 +4586,7 @@ namespace CalamityMod.CalPlayer
                         player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
                         player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
                     {
-                        target.AddBuff(BuffID.CursedInferno, 120, false);
+                        target.AddBuff(BuffID.CursedInferno, 90, false);
                         target.AddBuff(BuffID.Venom, 120, false);
                     }
                 }
@@ -4638,18 +4640,19 @@ namespace CalamityMod.CalPlayer
             {
                 if (eGauntlet)
                 {
-                    target.AddBuff(BuffID.CursedInferno, 120, false);
-                    target.AddBuff(BuffID.Frostburn, 120, false);
-                    target.AddBuff(BuffID.Ichor, 120, false);
-                    target.AddBuff(BuffID.Venom, 120, false);
-                    target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                    target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                    target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
-                    target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, false);
+					int duration = 90;
+                    target.AddBuff(BuffID.CursedInferno, duration / 2, false);
+                    target.AddBuff(BuffID.Frostburn, duration, false);
+                    target.AddBuff(BuffID.Ichor, duration, false);
+                    target.AddBuff(BuffID.Venom, duration, false);
+                    target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), duration, false);
+                    target.AddBuff(ModContent.BuffType<AbyssalFlames>(), duration, false);
+                    target.AddBuff(ModContent.BuffType<HolyFlames>(), duration, false);
+                    target.AddBuff(ModContent.BuffType<Plague>(), duration, false);
+                    target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration, false);
                     if (Main.rand.NextBool(5))
                     {
-                        target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
+                        target.AddBuff(ModContent.BuffType<GlacialState>(), duration, false);
                     }
                 }
                 if (aWeapon)
@@ -4722,7 +4725,7 @@ namespace CalamityMod.CalPlayer
                     player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
                     player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
                 {
-                    target.AddBuff(BuffID.CursedInferno, 120, false);
+                    target.AddBuff(BuffID.CursedInferno, 90, false);
                     target.AddBuff(BuffID.Venom, 120, false);
                 }
             }
@@ -4815,18 +4818,19 @@ namespace CalamityMod.CalPlayer
                 {
                     if (eGauntlet)
                     {
-                        target.AddBuff(BuffID.CursedInferno, 120, false);
-                        target.AddBuff(BuffID.Frostburn, 120, false);
-                        target.AddBuff(BuffID.Ichor, 120, false);
-                        target.AddBuff(BuffID.Venom, 120, false);
-                        target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120, false);
-                        target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 120, false);
-                        target.AddBuff(ModContent.BuffType<HolyFlames>(), 120, false);
-                        target.AddBuff(ModContent.BuffType<Plague>(), 120, false);
-                        target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120, false);
+						int duration = 90;
+                        target.AddBuff(BuffID.CursedInferno, duration / 2, false);
+                        target.AddBuff(BuffID.Frostburn, duration, false);
+                        target.AddBuff(BuffID.Ichor, duration, false);
+                        target.AddBuff(BuffID.Venom, duration, false);
+                        target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), duration, false);
+                        target.AddBuff(ModContent.BuffType<AbyssalFlames>(), duration, false);
+                        target.AddBuff(ModContent.BuffType<HolyFlames>(), duration, false);
+                        target.AddBuff(ModContent.BuffType<Plague>(), duration, false);
+                        target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), duration, false);
                         if (Main.rand.NextBool(5))
                         {
-                            target.AddBuff(ModContent.BuffType<GlacialState>(), 120, false);
+                            target.AddBuff(ModContent.BuffType<GlacialState>(), duration, false);
                         }
                     }
                     if (aWeapon)
@@ -4930,7 +4934,7 @@ namespace CalamityMod.CalPlayer
                         player.armor[0].type == ModContent.ItemType<ReaverVisage>()) &&
                         player.armor[1].type == ModContent.ItemType<ReaverScaleMail>() && player.armor[2].type == ModContent.ItemType<ReaverCuisses>())
                     {
-                        target.AddBuff(BuffID.CursedInferno, 120, false);
+                        target.AddBuff(BuffID.CursedInferno, 90, false);
                         target.AddBuff(BuffID.Venom, 120, false);
                     }
                 }
@@ -6977,7 +6981,7 @@ namespace CalamityMod.CalPlayer
             {
                 if (player.chaosState)
                     damageMult += 0.25;
-                if (player.ichor || player.onFire2)
+                if (player.onFire2)
                     damageMult += 0.2;
             }
 

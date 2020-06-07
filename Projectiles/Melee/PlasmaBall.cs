@@ -50,10 +50,5 @@ namespace CalamityMod.Projectiles.Melee
 
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 12f, 20f);
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 300);
-        }
     }
 }

@@ -87,17 +87,5 @@ namespace CalamityMod.Projectiles.Typeless
             }
             return false;
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-		}
     }
 }

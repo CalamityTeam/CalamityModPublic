@@ -62,15 +62,5 @@ namespace CalamityMod.Items.Weapons.Melee
                 int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 27);
             }
         }
-
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 300);
-        }
-
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 300);
-        }
     }
 }

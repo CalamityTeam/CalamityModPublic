@@ -1576,7 +1576,7 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.66f;
             if (wCleave > 0)
                 calcDR *= 0.75f;
-            if (npc.ichor || npc.onFire2)
+            if (npc.onFire2)
                 calcDR *= 0.8f;
 
             return calcDR;
@@ -1605,10 +1605,7 @@ namespace CalamityMod.NPCs
             FlatEditDR(ref calcDR, npc.shadowFlame, BuffID.ShadowFlame);
             FlatEditDR(ref calcDR, npc.daybreak, BuffID.Daybreak);
             FlatEditDR(ref calcDR, npc.betsysCurse, BuffID.BetsysCurse);
-
-            // Ichor supersedes Cursed Inferno if both are applied.
-            FlatEditDR(ref calcDR, npc.ichor, BuffID.Ichor);
-            FlatEditDR(ref calcDR, npc.onFire2 && !npc.ichor, BuffID.CursedInferno);
+            FlatEditDR(ref calcDR, npc.onFire2, BuffID.CursedInferno);
 
             // Modded debuffs are handled modularly and use HasBuff.
             foreach (KeyValuePair<int, float> entry in flatDRReductions)
@@ -1626,10 +1623,7 @@ namespace CalamityMod.NPCs
             MultEditDR(ref calcDR, npc.shadowFlame, BuffID.ShadowFlame);
             MultEditDR(ref calcDR, npc.daybreak, BuffID.Daybreak);
             MultEditDR(ref calcDR, npc.betsysCurse, BuffID.BetsysCurse);
-
-            // Ichor supersedes Cursed Inferno if both are applied.
-            MultEditDR(ref calcDR, npc.ichor, BuffID.Ichor);
-            MultEditDR(ref calcDR, npc.onFire2 && !npc.ichor, BuffID.CursedInferno);
+            MultEditDR(ref calcDR, npc.onFire2, BuffID.CursedInferno);
 
             // Modded debuffs are handled modularly and use HasBuff.
             foreach (KeyValuePair<int, float> entry in multDRReductions)
