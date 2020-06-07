@@ -3482,6 +3482,34 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
+			if (modPlayer.plaguebringerPistons)
+			{
+				//Spawn bees while sprinting or dashing
+				modPlayer.pistonCounter++;
+				if (modPlayer.pistonCounter % 12 == 0)
+				{
+					if ((Math.Abs(player.velocity.X) >= 5 || Math.Abs(player.velocity.Y) >= 5) && player.whoAmI == Main.myPlayer)
+					{
+						int beeCount = 1;
+						if (Main.rand.NextBool(3))
+							++beeCount;
+						if (Main.rand.NextBool(3))
+							++beeCount;
+						if (player.strongBees && Main.rand.NextBool(3))
+							++beeCount;
+						int damage = (int)(30 * player.MinionDamage());
+						for (int index = 0; index < beeCount; ++index)
+						{
+							int bee = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-35f, 35f) * 0.02f, Main.rand.NextFloat(-35f, 35f) * 0.02f, (Main.rand.NextBool(4) ? ModContent.ProjectileType<PlaguenadeBee>() : player.beeType()), damage, player.beeKB(0f), player.whoAmI, 0f, 0f);
+							Main.projectile[bee].Calamity().forceMinion = true;
+							Main.projectile[bee].usesLocalNPCImmunity = true;
+							Main.projectile[bee].localNPCHitCooldown = 10;
+							Main.projectile[bee].penetrate = 2;
+						}
+					}
+				}
+			}
+
 			int brimmy = ModContent.ProjectileType<BrimstoneElementalMinion>();
 			int siren = ModContent.ProjectileType<WaterElementalMinion>();
 			int healer = ModContent.ProjectileType<SandElementalHealer>();
