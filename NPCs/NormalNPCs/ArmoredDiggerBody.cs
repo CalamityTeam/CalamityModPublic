@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num6 *= num8;
                         num7 *= num8;
                         int num9 = 30;
-                        int num10 = 450;
+                        int num10 = ProjectileID.SaucerScrap;
                         vector.X += num6 * 5f;
                         vector.Y += num7 * 5f;
                         Projectile.NewProjectile(vector.X, vector.Y, num6, num7, num10, num9, 0f, Main.myPlayer, 0f, 0f);

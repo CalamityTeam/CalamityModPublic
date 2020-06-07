@@ -155,9 +155,10 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				// Life Steal nerf
-				if (player.lifeSteal > (CalamityWorld.death ? 50f : 60f))
-					player.lifeSteal = CalamityWorld.death ? 50f : 60f;
+				// Adjusts the life steal cap in rev/death
+				float lifeStealCap = CalamityWorld.death ? 50f : 60f;
+				if (player.lifeSteal > lifeStealCap)
+					player.lifeSteal = lifeStealCap;
 
 				if (player.whoAmI == Main.myPlayer)
 				{
@@ -366,6 +367,14 @@ namespace CalamityMod.CalPlayer
 				(modPlayer.eCore ? 50 : 0) +
 				(modPlayer.cShard ? 50 : 0) +
 				(modPlayer.starBeamRye ? 50 : 0);
+
+			// Life Steal nerf
+			// Reduces normal mode life steal recovery rate from 0.6/s to 0.5/s
+			// Reduces expert mode life steal recovery rate from 0.5/s to 0.35/s
+			// Revengeance mode recovery rate is 0.3/s
+			// Death mode recovery rate is 0.25/s
+			float lifeStealCooldown = CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
+			player.lifeSteal -= lifeStealCooldown;
 
 			// Nebula Armor nerf
 			if (player.nebulaLevelMana > 0 && player.statMana < player.statManaMax2)
