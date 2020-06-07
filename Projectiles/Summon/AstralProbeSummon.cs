@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 
-				rotationVariation = Main.rand.NextDouble() * 0.5;
+				rotationVariation = Main.rand.NextDouble() * 0.015;
 
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
