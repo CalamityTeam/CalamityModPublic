@@ -31,8 +31,9 @@ namespace CalamityMod.Items.Dyes
             recipe.AddIngredient(ItemID.BottledWater);
             recipe.AddIngredient(ModContent.ItemType<RuinousSoul>());
             recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>());
+            recipe.AddIngredient(ModContent.ItemType<Lumenite>());
             recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }
     }
