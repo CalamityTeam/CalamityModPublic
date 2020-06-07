@@ -11,6 +11,7 @@ namespace CalamityMod.Projectiles.Summon
 	public class AstralProbeSummon : ModProjectile
     {
         private double rotation = 0;
+		private double rotationVariation = 0;
 
         public override void SetStaticDefaults()
         {
@@ -41,6 +42,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.Calamity().spawnedPlayerMinionDamageValue = player.MinionDamage();
                 projectile.Calamity().spawnedPlayerMinionProjectileDamageValue = projectile.damage;
+
+				rotationVariation = Main.rand.NextDouble() * 0.5;
+
                 int dustAmt = 36;
                 for (int dustIndex = 0; dustIndex < dustAmt; dustIndex++)
                 {
@@ -116,7 +120,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.rotation = projectile.rotation.AngleLerp(vector.ToRotation() - (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi * projectile.direction), 0.1f);
 			}
             projectile.Center = player.Center + new Vector2(80, 0).RotatedBy(rotation);
-            rotation += 0.03;
+            rotation += 0.03 + rotationVariation;
             if (rotation >= 360)
             {
                 rotation = 0;
