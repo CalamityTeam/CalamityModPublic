@@ -40,6 +40,7 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void SetDefaults()
         {
             npc.lavaImmune = true;
+			npc.noGravity = true;
             npc.npcSlots = 15f;
             npc.damage = 80;
             npc.width = 400;

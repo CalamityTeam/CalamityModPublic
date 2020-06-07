@@ -108,7 +108,7 @@ namespace CalamityMod.Buffs
                 case BuffID.Ichor:
                     tip = "Defense reduced by 20";
 					if (CalamityWorld.revenge)
-						tip += ". All damage taken increased by 25%";
+						tip += ". All damage taken increased by 20%";
                     break;
 
                 case BuffID.CursedInferno:

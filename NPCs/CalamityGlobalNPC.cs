@@ -1576,11 +1576,7 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.66f;
             if (wCleave > 0)
                 calcDR *= 0.75f;
-
-            // Ichor supersedes Cursed Inferno if both are applied.
-            if (npc.ichor)
-                calcDR *= 0.75f;
-            else if (npc.onFire2)
+            if (npc.ichor || npc.onFire2)
                 calcDR *= 0.8f;
 
             return calcDR;

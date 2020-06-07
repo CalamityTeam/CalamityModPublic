@@ -44,7 +44,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.defense = 40;
 			npc.DR_NERD(0.1f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
-			global.multDRReductions.Add(BuffID.Ichor, 0.88f);
+			global.multDRReductions.Add(BuffID.Ichor, 0.9f);
 			global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
 			npc.LifeMaxNERB(227500, 252500, 3000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;

@@ -1457,6 +1457,10 @@ namespace CalamityMod.CalPlayer
 			{
 				player.pickSpeed -= 0.05f;
 			}
+			if (modPlayer.dashMod == 6) // Cryogen lore
+			{
+				player.statDefense -= 10;
+			}
 			if (modPlayer.aquaticScourgeLore)
 			{
 				if (player.wellFed)

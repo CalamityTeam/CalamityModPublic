@@ -4710,7 +4710,7 @@ namespace CalamityMod.NPCs
 
 			if (flyAtTarget)
 			{
-				float speedMultiplier = phase5 ? 2f : phase4 ? 1.75f : 1.5f;
+				float speedMultiplier = phase5 ? 1.5f : phase4 ? 1.3f : 1.2f;
 				speed *= speedMultiplier;
 			}
 
@@ -8080,7 +8080,10 @@ namespace CalamityMod.NPCs
             bool surface = !CalamityWorld.bossRushActive && Main.player[npc.target].position.Y < Main.worldSurface * 16.0;
             int tentacleCount = NPC.CountNPCS(NPCID.PlanterasTentacle);
             bool tentaclesDead = tentacleCount == 0;
-            bool speedUp = Vector2.Distance(Main.player[npc.target].Center, npc.Center) > (phase3 ? 480f : 640f); // 30 or 40 tile distance
+			float speedUpDistance = 480f;
+			if (tentaclesDead)
+				speedUpDistance -= 300f * (1f - lifeRatio);
+			bool speedUp = Vector2.Distance(Main.player[npc.target].Center, npc.Center) > speedUpDistance; // 30 or 40 tile distance
 
             // Despawn
             if (Main.player[npc.target].dead)
@@ -8235,7 +8238,7 @@ namespace CalamityMod.NPCs
             // Velocity ranges from 17 to 30.6, Acceleration ranges from 0.15 to 0.27, enraged phase 3
 
             // Distance Plantera can travel from her hooks
-            float maxDistanceFromHooks = enrage ? 850f : 550f;
+            float maxDistanceFromHooks = enrage ? 900f : 600f;
             if (phase3)
                 maxDistanceFromHooks += 150f;
 
@@ -8513,7 +8516,7 @@ namespace CalamityMod.NPCs
 							for (int i = 0; i < numProj + 1; i++)
 							{
 								Vector2 perturbedSpeed = new Vector2(num743, num744).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-								Projectile.NewProjectile(vector93.X, vector93.Y, perturbedSpeed.X, perturbedSpeed.Y, ProjectileID.PoisonSeedPlantera, damage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(vector93, perturbedSpeed, ProjectileID.PoisonSeedPlantera, damage, 0f, Main.myPlayer, 0f, 0f);
 							}
 							npc.localAI[3] = 0f;
 						}
@@ -9074,7 +9077,7 @@ namespace CalamityMod.NPCs
 						float speedMult = 1f;
 
 						if (distanceBelowTarget > 0f && !flag43 && !flag40)
-							speedMult += distanceBelowTarget * 0.002f;
+							speedMult += distanceBelowTarget * 0.001f;
 						
 						if (speedMult > 2f)
 							speedMult = 2f;

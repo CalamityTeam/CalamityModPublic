@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.defense = 120;
 			npc.DR_NERD(normalDR, normalDR, deathDR, bossRushDR, true);
 			CalamityGlobalNPC global = npc.Calamity();
-            global.multDRReductions.Add(BuffID.Ichor, 0.9f);
+            global.multDRReductions.Add(BuffID.Ichor, 0.91f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.91f);
             npc.value = Item.buyPrice(10, 0, 0, 0);
 			npc.LifeMaxNERB(5000000, 5500000, 2100000);

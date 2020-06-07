@@ -36,6 +36,7 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetDefaults()
         {
             npc.lavaImmune = true;
+			npc.noGravity = true;
             npc.npcSlots = 20f;
             npc.aiStyle = -1;
             npc.damage = 120;
@@ -444,17 +445,19 @@ namespace CalamityMod.NPCs.Ravager
 						velocityY = -16f;
 
 						float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
-						float speedMult = 1f;
 
 						if (revenge)
 						{
+							npc.Calamity().newAI[1] = 0f;
+
 							if (distanceBelowTarget > 0f)
-								speedMult += distanceBelowTarget * 0.002f;
+								npc.Calamity().newAI[1] += 1f + distanceBelowTarget * 0.001f;
 
-							if (speedMult > 2f)
-								speedMult = 2f;
+							if (npc.Calamity().newAI[1] > 2f)
+								npc.Calamity().newAI[1] = 2f;
 
-							velocityY *= speedMult;
+							if (npc.Calamity().newAI[1] > 1f)
+								velocityY *= npc.Calamity().newAI[1];
 						}
 
 						if (expertMode)
@@ -482,9 +485,6 @@ namespace CalamityMod.NPCs.Ravager
 
                         npc.ai[0] = finalPhase && !shouldFall ? 2f : 1f;
                         npc.ai[1] = 0f;
-
-						if (npc.ai[0] == 2f)
-							npc.noGravity = true;
 					}
                 }
             }
@@ -512,12 +512,12 @@ namespace CalamityMod.NPCs.Ravager
 
 							int spawnDistance = 360;
 
-							if (NPC.CountNPCS(ModContent.NPCType<RockPillar>()) < 2)
+							if (!NPC.AnyNPCs(ModContent.NPCType<RockPillar>()))
 							{
 								NPC.NewNPC((int)npc.Center.X - spawnDistance, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
 								NPC.NewNPC((int)npc.Center.X + spawnDistance, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
 							}
-							else if (NPC.CountNPCS(ModContent.NPCType<FlamePillar>()) < 2)
+							else if (!NPC.AnyNPCs(ModContent.NPCType<FlamePillar>()))
 							{
 								NPC.NewNPC((int)npc.Center.X - spawnDistance * 2, (int)npc.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
 								NPC.NewNPC((int)npc.Center.X + spawnDistance * 2, (int)npc.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
@@ -591,10 +591,11 @@ namespace CalamityMod.NPCs.Ravager
 							{
 								float fallSpeedBoost = death ? 1.2f : 1.2f * (1f - lifeRatio);
 								float fallSpeed = 1.2f + fallSpeedBoost;
-								npc.velocity.Y += fallSpeed;
 
-								if (npc.velocity.Y > 24f)
-									npc.velocity.Y = 24f;
+								if (npc.Calamity().newAI[1] > 1f)
+									fallSpeed *= npc.Calamity().newAI[1];
+
+								npc.velocity.Y += fallSpeed;
 
 								npc.ai[1] = 31f;
 							}
@@ -607,6 +608,10 @@ namespace CalamityMod.NPCs.Ravager
 							{
 								float fallSpeedBoost = death ? 0.6f : 0.6f * (1f - lifeRatio);
 								float fallSpeed = 0.6f + fallSpeedBoost;
+
+								if (npc.Calamity().newAI[1] > 1f)
+									fallSpeed *= npc.Calamity().newAI[1];
+
 								npc.velocity.Y += fallSpeed;
 							}
 						}
@@ -644,7 +649,31 @@ namespace CalamityMod.NPCs.Ravager
                         if (npc.velocity.X > velocityX)
                             npc.velocity.X = velocityX;
                     }
-                }
+
+					// Custom gravity
+					float gravity = npc.ai[0] == 2f ? 0f : 0.3f;
+					float maxFallSpeed = npc.ai[0] == 2f ? 24f : 10f;
+					if (npc.wet)
+					{
+						if (npc.honeyWet)
+						{
+							gravity *= 0.33f;
+							maxFallSpeed *= 0.4f;
+						}
+						else
+						{
+							gravity *= 0.66f;
+							maxFallSpeed *= 0.7f;
+						}
+					}
+
+					if (npc.Calamity().newAI[1] > 1f)
+						maxFallSpeed *= npc.Calamity().newAI[1];
+
+					npc.velocity.Y += gravity;
+					if (npc.velocity.Y > maxFallSpeed)
+						npc.velocity.Y = maxFallSpeed;
+				}
             }
 
 			player = Main.player[npc.target];

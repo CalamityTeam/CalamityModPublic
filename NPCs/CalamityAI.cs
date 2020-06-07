@@ -2369,7 +2369,6 @@ namespace CalamityMod.NPCs
                     npc.defense = 70;
 
                     // Stop colliding with tiles
-                    npc.noGravity = true;
                     npc.noTileCollide = true;
 
 					// Set AI to next phase (Walk) and reset other AI
@@ -2388,7 +2387,7 @@ namespace CalamityMod.NPCs
 				if (expertMode)
 					num823 += death ? 3f : 3f * (1f - lifeRatio);
 				if (revenge)
-					num823 += Math.Abs(npc.Center.X - player.Center.X) * 0.005f;
+					num823 += Math.Abs(npc.Center.X - player.Center.X) * 0.0025f;
 
 				// Set walking direction
 				if (Math.Abs(npc.Center.X - player.Center.X) < 200f)
@@ -2448,7 +2447,6 @@ namespace CalamityMod.NPCs
                 if (npc.ai[1] >= 360f)
                 {
                     // Collide with tiles again
-                    npc.noGravity = false;
                     npc.noTileCollide = false;
 
 					// Set AI to next phase (Jump) and reset other AI
@@ -2486,30 +2484,34 @@ namespace CalamityMod.NPCs
 						npc.velocity.X = velocityX * npc.direction;
 
 						float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
-						float speedMult = 1f;
 
 						if (revenge)
 						{
-							if (distanceBelowTarget > 0f)
-								speedMult += distanceBelowTarget * 0.002f;
+							calamityGlobalNPC.newAI[0] = 0f;
 
-							if (speedMult > 2f)
-								speedMult = 2f;
+							if (distanceBelowTarget > 0f)
+								calamityGlobalNPC.newAI[0] = 1f + distanceBelowTarget * 0.001f;
+
+							if (calamityGlobalNPC.newAI[0] > 2f)
+								calamityGlobalNPC.newAI[0] = 2f;
 						}
 
 						if (expertMode)
                         {
                             if (player.position.Y < npc.Bottom.Y)
-                                npc.velocity.Y = -14.5f * speedMult;
+                                npc.velocity.Y = -14.5f;
                             else
                                 npc.velocity.Y = 1f;
 
                             npc.noTileCollide = true;
                         }
                         else
-                            npc.velocity.Y = -14.5f * speedMult;
+                            npc.velocity.Y = -14.5f;
 
-                        npc.ai[0] = 4f;
+						if (calamityGlobalNPC.newAI[0] > 1f)
+							npc.velocity.Y *= calamityGlobalNPC.newAI[0];
+
+						npc.ai[0] = 4f;
                         npc.ai[1] = 0f;
                     }
                 }
@@ -2566,8 +2568,11 @@ namespace CalamityMod.NPCs
 							if (expertMode)
 								fallSpeed += death ? 0.8f : 0.8f * (1f - lifeRatio);
 
-                            npc.velocity.Y += fallSpeed;
-                        }
+							if (calamityGlobalNPC.newAI[0] > 1f)
+								fallSpeed *= calamityGlobalNPC.newAI[0];
+
+							npc.velocity.Y += fallSpeed;
+						}
                     }
                     else
                     {
@@ -2585,7 +2590,31 @@ namespace CalamityMod.NPCs
                         if (npc.velocity.X > num626)
                             npc.velocity.X = num626;
                     }
-                }
+
+					// Custom gravity
+					float gravity = 0.3f;
+					float maxFallSpeed = 10f;
+					if (npc.wet)
+					{
+						if (npc.honeyWet)
+						{
+							gravity *= 0.33f;
+							maxFallSpeed *= 0.4f;
+						}
+						else
+						{
+							gravity *= 0.66f;
+							maxFallSpeed *= 0.7f;
+						}
+					}
+
+					if (calamityGlobalNPC.newAI[0] > 1f)
+						maxFallSpeed *= calamityGlobalNPC.newAI[0];
+
+					npc.velocity.Y += gravity;
+					if (npc.velocity.Y > maxFallSpeed)
+						npc.velocity.Y = maxFallSpeed;
+				}
             }
 
             // Teleport
@@ -3044,7 +3073,7 @@ namespace CalamityMod.NPCs
 
 				if (flyAtTarget)
 				{
-					float speedMultiplier = phase5 ? 2f : phase4 ? 1.75f : 1.5f;
+					float speedMultiplier = phase5 ? 1.3f : phase4 ? 1.25f : 1.2f;
 					speed *= speedMultiplier;
 				}
 
