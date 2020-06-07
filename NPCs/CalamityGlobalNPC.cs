@@ -3554,7 +3554,8 @@ namespace CalamityMod.NPCs
 					GrenadeResist(projectile, ref damage);
 					PierceResistGlobal(projectile, ref damage);
 
-					/*if (projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileType<AtlantisSpear2>() || ProjectileID.Sets.StardustDragon[projectile.type])
+					// Old resists
+					/*if (projectile.type == ProjectileType<AtlantisSpear2>())
 					{
 						damage = (int)(damage * 0.1);
 					}
@@ -3562,22 +3563,28 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.2);
 					}
-					else if (projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileID.DD2BetsyArrow)
+					else if (projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>())
+					{
+						damage = (int)(damage * 0.4);
+					}*/
+
+					// New resists
+					if (projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>())
+					{
+						damage = (int)(damage * 0.2);
+					}
+					else if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileID.Electrosphere)
 					{
 						damage = (int)(damage * 0.4);
 					}
-					else if (projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
+					else if (projectile.type == ProjectileType<SpikecragSpike>())
 					{
 						damage = (int)(damage * 0.5);
 					}
-					else if (projectile.type == ProjectileType<CosmicTentacle>() || projectile.type == ProjectileType<BrimstoneTentacle>())
+					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
 					{
-						damage = (int)(damage * 0.6);
+						damage = (int)(damage * 0.75);
 					}
-					else if (projectile.type == ProjectileType<BigNuke>())
-					{
-						damage = (int)(damage * 0.85);
-					}*/
 				}
 				else if (StormWeaverIDs.Contains(npc.type))
 				{

@@ -4710,16 +4710,14 @@ namespace CalamityMod.NPCs
 
 			if (flyAtTarget)
 			{
-				float speedMultiplier = phase5 ? 1.3f : phase4 ? 1.15f : 1f;
+				float speedMultiplier = phase5 ? 2f : phase4 ? 1.75f : 1.5f;
 				speed *= speedMultiplier;
-				turnSpeed *= speedMultiplier;
-				fallSpeed *= speedMultiplier;
 			}
 
             if (CalamityWorld.bossRushActive)
             {
-                speed *= 1.5f;
-                turnSpeed *= 1.5f;
+                speed *= 1.25f;
+                turnSpeed *= 1.25f;
             }
 
             Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);

@@ -17,16 +17,24 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
+using CalamityMod.NPCs.AcidRain;
+using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.GreatSandShark;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Environment;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -5752,17 +5760,17 @@ namespace CalamityMod.CalPlayer
                 }
             }
         }
-        #endregion
+		#endregion
 
-        #region Modify Hit By NPC
-        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
-        {
-            int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 2);
-            if (CalamityWorld.bossRushActive)
-            {
-                if (damage < bossRushDamage)
-                    damage = bossRushDamage;
-            }
+		#region Modify Hit By NPC
+		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+		{
+			int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 2);
+			if (CalamityWorld.bossRushActive)
+			{
+				if (damage < bossRushDamage)
+					damage = bossRushDamage;
+			}
 
 			if (areThereAnyDamnBosses && CalamityMod.bossVelocityDamageScaleValues.ContainsKey(npc.type))
 			{
@@ -5805,25 +5813,38 @@ namespace CalamityMod.CalPlayer
                 player.AddBuff(ModContent.BuffType<FleshTotemCooldown>(), 1200, false); //20 seconds
                 damage /= 2;
             }
+
             if (tarragonCloak && !tarragonCloakCooldown && tarraMelee)
             {
                 damage /= 2;
             }
+
             if (bloodflareMelee && bloodflareFrenzy && !bloodFrenzyCooldown)
             {
                 damage /= 2;
             }
+
             if (silvaMelee && silvaCountdown <= 0 && hasSilvaEffect)
             {
                 damage = (int)(damage * 0.8);
             }
+
             if (aBulwarkRare)
             {
                 aBulwarkRareMeleeBoostTimer += 3 * damage;
                 if (aBulwarkRareMeleeBoostTimer > 900)
                     aBulwarkRareMeleeBoostTimer = 900;
             }
-            if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
+
+			if (Main.hardMode && Main.expertMode)
+			{
+				bool reduceChaosBallDamage = npc.type == NPCID.ChaosBall && !NPC.AnyNPCs(NPCID.GoblinSummoner);
+
+				if (reduceChaosBallDamage || npc.type == NPCID.BurningSphere || npc.type == NPCID.WaterSphere)
+					damage = (int)(damage * 0.6);
+			}
+
+			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
                 if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && !npc.SpawnedFromStatue)
                 {
@@ -5873,37 +5894,90 @@ namespace CalamityMod.CalPlayer
 					damage = 0;
 				}
 			}
+
+			// Reduce projectile damage based on banner type
+			// IMPORTANT NOTE: Rework this in 1.4!
+			Point point = player.Center.ToTileCoordinates();
+			int buffScanAreaWidth = (Main.maxScreenW + 800) / 16 - 1;
+			int buffScanAreaHeight = (Main.maxScreenH + 800) / 16 - 1;
+			Rectangle rectangle = CalamityUtils.ClampToWorld(tileRectangle: new Rectangle(point.X - buffScanAreaWidth / 2, point.Y - buffScanAreaHeight / 2, buffScanAreaWidth, buffScanAreaHeight));
+			bool[] NPCBannerBuff = new bool[Main.MaxBannerTypes];
+			bool hasBanner = false;
+
+			// Scan area around the player for banners
+			for (int i = rectangle.Left; i < rectangle.Right; i++)
+			{
+				for (int j = rectangle.Top; j < rectangle.Bottom; j++)
+				{
+					if (!rectangle.Contains(i, j))
+						continue;
+
+					Tile tile = Main.tile[i, j];
+					if (tile == null || !tile.active())
+						continue;
+
+					if (tile.type == TileID.Banners && (tile.frameX >= 396 || tile.frameY >= 54))
+					{
+						int bannerType = tile.frameX / 18 - 21;
+						for (int k = tile.frameY; k >= 54; k -= 54)
+						{
+							bannerType += 90;
+							bannerType += 21;
+						}
+
+						int bannerItemType = Item.BannerToItem(bannerType);
+						if (ItemID.Sets.BannerStrength[bannerItemType].Enabled)
+						{
+							NPCBannerBuff[bannerType] = true;
+							hasBanner = true;
+						}
+					}
+				}
+			}
+
+			// Reduce damage
+			if (hasBanner)
+			{
+				BannerProjectileDamageReduction(proj, ref damage, NPCBannerBuff);
+			}
+
             int bossRushDamage = (Main.expertMode ? 125 : 150) + (CalamityWorld.bossRushStage / 2);
             if (CalamityWorld.bossRushActive)
             {
                 if (damage < bossRushDamage)
                     damage = bossRushDamage;
             }
+
             if (projRefRare)
             {
                 if (proj.type == projTypeJustHitBy)
                     damage = (int)(damage * 0.85);
             }
+
             if (aSparkRare)
             {
                 if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc || proj.type == ModContent.ProjectileType<LightningMark>() ||
                     proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet)
                     damage /= 2;
             }
+
             if (proj.type == ProjectileID.Nail)
             {
                 damage = (int)(damage * 0.75);
             }
+
             if (beeResist)
             {
                 if (CalamityMod.beeProjectileList.Contains(proj.type))
                     damage = (int)(damage * 0.75);
             }
+
             if (Main.hardMode && Main.expertMode && !CalamityWorld.spawnedHardBoss && proj.active && !proj.friendly && proj.hostile && damage > 0)
             {
                 if (CalamityMod.hardModeNerfList.Contains(proj.type))
                     damage = (int)(damage * 0.75);
             }
+
             if (CalamityWorld.revenge)
             {
                 double damageMultiplier = 1D;
@@ -5971,10 +6045,500 @@ namespace CalamityMod.CalPlayer
                 }
             }
         }
-        #endregion
+		#endregion
 
-        #region On Hit
-        public override void OnHitByNPC(NPC npc, int damage, bool crit)
+		#region Banner Projectile Damage Reduction
+		private void BannerProjectileDamageReduction(Projectile proj, ref int damage, bool[] NPCBannerBuffs)
+		{
+			bool? reduceDamage = null;
+			double bannerDamageMultiplier = Main.expertMode ? 0.5 : 0.75;
+
+			for (int l = 0; l < Main.MaxBannerTypes; l++)
+			{
+				int bannerNPCType = Item.BannerToNPC(l);
+				if (bannerNPCType != 0 && NPCBannerBuffs[l])
+				{
+					if (proj.type == ModContent.ProjectileType<BelchingCoralSpike>())
+					{
+						if (bannerNPCType == ModContent.NPCType<BelchingCoral>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<CrabBoulder>())
+					{
+						if (bannerNPCType == ModContent.NPCType<AnthozoanCrab>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<EarthRockBig>() || proj.type == ModContent.ProjectileType<EarthRockSmall>())
+					{
+						if (bannerNPCType == ModContent.NPCType<Horse>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<FlakAcid>())
+					{
+						if (bannerNPCType == ModContent.NPCType<FlakCrab>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<FlameBurstHostile>())
+					{
+						if (bannerNPCType == ModContent.NPCType<ImpiousImmolator>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<GammaAcid>() || proj.type == ModContent.ProjectileType<GammaBeam>())
+					{
+						if (bannerNPCType == ModContent.NPCType<GammaSlime>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<HorsWaterBlast>())
+					{
+						if (bannerNPCType == ModContent.NPCType<Cnidrion>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<Projectiles.Enemy.InkBomb>() || proj.type == ModContent.ProjectileType<InkPoisonCloud>() || proj.type == ModContent.ProjectileType<InkPoisonCloud2>() || proj.type == ModContent.ProjectileType<InkPoisonCloud3>())
+					{
+						if (bannerNPCType == ModContent.NPCType<ColossalSquid>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<MantisRing>())
+					{
+						if (bannerNPCType == ModContent.NPCType<Mantis>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<NuclearToadGoo>())
+					{
+						if (bannerNPCType == ModContent.NPCType<NuclearToad>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<OrthoceraStream>())
+					{
+						if (bannerNPCType == ModContent.NPCType<Orthocera>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<PearlBurst>() || proj.type == ModContent.ProjectileType<PearlRain>())
+					{
+						if (bannerNPCType == ModContent.NPCType<GiantClam>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<PufferExplosion>())
+					{
+						if (bannerNPCType == ModContent.NPCType<ChaoticPuffer>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<StormMarkHostile>() || proj.type == ModContent.ProjectileType<TornadoHostile>())
+					{
+						if (bannerNPCType == ModContent.NPCType<ThiccWaifu>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<SulphuricAcidBubble>() || proj.type == ModContent.ProjectileType<SulphuricAcidMist>())
+					{
+						if (bannerNPCType == ModContent.NPCType<Mauler>() || (bannerNPCType == ModContent.NPCType<Flounder>() && proj.type == ModContent.ProjectileType<SulphuricAcidMist>()))
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<ToxicMinnowCloud>())
+					{
+						if (bannerNPCType == ModContent.NPCType<ToxicMinnow>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<TrilobiteSpike>())
+					{
+						if (bannerNPCType == ModContent.NPCType<Trilobite>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<BrimstoneLaser>() || proj.type == ModContent.ProjectileType<BrimstoneLaserSplit>())
+					{
+						if (bannerNPCType == ModContent.NPCType<SoulSlurper>())
+							reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<Calamitas>()) && !NPC.AnyNPCs(ModContent.NPCType<CalamitasRun3>());
+					}
+					else if (proj.type == ModContent.ProjectileType<GreatSandBlast>())
+					{
+						if (bannerNPCType == ModContent.NPCType<GreatSandShark>())
+							reduceDamage = true;
+					}
+					else if (proj.type == ModContent.ProjectileType<PhantomGhostShot>())
+					{
+						if (bannerNPCType == ModContent.NPCType<PhantomSpiritL>())
+							reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<Polterghast>());
+					}
+					else if (proj.type == ModContent.ProjectileType<PlagueStingerGoliathV2>())
+					{
+						if (bannerNPCType == ModContent.NPCType<PlaguedJungleSlime>() || bannerNPCType == ModContent.NPCType<PlaguebringerShade>())
+							reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>());
+					}
+					else if (proj.type == ModContent.ProjectileType<HiveBombGoliath>())
+					{
+						if (bannerNPCType == ModContent.NPCType<PlaguebringerShade>())
+							reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>());
+					}
+					else if (proj.type == ModContent.ProjectileType<HolyBomb>() || proj.type == ModContent.ProjectileType<HolyFlare>())
+					{
+						if (bannerNPCType == ModContent.NPCType<ProfanedEnergyBody>())
+							reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<Providence>());
+					}
+					else if (proj.type == ProjectileID.EyeBeam)
+					{
+						if (bannerNPCType == ModContent.NPCType<Laserfish>())
+							reduceDamage = !NPC.AnyNPCs(NPCID.Golem);
+					}
+					else if (proj.type == ProjectileID.CultistBossIceMist || proj.type == ProjectileID.CultistBossLightningOrbArc)
+					{
+						if (bannerNPCType == ModContent.NPCType<EidolonWyrmHead>() || bannerNPCType == ModContent.NPCType<Eidolist>())
+							reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(NPCID.CultistBoss);
+					}
+					else if (proj.type == ProjectileID.SaucerScrap)
+					{
+						if (bannerNPCType == ModContent.NPCType<ArmoredDiggerHead>())
+							reduceDamage = Main.invasionType != InvasionID.MartianMadness;
+					}
+					else
+					{
+						switch (proj.type)
+						{
+							case ProjectileID.Stinger:
+								if (CalamityMod.hornetList.Contains(bannerNPCType) || CalamityMod.mossHornetList.Contains(bannerNPCType))
+								{
+									reduceDamage = !NPC.AnyNPCs(NPCID.QueenBee);
+								}
+								break;
+
+							case ProjectileID.PinkLaser:
+								if (bannerNPCType == NPCID.Gastropod || bannerNPCType == ModContent.NPCType<AstralProbe>())
+								{
+									reduceDamage = !NPC.AnyNPCs(NPCID.TheDestroyer) && !NPC.AnyNPCs(ModContent.NPCType<LifeSeeker>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>());
+								}
+								break;
+
+							case ProjectileID.SandBallFalling:
+								if (bannerNPCType == NPCID.Antlion)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.DemonSickle:
+								if (bannerNPCType == NPCID.Demon || bannerNPCType == NPCID.VoodooDemon)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.HarpyFeather:
+								if (bannerNPCType == NPCID.Harpy)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.JavelinHostile:
+								if (bannerNPCType == NPCID.GreekSkeleton)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.IceSpike:
+								if (bannerNPCType == NPCID.SpikedIceSlime)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.JungleSpike:
+								if (bannerNPCType == NPCID.SpikedJungleSlime)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.WebSpit:
+								if (bannerNPCType == NPCID.BlackRecluse || bannerNPCType == NPCID.BlackRecluseWall)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.CursedFlameHostile:
+								if (bannerNPCType == NPCID.Clinger)
+								{
+									reduceDamage = !NPC.AnyNPCs(NPCID.Spazmatism);
+								}
+								break;
+
+							case ProjectileID.DesertDjinnCurse:
+								if (bannerNPCType == NPCID.DesertDjinn)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.InfernoHostileBlast:
+							case ProjectileID.InfernoHostileBolt:
+								if (bannerNPCType == NPCID.DiabolistRed || bannerNPCType == NPCID.DiabolistWhite)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.Shadowflames:
+								if (bannerNPCType == NPCID.GiantCursedSkull)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.FrostBlastHostile:
+								if (bannerNPCType == NPCID.IceElemental || bannerNPCType == ModContent.NPCType<IceClasper>())
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.IcewaterSpit:
+								if (bannerNPCType == NPCID.IcyMerman)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.GoldenShowerHostile:
+								if (bannerNPCType == NPCID.IchorSticker)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.ShadowBeamHostile:
+								if (bannerNPCType == NPCID.Necromancer || bannerNPCType == NPCID.NecromancerArmored)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.PaladinsHammerHostile:
+								if (bannerNPCType == NPCID.Paladin)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.LostSoulHostile:
+								if (bannerNPCType == NPCID.RaggedCaster || bannerNPCType == NPCID.RaggedCasterOpenCoat)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.UnholyTridentHostile:
+								if (bannerNPCType == NPCID.RedDevil)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.RuneBlast:
+								if (bannerNPCType == NPCID.RuneWizard)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.FlamingArrow:
+								if (bannerNPCType == NPCID.SkeletonArcher || bannerNPCType == NPCID.PirateCrossbower || bannerNPCType == NPCID.GoblinArcher || bannerNPCType == NPCID.ElfArcher)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.RocketSkeleton:
+								if (bannerNPCType == NPCID.SkeletonCommando)
+								{
+									reduceDamage = !NPC.AnyNPCs(NPCID.SkeletronPrime) || !CalamityWorld.revenge;
+								}
+								break;
+
+							case ProjectileID.SniperBullet:
+								if (bannerNPCType == NPCID.SkeletonSniper)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.BulletDeadeye:
+								if (bannerNPCType == NPCID.TacticalSkeleton || bannerNPCType == NPCID.SnowmanGangsta || bannerNPCType == NPCID.PirateCaptain || bannerNPCType == NPCID.PirateDeadeye || bannerNPCType == NPCID.ElfCopter)
+								{
+									reduceDamage = !NPC.AnyNPCs(NPCID.SantaNK1);
+								}
+								break;
+
+							case ProjectileID.RainNimbus:
+								if (bannerNPCType == NPCID.AngryNimbus)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.FrostBeam:
+								if (bannerNPCType == NPCID.IceGolem)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.SandnadoHostile:
+							case ProjectileID.SandnadoHostileMark:
+								if (bannerNPCType == NPCID.SandElemental)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.SnowBallHostile:
+								if (bannerNPCType == NPCID.SnowBalla)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.CannonballHostile:
+								if (bannerNPCType == NPCID.PirateCaptain)
+								{
+									reduceDamage = !NPC.AnyNPCs(NPCID.PirateShip);
+								}
+								break;
+
+							case ProjectileID.DrManFlyFlask:
+								if (bannerNPCType == NPCID.DrManFly)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.EyeLaser:
+								if (bannerNPCType == NPCID.Eyezor)
+								{
+									reduceDamage = !NPC.AnyNPCs(NPCID.Retinazer);
+								}
+								break;
+
+							case ProjectileID.Nail:
+								if (bannerNPCType == NPCID.Nailhead)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.NebulaSphere:
+								if (bannerNPCType == NPCID.NebulaBeast)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.NebulaLaser:
+								if (bannerNPCType == NPCID.NebulaBrain)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.NebulaBolt:
+								if (bannerNPCType == NPCID.NebulaSoldier)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.StardustJellyfishSmall:
+								if (bannerNPCType == NPCID.StardustJellyfishBig)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.StardustSoldierLaser:
+								if (bannerNPCType == NPCID.StardustSoldier)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.VortexAcid:
+								if (bannerNPCType == NPCID.VortexHornetQueen)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.VortexLaser:
+								if (bannerNPCType == NPCID.VortexRifleman)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.VortexLightning:
+								if (bannerNPCType == NPCID.VortexSoldier)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.RayGunnerLaser:
+								if (bannerNPCType == NPCID.RayGunner)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.BrainScramblerBolt:
+								if (bannerNPCType == NPCID.BrainScrambler)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.MartianWalkerLaser:
+								if (bannerNPCType == NPCID.MartianWalker)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.ScutlixLaser:
+								if (bannerNPCType == NPCID.Scutlix)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.MartianTurretBolt:
+								if ((bannerNPCType == NPCID.MartianTurret && Main.invasionType == InvasionID.MartianMadness) || (bannerNPCType == ModContent.NPCType<ShockstormShuttle>() && Main.invasionType != InvasionID.MartianMadness))
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.SaucerLaser:
+								if (bannerNPCType == ModContent.NPCType<ShockstormShuttle>() && Main.invasionType != InvasionID.MartianMadness)
+								{
+									reduceDamage = true;
+								}
+								break;
+						}
+					}
+
+					if (reduceDamage.HasValue)
+					{
+						if (reduceDamage.Value)
+							damage = (int)(damage * bannerDamageMultiplier);
+
+						break;
+					}
+				}
+			}
+		}
+		#endregion
+
+		#region On Hit
+		public override void OnHitByNPC(NPC npc, int damage, bool crit)
         {
             if (sulfurSet)
                 npc.AddBuff(BuffID.Poisoned, 120);

@@ -3135,6 +3135,16 @@ namespace CalamityMod
 			}
 			return (t - from) / (to - from);
 		}
+
+		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 World.cs function
+		public static Rectangle ClampToWorld(Rectangle tileRectangle)
+		{
+			int num = Math.Max(0, Math.Min(tileRectangle.Left, Main.maxTilesX));
+			int num2 = Math.Max(0, Math.Min(tileRectangle.Top, Main.maxTilesY));
+			int num3 = Math.Max(0, Math.Min(tileRectangle.Right, Main.maxTilesX));
+			int num4 = Math.Max(0, Math.Min(tileRectangle.Bottom, Main.maxTilesY));
+			return new Rectangle(num, num2, num3 - num, num4 - num2);
+		}
 		#endregion
 	}
 }

@@ -2734,6 +2734,12 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool enraged = calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive);
 
+			// Deus cannot hit for 3 seconds
+			if (calamityGlobalNPC.newAI[1] < 180f)
+				npc.damage = 0;
+			else
+				npc.damage = npc.defDamage;
+
 			// 8 seconds of reistance to prevent spawn killing
 			if (calamityGlobalNPC.newAI[1] < 480f)
 				calamityGlobalNPC.newAI[1] += 1f;
@@ -2755,6 +2761,13 @@ namespace CalamityMod.NPCs
 			bool phase3 = (lifeRatio < 0.7f && expertMode) || death || (doubleWormPhase && expertMode);
 			bool phase4 = lifeRatio < 0.5f && doubleWormPhase && expertMode;
 			bool phase5 = lifeRatio < 0.2f && doubleWormPhase && expertMode;
+
+			// Set timed DR
+			if (!doubleWormPhase)
+			{
+				if (calamityGlobalNPC.AITimer < 3600)
+					calamityGlobalNPC.AITimer = 3600;
+			}
 
 			// Flight timer
 			float aiSwitchTimer = doubleWormPhase ? 1200f : 1800f;
@@ -3024,22 +3037,21 @@ namespace CalamityMod.NPCs
 				fallSpeed += fallSpeedBoost;
 
 				// Speed and movement
-				float speedBoost = death ? (targetFloatingUp ? 0.2f : 0.1f) : ((targetFloatingUp ? 0.2f : 0.1f) * (1f - lifeRatio));
-				float turnSpeedBoost = death ? (targetFloatingUp ? 0.3f : 0.15f) : ((targetFloatingUp ? 0.3f : 0.15f) * (1f - lifeRatio));
-				float speed = 0.1f + speedBoost;
-				float turnSpeed = 0.15f + turnSpeedBoost;
+				float speedBoost = death ? (targetFloatingUp ? 0.26f : 0.13f) : ((targetFloatingUp ? 0.26f : 0.13f) * (1f - lifeRatio));
+				float turnSpeedBoost = death ? (targetFloatingUp ? 0.4f : 0.2f) : ((targetFloatingUp ? 0.4f : 0.2f) * (1f - lifeRatio));
+				float speed = 0.13f + speedBoost;
+				float turnSpeed = 0.2f + turnSpeedBoost;
 
 				if (flyAtTarget)
 				{
-					float speedMultiplier = phase5 ? 1.3f : phase4 ? 1.15f : 1f;
+					float speedMultiplier = phase5 ? 2f : phase4 ? 1.75f : 1.5f;
 					speed *= speedMultiplier;
-					turnSpeed *= speedMultiplier;
 				}
 
 				if (CalamityWorld.bossRushActive)
 				{
-					speed *= 1.5f;
-					turnSpeed *= 1.5f;
+					speed *= 1.25f;
+					turnSpeed *= 1.25f;
 				}
 
 				Vector2 vector3 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -3085,18 +3097,6 @@ namespace CalamityMod.NPCs
 				}
 				else
 				{
-					if (npc.soundDelay == 0)
-					{
-						float num24 = num22 / 40f;
-						if (num24 < 10f)
-							num24 = 10f;
-						if (num24 > 20f)
-							num24 = 20f;
-
-						npc.soundDelay = (int)num24;
-						Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
-					}
-
 					num22 = (float)Math.Sqrt(num20 * num20 + num21 * num21);
 					float num25 = Math.Abs(num20);
 					float num26 = Math.Abs(num21);
@@ -3249,8 +3249,9 @@ namespace CalamityMod.NPCs
 						if (npc.localAI[0] % divisor == 0f && npc.ai[0] % 2f == 0f)
 						{
 							npc.TargetClosest(true);
-							if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && Vector2.Distance(player.Center, npc.Center) > 80f)
+							if (Vector2.Distance(player.Center, npc.Center) > 80f)
 							{
+								Main.PlaySound(SoundID.Item12, npc.Center);
 								float num941 = revenge ? 14f : 13f;
 								if (CalamityWorld.bossRushActive)
 								{
@@ -3275,7 +3276,7 @@ namespace CalamityMod.NPCs
 								int num946 = ModContent.ProjectileType<AstralShot2>();
 								vector104.X += num942 * 5f;
 								vector104.Y += num943 * 5f;
-								Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, player.Center.X, player.Center.Y);
 								npc.netUpdate = true;
 							}
 						}

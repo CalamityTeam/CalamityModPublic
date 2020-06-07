@@ -1149,6 +1149,8 @@ namespace CalamityMod.Projectiles
 
 				if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
 				{
+					// Commented out for now to test the global life steal nerf
+					/*
 					// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
 					if (player.ghostHeal)
 					{
@@ -1170,6 +1172,7 @@ namespace CalamityMod.Projectiles
 
 						Main.player[Main.myPlayer].lifeSteal -= num;
 					}
+					*/
 
 					if (modPlayer.vampiricTalisman && rogue && crit)
 					{
