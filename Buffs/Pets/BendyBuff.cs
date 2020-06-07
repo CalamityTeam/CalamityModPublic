@@ -8,8 +8,8 @@ namespace CalamityMod.Buffs.Pets
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Chromadragon");
-            Description.SetDefault("He supports you");
+            DisplayName.SetDefault("Dreamfog");
+            Description.SetDefault("Xi believes in Yuu");
             Main.buffNoTimeDisplay[Type] = true;
             Main.lightPet[Type] = true;
         }
