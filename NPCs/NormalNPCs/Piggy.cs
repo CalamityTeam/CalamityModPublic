@@ -18,13 +18,12 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             npc.chaseable = false;
-            npc.aiStyle = 26;
             npc.damage = 0;
             npc.width = 26;
             npc.height = 26;
             npc.lifeMax = 2000;
             npc.aiStyle = 7;
-            aiType = 299;
+            aiType = NPCID.Squirrel;
             npc.knockBackResist = 0.99f;
             npc.value = Item.buyPrice(0, 10, 0, 0);
             npc.HitSound = SoundID.NPCHit1;

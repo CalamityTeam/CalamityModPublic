@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = 300;
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
-            aiType = 1;
+            aiType = ProjectileID.WoodenArrowFriendly;
         }
 
         public override void AI()

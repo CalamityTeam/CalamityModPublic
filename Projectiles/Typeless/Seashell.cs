@@ -17,7 +17,7 @@ namespace CalamityMod.Projectiles.Typeless
             projectile.penetrate = 2;
             projectile.aiStyle = 3;
             projectile.timeLeft = 300;
-            aiType = 52;
+            aiType = ProjectileID.WoodenBoomerang;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
         }

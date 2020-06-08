@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.DR_NERD(0.1f);
             npc.lifeMax = 30;
             npc.aiStyle = 3;
-            aiType = 67;
+            aiType = NPCID.Crab;
             npc.value = Item.buyPrice(0, 0, 1, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;

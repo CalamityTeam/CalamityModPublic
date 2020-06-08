@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 1;
             projectile.aiStyle = 1;
             projectile.timeLeft = 90;
-            aiType = 1;
+            aiType = ProjectileID.WoodenArrowFriendly;
             projectile.Calamity().rogue = true;
         }
 

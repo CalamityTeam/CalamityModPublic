@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Hybrid
             projectile.penetrate = -1;
             projectile.aiStyle = 3;
             projectile.timeLeft = 180;
-            aiType = 52;
+            aiType = ProjectileID.WoodenBoomerang;
         }
 
         public override void AI()
