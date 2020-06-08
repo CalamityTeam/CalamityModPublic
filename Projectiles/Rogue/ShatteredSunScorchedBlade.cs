@@ -208,7 +208,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Main.dust[num624].velocity *= 2f;
 
             }
-			CalamityUtils.ExplosionGores(projectile, 3);
+			projectile.ExplosionGores(3);
         }
     }
 }

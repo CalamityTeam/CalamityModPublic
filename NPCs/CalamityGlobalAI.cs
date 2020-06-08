@@ -2083,7 +2083,7 @@ namespace CalamityMod.NPCs
                             // Blood dust
                             for (int num621 = 0; num621 < 6; num621++)
                             {
-                                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
+                                int num622 = Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
                                 Main.dust[num622].velocity *= 3f;
                                 if (Main.rand.NextBool(2))
                                 {
@@ -2093,10 +2093,10 @@ namespace CalamityMod.NPCs
                             }
                             for (int num623 = 0; num623 < 12; num623++)
                             {
-                                int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1.5f);
+                                int num624 = Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 100, default, 1.5f);
                                 Main.dust[num624].noGravity = true;
                                 Main.dust[num624].velocity *= 5f;
-                                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
+                                num624 = Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
                                 Main.dust[num624].velocity *= 2f;
                             }
 
@@ -4415,7 +4415,7 @@ namespace CalamityMod.NPCs
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        int num = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
+                        int num = Dust.NewDust(npc.position, npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
                         Main.dust[num].noGravity = true;
                         Main.dust[num].noLight = true;
                     }
@@ -9124,7 +9124,7 @@ namespace CalamityMod.NPCs
                     {
                         for (int num621 = 0; num621 < 10; num621++)
                         {
-                            int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 2f);
+                            int num622 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                             Main.dust[num622].velocity.Y *= 6f;
                             Main.dust[num622].velocity.X *= 3f;
                             if (Main.rand.Next(2) == 0)
@@ -9135,10 +9135,10 @@ namespace CalamityMod.NPCs
                         }
                         for (int num623 = 0; num623 < 20; num623++)
                         {
-                            int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 3f);
+                            int num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 3f);
                             Main.dust[num624].noGravity = true;
                             Main.dust[num624].velocity.Y *= 10f;
-                            num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 2f);
+                            num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                             Main.dust[num624].velocity.X *= 2f;
                         }
 
@@ -9397,10 +9397,10 @@ namespace CalamityMod.NPCs
                 {
                     npc.ai[2] = 0f;
 
-                    int num670 = 35;
+                    int dmg = 35;
 					if (death)
-						num670 += 3;
-					int num671 = ProjectileID.EyeBeam;
+						dmg += 3;
+					int projType = ProjectileID.EyeBeam;
 
                     if (npc.localAI[1] == 0f)
                     {
@@ -9428,7 +9428,7 @@ namespace CalamityMod.NPCs
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int num677 = Projectile.NewProjectile(vector82.X, vector82.Y, num674, num675, num671, num670, 0f, Main.myPlayer, 0f, 0f);
+                                int num677 = Projectile.NewProjectile(vector82.X, vector82.Y, num674, num675, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[num677].timeLeft = enrage ? 480 : 300;
                             }
                         }
@@ -9457,7 +9457,7 @@ namespace CalamityMod.NPCs
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int num682 = Projectile.NewProjectile(vector82.X, vector82.Y, num679, num680, num671, num670, 0f, Main.myPlayer, 0f, 0f);
+                            int num682 = Projectile.NewProjectile(vector82.X, vector82.Y, num679, num680, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[num682].timeLeft = enrage ? 480 : 300;
                         }
                     }
@@ -15675,7 +15675,7 @@ namespace CalamityMod.NPCs
             if (npc.type == NPCID.LavaSlime || npc.type == ModContent.NPCType<CharredSlime>())
             {
                 Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1f, 0.3f, 0.1f);
-                int idx = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default, 1.7f);
+                int idx = Dust.NewDust(npc.position, npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default, 1.7f);
                 Main.dust[idx].noGravity = true;
             }
             if (npc.ai[2] > 1f)
@@ -20852,7 +20852,7 @@ namespace CalamityMod.NPCs
                 {
                     if (npc.type == NPCID.GoblinSorcerer || npc.type == NPCID.Tim)
                     {
-                        int num69 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 27, 0f, 0f, 100, default(Color), (float)Main.rand.Next(1, 3));
+                        int num69 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 100, default(Color), (float)Main.rand.Next(1, 3));
                         Dust dust = Main.dust[num69];
                         dust.velocity *= 3f;
                         if (Main.dust[num69].scale > 1f)
@@ -20862,35 +20862,35 @@ namespace CalamityMod.NPCs
                     }
                     else if (npc.type == NPCID.DarkCaster)
                     {
-                        int num70 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 172, 0f, 0f, 100, default(Color), 1.5f);
+                        int num70 = Dust.NewDust(npc.position, npc.width, npc.height, 172, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num70];
                         dust.velocity *= 3f;
                         Main.dust[num70].noGravity = true;
                     }
                     else if (npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored)
                     {
-                        int num71 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f);
+                        int num71 = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f);
                         Dust dust = Main.dust[num71];
                         dust.velocity *= 2f;
                         Main.dust[num71].scale = 1.4f;
                     }
                     else if (npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite)
                     {
-                        int num72 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 174, 0f, 0f, 100, default(Color), 1.5f);
+                        int num72 = Dust.NewDust(npc.position, npc.width, npc.height, 174, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num72];
                         dust.velocity *= 3f;
                         Main.dust[num72].noGravity = true;
                     }
                     else if (npc.type == NPCID.RaggedCaster || npc.type == NPCID.RaggedCasterOpenCoat)
                     {
-                        int num73 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 175, 0f, 0f, 100, default(Color), 1.5f);
+                        int num73 = Dust.NewDust(npc.position, npc.width, npc.height, 175, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num73];
                         dust.velocity *= 3f;
                         Main.dust[num73].noGravity = true;
                     }
                     else if (npc.type == NPCID.RuneWizard)
                     {
-                        int num74 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 106, 0f, 0f, 100, default(Color), 2.5f);
+                        int num74 = Dust.NewDust(npc.position, npc.width, npc.height, 106, 0f, 0f, 100, default(Color), 2.5f);
                         Dust dust = Main.dust[num74];
                         dust.velocity *= 3f;
                         Main.dust[num74].noGravity = true;
@@ -20904,7 +20904,7 @@ namespace CalamityMod.NPCs
                     }
                     else
                     {
-                        int num76 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2.5f);
+                        int num76 = Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2.5f);
                         Dust dust = Main.dust[num76];
                         dust.velocity *= 3f;
                         Main.dust[num76].noGravity = true;
@@ -20922,7 +20922,7 @@ namespace CalamityMod.NPCs
                 {
                     if (npc.type == NPCID.GoblinSorcerer || npc.type == NPCID.Tim)
                     {
-                        int num78 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 27, 0f, 0f, 100, default(Color), (float)Main.rand.Next(1, 3));
+                        int num78 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 100, default(Color), (float)Main.rand.Next(1, 3));
                         Dust dust = Main.dust[num78];
                         dust.velocity *= 3f;
                         if (Main.dust[num78].scale > 1f)
@@ -20932,35 +20932,35 @@ namespace CalamityMod.NPCs
                     }
                     else if (npc.type == NPCID.DarkCaster)
                     {
-                        int num79 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 172, 0f, 0f, 100, default(Color), 1.5f);
+                        int num79 = Dust.NewDust(npc.position, npc.width, npc.height, 172, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num79];
                         dust.velocity *= 3f;
                         Main.dust[num79].noGravity = true;
                     }
                     else if (npc.type == NPCID.RuneWizard)
                     {
-                        int num80 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 106, 0f, 0f, 100, default(Color), 2.5f);
+                        int num80 = Dust.NewDust(npc.position, npc.width, npc.height, 106, 0f, 0f, 100, default(Color), 2.5f);
                         Dust dust = Main.dust[num80];
                         dust.velocity *= 3f;
                         Main.dust[num80].noGravity = true;
                     }
                     else if (npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored)
                     {
-                        int num81 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f);
+                        int num81 = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f);
                         Dust dust = Main.dust[num81];
                         dust.velocity *= 2f;
                         Main.dust[num81].scale = 1.4f;
                     }
                     else if (npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite)
                     {
-                        int num82 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 174, 0f, 0f, 100, default(Color), 1.5f);
+                        int num82 = Dust.NewDust(npc.position, npc.width, npc.height, 174, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num82];
                         dust.velocity *= 3f;
                         Main.dust[num82].noGravity = true;
                     }
                     else if (npc.type == NPCID.RaggedCaster || npc.type == NPCID.RaggedCasterOpenCoat)
                     {
-                        int num83 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 175, 0f, 0f, 100, default(Color), 1.5f);
+                        int num83 = Dust.NewDust(npc.position, npc.width, npc.height, 175, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num83];
                         dust.velocity *= 3f;
                         Main.dust[num83].noGravity = true;
@@ -20974,7 +20974,7 @@ namespace CalamityMod.NPCs
                     }
                     else
                     {
-                        int num85 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2.5f);
+                        int num85 = Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2.5f);
                         Dust dust = Main.dust[num85];
                         dust.velocity *= 3f;
                         Main.dust[num85].noGravity = true;
@@ -21524,12 +21524,12 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.Hellbat || npc.type == NPCID.Lavabat)
             {
-                int num203 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 2f);
+                int num203 = Dust.NewDust(npc.position, npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 2f);
                 Main.dust[num203].noGravity = true;
             }
             if (npc.type == NPCID.IceBat && Main.rand.Next(10) == 0)
             {
-                int num204 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
+                int num204 = Dust.NewDust(npc.position, npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
                 Main.dust[num204].noGravity = true;
                 Dust dust = Main.dust[num204];
                 dust.velocity *= 0.2f;
@@ -23883,7 +23883,7 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.IceTortoise && Main.rand.Next(10) == 0)
             {
-                int num537 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
+                int num537 = Dust.NewDust(npc.position, npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
                 Main.dust[num537].noGravity = true;
                 Dust dust = Main.dust[num537];
                 dust.velocity *= 0.2f;
@@ -24111,7 +24111,7 @@ namespace CalamityMod.NPCs
                 {
                     if (npc.type == NPCID.IceTortoise && Main.rand.Next(3) < 2)
                     {
-                        int num549 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
+                        int num549 = Dust.NewDust(npc.position, npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
                         Main.dust[num549].noGravity = true;
                         Dust dust = Main.dust[num549];
                         dust.velocity *= 0.2f;

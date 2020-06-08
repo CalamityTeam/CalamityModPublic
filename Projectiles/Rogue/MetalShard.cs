@@ -36,12 +36,12 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.velocity.Y > 16f)
                 projectile.velocity.Y = 16f;
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 8 , true);
+            projectile.ModifyHitNPCSticky(8 , true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

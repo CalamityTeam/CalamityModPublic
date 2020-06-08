@@ -167,7 +167,7 @@ namespace CalamityMod.NPCs.Ravager
             bool rightClawActive = false;
             bool leftClawActive = false;
 
-            for (int num619 = 0; num619 < 200; num619++)
+            for (int num619 = 0; num619 < Main.maxNPCs; num619++)
             {
                 if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerHead>())
                     headActive = true;
