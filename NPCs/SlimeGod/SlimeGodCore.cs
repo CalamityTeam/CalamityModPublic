@@ -663,7 +663,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CrimslimeStaff>(), 4);
 
                 // Vanity
-                DropHelper.DropItemFromSetChance(npc, 7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+                DropHelper.DropItemFromSetChance(npc, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
                 // Other
             }
