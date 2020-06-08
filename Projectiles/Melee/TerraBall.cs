@@ -94,10 +94,5 @@ namespace CalamityMod.Projectiles.Melee
 				Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
 			}
 		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 180);
-        }
     }
 }

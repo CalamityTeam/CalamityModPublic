@@ -2764,7 +2764,7 @@ namespace CalamityMod.NPCs
 			bool enraged = calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive);
 
 			// Deus cannot hit for 3 seconds
-			if (calamityGlobalNPC.newAI[1] < 180f)
+			if (calamityGlobalNPC.newAI[1] < 180f || npc.dontTakeDamage)
 				npc.damage = 0;
 			else
 				npc.damage = npc.defDamage;
@@ -3073,7 +3073,7 @@ namespace CalamityMod.NPCs
 
 				if (flyAtTarget)
 				{
-					float speedMultiplier = phase5 ? 1.3f : phase4 ? 1.25f : 1.2f;
+					float speedMultiplier = doubleWormPhase ? (phase5 ? 1.3f : phase4 ? 1.25f : 1.2f) : 1f;
 					speed *= speedMultiplier;
 				}
 

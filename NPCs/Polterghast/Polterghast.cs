@@ -50,7 +50,6 @@ namespace CalamityMod.NPCs.Polterghast
             npc.defense = 90;
 			npc.DR_NERD(0.15f, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
-            global.multDRReductions.Add(BuffID.Ichor, 0.9f);
             global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
             npc.LifeMaxNERB(412500, 495000, 3250000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
