@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {

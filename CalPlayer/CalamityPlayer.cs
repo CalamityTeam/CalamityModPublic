@@ -28,6 +28,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
