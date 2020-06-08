@@ -1093,7 +1093,7 @@ namespace CalamityMod.CalPlayer
 
 					for (int j = 0; j < 2; j++)
 					{
-						int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 5, 0f, 0f, 100, default, 2f);
+						int num = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, DustID.Blood, 0f, 0f, 100, default, 2f);
 						Dust dust = Main.dust[num];
 						dust.position.X += (float)Main.rand.Next(-20, 21);
 						dust.position.Y += (float)Main.rand.Next(-20, 21);
@@ -2293,7 +2293,7 @@ namespace CalamityMod.CalPlayer
 					if (Main.rand.NextBool(2))
 					{
 						Vector2 vector = Vector2.UnitY.RotatedByRandom(6.2831854820251465);
-						Dust dust = Main.dust[Dust.NewDust(player.Center - vector * 30f, 0, 0, 244, 0f, 0f, 0, default, 1f)];
+						Dust dust = Main.dust[Dust.NewDust(player.Center - vector * 30f, 0, 0, (int)CalamityDusts.ProfanedFire, 0f, 0f, 0, default, 1f)];
 						dust.noGravity = true;
 						dust.position = player.Center - vector * (float)Main.rand.Next(5, 11);
 						dust.velocity = vector.RotatedBy(1.5707963705062866, default) * 4f;
@@ -3477,7 +3477,7 @@ namespace CalamityMod.CalPlayer
 						bool special = player.name == "Amber" || player.name == "Nincity" || player.name == "IbanPlay" || player.name == "Chen"; //People who either helped create the item or test it.
 						for (int i = 0; i < 3; i++)
 						{
-							int num469 = Dust.NewDust(player.position, player.width, player.height, special ? 231 : 244, 0f, 0f, 100, special ? Color.DarkRed : default, 1f);
+							int num469 = Dust.NewDust(player.position, player.width, player.height, special ? 231 : (int)CalamityDusts.ProfanedFire, 0f, 0f, 100, special ? Color.DarkRed : default, 1f);
 							Main.dust[num469].scale = special ? 1.169f : 2f;
 							Main.dust[num469].noGravity = true;
 							Main.dust[num469].velocity *= special ? 10f : 6.9f;
