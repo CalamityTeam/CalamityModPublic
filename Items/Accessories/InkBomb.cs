@@ -28,9 +28,5 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.inkBomb = true;
         }
-
-        public override void AddRecipes()
-        {
-        }
     }
 }

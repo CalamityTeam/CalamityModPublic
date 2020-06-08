@@ -4,6 +4,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -395,7 +396,7 @@ namespace CalamityMod.NPCs.Abyss
                             damage = 55;
                         }
                         Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 111);
-                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<Projectiles.Enemy.InkBomb>(), damage, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(npc.Center.X, npc.Center.Y + 60, 0f, 2f, ModContent.ProjectileType<InkBombHostile>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
                     npc.rotation = npc.velocity.X * 0.05f;
                     npc.velocity *= 0.975f;

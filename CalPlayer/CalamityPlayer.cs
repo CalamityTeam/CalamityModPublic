@@ -6098,7 +6098,7 @@ namespace CalamityMod.CalPlayer
 						if (bannerNPCType == ModContent.NPCType<Cnidrion>())
 							reduceDamage = true;
 					}
-					else if (proj.type == ModContent.ProjectileType<Projectiles.Enemy.InkBomb>() || proj.type == ModContent.ProjectileType<InkPoisonCloud>() || proj.type == ModContent.ProjectileType<InkPoisonCloud2>() || proj.type == ModContent.ProjectileType<InkPoisonCloud3>())
+					else if (proj.type == ModContent.ProjectileType<InkBombHostile>() || proj.type == ModContent.ProjectileType<InkPoisonCloud>() || proj.type == ModContent.ProjectileType<InkPoisonCloud2>() || proj.type == ModContent.ProjectileType<InkPoisonCloud3>())
 					{
 						if (bannerNPCType == ModContent.NPCType<ColossalSquid>())
 							reduceDamage = true;
