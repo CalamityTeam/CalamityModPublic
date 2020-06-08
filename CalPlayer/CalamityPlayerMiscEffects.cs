@@ -3489,8 +3489,8 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.plaguebringerPistons)
 			{
 				//Spawn bees while sprinting or dashing
-				modPlayer.pistonCounter++;
-				if (modPlayer.pistonCounter % 12 == 0)
+				modPlayer.pistonsCounter++;
+				if (modPlayer.pistonsCounter % 12 == 0)
 				{
 					if ((Math.Abs(player.velocity.X) >= 5 || Math.Abs(player.velocity.Y) >= 5) && player.whoAmI == Main.myPlayer)
 					{

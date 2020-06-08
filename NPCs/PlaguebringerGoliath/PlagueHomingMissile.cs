@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                     Vector2 v3 = Main.player[(int)npc.ai[1]].Center - npc.Center;
                     float num760 = npc.velocity.ToRotation();
                     float num761 = v3.ToRotation();
-                    double angle = (double)(num761 - num760);
+					float angle = num761 - num760;
 					angle = MathHelper.WrapAngle(angle);
                     npc.velocity = npc.velocity.RotatedBy(angle * 0.2, default);
                 }
