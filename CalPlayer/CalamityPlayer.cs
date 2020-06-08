@@ -6181,7 +6181,7 @@ namespace CalamityMod.CalPlayer
 					else if (proj.type == ProjectileID.EyeBeam)
 					{
 						if (bannerNPCType == ModContent.NPCType<Laserfish>())
-							reduceDamage = !NPC.AnyNPCs(NPCID.Golem);
+							reduceDamage = !NPC.AnyNPCs(NPCID.Golem) && !NPC.AnyNPCs(ModContent.NPCType<RavagerBody>());
 					}
 					else if (proj.type == ProjectileID.CultistBossIceMist || proj.type == ProjectileID.CultistBossLightningOrbArc)
 					{
