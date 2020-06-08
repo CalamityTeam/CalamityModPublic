@@ -2658,24 +2658,24 @@ namespace CalamityMod
             TileObjectData.addTile(mt.Type);
         }
 
-        /// <summary>
-        /// Extension which initializes a ModTile to be a work bench.
-        /// </summary>
-        /// <param name="mt">The ModTile which is being initialized.</param>
-        /// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
-        internal static void SetUp6x6Painting(this ModTile mt, bool lavaImmune = false)
-        {
-            Main.tileFrameImportant[mt.Type] = true;
-            Main.tileLavaDeath[mt.Type] = !lavaImmune;
-            Main.tileWaterDeath[mt.Type] = false;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
+		/// <summary>
+		/// Extension which initializes a ModTile to be a 6x6 Painting.
+		/// </summary>
+		/// <param name="mt">The ModTile which is being initialized.</param>
+		/// <param name="lavaImmune">Whether this tile is supposed to be immune to lava. Defaults to false.</param>
+		internal static void SetUp6x6Painting(this ModTile mt, bool lavaImmune = false)
+		{
+			Main.tileFrameImportant[mt.Type] = true;
+			Main.tileLavaDeath[mt.Type] = !lavaImmune;
+			Main.tileWaterDeath[mt.Type] = false;
+			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
 			TileObjectData.newTile.Width = 6;
 			TileObjectData.newTile.Height = 6;
 			TileObjectData.newTile.Origin = new Point16(2, 2);
 			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16 };
-            TileObjectData.newTile.LavaDeath = !lavaImmune;
-            TileObjectData.addTile(mt.Type);
-        }
+			TileObjectData.newTile.LavaDeath = !lavaImmune;
+			TileObjectData.addTile(mt.Type);
+		}
         #endregion
         #endregion
 
