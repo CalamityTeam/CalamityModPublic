@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dark Plasma");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 8));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(7, 4));
         }
 
         public override void SetDefaults()
