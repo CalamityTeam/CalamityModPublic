@@ -232,7 +232,7 @@ namespace CalamityMod.Items
                 if (item.useTime < 10)
                     damageMult -= (double)(10 - item.useTime) / 10.0;
 
-                double newDamage = (double)damage * damageMult;
+                double newDamage = damage * damageMult;
 
                 if (player.whoAmI == Main.myPlayer)
                 {
@@ -240,16 +240,16 @@ namespace CalamityMod.Items
                         Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.6), 0f, player.whoAmI, 0f, 0f);
 
                     else if (rogue)
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.ranged)
                         Projectile.NewProjectile(position.X, position.Y, speedX * 1.5f, speedY * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.4), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.magic)
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
-                        Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
                 }
             }
             if (modPlayer.eArtifact && item.ranged && !rogue)
@@ -263,7 +263,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GhostlyBolt>(), (int)(damage * (modPlayer.auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GhostlyBolt>(), (int)(damage * (modPlayer.auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -273,7 +273,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BloodBomb>(), (int)(damage * (modPlayer.auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<BloodBomb>(), (int)(damage * (modPlayer.auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -387,7 +387,8 @@ namespace CalamityMod.Items
 							if (i != 0)
 							{
 								Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-								Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 1.3), 2f, player.whoAmI, 0f, 0f);
+								int rocket = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 1.3), 2f, player.whoAmI, 0f, 0f);
+								Main.projectile[rocket].Calamity().forceTypeless = true;
 							}
 						}
                     }
@@ -431,7 +432,7 @@ namespace CalamityMod.Items
 				for (int i = -8; i <= 8; i += 8)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<RainbowFront>(), damage, 0f, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<RainbowFront>(), damage, 0f, player.whoAmI, 0f, 0f);
 				}
 			}
             return true;
