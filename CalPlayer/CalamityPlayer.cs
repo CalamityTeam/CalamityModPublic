@@ -2658,7 +2658,7 @@ namespace CalamityMod.CalPlayer
                             Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
                             for (int num502 = 0; num502 < 36; num502++)
                             {
-                                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 235, 0f, 0f, 0, default, 1f);
+                                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
                                 Main.dust[dust].velocity *= 3f;
                                 Main.dust[dust].scale *= 1.15f;
                             }
@@ -2668,7 +2668,7 @@ namespace CalamityMod.CalPlayer
                                 Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
                                 vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / (float)num226), default) + player.Center;
                                 Vector2 vector7 = vector6 - player.Center;
-                                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 235, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
+                                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Brimstone, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                                 Main.dust[num228].noGravity = true;
                                 Main.dust[num228].noLight = true;
                                 Main.dust[num228].velocity = vector7;
@@ -2692,7 +2692,7 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 64; num502++)
                     {
-                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 60, 0f, 0f, 0, default, 1f);
+                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
                         Main.dust[dust].velocity *= 3f;
                         Main.dust[dust].scale *= 1.15f;
                     }
@@ -2702,7 +2702,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
                         vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + player.Center;
                         Vector2 vector7 = vector6 - player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 60, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
+                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Phantoplasm, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                         Main.dust[num228].noGravity = true;
                         Main.dust[num228].noLight = true;
                         Main.dust[num228].velocity = vector7;
@@ -2747,7 +2747,7 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 36; num502++)
                     {
-                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 235, 0f, 0f, 0, default, 1f);
+                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
                         Main.dust[dust].velocity *= 3f;
                         Main.dust[dust].scale *= 1.15f;
                     }
@@ -2757,7 +2757,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
                         vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / (float)num226), default) + player.Center;
                         Vector2 vector7 = vector6 - player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 235, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
+                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Brimstone, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                         Main.dust[num228].noGravity = true;
                         Main.dust[num228].noLight = true;
                         Main.dust[num228].velocity = vector7;
@@ -2895,7 +2895,7 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 64; num502++)
                     {
-                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 235, 0f, 0f, 0, default, 1f);
+                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
                         Main.dust[dust].velocity *= 3f;
                         Main.dust[dust].scale *= 1.15f;
                     }
@@ -2905,7 +2905,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
                         vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + player.Center;
                         Vector2 vector7 = vector6 - player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 235, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
+                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Brimstone, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                         Main.dust[num228].noGravity = true;
                         Main.dust[num228].noLight = true;
                         Main.dust[num228].velocity = vector7;
