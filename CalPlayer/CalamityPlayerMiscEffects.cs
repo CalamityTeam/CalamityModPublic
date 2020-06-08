@@ -336,8 +336,8 @@ namespace CalamityMod.CalPlayer
 			{
 				player.Calamity().andromedaState = AndromedaPlayerState.Inactive;
 			}
-
-			if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+			
+			if(player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
 			{
 				player.width = 152;
 				player.height = 212;
@@ -892,6 +892,8 @@ namespace CalamityMod.CalPlayer
 			// Cooldowns and timers
 			if (modPlayer.gainRageCooldown > 0)
 				modPlayer.gainRageCooldown--;
+			if (modPlayer.KameiBladeUseDelay > 0)
+				modPlayer.KameiBladeUseDelay--;
 			if (modPlayer.galileoCooldown > 0)
 				modPlayer.galileoCooldown--;
 			if (modPlayer.soundCooldown > 0)
@@ -1123,8 +1125,14 @@ namespace CalamityMod.CalPlayer
                 player.endurance += 0.07f;
             }
 
-            // Absorber bonus
-            if (modPlayer.absorber)
+			if (modPlayer.kamiBoost)
+			{
+				player.allDamage += 0.3f;
+				player.statDefense += 20;
+			}
+
+			// Absorber bonus
+			if (modPlayer.absorber)
 			{
 				player.moveSpeed += 0.12f;
 				player.jumpSpeedBoost += 1.2f;

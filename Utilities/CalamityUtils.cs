@@ -3135,6 +3135,20 @@ namespace CalamityMod
 			}
 			return (t - from) / (to - from);
 		}
+
+        /// <summary>
+        /// Clamps the distance between vectors via normalization.
+        /// </summary>
+        /// <param name="start">The starting point.</param>
+        /// <param name="end">The ending point.</param>
+        /// <param name="maxDistance">The maximum possible distance between the two vectors before they get clamped.</param>
+        public static void DistanceClamp(ref Vector2 start, ref Vector2 end, float maxDistance)
+        {
+            if (Vector2.Distance(end, start) > maxDistance)
+            {
+                end = start + Vector2.Normalize(end - start) * maxDistance;
+            }
+        }
 		#endregion
 	}
 }
