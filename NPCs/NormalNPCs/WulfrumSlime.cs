@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.defense = 2;
             npc.lifeMax = 12;
             npc.knockBackResist = 0f;
-            animationType = 81;
+            animationType = NPCID.CorruptSlime;
             npc.value = Item.buyPrice(0, 0, 0, 30);
             npc.alpha = 60;
             npc.lavaImmune = false;

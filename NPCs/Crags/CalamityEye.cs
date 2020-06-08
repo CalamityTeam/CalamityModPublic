@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.Crags
             npc.defense = 12;
             npc.lifeMax = 140;
             npc.knockBackResist = 0f;
-            animationType = 2;
+            animationType = NPCID.DemonEye;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
@@ -46,50 +46,50 @@ namespace CalamityMod.NPCs.Crags
         {
 			if ((double) npc.life < (double) npc.lifeMax * 0.5)
 			{
-				if (npc.direction == -1 && (double) npc.velocity.X > -6.0)
+				if (npc.direction == -1 && npc.velocity.X > -6f)
 				{
 					npc.velocity.X -= 0.1f;
-					if ((double) npc.velocity.X > 6.0)
+					if (npc.velocity.X > 6f)
 						npc.velocity.X -= 0.1f;
-					else if ((double) npc.velocity.X > 0.0)
+					else if (npc.velocity.X > 0f)
 						npc.velocity.X += 0.05f;
-					if ((double) npc.velocity.X < -6.0)
+					if (npc.velocity.X < -6f)
 						npc.velocity.X = -6f;
 				}
-				else if (npc.direction == 1 && (double) npc.velocity.X < 6.0)
+				else if (npc.direction == 1 && npc.velocity.X < 6f)
 				{
 					npc.velocity.X += 0.1f;
-					if ((double) npc.velocity.X < -6.0)
+					if (npc.velocity.X < -6f)
 						npc.velocity.X += 0.1f;
-					else if ((double) npc.velocity.X < 0.0)
+					else if (npc.velocity.X < 0f)
 						npc.velocity.X -= 0.05f;
-					if ((double) npc.velocity.X > 6.0)
+					if (npc.velocity.X > 6f)
 						npc.velocity.X = 6f;
 				}
-				if (npc.directionY == -1 && (double) npc.velocity.Y > -4.0)
+				if (npc.directionY == -1 && npc.velocity.Y > -4f)
 				{
 					npc.velocity.Y -= 0.1f;
-					if ((double) npc.velocity.Y > 4.0)
+					if (npc.velocity.Y > 4f)
 						npc.velocity.Y -= 0.1f;
-					else if ((double) npc.velocity.Y > 0.0)
+					else if (npc.velocity.Y > 0f)
 						npc.velocity.Y += 0.05f;
-					if ((double) npc.velocity.Y < -4.0)
+					if (npc.velocity.Y < -4f)
 						npc.velocity.Y = -4f;
 				}
-				else if (npc.directionY == 1 && (double) npc.velocity.Y < 4.0)
+				else if (npc.directionY == 1 && npc.velocity.Y < 4f)
 				{
 					npc.velocity.Y += 0.1f;
-					if ((double) npc.velocity.Y < -4.0)
+					if (npc.velocity.Y < -4f)
 						npc.velocity.Y += 0.1f;
-					else if ((double) npc.velocity.Y < 0.0)
+					else if (npc.velocity.Y < 0f)
 						npc.velocity.Y -= 0.05f;
-					if ((double) npc.velocity.Y > 4.0)
+					if (npc.velocity.Y > 4f)
 						npc.velocity.Y = 4f;
 				}
 			}
 			if (Main.rand.NextBool(40))
 			{
-				int index = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float) npc.height * 0.25f), npc.width, (int) ((double) npc.height * 0.5), 5, npc.velocity.X, 2f, 0, new Color(), 1f);
+				int index = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + npc.height * 0.25f), npc.width, (int)(npc.height * 0.5), DustID.Blood, npc.velocity.X, 2f, 0, new Color(), 1f);
 				Main.dust[index].velocity.X *= 0.5f;
 				Main.dust[index].velocity.Y *= 0.1f;
 			}
@@ -99,13 +99,13 @@ namespace CalamityMod.NPCs.Crags
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

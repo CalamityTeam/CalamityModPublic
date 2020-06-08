@@ -4326,7 +4326,7 @@ namespace CalamityMod.NPCs
             {
                 if (Main.rand.Next(5) < 4)
                 {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 173, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, (int)CalamityDusts.PurpleCosmolite, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.2f;
                     Main.dust[dust].velocity.Y -= 0.15f;
@@ -4364,7 +4364,7 @@ namespace CalamityMod.NPCs
                 {
                     int num3 = Utils.SelectRandom(Main.rand, new int[]
                     {
-                        173,
+                        (int)CalamityDusts.PurpleCosmolite,
                         27,
                         234
                     });
@@ -4400,7 +4400,7 @@ namespace CalamityMod.NPCs
             {
                 if (Main.rand.Next(5) < 4)
                 {
-                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, 173, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
+                    int dust = Dust.NewDust(npc.position - new Vector2(2f, 2f), npc.width + 4, npc.height + 4, (int)CalamityDusts.PurpleCosmolite, npc.velocity.X * 0.4f, npc.velocity.Y * 0.4f, 100, default, 1.5f);
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].velocity *= 1.2f;
                     Main.dust[dust].velocity.Y -= 0.15f;
@@ -5869,7 +5869,7 @@ namespace CalamityMod.NPCs
 		#region Any Events
 		public static bool AnyEvents(Player player)
 		{
-			if (Main.invasionType > 0)
+			if (Main.invasionType > InvasionID.None)
 				return true;
 			if (player.PillarZone())
 				return true;

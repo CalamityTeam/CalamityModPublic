@@ -192,7 +192,7 @@ namespace CalamityMod.NPCs.AcidRain
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AcidRain/OrthoceraGore2"), npc.scale);
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

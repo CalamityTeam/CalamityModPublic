@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npc.lavaImmune = true;
             npc.aiStyle = 14;
-            aiType = 151;
+            aiType = NPCID.Lavabat;
             npc.damage = 35;
             npc.width = 26;
             npc.height = 20;

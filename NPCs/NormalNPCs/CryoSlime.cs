@@ -17,14 +17,14 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-			aiType = 71;
+			aiType = NPCID.DungeonSlime;
 			npc.damage = 30;
             npc.width = 40;
             npc.height = 30;
             npc.defense = 8;
             npc.lifeMax = 120;
             npc.knockBackResist = 0f;
-            animationType = 81;
+            animationType = NPCID.CorruptSlime;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.alpha = 50;
             npc.lavaImmune = false;

@@ -16,14 +16,14 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             npc.aiStyle = 2;
-			aiType = 116;
+			aiType = NPCID.TheHungryII;
             npc.damage = 32;
             npc.width = 30;
             npc.height = 32;
             npc.defense = 8;
             npc.lifeMax = 120;
             npc.knockBackResist = 0.6f;
-            animationType = 2;
+            animationType = NPCID.DemonEye;
             npc.value = Item.buyPrice(0, 0, 2, 0);
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
@@ -35,13 +35,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

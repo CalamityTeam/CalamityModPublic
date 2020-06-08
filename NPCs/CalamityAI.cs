@@ -3448,7 +3448,7 @@ namespace CalamityMod.NPCs
 					for (int i = 0; i < numDust; i++)
 					{
 						dustOffset = dustOffset.RotatedBy(angleIncrement);
-						int dust = Dust.NewDust(npc.Center, 1, 1, 173);
+						int dust = Dust.NewDust(npc.Center, 1, 1, (int)CalamityDusts.PurpleCosmolite);
 						Main.dust[dust].position = npc.Center + dustOffset;
 						Main.dust[dust].noGravity = true;
 						Main.dust[dust].fadeIn = 1f;
