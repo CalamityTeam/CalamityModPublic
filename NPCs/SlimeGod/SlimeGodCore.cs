@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.damage = npc.defDamage;
 
 			// Enrage based on large slimes
-			bool flag100 = false;
+			bool phase2 = false;
 			bool hyperMode = true;
 			bool purpleSlimeAlive = false;
 			bool redSlimeAlive = false;
@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.Calamity().newAI[1] = Main.npc[CalamityGlobalNPC.slimeGodPurple].Center.Y;
 
 					purpleSlimeAlive = true;
-					flag100 = lifeRatio >= 0.5f;
+					phase2 = lifeRatio >= 0.5f;
 					hyperMode = false;
 				}
 			}
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.localAI[3] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.Y;
 
 					redSlimeAlive = true;
-					flag100 = lifeRatio >= 0.5f;
+					phase2 = lifeRatio >= 0.5f;
 					hyperMode = false;
 				}
 			}
@@ -238,8 +238,14 @@ namespace CalamityMod.NPCs.SlimeGod
 					Vector2 goToPosition = goToVector - vectorCenter;
 					npc.velocity = Vector2.Normalize(goToPosition) * (CalamityWorld.bossRushActive ? 24f : 16f);
 
+					bool slimeDead = false;
+					if (goToVector == purpleSlimeVector)
+						slimeDead = CalamityGlobalNPC.slimeGodPurple < 0 || !Main.npc[CalamityGlobalNPC.slimeGodPurple].active;
+					else
+						slimeDead = CalamityGlobalNPC.slimeGodRed < 0 || !Main.npc[CalamityGlobalNPC.slimeGodRed].active;
+
 					npc.ai[2] += 1f;
-					if (npc.ai[2] >= 600f)
+					if (npc.ai[2] >= 600f || slimeDead)
 					{
 						npc.ai[2] = 0f;
 						npc.Calamity().newAI[3] = 0f;
@@ -252,7 +258,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			}
 
 			// Spin and shoot orbs
-            if (!flag100)
+            if (!phase2)
             {
 				npc.ai[1] += 1f;
 				if (revenge)
@@ -503,7 +509,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             float num1372 = 6f;
-            if (!flag100 || death)
+            if (!phase2 || death)
             {
                 num1372 = 14f;
             }

@@ -368,6 +368,15 @@ namespace CalamityMod.CalPlayer
 				(modPlayer.cShard ? 50 : 0) +
 				(modPlayer.starBeamRye ? 50 : 0);
 
+			// True melee damage bonuses
+			double damageAdd = (modPlayer.dodgeScarf ? 0.2 : 0) +
+					(modPlayer.evasionScarf ? 0.1 : 0) +
+					((modPlayer.aBulwarkRare && modPlayer.aBulwarkRareMeleeBoostTimer > 0) ? 2 : 0) +
+					(modPlayer.DoGLore ? 0.5 : 0) +
+					(modPlayer.fungalSymbiote ? 0.25 : 0) +
+					((player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.3 : 0);
+			modPlayer.trueMeleeDamage += damageAdd;
+
 			// Life Steal nerf
 			// Reduces normal mode life steal recovery rate from 0.6/s to 0.5/s
 			// Reduces expert mode life steal recovery rate from 0.5/s to 0.35/s
@@ -2422,9 +2431,6 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.xWrath)
 				modPlayer.throwingCrit += 5;
 
-			if (modPlayer.godSlayerCooldown)
-				player.allDamage += 0.1f;
-
 			if (modPlayer.graxDefense)
 			{
 				player.statDefense += 30;
@@ -3765,11 +3771,13 @@ namespace CalamityMod.CalPlayer
 		private static void UpdateStatMeter(Player player, CalamityPlayer modPlayer)
 		{
 			float allDamageStat = player.allDamage - 1f;
+			modPlayer.actualMeleeDamageStat = player.meleeDamage + allDamageStat;
 			modPlayer.damageStats[0] = (int)((player.meleeDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[1] = (int)((player.rangedDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[2] = (int)((player.magicDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[3] = (int)((player.minionDamage + allDamageStat - 1f) * 100f);
 			modPlayer.damageStats[4] = (int)((modPlayer.throwingDamage + allDamageStat - 1f) * 100f);
+			modPlayer.damageStats[5] = (int)(modPlayer.trueMeleeDamage * 100D);
 			modPlayer.critStats[0] = player.meleeCrit;
 			modPlayer.critStats[1] = player.rangedCrit;
 			modPlayer.critStats[2] = player.magicCrit;

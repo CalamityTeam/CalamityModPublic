@@ -14,8 +14,6 @@ namespace CalamityMod.NPCs.Perforator
     {
         private const int MsgType = 23;
         private bool flies = false;
-        private float speed = 16f;
-        private float turnSpeed = 0.14f;
         private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 3 : 6;
         private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 4 : 7;
         private bool TailSpawned = false;
@@ -54,6 +52,9 @@ namespace CalamityMod.NPCs.Perforator
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			float speed = 16f;
+			float turnSpeed = 0.14f;
 
 			if (expertMode)
 			{

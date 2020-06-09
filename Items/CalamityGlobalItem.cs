@@ -27,11 +27,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.Utilities;
 
 namespace CalamityMod.Items
 {
@@ -1612,7 +1612,23 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
+
+			if (Main.player[Main.myPlayer].Calamity().trueMeleeDamage > 0D)
+			{
+				if (item.melee && item.damage > 0)
+				{
+					foreach (TooltipLine line2 in tooltips)
+					{
+						if (line2.mod == "Terraria" && line2.Name == "Damage")
+						{
+							line2.text += " : " + string.Concat((int)(Main.player[Main.myPlayer].Calamity().actualMeleeDamageStat * item.damage * 
+								(1D + Main.player[Main.myPlayer].Calamity().trueMeleeDamage) + 5E-06f)) + " true melee damage";
+						}
+					}
+				}
+			}
+
+			if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -1702,7 +1718,18 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
+			if (item.type == ItemID.MoltenHelmet || item.type == ItemID.MoltenBreastplate || item.type == ItemID.MoltenGreaves)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
+					{
+						line2.text = "Set Bonus: 17% extra melee damage\n" +
+							"30% extra true melee damage";
+					}
+				}
+			}
+			if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
             {
 				if (!Main.player[Main.myPlayer].Calamity().forbiddenCirclet)
 				{
@@ -2716,11 +2743,11 @@ Provides heat and cold protection in Death Mode";
 				}
 			}
         }
-        #endregion
+		#endregion
 
-        // NOTE: this function applies to all treasure bags, even modded ones (despite the name).
-        #region Boss Bag Changes
-        public override void OpenVanillaBag(string context, Player player, int arg)
+		// NOTE: this function applies to all treasure bags, even modded ones (despite the name).
+		#region Boss Bag Changes
+		public override void OpenVanillaBag(string context, Player player, int arg)
         {
 			if (context == "crate")
 			{
