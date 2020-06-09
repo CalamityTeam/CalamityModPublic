@@ -14790,7 +14790,7 @@ namespace CalamityMod.NPCs
                         num858 *= num859;
                         num857 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
                         num858 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
-                        Projectile.NewProjectile(vector109.X, vector109.Y, num857, num858, Main.rand.Next(326, 329), 60, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector109.X, vector109.Y, num857, num858, ProjectileID.GreekFire1 + Main.rand.Next(3), 60, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -14800,13 +14800,13 @@ namespace CalamityMod.NPCs
                 npc.TargetClosest(true);
                 npc.ai[0] = 1f;
 
-                int num861 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, 328, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                int num861 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num861].ai[0] = -1f;
                 Main.npc[num861].ai[1] = (float)npc.whoAmI;
                 Main.npc[num861].target = npc.target;
                 Main.npc[num861].netUpdate = true;
 
-                num861 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, 328, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                num861 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num861].ai[0] = 1f;
                 Main.npc[num861].ai[1] = (float)npc.whoAmI;
                 Main.npc[num861].ai[3] = 150f;
@@ -21147,21 +21147,21 @@ namespace CalamityMod.NPCs
                             num105 = num102 / num105;
                             num103 *= num105;
                             num104 *= num105;
-                            int num106 = 16;
-                            int num107 = 290;
+                            int damage = 16;
+                            int projType = ProjectileID.ShadowBeamHostile;
                             if (npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite)
                             {
-                                num107 = 291;
-                                num106 = 32;
+                                projType = ProjectileID.InfernoHostileBolt;
+                                damage = 32;
                             }
                             if (npc.type == NPCID.RaggedCaster || npc.type == NPCID.RaggedCasterOpenCoat)
                             {
-                                num107 = 293;
-                                num106 = 32;
+                                projType = ProjectileID.LostSoulHostile;
+                                damage = 32;
                             }
-                            int num108 = Projectile.NewProjectile(vector13.X, vector13.Y, num103, num104, num107, num106, 0f, Main.myPlayer, 0f, 0f);
+                            int num108 = Projectile.NewProjectile(vector13.X, vector13.Y, num103, num104, projType, damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[num108].timeLeft = 300;
-                            if (num107 == 291)
+                            if (projType == ProjectileID.InfernoHostileBolt)
                             {
                                 Main.projectile[num108].ai[0] = Main.player[npc.target].Center.X;
                                 Main.projectile[num108].ai[1] = Main.player[npc.target].Center.Y;
@@ -22318,8 +22318,8 @@ namespace CalamityMod.NPCs
             if (Main.netMode != NetmodeID.MultiplayerClient && flag17 && npc.ai[0] == 0f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
             {
                 npc.ai[0] = 200f;
-                int num274 = 10;
-                int num275 = 31;
+                int damage = 10;
+                int projType = ProjectileID.SandBallFalling;
 
                 int projAmt = Main.rand.Next(8, 14);
                 if (Main.rand.NextBool(1000))
@@ -22329,7 +22329,7 @@ namespace CalamityMod.NPCs
                 {
                     num271 += (float)Main.rand.Next(-30, 31) * 0.05f;
                     num272 += (float)Main.rand.Next(-30, 31) * 0.05f;
-                    int num276 = Projectile.NewProjectile(vector32.X, vector32.Y, num271, num272, num275, num274, 0f, Main.myPlayer, 0f, 0f);
+                    int num276 = Projectile.NewProjectile(vector32.X, vector32.Y, num271, num272, projType, damage, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[num276].ai[0] = 2f;
                     Main.projectile[num276].timeLeft = 300;
                     Main.projectile[num276].friendly = false;
@@ -22647,9 +22647,9 @@ namespace CalamityMod.NPCs
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[3] == 32f && !Main.player[npc.target].npcTypeNoAggro[npc.type])
                 {
-                    int num295 = 25;
-                    int num296 = 84;
-                    int num297 = Projectile.NewProjectile(vector33.X, vector33.Y, num292, num293, num296, num295, 0f, Main.myPlayer, 0f, 0f);
+                    int damage = 25;
+                    int projType = ProjectileID.PinkLaser;
+                    int num297 = Projectile.NewProjectile(vector33.X, vector33.Y, num292, num293, projType, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
 
                 num290 = 12;
@@ -22736,9 +22736,9 @@ namespace CalamityMod.NPCs
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[3] == 16f)
                 {
-                    int num304 = 45;
-                    int num305 = 128;
-                    int num306 = Projectile.NewProjectile(vector34.X, vector34.Y, num301, num302, num305, num304, 0f, Main.myPlayer, 0f, 0f);
+                    int dmg = 45;
+                    int projType = ProjectileID.FrostBlastHostile;
+                    int num306 = Projectile.NewProjectile(vector34.X, vector34.Y, num301, num302, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                 }
 
                 num290 = 15;
@@ -22793,9 +22793,9 @@ namespace CalamityMod.NPCs
                             num311 = num307 / num311;
                             num308 *= num311;
                             num310 *= num311;
-                            int num312 = 40;
-                            int num313 = 288;
-                            int num314 = Projectile.NewProjectile(vector35.X, vector35.Y, num308, num310, num313, num312, 0f, Main.myPlayer, 0f, 0f);
+                            int dmg = 40;
+                            int projType = ProjectileID.GoldenShowerHostile;
+                            int num314 = Projectile.NewProjectile(vector35.X, vector35.Y, num308, num310, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

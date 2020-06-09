@@ -6268,7 +6268,7 @@ namespace CalamityMod.CalPlayer
 							case ProjectileID.CursedFlameHostile:
 								if (bannerNPCType == NPCID.Clinger)
 								{
-									reduceDamage = !NPC.AnyNPCs(NPCID.Spazmatism);
+									reduceDamage = !NPC.AnyNPCs(NPCID.Spazmatism) && (!NPC.AnyNPCs(NPCID.EaterofWorldsHead) || !CalamityWorld.revenge);
 								}
 								break;
 
@@ -6406,6 +6406,13 @@ namespace CalamityMod.CalPlayer
 								}
 								break;
 
+							case ProjectileID.FrostShard:
+								if (bannerNPCType == NPCID.AngryNimbus)
+								{
+									reduceDamage = !NPC.AnyNPCs(NPCID.IceQueen) && CalamityWorld.death;
+								}
+								break;
+
 							case ProjectileID.FrostBeam:
 								if (bannerNPCType == NPCID.IceGolem)
 								{
@@ -6445,7 +6452,7 @@ namespace CalamityMod.CalPlayer
 							case ProjectileID.EyeLaser:
 								if (bannerNPCType == NPCID.Eyezor)
 								{
-									reduceDamage = !NPC.AnyNPCs(NPCID.Retinazer) && (!NPC.AnyNPCs(NPCID.WallofFleshEye) || !CalamityWorld.revenge);
+									reduceDamage = !NPC.AnyNPCs(NPCID.Retinazer) && !NPC.AnyNPCs(NPCID.WallofFleshEye);
 								}
 								break;
 
@@ -6486,6 +6493,13 @@ namespace CalamityMod.CalPlayer
 
 							case ProjectileID.StardustSoldierLaser:
 								if (bannerNPCType == NPCID.StardustSoldier)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.Twinkle:
+								if (bannerNPCType == NPCID.StardustSpiderBig)
 								{
 									reduceDamage = true;
 								}
