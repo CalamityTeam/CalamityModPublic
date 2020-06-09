@@ -16629,7 +16629,7 @@ namespace CalamityMod.NPCs
                                     }
                                     if (((player.Center.X < npc.Center.X && npc.direction < 0 && player.direction > 0) || (player.Center.X > npc.Center.X && npc.direction > 0 && player.direction < 0)) && canTurnPlayerToStone && (Collision.CanHitLine(npc.Center, 1, 1, player.Center, 1, 1) || Collision.CanHitLine(npc.Center - Vector2.UnitY * 16f, 1, 1, player.Center, 1, 1) || Collision.CanHitLine(npc.Center + Vector2.UnitY * 8f, 1, 1, player.Center, 1, 1)))
                                     {
-                                        player.AddBuff(156, debuffTime + (int)npc.ai[2] * -1, true);
+                                        player.AddBuff(BuffID.Stoned, debuffTime + (int)npc.ai[2] * -1, true);
                                     }
                                 }
                             }
@@ -17209,7 +17209,7 @@ namespace CalamityMod.NPCs
                     goto PrepareToShoot;
                 }
             }
-            else if (npcType - 498 > 8 && npcType != 520)
+            else if (npcType - 498 > 8 && npcType != NPCID.MartianWalker)
             {
                 goto PrepareToShoot;
             }
@@ -18849,34 +18849,20 @@ namespace CalamityMod.NPCs
                             distX *= magnitude;
                             distY *= magnitude;
                             int damage = 35;
-                            int projectileType = 82;
-                            if (npcType == NPCID.GoblinArcher)
-                            {
-                                damage = 11;
-                            }
-                            if (npcType == NPCID.IcyMerman)
-                            {
-                                damage = 37;
-                            }
-                            if (npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite)
-                            {
-                                damage = 40;
-                            }
+                            int projectileType = ProjectileID.FlamingArrow;
                             if (npcType == NPCID.ElfArcher)
                             {
                                 damage = 45;
                             }
-                            if (npcType == NPCID.DrManFly)
-                            {
-                                damage = 50;
-                            }
                             if (npcType == NPCID.GoblinArcher)
                             {
                                 projectileType = ProjectileID.WoodenArrowHostile;
+                                damage = 11;
                             }
                             if (npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite)
                             {
                                 projectileType = ProjectileID.WoodenArrowHostile;
+                                damage = 40;
                             }
                             if (npcType == NPCID.BrainScrambler)
                             {
@@ -18911,10 +18897,12 @@ namespace CalamityMod.NPCs
                             if (npcType == NPCID.IcyMerman)
                             {
                                 projectileType = ProjectileID.IcewaterSpit;
+                                damage = 37;
                             }
                             if (npcType == NPCID.DrManFly)
                             {
                                 projectileType = ProjectileID.DrManFlyFlask;
+                                damage = 50;
                             }
                             if (npcType == NPCID.StardustSoldier)
                             {
@@ -19012,7 +19000,7 @@ namespace CalamityMod.NPCs
                                 }
                                 else if (npcType == NPCID.StardustSpiderBig)
                                 {
-                                    int idx = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 410, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                                    int idx = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.StardustSpiderSmall, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                                     Main.npc[idx].velocity = new Vector2(distX, -6f + distY);
                                 }
                                 else

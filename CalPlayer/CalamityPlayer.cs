@@ -6350,8 +6350,29 @@ namespace CalamityMod.CalPlayer
 								}
 								break;
 
+							case ProjectileID.WoodenArrowHostile:
+								if (bannerNPCType == NPCID.GoblinArcher || bannerNPCType == NPCID.CultistArcherBlue || bannerNPCType == NPCID.CultistArcherWhite)
+								{
+									reduceDamage = true;
+								}
+								break;
+
 							case ProjectileID.FlamingArrow:
-								if (bannerNPCType == NPCID.SkeletonArcher || bannerNPCType == NPCID.PirateCrossbower || bannerNPCType == NPCID.GoblinArcher || bannerNPCType == NPCID.ElfArcher)
+								if (bannerNPCType == NPCID.SkeletonArcher || bannerNPCType == NPCID.PirateCrossbower || bannerNPCType == NPCID.ElfArcher)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.SalamanderSpit:
+								if (bannerNPCType >= NPCID.Salamander && bannerNPCType <= NPCID.Salamander9)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.SkeletonBone:
+								if (bannerNPCType >= NPCID.BoneThrowingSkeleton && bannerNPCType <= NPCID.BoneThrowingSkeleton4)
 								{
 									reduceDamage = true;
 								}
