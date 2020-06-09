@@ -18,7 +18,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npc.damage = 10;
             npc.aiStyle = 3;
-            aiType = 73;
+            aiType = NPCID.GoblinScout;
             npc.width = 40;
             npc.height = 30;
             npc.defense = 4;
@@ -29,6 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumDroneBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void PostAI()

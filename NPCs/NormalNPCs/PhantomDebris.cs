@@ -35,6 +35,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath36;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PhantomDebrisBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void FindFrame(int frameHeight)

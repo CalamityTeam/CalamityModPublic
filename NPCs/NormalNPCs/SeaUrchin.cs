@@ -29,6 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.behindTiles = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SeaUrchinBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()

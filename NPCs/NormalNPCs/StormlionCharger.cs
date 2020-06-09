@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath34;
             banner = npc.type;
             bannerItem = ModContent.ItemType<StormlionBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void HitEffect(int hitDirection, double damage)

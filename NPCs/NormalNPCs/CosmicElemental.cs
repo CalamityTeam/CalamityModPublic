@@ -30,6 +30,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath6;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CosmicElementalBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

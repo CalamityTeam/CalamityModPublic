@@ -29,6 +29,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath5;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PitbullBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

@@ -28,6 +28,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.behindTiles = true;
             banner = npc.type;
             bannerItem = ModContent.ItemType<BOHLDOHRBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()
