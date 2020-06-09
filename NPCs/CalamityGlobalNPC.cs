@@ -2281,27 +2281,41 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case 26:
-						switch (npc.type)
+						if (npc.type == NPCType<Pitbull>())
 						{
-							case NPCID.Unicorn:
-							case NPCID.Wolf:
-							case NPCID.HeadlessHorseman:
-							case NPCID.Hellhound:
-							case NPCID.StardustSpiderSmall:
-							case NPCID.NebulaBeast:
-							case NPCID.Tumbleweed:
-								return CalamityGlobalAI.BuffedUnicornAI(npc, mod);
+							return CalamityGlobalAI.BuffedUnicornAI(npc, mod);
+						}
+						else
+						{
+							switch (npc.type)
+							{
+								case NPCID.Unicorn:
+								case NPCID.Wolf:
+								case NPCID.HeadlessHorseman:
+								case NPCID.Hellhound:
+								case NPCID.StardustSpiderSmall:
+								case NPCID.NebulaBeast:
+								case NPCID.Tumbleweed:
+									return CalamityGlobalAI.BuffedUnicornAI(npc, mod);
+							}
 						}
 						break;
 					case 39:
-						switch (npc.type)
+						if (npc.type == NPCType<PlaguedTortoise>() || npc.type == NPCType<SandTortoise>())
 						{
-							case NPCID.GiantTortoise:
-							case NPCID.IceTortoise:
-							case NPCID.GiantShelly:
-							case NPCID.GiantShelly2:
-							case NPCID.SolarSroller:
-								return CalamityGlobalAI.BuffedTortoiseAI(npc, mod);
+							return CalamityGlobalAI.BuffedTortoiseAI(npc, mod);
+						}
+						else
+						{
+							switch (npc.type)
+							{
+								case NPCID.GiantTortoise:
+								case NPCID.IceTortoise:
+								case NPCID.GiantShelly:
+								case NPCID.GiantShelly2:
+								case NPCID.SolarSroller:
+									return CalamityGlobalAI.BuffedTortoiseAI(npc, mod);
+							}
 						}
 						break;
 					case 40:
