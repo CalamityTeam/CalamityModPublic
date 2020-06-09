@@ -98,7 +98,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 if (flag14)
                 {
-					npc.buffImmune[BuffID.Confused] = false;
                     npc.TargetClosest(true);
                     npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.15f;
                     npc.velocity.Y = npc.velocity.Y + (float)npc.directionY * 0.15f;
@@ -107,8 +106,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 else
                 {
-					//It spazzes out real badly if confused while passive
-					npc.buffImmune[BuffID.Confused] = true;
                     npc.velocity.X += (float)npc.direction * 0.1f;
                     if (npc.velocity.X < -2f || npc.velocity.X > 2f)
                     {
