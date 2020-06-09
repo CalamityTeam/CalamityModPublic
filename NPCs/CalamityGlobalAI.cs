@@ -21620,7 +21620,7 @@ namespace CalamityMod.NPCs
                 npc.type == NPCID.IceBat || 
                 npc.type == NPCID.Lavabat || 
                 npc.type == NPCID.GiantFlyingFox || 
-                npc.type == npc.type == ModContent.NPCType<PlaguedFlyingFox>())
+                npc.type == ModContent.NPCType<PlaguedFlyingFox>())
             {
                 maxSpeedX = 6f;
                 maxSpeedY = 2.5f;
