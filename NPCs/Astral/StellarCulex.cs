@@ -42,6 +42,7 @@ namespace CalamityMod.NPCs.Astral
             banner = npc.type;
             bannerItem = ModContent.ItemType<StellarCulexBanner>();
             npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            npc.buffImmune[BuffID.Confused] = false;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 90;

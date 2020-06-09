@@ -1898,7 +1898,7 @@ namespace CalamityMod.NPCs
 						break;
 					case 3:
 						if (npc.type == NPCType<StormlionCharger>() || npc.type == NPCType<WulfrumDrone>() ||
-							npc.type == NPCType<AstralachneaGround>())
+							npc.type == NPCType<AstralachneaGround>() || npc.type == NPCType<CultistAssassin>())
 						{
 							return CalamityGlobalAI.BuffedFighterAI(npc, mod);
 						}
