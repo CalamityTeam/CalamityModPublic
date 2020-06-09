@@ -97,6 +97,8 @@ namespace CalamityMod.Prefixes
 				invalid = true;
 			if (item.useAnimation == Math.Round(item.useAnimation * useTimeMult) && useTimeMult != 1f)
 				invalid = true;
+			if (item.consumable)
+				invalid = true;
 		}
 	}
 
