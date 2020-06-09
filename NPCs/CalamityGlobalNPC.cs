@@ -2316,11 +2316,18 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case 41:
-						switch (npc.type)
+						if (npc.type == NPCType<Aries>())
 						{
-							case NPCID.Herpling:
-							case NPCID.Derpling:
-								return CalamityGlobalAI.BuffedHerplingAI(npc, mod);
+							return CalamityGlobalAI.BuffedHerplingAI(npc, mod);
+						}
+						else
+						{
+							switch (npc.type)
+							{
+								case NPCID.Herpling:
+								case NPCID.Derpling:
+									return CalamityGlobalAI.BuffedHerplingAI(npc, mod);
+							}
 						}
 						break;
 					case 44:
