@@ -2174,7 +2174,7 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case 14:
-						if (npc.type == NPCType<StellarCulex>() || npc.type == NPCType<PlaguedFlyingFox>())
+						if (npc.type == NPCType<StellarCulex>() || npc.type == NPCType<PlaguedFlyingFox>() || npc.type == NPCType<AeroSlime>())
 						{
 							return CalamityGlobalAI.BuffedBatAI(npc, mod);
 						}
