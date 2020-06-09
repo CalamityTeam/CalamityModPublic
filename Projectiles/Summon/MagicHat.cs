@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Summon
                     for (int index = 0; index < Main.npc.Length; index++)
                     {
 						NPC target = Main.npc[index];
-                        if (target.CanBeChasedBy(projectile, true))
+                        if (target.CanBeChasedBy(projectile, false))
                         {
                             float xDist = target.position.X + (float)(target.width / 2);
                             float yDist = target.position.Y + (float)(target.height / 2);
