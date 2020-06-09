@@ -34,10 +34,13 @@ namespace CalamityMod.Items.SummonItems
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-100, 101)), (int)(player.position.Y - 250f), ModContent.NPCType<RavagerBody>(), 0, 0f, 0f, 0f, 0f, 255);
-                Main.PlaySound(SoundID.Roar, player.position, 2);
+                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 250f), ModContent.NPCType<RavagerBody>(), 1);
+				Main.npc[npc].timeLeft *= 20;
             }
-            return true;
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<RavagerBody>());
+
+			return true;
         }
 
         public override void AddRecipes()

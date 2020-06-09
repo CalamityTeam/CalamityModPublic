@@ -107,6 +107,7 @@ namespace CalamityMod.CalPlayer
         public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
         public int waterLeechTarget = -1;
+		public double trueMeleeDamage = 0D;
         #endregion
 
         #region External variables -- Only set by Mod.Call
@@ -142,8 +143,9 @@ namespace CalamityMod.CalPlayer
 		#endregion
 
 		#region Stat Meter
-		public int[] damageStats = new int[5];
+		public int[] damageStats = new int[6];
         public int[] critStats = new int[4];
+		public float actualMeleeDamageStat = 0f;
         public int defenseStat = 0;
         public int DRStat = 0;
         public int meleeSpeedStat = 0;
@@ -1274,6 +1276,7 @@ namespace CalamityMod.CalPlayer
                 player.statLifeMax2 = (int)(player.statLifeMax2 * 0.8);
 
             // Extra accessory slots
+			// This is probably fucked in 1.4
             if (extraAccessoryML)
                 player.extraAccessorySlots = 1;
             if (extraAccessoryML && player.extraAccessory && (Main.expertMode || Main.gameMenu))
@@ -1295,6 +1298,8 @@ namespace CalamityMod.CalPlayer
             throwingAmmoCost66 = false;
             throwingAmmoCost50 = false;
 			accStealthGenBoost = 0f;
+
+			trueMeleeDamage = 0D;
 
             dashMod = 0;
             externalAbyssLight = 0;
@@ -2286,7 +2291,7 @@ namespace CalamityMod.CalPlayer
             bool useFire = NPC.AnyNPCs(ModContent.NPCType<Yharon>());
             player.ManageSpecialBiomeVisuals("CalamityMod:Yharon", useFire);
             player.ManageSpecialBiomeVisuals("HeatDistortion", Main.UseHeatDistortion && (useFire || trippy ||
-                aboveGround || ((double)point.Y < Main.worldSurface && player.ZoneDesert && !overworld && !Main.raining && !Filters.Scene["Sandstorm"].IsActive())));
+                aboveGround || (point.Y < Main.worldSurface && player.ZoneDesert && !overworld && !Main.raining && !Filters.Scene["Sandstorm"].IsActive())));
 
             bool useWater = NPC.AnyNPCs(ModContent.NPCType<Leviathan>());
             player.ManageSpecialBiomeVisuals("CalamityMod:Leviathan", useWater);
@@ -2340,25 +2345,25 @@ namespace CalamityMod.CalPlayer
                 }
             }
 
-            ZoneAbyss = (double)point.Y > (Main.rockLayer - y * 0.05) &&
+            ZoneAbyss = point.Y > (Main.rockLayer - y * 0.05) &&
                 !player.lavaWet &&
                 !player.honeyWet &&
                 abyssPosY &&
                 abyssPosX;
 
             ZoneAbyssLayer1 = ZoneAbyss &&
-                (double)point.Y <= (Main.rockLayer + y * 0.03);
+                point.Y <= (Main.rockLayer + y * 0.03);
 
             ZoneAbyssLayer2 = ZoneAbyss &&
-                (double)point.Y > (Main.rockLayer + y * 0.03) &&
-                (double)point.Y <= (Main.rockLayer + y * 0.14);
+                point.Y > (Main.rockLayer + y * 0.03) &&
+                point.Y <= (Main.rockLayer + y * 0.14);
 
             ZoneAbyssLayer3 = ZoneAbyss &&
-                (double)point.Y > (Main.rockLayer + y * 0.14) &&
-                (double)point.Y <= (Main.rockLayer + y * 0.26);
+                point.Y > (Main.rockLayer + y * 0.14) &&
+                point.Y <= (Main.rockLayer + y * 0.26);
 
             ZoneAbyssLayer4 = ZoneAbyss &&
-                (double)point.Y > (Main.rockLayer + y * 0.26);
+                point.Y > (Main.rockLayer + y * 0.26);
 
             ZoneSulphur = (CalamityWorld.sulphurTiles > 30 || (player.ZoneOverworldHeight && sulphurPosX)) && !ZoneAbyss;
 
@@ -3785,7 +3790,17 @@ namespace CalamityMod.CalPlayer
                 {
                     player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
                     player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), CalamityUtils.SecondsToFrames(60f));
-                }
+
+					// Additional potion sickness time
+					int additionalTime = 0;
+					for (int i = 0; i < Player.MaxBuffs; i++)
+					{
+						if (player.buffType[i] == BuffID.PotionSickness)
+							additionalTime = player.buffTime[i];
+					}
+					float potionSicknessTime = 30f + (float)Math.Ceiling(additionalTime / 60D);
+					player.AddBuff(BuffID.PotionSickness, CalamityUtils.SecondsToFrames(potionSicknessTime));
+				}
                 player.AddBuff(ModContent.BuffType<GodSlayerCooldown>(), CalamityUtils.SecondsToFrames(45f));
                 return false;
             }
@@ -3811,7 +3826,17 @@ namespace CalamityMod.CalPlayer
                         {
                             player.ClearBuff(ModContent.BuffType<DraconicSurgeBuff>());
                             player.AddBuff(ModContent.BuffType<DraconicSurgeCooldown>(), CalamityUtils.SecondsToFrames(60f));
-                        }
+
+							// Additional potion sickness time
+							int additionalTime = 0;
+							for (int i = 0; i < Player.MaxBuffs; i++)
+							{
+								if (player.buffType[i] == BuffID.PotionSickness)
+									additionalTime = player.buffTime[i];
+							}
+							float potionSicknessTime = 30f + (float)Math.Ceiling(additionalTime / 60D);
+							player.AddBuff(BuffID.PotionSickness, CalamityUtils.SecondsToFrames(potionSicknessTime));
+						}
                     }
 					else if (silvaWings)
 					{
@@ -4084,9 +4109,9 @@ namespace CalamityMod.CalPlayer
         #region Melee Effects
         public override void MeleeEffects(Item item, Rectangle hitbox)
         {
-            if (!item.melee && !item.noMelee && (!item.noUseGraphic && (int)player.meleeEnchant > 0))
+            if (!item.melee && !item.noMelee && (!item.noUseGraphic && player.meleeEnchant > 0))
             {
-                if ((int)player.meleeEnchant == 7)
+                if (player.meleeEnchant == 7)
                 {
                     if (Main.rand.NextBool(20))
                     {
@@ -4439,11 +4464,13 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 				}
+
 				if (proj.Calamity().trueMelee)
 					titanBoost = 600;
 
                 if (sulfurSet && proj.friendly && !target.friendly)
                     target.AddBuff(BuffID.Poisoned, 120);
+
                 if (omegaBlueChestplate && proj.friendly && !target.friendly)
                     target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 
@@ -4795,6 +4822,7 @@ namespace CalamityMod.CalPlayer
 
                 if (sulfurSet && proj.friendly)
                     target.AddBuff(BuffID.Poisoned, 120);
+
                 if (omegaBlueChestplate && proj.friendly)
                     target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
 
@@ -4957,13 +4985,7 @@ namespace CalamityMod.CalPlayer
             }
 			if (item.melee)
 			{
-                double damageAdd = (dodgeScarf ? 0.2 : 0) +
-                    (evasionScarf ? 0.1 : 0) +
-                    ((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2 : 0) +
-                    (DoGLore ? 0.5 : 0) +
-                    (fungalSymbiote ? 0.25 : 0);
-
-                damageMult += damageAdd;
+                damageMult += trueMeleeDamage;
 			}
             if (enraged && !CalamityConfig.Instance.BossRushXerocCurse)
             {
@@ -5185,7 +5207,7 @@ namespace CalamityMod.CalPlayer
             {
                 double useTimeMultiplier = 0.85 + (heldItem.useTime * heldItem.useAnimation / 3600D); //28 * 28 = 784 is average so that equals 784 / 3600 = 0.217777 + 1 = 21.7% boost
                 double wingTimeFraction = player.wingTimeMax / 20D;
-                double meleeStatMultiplier = (double)(player.meleeDamage * (float)(player.meleeCrit / 10D));
+                double meleeStatMultiplier = player.meleeDamage * (float)(player.meleeCrit / 10D);
 
                 if (player.wingTime < player.wingTimeMax)
                     player.wingTime += (int)(useTimeMultiplier * (wingTimeFraction + meleeStatMultiplier));
@@ -5208,13 +5230,7 @@ namespace CalamityMod.CalPlayer
             }
 			if (isTrueMelee)
 			{
-                double damageAdd = (dodgeScarf ? 0.2 : 0) +
-                    (evasionScarf ? 0.1 : 0) +
-                    ((aBulwarkRare && aBulwarkRareMeleeBoostTimer > 0) ? 2 : 0) +
-                    (DoGLore ? 0.5 : 0) +
-                    (fungalSymbiote ? 0.25 : 0);
-
-                damageMult += damageAdd;
+                damageMult += trueMeleeDamage;
 			}
             if (screwdriver)
             {

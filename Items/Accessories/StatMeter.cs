@@ -87,6 +87,7 @@ namespace CalamityMod.Items.Accessories
 				if (heldItem.melee)
 				{
 					sb.Append("Melee Damage: ").Append(modPlayer.damageStats[0])
+						.Append("% | True Melee Damage: ").Append(modPlayer.damageStats[5])
 						.Append("% | Melee Crit Chance: ").Append(modPlayer.critStats[0])
 						.Append("%\nMelee Speed Boost: ").Append(meleeSpeed).Append("%\n\n");
 				}

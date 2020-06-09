@@ -1302,7 +1302,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Flare Dust bullet hell
 			else if (npc.ai[0] == 15f)
             {
-                npc.dontTakeDamage = phase4Check;
+				npc.dontTakeDamage = phase4Check;
 
 				if (npc.ai[2] == 0f)
 				{
@@ -1847,7 +1847,7 @@ namespace CalamityMod.NPCs.Yharon
 						if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] == phaseSwitchTimer + 15f)
 						{
 							teleportLocation = Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600);
-							Vector2 center = targetData.Center + new Vector2(-npc.ai[2], teleportLocation);
+							Vector2 center = targetData.Center + new Vector2(-npc.ai[2] * 450f, teleportLocation);
 							npcCenter = npc.Center = center;
 						}
 
@@ -2108,7 +2108,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Fireball spin
             else if (npc.ai[0] == 5f)
             {
-                npc.velocity = npc.velocity.RotatedBy(-(double)spinRotation * (float)npc.direction);
+				npc.velocity = npc.velocity.RotatedBy(-(double)spinRotation * (float)npc.direction);
                 npc.rotation -= spinRotation * npc.direction;
 
 				if (npc.ai[1] == 1f)

@@ -24,8 +24,6 @@ namespace CalamityMod.NPCs.DesertScourge
     public class DesertScourgeHead : ModNPC
     {
         private bool flies = false;
-        private float speed = 8f;
-        private float turnSpeed = 0.08f;
         private bool TailSpawned = false;
 
         public override void SetStaticDefaults()
@@ -87,6 +85,9 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			float speed = 8f;
+			float turnSpeed = 0.08f;
 
 			if (expertMode)
 			{
