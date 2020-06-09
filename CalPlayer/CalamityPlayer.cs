@@ -6646,7 +6646,7 @@ namespace CalamityMod.CalPlayer
 				}
 				if (aSparkRare && proj.active && !proj.friendly && proj.hostile && damage > 0)
 				{
-					if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet)
+					if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
 					{
 						proj.hostile = false;
 						proj.friendly = true;
