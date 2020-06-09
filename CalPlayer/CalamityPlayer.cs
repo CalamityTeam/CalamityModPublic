@@ -6372,7 +6372,7 @@ namespace CalamityMod.CalPlayer
 								break;
 
 							case ProjectileID.SkeletonBone:
-								if (bannerNPCType >= NPCID.BoneThrowingSkeleton && bannerNPCType <= NPCID.BoneThrowingSkeleton4)
+								if (bannerNPCType == NPCID.Skeleton)
 								{
 									reduceDamage = true;
 								}
