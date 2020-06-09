@@ -23310,22 +23310,22 @@ namespace CalamityMod.NPCs
                 {
                     if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
                     {
-                        if (npc.position.X < Main.npc[i].position.X)
-                        {
-                            npc.velocity.X = npc.velocity.X - 0.05f;
-                        }
-                        else
-                        {
-                            npc.velocity.X = npc.velocity.X + 0.05f;
-                        }
-                        if (npc.position.Y < Main.npc[i].position.Y)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - 0.05f;
-                        }
-                        else
-                        {
-                            npc.velocity.Y = npc.velocity.Y + 0.05f;
-                        }
+						if (npc.position.X < Main.npc[i].position.X)
+						{
+							npc.velocity.X -= 0.05f;
+						}
+						else
+						{
+							npc.velocity.X += 0.05f;
+						}
+						if (npc.position.Y < Main.npc[i].position.Y)
+						{
+							npc.velocity.Y -= 0.05f;
+						}
+						else
+						{
+							npc.velocity.Y += 0.05f;
+						}
                     }
                 }
                 if (flag4)
@@ -23470,7 +23470,7 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == NPCID.Tumbleweed && npc.velocity.Y == 0f && Math.Abs(npc.velocity.X) > 3f && ((npc.Center.X < Main.player[npc.target].Center.X && npc.velocity.X > 0f) || (npc.Center.X > Main.player[npc.target].Center.X && npc.velocity.X < 0f)))
             {
-                npc.velocity.Y = npc.velocity.Y - 6f;
+                npc.velocity.Y -= 6f;
                 Main.PlaySound(SoundID.NPCHit, npc.Center, 11);
             }
 
@@ -23522,41 +23522,41 @@ namespace CalamityMod.NPCs
                 {
                     if (npc.velocity.X > 0f && npc.direction < 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                     }
                     if (npc.velocity.X < 0f && npc.direction > 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                     }
                 }
                 else if (npc.type == NPCID.Hellhound)
                 {
                     if (npc.velocity.X > 0f && npc.direction < 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
                     }
                     if (npc.velocity.X < 0f && npc.direction > 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
                     }
                     if (npc.direction > 0 && npc.velocity.X < 3f)
                     {
-                        npc.velocity.X = npc.velocity.X + 0.15f;
+                        npc.velocity.X += 0.15f;
                     }
                     if (npc.direction < 0 && npc.velocity.X > -3f)
                     {
-                        npc.velocity.X = npc.velocity.X - 0.15f;
+                        npc.velocity.X -= 0.15f;
                     }
                 }
                 else if (npc.type == NPCID.HeadlessHorseman)
                 {
                     if (npc.velocity.X > 0f && npc.direction < 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                     }
                     if (npc.velocity.X < 0f && npc.direction > 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                     }
                     if (npc.velocity.X < -num6 || npc.velocity.X > num6)
                     {
@@ -23567,7 +23567,7 @@ namespace CalamityMod.NPCs
                     }
                     else if (npc.velocity.X < num6 && npc.direction == 1)
                     {
-                        npc.velocity.X = npc.velocity.X + 0.1f;
+                        npc.velocity.X += 0.1f;
                         if (npc.velocity.X > num6)
                         {
                             npc.velocity.X = num6;
@@ -23575,7 +23575,7 @@ namespace CalamityMod.NPCs
                     }
                     else if (npc.velocity.X > -num6 && npc.direction == -1)
                     {
-                        npc.velocity.X = npc.velocity.X - 0.1f;
+                        npc.velocity.X -= 0.1f;
                         if (npc.velocity.X < -num6)
                         {
                             npc.velocity.X = -num6;
@@ -23586,7 +23586,7 @@ namespace CalamityMod.NPCs
                 {
                     if (Math.Sign(npc.velocity.X) != npc.direction)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
                     }
                     num7 = 0.2f;
                 }
@@ -23594,7 +23594,7 @@ namespace CalamityMod.NPCs
                 {
                     if (Math.Sign(npc.velocity.X) != npc.direction)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
                     }
                     num6 = 12f;
                     num7 = 0.2f;
@@ -23603,7 +23603,7 @@ namespace CalamityMod.NPCs
                 {
                     if (Math.Sign(npc.velocity.X) != npc.direction)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                     }
                     float num8 = MathHelper.Lerp(0.6f, 1f, Math.Abs(Main.windSpeedSet)) * (float)Math.Sign(Main.windSpeedSet);
                     if (!Main.player[npc.target].ZoneSandstorm)

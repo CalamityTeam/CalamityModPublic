@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, true, 4f, 5f, 0.2f);
+            CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

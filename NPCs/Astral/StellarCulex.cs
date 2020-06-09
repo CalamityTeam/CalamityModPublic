@@ -38,7 +38,6 @@ namespace CalamityMod.NPCs.Astral
             npc.lifeMax = 210;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
-            npc.buffImmune[31] = false;
             animationType = NPCID.GiantFlyingFox;
             banner = npc.type;
             bannerItem = ModContent.ItemType<StellarCulexBanner>();

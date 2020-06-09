@@ -6245,19 +6245,19 @@ namespace CalamityMod.NPCs
 					{
 						if (npc.position.X < Main.npc[i].position.X)
 						{
-							npc.velocity.X = npc.velocity.X - 0.05f;
+							npc.velocity.X -= 0.05f;
 						}
 						else
 						{
-							npc.velocity.X = npc.velocity.X + 0.05f;
+							npc.velocity.X += 0.05f;
 						}
 						if (npc.position.Y < Main.npc[i].position.Y)
 						{
-							npc.velocity.Y = npc.velocity.Y - 0.05f;
+							npc.velocity.Y -= 0.05f;
 						}
 						else
 						{
-							npc.velocity.Y = npc.velocity.Y + 0.05f;
+							npc.velocity.Y += 0.05f;
 						}
 					}
 				}
@@ -6362,7 +6362,7 @@ namespace CalamityMod.NPCs
             {
                 if (Math.Sign(npc.velocity.X) != npc.direction && !DogPhase1)
                 {
-                    npc.velocity.X = npc.velocity.X * 0.92f;
+                    npc.velocity.X *= 0.92f;
                 }
                 float num9 = MathHelper.Lerp(0.6f, 1f, Math.Abs(Main.windSpeedSet)) * (float)Math.Sign(Main.windSpeedSet);
                 if (!Main.player[npc.target].ZoneSandstorm)
