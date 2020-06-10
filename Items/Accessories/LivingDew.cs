@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Accessories
                 player.statDefense += 5;
                 player.endurance += 0.05f;
             }
-            player.buffImmune[BuffID.Poison] = true;
+            player.buffImmune[BuffID.Poisoned] = true;
         }
 
         public override void AddRecipes()

@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using System;

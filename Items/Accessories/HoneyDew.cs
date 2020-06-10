@@ -1,4 +1,5 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -36,7 +37,7 @@ namespace CalamityMod.Items.Accessories
                 player.endurance += 0.05f;
             }
             player.buffImmune[BuffID.Venom] = true;
-            player.buffImmune[BuffID.Poison] = true;
+            player.buffImmune[BuffID.Poisoned] = true;
             if (!player.honey && player.lifeRegen < 0)
             {
                 player.lifeRegen += 2;
