@@ -4361,37 +4361,30 @@ namespace CalamityMod.CalPlayer
             }
             if (item.Calamity().rogue)
             {
-                if (player.meleeEnchant > 0)
-                {
-                    if (player.meleeEnchant == 1)
-                    {
-                        target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-                    }
-                    if (player.meleeEnchant == 2)
-                    {
-                        target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-                    }
-                    if (player.meleeEnchant == 3)
-                    {
-                        target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-                    }
-                    if (player.meleeEnchant == 5)
-                    {
-                        target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-                    }
-                    if (player.meleeEnchant == 6)
-                    {
-                        target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-                    }
-                    if (player.meleeEnchant == 8)
-                    {
-                        target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-                    }
-                    /*if (player.meleeEnchant == 4)
-                    {
-                        target.AddBuff(BuffID.Midas, 120, false);
-                    }*/
-                }
+				switch (player.meleeEnchant)
+				{
+					case 1:
+						target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+						break;
+					case 2:
+						target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+						break;
+					case 3:
+						target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+						break;
+					case 5:
+						target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+						break;
+					case 6:
+						target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+						break;
+					case 8:
+						target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+						break;
+					/*case 4:
+						target.AddBuff(BuffID.Midas, 120, false);
+						break;*/
+				}
             }
             if (holyWrath)
             {
@@ -4560,37 +4553,30 @@ namespace CalamityMod.CalPlayer
                 }
                 if (proj.Calamity().rogue)
                 {
-                    if (player.meleeEnchant > 0)
-                    {
-                        if (player.meleeEnchant == 1)
-                        {
-                            target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-                        }
-                        if (player.meleeEnchant == 2)
-                        {
-                            target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-                        }
-                        if (player.meleeEnchant == 3)
-                        {
-                            target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-                        }
-                        if (player.meleeEnchant == 5)
-                        {
-                            target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-                        }
-                        if (player.meleeEnchant == 6)
-                        {
-                            target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-                        }
-                        if (player.meleeEnchant == 8)
-                        {
-                            target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-                        }
-                        if (player.meleeEnchant == 4)
-                        {
-                            target.AddBuff(BuffID.Midas, 120, false);
-                        }
-                    }
+					switch (player.meleeEnchant)
+					{
+						case 1:
+							target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+							break;
+						case 2:
+							target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+							break;
+						case 3:
+							target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+							break;
+						case 5:
+							target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+							break;
+						case 6:
+							target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+							break;
+						case 8:
+							target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+							break;
+						/*case 4:
+							target.AddBuff(BuffID.Midas, 120, false);
+							break;*/
+					}
                     if (etherealExtorter)
                     {
                         if (ZoneSunkenSea)
@@ -4715,37 +4701,30 @@ namespace CalamityMod.CalPlayer
 			}
             if (item.Calamity().rogue)
             {
-                if (player.meleeEnchant > 0)
-                {
-                    if (player.meleeEnchant == 1)
-                    {
-                        target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-                    }
-                    if (player.meleeEnchant == 2)
-                    {
-                        target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-                    }
-                    if (player.meleeEnchant == 3)
-                    {
-                        target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-                    }
-                    if (player.meleeEnchant == 5)
-                    {
-                        target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-                    }
-                    if (player.meleeEnchant == 6)
-                    {
-                        target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-                    }
-                    if (player.meleeEnchant == 8)
-                    {
-                        target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-                    }
-                    /*if (player.meleeEnchant == 4)
-                    {
-                        target.AddBuff(BuffID.Midas, 120, false);
-                    }*/
-                }
+				switch (player.meleeEnchant)
+				{
+					case 1:
+						target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+						break;
+					case 2:
+						target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+						break;
+					case 3:
+						target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+						break;
+					case 5:
+						target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+						break;
+					case 6:
+						target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+						break;
+					case 8:
+						target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+						break;
+					/*case 4:
+						target.AddBuff(BuffID.Midas, 120, false);
+						break;*/
+				}
             }
             if (holyWrath)
             {
@@ -4909,37 +4888,30 @@ namespace CalamityMod.CalPlayer
                 }
                 if (proj.Calamity().rogue)
                 {
-                    if (player.meleeEnchant > 0)
-                    {
-                        if (player.meleeEnchant == 1)
-                        {
-                            target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-                        }
-                        if (player.meleeEnchant == 2)
-                        {
-                            target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-                        }
-                        if (player.meleeEnchant == 3)
-                        {
-                            target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-                        }
-                        if (player.meleeEnchant == 5)
-                        {
-                            target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-                        }
-                        if (player.meleeEnchant == 6)
-                        {
-                            target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-                        }
-                        if (player.meleeEnchant == 8)
-                        {
-                            target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-                        }
-                        /*if (player.meleeEnchant == 4)
-						{
+					switch (player.meleeEnchant)
+					{
+						case 1:
+							target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+							break;
+						case 2:
+							target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+							break;
+						case 3:
+							target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+							break;
+						case 5:
+							target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+							break;
+						case 6:
+							target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+							break;
+						case 8:
+							target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+							break;
+						/*case 4:
 							target.AddBuff(BuffID.Midas, 120, false);
-						}*/
-                    }
+							break;*/
+					}
                     if (etherealExtorter)
                     {
                         if (ZoneSunkenSea)
@@ -4951,10 +4923,10 @@ namespace CalamityMod.CalPlayer
                             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120, false);
                             target.AddBuff(ModContent.BuffType<Irradiated>(), 300, false);
                         }
-                        if (Main.moonPhase == 6) //first quarter
+                        /*if (Main.moonPhase == 6) //first quarter
                         {
                             target.AddBuff(BuffID.Midas, 120, false);
-                        }
+                        }*/
                         if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
                         {
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);

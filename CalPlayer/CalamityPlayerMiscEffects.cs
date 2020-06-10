@@ -3087,13 +3087,13 @@ namespace CalamityMod.CalPlayer
 							float num3 = player.position.Y - Main.player[myPlayer].position.Y;
 
 							if ((float)Math.Sqrt((double)(arg * arg + num3 * num3)) < 800f)
-								Main.player[myPlayer].AddBuff(43, 20, true);
+								Main.player[myPlayer].AddBuff(BuffID.PaladinsShield, 20, true);
 						}
 					}
 				}
 
 				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
-					player.AddBuff(62, 5, true);
+					player.AddBuff(BuffID.IceBarrier, 5, true);
 				if (player.statLife <= (int)(player.statLifeMax2 * 0.15))
 					player.endurance += 0.05f;
 			}
@@ -3112,13 +3112,13 @@ namespace CalamityMod.CalPlayer
 							float num3 = player.position.Y - Main.player[myPlayer].position.Y;
 
 							if ((float)Math.Sqrt((double)(arg * arg + num3 * num3)) < 800f)
-								Main.player[myPlayer].AddBuff(43, 20, true);
+								Main.player[myPlayer].AddBuff(BuffID.PaladinsShield, 20, true);
 						}
 					}
 				}
 
 				if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
-					player.AddBuff(62, 5, true);
+					player.AddBuff(BuffID.IceBarrier, 5, true);
 				if (player.statLife <= (int)(player.statLifeMax2 * 0.15))
 					player.endurance += 0.05f;
 			}
