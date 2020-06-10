@@ -20,7 +20,7 @@ Stealth strikes also have +30 armor penetration, deal 10% more damage, and heal 
             item.height = 40;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.accessory = true;
-            item.rare = 6;
+            item.rare = 5;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

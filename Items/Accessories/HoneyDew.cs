@@ -20,8 +20,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 20;
             item.height = 20;
-            item.value = Item.buyPrice(0, 15, 0, 0);
-            item.rare = 7;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = 4;
             item.accessory = true;
         }
 
@@ -35,8 +35,8 @@ namespace CalamityMod.Items.Accessories
                 player.statDefense += 5;
                 player.endurance += 0.05f;
             }
-            player.buffImmune[70] = true;
-            player.buffImmune[20] = true;
+            player.buffImmune[BuffID.Venom] = true;
+            player.buffImmune[BuffID.Poison] = true;
             if (!player.honey && player.lifeRegen < 0)
             {
                 player.lifeRegen += 2;
@@ -54,8 +54,9 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<LivingDew>());
             recipe.AddIngredient(ItemID.BottledHoney, 10);
-            recipe.AddIngredient(ItemID.BeeWax, 10);
-            recipe.AddIngredient(ItemID.Bezoar);
+            recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<GypsyPowder>());
+            recipe.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
