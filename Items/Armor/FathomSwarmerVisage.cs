@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fathom Swarmer Visage");
-            Tooltip.SetDefault("10% increased minion damage\n" +
+            Tooltip.SetDefault("5% increased minion damage\n" +
 				"Provides breathing and light underwater");
         }
 
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.fathomSwarmer = true;
             player.spikedBoots = 2;
             player.maxMinions++;
-            player.minionDamage += 0.1f;
+            player.minionDamage += 0.05f;
             if (Collision.DrownCollision(player.position, player.width, player.height, player.gravDir))
             {
                 player.minionDamage += 0.3f;
