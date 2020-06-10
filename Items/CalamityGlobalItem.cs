@@ -2095,8 +2095,8 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 180\n" +
-                            "+10 defense, 10% increased movement speed,\n" +
-                            "and 5% increased damage and critical strike chance";
+                            "+8 defense, 10% increased movement speed,\n" +
+                            "4% increased damage, and 2% increased critical strike chance";
                     }
                 }
             }
@@ -2176,7 +2176,7 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 180\n" +
-                            "+1 max minion and 5% increased minion damage while wearing the Spooky Armor";
+                            "Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor";
                     }
                 }
             }
@@ -2223,8 +2223,7 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 0\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "+10 defense, 10% increased damage, " +
-                            "5% increased critical strike chance, " +
+                            "+5 defense, 5% increased damage, " +
                             "10% increased movement speed and 120% increased jump speed";
                     }
                 }
@@ -3118,9 +3117,8 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.MothronWings) // Spawn baby mothrons over time to attack enemies, max of 3
             {
-                player.statDefense += 10;
-                player.allDamage += 0.1f;
-                modPlayer.AllCritBoost(5);
+                player.statDefense += 5;
+                player.allDamage += 0.05f;
                 player.moveSpeed += 0.1f;
                 player.jumpSpeedBoost += 1.2f;
                 player.noFallDmg = true;
@@ -3231,7 +3229,7 @@ Provides heat and cold protection in Death Mode";
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.SpookyHelmet && player.body == ArmorIDs.Body.SpookyBreastplate && player.legs == ArmorIDs.Legs.SpookyLeggings)
                 {
-                    player.maxMinions++;
+                    player.minionKB += 2f;
                     player.minionDamage += 0.05f;
                 }
             }
@@ -3243,9 +3241,9 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.SteampunkWings)
             {
-                player.statDefense += 10;
-                player.allDamage += 0.05f;
-                modPlayer.AllCritBoost(5);
+                player.statDefense += 8;
+                player.allDamage += 0.04f;
+                modPlayer.AllCritBoost(2);
                 player.moveSpeed += 0.1f;
                 player.noFallDmg = true;
             }
