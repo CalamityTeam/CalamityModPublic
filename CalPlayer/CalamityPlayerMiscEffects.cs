@@ -1137,7 +1137,7 @@ namespace CalamityMod.CalPlayer
 			{
 				player.moveSpeed += 0.12f;
 				player.jumpSpeedBoost += 1.2f;
-				player.thorns = 0.5f;
+				player.thorns += 0.5f;
 				player.endurance += 0.05f;
 
 				if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
