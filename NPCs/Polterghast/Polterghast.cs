@@ -110,17 +110,20 @@ namespace CalamityMod.NPCs.Polterghast
             if (CalamityGlobalNPC.ghostBossClone != -1)
                 cloneAlive = Main.npc[CalamityGlobalNPC.ghostBossClone].active;
 
-            // Variables
-            Vector2 vector = npc.Center;
+			// Percent life remaining
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			// Variables
+			Vector2 vector = npc.Center;
             bool speedBoost = false;
             bool despawnBoost = false;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool phase2 = npc.life < npc.lifeMax * (death ? 0.9 : 0.75); //hooks fire beams
-            bool phase3 = npc.life < npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33); //hooks stop shooting and polter begins charging with ghosts spinning around player
-            bool phase4 = npc.life < npc.lifeMax * (revenge ? (death ? 0.5 : 0.33) : 0.2); //starts spitting ghost dudes
-            bool phase5 = npc.life < npc.lifeMax * (revenge ? (death ? 0.25 : 0.1) : 0.05); //starts moving incredibly fast
+            bool phase2 = lifeRatio < (death ? 0.9f : 0.75f);
+            bool phase3 = lifeRatio < (revenge ? (death ? 0.8f : 0.5f) : 0.33f);
+            bool phase4 = lifeRatio < (revenge ? (death ? 0.5f : 0.33f) : 0.2f);
+            bool phase5 = lifeRatio < (revenge ? (death ? 0.25f : 0.1f) : 0.05f);
 
             // Target
             npc.TargetClosest(true);
@@ -178,6 +181,8 @@ namespace CalamityMod.NPCs.Polterghast
 			// Velocity and acceleration
 			bool charging = npc.ai[2] >= 300f;
 			bool reset = npc.ai[2] >= 600f;
+			float speedUpDistance = 480f - 300f * (1f - lifeRatio);
+			bool speedUp = Vector2.Distance(player.Center, npc.Center) > speedUpDistance; // 30 or 40 tile distance
 			float num734 = 10f; // max should be 21
             float num735 = 0.05f; // max should be 0.13
             if (!player.ZoneDungeon && !CalamityWorld.bossRushActive && player.position.Y < Main.worldSurface * 16.0)
@@ -256,15 +261,63 @@ namespace CalamityMod.NPCs.Polterghast
 				}
 			}
 
-            // Set DR based on phase
-            float dr = phase3 ? phase3DR : phase2 ? phase2DR : phase1DR;
-            npc.Calamity().DR = dr;
+			if (expertMode)
+			{
+				num734 += revenge ? 5f : 3.5f;
+				num735 += revenge ? 0.035f : 0.025f;
+			}
 
-            if (expertMode)
-            {
-                num734 += revenge ? 5f : 3.5f;
-                num735 += revenge ? 0.035f : 0.025f;
-            }
+			// Move faster if inside active tiles
+			int radius = 2; // 2 tile radius
+			int diameter = radius * 2;
+			int npcCenterX = (int)(npc.Center.X / 16f);
+			int npcCenterY = (int)(npc.Center.Y / 16f);
+			Rectangle area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
+			bool insideTiles = false;
+			for (int x = area.Left; x < area.Right; x++)
+			{
+				for (int y = area.Top; y < area.Bottom; y++)
+				{
+					if (Main.tile[x, y] != null)
+					{
+						if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
+							insideTiles = true;
+					}
+				}
+			}
+
+			// Slow down if close to target and not inside tiles
+			if (!speedUp && !insideTiles)
+			{
+				num734 = 8f;
+				num735 = 0.035f;
+			}
+
+			// Detect active tiles around Plantera
+			radius = 20; // 20 tile radius
+			diameter = radius * 2;
+			area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
+			int nearbyActiveTiles = 0; // 0 to 1600
+			for (int x = area.Left; x < area.Right; x++)
+			{
+				for (int y = area.Top; y < area.Bottom; y++)
+				{
+					if (Main.tile[x, y] != null)
+					{
+						if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
+							nearbyActiveTiles++;
+					}
+				}
+			}
+
+			// Scale multiplier based on nearby active tiles
+			float tileEnrageMult = 1f;
+			if (nearbyActiveTiles < 800)
+				tileEnrageMult += (800 - nearbyActiveTiles) * 0.001f; // Ranges from 1f to 1.8f
+
+			// Set DR based on phase
+			float dr = phase3 ? phase3DR : phase2 ? phase2DR : phase1DR;
+            npc.Calamity().DR = dr;
 
             Vector2 vector91 = new Vector2(num730, num731);
             float num736 = player.Center.X - vector91.X;
@@ -284,7 +337,11 @@ namespace CalamityMod.NPCs.Polterghast
             if (expertMode)
                 num739 += 150;
 
-            if (num738 >= num739)
+			// Increase speed based on nearby active tiles
+			num734 *= tileEnrageMult;
+			num735 *= tileEnrageMult;
+
+			if (num738 >= num739)
             {
                 num738 = num739 / num738;
                 num736 *= num738;
@@ -340,7 +397,14 @@ namespace CalamityMod.NPCs.Polterghast
                     npc.velocity.Y -= num735 * 2f;
             }
 
-            if (!phase2 && !phase3)
+			// Slow down considerably if near player
+			if (!speedUp && nearbyActiveTiles > 800 && !insideTiles)
+			{
+				if (npc.velocity.Length() > num734)
+					npc.velocity *= 0.97f;
+			}
+
+			if (!phase2 && !phase3)
             {
                 npc.damage = npc.defDamage;
                 npc.defense = npc.defDefense;
@@ -357,7 +421,7 @@ namespace CalamityMod.NPCs.Polterghast
                     if (speedBoost || CalamityWorld.bossRushActive)
                         npc.localAI[1] += 3f;
 
-                    if (npc.localAI[1] >= 40f)
+                    if (npc.localAI[1] >= 160f)
                     {
                         npc.localAI[1] = 0f;
 
@@ -370,64 +434,85 @@ namespace CalamityMod.NPCs.Polterghast
 
                         if (flag47)
                         {
-							float num742 = CalamityWorld.bossRushActive ? 7f : 5f;
-							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                                num742 *= 2f;
-
-                            Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = player.position.X + player.width * 0.5f - vector93.X;
-                            float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
-                            float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-
-                            num745 = num742 / num745;
-                            num743 *= num745;
-                            num744 *= num745;
-
-                            int num746 = expertMode ? 48 : 60;
-                            int num747 = ModContent.ProjectileType<PhantomShot>();
+                            int damage = expertMode ? 48 : 60;
+                            int type = ModContent.ProjectileType<PhantomShot>();
 
                             if (Main.rand.NextBool(3))
                             {
-                                num746 = expertMode ? 60 : 70;
+                                damage = expertMode ? 60 : 70;
                                 npc.localAI[1] = -30f;
-                                num747 = ModContent.ProjectileType<PhantomBlast>();
+                                type = ModContent.ProjectileType<PhantomBlast>();
                             }
 
                             if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                                num746 *= 2;
+                                damage *= 2;
 
-                            vector93.X += num743 * 3f;
-                            vector93.Y += num744 * 3f;
+							Vector2 vector93 = new Vector2(vector.X, vector.Y);
+							float num742 = CalamityWorld.bossRushActive ? 7f : 5f;
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+								num742 *= 2f;
 
-                            int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[num748].timeLeft = num747 == ModContent.ProjectileType<PhantomBlast>() ? 300 : 1200;
-                        }
+							float num743 = player.position.X + player.width * 0.5f - vector93.X;
+							float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+
+							num745 = num742 / num745;
+							num743 *= num745;
+							num744 *= num745;
+							vector93.X += num743 * 3f;
+							vector93.Y += num744 * 3f;
+
+							int numProj = 4;
+							int spread = 32;
+							float rotation = MathHelper.ToRadians(spread);
+							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+							double deltaAngle = rotation / numProj;
+							double offsetAngle;
+							for (int i = 0; i < numProj; i++)
+							{
+								offsetAngle = startAngle + deltaAngle * i;
+								int proj = Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].timeLeft = type == ModContent.ProjectileType<PhantomBlast>() ? 300 : 1200;
+							}
+						}
                         else
                         {
-                            float num742 = CalamityWorld.bossRushActive ? 14f : 11f;
-                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                                num742 *= 2f;
+							int damage = expertMode ? 60 : 70;
+							int type = ModContent.ProjectileType<PhantomBlast>();
 
-                            Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = player.position.X + player.width * 0.5f - vector93.X;
-                            float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
-                            float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+								damage *= 2;
 
-                            num745 = num742 / num745;
-                            num743 *= num745;
-                            num744 *= num745;
+							Vector2 vector93 = new Vector2(vector.X, vector.Y);
+							float num742 = CalamityWorld.bossRushActive ? 14f : 10f;
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+								num742 *= 2f;
 
-                            int num746 = expertMode ? 60 : 70;
-                            int num747 = ModContent.ProjectileType<PhantomBlast>();
-                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                                num746 *= 2;
+							float num743 = player.position.X + player.width * 0.5f - vector93.X;
+							float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
-                            vector93.X += num743 * 3f;
-                            vector93.Y += num744 * 3f;
+							num745 = num742 / num745;
+							num743 *= num745;
+							num744 *= num745;
+							vector93.X += num743 * 3f;
+							vector93.Y += num744 * 3f;
 
-                            int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[num748].timeLeft = 180;
-                        }
+							int numProj = 4;
+							int spread = 64;
+							float rotation = MathHelper.ToRadians(spread);
+							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+							double deltaAngle = rotation / numProj;
+							double offsetAngle;
+							for (int i = 0; i < numProj; i++)
+							{
+								offsetAngle = startAngle + deltaAngle * i;
+								int proj = Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].timeLeft = 180;
+							}
+						}
                     }
                 }
             }
@@ -483,7 +568,7 @@ namespace CalamityMod.NPCs.Polterghast
                     if (speedBoost || CalamityWorld.bossRushActive)
                         npc.localAI[1] += 3f;
 
-                    if (npc.localAI[1] >= 36f)
+                    if (npc.localAI[1] >= 180f)
                     {
                         npc.localAI[1] = 0f;
 
@@ -496,65 +581,85 @@ namespace CalamityMod.NPCs.Polterghast
 
                         if (flag47)
                         {
-                            float num742 = CalamityWorld.bossRushActive ? 8f : 6f;
-                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                                num742 *= 2f;
+							int damage = expertMode ? 53 : 65;
+							int type = ModContent.ProjectileType<PhantomShot2>();
 
-                            Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = player.position.X + player.width * 0.5f - vector93.X;
-                            float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
-                            float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							if (Main.rand.NextBool(3))
+							{
+								damage = expertMode ? 65 : 75;
+								npc.localAI[1] = -30f;
+								type = ModContent.ProjectileType<PhantomBlast2>();
+							}
 
-                            num745 = num742 / num745;
-                            num743 *= num745;
-                            num744 *= num745;
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+								damage *= 2;
 
-                            int num746 = expertMode ? 53 : 65;
-                            int num747 = ModContent.ProjectileType<PhantomShot2>();
+							Vector2 vector93 = new Vector2(vector.X, vector.Y);
+							float num742 = CalamityWorld.bossRushActive ? 8f : 6f;
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+								num742 *= 2f;
 
-                            if (Main.rand.NextBool(3))
-                            {
-                                num746 = expertMode ? 65 : 75;
-                                npc.localAI[1] = -30f;
-                                num747 = ModContent.ProjectileType<PhantomBlast2>();
-                            }
+							float num743 = player.position.X + player.width * 0.5f - vector93.X;
+							float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
-                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                                num746 *= 2;
+							num745 = num742 / num745;
+							num743 *= num745;
+							num744 *= num745;
+							vector93.X += num743 * 3f;
+							vector93.Y += num744 * 3f;
 
-                            vector93.X += num743 * 3f;
-                            vector93.Y += num744 * 3f;
-
-                            int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[num748].timeLeft = num747 == ModContent.ProjectileType<PhantomBlast2>() ? 300 : 1200;
-                        }
+							int numProj = 4;
+							int spread = 40;
+							float rotation = MathHelper.ToRadians(spread);
+							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+							double deltaAngle = rotation / numProj;
+							double offsetAngle;
+							for (int i = 0; i < numProj; i++)
+							{
+								offsetAngle = startAngle + deltaAngle * i;
+								int proj = Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].timeLeft = type == ModContent.ProjectileType<PhantomBlast2>() ? 300 : 1200;
+							}
+						}
                         else
                         {
-                            float num742 = CalamityWorld.bossRushActive ? 14f : 11f;
-                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                                num742 *= 2f;
+							int damage = expertMode ? 65 : 75;
+							int type = ModContent.ProjectileType<PhantomBlast2>();
 
-                            Vector2 vector93 = new Vector2(vector.X, vector.Y);
-                            float num743 = player.position.X + player.width * 0.5f - vector93.X;
-                            float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
-                            float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+								damage *= 2;
 
-                            num745 = num742 / num745;
-                            num743 *= num745;
-                            num744 *= num745;
+							Vector2 vector93 = new Vector2(vector.X, vector.Y);
+							float num742 = CalamityWorld.bossRushActive ? 14f : 10f;
+							if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+								num742 *= 2f;
 
-                            int num746 = expertMode ? 65 : 75;
-                            int num747 = ModContent.ProjectileType<PhantomBlast2>();
+							float num743 = player.position.X + player.width * 0.5f - vector93.X;
+							float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+							float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 
-                            if (speedBoost || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                                num746 *= 2;
+							num745 = num742 / num745;
+							num743 *= num745;
+							num744 *= num745;
+							vector93.X += num743 * 3f;
+							vector93.Y += num744 * 3f;
 
-                            vector93.X += num743 * 3f;
-                            vector93.Y += num744 * 3f;
-
-                            int num748 = Projectile.NewProjectile(vector93.X, vector93.Y, num743, num744, num747, num746, 0f, Main.myPlayer, 0f, 0f);
-                            Main.projectile[num748].timeLeft = 240;
-                        }
+							int numProj = 5;
+							int spread = 80;
+							float rotation = MathHelper.ToRadians(spread);
+							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+							double deltaAngle = rotation / numProj;
+							double offsetAngle;
+							for (int i = 0; i < numProj; i++)
+							{
+								offsetAngle = startAngle + deltaAngle * i;
+								int proj = Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+								Main.projectile[proj].timeLeft = 240;
+							}
+						}
                     }
                 }
             }
@@ -572,11 +677,9 @@ namespace CalamityMod.NPCs.Polterghast
 
                         for (int I = 0; I < 3; I++)
                         {
-                            int Phantom = NPC.NewNPC((int)(player.Center.X + (Math.Sin(I * 120) * 500)),
-                                (int)(player.Center.Y + (Math.Cos(I * 120) * 500)), ModContent.NPCType<PhantomFuckYou>(), 0, 0, 0, 0, -1);
-                            NPC Eye = Main.npc[Phantom];
-                            Eye.ai[0] = I * 120;
-                            Eye.ai[3] = I * 120;
+                            int spawn = NPC.NewNPC((int)(npc.Center.X + (Math.Sin(I * 120) * 500)), (int)(npc.Center.Y + (Math.Cos(I * 120) * 500)), ModContent.NPCType<PhantomFuckYou>(), npc.whoAmI, 0, 0, 0, -1);
+                            NPC npc2 = Main.npc[spawn];
+                            npc2.ai[0] = I * 120;
                         }
                     }
 
@@ -624,40 +727,43 @@ namespace CalamityMod.NPCs.Polterghast
 				if (npc.ai[1] >= 420f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 				{
 					npc.ai[1] = 0f;
-					Vector2 vector93 = new Vector2(vector.X, vector.Y);
-					float num742 = CalamityWorld.bossRushActive ? 7f : 5f;
-					float num743 = player.position.X + player.width * 0.5f - vector93.X;
-					float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
-					float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-
-					num745 = num742 / num745;
-					num743 *= num745;
-					num744 *= num745;
-					vector93.X += num743 * 3f;
-					vector93.Y += num744 * 3f;
-
-					int damage = expertMode ? 53 : 65;
-					int numProj = 4;
-					int spread = 45;
-					float rotation = MathHelper.ToRadians(spread);
-					float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
-					double startAngle = Math.Atan2(num743, num744) - rotation / 2;
-					double deltaAngle = rotation / numProj;
-					double offsetAngle;
-					int type = ModContent.ProjectileType<PhantomShot>();
-					for (int i = 0; i < numProj; i++)
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						offsetAngle = startAngle + deltaAngle * i;
-						if (i == 1 || i == 2)
-							type = ModContent.ProjectileType<PhantomShot2>();
-						Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+						Vector2 vector93 = new Vector2(vector.X, vector.Y);
+						float num742 = CalamityWorld.bossRushActive ? 7f : 5f;
+						float num743 = player.position.X + player.width * 0.5f - vector93.X;
+						float num744 = player.position.Y + player.height * 0.5f - vector93.Y;
+						float num745 = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+
+						num745 = num742 / num745;
+						num743 *= num745;
+						num744 *= num745;
+						vector93.X += num743 * 3f;
+						vector93.Y += num744 * 3f;
+
+						int damage = expertMode ? 53 : 65;
+						int numProj = 6;
+						int spread = 90;
+						float rotation = MathHelper.ToRadians(spread);
+						float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
+						double startAngle = Math.Atan2(num743, num744) - rotation / 2;
+						double deltaAngle = rotation / numProj;
+						double offsetAngle;
+						int type = ModContent.ProjectileType<PhantomShot>();
+						for (int i = 0; i < numProj; i++)
+						{
+							offsetAngle = startAngle + deltaAngle * i;
+							if (i == 1 || i == 2)
+								type = ModContent.ProjectileType<PhantomShot2>();
+							Projectile.NewProjectile(vector93.X, vector93.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), type, damage, 0f, Main.myPlayer, 0f, 0f);
+						}
 					}
 				}
 
 				if (phase4)
                 {
                     npc.localAI[1] += 1f;
-                    if (npc.localAI[1] >= 150f)
+                    if (npc.localAI[1] >= 420f)
                     {
                         npc.localAI[1] = 0f;
 

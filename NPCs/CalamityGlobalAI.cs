@@ -7148,7 +7148,7 @@ namespace CalamityMod.NPCs
                             {
                                 if (Main.netMode != NetmodeID.MultiplayerClient)
                                 {
-                                    if (NPC.CountNPCS(NPCID.Probe) < 6)
+                                    if (NPC.CountNPCS(NPCID.Probe) < 3)
                                         NPC.NewNPC((int)npc.Center.X, (int)(npc.Center.Y + 4f), NPCID.Probe);
                                     else
                                     {
@@ -8382,9 +8382,8 @@ namespace CalamityMod.NPCs
 			// Phases based on HP
 			bool phase1phase2 = lifeRatio < 0.75f;
             bool phase2 = lifeRatio <= 0.5f;
-            bool phase3 = lifeRatio < 0.33f || (death && phase2);
-			bool phase4 = lifeRatio < 0.25f;
-			bool spawnMoreTentacles = lifeRatio < 0.1f;
+            bool phase3 = lifeRatio < 0.35f || (death && phase2);
+			bool phase4 = lifeRatio < 0.2f;
 
 			// Variables and target
 			bool enrage = false;
@@ -8457,7 +8456,7 @@ namespace CalamityMod.NPCs
             {
                 velocity = 10f;
                 acceleration = 0.1f;
-                if (tentaclesDead || spawnMoreTentacles)
+                if (tentaclesDead || phase4)
                 {
                     velocity = 12f;
                     acceleration = 0.12f;
@@ -8633,7 +8632,7 @@ namespace CalamityMod.NPCs
 						float radians = MathHelper.TwoPi / totalTentacles;
 						for (int i = 0; i < totalTentacles; i++)
 						{
-							Vector2 vector255 = new Vector2(0f, -320f).RotatedBy(radians * i);
+							Vector2 vector255 = new Vector2(0f, -360f).RotatedBy(radians * i);
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, vector255.X, vector255.Y, 1f, 0f, 255);
 						}
 					}
@@ -8732,7 +8731,8 @@ namespace CalamityMod.NPCs
                 // Adjust stats
                 npc.defense = 21;
                 npc.damage = (int)(npc.defDamage * 1.4f);
-                if (enrage)
+				npc.chaseable = true;
+				if (enrage)
                 {
                     npc.defense *= 4;
                     npc.damage *= 2;
@@ -8751,23 +8751,25 @@ namespace CalamityMod.NPCs
                         }
                     }
 
-					if (spawnMoreTentacles && npc.localAI[0] == 3f)
+					if (phase4 && npc.localAI[0] == 3f)
 					{
 						npc.localAI[0] = 4f;
 						int totalTentacles = 8;
 						float radians = MathHelper.TwoPi / totalTentacles;
 						for (int i = 0; i < totalTentacles; i++)
 						{
-							Vector2 vector255 = new Vector2(0f, -320f).RotatedBy(radians * i);
+							Vector2 vector255 = new Vector2(0f, -480f).RotatedBy(radians * i);
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, vector255.X, vector255.Y, 2f, 0f, 255);
 						}
 					}
 				}
 
-                // If tentacles are alive, gain high defense
-                if (!tentaclesDead)
-                    npc.defense = spawnMoreTentacles ? 99 : 9999;
-                npc.chaseable = tentaclesDead;
+				// If tentacles are alive, gain high defense
+				if (!tentaclesDead && !phase4)
+				{
+					npc.defense = 9999;
+					npc.chaseable = false;
+				}
 
                 // Spawn gore
                 if (npc.localAI[2] == 0f)
@@ -8857,7 +8859,7 @@ namespace CalamityMod.NPCs
 					}
 
 					// Fire spread of spore clouds
-					if (tentaclesDead || spawnMoreTentacles)
+					if (tentaclesDead || phase4)
 					{
 						float shootBoost = death ? 1f : 2f * (0.5f - lifeRatio);
 						calamityGlobalNPC.newAI[0] += 1f + shootBoost;
@@ -9135,6 +9137,8 @@ namespace CalamityMod.NPCs
 					}
 				}
 			}
+			else
+				npc.knockBackResist = 0.25f;
 
             // Target
             npc.TargetClosest(true);
