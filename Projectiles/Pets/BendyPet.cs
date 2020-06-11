@@ -12,8 +12,8 @@ namespace CalamityMod.Projectiles.Pets
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Siren");
-            Main.projFrames[projectile.type] = 1;
+            DisplayName.SetDefault("Dreamfog Dragon");
+            Main.projFrames[projectile.type] = 5;
             Main.projPet[projectile.type] = true;
             ProjectileID.Sets.LightPet[projectile.type] = true;
         }
