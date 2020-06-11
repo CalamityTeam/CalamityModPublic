@@ -4132,7 +4132,7 @@ namespace CalamityMod.NPCs
             {
                 pool.Clear();
 
-                if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 2))
+                if (!(CalamityWorld.downedPolterghast && CalamityWorld.acidRainPoints == 1))
                 {
                     Dictionary<int, AcidRainSpawnData> PossibleEnemies = AcidRainEvent.PossibleEnemiesPreHM;
                     Dictionary<int, AcidRainSpawnData> PossibleMinibosses = new Dictionary<int, AcidRainSpawnData>();
@@ -4193,6 +4193,10 @@ namespace CalamityMod.NPCs
                                 pool.Add(miniboss, PossibleMinibosses[miniboss].SpawnRate);
                             }
                         }
+                    }
+                    if (NPC.CountNPCS(NPCType<NuclearToad>()) >= AcidRainEvent.MaxNuclearToadCount)
+                    {
+                        pool.Remove(NPCType<NuclearToad>());
                     }
                 }
             }
