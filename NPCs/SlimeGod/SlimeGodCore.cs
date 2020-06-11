@@ -111,7 +111,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.damage = npc.defDamage;
 
 			// Enrage based on large slimes
-			bool phase2 = false;
+			bool phase2 = lifeRatio < 0.4f;
 			bool hyperMode = true;
 			bool purpleSlimeAlive = false;
 			bool redSlimeAlive = false;
@@ -129,7 +129,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.Calamity().newAI[1] = Main.npc[CalamityGlobalNPC.slimeGodPurple].Center.Y;
 
 					purpleSlimeAlive = true;
-					phase2 = lifeRatio >= 0.5f;
+					phase2 = lifeRatio < 0.2f;
 					hyperMode = false;
 				}
 			}
@@ -147,7 +147,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.localAI[3] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.Y;
 
 					redSlimeAlive = true;
-					phase2 = lifeRatio >= 0.5f;
+					phase2 = lifeRatio < 0.2f;
 					hyperMode = false;
 				}
 			}
@@ -258,7 +258,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			}
 
 			// Spin and shoot orbs
-            if (!phase2)
+            if (phase2)
             {
 				npc.ai[1] += 1f;
 				if (revenge)
@@ -509,7 +509,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             float num1372 = 6f;
-            if (!phase2 || death)
+            if (phase2 || death)
             {
                 num1372 = 14f;
             }
