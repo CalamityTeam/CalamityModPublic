@@ -65,10 +65,13 @@ namespace CalamityMod.Projectiles.Pets
                 projectile.frame = 0;
             }
 
+			//Highlight nearby danger sources
+			player.dangerSense = true;
+
 			//Generate less light if returning to the player
 			if (projectile.localAI[0] == 0f)
 			{
-				Lighting.AddLight(projectile.Center, 0.6494f, 0.2023f, 1.0635f); //138, 43, 226
+				Lighting.AddLight(projectile.Center, 0.8118f, 0.2529f, 1.3294f); //138, 43, 226
 			}
 			else
 			{
