@@ -4,6 +4,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Melee;
@@ -233,6 +234,7 @@ namespace CalamityMod.NPCs.AstrumDeus
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<HideofAstrumDeus>(), DropHelper.RareVariantDropRateInt);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<ChromaticOrb>(), 5);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusMask>(), 7);
