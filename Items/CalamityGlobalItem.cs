@@ -1149,8 +1149,7 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.text = "Teleports you to the position of the mouse\n" +
-							"Teleportation is disabled while Chaos State is active";
+						line2.text += "\nTeleportation is disabled while Chaos State is active";
 					}
 				}
 			}
@@ -1160,8 +1159,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Capable of soaking up an endless amount of water\n" +
-                            "Cannot be used in the Abyss";
+                        line2.text += "\nCannot be used in the Abyss";
                     }
                 }
             }
@@ -1171,8 +1169,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.text = "1 defense\n" +
-                            "Cannot be used in the Abyss";
+                        line2.text += "\nCannot be used in the Abyss";
                     }
                 }
             }
@@ -1182,8 +1179,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Summons a heart to provide light\n" +
-                            "Provides a small amount of light in the abyss";
+                        line2.text += "\nProvides a small amount of light in the abyss";
                     }
                 }
             }
@@ -1193,8 +1189,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Creates a magical shadow orb\n" +
-                            "Provides a small amount of light in the abyss";
+                        line2.text += "\nProvides a small amount of light in the abyss";
                     }
                 }
             }
@@ -1204,8 +1199,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Summons a magic lantern that exposes nearby treasure\n" +
-                            "Provides a small amount of light in the abyss";
+                        line2.text += "\nProvides a small amount of light in the abyss";
                     }
                 }
             }
@@ -1215,8 +1209,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "Provides light under water and extra mobility on ice\n" +
-                            "Provides a small amount of light in the abyss\n" +
+                        line2.text += "\nProvides a small amount of light in the abyss\n" +
                             "Moderately reduces breath loss in the abyss";
                     }
                 }
@@ -1227,8 +1220,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Provides light under water\n" +
-                            "Provides a small amount of light in the abyss";
+                        line2.text += "\nProvides a small amount of light in the abyss";
                     }
                 }
             }
@@ -1238,8 +1230,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "Provides light under water\n" +
-                            "Provides a small amount of light in the abyss";
+                        line2.text += "\nProvides a small amount of light in the abyss";
                     }
                 }
             }
@@ -1249,8 +1240,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Summons a magical fairy\n" +
-                            "Provides a moderate amount of light in the abyss";
+                        line2.text += "\nProvides a moderate amount of light in the abyss";
                     }
                 }
             }
@@ -1260,8 +1250,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Summons a pet flickerwick to provide light\n" +
-                            "Provides a moderate amount of light in the abyss";
+                        line2.text += "\nProvides a moderate amount of light in the abyss";
                     }
                 }
             }
@@ -1271,8 +1260,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "BuffTime")
                     {
-                        line2.text = "5 minute duration\n" +
-                            "Provides a moderate amount of light in the abyss";
+                        line2.text += "\nProvides a moderate amount of light in the abyss";
                     }
                 }
             }
@@ -1282,8 +1270,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Summons a Wisp to provide light\n" +
-                            "Provides a large amount of light in the abyss";
+                        line2.text += "\nProvides a large amount of light in the abyss";
                     }
                 }
             }
@@ -1293,8 +1280,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "'I know what you're thinking...'\n" +
-                            "Provides a large amount of light in the abyss";
+                        line2.text += "\nProvides a large amount of light in the abyss";
                     }
                 }
             }
@@ -1304,8 +1290,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "BuffTime")
                     {
-                        line2.text = "2 minute duration\n" +
-                            "Greatly reduces breath loss in the abyss";
+                        line2.text += "\nGreatly reduces breath loss in the abyss";
                     }
                 }
             }
@@ -1315,30 +1300,17 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Greatly extends underwater breathing\n" +
-                            "Moderately reduces breath loss in the abyss";
+                        line2.text += "\nModerately reduces breath loss in the abyss";
                     }
                 }
             }
-            if (item.type == ItemID.NeptunesShell)
+            if (item.type == ItemID.NeptunesShell || item.type == ItemID.MoonShell)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Transforms the holder into merfolk when entering water\n" +
-                            "Greatly reduces breath loss in the abyss";
-                    }
-                }
-            }
-            if (item.type == ItemID.MoonShell)
-            {
-                foreach (TooltipLine line2 in tooltips)
-                {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
-                        line2.text = "Turns the holder into a werewolf at night and a merfolk when entering water\n" +
-                            "Greatly reduces breath loss in the abyss";
+                        line2.text += "\nGreatly reduces breath loss in the abyss";
                     }
                 }
             }
@@ -1348,8 +1320,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "Minor increases to all stats\n" +
-                            "Greatly reduces breath loss in the abyss";
+                        line2.text += "\nGreatly reduces breath loss in the abyss";
                     }
                 }
             }
@@ -1359,8 +1330,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Reduces damage from cold sources\n" +
-                            "Makes you immune to the Chilled, Frozen, and Glacial State debuffs\n" +
+                        line2.text += "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs\n" +
 							"Provides cold protection in Death Mode";
                     }
                 }
@@ -1455,13 +1425,44 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.FireGauntlet)
+			if (item.type == ItemID.TitanGlove)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text += "\n25% increased true melee damage";
+					}
+				}
+			}
+			if (item.type == ItemID.PowerGlove)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					{
+						line2.text += "\n25% increased true melee damage";
+					}
+				}
+			}
+			if (item.type == ItemID.MechanicalGlove)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					{
+						line2.text += "\n25% increased true melee damage";
+					}
+				}
+			}
+			if (item.type == ItemID.FireGauntlet)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
                         line2.text = "14% increased melee damage and speed\n" +
+							"25% increased true melee damage\n" +
 							"Provides heat and cold protection in Death Mode";
                     }
                 }
@@ -1518,8 +1519,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Provides 7 seconds of immunity to lava\n" +
-							"Provides heat protection in Death Mode";
+                        line2.text += "\nProvides heat protection in Death Mode";
                     }
                 }
             }
@@ -1529,8 +1529,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "Grants immunity to fire blocks and 7 seconds of immunity to lava\n" +
-							"Provides heat protection in Death Mode";
+                        line2.text += "\nProvides heat protection in Death Mode";
                     }
                 }
             }
@@ -1540,8 +1539,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Grants invisibility\n" +
-                            "Boosts certain stats when holding certain types of rogue weapons";
+                        line2.text += "\nBoosts certain stats when holding certain types of rogue weapons";
                     }
                 }
             }
@@ -1562,8 +1560,8 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Capable of mining Lihzahrd Bricks\n" +
-                            "Also capable of mining Scoria Ore found in the Abyss";
+						// I'm leaving this intentionally ambiguous so that people have to search for Scoria Ore
+                        line2.text = "Capable of mining Lihzahrd Bricks and Scoria Ore";
                     }
                 }
             }
@@ -1717,17 +1715,6 @@ namespace CalamityMod.Items
                     }
                 }
             }
-			if (item.type == ItemID.MoltenHelmet || item.type == ItemID.MoltenBreastplate || item.type == ItemID.MoltenGreaves)
-			{
-				foreach (TooltipLine line2 in tooltips)
-				{
-					if (line2.mod == "Terraria" && line2.Name == "SetBonus")
-					{
-						line2.text = "Set Bonus: 17% extra melee damage\n" +
-							"30% extra true melee damage";
-					}
-				}
-			}
 			if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
             {
 				if (!Main.player[Main.myPlayer].Calamity().forbiddenCirclet)
@@ -1736,8 +1723,7 @@ namespace CalamityMod.Items
 					{
 						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
 						{
-							line2.text = "Set Bonus: Double tap " + (Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN") + " to call an ancient storm to the cursor location\n" +
-								"Minions deal full damage while wielding magic weapons";
+							line2.text += "\nMinions deal full damage while wielding magic weapons";
 						}
 					}
 				}
@@ -1808,13 +1794,14 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.MoltenHelmet || item.type == ItemID.MoltenBreastplate || item.type == ItemID.MoltenGreaves)
+			if (item.type == ItemID.MoltenHelmet || item.type == ItemID.MoltenBreastplate || item.type == ItemID.MoltenGreaves)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "SetBonus")
                     {
                         line2.text = @"Set Bonus: 17% extra melee damage
+30% extra true melee damage
 Grants immunity to fire blocks, and temporary immunity to lava
 Provides heat and cold protection in Death Mode";
                     }

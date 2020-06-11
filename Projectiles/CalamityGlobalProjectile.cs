@@ -71,59 +71,11 @@ namespace CalamityMod.Projectiles
         #region SetDefaults
         public override void SetDefaults(Projectile projectile)
         {
+			if (CalamityMod.trueMeleeProjectileList.Contains(projectile.type))
+				trueMelee = true;
+
             switch (projectile.type)
             {
-                case ProjectileID.Spear:
-                case ProjectileID.Trident:
-                case ProjectileID.TheRottedFork:
-                case ProjectileID.Swordfish:
-                case ProjectileID.Arkhalis:
-                case ProjectileID.DarkLance:
-                case ProjectileID.CobaltNaginata:
-                case ProjectileID.PalladiumPike:
-                case ProjectileID.MythrilHalberd:
-                case ProjectileID.OrichalcumHalberd:
-                case ProjectileID.AdamantiteGlaive:
-                case ProjectileID.TitaniumTrident:
-                case ProjectileID.MushroomSpear:
-                case ProjectileID.Gungnir:
-                case ProjectileID.ObsidianSwordfish:
-                case ProjectileID.ChlorophytePartisan:
-                case ProjectileID.MonkStaffT1:
-                case ProjectileID.MonkStaffT2:
-                case ProjectileID.MonkStaffT3:
-                case ProjectileID.NorthPoleWeapon:
-
-				//tools
-                case ProjectileID.CobaltDrill:
-                case ProjectileID.MythrilDrill:
-                case ProjectileID.AdamantiteDrill:
-                case ProjectileID.PalladiumDrill:
-                case ProjectileID.OrichalcumDrill:
-                case ProjectileID.TitaniumDrill:
-                case ProjectileID.ChlorophyteDrill:
-                case ProjectileID.CobaltChainsaw:
-                case ProjectileID.MythrilChainsaw:
-                case ProjectileID.AdamantiteChainsaw:
-                case ProjectileID.PalladiumChainsaw:
-                case ProjectileID.OrichalcumChainsaw:
-                case ProjectileID.TitaniumChainsaw:
-                case ProjectileID.ChlorophyteChainsaw:
-                case ProjectileID.VortexDrill:
-                case ProjectileID.VortexChainsaw:
-                case ProjectileID.NebulaDrill:
-                case ProjectileID.NebulaChainsaw:
-                case ProjectileID.SolarFlareDrill:
-                case ProjectileID.SolarFlareChainsaw:
-                case ProjectileID.StardustDrill:
-                case ProjectileID.StardustChainsaw:
-                case ProjectileID.Hamdrax:
-                case ProjectileID.ChlorophyteJackhammer:
-                case ProjectileID.SawtoothShark:
-                case ProjectileID.ButchersChainsaw:
-                    trueMelee = true;
-                    break;
-
                 case ProjectileID.StarWrath:
                     projectile.penetrate = projectile.maxPenetrate = 1;
                     break;

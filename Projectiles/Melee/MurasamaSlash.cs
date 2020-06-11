@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.ownerHitCheck = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 0;
-			projectile.Calamity().trueMelee = true;
+			//projectile.Calamity().trueMelee = true;
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
