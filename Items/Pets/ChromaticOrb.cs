@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Pets
         {
             DisplayName.SetDefault("Chromatic Orb");
             Tooltip.SetDefault("It glows warmly in your hand\n" +
-                "Summons an ancient dragon light pet that highlights nearby danger sources\n" +
+                "Summons an ancient dragon light pet that highlights nearby enemies and danger sources\n" +
                 "Provides a small amount of light in the abyss");
         }
 

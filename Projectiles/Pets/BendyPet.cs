@@ -67,6 +67,7 @@ namespace CalamityMod.Projectiles.Pets
 
 			//Highlight nearby danger sources
 			player.dangerSense = true;
+			player.detectCreature = true;
 
 			//Generate less light if returning to the player
 			if (projectile.localAI[0] == 0f)
