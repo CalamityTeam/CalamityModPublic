@@ -146,6 +146,7 @@ namespace CalamityMod
         public static List<int> bossHPScaleList;
         public static List<int> beeEnemyList;
         public static List<int> beeProjectileList;
+        public static List<int> friendlyBeeList;
         public static List<int> hardModeNerfList;
         public static List<int> debuffList;
         public static List<int> fireWeaponList;
@@ -370,6 +371,7 @@ namespace CalamityMod
             bossScaleList = null;
             bossHPScaleList = null;
             beeEnemyList = null;
+            friendlyBeeList = null;
             beeProjectileList = null;
             hardModeNerfList = null;
             debuffList = null;
@@ -901,6 +903,17 @@ namespace CalamityMod
                 ModContent.ProjectileType<PlagueStingerGoliathV2>(),
                 ModContent.ProjectileType<PlagueExplosion>()
             };
+
+			friendlyBeeList = new List<int>()
+			{
+				ProjectileID.GiantBee,
+				ProjectileID.Bee,
+				ProjectileID.Wasp,
+				ModContent.ProjectileType<PlaguenadeBee>(),
+				ModContent.ProjectileType<PlaguePrincess>(),
+				ModContent.ProjectileType<BabyPlaguebringer>(),
+				ModContent.ProjectileType<PlagueBeeSmall>()
+			};
 
             hardModeNerfList = new List<int>()
             {

@@ -4484,7 +4484,7 @@ namespace CalamityMod.CalPlayer
                 {
 					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<DemonFlames>());
                 }
-                if ((plaguebringerCarapace || uberBees) && (proj.type == 566 || proj.type == 181 || proj.type == 189))
+                if ((plaguebringerCarapace || uberBees) && CalamityMod.friendlyBeeList.Contains(proj.type))
                 {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
                 }
@@ -4819,7 +4819,7 @@ namespace CalamityMod.CalPlayer
                 {
 					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<CrushDepth>());
                 }
-                if ((plaguebringerCarapace || uberBees) && (proj.type == 566 || proj.type == 181 || proj.type == 189))
+                if ((plaguebringerCarapace || uberBees) && CalamityMod.friendlyBeeList.Contains(proj.type))
                 {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
                 }
@@ -5374,7 +5374,7 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
             }
-            if (uberBees && (proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Bee || proj.type == ProjectileID.Wasp || proj.type == ModContent.ProjectileType<PlaguenadeBee>() || proj.type == ModContent.ProjectileType<PlaguePrincess>() || proj.type == ModContent.ProjectileType<BabyPlaguebringer>() || proj.type == ModContent.ProjectileType<PlagueBeeSmall>()))
+            if (uberBees && CalamityMod.friendlyBeeList.Contains(proj.type))
             {
                 damage += Main.rand.Next(20, 31);
             }
@@ -5390,6 +5390,7 @@ namespace CalamityMod.CalPlayer
 							if (miniPBG.type == ModContent.ProjectileType<PlaguebringerSummon>() && Vector2.Distance(proj.Center, miniPBG.Center) <= PlaguebringerSummon.auraRange && miniPBG.owner == proj.owner)
 							{
 								damage += Main.rand.Next(10, 21);
+								break;
 							}
 						}
 					}
