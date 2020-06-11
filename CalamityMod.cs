@@ -760,6 +760,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<FlakKrakenProj>(),
                 ModContent.ProjectileType<SylvanSlashAttack>(),
                 ModContent.ProjectileType<InfernadoFriendly>(),
+				ModContent.ProjectileType<MurasamaSlash>(),
 
 				//Some hostile boss projectiles
                 ModContent.ProjectileType<BrimstoneMonster>(),
