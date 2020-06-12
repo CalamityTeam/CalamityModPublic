@@ -1140,7 +1140,7 @@ namespace CalamityMod.CalPlayer
 				player.thorns += 0.5f;
 				player.endurance += 0.05f;
 
-				if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+				if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
 					player.manaRegenBonus += 2;
 			}
 
@@ -1186,7 +1186,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.draedonsHeart)
 			{
 				player.allDamage += 0.05f;
-				if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+				if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
 					player.statDefense += 25;
 			}
 
@@ -1542,7 +1542,7 @@ namespace CalamityMod.CalPlayer
 			}
 			if (modPlayer.golemLore)
 			{
-				if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+				if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
 					player.statDefense += 10;
 			}
 			if (modPlayer.dukeFishronLore)
@@ -2112,7 +2112,7 @@ namespace CalamityMod.CalPlayer
 						modPlayer.chiBuffTimer = 0;
 				}
 
-				if ((double)Math.Abs(player.velocity.X) < 0.1 && (double)Math.Abs(player.velocity.Y) < 0.1 && !player.mount.Active)
+				if (Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active)
 				{
 					if (modPlayer.chiBuffTimer < 120)
 						modPlayer.chiBuffTimer++;
@@ -2163,12 +2163,12 @@ namespace CalamityMod.CalPlayer
 				if (player.itemAnimation > 0)
 					modPlayer.modStealthTimer = 5;
 
-				if ((double)Math.Abs(player.velocity.X) < 0.1 && (double)Math.Abs(player.velocity.Y) < 0.1 && !player.mount.Active)
+				if (Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active)
 				{
 					if (modPlayer.modStealthTimer == 0 && modPlayer.modStealth > 0f)
 					{
 						modPlayer.modStealth -= 0.015f;
-						if ((double)modPlayer.modStealth <= 0.0)
+						if (modPlayer.modStealth <= 0f)
 						{
 							modPlayer.modStealth = 0f;
 							if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -2202,7 +2202,7 @@ namespace CalamityMod.CalPlayer
 				if (player.itemAnimation > 0)
 					modPlayer.modStealthTimer = 5;
 
-				if ((double)Math.Abs(player.velocity.X) < 0.1 && (double)Math.Abs(player.velocity.Y) < 0.1 && !player.mount.Active)
+				if (Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active)
 				{
 					if (modPlayer.modStealthTimer == 0 && modPlayer.modStealth > 0f)
 					{
