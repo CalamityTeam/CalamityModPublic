@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
             speedX += Main.rand.Next(-40, 41) * 0.05f;
             speedY += Main.rand.Next(-40, 41) * 0.05f;
-            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, counter % 1 == 0 ? 1f : 0f);
+            Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, counter % 2 == 0 ? 1f : 0f);
 
             if (Main.rand.NextBool(2))
             {
