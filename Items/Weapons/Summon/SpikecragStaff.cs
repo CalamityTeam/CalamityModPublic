@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.width = 50;
             item.height = 50;
             item.useTime = item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 2f;
             item.value = Item.buyPrice(0, 80, 0, 0);
@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 position = Main.MouseWorld;
                 speedX = 0;
                 speedY = 0;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, 120f, 0f);
                 player.UpdateMaxTurrets();
             }
             return false;

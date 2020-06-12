@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Abyss
         {
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.damage = 80;
+            npc.damage = 100;
             npc.width = 70;
             npc.height = 162;
             npc.defense = 10;
@@ -100,15 +100,18 @@ namespace CalamityMod.NPCs.Abyss
                             num1250 = (int)player.Center.X / 16;
                             num1251 = (int)player.Center.Y / 16;
 
-                            int min = 9;
-                            int max = 16;
+                            int min = 6;
+                            int max = 9;
 
                             if (Main.rand.NextBool(2))
                                 num1250 += Main.rand.Next(min, max);
                             else
                                 num1250 -= Main.rand.Next(min, max);
 
-                            num1251 += Main.rand.Next(min, max);
+							min = 11;
+							max = 26;
+
+							num1251 += Main.rand.Next(min, max);
 
                             if (!WorldGen.SolidTile(num1250, num1251) && Collision.CanHit(new Vector2((float)(num1250 * 16), (float)(num1251 * 16)), 1, 1, player.position, player.width, player.height) &&
                                 Main.tile[num1250, num1251].liquid > 204)
@@ -149,7 +152,7 @@ namespace CalamityMod.NPCs.Abyss
                 npc.alpha -= 5;
                 if (npc.alpha <= 0)
                 {
-                    npc.damage = Main.expertMode ? 160 : 80;
+                    npc.damage = Main.expertMode ? 200 : 100;
                     npc.chaseable = true;
                     npc.dontTakeDamage = false;
                     npc.alpha = 0;

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -53,19 +53,6 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.realLife = (int)npc.ai[3];
             }
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
-            npc.velocity.Length();
-            if (npc.velocity.X < 0f)
-            {
-                npc.spriteDirection = -1;
-            }
-            else if (npc.velocity.X > 0f)
-            {
-                npc.spriteDirection = 1;
-            }
             bool flag = false;
             if (npc.ai[1] <= 0f)
             {
@@ -92,10 +79,6 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.alpha = 0;
                 }
-            }
-            if (Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(false);
             }
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);

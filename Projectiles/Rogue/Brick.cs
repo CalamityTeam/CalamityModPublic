@@ -1,6 +1,8 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items.Weapons.Rogue;
+using Terraria.ID;
+
 namespace CalamityMod.Projectiles.Rogue
 {
     public class Brick : ModProjectile
@@ -41,7 +43,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, ModContent.ItemType<ThrowingBrick>());
             }
 
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 50);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 50);
             //Dust on impact
             int dust_splash = 0;
             while (dust_splash < 9)

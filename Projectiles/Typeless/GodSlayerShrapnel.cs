@@ -1,5 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Typeless
             if (projectile.ai[1] == 0f && projectile.type >= 326 && projectile.type <= 328)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 13);
+                Main.PlaySound(SoundID.Item13, projectile.position);
             }
             int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 100, default, 0.5f);
             Dust dust = Main.dust[num199];

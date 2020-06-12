@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
@@ -77,9 +77,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            bool phase1 = (double)npc.life > (double)npc.lifeMax * 0.5;
-            bool phase2 = (double)npc.life <= (double)npc.lifeMax * 0.5;
-            bool phase3 = (double)npc.life <= (double)npc.lifeMax * 0.1;
+            bool phase1 = npc.life > npc.lifeMax * 0.5;
+            bool phase2 = npc.life <= npc.lifeMax * 0.5;
+            bool phase3 = npc.life <= npc.lifeMax * 0.1;
             npc.chaseable = hasBeenHit;
             if (npc.soundDelay <= 0)
             {
@@ -108,41 +108,33 @@ namespace CalamityMod.NPCs.Abyss
                     reset2 = true;
                     npc.netUpdate = true;
                 }
+
                 npc.spriteDirection = (npc.direction > 0) ? -1 : 1;
-                int num = 200;
                 if (npc.ai[2] == 0f)
                 {
-                    npc.localAI[0] += 1f;
-                    npc.alpha = num;
                     npc.TargetClosest(true);
-                    if (!Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() < 170f)
+                    if (!Main.player[npc.target].dead && (Main.player[npc.target].Center - npc.Center).Length() < 170f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         npc.ai[2] = -16f;
                     }
-                    if (npc.velocity.X != 0f || npc.velocity.Y < 0f || npc.velocity.Y > 2f || npc.justHit || npc.localAI[0] >= 420f)
+                    if (npc.justHit || npc.localAI[0] >= 420f)
                     {
                         npc.ai[2] = -16f;
                     }
                     return;
                 }
+
                 if (npc.ai[2] < 0f)
                 {
-                    if (npc.alpha > 0)
-                    {
-                        npc.alpha -= num / 16;
-                        if (npc.alpha < 0)
-                        {
-                            npc.alpha = 0;
-                        }
-                    }
                     npc.ai[2] += 1f;
                     if (npc.ai[2] == 0f)
                     {
                         npc.ai[2] = 1f;
-                        npc.velocity.X = (float)(npc.direction * 2);
+						npc.velocity.X = npc.direction * 2;
                     }
                     return;
                 }
+
                 if (npc.ai[2] == 1f)
                 {
                     if (npc.direction == 0)

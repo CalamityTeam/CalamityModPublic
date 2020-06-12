@@ -1,16 +1,15 @@
-﻿using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.NPCs.SunkenSea
 {
-    public class BlindedAngler : ModNPC
+	public class BlindedAngler : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +24,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.width = 56;
             npc.height = 44;
             npc.defense = 30;
-            npc.Calamity().RevPlusDR(0.2f);
+			npc.DR_NERD(0.2f);
             npc.lifeMax = 750;
             npc.aiStyle = -1;
             aiType = -1;

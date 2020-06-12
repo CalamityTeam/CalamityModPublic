@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AureusBomber : ModProjectile
+	public class AureusBomber : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -71,32 +70,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//anti sticking movement
-            float SAImovement = 0.05f;
-			float width = (float) projectile.width;
-            for (int indexNPC = 0; indexNPC < Main.projectile.Length; indexNPC++)
-            {
-				Projectile proj = Main.projectile[indexNPC];
-                bool myType = proj.type == ModContent.ProjectileType<AureusBomber>();
-                if (indexNPC != projectile.whoAmI && proj.active && proj.owner == projectile.owner && myType && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X -= SAImovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += SAImovement;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y -= SAImovement;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += SAImovement;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
 
 			//get in a line
 			Vector2 idlePosition = player.Center;
@@ -272,7 +246,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
             for (int num193 = 0; num193 < 2; num193++)
             {
                 Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, ModContent.DustType<AstralOrange>(), 0f, 0f, 50, default, 1f);

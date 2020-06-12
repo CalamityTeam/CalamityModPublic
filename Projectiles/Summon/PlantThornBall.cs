@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class PlantThornBall : ModProjectile
+	public class PlantThornBall : ModProjectile
     {
         public override void SetStaticDefaults()
         {

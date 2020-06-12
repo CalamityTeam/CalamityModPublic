@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Potions;
+using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Potions
             Tooltip.SetDefault("Greatly increases wing flight time and speed and increases defense by 16\n" +
                 "God slayer revival heals you to half HP instead of 150 HP when triggered\n" +
                 "Silva invincibility heals you to half HP when triggered\n" +
-                "If you trigger the above heals you cannot drink this potion again for 60 seconds");
+                "If you trigger the above heals you cannot drink this potion again for 60 seconds and you gain 30 seconds of potion sickness");
         }
 
         public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Potions
             item.rare = 3;
             item.useAnimation = 17;
             item.useTime = 17;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.consumable = true;
             item.buffType = ModContent.BuffType<DraconicSurgeBuff>();

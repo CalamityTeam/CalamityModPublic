@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.width = 60;
             npc.height = 60;
             npc.defense = 0;
-            npc.Calamity().RevPlusDR(normalDR);
+			npc.DR_NERD(normalDR);
             npc.lifeMax = 4000;
             npc.knockBackResist = 0f;
             for (int k = 0; k < npc.buffImmune.Length; k++)

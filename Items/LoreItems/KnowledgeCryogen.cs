@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
@@ -34,7 +34,6 @@ namespace CalamityMod.Items.LoreItems
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dashMod = 6;
-            player.statDefense -= 10;
         }
 
         public override void AddRecipes()

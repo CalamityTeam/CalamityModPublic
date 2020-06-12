@@ -1,11 +1,10 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 
 namespace CalamityMod.Items.Materials
 {
-    public class NightmareFuel : ModItem
+	public class NightmareFuel : ModItem
     {
         public override void SetStaticDefaults()
         {

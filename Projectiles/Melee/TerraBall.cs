@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -36,7 +36,7 @@ namespace CalamityMod.Projectiles.Melee
 				projectile.soundDelay = 20 + Main.rand.Next(40);
 				if (Main.rand.NextBool(5))
 				{
-					Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+					Main.PlaySound(SoundID.Item9, projectile.position);
 				}
 			}
 
@@ -94,10 +94,5 @@ namespace CalamityMod.Projectiles.Melee
 				Gore.NewGore(projectile.position, new Vector2(projectile.velocity.X * 0.05f, projectile.velocity.Y * 0.05f), Main.rand.Next(16, 18), 1f);
 			}
 		}
-
-		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 180);
-        }
     }
 }

@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Items.Materials;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Bonebreaker : ModItem
+	public class Bonebreaker : ModItem
     {
 		public const int BaseDamage = 60;
 
@@ -19,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 15;
             item.useTime = 15;
             item.width = 32;

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -87,7 +87,7 @@ namespace CalamityMod.Projectiles.Hybrid
             }
             else
             {
-                Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 4, 1f, 0f);
+                Main.PlaySound(SoundID.NPCHit4, projectile.position);
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;
@@ -127,7 +127,7 @@ namespace CalamityMod.Projectiles.Hybrid
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(3, (int)projectile.position.X, (int)projectile.position.Y, 4, 1f, 0f);
+            Main.PlaySound(SoundID.NPCHit4, projectile.position);
             int num3;
             for (int num622 = 0; num622 < 10; num622 = num3 + 1)
             {

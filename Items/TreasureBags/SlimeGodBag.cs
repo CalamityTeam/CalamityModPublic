@@ -5,7 +5,6 @@ using CalamityMod.Items.PermanentBoosters;
 using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
-using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
@@ -15,7 +14,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class SlimeGodBag : ModItem
+	public class SlimeGodBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<SlimeGodRun>();
 

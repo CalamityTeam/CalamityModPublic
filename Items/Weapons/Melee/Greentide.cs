@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using System;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Greentide : ModItem
+	public class Greentide : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTime = 24;
             item.useAnimation = 24;
             item.useTurn = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 7;
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.rare = 7;

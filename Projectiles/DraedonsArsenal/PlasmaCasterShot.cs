@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -97,8 +97,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			target.AddBuff(BuffID.OnFire, 600);
-			target.AddBuff(BuffID.CursedInferno, 600);
+			target.AddBuff(BuffID.OnFire, 360);
+			target.AddBuff(BuffID.CursedInferno, 180);
         }
 
 		public override void Kill(int timeLeft)

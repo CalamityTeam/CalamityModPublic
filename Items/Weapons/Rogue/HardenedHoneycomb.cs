@@ -25,7 +25,7 @@ Stealth strikes can bounce off walls and enemies");
             item.noUseGraphic = true;
             item.useAnimation = 21;
             item.useTime = 21;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

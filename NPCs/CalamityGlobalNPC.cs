@@ -1,10 +1,7 @@
-using CalamityMod;
 using CalamityMod.Buffs;
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.Placeables;
 using CalamityMod.Buffs.StatBuffs;
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Potions;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
@@ -39,7 +36,6 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
@@ -65,18 +61,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
 using static Terraria.ModLoader.ModContent;
 
 namespace CalamityMod.NPCs
 {
-    public class CalamityGlobalNPC : GlobalNPC
+	public class CalamityGlobalNPC : GlobalNPC
     {
         #region Variables
         public float DR { get; set; } = 0f;
@@ -98,6 +93,9 @@ namespace CalamityMod.NPCs
 
 		// Iron Heart (currently unimplemented)
 		// private int ironHeartDamage = 0;
+
+		// Max velocity used in contact damage scaling
+		public float maxVelocity = 0f;
 
 		// Town NPC shop alert animation variables
 		private int shopAlertAnimTimer = 0;
@@ -172,7 +170,6 @@ namespace CalamityMod.NPCs
         public static int leviathan = -1;
         public static int siren = -1;
         public static int scavenger = -1;
-        public static int astrumDeusHeadMain = -1;
         public static int energyFlame = -1;
         public static int doughnutBoss = -1;
         public static int holyBossAttacker = -1;
@@ -283,9 +280,6 @@ namespace CalamityMod.NPCs
 		/// </summary>
 		public static List<int> AstrumDeusIDs = new List<int>
 		{
-			NPCType<AstrumDeusHead>(),
-			NPCType<AstrumDeusBody>(),
-			NPCType<AstrumDeusTail>(),
 			NPCType<AstrumDeusHeadSpectral>(),
 			NPCType<AstrumDeusBodySpectral>(),
 			NPCType<AstrumDeusTailSpectral>()
@@ -297,6 +291,19 @@ namespace CalamityMod.NPCs
 			NPCType<AquaticScourgeBody>(),
 			NPCType<AquaticScourgeBodyAlt>(),
 			NPCType<AquaticScourgeTail>()
+		};
+
+		public static List<int> PerforatorIDs = new List<int>
+		{
+			NPCType<PerforatorHeadLarge>(),
+			NPCType<PerforatorBodyLarge>(),
+			NPCType<PerforatorTailLarge>(),
+			NPCType<PerforatorHeadMedium>(),
+			NPCType<PerforatorBodyMedium>(),
+			NPCType<PerforatorTailMedium>(),
+			NPCType<PerforatorHeadSmall>(),
+			NPCType<PerforatorBodySmall>(),
+			NPCType<PerforatorTailSmall>()
 		};
 
 		public static List<int> DesertScourgeIDs = new List<int>
@@ -325,6 +332,27 @@ namespace CalamityMod.NPCs
 			NPCType<StormWeaverHeadNaked>(),
 			NPCType<StormWeaverBodyNaked>(),
 			NPCType<StormWeaverTailNaked>()
+		};
+
+		public static List<int> GrenadeResistIDs = new List<int>
+		{
+			ProjectileID.Grenade,
+			ProjectileID.StickyGrenade,
+			ProjectileID.BouncyGrenade,
+			ProjectileID.Bomb,
+			ProjectileID.StickyBomb,
+			ProjectileID.BouncyBomb,
+			ProjectileID.Dynamite,
+			ProjectileID.StickyDynamite,
+			ProjectileID.BouncyDynamite,
+			ProjectileID.Explosives,
+			ProjectileID.ExplosiveBunny,
+			ProjectileID.PartyGirlGrenade,
+			ProjectileID.BombFish,
+			ProjectileID.Beenade,
+			ProjectileID.Bee,
+			ProjectileID.GiantBee
+			//ProjectileID.ScarabBomb
 		};
 		#endregion
 
@@ -377,7 +405,6 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref leviathan, NPCType<Leviathan.Leviathan>());
             ResetSavedIndex(ref siren, NPCType<Siren>());
             ResetSavedIndex(ref scavenger, NPCType<RavagerBody>());
-            ResetSavedIndex(ref astrumDeusHeadMain, NPCType<AstrumDeusHeadSpectral>());
             ResetSavedIndex(ref energyFlame, NPCType<ProfanedEnergyBody>());
             ResetSavedIndex(ref doughnutBoss, NPCType<ProfanedGuardianBoss>());
             ResetSavedIndex(ref holyBossAttacker, NPCType<ProvSpawnOffense>());
@@ -518,11 +545,11 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                npc.lifeRegen -= projectileCount * 350;
+                npc.lifeRegen -= projectileCount * 250;
 
-                if (damage < projectileCount * 70)
+                if (damage < projectileCount * 50)
                 {
-                    damage = projectileCount * 70;
+                    damage = projectileCount * 50;
                 }
             }
 
@@ -689,21 +716,18 @@ namespace CalamityMod.NPCs
                 newAI[m] = 0f;
             }
 
-            // Apply DR to vanilla NPCs. No vanilla NPCs have DR except in Rev+.
-            // This also applies DR to other mods' NPCs who have set up their NPCs to have DR in Rev+.
-            if (CalamityWorld.revenge)
-            {
-				if (CalamityMod.DRValues.ContainsKey(npc.type))
-				{
-					CalamityMod.DRValues.TryGetValue(npc.type, out float revDR);
-					DR = revDR;
-				}
+			// Apply DR to vanilla NPCs.
+			// This also applies DR to other mods' NPCs who have set up their NPCs to have DR.
+			if (CalamityMod.DRValues.ContainsKey(npc.type))
+			{
+				CalamityMod.DRValues.TryGetValue(npc.type, out float newDR);
+				DR = newDR;
+			}
 
-				if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
-				{
-					CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
-					KillTime = revKillTime;
-				}
+			if (CalamityMod.bossKillTimes.ContainsKey(npc.type))
+			{
+				CalamityMod.bossKillTimes.TryGetValue(npc.type, out int revKillTime);
+				KillTime = revKillTime;
 			}
 
             if (npc.boss && CalamityWorld.revenge)
@@ -1019,17 +1043,6 @@ namespace CalamityMod.NPCs
                 npc.canGhostHeal = false;
             }
         }
-
-        /// <summary>
-        /// Sets the DR of this NPC only if Revengeance Mode is enabled. Otherwise sets DR to zero.
-        /// </summary>
-        /// <param name="dr">The DR to set, assuming Rev+ difficulty.</param>
-        /// <returns>Whether Revengeance Mode is currently enabled.</returns>
-        public bool RevPlusDR(float dr)
-        {
-            DR = CalamityWorld.revenge ? dr : 0f;
-            return CalamityWorld.revenge;
-        }
         #endregion
 
         #region Other Stat Changes
@@ -1040,19 +1053,6 @@ namespace CalamityMod.NPCs
             {
                 npc.width = npc.height = 36;
             }
-
-			//Reduce damage in Death Mode by the Beach
-			if (CalamityWorld.death && !CalamityPlayer.areThereAnyDamnBosses)
-			{
-				if (npc.type == NPCID.Sharkron)
-				{
-					npc.damage = 25;
-				}
-				if (npc.type == NPCID.Sharkron2)
-				{
-					npc.damage = 50;
-				}
-			}
 
             if (npc.type == NPCID.CultistBoss)
             {
@@ -1147,7 +1147,7 @@ namespace CalamityMod.NPCs
 
             if ((npc.boss && npc.type != NPCID.MartianSaucerCore && npc.type < NPCID.Count) || CalamityMod.bossHPScaleList.Contains(npc.type))
             {
-                double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+                double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
                 npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             }
         }
@@ -1201,7 +1201,7 @@ namespace CalamityMod.NPCs
             Texture2D npcTexture = texture ?? Main.npcTexture[npc.type];
             Vector2 origin = npc.Size * 0.5f;
             int afterimageCounter = 1;
-            while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && CalamityMod.CalamityConfig.Afterimages)
+            while (afterimageCounter < NPCID.Sets.TrailCacheLength[npc.type] && CalamityConfig.Instance.Afterimages)
             {
                 Color colorToDraw = Color.Lerp(drawColor, endingColor, afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type]);
                 colorToDraw *= afterimageCounter / (float)NPCID.Sets.TrailCacheLength[npc.type];
@@ -1284,7 +1284,7 @@ namespace CalamityMod.NPCs
         #region Scale Thorium Boss Health
         private void ScaleThoriumBossHealth(NPC npc, Mod mod)
         {
-            if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
+            if (CalamityConfig.Instance.BuffThoriumBosses)
             {
                 Mod thorium = ModLoader.GetMod("ThoriumMod");
                 if (thorium != null)
@@ -1443,15 +1443,22 @@ namespace CalamityMod.NPCs
         #region Strike NPC
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
+			// Damage reduction on spawn
 			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
 			{
-				if (DestroyerIDs.Contains(npc.type))
+				if (DestroyerIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type))
 				{
-					if (newAI[1] < 480f || newAI[2] > 0f)
+					if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 					{
 						damage *= 0.01;
 					}
 				}
+			}
+
+			// Large Deus worm takes reduced damage to last a long enough time
+			if (AstrumDeusIDs.Contains(npc.type) && newAI[0] == 0f)
+			{
+				damage *= 0.8;
 			}
 
             // Override hand/head eye 'death' code and use custom 'death' code instead, this is here just in case the AI code fails
@@ -1532,8 +1539,14 @@ namespace CalamityMod.NPCs
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
 			if (KillTime > 0 && AITimer < KillTime && !CalamityWorld.bossRushActive)
 			{
-				// The limit for how much extra DR the boss can have
-				float extraDRLimit = (1f - DR) * (!GetDownedBossVariable(npc.type) || CalamityMod.CalamityConfig.ExtraBossDR ? 1.5f : 1f);
+                float DRScalar = !GetDownedBossVariable(npc.type) || CalamityConfig.Instance.FullPowerReactiveBossDR ? 1.5f : 1f;
+
+                // Boost Providence timed DR during the night
+                if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
+                    DRScalar = 10f;
+
+                // The limit for how much extra DR the boss can have
+                float extraDRLimit = (1f - DR) * DRScalar;
 
 				// Ranges from 1 to 0
 				float currentHPRatio = npc.life / (float)npc.lifeMax;
@@ -1563,11 +1576,7 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.66f;
             if (wCleave > 0)
                 calcDR *= 0.75f;
-
-            // Ichor supersedes Cursed Inferno if both are applied.
-            if (npc.ichor)
-                calcDR *= 0.75f;
-            else if (npc.onFire2)
+            if (npc.onFire2)
                 calcDR *= 0.8f;
 
             return calcDR;
@@ -1596,10 +1605,7 @@ namespace CalamityMod.NPCs
             FlatEditDR(ref calcDR, npc.shadowFlame, BuffID.ShadowFlame);
             FlatEditDR(ref calcDR, npc.daybreak, BuffID.Daybreak);
             FlatEditDR(ref calcDR, npc.betsysCurse, BuffID.BetsysCurse);
-
-            // Ichor supersedes Cursed Inferno if both are applied.
-            FlatEditDR(ref calcDR, npc.ichor, BuffID.Ichor);
-            FlatEditDR(ref calcDR, npc.onFire2 && !npc.ichor, BuffID.CursedInferno);
+            FlatEditDR(ref calcDR, npc.onFire2, BuffID.CursedInferno);
 
             // Modded debuffs are handled modularly and use HasBuff.
             foreach (KeyValuePair<int, float> entry in flatDRReductions)
@@ -1617,10 +1623,7 @@ namespace CalamityMod.NPCs
             MultEditDR(ref calcDR, npc.shadowFlame, BuffID.ShadowFlame);
             MultEditDR(ref calcDR, npc.daybreak, BuffID.Daybreak);
             MultEditDR(ref calcDR, npc.betsysCurse, BuffID.BetsysCurse);
-
-            // Ichor supersedes Cursed Inferno if both are applied.
-            MultEditDR(ref calcDR, npc.ichor, BuffID.Ichor);
-            MultEditDR(ref calcDR, npc.onFire2 && !npc.ichor, BuffID.CursedInferno);
+            MultEditDR(ref calcDR, npc.onFire2, BuffID.CursedInferno);
 
             // Modded debuffs are handled modularly and use HasBuff.
             foreach (KeyValuePair<int, float> entry in multDRReductions)
@@ -1661,6 +1664,12 @@ namespace CalamityMod.NPCs
         public override bool PreAI(NPC npc)
         {
             SetPatreonTownNPCName(npc);
+
+			if (CalamityPlayer.areThereAnyDamnBosses)
+			{
+				if (npc.velocity.Length() > maxVelocity)
+					maxVelocity = npc.velocity.Length();
+			}
 
 			if (KillTime > 0 && AITimer < KillTime)
 				AITimer++;
@@ -1818,6 +1827,10 @@ namespace CalamityMod.NPCs
                         break;
                 }
             }
+			else if (npc.type == NPCID.Retinazer)
+			{
+				return CalamityGlobalAI.TrueMeleeRetinazerPhase2AI(npc);
+			}
 
 			if (CalamityWorld.death)
 			{
@@ -2920,8 +2933,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case 29:
-                    if (!AstrumDeusIDs.Contains(npc.type) && npc.type != NPCType<AstrumDeusProbe>() &&
-						npc.type != NPCType<AstrumDeusProbe2>() && npc.type != NPCType<AstrumDeusProbe3>())
+                    if (!AstrumDeusIDs.Contains(npc.type))
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -3049,7 +3061,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
-                bool configBossRushBoost = CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive;
+                bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
 
                 switch (npc.type)
                 {
@@ -3254,7 +3266,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
-                if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
+                if (CalamityConfig.Instance.BuffThoriumBosses)
                 {
                     Mod thorium = ModLoader.GetMod("ThoriumMod");
                     if (thorium != null)
@@ -3528,179 +3540,203 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (AstrumDeusIDs.Contains(npc.type))
+			// Expert Mode resists, mostly worms
+			if (Main.expertMode)
 			{
-				if (projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>() || projectile.type == ProjectileType<AtlantisSpear2>() || ProjectileID.Sets.StardustDragon[projectile.type])
+				if (AstrumDeusIDs.Contains(npc.type))
 				{
-					damage = (int)(damage * 0.1);
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+
+					// Old resists
+					/*if (projectile.type == ProjectileType<AtlantisSpear2>())
+					{
+						damage = (int)(damage * 0.1);
+					}
+					else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
+					{
+						damage = (int)(damage * 0.2);
+					}
+					else if (projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>())
+					{
+						damage = (int)(damage * 0.4);
+					}*/
+
+					// New resists
+					if (projectile.type == ProjectileType<RainbowBoom>() || projectile.type == ProjectileType<RainBolt>())
+					{
+						damage = (int)(damage * 0.2);
+					}
+					else if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileID.Electrosphere)
+					{
+						damage = (int)(damage * 0.4);
+					}
+					else if (projectile.type == ProjectileType<SpikecragSpike>())
+					{
+						damage = (int)(damage * 0.5);
+					}
+					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
+					{
+						damage = (int)(damage * 0.75);
+					}
 				}
-				else if (projectile.type == ProjectileID.Wasp || projectile.type == player.beeType() || projectile.type == ProjectileType<MalachiteBolt>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileID.DD2BetsyArrow)
+				else if (StormWeaverIDs.Contains(npc.type))
 				{
-					damage = (int)(damage * 0.4);
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+
+					if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
+					{
+						damage = (int)(damage * 0.9);
+					}
+					else if (projectile.type == ProjectileType<MoltenAmputatorProj>() || projectile.type == ProjectileType<MoltenBlobThrown>())
+					{
+						if (projectile.penetrate == -1)
+							projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
+						damage = (int)(damage * 0.75);
+					}
+					else if (projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>())
+					{
+						damage = (int)(damage * 0.5);
+					}
+					else if (ProjectileID.Sets.StardustDragon[projectile.type])
+					{
+						damage = (int)(damage * 0.1);
+					}
 				}
-				else if (projectile.type == ProjectileType<SpikecragSpike>() || projectile.type == ProjectileType<SolarBeam2>())
+				else if (DestroyerIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+
+					if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>() || projectile.type == ProjectileType<RainbowTrail>())
+					{
+						damage = (int)(damage * 0.75);
+					}
+					else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
+					{
+						damage = (int)(damage * 0.5);
+					}
+					else if (projectile.type == ProjectileType<SulphuricNukesplosion>())
+					{
+						damage = (int)(damage * 0.38);
+					}
+					else if (projectile.type == ProjectileType<SeasSearingSpout>())
+					{
+						damage = (int)(damage * 0.25);
+					}
+				}
+				else if (AquaticScourgeIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+
+					if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>())
+					{
+						damage = (int)(damage * 0.9);
+					}
+					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>())
+					{
+						damage = (int)(damage * 0.5);
+					}
+					else if (projectile.type == ProjectileType<Brimblast>())
+					{
+						if (projectile.penetrate == -1)
+							projectile.penetrate = 2;
+						damage = (int)(damage * 0.1);
+					}
+				}
+				else if (PerforatorIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+				}
+				else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
+				{
+					if (npc.type == NPCID.Creeper)
+						GrenadeResist(projectile, ref damage);
+
+					PierceResistGlobal(projectile, ref damage);
+
+					if (projectile.type == ProjectileType<SparklingBeam>())
+					{
+						damage = (int)(damage * 0.7);
+					}
+				}
+				else if (DesertScourgeIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
+				}
+			}
+
+			// Other projectile resists
+			if (npc.type == NPCType<OldDuke.OldDuke>())
+			{
+				if (projectile.type == ProjectileType<CrescentMoonFlail>())
+				{
+					damage = (int)(damage * 0.2);
+				}
+				else if (projectile.type == ProjectileType<GalileosMoon>() || projectile.type == ProjectileType<CalamariInk>())
 				{
 					damage = (int)(damage * 0.5);
 				}
-				else if (projectile.type == ProjectileType<CosmicTentacle>() || projectile.type == ProjectileType<BrimstoneTentacle>())
+				else if (projectile.type == ProjectileType<BloodBombExplosion>() || projectile.type == ProjectileType<CrescentMoonProj>())
 				{
 					damage = (int)(damage * 0.6);
 				}
-				else if (projectile.type == ProjectileType<BigNuke>())
+				else if (projectile.type == ProjectileType<GhastlySoulLarge>() || projectile.type == ProjectileType<GhastlySoulMedium>() || projectile.type == ProjectileType<GhastlySoulSmall>() || projectile.type == ProjectileType<GhostFire>())
 				{
-					damage = (int)(damage * 0.85);
+					damage = (int)(damage * 0.75);
 				}
-
-				if (projectile.penetrate == -1 && !projectile.minion)
+				else if (projectile.type == ProjectileID.LunarFlare)
 				{
-					damage = (int)(damage * 0.2);
-				}
-				else if (projectile.penetrate > 1 && projectile.type != ProjectileType<BrinySpout>())
-				{
-					damage /= projectile.penetrate;
+					damage = (int)(damage * 0.8);
 				}
 			}
-			else if (StormWeaverIDs.Contains(npc.type))
-			{
-				if (projectile.type == ProjectileType<ShatteredSunScorchedBlade>())
-				{
-                    damage = (int)(damage * 0.9);
-				}
-                else if (projectile.type == ProjectileType<MoltenAmputatorProj>() || projectile.type == ProjectileType<MoltenBlobThrown>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
-                    damage = (int)(damage * 0.75);
-                }
-                else if (projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>())
-                {
-                    damage = (int)(damage * 0.5);
-                }
-				else if (ProjectileID.Sets.StardustDragon[projectile.type])
-				{
-					damage = (int)(damage * 0.1);
-				}
-
-				if (projectile.penetrate == -1 && !projectile.minion)
-				{
-					damage = (int)(damage * 0.2);
-				}
-				else if (projectile.penetrate > 1)
-				{
-					damage /= projectile.penetrate;
-				}
-			}
-            else if (DestroyerIDs.Contains(npc.type))
-            {
-                if (((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion))
-                {
-                    damage = (int)(damage * 0.5);
-                }
-                if (projectile.type == ProjectileType<FossilShardThrown>() || projectile.type == ProjectileType<DesecratedBubble>() || projectile.type == ProjectileType<KelvinCatalystStar>() || projectile.type == ProjectileType<RainbowTrail>())
-                {
-                    damage = (int)(damage * 0.75);
-                }
-                else if (projectile.type == ProjectileType<DormantBrimseekerBab>())
-                {
-                    damage = (int)(damage * 0.5);
-                }
-                else if (projectile.type == ProjectileType<SulphuricNukesplosion>())
-                {
-                    damage = (int)(damage * 0.38);
-                }
-                else if (projectile.type == ProjectileType<SeasSearingSpout>())
-                {
-                    damage = (int)(damage * 0.25);
-                }
-            }
-			else if (AquaticScourgeIDs.Contains(npc.type))
-			{
-				if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
-				{
-					damage = (int)(damage * 0.5);
-				}
-                if (projectile.type == ProjectileType<FlameBeamTip>() || projectile.type == ProjectileType<FlameBeamTip2>())
-                {
-                    damage = (int)(damage * 0.9);
-                }
-                if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>())
-                {
-                    damage = (int)(damage * 0.5);
-                }
-				else if (projectile.type == ProjectileType<Brimblast>())
-                {
-                    if (projectile.penetrate == -1)
-                        projectile.penetrate = 2;
-                    damage = (int)(damage * 0.1);
-                }
-			}
-            else if (EaterofWorldsIDs.Contains(npc.type) || npc.type == NPCID.Creeper)
-            {
-                if ((projectile.penetrate == -1 || projectile.penetrate > 1) && !projectile.minion)
-                {
-                    damage = (int)(damage * 0.6);
-                }
-                if (projectile.type == ProjectileType<SparklingBeam>())
-                {
-                    damage = (int)(damage * 0.7);
-                }
-            }
-            else if (DesertScourgeIDs.Contains(npc.type))
-            {
-                if (projectile.type == ProjectileType<Spark>())
-                {
-                    damage = (int)(damage * 0.7);
-                }
-            }
-            else if (npc.type == NPCType<OldDuke.OldDuke>())
-            {
-                if (projectile.type == ProjectileType<CrescentMoonFlail>())
-                {
-                    damage = (int)(damage * 0.2);
-                }
-                else if (projectile.type == ProjectileType<GalileosMoon>() || projectile.type == ProjectileType<CalamariInk>())
-                {
-                    damage = (int)(damage * 0.5);
-                }
-                else if (projectile.type == ProjectileType<BloodBombExplosion>() || projectile.type == ProjectileType<CrescentMoonProj>())
-                {
-                    damage = (int)(damage * 0.6);
-                }
-                else if (projectile.type == ProjectileType<GhastlySoulLarge>() || projectile.type == ProjectileType<GhastlySoulMedium>() || projectile.type == ProjectileType<GhastlySoulSmall>() || projectile.type == ProjectileType<GhostFire>())
-                {
-                    damage = (int)(damage * 0.75);
-                }
-                else if (projectile.type == ProjectileID.LunarFlare)
-                {
-                    damage = (int)(damage * 0.8);
-                }
-            }
 			else if (npc.type == NPCID.CultistBoss)
 			{
-                if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
-                {
+				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
+				{
 					damage = (int)(damage * 0.75);
 				}
 			}
-            else if (npc.type == NPCID.DukeFishron)
+			else if (npc.type == NPCID.DukeFishron)
 			{
-                if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
-                {
+				if (projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<SakuraBullet>())
+				{
 					damage = (int)(damage * 1.35);
 				}
 			}
-            else if (npc.type == NPCType<Providence.Providence>())
+			else if (npc.type == NPCType<Providence.Providence>())
 			{
-                if (projectile.type == ProjectileType<ElementalAxeMinion>())
-                {
+				if (projectile.type == ProjectileType<ElementalAxeMinion>())
+				{
 					damage = (int)(damage * 1.5);
 				}
 			}
 		}
-        #endregion
 
-        #region On Hit By Item
-        public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+		private void GrenadeResist(Projectile projectile, ref int damage)
+		{
+			if (GrenadeResistIDs.Contains(projectile.type))
+				damage = (int)(damage * 0.2);
+		}
+
+		private void PierceResistGlobal(Projectile projectile, ref int damage)
+		{
+			if (projectile.minion)
+				return;
+
+			if (projectile.penetrate == -1)
+				damage = (int)(damage * 0.5);
+			else if (projectile.penetrate > 1)
+				damage = (int)MathHelper.Clamp(damage * (float)Math.Pow(0.9, projectile.penetrate), damage * 0.5f, damage);
+		}
+		#endregion
+
+		#region On Hit By Item
+		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
         {
             if (player.Calamity().bloodflareSet)
             {
@@ -3777,7 +3813,7 @@ namespace CalamityMod.NPCs
         #region Check Dead
         public override bool CheckDead(NPC npc)
         {
-            if (npc.lifeMax > 1000 && npc.type != 288 &&
+            if (npc.lifeMax > 1000 && npc.type != NPCID.DungeonSpirit &&
                 npc.type != NPCType<PhantomSpirit>() &&
                 npc.type != NPCType<PhantomSpiritS>() &&
                 npc.type != NPCType<PhantomSpiritM>() &&
@@ -3848,7 +3884,7 @@ namespace CalamityMod.NPCs
 
                                     if (Main.netMode == NetmodeID.Server && num263 < 200)
                                     {
-                                        NetMessage.SendData(23, -1, -1, null, num263, 0f, 0f, 0f, 0, 0, 0);
+                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num263, 0f, 0f, 0f, 0, 0, 0);
                                     }
 
                                     num = num262;
@@ -4032,7 +4068,7 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 1.4);
                 maxSpawns = (int)(maxSpawns * 0.4f);
             }
-			if (player.Calamity().zen || (CalamityMod.CalamityConfig.DisableExpertEnemySpawnsNearHouse && player.townNPCs > 1f && Main.expertMode))
+			if (player.Calamity().zen || (CalamityConfig.Instance.DisableExpertTownSpawns && player.townNPCs > 1f && Main.expertMode))
 			{
 				spawnRate = (int)(spawnRate * 2.5);
 				maxSpawns = (int)(maxSpawns * 0.3f);
@@ -4477,7 +4513,7 @@ namespace CalamityMod.NPCs
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
             }
 
-            if (enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 return new Color(200, 50, 50, npc.alpha);
             }
@@ -4489,7 +4525,7 @@ namespace CalamityMod.NPCs
         {
 			if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f))
 			{
-				if (CalamityMod.CalamityConfig.EnemyDebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type)))
+				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type)))
 				{
 					List<Texture2D> buffTextureList = new List<Texture2D>();
 
@@ -4652,7 +4688,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (CalamityMod.CalamityConfig.TownNPCNewShopInventoryAlertDisplay && npc.townNPC)
+			if (CalamityConfig.Instance.ShopNewAlert && npc.townNPC)
 			{
 				if (npc.type == NPCType<DILF>() && Main.LocalPlayer.Calamity().newPermafrostInventory)
 				{
@@ -5310,6 +5346,11 @@ namespace CalamityMod.NPCs
                         chat = "I happen to have several Angel Statues at the moment, a truely rare commodity. Want one?";
                     }
 
+                    if (Main.rand.NextBool(7) && CalamityWorld.death)
+                    {
+                        chat = "The caverns have become increasingly dark as of late, so I stocked up on some special torches if you have the funds.";
+                    }
+
                     break;
 
                 case NPCID.Mechanic:
@@ -5559,6 +5600,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedBoss3);
                 SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
+                SetShopItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch, CalamityWorld.death);
             }
 
             // Because of the defiled condition, the dye trader does not receive an alert icon when hardmode starts.
@@ -5580,8 +5622,8 @@ namespace CalamityMod.NPCs
             {
                 SetShopItem(ref shop, ref nextSlot, ItemType<StealthHairDye>(), Main.LocalPlayer.Calamity().rogueStealthMax > 0f && Main.LocalPlayer.Calamity().wearingRogueArmor);
                 SetShopItem(ref shop, ref nextSlot, ItemType<WingTimeHairDye>(), Main.LocalPlayer.wingTimeMax > 0);
-                SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage);
-                SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge && CalamityMod.CalamityConfig.AdrenalineAndRage);
+                SetShopItem(ref shop, ref nextSlot, ItemType<AdrenalineHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
+                SetShopItem(ref shop, ref nextSlot, ItemType<RageHairDye>(), CalamityWorld.revenge && CalamityConfig.Instance.Rippers);
             }
 
             if (type == NPCID.Cyborg)
@@ -5599,11 +5641,11 @@ namespace CalamityMod.NPCs
             {
                 SetShopItem(ref shop, ref nextSlot, ItemID.JungleRose, price: Item.buyPrice(0, 2));
                 SetShopItem(ref shop, ref nextSlot, ItemID.NaturesGift, price: Item.buyPrice(0, 10));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 2));
-                SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 3));
+                SetShopItem(ref shop, ref nextSlot, ItemID.SlimeCrown, NPC.downedSlimeKing && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 2));
+                SetShopItem(ref shop, ref nextSlot, ItemID.SuspiciousLookingEye, NPC.downedBoss1 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 3));
                 SetShopItem(ref shop, ref nextSlot, ItemType<DecapoditaSprout>(), CalamityWorld.downedCrabulon, Item.buyPrice(0, 4));
-                SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 6));
-                SetShopItem(ref shop, ref nextSlot, ItemID.WormFood, NPC.downedBoss2 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 6));
+                SetShopItem(ref shop, ref nextSlot, ItemID.BloodySpine, NPC.downedBoss2 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 6));
+                SetShopItem(ref shop, ref nextSlot, ItemID.WormFood, NPC.downedBoss2 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 6));
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BandofStarpower : ItemID.PanicNecklace, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.WormScarf : ItemID.BrainOfConfusion, Main.expertMode && NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, ItemType<BloodyWormFood>(), CalamityWorld.downedPerforator, Item.buyPrice(0, 10));
@@ -5648,9 +5690,9 @@ namespace CalamityMod.NPCs
 
             if (type == NPCID.Steampunker)
             {
-                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
-                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3 && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalWorm, NPC.downedMechBoss1 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalEye, NPC.downedMechBoss2 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.MechanicalSkull, NPC.downedMechBoss3 && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemType<AstralSolution>(), price: Item.buyPrice(0, 0, 5));
             }
 
@@ -5663,7 +5705,7 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.SpectreStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.InfernoFork, NPC.downedGolemBoss, Item.buyPrice(0, 25));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ShadowbeamStaff, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(3));
+                SetShopItem(ref shop, ref nextSlot, ItemID.CelestialSigil, NPC.downedMoonlord && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(3));
                 SetShopItem(ref shop, ref nextSlot, ItemType<ProfanedShard>(), CalamityWorld.downedGuardians, Item.buyPrice(5));
             }
 
@@ -5673,10 +5715,10 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemType<SulphurousFountainItem>());
                 SetShopItem(ref shop, ref nextSlot, ItemType<AbyssFountainItem>(), Main.hardMode);
                 SetShopItem(ref shop, ref nextSlot, ItemType<AstralFountainItem>(), Main.hardMode);
-                SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, CalamityMod.CalamityConfig.SellBossSummons, price: Item.buyPrice(0, 8));
-                SetShopItem(ref shop, ref nextSlot, ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 20));
+                SetShopItem(ref shop, ref nextSlot, ItemID.Abeemination, CalamityConfig.Instance.SellVanillaSummons, price: Item.buyPrice(0, 8));
+                SetShopItem(ref shop, ref nextSlot, ItemType<BulbofDoom>(), NPC.downedPlantBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 20));
                 SetShopItem(ref shop, ref nextSlot, ItemID.SolarTablet, NPC.downedGolemBoss, Item.buyPrice(0, 25));
-                SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss && CalamityMod.CalamityConfig.SellBossSummons, Item.buyPrice(0, 30));
+                SetShopItem(ref shop, ref nextSlot, ItemID.LihzahrdPowerCell, NPC.downedGolemBoss && CalamityConfig.Instance.SellVanillaSummons, Item.buyPrice(0, 30));
                 SetShopItem(ref shop, ref nextSlot, ItemType<GypsyPowder>(), NPC.downedGolemBoss, Item.buyPrice(0, 10));
                 SetShopItem(ref shop, ref nextSlot, ItemType<AncientMedallion>(), CalamityWorld.downedScavenger, Item.buyPrice(0, 50));
                 SetShopItem(ref shop, ref nextSlot, ItemType<Abomination>(), CalamityWorld.downedPlaguebringer, Item.buyPrice(0, 50));
@@ -5822,6 +5864,23 @@ namespace CalamityMod.NPCs
         }
 		#endregion
 
+		#region Any Events
+		public static bool AnyEvents(Player player)
+		{
+			if (Main.invasionType > 0)
+				return true;
+			if (player.PillarZone())
+				return true;
+			if (DD2Event.Ongoing)
+				return true;
+			if ((player.ZoneOverworldHeight || player.ZoneSkyHeight) && (Main.eclipse || Main.bloodMoon || Main.pumpkinMoon || Main.snowMoon))
+				return true;
+			if (CalamityWorld.rainingAcid && player.InSulphur())
+				return true;
+			return false;
+		}
+		#endregion
+
 		#region Get Downed Boss Variable
 		public static bool GetDownedBossVariable(int type)
 		{
@@ -5924,7 +5983,7 @@ namespace CalamityMod.NPCs
 			{
 				return CalamityWorld.downedAstrageldon;
 			}
-			else if (type == NPCType<AstrumDeusHeadSpectral>() || type == NPCType<AstrumDeusBodySpectral>() || type == NPCType<AstrumDeusTailSpectral>() || type == NPCType<AstrumDeusHead>() || type == NPCType<AstrumDeusBody>() || type == NPCType<AstrumDeusTail>())
+			else if (type == NPCType<AstrumDeusHeadSpectral>() || type == NPCType<AstrumDeusBodySpectral>() || type == NPCType<AstrumDeusTailSpectral>())
 			{
 				return CalamityWorld.downedStarGod;
 			}
@@ -6088,7 +6147,7 @@ namespace CalamityMod.NPCs
 						}
 						else
 						{
-							NetMessage.SendData(61, -1, -1, null, plr, (float)type, 0f, 0f, 0, 0, 0);
+							NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, plr, (float)type, 0f, 0f, 0, 0, 0);
 						}
 					}
 

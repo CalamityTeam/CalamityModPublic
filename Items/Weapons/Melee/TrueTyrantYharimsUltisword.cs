@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 185;
             item.melee = true;
             item.useAnimation = 18;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 18;
             item.useTurn = true;
             item.knockBack = 7.5f;
@@ -83,9 +83,6 @@ namespace CalamityMod.Items.Weapons.Melee
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.Venom, 300);
-            target.AddBuff(BuffID.CursedInferno, 300);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
@@ -93,9 +90,6 @@ namespace CalamityMod.Items.Weapons.Melee
             player.AddBuff(ModContent.BuffType<TyrantsFury>(), 300);
             target.AddBuff(BuffID.OnFire, 300);
             target.AddBuff(BuffID.Venom, 300);
-            target.AddBuff(BuffID.CursedInferno, 300);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
         }
     }
 }

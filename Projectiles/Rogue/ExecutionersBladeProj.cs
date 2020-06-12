@@ -1,14 +1,13 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ExecutionersBladeProj : ModProjectile
+	public class ExecutionersBladeProj : ModProjectile
     {
 
         private void handleStealth(Vector2 position, int damage, bool crit, float knockback)
@@ -87,7 +86,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = projectile.height = 128;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 74);
+            Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
             for (int num621 = 0; num621 < 3; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 2f);

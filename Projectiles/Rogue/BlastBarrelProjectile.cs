@@ -1,4 +1,3 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BlastBarrelProjectile : ModProjectile
+	public class BlastBarrelProjectile : ModProjectile
     {
         public float cooldown = 0f;
         public float oldVelocityX = 0f;
@@ -65,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             bool stealthS = projectile.Calamity().stealthStrike;
             int projectileCount = 12;
-            Main.PlaySound(2, projectile.Center, 14);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             //aka can bounce multiple times
             if (stealthS)
             {

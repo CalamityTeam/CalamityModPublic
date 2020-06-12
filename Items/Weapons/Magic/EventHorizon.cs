@@ -1,14 +1,13 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class EventHorizon : ModItem
+	public class EventHorizon : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -31,7 +30,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
             item.useTime = 28;
             item.useAnimation = 28;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
 
             item.rare = 10;

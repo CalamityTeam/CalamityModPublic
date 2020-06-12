@@ -1,4 +1,4 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Mounts
             item.height = 16;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.rare = 3;
             item.value = Item.buyPrice(0, 9, 0, 0);
             item.UseSound = SoundID.Item23;

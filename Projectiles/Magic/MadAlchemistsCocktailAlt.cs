@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -40,15 +40,15 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 600);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 600);
-            target.AddBuff(BuffID.Poisoned, 600);
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.CursedInferno, 600);
-            target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(BuffID.Venom, 600);
-            target.AddBuff(BuffID.ShadowFlame, 600);
+            target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
+            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 300);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+            target.AddBuff(BuffID.Poisoned, 300);
+            target.AddBuff(BuffID.OnFire, 300);
+            target.AddBuff(BuffID.CursedInferno, 180);
+            target.AddBuff(BuffID.Frostburn, 300);
+            target.AddBuff(BuffID.Venom, 300);
+            target.AddBuff(BuffID.ShadowFlame, 300);
         }
 
         public override void Kill(int timeLeft)
@@ -61,7 +61,7 @@ namespace CalamityMod.Projectiles.Magic
             float num52 = 2.5f;
             Vector2 value3 = (0f - 1.57079637f).ToRotationVector2();
             Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20, 1f, 0f);
+            Main.PlaySound(SoundID.Item20, projectile.Center);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = height;
             projectile.Center = projectile.position;

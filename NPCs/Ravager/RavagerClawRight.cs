@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -7,11 +7,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Ravager
 {
-    public class RavagerClawRight : ModNPC
+	public class RavagerClawRight : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +24,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.width = 80;
             npc.height = 40;
             npc.defense = 40;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.lifeMax = 11120;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -68,7 +66,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.lifeMax = 260000;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
@@ -97,7 +95,7 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.ai[0] == 0f)
             {
                 npc.noTileCollide = true;
-                float num659 = 14f;
+                float num659 = 21f;
                 if (npc.life < npc.lifeMax / 2 || death)
                 {
                     num659 += 1f;

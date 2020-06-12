@@ -5,11 +5,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
-using System;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SputterCometBig : ModProjectile
+	public class SputterCometBig : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -46,7 +45,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                    Main.PlaySound(SoundID.Item9, projectile.position);
                 }
             }
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 15f, 20f);
@@ -65,7 +64,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 93);
+            Main.PlaySound(SoundID.Item93, projectile.position);
             if (projectile.owner == Main.myPlayer)
             {
                 int flash = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<Flash>(), (int)((double)projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);

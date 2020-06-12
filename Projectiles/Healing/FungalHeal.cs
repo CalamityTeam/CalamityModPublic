@@ -1,10 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class FungalHeal : ModProjectile
+	public class FungalHeal : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -40,7 +39,7 @@ namespace CalamityMod.Projectiles.Healing
                 projectile.localAI[0] += 1f;
             }
 
-			CalamityGlobalProjectile.HealingProjectile(projectile, (int)projectile.ai[1], (int)projectile.ai[0], 5f, 15f);
+			projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 5f, 15f);
             float num494 = projectile.velocity.X * 0.334f;
             float num495 = -(projectile.velocity.Y * 0.334f);
             int num496 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 56, 0f, 0f, 100, default, 0.5f);

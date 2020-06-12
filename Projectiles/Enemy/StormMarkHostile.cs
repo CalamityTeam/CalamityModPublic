@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Enemy
 {
@@ -29,7 +30,7 @@ namespace CalamityMod.Projectiles.Enemy
             if (projectile.soundDelay == 0)
             {
                 projectile.soundDelay = -1;
-                Main.PlaySound(2, projectile.Center, 60);
+                Main.PlaySound(SoundID.Item60, projectile.Center);
             }
             if (projectile.localAI[1] < 30f)
             {

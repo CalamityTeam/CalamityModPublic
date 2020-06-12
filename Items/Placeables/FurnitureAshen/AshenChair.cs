@@ -1,5 +1,7 @@
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Placeables.FurnitureAshen
 {
     public class AshenChair : ModItem
@@ -19,7 +21,7 @@ namespace CalamityMod.Items.Placeables.FurnitureAshen
             item.useAnimation = 15;
             item.useTime = 10;
             item.rare = 3;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.value = 0;
             item.createTile = ModContent.TileType<Tiles.FurnitureAshen.AshenChair>();

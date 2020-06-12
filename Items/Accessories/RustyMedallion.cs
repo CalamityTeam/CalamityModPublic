@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
@@ -31,7 +31,6 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RustyLockpick>(), 1);
             recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
             recipe.AddRecipeGroup("IronBar", 10);
             recipe.AddTile(TileID.Anvils);

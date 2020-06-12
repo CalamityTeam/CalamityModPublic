@@ -1,13 +1,12 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class CosmicViperSplittingRocket : ModProjectile
+	public class CosmicViperSplittingRocket : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -65,9 +64,9 @@ namespace CalamityMod.Projectiles.Summon
 								speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
 								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)((double)projectile.damage * 0.25), projectile.knockBack, projectile.owner, 0f, 0f);
 							}
-						}
-						Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-						projectile.Kill();
+                        }
+                        Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
+                        projectile.Kill();
 						return;
 					}
 					else if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
@@ -102,9 +101,9 @@ namespace CalamityMod.Projectiles.Summon
 									speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
 									Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<CosmicViperSplitRocket1>(), (int)(projectile.damage * 0.25f), projectile.knockBack, projectile.owner, Main.rand.Next(2), 0f);
 								}
-							}
-							Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
-							projectile.Kill();
+                            }
+                            Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
+                            projectile.Kill();
 							return;
 						}
 						else if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))

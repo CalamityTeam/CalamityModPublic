@@ -1,10 +1,6 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
-using CalamityMod.World;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -12,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class MorayEel : ModNPC
+	public class MorayEel : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -23,11 +19,11 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             npc.noGravity = true;
-            npc.damage = 45;
+            npc.damage = 55;
             npc.width = 136;
             npc.height = 40;
             npc.defense = 8;
-            npc.lifeMax = 180;
+            npc.lifeMax = 360;
             npc.aiStyle = -1;
             aiType = -1;
             npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;

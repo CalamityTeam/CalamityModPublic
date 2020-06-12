@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Ammo;
+using CalamityMod.Items.Ammo;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Tiles.Furniture.CraftingStations;

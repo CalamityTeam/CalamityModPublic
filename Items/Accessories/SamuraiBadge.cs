@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -9,8 +9,8 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Samurai Badge");
-            Tooltip.SetDefault("20% increased melee damage and speed\n" +
-                                "Reduces max life by 25%");
+            Tooltip.SetDefault("20% increased melee and true melee damage and speed\n" +
+				"Reduces max life by 25%");
         }
 
         public override void SetDefaults()

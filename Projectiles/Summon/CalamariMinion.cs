@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -94,14 +94,14 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (Main.rand.NextBool(600))
             {
-                Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 35);
+                Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 35);
             }
             if (projectile.ai[0] == 2f)
             {
                 projectile.ai[1] -= 1f;
                 if (projectile.ai[1] > 3f)
                 {
-                    Main.PlaySound(29, (int)projectile.position.X, (int)projectile.position.Y, 34);
+                    Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 34);
                     int num = Dust.NewDust(projectile.Center, 0, 0, 109, projectile.velocity.X, projectile.velocity.Y, 100, default, 1.4f);
                     Main.dust[num].scale = 0.5f + (float)Main.rand.NextDouble() * 0.3f;
                     Main.dust[num].velocity /= 2.5f;
@@ -134,32 +134,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.localAI[0] -= 1f;
             }
-            int num3;
-            for (int num534 = 0; num534 < Main.maxProjectiles; num534 = num3 + 1)
-            {
-                if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == ModContent.ProjectileType<CalamariMinion>() &&
-                    Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num534].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + 0.05f;
-                    }
-                    if (projectile.position.Y < Main.projectile[num534].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + 0.05f;
-                    }
-                }
-                num3 = num534;
-            }
+			projectile.MinionAntiClump();
             Vector2 vector = projectile.position;
             float num10 = 3000f; //300
             bool flag = false;
@@ -342,7 +317,7 @@ namespace CalamityMod.Projectiles.Summon
                         projectile.ai[1] += 1f;
                         if (Main.myPlayer == projectile.owner)
                         {
-                            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 111);
+                            Main.PlaySound(SoundID.Item111, (int)projectile.position.X, (int)projectile.position.Y);
                             Vector2 vector7 = vector - projectile.Center;
                             vector7.Normalize();
                             vector7 *= scaleFactor4;

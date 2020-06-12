@@ -21,7 +21,8 @@ namespace CalamityMod.Tiles
     public class CalamityGlobalTile : GlobalTile
     {
         public static IList<ModWaterStyle> WaterStyles => (IList<ModWaterStyle>)typeof(WaterStyleLoader).GetField("waterStyles", BindingFlags.Static | BindingFlags.NonPublic).GetValue(null);
-        public static ushort[] PlantTypes = new ushort[]
+
+		public static ushort[] PlantTypes = new ushort[]
         {
             TileID.Plants,
             TileID.CorruptPlants,
@@ -33,8 +34,15 @@ namespace CalamityMod.Tiles
             TileID.HallowedPlants2,
             TileID.FleshWeeds,
             (ushort)ModContent.TileType<AstralShortPlants>(),
-            (ushort)ModContent.TileType<AstralTallPlants>(),
+            (ushort)ModContent.TileType<AstralTallPlants>()
         };
+
+		public static List<int> GrowthTiles = new List<int>
+		{
+			(ushort)ModContent.TileType<SeaPrism>(),
+			(ushort)ModContent.TileType<Navystone>(),
+			(ushort)ModContent.TileType<Voidstone>()
+		};
 
 		public override bool PreHitWire(int i, int j, int type)
 		{
@@ -127,7 +135,7 @@ namespace CalamityMod.Tiles
                 {
                     WorldGen.KillTile(xPos, yPos, false, false, false);
                     if (!Main.tile[xPos, yPos].active() && Main.netMode != NetmodeID.SinglePlayer)
-                        NetMessage.SendData(17, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, xPos, yPos, 0f, 0, 0, 0);
                 }
             }
 			
@@ -492,7 +500,7 @@ namespace CalamityMod.Tiles
 							if (type == ModContent.TileType<BrimstoneSlag>() || type == ModContent.TileType<CharredOre>())
 								ai0 = 1f;
 							int projectileType = ModContent.ProjectileType<GeyserTelegraph>();
-							int proj = Projectile.NewProjectile((float)(i * 16), (float)(j * 16), 0f, 0f, projectileType, 0, 0f, Main.myPlayer, ai0, 0f);
+							int proj = Projectile.NewProjectile(i * 16, j * 16, 0f, 0f, projectileType, 0, 0f, Main.myPlayer, ai0, 0f);
 							Main.projectile[proj].netUpdate = true;
 						}
 					}

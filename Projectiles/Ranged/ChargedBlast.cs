@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -95,7 +96,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 62);
+            Main.PlaySound(SoundID.Item62, (int)projectile.position.X, (int)projectile.position.Y);
             int projectiles = Main.rand.Next(2, 5);
             if (projectile.owner == Main.myPlayer)
             {

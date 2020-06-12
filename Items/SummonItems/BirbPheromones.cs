@@ -1,4 +1,4 @@
-﻿using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.NPCs.Bumblebirb;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.SummonItems
             item.rare = 10;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
         }
 
@@ -31,8 +31,12 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
-            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Bumblefuck>());
-            Main.PlaySound(SoundID.Roar, player.position, 0);
+			Main.PlaySound(SoundID.Roar, player.position, 0);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Bumblefuck>());
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<Bumblefuck>());
+
             return true;
         }
 

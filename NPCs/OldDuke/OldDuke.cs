@@ -1,4 +1,3 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
@@ -12,7 +11,6 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,12 +18,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
-using CalamityMod.Projectiles;
 using CalamityMod.World;
 
 namespace CalamityMod.NPCs.OldDuke
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class OldDuke : ModNPC
 	{
 		public override void SetStaticDefaults()
@@ -42,10 +39,8 @@ namespace CalamityMod.NPCs.OldDuke
             npc.aiStyle = -1;
 			aiType = -1;
             npc.damage = 200;
-            npc.defense = 140;
-			CalamityGlobalNPC global = npc.Calamity();
-			global.DR = 0.6f;
-			global.customDR = true;
+            npc.defense = 100;
+			npc.DR_NERD(0.5f, null, null, null, true);
 			npc.lifeMax = CalamityWorld.revenge ? 1000000 : 750000;
             npc.knockBackResist = 0f;
             npc.noTileCollide = true;
@@ -224,7 +219,7 @@ namespace CalamityMod.NPCs.OldDuke
 				color = lightColor;
 			}
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += num154)
 				{
@@ -277,7 +272,7 @@ namespace CalamityMod.NPCs.OldDuke
 				scaleFactor9 = 20f;
 			}
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num160 = 0; num160 < num156; num160++)
 				{
@@ -333,7 +328,7 @@ namespace CalamityMod.NPCs.OldDuke
 					color40 *= num162;
 				}
 
-				if (CalamityMod.CalamityConfig.Afterimages)
+				if (CalamityConfig.Instance.Afterimages)
 				{
 					for (int num163 = 1; num163 < num153; num163 += num154)
 					{

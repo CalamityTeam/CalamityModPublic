@@ -1,4 +1,3 @@
-using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -6,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class MidnightSunBeaconProj : ModProjectile
+	public class MidnightSunBeaconProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {

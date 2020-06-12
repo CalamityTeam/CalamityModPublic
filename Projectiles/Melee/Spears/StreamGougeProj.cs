@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.hide = true;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 1;
-            projectile.Calamity().trueMelee = true;
+            //projectile.Calamity().trueMelee = true;
         }
 
         public override float InitialSpeed => 3f;

@@ -1,9 +1,12 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.Weapons.Magic;
+using CalamityMod.Items.Weapons.Melee;
+using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.World;
 using Terraria;
@@ -12,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.SulphurCatches
 {
-    public class AbyssalCrate : ModItem
+	public class AbyssalCrate : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -33,13 +36,10 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             item.autoReuse = true;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void RightClick(Player player)
         {
@@ -76,8 +76,25 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
                 DropHelper.DropItemChance(player, ModContent.ItemType<ReaperTooth>(), 0.25f, 5, 10);
             }
 
+            // Weapons
+            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 0.2f,
+                ModContent.ItemType<Archerfish>(),
+                ModContent.ItemType<BallOFugu>(),
+                ModContent.ItemType<HerringStaff>(),
+                ModContent.ItemType<Lionfish>(),
+                ModContent.ItemType<BlackAnurian>());
+
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAquaticScourgeAcidRain, 0.2f,
+                ModContent.ItemType<SkyfinBombers>(),
+                ModContent.ItemType<NuclearRod>(),
+                ModContent.ItemType<SulphurousGrabber>(),
+                ModContent.ItemType<FlakToxicannon>(),
+                ModContent.ItemType<SpentFuelContainer>(),
+                ModContent.ItemType<SlitheringEels>(),
+                ModContent.ItemType<BelchingSaxophone>());
+
             // Equipment
-            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 0.25f,
+            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 0.4f,
                 ModContent.ItemType<StrangeOrb>(),
                 ModContent.ItemType<DepthCharm>(),
                 ModContent.ItemType<IronBoots>(),

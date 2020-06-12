@@ -30,6 +30,9 @@ namespace CalamityMod.Projectiles.Rogue
 		{
             Player player = Main.player[projectile.owner];
 
+			if (player.dead || player is null || Main.myPlayer != projectile.owner)
+				projectile.Kill();
+
             if (Main.myPlayer == player.whoAmI)
             {
                 projectile.velocity = Main.MouseWorld - player.Center;

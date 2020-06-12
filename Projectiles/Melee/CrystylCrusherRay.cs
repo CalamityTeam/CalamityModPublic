@@ -1,11 +1,6 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.NPCs.BrimstoneElemental;
-using CalamityMod.Dusts;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.Enums;
 using Terraria.GameContent.Achievements;
@@ -13,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class CrystylCrusherRay : ModProjectile
+	public class CrystylCrusherRay : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -136,7 +131,7 @@ namespace CalamityMod.Projectiles.Melee
 			//Play cool sound when fully charged
 			if (playedSound == false)
 			{
-				Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 68);
+				Main.PlaySound(SoundID.Item68, projectile.Center);
 				playedSound = true;
 			}
 
@@ -325,7 +320,7 @@ namespace CalamityMod.Projectiles.Melee
 								DustExplosion(destroyVector);
 								if (!Main.tile[num824, num825].active() && Main.netMode != NetmodeID.SinglePlayer)
 								{
-									NetMessage.SendData(17, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
+									NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, (float)num824, (float)num825, 0f, 0, 0, 0);
 								}
 							}
 						}
@@ -334,7 +329,7 @@ namespace CalamityMod.Projectiles.Melee
 				AchievementsHelper.CurrentlyMining = false;
 				if (Main.netMode != NetmodeID.SinglePlayer)
 				{
-					NetMessage.SendData(29, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
+					NetMessage.SendData(MessageID.KillProjectile, -1, -1, null, projectile.identity, (float)projectile.owner, 0f, 0f, 0, 0, 0);
 				}
 			}
 		}

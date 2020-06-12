@@ -1,10 +1,9 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class VoltaicJelly : ModItem
+	public class VoltaicJelly : ModItem
     {
         public override void SetStaticDefaults()
         {

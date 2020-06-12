@@ -1,4 +1,4 @@
-﻿using CalamityMod.Dusts;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 namespace CalamityMod.Tiles.AstralDesert

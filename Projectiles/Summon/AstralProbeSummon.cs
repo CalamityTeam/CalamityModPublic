@@ -1,5 +1,4 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Dusts;
 using CalamityMod.Buffs.Summon;
 using Microsoft.Xna.Framework;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AstralProbeSummon : ModProjectile
+	public class AstralProbeSummon : ModProjectile
     {
         private double rotation = 0;
 
@@ -170,7 +169,7 @@ namespace CalamityMod.Projectiles.Summon
                 int num658 = ModContent.ProjectileType<AstralProbeRound>();
                 if (flag25 && projectile.ai[1] == 0f && vector46 != projectile.position)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 12, 0.5f, 0f);
+                    Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 12, 0.5f, 0f);
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner)
                     {

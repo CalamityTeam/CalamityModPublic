@@ -1,4 +1,4 @@
-﻿using CalamityMod.Dusts;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;

@@ -39,13 +39,13 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.damage = 150;
                 npc.lifeMax = 5001;
                 npc.defense = 58;
-				npc.Calamity().RevPlusDR(0.05f);
+				npc.DR_NERD(0.05f);
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 85;
                 npc.lifeMax = 700;
-				npc.Calamity().RevPlusDR(0.05f);
+				npc.DR_NERD(0.05f);
             }
 
             npc.knockBackResist = 0f;
@@ -86,7 +86,16 @@ namespace CalamityMod.NPCs.AcidRain
                     {
                         if (npc.ai[0] % 55f == 54f)
                         {
-                            npc.velocity = Vector2.UnitX * (player.Center.X - npc.Center.X > 0).ToDirectionInt() * 27f;
+                            float horizontalSchoolingSpeed = 9f;
+                            if (CalamityWorld.downedAquaticScourge)
+                            {
+                                horizontalSchoolingSpeed = 15f;
+                            }
+                            if (CalamityWorld.downedPolterghast)
+                            {
+                                horizontalSchoolingSpeed = 24f;
+                            }
+                            npc.velocity = Vector2.UnitX * (player.Center.X - npc.Center.X > 0).ToDirectionInt() * horizontalSchoolingSpeed;
                         }
                         if ((Math.Abs(player.Center.Y - npc.Center.Y) > 50f && player.wet) || (!player.wet && npc.ai[1] <= 0f))
                         {

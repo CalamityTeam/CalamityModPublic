@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee.Spears;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class InsidiousImpaler : ModItem
+	public class InsidiousImpaler : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useTurn = true;
             item.noUseGraphic = true;
             item.useAnimation = 20;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useTime = 20;
             item.knockBack = 8f;
             item.UseSound = SoundID.Item1;

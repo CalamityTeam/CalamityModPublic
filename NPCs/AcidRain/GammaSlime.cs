@@ -1,4 +1,4 @@
-﻿using CalamityMod.Dusts;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Buffs.StatDebuffs;
@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.AcidRain
 
 			npc.damage = 130;
 			npc.lifeMax = 5915;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
 			npc.defense = 50;
 
             npc.aiStyle = aiType = -1;

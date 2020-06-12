@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -77,30 +77,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            float num637 = 0.05f;
-            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
-            {
-                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<Cataclymini>();
-                if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num638].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + num637;
-                    }
-                    if (projectile.position.Y < Main.projectile[num638].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num637;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
             bool flag24 = false;
             if (flag24)
             {
@@ -116,11 +93,13 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.tileCollide = false;
             }
+            Vector2 value = new Vector2(0.5f);
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
+                    Vector2 vector2 = npc.position + npc.Size * value;
                     float num646 = Vector2.Distance(npc.Center, projectile.Center);
                     if ((!flag25 && num646 < num633) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                     {
@@ -133,14 +112,15 @@ namespace CalamityMod.Projectiles.Summon
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
-                    NPC nPC2 = Main.npc[num645];
-                    if (nPC2.CanBeChasedBy(projectile, false))
+                    NPC npc = Main.npc[num645];
+                    if (npc.CanBeChasedBy(projectile, false))
                     {
-                        float num646 = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if ((!flag25 && num646 < num633) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC2.position, nPC2.width, nPC2.height))
+						Vector2 vector2 = npc.position + npc.Size * value;
+                        float num646 = Vector2.Distance(npc.Center, projectile.Center);
+                        if ((!flag25 && num646 < num633) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height))
                         {
                             num633 = num646;
-                            vector46 = nPC2.Center;
+                            vector46 = vector2;
                             flag25 = true;
                         }
                     }

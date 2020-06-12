@@ -90,31 +90,7 @@ namespace CalamityMod.Projectiles.Summon
 						player.MinionDamage());
 					projectile.damage = damage2;
 				}
-				float antiStickyFloat = 0.05f;
-				for (int index = 0; index < Main.maxProjectiles; index++)
-				{
-					Projectile proj = Main.projectile[index];
-					bool flag23 = proj.type == ModContent.ProjectileType<VileFeederSummon>();
-					if (index != projectile.whoAmI && proj.active && proj.owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < (float)projectile.width)
-					{
-						if (projectile.position.X < proj.position.X)
-						{
-							projectile.velocity.X = projectile.velocity.X - antiStickyFloat;
-						}
-						else
-						{
-							projectile.velocity.X = projectile.velocity.X + antiStickyFloat;
-						}
-						if (projectile.position.Y < proj.position.Y)
-						{
-							projectile.velocity.Y = projectile.velocity.Y - antiStickyFloat;
-						}
-						else
-						{
-							projectile.velocity.Y = projectile.velocity.Y + antiStickyFloat;
-						}
-					}
-				}
+				projectile.MinionAntiClump();
 				projectile.frameCounter++;
 				if (projectile.frameCounter > 3)
 				{
@@ -351,12 +327,12 @@ namespace CalamityMod.Projectiles.Summon
                 {
 					NPC npc = Main.npc[i];
                     if (npc.active && !npc.dontTakeDamage && npc.defense < 9999 &&
-                        ((projectile.friendly && (!npc.friendly || (npc.type == 22 && projectile.owner < Main.maxPlayers && player.killGuide) || (npc.type == 54 && projectile.owner < Main.maxPlayers && player.killClothier))) && (projectile.owner < 0 || npc.immune[projectile.owner] == 0 || projectile.maxPenetrate == 1)))
+                        ((projectile.friendly && (!npc.friendly || (npc.type == NPCID.Guide && projectile.owner < Main.maxPlayers && player.killGuide) || (npc.type == NPCID.Clothier && projectile.owner < Main.maxPlayers && player.killClothier))) && (projectile.owner < 0 || npc.immune[projectile.owner] == 0 || projectile.maxPenetrate == 1)))
                     {
                         if (npc.noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(npc))
                         {
                             bool flag3;
-                            if (npc.type == 414)
+                            if (npc.type == NPCID.SolarCrawltipedeTail)
                             {
                                 Rectangle rect = npc.getRect();
                                 int num5 = 8;

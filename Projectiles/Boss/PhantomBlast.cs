@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
@@ -51,12 +51,12 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.velocity.Y = projectile.velocity.Y + 0.035f;
             }
             float scaleFactor3 = 22f;
-            int num189 = (int)Player.FindClosest(projectile.Center, 1, 1);
+            int num189 = Player.FindClosest(projectile.Center, 1, 1);
             Vector2 vector20 = Main.player[num189].Center - projectile.Center;
             vector20.Normalize();
             vector20 *= scaleFactor3;
             int num190 = 80;
-            projectile.velocity = (projectile.velocity * (float)(num190 - 1) + vector20) / (float)num190;
+            projectile.velocity = (projectile.velocity * (num190 - 1) + vector20) / num190;
             if (projectile.velocity.Length() < 14f)
             {
                 projectile.velocity.Normalize();
@@ -101,7 +101,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 125);
+            Main.PlaySound(SoundID.Item125, projectile.position);
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
             projectile.width = 50;

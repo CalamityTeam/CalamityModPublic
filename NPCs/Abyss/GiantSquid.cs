@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -27,11 +27,11 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             npc.noGravity = true;
-            npc.damage = 80;
+            npc.damage = 100;
             npc.width = 50;
             npc.height = 220;
             npc.defense = 25;
-            npc.lifeMax = 400;
+            npc.lifeMax = 800;
             npc.aiStyle = -1;
             aiType = -1;
             npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;
@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.Abyss
                 if (npc.velocity.Y == 0f)
                 {
                     npc.velocity.X = npc.velocity.X * 0.98f;
-                    if ((double)npc.velocity.X > -0.01 && (double)npc.velocity.X < 0.01)
+                    if (npc.velocity.X > -0.01 && npc.velocity.X < 0.01)
                     {
                         npc.velocity.X = 0f;
                     }

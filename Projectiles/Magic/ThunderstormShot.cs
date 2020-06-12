@@ -1,6 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -46,7 +47,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 125);
+            Main.PlaySound(SoundID.Item125, projectile.position);
             for (int n = 0; n < 5; n++)
             {
                 float x = projectile.position.X + (float)Main.rand.Next(-200, 200);

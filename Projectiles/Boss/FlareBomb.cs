@@ -1,7 +1,8 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -22,7 +23,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.penetrate = 1;
             projectile.alpha = 50;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 180;
             cooldownSlot = 1;
         }
 
@@ -40,8 +41,15 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frame = 0;
             }
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
-            float num953 = revenge ? 110f : 100f; //100
-            float scaleFactor12 = revenge ? 27f : 25f; //5
+            float num953 = revenge ? 110f : 100f;
+            float scaleFactor12 = revenge ? 35f : 30f;
+
+			if (projectile.ai[1] == 1f)
+			{
+				num953 *= 0.7f;
+				scaleFactor12 *= 0.7f;
+			}
+
             float num954 = 40f;
             if (projectile.timeLeft > 30 && projectile.alpha > 0)
             {
@@ -127,13 +135,13 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 48;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
             projectile.Damage();
-            for (int num621 = 0; num621 < 5; num621++)
+            for (int num621 = 0; num621 < 3; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
@@ -143,7 +151,7 @@ namespace CalamityMod.Projectiles.Boss
                     Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 8; num623++)
+            for (int num623 = 0; num623 < 5; num623++)
             {
                 int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;

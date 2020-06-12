@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.width = 46;
             item.height = 28;
             item.useTime = item.useAnimation = 20;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 5f;
             item.UseSound = SoundID.Item15; //phaseblade sound effect

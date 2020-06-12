@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class SkyfinBombers : RogueWeapon
+	public class SkyfinBombers : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 35;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 35;
             item.knockBack = 6.5f;
             item.UseSound = SoundID.Item11;

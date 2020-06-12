@@ -1,11 +1,10 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -13,7 +12,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Abyss
 {
-    public class Laserfish : ModNPC
+	public class Laserfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -24,11 +23,11 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             npc.noGravity = true;
-            npc.damage = 20;
+            npc.damage = 40;
             npc.width = 60;
             npc.height = 26;
             npc.defense = 25;
-            npc.lifeMax = 240;
+            npc.lifeMax = 480;
             npc.aiStyle = -1;
             aiType = -1;
             npc.buffImmune[ModContent.BuffType<CrushDepth>()] = true;

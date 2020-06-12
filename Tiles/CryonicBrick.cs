@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles
 {
     public class CryonicBrick : ModTile
@@ -16,7 +18,7 @@ namespace CalamityMod.Tiles
             CalamityUtils.MergeWithGeneral(Type);
             CalamityUtils.MergeDecorativeTiles(Type);
 
-            soundType = 21;
+            soundType = SoundID.Tink;
             minPick = 100;
             drop = ModContent.ItemType<Items.Placeables.CryonicBrick>();
             AddMapEntry(new Color(99, 131, 199));

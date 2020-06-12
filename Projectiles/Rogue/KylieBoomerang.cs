@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -131,7 +131,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             //Bounce off tiles and start homing on player if it hits a tile
             Collision.HitTiles(projectile.position + projectile.velocity, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, projectile.position);
+            Main.PlaySound(SoundID.Dig, projectile.position);
             if (projectile.velocity.X != oldVelocity.X)
             {
                 projectile.velocity.X = -oldVelocity.X;

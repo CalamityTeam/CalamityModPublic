@@ -1,15 +1,14 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Penumbra : RogueWeapon
+	public class Penumbra : RogueWeapon
     {
         public static float ShootSpeed = 8f;
         public override void SetStaticDefaults()

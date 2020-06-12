@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -29,8 +29,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 2;
             projectile.alpha = 255;
-            projectile.Calamity().trueMelee = true;
+            //projectile.Calamity().trueMelee = true;
         }
+
         public override SpearType SpearAiType => SpearType.GhastlyGlaiveSpear;
         public override float TravelSpeed => 22f;
         public override Action<Projectile> EffectBeforeReelback => (proj) =>

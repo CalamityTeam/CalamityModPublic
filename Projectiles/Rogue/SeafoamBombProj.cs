@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SeafoamBombProj : ModProjectile
+	public class SeafoamBombProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
 
             for (int i = 0; i < (projectile.Calamity().stealthStrike ? 5 : 1); i++)
             {

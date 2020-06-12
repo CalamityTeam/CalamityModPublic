@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -106,7 +106,7 @@ namespace CalamityMod.NPCs.Astral
             npc.height = 88;
             npc.damage = 70;
             npc.defense = 40;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 1200;
             npc.knockBackResist = 0.08f;
             npc.value = Item.buyPrice(0, 1, 0, 0);

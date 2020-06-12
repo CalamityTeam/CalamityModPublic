@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Enemy;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;

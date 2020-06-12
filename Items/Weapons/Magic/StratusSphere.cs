@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Magic
 			item.useAnimation = 45;
 			item.shoot = ModContent.ProjectileType<StratusSphereProj>();
 			item.shootSpeed = 7f;
-			item.useStyle = 5;
+			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.mana = 30;
 			item.knockBack = 2;
 			item.UseSound = SoundID.Item20;

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Buffs.Alcohol;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Potions.Alcohol
             item.useAnimation = 17;
             item.useTime = 17;
             item.rare = 3;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item2;
             item.consumable = true;
             item.buffType = ModContent.BuffType<Trippy>();

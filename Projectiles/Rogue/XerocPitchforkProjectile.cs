@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Weapons.Rogue;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -76,7 +76,6 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.damage = 1;
             }
             target.immune[projectile.owner] = 2;
-            target.AddBuff(BuffID.CursedInferno, 300);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -86,7 +85,6 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 projectile.damage = 1;
             }
-            target.AddBuff(BuffID.CursedInferno, 300);
         }
     }
 }

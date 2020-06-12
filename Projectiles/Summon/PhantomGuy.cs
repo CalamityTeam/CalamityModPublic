@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -72,30 +72,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            float num637 = 0.05f;
-            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
-            {
-                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<PhantomGuy>();
-                if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num638].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + num637;
-                    }
-                    if (projectile.position.Y < Main.projectile[num638].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num637;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
             float num633 = 3000f;
             float num634 = 3500f;
             float num635 = 4000f;
@@ -187,8 +164,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num651 > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
                     projectile.netUpdate = true;
                 }
                 if (num651 > 70f)
@@ -205,11 +182,11 @@ namespace CalamityMod.Projectiles.Summon
             }
             if (flag25)
             {
-                projectile.rotation = (vector46 - projectile.Center).ToRotation() + 3.14159274f;
+				projectile.rotation = projectile.rotation.AngleTowards(projectile.AngleTo(vector46) + MathHelper.Pi, 0.1f);
             }
             else
             {
-                projectile.rotation = projectile.velocity.ToRotation() + 3.14159274f;
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
             }
             if (projectile.ai[1] > 0f)
             {
@@ -226,7 +203,7 @@ namespace CalamityMod.Projectiles.Summon
                 int num658 = ModContent.ProjectileType<GhostFire>();
                 if (flag25 && projectile.ai[1] == 0f)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                    Main.PlaySound(SoundID.Item20, projectile.position);
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner)
                     {

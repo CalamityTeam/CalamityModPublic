@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -118,9 +118,9 @@ namespace CalamityMod.Projectiles.Boss
         }
 
 		private void EmitDust()
-		{
-			Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 109, 1f, 0f);
-			for (int num193 = 0; num193 < 6; num193++)
+        {
+            Main.PlaySound(SoundID.Item109, projectile.position);
+            for (int num193 = 0; num193 < 6; num193++)
 			{
 				Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 60, 0f, 0f, 100, default, 1.5f);
 			}

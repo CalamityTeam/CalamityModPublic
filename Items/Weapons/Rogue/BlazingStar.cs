@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 1;
             item.useTime = 15;
             item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4f;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 4;

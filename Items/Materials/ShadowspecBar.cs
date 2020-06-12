@@ -1,4 +1,4 @@
-﻿using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;

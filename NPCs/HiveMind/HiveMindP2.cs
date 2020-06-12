@@ -20,8 +20,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 /* states:
  * 0 = slow drift
  * 1 = reelback and teleport after spawn enemy
@@ -34,7 +32,7 @@ using CalamityMod;
 
 namespace CalamityMod.NPCs.HiveMind
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class HiveMindP2 : ModNPC
     {
         //this block of values can be modified in SetDefaults() based on difficulty mode or something
@@ -76,7 +74,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.height = 142;
             npc.defense = 5;
             npc.LifeMaxNERB(5800, 7560, 3000000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -211,7 +209,7 @@ namespace CalamityMod.NPCs.HiveMind
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            while (state != 0 && CalamityMod.CalamityConfig.Afterimages && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
+            while (state != 0 && CalamityConfig.Instance.Afterimages && ((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)))
             {
                 Color color26 = color25;
                 color26 = npc.GetAlpha(color26);
@@ -279,7 +277,7 @@ namespace CalamityMod.NPCs.HiveMind
             if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
                 state = 2;
-                Main.PlaySound(36, (int)npc.Center.X, (int)npc.Center.Y, -1, 1f, 0f);
+                Main.PlaySound(SoundID.ForceRoar, (int)npc.Center.X, (int)npc.Center.Y, -1, 1f, 0f);
             }
             else
             {
@@ -289,11 +287,11 @@ namespace CalamityMod.NPCs.HiveMind
                 nextState = 0;
                 if (state == 2)
                 {
-                    Main.PlaySound(15, (int)npc.Center.X, (int)npc.Center.Y, 0);
+                    Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
                 }
                 else
                 {
-                    Main.PlaySound(36, (int)npc.Center.X, (int)npc.Center.Y, -1, 1f, 0f);
+                    Main.PlaySound(SoundID.ForceRoar, (int)npc.Center.X, (int)npc.Center.Y, -1, 1f, 0f);
                 }
             }
         }
@@ -517,7 +515,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 npc.velocity.Normalize();
                                 npc.velocity *= teleportRadius / lungeTime;
                                 dashStarted = true;
-                                Main.PlaySound(15, (int)npc.Center.X, (int)npc.Center.Y, 0);
+                                Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
                             }
                             else
                             {
@@ -555,7 +553,7 @@ namespace CalamityMod.NPCs.HiveMind
                         if (!dashStarted)
                         {
                             dashStarted = true;
-                            Main.PlaySound(15, (int)npc.Center.X, (int)npc.Center.Y, 0);
+                            Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
                             npc.velocity.X = 3.14159265f * teleportRadius / arcTime;
                             npc.velocity *= rotationDirection;
                             npc.netUpdate = true;
@@ -611,7 +609,7 @@ namespace CalamityMod.NPCs.HiveMind
                         if (!dashStarted)
                         {
                             dashStarted = true;
-                            Main.PlaySound(15, (int)npc.Center.X, (int)npc.Center.Y, 0);
+                            Main.PlaySound(SoundID.Roar, (int)npc.Center.X, (int)npc.Center.Y, 0);
                             npc.velocity.X = teleportRadius / arcTime * 3;
                             npc.velocity *= -rotationDirection;
                             npc.netUpdate = true;

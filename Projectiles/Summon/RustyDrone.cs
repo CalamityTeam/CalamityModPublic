@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.Summon;
-using CalamityMod.Buffs.Cooldowns;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class RustyDrone : ModProjectile
+	public class RustyDrone : ModProjectile
     {
         public const float PlayerHomingInertia = 32f;
         public const float PlayerHomingSpeed = 11f;
@@ -16,9 +15,9 @@ namespace CalamityMod.Projectiles.Summon
         public const float NPCHomingInertia = 20f;
         public const float NPCHomingSpeed = 14f;
 
-        public const float AttackRate = 110f;
+        public const float AttackRate = 140f;
 
-        public const float DistanceToCheck = 750f;
+        public const float DistanceToCheck = 585f;
 
         public const int ExplosionShrapnelBaseDamage = 16; // Uses player.MinionDamage
 
@@ -139,7 +138,7 @@ namespace CalamityMod.Projectiles.Summon
                 Utils.PoofOfSmoke(projectile.Center);
                 for (int i = 0; i < 4; i++)
                 {
-                    Projectile.NewProjectile(projectile.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi) * 8f, ModContent.ProjectileType<RustShrapnel>(),
+                    Projectile.NewProjectile(projectile.Center, Vector2.UnitY.RotatedByRandom(MathHelper.TwoPi) * 8f, ModContent.ProjectileType<RustShrapnel>(),
                         (int)(ExplosionShrapnelBaseDamage * player.MinionDamage()), 2f, projectile.owner);
                 }
                 projectile.Kill();

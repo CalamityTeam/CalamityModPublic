@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class LanternoftheSoul : ModItem
+	public class LanternoftheSoul : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.width = 42;
             item.height = 60;
             item.useTime = item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(1, 40, 0, 0);

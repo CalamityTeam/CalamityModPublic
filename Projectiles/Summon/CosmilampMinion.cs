@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -83,32 +83,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            int num3;
-            for (int num534 = 0; num534 < Main.maxProjectiles; num534 = num3 + 1)
-            {
-                if (num534 != projectile.whoAmI && Main.projectile[num534].active && Main.projectile[num534].owner == projectile.owner &&
-                    Main.projectile[num534].type == ModContent.ProjectileType<CosmilampMinion>() &&
-                    Math.Abs(projectile.position.X - Main.projectile[num534].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num534].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num534].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + 0.05f;
-                    }
-                    if (projectile.position.Y < Main.projectile[num534].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - 0.05f;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + 0.05f;
-                    }
-                }
-                num3 = num534;
-            }
+			projectile.MinionAntiClump();
             float num535 = projectile.position.X;
             float num536 = projectile.position.Y;
             float num537 = 3000f;
@@ -142,7 +117,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 else
                 {
-                    for (int num542 = 0; num542 < Main.maxNPCs; num542 = num3 + 1)
+                    for (int num542 = 0; num542 < Main.maxNPCs; num542++)
                     {
                         if (Main.npc[num542].CanBeChasedBy(projectile, false))
                         {
@@ -157,7 +132,6 @@ namespace CalamityMod.Projectiles.Summon
                                 flag19 = true;
                             }
                         }
-                        num3 = num542;
                     }
                 }
             }
@@ -168,9 +142,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     num546 = 18f;
                 }
-                Vector2 vector42 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                float num547 = Main.player[projectile.owner].Center.X - vector42.X;
-                float num548 = Main.player[projectile.owner].Center.Y - vector42.Y - 60f;
+                Vector2 vector42 = projectile.Center;
+                float num547 = player.Center.X - vector42.X;
+                float num548 = player.Center.Y - vector42.Y - 60f;
                 float num549 = (float)Math.Sqrt((double)(num547 * num547 + num548 * num548));
                 if (num549 < 400f && projectile.ai[0] == 1f && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
                 {
@@ -240,7 +214,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
                 projectile.rotation = projectile.velocity.X * 0.05f;
-                if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+                if (Math.Abs(projectile.velocity.X) > 0.2f)
                 {
                     projectile.spriteDirection = -projectile.direction;
                     return;
@@ -256,13 +230,13 @@ namespace CalamityMod.Projectiles.Summon
                 for (int i = 0; i < 200; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == 22 && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == 54 && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
+                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == NPCID.Guide && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
                         if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))
                         {
                             bool flag3;
-                            if (Main.npc[i].type == 414)
+                            if (Main.npc[i].type == NPCID.SolarCrawltipedeTail)
                             {
                                 Rectangle rect = Main.npc[i].getRect();
                                 int num5 = 8;

@@ -31,7 +31,7 @@ A max of three disks can be active at a time");
             item.noMelee = true;
             item.noUseGraphic = true;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
 
             item.value = Item.buyPrice(0, 80, 0, 0);
@@ -58,6 +58,7 @@ A max of three disks can be active at a time");
         {
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             Main.projectile[proj].Calamity().forceRogue = true;
+			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 

@@ -198,7 +198,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 Main.LocalPlayer.SellItem((int)Main.LocalPlayer.Calamity().moneyStolenByBandit, 1);
                 Main.LocalPlayer.Calamity().moneyStolenByBandit = 0;
                 NPC goblinFucker = Main.npc[goblinIndex];
-                Main.PlaySound(18, -1, -1, 1, 1f, 0f); //money dink sound
+                Main.PlaySound(SoundID.Coins, -1, -1, 1, 1f, 0f); //money dink sound
                 switch (Main.rand.Next(2))
                 {
                     case 0:

@@ -1,4 +1,4 @@
-﻿using Terraria.ID;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Hybrid
 {
@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Hybrid
             projectile.aiStyle = 3;
             projectile.timeLeft = 240;
             aiType = ProjectileID.WoodenBoomerang;
-            projectile.Calamity().rogue = true;
+            projectile.melee = true;
         }
     }
 }

@@ -4,6 +4,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
@@ -53,7 +54,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.maxPenetrate = -1;
             projectile.penetrate = -1;
             projectile.Damage();
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 92);
+            Main.PlaySound(SoundID.Item92, (int)projectile.Center.X, (int)projectile.Center.Y);
             int count = Main.rand.Next(6, 15);
             for (int i = 0; i < count; i++)
             {

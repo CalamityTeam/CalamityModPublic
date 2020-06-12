@@ -1,12 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
-    public class XerocOrb : ModProjectile
+	public class XerocOrb : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -30,17 +29,5 @@ namespace CalamityMod.Projectiles.Typeless
             Main.dust[num469].velocity *= 0f;
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 7f, 20f);
         }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-        }
-
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-		}
     }
 }

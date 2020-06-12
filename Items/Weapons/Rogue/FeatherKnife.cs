@@ -24,7 +24,7 @@ Stealth strike throws a volley of knives");
             item.consumable = true;
             item.noUseGraphic = true;
             item.useAnimation = 11;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 18;
             item.knockBack = 2f;
             item.UseSound = SoundID.Item1;

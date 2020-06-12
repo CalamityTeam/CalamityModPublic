@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Tools;
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class ElementalAxe : ModItem
+	public class ElementalAxe : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.width = 36;
             item.height = 36;
             item.useTime = item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.knockBack = 5f;
             item.value = Item.buyPrice(1, 20, 0, 0);

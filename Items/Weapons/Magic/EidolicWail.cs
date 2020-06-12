@@ -2,6 +2,8 @@ using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Items.Weapons.Magic
 {
     public class EidolicWail : ModItem
@@ -23,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.useTime = 12;
             item.reuseDelay = 30;
             item.useAnimation = 36;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = Item.buyPrice(1, 40, 0, 0);

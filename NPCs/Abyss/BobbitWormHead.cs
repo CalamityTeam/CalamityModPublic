@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.Abyss
             npc.width = 80;
             npc.height = 40;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.25f);
+			npc.DR_NERD(0.25f);
             npc.lifeMax = 10000;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -95,7 +95,7 @@ namespace CalamityMod.NPCs.Abyss
                 npc.noTileCollide = true;
                 npc.collideX = false;
                 npc.collideY = false;
-                float num663 = 11f;
+                float num663 = 16f;
                 Vector2 vector80 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num664 = Main.player[npc.target].Center.X - vector80.X;
                 float num665 = Main.player[npc.target].Center.Y - vector80.Y;
@@ -144,7 +144,7 @@ namespace CalamityMod.NPCs.Abyss
             else if (npc.ai[0] == 3f)
             {
                 npc.noTileCollide = true;
-                float num671 = 11f;
+                float num671 = 16f;
                 float num672 = 0.25f;
                 Vector2 vector82 = new Vector2(npc.Center.X, npc.Center.Y);
                 float num673 = Main.player[npc.target].Center.X - vector82.X;

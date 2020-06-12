@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Melee
             DisplayName.SetDefault("Terratomere");
             Tooltip.SetDefault("Linked to the essence of Terraria\n" +
                                "Heals the player on true melee hits\n" +
-                               "Fires a barrage of homing beams that inflict several debuffs");
+                               "Fires a barrage of homing beams that freeze enemies");
         }
 
         public override void SetDefaults()
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.damage = 125;
             item.melee = true;
             item.useAnimation = 21;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 21;
             item.useTurn = true;
             item.knockBack = 7f;
@@ -83,15 +83,8 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (Main.rand.NextBool(3))
-            {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
-            }
-            target.AddBuff(BuffID.CursedInferno, 600);
-            target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.Ichor, 300);
-            if (target.type == NPCID.TargetDummy || !target.canGhostHeal)
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            if (target.type == NPCID.TargetDummy || !target.canGhostHeal || player.moonLeech)
             {
                 return;
             }
@@ -102,14 +95,9 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (Main.rand.NextBool(3))
-            {
-                target.AddBuff(ModContent.BuffType<GlacialState>(), 300);
-            }
-            target.AddBuff(BuffID.CursedInferno, 600);
-            target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(BuffID.OnFire, 600);
-            target.AddBuff(BuffID.Ichor, 300);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+			if (player.moonLeech)
+				return;
             int healAmount = Main.rand.Next(3) + 2;
             player.statLife += healAmount;
             player.HealEffect(healAmount);

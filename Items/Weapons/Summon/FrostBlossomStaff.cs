@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class FrostBlossomStaff : ModItem
+	public class FrostBlossomStaff : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -17,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.damage = 12;
+            item.damage = 10;
             item.mana = 10;
             item.width = 34;
             item.height = 24;

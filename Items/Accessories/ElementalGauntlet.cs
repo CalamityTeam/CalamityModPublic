@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
@@ -14,6 +14,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Elemental Gauntlet");
             Tooltip.SetDefault("Melee attacks and projectiles inflict most debuffs\n" +
                 "15% increased melee speed, damage, and 5% increased melee critical strike chance\n" +
+				"35% increased true melee damage\n" +
                 "Increased invincibility after taking damage\n" +
                 "Temporary immunity to lava\n" +
                 "Increased melee knockback\n" +

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -8,8 +8,6 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.Polterghast
 {
@@ -31,8 +29,8 @@ namespace CalamityMod.NPCs.Polterghast
             npc.width = 90;
             npc.height = 120;
 			npc.LifeMaxNERB(130000, 150000, 900000);
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
             aiType = -1;
@@ -85,7 +83,7 @@ namespace CalamityMod.NPCs.Polterghast
                 return;
             }
 
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.5f, 0.25f, 0.75f);
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.5f, 0.25f, 0.75f);
 
             npc.TargetClosest(true);
 
@@ -120,12 +118,12 @@ namespace CalamityMod.NPCs.Polterghast
                 }
                 num = num733;
             }
-            num730 /= (float)num732;
-            num731 /= (float)num732;
+            num730 /= num732;
+            num731 /= num732;
 
             float num734 = 3f;
             float num735 = 0.03f;
-            if (!Main.player[npc.target].ZoneDungeon && !CalamityWorld.bossRushActive && (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0)
+            if (!Main.player[npc.target].ZoneDungeon && !CalamityWorld.bossRushActive && Main.player[npc.target].position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
@@ -140,19 +138,17 @@ namespace CalamityMod.NPCs.Polterghast
 
             if (Main.npc[CalamityGlobalNPC.ghostBoss].ai[2] < 300f)
             {
-                num734 = 18.5f;
-                num735 = 0.12f;
+                num734 = 21f;
+                num735 = 0.13f;
             }
 
-            if (expertMode)
-            {
-                num734 += revenge ? 1.5f : 1f;
-                num734 *= revenge ? 1.2f : 1.1f;
-                num735 += revenge ? 0.015f : 0.01f;
-                num735 *= revenge ? 1.2f : 1.1f;
-            }
+			if (expertMode)
+			{
+				num734 += revenge ? 5f : 3.5f;
+				num735 += revenge ? 0.035f : 0.025f;
+			}
 
-            Vector2 vector91 = new Vector2(num730, num731);
+			Vector2 vector91 = new Vector2(num730, num731);
             float num736 = Main.player[npc.target].Center.X - vector91.X;
             float num737 = Main.player[npc.target].Center.Y - vector91.Y;
 
@@ -163,16 +159,16 @@ namespace CalamityMod.NPCs.Polterghast
                 num734 += 8f;
             }
 
-            float num738 = (float)Math.Sqrt((double)(num736 * num736 + num737 * num737));
+            float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
             int num739 = 500;
             if (speedBoost1)
                 num739 += 500;
             if (expertMode)
                 num739 += 150;
 
-            if (num738 >= (float)num739)
+            if (num738 >= num739)
             {
-                num738 = (float)num739 / num738;
+                num738 = num739 / num738;
                 num736 *= num738;
                 num737 *= num738;
             }
@@ -182,7 +178,7 @@ namespace CalamityMod.NPCs.Polterghast
             vector91 = new Vector2(vector.X, vector.Y);
             num736 = num730 - vector91.X;
             num737 = num731 - vector91.Y;
-            num738 = (float)Math.Sqrt((double)(num736 * num736 + num737 * num737));
+            num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
 
             if (num738 < num734)
             {
@@ -224,7 +220,7 @@ namespace CalamityMod.NPCs.Polterghast
             Vector2 vector92 = new Vector2(vector.X, vector.Y);
             float num740 = Main.player[npc.target].Center.X - vector92.X;
             float num741 = Main.player[npc.target].Center.Y - vector92.Y;
-            npc.rotation = (float)Math.Atan2((double)num741, (double)num740) + 1.57f;
+            npc.rotation = (float)Math.Atan2(num741, num740) + 1.57f;
 
             npc.damage = npc.defDamage;
 
@@ -251,7 +247,7 @@ namespace CalamityMod.NPCs.Polterghast
 			float amount9 = 0.5f;
 			int num153 = 7;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{

@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Hybrid
             projectile.aiStyle = 3;
             projectile.timeLeft = 600;
             aiType = ProjectileID.WoodenBoomerang;
-            projectile.Calamity().rogue = true;
+            projectile.melee = true;
         }
 
         public override void AI()
@@ -44,12 +44,12 @@ namespace CalamityMod.Projectiles.Hybrid
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 6;
-            target.AddBuff(BuffID.CursedInferno, 240);
+            target.AddBuff(BuffID.CursedInferno, 120);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 240);
+            target.AddBuff(BuffID.CursedInferno, 120);
         }
     }
 }

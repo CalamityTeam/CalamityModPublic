@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.Polterghast
             }
 
 			// Percent life remaining, Polter
-			float lifeRatio = (float)Main.npc[CalamityGlobalNPC.ghostBoss].life / (float)Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
+			float lifeRatio = Main.npc[CalamityGlobalNPC.ghostBoss].life / Main.npc[CalamityGlobalNPC.ghostBoss].lifeMax;
 
 			npc.TargetClosest(true);
 
@@ -95,16 +95,16 @@ namespace CalamityMod.NPCs.Polterghast
                 timer = 0;
             }
 
-            Player player = Main.player[npc.target];
-            double deg = (double)npc.ai[1];
+			NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<Polterghast>())];
+			double deg = npc.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 500;
-            npc.position.X = player.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
-            npc.position.Y = player.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
+            npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
+            npc.position.Y = parent.Center.Y - (int)(Math.Sin(rad) * dist) - npc.height / 2;
 			float SPEEN = 1f - lifeRatio * 2f;
 			if (SPEEN < 0f)
 				SPEEN = 0f;
-			npc.ai[1] += 0.5f + SPEEN; //1f
+			npc.ai[1] += 0.5f + SPEEN;
             return false;
         }
 
@@ -125,28 +125,28 @@ namespace CalamityMod.NPCs.Polterghast
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
 			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / 2));
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
 			Color color36 = Color.White;
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
 					Color color38 = lightColor;
 					color38 = Color.Lerp(color38, color36, amount9);
 					color38 = npc.GetAlpha(color38);
-					color38 *= (float)(num153 - num155) / 15f;
-					Vector2 vector41 = npc.oldPos[num155] + new Vector2((float)npc.width, (float)npc.height) / 2f - Main.screenPosition;
-					vector41 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
 					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 				}
 			}
 
 			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2((float)texture2D15.Width, (float)(texture2D15.Height)) * npc.scale / 2f;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
 			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
 			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
 

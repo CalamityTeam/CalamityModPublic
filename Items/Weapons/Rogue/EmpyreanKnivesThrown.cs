@@ -25,7 +25,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = 15;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 15;
             item.knockBack = 3f;
             item.UseSound = SoundID.Item39;
@@ -94,7 +94,8 @@ namespace CalamityMod.Items.Weapons.Rogue
                 num149 *= num80;
                 float x4 = vector2.X;
                 float y4 = vector2.Y;
-                Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 1f);
+                int knife = Projectile.NewProjectile(x4, y4, num148, num149, type, damage, knockBack, player.whoAmI, 0f, 1f);
+				Main.projectile[knife].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             }
             return false;
         }

@@ -1,4 +1,4 @@
-﻿using CalamityMod.CalPlayer;
+using CalamityMod.CalPlayer;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -285,16 +285,16 @@ namespace CalamityMod.Projectiles.Summon
                 else
                     AI(1, num535, num536, player);
             }
-            if ((double)projectile.velocity.X > 0.25)
+            if (projectile.velocity.X > 0.25f)
             {
                 projectile.direction = -1;
             }
-            else if ((double)projectile.velocity.X < -0.25)
+            else if (projectile.velocity.X < -0.25f)
             {
                 projectile.direction = 1;
             }
 
-            if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+            if (Math.Abs(projectile.velocity.X) > 0.2f)
             {
                 projectile.spriteDirection = -projectile.direction;
             }

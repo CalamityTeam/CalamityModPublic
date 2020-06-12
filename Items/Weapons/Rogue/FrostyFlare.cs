@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Rogue
             item.height = 22;
             item.useTime = 16;
             item.useAnimation = 16;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = false;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;

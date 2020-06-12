@@ -1,4 +1,4 @@
-﻿using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Crabulon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,7 +20,7 @@ namespace CalamityMod.Items.SummonItems
             item.rare = 2;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
         }
 
@@ -31,12 +31,16 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+			Main.PlaySound(SoundID.Roar, player.position, 0);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-50, 51)), (int)(player.position.Y - 50f), ModContent.NPCType<CrabulonIdle>(), 0, 0f, 0f, 0f, 0f, 255);
-                Main.PlaySound(SoundID.Roar, player.position, 0);
+                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-50, 51)), (int)(player.position.Y - 50f), ModContent.NPCType<CrabulonIdle>(), 1);
+				Main.npc[npc].timeLeft *= 20;
             }
-            return true;
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CrabulonIdle>());
+
+			return true;
         }
 
         public override void AddRecipes()

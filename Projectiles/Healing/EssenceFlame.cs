@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class EssenceFlame : ModProjectile
+	public class EssenceFlame : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -38,13 +38,13 @@ namespace CalamityMod.Projectiles.Healing
                 projectile.frame = 0;
             }
 
-			CalamityGlobalProjectile.HealingProjectile(projectile, (int)projectile.ai[1], (int)projectile.ai[0], 3.5f, 15f);
+			projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 3.5f, 15f);
             return;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 74);
+            Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
             projectile.width = 50;

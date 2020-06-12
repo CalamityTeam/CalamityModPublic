@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -7,7 +5,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class MagnomalyExplosion : ModProjectile
+	public class MagnomalyExplosion : ModProjectile
     {
         public override void SetStaticDefaults() //don't remove this projectile
         {

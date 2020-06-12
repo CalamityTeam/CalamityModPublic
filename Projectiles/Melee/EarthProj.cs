@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Melee
                 projectile.soundDelay = 20 + Main.rand.Next(40);
                 if (Main.rand.NextBool(5))
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 9);
+                    Main.PlaySound(SoundID.Item9, (int)projectile.position.X, (int)projectile.position.Y);
                 }
             }
             projectile.alpha -= 15;
@@ -123,7 +123,7 @@ namespace CalamityMod.Projectiles.Melee
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), projChoice, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), projChoice, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+            Main.PlaySound(SoundID.Item10, (int)projectile.position.X, (int)projectile.position.Y);
             for (int k = 0; k < 15; k++)
             {
                 int dustChoice = Main.rand.Next(3);
@@ -147,7 +147,7 @@ namespace CalamityMod.Projectiles.Melee
         {
             target.AddBuff(BuffID.OnFire, 600);
             target.AddBuff(BuffID.Frostburn, 600);
-            target.AddBuff(BuffID.CursedInferno, 600);
+            target.AddBuff(BuffID.CursedInferno, 300);
         }
     }
 }

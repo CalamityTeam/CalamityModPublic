@@ -1,7 +1,6 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -14,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class ProvidenceBag : ModItem
+	public class ProvidenceBag : ModItem
     {
         public override int BossBagNPC => ModContent.NPCType<Providence>();
 
@@ -45,7 +44,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Materials
             DropHelper.DropItem(player, ModContent.ItemType<UnholyEssence>(), 25, 35);
-            DropHelper.DropItem(player, ModContent.ItemType<DivineGeode>(), 15, 25);
+            DropHelper.DropItem(player, ModContent.ItemType<DivineGeode>(), 20, 30);
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<HolyCollider>(), 3);

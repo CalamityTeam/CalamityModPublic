@@ -1,4 +1,5 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -53,9 +54,9 @@ namespace CalamityMod.Projectiles.Boss
             if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<Providence>())
             {
                 Vector2 value21 = new Vector2(27f, 59f);
-                Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y - 32f);
+                Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y + 32f);
                 Vector2 value22 = Utils.Vector2FromElipse(Main.npc[(int)projectile.ai[1]].localAI[0].ToRotationVector2(), value21 * Main.npc[(int)projectile.ai[1]].localAI[1]);
-                projectile.position = fireFrom + value22 - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
+                projectile.position = fireFrom + value22 - new Vector2(projectile.width, projectile.height) / 2f;
             }
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)
@@ -71,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-            projectile.scale = (float)Math.Sin((double)(projectile.localAI[0] * 3.14159274f / ((CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 100f : 180f))) * 10f * num801;
+            projectile.scale = (float)Math.Sin(projectile.localAI[0] * 3.14159274f / ((CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 100f : 180f)) * 10f * num801;
             if (projectile.scale > num801)
             {
                 projectile.scale = num801;
@@ -83,7 +84,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.velocity = num804.ToRotationVector2();
 
             float num805 = 3f; //3f
-            float num806 = (float)projectile.width;
+            float num806 = projectile.width;
 
             Vector2 samplingPoint = projectile.Center;
             if (vector78.HasValue)
@@ -94,11 +95,9 @@ namespace CalamityMod.Projectiles.Boss
             float[] array3 = new float[(int)num805];
             Collision.LaserScan(samplingPoint, projectile.velocity, num806 * projectile.scale, 2400f, array3);
             float num807 = 0f;
-            int num3;
-            for (int num808 = 0; num808 < array3.Length; num808 = num3 + 1)
+            for (int num808 = 0; num808 < array3.Length; num808++)
             {
                 num807 += array3[num808];
-                num3 = num808;
             }
             num807 /= num805;
 
@@ -108,31 +107,31 @@ namespace CalamityMod.Projectiles.Boss
                 num807 = 2400f;
             }
 
-            float amount = 0.5f; //0.5f
+			int dustType = Main.dayTime ? (int)CalamityDusts.ProfanedFire : (int)CalamityDusts.Nightwither;
+			float amount = 0.5f; //0.5f
             projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
             Vector2 vector79 = projectile.Center + projectile.velocity * (projectile.localAI[1] - 14f);
-            for (int num809 = 0; num809 < 2; num809 = num3 + 1)
+            for (int num809 = 0; num809 < 2; num809++)
             {
                 float num810 = projectile.velocity.ToRotation() + ((Main.rand.Next(2) == 1) ? -1f : 1f) * 1.57079637f;
                 float num811 = (float)Main.rand.NextDouble() * 2f + 2f;
-                Vector2 vector80 = new Vector2((float)Math.Cos((double)num810) * num811, (float)Math.Sin((double)num810) * num811);
-                int num812 = Dust.NewDust(vector79, 0, 0, 244, vector80.X, vector80.Y, 0, default, 1f);
+                Vector2 vector80 = new Vector2((float)Math.Cos(num810) * num811, (float)Math.Sin(num810) * num811);
+                int num812 = Dust.NewDust(vector79, 0, 0, dustType, vector80.X, vector80.Y, 0, default, 1f);
                 Main.dust[num812].noGravity = true;
                 Main.dust[num812].scale = 1.7f;
-                num3 = num809;
             }
 
             if (Main.rand.NextBool(5))
             {
-                Vector2 value29 = projectile.velocity.RotatedBy(1.5707963705062866, default) * ((float)Main.rand.NextDouble() - 0.5f) * (float)projectile.width;
-                int num813 = Dust.NewDust(vector79 + value29 - Vector2.One * 4f, 8, 8, 244, 0f, 0f, 100, default, 1.5f);
+                Vector2 value29 = projectile.velocity.RotatedBy(1.5707963705062866, default) * ((float)Main.rand.NextDouble() - 0.5f) * projectile.width;
+                int num813 = Dust.NewDust(vector79 + value29 - Vector2.One * 4f, 8, 8, dustType, 0f, 0f, 100, default, 1.5f);
                 Dust dust = Main.dust[num813];
                 dust.velocity *= 0.5f;
                 Main.dust[num813].velocity.Y = -Math.Abs(Main.dust[num813].velocity.Y);
             }
 
             DelegateMethods.v3_1 = new Vector3(0.3f, 0.65f, 0.7f);
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -141,30 +140,30 @@ namespace CalamityMod.Projectiles.Boss
             {
                 return false;
             }
-            Texture2D texture2D19 = Main.projectileTexture[projectile.type];
-            Texture2D texture2D20 = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid");
-            Texture2D texture2D21 = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd");
+            Texture2D texture2D19 = Main.dayTime ? Main.projectileTexture[projectile.type] : ModContent.GetTexture("CalamityMod/Projectiles/Boss/ProvidenceHolyRayNight");
+            Texture2D texture2D20 = Main.dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMid") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayMidNight");
+            Texture2D texture2D21 = Main.dayTime ? ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEnd") : ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/ProvidenceHolyRayEndNight");
             float num223 = projectile.localAI[1]; //length of laser
-            Color color44 = new Color(255, 255, 255, 0) * 0.9f;
+            Color color44 = Main.dayTime ? new Color(250, 250, 250, 0) : new Color(175, 175, 250, 0) * 0.9f;
             Vector2 vector = projectile.Center - Main.screenPosition;
             Rectangle? sourceRectangle2 = null;
             Main.spriteBatch.Draw(texture2D19, vector, sourceRectangle2, color44, projectile.rotation, texture2D19.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-            num223 -= (float)(texture2D19.Height / 2 + texture2D21.Height) * projectile.scale;
+            num223 -= (texture2D19.Height / 2 + texture2D21.Height) * projectile.scale;
             Vector2 value20 = projectile.Center;
-            value20 += projectile.velocity * projectile.scale * (float)texture2D19.Height / 2f;
+            value20 += projectile.velocity * projectile.scale * texture2D19.Height / 2f;
             if (num223 > 0f)
             {
                 float num224 = 0f;
                 Rectangle rectangle7 = new Rectangle(0, 16 * (projectile.timeLeft / 3 % 5), texture2D20.Width, 16);
                 while (num224 + 1f < num223)
                 {
-                    if (num223 - num224 < (float)rectangle7.Height)
+                    if (num223 - num224 < rectangle7.Height)
                     {
                         rectangle7.Height = (int)(num223 - num224);
                     }
-                    Main.spriteBatch.Draw(texture2D20, value20 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle7), color44, projectile.rotation, new Vector2((float)(rectangle7.Width / 2), 0f), projectile.scale, SpriteEffects.None, 0f);
-                    num224 += (float)rectangle7.Height * projectile.scale;
-                    value20 += projectile.velocity * (float)rectangle7.Height * projectile.scale;
+                    Main.spriteBatch.Draw(texture2D20, value20 - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(rectangle7), color44, projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
+                    num224 += rectangle7.Height * projectile.scale;
+                    value20 += projectile.velocity * rectangle7.Height * projectile.scale;
                     rectangle7.Y += 16;
                     if (rectangle7.Y + rectangle7.Height > texture2D20.Height)
                     {
@@ -182,7 +181,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
             Vector2 unit = projectile.velocity;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+            Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
@@ -201,7 +200,8 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 300);
+			int buffType = Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
+            target.AddBuff(buffType, 300);
         }
 
         public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	

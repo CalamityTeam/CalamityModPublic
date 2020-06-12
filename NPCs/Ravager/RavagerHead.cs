@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -7,11 +7,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.Ravager
 {
-    public class RavagerHead : ModNPC
+	public class RavagerHead : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +23,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.width = 80;
             npc.height = 80;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.lifeMax = 32705;
             npc.knockBackResist = 0f;
             aiType = -1;
@@ -67,7 +65,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.lifeMax = 450000;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
         }
 
@@ -86,7 +84,7 @@ namespace CalamityMod.NPCs.Ravager
             {
                 npc.timeLeft = 1800;
             }
-            float speed = 12f;
+            float speed = 21f;
             Vector2 center = new Vector2(npc.Center.X, npc.Center.Y);
             float centerX = Main.npc[CalamityGlobalNPC.scavenger].Center.X - center.X;
             float centerY = Main.npc[CalamityGlobalNPC.scavenger].Center.Y - center.Y;

@@ -2,18 +2,16 @@ using CalamityMod.Buffs.Summon;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod.Projectiles.Boss;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class AstrageldonSummon : ModProjectile
+	public class AstrageldonSummon : ModProjectile
     {
         public bool dust = false;
 		private int attackCounter = 1;

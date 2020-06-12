@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.World;
@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.width = 54;
             npc.height = 54;
             npc.defense = 15;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = CalamityWorld.death ? 30000 : 20000;
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         Main.npc[num5].realLife = npc.whoAmI;
                         Main.npc[num5].ai[1] = (float)num2;
                         Main.npc[num2].ai[0] = (float)num5;
-                        NetMessage.SendData(23, -1, -1, null, num5, 0f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num5, 0f, 0f, 0f, 0, 0, 0);
                         num2 = num5;
                     }
                     TailSpawned = true;
@@ -243,7 +243,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num24 = 20f;
                     }
                     npc.soundDelay = (int)num24;
-                    Main.PlaySound(15, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
+                    Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 1, 1f, 0f);
                 }
                 num22 = (float)Math.Sqrt((double)(num20 * num20 + num21 * num21));
                 float num25 = Math.Abs(num20);

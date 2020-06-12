@@ -1,4 +1,4 @@
-﻿using CalamityMod.Dusts;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Ranged;
@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.AcidRain
             if (CalamityWorld.downedPolterghast)
             {
                 npc.lifeMax = 7000;
-				npc.Calamity().RevPlusDR(0.4f);
+				npc.DR_NERD(0.4f);
             }
 
             npc.knockBackResist = 0f;

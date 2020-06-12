@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Astral
@@ -32,7 +33,7 @@ namespace CalamityMod.NPCs.Astral
             npc.height = 58;
             npc.aiStyle = -1;
             npc.defense = 6;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 340;
             npc.knockBackResist = 0.2f;
             npc.value = Item.buyPrice(0, 0, 15, 0);
@@ -124,7 +125,7 @@ namespace CalamityMod.NPCs.Astral
                 npc.velocity.X *= 0.95f;
                 if (npc.ai[2] == 25f)
                 {
-                    Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 71);
+                    Main.PlaySound(SoundID.Item71, npc.position);
                     Vector2 vector = Main.player[npc.target].Center - npc.Center;
                     vector.Normalize();
                     int damage = CalamityWorld.downedAstrageldon ? 45 : 55;

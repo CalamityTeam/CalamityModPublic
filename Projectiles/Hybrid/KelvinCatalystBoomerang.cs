@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -162,7 +162,7 @@ namespace CalamityMod.Projectiles.Hybrid
                         ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 30);
+            Main.PlaySound(SoundID.Item30, projectile.position);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
@@ -186,7 +186,7 @@ namespace CalamityMod.Projectiles.Hybrid
                         ModContent.ProjectileType<KelvinCatalystStar>(), projectile.damage / 6, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                 }
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 30);
+            Main.PlaySound(SoundID.Item30, projectile.position);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

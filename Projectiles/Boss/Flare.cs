@@ -1,4 +1,4 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -27,6 +27,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
+			projectile.extraUpdates = 1;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -59,6 +60,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.ai[0] += 1f;
 			num632 = (float)(Math.Cos((double)(num630 * projectile.ai[0])) - 0.5) * num631;
 			projectile.velocity.Y = projectile.velocity.Y + num632;
+
 			projectile.localAI[0] += 1f;
 			if (projectile.localAI[0] > 10f)
 			{
@@ -90,7 +92,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void Kill(int timeLeft)
         {
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            Main.PlaySound(2, (int)projectile.Center.X, (int)projectile.Center.Y, 20);
+            Main.PlaySound(SoundID.Item20, projectile.position);
             int num226 = 36;
             for (int num227 = 0; num227 < num226; num227++)
             {

@@ -1,10 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class Blood : ModProjectile
+	public class Blood : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -40,6 +39,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
+			if (player.moonLeech)
+				return;
             player.statLife += 5;
             player.HealEffect(5);
         }

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -21,11 +21,11 @@ namespace CalamityMod.NPCs.Abyss
         public override void SetDefaults()
         {
             npc.noGravity = true;
-            npc.damage = 22;
+            npc.damage = 44;
             npc.width = 30;
             npc.height = 33;
             npc.defense = 5;
-            npc.lifeMax = 45;
+            npc.lifeMax = 90;
             npc.alpha = 20;
             npc.aiStyle = -1;
             aiType = -1;
@@ -49,7 +49,7 @@ namespace CalamityMod.NPCs.Abyss
                 if (npc.velocity.Y == 0f)
                 {
                     npc.velocity.X = npc.velocity.X * 0.98f;
-                    if ((double)npc.velocity.X > -0.01 && (double)npc.velocity.X < 0.01)
+                    if (npc.velocity.X > -0.01 && npc.velocity.X < 0.01)
                     {
                         npc.velocity.X = 0f;
                     }
@@ -84,24 +84,24 @@ namespace CalamityMod.NPCs.Abyss
             }
             bool flag16 = false;
             npc.TargetClosest(false);
-            if (Main.player[npc.target].wet && !Main.player[npc.target].dead)
+            if (Main.player[npc.target].wet && !Main.player[npc.target].dead && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
             {
                 flag16 = true;
             }
             if (flag16)
             {
                 npc.localAI[2] = 1f;
-                npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X) + 1.57f;
+                npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + 1.57f;
                 npc.velocity *= 0.975f;
                 float num263 = 0.8f;
                 if (npc.velocity.X > -num263 && npc.velocity.X < num263 && npc.velocity.Y > -num263 && npc.velocity.Y < num263)
                 {
                     npc.TargetClosest(true);
                     float num264 = CalamityWorld.death ? 12f : 8f;
-                    Vector2 vector31 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                    float num265 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector31.X;
-                    float num266 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2) - vector31.Y;
-                    float num267 = (float)Math.Sqrt((double)(num265 * num265 + num266 * num266));
+                    Vector2 vector31 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+                    float num265 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector31.X;
+                    float num266 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector31.Y;
+                    float num267 = (float)Math.Sqrt(num265 * num265 + num266 * num266);
                     num267 = num264 / num267;
                     num265 *= num267;
                     num266 *= num267;
@@ -112,7 +112,7 @@ namespace CalamityMod.NPCs.Abyss
             else
             {
                 npc.localAI[2] = 0f;
-                npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.02f;
+                npc.velocity.X = npc.velocity.X + npc.direction * 0.02f;
                 npc.rotation = npc.velocity.X * 0.4f;
                 if (npc.velocity.X < -1f || npc.velocity.X > 1f)
                 {
@@ -134,8 +134,8 @@ namespace CalamityMod.NPCs.Abyss
                         npc.ai[0] = -1f;
                     }
                 }
-                int num268 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-                int num269 = (int)(npc.position.Y + (float)(npc.height / 2)) / 16;
+                int num268 = (int)(npc.position.X + (npc.width / 2)) / 16;
+                int num269 = (int)(npc.position.Y + (npc.height / 2)) / 16;
                 if (Main.tile[num268, num269 - 1] == null)
                 {
                     Main.tile[num268, num269 - 1] = new Tile();
@@ -163,7 +163,7 @@ namespace CalamityMod.NPCs.Abyss
                 {
                     npc.ai[0] = 1f;
                 }
-                if ((double)npc.velocity.Y > 1.2 || (double)npc.velocity.Y < -1.2)
+                if (npc.velocity.Y > 1.2 || npc.velocity.Y < -1.2)
                 {
                     npc.velocity.Y = npc.velocity.Y * 0.99f;
                 }

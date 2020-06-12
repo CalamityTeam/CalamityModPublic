@@ -1,4 +1,4 @@
-﻿using CalamityMod.Projectiles.BaseProjectiles;
+using CalamityMod.Projectiles.BaseProjectiles;
 namespace CalamityMod.Projectiles.Melee.Spears
 {
     public class MarniteSpearProjectile : BaseSpearProjectile
@@ -21,7 +21,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
-            projectile.Calamity().trueMelee = true;
+            //projectile.Calamity().trueMelee = true;
         }
 
         public override float InitialSpeed => 3f;

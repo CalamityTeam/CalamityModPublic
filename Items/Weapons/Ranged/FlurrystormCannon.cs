@@ -1,14 +1,13 @@
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class FlurrystormCannon : ModItem
+	public class FlurrystormCannon : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +24,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.height = 34;
             item.useTime = 8;
             item.useAnimation = 8;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 1.2f;
             item.value = Item.buyPrice(0, 4, 0, 0);
             item.rare = 3;

@@ -1,4 +1,4 @@
-﻿using CalamityMod.Items.Materials;
+using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -24,7 +24,7 @@ namespace CalamityMod.Items.SummonItems
             item.height = 18;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
@@ -39,15 +39,16 @@ namespace CalamityMod.Items.SummonItems
             string key = "Mods.CalamityMod.EdgyBossText12";
             Color messageColor = Color.Cyan;
             if (Main.netMode == NetmodeID.SinglePlayer)
-            {
                 Main.NewText(Language.GetTextValue(key), messageColor);
-            }
             else if (Main.netMode == NetmodeID.Server)
-            {
                 NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
-            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
+
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
+
 			return true;
         }
 

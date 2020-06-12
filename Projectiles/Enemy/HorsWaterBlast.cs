@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Enemy
                     }
                 }
                 projectile.ai[1] = 1f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21);
+                Main.PlaySound(SoundID.Item21, projectile.position);
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.35f / 255f);
             for (int num457 = 0; num457 < 10; num457++)
@@ -52,7 +52,7 @@ namespace CalamityMod.Projectiles.Enemy
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 21);
+            Main.PlaySound(SoundID.Item21, projectile.position);
             for (int dust = 0; dust <= 40; dust++)
             {
                 float num463 = (float)Main.rand.Next(-10, 11);

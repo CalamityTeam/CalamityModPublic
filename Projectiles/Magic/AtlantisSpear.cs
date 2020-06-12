@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Magic
 {
     public class AtlantisSpear : ModProjectile
@@ -50,7 +51,7 @@ namespace CalamityMod.Projectiles.Magic
                         int dmg = projectile.damage;
                         float kBack = projectile.knockBack;
                         int number = Projectile.NewProjectile(projectile.position.X + projectile.velocity.X + (float)(projectile.width / 2), projectile.position.Y + projectile.velocity.Y + (float)(projectile.height / 2), projectile.velocity.X, projectile.velocity.Y, projType, dmg, kBack, projectile.owner, 0f, projectile.ai[1] + 1f);
-                        NetMessage.SendData(27, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
+                        NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, number, 0f, 0f, 0f, 0, 0, 0);
                     }
                 }
             }

@@ -1,8 +1,9 @@
-﻿using CalamityMod.World;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -39,7 +40,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-            if (projectile.timeLeft < 300)
+			if (!Main.dayTime)
+				projectile.extraUpdates = 1;
+
+			if (projectile.timeLeft < 300)
             {
                 projectile.tileCollide = true;
             }
@@ -64,7 +68,7 @@ namespace CalamityMod.Projectiles.Boss
             else
             {
                 projectile.velocity.Y *= 1.06f;
-                float fallSpeed = (CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 3.5f : 3f;
+                float fallSpeed = (CalamityWorld.revenge || CalamityWorld.bossRushActive || !Main.dayTime) ? 3.5f : 3f;
                 if (projectile.velocity.Y > fallSpeed)
                 {
                     projectile.velocity.Y = fallSpeed;
@@ -75,13 +79,13 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.localAI[1] = 1f;
                 projectile.velocity.Y = 0.5f;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) - 1.57f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) - 1.57f;
             int num3;
             for (int num979 = 0; num979 < 2; num979 = num3 + 1)
             {
                 if (Main.rand.NextBool(10))
                 {
-                    Vector2 value55 = Vector2.UnitY.RotatedBy((double)((float)num979 * 3.14159274f), default).RotatedBy((double)projectile.rotation, default);
+                    Vector2 value55 = Vector2.UnitY.RotatedBy(num979 * 3.14159274f).RotatedBy(projectile.rotation);
                     Dust dust24 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
                     dust24.noGravity = true;
                     dust24.noLight = true;
@@ -95,7 +99,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 if (Main.rand.NextBool(10))
                 {
-                    Vector2 value56 = Vector2.UnitY.RotatedBy((double)((float)num980 * 3.14159274f), default);
+                    Vector2 value56 = Vector2.UnitY.RotatedBy(num980 * 3.14159274f);
                     Dust dust25 = Main.dust[Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 225, newColor2, 1.5f)];
                     dust25.noGravity = true;
                     dust25.noLight = true;
@@ -148,9 +152,9 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 27);
+            Main.PlaySound(SoundID.Item27, projectile.position);
             Vector2 spinningpoint = new Vector2(0f, -3f).RotatedByRandom(3.1415927410125732);
-            float num69 = (float)Main.rand.Next(7, 13);
+            float num69 = Main.rand.Next(7, 13);
             Vector2 value5 = new Vector2(2.1f, 2f);
             Color newColor = Main.hslToRgb(projectile.ai[0], 1f, 0.5f);
             newColor.A = 255;
@@ -159,7 +163,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 int num71 = Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
                 Main.dust[num71].position = projectile.Center;
-                Main.dust[num71].velocity = spinningpoint.RotatedBy((double)(6.28318548f * num70 / num69), default) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
+                Main.dust[num71].velocity = spinningpoint.RotatedBy(6.28318548f * num70 / num69) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
                 Main.dust[num71].noGravity = true;
                 Main.dust[num71].scale = 2f;
                 Main.dust[num71].fadeIn = Main.rand.NextFloat() * 2f;
@@ -175,7 +179,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 int num74 = Dust.NewDust(projectile.Center, 0, 0, 267, 0f, 0f, 0, newColor, 1f);
                 Main.dust[num74].position = projectile.Center;
-                Main.dust[num74].velocity = spinningpoint.RotatedBy((double)(6.28318548f * num73 / num69), default) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
+                Main.dust[num74].velocity = spinningpoint.RotatedBy(6.28318548f * num73 / num69) * value5 * (0.8f + Main.rand.NextFloat() * 0.4f);
                 Dust dust = Main.dust[num74];
                 dust.velocity *= Main.rand.NextFloat() * 0.8f;
                 dust.noGravity = true;

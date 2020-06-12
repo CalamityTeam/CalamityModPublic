@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
@@ -30,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             Lighting.AddLight(projectile.Center, 0.55f, 0.25f, 0f);
             if (projectile.localAI[0] == 0f)
             {
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 20);
+                Main.PlaySound(SoundID.Item20, projectile.position);
                 projectile.localAI[0] += 1f;
             }
             bool flag15 = false;

@@ -1,13 +1,12 @@
 using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Magic
 {
-    public class AlulaAustralis : ModItem
+	public class AlulaAustralis : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,9 +17,9 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 60;
+            item.damage = 99;
             item.magic = true;
-            item.mana = 12;
+            item.mana = 8;
             item.width = 52;
             item.height = 52;
             item.useTime = 17;

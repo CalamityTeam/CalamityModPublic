@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
@@ -138,7 +138,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     {
                         num8 = 25;
                     }
-                    int num9 = 128;
+                    int num9 = ProjectileID.FrostBlastHostile;
                     int beam = Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[beam].timeLeft = 300;
                 }

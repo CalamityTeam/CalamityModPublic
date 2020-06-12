@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Projectiles.Boss;
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     float num151 = 5f;
                     int num152 = Main.expertMode ? 53 : 65;
-                    int num153 = ModContent.ProjectileType<PhantomGhostShot>();
+                    int num153 = ModContent.ProjectileType<PhantomShot2>();
                     num149 = num151 / num149;
                     num147 *= num149;
                     num148 *= num149;

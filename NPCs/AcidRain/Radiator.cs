@@ -6,14 +6,11 @@ using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.NPCs.AcidRain
 {
-    public class Radiator : ModNPC
+	public class Radiator : ModNPC
     {
         public override void SetStaticDefaults()
         {

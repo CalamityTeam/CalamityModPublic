@@ -1,18 +1,16 @@
-﻿using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
     public class ProvidenceCrystal : ModProjectile
     {
-        private float speedX = -21f;
-        private float speedY = -3f;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Holy Crystal");
@@ -32,15 +30,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(speedX);
-            writer.Write(speedY);
             writer.Write(projectile.localAI[0]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            speedX = reader.ReadSingle();
-            speedY = reader.ReadSingle();
             projectile.localAI[0] = reader.ReadSingle();
         }
 
@@ -53,8 +47,12 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.netUpdate = true;
                 return;
             }
-            projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 360f;
+
+			if (!Main.dayTime)
+				projectile.timeLeft -= CalamityWorld.death ? 9 : 16;
+
+            projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width / 2);
+            projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 360f;
             if (Main.player[projectile.owner].gravDir == -1f)
             {
                 projectile.position.Y = projectile.position.Y + 400f;
@@ -64,8 +62,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)(int)projectile.position.X;
-            projectile.position.Y = (float)(int)projectile.position.Y;
+            projectile.position.X = (int)projectile.position.X;
+            projectile.position.Y = (int)projectile.position.Y;
             projectile.velocity = Vector2.Zero;
             projectile.alpha -= 5;
             if (projectile.alpha < 0)
@@ -78,29 +76,32 @@ namespace CalamityMod.Projectiles.Boss
             }
             if (projectile.alpha == 0 && Main.rand.NextBool(15))
             {
-                Dust dust34 = Main.dust[Dust.NewDust(projectile.Top, 0, 0, 267, 0f, 0f, 100, new Color(255, 200, Main.DiscoB), 1f)];
+                Dust dust34 = Main.dust[Dust.NewDust(projectile.Top, 0, 0, 267, 0f, 0f, 100, Main.dayTime ? new Color(255, 200, Main.DiscoB) : new Color(Main.DiscoR, 200, 255), 1f)];
                 dust34.velocity.X = 0f;
                 dust34.noGravity = true;
                 dust34.fadeIn = 1f;
                 dust34.position = projectile.Center + Vector2.UnitY.RotatedByRandom(6.2831854820251465) * (4f * Main.rand.NextFloat() + 26f);
                 dust34.scale = 0.5f;
             }
+
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 300f)
+            if (projectile.localAI[0] >= (Main.dayTime ? 300f : 30f))
             {
                 projectile.localAI[0] = 0f;
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 109);
+                Main.PlaySound(SoundID.Item109, projectile.position);
                 projectile.netUpdate = true;
                 if (projectile.owner == Main.myPlayer)
                 {
-                    for (int num1083 = 0; num1083 < 14; num1083++)
+					int totalProjectiles = Main.dayTime ? 15 : (projectile.localAI[0] % 60f == 0f ? 15 : 10);
+					float speedX = Main.dayTime ? -21f : -15f;
+					float speedAdjustment = Math.Abs(speedX * 2f / (totalProjectiles - 1));
+					float speedY = -3f;
+                    for (int i = 0; i < totalProjectiles; i++)
                     {
-                        float x4 = Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX, speedY, ModContent.ProjectileType<ProvidenceCrystalShard>(), projectile.damage, projectile.knockBack, projectile.owner, x4, (float)projectile.whoAmI);
-                        speedX += 3f; // -21, -18, -15, -12, -9, -6, -3, 0, 3, 6, 9, 12, 15, 18, 21
+                        float x4 = Main.dayTime ? Main.rgbToHsl(new Color(255, 200, Main.DiscoB)).X : Main.rgbToHsl(new Color(Main.DiscoR, 200, 255)).X;
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speedX + speedAdjustment * i, speedY, ModContent.ProjectileType<ProvidenceCrystalShard>(), projectile.damage, projectile.knockBack, projectile.owner, x4, projectile.whoAmI);
                     }
                 }
-                speedX = -21f;
             }
         }
 
@@ -111,16 +112,16 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Color color25 = Lighting.GetColor((int)((double)projectile.position.X + (double)projectile.width * 0.5) / 16, (int)(((double)projectile.position.Y + (double)projectile.height * 0.5) / 16.0));
-            Vector2 vector59 = projectile.position + new Vector2((float)projectile.width, (float)projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
+            Color color25 = Lighting.GetColor((int)(projectile.position.X + projectile.width * 0.5) / 16, (int)((projectile.position.Y + projectile.height * 0.5) / 16.0));
+            Vector2 vector59 = projectile.position + new Vector2(projectile.width, projectile.height) / 2f + Vector2.UnitY * projectile.gfxOffY - Main.screenPosition;
             Texture2D texture2D34 = Main.projectileTexture[projectile.type];
             Rectangle rectangle17 = texture2D34.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame);
             Color alpha5 = projectile.GetAlpha(color25);
             Vector2 origin11 = rectangle17.Size() / 2f;
-            float scaleFactor5 = (float)Math.Cos((double)(6.28318548f * (projectile.localAI[0] / 60f))) + 3f + 3f;
+            float scaleFactor5 = (float)Math.Cos(6.28318548f * (projectile.localAI[0] / 60f)) + 3f + 3f;
             for (float num286 = 0f; num286 < 4f; num286 += 1f)
             {
-                double angle = (double)(num286 * 1.57079637f);
+                double angle = num286 * 1.57079637f;
                 Vector2 center = default;
                 Main.spriteBatch.Draw(texture2D34, vector59 + Vector2.UnitY.RotatedBy(angle, center) * scaleFactor5, new Microsoft.Xna.Framework.Rectangle?(rectangle17), alpha5 * 0.2f, projectile.rotation, origin11, projectile.scale, SpriteEffects.None, 0f);
             }

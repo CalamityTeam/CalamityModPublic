@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
+
 namespace CalamityMod.Tiles.FurnitureAshen
 {
     public class SmoothBrimstoneSlag : ModTile
@@ -18,7 +20,7 @@ namespace CalamityMod.Tiles.FurnitureAshen
             CalamityUtils.MergeDecorativeTiles(Type);
             CalamityUtils.MergeWithHell(Type);
 
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 5f;
             minPick = 180;
             drop = ModContent.ItemType<Items.Placeables.FurnitureAshen.SmoothBrimstoneSlag>();

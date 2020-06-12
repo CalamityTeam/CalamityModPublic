@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Summon;
+using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using System;
@@ -70,30 +70,6 @@ namespace CalamityMod.Projectiles.Summon
             float num634 = 1600f; //800
             float num635 = 2400f; //1200
             float num636 = 800f;
-            float num637 = 0.05f;
-            for (int num638 = 0; num638 < Main.maxProjectiles; num638++)
-            {
-                bool flag23 = Main.projectile[num638].type == ModContent.ProjectileType<CosmicEnergySpiral>();
-                if (num638 != projectile.whoAmI && Main.projectile[num638].active && Main.projectile[num638].owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - Main.projectile[num638].position.X) + Math.Abs(projectile.position.Y - Main.projectile[num638].position.Y) < (float)projectile.width)
-                {
-                    if (projectile.position.X < Main.projectile[num638].position.X)
-                    {
-                        projectile.velocity.X = projectile.velocity.X - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.X = projectile.velocity.X + num637;
-                    }
-                    if (projectile.position.Y < Main.projectile[num638].position.Y)
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y - num637;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y = projectile.velocity.Y + num637;
-                    }
-                }
-            }
             projectile.rotation += projectile.velocity.X * 0.1f;
             Vector2 vector46 = projectile.position;
             bool flag25 = false;
@@ -237,7 +213,7 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (flag11)
                 {
-                    Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 105);
+                    Main.PlaySound(SoundID.Item105, (int)projectile.position.X, (int)projectile.position.Y);
                     int num251 = Main.rand.Next(5, 8);
                     for (int num252 = 0; num252 < num251; num252++)
                     {

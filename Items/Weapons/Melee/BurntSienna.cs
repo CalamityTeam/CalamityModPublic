@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useAnimation = 21;
             item.useTime = 21;
             item.useTurn = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5.5f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (target.life <= 0)
+            if (target.life <= 0 && !player.moonLeech)
             {
                 float randomSpeedX = (float)Main.rand.Next(3);
                 float randomSpeedY = (float)Main.rand.Next(3, 5);
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (target.statLife <= 0)
+            if (target.statLife <= 0 && !player.moonLeech)
             {
                 float randomSpeedX = (float)Main.rand.Next(3);
                 float randomSpeedY = (float)Main.rand.Next(3, 5);

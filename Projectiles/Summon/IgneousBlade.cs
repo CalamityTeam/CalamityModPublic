@@ -2,7 +2,6 @@ using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class IgneousBlade : ModProjectile
+	public class IgneousBlade : ModProjectile
     {
         public bool Firing = false;
         public override void SetStaticDefaults()

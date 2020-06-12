@@ -1,4 +1,4 @@
-﻿using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.Ravager;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,8 +8,8 @@ namespace CalamityMod.Items.SummonItems
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ancient Medallion");
-            Tooltip.SetDefault("A very old temple medallion\n" +
+            DisplayName.SetDefault("Death Whistle");
+            Tooltip.SetDefault("A very old temple whistle\n" +
                 "Summons the Ravager");
         }
 
@@ -21,7 +21,7 @@ namespace CalamityMod.Items.SummonItems
             item.rare = 8;
             item.useAnimation = 45;
             item.useTime = 45;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = true;
         }
 
@@ -34,10 +34,13 @@ namespace CalamityMod.Items.SummonItems
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-100, 101)), (int)(player.position.Y - 250f), ModContent.NPCType<RavagerBody>(), 0, 0f, 0f, 0f, 0f, 255);
-                Main.PlaySound(SoundID.Roar, player.position, 0);
+                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 250f), ModContent.NPCType<RavagerBody>(), 1);
+				Main.npc[npc].timeLeft *= 20;
             }
-            return true;
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<RavagerBody>());
+
+			return true;
         }
 
         public override void AddRecipes()

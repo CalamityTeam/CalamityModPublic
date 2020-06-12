@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.width = 28;
             item.height = 20;
             item.useTime = item.useAnimation = 35;
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 0.5f;
             item.value = CalamityGlobalItem.Rarity1BuyPrice;
@@ -44,8 +44,7 @@ namespace CalamityMod.Items.Weapons.Summon
         }
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<RustyLockpick>(), 1);
+            ModRecipe recipe = new ModRecipe(mod);;
             recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
             recipe.AddRecipeGroup("IronBar", 10);
             recipe.AddTile(TileID.Anvils);

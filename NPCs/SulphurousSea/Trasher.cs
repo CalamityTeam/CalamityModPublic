@@ -1,4 +1,3 @@
-﻿using CalamityMod.Items.Materials;
 using CalamityMod.Items.Pets;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Trasher : ModNPC
+	public class Trasher : ModNPC
     {
         private bool hasBeenHit = false;
 

@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -8,7 +7,7 @@ using CalamityMod.Items.Weapons.Rogue;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class Honeycomb : ModProjectile
+	public class Honeycomb : ModProjectile
     {
         private const float radius = 15f;
 
@@ -141,7 +140,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(4, (int)projectile.position.X, (int)projectile.position.Y, 1);
+            Main.PlaySound(SoundID.NPCDeath1, projectile.position);
             //Dust on impact
             int dust_splash = 0;
             while (dust_splash < 9)

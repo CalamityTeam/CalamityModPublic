@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     projectile.velocity.Y = -oldVelocity.Y;
                 }
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 10);
+                Main.PlaySound(SoundID.Item10, projectile.position);
             }
             return false;
         }

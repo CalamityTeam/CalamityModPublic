@@ -1,8 +1,5 @@
-using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -88,7 +85,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 94, 0.75f, 0f);
+            Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 94, 0.75f, 0f);
 
             int boltCount = Main.rand.Next(5, 11);
             for (int i = 0; i < boltCount; i++)
@@ -125,7 +122,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int auraDamage = projectile.damage / 4;
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShockTeslaAura>(), auraDamage, 1, projectile.owner, 0, 0);
 
-                Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 93, 0.5f, 0f);
+                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 93, 0.5f, 0f);
             }
             Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<ShockGrenadeExplosion>(), projectile.damage, 3, projectile.owner, 0, 0);
         }

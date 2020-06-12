@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -82,7 +82,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                         Main.npc[lol].ai[2] = (float)npc.whoAmI;
                         Main.npc[lol].ai[1] = (float)Previous;
                         Main.npc[Previous].ai[0] = (float)lol;
-                        NetMessage.SendData(23, -1, -1, null, lol, 0f, 0f, 0f, 0);
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, lol, 0f, 0f, 0f, 0);
                         Previous = lol;
                     }
                     TailSpawned = true;
@@ -114,44 +114,21 @@ namespace CalamityMod.NPCs.AquaticScourge
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
-            int num42 = -1;
-            int num43 = (int)(Main.player[npc.target].Center.X / 16f);
-            int num44 = (int)(Main.player[npc.target].Center.Y / 16f);
-            for (int num45 = num43 - 2; num45 <= num43 + 2; num45++)
-            {
-                for (int num46 = num44; num46 <= num44 + 15; num46++)
-                {
-                    if (WorldGen.SolidTile2(num45, num46))
-                    {
-                        num42 = num46;
-                        break;
-                    }
-                }
-                if (num42 > 0)
-                {
-                    break;
-                }
-            }
-            if (num42 > 0)
-            {
-                num42 *= 16;
-                float num47 = (float)(num42 - 200); //800
-                if ((Main.player[npc.target].Center - npc.Center).Length() > 200f)
-                {
-                    num192 = num47;
-                    if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 250f)
-                    {
-                        if (npc.velocity.X > 0f)
-                        {
-                            num191 = Main.player[npc.target].Center.X + 300f;
-                        }
-                        else
-                        {
-                            num191 = Main.player[npc.target].Center.X - 300f;
-                        }
-                    }
-                }
-            }
+			if ((Main.player[npc.target].Center - npc.Center).Length() > 200f)
+			{
+				num192 -= 160;
+				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 250f)
+				{
+					if (npc.velocity.X > 0f)
+					{
+						num191 = Main.player[npc.target].Center.X + 300f;
+					}
+					else
+					{
+						num191 = Main.player[npc.target].Center.X - 300f;
+					}
+				}
+			}
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
             float num50 = npc.velocity.Length();
@@ -166,40 +143,6 @@ namespace CalamityMod.NPCs.AquaticScourge
                 {
                     npc.velocity.Normalize();
                     npc.velocity *= num49;
-                }
-            }
-            if ((Main.player[npc.target].Center - npc.Center).Length() > 200f)
-            {
-                for (int num51 = 0; num51 < 200; num51++)
-                {
-                    if (Main.npc[num51].active && Main.npc[num51].type == npc.type && num51 != npc.whoAmI)
-                    {
-                        Vector2 vector3 = Main.npc[num51].Center - npc.Center;
-                        if (vector3.Length() < 400f)
-                        {
-                            vector3.Normalize();
-                            vector3 *= 1000f;
-                            num191 -= vector3.X;
-                            num192 -= vector3.Y;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                for (int num52 = 0; num52 < 200; num52++)
-                {
-                    if (Main.npc[num52].active && Main.npc[num52].type == npc.type && num52 != npc.whoAmI)
-                    {
-                        Vector2 vector4 = Main.npc[num52].Center - npc.Center;
-                        if (vector4.Length() < 60f)
-                        {
-                            vector4.Normalize();
-                            vector4 *= 200f;
-                            num191 -= vector4.X;
-                            num192 -= vector4.Y;
-                        }
-                    }
                 }
             }
             num191 = (float)((int)(num191 / 16f) * 16);
@@ -354,7 +297,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                         {
                             Main.npc[k].life = 0;
                             Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(23, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
                         }
                     }
                 }

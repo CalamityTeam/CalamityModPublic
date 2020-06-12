@@ -3,6 +3,7 @@ using CalamityMod.Dusts.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalamityMod.Tiles.FurnitureSilva
 {
@@ -13,7 +14,7 @@ namespace CalamityMod.Tiles.FurnitureSilva
             Main.tileSolid[Type] = true;
             Main.tileMergeDirt[Type] = false;
             Main.tileBlockLight[Type] = true;
-            soundType = 21;
+            soundType = SoundID.Tink;
             mineResist = 2f;
             minPick = 275;
             drop = ModContent.ItemType<Items.Placeables.FurnitureSilva.SilvaCrystal>();

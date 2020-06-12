@@ -1,4 +1,4 @@
-﻿using CalamityMod.Buffs.Alcohol;
+using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
@@ -6,8 +6,6 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.CalPlayer
 {
@@ -102,8 +100,8 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 16;
-            }
+				lifeRegenLost += 16;
+			}
 
             if (modPlayer.vaporfied)
             {
@@ -111,8 +109,8 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-                player.lifeRegen -= 8;
-            }
+				lifeRegenLost += 8;
+			}
 
 			if (modPlayer.cragsLava)
 			{
@@ -198,7 +196,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 20;
+				lifeRegenLost += 16;
             }
 
             if (modPlayer.pFlames)
@@ -463,7 +461,7 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen /= 2;
 			}
 
-			if (modPlayer.omegaBlueChestplate || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
+			if (modPlayer.omegaBlueChestplate || modPlayer.godSlayerCooldown || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -474,7 +472,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegenCount = 0;
             }
 
-            if (CalamityMod.CalamityConfig.LethalLava || CalamityWorld.death) //always occurs in Death regardless of config
+            if (CalamityConfig.Instance.LethalLava || CalamityWorld.death) //always occurs in Death regardless of config
             {
                 if (Main.myPlayer == player.whoAmI)
                 {
@@ -924,7 +922,7 @@ namespace CalamityMod.CalPlayer
 
 			if (CalamityWorld.bossRushActive)
 			{
-				if (CalamityMod.CalamityConfig.BossRushHealthCurse)
+				if (CalamityConfig.Instance.BossRushHealthCurse)
 				{
 					if (player.lifeRegen > 0)
 						player.lifeRegen = 0;

@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useAnimation = 25;
             item.useTime = 5;
             item.autoReuse = false;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
 
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Dedicated;

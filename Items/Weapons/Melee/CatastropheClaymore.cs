@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useAnimation = 23;
             item.useTime = 23;
             item.useTurn = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 6.25f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -73,9 +73,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (Main.rand.NextBool(3))
             {
-                target.AddBuff(BuffID.Ichor, 120);
+                target.AddBuff(BuffID.Ichor, 60);
                 target.AddBuff(BuffID.OnFire, 300);
-                target.AddBuff(BuffID.Frostburn, 180);
+                target.AddBuff(BuffID.Frostburn, 150);
             }
         }
 
@@ -83,9 +83,9 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             if (Main.rand.NextBool(3))
             {
-                target.AddBuff(BuffID.Ichor, 120);
+                target.AddBuff(BuffID.Ichor, 60);
                 target.AddBuff(BuffID.OnFire, 300);
-                target.AddBuff(BuffID.Frostburn, 180);
+                target.AddBuff(BuffID.Frostburn, 150);
             }
         }
     }
