@@ -73,7 +73,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.localAI[0] > 180f && projectile.localAI[0] < 300f && Main.expertMode)
 			{
 				if (projectile.ai[0] == 0f)
-					projectile.ai[0] = projectile.velocity.Length();
+					projectile.ai[0] = projectile.velocity.Length() * 2f;
 
 				int num189 = Player.FindClosest(projectile.Center, 1, 1);
 				Vector2 vector20 = Main.player[num189].Center - projectile.Center;

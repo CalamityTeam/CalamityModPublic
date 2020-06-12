@@ -181,10 +181,10 @@ namespace CalamityMod.NPCs.Polterghast
 			// Velocity and acceleration
 			bool charging = npc.ai[2] >= 300f;
 			bool reset = npc.ai[2] >= 600f;
-			float speedUpDistance = 480f - 300f * (1f - lifeRatio);
+			float speedUpDistance = 480f - 360f * (1f - lifeRatio);
 			bool speedUp = Vector2.Distance(player.Center, npc.Center) > speedUpDistance; // 30 or 40 tile distance
-			float num734 = 10f; // max should be 21
-            float num735 = 0.05f; // max should be 0.13
+			float velocity = 10f; // max should be 21
+            float acceleration = 0.05f; // max should be 0.13
             if (!player.ZoneDungeon && !CalamityWorld.bossRushActive && player.position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
@@ -192,8 +192,8 @@ namespace CalamityMod.NPCs.Polterghast
                     despawnBoost = true;
 
                 speedBoost = true;
-                num734 += 5f;
-                num735 += 0.05f;
+				velocity += 5f;
+				acceleration += 0.05f;
             }
             else
                 despawnTimer++;
@@ -208,16 +208,16 @@ namespace CalamityMod.NPCs.Polterghast
 
 			if (phase2)
             {
-                num734 += 2.5f;
-                num735 += 0.02f;
+				velocity += 2.5f;
+				acceleration += 0.02f;
 			}
 
 			if (!phase3)
 			{
 				if (charging)
 				{
-					num734 += phase2 ? 4.5f : 3.5f;
-					num735 += phase2 ? 0.03f : 0.025f;
+					velocity += phase2 ? 4.5f : 3.5f;
+					acceleration += phase2 ? 0.03f : 0.025f;
 				}
 
 				npc.ai[2] += 1f;
@@ -231,25 +231,25 @@ namespace CalamityMod.NPCs.Polterghast
 			{
 				if (charging)
 				{
-					num734 += phase5 ? 8.5f : 4.5f;
-					num735 += phase5 ? 0.06f : 0.03f;
+					velocity += phase5 ? 8.5f : 4.5f;
+					acceleration += phase5 ? 0.06f : 0.03f;
 				}
 				else
 				{
 					if (phase5)
 					{
-						num734 += 1.5f;
-						num735 += 0.015f;
+						velocity += 1.5f;
+						acceleration += 0.015f;
 					}
 					else if (phase4)
 					{
-						num734 += 1f;
-						num735 += 0.01f;
+						velocity += 1f;
+						acceleration += 0.01f;
 					}
 					else
 					{
-						num734 += 0.5f;
-						num735 += 0.005f;
+						velocity += 0.5f;
+						acceleration += 0.005f;
 					}
 				}
 
@@ -263,8 +263,8 @@ namespace CalamityMod.NPCs.Polterghast
 
 			if (expertMode)
 			{
-				num734 += revenge ? 5f : 3.5f;
-				num735 += revenge ? 0.035f : 0.025f;
+				velocity += revenge ? 5f : 3.5f;
+				acceleration += revenge ? 0.035f : 0.025f;
 			}
 
 			// Move faster if inside active tiles
@@ -287,10 +287,10 @@ namespace CalamityMod.NPCs.Polterghast
 			}
 
 			// Slow down if close to target and not inside tiles
-			if (!speedUp && !insideTiles)
+			if (!speedUp && !insideTiles && !charging)
 			{
-				num734 = 8f;
-				num735 = 0.035f;
+				velocity = 8f;
+				acceleration = 0.035f;
 			}
 
 			// Detect active tiles around Plantera
@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.Polterghast
             {
                 num737 *= -1f;
                 num736 *= -1f;
-                num734 += 10f;
+				velocity += 10f;
             }
 
             float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
@@ -338,8 +338,8 @@ namespace CalamityMod.NPCs.Polterghast
                 num739 += 150;
 
 			// Increase speed based on nearby active tiles
-			num734 *= tileEnrageMult;
-			num735 *= tileEnrageMult;
+			velocity *= tileEnrageMult;
+			acceleration *= tileEnrageMult;
 
 			if (num738 >= num739)
             {
@@ -355,14 +355,14 @@ namespace CalamityMod.NPCs.Polterghast
             num737 = num731 - vector91.Y;
             num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
 
-            if (num738 < num734)
+            if (num738 < velocity)
             {
                 num736 = npc.velocity.X;
                 num737 = npc.velocity.Y;
             }
             else
             {
-                num738 = num734 / num738;
+                num738 = velocity / num738;
                 num736 *= num738;
                 num737 *= num738;
             }
@@ -374,33 +374,33 @@ namespace CalamityMod.NPCs.Polterghast
 
             if (npc.velocity.X < num736)
             {
-                npc.velocity.X += num735;
+                npc.velocity.X += acceleration;
                 if (npc.velocity.X < 0f && num736 > 0f)
-                    npc.velocity.X += num735 * 2f;
+                    npc.velocity.X += acceleration * 2f;
             }
             else if (npc.velocity.X > num736)
             {
-                npc.velocity.X -= num735;
+                npc.velocity.X -= acceleration;
                 if (npc.velocity.X > 0f && num736 < 0f)
-                    npc.velocity.X -= num735 * 2f;
+                    npc.velocity.X -= acceleration * 2f;
             }
             if (npc.velocity.Y < num737)
             {
-                npc.velocity.Y += num735;
+                npc.velocity.Y += acceleration;
                 if (npc.velocity.Y < 0f && num737 > 0f)
-                    npc.velocity.Y += num735 * 2f;
+                    npc.velocity.Y += acceleration * 2f;
             }
             else if (npc.velocity.Y > num737)
             {
-                npc.velocity.Y -= num735;
+                npc.velocity.Y -= acceleration;
                 if (npc.velocity.Y > 0f && num737 < 0f)
-                    npc.velocity.Y -= num735 * 2f;
+                    npc.velocity.Y -= acceleration * 2f;
             }
 
 			// Slow down considerably if near player
-			if (!speedUp && nearbyActiveTiles > 800 && !insideTiles)
+			if (!speedUp && nearbyActiveTiles > 800 && !insideTiles && !charging)
 			{
-				if (npc.velocity.Length() > num734)
+				if (npc.velocity.Length() > velocity)
 					npc.velocity *= 0.97f;
 			}
 
@@ -415,13 +415,13 @@ namespace CalamityMod.NPCs.Polterghast
                     npc.damage *= 2;
                 }
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                if (Main.netMode != NetmodeID.MultiplayerClient && !charging)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
                     if (speedBoost || CalamityWorld.bossRushActive)
                         npc.localAI[1] += 3f;
 
-                    if (npc.localAI[1] >= 160f)
+                    if (npc.localAI[1] >= 80f)
                     {
                         npc.localAI[1] = 0f;
 
@@ -463,7 +463,7 @@ namespace CalamityMod.NPCs.Polterghast
 							vector93.Y += num744 * 3f;
 
 							int numProj = 4;
-							int spread = 32;
+							int spread = 45;
 							float rotation = MathHelper.ToRadians(spread);
 							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
@@ -500,7 +500,7 @@ namespace CalamityMod.NPCs.Polterghast
 							vector93.Y += num744 * 3f;
 
 							int numProj = 4;
-							int spread = 64;
+							int spread = 60;
 							float rotation = MathHelper.ToRadians(spread);
 							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
@@ -562,13 +562,13 @@ namespace CalamityMod.NPCs.Polterghast
                     npc.damage *= 2;
                 }
 
-                if (Main.netMode != NetmodeID.MultiplayerClient)
+                if (Main.netMode != NetmodeID.MultiplayerClient && !charging)
                 {
                     npc.localAI[1] += expertMode ? 1.5f : 1f;
                     if (speedBoost || CalamityWorld.bossRushActive)
                         npc.localAI[1] += 3f;
 
-                    if (npc.localAI[1] >= 180f)
+                    if (npc.localAI[1] >= 90f)
                     {
                         npc.localAI[1] = 0f;
 
@@ -609,8 +609,8 @@ namespace CalamityMod.NPCs.Polterghast
 							vector93.X += num743 * 3f;
 							vector93.Y += num744 * 3f;
 
-							int numProj = 4;
-							int spread = 40;
+							int numProj = 5;
+							int spread = 60;
 							float rotation = MathHelper.ToRadians(spread);
 							float baseSpeed = (float)Math.Sqrt(num743 * num743 + num744 * num744);
 							double startAngle = Math.Atan2(num743, num744) - rotation / 2;
@@ -724,10 +724,10 @@ namespace CalamityMod.NPCs.Polterghast
                 }
 
 				npc.ai[1] += 1f;
-				if (npc.ai[1] >= 420f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
+				if (npc.ai[1] >= 210f && Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 				{
 					npc.ai[1] = 0f;
-					if (Main.netMode != NetmodeID.MultiplayerClient)
+					if (Main.netMode != NetmodeID.MultiplayerClient && !charging)
 					{
 						Vector2 vector93 = new Vector2(vector.X, vector.Y);
 						float num742 = CalamityWorld.bossRushActive ? 7f : 5f;
