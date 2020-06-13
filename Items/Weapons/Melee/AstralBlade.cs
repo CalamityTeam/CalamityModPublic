@@ -12,11 +12,12 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Astral Blade");
-        }
+			Tooltip.SetDefault("Deals more damage the more life an enemy has left");
+		}
 
         public override void SetDefaults()
         {
-            item.damage = 135;
+            item.damage = 95;
             item.crit += 25;
             item.melee = true;
             item.width = 60;
@@ -25,7 +26,7 @@ namespace CalamityMod.Items.Weapons.Melee
             item.useAnimation = 9;
             item.useTurn = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f;
+            item.knockBack = 4f;
             item.value = Item.buyPrice(0, 95, 0, 0);
             item.rare = 9;
             item.UseSound = SoundID.Item1;
@@ -62,5 +63,17 @@ namespace CalamityMod.Items.Weapons.Melee
                 }
             }
         }
-    }
+
+		public override void ModifyHitNPC(Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+		{
+			float lifeRatio = target.life / (float)target.lifeMax;
+			float multiplier = MathHelper.Lerp(1f, 2f, lifeRatio);
+
+			damage = (int)(damage * multiplier);
+			knockBack *= multiplier;
+
+			if (!crit)
+				crit = Main.rand.NextBool((int)MathHelper.Clamp((item.crit + player.meleeCrit) * multiplier, 0f, 99f), 100);
+		}
+	}
 }

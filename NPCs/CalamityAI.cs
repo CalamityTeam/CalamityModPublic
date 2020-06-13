@@ -2349,8 +2349,6 @@ namespace CalamityMod.NPCs
             // Start up
             if (npc.ai[0] == 0f)
             {
-				CustomGravity();
-
 				// If hit or after two seconds start Idle phase
 				npc.ai[1] += 1f;
                 if (npc.justHit || npc.ai[1] >= 120f)
@@ -2360,13 +2358,13 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
                 }
-            }
+
+				CustomGravity();
+			}
 
             // Idle
             else if (npc.ai[0] == 1f)
             {
-				CustomGravity();
-
 				// Decrease defense
 				npc.defense = 0;
 
@@ -2390,7 +2388,9 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 0f;
                     npc.netUpdate = true;
                 }
-            }
+
+				CustomGravity();
+			}
 
             // Walk
             else if (npc.ai[0] == 2f)
@@ -2477,8 +2477,6 @@ namespace CalamityMod.NPCs
             // Jump
             else if (npc.ai[0] == 3f)
             {
-				CustomGravity();
-
 				npc.noTileCollide = false;
 
                 if (npc.velocity.Y == 0f)
@@ -2529,7 +2527,9 @@ namespace CalamityMod.NPCs
                         npc.ai[1] = 0f;
                     }
                 }
-            }
+
+				CustomGravity();
+			}
 
             // Stomp
             else if (npc.ai[0] == 4f)
@@ -3036,7 +3036,7 @@ namespace CalamityMod.NPCs
 								if (Main.player[m].active)
 								{
 									Rectangle rectangle2 = new Rectangle((int)Main.player[m].position.X - num16, (int)Main.player[m].position.Y - num16, num16 * 2, height);
-									if (rectangle.Intersects(rectangle2) || revenge)
+									if (rectangle.Intersects(rectangle2))
 									{
 										flag3 = false;
 										break;
@@ -3447,16 +3447,50 @@ namespace CalamityMod.NPCs
 			else if (npc.timeLeft < 1800)
 				npc.timeLeft = 1800;
 
+			// Detect active tiles around Void
+			int radius = 20; // 20 tile radius
+			int diameter = radius * 2;
+			int npcCenterX = (int)(npc.Center.X / 16f);
+			int npcCenterY = (int)(npc.Center.Y / 16f);
+			Rectangle area = new Rectangle(npcCenterX - radius, npcCenterY - radius, diameter, diameter);
+			int nearbyActiveTiles = 0; // 0 to 1600
+			for (int x = area.Left; x < area.Right; x++)
+			{
+				for (int y = area.Top; y < area.Bottom; y++)
+				{
+					if (Main.tile[x, y] != null)
+					{
+						if (Main.tile[x, y].nactive() && Main.tileSolid[Main.tile[x, y].type] && !Main.tileSolidTop[Main.tile[x, y].type] && !TileID.Sets.Platforms[Main.tile[x, y].type])
+							nearbyActiveTiles++;
+					}
+				}
+			}
+
+			// Scale multiplier based on nearby active tiles
+			float tileEnrageMult = 1f;
+			if (nearbyActiveTiles < 800)
+				tileEnrageMult += (800 - nearbyActiveTiles) * 0.001f; // Ranges from 1f to 1.8f
+
+			// Increase projectile fire rate based on number of nearby active tiles
+			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 2f, 1f - ((tileEnrageMult - 1f) / 0.8f));
+
+			// Increase damage of projectiles and contact damage based on number of nearby active tiles
+			int damageIncrease = 0;
+			if (nearbyActiveTiles < 400)
+				damageIncrease += (400 - nearbyActiveTiles) / 20; // Ranges from 0 to 20
+
+			npc.damage = npc.defDamage + damageIncrease * 4;
+
 			if (lifePercentage < 90)
 			{
 				float num472 = npc.Center.X;
 				float num473 = npc.Center.Y;
-				float num474 = (float)(500.0 * (1.0 - lifeRatio));
+				float num474 = (float)(275D * (1D - lifeRatio)) * tileEnrageMult;
 				if (!player.ZoneDungeon)
 					num474 *= 1.25f;
 
 				npc.ai[0] += 1f;
-				if (npc.ai[0] == 60f)
+				if (npc.ai[0] >= 60f * projectileFireRateMultiplier)
 				{
 					npc.ai[0] = 0f;
 
@@ -3476,6 +3510,7 @@ namespace CalamityMod.NPCs
 						Main.dust[dust].scale = 0.5f;
 					}
 
+					float pullVelocity = (player.Calamity().gravityNormalizer ? 9f : 15f) * tileEnrageMult;
 					for (int num475 = 0; num475 < Main.maxPlayers; num475++)
 					{
 						if (Collision.CanHit(npc.Center, 1, 1, Main.player[num475].Center, 1, 1))
@@ -3487,13 +3522,13 @@ namespace CalamityMod.NPCs
 							if (num478 < num474)
 							{
 								if (Main.player[num475].position.X < num472)
-									Main.player[num475].velocity.X += 15f;
+									Main.player[num475].velocity.X += pullVelocity;
 								else
-									Main.player[num475].velocity.X -= 15f;
+									Main.player[num475].velocity.X -= pullVelocity;
 								if (Main.player[num475].position.Y < num473)
-									Main.player[num475].velocity.Y += 15f;
+									Main.player[num475].velocity.Y += pullVelocity;
 								else
-									Main.player[num475].velocity.Y -= 15f;
+									Main.player[num475].velocity.Y -= pullVelocity;
 							}
 						}
 					}
@@ -3507,31 +3542,30 @@ namespace CalamityMod.NPCs
 				if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					calamityGlobalNPC.newAI[1] += 2f;
 
-				if (calamityGlobalNPC.newAI[1] >= 900f)
+				if (calamityGlobalNPC.newAI[1] >= 900f * projectileFireRateMultiplier)
 				{
 					calamityGlobalNPC.newAI[1] = 0f;
+					int damage = (expertMode ? 50 : 60) + damageIncrease;
 					if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 					{
-						float num941 = 3f;
+						float num941 = 3f * tileEnrageMult;
 						Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
-						float num942 = player.position.X + player.width * 0.5f - vector104.X + Main.rand.Next(-20, 21);
-						float num943 = player.position.Y + player.height * 0.5f - vector104.Y + Main.rand.Next(-20, 21);
+						float num942 = player.position.X + player.width * 0.5f - vector104.X;
+						float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
 						float num944 = (float)Math.Sqrt(num942 * num942 + num943 * num943);
 						num944 = num941 / num944;
 						num942 *= num944;
 						num943 *= num944;
-						int num945 = expertMode ? 50 : 60;
 						int num946 = ModContent.ProjectileType<DoGBeamPortal>();
 						vector104.X += num942 * 5f;
 						vector104.Y += num943 * 5f;
-						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, num945, 0f, Main.myPlayer, 0f, 0f);
+						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, damage, 0f, Main.myPlayer, 0f, 0f);
 						Main.projectile[num947].timeLeft = 300;
 						npc.netUpdate = true;
 					}
 
 					if (revenge)
 					{
-						int damage = expertMode ? 50 : 60;
 						if (lifePercentage < 50 || death || !player.ZoneDungeon)
 						{
 							for (int i = 0; i < 12; i++)
@@ -3560,7 +3594,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			float num823 = expertMode ? 7.5f : 6f;
+			float num823 = (expertMode ? 7.5f : 6f) * tileEnrageMult;
 			float num824 = expertMode ? 0.08f : 0.06f;
 			if (!player.ZoneDungeon || CalamityWorld.bossRushActive)
 				num823 = expertMode ? 25f : 20f;
@@ -3611,9 +3645,12 @@ namespace CalamityMod.NPCs
 					{
 						calamityGlobalNPC.newAI[0] = npc.life;
 						calamityGlobalNPC.newAI[2] += 1f;
-						int glob = expertMode ? 8 : 4;
+
+						int glob = expertMode ? 6 : 4;
 						if (calamityGlobalNPC.newAI[0] <= 0.5f)
-							glob = expertMode ? 16 : 8;
+							glob = expertMode ? 12 : 8;
+
+						glob = (int)(glob * MathHelper.Clamp(tileEnrageMult * 0.85f, 1f, 1.5f));
 
 						for (int num662 = 0; num662 < glob; num662++)
 						{

@@ -3376,9 +3376,15 @@ namespace CalamityMod.CalPlayer
                 meleeSpeedMult += GetMeleeSpeedBonus();
             }
             player.meleeSpeed += meleeSpeedMult;
-            #endregion
 
-            if (snowman)
+			if (player.inventory[player.selectedItem].type == ModContent.ItemType<AstralBlade>() || player.inventory[player.selectedItem].type == ModContent.ItemType<MantisClaws>())
+			{
+				float newMeleeSpeed = 1f + ((player.meleeSpeed - 1f) * 0.25f);
+				player.meleeSpeed = newMeleeSpeed;
+			}
+			#endregion
+
+			if (snowman)
             {
                 if (player.whoAmI == Main.myPlayer && !snowmanNoseless)
                 {
@@ -4020,10 +4026,10 @@ namespace CalamityMod.CalPlayer
             }
             return 1f;
         }
-        #endregion
+		#endregion
 
-        #region Get Weapon Damage And KB
-        public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
+		#region Get Weapon Damage And KB
+		public override void ModifyWeaponDamage(Item item, ref float add, ref float mult, ref float flat)
         {
             if (item.type == ModContent.ItemType<GaelsGreatsword>())
             {

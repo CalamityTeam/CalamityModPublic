@@ -285,6 +285,13 @@ namespace CalamityMod.NPCs
 			NPCType<AstrumDeusTailSpectral>()
 		};
 
+		public static List<int> CosmicGuardianIDs = new List<int>
+		{
+			NPCType<DevourerofGodsHead2>(),
+			NPCType<DevourerofGodsBody2>(),
+			NPCType<DevourerofGodsTail2>()
+		};
+
 		public static List<int> AquaticScourgeIDs = new List<int>
 		{
 			NPCType<AquaticScourgeHead>(),
@@ -3600,6 +3607,11 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.75);
 					}
+				}
+				else if (CosmicGuardianIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
 				}
 				else if (StormWeaverIDs.Contains(npc.type))
 				{

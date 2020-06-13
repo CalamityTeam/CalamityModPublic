@@ -1895,7 +1895,6 @@ namespace CalamityMod
 				ModContent.ProjectileType<HolySpear>(),
 				ModContent.ProjectileType<ProvidenceCrystalShard>(),
 				ModContent.ProjectileType<ProvidenceHolyRay>(),
-				ModContent.ProjectileType<CosmicFlameBurst>(),
 				ModContent.ProjectileType<SignusScythe>(),
 				ModContent.ProjectileType<EssenceDust>(),
 				ModContent.ProjectileType<PhantomBlast>(),

@@ -93,7 +93,10 @@ namespace CalamityMod.NPCs.Polterghast
             if (Vector2.Distance(Main.player[npc.target].Center, vector) > 6000f)
                 npc.active = false;
 
-            bool speedBoost1 = false;
+			// Scale multiplier based on nearby active tiles
+			float tileEnrageMult = Main.npc[CalamityGlobalNPC.ghostBoss].ai[3];
+
+			bool speedBoost1 = false;
             bool despawnBoost = false;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
@@ -167,7 +170,11 @@ namespace CalamityMod.NPCs.Polterghast
             if (expertMode)
                 num739 += 150;
 
-            if (num738 >= num739)
+			// Increase speed based on nearby active tiles
+			num734 *= tileEnrageMult;
+			num735 *= tileEnrageMult;
+
+			if (num738 >= num739)
             {
                 num738 = num739 / num738;
                 num736 *= num738;
@@ -289,7 +296,9 @@ namespace CalamityMod.NPCs.Polterghast
         {
             if (CalamityWorld.revenge)
                 player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-        }
+
+			player.AddBuff(BuffID.MoonLeech, 360, true);
+		}
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
