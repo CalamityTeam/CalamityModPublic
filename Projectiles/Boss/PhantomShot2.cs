@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -89,7 +90,12 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(250, 100, 100, projectile.alpha);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;
 		}

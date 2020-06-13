@@ -35,6 +35,7 @@ namespace CalamityMod.World
                 }
             }
         }
+
         public static int BlockDepth
         {
             get
@@ -56,6 +57,7 @@ namespace CalamityMod.World
                 }
             }
         }
+
         public static int YStart = 0;
         public static readonly List<int> SulphSeaTiles = new List<int>()
         {
@@ -63,6 +65,7 @@ namespace CalamityMod.World
             ModContent.TileType<SulphurousSandstone>(),
             ModContent.TileType<HardenedSulphurousSandstone>()
         };
+
         public static void PlaceSulphurSea()
         {
             CalamityWorld.abyssSide = Main.dungeonX < Main.maxTilesX / 2;

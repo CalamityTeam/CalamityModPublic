@@ -408,8 +408,6 @@ namespace CalamityMod.NPCs.Ravager
 
             if (npc.ai[0] == 0f)
             {
-				CustomGravity();
-
 				npc.noTileCollide = false;
 
                 if (npc.velocity.Y == 0f)
@@ -487,7 +485,9 @@ namespace CalamityMod.NPCs.Ravager
                         npc.ai[1] = 0f;
 					}
                 }
-            }
+
+				CustomGravity();
+			}
             else if (npc.ai[0] >= 1f)
             {
                 if (npc.velocity.Y == 0f && (npc.ai[1] == 31f || npc.ai[0] == 1f))

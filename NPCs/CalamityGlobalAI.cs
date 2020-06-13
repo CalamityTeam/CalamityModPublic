@@ -4467,22 +4467,22 @@ namespace CalamityMod.NPCs
                 {
                     npc.ai[3] = npc.whoAmI;
                     npc.realLife = npc.whoAmI;
-                    int num2 = npc.whoAmI;
+                    int index = npc.whoAmI;
 
-                    int num3 = 80;
-                    for (int j = 0; j <= num3; j++)
+                    int totalSegments = 80;
+                    for (int j = 0; j <= totalSegments; j++)
                     {
-                        int num4 = NPCID.TheDestroyerBody;
-                        if (j == num3)
-                            num4 = NPCID.TheDestroyerTail;
+                        int type = NPCID.TheDestroyerBody;
+                        if (j == totalSegments)
+                            type = NPCID.TheDestroyerTail;
 
-                        int num5 = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), num4, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                        Main.npc[num5].ai[3] = npc.whoAmI;
-                        Main.npc[num5].realLife = npc.whoAmI;
-                        Main.npc[num5].ai[1] = num2;
-                        Main.npc[num2].ai[0] = num5;
-                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num5, 0f, 0f, 0f, 0, 0, 0);
-                        num2 = num5;
+                        int segment = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), type, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        Main.npc[segment].ai[3] = npc.whoAmI;
+                        Main.npc[segment].realLife = npc.whoAmI;
+                        Main.npc[segment].ai[1] = index;
+                        Main.npc[index].ai[0] = segment;
+                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, segment, 0f, 0f, 0f, 0, 0, 0);
+                        index = segment;
                     }
                 }
 

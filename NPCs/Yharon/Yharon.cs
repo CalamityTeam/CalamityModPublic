@@ -47,6 +47,7 @@ namespace CalamityMod.NPCs.Yharon
 
         public static float Phase1_DR = 0.24f;
         public static float Phase2_DR = 0.26f;
+		public static float ChargeTelegraph_DR = 0.75f;
         public static float EnragedDR = 0.9f;
 
         public override void SetStaticDefaults()
@@ -410,8 +411,9 @@ namespace CalamityMod.NPCs.Yharon
                 }
             }
 
-            // Set DR based on protection boost (aka enrage)
-            npc.Calamity().DR = protectionBoost ? EnragedDR : Phase1_DR;
+			// Set DR based on protection boost (aka enrage)
+			bool chargeTelegraph = (npc.ai[0] == 0f || npc.ai[0] == 6f || npc.ai[0] == 13f) && npc.localAI[1] > 0f;
+			npc.Calamity().DR = protectionBoost ? EnragedDR : (chargeTelegraph ? ChargeTelegraph_DR : Phase1_DR);
 
             // Trigger spawn effects
             if (npc.localAI[0] == 0f)
@@ -1595,7 +1597,8 @@ namespace CalamityMod.NPCs.Yharon
 			}
 
 			// Set DR based on protection boost (aka enrage)
-			npc.Calamity().DR = protectionBoost ? EnragedDR : Phase2_DR;
+			bool chargeTelegraph = npc.ai[0] < 2f && npc.localAI[1] > 0f;
+			npc.Calamity().DR = protectionBoost ? EnragedDR : (chargeTelegraph ? ChargeTelegraph_DR : Phase2_DR);
 
             int projectileDamage = expertMode ? 110 : 125;
             if (phase4)

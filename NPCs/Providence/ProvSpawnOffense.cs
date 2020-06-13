@@ -283,16 +283,12 @@ namespace CalamityMod.NPCs.Providence
             return true;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            if (CalamityWorld.revenge)
-            {
-                player.AddBuff(ModContent.BuffType<MarkedforDeath>(), 180);
-            }
-            player.AddBuff(BuffID.OnFire, 600, true);
-        }
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
+		}
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
             {
