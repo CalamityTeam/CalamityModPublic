@@ -101,8 +101,8 @@ namespace CalamityMod.NPCs.Calamitas
                 {
                     if (NPC.CountNPCS(ModContent.NPCType<LifeSeeker>()) < 3)
                     {
-                        int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 25));
-                        int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 25));
+                        int x = (int)(npc.position.X + Main.rand.Next(npc.width - 25));
+                        int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 25));
                         int num663 = ModContent.NPCType<LifeSeeker>();
                         int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
                     }
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.Calamitas
                 timer = 0;
             }
             NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<CalamitasRun3>())];
-            double deg = (double)npc.ai[1];
+            double deg = npc.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 150;
             npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;

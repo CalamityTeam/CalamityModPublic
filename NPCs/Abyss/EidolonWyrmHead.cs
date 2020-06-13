@@ -19,6 +19,7 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class EidolonWyrmHead : ModNPC
     {
+		private Vector2 patrolSpot = Vector2.Zero;
         public bool detectsPlayer = false;
         public const int minLength = 40;
         public const int maxLength = 41;
@@ -61,12 +62,14 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
+			writer.WriteVector2(patrolSpot);
             writer.Write(detectsPlayer);
             writer.Write(npc.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
+			patrolSpot = reader.ReadVector2();
             detectsPlayer = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
         }
@@ -231,27 +234,33 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.active = false;
             }
+
             float num188 = speed;
             float num189 = turnSpeed;
-            Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+            Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+
+			if (patrolSpot == Vector2.Zero)
+				patrolSpot = Main.player[npc.target].Center;
+
+			float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
+            float num192 = detectsPlayer ? Main.player[npc.target].Center.Y : patrolSpot.Y;
+
 			if (!detectsPlayer)
 			{
 				num192 += 800;
-				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 400f) //500
+				if (Math.Abs(npc.Center.X - num191) < 400f) //500
 				{
 					if (npc.velocity.X > 0f)
 					{
-						num191 = Main.player[npc.target].Center.X + 500f; //600
+						num191 += 500f;
 					}
 					else
 					{
-						num191 = Main.player[npc.target].Center.X - 500f; //600
+						num191 -= 500f;
 					}
 				}
 			}
-            if (detectsPlayer)
+            else
             {
                 num188 = 7.5f;
                 num189 = 0.125f;

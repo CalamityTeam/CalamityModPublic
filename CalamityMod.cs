@@ -63,6 +63,7 @@ using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
@@ -136,6 +137,7 @@ namespace CalamityMod
 
 		// Lists
 		public static IList<string> donatorList;
+		public static List<int> trueMeleeProjectileList; // DO NOT, EVER, DELETE THIS LIST, OR I WILL COME FOR YOU :D
         public static List<int> rangedProjectileExceptionList;
         public static List<int> projectileDestroyExceptionList;
         public static List<int> projectileMinionList;
@@ -361,6 +363,7 @@ namespace CalamityMod
 			bossVelocityDamageScaleValues = null;
 
             donatorList = null;
+			trueMeleeProjectileList = null;
             rangedProjectileExceptionList = null;
             projectileDestroyExceptionList = null;
             projectileMinionList = null;
@@ -615,7 +618,87 @@ namespace CalamityMod
 				"RKMoon"
 			};
 
-            rangedProjectileExceptionList = new List<int>()
+			trueMeleeProjectileList = new List<int>()
+			{
+				// Vanilla shit
+				ProjectileID.Spear,
+                ProjectileID.Trident,
+                ProjectileID.TheRottedFork,
+                ProjectileID.Swordfish,
+                ProjectileID.Arkhalis,
+                ProjectileID.DarkLance,
+                ProjectileID.CobaltNaginata,
+                ProjectileID.PalladiumPike,
+                ProjectileID.MythrilHalberd,
+                ProjectileID.OrichalcumHalberd,
+                ProjectileID.AdamantiteGlaive,
+                ProjectileID.TitaniumTrident,
+                ProjectileID.MushroomSpear,
+                ProjectileID.Gungnir,
+                ProjectileID.ObsidianSwordfish,
+                ProjectileID.ChlorophytePartisan,
+                ProjectileID.MonkStaffT1,
+                ProjectileID.MonkStaffT2,
+                ProjectileID.MonkStaffT3,
+                ProjectileID.NorthPoleWeapon,
+
+				// Tools
+                ProjectileID.CobaltDrill,
+                ProjectileID.MythrilDrill,
+                ProjectileID.AdamantiteDrill,
+                ProjectileID.PalladiumDrill,
+                ProjectileID.OrichalcumDrill,
+                ProjectileID.TitaniumDrill,
+                ProjectileID.ChlorophyteDrill,
+                ProjectileID.CobaltChainsaw,
+                ProjectileID.MythrilChainsaw,
+                ProjectileID.AdamantiteChainsaw,
+                ProjectileID.PalladiumChainsaw,
+                ProjectileID.OrichalcumChainsaw,
+                ProjectileID.TitaniumChainsaw,
+                ProjectileID.ChlorophyteChainsaw,
+                ProjectileID.VortexDrill,
+                ProjectileID.VortexChainsaw,
+                ProjectileID.NebulaDrill,
+                ProjectileID.NebulaChainsaw,
+                ProjectileID.SolarFlareDrill,
+                ProjectileID.SolarFlareChainsaw,
+                ProjectileID.StardustDrill,
+                ProjectileID.StardustChainsaw,
+                ProjectileID.Hamdrax,
+                ProjectileID.ChlorophyteJackhammer,
+                ProjectileID.SawtoothShark,
+                ProjectileID.ButchersChainsaw,
+
+				// Calamity shit
+				ModContent.ProjectileType<DevilsSunriseProj>(),
+				ModContent.ProjectileType<MarniteObliteratorProj>(),
+				ModContent.ProjectileType<MurasamaSlash>(),
+				ModContent.ProjectileType<AmidiasTridentProj>(),
+				ModContent.ProjectileType<AstralPikeProj>(),
+				ModContent.ProjectileType<BansheeHookProj>(),
+				ModContent.ProjectileType<BrimlanceProj>(),
+				ModContent.ProjectileType<DiseasedPikeSpear>(),
+				ModContent.ProjectileType<EarthenPikeSpear>(),
+				ModContent.ProjectileType<ExsanguinationLanceProjectile>(),
+				ModContent.ProjectileType<FulgurationHalberdProj>(),
+				ModContent.ProjectileType<GildedProboscisProj>(),
+				ModContent.ProjectileType<GoldplumeSpearProjectile>(),
+				ModContent.ProjectileType<HellionFlowerSpearProjectile>(),
+				ModContent.ProjectileType<InsidiousImpalerProj>(),
+				ModContent.ProjectileType<MarniteSpearProjectile>(),
+				ModContent.ProjectileType<NadirSpear>(),
+				ModContent.ProjectileType<SausageMakerSpear>(),
+				ModContent.ProjectileType<SpatialLanceProjectile>(),
+				ModContent.ProjectileType<StarnightLanceProjectile>(),
+				ModContent.ProjectileType<StreamGougeProj>(),
+				ModContent.ProjectileType<TenebreusTidesProjectile>(),
+				ModContent.ProjectileType<TerraLanceProjectile>(),
+				ModContent.ProjectileType<UrchinSpearProjectile>(),
+				ModContent.ProjectileType<YateveoBloomSpear>()
+			};
+
+			rangedProjectileExceptionList = new List<int>()
             {
                 ProjectileID.Phantasm,
                 ProjectileID.VortexBeater,
@@ -1798,7 +1881,6 @@ namespace CalamityMod
 				ModContent.ProjectileType<HolySpear>(),
 				ModContent.ProjectileType<ProvidenceCrystalShard>(),
 				ModContent.ProjectileType<ProvidenceHolyRay>(),
-				ModContent.ProjectileType<CosmicFlameBurst>(),
 				ModContent.ProjectileType<SignusScythe>(),
 				ModContent.ProjectileType<EssenceDust>(),
 				ModContent.ProjectileType<PhantomBlast>(),
@@ -2750,8 +2832,8 @@ namespace CalamityMod
 				{ NPCID.Creeper, 1800 },
 				{ NPCID.QueenBee, 7200 },
 				{ NPCID.SkeletronHead, 9000 },
-				{ NPCID.WallofFlesh, 10800 },
-				{ NPCID.WallofFleshEye, 10800 },
+				{ NPCID.WallofFlesh, 7200 },
+				{ NPCID.WallofFleshEye, 7200 },
 				{ NPCID.Spazmatism, 10800 },
 				{ NPCID.Retinazer, 10800 },
 				{ NPCID.TheDestroyer, 10800 },

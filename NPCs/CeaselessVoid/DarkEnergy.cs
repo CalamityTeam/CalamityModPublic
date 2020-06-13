@@ -280,7 +280,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
             }
-        }
+			player.AddBuff(BuffID.VortexDebuff, 60, true);
+		}
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {

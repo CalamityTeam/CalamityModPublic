@@ -1248,6 +1248,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						float num823 = 12f;
 						float num824 = 0.12f;
 
+						// Reduce acceleration if target is holding a true melee weapon
+						Item targetSelectedItem = player.inventory[player.selectedItem];
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						{
+							num824 *= 0.5f;
+						}
+
 						Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						float num825 = player.position.X + (player.width / 2) - vector82.X;
 						float num826 = player.position.Y + (player.height / 2) - 550f - vector82.Y;
@@ -1428,6 +1435,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						float num412 = 32f;
 						float num413 = 1.2f;
 
+						// Reduce acceleration if target is holding a true melee weapon
+						Item targetSelectedItem = player.inventory[player.selectedItem];
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						{
+							num413 *= 0.5f;
+						}
+
 						int num414 = 1;
 						if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
 							num414 = -1;
@@ -1513,6 +1527,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						float num832 = 32f;
 						float num833 = 1.2f;
+
+						// Reduce acceleration if target is holding a true melee weapon
+						Item targetSelectedItem = player.inventory[player.selectedItem];
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						{
+							num833 *= 0.5f;
+						}
 
 						Vector2 vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						float num834 = player.position.X + (player.width / 2) + (num831 * 750) - vector83.X; //600
@@ -1771,6 +1792,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						float num823 = 12f;
 						float num824 = 0.12f;
 
+						// Reduce acceleration if target is holding a true melee weapon
+						Item targetSelectedItem = player.inventory[player.selectedItem];
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						{
+							num824 *= 0.5f;
+						}
+
 						Vector2 vector82 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						float num825 = player.position.X + (player.width / 2) - vector82.X;
 						float num826 = player.position.Y + (player.height / 2) - 550f - vector82.Y;
@@ -1947,6 +1975,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 					{
 						float num412 = 32f;
 						float num413 = 1.2f;
+
+						// Reduce acceleration if target is holding a true melee weapon
+						Item targetSelectedItem = player.inventory[player.selectedItem];
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						{
+							num413 *= 0.5f;
+						}
+
 						int num414 = 1;
 						if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
 							num414 = -1;
@@ -2032,6 +2068,13 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						float num832 = 32f;
 						float num833 = 1.2f;
+
+						// Reduce acceleration if target is holding a true melee weapon
+						Item targetSelectedItem = player.inventory[player.selectedItem];
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						{
+							num833 *= 0.5f;
+						}
 
 						Vector2 vector83 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 						float num834 = player.position.X + (player.width / 2) + (num831 * 750) - vector83.X; //600

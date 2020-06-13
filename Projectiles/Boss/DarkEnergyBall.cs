@@ -80,6 +80,11 @@ namespace CalamityMod.Projectiles.Boss
 			return false;
 		}
 
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.VortexDebuff, 60);
+		}
+
 		public override void Kill(int timeLeft)
         {
             for (int k = 0; k < 5; k++)

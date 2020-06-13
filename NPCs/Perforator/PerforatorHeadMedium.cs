@@ -13,8 +13,6 @@ namespace CalamityMod.NPCs.Perforator
     public class PerforatorHeadMedium : ModNPC
     {
         private bool flies = false;
-        private float speed = 14f;
-        private float turnSpeed = 0.12f;
         private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 5 : 10;
         private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 6 : 11;
         private bool TailSpawned = false;
@@ -55,6 +53,9 @@ namespace CalamityMod.NPCs.Perforator
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			float speed = 14f;
+			float turnSpeed = 0.12f;
 
 			if (expertMode)
 			{

@@ -285,6 +285,13 @@ namespace CalamityMod.NPCs
 			NPCType<AstrumDeusTailSpectral>()
 		};
 
+		public static List<int> CosmicGuardianIDs = new List<int>
+		{
+			NPCType<DevourerofGodsHead2>(),
+			NPCType<DevourerofGodsBody2>(),
+			NPCType<DevourerofGodsTail2>()
+		};
+
 		public static List<int> AquaticScourgeIDs = new List<int>
 		{
 			NPCType<AquaticScourgeHead>(),
@@ -1827,6 +1834,10 @@ namespace CalamityMod.NPCs
                         break;
                 }
             }
+			else if (npc.type == NPCID.Retinazer)
+			{
+				return CalamityGlobalAI.TrueMeleeRetinazerPhase2AI(npc);
+			}
 
 			if (CalamityWorld.death)
 			{
@@ -3571,10 +3582,15 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.5);
 					}
-					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
+					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
 					{
 						damage = (int)(damage * 0.75);
 					}
+				}
+				else if (CosmicGuardianIDs.Contains(npc.type))
+				{
+					GrenadeResist(projectile, ref damage);
+					PierceResistGlobal(projectile, ref damage);
 				}
 				else if (StormWeaverIDs.Contains(npc.type))
 				{

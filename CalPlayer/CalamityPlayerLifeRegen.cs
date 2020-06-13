@@ -461,7 +461,7 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen /= 2;
 			}
 
-			if (modPlayer.omegaBlueChestplate || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
+			if (modPlayer.omegaBlueChestplate || modPlayer.godSlayerCooldown || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;
@@ -488,23 +488,23 @@ namespace CalamityMod.CalPlayer
                             player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 2, true);
                     }
                 }
-
-                if (modPlayer.lethalLavaBurn)
-                {
-                    if (player.lifeRegen > 0)
-                        player.lifeRegen = 0;
-
-                    player.lifeRegenTime = 0;
-                    int lifeRegenDown = player.lavaImmune ? 9 : 18;
-
-                    if (player.lavaRose)
-                        lifeRegenDown = 3;
-
-                    player.lifeRegen -= lifeRegenDown * lifeRegenMult;
-                }
             }
 
-            if (modPlayer.hInferno)
+			if (modPlayer.lethalLavaBurn)
+			{
+				if (player.lifeRegen > 0)
+					player.lifeRegen = 0;
+
+				player.lifeRegenTime = 0;
+				int lifeRegenDown = player.lavaImmune ? 9 : 18;
+
+				if (player.lavaRose)
+					lifeRegenDown = 3;
+
+				player.lifeRegen -= lifeRegenDown * lifeRegenMult;
+			}
+
+			if (modPlayer.hInferno)
             {
                 modPlayer.hInfernoBoost++;
 

@@ -408,7 +408,7 @@ namespace CalamityMod.NPCs.Ravager
 
             if (npc.ai[0] == 0f)
             {
-                npc.noTileCollide = false;
+				npc.noTileCollide = false;
 
                 if (npc.velocity.Y == 0f)
                 {
@@ -448,8 +448,6 @@ namespace CalamityMod.NPCs.Ravager
 
 						if (revenge)
 						{
-							npc.Calamity().newAI[1] = 0f;
-
 							if (distanceBelowTarget > 0f)
 								npc.Calamity().newAI[1] += 1f + distanceBelowTarget * 0.001f;
 
@@ -487,7 +485,9 @@ namespace CalamityMod.NPCs.Ravager
                         npc.ai[1] = 0f;
 					}
                 }
-            }
+
+				CustomGravity();
+			}
             else if (npc.ai[0] >= 1f)
             {
                 if (npc.velocity.Y == 0f && (npc.ai[1] == 31f || npc.ai[0] == 1f))
@@ -527,6 +527,8 @@ namespace CalamityMod.NPCs.Ravager
 
 					if (revenge)
 						npc.Calamity().newAI[0] += 1f;
+
+					npc.Calamity().newAI[1] = 0f;
 
 					for (int stompDustArea = (int)npc.position.X - 30; stompDustArea < (int)npc.position.X + npc.width + 60; stompDustArea += 30)
                     {
@@ -650,31 +652,35 @@ namespace CalamityMod.NPCs.Ravager
                             npc.velocity.X = velocityX;
                     }
 
-					// Custom gravity
-					float gravity = npc.ai[0] == 2f ? 0f : 0.3f;
-					float maxFallSpeed = npc.ai[0] == 2f ? 24f : 10f;
-					if (npc.wet)
-					{
-						if (npc.honeyWet)
-						{
-							gravity *= 0.33f;
-							maxFallSpeed *= 0.4f;
-						}
-						else
-						{
-							gravity *= 0.66f;
-							maxFallSpeed *= 0.7f;
-						}
-					}
-
-					if (npc.Calamity().newAI[1] > 1f)
-						maxFallSpeed *= npc.Calamity().newAI[1];
-
-					npc.velocity.Y += gravity;
-					if (npc.velocity.Y > maxFallSpeed)
-						npc.velocity.Y = maxFallSpeed;
+					CustomGravity();
 				}
             }
+
+			void CustomGravity()
+			{
+				float gravity = npc.ai[0] == 2f ? 0f : 0.3f;
+				float maxFallSpeed = npc.ai[0] == 2f ? 24f : 10f;
+				if (npc.wet)
+				{
+					if (npc.honeyWet)
+					{
+						gravity *= 0.33f;
+						maxFallSpeed *= 0.4f;
+					}
+					else
+					{
+						gravity *= 0.66f;
+						maxFallSpeed *= 0.7f;
+					}
+				}
+
+				if (npc.Calamity().newAI[1] > 1f)
+					maxFallSpeed *= npc.Calamity().newAI[1];
+
+				npc.velocity.Y += gravity;
+				if (npc.velocity.Y > maxFallSpeed)
+					npc.velocity.Y = maxFallSpeed;
+			}
 
 			player = Main.player[npc.target];
 			if (npc.target <= 0 || npc.target == 255 || player.dead || !player.active)
