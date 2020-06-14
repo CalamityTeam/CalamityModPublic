@@ -96,10 +96,10 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-			if (projectile.timeLeft < 120)
+			if (projectile.timeLeft < 60)
 				return;
 
-			float num1247 = 0.1f;
+			float num1247 = 0.2f;
 			for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
 			{
 				if (Main.projectile[num1248].active)
