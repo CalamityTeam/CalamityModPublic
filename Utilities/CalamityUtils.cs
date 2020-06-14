@@ -2,8 +2,32 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.BrimstoneElemental;
+using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Cryogen;
+using CalamityMod.NPCs.DesertScourge;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.HiveMind;
+using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.Signus;
+using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles;
@@ -168,6 +192,174 @@ namespace CalamityMod
 			if (customDR.HasValue)
 				npc.Calamity().customDR = true;
 		}
+
+		/// <summary>
+		/// Get the aggression multiplier used for NPCs in Master Mode Calamity rev+
+		/// </summary>
+		/// <param name="NPCType">The NPC that is having its aggression increased, used to modify the base 1.5x aggression multiplier</param>
+		public static float GetMasterModeNPCAggressionMultiplier(int? NPCType = null)
+		{
+			/*if (!Main.masterMode)
+				return 1f;*/
+
+			/*if (NPCType == ModContent.NPCType<DesertScourgeHead>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<CrabulonIdle>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<HiveMind>() || NPCType == ModContent.NPCType<HiveMindP2>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<PerforatorHive>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<SlimeGodCore>() || NPCType == ModContent.NPCType<SlimeGod>() || NPCType == ModContent.NPCType<SlimeGodRun>() || NPCType == ModContent.NPCType<SlimeGodSplit>() || NPCType == ModContent.NPCType<SlimeGodRunSplit>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Cryogen>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<AquaticScourgeHead>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<BrimstoneElemental>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Calamitas>() || NPCType == ModContent.NPCType<CalamitasRun3>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Leviathan>() || NPCType == ModContent.NPCType<Siren>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<AstrumAureus>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<AstrumDeusHeadSpectral>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<PlaguebringerGoliath>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<RavagerBody>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<ProfanedGuardianBoss>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Bumblefuck>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Providence>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<CeaselessVoid>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<StormWeaverHead>() || NPCType == ModContent.NPCType<StormWeaverHeadNaked>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Signus>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Polterghast>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<OldDuke>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<DevourerofGodsHead>() || NPCType == ModContent.NPCType<DevourerofGodsHeadS>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Yharon>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<SupremeCalamitas>())
+			{
+
+			}
+			else
+			{
+				switch (NPCType)
+				{
+					case NPCID.KingSlime:
+					case NPCID.EyeofCthulhu:
+					case NPCID.EaterofWorldsHead:
+					case NPCID.BrainofCthulhu:
+					case NPCID.Creeper:
+					case NPCID.QueenBee:
+					case NPCID.SkeletronHead:
+					case NPCID.WallofFlesh:
+					case NPCID.WallofFleshEye:
+					case NPCID.Spazmatism:
+					case NPCID.Retinazer:
+					case NPCID.TheDestroyer:
+					case NPCID.SkeletronPrime:
+					case NPCID.Plantera:
+					case NPCID.Golem:
+					case NPCID.GolemHead:
+					case NPCID.DukeFishron:
+					case NPCID.CultistBoss:
+					case NPCID.MoonLordCore:
+					case NPCID.MoonLordHand:
+					case NPCID.MoonLordHead:
+						break;
+				}
+			}*/
+
+			return 1.5f;
+		}
+
+		/// <summary>
+		/// Get the contact damage for NPCs in Master Mode Calamity rev+
+		/// </summary>
+		/// <param name="damage">The damage the npc does prior to being multiplied</param>
+		/// <param name="damageMultiplier">The damage multiplier applied to the npc' contact damage</param>
+		public static int GetMasterModeContactDamage(int damage, float damageMultiplier)
+		{
+			/*if (!Main.masterMode)
+				return damage;*/
+
+			return (int)(damage * damageMultiplier);
+		}
+
+		/// <summary>
+		/// Get the damage for projectiles in Master Mode Calamity rev+
+		/// </summary>
+		/// <param name="damage">The damage the projectile does prior to being multiplied</param>
+		/// <param name="damageMultiplier">The damage multiplier applied to the projectiles' damage</param>
+		public static int GetMasterModeProjectileDamage(int damage, float damageMultiplier)
+		{
+			/*if (!Main.masterMode)
+				return damage;*/
+
+			return (int)(damage * damageMultiplier);
+		}
+
 		/// <summary>
 		/// Detects nearby hostile NPCs from a given point
 		/// </summary>
