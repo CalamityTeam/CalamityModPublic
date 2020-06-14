@@ -1168,6 +1168,7 @@ namespace CalamityMod.CalPlayer
 						{
 							player.buffTime[l] *= 2;
 							modPlayer.doubledHorror = true;
+							break;
 						}
 					}
 				}
@@ -3568,6 +3569,16 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.whoAmI == Main.myPlayer)
 				{
+					//Reduce the buffTime of Electrified
+					for (int l = 0; l < Player.MaxBuffs; l++)
+					{
+						bool electrified = player.buffType[l] == BuffID.Electrified;
+						if (player.buffTime[l] > 2 && electrified)
+						{
+							player.buffTime[l]--;
+						}
+					}
+					//Summon the aura
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
 						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), (int)(10 * player.AverageDamage()), 0f, player.whoAmI, 0f, 0f);
 				}
