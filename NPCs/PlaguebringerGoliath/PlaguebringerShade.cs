@@ -30,7 +30,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             npc.width = 66;
             npc.height = 66;
             npc.defense = 30;
-            npc.Calamity().RevPlusDR(0.2f);
+			npc.DR_NERD(0.2f);
             npc.lifeMax = 3000;
             npc.value = Item.buyPrice(0, 1, 50, 0);
             if (CalamityWorld.bossRushActive)
@@ -601,7 +601,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 			if (npc.ai[0] != 0f)
 				num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{

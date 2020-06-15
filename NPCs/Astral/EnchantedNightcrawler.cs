@@ -1,13 +1,10 @@
-using CalamityMod.Dusts;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace CalamityMod.NPCs.Astral
 {
-    public class EnchantedNightcrawler : ModNPC
+	public class EnchantedNightcrawler : ModNPC
     {
         public override void SetStaticDefaults()
         {

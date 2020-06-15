@@ -69,9 +69,9 @@ namespace CalamityMod.Projectiles.Boss
 				start = false;
 			}
 
-			double deg = (double)projectile.ai[0];
+			double deg = projectile.ai[0];
 			double rad = deg * (Math.PI / 180);
-			distance += (projectile.ai[1] == 1f ? 2D : 1D);
+			distance += projectile.ai[1] == 1f ? 2D : 1D;
 			projectile.position.X = startingPosX - (int)(Math.Cos(rad) * distance) - projectile.width / 2;
 			projectile.position.Y = startingPosY - (int)(Math.Sin(rad) * distance) - projectile.height / 2;
 			projectile.ai[0] += 0.5f;
@@ -91,6 +91,11 @@ namespace CalamityMod.Projectiles.Boss
 			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Boss/DarkEnergyBallGlow2"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
 
 			return false;
+		}
+
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(BuffID.VortexDebuff, 60);
 		}
 
 		public override void Kill(int timeLeft)

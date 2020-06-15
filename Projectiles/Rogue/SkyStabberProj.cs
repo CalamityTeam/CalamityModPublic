@@ -1,6 +1,5 @@
 using System;
 using Terraria;
-using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using CalamityMod.Projectiles.Typeless;
@@ -8,7 +7,7 @@ using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SkyStabberProj : ModProjectile
+	public class SkyStabberProj : ModProjectile
     {
         private static int Lifetime = 1200;
 

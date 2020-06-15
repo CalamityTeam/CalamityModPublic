@@ -1,12 +1,11 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class ElementBall : ModProjectile
+	public class ElementBall : ModProjectile
     {
         public override void SetStaticDefaults()
         {

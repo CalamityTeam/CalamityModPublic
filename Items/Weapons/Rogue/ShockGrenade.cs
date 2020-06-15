@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class ShockGrenade : RogueWeapon
+	public class ShockGrenade : RogueWeapon
     {
         public override void SetStaticDefaults()
         {

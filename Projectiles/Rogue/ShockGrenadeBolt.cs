@@ -1,17 +1,13 @@
-using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ShockGrenadeBolt : ModProjectile
+	public class ShockGrenadeBolt : ModProjectile
     {
         public static int frameWidth = 12;
         public static int frameHeight = 26;

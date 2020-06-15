@@ -1,9 +1,8 @@
 using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace CalamityMod.Projectiles.Pets
 {
     public class ThirdSage : ModProjectile
@@ -43,7 +42,7 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.timeLeft = 2;
             }
-			CalamityGlobalProjectile.FloatingPetAI(projectile, true, 0.1f);
+			projectile.FloatingPetAI(true, 0.1f);
             //Animation
             projectile.frameCounter++;
             if (projectile.frameCounter > 6)
@@ -58,7 +57,7 @@ namespace CalamityMod.Projectiles.Pets
             }
             else if (projectile.frame == 4 && projectile.ai[1] >= 45)
             {
-                Main.PlaySound(SoundID.Zombie, projectile.position, 32);
+                Main.PlaySound(SoundID.Zombie, projectile.Center, 32);
             }
             else if (projectile.frame > 6)
             {

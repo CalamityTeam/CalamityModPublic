@@ -64,13 +64,11 @@ namespace CalamityMod.NPCs.Providence
             npc.width = 600;
             npc.height = 450;
             npc.defense = 50;
-            CalamityGlobalNPC global = npc.Calamity();
-            global.DR = normalDR;
-            global.customDR = true;
-            global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
+			npc.DR_NERD(normalDR, null, null, null, true);
+			CalamityGlobalNPC global = npc.Calamity();
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
             npc.LifeMaxNERB(440000, 500000, 12500000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.aiStyle = -1;
@@ -122,6 +120,7 @@ namespace CalamityMod.NPCs.Providence
             writer.Write(npc.dontTakeDamage);
             writer.Write(npc.chaseable);
             writer.Write(npc.canGhostHeal);
+			writer.Write(npc.localAI[2]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
@@ -137,6 +136,7 @@ namespace CalamityMod.NPCs.Providence
             npc.dontTakeDamage = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
             npc.canGhostHeal = reader.ReadBoolean();
+			npc.localAI[2] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -214,13 +214,28 @@ namespace CalamityMod.NPCs.Providence
 			// Phase times
 			float phaseTime = nightTime ? 240f : 300f;
 			float crystalPhaseTime = nightTime ? 60f : 120f;
+			float attackDelayAfterCocoon = 90f;
 
 			// Phases
 			bool ignoreGuardianAmt = lifeRatio < (death ? 0.2f : 0.15f);
             bool phase2 = (lifeRatio < 0.75f || death) && !nightTime;
+			bool delayAttacks = npc.localAI[2] > 0f;
 
-            // Projectile fire rate multiplier
-            double attackRateMult = 1D;
+			// Spear phase
+			float spearRateIncrease = death ? 1f : 1f * (1f - lifeRatio);
+			float enragedSpearRateIncrease = 0.5f;
+			float bossRushSpearRateIncrease = 0.25f;
+			float baseSpearRate = 18f;
+			float spearRate = 1f + spearRateIncrease;
+
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+				spearRate += enragedSpearRateIncrease;
+
+			if (CalamityWorld.bossRushActive)
+				spearRate += bossRushSpearRateIncrease;
+
+			// Projectile fire rate multiplier
+			double attackRateMult = 1D;
 
             // Distance X needed from target in order to fire holy or molten blasts
             float distanceNeededToShoot = revenge ? 360f : 420f;
@@ -385,16 +400,18 @@ namespace CalamityMod.NPCs.Providence
 							bossLife = npc.life;
 							int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
 							int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
-							NPC.NewNPC(x - 100, y - 100, ModContent.NPCType<ProvSpawnDefense>(), 0, 0f, 0f, 0f, 0f, 255);
-							NPC.NewNPC(x + 100, y - 100, ModContent.NPCType<ProvSpawnHealer>(), 0, 0f, 0f, 0f, 0f, 255);
-							NPC.NewNPC(x, y + 100, ModContent.NPCType<ProvSpawnOffense>(), 0, 0f, 0f, 0f, 0f, 255);
+							NPC.NewNPC(x - 100, y - 100, ModContent.NPCType<ProvSpawnDefense>());
+							NPC.NewNPC(x + 100, y - 100, ModContent.NPCType<ProvSpawnHealer>());
+							NPC.NewNPC(x, y + 100, ModContent.NPCType<ProvSpawnOffense>());
 						}
 					}
 				}
 			}
 
             // Set DR based on current attack phase
-            npc.Calamity().DR = (npc.ai[0] == 2f || npc.ai[0] == 5f || npc.ai[0] == 7f || spawnAnimation) ? cocoonDR : normalDR;
+            npc.Calamity().DR = (npc.ai[0] == 2f || npc.ai[0] == 5f || npc.ai[0] == 7f || spawnAnimation) ?
+				cocoonDR : delayAttacks ?
+				MathHelper.Lerp(normalDR, cocoonDR, npc.localAI[2] / attackDelayAfterCocoon) : normalDR;
 
             // Movement
             if (npc.ai[0] != 2f && npc.ai[0] != 5f)
@@ -497,9 +514,6 @@ namespace CalamityMod.NPCs.Providence
 			// Phase switch
 			if (npc.ai[0] == -1f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				phaseChange++;
 				if (phaseChange > 14)
 					phaseChange = 0;
@@ -693,6 +707,10 @@ namespace CalamityMod.NPCs.Providence
 				if (Math.Abs(vector.X - player.Center.X) > 5600f)
 					phase = 0;
 
+				// Reset attack delay for laser
+				if (phase == 7)
+					npc.localAI[2] = 0f;
+
 				// Reset arrays
 				npc.ai[0] = phase;
 				npc.ai[1] = 0f;
@@ -705,9 +723,6 @@ namespace CalamityMod.NPCs.Providence
 			// Holy blasts
 			else if (npc.ai[0] == 0f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				if (spawnAnimation)
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient && calamityGlobalNPC.newAI[3] == 0f)
@@ -767,6 +782,13 @@ namespace CalamityMod.NPCs.Providence
 					return;
 				}
 
+				// Attack delay after cocoon phase
+				if (delayAttacks)
+				{
+					npc.localAI[2] -= 1f;
+					return;
+				}
+
 				float num852 = Math.Abs(vector.X - player.Center.X);
 				if (num852 > distanceNeededToShoot && npc.position.Y < player.position.Y)
 				{
@@ -774,7 +796,7 @@ namespace CalamityMod.NPCs.Providence
 
 					int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
 					int num856 = (expertMode ? 24 : 26) - shootBoost;
-					if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						num856 = 20;
 
 					num856 = (int)(num856 * attackRateMult);
@@ -791,7 +813,7 @@ namespace CalamityMod.NPCs.Providence
 
 						float velocityBoost = death ? 2.5f : 2.5f * (1f - lifeRatio);
 						float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
-						if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 							num860 = 12.75f;
 
 						if (revenge)
@@ -815,8 +837,12 @@ namespace CalamityMod.NPCs.Providence
 			// Holy fire
 			else if (npc.ai[0] == 1f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
+				// Attack delay after cocoon phase
+				if (delayAttacks)
+				{
+					npc.localAI[2] -= 1f;
+					return;
+				}
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -853,9 +879,6 @@ namespace CalamityMod.NPCs.Providence
 			// Cocoon flames
 			else if (npc.ai[0] == 2f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				npc.TargetClosest(true);
 
 				if (!targetDead)
@@ -883,11 +906,16 @@ namespace CalamityMod.NPCs.Providence
 					{
 						if (npc.ai[3] % divisor == 0f)
 						{
-							Vector2 spinningPoint = calamityGlobalNPC.newAI[1] % 2f == 0f ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity)) * velocity;
+							bool normalSpread = calamityGlobalNPC.newAI[1] % 2f == 0f;
+							Vector2 spinningPoint = normalSpread ? new Vector2(0f, -velocity) : Vector2.Normalize(new Vector2(-velocity, -velocity));
 							double radians = MathHelper.TwoPi / chains;
+							Main.PlaySound(SoundID.Item20, npc.position);
 							for (int i = 0; i < chains; i++)
 							{
 								Vector2 vector2 = spinningPoint.RotatedBy(radians * i + MathHelper.ToRadians(npc.ai[2]));
+
+								if (!normalSpread)
+									vector2 *= velocity;
 
 								int projectileType = ModContent.ProjectileType<HolyBurnOrb>();
 								if (Main.rand.NextBool(4) && !death)
@@ -909,6 +937,7 @@ namespace CalamityMod.NPCs.Providence
 						{
 							calamityGlobalNPC.newAI[1] += 1f;
 							double radians = MathHelper.TwoPi / totalProjectiles;
+							Main.PlaySound(SoundID.Item20, npc.position);
 							for (int i = 0; i < totalProjectiles; i++)
 							{
 								Vector2 vector2 = new Vector2(0f, -velocity).RotatedBy(radians * i);
@@ -919,6 +948,9 @@ namespace CalamityMod.NPCs.Providence
 
 								Projectile.NewProjectile(fireFrom, vector2, projectileType, 0, 0f, Main.myPlayer, 0f, 0f);
 							}
+
+							Vector2 velocity2 = Vector2.Normalize(player.Center - fireFrom) * velocity;
+							Projectile.NewProjectile(fireFrom, velocity2, ModContent.ProjectileType<HolyBurnOrb>(), 0, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 				}
@@ -980,14 +1012,19 @@ namespace CalamityMod.NPCs.Providence
 
 					text = false;
 					npc.ai[0] = -1f;
+					npc.localAI[2] = attackDelayAfterCocoon;
 				}
 			}
 
 			// Molten blasts
 			else if (npc.ai[0] == 3f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
+				// Attack delay after cocoon phase
+				if (delayAttacks)
+				{
+					npc.localAI[2] -= 1f;
+					return;
+				}
 
 				float num852 = Math.Abs(vector.X - player.Center.X);
 				if (num852 > distanceNeededToShoot && npc.position.Y < player.position.Y)
@@ -1037,8 +1074,12 @@ namespace CalamityMod.NPCs.Providence
 			// Holy bombs
 			else if (npc.ai[0] == 4f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
+				// Attack delay after cocoon phase
+				if (delayAttacks)
+				{
+					npc.localAI[2] -= 1f;
+					return;
+				}
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
@@ -1046,7 +1087,7 @@ namespace CalamityMod.NPCs.Providence
 
 					int shootBoost = death ? 9 : (int)(10f * (1f - lifeRatio));
 					int num864 = (expertMode ? 73 : 77) - shootBoost;
-					if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 						num864 = 63;
 
 					num864 = (int)(num864 * attackRateMult);
@@ -1075,9 +1116,6 @@ namespace CalamityMod.NPCs.Providence
 			// Cocoon spears
 			else if (npc.ai[0] == 5f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				npc.TargetClosest(true);
 
 				if (!targetDead)
@@ -1096,16 +1134,14 @@ namespace CalamityMod.NPCs.Providence
 
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					float shootBoost = death ? 1f : 1f * (1f - lifeRatio);
-					npc.ai[2] += ((npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 1.5f : 1f) + shootBoost;
-
-					if (CalamityWorld.bossRushActive)
-						npc.ai[2] += 0.25f;
-
-					double count = 18D * attackRateMult;
-					if (npc.ai[2] >= (float)count)
+					npc.ai[2] += spearRate;
+					if (npc.ai[2] >= (float)(baseSpearRate * attackRateMult))
 					{
 						npc.ai[2] = 0f;
+
+						Vector2 fireFrom = new Vector2(vector.X, vector.Y + 20f);
+
+						Main.PlayTrackedSound(SoundID.DD2_BetsyFireballShot, fireFrom);
 
 						float velocity = 3f;
 						int projectileType = ModContent.ProjectileType<HolySpear>();
@@ -1114,36 +1150,37 @@ namespace CalamityMod.NPCs.Providence
 						{
 							int totalProjectiles = 12;
 							double radians = MathHelper.TwoPi / totalProjectiles;
-							Vector2 spinningPoint = Vector2.Normalize(new Vector2(-calamityGlobalNPC.newAI[1], -velocity)) * velocity;
+							Vector2 spinningPoint = Vector2.Normalize(new Vector2(-calamityGlobalNPC.newAI[1], -velocity));
 
 							for (int i = 0; i < totalProjectiles; i++)
 							{
-								Vector2 vector2 = spinningPoint.RotatedBy(radians * i);
-								Projectile.NewProjectile(vector, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer, 0f, 0f);
+								Vector2 vector2 = spinningPoint.RotatedBy(radians * i) * velocity;
+								Projectile.NewProjectile(fireFrom, vector2, projectileType, holySpearDamage, 0f, Main.myPlayer, 0f, 0f);
 							}
 
-							calamityGlobalNPC.newAI[1] += 0.2f;
+							float radialOffset = MathHelper.Lerp(0.2f, 0.4f, spearRateIncrease);
+							calamityGlobalNPC.newAI[1] += radialOffset;
 						}
 
 						calamityGlobalNPC.newAI[2] += 1f;
 
 						velocity = expertMode ? 12f : 10f;
-						Vector2 velocity2 = Vector2.Normalize(player.Center - vector) * velocity;
-						Projectile.NewProjectile(vector, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
+						Vector2 velocity2 = Vector2.Normalize(player.Center - fireFrom) * velocity;
+						Projectile.NewProjectile(fireFrom, velocity2, projectileType, holySpearDamage, 0f, Main.myPlayer, 1f, 0f);
 					}
 				}
 
 				npc.ai[1] += 1f;
 				if (npc.ai[1] >= phaseTime)
+				{
 					npc.ai[0] = -1f;
+					npc.localAI[2] = attackDelayAfterCocoon;
+				}
 			}
 
 			// Crystal
 			else if (npc.ai[0] == 6f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				npc.TargetClosest(true);
 
 				if (!targetDead)
@@ -1166,9 +1203,6 @@ namespace CalamityMod.NPCs.Providence
 			// Holy ray
 			else if (npc.ai[0] == 7f)
 			{
-				npc.noGravity = true;
-				npc.noTileCollide = true;
-
 				Vector2 value19 = new Vector2(27f, 59f);
 
 				float rotation = 450f + (guardianAmt * 18);
@@ -1471,7 +1505,7 @@ namespace CalamityMod.NPCs.Providence
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -1494,7 +1528,7 @@ namespace CalamityMod.NPCs.Providence
 			Color color37 = Color.Lerp(Color.White, Main.dayTime ? Color.Yellow : Color.Cyan, 0.5f) * npc.Opacity;
 			Color color42 = Color.Lerp(Color.White, Main.dayTime ? Color.Violet : Color.BlueViolet, 0.5f) * npc.Opacity;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

@@ -21,8 +21,9 @@ namespace CalamityMod.Items.PermanentBoosters
             item.width = 20;
             item.height = 20;
             item.useAnimation = 30;
-            item.rare = 10;
-            item.useTime = 30;
+            item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.useTime = 30;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item4;
             item.consumable = true;
@@ -57,8 +58,9 @@ namespace CalamityMod.Items.PermanentBoosters
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.LifeFruit, 5);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
-            recipe.AddIngredient(ItemID.LunarBar, 10);
+			recipe.AddIngredient(ItemID.BlueBerries);
+			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 10);
             recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 20);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

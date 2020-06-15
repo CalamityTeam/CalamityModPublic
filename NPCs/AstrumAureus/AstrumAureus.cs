@@ -22,12 +22,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AstrumAureus
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class AstrumAureus : ModNPC
     {
         private bool stomping = false;
@@ -42,12 +40,13 @@ namespace CalamityMod.NPCs.AstrumAureus
         public override void SetDefaults()
         {
             npc.lavaImmune = true;
+			npc.noGravity = true;
             npc.npcSlots = 15f;
             npc.damage = 80;
             npc.width = 400;
             npc.height = 280;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.LifeMaxNERB(96000, NPC.downedMoonlord ? 440000 : 122000, 8400000); // 30 seconds in boss rush
             npc.aiStyle = -1;
             aiType = -1;
@@ -90,7 +89,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             {
                 npc.value = Item.buyPrice(0, 35, 0, 0);
             }
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
         }
 
@@ -290,7 +289,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			if (npc.ai[0] == 3f || npc.ai[0] == 4f)
 				num153 = 10;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -315,7 +314,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 Color color = new Color(127 - npc.alpha, 127 - npc.alpha, 127 - npc.alpha, 0).MultiplyRGBA(Color.Gold);
 				Color color40 = Color.Lerp(Color.White, color, 0.5f);
 
-				if (CalamityMod.CalamityConfig.Afterimages)
+				if (CalamityConfig.Instance.Afterimages)
 				{
 					for (int num163 = 1; num163 < num153; num163++)
 					{

@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -10,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.SummonItems
 {
-    public class EyeofExtinction : ModItem
+	public class EyeofExtinction : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -63,9 +62,14 @@ namespace CalamityMod.Items.SummonItems
                     }
                 }
             }
-            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SupremeCalamitas>());
+
             Main.PlaySound(SoundID.Roar, player.position, 0);
-            return true;
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SupremeCalamitas>());
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<SupremeCalamitas>());
+
+			return true;
         }
 
         public override void AddRecipes()

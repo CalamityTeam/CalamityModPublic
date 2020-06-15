@@ -52,6 +52,12 @@ namespace CalamityMod.Items.Weapons.Rogue
 			return mod.GetPrefix(newPrefix).Type;
 		}
 
+		public override bool NewPreReforge()
+		{
+			StealthStrikeDamage = 1f;
+			return true;
+		}
+
         public sealed override void SetDefaults()
         {
             SafeSetDefaults();

@@ -12,22 +12,18 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.NPCs.TownNPCs;
-using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Armor.Vanity;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class AquaticScourgeHead : ModNPC
     {
         public override void SetStaticDefaults()
@@ -42,11 +38,11 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.width = 100;
             npc.height = 90;
             npc.defense = 10;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.aiStyle = -1;
             aiType = -1;
             npc.LifeMaxNERB(73000, 85000, 10000000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
@@ -254,22 +250,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (npc.Calamity().newAI[0] == 1f && !Main.player[npc.target].dead && npc.Calamity().newAI[1] != 1f)
             {
                 return false;
-            }
-            if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
-                {
-                    if (Main.npc[k].active)
-                    {
-                        Main.npc[k].active = false;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            Main.npc[k].life = 0;
-                            Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
             }
             return true;
         }

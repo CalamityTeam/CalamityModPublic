@@ -1,11 +1,10 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using CalamityMod.CalPlayer;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class DynamoStemCells : ModItem
+	public class DynamoStemCells : ModItem
     {
         public override void SetStaticDefaults()
         {

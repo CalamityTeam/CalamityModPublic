@@ -2,7 +2,34 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.BrimstoneElemental;
+using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Cryogen;
+using CalamityMod.NPCs.DesertScourge;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.HiveMind;
+using CalamityMod.NPCs.Leviathan;
+using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.ProfanedGuardians;
+using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.Signus;
+using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles;
+using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -142,13 +169,204 @@ namespace CalamityMod
                 npc.lifeMax = revengeance.Value;
             }
         }
-        /// <summary>
-        /// Detects nearby hostile NPCs from a given point
-        /// </summary>
-        /// <param name="origin">The position where we wish to check for nearby NPCs</param>
-        /// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
-        /// <param name="bossPriority">Whether bosses should be prioritized in targetting or not</param>
-        public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool bossPriority = false)
+		/// <summary>
+		/// Allows you to set the DR value of a NPC to different values based on the mode.
+		/// </summary>
+		/// <param name="npc">The NPC whose DR value you are trying to set.</param>
+		/// <param name="normal">The value DR will be set to in normal mode.</param>
+		/// <param name="revengeance">The value DR will be set to in Revegeneance mode.</param>
+		/// <param name="bossRush">The value DR will be set to during the Boss Rush.</param>
+		public static void DR_NERD(this NPC npc, float normal, float? revengeance = null, float? death = null, float? bossRush = null, bool? customDR = null)
+		{
+			npc.Calamity().DR = normal;
+
+			if (bossRush.HasValue && CalamityWorld.bossRushActive)
+			{
+				npc.Calamity().DR = bossRush.Value;
+			}
+			else if (revengeance.HasValue && CalamityWorld.revenge)
+			{
+				npc.Calamity().DR = CalamityWorld.death ? death.Value : revengeance.Value;
+			}
+
+			if (customDR.HasValue)
+				npc.Calamity().customDR = true;
+		}
+
+		/// <summary>
+		/// Get the aggression multiplier used for NPCs in Master Mode Calamity rev+
+		/// </summary>
+		/// <param name="NPCType">The NPC that is having its aggression increased, used to modify the base 1.5x aggression multiplier</param>
+		public static float GetMasterModeNPCAggressionMultiplier(int? NPCType = null)
+		{
+			/*if (!Main.masterMode)
+				return 1f;*/
+
+			/*if (NPCType == ModContent.NPCType<DesertScourgeHead>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<CrabulonIdle>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<HiveMind>() || NPCType == ModContent.NPCType<HiveMindP2>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<PerforatorHive>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<SlimeGodCore>() || NPCType == ModContent.NPCType<SlimeGod>() || NPCType == ModContent.NPCType<SlimeGodRun>() || NPCType == ModContent.NPCType<SlimeGodSplit>() || NPCType == ModContent.NPCType<SlimeGodRunSplit>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Cryogen>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<AquaticScourgeHead>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<BrimstoneElemental>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Calamitas>() || NPCType == ModContent.NPCType<CalamitasRun3>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Leviathan>() || NPCType == ModContent.NPCType<Siren>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<AstrumAureus>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<AstrumDeusHeadSpectral>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<PlaguebringerGoliath>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<RavagerBody>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<ProfanedGuardianBoss>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Bumblefuck>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Providence>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<CeaselessVoid>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<StormWeaverHead>() || NPCType == ModContent.NPCType<StormWeaverHeadNaked>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Signus>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Polterghast>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<OldDuke>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<DevourerofGodsHead>() || NPCType == ModContent.NPCType<DevourerofGodsHeadS>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Yharon>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<SupremeCalamitas>())
+			{
+
+			}
+			else
+			{
+				switch (NPCType)
+				{
+					case NPCID.KingSlime:
+					case NPCID.EyeofCthulhu:
+					case NPCID.EaterofWorldsHead:
+					case NPCID.BrainofCthulhu:
+					case NPCID.Creeper:
+					case NPCID.QueenBee:
+					case NPCID.SkeletronHead:
+					case NPCID.WallofFlesh:
+					case NPCID.WallofFleshEye:
+					case NPCID.Spazmatism:
+					case NPCID.Retinazer:
+					case NPCID.TheDestroyer:
+					case NPCID.SkeletronPrime:
+					case NPCID.Plantera:
+					case NPCID.Golem:
+					case NPCID.GolemHead:
+					case NPCID.DukeFishron:
+					case NPCID.CultistBoss:
+					case NPCID.MoonLordCore:
+					case NPCID.MoonLordHand:
+					case NPCID.MoonLordHead:
+						break;
+				}
+			}*/
+
+			return 1.5f;
+		}
+
+		/// <summary>
+		/// Get the contact damage for NPCs in Master Mode Calamity rev+
+		/// </summary>
+		/// <param name="damage">The damage the npc does prior to being multiplied</param>
+		/// <param name="damageMultiplier">The damage multiplier applied to the npc' contact damage</param>
+		public static int GetMasterModeContactDamage(int damage, float damageMultiplier)
+		{
+			/*if (!Main.masterMode)
+				return damage;*/
+
+			return (int)(damage * damageMultiplier);
+		}
+
+		/// <summary>
+		/// Get the damage for projectiles in Master Mode Calamity rev+
+		/// </summary>
+		/// <param name="damage">The damage the projectile does prior to being multiplied</param>
+		/// <param name="damageMultiplier">The damage multiplier applied to the projectiles' damage</param>
+		public static int GetMasterModeProjectileDamage(int damage, float damageMultiplier)
+		{
+			/*if (!Main.masterMode)
+				return damage;*/
+
+			return (int)(damage * damageMultiplier);
+		}
+
+		/// <summary>
+		/// Detects nearby hostile NPCs from a given point
+		/// </summary>
+		/// <param name="origin">The position where we wish to check for nearby NPCs</param>
+		/// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
+		/// <param name="bossPriority">Whether bosses should be prioritized in targetting or not</param>
+		public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool bossPriority = false)
         {
             NPC closestTarget = null;
             float distance = maxDistanceToCheck;
@@ -216,6 +434,52 @@ namespace CalamityMod
             damage = 0D;
             return true;
         }
+
+		/// <summary>
+		/// Check if an NPC is organic
+		/// </summary>
+		/// <param name="target">The NPC attacked.</param>
+		/// <returns>Whether or not the NPC is organic.</returns>
+		public static bool Organic(this NPC target)
+		{
+			if ((target.HitSound != SoundID.NPCHit4 && target.HitSound != SoundID.NPCHit41 && target.HitSound != SoundID.NPCHit2 &&
+				target.HitSound != SoundID.NPCHit5 && target.HitSound != SoundID.NPCHit11 && target.HitSound != SoundID.NPCHit30 &&
+				target.HitSound != SoundID.NPCHit34 && target.HitSound != SoundID.NPCHit36 && target.HitSound != SoundID.NPCHit42 &&
+				target.HitSound != SoundID.NPCHit49 && target.HitSound != SoundID.NPCHit52 && target.HitSound != SoundID.NPCHit53 &&
+				target.HitSound != SoundID.NPCHit54 && target.HitSound != null) || target.type == ModContent.NPCType<Providence>() || 
+				target.type == ModContent.NPCType<ScornEater>())
+			{
+				return true;
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Check if an NPC is inorganic
+		/// </summary>
+		/// <param name="target">The NPC attacked.</param>
+		/// <returns>Whether or not the NPC is inorganic.</returns>
+		public static bool Inorganic(this NPC target)
+		{
+			if (target.HitSound != SoundID.NPCHit1 && target.HitSound != SoundID.NPCHit6 && target.HitSound != SoundID.NPCHit7 &&
+				target.HitSound != SoundID.NPCHit8 && target.HitSound != SoundID.NPCHit9 && target.HitSound != SoundID.NPCHit12 &&
+				target.HitSound != SoundID.NPCHit13 && target.HitSound != SoundID.NPCHit14 && target.HitSound != SoundID.NPCHit18 &&
+				target.HitSound != SoundID.NPCHit19 && target.HitSound != SoundID.NPCHit20 && target.HitSound != SoundID.NPCHit21 &&
+				target.HitSound != SoundID.NPCHit22 && target.HitSound != SoundID.NPCHit23 && target.HitSound != SoundID.NPCHit24 &&
+				target.HitSound != SoundID.NPCHit25 && target.HitSound != SoundID.NPCHit26 && target.HitSound != SoundID.NPCHit27 &&
+				target.HitSound != SoundID.NPCHit28 && target.HitSound != SoundID.NPCHit29 && target.HitSound != SoundID.NPCHit31 &&
+				target.HitSound != SoundID.NPCHit32 && target.HitSound != SoundID.NPCHit33 && target.HitSound != SoundID.NPCHit35 &&
+				target.HitSound != SoundID.NPCHit37 && target.HitSound != SoundID.NPCHit38 && target.HitSound != SoundID.NPCHit40 &&
+				target.HitSound != SoundID.NPCHit43 && target.HitSound != SoundID.NPCHit44 && target.HitSound != SoundID.NPCHit45 &&
+				target.HitSound != SoundID.NPCHit46 && target.HitSound != SoundID.NPCHit47 && target.HitSound != SoundID.NPCHit48 &&
+				target.HitSound != SoundID.NPCHit50 && target.HitSound != SoundID.NPCHit51 && target.HitSound != SoundID.NPCHit55 &&
+				target.HitSound != SoundID.NPCHit56 && target.HitSound != SoundID.NPCHit57 && target.type != ModContent.NPCType<AngryDog>() &&
+				target.type != ModContent.NPCType<Providence>() && target.type != ModContent.NPCType<ScornEater>())
+			{
+				return true;
+			}
+			return false;
+		}
         #endregion
 
         #region Item Utilities
@@ -652,6 +916,414 @@ namespace CalamityMod
 				newDamage = (int)((dmgInput - cap) * 0.1) + cap;
 			}
 			return newDamage;
+		}
+
+		public static void MinionAntiClump(this Projectile projectile, float pushForce = 0.05f)
+		{
+			for (int k = 0; k < Main.maxProjectiles; k++)
+			{
+				Projectile otherProj = Main.projectile[k];
+				// Short circuits to make the loop as fast as possible
+				if (!otherProj.active || otherProj.owner != projectile.owner || !otherProj.minion || k == projectile.whoAmI)
+					continue;
+
+				// If the other projectile is indeed the same owned by the same player and they're too close, nudge them away.
+				bool sameProjType = otherProj.type == projectile.type;
+				float taxicabDist = Math.Abs(projectile.position.X - otherProj.position.X) + Math.Abs(projectile.position.Y - otherProj.position.Y);
+				if (sameProjType && taxicabDist < projectile.width)
+				{
+					if (projectile.position.X < otherProj.position.X)
+						projectile.velocity.X -= pushForce;
+					else
+						projectile.velocity.X += pushForce;
+
+					if (projectile.position.Y < otherProj.position.Y)
+						projectile.velocity.Y -= pushForce;
+					else
+						projectile.velocity.Y += pushForce;
+				}
+			}
+		}
+
+		public static void ChargingMinionAI(this Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging)
+		{
+			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+
+			//Anti sticky movement to prevent stacking
+			projectile.MinionAntiClump();
+
+			//Breather time between charges as like a reset
+			bool chargeDelay = false;
+			if (projectile.ai[0] == 2f)
+			{
+				projectile.ai[1] += 1f;
+				projectile.extraUpdates = initialUpdates + (projectile.type == ModContent.ProjectileType<CloudElementalMinion>() ? 2 : 1);
+				if (projectile.ai[1] > chargeDelayTime)
+				{
+					projectile.ai[1] = 1f;
+					projectile.ai[0] = 0f;
+					projectile.extraUpdates = initialUpdates;
+					projectile.numUpdates = 0;
+					projectile.netUpdate = true;
+				}
+				else
+				{
+					chargeDelay = true;
+				}
+			}
+			if (chargeDelay)
+			{
+				return;
+			}
+
+			//Find a target
+			float maxDist = range;
+			Vector2 targetVec = projectile.position;
+			bool foundTarget = false;
+			Vector2 half = new Vector2(0.5f);
+			bool isButterfly = projectile.type == ModContent.ProjectileType<PurpleButterfly>();
+			//Prioritize the targeted enemy if possible
+			if (player.HasMinionAttackTargetNPC)
+			{
+				NPC npc = Main.npc[player.MinionAttackTargetNPC];
+				bool fishronCheck = npc.type == NPCID.DukeFishron && npc.active && isButterfly;
+				if (npc.CanBeChasedBy(projectile, false) || fishronCheck)
+				{
+					//Check the size of the target to make it easier to hit fat targets like Levi
+					Vector2 sizeCheck = npc.position + npc.Size * half;
+					float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+					//Some minions will ignore tiles when choosing a target like Ice Claspers, others will not
+					bool canHit = true;
+					if (!tileVision)
+						canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
+					if (!foundTarget && targetDist < maxDist && canHit)
+					{
+						maxDist = targetDist;
+						targetVec = sizeCheck;
+						foundTarget = true;
+					}
+				}
+			}
+			//If no npc is specifically targetted, check through the entire array
+			else
+			{
+				for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
+				{
+					NPC npc = Main.npc[npcIndex];
+					bool fishronCheck = npc.type == NPCID.DukeFishron && npc.active && isButterfly;
+					if (npc.CanBeChasedBy(projectile, false) || fishronCheck)
+					{
+						Vector2 sizeCheck = npc.position + npc.Size * half;
+						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+						bool canHit = true;
+						if (!tileVision)
+							canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
+						if (!foundTarget && targetDist < maxDist && canHit)
+						{
+							maxDist = targetDist;
+							targetVec = sizeCheck;
+							foundTarget = true;
+						}
+					}
+				}
+			}
+
+			//If the player is too far, return to the player. Range is increased while attacking something.
+			float distBeforeForcedReturn = maxPlayerDist;
+			if (foundTarget)
+			{
+				distBeforeForcedReturn = extraMaxPlayerDist;
+			}
+			if (Vector2.Distance(player.Center, projectile.Center) > distBeforeForcedReturn)
+			{
+				projectile.ai[0] = 1f;
+				projectile.netUpdate = true;
+			}
+
+			//Go to the target if you found one
+			if (foundTarget && projectile.ai[0] == 0f)
+			{
+				//Some minions don't ignore tiles while charging like brittle stars
+				projectile.tileCollide = !ignoreTilesWhenCharging;
+				Vector2 targetSpot = targetVec - projectile.Center;
+				float targetDist = targetSpot.Length();
+				targetSpot.Normalize();
+				//Tries to get the minion in the sweet spot of 200 pixels away but the minion also charges so idk what good it does
+				if (targetDist > 200f)
+				{
+					float speed = goToSpeed; //8
+					targetSpot *= speed;
+					projectile.velocity = (projectile.velocity * 40f + targetSpot) / 41f;
+				}
+				else
+				{
+					float speed = -goBackSpeed; //-4
+					targetSpot *= speed;
+					projectile.velocity = (projectile.velocity * 40f + targetSpot) / 41f; //41
+				}
+			}
+
+			//Movement for idle or returning to the player
+			else
+			{
+				//Ignore tiles so they don't get stuck everywhere like Optic Staff
+				projectile.tileCollide = false;
+
+				bool returningToPlayer = false;
+				if (!returningToPlayer)
+				{
+					returningToPlayer = projectile.ai[0] == 1f;
+				}
+
+				//Player distance calculations
+				Vector2 playerVec = player.Center - projectile.Center + new Vector2(0f, -60f);
+				float playerDist = playerVec.Length();
+
+				//If the minion is actively returning, move faster
+				float playerHomeSpeed = 6f;
+				if (returningToPlayer)
+				{
+					playerHomeSpeed = 15f;
+				}
+				//Move somewhat faster if the player is kinda far~ish
+				if (playerDist > 200f && playerHomeSpeed < 8f)
+				{
+					playerHomeSpeed = 8f;
+				}
+				//Return to normal if close enough to the player
+				if (playerDist < safeDist && returningToPlayer && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+				{
+					projectile.ai[0] = 0f;
+					projectile.netUpdate = true;
+				}
+				//Teleport to the player if abnormally far
+				if (playerDist > 2000f)
+				{
+					projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+					projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
+					projectile.netUpdate = true;
+				}
+				//If more than 70 pixels away, move toward the player
+				if (playerDist > 70f)
+				{
+					playerVec.Normalize();
+					playerVec *= playerHomeSpeed;
+					projectile.velocity = (projectile.velocity * 40f + playerVec) / 41f;
+				}
+				//Minions never stay still
+				else if (projectile.velocity.X == 0f && projectile.velocity.Y == 0f)
+				{
+					projectile.velocity.X = -0.15f;
+					projectile.velocity.Y = -0.05f;
+				}
+			}
+
+			//Increment attack counter randomly
+			if (projectile.ai[1] > 0f)
+			{
+				projectile.ai[1] += (float)Main.rand.Next(1, 4);
+			}
+			//If high enough, prepare to attack
+			if (projectile.ai[1] > chargeCounterMax)
+			{
+				projectile.ai[1] = 0f;
+				projectile.netUpdate = true;
+			}
+
+			//Charge at an enemy if not on cooldown
+			if (projectile.ai[0] == 0f)
+			{
+				if (projectile.ai[1] == 0f && foundTarget && maxDist < 500f)
+				{
+					projectile.ai[1] += 1f;
+					if (Main.myPlayer == projectile.owner)
+					{
+						projectile.ai[0] = 2f;
+						Vector2 targetPos = targetVec - projectile.Center;
+						targetPos.Normalize();
+						projectile.velocity = targetPos * chargeSpeed; //8
+						projectile.netUpdate = true;
+					}
+				}
+			}
+		}
+
+		public static void FloatingPetAI(this Projectile projectile, bool faceRight, float tiltFloat, bool lightPet = false)
+		{
+			Player player = Main.player[projectile.owner];
+
+			//anti sticking movement as a failsafe
+			float SAImovement = 0.05f;
+			for (int k = 0; k < Main.maxProjectiles; k++)
+			{
+				Projectile otherProj = Main.projectile[k];
+				// Short circuits to make the loop as fast as possible
+				if (!otherProj.active || otherProj.owner != projectile.owner || !Main.projPet[otherProj.type] || k == projectile.whoAmI)
+					continue;
+
+				// If the other projectile is indeed another pet owned by the same player and they're too close, nudge them away.
+				bool isPet = Main.projPet[otherProj.type];
+				float taxicabDist = Math.Abs(projectile.position.X - otherProj.position.X) + Math.Abs(projectile.position.Y - otherProj.position.Y);
+				if (isPet && taxicabDist < projectile.width)
+				{
+					if (projectile.position.X < otherProj.position.X)
+						projectile.velocity.X -= SAImovement;
+					else
+						projectile.velocity.X += SAImovement;
+
+					if (projectile.position.Y < otherProj.position.Y)
+						projectile.velocity.Y -= SAImovement;
+					else
+						projectile.velocity.Y += SAImovement;
+				}
+			}
+
+			float passiveMvtFloat = 0.5f;
+			projectile.tileCollide = false;
+			float range = 100f;
+			Vector2 projPos = new Vector2(projectile.Center.X, projectile.Center.Y);
+			float xDist = player.Center.X - projPos.X;
+			float yDist = player.Center.Y - projPos.Y;
+			yDist += Main.rand.NextFloat(-10, 20);
+			xDist += Main.rand.NextFloat(-10, 20);
+			//Light pets lead the player, normal pets trail the player
+			xDist += 60f * (lightPet ? (float)player.direction : -(float)player.direction);
+			yDist -= 60f;
+			Vector2 playerVector = new Vector2(xDist, yDist);
+			float playerDist = playerVector.Length();
+			float returnSpeed = 18f;
+
+			//If player is close enough, resume normal
+			if (playerDist < range && player.velocity.Y == 0f &&
+				projectile.position.Y + projectile.height <= player.position.Y + player.height &&
+				!Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
+			{
+				if (projectile.velocity.Y < -6f)
+				{
+					projectile.velocity.Y = -6f;
+				}
+			}
+
+			//Teleport to player if too far
+			if (playerDist > 2000f)
+			{
+				projectile.position.X = player.Center.X - projectile.width / 2;
+				projectile.position.Y = player.Center.Y - projectile.height / 2;
+				projectile.netUpdate = true;
+			}
+
+			if (playerDist < 50f)
+			{
+				if (Math.Abs(projectile.velocity.X) > 2f || Math.Abs(projectile.velocity.Y) > 2f)
+				{
+					projectile.velocity *= 0.99f;
+				}
+				passiveMvtFloat = 0.01f;
+			}
+			else
+			{
+				if (playerDist < 100f)
+				{
+					passiveMvtFloat = 0.1f;
+				}
+				if (playerDist > 300f)
+				{
+					passiveMvtFloat = 1f;
+				}
+				playerDist = returnSpeed / playerDist;
+				playerVector.X *= playerDist;
+				playerVector.Y *= playerDist;
+			}
+			if (projectile.velocity.X < playerVector.X)
+			{
+				projectile.velocity.X += passiveMvtFloat;
+				if (passiveMvtFloat > 0.05f && projectile.velocity.X < 0f)
+				{
+					projectile.velocity.X += passiveMvtFloat;
+				}
+			}
+			if (projectile.velocity.X > playerVector.X)
+			{
+				projectile.velocity.X -= passiveMvtFloat;
+				if (passiveMvtFloat > 0.05f && projectile.velocity.X > 0f)
+				{
+					projectile.velocity.X -= passiveMvtFloat;
+				}
+			}
+			if (projectile.velocity.Y < playerVector.Y)
+			{
+				projectile.velocity.Y += passiveMvtFloat;
+				if (passiveMvtFloat > 0.05f && projectile.velocity.Y < 0f)
+				{
+					projectile.velocity.Y += passiveMvtFloat * 2f;
+				}
+			}
+			if (projectile.velocity.Y > playerVector.Y)
+			{
+				projectile.velocity.Y -= passiveMvtFloat;
+				if (passiveMvtFloat > 0.05f && projectile.velocity.Y > 0f)
+				{
+					projectile.velocity.Y -= passiveMvtFloat * 2f;
+				}
+			}
+			if (projectile.velocity.X >= 0.25f)
+			{
+				projectile.direction = faceRight ? 1 : -1;
+			}
+			else if (projectile.velocity.X < -0.25f)
+			{
+				projectile.direction = faceRight ? -1 : 1;
+			}
+			//Tilting and change directions
+			projectile.spriteDirection = projectile.direction;
+			projectile.rotation = projectile.velocity.X * tiltFloat;
+		}
+
+		public static void HealingProjectile(this Projectile projectile, int healing, int playerToHeal, float homingVelocity, float N, bool autoHomes = true, int timeCheck = 120)
+		{
+			int target = playerToHeal;
+			Player player = Main.player[target];
+			float homingSpeed = homingVelocity;
+			if (player.lifeMagnet)
+				homingSpeed *= 1.5f;
+
+			Vector2 projPos = new Vector2(projectile.Center.X, projectile.Center.Y);
+			float xDist = player.Center.X - projPos.X;
+			float yDist = player.Center.Y - projPos.Y;
+			Vector2 playerVector = new Vector2(xDist, yDist);
+			float playerDist = playerVector.Length();
+			if (playerDist < 50f && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.position.Y + player.height && projectile.position.Y + projectile.height > player.position.Y)
+			{
+				if (projectile.owner == Main.myPlayer && !Main.player[Main.myPlayer].moonLeech)
+				{
+					int healAmt = healing;
+					player.HealEffect(healAmt, false);
+					player.statLife += healAmt;
+					if (player.statLife > player.statLifeMax2)
+					{
+						player.statLife = player.statLifeMax2;
+					}
+					NetMessage.SendData(MessageID.SpiritHeal, -1, -1, null, target, healAmt, 0f, 0f, 0, 0, 0);
+				}
+				projectile.Kill();
+			}
+			if (autoHomes)
+			{
+				playerDist = homingSpeed / playerDist;
+				playerVector.X *= playerDist;
+				playerVector.Y *= playerDist;
+				projectile.velocity.X = (projectile.velocity.X * N + playerVector.X) / (N + 1f);
+				projectile.velocity.Y = (projectile.velocity.Y * N + playerVector.Y) / (N + 1f);
+			}
+			else if (player.lifeMagnet && projectile.timeLeft < timeCheck)
+			{
+				playerDist = homingVelocity / playerDist;
+				playerVector.X *= playerDist;
+				playerVector.Y *= playerDist;
+				projectile.velocity.X = (projectile.velocity.X * N + playerVector.X) / (N + 1f);
+				projectile.velocity.Y = (projectile.velocity.Y * N + playerVector.Y) / (N + 1f);
+			}
 		}
         #endregion
 
@@ -2675,6 +3347,16 @@ namespace CalamityMod
 				}
 			}
 			return (t - from) / (to - from);
+		}
+
+		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 World.cs function
+		public static Rectangle ClampToWorld(Rectangle tileRectangle)
+		{
+			int num = Math.Max(0, Math.Min(tileRectangle.Left, Main.maxTilesX));
+			int num2 = Math.Max(0, Math.Min(tileRectangle.Top, Main.maxTilesY));
+			int num3 = Math.Max(0, Math.Min(tileRectangle.Right, Main.maxTilesX));
+			int num4 = Math.Max(0, Math.Min(tileRectangle.Bottom, Main.maxTilesY));
+			return new Rectangle(num, num2, num3 - num, num4 - num2);
 		}
 		#endregion
 	}

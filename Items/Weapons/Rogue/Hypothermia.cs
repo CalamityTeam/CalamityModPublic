@@ -2,14 +2,13 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class Hypothermia : RogueWeapon
+	public class Hypothermia : RogueWeapon
     {
 		private int counter = 0;
 		private bool justStealthStriked = false;

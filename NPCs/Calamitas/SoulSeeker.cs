@@ -34,7 +34,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.canGhostHeal = false;
             npc.damage = 40;
             npc.defense = 10;
-            npc.Calamity().RevPlusDR(0.1f);
+			npc.DR_NERD(0.1f);
             npc.lifeMax = 2500;
             if (CalamityWorld.bossRushActive)
             {
@@ -101,8 +101,8 @@ namespace CalamityMod.NPCs.Calamitas
                 {
                     if (NPC.CountNPCS(ModContent.NPCType<LifeSeeker>()) < 3)
                     {
-                        int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 25));
-                        int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 25));
+                        int x = (int)(npc.position.X + Main.rand.Next(npc.width - 25));
+                        int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 25));
                         int num663 = ModContent.NPCType<LifeSeeker>();
                         int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
                     }
@@ -116,7 +116,7 @@ namespace CalamityMod.NPCs.Calamitas
                 timer = 0;
             }
             NPC parent = Main.npc[NPC.FindFirstNPC(ModContent.NPCType<CalamitasRun3>())];
-            double deg = (double)npc.ai[1];
+            double deg = npc.ai[1];
             double rad = deg * (Math.PI / 180);
             double dist = 150;
             npc.position.X = parent.Center.X - (int)(Math.Cos(rad) * dist) - npc.width / 2;
@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.Calamitas
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -204,7 +204,7 @@ namespace CalamityMod.NPCs.Calamitas
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Calamitas/SoulSeekerGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Red, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{

@@ -1,15 +1,13 @@
-using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
-using CalamityMod.Projectiles.Summon;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Armor
 {
-    [AutoloadEquip(EquipType.Head)]
+	[AutoloadEquip(EquipType.Head)]
     public class FathomSwarmerVisage : ModItem
     {
         public override void SetStaticDefaults()

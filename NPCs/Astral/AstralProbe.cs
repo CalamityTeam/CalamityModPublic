@@ -24,7 +24,7 @@ namespace CalamityMod.NPCs.Astral
             npc.width = 30; //324
             npc.height = 30; //216
             npc.defense = 10;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 50;
             npc.aiStyle = -1;
             aiType = -1;

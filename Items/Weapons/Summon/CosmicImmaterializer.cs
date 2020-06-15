@@ -1,6 +1,5 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class CosmicImmaterializer : ModItem
+	public class CosmicImmaterializer : ModItem
     {
         public override void SetStaticDefaults()
         {

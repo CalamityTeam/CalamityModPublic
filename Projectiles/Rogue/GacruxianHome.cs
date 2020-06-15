@@ -1,14 +1,12 @@
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Melee;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class GacruxianHome : ModProjectile
+	public class GacruxianHome : ModProjectile
     {
         private int stealthTrailTimer = 10;
 

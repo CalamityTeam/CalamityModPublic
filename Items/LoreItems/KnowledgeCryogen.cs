@@ -34,7 +34,6 @@ namespace CalamityMod.Items.LoreItems
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dashMod = 6;
-            player.statDefense -= 10;
         }
 
         public override void AddRecipes()

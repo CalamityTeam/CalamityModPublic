@@ -1,6 +1,5 @@
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class VileFeeder : ModItem
+	public class VileFeeder : ModItem
     {
         public static int BaseDamage = 9;
 

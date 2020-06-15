@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Summon
 {
-    public class VileFeederProjectile : ModProjectile
+	public class VileFeederProjectile : ModProjectile
     {
         private int bounce = 3;
 

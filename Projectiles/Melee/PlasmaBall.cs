@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class PlasmaBall : ModProjectile
+	public class PlasmaBall : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -50,11 +49,6 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num458].velocity *= 0f;
 
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 12f, 20f);
-        }
-
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.AddBuff(BuffID.CursedInferno, 300);
         }
     }
 }

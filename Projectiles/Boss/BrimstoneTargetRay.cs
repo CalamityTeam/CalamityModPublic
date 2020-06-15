@@ -1,17 +1,14 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.NPCs.BrimstoneElemental;
-using CalamityMod.Dusts;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
-    public class BrimstoneTargetRay : ModProjectile
+	public class BrimstoneTargetRay : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -52,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<BrimstoneElemental>())
 			{
 				Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X + (Main.npc[(int)projectile.ai[1]].spriteDirection > 0 ? 34f : -34f), Main.npc[(int)projectile.ai[1]].Center.Y - 74f);
-				projectile.position = fireFrom - new Vector2((float)projectile.width, (float)projectile.height) / 2f;
+				projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
 			}
 			else
 				projectile.Kill();
@@ -80,7 +77,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			float num805 = 3f; //3f
-			float num806 = (float)projectile.width;
+			float num806 = projectile.width;
 
 			Vector2 samplingPoint = projectile.Center;
 			if (vector78.HasValue)
@@ -107,7 +104,7 @@ namespace CalamityMod.Projectiles.Boss
 			projectile.localAI[1] = MathHelper.Lerp(projectile.localAI[1], num807, amount); //length of laser, linear interpolation
 
 			DelegateMethods.v3_1 = new Vector3(0.9f, 0.3f, 0.3f);
-			Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
+			Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -124,22 +121,22 @@ namespace CalamityMod.Projectiles.Boss
 			Vector2 vector = projectile.Center - Main.screenPosition;
 			Rectangle? sourceRectangle2 = null;
 			spriteBatch.Draw(texture2D19, vector, sourceRectangle2, color44, projectile.rotation, texture2D19.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
-			num223 -= (float)(texture2D19.Height / 2 + texture2D21.Height) * projectile.scale;
+			num223 -= (texture2D19.Height / 2 + texture2D21.Height) * projectile.scale;
 			Vector2 value20 = projectile.Center;
-			value20 += projectile.velocity * projectile.scale * (float)texture2D19.Height / 2f;
+			value20 += projectile.velocity * projectile.scale * texture2D19.Height / 2f;
 			if (num223 > 0f)
 			{
 				float num224 = 0f;
 				Rectangle rectangle7 = new Rectangle(0, 16 * (projectile.timeLeft / 3 % 5), texture2D20.Width, 16);
 				while (num224 + 1f < num223)
 				{
-					if (num223 - num224 < (float)rectangle7.Height)
+					if (num223 - num224 < rectangle7.Height)
 					{
 						rectangle7.Height = (int)(num223 - num224);
 					}
-					spriteBatch.Draw(texture2D20, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, projectile.rotation, new Vector2((float)(rectangle7.Width / 2), 0f), projectile.scale, SpriteEffects.None, 0f);
-					num224 += (float)rectangle7.Height * projectile.scale;
-					value20 += projectile.velocity * (float)rectangle7.Height * projectile.scale;
+					spriteBatch.Draw(texture2D20, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), projectile.scale, SpriteEffects.None, 0f);
+					num224 += rectangle7.Height * projectile.scale;
+					value20 += projectile.velocity * rectangle7.Height * projectile.scale;
 					rectangle7.Y += 16;
 					if (rectangle7.Y + rectangle7.Height > texture2D20.Height)
 					{
@@ -157,7 +154,7 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			DelegateMethods.tilecut_0 = TileCuttingContext.AttackProjectile;
 			Vector2 unit = projectile.velocity;
-			Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], (float)projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
+			Utils.PlotTileLine(projectile.Center, projectile.Center + unit * projectile.localAI[1], projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class ClamorRifleProjSplit : ModProjectile
+	public class ClamorRifleProjSplit : ModProjectile
     {
         public override void SetStaticDefaults()
         {

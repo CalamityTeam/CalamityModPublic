@@ -1,12 +1,11 @@
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.DamageOverTime;
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class SepticSkewerHarpoon : ModProjectile
+	public class SepticSkewerHarpoon : ModProjectile
     {
         public override void SetStaticDefaults()
         {

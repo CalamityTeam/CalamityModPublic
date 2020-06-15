@@ -40,9 +40,9 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.width = 100;
             npc.height = 80;
             npc.defense = 50;
-            npc.Calamity().RevPlusDR(0.4f);
+			npc.DR_NERD(0.4f);
             npc.LifeMaxNERB(102500, 112500, 1650000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             npc.noGravity = true;
@@ -370,7 +370,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			if (npc.ai[0] == 2f)
 				num153 = 10;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -393,7 +393,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/ProfanedGuardians/ProfanedGuardianBossGlow");
 			Color color37 = Color.Lerp(Color.White, Color.Yellow, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -444,7 +444,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.OnFire, 600, true);
+            player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

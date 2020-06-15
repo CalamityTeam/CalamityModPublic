@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
@@ -27,19 +28,16 @@ namespace CalamityMod.Projectiles.Boss
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(projectile.localAI[0]);
-            writer.Write(projectile.localAI[1]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             projectile.localAI[0] = reader.ReadSingle();
-            projectile.localAI[1] = reader.ReadSingle();
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.penetrate--;
-            projectile.localAI[1] -= 105f;
             if (projectile.penetrate <= 0)
             {
                 projectile.Kill();
@@ -65,14 +63,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item20, projectile.position);
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            projectile.localAI[1] += 1f;
-			if (projectile.localAI[1] > 150f)
-			{
-				projectile.localAI[1] = 0f;
-				projectile.penetrate--;
-				projectile.velocity *= -1f;
-			}
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 9f)
             {
@@ -80,6 +71,18 @@ namespace CalamityMod.Projectiles.Boss
                 if (projectile.alpha < 30)
                     projectile.alpha = 30;
             }
+			if (projectile.localAI[0] > 180f && projectile.localAI[0] < 300f && Main.expertMode)
+			{
+				if (projectile.ai[0] == 0f)
+					projectile.ai[0] = projectile.velocity.Length() * 2f;
+
+				int num189 = Player.FindClosest(projectile.Center, 1, 1);
+				Vector2 vector20 = Main.player[num189].Center - projectile.Center;
+				vector20.Normalize();
+				vector20 *= projectile.ai[0];
+				int num190 = 80;
+				projectile.velocity = (projectile.velocity * (num190 - 1) + vector20) / num190;
+			}
         }
 
         public override Color? GetAlpha(Color lightColor)
@@ -87,7 +90,12 @@ namespace CalamityMod.Projectiles.Boss
             return new Color(250, 100, 100, projectile.alpha);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<WhisperingDeath>(), 120);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;
 		}

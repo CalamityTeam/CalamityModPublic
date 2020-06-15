@@ -1,5 +1,4 @@
 using CalamityMod.Dusts;
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +7,7 @@ using Terraria.World.Generation;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SpentFuelContainerProjectile : ModProjectile
+	public class SpentFuelContainerProjectile : ModProjectile
     {
         public override string Texture => "CalamityMod/Items/Weapons/Rogue/SpentFuelContainer";
 

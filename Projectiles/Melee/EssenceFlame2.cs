@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
-    public class EssenceFlame2 : ModProjectile
+	public class EssenceFlame2 : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -45,7 +44,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item74, (int)projectile.position.X, (int)projectile.position.Y);
+            Main.PlaySound(SoundID.Item74, projectile.Center);
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
             projectile.width = 50;

@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.StatDebuffs;
-using CalamityMod.Buffs.Potions;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -9,11 +8,9 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.SlimeGod
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class SlimeGodRun : ModNPC
     {
         private float bossLife;
@@ -32,7 +29,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.scale = 1.1f;
             npc.defense = 12;
             npc.LifeMaxNERB(3500, 4820, 1600000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
             animationType = 50;
@@ -111,7 +108,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 npc.position.Y = (float)(player.Center.Y / 16) * 16f - (float)(npc.height / 2) - 150f;
             }
 
-            if ((double)npc.life <= (double)npc.lifeMax * 0.5 && Main.netMode != NetmodeID.MultiplayerClient)
+            if ((double)npc.life <= (double)npc.lifeMax * 0.5 && Main.netMode != NetmodeID.MultiplayerClient && expertMode)
             {
                 Main.PlaySound(SoundID.NPCDeath1, npc.position);
                 Vector2 spawnAt = vector + new Vector2(0f, (float)npc.height / 2f);

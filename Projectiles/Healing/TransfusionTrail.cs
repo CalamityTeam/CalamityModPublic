@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class TransfusionTrail : ModProjectile
+	public class TransfusionTrail : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -22,7 +21,7 @@ namespace CalamityMod.Projectiles.Healing
 
 		public override void AI()
 		{
-			CalamityGlobalProjectile.HealingProjectile(projectile, (int)projectile.ai[1], (int)projectile.ai[0], 6.5f, 15f);
+			projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 6.5f, 15f);
 			float num494 = projectile.velocity.X * 0.334f;
 			float num495 = -(projectile.velocity.Y * 0.334f);
 			int num496 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 183, 0f, 0f, 100, default, 0.7f);

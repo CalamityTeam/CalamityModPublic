@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class BurntSiennaProj : ModProjectile
+	public class BurntSiennaProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -27,7 +26,7 @@ namespace CalamityMod.Projectiles.Healing
 			projectile.velocity.X *= 0.95f;
 			projectile.velocity.Y *= 0.95f;
 
-			CalamityGlobalProjectile.HealingProjectile(projectile, 3, (int)projectile.ai[0], 6f, 15f, false);
+			projectile.HealingProjectile(3, (int)projectile.ai[0], 6f, 15f, false);
 			int dusty = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, default, 1f);
 			Dust dust = Main.dust[dusty];
 			dust.noGravity = true;

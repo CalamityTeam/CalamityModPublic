@@ -5,11 +5,9 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 namespace CalamityMod.NPCs.HiveMind
 {
-    [AutoloadBossHead]
+	[AutoloadBossHead]
     public class HiveMind : ModNPC
     {
         int burrowTimer = 720;
@@ -28,7 +26,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.height = 120;
             npc.defense = 10;
             npc.LifeMaxNERB(1200, 1800, 350000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -154,30 +152,28 @@ namespace CalamityMod.NPCs.HiveMind
             }
             if (npc.ai[3] == 0f && npc.life > 0)
             {
-                npc.ai[3] = (float)npc.lifeMax;
+                npc.ai[3] = npc.lifeMax;
             }
             if (npc.life > 0)
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)((double)npc.lifeMax * 0.25);
-                    if ((float)(npc.life + num660) < npc.ai[3])
+                    int num660 = (int)(npc.lifeMax * 0.25);
+                    if ((npc.life + num660) < npc.ai[3])
                     {
-                        npc.ai[3] = (float)npc.life;
+                        npc.ai[3] = npc.life;
                         int num661 = Main.rand.Next(3, 6);
                         for (int num662 = 0; num662 < num661; num662++)
                         {
-                            int x = (int)(npc.position.X + (float)Main.rand.Next(npc.width - 32));
-                            int y = (int)(npc.position.Y + (float)Main.rand.Next(npc.height - 32));
+                            int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
+                            int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                             int num663 = ModContent.NPCType<HiveBlob>();
-                            if (Main.rand.NextBool(3) || npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (Main.rand.NextBool(3) || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             {
                                 num663 = ModContent.NPCType<DankCreeper>();
                             }
                             int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
                             Main.npc[num664].SetDefaults(num663, -1f);
-                            Main.npc[num664].velocity.X = (float)Main.rand.Next(-15, 16) * 0.1f;
-                            Main.npc[num664].velocity.Y = (float)Main.rand.Next(-30, 1) * 0.1f;
                             if (Main.netMode == NetmodeID.Server && num664 < 200)
                             {
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
@@ -205,7 +201,7 @@ namespace CalamityMod.NPCs.HiveMind
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
                 for (int i = 0; i < 2; i++)
                 {
@@ -227,7 +223,7 @@ namespace CalamityMod.NPCs.HiveMind
                     int tilePosY = (int)(npc.position.Y + npc.height) / 16 + 1;
                     if (Main.tile[tilePosX, tilePosY] == null)
                         Main.tile[tilePosX, tilePosY] = new Tile();
-                    while (!(Main.tile[tilePosX, tilePosY].nactive() && Main.tileSolid[(int)Main.tile[tilePosX, tilePosY].type]))
+                    while (!(Main.tile[tilePosX, tilePosY].nactive() && Main.tileSolid[Main.tile[tilePosX, tilePosY].type]))
                     {
                         tilePosY++;
                         npc.position.Y += 16;
@@ -246,7 +242,7 @@ namespace CalamityMod.NPCs.HiveMind
                 if (Main.rand.NextBool(2))
                 {
                     Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                 }
                 for (int i = 0; i < 2; i++)
                 {
@@ -285,19 +281,19 @@ namespace CalamityMod.NPCs.HiveMind
                 {
                     if (Main.rand.NextBool(60) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
+                        Vector2 spawnAt = npc.Center + new Vector2(0f, npc.height / 2f);
                         NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, NPCID.EaterofSouls);
                     }
                     if (Main.rand.NextBool(150) && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        Vector2 spawnAt = npc.Center + new Vector2(0f, (float)npc.height / 2f);
+                        Vector2 spawnAt = npc.Center + new Vector2(0f, npc.height / 2f);
                         NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y, NPCID.DevourerHead);
                     }
                 }
                 int num285 = 0;
-                while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
+                while (num285 < damage / npc.lifeMax * 100.0)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 14, (float)hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, 14, hitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }

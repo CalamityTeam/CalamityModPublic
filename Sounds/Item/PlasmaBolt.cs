@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework.Audio;
-using ReLogic.Utilities;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Sounds.Item
 {
-    public class PlasmaBolt : ModSound
+	public class PlasmaBolt : ModSound
     {
         public override SoundEffectInstance PlaySound(ref SoundEffectInstance soundInstance, float volume, float pan, SoundType type)
         {

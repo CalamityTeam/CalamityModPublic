@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             npc.width = 300;
             npc.height = 120;
             npc.defense = 60;
-            npc.Calamity().RevPlusDR(0.25f);
+			npc.DR_NERD(0.25f);
 			npc.LifeMaxNERB(8000, 11000);
             npc.aiStyle = -1;
             aiType = -1;
@@ -597,7 +597,7 @@ namespace CalamityMod.NPCs.GreatSandShark
             int num159 = 1;
             float num160 = 0f;
             int num161 = num159;
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityMod.CalamityConfig.Afterimages)
+            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
             {
                 Color color26 = npc.GetAlpha(color25);
                 {

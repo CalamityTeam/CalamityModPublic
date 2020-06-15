@@ -1,13 +1,10 @@
-using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class BouncingBettyProjectile : ModProjectile
+	public class BouncingBettyProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +23,7 @@ namespace CalamityMod.Projectiles.Rogue
         //This is definitely not a near copy of the Blast Barrel nosiree :>
         private void Explode()
         {
-            Main.PlaySound(SoundID.Item, projectile.Center, 14);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             bool stealthS = projectile.Calamity().stealthStrike;
             Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), ModContent.ProjectileType<BettyExplosion>(), projectile.damage, 8f, projectile.owner);
             if (stealthS)
@@ -81,7 +78,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.PlaySound(SoundID.Item, projectile.Center, 14);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
             Explode();
             projectile.velocity *= -1f;
         }

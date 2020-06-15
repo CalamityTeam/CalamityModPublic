@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class ShinobiHealOrb : ModProjectile
+	public class ShinobiHealOrb : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,7 +25,7 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void AI()
         {
-			CalamityGlobalProjectile.HealingProjectile(projectile, (int)projectile.ai[1], projectile.owner, 6f, 15f);
+			projectile.HealingProjectile((int)projectile.ai[1], projectile.owner, 6f, 15f);
 
             for (int num468 = 0; num468 < 3; num468++)
             {

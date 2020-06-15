@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Melee
 {
-    public class Mourningstar : ModItem
+	public class Mourningstar : ModItem
     {
         public override void SetStaticDefaults()
         {

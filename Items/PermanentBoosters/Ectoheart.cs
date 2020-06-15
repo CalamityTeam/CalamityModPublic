@@ -1,4 +1,3 @@
-using CalamityMod;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.PermanentBoosters
 {
-    public class Ectoheart : ModItem
+	public class Ectoheart : ModItem
     {
         public override void SetStaticDefaults()
         {

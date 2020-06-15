@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.SulphurousSea
 {
-    public class Gnasher : ModNPC
+	public class Gnasher : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +20,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             npc.width = 50;
             npc.height = 36;
             npc.defense = 30;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 35;
             npc.knockBackResist = 0.25f;
             npc.aiStyle = 3;

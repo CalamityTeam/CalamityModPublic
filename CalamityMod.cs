@@ -18,8 +18,8 @@ using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
-using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Tools;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -63,10 +63,11 @@ using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Tiles.LivingFire;
 using CalamityMod.Skies;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -139,6 +140,7 @@ namespace CalamityMod
 
 		// Lists
 		public static IList<string> donatorList;
+		public static List<int> trueMeleeProjectileList; // DO NOT, EVER, DELETE THIS LIST, OR I WILL COME FOR YOU :D
         public static List<int> rangedProjectileExceptionList;
         public static List<int> projectileDestroyExceptionList;
         public static List<int> projectileMinionList;
@@ -198,6 +200,7 @@ namespace CalamityMod
         public static List<int> highTestFishList;
         public static List<int> flamethrowerList;
         public static List<int> forceItemList;
+        public static List<int> livingFireBlockList;
 
         public static List<int> zombieList;
         public static List<int> demonEyeList;
@@ -212,15 +215,13 @@ namespace CalamityMod
         internal Mod thorium = null;
         public bool fargosMutant = false;
 
-		internal static Configs CalamityConfig;
-		internal static CalamityMod instance;
+		internal static CalamityMod Instance;
 
         #region Load
         public override void Load()
         {
-			instance = this;
-
-            heartOriginal2 = Main.heartTexture;
+			Instance = this;
+			heartOriginal2 = Main.heartTexture;
 			heartOriginal = Main.heart2Texture;
 			rainOriginal = Main.rainTexture;
 			manaOriginal = Main.manaTexture;
@@ -368,6 +369,7 @@ namespace CalamityMod
 			bossVelocityDamageScaleValues = null;
 
             donatorList = null;
+			trueMeleeProjectileList = null;
             rangedProjectileExceptionList = null;
             projectileDestroyExceptionList = null;
             projectileMinionList = null;
@@ -426,6 +428,7 @@ namespace CalamityMod
             highTestFishList = null;
             flamethrowerList = null;
             forceItemList = null;
+            livingFireBlockList = null;
 
             zombieList = null;
             demonEyeList = null;
@@ -439,8 +442,7 @@ namespace CalamityMod
             thorium = null;
             fargosMutant = false;
 
-			CalamityConfig = null;
-			instance = null;
+			Instance = null;
 
             PopupGUIManager.UnloadGUIs();
             SchematicLoader.UnloadEverything();
@@ -479,15 +481,15 @@ namespace CalamityMod
         #endregion
 
         #region ConfigCrap
-        internal static void SaveConfig(Configs CalamityConfig)
+        internal static void SaveConfig(CalamityConfig cfg)
 		{
 			// in-game ModConfig saving from mod code is not supported yet in tmodloader, and subject to change, so we need to be extra careful.
 			// This code only supports client configs, and doesn't call onchanged. It also doesn't support ReloadRequired or anything else.
 			MethodInfo saveMethodInfo = typeof(ConfigManager).GetMethod("Save", BindingFlags.Static | BindingFlags.NonPublic);
 			if (saveMethodInfo != null)
-				saveMethodInfo.Invoke(null, new object[] { CalamityConfig });
+				saveMethodInfo.Invoke(null, new object[] { cfg });
 			else
-				instance.Logger.Warn("In-game SaveConfig failed, code update required");
+				Instance.Logger.Warn("In-game SaveConfig failed, code update required");
 		}
 		#endregion
 
@@ -624,7 +626,87 @@ namespace CalamityMod
 				"RKMoon"
 			};
 
-            rangedProjectileExceptionList = new List<int>()
+			trueMeleeProjectileList = new List<int>()
+			{
+				// Vanilla shit
+				ProjectileID.Spear,
+                ProjectileID.Trident,
+                ProjectileID.TheRottedFork,
+                ProjectileID.Swordfish,
+                ProjectileID.Arkhalis,
+                ProjectileID.DarkLance,
+                ProjectileID.CobaltNaginata,
+                ProjectileID.PalladiumPike,
+                ProjectileID.MythrilHalberd,
+                ProjectileID.OrichalcumHalberd,
+                ProjectileID.AdamantiteGlaive,
+                ProjectileID.TitaniumTrident,
+                ProjectileID.MushroomSpear,
+                ProjectileID.Gungnir,
+                ProjectileID.ObsidianSwordfish,
+                ProjectileID.ChlorophytePartisan,
+                ProjectileID.MonkStaffT1,
+                ProjectileID.MonkStaffT2,
+                ProjectileID.MonkStaffT3,
+                ProjectileID.NorthPoleWeapon,
+
+				// Tools
+                ProjectileID.CobaltDrill,
+                ProjectileID.MythrilDrill,
+                ProjectileID.AdamantiteDrill,
+                ProjectileID.PalladiumDrill,
+                ProjectileID.OrichalcumDrill,
+                ProjectileID.TitaniumDrill,
+                ProjectileID.ChlorophyteDrill,
+                ProjectileID.CobaltChainsaw,
+                ProjectileID.MythrilChainsaw,
+                ProjectileID.AdamantiteChainsaw,
+                ProjectileID.PalladiumChainsaw,
+                ProjectileID.OrichalcumChainsaw,
+                ProjectileID.TitaniumChainsaw,
+                ProjectileID.ChlorophyteChainsaw,
+                ProjectileID.VortexDrill,
+                ProjectileID.VortexChainsaw,
+                ProjectileID.NebulaDrill,
+                ProjectileID.NebulaChainsaw,
+                ProjectileID.SolarFlareDrill,
+                ProjectileID.SolarFlareChainsaw,
+                ProjectileID.StardustDrill,
+                ProjectileID.StardustChainsaw,
+                ProjectileID.Hamdrax,
+                ProjectileID.ChlorophyteJackhammer,
+                ProjectileID.SawtoothShark,
+                ProjectileID.ButchersChainsaw,
+
+				// Calamity shit
+				ModContent.ProjectileType<DevilsSunriseProj>(),
+				ModContent.ProjectileType<MarniteObliteratorProj>(),
+				ModContent.ProjectileType<MurasamaSlash>(),
+				ModContent.ProjectileType<AmidiasTridentProj>(),
+				ModContent.ProjectileType<AstralPikeProj>(),
+				ModContent.ProjectileType<BansheeHookProj>(),
+				ModContent.ProjectileType<BrimlanceProj>(),
+				ModContent.ProjectileType<DiseasedPikeSpear>(),
+				ModContent.ProjectileType<EarthenPikeSpear>(),
+				ModContent.ProjectileType<ExsanguinationLanceProjectile>(),
+				ModContent.ProjectileType<FulgurationHalberdProj>(),
+				ModContent.ProjectileType<GildedProboscisProj>(),
+				ModContent.ProjectileType<GoldplumeSpearProjectile>(),
+				ModContent.ProjectileType<HellionFlowerSpearProjectile>(),
+				ModContent.ProjectileType<InsidiousImpalerProj>(),
+				ModContent.ProjectileType<MarniteSpearProjectile>(),
+				ModContent.ProjectileType<NadirSpear>(),
+				ModContent.ProjectileType<SausageMakerSpear>(),
+				ModContent.ProjectileType<SpatialLanceProjectile>(),
+				ModContent.ProjectileType<StarnightLanceProjectile>(),
+				ModContent.ProjectileType<StreamGougeProj>(),
+				ModContent.ProjectileType<TenebreusTidesProjectile>(),
+				ModContent.ProjectileType<TerraLanceProjectile>(),
+				ModContent.ProjectileType<UrchinSpearProjectile>(),
+				ModContent.ProjectileType<YateveoBloomSpear>()
+			};
+
+			rangedProjectileExceptionList = new List<int>()
             {
                 ProjectileID.Phantasm,
                 ProjectileID.VortexBeater,
@@ -1663,7 +1745,6 @@ namespace CalamityMod
 			{
 				NPCID.TheDestroyer,
 				NPCID.SolarCrawltipedeHead,
-				ModContent.NPCType<AstrumDeusHead>(),
 				ModContent.NPCType<AstrumDeusHeadSpectral>(),
 				ModContent.NPCType<ProfanedGuardianBoss>(),
 				ModContent.NPCType<Bumblefuck>(),
@@ -1808,7 +1889,6 @@ namespace CalamityMod
 				ModContent.ProjectileType<HolySpear>(),
 				ModContent.ProjectileType<ProvidenceCrystalShard>(),
 				ModContent.ProjectileType<ProvidenceHolyRay>(),
-				ModContent.ProjectileType<CosmicFlameBurst>(),
 				ModContent.ProjectileType<SignusScythe>(),
 				ModContent.ProjectileType<EssenceDust>(),
 				ModContent.ProjectileType<PhantomBlast>(),
@@ -2359,6 +2439,19 @@ namespace CalamityMod
 				ItemID.SuperHealingPotion
             };
 
+            livingFireBlockList = new List<int>()
+            {
+                ModContent.TileType<LivingGodSlayerFireBlockTile>(),
+                ModContent.TileType<LivingHolyFireBlockTile>(),
+                ModContent.TileType<LivingBrimstoneFireBlockTile>(),
+				TileID.LivingFire,
+				TileID.LivingCursedFire,
+				TileID.LivingDemonFire,
+				TileID.LivingFrostFire,
+				TileID.LivingIchor,
+				TileID.LivingUltrabrightFire
+            };
+
             zombieList = new List<int>()
             {
                 NPCID.Zombie,
@@ -2420,7 +2513,19 @@ namespace CalamityMod
 
             hornetList = new List<int>()
             {
-                NPCID.Hornet,
+				NPCID.BigHornetStingy,
+				NPCID.LittleHornetStingy,
+				NPCID.BigHornetSpikey,
+				NPCID.LittleHornetSpikey,
+				NPCID.BigHornetLeafy,
+				NPCID.LittleHornetLeafy,
+				NPCID.BigHornetHoney,
+				NPCID.LittleHornetHoney,
+				NPCID.BigHornetFatty,
+				NPCID.LittleHornetFatty,
+				NPCID.BigStinger,
+				NPCID.LittleStinger,
+				NPCID.Hornet,
                 NPCID.HornetFatty,
                 NPCID.HornetHoney,
                 NPCID.HornetLeafy,
@@ -2438,7 +2543,7 @@ namespace CalamityMod
             };
 
             Mod thorium = ModLoader.GetMod("ThoriumMod");
-            if (CalamityMod.CalamityConfig.RevengeanceAndDeathThoriumBossBuff && thorium != null)
+            if (CalamityConfig.Instance.BuffThoriumBosses && thorium != null)
             {
                 enemyImmunityList.Add(thorium.NPCType("TheGrandThunderBirdv2"));
                 enemyImmunityList.Add(thorium.NPCType("QueenJelly"));
@@ -2558,10 +2663,10 @@ namespace CalamityMod
 
             legOverrideList = new List<int>()
             {
-                instance.GetEquipSlot("ProviLegs", EquipType.Legs),
-                instance.GetEquipSlot("SirenLegAlt", EquipType.Legs),
-                instance.GetEquipSlot("SirenLeg", EquipType.Legs),
-                instance.GetEquipSlot("PopoLeg", EquipType.Legs)
+                Instance.GetEquipSlot("ProviLegs", EquipType.Legs),
+                Instance.GetEquipSlot("SirenLegAlt", EquipType.Legs),
+                Instance.GetEquipSlot("SirenLeg", EquipType.Legs),
+                Instance.GetEquipSlot("PopoLeg", EquipType.Legs)
             };
         }
         #endregion
@@ -2685,7 +2790,7 @@ namespace CalamityMod
         #region Thorium Boss DR
         private void SetupThoriumBossDR(Mod thorium)
         {
-            if (thorium is null || !CalamityConfig.RevengeanceAndDeathThoriumBossBuff)
+            if (thorium is null || !CalamityConfig.Instance.BuffThoriumBosses)
                 return;
 
             void ThoriumDR(string npcName, float dr) {
@@ -2735,8 +2840,8 @@ namespace CalamityMod
 				{ NPCID.Creeper, 1800 },
 				{ NPCID.QueenBee, 7200 },
 				{ NPCID.SkeletronHead, 9000 },
-				{ NPCID.WallofFlesh, 10800 },
-				{ NPCID.WallofFleshEye, 10800 },
+				{ NPCID.WallofFlesh, 7200 },
+				{ NPCID.WallofFleshEye, 7200 },
 				{ NPCID.Spazmatism, 10800 },
 				{ NPCID.Retinazer, 10800 },
 				{ NPCID.TheDestroyer, 10800 },
@@ -2774,12 +2879,9 @@ namespace CalamityMod
 				{ ModContent.NPCType<Leviathan>(), 10800 },
 				{ ModContent.NPCType<Siren>(), 10800 },
 				{ ModContent.NPCType<AstrumAureus>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 10800 },
-				{ ModContent.NPCType<AstrumDeusHead>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusBody>(), 7200 },
-				{ ModContent.NPCType<AstrumDeusTail>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusBodySpectral>(), 7200 },
+				{ ModContent.NPCType<AstrumDeusTailSpectral>(), 7200 },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), 10800 },
 				{ ModContent.NPCType<RavagerBody>(), 10800 },
 				{ ModContent.NPCType<ProfanedGuardianBoss>(), 5400 },
@@ -2794,12 +2896,12 @@ namespace CalamityMod
 				{ ModContent.NPCType<Signus>(), 7200 },
 				{ ModContent.NPCType<Polterghast>(), 10800 },
 				{ ModContent.NPCType<OldDuke>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsHead>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsBody>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsTail>(), 7200 },
-				{ ModContent.NPCType<DevourerofGodsHeadS>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsBodyS>(), 10800 },
-				{ ModContent.NPCType<DevourerofGodsTailS>(), 10800 },
+				{ ModContent.NPCType<DevourerofGodsHead>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsBody>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsTail>(), 5400 },
+				{ ModContent.NPCType<DevourerofGodsHeadS>(), 9000 },
+				{ ModContent.NPCType<DevourerofGodsBodyS>(), 9000 },
+				{ ModContent.NPCType<DevourerofGodsTailS>(), 9000 },
 				{ ModContent.NPCType<Yharon>(), 10800 },
 				{ ModContent.NPCType<SupremeCalamitas>(), 18000 }
 			};
@@ -2884,10 +2986,6 @@ namespace CalamityMod
 				{ ModContent.NPCType<AstrumDeusHeadSpectral>(), bitingEnemeyVelocityScale },
 				{ ModContent.NPCType<AstrumDeusBodySpectral>(), velocityScaleMin },
 				{ ModContent.NPCType<AstrumDeusTailSpectral>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusHead>(), bitingEnemeyVelocityScale },
-				{ ModContent.NPCType<AstrumDeusBody>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusTail>(), velocityScaleMin },
-				{ ModContent.NPCType<AstrumDeusProbe3>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerGoliath>(), velocityScaleMin },
 				{ ModContent.NPCType<PlaguebringerShade>(), velocityScaleMin },
 				{ ModContent.NPCType<PlagueBeeG>(), velocityScaleMin },
@@ -3774,6 +3872,7 @@ namespace CalamityMod
                     case CalamityModMessageType.AcidRainSync:
                         CalamityWorld.rainingAcid = reader.ReadBoolean();
                         CalamityWorld.acidRainPoints = reader.ReadInt32();
+                        CalamityWorld.timeSinceAcidRainKill = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.AcidRainUIDrawFadeSync:
                         CalamityWorld.acidRainExtraDrawTime = reader.ReadInt32();
@@ -3850,8 +3949,8 @@ namespace CalamityMod
                 NetMessage.SendData(MessageID.WorldData, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
             }
         }
-        #endregion
-    }
+		#endregion
+	}
 
     public enum Season : byte
     {

@@ -3,12 +3,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using CalamityMod.Buffs.DamageOverTime;
 
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class ProfanedPartisanproj : ModProjectile
+	public class ProfanedPartisanproj : ModProjectile
     {
     	public int stealthStrikeTimer = 0;
 

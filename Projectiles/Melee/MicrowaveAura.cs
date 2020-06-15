@@ -2,12 +2,11 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Projectiles.Melee.Yoyos;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class MicrowaveAura : ModProjectile
+	public class MicrowaveAura : ModProjectile
     {
 		private int radius = 100;
 

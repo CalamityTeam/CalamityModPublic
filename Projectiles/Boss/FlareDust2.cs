@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -74,7 +75,7 @@ namespace CalamityMod.Projectiles.Boss
 
 						projectile.ai[1] += 0.1f;
 
-						float amplitude = velocity.Length();
+						float amplitude = 2f;
 
 						float wavyVelocity = (float)Math.Cos(projectile.ai[1]);
 
@@ -100,7 +101,7 @@ namespace CalamityMod.Projectiles.Boss
 
 						projectile.ai[1] += 0.1f;
 
-						float amplitude = velocity.Length();
+						float amplitude = 2f;
 
 						float wavyVelocity = (float)Math.Sin(projectile.ai[1]);
 
@@ -155,7 +156,12 @@ namespace CalamityMod.Projectiles.Boss
 			CalamityUtils.ExplosionGores(projectile, 3);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;
 		}

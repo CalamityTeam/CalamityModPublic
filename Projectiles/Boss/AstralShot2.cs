@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 10;
             projectile.hostile = true;
             projectile.ignoreWater = true;
+			projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = -1;
             projectile.timeLeft = 600;
@@ -30,6 +31,10 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
+			Vector2 targetLocation = new Vector2(projectile.ai[0], projectile.ai[1]);
+			if (Vector2.Distance(targetLocation, projectile.Center) < 80f)
+				projectile.tileCollide = true;
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -40,11 +45,7 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.frame = 0;
             }
-            if (projectile.ai[0] == 0f)
-            {
-                projectile.ai[0] = 1f;
-                Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 12);
-            }
+            
             if (projectile.alpha > 0)
             {
                 projectile.alpha -= 25;
@@ -53,7 +54,8 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.alpha = 0;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

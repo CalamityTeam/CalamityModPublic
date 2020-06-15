@@ -1,14 +1,12 @@
 using CalamityMod.Projectiles.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Summon
 {
-    public class ScabRipper : ModItem
+	public class ScabRipper : ModItem
     {
         public override void SetStaticDefaults()
         {

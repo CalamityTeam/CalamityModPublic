@@ -1,10 +1,9 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Healing
 {
-    public class RoyalHeal : ModProjectile
+	public class RoyalHeal : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -22,7 +21,7 @@ namespace CalamityMod.Projectiles.Healing
 
         public override void AI()
         {
-			CalamityGlobalProjectile.HealingProjectile(projectile, (int)projectile.ai[1], (int)projectile.ai[0], 5.5f, 15f);
+			projectile.HealingProjectile((int)projectile.ai[1], (int)projectile.ai[0], 5.5f, 15f);
             for (int num493 = 0; num493 < 3; num493++)
             {
                 float num494 = projectile.velocity.X * 0.334f * (float)num493;

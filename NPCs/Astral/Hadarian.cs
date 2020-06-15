@@ -32,7 +32,7 @@ namespace CalamityMod.NPCs.Astral
             npc.aiStyle = -1;
             npc.damage = 50;
             npc.defense = 8;
-            npc.Calamity().RevPlusDR(0.15f);
+			npc.DR_NERD(0.15f);
             npc.lifeMax = 330;
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.knockBackResist = 0.75f;

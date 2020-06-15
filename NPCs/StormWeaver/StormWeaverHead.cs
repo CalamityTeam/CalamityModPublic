@@ -1,12 +1,10 @@
-using CalamityMod.World;
+﻿using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.StormWeaver
 {
@@ -50,8 +48,8 @@ namespace CalamityMod.NPCs.StormWeaver
                 else
                     music = MusicID.Boss3;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
@@ -145,17 +143,22 @@ namespace CalamityMod.NPCs.StormWeaver
                     }
                     tail = true;
                 }
+
                 int damage = expertMode ? 62 : 75;
-                npc.localAI[0] += 1f;
-                if (npc.localAI[0] >= 360f)
-                {
-                    npc.localAI[0] = 0f;
-                    npc.TargetClosest(true);
-                    npc.netUpdate = true;
-                    float xPos = Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f;
-                    Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
-                    Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ProjectileID.CultistBossLightningOrb, damage, 0f, Main.myPlayer, 0f, 0f);
-                }
+				if (expertMode)
+				{
+					npc.localAI[0] += 1f;
+					if (npc.localAI[0] >= 360f)
+					{
+						npc.localAI[0] = 0f;
+						npc.TargetClosest(true);
+						npc.netUpdate = true;
+						float xPos = Main.rand.NextBool(2) ? npc.position.X + 300f : npc.position.X - 300f;
+						Vector2 vector2 = new Vector2(xPos, npc.position.Y + Main.rand.Next(-300, 301));
+						Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, 465, damage, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
+
                 if (BoltCountdown == 0)
                 {
                     BoltCountdown = 600;
@@ -166,7 +169,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     if (BoltCountdown == 0)
                     {
                         int speed2 = revenge ? 8 : 7;
-                        if (npc.Calamity().enraged > 0 || (CalamityMod.CalamityConfig.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                         {
                             speed2 += 1;
                         }
@@ -185,7 +188,7 @@ namespace CalamityMod.NPCs.StormWeaver
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
                             Vector2 vector94 = Main.player[npc.target].Center - spawn2;
                             float ai = (float)Main.rand.Next(100);
-                            Projectile.NewProjectile(spawn2.X, spawn2.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
+                            Projectile.NewProjectile(spawn2.X, spawn2.Y, velocity.X, velocity.Y, 466, damage, 0f, Main.myPlayer, vector94.ToRotation(), ai);
                         }
                     }
                 }
@@ -296,9 +299,10 @@ namespace CalamityMod.NPCs.StormWeaver
             }
             else
             {
-                num188 = revenge ? 14f : 13f;
-                num189 = revenge ? 0.44f : 0.4f;
-                if (!Main.player[npc.target].ZoneSkyHeight && CalamityWorld.DoGSecondStageCountdown <= 0)
+                num188 = revenge ? 11f : 10f;
+                num189 = revenge ? 0.31f : 0.28f;
+
+                if (!Main.player[npc.target].ZoneSkyHeight && CalamityWorld.DoGSecondStageCountdown <= 0 && expertMode)
                 {
                     num188 *= 2f;
                     num189 *= 2f;

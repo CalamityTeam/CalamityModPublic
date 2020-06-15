@@ -13,10 +13,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
 namespace CalamityMod.NPCs.TownNPCs
 {
-    [AutoloadHead]
+	[AutoloadHead]
     public class SEAHOE : ModNPC
     {
         public override void SetStaticDefaults()
@@ -288,7 +287,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 20, 0, 0);
                 nextSlot++;
             }
-            if (NPC.downedFishron && CalamityMod.CalamityConfig.SellBossSummons)
+            if (NPC.downedFishron && CalamityConfig.Instance.SellVanillaSummons)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.TruffleWorm);
                 shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);

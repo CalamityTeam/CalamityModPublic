@@ -41,7 +41,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 180);
+            target.AddBuff(BuffID.Ichor, 120);
             if (target.damage > 0 && crit)
             {
                 target.damage -= 10;
@@ -50,7 +50,7 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.Ichor, 180);
+            target.AddBuff(BuffID.Ichor, 120);
         }
 
         public override void AddRecipes()

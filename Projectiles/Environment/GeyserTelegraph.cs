@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Environment
 {
-    public class GeyserTelegraph : ModProjectile
+	public class GeyserTelegraph : ModProjectile
     {
 		private bool initialized = false;
         public override void SetStaticDefaults()

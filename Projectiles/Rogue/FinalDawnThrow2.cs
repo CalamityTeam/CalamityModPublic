@@ -1,13 +1,12 @@
-using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
- 
+
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class FinalDawnThrow2 : ModProjectile
+	public class FinalDawnThrow2 : ModProjectile
     {
         bool HasHitEnemy = false;
         public override void SetStaticDefaults()
@@ -54,12 +53,16 @@ namespace CalamityMod.Projectiles.Rogue
         }
 		public override void AI()
 		{
+			Player player = Main.player[projectile.owner];
+
+			if (player.dead || player is null || Main.myPlayer != projectile.owner)
+				projectile.Kill();
+
             if (projectile.localAI[0] == 0)
             {
                 Main.PlaySound(SoundID.Item71, projectile.position);
                 projectile.localAI[0] = 1;
             }
-			Player player = Main.player[projectile.owner];
 
             projectile.spriteDirection = projectile.velocity.X > 0 ? 1 : -1;
             projectile.rotation += 0.25f * projectile.direction;

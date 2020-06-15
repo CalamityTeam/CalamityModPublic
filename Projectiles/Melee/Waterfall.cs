@@ -1,6 +1,4 @@
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -83,14 +81,14 @@ namespace CalamityMod.Projectiles.Melee
                 {
                     projectile.velocity.Y = -oldVelocity.Y;
                 }
-                Main.PlaySound(SoundID.Item10, projectile.position);
+                Main.PlaySound(SoundID.Item10, projectile.Center);
             }
             return false;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item27, projectile.position);
+            Main.PlaySound(SoundID.Item27, projectile.Center);
             for (int k = 0; k < 3; k++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 56, projectile.oldVelocity.X * 0.25f, projectile.oldVelocity.Y * 0.25f);

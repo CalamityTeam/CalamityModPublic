@@ -3,7 +3,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Items.Weapons.Summon;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class StormjawBaby : ModProjectile
+	public class StormjawBaby : ModProjectile
     {
         public float dust = 0f;
 		private int sparkCounter = 0;

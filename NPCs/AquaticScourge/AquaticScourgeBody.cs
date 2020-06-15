@@ -1,17 +1,11 @@
-using CalamityMod.Projectiles.Boss;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
-using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.AquaticScourge
 {
-    public class AquaticScourgeBody : ModNPC
+	public class AquaticScourgeBody : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -24,13 +18,13 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.width = 32;
             npc.height = 32;
             npc.defense = 20;
-            npc.Calamity().RevPlusDR(0.05f);
+			npc.DR_NERD(0.05f);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0f;
             npc.alpha = 255;
             npc.LifeMaxNERB(73000, 85000, 10000000);
-            double HPBoost = CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

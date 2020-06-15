@@ -43,7 +43,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.NPCHit7, projectile.position);
+            Main.PlaySound(SoundID.NPCHit7, projectile.Center);
             for (int i = 0; i <= 10; i++)
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 16, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f);

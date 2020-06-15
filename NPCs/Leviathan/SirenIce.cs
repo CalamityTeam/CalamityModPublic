@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles.Ranged;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.NPCs.Leviathan
 {
-    public class SirenIce : ModNPC
+	public class SirenIce : ModNPC
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +23,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.width = 100;
             npc.height = 100;
             npc.defense = 10;
-            npc.Calamity().RevPlusDR(0.5f);
+			npc.DR_NERD(0.5f);
             npc.lifeMax = 650;
             if (CalamityWorld.bossRushActive)
             {

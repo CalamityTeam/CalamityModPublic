@@ -1,5 +1,3 @@
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
 using CalamityMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.Ranged
 {
-    public class SepticSkewer : ModItem
+	public class SepticSkewer : ModItem
     {
         public override void SetStaticDefaults()
         {

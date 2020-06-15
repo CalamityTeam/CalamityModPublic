@@ -139,7 +139,7 @@ namespace CalamityMod.World
                 }
                 PutItemInChest(ref chest, ItemID.GoldCoin, goldCoins);
             }
-            else if (type == ModContent.TileType<RustyChestLocked>())
+            else if (type == ModContent.TileType<RustyChestTile>())
             {
                 // 15-29 torches (in accordence with vanilla)
                 PutItemInChest(ref chest, ItemID.Torch, 15, 29);
@@ -4043,7 +4043,7 @@ namespace CalamityMod.World
         #region ChasmGenerator
         public static void ChasmGenerator(int i, int j, int steps, bool ocean = false)
         {
-            float num = (float)steps; //850 small 1450 medium 2050 large
+            float num = steps; //850 small 1450 medium 2050 large
             if (ocean)
             {
                 int tileYLookup = j;
@@ -4064,19 +4064,19 @@ namespace CalamityMod.World
                 j = tileYLookup;
             }
             Vector2 vector;
-            vector.X = (float)i;
-            vector.Y = (float)j;
+            vector.X = i;
+            vector.Y = j;
             Vector2 vector2;
-            vector2.X = (float)WorldGen.genRand.Next(-1, 2) * 0.1f;
-            vector2.Y = (float)WorldGen.genRand.Next(3, 8) * 0.2f + 0.5f;
+            vector2.X = WorldGen.genRand.Next(-1, 2) * 0.1f;
+            vector2.Y = WorldGen.genRand.Next(3, 8) * 0.2f + 0.5f;
             int num2 = 5;
-            double num3 = (double)(WorldGen.genRand.Next(5, 7) + 20); //start width
+            double num3 = WorldGen.genRand.Next(5, 7) + 20; //start width
             while (num3 > 0.0)
             {
                 if (num > 0f)
                 {
-                    num3 += (double)WorldGen.genRand.Next(2);
-                    num3 -= (double)WorldGen.genRand.Next(2);
+                    num3 += WorldGen.genRand.Next(2);
+                    num3 -= WorldGen.genRand.Next(2);
                     float smallHoleLimit = 790f; //small
                     if (Main.maxTilesY > 1500)
                     { smallHoleLimit = 1360f; if (Main.maxTilesY > 2100) { smallHoleLimit = 1950f; } }
@@ -4093,17 +4093,17 @@ namespace CalamityMod.World
                     }
                     else //dig large hole
                     {
-                        if (num3 < (ocean ? 30.0 : 8.0)) //min width
+                        if (num3 < (ocean ? 45.0 : 8.0)) //min width
                         {
-                            num3 = ocean ? 30.0 : 8.0; //min width
+                            num3 = ocean ? 45.0 : 8.0; //min width
                         }
-                        if (num3 > (ocean ? 35.0 : 20.0)) //max width
+                        if (num3 > (ocean ? 50.0 : 20.0)) //max width
                         {
-                            num3 = ocean ? 35.0 : 20.0; //max width
+                            num3 = ocean ? 50.0 : 20.0; //max width
                         }
-                        if (num == 1f && num3 < (ocean ? 30.0 : 15.0))
+                        if (num == 1f && num3 < (ocean ? 50.0 : 15.0))
                         {
-                            num3 = ocean ? 30.0 : 15.0;
+                            num3 = ocean ? 50.0 : 15.0;
                         }
                     }
                 }
@@ -4111,13 +4111,13 @@ namespace CalamityMod.World
                 {
                     if ((double)vector.Y > CalamityWorld.abyssChasmBottom)
                     {
-                        num3 -= (double)(WorldGen.genRand.Next(5) + 8);
+                        num3 -= WorldGen.genRand.Next(5) + 8;
                     }
                 }
                 if (Main.maxTilesY > 2100)
                 {
                     if (((double)vector.Y > CalamityWorld.abyssChasmBottom && num > 0f && ocean) ||
-                        ((double)vector.Y >= (double)Main.maxTilesY && num > 0f && !ocean))
+                        (vector.Y >= Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
                     }
@@ -4125,7 +4125,7 @@ namespace CalamityMod.World
                 else if (Main.maxTilesY > 1500)
                 {
                     if (((double)vector.Y > CalamityWorld.abyssChasmBottom && num > 0f && ocean) ||
-                        ((double)vector.Y > (double)Main.maxTilesY && num > 0f && !ocean))
+                        (vector.Y > Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
                     }
@@ -4133,7 +4133,7 @@ namespace CalamityMod.World
                 else
                 {
                     if (((double)vector.Y > CalamityWorld.abyssChasmBottom && num > 0f && ocean) ||
-                        ((double)vector.Y > (double)Main.maxTilesY && num > 0f && !ocean))
+                        (vector.Y > Main.maxTilesY && num > 0f && !ocean))
                     {
                         num = 0f;
                     }
@@ -4143,12 +4143,12 @@ namespace CalamityMod.World
                 int num5;
                 int num6;
                 int num7;
-                if (num > (float)num2)
+                if (num > num2)
                 {
-                    num4 = (int)((double)vector.X - num3 * 0.5);
-                    num5 = (int)((double)vector.X + num3 * 0.5);
-                    num6 = (int)((double)vector.Y - num3 * 0.5);
-                    num7 = (int)((double)vector.Y + num3 * 0.5);
+                    num4 = (int)(vector.X - num3 * 0.5);
+                    num5 = (int)(vector.X + num3 * 0.5);
+                    num6 = (int)(vector.Y - num3 * 0.5);
+                    num7 = (int)(vector.Y + num3 * 0.5);
                     if (num4 < 0)
                     {
                         num4 = 0;
@@ -4169,7 +4169,7 @@ namespace CalamityMod.World
                     {
                         for (int l = num6; l < num7; l++)
                         {
-                            if ((double)(Math.Abs((float)k - vector.X) + Math.Abs((float)l - vector.Y)) < num3 * 0.5 * (1.0 + (double)WorldGen.genRand.Next(-5, 6) * 0.015))
+                            if ((Math.Abs(k - vector.X) + Math.Abs(l - vector.Y)) < num3 * 0.5 * (1.0 + WorldGen.genRand.Next(-5, 6) * 0.015))
                             {
                                 if (ocean)
                                 {
@@ -4187,24 +4187,24 @@ namespace CalamityMod.World
                         }
                     }
                 }
-                if (num <= 2f && (double)vector.Y < (Main.rockLayer + (double)Main.maxTilesY * 0.3))
+                if (num <= 2f && vector.Y < (Main.rockLayer + Main.maxTilesY * 0.3))
                 {
                     num = 2f;
                 }
                 vector += vector2;
-                vector2.X += (float)WorldGen.genRand.Next(-1, 2) * 0.01f;
-                if ((double)vector2.X > 0.02)
+                vector2.X += WorldGen.genRand.Next(-1, 2) * 0.01f;
+                if (vector2.X > 0.02)
                 {
                     vector2.X = 0.02f;
                 }
-                if ((double)vector2.X < -0.02)
+                if (vector2.X < -0.02)
                 {
                     vector2.X = -0.02f;
                 }
-                num4 = (int)((double)vector.X - num3 * 1.1);
-                num5 = (int)((double)vector.X + num3 * 1.1);
-                num6 = (int)((double)vector.Y - num3 * 1.1);
-                num7 = (int)((double)vector.Y + num3 * 1.1);
+                num4 = (int)(vector.X - num3 * 1.1);
+                num5 = (int)(vector.X + num3 * 1.1);
+                num6 = (int)(vector.Y - num3 * 1.1);
+                num7 = (int)(vector.Y + num3 * 1.1);
                 if (num4 < 1)
                 {
                     num4 = 1;
@@ -4225,7 +4225,7 @@ namespace CalamityMod.World
                 {
                     for (int n = num6; n < num7; n++)
                     {
-                        if ((double)(Math.Abs((float)m - vector.X) + Math.Abs((float)n - vector.Y)) < num3 * 1.1 * (1.0 + (double)WorldGen.genRand.Next(-5, 6) * 0.015))
+                        if ((Math.Abs(m - vector.X) + Math.Abs(n - vector.Y)) < num3 * 1.1 * (1.0 + WorldGen.genRand.Next(-5, 6) * 0.015))
                         {
                             if (n > j + WorldGen.genRand.Next(7, 16))
                             {
@@ -4252,7 +4252,7 @@ namespace CalamityMod.World
                 {
                     for (int num12 = num6; num12 < num7; num12++)
                     {
-                        if ((double)(Math.Abs((float)num11 - vector.X) + Math.Abs((float)num12 - vector.Y)) < num3 * 1.1 * (1.0 + (double)WorldGen.genRand.Next(-5, 6) * 0.015))
+                        if ((Math.Abs(num11 - vector.X) + Math.Abs(num12 - vector.Y)) < num3 * 1.1 * (1.0 + WorldGen.genRand.Next(-5, 6) * 0.015))
                         {
                             if (ocean)
                             {

@@ -92,31 +92,7 @@ namespace CalamityMod.Projectiles.Summon
             float colorScale = (float)projectile.alpha / 255f;
             Lighting.AddLight((int)projectile.Center.X / 16, (int)projectile.Center.Y / 16, 1f * colorScale, 0.1f * colorScale, 1f * colorScale);
 
-            float antiStickyFloat = 0.05f;
-            for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
-            {
-				Projectile proj = Main.projectile[projIndex];
-                bool flag23 = proj.type == ModContent.ProjectileType<CosmicViperSummon>();
-                if (projIndex != projectile.whoAmI && proj.active && proj.owner == projectile.owner && flag23 && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X -= antiStickyFloat;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += antiStickyFloat;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y -= antiStickyFloat;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += antiStickyFloat;
-                    }
-                }
-            }
+			projectile.MinionAntiClump();
 
             float detectRange = 700f;
             Vector2 targetVec = projectile.position;
@@ -292,19 +268,31 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool CanDamage() => false;
+		public override bool CanDamage() => false;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
 			Texture2D texture = Main.projectileTexture[projectile.type];
-			int frameHeight = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
+			int frameHeight = texture.Height / Main.projFrames[projectile.type];
 			int y6 = frameHeight * projectile.frame;
 			SpriteEffects spriteEffects = SpriteEffects.None;
 			if (projectile.spriteDirection == -1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
 			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
-            return false;
+			return false;
+		}
+
+		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			Texture2D texture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/CosmicViperGlow");
+			int frameHeight = texture.Height / Main.projFrames[projectile.type];
+			int y6 = frameHeight * projectile.frame;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+			spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture.Width, frameHeight)), Color.White, projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, spriteEffects, 0f);
 		}
     }
 }

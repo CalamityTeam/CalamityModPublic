@@ -1,6 +1,5 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
-using CalamityMod.Projectiles.Magic;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -9,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Summon
 {
-    public class WulfrumDroid : ModProjectile
+	public class WulfrumDroid : ModProjectile
     {
         public float dust = 0f;
 
@@ -88,22 +87,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-			float num6 = 0.05f;
-			float width = (float) projectile.width;
-			for (int index = 0; index < Main.maxProjectiles; ++index)
-			{
-				if (index != projectile.whoAmI && Main.projectile[index].active && (Main.projectile[index].owner == projectile.owner && Main.projectile[index].type == projectile.type) && (double) Math.Abs(projectile.position.X - Main.projectile[index].position.X) + (double) Math.Abs(projectile.position.Y - Main.projectile[index].position.Y) < (double) width)
-				{
-					if ((double) projectile.position.X < (double) Main.projectile[index].position.X)
-						projectile.velocity.X -= num6;
-					else
-						projectile.velocity.X += num6;
-					if ((double) projectile.position.Y < (double) Main.projectile[index].position.Y)
-						projectile.velocity.Y -= num6;
-					else
-						projectile.velocity.Y += num6;
-				}
-			}
+			projectile.MinionAntiClump();
 			Vector2 vector2_3 = projectile.position;
 			float num7 = 450f;
 			bool flag = false;

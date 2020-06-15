@@ -1,13 +1,12 @@
 ﻿using CalamityMod.Buffs.Mounts;
 using CalamityMod.Projectiles.Ranged;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Mounts
 {
-    public class BUMBLEDOGE : ModMountData
+	public class BUMBLEDOGE : ModMountData
     {
         public override void SetDefaults()
         {

@@ -1,8 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Pets;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Items.SummonItems.Invasion;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -17,7 +15,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.SulphurCatches
 {
-    public class AbyssalCrate : ModItem
+	public class AbyssalCrate : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -79,14 +77,14 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
             }
 
             // Weapons
-            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3,
+            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 0.2f,
                 ModContent.ItemType<Archerfish>(),
                 ModContent.ItemType<BallOFugu>(),
                 ModContent.ItemType<HerringStaff>(),
                 ModContent.ItemType<Lionfish>(),
                 ModContent.ItemType<BlackAnurian>());
 
-            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAquaticScourgeAcidRain,
+            DropHelper.DropItemFromSetCondition(player, CalamityWorld.downedAquaticScourgeAcidRain, 0.2f,
                 ModContent.ItemType<SkyfinBombers>(),
                 ModContent.ItemType<NuclearRod>(),
                 ModContent.ItemType<SulphurousGrabber>(),
@@ -96,7 +94,7 @@ namespace CalamityMod.Items.Fishing.SulphurCatches
                 ModContent.ItemType<BelchingSaxophone>());
 
             // Equipment
-            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3,
+            DropHelper.DropItemFromSetCondition(player, NPC.downedBoss3, 0.4f,
                 ModContent.ItemType<StrangeOrb>(),
                 ModContent.ItemType<DepthCharm>(),
                 ModContent.ItemType<IronBoots>(),

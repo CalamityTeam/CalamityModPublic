@@ -1,4 +1,3 @@
-using CalamityMod.Projectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -7,7 +6,7 @@ using CalamityMod.Projectiles.Rogue;
 
 namespace CalamityMod.Items.Weapons.Rogue
 {
-    public class TheSyringe : RogueWeapon
+	public class TheSyringe : RogueWeapon
     {
         public static int BaseDamage = 60;
         public static float Knockback = 5f;

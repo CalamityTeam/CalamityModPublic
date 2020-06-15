@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -64,7 +65,12 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void Kill(int timeLeft)
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300);
+		}
+
+		public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item14, projectile.position);
             projectile.Damage();

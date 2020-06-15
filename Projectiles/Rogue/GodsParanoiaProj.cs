@@ -1,5 +1,4 @@
 using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Dusts;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class GodsParanoiaProj : ModProjectile
+	public class GodsParanoiaProj : ModProjectile
     {
 		public int kunaiStabbing = 12;
 

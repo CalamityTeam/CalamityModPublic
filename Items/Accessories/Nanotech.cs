@@ -3,12 +3,11 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-    public class Nanotech : ModItem
+	public class Nanotech : ModItem
     {
         public override void SetStaticDefaults()
         {

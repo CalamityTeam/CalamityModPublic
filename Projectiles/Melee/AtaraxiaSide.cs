@@ -1,4 +1,3 @@
-using CalamityMod.Items.Weapons.Melee;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-    public class AtaraxiaSide : ModProjectile
+	public class AtaraxiaSide : ModProjectile
     {
         private static int NumAnimationFrames = 5;
         private static int AnimationFrameTime = 9;

@@ -8,12 +8,10 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Config;
-using CalamityMod;
 
 namespace CalamityMod.NPCs.CeaselessVoid
 {
-    public class DarkEnergy3 : ModNPC
+	public class DarkEnergy3 : ModNPC
     {
         public int invinceTime = 120;
 
@@ -40,7 +38,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.lifeMax = 44000;
             }
-            double HPBoost = (double)CalamityMod.CalamityConfig.BossHealthPercentageBoost * 0.01;
+            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
@@ -89,7 +87,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			float amount9 = 0.5f;
 			int num153 = 5;
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num155 = 1; num155 < num153; num155 += 2)
 				{
@@ -113,7 +111,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			Color color37 = Color.Lerp(Color.White, Color.Cyan, 0.5f);
 			Color color42 = Color.Lerp(Color.White, Color.Fuchsia, 0.5f);
 
-			if (CalamityMod.CalamityConfig.Afterimages)
+			if (CalamityConfig.Instance.Afterimages)
 			{
 				for (int num163 = 1; num163 < num153; num163++)
 				{
@@ -267,7 +265,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 player.AddBuff(ModContent.BuffType<Horror>(), 300, true);
             }
-        }
+			player.AddBuff(BuffID.VortexDebuff, 60, true);
+		}
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
