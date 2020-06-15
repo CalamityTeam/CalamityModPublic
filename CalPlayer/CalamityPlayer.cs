@@ -5893,6 +5893,10 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (contactDamageReduction > 0D)
 			{
+				// Scale with base damage reduction
+				if (DRStat > 0)
+					contactDamageReduction *= 1f - (DRStat * 0.01f);
+
 				contactDamageReduction = 1D - (1D / (1D + contactDamageReduction));
 				damage = (int)(damage * contactDamageReduction);
 			}
@@ -6092,6 +6096,10 @@ namespace CalamityMod.CalPlayer
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (projectileDamageReduction > 0D)
 			{
+				// Scale with base damage reduction
+				if (DRStat > 0)
+					projectileDamageReduction *= 1f - (DRStat * 0.01f);
+
 				projectileDamageReduction = 1D - (1D / (1D + projectileDamageReduction));
 				damage = (int)(damage * projectileDamageReduction);
 			}
