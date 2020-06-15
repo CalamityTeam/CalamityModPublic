@@ -85,6 +85,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
+using CalamityMod.Schematics;
+using CalamityMod.Tiles;
+using CalamityMod.TileEntities;
 
 namespace CalamityMod
 {
@@ -111,7 +114,7 @@ namespace CalamityMod
         public static int astralKillCount = 0;
 
 		// Textures & Shaders
-		public static Texture2D heartOriginal2;
+        public static Texture2D heartOriginal2;
 		public static Texture2D heartOriginal;
 		public static Texture2D rainOriginal;
 		public static Texture2D manaOriginal;
@@ -216,7 +219,8 @@ namespace CalamityMod
         public override void Load()
         {
 			instance = this;
-			heartOriginal2 = Main.heartTexture;
+
+            heartOriginal2 = Main.heartTexture;
 			heartOriginal = Main.heart2Texture;
 			rainOriginal = Main.rainTexture;
 			manaOriginal = Main.manaTexture;
@@ -240,7 +244,6 @@ namespace CalamityMod
             }
 
             ILChanges.Initialize();
-
             thorium = ModLoader.GetMod("ThoriumMod");
 
             BossHealthBarManager.Load(this);
@@ -331,6 +334,10 @@ namespace CalamityMod
 			GameShaders.Hair.BindShader(ModContent.ItemType<RageHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(255, 83, 48), ((float)player.Calamity().rage / (float)player.Calamity().rageMax))));
 			GameShaders.Hair.BindShader(ModContent.ItemType<WingTimeHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(139, 205, 255), ((float)player.wingTime / (float)player.wingTimeMax))));
 			GameShaders.Hair.BindShader(ModContent.ItemType<StealthHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(186, 85, 211), (player.Calamity().rogueStealth / player.Calamity().rogueStealthMax))));
+
+            SchematicLoader.LoadEverything();
+
+            PopupGUIManager.LoadGUIs();
         }
         #endregion
 
@@ -435,6 +442,8 @@ namespace CalamityMod
 			CalamityConfig = null;
 			instance = null;
 
+            PopupGUIManager.UnloadGUIs();
+            SchematicLoader.UnloadEverything();
             BossHealthBarManager.Unload();
             base.Unload();
 
@@ -458,7 +467,7 @@ namespace CalamityMod
 			rainOriginal = null;
 			manaOriginal = null;
 			carpetOriginal = null;
-		}
+        }
         #endregion
 
         #region Late Loading
@@ -3073,6 +3082,23 @@ namespace CalamityMod
                     return true;
                 }, InterfaceScaleType.None));
 
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Draedon Factory Tiles", delegate ()
+                {
+                    DraedonsFactoryUI.Draw(Main.spriteBatch);
+                    DraedonsItemChargerUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.Game)); // InterfaceScaleType.Game tells the game that this UI should take zoom into account.
+
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Boss HP Bars", delegate ()
+                {
+                    if (Main.LocalPlayer.Calamity().drawBossHPBar)
+                    {
+                        BossHealthBarManager.Update();
+                        BossHealthBarManager.Draw(Main.spriteBatch);
+                    }
+                    return true;
+                }, InterfaceScaleType.None));
+
                 // Astral Arcanum overlay (if open)
                 layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Astral Arcanum UI", delegate ()
                 {
@@ -3105,6 +3131,11 @@ namespace CalamityMod
                     {
                         AcidRainUI.Draw(Main.spriteBatch);
                     }
+                    return true;
+                }, InterfaceScaleType.None));
+                layers.Insert(invasionIndex + 1, new LegacyGameInterfaceLayer("Popup GUIs", () =>
+                {
+                    PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
             }
@@ -3761,6 +3792,27 @@ namespace CalamityMod
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
                         break;
+                    case CalamityModMessageType.DraedonGeneratorStackSync:
+                        (TileEntity.ByID[reader.ReadInt32()] as TEDraedonFuelFactory).HeldItem.stack = reader.ReadInt32();
+                        break;
+                    case CalamityModMessageType.DraedonChargerSync:
+                        int entityID = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.stack = reader.ReadInt32();
+                        int currentCharge = reader.ReadInt32();
+                        if (currentCharge != -1)
+                        {
+                            (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.Calamity().CurrentCharge = currentCharge;
+                        }
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ActiveTimer = reader.ReadInt32();
+                        break;
+                    case CalamityModMessageType.DraedonFieldGeneratorSync:
+                        int entityID2 = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).Time = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).ActiveTimer = reader.ReadInt32();
+                        break;
                     default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
@@ -3843,6 +3895,9 @@ namespace CalamityMod
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
         GaelsGreatswordSwingSync,
-        SpawnSuperDummy
+        SpawnSuperDummy,
+        DraedonGeneratorStackSync,
+        DraedonChargerSync,
+        DraedonFieldGeneratorSync,
     }
 }

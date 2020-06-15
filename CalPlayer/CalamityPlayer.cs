@@ -34,6 +34,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.TileEntities;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -100,6 +101,14 @@ namespace CalamityMod.CalPlayer
         public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
         public int waterLeechTarget = -1;
+
+        public int CurrentlyViewedFactoryX = -1;
+        public int CurrentlyViewedFactoryY = -1;
+        public TEDraedonFuelFactory CurrentlyViewedFactory;
+
+        public int CurrentlyViewedChargerX = -1;
+        public int CurrentlyViewedChargerY = -1;
+        public TEDraedonItemCharger CurrentlyViewedCharger;
         #endregion
 
         #region External variables -- Only set by Mod.Call
@@ -882,7 +891,7 @@ namespace CalamityMod.CalPlayer
         public bool poleWarper = false;
         public bool causticDragon = false;
         public bool plaguebringerPatronSummon = false;
-        public bool howlTrio = false;]
+        public bool howlTrio = false;
         #endregion
 
         #region Biome
@@ -2227,6 +2236,12 @@ namespace CalamityMod.CalPlayer
             elysianGuard = false;
             #endregion
 
+            CurrentlyViewedFactoryX = CurrentlyViewedFactoryY = -1;
+            CurrentlyViewedFactory = null;
+
+            CurrentlyViewedChargerX = CurrentlyViewedChargerY = -1;
+            CurrentlyViewedCharger = null;
+
             lastProjectileHit = null;
 
             if (CalamityWorld.bossRushActive)
@@ -3511,6 +3526,28 @@ namespace CalamityMod.CalPlayer
                 rage = 0;
                 gaelSwitchTimer = GaelSwitchPhase.None;
             }
+
+            // Disable the factory UI if the player is far from the associated factory.
+            if (CurrentlyViewedFactory != null)
+            {
+                Vector2 factoryPosition = new Vector2(CurrentlyViewedFactoryX, CurrentlyViewedFactoryY);
+                if (player.Distance(factoryPosition) > 1200f)
+                {
+                    CurrentlyViewedFactory = null;
+                    CurrentlyViewedFactoryX = CurrentlyViewedFactoryY = -1;
+                }
+            }
+
+            // Disable the charger UI if the player is far from the associated charger.
+            if (CurrentlyViewedCharger != null)
+            {
+                Vector2 chargerPosition = new Vector2(CurrentlyViewedChargerX, CurrentlyViewedChargerY);
+                if (player.Distance(chargerPosition) > 1200f)
+                {
+                    CurrentlyViewedCharger = null;
+                    CurrentlyViewedChargerX = CurrentlyViewedChargerY = -1;
+                }
+            }
         }
 
         #region Dragon Scale Logic
@@ -3709,6 +3746,7 @@ namespace CalamityMod.CalPlayer
         #region Pre Kill
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            PopupGUIManager.SuspendAll();
             if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
             {
                 if (!Main.dedServ)
@@ -8864,8 +8902,9 @@ namespace CalamityMod.CalPlayer
 					tailFrame = 0;
 				}
 				tailFrameUp = 0;
-			}
-		}
+            }
+            Main.blockInput = PopupGUIManager.AnyGUIsActive;
+        }
 
 		public static readonly PlayerLayer Tail = new PlayerLayer("CalamityMod", "Tail", PlayerLayer.BackAcc, delegate (PlayerDrawInfo drawInfo)
 		{
@@ -9163,8 +9202,8 @@ namespace CalamityMod.CalPlayer
 
         public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-			// Dust modifications while high
-			if (trippy)
+            // Dust modifications while high
+            if (trippy)
 			{
 				if (Main.myPlayer == player.whoAmI)
 				{

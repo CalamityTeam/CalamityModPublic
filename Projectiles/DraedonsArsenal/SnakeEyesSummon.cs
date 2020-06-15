@@ -214,10 +214,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 if (i == 1)
                 {
-                    for (int j = 0; j < 20; j++)
+                    for (int j = 0; j < 14; j++)
                     {
                         Dust dust = Dust.NewDustPerfect(projectile.Center, 261);
-                        dust.position += (j / 20f * MathHelper.TwoPi).ToRotationVector2() * projectile.Size * 0.5f * 1.4f;
+                        dust.position += (j / 14f * MathHelper.TwoPi).ToRotationVector2() * projectile.Size * 0.5f * 1.3f;
                         dust.velocity = Vector2.Zero;
                         dust.scale = 0.6f;
                         dust.noGravity = true;
@@ -225,10 +225,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
                 if (Vector2.Distance(projectile.oldPos[i - 1], projectile.oldPos[i]) > 3f)
                 {
-                    for (int j = 0; j < 10; j++)
+                    for (int j = 0; j < 7; j++)
                     {
                         Dust dust = Dust.NewDustPerfect(projectile.oldPos[i] + projectile.Size * 0.5f, 261);
-                        dust.position += (j / 10f * MathHelper.TwoPi).ToRotationVector2() * ((projectile.oldPos.Length - i) * 1.3f + 3f);
+                        dust.position += (j / 7f * MathHelper.TwoPi).ToRotationVector2() * ((projectile.oldPos.Length - i) * 1.2f + 3f);
                         dust.velocity = Vector2.Zero;
                         dust.scale = 0.6f;
                         dust.noGravity = true;
