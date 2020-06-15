@@ -458,7 +458,7 @@ namespace CalamityMod.NPCs.Ravager
 								velocityY *= npc.Calamity().newAI[1];
 						}
 
-						if (expertMode)
+						if (expertMode && !finalPhase)
 						{
 							npc.noTileCollide = true;
 							if (shouldFall)
@@ -561,7 +561,7 @@ namespace CalamityMod.NPCs.Ravager
 
 					if (npc.ai[0] == 2f && npc.ai[1] == 0f)
 					{
-						float aimY = targetVector.Y - 240f;
+						float aimY = targetVector.Y - 320f;
 						if (npc.Top.Y > aimY)
 						{
 							if (npc.velocity.Y > velocityY)
@@ -569,7 +569,7 @@ namespace CalamityMod.NPCs.Ravager
 						}
 						else
 						{
-							if (npc.velocity.Y < velocityY)
+							if (npc.velocity.Y <= velocityY)
 								npc.velocity.Y += 0.2f + Math.Abs(npc.Center.Y - aimY) * 0.001f;
 						}
 					}

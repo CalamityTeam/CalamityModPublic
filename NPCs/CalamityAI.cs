@@ -2398,9 +2398,9 @@ namespace CalamityMod.NPCs
             else if (npc.ai[0] == 2f)
             {
 				// Set walking speed
-                float num823 = CalamityWorld.bossRushActive ? 8f : 5f;
+                float num823 = CalamityWorld.bossRushActive ? 9f : 6f;
 				if (expertMode)
-					num823 += death ? 3f : 3f * (1f - lifeRatio);
+					num823 += death ? 2f : 2f * (1f - lifeRatio);
 				if (revenge)
 					num823 += Math.Abs(npc.Center.X - player.Center.X) * 0.0025f;
 
@@ -2493,9 +2493,9 @@ namespace CalamityMod.NPCs
                     else if (npc.ai[1] == -1f)
                     {
                         // Set jump velocity, reset and set AI to next phase (Stomp)
-                        float velocityX = CalamityWorld.bossRushActive ? 9f : 6f;
+                        float velocityX = CalamityWorld.bossRushActive ? 12f : 9f;
 						if (expertMode)
-							velocityX += death ? 6f : 6f * (1f - lifeRatio);
+							velocityX += death ? 3f : 3f * (1f - lifeRatio);
 
 						npc.velocity.X = velocityX * npc.direction;
 
@@ -2582,9 +2582,9 @@ namespace CalamityMod.NPCs
 
 						if (npc.Bottom.Y < player.position.Y)
 						{
-                            float fallSpeed = 0.8f;
+                            float fallSpeed = 1.2f;
 							if (expertMode)
-								fallSpeed += death ? 0.8f : 0.8f * (1f - lifeRatio);
+								fallSpeed += death ? 0.4f : 0.4f * (1f - lifeRatio);
 
 							if (calamityGlobalNPC.newAI[0] > 1f)
 								fallSpeed *= calamityGlobalNPC.newAI[0];
@@ -2601,9 +2601,9 @@ namespace CalamityMod.NPCs
                         else if (npc.direction > 0)
                             npc.velocity.X += velocityXChange;
 
-                        float num626 = CalamityWorld.bossRushActive ? 12f : 9f;
+                        float num626 = CalamityWorld.bossRushActive ? 15f : 12f;
 						if (expertMode)
-							num626 += death ? 6f : 6f * (1f - lifeRatio);
+							num626 += death ? 3f : 3f * (1f - lifeRatio);
 
                         if (npc.velocity.X < -num626)
                             npc.velocity.X = -num626;
