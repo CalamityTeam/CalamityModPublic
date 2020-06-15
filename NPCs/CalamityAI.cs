@@ -2858,13 +2858,13 @@ namespace CalamityMod.NPCs
 								Main.npc[npc2].Calamity().newAI[0] = 1f;
 								Main.npc[npc2].velocity = Vector2.Normalize(player.Center - Main.npc[npc2].Center) * 16f;
 								Main.npc[npc2].timeLeft *= 20;
-								//Main.npc[npc2].netUpdate = true;
+								Main.npc[npc2].netUpdate = true;
 								int npc3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, 1);
 								Main.npc[npc3].Calamity().newAI[0] = 2f;
 								Main.npc[npc3].Calamity().newAI[3] = 600f;
 								Main.npc[npc3].velocity = Vector2.Normalize(player.Center - Main.npc[npc3].Center) * 16f;
 								Main.npc[npc3].timeLeft *= 20;
-								//Main.npc[npc3].netUpdate = true;
+								Main.npc[npc3].netUpdate = true;
 							}
 						}
 

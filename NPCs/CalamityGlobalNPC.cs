@@ -17,7 +17,6 @@ using CalamityMod.Items.SummonItems;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
-using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.AquaticScourge;
@@ -1411,39 +1410,6 @@ namespace CalamityMod.NPCs
 			}
 
             return true;
-        }
-        #endregion
-
-        #region Modify Hit Player
-        public override void ModifyHitPlayer(NPC npc, Player target, ref int damage, ref bool crit)
-        {
-			CalamityPlayer modTarget = target.Calamity();
-            if (tSad > 0)
-            {
-                damage /= 2;
-            }
-
-            if (relicOfResilienceWeakness > 0)
-            {
-                damage = (int)(damage * (1f - RelicOfResilience.WeaknessDR));
-                relicOfResilienceWeakness = 0;
-            }
-
-            if (modTarget.beeResist)
-            {
-                if (CalamityMod.beeEnemyList.Contains(npc.type))
-                {
-                    damage = (int)(damage * 0.75);
-                }
-            }
-
-            if (modTarget.eskimoSet)
-            {
-                if (npc.coldDamage)
-                {
-                    damage = (int)(damage * 0.9);
-                }
-            }
         }
         #endregion
 
