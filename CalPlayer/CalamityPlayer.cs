@@ -5181,11 +5181,6 @@ namespace CalamityMod.CalPlayer
 
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (proj.Calamity().rogue)
-            {
-                crit = Main.rand.Next(1, 101) < (throwingCrit + player.thrownCrit);
-            }
-
             if (proj.npcProj || proj.trap)
                 return;
 
