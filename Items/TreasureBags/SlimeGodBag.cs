@@ -2,7 +2,6 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.PermanentBoosters;
-using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
@@ -43,7 +42,7 @@ namespace CalamityMod.Items.TreasureBags
         {
             // Materials
             DropHelper.DropItem(player, ItemID.Gel, 30, 60);
-            DropHelper.DropItem(player, ModContent.ItemType<PurifiedGel>(), 30, 50);
+            DropHelper.DropItem(player, ModContent.ItemType<PurifiedGel>(), 35, 55);
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<OverloadedBlaster>(), 3);
@@ -57,10 +56,9 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<ElectrolyteGelPack>(), CalamityWorld.revenge && !player.Calamity().adrenalineBoostOne);
 
             // Vanity
-            DropHelper.DropItemFromSetChance(player, 7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+            DropHelper.DropItemFromSetChance(player, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
             // Other
-            DropHelper.DropItem(player, ModContent.ItemType<StaticRefiner>());
         }
     }
 }

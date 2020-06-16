@@ -134,11 +134,11 @@ namespace CalamityMod.NPCs.SunkenSea
                 }
 
                 npc.rotation = npc.velocity.Y * Rotation;
-                if ((double)npc.rotation < -0.1)
+                if (npc.rotation < -0.1f)
                 {
                     npc.rotation = -0.1f;
                 }
-                if ((double)npc.rotation > 0.1)
+                if (npc.rotation > 0.1f)
                 {
                     npc.rotation = 0.1f;
                     return;

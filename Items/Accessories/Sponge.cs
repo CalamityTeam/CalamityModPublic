@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Accessories
             item.defense = 10;
             item.width = 20;
             item.height = 20;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
         }

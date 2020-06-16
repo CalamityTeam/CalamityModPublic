@@ -42,8 +42,8 @@ namespace CalamityMod.NPCs.Astral
             npc.knockBackResist = 0f;
             npc.noGravity = true;
             npc.value = Item.buyPrice(0, 0, 20, 0);
-            npc.buffImmune[20] = true;
-            npc.buffImmune[31] = false;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.Confused] = false;
             npc.timeLeft = NPC.activeTime * 2;
             animationType = NPCID.BlackRecluseWall;
             banner = ModContent.NPCType<AstralachneaGround>();

@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Summon
 
             int buffType = ModContent.BuffType<Plague>();
             float range = auraRange;
-            bool dealDamage = auraCounter++ % 60 == 0;
+            bool dealDamage = auraCounter++ % 60 == 59;
             int dmg = projectile.damage;
             if (projectile.owner == Main.myPlayer)
             {

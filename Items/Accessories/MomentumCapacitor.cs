@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 32;
             item.value = Item.buyPrice(0, 36, 0, 0);
             item.accessory = true;
-            item.rare = 6;
+            item.rare = 5;
         }
 
         public override void ModifyTooltips(List<TooltipLine> list)

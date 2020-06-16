@@ -139,7 +139,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
 			//gore cloud effects
-			CalamityUtils.ExplosionGores(projectile, 3);
+			projectile.ExplosionGores(3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
