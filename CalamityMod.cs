@@ -3949,8 +3949,8 @@ namespace CalamityMod
                 NetMessage.SendData(MessageID.WorldData, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
             }
         }
-        #endregion
-    }
+		#endregion
+	}
 
     public enum Season : byte
     {

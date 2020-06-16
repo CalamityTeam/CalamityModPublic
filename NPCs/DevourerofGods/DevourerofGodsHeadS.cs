@@ -872,51 +872,16 @@ namespace CalamityMod.NPCs.DevourerofGods
 			postTeleportTimer = 255;
 			npc.alpha = postTeleportTimer;
 
-			int playerWidth = player.width / 2;
-			int playerHeight = player.height / 2;
+			Vector2 targetVector = player.Center + Vector2.Normalize(player.velocity) * 320f + new Vector2(Main.rand.Next(-40, 41), Main.rand.Next(-40, 41));
 
-			float playerVelocityX = player.velocity.X;
-			float playerVelocityY = player.velocity.Y;
-
-			int x = (int)player.position.X + playerWidth - 25;
-			int y = (int)player.position.Y + playerHeight - 25;
-
-			float velocityThreshold = 0.05f;
-			int vectorAdjustment = 500;
-			if (playerVelocityX >= velocityThreshold)
-			{
-				x += vectorAdjustment;
-				yAdjustment();
-			}
-			else if (playerVelocityX <= -velocityThreshold)
-			{
-				x -= vectorAdjustment;
-				yAdjustment();
-			}
-
-			void yAdjustment()
-			{
-				if (playerVelocityY >= velocityThreshold)
-					y += vectorAdjustment;
-				else if (playerVelocityY <= -velocityThreshold)
-					y -= vectorAdjustment;
-			}
-
-			int x2 = x + 50;
-			int y2 = y + 50;
-
-			float locationX = Main.rand.Next(x, x2);
-			float locationY = Main.rand.Next(y, y2);
-			Vector2 teleportLocation = new Vector2(locationX, locationY);
-
-			npc.position = teleportLocation;
+			npc.position = targetVector;
 			npc.netUpdate = true;
 
-			for (int i = 0; i < 200; i++)
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				if (Main.npc[i].active && (Main.npc[i].type == ModContent.NPCType<DevourerofGodsBodyS>() || Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>()))
 				{
-					Main.npc[i].position = teleportLocation;
+					Main.npc[i].position = targetVector;
                     if (Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>())
                     {
                         ((DevourerofGodsTailS)Main.npc[i].modNPC).setInvulTime(720);
@@ -925,8 +890,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 			}
 
-			Vector2 npcCenter = new Vector2(npc.position.X + (npc.width / 2), npc.position.Y + (npc.height / 2));
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), (int)npcCenter.X, (int)npcCenter.Y);
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), (int)npc.Center.X, (int)npc.Center.Y);
 
 			int dustAmt = 50;
 			int random = 5;
@@ -936,8 +900,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				random += j * 2;
 				int dustAmtSpawned = 0;
 				int scale = random * 13;
-				float dustPositionX = npcCenter.X - (scale / 2);
-				float dustPositionY = npcCenter.Y - (scale / 2);
+				float dustPositionX = npc.Center.X - (scale / 2);
+				float dustPositionY = npc.Center.Y - (scale / 2);
 				while (dustAmtSpawned < dustAmt)
 				{
 					float dustVelocityX = Main.rand.Next(-random, random);
@@ -949,8 +913,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 					dustVelocityY *= dustVelocity;
 					int dust = Dust.NewDust(new Vector2(dustPositionX, dustPositionY), scale, scale, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 5f);
 					Main.dust[dust].noGravity = true;
-					Main.dust[dust].position.X = teleportLocation.X;
-					Main.dust[dust].position.Y = teleportLocation.Y;
+					Main.dust[dust].position.X = targetVector.X;
+					Main.dust[dust].position.Y = targetVector.Y;
 					Main.dust[dust].position.X += Main.rand.Next(-10, 11);
 					Main.dust[dust].position.Y += Main.rand.Next(-10, 11);
 					Main.dust[dust].velocity.X = dustVelocityX;

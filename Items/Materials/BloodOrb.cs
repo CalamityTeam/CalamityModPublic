@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blood Orb");
+            DisplayName.SetDefault("Blorb");
         }
 
         public override void SetDefaults()

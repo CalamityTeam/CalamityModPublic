@@ -132,18 +132,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
             }
 
-            if (CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
-            {
-                for (int num569 = 0; num569 < Main.maxNPCs; num569++)
-                {
-                    if (Main.npc[num569].active && (Main.npc[num569].type == ModContent.NPCType<DevourerofGodsHead2>() || Main.npc[num569].type == ModContent.NPCType<DevourerofGodsBody2>() || Main.npc[num569].type == ModContent.NPCType<DevourerofGodsTail2>()))
-                    {
-                        Main.npc[num569].active = false;
-                    }
-                }
-            }
-
-            if (player.dead)
+            if (player.dead || CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
             {
                 npc.TargetClosest(false);
                 npc.velocity.Y = npc.velocity.Y - 3f;
@@ -155,7 +144,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     for (int a = 0; a < Main.maxNPCs; a++)
                     {
-                        if (Main.npc[a].aiStyle == npc.aiStyle)
+                        if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<DevourerofGodsBody2>() || Main.npc[a].type == ModContent.NPCType<DevourerofGodsTail2>())
                         {
                             Main.npc[a].active = false;
                         }

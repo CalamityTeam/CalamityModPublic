@@ -880,7 +880,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 						Projectile projectile = Main.projectile[x];
 						if (projectile.active && projectile.type == ModContent.ProjectileType<BrimstoneMonster>())
 						{
-							projectile.Kill();
+							if (projectile.timeLeft > 90)
+								projectile.timeLeft = 90;
 						}
 					}
 
@@ -991,13 +992,16 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             projectile.type == ModContent.ProjectileType<BrimstoneBarrage>() ||
                             projectile.type == ModContent.ProjectileType<BrimstoneWave>())
                         {
-                            projectile.Kill();
+							if (projectile.timeLeft > 90)
+								projectile.timeLeft = 90;
                         }
-                        else if (projectile.type == ModContent.ProjectileType<BrimstoneGigaBlast>() ||
-                            projectile.type == ModContent.ProjectileType<BrimstoneFireblast>())
+                        else if (projectile.type == ModContent.ProjectileType<BrimstoneGigaBlast>() || projectile.type == ModContent.ProjectileType<BrimstoneFireblast>())
                         {
-                            projectile.active = false;
-                        }
+							projectile.ai[1] = 1f;
+
+							if (projectile.timeLeft > 60)
+								projectile.timeLeft = 60;
+						}
                     }
                 }
                 despawnProj = false;
@@ -1335,8 +1339,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 									num827 = num828 / num827;
 									num825 *= num827;
 									num826 *= num827;
-									vector82.X += num825 * 15f;
-									vector82.Y += num826 * 15f;
+									vector82.X += num825 * 8f;
+									vector82.Y += num826 * 8f;
 									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 								}
 								else if (randomShot == 1 && canFireSplitingFireball)
@@ -1347,8 +1351,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 									num827 = num828 / num827;
 									num825 *= num827;
 									num826 *= num827;
-									vector82.X += num825 * 15f;
-									vector82.Y += num826 * 15f;
+									vector82.X += num825 * 8f;
+									vector82.Y += num826 * 8f;
 									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 								}
 								else
@@ -1364,6 +1368,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 										num183 = (8f + speedBoost) / num183;
 										num180 *= num183;
 										num182 *= num183;
+										value9.X += num180 * 8f;
+										value9.Y += num182 * 8f;
 										Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 									}
 								}
@@ -1590,8 +1596,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								num836 = num837 / num836;
 								num834 *= num836;
 								num835 *= num836;
-								vector83.X += num834 * 15f;
-								vector83.Y += num835 * 15f;
+								vector83.X += num834 * 8f;
+								vector83.Y += num835 * 8f;
 								Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, num838, 0f, Main.myPlayer, 0f, 0f);
 							}
 						}
@@ -1880,8 +1886,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 									num827 = num828 / num827;
 									num825 *= num827;
 									num826 *= num827;
-									vector82.X += num825 * 15f;
-									vector82.Y += num826 * 15f;
+									vector82.X += num825 * 8f;
+									vector82.Y += num826 * 8f;
 									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 								}
 								else if (randomShot == 1 && canFireSplitingFireball)
@@ -1892,8 +1898,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 									num827 = num828 / num827;
 									num825 *= num827;
 									num826 *= num827;
-									vector82.X += num825 * 15f;
-									vector82.Y += num826 * 15f;
+									vector82.X += num825 * 8f;
+									vector82.Y += num826 * 8f;
 									Projectile.NewProjectile(vector82.X, vector82.Y, num825, num826, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 								}
 								else
@@ -1909,6 +1915,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 										num183 = (8f + speedBoost) / num183;
 										num180 *= num183;
 										num182 *= num183;
+										value9.X += num180 * 8f;
+										value9.Y += num182 * 8f;
 										Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 									}
 								}
@@ -2131,8 +2139,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 								num836 = num837 / num836;
 								num834 *= num836;
 								num835 *= num836;
-								vector83.X += num834 * 15f;
-								vector83.Y += num835 * 15f;
+								vector83.X += num834 * 8f;
+								vector83.Y += num835 * 8f;
 								int shot = Projectile.NewProjectile(vector83.X, vector83.Y, num834, num835, num839, num838, 0f, Main.myPlayer, 0f, 0f);
 							}
 						}

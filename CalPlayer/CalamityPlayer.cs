@@ -15,6 +15,7 @@ using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
@@ -109,10 +110,12 @@ namespace CalamityMod.CalPlayer
         public double acidRoundMultiplier = 1D;
         public int waterLeechTarget = -1;
 		public double trueMeleeDamage = 0D;
-        #endregion
+		public double contactDamageReduction = 0D;
+		public double projectileDamageReduction = 0D;
+		#endregion
 
-        #region External variables -- Only set by Mod.Call
-        public int externalAbyssLight = 0;
+		#region External variables -- Only set by Mod.Call
+		public int externalAbyssLight = 0;
         public bool externalColdImmunity = false;
         public bool externalHeatImmunity = false;
 		#endregion
@@ -1294,6 +1297,9 @@ namespace CalamityMod.CalPlayer
 
             ResetRogueStealth();
 
+			contactDamageReduction = 0D;
+			projectileDamageReduction = 0D;
+
             throwingDamage = 1f;
             throwingVelocity = 1f;
             throwingCrit = 0;
@@ -2006,11 +2012,11 @@ namespace CalamityMod.CalPlayer
             vaporfied = false;
 			energyShellCooldown = false;
 			prismaticCooldown = false;
-            #endregion
+			#endregion
 
-            #region Rogue
-            // Stealth
-            rogueStealth = 0f;
+			#region Rogue
+			// Stealth
+			rogueStealth = 0f;
             rogueStealthMax = 0f;
             stealthAcceleration = 1f;
 
@@ -3705,7 +3711,7 @@ namespace CalamityMod.CalPlayer
                     player.hurtCooldowns[k] = player.immuneTime;
                 }
 
-                Main.PlaySound(SoundID.Item, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 68);
+                Main.PlaySound(SoundID.Item68, Main.player[Main.myPlayer].position);
                 int eclipseBurst = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(7000 * player.RogueDamage()), 0, player.whoAmI);
             }
         }
@@ -5786,7 +5792,7 @@ namespace CalamityMod.CalPlayer
 
 				if (npc.velocity == Vector2.Zero)
 				{
-					damage = (int)(damage * velocityScalar);
+					contactDamageReduction += 1f - velocityScalar;
 				}
 				else
 				{
@@ -5794,15 +5800,17 @@ namespace CalamityMod.CalPlayer
 					if (amount > 1f)
 						amount = 1f;
 
-					damage = (int)(damage * MathHelper.Lerp(velocityScalar, 1.1f, amount));
+					float damageReduction = MathHelper.Lerp(velocityScalar, 1.1f, amount);
+					if (damageReduction < 1f)
+						contactDamageReduction += 1f - damageReduction;
+					else
+						damage = (int)(damage * damageReduction);
 				}
 			}
 
             if (triumph)
             {
-                double HPMultiplier = 0.15 * (1.0 - (npc.life / (double)npc.lifeMax));
-                int damageReduction = (int)(damage * HPMultiplier);
-                damage -= damageReduction;
+                contactDamageReduction += 0.15 * (1D - (npc.life / (double)npc.lifeMax));
             }
 
             if (aSparkRare)
@@ -5810,36 +5818,67 @@ namespace CalamityMod.CalPlayer
                 if (npc.type == NPCID.BlueJellyfish || npc.type == NPCID.PinkJellyfish || npc.type == NPCID.GreenJellyfish ||
                     npc.type == NPCID.FungoFish || npc.type == NPCID.BloodJelly || npc.type == NPCID.AngryNimbus || npc.type == NPCID.GigaZapper ||
                     npc.type == NPCID.MartianTurret || npc.type == ModContent.NPCType<StormlionCharger>() || npc.type == ModContent.NPCType<GhostBell>() || npc.type == ModContent.NPCType<BoxJellyfish>())
-                    damage /= 2;
+                    contactDamageReduction += 0.5;
             }
 
             if (fleshTotem && !fleshTotemCooldown)
             {
                 player.AddBuff(ModContent.BuffType<FleshTotemCooldown>(), 1200, false); //20 seconds
-                damage /= 2;
-            }
+				contactDamageReduction += 0.5;
+			}
 
             if (tarragonCloak && !tarragonCloakCooldown && tarraMelee)
             {
-                damage /= 2;
-            }
+				contactDamageReduction += 0.5;
+			}
 
             if (bloodflareMelee && bloodflareFrenzy && !bloodFrenzyCooldown)
             {
-                damage /= 2;
-            }
+				contactDamageReduction += 0.5;
+			}
 
             if (silvaMelee && silvaCountdown <= 0 && hasSilvaEffect)
             {
-                damage = (int)(damage * 0.8);
-            }
+				contactDamageReduction += 0.2;
+			}
 
-            if (aBulwarkRare)
-            {
-                aBulwarkRareMeleeBoostTimer += 3 * damage;
-                if (aBulwarkRareMeleeBoostTimer > 900)
-                    aBulwarkRareMeleeBoostTimer = 900;
-            }
+			if (npc.Calamity().tSad > 0)
+			{
+				contactDamageReduction += 0.5;
+			}
+
+			if (npc.Calamity().relicOfResilienceWeakness > 0)
+			{
+				contactDamageReduction += RelicOfResilience.WeaknessDR;
+				npc.Calamity().relicOfResilienceWeakness = 0;
+			}
+
+			if (beeResist)
+			{
+				if (CalamityMod.beeEnemyList.Contains(npc.type))
+				{
+					contactDamageReduction += 0.25;
+				}
+			}
+
+			if (eskimoSet)
+			{
+				if (npc.coldDamage)
+				{
+					contactDamageReduction += 0.1;
+				}
+			}
+
+			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
+			if (contactDamageReduction > 0D)
+			{
+				// Scale with base damage reduction
+				if (DRStat > 0)
+					contactDamageReduction *= 1f - (DRStat * 0.01f);
+
+				contactDamageReduction = 1D - (1D / (1D + contactDamageReduction));
+				damage = (int)(damage * contactDamageReduction);
+			}
 
 			if (Main.hardMode && Main.expertMode)
 			{
@@ -5847,6 +5886,13 @@ namespace CalamityMod.CalPlayer
 
 				if (reduceChaosBallDamage || npc.type == NPCID.BurningSphere || npc.type == NPCID.WaterSphere)
 					damage = (int)(damage * 0.6);
+			}
+
+			if (aBulwarkRare)
+			{
+				aBulwarkRareMeleeBoostTimer += 3 * damage;
+				if (aBulwarkRareMeleeBoostTimer > 900)
+					aBulwarkRareMeleeBoostTimer = 900;
 			}
 
 			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
@@ -5897,7 +5943,62 @@ namespace CalamityMod.CalPlayer
 					player.immuneNoBlink = true;
 					player.immuneTime = 4;
 					damage = 0;
+					return;
 				}
+			}
+
+			if (proj.type == ModContent.ProjectileType<BirbAura>())
+			{
+				damage = 0;
+				return;
+			}
+
+			// Reduce damage from vanilla traps
+			// 350 in normal, 450 in expert
+			if (proj.type == ProjectileID.Explosives)
+				damage = (int)(damage * (Main.expertMode ? 0.225 : 0.35));
+			if (Main.expertMode)
+			{
+				// 140 in normal, 182 in expert
+				if (proj.type == ProjectileID.Boulder)
+					damage = (int)(damage * 0.65);
+			}
+
+			if (CalamityWorld.revenge)
+			{
+				double damageMultiplier = 1D;
+				if (CalamityMod.revengeanceProjectileBuffList25Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.25;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList20Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.2;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList15Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.15;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList10Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.1;
+				}
+				else if (CalamityMod.revengeanceProjectileBuffList5Percent.Contains(proj.type))
+				{
+					damageMultiplier += 0.05;
+				}
+
+				if (CalamityWorld.death)
+					damageMultiplier += (damageMultiplier - 1D) * 0.6;
+
+				damage = (int)(damage * damageMultiplier);
+			}
+
+			int bossRushDamage = (Main.expertMode ? 125 : 150) + (CalamityWorld.bossRushStage / 2);
+			if (CalamityWorld.bossRushActive)
+			{
+				if (damage < bossRushDamage)
+					damage = bossRushDamage;
 			}
 
 			// Reduce projectile damage based on banner type
@@ -5946,86 +6047,42 @@ namespace CalamityMod.CalPlayer
 				BannerProjectileDamageReduction(proj, ref damage, NPCBannerBuff);
 			}
 
-            int bossRushDamage = (Main.expertMode ? 125 : 150) + (CalamityWorld.bossRushStage / 2);
-            if (CalamityWorld.bossRushActive)
-            {
-                if (damage < bossRushDamage)
-                    damage = bossRushDamage;
-            }
-
             if (projRefRare)
             {
                 if (proj.type == projTypeJustHitBy)
-                    damage = (int)(damage * 0.85);
+                    projectileDamageReduction += 0.15;
             }
 
             if (aSparkRare)
             {
                 if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc || proj.type == ModContent.ProjectileType<LightningMark>() || proj.type == ProjectileID.VortexLightning ||
                     proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
-                    damage /= 2;
+                    projectileDamageReduction += 0.5;
             }
-
-            if (proj.type == ProjectileID.Nail)
-            {
-                damage = (int)(damage * 0.75);
-            }
+            
 
             if (beeResist)
             {
                 if (CalamityMod.beeProjectileList.Contains(proj.type))
-                    damage = (int)(damage * 0.75);
+                    projectileDamageReduction += 0.25;
             }
 
             if (Main.hardMode && Main.expertMode && !CalamityWorld.spawnedHardBoss && proj.active && !proj.friendly && proj.hostile && damage > 0)
             {
                 if (CalamityMod.hardModeNerfList.Contains(proj.type))
-                    damage = (int)(damage * 0.75);
+                    projectileDamageReduction += 0.25;
             }
 
-            if (CalamityWorld.revenge)
-            {
-                double damageMultiplier = 1D;
-                if (CalamityMod.revengeanceProjectileBuffList25Percent.Contains(proj.type))
-                {
-                    damageMultiplier += 0.25;
-                }
-                else if (CalamityMod.revengeanceProjectileBuffList20Percent.Contains(proj.type))
-                {
-                    damageMultiplier += 0.2;
-                }
-                else if (CalamityMod.revengeanceProjectileBuffList15Percent.Contains(proj.type))
-                {
-                    damageMultiplier += 0.15;
-                }
-                else if (CalamityMod.revengeanceProjectileBuffList10Percent.Contains(proj.type))
-                {
-                    damageMultiplier += 0.1;
-                }
-                else if (CalamityMod.revengeanceProjectileBuffList5Percent.Contains(proj.type))
-                {
-                    damageMultiplier += 0.05;
-                }
+			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
+			if (projectileDamageReduction > 0D)
+			{
+				// Scale with base damage reduction
+				if (DRStat > 0)
+					projectileDamageReduction *= 1f - (DRStat * 0.01f);
 
-                if (CalamityWorld.death)
-                    damageMultiplier += (damageMultiplier - 1D) * 0.6;
-
-                damage = (int)(damage * damageMultiplier);
-            }
-
-            // Reduce damage from vanilla traps
-            // 350 in normal, 450 in expert
-            if (proj.type == ProjectileID.Explosives)
-                damage = (int)(damage * (Main.expertMode ? 0.225 : 0.35));
-            if (Main.expertMode)
-            {
-                // 140 in normal, 182 in expert
-                if (proj.type == ProjectileID.Boulder)
-                    damage = (int)(damage * 0.65);
-            }
-
-			if (proj.type == ModContent.ProjectileType<BirbAura>())
-				damage = 0;
+				projectileDamageReduction = 1D - (1D / (1D + projectileDamageReduction));
+				damage = (int)(damage * projectileDamageReduction);
+			}
 
             if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {

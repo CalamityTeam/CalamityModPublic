@@ -41,6 +41,10 @@ namespace CalamityMod.NPCs
 			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || CalamityWorld.bossRushActive ||
 				Main.npc[(int)npc.ai[1]].life <= Main.npc[(int)npc.ai[1]].lifeMax * 0.99)
 			{
+				// Kiss my motherfucking ass you piece of shit game
+				if (npc.damage == 0)
+					npc.timeLeft *= 20;
+
 				calamityGlobalNPC.newAI[0] = 1f;
 				npc.damage = npc.defDamage;
 				npc.boss = head;
@@ -64,8 +68,6 @@ namespace CalamityMod.NPCs
 				npc.TargetClosest(true);
 
 			Player player = Main.player[npc.target];
-
-			npc.velocity.Length();
 
 			// Circular movement
 			bool doSpiral = false;
@@ -314,9 +316,9 @@ namespace CalamityMod.NPCs
 			}
 
 			// Despawn
-			bool notOcean = player.position.Y < 800f ||
+			bool notOcean = player.position.Y < 400f ||
 				player.position.Y > Main.worldSurface * 16.0 ||
-				(player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
+				(player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680));
 
 			if (player.dead || (notOcean && !CalamityWorld.bossRushActive && !player.Calamity().ZoneSulphur))
 			{
@@ -382,25 +384,25 @@ namespace CalamityMod.NPCs
 				{
 					num188 = revenge ? 13f : 11f;
 					num189 = revenge ? 0.14f : 0.12f;
-					if (notOcean)
-					{
-						num188 = 15f;
-						num189 = 0.15f;
-					}
-					if (player.gravDir == -1f && expertMode)
-					{
-						num188 = 20f;
-						num189 = 0.2f;
-					}
-					if (CalamityWorld.bossRushActive)
-					{
-						num188 = 22f;
-						num189 = 0.24f;
-					}
 					if (expertMode)
 					{
 						num188 += death ? 4f : 4f * (1f - lifeRatio);
 						num189 += death ? 0.04f : 0.04f * (1f - lifeRatio);
+					}
+					if (notOcean)
+					{
+						num188 += 2f;
+						num189 += 0.02f;
+					}
+					if (player.gravDir == -1f && expertMode)
+					{
+						num188 = 21f;
+						num189 = 0.21f;
+					}
+					if (CalamityWorld.bossRushActive)
+					{
+						num188 = 25f;
+						num189 = 0.3f;
 					}
 				}
 
@@ -2396,9 +2398,9 @@ namespace CalamityMod.NPCs
             else if (npc.ai[0] == 2f)
             {
 				// Set walking speed
-                float num823 = CalamityWorld.bossRushActive ? 8f : 5f;
+                float num823 = CalamityWorld.bossRushActive ? 9f : 6f;
 				if (expertMode)
-					num823 += death ? 3f : 3f * (1f - lifeRatio);
+					num823 += death ? 2f : 2f * (1f - lifeRatio);
 				if (revenge)
 					num823 += Math.Abs(npc.Center.X - player.Center.X) * 0.0025f;
 
@@ -2491,9 +2493,9 @@ namespace CalamityMod.NPCs
                     else if (npc.ai[1] == -1f)
                     {
                         // Set jump velocity, reset and set AI to next phase (Stomp)
-                        float velocityX = CalamityWorld.bossRushActive ? 9f : 6f;
+                        float velocityX = CalamityWorld.bossRushActive ? 12f : 9f;
 						if (expertMode)
-							velocityX += death ? 6f : 6f * (1f - lifeRatio);
+							velocityX += death ? 3f : 3f * (1f - lifeRatio);
 
 						npc.velocity.X = velocityX * npc.direction;
 
@@ -2580,9 +2582,9 @@ namespace CalamityMod.NPCs
 
 						if (npc.Bottom.Y < player.position.Y)
 						{
-                            float fallSpeed = 0.8f;
+                            float fallSpeed = 1.2f;
 							if (expertMode)
-								fallSpeed += death ? 0.8f : 0.8f * (1f - lifeRatio);
+								fallSpeed += death ? 0.4f : 0.4f * (1f - lifeRatio);
 
 							if (calamityGlobalNPC.newAI[0] > 1f)
 								fallSpeed *= calamityGlobalNPC.newAI[0];
@@ -2599,9 +2601,9 @@ namespace CalamityMod.NPCs
                         else if (npc.direction > 0)
                             npc.velocity.X += velocityXChange;
 
-                        float num626 = CalamityWorld.bossRushActive ? 12f : 9f;
+                        float num626 = CalamityWorld.bossRushActive ? 15f : 12f;
 						if (expertMode)
-							num626 += death ? 6f : 6f * (1f - lifeRatio);
+							num626 += death ? 3f : 3f * (1f - lifeRatio);
 
                         if (npc.velocity.X < -num626)
                             npc.velocity.X = -num626;

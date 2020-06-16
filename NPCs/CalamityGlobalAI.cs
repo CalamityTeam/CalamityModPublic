@@ -8530,6 +8530,9 @@ namespace CalamityMod.NPCs
             if (nearbyActiveTiles < 800)
                 tileEnrageMult += (800 - nearbyActiveTiles) * 0.001f; // Ranges from 1f to 1.8f
 
+			// Let hooks and tentacles know how enraged plantera is
+			npc.ai[3] = tileEnrageMult;
+
             // Movement relative to the target and hook positions
             Vector2 vector91 = new Vector2(num730, num731);
             float num736 = Main.player[npc.target].Center.X - vector91.X;
@@ -8628,11 +8631,11 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[0] == 1f)
 					{
 						npc.localAI[0] = 2f;
-						int totalTentacles = 6;
+						int totalTentacles = (int)(6 * tileEnrageMult);
 						float radians = MathHelper.TwoPi / totalTentacles;
 						for (int i = 0; i < totalTentacles; i++)
 						{
-							Vector2 vector255 = new Vector2(0f, -360f).RotatedBy(radians * i);
+							Vector2 vector255 = new Vector2(0f, -60f * totalTentacles).RotatedBy(radians * i);
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, vector255.X, vector255.Y, 1f, 0f, 255);
 						}
 					}
@@ -8744,7 +8747,7 @@ namespace CalamityMod.NPCs
                     if (npc.localAI[0] == 2f)
                     {
                         npc.localAI[0] = 3f;
-						int totalTentacles = 8 - NPC.CountNPCS(NPCID.PlanterasTentacle);
+						int totalTentacles = (int)((10 - NPC.CountNPCS(NPCID.PlanterasTentacle)) * tileEnrageMult);
                         for (int i = 0; i < totalTentacles; i++)
                         {
                             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
@@ -8754,11 +8757,11 @@ namespace CalamityMod.NPCs
 					if (phase4 && npc.localAI[0] == 3f)
 					{
 						npc.localAI[0] = 4f;
-						int totalTentacles = 8;
+						int totalTentacles = (int)(8 * tileEnrageMult);
 						float radians = MathHelper.TwoPi / totalTentacles;
 						for (int i = 0; i < totalTentacles; i++)
 						{
-							Vector2 vector255 = new Vector2(0f, -480f).RotatedBy(radians * i);
+							Vector2 vector255 = new Vector2(0f, -60f * totalTentacles).RotatedBy(radians * i);
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, vector255.X, vector255.Y, 2f, 0f, 255);
 						}
 					}
@@ -8767,7 +8770,7 @@ namespace CalamityMod.NPCs
 				// If tentacles are alive, gain high defense
 				if (!tentaclesDead && !phase4)
 				{
-					npc.defense = 9999;
+					npc.defense = 99;
 					npc.chaseable = false;
 				}
 
@@ -8980,8 +8983,11 @@ namespace CalamityMod.NPCs
             if (Main.player[Main.npc[NPC.plantBoss].target].dead && !CalamityWorld.bossRushActive)
                 despawn = true;
 
-            // Enrage if Plantera's target is on the surface
-            if (!CalamityWorld.bossRushActive && ((Main.player[Main.npc[NPC.plantBoss].target].position.Y < Main.worldSurface * 16.0 || Main.player[Main.npc[NPC.plantBoss].target].position.Y > ((Main.maxTilesY - 200) * 16)) | despawn))
+			// Tile enrage
+			float tileEnrageMult = Main.npc[NPC.plantBoss].ai[3];
+
+			// Enrage if Plantera's target is on the surface
+			if (!CalamityWorld.bossRushActive && ((Main.player[Main.npc[NPC.plantBoss].target].position.Y < Main.worldSurface * 16.0 || Main.player[Main.npc[NPC.plantBoss].target].position.Y > ((Main.maxTilesY - 200) * 16)) | despawn))
             {
                 npc.localAI[0] -= 4f;
                 enrage = true;
@@ -9005,7 +9011,7 @@ namespace CalamityMod.NPCs
 
 				// Timer dictating whether to pick a new location or not
 				float moveBoost = death ? 2f : 2f * (1f - lifeRatio);
-                npc.localAI[0] -= (CalamityWorld.bossRushActive ? 4f : 1f) + moveBoost;
+                npc.localAI[0] -= ((CalamityWorld.bossRushActive ? 4f : 1f) + moveBoost) * tileEnrageMult;
                 if (enrage)
                     npc.localAI[0] -= 6f;
 
@@ -9073,7 +9079,7 @@ namespace CalamityMod.NPCs
             {
 				// Hook movement velocity
 				float velocityBoost = death ? 3f : 3f * (1f - lifeRatio);
-                float velocity = (CalamityWorld.bossRushActive ? 10f : 7f) + velocityBoost;
+                float velocity = ((CalamityWorld.bossRushActive ? 10f : 7f) + velocityBoost) * tileEnrageMult;
                 if (enrage)
                     velocity *= 2f;
                 if (despawn)
@@ -9122,17 +9128,20 @@ namespace CalamityMod.NPCs
             if (npc.ai[3] > 0f)
                 num778 = (int)npc.ai[3] - 1;
 
+			// Tile enrage
+			float tileEnrageMult = Main.npc[NPC.plantBoss].ai[3];
+
 			// Movement variables
 			if (npc.ai[2] == 0f)
 			{
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
-					npc.localAI[0] -= 1f;
+					npc.localAI[0] -= tileEnrageMult;
 					if (npc.localAI[0] <= 0f)
 					{
 						npc.localAI[0] = Main.rand.Next(120, 480);
-						npc.ai[0] = Main.rand.Next(-100, 101);
-						npc.ai[1] = Main.rand.Next(-100, 101);
+						npc.ai[0] = Main.rand.Next(-100, 101) * tileEnrageMult;
+						npc.ai[1] = Main.rand.Next(-100, 101) * tileEnrageMult;
 						npc.netUpdate = true;
 					}
 				}
@@ -9144,9 +9153,9 @@ namespace CalamityMod.NPCs
             npc.TargetClosest(true);
 
             // Velocity and acceleration
-            float num779 = CalamityWorld.bossRushActive ? 1f : 0.5f;
+            float num779 = (CalamityWorld.bossRushActive ? 1f : 0.5f) * tileEnrageMult;
             float num781 = death ? 1f : 1f - npc.life / (float)npc.lifeMax;
-            float num780 = (CalamityWorld.bossRushActive ? 300f : 200f) + (num781 * 50f);
+            float num780 = ((CalamityWorld.bossRushActive ? 300f : 200f) + (num781 * 50f)) * tileEnrageMult;
 
             // Despawn if Plantera is gone
             if (!Main.npc[num778].active || NPC.plantBoss < 0)
@@ -9191,14 +9200,16 @@ namespace CalamityMod.NPCs
                 if (npc.velocity.Y > 0f && num787 < 0f)
                     npc.velocity.Y *= 0.9f;
             }
-            if (npc.velocity.X > 8f)
-                npc.velocity.X = 8f;
-            if (npc.velocity.X < -8f)
-                npc.velocity.X = -8f;
-            if (npc.velocity.Y > 8f)
-                npc.velocity.Y = 8f;
-            if (npc.velocity.Y < -8f)
-                npc.velocity.Y = -8f;
+
+			float velocityLimit = 8f * tileEnrageMult;
+            if (npc.velocity.X > velocityLimit)
+                npc.velocity.X = velocityLimit;
+            if (npc.velocity.X < -velocityLimit)
+                npc.velocity.X = -velocityLimit;
+            if (npc.velocity.Y > velocityLimit)
+                npc.velocity.Y = velocityLimit;
+            if (npc.velocity.Y < -velocityLimit)
+                npc.velocity.Y = -velocityLimit;
 
             // Direction and rotation
             if (num786 > 0f)
