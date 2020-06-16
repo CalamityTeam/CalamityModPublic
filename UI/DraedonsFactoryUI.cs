@@ -30,7 +30,7 @@ namespace CalamityMod.UI
                         UseFuel(ref Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem], ref fuel);
                     if (Main.netMode == NetmodeID.MultiplayerClient)
                     {
-                        var netMessage = CalamityMod.instance.GetPacket();
+                        var netMessage = CalamityMod.Instance.GetPacket();
                         netMessage.Write((byte)CalamityModMessageType.DraedonGeneratorStackSync);
                         netMessage.Write(Main.LocalPlayer.Calamity().CurrentlyViewedFactory.ID);
                         netMessage.Write(fuel.stack);

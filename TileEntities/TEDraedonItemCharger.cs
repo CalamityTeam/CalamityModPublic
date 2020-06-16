@@ -213,7 +213,7 @@ namespace CalamityMod.TileEntities
         {
             if (Main.netMode != NetmodeID.SinglePlayer)
             {
-                var netMessage = CalamityMod.instance.GetPacket();
+                var netMessage = CalamityMod.Instance.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.DraedonChargerSync);
                 netMessage.Write(Main.LocalPlayer.Calamity().CurrentlyViewedCharger.ID);
                 netMessage.Write(FuelItem.type);
