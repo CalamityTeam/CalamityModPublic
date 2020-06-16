@@ -3912,7 +3912,14 @@ namespace CalamityMod
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
                         break;
-                    default:
+					case CalamityModMessageType.SyncCalamityNPCAIArray:
+						byte npcIndex2 = reader.ReadByte();
+						Main.npc[npcIndex2].Calamity().newAI[0] = reader.ReadSingle();
+						Main.npc[npcIndex2].Calamity().newAI[1] = reader.ReadSingle();
+						Main.npc[npcIndex2].Calamity().newAI[2] = reader.ReadSingle();
+						Main.npc[npcIndex2].Calamity().newAI[3] = reader.ReadSingle();
+						break;
+					default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
                 }
@@ -3994,6 +4001,7 @@ namespace CalamityMod
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
         GaelsGreatswordSwingSync,
-        SpawnSuperDummy
+        SpawnSuperDummy,
+		SyncCalamityNPCAIArray
     }
 }

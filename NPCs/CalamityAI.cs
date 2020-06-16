@@ -2838,6 +2838,11 @@ namespace CalamityMod.NPCs
 			// Phase for flying at the player
 			bool flyAtTarget = calamityGlobalNPC.newAI[3] >= (aiSwitchTimer * 0.5f) && startFlightPhase;
 
+			// Length of worms
+			int phase1Length = death ? 80 : revenge ? 70 : expertMode ? 60 : 50;
+			int phase2Length = phase1Length / 2;
+			int maxLength = doubleWormPhase ? phase2Length : phase1Length;
+
 			// Split into two worms
 			if (head)
 			{
@@ -2863,12 +2868,28 @@ namespace CalamityMod.NPCs
 								Main.npc[npc2].velocity = Vector2.Normalize(player.Center - Main.npc[npc2].Center) * 16f;
 								Main.npc[npc2].timeLeft *= 20;
 								Main.npc[npc2].netUpdate = true;
+								if (Main.netMode == NetmodeID.Server)
+								{
+									var netMessage = mod.GetPacket();
+									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+									netMessage.Write(Main.npc[npc2].Calamity().newAI[0]);
+									netMessage.Send();
+								}
+
 								int npc3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, 1);
 								Main.npc[npc3].Calamity().newAI[0] = 2f;
 								Main.npc[npc3].Calamity().newAI[3] = 600f;
 								Main.npc[npc3].velocity = Vector2.Normalize(player.Center - Main.npc[npc3].Center) * 16f;
 								Main.npc[npc3].timeLeft *= 20;
 								Main.npc[npc3].netUpdate = true;
+								if (Main.netMode == NetmodeID.Server)
+								{
+									var netMessage = mod.GetPacket();
+									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+									netMessage.Write(Main.npc[npc3].Calamity().newAI[0]);
+									netMessage.Write(Main.npc[npc3].Calamity().newAI[3]);
+									netMessage.Send();
+								}
 							}
 						}
 
@@ -2955,7 +2976,6 @@ namespace CalamityMod.NPCs
 				{
 					if (npc.ai[0] == 0f)
 					{
-						int maxLength = doubleWormPhase ? 45 : 90;
 						int Previous = npc.whoAmI;
 						int bodyType = ModContent.NPCType<AstrumDeusBodySpectral>();
 						int tailType = ModContent.NPCType<AstrumDeusTailSpectral>();
