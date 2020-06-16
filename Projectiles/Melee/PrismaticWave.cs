@@ -50,7 +50,6 @@ namespace CalamityMod.Projectiles.Melee
         {
             projectile.width = 36;
             projectile.height = 36;
-            aiType = ProjectileID.FrostWave;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;

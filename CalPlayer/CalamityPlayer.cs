@@ -29,6 +29,7 @@ using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Ravager;
 using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SunkenSea;
@@ -288,6 +289,7 @@ namespace CalamityMod.CalPlayer
         public bool babyGhostBell = false;
         public bool radiator = false;
         public bool scalPet = false;
+        public bool bendyPet = false;
         #endregion
 
         #region Rage
@@ -638,6 +640,8 @@ namespace CalamityMod.CalPlayer
         public int plagueReaperCooldown = 0;
         public bool plaguebringerPatronSet = false;
         public bool plaguebringerCarapace = false;
+        public bool plaguebringerPistons = false;
+        public int pistonsCounter = 0;
         public float ataxiaDmg;
         public bool ataxiaMage = false;
         public bool ataxiaGeyser = false;
@@ -1335,6 +1339,7 @@ namespace CalamityMod.CalPlayer
             babyGhostBell = false;
             radiator = false;
             scalPet = false;
+            bendyPet = false;
             onyxExcavator = false;
             angryDog = false;
             fab = false;
@@ -1604,6 +1609,7 @@ namespace CalamityMod.CalPlayer
             plagueReaper = false;
 			plaguebringerPatronSet = false;
 			plaguebringerCarapace = false;
+			plaguebringerPistons = false;
             fathomSwarmer = false;
             fathomSwarmerVisage = false;
             fathomSwarmerBreastplate = false;
@@ -2192,6 +2198,8 @@ namespace CalamityMod.CalPlayer
             plagueReaperCooldown = 0;
 			plaguebringerPatronSet = false;
 			plaguebringerCarapace = false;
+			plaguebringerPistons = false;
+            pistonsCounter = 0;
             ataxiaMage = false;
             ataxiaBolt = false;
             ataxiaGeyser = false;
@@ -2664,7 +2672,7 @@ namespace CalamityMod.CalPlayer
                             Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
                             for (int num502 = 0; num502 < 36; num502++)
                             {
-                                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 235, 0f, 0f, 0, default, 1f);
+                                int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
                                 Main.dust[dust].velocity *= 3f;
                                 Main.dust[dust].scale *= 1.15f;
                             }
@@ -2674,7 +2682,7 @@ namespace CalamityMod.CalPlayer
                                 Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
                                 vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / (float)num226), default) + player.Center;
                                 Vector2 vector7 = vector6 - player.Center;
-                                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 235, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
+                                int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Brimstone, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                                 Main.dust[num228].noGravity = true;
                                 Main.dust[num228].noLight = true;
                                 Main.dust[num228].velocity = vector7;
@@ -2698,7 +2706,7 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 64; num502++)
                     {
-                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 60, 0f, 0f, 0, default, 1f);
+                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Phantoplasm, 0f, 0f, 0, default, 1f);
                         Main.dust[dust].velocity *= 3f;
                         Main.dust[dust].scale *= 1.15f;
                     }
@@ -2708,7 +2716,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
                         vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + player.Center;
                         Vector2 vector7 = vector6 - player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 60, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
+                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Phantoplasm, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                         Main.dust[num228].noGravity = true;
                         Main.dust[num228].noLight = true;
                         Main.dust[num228].velocity = vector7;
@@ -2753,7 +2761,7 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 36; num502++)
                     {
-                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 235, 0f, 0f, 0, default, 1f);
+                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
                         Main.dust[dust].velocity *= 3f;
                         Main.dust[dust].scale *= 1.15f;
                     }
@@ -2763,7 +2771,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
                         vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * MathHelper.TwoPi / (float)num226), default) + player.Center;
                         Vector2 vector7 = vector6 - player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 235, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
+                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Brimstone, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                         Main.dust[num228].noGravity = true;
                         Main.dust[num228].noLight = true;
                         Main.dust[num228].velocity = vector7;
@@ -2901,7 +2909,7 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
                     for (int num502 = 0; num502 < 64; num502++)
                     {
-                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, 235, 0f, 0f, 0, default, 1f);
+                        int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
                         Main.dust[dust].velocity *= 3f;
                         Main.dust[dust].scale *= 1.15f;
                     }
@@ -2911,7 +2919,7 @@ namespace CalamityMod.CalPlayer
                         Vector2 vector6 = Vector2.Normalize(player.velocity) * new Vector2((float)player.width / 2f, (float)player.height) * 0.75f;
                         vector6 = vector6.RotatedBy((double)((float)(num227 - (num226 / 2 - 1)) * 6.28318548f / (float)num226), default) + player.Center;
                         Vector2 vector7 = vector6 - player.Center;
-                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, 235, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
+                        int num228 = Dust.NewDust(vector6 + vector7, 0, 0, (int)CalamityDusts.Brimstone, vector7.X * 1.5f, vector7.Y * 1.5f, 100, default, 1.4f);
                         Main.dust[num228].noGravity = true;
                         Main.dust[num228].noLight = true;
                         Main.dust[num228].velocity = vector7;
@@ -4367,37 +4375,30 @@ namespace CalamityMod.CalPlayer
             }
             if (item.Calamity().rogue)
             {
-                if (player.meleeEnchant > 0)
-                {
-                    if (player.meleeEnchant == 1)
-                    {
-                        target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-                    }
-                    if (player.meleeEnchant == 2)
-                    {
-                        target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-                    }
-                    if (player.meleeEnchant == 3)
-                    {
-                        target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-                    }
-                    if (player.meleeEnchant == 5)
-                    {
-                        target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-                    }
-                    if (player.meleeEnchant == 6)
-                    {
-                        target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-                    }
-                    if (player.meleeEnchant == 8)
-                    {
-                        target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-                    }
-                    /*if (player.meleeEnchant == 4)
-                    {
-                        target.AddBuff(BuffID.Midas, 120, false);
-                    }*/
-                }
+				switch (player.meleeEnchant)
+				{
+					case 1:
+						target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+						break;
+					case 2:
+						target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+						break;
+					case 3:
+						target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+						break;
+					case 5:
+						target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+						break;
+					case 6:
+						target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+						break;
+					case 8:
+						target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+						break;
+					/*case 4:
+						target.AddBuff(BuffID.Midas, 120, false);
+						break;*/
+				}
             }
             if (holyWrath)
             {
@@ -4497,7 +4498,7 @@ namespace CalamityMod.CalPlayer
                 {
 					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<DemonFlames>());
                 }
-                if ((plaguebringerCarapace || uberBees) && (proj.type == 566 || proj.type == 181 || proj.type == 189))
+                if ((plaguebringerCarapace || uberBees) && CalamityMod.friendlyBeeList.Contains(proj.type))
                 {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
                 }
@@ -4566,37 +4567,30 @@ namespace CalamityMod.CalPlayer
                 }
                 if (proj.Calamity().rogue)
                 {
-                    if (player.meleeEnchant > 0)
-                    {
-                        if (player.meleeEnchant == 1)
-                        {
-                            target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-                        }
-                        if (player.meleeEnchant == 2)
-                        {
-                            target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-                        }
-                        if (player.meleeEnchant == 3)
-                        {
-                            target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-                        }
-                        if (player.meleeEnchant == 5)
-                        {
-                            target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-                        }
-                        if (player.meleeEnchant == 6)
-                        {
-                            target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-                        }
-                        if (player.meleeEnchant == 8)
-                        {
-                            target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-                        }
-                        if (player.meleeEnchant == 4)
-                        {
-                            target.AddBuff(BuffID.Midas, 120, false);
-                        }
-                    }
+					switch (player.meleeEnchant)
+					{
+						case 1:
+							target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+							break;
+						case 2:
+							target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+							break;
+						case 3:
+							target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+							break;
+						case 5:
+							target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+							break;
+						case 6:
+							target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+							break;
+						case 8:
+							target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+							break;
+						/*case 4:
+							target.AddBuff(BuffID.Midas, 120, false);
+							break;*/
+					}
                     if (etherealExtorter)
                     {
                         if (ZoneSunkenSea)
@@ -4721,37 +4715,30 @@ namespace CalamityMod.CalPlayer
 			}
             if (item.Calamity().rogue)
             {
-                if (player.meleeEnchant > 0)
-                {
-                    if (player.meleeEnchant == 1)
-                    {
-                        target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-                    }
-                    if (player.meleeEnchant == 2)
-                    {
-                        target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-                    }
-                    if (player.meleeEnchant == 3)
-                    {
-                        target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-                    }
-                    if (player.meleeEnchant == 5)
-                    {
-                        target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-                    }
-                    if (player.meleeEnchant == 6)
-                    {
-                        target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-                    }
-                    if (player.meleeEnchant == 8)
-                    {
-                        target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-                    }
-                    /*if (player.meleeEnchant == 4)
-                    {
-                        target.AddBuff(BuffID.Midas, 120, false);
-                    }*/
-                }
+				switch (player.meleeEnchant)
+				{
+					case 1:
+						target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+						break;
+					case 2:
+						target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+						break;
+					case 3:
+						target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+						break;
+					case 5:
+						target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+						break;
+					case 6:
+						target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+						break;
+					case 8:
+						target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+						break;
+					/*case 4:
+						target.AddBuff(BuffID.Midas, 120, false);
+						break;*/
+				}
             }
             if (holyWrath)
             {
@@ -4846,7 +4833,7 @@ namespace CalamityMod.CalPlayer
                 {
 					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<CrushDepth>());
                 }
-                if ((plaguebringerCarapace || uberBees) && (proj.type == 566 || proj.type == 181 || proj.type == 189))
+                if ((plaguebringerCarapace || uberBees) && CalamityMod.friendlyBeeList.Contains(proj.type))
                 {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
                 }
@@ -4915,37 +4902,30 @@ namespace CalamityMod.CalPlayer
                 }
                 if (proj.Calamity().rogue)
                 {
-                    if (player.meleeEnchant > 0)
-                    {
-                        if (player.meleeEnchant == 1)
-                        {
-                            target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
-                        }
-                        if (player.meleeEnchant == 2)
-                        {
-                            target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
-                        }
-                        if (player.meleeEnchant == 3)
-                        {
-                            target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
-                        }
-                        if (player.meleeEnchant == 5)
-                        {
-                            target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
-                        }
-                        if (player.meleeEnchant == 6)
-                        {
-                            target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
-                        }
-                        if (player.meleeEnchant == 8)
-                        {
-                            target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
-                        }
-                        /*if (player.meleeEnchant == 4)
-						{
+					switch (player.meleeEnchant)
+					{
+						case 1:
+							target.AddBuff(BuffID.Venom, 60 * Main.rand.Next(5, 10), false);
+							break;
+						case 2:
+							target.AddBuff(BuffID.CursedInferno, 60 * Main.rand.Next(3, 7), false);
+							break;
+						case 3:
+							target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(3, 7), false);
+							break;
+						case 5:
+							target.AddBuff(BuffID.Ichor, 60 * Main.rand.Next(10, 20), false);
+							break;
+						case 6:
+							target.AddBuff(BuffID.Confused, 60 * Main.rand.Next(1, 4), false);
+							break;
+						case 8:
+							target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
+							break;
+						/*case 4:
 							target.AddBuff(BuffID.Midas, 120, false);
-						}*/
-                    }
+							break;*/
+					}
                     if (etherealExtorter)
                     {
                         if (ZoneSunkenSea)
@@ -4957,10 +4937,10 @@ namespace CalamityMod.CalPlayer
                             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 120, false);
                             target.AddBuff(ModContent.BuffType<Irradiated>(), 300, false);
                         }
-                        if (Main.moonPhase == 6) //first quarter
+                        /*if (Main.moonPhase == 6) //first quarter
                         {
                             target.AddBuff(BuffID.Midas, 120, false);
-                        }
+                        }*/
                         if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
                         {
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
@@ -5203,7 +5183,7 @@ namespace CalamityMod.CalPlayer
         {
             if (proj.Calamity().rogue)
             {
-                crit = Main.rand.Next(1, 101) < throwingCrit;
+                crit = Main.rand.Next(1, 101) < (throwingCrit + player.thrownCrit);
             }
 
             if (proj.npcProj || proj.trap)
@@ -5408,7 +5388,7 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
             }
-            if (uberBees && (proj.type == ProjectileID.GiantBee || proj.type == ProjectileID.Bee || proj.type == ProjectileID.Wasp || proj.type == ModContent.ProjectileType<PlaguenadeBee>() || proj.type == ModContent.ProjectileType<PlaguePrincess>() || proj.type == ModContent.ProjectileType<BabyPlaguebringer>() || proj.type == ModContent.ProjectileType<PlagueBeeSmall>()))
+            if (uberBees && CalamityMod.friendlyBeeList.Contains(proj.type))
             {
                 damage += Main.rand.Next(20, 31);
             }
@@ -5424,6 +5404,7 @@ namespace CalamityMod.CalPlayer
 							if (miniPBG.type == ModContent.ProjectileType<PlaguebringerSummon>() && Vector2.Distance(proj.Center, miniPBG.Center) <= PlaguebringerSummon.auraRange && miniPBG.owner == proj.owner)
 							{
 								damage += Main.rand.Next(10, 21);
+								break;
 							}
 						}
 					}
@@ -6076,10 +6057,11 @@ namespace CalamityMod.CalPlayer
 
             if (aSparkRare)
             {
-                if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc || proj.type == ModContent.ProjectileType<LightningMark>() ||
-                    proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet)
+                if (proj.type == ProjectileID.MartianTurretBolt || proj.type == ProjectileID.GigaZapperSpear || proj.type == ProjectileID.CultistBossLightningOrbArc || proj.type == ModContent.ProjectileType<LightningMark>() || proj.type == ProjectileID.VortexLightning ||
+                    proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
                     projectileDamageReduction += 0.5;
             }
+            
 
             if (beeResist)
             {
@@ -6175,7 +6157,7 @@ namespace CalamityMod.CalPlayer
 						if (bannerNPCType == ModContent.NPCType<Cnidrion>())
 							reduceDamage = true;
 					}
-					else if (proj.type == ModContent.ProjectileType<Projectiles.Enemy.InkBomb>() || proj.type == ModContent.ProjectileType<InkPoisonCloud>() || proj.type == ModContent.ProjectileType<InkPoisonCloud2>() || proj.type == ModContent.ProjectileType<InkPoisonCloud3>())
+					else if (proj.type == ModContent.ProjectileType<InkBombHostile>() || proj.type == ModContent.ProjectileType<InkPoisonCloud>() || proj.type == ModContent.ProjectileType<InkPoisonCloud2>() || proj.type == ModContent.ProjectileType<InkPoisonCloud3>())
 					{
 						if (bannerNPCType == ModContent.NPCType<ColossalSquid>())
 							reduceDamage = true;
@@ -6258,17 +6240,17 @@ namespace CalamityMod.CalPlayer
 					else if (proj.type == ProjectileID.EyeBeam)
 					{
 						if (bannerNPCType == ModContent.NPCType<Laserfish>())
-							reduceDamage = !NPC.AnyNPCs(NPCID.Golem);
+							reduceDamage = !NPC.AnyNPCs(NPCID.Golem) && !NPC.AnyNPCs(ModContent.NPCType<RavagerBody>());
 					}
 					else if (proj.type == ProjectileID.CultistBossIceMist || proj.type == ProjectileID.CultistBossLightningOrbArc)
 					{
 						if (bannerNPCType == ModContent.NPCType<EidolonWyrmHead>() || bannerNPCType == ModContent.NPCType<Eidolist>())
-							reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(NPCID.CultistBoss);
+							reduceDamage = !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHead>()) && !NPC.AnyNPCs(ModContent.NPCType<StormWeaverHeadNaked>()) && !NPC.AnyNPCs(NPCID.CultistBoss) && proj.Calamity().lineColor != 1;
 					}
 					else if (proj.type == ProjectileID.SaucerScrap)
 					{
 						if (bannerNPCType == ModContent.NPCType<ArmoredDiggerHead>())
-							reduceDamage = Main.invasionType != InvasionID.MartianMadness;
+							reduceDamage = Main.invasionType != InvasionID.MartianMadness && (!NPC.AnyNPCs(NPCID.TheDestroyer) || !CalamityWorld.revenge);
 					}
 					else
 					{
@@ -6340,7 +6322,7 @@ namespace CalamityMod.CalPlayer
 							case ProjectileID.CursedFlameHostile:
 								if (bannerNPCType == NPCID.Clinger)
 								{
-									reduceDamage = !NPC.AnyNPCs(NPCID.Spazmatism);
+									reduceDamage = !NPC.AnyNPCs(NPCID.Spazmatism) && (!NPC.AnyNPCs(NPCID.EaterofWorldsHead) || !CalamityWorld.revenge);
 								}
 								break;
 
@@ -6355,14 +6337,14 @@ namespace CalamityMod.CalPlayer
 							case ProjectileID.InfernoHostileBolt:
 								if (bannerNPCType == NPCID.DiabolistRed || bannerNPCType == NPCID.DiabolistWhite)
 								{
-									reduceDamage = true;
+									reduceDamage = !NPC.AnyNPCs(NPCID.Golem) || !CalamityWorld.revenge;
 								}
 								break;
 
 							case ProjectileID.Shadowflames:
 								if (bannerNPCType == NPCID.GiantCursedSkull)
 								{
-									reduceDamage = true;
+									reduceDamage = !NPC.AnyNPCs(NPCID.SkeletronHead) || !CalamityWorld.revenge;
 								}
 								break;
 
@@ -6422,8 +6404,29 @@ namespace CalamityMod.CalPlayer
 								}
 								break;
 
+							case ProjectileID.WoodenArrowHostile:
+								if (bannerNPCType == NPCID.GoblinArcher || bannerNPCType == NPCID.CultistArcherBlue || bannerNPCType == NPCID.CultistArcherWhite)
+								{
+									reduceDamage = true;
+								}
+								break;
+
 							case ProjectileID.FlamingArrow:
-								if (bannerNPCType == NPCID.SkeletonArcher || bannerNPCType == NPCID.PirateCrossbower || bannerNPCType == NPCID.GoblinArcher || bannerNPCType == NPCID.ElfArcher)
+								if (bannerNPCType == NPCID.SkeletonArcher || bannerNPCType == NPCID.PirateCrossbower || bannerNPCType == NPCID.ElfArcher)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.SalamanderSpit:
+								if (bannerNPCType >= NPCID.Salamander && bannerNPCType <= NPCID.Salamander9)
+								{
+									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.SkeletonBone:
+								if (bannerNPCType == NPCID.Skeleton)
 								{
 									reduceDamage = true;
 								}
@@ -6454,6 +6457,13 @@ namespace CalamityMod.CalPlayer
 								if (bannerNPCType == NPCID.AngryNimbus)
 								{
 									reduceDamage = true;
+								}
+								break;
+
+							case ProjectileID.FrostShard:
+								if (bannerNPCType == NPCID.AngryNimbus)
+								{
+									reduceDamage = !NPC.AnyNPCs(NPCID.IceQueen) && CalamityWorld.death;
 								}
 								break;
 
@@ -6496,7 +6506,7 @@ namespace CalamityMod.CalPlayer
 							case ProjectileID.EyeLaser:
 								if (bannerNPCType == NPCID.Eyezor)
 								{
-									reduceDamage = !NPC.AnyNPCs(NPCID.Retinazer);
+									reduceDamage = !NPC.AnyNPCs(NPCID.Retinazer) && !NPC.AnyNPCs(NPCID.WallofFleshEye);
 								}
 								break;
 
@@ -6542,6 +6552,13 @@ namespace CalamityMod.CalPlayer
 								}
 								break;
 
+							case ProjectileID.Twinkle:
+								if (bannerNPCType == NPCID.StardustSpiderBig)
+								{
+									reduceDamage = true;
+								}
+								break;
+
 							case ProjectileID.VortexAcid:
 								if (bannerNPCType == NPCID.VortexHornetQueen)
 								{
@@ -6579,13 +6596,6 @@ namespace CalamityMod.CalPlayer
 
 							case ProjectileID.MartianWalkerLaser:
 								if (bannerNPCType == NPCID.MartianWalker)
-								{
-									reduceDamage = true;
-								}
-								break;
-
-							case ProjectileID.ScutlixLaser:
-								if (bannerNPCType == NPCID.Scutlix)
 								{
 									reduceDamage = true;
 								}
@@ -6725,7 +6735,7 @@ namespace CalamityMod.CalPlayer
 				}
 				if (aSparkRare && proj.active && !proj.friendly && proj.hostile && damage > 0)
 				{
-					if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet)
+					if (proj.type == ProjectileID.BulletSnowman || proj.type == ProjectileID.BulletDeadeye || proj.type == ProjectileID.SniperBullet || proj.type == ProjectileID.VortexLaser)
 					{
 						proj.hostile = false;
 						proj.friendly = true;
@@ -11833,6 +11843,8 @@ namespace CalamityMod.CalPlayer
             if (giantPearl)
                 light += 1;
             if (radiator)
+                light += 1;
+            if (bendyPet)
                 light += 1;
             if (sparks)
                 light += 1;

@@ -232,7 +232,7 @@ namespace CalamityMod.Items
                 if (item.useTime < 10)
                     damageMult -= (double)(10 - item.useTime) / 10.0;
 
-                double newDamage = (double)damage * damageMult;
+                double newDamage = damage * damageMult;
 
                 if (player.whoAmI == Main.myPlayer)
                 {
@@ -240,16 +240,16 @@ namespace CalamityMod.Items
                         Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.6), 0f, player.whoAmI, 0f, 0f);
 
                     else if (rogue)
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.ranged)
                         Projectile.NewProjectile(position.X, position.Y, speedX * 1.5f, speedY * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.4), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.magic)
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
-                        Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
                 }
             }
             if (modPlayer.eArtifact && item.ranged && !rogue)
@@ -263,7 +263,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GhostlyBolt>(), (int)(damage * (modPlayer.auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GhostlyBolt>(), (int)(damage * (modPlayer.auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -273,7 +273,7 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BloodBomb>(), (int)(damage * (modPlayer.auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<BloodBomb>(), (int)(damage * (modPlayer.auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -378,7 +378,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.prismaticRegalia) //0 - 99
             {
-                if (item.magic && Main.rand.Next(0, 100) >= 90)
+                if (item.magic && Main.rand.Next(0, 100) >= 95)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -387,7 +387,8 @@ namespace CalamityMod.Items
 							if (i != 0)
 							{
 								Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-								Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 1.3), 2f, player.whoAmI, 0f, 0f);
+								int rocket = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.8), 2f, player.whoAmI, 0f, 0f);
+                Main.projectile[rocket].Calamity().forceTypeless = true;
 							}
 						}
                     }
@@ -431,7 +432,7 @@ namespace CalamityMod.Items
 				for (int i = -8; i <= 8; i += 8)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<RainbowFront>(), damage, 0f, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<RainbowFront>(), damage, 0f, player.whoAmI, 0f, 0f);
 				}
 			}
             return true;
@@ -2081,8 +2082,8 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 180\n" +
-                            "+10 defense, 10% increased movement speed,\n" +
-                            "and 5% increased damage and critical strike chance";
+                            "+8 defense, 10% increased movement speed,\n" +
+                            "4% increased damage, and 2% increased critical strike chance";
                     }
                 }
             }
@@ -2162,7 +2163,7 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 180\n" +
-                            "+1 max minion and 5% increased minion damage while wearing the Spooky Armor";
+                            "Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor";
                     }
                 }
             }
@@ -2209,8 +2210,7 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 0\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "+10 defense, 10% increased damage, " +
-                            "5% increased critical strike chance, " +
+                            "+5 defense, 5% increased damage, " +
                             "10% increased movement speed and 120% increased jump speed";
                     }
                 }
@@ -3104,9 +3104,8 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.MothronWings) // Spawn baby mothrons over time to attack enemies, max of 3
             {
-                player.statDefense += 10;
-                player.allDamage += 0.1f;
-                modPlayer.AllCritBoost(5);
+                player.statDefense += 5;
+                player.allDamage += 0.05f;
                 player.moveSpeed += 0.1f;
                 player.jumpSpeedBoost += 1.2f;
                 player.noFallDmg = true;
@@ -3217,7 +3216,7 @@ Provides heat and cold protection in Death Mode";
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.SpookyHelmet && player.body == ArmorIDs.Body.SpookyBreastplate && player.legs == ArmorIDs.Legs.SpookyLeggings)
                 {
-                    player.maxMinions++;
+                    player.minionKB += 2f;
                     player.minionDamage += 0.05f;
                 }
             }
@@ -3229,9 +3228,9 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.SteampunkWings)
             {
-                player.statDefense += 10;
-                player.allDamage += 0.05f;
-                modPlayer.AllCritBoost(5);
+                player.statDefense += 8;
+                player.allDamage += 0.04f;
+                modPlayer.AllCritBoost(2);
                 player.moveSpeed += 0.1f;
                 player.noFallDmg = true;
             }

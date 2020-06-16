@@ -120,7 +120,7 @@ namespace CalamityMod.Projectiles.Ranged
 					num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num298, 0f, 0f, 100, default, 0.75f);
 					Main.dust[num624].velocity *= 2f;
 				}
-				CalamityUtils.ExplosionGores(projectile, 10);
+				projectile.ExplosionGores(10);
 			}
         }
 

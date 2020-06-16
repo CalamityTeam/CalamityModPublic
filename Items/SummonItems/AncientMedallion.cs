@@ -32,6 +32,7 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
+			Main.PlaySound(SoundID.Roar, player.position, 2);
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 250f), ModContent.NPCType<RavagerBody>(), 1);

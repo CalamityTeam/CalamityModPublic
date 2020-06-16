@@ -327,7 +327,7 @@ namespace CalamityMod.NPCs.Ravager
                 int num285 = 0;
                 while ((double)num285 < damage / (double)npc.lifeMax * 100.0)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, (float)hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, (float)hitDirection, -1f, 0, default, 1f);
                     num285++;
                 }
             }

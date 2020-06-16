@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
             }
 
             // Smoke, which counts as a Gore
-			CalamityUtils.ExplosionGores(projectile, 3);
+			projectile.ExplosionGores(3);
         }
     
     }

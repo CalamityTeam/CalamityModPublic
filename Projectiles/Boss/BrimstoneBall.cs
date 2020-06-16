@@ -2,6 +2,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Boss
 {
@@ -20,7 +21,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.scale = 1.2f;
             projectile.penetrate = 6;
             projectile.aiStyle = 14;
-            aiType = 277;
+            aiType = ProjectileID.ThornBall;
             projectile.timeLeft = 300;
         }
 

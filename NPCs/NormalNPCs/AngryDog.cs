@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.lifeMax = 1000;
             }
             npc.knockBackResist = 0.3f;
-            animationType = 329;
+            animationType = NPCID.Hellhound;
             aiType = -1;
             npc.value = Item.buyPrice(0, 0, 3, 0);
             npc.HitSound = mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AngryDogHit");
@@ -41,6 +41,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<AngryDogBanner>();
 			npc.coldDamage = true;
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -73,10 +74,10 @@ namespace CalamityMod.NPCs.NormalNPCs
                 {
                     npc.ai[1] += 1f;
                 }
-				CalamityAI.UnicornAI(npc, mod, true, 4f, 5f, 0.2f);
+				CalamityAI.UnicornAI(npc, mod, true, CalamityWorld.death ? 6f : 4f, 5f, 0.2f);
                 return;
             }
-			CalamityAI.UnicornAI(npc, mod, false, 4f, 6f, 0.07f);
+			CalamityAI.UnicornAI(npc, mod, false, CalamityWorld.death ? 6f : 4f, 6f, CalamityWorld.death ? 0.1f : 0.07f);
         }
 
         public override void FindFrame(int frameHeight)
@@ -132,13 +133,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

@@ -74,6 +74,7 @@ namespace CalamityMod.NPCs.SunkenSea
             {
                 if (!statChange)
                 {
+					npc.buffImmune[BuffID.Confused] = false;
                     npc.defense = 6;
                     npc.damage = Main.expertMode ? 60 : 30;
                     if (Main.hardMode)
@@ -108,7 +109,7 @@ namespace CalamityMod.NPCs.SunkenSea
                     }
                     if (npc.ai[2] < (float)num321)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                         return;
                     }
                     npc.ai[2] = 0f;

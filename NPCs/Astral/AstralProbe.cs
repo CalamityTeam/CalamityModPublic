@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
@@ -139,7 +140,7 @@ namespace CalamityMod.NPCs.Astral
                     if (CalamityWorld.downedAstrageldon)
                         num8 += 6;
 
-                    int num9 = 84;
+                    int num9 = ProjectileID.PinkLaser;
                     Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
                 }
             }
@@ -258,7 +259,7 @@ namespace CalamityMod.NPCs.Astral
                 npc.position.Y = npc.position.Y - (float)(npc.height / 2);
                 for (int num621 = 0; num621 < 5; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -268,41 +269,13 @@ namespace CalamityMod.NPCs.Astral
                 }
                 for (int num623 = 0; num623 < 10; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-                for (int num625 = 0; num625 < 3; num625++)
-                {
-                    float scaleFactor10 = 0.33f;
-                    if (num625 == 1)
-                    {
-                        scaleFactor10 = 0.66f;
-                    }
-                    if (num625 == 2)
-                    {
-                        scaleFactor10 = 1f;
-                    }
-                    int num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    Gore gore = Main.gore[num626];
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y += 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X += 1f;
-                    gore.velocity.Y -= 1f;
-                    num626 = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                    gore.velocity *= scaleFactor10;
-                    gore.velocity.X -= 1f;
-                    gore.velocity.Y -= 1f;
-                }
+				npc.ExplosionGores(3);
             }
         }
 
