@@ -1431,7 +1431,7 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.text += "\n25% increased true melee damage";
+						line2.text += "\n10% increased true melee damage";
 					}
 				}
 			}
@@ -1441,7 +1441,7 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
 					{
-						line2.text += "\n25% increased true melee damage";
+						line2.text += "\n10% increased true melee damage";
 					}
 				}
 			}
@@ -1451,7 +1451,7 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
 					{
-						line2.text += "\n25% increased true melee damage";
+						line2.text += "\n10% increased true melee damage";
 					}
 				}
 			}
@@ -1462,7 +1462,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
                         line2.text = "14% increased melee damage and speed\n" +
-							"25% increased true melee damage\n" +
+							"10% increased true melee damage\n" +
 							"Provides heat and cold protection in Death Mode";
                     }
                 }
@@ -1801,7 +1801,7 @@ namespace CalamityMod.Items
                     if (line2.mod == "Terraria" && line2.Name == "SetBonus")
                     {
                         line2.text = @"Set Bonus: 17% extra melee damage
-30% extra true melee damage
+20% extra true melee damage
 Grants immunity to fire blocks, and temporary immunity to lava
 Provides heat and cold protection in Death Mode";
                     }

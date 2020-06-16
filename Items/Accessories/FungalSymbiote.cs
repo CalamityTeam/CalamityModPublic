@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Fungal Symbiote");
             Tooltip.SetDefault("Various melee weapons emit mushrooms in true melee range\n" +
-                "True melee strikes deal 25% more damage");
+                "True melee strikes deal 15% more damage");
         }
 
         public override void SetDefaults()

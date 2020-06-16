@@ -3671,13 +3671,13 @@ namespace CalamityMod.CalPlayer
 				modPlayer.GetStatBonuses();
 
 			// True melee damage bonuses
-			double damageAdd = (modPlayer.dodgeScarf ? 0.2 : 0) +
+			double damageAdd = (modPlayer.dodgeScarf ? 0.15 : 0) +
 					(modPlayer.evasionScarf ? 0.1 : 0) +
-					((modPlayer.aBulwarkRare && modPlayer.aBulwarkRareMeleeBoostTimer > 0) ? 1 : 0) +
-					(modPlayer.DoGLore ? 0.5 : 0) +
-					(modPlayer.fungalSymbiote ? 0.25 : 0) +
-					((player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.3 : 0) +
-					(player.kbGlove ? 0.25 : 0) +
+					((modPlayer.aBulwarkRare && modPlayer.aBulwarkRareMeleeBoostTimer > 0) ? 0.5 : 0) +
+					(modPlayer.DoGLore ? 0.25 : 0) +
+					(modPlayer.fungalSymbiote ? 0.15 : 0) +
+					((player.head == ArmorIDs.Head.MoltenHelmet && player.body == ArmorIDs.Body.MoltenBreastplate && player.legs == ArmorIDs.Legs.MoltenGreaves) ? 0.2 : 0) +
+					(player.kbGlove ? 0.1 : 0) +
 					(modPlayer.eGauntlet ? 0.1 : 0) +
 					(modPlayer.yInsignia ? 0.1 : 0) +
 					(modPlayer.badgeOfBraveryRare ? 0.2 : 0);
