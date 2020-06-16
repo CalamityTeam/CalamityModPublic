@@ -7,9 +7,7 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Rogue
 {
     public class CosmicKunai : RogueWeapon
-
-
-    { 
+    {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Kunai");

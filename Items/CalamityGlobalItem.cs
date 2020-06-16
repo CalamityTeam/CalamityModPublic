@@ -27,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -252,7 +251,7 @@ namespace CalamityMod.Items
                         Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
                 }
             }
-            if (modPlayer.eArtifact && item.ranged && !rogue)
+            if (modPlayer.eArtifact && item.ranged)
             {
                 speedX *= 1.25f;
                 speedY *= 1.25f;
@@ -269,7 +268,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.bloodflareRanged) //0 - 99
             {
-                if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 98)
+                if (item.ranged && Main.rand.Next(0, 100) >= 98)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -298,7 +297,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.ataxiaBolt)
             {
-                if (item.ranged && !rogue && Main.rand.NextBool(2))
+                if (item.ranged && Main.rand.NextBool(2))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -308,7 +307,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.godSlayerRanged) //0 - 99
             {
-                if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 95)
+                if (item.ranged && Main.rand.Next(0, 100) >= 95)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -340,7 +339,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.reaverDoubleTap) //0 - 99
             {
-                if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 90)
+                if (item.ranged && Main.rand.Next(0, 100) >= 90)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -350,8 +349,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.victideSet)
             {
-                if ((item.ranged || item.melee || item.magic ||
-                    rogue || item.summon) && item.rare < 8 && Main.rand.NextBool(10))
+                if ((item.ranged || item.melee || item.magic || item.thrown || rogue || item.summon) && item.rare < ItemRarityID.Yellow && Main.rand.NextBool(10))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -361,10 +359,9 @@ namespace CalamityMod.Items
             }
             if (modPlayer.dynamoStemCells)
             {
-                if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 80)
+                if (item.ranged && Main.rand.Next(0, 100) >= 80)
                 {
-					double damageMult = 1.0;
-					damageMult = (double)(item.useTime) / 30;
+					double damageMult = item.useTime / 30D;
 					if (damageMult < 0.35)
 						damageMult = 0.35;
 
