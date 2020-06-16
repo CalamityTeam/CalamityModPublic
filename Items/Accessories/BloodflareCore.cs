@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Accessories
             item.height = 26;
             item.value = CalamityGlobalItem.Rarity13BuyPrice;
             item.expert = true;
-            item.rare = 9;
+            item.rare = ItemRarityID.Red;
             item.accessory = true;
         }
 
