@@ -14,8 +14,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
     {
         private const int minLength = 51;
         private const int maxLength = 52;
-        private float speed = 10f;
-        private float turnSpeed = 0.15f;
         private float passedVar = 0f;
         private bool TailSpawned = false;
 

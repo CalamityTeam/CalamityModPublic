@@ -45,8 +45,8 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.frame > 3)
                 projectile.frame = 0;
 
-			if (projectile.timeLeft < 90)
-				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 90f, 0f, 1f);
+			if (projectile.timeLeft < 60)
+				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
 
 			Lighting.AddLight(projectile.Center, 0.75f, 0f, 0f);
         }
