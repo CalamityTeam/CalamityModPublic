@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Melee
                     Main.dust[num21].velocity *= 2;
                 }
             }
-			CalamityUtils.ExplosionGores(projectile, 3);
+			projectile.ExplosionGores(3);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

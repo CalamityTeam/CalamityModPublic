@@ -149,10 +149,10 @@ namespace CalamityMod.Projectiles.Magic
             {
                 Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<LiquidBlade2>(), (int)(projectile.damage * 0.75), 1f, projectile.owner);
             }
-            target.AddBuff(BuffID.Ichor, 200);
-            target.AddBuff(BuffID.Frostburn, 200);
-            target.AddBuff(BuffID.OnFire, 200);
-            target.AddBuff(BuffID.CursedInferno, 100);
+            target.AddBuff(BuffID.Ichor, 240);
+            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.CursedInferno, 120);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.SlimeGod
             aiType = -1;
             npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
             npc.knockBackResist = 0f;
-            animationType = 50;
+            animationType = NPCID.KingSlime;
             npc.value = 0f;
             npc.alpha = 55;
             npc.HitSound = SoundID.NPCHit1;

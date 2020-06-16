@@ -97,14 +97,14 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScourgeTail"), 1f);
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

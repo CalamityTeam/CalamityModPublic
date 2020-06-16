@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Magic
 {
@@ -14,10 +15,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
+            projectile.width = projectile.height = 30;
             projectile.friendly = true;
-            projectile.alpha = 0;
             projectile.timeLeft = 120;
             projectile.penetrate = -1;
             projectile.magic = true;
@@ -75,7 +74,7 @@ namespace CalamityMod.Projectiles.Magic
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<BeamingBolt2>(), (int)(projectile.damage * 0.75), projectile.knockBack, projectile.owner, projectile.ai[0], 0f);
                 }
             }
-            Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 105);
+            Main.PlaySound(SoundID.Item105, projectile.position);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

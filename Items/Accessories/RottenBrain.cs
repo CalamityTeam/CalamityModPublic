@@ -19,9 +19,9 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 34;
             item.height = 34;
-            item.value = Item.buyPrice(0, 9, 0, 0);
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
             item.expert = true;
-            item.rare = 9;
+            item.rare = 3;
             item.accessory = true;
         }
 

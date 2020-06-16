@@ -397,7 +397,7 @@ namespace CalamityMod
 				List<int> segments = new List<int>() { NPCType<AstrumDeusHeadSpectral>(), NPCType<AstrumDeusBodySpectral>(), NPCType<AstrumDeusTailSpectral>() };
 				int summon = ItemType<Starcore>();
 				List<int> loot = new List<int>() { ItemType<AstrumDeusBag>(), ItemType<Stardust>(), ItemID.FallenStar, ItemType<TheMicrowave>(), ItemType<StarSputter>(), ItemType<Starfall>(), ItemType<GodspawnHelixStaff>(), ItemType<RegulusRiot>(), ItemType<Quasar>(), ItemType<AstralBulwark>(), ItemType<HideofAstrumDeus>(), ItemID.FragmentSolar, ItemID.FragmentVortex, ItemID.FragmentNebula, ItemID.FragmentStardust, ItemID.GreaterHealingPotion };
-				List<int> collection = new List<int>() { ItemType<AstrumDeusTrophy>(), ItemType<AstrumDeusMask>(), ItemType<KnowledgeAstrumDeus>(), ItemType<KnowledgeAstralInfection>() };
+				List<int> collection = new List<int>() { ItemType<AstrumDeusTrophy>(), ItemType<AstrumDeusMask>(), ItemType<KnowledgeAstrumDeus>(), ItemType<KnowledgeAstralInfection>(), ItemType<ChromaticOrb>() };
 				string instructions = $"Defeat 3 empowered astral titans or use a [i:{summon}] at Night";
 				string despawn = CalamityUtils.ColorMessage("The infected deity retreats to the heavens.", new Color(0xFF, 0xD7, 0x00));
 				string bossLogTex = "CalamityMod/NPCs/AstrumDeus/AstrumDeus_BossChecklist";

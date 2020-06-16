@@ -2,8 +2,32 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs;
+using CalamityMod.NPCs.AquaticScourge;
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.BrimstoneElemental;
+using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.CeaselessVoid;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Cryogen;
+using CalamityMod.NPCs.DesertScourge;
+using CalamityMod.NPCs.DevourerofGods;
+using CalamityMod.NPCs.HiveMind;
+using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
+using CalamityMod.NPCs.Perforator;
+using CalamityMod.NPCs.PlaguebringerGoliath;
+using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.ProfanedGuardians;
 using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.Signus;
+using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.StormWeaver;
+using CalamityMod.NPCs.SupremeCalamitas;
+using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles;
@@ -168,6 +192,174 @@ namespace CalamityMod
 			if (customDR.HasValue)
 				npc.Calamity().customDR = true;
 		}
+
+		/// <summary>
+		/// Get the aggression multiplier used for NPCs in Master Mode Calamity rev+
+		/// </summary>
+		/// <param name="NPCType">The NPC that is having its aggression increased, used to modify the base 1.5x aggression multiplier</param>
+		public static float GetMasterModeNPCAggressionMultiplier(int? NPCType = null)
+		{
+			/*if (!Main.masterMode)
+				return 1f;*/
+
+			/*if (NPCType == ModContent.NPCType<DesertScourgeHead>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<CrabulonIdle>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<HiveMind>() || NPCType == ModContent.NPCType<HiveMindP2>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<PerforatorHive>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<SlimeGodCore>() || NPCType == ModContent.NPCType<SlimeGod>() || NPCType == ModContent.NPCType<SlimeGodRun>() || NPCType == ModContent.NPCType<SlimeGodSplit>() || NPCType == ModContent.NPCType<SlimeGodRunSplit>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Cryogen>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<AquaticScourgeHead>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<BrimstoneElemental>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Calamitas>() || NPCType == ModContent.NPCType<CalamitasRun3>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Leviathan>() || NPCType == ModContent.NPCType<Siren>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<AstrumAureus>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<AstrumDeusHeadSpectral>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<PlaguebringerGoliath>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<RavagerBody>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<ProfanedGuardianBoss>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Bumblefuck>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Providence>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<CeaselessVoid>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<StormWeaverHead>() || NPCType == ModContent.NPCType<StormWeaverHeadNaked>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Signus>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Polterghast>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<OldDuke>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<DevourerofGodsHead>() || NPCType == ModContent.NPCType<DevourerofGodsHeadS>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<Yharon>())
+			{
+
+			}
+			else if (NPCType == ModContent.NPCType<SupremeCalamitas>())
+			{
+
+			}
+			else
+			{
+				switch (NPCType)
+				{
+					case NPCID.KingSlime:
+					case NPCID.EyeofCthulhu:
+					case NPCID.EaterofWorldsHead:
+					case NPCID.BrainofCthulhu:
+					case NPCID.Creeper:
+					case NPCID.QueenBee:
+					case NPCID.SkeletronHead:
+					case NPCID.WallofFlesh:
+					case NPCID.WallofFleshEye:
+					case NPCID.Spazmatism:
+					case NPCID.Retinazer:
+					case NPCID.TheDestroyer:
+					case NPCID.SkeletronPrime:
+					case NPCID.Plantera:
+					case NPCID.Golem:
+					case NPCID.GolemHead:
+					case NPCID.DukeFishron:
+					case NPCID.CultistBoss:
+					case NPCID.MoonLordCore:
+					case NPCID.MoonLordHand:
+					case NPCID.MoonLordHead:
+						break;
+				}
+			}*/
+
+			return 1.5f;
+		}
+
+		/// <summary>
+		/// Get the contact damage for NPCs in Master Mode Calamity rev+
+		/// </summary>
+		/// <param name="damage">The damage the npc does prior to being multiplied</param>
+		/// <param name="damageMultiplier">The damage multiplier applied to the npc' contact damage</param>
+		public static int GetMasterModeContactDamage(int damage, float damageMultiplier)
+		{
+			/*if (!Main.masterMode)
+				return damage;*/
+
+			return (int)(damage * damageMultiplier);
+		}
+
+		/// <summary>
+		/// Get the damage for projectiles in Master Mode Calamity rev+
+		/// </summary>
+		/// <param name="damage">The damage the projectile does prior to being multiplied</param>
+		/// <param name="damageMultiplier">The damage multiplier applied to the projectiles' damage</param>
+		public static int GetMasterModeProjectileDamage(int damage, float damageMultiplier)
+		{
+			/*if (!Main.masterMode)
+				return damage;*/
+
+			return (int)(damage * damageMultiplier);
+		}
+
 		/// <summary>
 		/// Detects nearby hostile NPCs from a given point
 		/// </summary>
@@ -241,6 +433,45 @@ namespace CalamityMod
                 return false;
             damage = 0D;
             return true;
+        }
+
+        /// <summary>
+        /// Call this function in the Kill function of your npc to spawn cloud-like gores.
+        /// </summary>
+        /// <param name="npc">The npc you're adding explosion clouds to</param>
+        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
+        public static void ExplosionGores (this NPC npc, int goreAmt)
+        {
+            Vector2 goreVec = new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f);
+			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+			{
+				float velocityMult = 0.33f;
+				if (goreIndex < (int)(goreAmt/3))
+				{
+					velocityMult = 0.66f;
+				}
+				if (goreIndex >= (int)((2*goreAmt)/3))
+				{
+					velocityMult = 1f;
+				}
+				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				Gore gore = Main.gore[smoke];
+				gore.velocity *= velocityMult;
+				gore.velocity.X += 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X += 1f;
+				gore.velocity.Y -= 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y -= 1f;
+			}
         }
 
 		/// <summary>
@@ -508,15 +739,13 @@ namespace CalamityMod
 
         public static void KillAllHostileProjectiles()
         {
-            int proj;
-            for (int x = 0; x < Main.maxProjectiles; x = proj + 1)
+            for (int x = 0; x < Main.maxProjectiles; x++)
             {
                 Projectile projectile = Main.projectile[x];
                 if (projectile.active && projectile.hostile && !projectile.friendly && projectile.damage > 0)
                 {
                     projectile.Kill();
                 }
-                proj = x;
             }
         }
 
@@ -525,7 +754,7 @@ namespace CalamityMod
         /// </summary>
         /// <param name="projectile">The projectile you're adding explosion clouds to</param>
         /// <param name="goreAmt">Number of times it loops to spawn gores</param>
-        public static void ExplosionGores (Projectile projectile, int goreAmt)
+        public static void ExplosionGores (this Projectile projectile, int goreAmt)
         {
             Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
 			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
@@ -564,7 +793,7 @@ namespace CalamityMod
         /// </summary>
         /// <param name="projectile">The projectile you're adding sticky behaviour to</param>
         /// <param name="timeLeft">Number of seconds you want a projectile to cling to an NPC</param>
-        public static void StickyProjAI (Projectile projectile, int timeLeft)
+        public static void StickyProjAI (this Projectile projectile, int timeLeft)
         {
             if (projectile.ai[0] == 1f)
             {
@@ -627,7 +856,7 @@ namespace CalamityMod
         /// <param name="projectile">The projectile you're giving sticky behaviour to</param>
         /// <param name="maxStick">How many projectiles of this type can stick to one enemy</param>
         /// <param name="constantDamage">Decides if you want the projectile to deal damage while its sticked to enemies or not</param>
-        public static void ModifyHitNPCSticky(Projectile projectile, int maxStick, bool constantDamage)
+        public static void ModifyHitNPCSticky(this Projectile projectile, int maxStick, bool constantDamage)
         {
 			Player player = Main.player[projectile.owner];
             Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);

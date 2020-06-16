@@ -1124,7 +1124,7 @@ namespace CalamityMod.World
 									}
 
 									// Life Fruit pre-mech
-									int random = Main.expertMode ? 30 : 40;
+									int random = Main.expertMode ? 90 : 120;
 									if (WorldGen.genRand.Next(random) == 0)
 									{
 										if (Main.hardMode && !NPC.downedMechBossAny)

@@ -825,6 +825,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.ArmoredSkeleton:
+                case NPCID.HeavySkeleton:
                     DropHelper.DropItemChance(npc, ItemID.BeamSword, DropHelper.DefiledDropRateInt);
                     DropHelper.DropItemChance(npc, ItemID.ArmorPolish, DropHelper.DefiledDropRateInt);
                     break;
@@ -1076,7 +1077,7 @@ namespace CalamityMod.NPCs
             }
 
             // Every type of Skeleton counts for the Bone Sword
-            if (CalamityMod.skeletonList.Contains(npc.type) && npc.type != NPCID.ArmoredSkeleton && npc.type != NPCID.SkeletonArcher && npc.type != NPCID.GreekSkeleton)
+            if (CalamityMod.skeletonList.Contains(npc.type) && npc.type != NPCID.ArmoredSkeleton && npc.type != NPCID.HeavySkeleton && npc.type != NPCID.SkeletonArcher && npc.type != NPCID.GreekSkeleton)
             {
                 DropHelper.DropItemChance(npc, ItemID.BoneSword, DropHelper.DefiledDropRateInt);
             }
@@ -1760,6 +1761,8 @@ namespace CalamityMod.NPCs
                 case NPCID.MotherSlime:
                 case NPCID.CorruptSlime:
                 case NPCID.Crimslime:
+                case NPCID.BigCrimslime:
+                case NPCID.LittleCrimslime:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<MurkySludge>(), Main.expertMode ? 3 : 4);
                     break;
 

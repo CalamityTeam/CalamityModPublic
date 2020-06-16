@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,11 +32,12 @@ namespace CalamityMod.NPCs.NormalNPCs
             banner = npc.type;
             bannerItem = ModContent.ItemType<CryonBanner>();
 			npc.coldDamage = true;
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()
         {
-            CalamityAI.UnicornAI(npc, mod, false, 4f, 5f, 0.1f);
+            CalamityAI.UnicornAI(npc, mod, false, CalamityWorld.death ? 6f : 4f, 5f, CalamityWorld.death ? 0.15f : 0.1f);
         }
 
         public override void FindFrame(int frameHeight)

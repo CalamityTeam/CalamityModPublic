@@ -21,7 +21,7 @@ Provides heat and cold protection in Death Mode");
             item.accessory = true;
             item.width = 36;
             item.height = 34;
-            item.value = Item.buyPrice(0, 45, 0, 0);
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = 5;
         }
 

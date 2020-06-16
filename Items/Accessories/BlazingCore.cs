@@ -27,7 +27,7 @@ namespace CalamityMod.Items.Accessories
             item.accessory = true;
             item.expert = true;
             item.rare = 9;
-            item.value = Item.buyPrice(1, 20, 0, 0);
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

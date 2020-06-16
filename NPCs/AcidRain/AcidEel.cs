@@ -29,6 +29,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.damage = 20;
             npc.lifeMax = 100;
             npc.defense = 4;
+            npc.knockBackResist = 0.9f;
 
             if (CalamityWorld.downedPolterghast)
             {
@@ -36,6 +37,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.damage = 120;
                 npc.lifeMax = 5500;
                 npc.defense = 45;
+				npc.knockBackResist = 0.7f;
             }
             else if (CalamityWorld.downedAquaticScourge)
             {
@@ -43,7 +45,6 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.lifeMax = 705;
             }
 
-            npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 0, 3, 32);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

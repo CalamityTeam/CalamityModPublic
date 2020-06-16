@@ -42,6 +42,7 @@ namespace CalamityMod.NPCs.Crags
             }
             banner = ModContent.NPCType<Scryllar>();
             bannerItem = ModContent.ItemType<ScryllarBanner>();
+			npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()

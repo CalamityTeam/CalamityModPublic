@@ -20,14 +20,14 @@ namespace CalamityMod.NPCs.Crags
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-			aiType = 59;
+			aiType = NPCID.LavaSlime;
             npc.damage = 40;
             npc.width = 40;
             npc.height = 30;
             npc.defense = 10;
             npc.lifeMax = 250;
             npc.knockBackResist = 0f;
-            animationType = 81;
+            animationType = NPCID.CorruptSlime;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             npc.alpha = 50;
             npc.lavaImmune = true;

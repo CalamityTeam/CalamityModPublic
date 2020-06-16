@@ -42,7 +42,7 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.lifeMax = 420;
             }
 
-            npc.knockBackResist = 0f;
+            npc.knockBackResist = 0.7f;
             npc.value = Item.buyPrice(0, 0, 5, 0);
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {

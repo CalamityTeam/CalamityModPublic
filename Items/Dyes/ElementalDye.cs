@@ -31,7 +31,7 @@ namespace CalamityMod.Items.Dyes
             recipe.AddIngredient(ItemID.NebulaDye);
             recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
             recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 5);
             recipe.AddRecipe();
         }
     }

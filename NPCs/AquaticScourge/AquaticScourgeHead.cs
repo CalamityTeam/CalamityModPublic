@@ -233,13 +233,13 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/AquaticScourgeGores/ASHead"), 1f);
             }
@@ -250,22 +250,6 @@ namespace CalamityMod.NPCs.AquaticScourge
             if (npc.Calamity().newAI[0] == 1f && !Main.player[npc.target].dead && npc.Calamity().newAI[1] != 1f)
             {
                 return false;
-            }
-            if (npc.timeLeft <= 0 && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                for (int k = (int)npc.ai[0]; k > 0; k = (int)Main.npc[k].ai[0])
-                {
-                    if (Main.npc[k].active)
-                    {
-                        Main.npc[k].active = false;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            Main.npc[k].life = 0;
-                            Main.npc[k].netSkip = -1;
-                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, k, 0f, 0f, 0f, 0, 0, 0);
-                        }
-                    }
-                }
             }
             return true;
         }
