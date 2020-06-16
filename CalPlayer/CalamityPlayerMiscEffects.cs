@@ -3489,7 +3489,7 @@ namespace CalamityMod.CalPlayer
 				modPlayer.pistonsCounter++;
 				if (modPlayer.pistonsCounter % 12 == 0)
 				{
-					if ((Math.Abs(player.velocity.X) >= 5 || Math.Abs(player.velocity.Y) >= 5) && player.whoAmI == Main.myPlayer)
+					if (player.velocity.Length() >= 5f && player.whoAmI == Main.myPlayer)
 					{
 						int beeCount = 1;
 						if (Main.rand.NextBool(3))
