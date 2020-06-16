@@ -378,7 +378,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.prismaticRegalia) //0 - 99
             {
-                if (item.magic && Main.rand.Next(0, 100) >= 90)
+                if (item.magic && Main.rand.Next(0, 100) >= 95)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -387,8 +387,8 @@ namespace CalamityMod.Items
 							if (i != 0)
 							{
 								Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-								int rocket = Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 1.3), 2f, player.whoAmI, 0f, 0f);
-								Main.projectile[rocket].Calamity().forceTypeless = true;
+								int rocket = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.8), 2f, player.whoAmI, 0f, 0f);
+                Main.projectile[rocket].Calamity().forceTypeless = true;
 							}
 						}
                     }
