@@ -7074,8 +7074,14 @@ namespace CalamityMod.CalPlayer
             if (CalamityWorld.revenge)
             {
                 customDamage = true;
-                double newDamage = damage - (player.statDefense * 0.75);
-                double newDamageLimit = 5.0 + (Main.hardMode ? 5.0 : 0.0) + (NPC.downedPlantBoss ? 5.0 : 0.0) + (NPC.downedMoonlord ? 5.0 : 0.0); //5, 10, 15, 20
+
+				double defenseMultiplier = /*Main.masterMode ? 1D :*/ 0.75;
+                double newDamage = damage - (player.statDefense * defenseMultiplier);
+				double bossDamageLimitIncrease = CalamityWorld.death ? 40D : 20D; // dude why would you even do that? super uncool fab, 0/10, you should jump off a bridge for having the audacity to do something like this :(((((
+				double newDamageLimit = NPC.downedMoonlord ? 20D : (NPC.downedPlantBoss || CalamityWorld.downedCalamitas) ? 15D : Main.hardMode ? 10D : 5D;
+				/*if (areThereAnyDamnBosses && Main.masterMode)
+					newDamageLimit += bossDamageLimitIncrease;*/
+
                 if (newDamage < newDamageLimit)
                 {
                     newDamage = newDamageLimit;

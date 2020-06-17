@@ -187,12 +187,18 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void BossLoot(ref string name, ref int potionType)
         {
+			if (npc.Calamity().newAI[0] == 0f)
+				return;
+
             potionType = ModContent.ItemType<Stardust>();
         }
 
         public override bool SpecialNPCLoot()
         {
-            int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
+			if (npc.Calamity().newAI[0] == 0f)
+				return false;
+
+			int closestSegmentID = DropHelper.FindClosestWormSegment(npc,
                 ModContent.NPCType<AstrumDeusHeadSpectral>(),
                 ModContent.NPCType<AstrumDeusBodySpectral>(),
                 ModContent.NPCType<AstrumDeusTailSpectral>());
@@ -202,7 +208,10 @@ namespace CalamityMod.NPCs.AstrumDeus
 
         public override void NPCLoot()
         {
-            DropHelper.DropBags(npc);
+			if (npc.Calamity().newAI[0] == 0f)
+				return;
+
+			DropHelper.DropBags(npc);
 
             DropHelper.DropItem(npc, ItemID.GreaterHealingPotion, 8, 14);
             DropHelper.DropItemChance(npc, ModContent.ItemType<AstrumDeusTrophy>(), 10);

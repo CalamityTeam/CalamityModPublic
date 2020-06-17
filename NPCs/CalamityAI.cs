@@ -925,7 +925,6 @@ namespace CalamityMod.NPCs
 						float radialOffset = 0.2f;
 						float diameter = 80f;
 
-						//vectorCenter.Y -= Math.Abs(vectorCenter.X) * radialOffset;
 						vectorCenter = Vector2.Normalize(vectorCenter) * projectileSpeed;
 
 						Vector2 velocity = vectorCenter;
@@ -2863,7 +2862,8 @@ namespace CalamityMod.NPCs
 						{
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								int npc2 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, 1);
+								int startCount = npc.whoAmI + phase1Length + 1;
+								int npc2 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, startCount);
 								Main.npc[npc2].Calamity().newAI[0] = 1f;
 								Main.npc[npc2].velocity = Vector2.Normalize(player.Center - Main.npc[npc2].Center) * 16f;
 								Main.npc[npc2].timeLeft *= 20;
@@ -2876,7 +2876,7 @@ namespace CalamityMod.NPCs
 									netMessage.Send();
 								}
 
-								int npc3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, 1);
+								int npc3 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, npc.type, startCount + phase2Length + 1);
 								Main.npc[npc3].Calamity().newAI[0] = 2f;
 								Main.npc[npc3].Calamity().newAI[3] = 600f;
 								Main.npc[npc3].velocity = Vector2.Normalize(player.Center - Main.npc[npc3].Center) * 16f;
@@ -2896,7 +2896,7 @@ namespace CalamityMod.NPCs
 						for (int i = 0; i < Main.maxNPCs; i++)
 						{
 							if (i == npc.whoAmI || Main.npc[i].type == ModContent.NPCType<AstrumDeusBodySpectral>() || Main.npc[i].type == ModContent.NPCType<AstrumDeusTailSpectral>())
-								Main.npc[i].active = false;
+								Main.npc[i].life = 0;
 						}
 
 						return;

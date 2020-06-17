@@ -195,9 +195,11 @@ namespace CalamityMod
 
 		/// <summary>
 		/// Get the aggression multiplier used for NPCs in Master Mode Calamity rev+
+		/// Will also be used to modify certain boss size/scale
 		/// </summary>
 		/// <param name="NPCType">The NPC that is having its aggression increased, used to modify the base 1.5x aggression multiplier</param>
-		public static float GetMasterModeNPCAggressionMultiplier(int? NPCType = null)
+		/// <param name="newColor">Used to modify the color of this NPC</param>
+		public static float GetMasterModeNPCAggressionMultiplier(ref Color newColor, int? NPCType = null)
 		{
 			/*if (!Main.masterMode)
 				return 1f;*/

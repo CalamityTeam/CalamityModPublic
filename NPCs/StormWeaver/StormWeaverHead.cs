@@ -517,10 +517,9 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override bool CheckDead()
         {
-            for (int num957 = 0; num957 < 200; num957++)
+            for (int num957 = 0; num957 < Main.maxNPCs; num957++)
             {
-                if (Main.npc[num957].active && (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>()
-                            || Main.npc[num957].type == ModContent.NPCType<StormWeaverTail>()))
+                if (Main.npc[num957].active && (Main.npc[num957].type == ModContent.NPCType<StormWeaverBody>() || Main.npc[num957].type == ModContent.NPCType<StormWeaverTail>()))
                 {
                     Main.npc[num957].life = 0;
                 }
