@@ -17,14 +17,14 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetDefaults()
         {
             npc.aiStyle = 1;
-			aiType = 71;
+			aiType = NPCID.DungeonSlime;
 			npc.damage = 30;
             npc.width = 60;
             npc.height = 42;
             npc.defense = 8;
             npc.lifeMax = 130;
             npc.knockBackResist = 0.3f;
-            animationType = 244;
+            animationType = NPCID.RainbowSlime;
             npc.value = Item.buyPrice(0, 0, 2, 0);
             npc.alpha = 105;
             npc.lavaImmune = false;
@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.buffImmune[BuffID.OnFire] = true;
+            npc.buffImmune[BuffID.Confused] = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CrimulanBlightSlimeBanner>();
         }
@@ -50,13 +51,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 40; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

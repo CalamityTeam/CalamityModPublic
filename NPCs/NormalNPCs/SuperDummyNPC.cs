@@ -21,6 +21,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath2;
             npc.value = 0f;
             npc.knockBackResist = 0f;
+			npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void UpdateLifeRegen(ref int damage)

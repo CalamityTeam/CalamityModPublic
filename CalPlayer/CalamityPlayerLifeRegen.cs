@@ -472,7 +472,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegenCount = 0;
             }
 
-            if (CalamityConfig.Instance.LethalLava || CalamityWorld.death) //always occurs in Death regardless of config
+            if (CalamityConfig.Instance.LethalLava || CalamityWorld.death) // Always occurs in Death regardless of config
             {
                 if (Main.myPlayer == player.whoAmI)
                 {
@@ -488,23 +488,23 @@ namespace CalamityMod.CalPlayer
                             player.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 2, true);
                     }
                 }
-
-                if (modPlayer.lethalLavaBurn)
-                {
-                    if (player.lifeRegen > 0)
-                        player.lifeRegen = 0;
-
-                    player.lifeRegenTime = 0;
-                    int lifeRegenDown = player.lavaImmune ? 9 : 18;
-
-                    if (player.lavaRose)
-                        lifeRegenDown = 3;
-
-                    player.lifeRegen -= lifeRegenDown * lifeRegenMult;
-                }
             }
 
-            if (modPlayer.hInferno)
+			if (modPlayer.lethalLavaBurn)
+			{
+				if (player.lifeRegen > 0)
+					player.lifeRegen = 0;
+
+				player.lifeRegenTime = 0;
+				int lifeRegenDown = player.lavaImmune ? 9 : 18;
+
+				if (player.lavaRose)
+					lifeRegenDown = 3;
+
+				player.lifeRegen -= lifeRegenDown * lifeRegenMult;
+			}
+
+			if (modPlayer.hInferno)
             {
                 modPlayer.hInfernoBoost++;
 

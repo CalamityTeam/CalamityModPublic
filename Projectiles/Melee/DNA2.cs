@@ -1,6 +1,7 @@
 using CalamityMod.CalPlayer;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Melee
 {
@@ -21,7 +22,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.melee = true;
-            aiType = 494;
+            aiType = ProjectileID.CrystalVileShardShaft;
         }
 
         public override void AI()

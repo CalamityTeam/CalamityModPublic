@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 12, 0, 0); 
+            item.value = CalamityGlobalItem.Rarity7BuyPrice; 
             item.rare = 7;
             item.accessory = true;
             item.defense = 10;
@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Accessories
             Lighting.AddLight(player.Center, 0.825f, 0.66f, 0f);
             if (Main.myPlayer == player.whoAmI)
             {
-                if ((double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05)
+                if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f)
                 {
                     player.allDamage += 0.15f;
                     auraCounter++;

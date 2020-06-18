@@ -16,7 +16,8 @@ namespace CalamityMod.NPCs.Abyss
 {
     public class GulperEelHead : ModNPC
     {
-        public bool detectsPlayer = false;
+		private Vector2 patrolSpot = Vector2.Zero;
+		public bool detectsPlayer = false;
         public const int minLength = 20;
         public const int maxLength = 21;
         public float speed = 5f; //10
@@ -55,13 +56,15 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(detectsPlayer);
+			writer.WriteVector2(patrolSpot);
+			writer.Write(detectsPlayer);
             writer.Write(npc.chaseable);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            detectsPlayer = reader.ReadBoolean();
+			patrolSpot = reader.ReadVector2();
+			detectsPlayer = reader.ReadBoolean();
             npc.chaseable = reader.ReadBoolean();
         }
 
@@ -138,23 +141,29 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.active = false;
             }
+
             float num188 = speed;
             float num189 = turnSpeed;
             Vector2 vector18 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num191 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num192 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
+
+			if (patrolSpot == Vector2.Zero)
+				patrolSpot = Main.player[npc.target].Center;
+
+			float num191 = detectsPlayer ? Main.player[npc.target].Center.X : patrolSpot.X;
+			float num192 = detectsPlayer ? Main.player[npc.target].Center.Y : patrolSpot.Y;
+
 			if (!detectsPlayer)
 			{
 				num192 += 500;
-				if (Math.Abs(npc.Center.X - Main.player[npc.target].Center.X) < 300f)
+				if (Math.Abs(npc.Center.X - num191) < 300f) //500
 				{
 					if (npc.velocity.X > 0f)
 					{
-						num191 = Main.player[npc.target].Center.X + 400f;
+						num191 += 400f;
 					}
 					else
 					{
-						num191 = Main.player[npc.target].Center.X - 400f;
+						num191 -= 400f;
 					}
 				}
 			}
@@ -358,13 +367,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/GulperEel"), 1f);
             }

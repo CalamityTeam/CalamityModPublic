@@ -43,12 +43,12 @@ namespace CalamityMod.Projectiles.Magic
 				projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + MathHelper.Pi;
 			}
 			//Sticky Behaviour
-			CalamityUtils.StickyProjAI(projectile, 5);
+			projectile.StickyProjAI(5);
 		}
 
 		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			CalamityUtils.ModifyHitNPCSticky(projectile, 3, false);
+			projectile.ModifyHitNPCSticky(3, false);
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

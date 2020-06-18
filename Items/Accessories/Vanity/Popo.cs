@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Accessories.Vanity
             item.width = 26;
             item.height = 30;
             item.accessory = true;
-            item.value = 1000000;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = 5;
         }
 

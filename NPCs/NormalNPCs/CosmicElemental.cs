@@ -24,12 +24,13 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.defense = 10;
             npc.lifeMax = 25;
             npc.knockBackResist = 0.5f;
-            animationType = 483;
+            animationType = NPCID.GraniteFlyer;
             npc.value = Item.buyPrice(0, 0, 3, 0);
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.NPCDeath6;
             banner = npc.type;
             bannerItem = ModContent.ItemType<CosmicElementalBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class InkBomb : ModProjectile
+    public class InkBombHostile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Enemy
                 if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
                 {
                     projectile.velocity.X = projectile.velocity.X * 0.97f;
-                    if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
+                    if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
                     {
                         projectile.velocity.X = 0f;
                         projectile.netUpdate = true;
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Enemy
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(50, 401) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<InkPoisonCloud>() + Main.rand.Next(3), (int)((double)projectile.damage * 0.66), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<InkPoisonCloud>() + Main.rand.Next(3), (int)(projectile.damage * 0.66), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
             projectile.position.X = projectile.position.X + (float)(projectile.width / 2);

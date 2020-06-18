@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
@@ -19,8 +20,8 @@ namespace CalamityMod.Items.Accessories
             item.defense = 4;
             item.width = 20;
             item.height = 24;
-            item.value = Item.buyPrice(0, 9, 0, 0);
-            item.rare = 3;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = 4;
             item.accessory = true;
         }
 
@@ -28,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.fBarrier = true;
-            player.buffImmune[46] = true;
+            player.buffImmune[BuffID.Chilled] = true;
         }
     }
 }

@@ -83,6 +83,18 @@ namespace CalamityMod.Buffs
                     tip = "22.5% increased damage";
                     break;
 
+                case BuffID.BeetleEndurance1:
+                    tip = "Damage taken reduced by 10%";
+                    break;
+
+                case BuffID.BeetleEndurance2:
+                    tip = "Damage taken reduced by 20%";
+                    break;
+
+                case BuffID.BeetleEndurance3:
+                    tip = "Damage taken reduced by 30%";
+                    break;
+
                 case BuffID.WeaponImbueVenom:
                 case BuffID.WeaponImbueCursedFlames:
                 case BuffID.WeaponImbueFire:

@@ -29,9 +29,9 @@ namespace CalamityMod.NPCs.Calamitas
                 npc.lifeMax = 30000;
             }
             npc.aiStyle = 5;
-            aiType = 139;
+            aiType = NPCID.Probe;
             npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.25f;
-            animationType = 2;
+            animationType = NPCID.DemonEye;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;

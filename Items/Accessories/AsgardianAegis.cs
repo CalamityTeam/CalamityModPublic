@@ -29,7 +29,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 60;
             item.height = 54;
-            item.value = Item.buyPrice(0, 90, 0, 0); //30 gold reforge
+            item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.defense = 10;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;

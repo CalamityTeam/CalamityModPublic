@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (BirthdayParty.PartyIsUp)
                 dialogue.Add("You'll always find me at parties where booze is involved...well, you'll always find booze where I'm involved.");
 
-            if (Main.invasionType == 4)
+            if (Main.invasionType == InvasionID.MartianMadness)
                 dialogue.Add("Shoot down the space invaders! Sexy time will be postponed if we are invaded by UFOs!");
 
             if (CalamityWorld.downedCryogen)

@@ -148,6 +148,7 @@ namespace CalamityMod
         public static List<int> bossHPScaleList;
         public static List<int> beeEnemyList;
         public static List<int> beeProjectileList;
+        public static List<int> friendlyBeeList;
         public static List<int> hardModeNerfList;
         public static List<int> debuffList;
         public static List<int> fireWeaponList;
@@ -373,6 +374,7 @@ namespace CalamityMod
             bossScaleList = null;
             bossHPScaleList = null;
             beeEnemyList = null;
+            friendlyBeeList = null;
             beeProjectileList = null;
             hardModeNerfList = null;
             debuffList = null;
@@ -758,6 +760,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<FlakKrakenProj>(),
                 ModContent.ProjectileType<SylvanSlashAttack>(),
                 ModContent.ProjectileType<InfernadoFriendly>(),
+				ModContent.ProjectileType<MurasamaSlash>(),
 
 				//Some hostile boss projectiles
                 ModContent.ProjectileType<BrimstoneMonster>(),
@@ -984,6 +987,17 @@ namespace CalamityMod
                 ModContent.ProjectileType<PlagueStingerGoliathV2>(),
                 ModContent.ProjectileType<PlagueExplosion>()
             };
+
+			friendlyBeeList = new List<int>()
+			{
+				ProjectileID.GiantBee,
+				ProjectileID.Bee,
+				ProjectileID.Wasp,
+				ModContent.ProjectileType<PlaguenadeBee>(),
+				ModContent.ProjectileType<PlaguePrincess>(),
+				ModContent.ProjectileType<BabyPlaguebringer>(),
+				ModContent.ProjectileType<PlagueBeeSmall>()
+			};
 
             hardModeNerfList = new List<int>()
             {
@@ -1881,7 +1895,6 @@ namespace CalamityMod
 				ModContent.ProjectileType<HolySpear>(),
 				ModContent.ProjectileType<ProvidenceCrystalShard>(),
 				ModContent.ProjectileType<ProvidenceHolyRay>(),
-				ModContent.ProjectileType<CosmicFlameBurst>(),
 				ModContent.ProjectileType<SignusScythe>(),
 				ModContent.ProjectileType<EssenceDust>(),
 				ModContent.ProjectileType<PhantomBlast>(),
@@ -2432,80 +2445,117 @@ namespace CalamityMod
 				ItemID.SuperHealingPotion
             };
 
-            livingFireBlockList = new List<int>()
-            {
-                ModContent.TileType<LivingGodSlayerFireBlockTile>(),
-                ModContent.TileType<LivingHolyFireBlockTile>(),
-                ModContent.TileType<LivingBrimstoneFireBlockTile>(),
+			livingFireBlockList = new List<int>()
+			{
+				ModContent.TileType<LivingGodSlayerFireBlockTile>(),
+				ModContent.TileType<LivingHolyFireBlockTile>(),
+				ModContent.TileType<LivingBrimstoneFireBlockTile>(),
 				TileID.LivingFire,
 				TileID.LivingCursedFire,
 				TileID.LivingDemonFire,
 				TileID.LivingFrostFire,
 				TileID.LivingIchor,
 				TileID.LivingUltrabrightFire
-            };
+			};
 
-            zombieList = new List<int>()
-            {
-                NPCID.Zombie,
-                NPCID.ArmedZombie,
-                NPCID.BaldZombie,
-                NPCID.PincushionZombie,
-                NPCID.ArmedZombiePincussion, // what is this spelling
-                NPCID.SlimedZombie,
-                NPCID.ArmedZombieSlimed,
-                NPCID.SwampZombie,
-                NPCID.ArmedZombieSwamp,
-                NPCID.TwiggyZombie,
-                NPCID.ArmedZombieTwiggy,
-                NPCID.FemaleZombie,
-                NPCID.ArmedZombieCenx,
-                NPCID.ZombieRaincoat,
-                NPCID.ZombieEskimo,
-                NPCID.ArmedZombieEskimo
-                // halloween zombies not included because they don't drop shackles or zombie arms
-            };
+			zombieList = new List<int>()
+			{
+				NPCID.Zombie,
+				NPCID.ArmedZombie,
+				NPCID.BaldZombie,
+				NPCID.PincushionZombie,
+				NPCID.ArmedZombiePincussion, // what is this spelling
+				NPCID.SlimedZombie,
+				NPCID.ArmedZombieSlimed,
+				NPCID.SwampZombie,
+				NPCID.ArmedZombieSwamp,
+				NPCID.TwiggyZombie,
+				NPCID.ArmedZombieTwiggy,
+				NPCID.FemaleZombie,
+				NPCID.ArmedZombieCenx,
+				NPCID.ZombieRaincoat,
+				NPCID.ZombieEskimo,
+				NPCID.ArmedZombieEskimo,
+				NPCID.BigRainZombie,
+				NPCID.SmallRainZombie,
+				NPCID.BigFemaleZombie,
+				NPCID.SmallFemaleZombie,
+				NPCID.BigTwiggyZombie,
+				NPCID.SmallTwiggyZombie,
+				NPCID.BigSwampZombie,
+				NPCID.SmallSwampZombie,
+				NPCID.BigSlimedZombie,
+				NPCID.SmallSlimedZombie,
+				NPCID.BigPincushionZombie,
+				NPCID.SmallPincushionZombie,
+				NPCID.BigBaldZombie,
+				NPCID.SmallBaldZombie,
+				NPCID.BigZombie,
+				NPCID.SmallZombie
+				// halloween zombies not included because they don't drop shackles or zombie arms
+			};
 
-            demonEyeList = new List<int>()
-            {
-                NPCID.DemonEye,
-                NPCID.CataractEye,
-                NPCID.SleepyEye,
-                NPCID.DialatedEye, // it is spelled "dilated"
-                NPCID.GreenEye,
-                NPCID.PurpleEye,
-                NPCID.DemonEyeOwl,
-                NPCID.DemonEyeSpaceship
-            };
+			demonEyeList = new List<int>()
+			{
+				NPCID.DemonEye,
+				NPCID.CataractEye,
+				NPCID.SleepyEye,
+				NPCID.DialatedEye, // it is spelled "dilated"
+				NPCID.GreenEye,
+				NPCID.PurpleEye,
+				NPCID.DemonEyeOwl,
+				NPCID.DemonEyeSpaceship,
+				NPCID.DemonEye2,
+				NPCID.PurpleEye2,
+				NPCID.GreenEye2,
+				NPCID.DialatedEye2,
+				NPCID.SleepyEye2,
+				NPCID.CataractEye2
+			};
 
-            skeletonList = new List<int>()
-            {
-                NPCID.Skeleton,
-                NPCID.ArmoredSkeleton,
-                NPCID.SkeletonArcher,
-                NPCID.HeadacheSkeleton,
-                NPCID.MisassembledSkeleton,
-                NPCID.PantlessSkeleton,
-                NPCID.SkeletonTopHat,
-                NPCID.SkeletonAstonaut,
-                NPCID.SkeletonAlien,
-                NPCID.BoneThrowingSkeleton,
-                NPCID.BoneThrowingSkeleton2,
-                NPCID.BoneThrowingSkeleton3,
-                NPCID.BoneThrowingSkeleton4,
-                NPCID.GreekSkeleton
-            };
+			skeletonList = new List<int>()
+			{
+				NPCID.Skeleton,
+				NPCID.HeadacheSkeleton,
+				NPCID.MisassembledSkeleton,
+				NPCID.PantlessSkeleton,
+				NPCID.BoneThrowingSkeleton,
+				NPCID.BoneThrowingSkeleton2,
+				NPCID.BoneThrowingSkeleton3,
+				NPCID.BoneThrowingSkeleton4,
+				NPCID.BigPantlessSkeleton,
+				NPCID.SmallPantlessSkeleton,
+				NPCID.BigMisassembledSkeleton,
+				NPCID.SmallMisassembledSkeleton,
+				NPCID.BigHeadacheSkeleton,
+				NPCID.SmallHeadacheSkeleton,
+				NPCID.BigSkeleton,
+				NPCID.SmallSkeleton,
 
-            angryBonesList = new List<int>()
-            {
-                NPCID.AngryBones,
-                NPCID.AngryBonesBig,
-                NPCID.AngryBonesBigMuscle,
-                NPCID.AngryBonesBigHelmet
-            };
+				//Note: These skeletons don't count for Skeleton Banner for some god forsaken reason
+				NPCID.SkeletonTopHat,
+				NPCID.SkeletonAstonaut,
+				NPCID.SkeletonAlien,
 
-            hornetList = new List<int>()
-            {
+				//Other skeleton types
+				NPCID.ArmoredSkeleton,
+				NPCID.HeavySkeleton,
+				NPCID.SkeletonArcher,
+				NPCID.GreekSkeleton
+			};
+
+			angryBonesList = new List<int>()
+			{
+				NPCID.AngryBones,
+				NPCID.AngryBonesBig,
+				NPCID.AngryBonesBigMuscle,
+				NPCID.AngryBonesBigHelmet,
+				NPCID.BigBoned,
+				NPCID.ShortBones
+			};
+
+			hornetList = new List<int>()
+			{
 				NPCID.BigHornetStingy,
 				NPCID.LittleHornetStingy,
 				NPCID.BigHornetSpikey,
@@ -2519,21 +2569,21 @@ namespace CalamityMod
 				NPCID.BigStinger,
 				NPCID.LittleStinger,
 				NPCID.Hornet,
-                NPCID.HornetFatty,
-                NPCID.HornetHoney,
-                NPCID.HornetLeafy,
-                NPCID.HornetSpikey,
-                NPCID.HornetStingy
-            };
+				NPCID.HornetFatty,
+				NPCID.HornetHoney,
+				NPCID.HornetLeafy,
+				NPCID.HornetSpikey,
+				NPCID.HornetStingy
+			};
 
-            mossHornetList = new List<int>()
-            {
-                NPCID.MossHornet,
-                NPCID.TinyMossHornet,
-                NPCID.LittleMossHornet,
-                NPCID.BigMossHornet,
-                NPCID.GiantMossHornet
-            };
+			mossHornetList = new List<int>()
+			{
+				NPCID.MossHornet,
+				NPCID.TinyMossHornet,
+				NPCID.LittleMossHornet,
+				NPCID.BigMossHornet,
+				NPCID.GiantMossHornet
+			};
 
             Mod thorium = ModLoader.GetMod("ThoriumMod");
             if (CalamityConfig.Instance.BuffThoriumBosses && thorium != null)
@@ -3862,7 +3912,14 @@ namespace CalamityMod
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                             NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
                         break;
-                    default:
+					case CalamityModMessageType.SyncCalamityNPCAIArray:
+						byte npcIndex2 = reader.ReadByte();
+						Main.npc[npcIndex2].Calamity().newAI[0] = reader.ReadSingle();
+						Main.npc[npcIndex2].Calamity().newAI[1] = reader.ReadSingle();
+						Main.npc[npcIndex2].Calamity().newAI[2] = reader.ReadSingle();
+						Main.npc[npcIndex2].Calamity().newAI[3] = reader.ReadSingle();
+						break;
+					default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
                 }
@@ -3899,8 +3956,8 @@ namespace CalamityMod
                 NetMessage.SendData(MessageID.WorldData, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
             }
         }
-        #endregion
-    }
+		#endregion
+	}
 
     public enum Season : byte
     {
@@ -3944,6 +4001,7 @@ namespace CalamityMod
         AcidRainUIDrawFadeSync,
         AcidRainOldDukeSummonSync,
         GaelsGreatswordSwingSync,
-        SpawnSuperDummy
+        SpawnSuperDummy,
+		SyncCalamityNPCAIArray
     }
 }

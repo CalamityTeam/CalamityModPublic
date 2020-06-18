@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
             Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
-            CalamityUtils.ExplosionGores(projectile, 3);
+            projectile.ExplosionGores(3);
             for (int num194 = 0; num194 < 25; num194++)
             {
                 int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 135, 0f, 0f, 100, default, 2f);

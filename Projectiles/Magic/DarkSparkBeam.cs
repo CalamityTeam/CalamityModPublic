@@ -132,7 +132,7 @@ namespace CalamityMod.Projectiles.Magic
 			float amount = projectile2.ai[0] / 1200f;
 			if (amount > 1f)
 				amount = 1f;
-			projectile.damage = (int)(projectile2.damage * MathHelper.Lerp(0.25f, 2.5f, amount));
+			projectile.damage = (int)(projectile2.damage * MathHelper.Lerp(0.25f, 2.2f, amount));
 
 			if (projectile2.ai[0] >= 720f)
             {

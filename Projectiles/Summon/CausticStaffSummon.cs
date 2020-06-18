@@ -175,7 +175,12 @@ namespace CalamityMod.Projectiles.Summon
 				for (int index = 0; index < projectile.whoAmI; ++index)
 				{
 					Projectile proj = Main.projectile[index];
-					if (proj.active && proj.owner == projectile.owner && proj.type == projectile.type)
+
+					// Short circuits to make the loop as fast as possible
+					if (!proj.active || proj.owner != projectile.owner || !proj.minion)
+						continue;
+
+					if (proj.type == projectile.type)
 						++minionPosition;
 				}
 				playerPos.X -= 10f * player.direction;

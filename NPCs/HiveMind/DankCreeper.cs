@@ -28,7 +28,6 @@ namespace CalamityMod.NPCs.HiveMind
             }
             npc.aiStyle = -1;
             aiType = -1;
-            animationType = 10;
             npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.3f;
             npc.noGravity = true;
             npc.noTileCollide = true;

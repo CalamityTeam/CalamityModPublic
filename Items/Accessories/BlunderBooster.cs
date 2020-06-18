@@ -54,7 +54,6 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PlaguedFuelPack>());
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

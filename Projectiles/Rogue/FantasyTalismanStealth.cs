@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 				}
 			}
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
             if (projectile.ai[0] == 1f)
             {
 				if (projectile.timeLeft % 4 == 0)
@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 1, true);
+            projectile.ModifyHitNPCSticky(1, true);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

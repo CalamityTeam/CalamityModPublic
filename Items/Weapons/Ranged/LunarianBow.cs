@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 15;
+            item.damage = 29;
             item.ranged = true;
             item.width = 22;
             item.height = 62;
@@ -46,15 +46,14 @@ namespace CalamityMod.Items.Weapons.Ranged
             bool flag11 = Collision.CanHit(vector2, 0, 0, vector2 + vector7, 0, 0);
             for (int num119 = 0; num119 < num118; num119++)
             {
-                float num120 = (float)num119 - ((float)num118 - 1f) / 2f;
-                Vector2 value9 = vector7.RotatedBy((double)(num117 * num120), default);
+                float num120 = num119 - (num118 - 1f) / 2f;
+                Vector2 value9 = vector7.RotatedBy(num117 * num120, default);
                 if (!flag11)
                 {
                     value9 -= vector7;
                 }
-                int num121 = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ModContent.ProjectileType<LunarBolt>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-                Main.projectile[num121].noDropItem = true;
-            }
+                Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, ModContent.ProjectileType<LunarBolt>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			}
             return false;
         }
 

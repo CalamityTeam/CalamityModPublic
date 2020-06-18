@@ -167,7 +167,7 @@ namespace CalamityMod.Projectiles.Rogue
                 num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile, 9);
+			projectile.ExplosionGores(9);
         }
     }
 }

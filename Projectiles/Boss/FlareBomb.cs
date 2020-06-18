@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -30,6 +31,7 @@ namespace CalamityMod.Projectiles.Boss
         public override void AI()
         {
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -40,9 +42,11 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.frame = 0;
             }
+
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
+
             float num953 = revenge ? 110f : 100f;
-            float scaleFactor12 = revenge ? 35f : 30f;
+            float scaleFactor12 = revenge ? 50f : 40f;
 
 			if (projectile.ai[1] == 1f)
 			{
@@ -63,17 +67,11 @@ namespace CalamityMod.Projectiles.Boss
             {
                 projectile.alpha = 0;
             }
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 4)
-            {
-                projectile.frame++;
-                projectile.frameCounter = 0;
-            }
-            if (projectile.frame > 3)
-            {
-                projectile.frame = 0;
-            }
-            int num959 = (int)projectile.ai[0];
+
+			if (projectile.timeLeft > 120 && projectile.ai[1] == 1f)
+				return;
+
+			int num959 = (int)projectile.ai[0];
             if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
             {
                 if (projectile.Distance(Main.player[num959].Center) > num954)
@@ -95,7 +93,10 @@ namespace CalamityMod.Projectiles.Boss
                 }
             }
 
-			float num1247 = 0.1f;
+			if (projectile.timeLeft < 60 || projectile.ai[1] == 1f)
+				return;
+
+			float num1247 = 0.5f;
 			for (int num1248 = 0; num1248 < Main.maxProjectiles; num1248++)
 			{
 				if (Main.projectile[num1248].active)
@@ -159,10 +160,15 @@ namespace CalamityMod.Projectiles.Boss
                 num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile, 3);
+			projectile.ExplosionGores(3);
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;
 		}

@@ -27,10 +27,10 @@ namespace CalamityMod.Items.Dyes
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BottledWater);
+            recipe.AddIngredient(ItemID.BottledWater, 2);
             recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 5);
             recipe.AddTile(TileID.DyeVat);
-            recipe.SetResult(this);
+            recipe.SetResult(this, 2);
             recipe.AddRecipe();
         }
     }
