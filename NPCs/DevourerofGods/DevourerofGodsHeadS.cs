@@ -872,7 +872,9 @@ namespace CalamityMod.NPCs.DevourerofGods
 			postTeleportTimer = 255;
 			npc.alpha = postTeleportTimer;
 
-			Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * 320f + new Vector2(Main.rand.Next(-40, 41), Main.rand.Next(-40, 41));
+			int randomRange = 48;
+			float distance = 480f;
+			Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
 
 			npc.position = targetVector;
 			npc.netUpdate = true;

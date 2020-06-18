@@ -3467,7 +3467,11 @@ namespace CalamityMod.CalPlayer
 
             if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
             {
-                player.dashDelay = 10;
+				if (player.dashDelay != 0)
+				{
+					player.velocity *= 0.3f;
+					player.dashDelay = 0;
+				}
                 dashMod = 0;
             }
 
@@ -3493,8 +3497,12 @@ namespace CalamityMod.CalPlayer
 
             if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
             {
-                player.dashDelay = 10;
-                dashMod = 0;
+				if (player.dashDelay != 0)
+				{
+					player.velocity *= 0.3f;
+					player.dashDelay = 0;
+				}
+				dashMod = 0;
             }
 
             if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
@@ -5806,9 +5814,7 @@ namespace CalamityMod.CalPlayer
 			}
 
             if (triumph)
-            {
                 contactDamageReduction += 0.15 * (1D - (npc.life / (double)npc.lifeMax));
-            }
 
             if (aSparkRare)
             {
@@ -5825,24 +5831,16 @@ namespace CalamityMod.CalPlayer
 			}
 
             if (tarragonCloak && !tarragonCloakCooldown && tarraMelee)
-            {
 				contactDamageReduction += 0.5;
-			}
 
             if (bloodflareMelee && bloodflareFrenzy && !bloodFrenzyCooldown)
-            {
 				contactDamageReduction += 0.5;
-			}
 
             if (silvaMelee && silvaCountdown <= 0 && hasSilvaEffect)
-            {
 				contactDamageReduction += 0.2;
-			}
 
 			if (npc.Calamity().tSad > 0)
-			{
 				contactDamageReduction += 0.5;
-			}
 
 			if (npc.Calamity().relicOfResilienceWeakness > 0)
 			{
@@ -5853,22 +5851,45 @@ namespace CalamityMod.CalPlayer
 			if (beeResist)
 			{
 				if (CalamityMod.beeEnemyList.Contains(npc.type))
-				{
 					contactDamageReduction += 0.25;
-				}
 			}
 
 			if (eskimoSet)
 			{
 				if (npc.coldDamage)
-				{
 					contactDamageReduction += 0.1;
-				}
 			}
+
+			if (leviathanAndSirenLore)
+			{
+				if (!player.IsUnderwater())
+					contactDamageReduction -= 0.05;
+			}
+
+			if (vHex)
+				contactDamageReduction -= 0.3;
+
+			if (irradiated)
+				contactDamageReduction -= 0.1;
+
+			if (corrEffigy)
+				contactDamageReduction -= 0.2;
+
+			if (calamityRing)
+				contactDamageReduction -= 0.15;
 
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (contactDamageReduction > 0D)
 			{
+				if (marked || reaperToothNecklace)
+					contactDamageReduction *= 0.5;
+
+				if (aCrunch)
+					contactDamageReduction *= 0.33;
+
+				if (wCleave)
+					contactDamageReduction *= 0.75;
+
 				// Scale with base damage reduction
 				if (DRStat > 0)
 					contactDamageReduction *= 1f - (DRStat * 0.01f);
@@ -6040,9 +6061,7 @@ namespace CalamityMod.CalPlayer
 
 			// Reduce damage
 			if (hasBanner)
-			{
 				BannerProjectileDamageReduction(proj, ref damage, NPCBannerBuff);
-			}
 
             if (projRefRare)
             {
@@ -6070,9 +6089,36 @@ namespace CalamityMod.CalPlayer
                     projectileDamageReduction += 0.25;
             }
 
+			if (leviathanAndSirenLore)
+			{
+				if (!player.IsUnderwater())
+					projectileDamageReduction -= 0.05;
+			}
+
+			if (vHex)
+				projectileDamageReduction -= 0.3;
+
+			if (irradiated)
+				projectileDamageReduction -= 0.1;
+
+			if (corrEffigy)
+				projectileDamageReduction -= 0.2;
+
+			if (calamityRing)
+				projectileDamageReduction -= 0.15;
+
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
 			if (projectileDamageReduction > 0D)
 			{
+				if (marked || reaperToothNecklace)
+					projectileDamageReduction *= 0.5;
+
+				if (aCrunch)
+					projectileDamageReduction *= 0.33;
+
+				if (wCleave)
+					projectileDamageReduction *= 0.75;
+
 				// Scale with base damage reduction
 				if (DRStat > 0)
 					projectileDamageReduction *= 1f - (DRStat * 0.01f);
@@ -6703,8 +6749,9 @@ namespace CalamityMod.CalPlayer
                 }
                 else if (proj.type == ProjectileID.CultistBossLightningOrbArc)
                 {
-                    player.AddBuff(BuffID.Electrified, (proj.Calamity().lineColor == 1 ? 60 : 120));
-                    //1 second for DM lightning, 2 seconds for Storm Weaver/Cultist lightning
+					int deathModeDuration = NPC.downedMoonlord ? 80 : NPC.downedPlantBoss ? 40 : Main.hardMode ? 20 : 10;
+					player.AddBuff(BuffID.Electrified, proj.Calamity().lineColor == 1 ? deathModeDuration : 120);
+                    // Scaled duration for DM lightning, 2 seconds for Storm Weaver/Cultist lightning
                 }
             }
 			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))

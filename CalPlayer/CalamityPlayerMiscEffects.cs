@@ -157,6 +157,8 @@ namespace CalamityMod.CalPlayer
 
 				// Adjusts the life steal cap in rev/death
 				float lifeStealCap = CalamityWorld.death ? 50f : 60f;
+				/*if (Main.masterMode)
+					lifeStealCap *= 0.75f;*/
 				if (player.lifeSteal > lifeStealCap)
 					player.lifeSteal = lifeStealCap;
 
@@ -374,6 +376,8 @@ namespace CalamityMod.CalPlayer
 			// Revengeance mode recovery rate is 0.3/s
 			// Death mode recovery rate is 0.25/s
 			float lifeStealCooldown = CalamityWorld.death ? 0.25f : CalamityWorld.revenge ? 0.2f : Main.expertMode ? 0.15f : 0.1f;
+			/*if (Main.masterMode)
+				lifeStealCooldown *= 1.25f;*/
 			player.lifeSteal -= lifeStealCooldown;
 
 			// Nebula Armor nerf
@@ -512,7 +516,7 @@ namespace CalamityMod.CalPlayer
 						if (depthRatio > FadeAwayStart)
 						{
 							// Varies from 1.0 to 0.0 as depthRatio varies from FadeAwayStart to 1.0.
-							darknessStrength = (1f - (float)depthRatio) / (1f - FadeAwayStart);
+							darknessStrength = MathHelper.Lerp(0f, 0.75f, (1f - (float)depthRatio) / (1f - FadeAwayStart));
 						}
 
 						// Reduce the power of cave darkness based on your light level. 5+ is enough to totally eliminate it.
@@ -607,15 +611,15 @@ namespace CalamityMod.CalPlayer
 					bool nearPillar =  player.PillarZone();
 					if (player.ZoneOverworldHeight && !CalamityPlayer.areThereAnyDamnBosses && Main.invasionType == InvasionID.None && NPC.MoonLordCountdown == 0 && !player.InSpace() && !DD2Event.Ongoing && !nearPillar)
 					{
-						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - (float)Main.rand.Next(300, 701), player.Center.Y - (float)Main.rand.Next(700, 801));
+						Vector2 sharknadoSpawnPoint = new Vector2(player.Center.X - Main.rand.Next(300, 701), player.Center.Y - Main.rand.Next(700, 801));
 						if (point.X > Main.maxTilesX / 2)
-							sharknadoSpawnPoint.X = player.Center.X + (float)Main.rand.Next(300, 701);
+							sharknadoSpawnPoint.X = player.Center.X + Main.rand.Next(300, 701);
 
 						if (Main.raining)
 						{
 							float frequencyMult = (1f - Main.cloudAlpha) * CalamityConfig.Instance.DeathWeatherMultiplier; // 3 to 0.055
 
-							Vector2 spawnPoint = new Vector2(player.Center.X + (float)Main.rand.Next(-1000, 1001), player.Center.Y - (float)Main.rand.Next(700, 801));
+							Vector2 spawnPoint = new Vector2(player.Center.X + Main.rand.Next(-1000, 1001), player.Center.Y - Main.rand.Next(700, 801));
 							Tile tileSafely = Framing.GetTileSafely((int)(spawnPoint.X / 16f), (int)(spawnPoint.Y / 16f));
 
 							if (player.ZoneSnow)
@@ -623,7 +627,7 @@ namespace CalamityMod.CalPlayer
 								if (!tileSafely.active())
 								{
 									int divisor = (int)((Main.hardMode ? 50f : 60f) * frequencyMult);
-									float windVelocity = (float)Math.Sqrt((double)Math.Abs(Main.windSpeed)) * (float)Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5f) * 25f + Main.rand.NextFloat() * 0.2f - 0.1f;
+									float windVelocity = (float)Math.Sqrt(Math.Abs(Main.windSpeed)) * Math.Sign(Main.windSpeed) * (Main.cloudAlpha + 0.5f) * 25f + Main.rand.NextFloat() * 0.2f - 0.1f;
 									Vector2 velocity = new Vector2(windVelocity * 0.2f, 3f * Main.rand.NextFloat());
 
 									if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
@@ -654,14 +658,14 @@ namespace CalamityMod.CalPlayer
 										for (int num334 = num331; num334 < num331 + spawnAreaY; num334++)
 										{
 											Tile tile = Main.tile[num332, num334];
-											if ((tile.active() && Main.tileSolid[(int)tile.type]) || tile.liquid >= 200)
+											if ((tile.active() && Main.tileSolid[tile.type]) || tile.liquid >= 200)
 											{
 												num331 = num334;
 												break;
 											}
 										}
 
-										int num336 = Projectile.NewProjectile((float)(num332 * 16 + 8), (float)(num331 * 16 - 24), 0f, 0f, ProjectileID.Cthulunado, 50, 4f, player.whoAmI, 16f, 24f);
+										int num336 = Projectile.NewProjectile(num332 * 16 + 8, num331 * 16 - 24, 0f, 0f, ProjectileID.Cthulunado, 50, 4f, player.whoAmI, 16f, 24f);
 										Main.projectile[num336].netUpdate = true;
 									}
 								}
@@ -705,14 +709,14 @@ namespace CalamityMod.CalPlayer
 									for (int num334 = num331; num334 < num331 + spawnAreaY; num334++)
 									{
 										Tile tile = Main.tile[num332, num334];
-										if ((tile.active() && Main.tileSolid[(int)tile.type]) || tile.liquid >= 200)
+										if ((tile.active() && Main.tileSolid[tile.type]) || tile.liquid >= 200)
 										{
 											num331 = num334;
 											break;
 										}
 									}
 
-									int num336 = Projectile.NewProjectile((float)(num332 * 16 + 8), (float)(num331 * 16 - 24), 0.01f, 0f, ProjectileID.Sharknado, 25, 4f, player.whoAmI, 16f, 15f);
+									int num336 = Projectile.NewProjectile(num332 * 16 + 8, num331 * 16 - 24, 0.01f, 0f, ProjectileID.Sharknado, 25, 4f, player.whoAmI, 16f, 15f);
 									Main.projectile[num336].netUpdate = true;
 								}
 							}

@@ -341,12 +341,14 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="damage">The damage the npc does prior to being multiplied</param>
 		/// <param name="damageMultiplier">The damage multiplier applied to the npc' contact damage</param>
-		public static int GetMasterModeContactDamage(int damage, float damageMultiplier)
+		public static int GetMasterModeContactDamage(int damage, double damageMultiplier)
 		{
-			/*if (!Main.masterMode)
+			/*if (!Main.masterMode || !CalamityWorld.revenge)
 				return damage;*/
 
-			return (int)(damage * damageMultiplier);
+			return damage;
+
+			//return (int)(damage * damageMultiplier);
 		}
 
 		/// <summary>
@@ -354,12 +356,14 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="damage">The damage the projectile does prior to being multiplied</param>
 		/// <param name="damageMultiplier">The damage multiplier applied to the projectiles' damage</param>
-		public static int GetMasterModeProjectileDamage(int damage, float damageMultiplier)
+		public static int GetMasterModeProjectileDamage(int damage, double damageMultiplier)
 		{
-			/*if (!Main.masterMode)
+			/*if (!Main.masterMode || !CalamityWorld.revenge)
 				return damage;*/
 
-			return (int)(damage * damageMultiplier);
+			return damage;
+
+			//return (int)(damage * damageMultiplier);
 		}
 
 		/// <summary>

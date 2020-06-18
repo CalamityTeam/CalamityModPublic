@@ -43,8 +43,11 @@ namespace CalamityMod.Projectiles.Environment
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LightningStrike"), (int)projectile.Center.X, (int)projectile.Center.Y);
 					Vector2 ai0 = projectile.Center - fireFrom;
 					float ai = Main.rand.Next(100);
-					Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(0.78539818525314331)) * 7f;
-					int proj = Projectile.NewProjectile(fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, 50, 0f, projectile.owner, ai0.ToRotation(), ai);
+					Vector2 velocity = Vector2.Normalize(ai0.RotatedByRandom(MathHelper.PiOver4)) * 7f;
+
+					int damage = NPC.downedMoonlord ? 80 : NPC.downedPlantBoss ? 40 : Main.hardMode ? 20 : 10;
+
+					int proj = Projectile.NewProjectile(fireFrom.X, fireFrom.Y, velocity.X, velocity.Y, ProjectileID.CultistBossLightningOrbArc, damage, 0f, projectile.owner, ai0.ToRotation(), ai);
 					Main.projectile[proj].extraUpdates += 11;
 					Main.projectile[proj].friendly = true;
 					Main.projectile[proj].Calamity().lineColor = 1;
