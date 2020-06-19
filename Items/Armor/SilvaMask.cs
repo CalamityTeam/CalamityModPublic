@@ -42,8 +42,7 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaThrowing = true;
             modPlayer.rogueStealthMax += 1.25f;
             modPlayer.wearingRogueArmor = true;
-            player.setBonus = "You are immune to almost all debuffs\n" +
-                "All projectiles spawn healing leaf orbs on enemy hits\n" +
+            player.setBonus = "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +
                 "If you get reduced to 1 HP again while this effect is active you will lose 100 max life\n" +

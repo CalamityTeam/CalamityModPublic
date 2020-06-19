@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.CalPlayer;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.AstralCatches
@@ -30,7 +31,7 @@ namespace CalamityMod.Items.Fishing.AstralCatches
             modPlayer.ursaSergeant = true;
             player.statDefense += 20;
             player.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
-            player.buffImmune[148] = true; //Feral Bite
+            player.buffImmune[BuffID.Rabies] = true; //Feral Bite
         }
     }
 }

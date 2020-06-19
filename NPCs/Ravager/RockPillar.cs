@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -132,6 +133,11 @@ namespace CalamityMod.NPCs.Ravager
 		public override bool CheckActive()
 		{
 			return false;
+		}
+
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 180, true);
 		}
 
 		public override void HitEffect(int hitDirection, double damage)

@@ -781,7 +781,8 @@ namespace CalamityMod.NPCs.Ravager
             {
                 player.AddBuff(ModContent.BuffType<Horror>(), 600, true);
             }
-        }
+			player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300, true);
+		}
 
         public override void BossLoot(ref string name, ref int potionType)
         {

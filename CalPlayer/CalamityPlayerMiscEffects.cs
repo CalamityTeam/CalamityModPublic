@@ -417,7 +417,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Immunity to most debuffs
-			if (modPlayer.silvaSet || modPlayer.invincible)
+			if (modPlayer.invincible)
 			{
 				foreach (int debuff in CalamityMod.debuffList)
 					player.buffImmune[debuff] = true;
@@ -428,7 +428,7 @@ namespace CalamityMod.CalPlayer
 				player.buffImmune[BuffID.Electrified] = true;
 
 			// Reduce breath meter while in icy water instead of chilling
-			bool canBreath = ((modPlayer.sirenBoobs && NPC.downedBoss3) || (modPlayer.sirenBoobsAlt && NPC.downedBoss3) || player.gills || player.merman);
+			bool canBreath = (modPlayer.sirenBoobs && NPC.downedBoss3) || (modPlayer.sirenBoobsAlt && NPC.downedBoss3) || player.gills || player.merman;
 			if (player.arcticDivingGear || canBreath)
 			{
 				player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
@@ -985,6 +985,9 @@ namespace CalamityMod.CalPlayer
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
 			{
+				foreach (int debuff in CalamityMod.debuffList)
+					player.buffImmune[debuff] = true;
+
 				player.buffImmune[ModContent.BuffType<VulnerabilityHex>()] = true;
 				modPlayer.silvaCountdown -= modPlayer.auricSet ? 2 : 1;
 				if (modPlayer.silvaCountdown <= 0)
