@@ -223,14 +223,22 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Anger message
 			if (speedBoost2)
             {
-                if (!halfLife)
-                {
-                    string key = "Mods.CalamityMod.EdgyBossText11";
-                    Color messageColor = Color.Cyan;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    else if (Main.netMode == NetmodeID.Server)
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+				if (!halfLife)
+				{
+					string key = "Mods.CalamityMod.EdgyBossText11";
+					Color messageColor = Color.Cyan;
+					if (Main.netMode == NetmodeID.SinglePlayer)
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					else if (Main.netMode == NetmodeID.Server)
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+
+						for (int i = 0; i < 3; i++)
+							NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
+					}
 
                     halfLife = true;
                 }
@@ -303,64 +311,48 @@ namespace CalamityMod.NPCs.DevourerofGods
                     float spawnOffsetY = 1000f;
                     float divisor = 120f;
 
-                    if (calamityGlobalNPC.newAI[1] % divisor == 0f)
-                    {
-                        if (calamityGlobalNPC.newAI[1] % idleCounterMax == 0f)
-                        {
-                            int cosmicGuardianCount = NPC.CountNPCS(ModContent.NPCType<DevourerofGodsHead2>());
-                            if (cosmicGuardianCount < 2)
-                            {
-                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+					if (calamityGlobalNPC.newAI[1] % divisor == 0f)
+					{
+						Main.PlaySound(SoundID.Item12, player.position);
 
-                                int spawnAmt = cosmicGuardianCount == 0 ? 2 : 1;
+						float targetPosY = player.position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
 
-                                for (int i = 0; i < spawnAmt; i++)
-                                    NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
-                            }
-                        }
-                        else
-                        {
-                            Main.PlaySound(SoundID.Item12, player.position);
+						// Side walls
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(player.position.X + spawnOffsetX, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.position.X - spawnOffsetX, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[0] -= spacingVar;
+						}
 
-                            float targetPosY = player.position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
+						if (Main.rand.NextBool(2) && revenge)
+						{
+							for (int x = 0; x < 10; x++)
+							{
+								Projectile.NewProjectile(player.position.X + spawnOffsetX, targetPosY + shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(player.position.X - spawnOffsetX, targetPosY + shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
+							}
+							shotSpacing[3] = 1050;
+						}
+						shotSpacing[0] = 1050;
 
-                            // Side walls
-                            for (int x = 0; x < totalShots; x++)
-                            {
-                                Projectile.NewProjectile(player.position.X + spawnOffsetX, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                Projectile.NewProjectile(player.position.X - spawnOffsetX, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing[0] -= spacingVar;
-                            }
+						// Lower wall
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(player.position.X + shotSpacing[1], player.position.Y + spawnOffsetY, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[1] -= spacingVar;
+						}
+						shotSpacing[1] = 1050;
 
-                            if (Main.rand.NextBool(2) && revenge)
-                            {
-                                for (int x = 0; x < 10; x++)
-                                {
-                                    Projectile.NewProjectile(player.position.X + spawnOffsetX, targetPosY + shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                    Projectile.NewProjectile(player.position.X - spawnOffsetX, targetPosY + shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                    shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
-                                }
-                                shotSpacing[3] = 1050;
-                            }
-                            shotSpacing[0] = 1050;
-
-                            // Lower wall
-                            for (int x = 0; x < totalShots; x++)
-                            {
-                                Projectile.NewProjectile(player.position.X + shotSpacing[1], player.position.Y + spawnOffsetY, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing[1] -= spacingVar;
-                            }
-                            shotSpacing[1] = 1050;
-
-                            // Upper wall
-                            for (int x = 0; x < totalShots; x++)
-                            {
-                                Projectile.NewProjectile(player.position.X + shotSpacing[2], player.position.Y - spawnOffsetY, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-                                shotSpacing[2] -= spacingVar;
-                            }
-                            shotSpacing[2] = 1050;
-                        }
-                    }
+						// Upper wall
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(player.position.X + shotSpacing[2], player.position.Y - spawnOffsetY, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[2] -= spacingVar;
+						}
+						shotSpacing[2] = 1050;
+					}
                 }
             }
 

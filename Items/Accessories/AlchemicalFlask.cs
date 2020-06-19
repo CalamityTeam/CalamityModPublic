@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Alchemical Flask");
             Tooltip.SetDefault("All attacks inflict the plague\n" +
-                "Makes you immune to the plague\n" +
+                "Reduces the damage caused to you by the plague\n" +
                 "Projectiles spawn plague seekers on enemy hits");
         }
 
@@ -30,7 +30,6 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.alchFlask = true;
-            player.buffImmune[ModContent.BuffType<Plague>()] = true;
         }
 
         public override void AddRecipes()

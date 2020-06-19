@@ -460,6 +460,7 @@ namespace CalamityMod.CalPlayer
         public bool shadowMinions = false;
         public bool tearMinions = false;
         public bool alchFlask = false;
+		public bool abaddon = false;
         public bool community = false;
         public bool fleshTotem = false;
         public bool fleshTotemCooldown = false;
@@ -1503,6 +1504,7 @@ namespace CalamityMod.CalPlayer
             shadowMinions = false;
             tearMinions = false;
             alchFlask = false;
+			abaddon = false;
             community = false;
             stressPills = false;
             laudanum = false;
@@ -3391,7 +3393,8 @@ namespace CalamityMod.CalPlayer
             }
             player.meleeSpeed += meleeSpeedMult;
 
-			if (player.inventory[player.selectedItem].type == ModContent.ItemType<AstralBlade>() || player.inventory[player.selectedItem].type == ModContent.ItemType<MantisClaws>())
+			if (player.inventory[player.selectedItem].type == ModContent.ItemType<AstralBlade>() || player.inventory[player.selectedItem].type == ModContent.ItemType<MantisClaws>() ||
+				player.inventory[player.selectedItem].type == ModContent.ItemType<Omniblade>() || player.inventory[player.selectedItem].type == ModContent.ItemType<BladeofEnmity>())
 			{
 				float newMeleeSpeed = 1f + ((player.meleeSpeed - 1f) * 0.25f);
 				player.meleeSpeed = newMeleeSpeed;
@@ -6694,14 +6697,24 @@ namespace CalamityMod.CalPlayer
                 else if (npc.type == NPCID.Plantera && npc.life < npc.lifeMax / 2)
                 {
                     player.AddBuff(BuffID.Poisoned, 180);
-                    player.AddBuff(BuffID.Bleeding, 300);
+					player.AddBuff(BuffID.Venom, 180);
+					player.AddBuff(BuffID.Bleeding, 300);
                 }
                 else if (npc.type == NPCID.PlanterasTentacle)
                 {
                     player.AddBuff(BuffID.Poisoned, 120);
-                    player.AddBuff(BuffID.Bleeding, 180);
+					player.AddBuff(BuffID.Venom, 120);
+					player.AddBuff(BuffID.Bleeding, 180);
                 }
-            }
+				else if (npc.type == NPCID.AncientDoom)
+				{
+					player.AddBuff(ModContent.BuffType<Horror>(), 180);
+				}
+				else if (npc.type == NPCID.AncientLight)
+				{
+					player.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
+				}
+			}
         }
 
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
@@ -6735,7 +6748,7 @@ namespace CalamityMod.CalPlayer
                 {
                     player.AddBuff(ModContent.BuffType<GlacialState>(), 120);
                 }
-                else if (proj.type == ProjectileID.DeathLaser)
+                else if (proj.type == ProjectileID.DeathLaser || proj.type == ProjectileID.RocketSkeleton)
                 {
                     player.AddBuff(BuffID.OnFire, 240);
                 }
@@ -6746,7 +6759,8 @@ namespace CalamityMod.CalPlayer
                 else if (proj.type == ProjectileID.ThornBall)
                 {
                     player.AddBuff(BuffID.Poisoned, 240);
-                }
+					player.AddBuff(BuffID.Venom, 120);
+				}
                 else if (proj.type == ProjectileID.CultistBossIceMist)
                 {
                     player.AddBuff(BuffID.Frozen, 60);
@@ -6759,7 +6773,11 @@ namespace CalamityMod.CalPlayer
 					player.AddBuff(BuffID.Electrified, proj.Calamity().lineColor == 1 ? deathModeDuration : 120);
                     // Scaled duration for DM lightning, 2 seconds for Storm Weaver/Cultist lightning
                 }
-            }
+				else if (proj.type == ProjectileID.AncientDoomProjectile)
+				{
+					player.AddBuff(ModContent.BuffType<Horror>(), 180);
+				}
+			}
 			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
 			{
 				if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))
