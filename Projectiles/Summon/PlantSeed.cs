@@ -57,9 +57,9 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(BuffID.Poisoned, 60);
         }
 
-        public override void OnHitPvp(NPC target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			target.AddBuff(BuffID.Poisoned, 60);
+            target.AddBuff(BuffID.Poisoned, 60);
         }
     }
 }

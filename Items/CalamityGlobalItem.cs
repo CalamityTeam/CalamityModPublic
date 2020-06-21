@@ -3506,11 +3506,8 @@ Provides heat and cold protection in Death Mode";
             {
                 int value = item.value;
                 ItemLoader.ReforgePrice(item, ref value, ref Main.LocalPlayer.discount);
-                if (Main.LocalPlayer.Calamity().reforges <= 9) //to be reset later
-                {
-                    Main.LocalPlayer.Calamity().moneyStolenByBandit += value / 5;
-                    Main.LocalPlayer.Calamity().reforges++;
-                }
+                CalamityWorld.MoneyStolenByBandit += value / 5;
+                CalamityWorld.Reforges++;
             }
         }
         #endregion

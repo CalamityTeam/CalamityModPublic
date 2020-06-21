@@ -192,9 +192,7 @@ namespace CalamityMod.CalPlayer
         public int tarraLifeAuraTimer = 0;
         public int bloodflareHeartTimer = 180;
         public int bloodflareManaTimer = 180;
-        public int moneyStolenByBandit = 0;
         public int polarisBoostCounter = 0;
-        public int reforges = 0;
         public int gaelSwipes = 0;
         public float modStealth = 1f;
         public float aquaticBoost = 1f;
@@ -1058,8 +1056,6 @@ namespace CalamityMod.CalPlayer
                 { "rogueLevel", rogueLevel },
                 { "exactRogueLevel", exactRogueLevel },
                 { "deathCount", deathCount },
-                { "moneyStolenByBandit", moneyStolenByBandit },
-                { "reforges", reforges },
                 { "deathModeUnderworldTime", deathModeUnderworldTime },
                 { "deathModeBlizzardTime", deathModeBlizzardTime }
             };
@@ -1116,8 +1112,13 @@ namespace CalamityMod.CalPlayer
             sCalDeathCount = tag.GetInt("sCalDeathCount");
             sCalKillCount = tag.GetInt("sCalKillCount");
             deathCount = tag.GetInt("deathCount");
-            moneyStolenByBandit = tag.GetInt("moneyStolenByBandit");
-            reforges = tag.GetInt("reforges");
+
+            // These two variables are no longer used, as the code was moved into CalamityWorld.cs to support multiplayer.
+            // As a result, their values are simply fed into a discard.
+
+            _ = tag.GetInt("moneyStolenByBandit");
+            _ = tag.GetInt("reforges");
+
             deathModeUnderworldTime = tag.GetInt("deathModeUnderworldTime");
             deathModeBlizzardTime = tag.GetInt("deathModeBlizzardTime");
 
@@ -1141,8 +1142,13 @@ namespace CalamityMod.CalPlayer
             sCalDeathCount = reader.ReadInt32();
             sCalKillCount = reader.ReadInt32();
             deathCount = reader.ReadInt32();
-            moneyStolenByBandit = reader.ReadInt32();
-            reforges = reader.ReadInt32();
+
+            // These two variables are no longer used, as the code was moved into CalamityWorld.cs to support multiplayer.
+            // As a result, their values are simply fed into a discard.
+
+            _ = reader.ReadInt32(); // moneyStolenByBandit
+            _ = reader.ReadInt32(); // reforges
+
             deathModeUnderworldTime = reader.ReadInt32();
             deathModeBlizzardTime = reader.ReadInt32();
 
@@ -1943,7 +1949,6 @@ namespace CalamityMod.CalPlayer
             acidRoundMultiplier = 1D;
             externalAbyssLight = 0;
             externalColdImmunity = externalHeatImmunity = false;
-            reforges = 0;
             polarisBoostCounter = 0;
             spectralVeilImmunity = 0;
             jetPackCooldown = 0;
