@@ -132,8 +132,8 @@ namespace CalamityMod
 
 		// Boss velocity scaling data structure
 		public static SortedDictionary<int, float> bossVelocityDamageScaleValues;
-		public const float velocityScaleMin = 0.5f;
-		public const float bitingEnemeyVelocityScale = 0.8f;
+		public const float velocityScaleMin = 0.66f;
+		public const float bitingEnemeyVelocityScale = 0.9f;
 
 		// Lists
 		public static IList<string> donatorList;
@@ -1060,8 +1060,10 @@ namespace CalamityMod
                 ModContent.BuffType<WarCleave>(),
                 ModContent.BuffType<ArmorCrunch>(),
                 ModContent.BuffType<Vaporfied>(),
-                ModContent.BuffType<Eutrophication>()
-            };
+                ModContent.BuffType<Eutrophication>(),
+				ModContent.BuffType<LethalLavaBurn>(),
+				ModContent.BuffType<Nightwither>()
+			};
 
             fireWeaponList = new List<int>()
             {

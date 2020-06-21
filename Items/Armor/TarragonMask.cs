@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tarragon Mask");
-            Tooltip.SetDefault("Temporary immunity to lava and immunity to cursed inferno, fire, cursed, and chilled debuffs\n" +
+            Tooltip.SetDefault("Temporary immunity to lava\n" +
                 "Can move freely through liquids\n" +
                 "10% increased magic damage and critical strike chance\n" +
                 "5% increased damage reduction, +100 max mana, and 15% reduced mana usage\n" +
@@ -61,10 +61,6 @@ namespace CalamityMod.Items.Armor
             player.lavaMax += 240;
             player.statManaMax2 += 100;
             player.ignoreWater = true;
-            player.buffImmune[BuffID.CursedInferno] = true;
-            player.buffImmune[BuffID.OnFire] = true;
-            player.buffImmune[BuffID.Cursed] = true;
-            player.buffImmune[BuffID.Chilled] = true;
         }
 
         public override void AddRecipes()

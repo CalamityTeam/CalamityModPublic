@@ -91,7 +91,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 16;
+				lifeRegenLost += modPlayer.abaddon ? 8 : 16;
             }
 
             if (modPlayer.nightwither)
@@ -205,7 +205,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 20;
+				lifeRegenLost += modPlayer.alchFlask ? 10 : 20;
             }
 
             if (modPlayer.bBlood)
