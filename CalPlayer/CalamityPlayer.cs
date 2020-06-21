@@ -5633,7 +5633,7 @@ namespace CalamityMod.CalPlayer
                         Main.projectile[fire].netUpdate = true;
                     }
                 }
-                if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || proj.Calamity().stealthStrike))
+                if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || proj.Calamity().stealthStrike) && proj.type != ModContent.ProjectileType<UmbraphileBoom>())
                 {
                     Projectile.NewProjectile(proj.Center.X, proj.Center.Y, 0f, 0f, ModContent.ProjectileType<UmbraphileBoom>(), CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50), 0f, player.whoAmI, 0f, 0f);
                 }
