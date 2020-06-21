@@ -1035,7 +1035,7 @@ namespace CalamityMod.Projectiles
 
             if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap && projectile.friendly)
             {
-				if (projectile.type == (ProjectileID.StardustDragon1 | ProjectileID.StardustDragon2 | ProjectileID.StardustDragon3 | ProjectileID.StardustDragon4))
+				if (ProjectileID.Sets.StardustDragon[projectile.type])
 				{
 					target.immune[projectile.owner] = 10;
 				}
