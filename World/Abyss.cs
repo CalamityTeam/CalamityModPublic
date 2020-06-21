@@ -672,7 +672,9 @@ namespace CalamityMod.World
                 int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
                 for (int y = YStart - 100; y < YStart + 60; y++)
                 {
-                    if (YStartWhitelist.Contains(CalamityUtils.ParanoidTileRetrieval(trueX, y).type))
+                    int type = CalamityUtils.ParanoidTileRetrieval(trueX, y).type;
+                    if (YStartWhitelist.Contains(type) ||
+                        type == TileID.PalmTree)
                     {
                         if (Main.tile[trueX, y] == null)
                             Main.tile[trueX, y] = new Tile();
