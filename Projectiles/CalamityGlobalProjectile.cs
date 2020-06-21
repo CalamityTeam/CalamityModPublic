@@ -1137,8 +1137,10 @@ namespace CalamityMod.Projectiles
 					if (modPlayer.vampiricTalisman && rogue && crit)
 					{
 						float heal = MathHelper.Clamp(damage * 0.015f, 0f, 6f);
-						Main.player[Main.myPlayer].lifeSteal -= heal * 2f;
-						Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, projectile.owner, heal);
+						if ((int)heal > 0)
+						{
+							SpawnLifeStealProjectile(projectile, player, heal, ProjectileID.VampireHeal, 1200f, 2f);
+						}
 					}
 
 					if ((modPlayer.bloodyGlove || modPlayer.electricianGlove) && rogue && stealthStrike)
