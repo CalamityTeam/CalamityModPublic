@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -6,7 +7,7 @@ using static CalamityMod.Schematics.SchematicLoader;
 
 namespace CalamityMod.Schematics
 {
-    public static class TilePlacementHelpers
+    public static class SchematicPlacementHelpers
     {
         public enum PlacementAnchorType
         {
@@ -24,7 +25,7 @@ namespace CalamityMod.Schematics
                 wall = wall
             };
         }
-        public static void PlaceDraedonStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, bool preserveWalls = true)
+        public static void PlaceDraedonStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, Action<Chest> chestInteraction = null, bool preserveWalls = true)
         {
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             Tile[,] tiles = TileMaps[mapKey];
@@ -62,7 +63,8 @@ namespace CalamityMod.Schematics
                         {
                             if (tiles[x, y].frameX == 0 && tiles[x, y].frameY == 0)
                             {
-                                PlaceChest(x + xOffset, y + yOffset, tiles[x, y].type);
+                                Chest chest = PlaceChest(x + xOffset, y + yOffset, tiles[x, y].type);
+                                chestInteraction?.Invoke(chest);
                             }
                         }
 
@@ -83,7 +85,7 @@ namespace CalamityMod.Schematics
                 }
             }
         }
-        public static void PlaceChest(int x, int y, int chestType)
+        public static Chest PlaceChest(int x, int y, int chestType)
         {
             int chestIndex = Chest.FindEmptyChest(x, y, chestType);
             Main.chest[chestIndex] = new Chest()
@@ -96,6 +98,7 @@ namespace CalamityMod.Schematics
             {
                 Main.chest[chestIndex].item[i] = new Item();
             }
+            return Main.chest[chestIndex];
         }
     }
 }

@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void Kill(int timeLeft)
         {
-            if (true)
+            if (projectile.Calamity().stealthStrike)
             {
                 if (Main.myPlayer == projectile.owner)
                 {

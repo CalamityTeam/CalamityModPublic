@@ -3180,7 +3180,13 @@ namespace CalamityMod
                     return true;
                 }, InterfaceScaleType.None));
 
-                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Draedon Factory Tiles", delegate ()
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Draedon Hologram", () =>
+                {
+                    DraedonHologramChatUI.Draw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.None));
+
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Draedon Factory Tiles", () =>
                 {
                     DraedonsFactoryUI.Draw(Main.spriteBatch);
                     DraedonsItemChargerUI.Draw(Main.spriteBatch);

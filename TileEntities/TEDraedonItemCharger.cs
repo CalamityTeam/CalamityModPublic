@@ -71,6 +71,22 @@ namespace CalamityMod.TileEntities
             ItemID.DirtBlock
         };
         #endregion
+        public void ClientToServerSync()
+        {
+            if (Main.netMode != NetmodeID.SinglePlayer)
+            {
+                var netMessage = CalamityMod.Instance.GetPacket();
+                netMessage.Write((byte)CalamityModMessageType.DraedonChargerSync);
+                netMessage.Write(Main.LocalPlayer.Calamity().CurrentlyViewedCharger.ID);
+                netMessage.Write(FuelItem.type);
+                netMessage.Write(FuelItem.stack);
+                netMessage.Write(ItemBeingCharged.type);
+                netMessage.Write(ItemBeingCharged.stack);
+                netMessage.Write(Charge);
+                netMessage.Write(ActiveTimer);
+                netMessage.Send();
+            }
+        }
         public void AttemptToCreateNewSpark()
         {
             int i = 0;
@@ -135,8 +151,7 @@ namespace CalamityMod.TileEntities
             {
                 ClientToServerSync();
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient &&
-                FuelItem.stack > 0 &&
+            if (FuelItem.stack > 0 &&
                 ItemBeingCharged.stack > 0 &&
                 Charge < CalamityGlobalItem.ChargeMax)
             {
@@ -169,7 +184,7 @@ namespace CalamityMod.TileEntities
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileSquare(Main.myPlayer, i, j, 3);
+                NetMessage.SendTileSquare(Main.myPlayer, i, j, 5);
                 NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
                 return -1;
             }
@@ -208,22 +223,6 @@ namespace CalamityMod.TileEntities
                 Charge = tag.GetInt("Charge");
             }
             ItemBeingCharged.netID = tag.GetInt("NetIDNotFuel");
-        }
-        public void ClientToServerSync()
-        {
-            if (Main.netMode != NetmodeID.SinglePlayer)
-            {
-                var netMessage = CalamityMod.Instance.GetPacket();
-                netMessage.Write((byte)CalamityModMessageType.DraedonChargerSync);
-                netMessage.Write(Main.LocalPlayer.Calamity().CurrentlyViewedCharger.ID);
-                netMessage.Write(FuelItem.type);
-                netMessage.Write(FuelItem.stack);
-                netMessage.Write(ItemBeingCharged.type);
-                netMessage.Write(ItemBeingCharged.stack);
-                netMessage.Write(Charge);
-                netMessage.Write(ActiveTimer);
-                netMessage.Send();
-            }
         }
     }
 }

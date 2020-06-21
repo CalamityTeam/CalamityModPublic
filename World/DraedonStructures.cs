@@ -1,14 +1,64 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Schematics;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.World
 {
+    internal struct ChestItem
+    {
+        internal int Type;
+        internal int Stack;
+        internal ChestItem(int type, int stack)
+        {
+            Type = type;
+            Stack = stack;
+        }
+    }
     public static class DraedonStructures
     {
+        public static void FillWorkshopChest(Chest chest)
+        {
+            int potionType = Utils.SelectRandom(Main.rand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            List<ChestItem> contents = new List<ChestItem>()
+            {
+                new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(8, 14 + 1)),
+                new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(7, 12 + 1)),
+                new ChestItem(ItemID.Torch, WorldGen.genRand.Next(15, 29 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(5, 11 + 1)),
+                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(5, 7 + 1)),
+                new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
+            };
+            for (int i = 0; i < contents.Count; i++)
+            {
+                chest.item[i].SetDefaults(contents[i].Type);
+                chest.item[i].stack = contents[i].Stack;
+            }
+        }
+        public static void FillLaboratoryChest(Chest chest)
+        {
+            int potionType = Utils.SelectRandom(Main.rand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            List<ChestItem> contents = new List<ChestItem>()
+            {
+                new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(10, 17 + 1)),
+                new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(10, 15 + 1)),
+                new ChestItem(ItemID.Torch, WorldGen.genRand.Next(20, 40 + 1)),
+                new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(8, 16 + 1)),
+                new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(7, 10 + 1)),
+                new ChestItem(ItemID.Dynamite, WorldGen.genRand.Next(4, 6 + 1)),
+                new ChestItem(potionType, WorldGen.genRand.Next(4, 7 + 1)),
+            };
+            for (int i = 0; i < contents.Count; i++)
+            {
+                chest.item[i].SetDefaults(contents[i].Type);
+                chest.item[i].stack = contents[i].Stack;
+            }
+        }
         public static void PlaceWorkshop(out Point placementPoint, List<Point> workshopPoints)
         {
             int tries = 0;
@@ -57,7 +107,7 @@ namespace CalamityMod.World
                     return;
                 goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
             }
-            TilePlacementHelpers.PlaceDraedonStructure("Workshop", new Point(placementPoint.X, placementPoint.Y), TilePlacementHelpers.PlacementAnchorType.TopLeft);
+            SchematicPlacementHelpers.PlaceDraedonStructure("Workshop", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillWorkshopChest);
         }
         public static void PlacePlagueLab(out Point placementPoint, List<Point> workshopPoints)
         {
@@ -103,11 +153,11 @@ namespace CalamityMod.World
             if (anyLihzardBricks || anyDungeonBricks || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.3f)
             {
                 tries++;
-                if (tries > 2500)
+                if (tries > 6000)
                     return;
                 goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
             }
-            TilePlacementHelpers.PlaceDraedonStructure("Plague Research Facility", new Point(placementPoint.X, placementPoint.Y), TilePlacementHelpers.PlacementAnchorType.TopLeft);
+            SchematicPlacementHelpers.PlaceDraedonStructure("Plague Research Facility", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillLaboratoryChest);
         }
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,7 +9,11 @@ namespace CalamityMod.UI
 {
     public class DraedonsLogUI : PopupGUI
     {
-        public const int PageTextPadding = 15;
+        public int Page = 0;
+        public int ArrowClickCooldown;
+        public bool HoveringOverBook = false;
+        public const int TextStartOffsetX = 40;
+        public const int TotalLinesPerPage = 16;
         public override void Update()
         {
             if (Active)
@@ -21,12 +26,15 @@ namespace CalamityMod.UI
                 FadeTime--;
             }
 
-            if (Main.mouseLeft && Main.mouseLeftRelease && !Main.blockMouse && FadeTime >= 30)
+            if (Main.mouseLeft && !HoveringOverBook && FadeTime >= 30)
             {
-                Main.mouseLeftRelease = false;
-                Main.mouseLeft = false;
+                Page = 0;
                 Active = false;
             }
+
+            if (ArrowClickCooldown > 0)
+                ArrowClickCooldown--;
+            HoveringOverBook = false;
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -40,6 +48,7 @@ namespace CalamityMod.UI
             scale *= bookScale;
             float yPageTop = MathHelper.Lerp(Main.screenHeight * 2, Main.screenHeight * 0.25f, FadeTime / (float)FadeTimeMax);
 
+            Rectangle mouseRectangle = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 2, 2);
             for (int i = 0; i < 2; i++)
             {
                 Vector2 drawPosition = new Vector2(Main.screenWidth * 0.5f, yPageTop);
@@ -52,30 +61,112 @@ namespace CalamityMod.UI
                                  scale,
                                  i == 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally,
                                  0f);
+                if (!HoveringOverBook)
+                {
+                    Rectangle pageRectangle = new Rectangle((int)drawPosition.X - (int)(pageTexture.Width * scale.X), (int)yPageTop, (int)(pageTexture.Width * scale.X) * 2, (int)(pageTexture.Height * scale.Y));
+                    HoveringOverBook = mouseRectangle.Intersects(pageRectangle);
+                }
             }
 
-            // Create text.
+            string placeholderText = "Bottom text.";
+
+            // Create text and arrows.
             if (FadeTime >= FadeTimeMax - 4 && Active)
             {
-                Vector2 topLeft = new Vector2(Main.screenWidth * 0.5f - pageTexture.Width * scale.X * 0.5f, yPageTop + pageTexture.Height * scale.Y * 0.25f);
-                Vector2 topRight = new Vector2(Main.screenWidth * 0.5f + pageTexture.Width * scale.X * 0.5f, yPageTop + pageTexture.Height * scale.Y * 0.25f);
+                int textWidth = (int)(xScale * 2 * pageTexture.Width) - TextStartOffsetX;
+                List<string> dialogLines = Utils.WordwrapString(placeholderText, Main.fontMouseText, textWidth, 250, out _).ToList();
+                dialogLines.RemoveAll(text => string.IsNullOrEmpty(text));
 
-                topLeft.X -= PageTextPadding;
-                topRight.X -= PageTextPadding;
-
-                string retardedText = @"This text is a placeholder.";
-
-                retardedText = string.Concat(Utils.WordwrapString(retardedText, Main.fontMouseText, (int)(pageTexture.Width * scale.X) - PageTextPadding * 2, 9, out _).Select(text => text + "\n"));
-
-                int splitPoint = retardedText.Length / 2;
-                while (retardedText[splitPoint] != '.')
+                // Remove the '-' added at the end of the line. WordwrapString adds them for some weird reason,
+                for (int i = 0; i < dialogLines.Count; i++)
                 {
-                    splitPoint++;
+                    dialogLines[i] = dialogLines[i].Substring(0, dialogLines[i].Length - 2);
                 }
-                string firstHalf = string.Concat(retardedText.Take(splitPoint + 1).ToArray());
-                string secondHalf = string.Concat(retardedText.Skip(splitPoint).ToArray());
-                Utils.DrawBorderString(spriteBatch, firstHalf, topLeft, Color.White);
-                Utils.DrawBorderString(spriteBatch, secondHalf, topRight, Color.White);
+
+                int totalPages = dialogLines.Count / (TotalLinesPerPage * 2 + 2);
+
+                // Draw arrows.
+                if (Page > 0)
+                {
+                    Texture2D pageArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogArrow");
+                    Vector2 bottomLeft = new Vector2(Main.screenWidth / 2 - pageTexture.Width * 2 - 36, yPageTop + pageTexture.Height + 32);
+                    Rectangle arrowRectangle = new Rectangle((int)bottomLeft.X, (int)bottomLeft.Y, pageArrowTexture.Width, pageArrowTexture.Height);
+                    if (mouseRectangle.Intersects(arrowRectangle))
+                    {
+                        pageArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogArrowHover");
+                        if (ArrowClickCooldown <= 0 && Main.mouseLeft)
+                        {
+                            Page--;
+                            ArrowClickCooldown = 8;
+                        }
+                        Main.blockMouse = true;
+                    }
+
+                    spriteBatch.Draw(pageArrowTexture,
+                                     bottomLeft,
+                                     null,
+                                     Color.White,
+                                     0f,
+                                     Vector2.Zero,
+                                     1f,
+                                     SpriteEffects.FlipHorizontally,
+                                     0f);
+                }
+                if (Page < totalPages)
+                {
+                    Texture2D pageArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogArrow");
+                    Vector2 bottomRight = new Vector2(Main.screenWidth / 2 + pageTexture.Width * 2 + 10, yPageTop + pageTexture.Height + 32);
+                    Rectangle arrowRectangle = new Rectangle((int)bottomRight.X, (int)bottomRight.Y, pageArrowTexture.Width, pageArrowTexture.Height);
+                    if (mouseRectangle.Intersects(arrowRectangle))
+                    {
+                        pageArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogArrowHover");
+                        if (ArrowClickCooldown <= 0 && Main.mouseLeft)
+                        {
+                            Page++;
+                            ArrowClickCooldown = 8;
+                        }
+                        Main.blockMouse = true;
+                    }
+
+                    spriteBatch.Draw(pageArrowTexture,
+                                     bottomRight,
+                                     null,
+                                     Color.White,
+                                     0f,
+                                     Vector2.Zero,
+                                     1f,
+                                     SpriteEffects.None,
+                                     0f);
+                }
+                int startingLine = Page * (TotalLinesPerPage * 2 + 2);
+                int endingLine = startingLine + TotalLinesPerPage * 2 + 2;
+                if (endingLine > dialogLines.Count)
+                    endingLine = dialogLines.Count;
+
+                for (int i = startingLine; i < endingLine; i++)
+                {
+                    bool onNextPage = i - startingLine > TotalLinesPerPage;
+                    if (dialogLines[i] != null)
+                    {
+                        int textDrawPositionX = Main.screenWidth / 2 - pageTexture.Width * 2 - TextStartOffsetX;
+                        int textDrawPositionY = 50 + (i - startingLine) * 24 + (int)yPageTop;
+                        if (onNextPage)
+                        {
+                            textDrawPositionX = Main.screenWidth / 2 + (int)(TextStartOffsetX * 1.5);
+                            textDrawPositionY = 50 + (i - startingLine - (TotalLinesPerPage + 1)) * 24 + (int)yPageTop;
+                        }
+
+                        Color drawColor = Color.Lerp(Color.Cyan, Color.DarkCyan, (float)System.Math.Cos(i * 0.4) * 0.5f + 0.5f);
+                        Utils.DrawBorderStringFourWay(spriteBatch,
+                                                      Main.fontMouseText,
+                                                      dialogLines[i],
+                                                      textDrawPositionX,
+                                                      textDrawPositionY,
+                                                      drawColor,
+                                                      Color.Black,
+                                                      Vector2.Zero);
+                    }
+                }
             }
         }
     }

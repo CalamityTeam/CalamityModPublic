@@ -1,0 +1,36 @@
+using CalamityMod.Projectiles.DraedonsArsenal;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalamityMod.Items.Weapons.DraedonsArsenal
+{
+    public class GaussPistol : ModItem
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Gauss Pistol");
+		}
+
+		public override void SetDefaults()
+		{
+			item.width = 40;
+			item.height = 22;
+			item.magic = true;
+			item.mana = 6;
+			item.damage = 32;
+			item.knockBack = 11f;
+			item.useTime = item.useAnimation = 20;
+			item.autoReuse = true;
+
+			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GaussWeaponFire");
+			item.noMelee = true;
+
+			item.value = CalamityGlobalItem.Rarity3BuyPrice;
+			item.rare = ItemRarityID.Orange;
+
+			item.shoot = ModContent.ProjectileType<GaussPistolShot>();
+			item.shootSpeed = 14f;
+		}
+	}
+}

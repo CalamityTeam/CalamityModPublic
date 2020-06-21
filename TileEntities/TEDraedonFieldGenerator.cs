@@ -1,4 +1,4 @@
-using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -15,7 +15,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == ModContent.TileType<DreadonFactoryFieldGenerator>();
+            return tile.active() && tile.type == ModContent.TileType<DraedonFactoryFieldGenerator>();
         }
         public override void Update()
         {
@@ -29,16 +29,17 @@ namespace CalamityMod.TileEntities
 
                 if (Time % 20 == 19)
                 {
-                    Projectile projectile = Projectile.NewProjectileDirect(positionWorldCoords, Vector2.Normalize(player.Center - positionWorldCoords) * 5f, ModContent.ProjectileType<DoGNebulaShot>(), 40, 4f);
-                    projectile.tileCollide = false;
+                    float speed = 5f;
+                    Vector2 aimOffset = (player.velocity + player.oldVelocity) * 0.5f * player.Distance(positionWorldCoords) / (speed * speed);
+                    Vector2 velocity = Vector2.Normalize(player.Center - positionWorldCoords + aimOffset) * speed;
+                    Projectile.NewProjectileDirect(positionWorldCoords, velocity, ModContent.ProjectileType<DreadonLaser>(), 40, 4f);
                 }
                 if (Time % 75 == 74)
                 {
                     for (int i = 0; i < 9; i++)
                     {
                         float angle = i / 9f * MathHelper.TwoPi;
-                        Projectile projectile = Projectile.NewProjectileDirect(positionWorldCoords, Vector2.Normalize(player.Center - positionWorldCoords).RotatedBy(angle) * 7f, ModContent.ProjectileType<DoGNebulaShot>(), 40, 4f);
-                        projectile.tileCollide = false;
+                        Projectile.NewProjectileDirect(positionWorldCoords, Vector2.Normalize(player.Center - positionWorldCoords).RotatedBy(angle) * 7f, ModContent.ProjectileType<DreadonLaser>(), 40, 4f);
                     }
                 }
             }

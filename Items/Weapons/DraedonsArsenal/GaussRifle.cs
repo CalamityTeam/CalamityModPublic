@@ -11,8 +11,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gauss Rifle");
-			Tooltip.SetDefault("When the pulse hits a target it will arc to another nearby target\n" +
-							   "Inflicts more damage to inorganic targets");
+			Tooltip.SetDefault("Fires an enormous pulse of energy");
 		}
 
 		public override void SetDefaults()

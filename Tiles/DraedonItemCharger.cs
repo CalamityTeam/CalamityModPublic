@@ -126,19 +126,19 @@ namespace CalamityMod.Tiles
             TEDraedonItemCharger charger = RetrieveTileEntity(i, j);
             Color drawColor = Color.Lerp(Color.Red, Color.MediumSpringGreen, Utils.InverseLerp(0f, TEDraedonItemCharger.ActiveTimerMax, charger.ActiveTimer, true));
 
-            int xPos = Main.tile[i, j].frameX;
-            int yPos = Main.tile[i, j].frameY;
+            int xFrame = Main.tile[i, j].frameX;
+            int yFrame = Main.tile[i, j].frameY;
             Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonItemChargerGlow");
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             Tile trackTile = Main.tile[i, j];
             if (!trackTile.halfBrick() && trackTile.slope() == 0)
             {
-                Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xFrame, yFrame, 18, 18)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
             else if (trackTile.halfBrick())
             {
-                Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xFrame, yFrame, 18, 8)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
         }
     }

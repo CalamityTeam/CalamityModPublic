@@ -122,10 +122,14 @@ namespace CalamityMod.CalPlayer
         public int CurrentlyViewedChargerX = -1;
         public int CurrentlyViewedChargerY = -1;
         public TEDraedonItemCharger CurrentlyViewedCharger;
-		#endregion
 
-		#region External variables -- Only set by Mod.Call
-		public int externalAbyssLight = 0;
+        public int CurrentlyViewedHologramX = -1;
+        public int CurrentlyViewedHologramY = -1;
+        public string CurrentlyViewedHologramText;
+        #endregion
+
+        #region External variables -- Only set by Mod.Call
+        public int externalAbyssLight = 0;
         public bool externalColdImmunity = false;
         public bool externalHeatImmunity = false;
 		#endregion
@@ -2262,6 +2266,9 @@ namespace CalamityMod.CalPlayer
             CurrentlyViewedChargerX = CurrentlyViewedChargerY = -1;
             CurrentlyViewedCharger = null;
 
+            CurrentlyViewedHologramX = CurrentlyViewedHologramY = -1;
+            CurrentlyViewedHologramText = string.Empty;
+
             lastProjectileHit = null;
 
             if (CalamityWorld.bossRushActive)
@@ -3573,6 +3580,14 @@ namespace CalamityMod.CalPlayer
                     CurrentlyViewedCharger = null;
                     CurrentlyViewedChargerX = CurrentlyViewedChargerY = -1;
                 }
+            }
+
+            // Disable the hologram UI if the player is far from the associated hologram.
+            Vector2 hologramPosition = new Vector2(CurrentlyViewedHologramX, CurrentlyViewedHologramY) * 16f;
+            if (player.Distance(hologramPosition) > 120f)
+            {
+                CurrentlyViewedHologramX = CurrentlyViewedHologramY = -1;
+                CurrentlyViewedHologramText = string.Empty;
             }
         }
 

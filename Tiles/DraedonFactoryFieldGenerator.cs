@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles
 {
-    public class DreadonFactoryFieldGenerator : ModTile
+    public class DraedonFactoryFieldGenerator : ModTile
     {
         public override void SetDefaults()
         {
@@ -23,6 +23,7 @@ namespace CalamityMod.Tiles
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Field Generator");
             AddMapEntry(new Color(53, 49, 52), name);
+            minPick = 190;
         }
         public TEDraedonFieldGenerator RetrieveTileEntity(int i, int j)
         {
@@ -55,22 +56,22 @@ namespace CalamityMod.Tiles
 
             int xPos = Main.tile[i, j].frameX;
             int yPos = Main.tile[i, j].frameY;
-            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DreadonFactoryFieldGeneratorGlow");
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonFactoryFieldGeneratorGlow");
             Vector2 screenOffset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + screenOffset;
             Tile trackTile = Main.tile[i, j];
             if (!trackTile.halfBrick() && trackTile.slope() == 0)
             {
-                Main.spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                spriteBatch.Draw(glowmask, drawOffset, new Rectangle?(new Rectangle(xPos, yPos, 18, 18)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
             else if (trackTile.halfBrick())
             {
-                Main.spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+                spriteBatch.Draw(glowmask, drawOffset + new Vector2(0f, 8f), new Rectangle?(new Rectangle(xPos, yPos, 18, 8)), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             }
 
             Vector2 positionWorldCoords = new Vector2(i, j) * 16f;
             Player player = Main.player[Player.FindClosest(positionWorldCoords, 1, 1)];
-            if (player.Distance(positionWorldCoords) < 2400f)
+            if (player.Distance(positionWorldCoords) < 1600f)
             {
                 Texture2D laserTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Lasers/RedLightningTexture");
                 Vector2[] pointsToDraw = new Vector2[65];
@@ -93,10 +94,18 @@ namespace CalamityMod.Tiles
 
                     DelegateMethods.c_1 = Color.Cyan;
                     DelegateMethods.f_1 = 1f;
+                    DelegateMethods.c_1 *= Utils.InverseLerp(1600f, 1000f, System.Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(1000f, 660f, System.Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
+                    DelegateMethods.f_1 *= Utils.InverseLerp(1600f, 1000f, System.Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(1000f, 660f, System.Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
                     Utils.DrawLaser(spriteBatch, laserTexture, pointsToDraw[k], pointsToDraw[(k + 1) % pointsToDraw.Length], new Vector2(0.3f), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
 
                     DelegateMethods.c_1 = Color.White * 0.7f;
                     DelegateMethods.f_1 = 0.7f;
+                    DelegateMethods.c_1 *= Utils.InverseLerp(1600f, 1000f, System.Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(1000f, 660f, System.Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
+                    DelegateMethods.f_1 *= Utils.InverseLerp(1600f, 1000f, System.Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(1000f, 660f, System.Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
                     Utils.DrawLaser(spriteBatch, laserTexture, pointsToDraw[k], pointsToDraw[(k + 1) % pointsToDraw.Length], new Vector2(0.6f), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
                 }
             }

@@ -165,7 +165,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 float hopXMult = Utils.InverseLerp(50f, 500f, targetPosition.X - projectile.Center.X, true);
                 float hopYMult = Utils.InverseLerp(40f, 300f, targetPosition.Y - projectile.Center.Y, true);
                 float hopSpeedX = MathHelper.Lerp(4f, 17f, hopXMult) * Math.Sign(targetPosition.X - projectile.Center.X);
-                float hopSpeedY = -1 * MathHelper.Lerp(7f, 15f, hopYMult);
+                float hopSpeedY = -1 * MathHelper.Lerp(8f, 23f, hopYMult);
 
                 Vector2 velocity = new Vector2(hopSpeedX, hopSpeedY);
 
