@@ -181,6 +181,7 @@ namespace CalamityMod
 		public static List<int> revengeanceProjectileBuffList5Percent;
 		public static List<int> revengeanceLifeStealExceptionList;
         public static List<int> movementImpairImmuneList;
+        public static List<int> needsDebuffIconDisplayList;
         public static List<int> trapProjectileList;
         public static List<int> scopedWeaponList;
         public static List<int> boomerangList;
@@ -407,6 +408,7 @@ namespace CalamityMod
 			revengeanceProjectileBuffList5Percent = null;
 			revengeanceLifeStealExceptionList = null;
             movementImpairImmuneList = null;
+            needsDebuffIconDisplayList = null;
             trapProjectileList = null;
             scopedWeaponList = null;
             boomerangList = null;
@@ -1964,6 +1966,11 @@ namespace CalamityMod
             movementImpairImmuneList = new List<int>()
             {
                 NPCID.QueenBee,
+            };
+
+            needsDebuffIconDisplayList = new List<int>()
+            {
+                NPCID.WallofFleshEye
             };
 
             trapProjectileList = new List<int>()

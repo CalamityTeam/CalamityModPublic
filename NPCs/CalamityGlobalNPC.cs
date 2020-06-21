@@ -4528,7 +4528,7 @@ namespace CalamityMod.NPCs
         {
 			if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f))
 			{
-				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type)))
+				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type) || CalamityMod.needsDebuffIconDisplayList.Contains(npc.type)))
 				{
 					List<Texture2D> buffTextureList = new List<Texture2D>();
 
