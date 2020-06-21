@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Tarragon Helm");
             Tooltip.SetDefault("Helm of the disciple of ancients\n" +
-				"Temporary immunity to lava and immunity to cursed inferno, fire, cursed, and chilled debuffs\n" +
+				"Temporary immunity to lava\n" +
                 "Can move freely through liquids\n" +
                 "5% increased damage reduction\n" +
                 "10% increased melee damage and critical strike chance\n" +
@@ -60,10 +60,6 @@ namespace CalamityMod.Items.Armor
             player.endurance += 0.05f;
             player.lavaMax += 240;
             player.ignoreWater = true;
-            player.buffImmune[BuffID.CursedInferno] = true;
-            player.buffImmune[BuffID.OnFire] = true;
-            player.buffImmune[BuffID.Cursed] = true;
-            player.buffImmune[BuffID.Chilled] = true;
         }
 
         public override void AddRecipes()

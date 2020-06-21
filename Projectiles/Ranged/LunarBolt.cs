@@ -18,7 +18,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.alpha = 255;
-            projectile.penetrate = 1;
+            projectile.penetrate = 2;
             projectile.extraUpdates = 1;
             projectile.timeLeft = 180;
         }
@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Ranged
                 for (int num161 = 0; num161 < 5; num161++)
                 {
                     Vector2 dspeed = -projectile.velocity * 0.5f;
-                    int num162 = Dust.NewDust(projectile.Center, 1, 1, 206, 0f, 0f, 0, default(Color), 1.2f);
+                    int num162 = Dust.NewDust(projectile.Center, 1, 1, 206, 0f, 0f, 0, default, 1.2f);
                     Main.dust[num162].alpha = projectile.alpha;
                     Main.dust[num162].velocity = dspeed;
                     Main.dust[num162].noGravity = true;

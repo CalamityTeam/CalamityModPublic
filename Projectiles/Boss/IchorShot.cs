@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Boss
             Main.dust[num469].noGravity = true;
             Main.dust[num469].velocity *= 0f;
 
-            projectile.velocity.Y = projectile.velocity.Y + 0.06f;
+            projectile.velocity.Y += 0.06f;
             projectile.velocity.X *= 0.995f;
         }
 

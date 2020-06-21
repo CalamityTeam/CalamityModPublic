@@ -116,7 +116,7 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     for (int num399 = 0; num399 < Main.maxNPCs; num399++)
                     {
-                        if (Main.npc[num399].CanBeChasedBy(projectile, true))
+                        if (Main.npc[num399].CanBeChasedBy(projectile, false))
                         {
                             float num400 = Main.npc[num399].position.X + (float)(Main.npc[num399].width / 2);
                             float num401 = Main.npc[num399].position.Y + (float)(Main.npc[num399].height / 2);

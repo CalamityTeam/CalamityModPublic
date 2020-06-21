@@ -195,9 +195,11 @@ namespace CalamityMod
 
 		/// <summary>
 		/// Get the aggression multiplier used for NPCs in Master Mode Calamity rev+
+		/// Will also be used to modify certain boss size/scale
 		/// </summary>
 		/// <param name="NPCType">The NPC that is having its aggression increased, used to modify the base 1.5x aggression multiplier</param>
-		public static float GetMasterModeNPCAggressionMultiplier(int? NPCType = null)
+		/// <param name="newColor">Used to modify the color of this NPC</param>
+		public static float GetMasterModeNPCAggressionMultiplier(ref Color newColor, int? NPCType = null)
 		{
 			/*if (!Main.masterMode)
 				return 1f;*/
@@ -339,12 +341,14 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="damage">The damage the npc does prior to being multiplied</param>
 		/// <param name="damageMultiplier">The damage multiplier applied to the npc' contact damage</param>
-		public static int GetMasterModeContactDamage(int damage, float damageMultiplier)
+		public static int GetMasterModeContactDamage(int damage, double damageMultiplier)
 		{
-			/*if (!Main.masterMode)
+			/*if (!Main.masterMode || !CalamityWorld.revenge)
 				return damage;*/
 
-			return (int)(damage * damageMultiplier);
+			return damage;
+
+			//return (int)(damage * damageMultiplier);
 		}
 
 		/// <summary>
@@ -352,12 +356,14 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="damage">The damage the projectile does prior to being multiplied</param>
 		/// <param name="damageMultiplier">The damage multiplier applied to the projectiles' damage</param>
-		public static int GetMasterModeProjectileDamage(int damage, float damageMultiplier)
+		public static int GetMasterModeProjectileDamage(int damage, double damageMultiplier)
 		{
-			/*if (!Main.masterMode)
+			/*if (!Main.masterMode || !CalamityWorld.revenge)
 				return damage;*/
 
-			return (int)(damage * damageMultiplier);
+			return damage;
+
+			//return (int)(damage * damageMultiplier);
 		}
 
 		/// <summary>
@@ -433,6 +439,45 @@ namespace CalamityMod
                 return false;
             damage = 0D;
             return true;
+        }
+
+        /// <summary>
+        /// Call this function in the Kill function of your npc to spawn cloud-like gores.
+        /// </summary>
+        /// <param name="npc">The npc you're adding explosion clouds to</param>
+        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
+        public static void ExplosionGores (this NPC npc, int goreAmt)
+        {
+            Vector2 goreVec = new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f);
+			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+			{
+				float velocityMult = 0.33f;
+				if (goreIndex < (int)(goreAmt/3))
+				{
+					velocityMult = 0.66f;
+				}
+				if (goreIndex >= (int)((2*goreAmt)/3))
+				{
+					velocityMult = 1f;
+				}
+				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				Gore gore = Main.gore[smoke];
+				gore.velocity *= velocityMult;
+				gore.velocity.X += 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X += 1f;
+				gore.velocity.Y -= 1f;
+				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y -= 1f;
+			}
         }
 
 		/// <summary>
@@ -700,15 +745,13 @@ namespace CalamityMod
 
         public static void KillAllHostileProjectiles()
         {
-            int proj;
-            for (int x = 0; x < Main.maxProjectiles; x = proj + 1)
+            for (int x = 0; x < Main.maxProjectiles; x++)
             {
                 Projectile projectile = Main.projectile[x];
                 if (projectile.active && projectile.hostile && !projectile.friendly && projectile.damage > 0)
                 {
                     projectile.Kill();
                 }
-                proj = x;
             }
         }
 
@@ -717,7 +760,7 @@ namespace CalamityMod
         /// </summary>
         /// <param name="projectile">The projectile you're adding explosion clouds to</param>
         /// <param name="goreAmt">Number of times it loops to spawn gores</param>
-        public static void ExplosionGores (Projectile projectile, int goreAmt)
+        public static void ExplosionGores (this Projectile projectile, int goreAmt)
         {
             Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
 			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
@@ -756,7 +799,7 @@ namespace CalamityMod
         /// </summary>
         /// <param name="projectile">The projectile you're adding sticky behaviour to</param>
         /// <param name="timeLeft">Number of seconds you want a projectile to cling to an NPC</param>
-        public static void StickyProjAI (Projectile projectile, int timeLeft)
+        public static void StickyProjAI (this Projectile projectile, int timeLeft)
         {
             if (projectile.ai[0] == 1f)
             {
@@ -819,7 +862,7 @@ namespace CalamityMod
         /// <param name="projectile">The projectile you're giving sticky behaviour to</param>
         /// <param name="maxStick">How many projectiles of this type can stick to one enemy</param>
         /// <param name="constantDamage">Decides if you want the projectile to deal damage while its sticked to enemies or not</param>
-        public static void ModifyHitNPCSticky(Projectile projectile, int maxStick, bool constantDamage)
+        public static void ModifyHitNPCSticky(this Projectile projectile, int maxStick, bool constantDamage)
         {
 			Player player = Main.player[projectile.owner];
             Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);

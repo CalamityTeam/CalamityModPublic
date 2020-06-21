@@ -61,11 +61,11 @@ namespace CalamityMod.Projectiles.Ranged
                     }
                 }
             }
-            CalamityUtils.StickyProjAI(projectile, 5);
+            projectile.StickyProjAI(5);
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 4, false);
+            projectile.ModifyHitNPCSticky(4, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

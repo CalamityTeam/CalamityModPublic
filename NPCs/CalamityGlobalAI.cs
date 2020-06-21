@@ -2083,7 +2083,7 @@ namespace CalamityMod.NPCs
                             // Blood dust
                             for (int num621 = 0; num621 < 6; num621++)
                             {
-                                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
+                                int num622 = Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
                                 Main.dust[num622].velocity *= 3f;
                                 if (Main.rand.NextBool(2))
                                 {
@@ -2093,10 +2093,10 @@ namespace CalamityMod.NPCs
                             }
                             for (int num623 = 0; num623 < 12; num623++)
                             {
-                                int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1.5f);
+                                int num624 = Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 100, default, 1.5f);
                                 Main.dust[num624].noGravity = true;
                                 Main.dust[num624].velocity *= 5f;
-                                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
+                                num624 = Dust.NewDust(npc.position, npc.width, npc.height, 5, 0f, 0f, 100, default, 1f);
                                 Main.dust[num624].velocity *= 2f;
                             }
 
@@ -4401,7 +4401,7 @@ namespace CalamityMod.NPCs
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        int num = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
+                        int num = Dust.NewDust(npc.position, npc.width, npc.height, 182, 0f, 0f, 100, default, 2f);
                         Main.dust[num].noGravity = true;
                         Main.dust[num].noLight = true;
                     }
@@ -9476,7 +9476,7 @@ namespace CalamityMod.NPCs
                     {
                         for (int num621 = 0; num621 < 10; num621++)
                         {
-                            int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 2f);
+                            int num622 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                             Main.dust[num622].velocity.Y *= 6f;
                             Main.dust[num622].velocity.X *= 3f;
                             if (Main.rand.Next(2) == 0)
@@ -9487,10 +9487,10 @@ namespace CalamityMod.NPCs
                         }
                         for (int num623 = 0; num623 < 20; num623++)
                         {
-                            int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 3f);
+                            int num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 3f);
                             Main.dust[num624].noGravity = true;
                             Main.dust[num624].velocity.Y *= 10f;
-                            num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default, 2f);
+                            num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                             Main.dust[num624].velocity.X *= 2f;
                         }
 
@@ -9749,10 +9749,10 @@ namespace CalamityMod.NPCs
                 {
                     npc.ai[2] = 0f;
 
-                    int num670 = 35;
+                    int dmg = 35;
 					if (death)
-						num670 += 3;
-					int num671 = ProjectileID.EyeBeam;
+						dmg += 3;
+					int projType = ProjectileID.EyeBeam;
 
                     if (npc.localAI[1] == 0f)
                     {
@@ -9780,7 +9780,7 @@ namespace CalamityMod.NPCs
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int num677 = Projectile.NewProjectile(vector82.X, vector82.Y, num674, num675, num671, num670, 0f, Main.myPlayer, 0f, 0f);
+                                int num677 = Projectile.NewProjectile(vector82.X, vector82.Y, num674, num675, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                                 Main.projectile[num677].timeLeft = enrage ? 480 : 300;
                             }
                         }
@@ -9809,7 +9809,7 @@ namespace CalamityMod.NPCs
 
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            int num682 = Projectile.NewProjectile(vector82.X, vector82.Y, num679, num680, num671, num670, 0f, Main.myPlayer, 0f, 0f);
+                            int num682 = Projectile.NewProjectile(vector82.X, vector82.Y, num679, num680, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[num682].timeLeft = enrage ? 480 : 300;
                         }
                     }
@@ -15142,7 +15142,7 @@ namespace CalamityMod.NPCs
                         num858 *= num859;
                         num857 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
                         num858 *= 1f + (float)Main.rand.Next(-30, 31) * 0.01f;
-                        Projectile.NewProjectile(vector109.X, vector109.Y, num857, num858, Main.rand.Next(326, 329), 60, 0f, Main.myPlayer, 0f, 0f);
+                        Projectile.NewProjectile(vector109.X, vector109.Y, num857, num858, ProjectileID.GreekFire1 + Main.rand.Next(3), 60, 0f, Main.myPlayer, 0f, 0f);
                     }
                 }
             }
@@ -15152,13 +15152,13 @@ namespace CalamityMod.NPCs
                 npc.TargetClosest(true);
                 npc.ai[0] = 1f;
 
-                int num861 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, 328, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                int num861 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num861].ai[0] = -1f;
                 Main.npc[num861].ai[1] = (float)npc.whoAmI;
                 Main.npc[num861].target = npc.target;
                 Main.npc[num861].netUpdate = true;
 
-                num861 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, 328, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                num861 = NPC.NewNPC((int)(npc.position.X + (float)(npc.width / 2)), (int)npc.position.Y + npc.height / 2, NPCID.PumpkingBlade, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                 Main.npc[num861].ai[0] = 1f;
                 Main.npc[num861].ai[1] = (float)npc.whoAmI;
                 Main.npc[num861].ai[3] = 150f;
@@ -16027,7 +16027,7 @@ namespace CalamityMod.NPCs
             if (npc.type == NPCID.LavaSlime || npc.type == ModContent.NPCType<CharredSlime>())
             {
                 Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 1f, 0.3f, 0.1f);
-                int idx = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default, 1.7f);
+                int idx = Dust.NewDust(npc.position, npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default, 1.7f);
                 Main.dust[idx].noGravity = true;
             }
             if (npc.ai[2] > 1f)
@@ -16431,7 +16431,7 @@ namespace CalamityMod.NPCs
                 DemonEyeBatMovement(npc, 8f, 3.5f, 0.12f, 0.12f, 0.25f, 0.06f, 0.07f, 0.2f);
                 if (Main.rand.NextBool(40))
                 {
-                    int idx = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default, 1f);
+                    int idx = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), DustID.Blood, npc.velocity.X, 2f, 0, default, 1f);
                     Dust dust = Main.dust[idx];
                     dust.velocity.X *= 0.5f;
                     dust.velocity.Y *= 0.1f;
@@ -16463,7 +16463,7 @@ namespace CalamityMod.NPCs
                  (npc.type >= NPCID.CataractEye && npc.type <= NPCID.PurpleEye))
                  && Main.rand.NextBool(40))
             {
-                int num4 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), 5, npc.velocity.X, 2f, 0, default(Color), 1f);
+                int num4 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y + (float)npc.height * 0.25f), npc.width, (int)((float)npc.height * 0.5f), DustID.Blood, npc.velocity.X, 2f, 0, default(Color), 1f);
                 Dust dust = Main.dust[num4];
                 dust.velocity.X *= 0.5f;
                 dust.velocity.Y *= 0.1f;
@@ -16981,7 +16981,7 @@ namespace CalamityMod.NPCs
                                     }
                                     if (((player.Center.X < npc.Center.X && npc.direction < 0 && player.direction > 0) || (player.Center.X > npc.Center.X && npc.direction > 0 && player.direction < 0)) && canTurnPlayerToStone && (Collision.CanHitLine(npc.Center, 1, 1, player.Center, 1, 1) || Collision.CanHitLine(npc.Center - Vector2.UnitY * 16f, 1, 1, player.Center, 1, 1) || Collision.CanHitLine(npc.Center + Vector2.UnitY * 8f, 1, 1, player.Center, 1, 1)))
                                     {
-                                        player.AddBuff(156, debuffTime + (int)npc.ai[2] * -1, true);
+                                        player.AddBuff(BuffID.Stoned, debuffTime + (int)npc.ai[2] * -1, true);
                                     }
                                 }
                             }
@@ -17475,7 +17475,7 @@ namespace CalamityMod.NPCs
             // This variable seems to have a lot of purposes.
             // I wasn't sure what I could name it that isn't very vague
             int aiGateValue = 60;
-            if (npcType == NPCID.ChaosElemental)
+            if (npcType == NPCID.ChaosElemental || npcType == ModContent.NPCType<CultistAssassin>())
             {
                 aiGateValue = 180;
                 if (npc.ai[3] == -30f)
@@ -17507,7 +17507,7 @@ namespace CalamityMod.NPCs
             }
             bool canIncrementAI3 = false;
             bool reset = true;
-            if (npcType == NPCID.Yeti || npcType == NPCID.CorruptBunny || npcType == NPCID.Crab || npcType == NPCID.Clown || npcType == NPCID.SkeletonArcher || npcType == NPCID.GoblinArcher || npcType == NPCID.ChaosElemental
+            if (npcType == NPCID.Yeti || npcType == NPCID.CorruptBunny || npcType == NPCID.Crab || npcType == NPCID.Clown || npcType == NPCID.SkeletonArcher || npcType == NPCID.GoblinArcher || npcType == NPCID.ChaosElemental || npcType == ModContent.NPCType<CultistAssassin>()
                 || npcType == NPCID.BlackRecluse || npcType == NPCID.WallCreeper || npcType == NPCID.BloodCrawler || npcType == NPCID.CorruptPenguin || npcType == NPCID.LihzahrdCrawler || npcType == NPCID.IcyMerman || npcType == NPCID.PirateDeadeye
                 || npcType == NPCID.PirateCrossbower || npcType == NPCID.PirateCaptain || npcType == NPCID.CochinealBeetle || npcType == NPCID.CyanBeetle || npcType == NPCID.LacBeetle || npcType == NPCID.SeaSnail || npcType == NPCID.FlyingSnake
                 || npcType == NPCID.IceGolem || npcType == NPCID.Eyezor || npcType == NPCID.AnomuraFungus || npcType == NPCID.MushiLadybug || npcType == NPCID.Paladin || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton
@@ -17561,7 +17561,7 @@ namespace CalamityMod.NPCs
                     goto PrepareToShoot;
                 }
             }
-            else if (npcType - 498 > 8 && npcType != 520)
+            else if (npcType - 498 > 8 && npcType != NPCID.MartianWalker)
             {
                 goto PrepareToShoot;
             }
@@ -17751,7 +17751,7 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            if (npc.ai[3] < (float)aiGateValue && (Main.eclipse || !Main.dayTime || (double)npc.position.Y > Main.worldSurface * 16.0 || (Main.invasionType == 1 && (npcType == NPCID.Yeti || npcType == NPCID.ElfArcher)) || (Main.invasionType == 1 && (npcType == NPCID.GoblinPeon || npcType == NPCID.GoblinThief || npcType == NPCID.GoblinWarrior || npcType == NPCID.GoblinArcher || npcType == NPCID.GoblinSummoner)) || (npcType == NPCID.GoblinScout || (Main.invasionType == 3 && npcType >= 212 && npcType <= 216)) || (Main.invasionType == 4 && (npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner || npcType == NPCID.MartianOfficer || npcType == NPCID.GrayGrunt || npcType == NPCID.MartianEngineer || npcType == NPCID.GigaZapper || npcType == NPCID.Scutlix || npcType == NPCID.MartianWalker)) || (npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.CorruptBunny || npcType == NPCID.Crab || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy || npcType == NPCID.SkeletonArcher || npcType == NPCID.ChaosElemental || npcType == NPCID.CorruptPenguin || npcType == NPCID.FaceMonster || npcType == NPCID.SnowFlinx || npcType == NPCID.Lihzahrd || npcType == NPCID.LihzahrdCrawler || npcType == NPCID.IcyMerman || npcType == NPCID.CochinealBeetle || npcType == NPCID.CyanBeetle || npcType == NPCID.LacBeetle || npcType == NPCID.SeaSnail || npcType == NPCID.BloodCrawler || npcType == NPCID.IceGolem || npcType == NPCID.ZombieMushroom || npcType == NPCID.ZombieMushroomHat || npcType == NPCID.AnomuraFungus || npcType == NPCID.MushiLadybug || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite || npcType == NPCID.CrimsonBunny || npcType == NPCID.CrimsonPenguin || npcType == NPCID.NebulaSoldier || (npcType == NPCID.StardustSoldier && (npc.ai[1] >= 180f || npc.ai[1] < 90f))) || (npcType == NPCID.StardustSpiderBig || npcType == NPCID.VortexRifleman || npcType == NPCID.VortexSoldier || npcType == NPCID.VortexHornet || npcType == NPCID.VortexLarva || npcType == NPCID.WalkingAntlion || npcType == NPCID.SolarDrakomire || npcType == NPCID.SolarSolenian || (npcType >= 524 && npcType <= 527)) || npcType == NPCID.DesertLamiaLight || npcType == NPCID.DesertLamiaDark || npcType == NPCID.DesertScorpionWalk || npcType == NPCID.DesertBeast))
+            if (npc.ai[3] < (float)aiGateValue && (Main.eclipse || !Main.dayTime || (double)npc.position.Y > Main.worldSurface * 16.0 || (Main.invasionType == InvasionID.GoblinArmy && (npcType == NPCID.Yeti || npcType == NPCID.ElfArcher)) || (Main.invasionType == InvasionID.GoblinArmy && (npcType == NPCID.GoblinPeon || npcType == NPCID.GoblinThief || npcType == NPCID.GoblinWarrior || npcType == NPCID.GoblinArcher || npcType == NPCID.GoblinSummoner)) || (npcType == NPCID.GoblinScout || (Main.invasionType == InvasionID.PirateInvasion && npcType >= 212 && npcType <= 216)) || (Main.invasionType == InvasionID.MartianMadness && (npcType == NPCID.BrainScrambler || npcType == NPCID.RayGunner || npcType == NPCID.MartianOfficer || npcType == NPCID.GrayGrunt || npcType == NPCID.MartianEngineer || npcType == NPCID.GigaZapper || npcType == NPCID.Scutlix || npcType == NPCID.MartianWalker)) || (npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.CorruptBunny || npcType == NPCID.Crab || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.Mummy || npcType == NPCID.DarkMummy || npcType == NPCID.LightMummy || npcType == NPCID.SkeletonArcher || npcType == NPCID.ChaosElemental || npcType == ModContent.NPCType<CultistAssassin>() || npcType == NPCID.CorruptPenguin || npcType == NPCID.FaceMonster || npcType == NPCID.SnowFlinx || npcType == NPCID.Lihzahrd || npcType == NPCID.LihzahrdCrawler || npcType == NPCID.IcyMerman || npcType == NPCID.CochinealBeetle || npcType == NPCID.CyanBeetle || npcType == NPCID.LacBeetle || npcType == NPCID.SeaSnail || npcType == NPCID.BloodCrawler || npcType == NPCID.IceGolem || npcType == NPCID.ZombieMushroom || npcType == NPCID.ZombieMushroomHat || npcType == NPCID.AnomuraFungus || npcType == NPCID.MushiLadybug || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite || npcType == NPCID.CrimsonBunny || npcType == NPCID.CrimsonPenguin || npcType == NPCID.NebulaSoldier || (npcType == NPCID.StardustSoldier && (npc.ai[1] >= 180f || npc.ai[1] < 90f))) || (npcType == NPCID.StardustSpiderBig || npcType == NPCID.VortexRifleman || npcType == NPCID.VortexSoldier || npcType == NPCID.VortexHornet || npcType == NPCID.VortexLarva || npcType == NPCID.WalkingAntlion || npcType == NPCID.SolarDrakomire || npcType == NPCID.SolarSolenian || (npcType >= 524 && npcType <= 527)) || npcType == NPCID.DesertLamiaLight || npcType == NPCID.DesertLamiaDark || npcType == NPCID.DesertScorpionWalk || npcType == NPCID.DesertBeast))
             {
                 if ((npcType == NPCID.Zombie || npcType == NPCID.ZombieXmas || npcType == NPCID.ZombieSweater || npcType == NPCID.Skeleton || (npcType >= NPCID.BoneThrowingSkeleton && npcType <= NPCID.BoneThrowingSkeleton4) || npcType == NPCID.AngryBones || npcType == NPCID.AngryBonesBig || npcType == NPCID.AngryBonesBigHelmet || npcType == NPCID.AngryBonesBigMuscle || npcType == NPCID.ArmoredSkeleton || npcType == NPCID.SkeletonArcher || npcType == NPCID.BaldZombie || npcType == NPCID.UndeadViking || npcType == NPCID.ZombieEskimo || npcType == NPCID.Frankenstein || npcType == NPCID.PincushionZombie || npcType == NPCID.SlimedZombie || npcType == NPCID.SwampZombie || npcType == NPCID.TwiggyZombie || npcType == NPCID.ArmoredViking || npcType == NPCID.FemaleZombie || npcType == NPCID.HeadacheSkeleton || npcType == NPCID.MisassembledSkeleton || npcType == NPCID.PantlessSkeleton || npcType == NPCID.ZombieRaincoat || npcType == NPCID.SkeletonSniper || npcType == NPCID.TacticalSkeleton || npcType == NPCID.SkeletonCommando || npcType == NPCID.ZombieSuperman || npcType == NPCID.ZombiePixie || npcType == NPCID.ZombieDoctor || npcType == NPCID.GreekSkeleton) && Main.rand.Next(1000) == 0)
                 {
@@ -17887,7 +17887,7 @@ namespace CalamityMod.NPCs
             {
                 FighterRunningAI(npc, 6f, 0.12f, 0.8f, true, 0.8f);
             }
-            else if (npcType == NPCID.ChaosElemental || npcType == NPCID.SwampThing || npcType == NPCID.PirateCorsair || npcType == NPCID.MushiLadybug || npcType == NPCID.DesertLamiaLight || npcType == NPCID.DesertLamiaDark)
+            else if (npcType == NPCID.ChaosElemental || npcType == ModContent.NPCType<CultistAssassin>() || npcType == NPCID.SwampThing || npcType == NPCID.PirateCorsair || npcType == NPCID.MushiLadybug || npcType == NPCID.DesertLamiaLight || npcType == NPCID.DesertLamiaDark)
             {
                 FighterRunningAI(npc, 4f, 0.09f, 0.8f, true, 0.8f);
             }
@@ -19201,34 +19201,20 @@ namespace CalamityMod.NPCs
                             distX *= magnitude;
                             distY *= magnitude;
                             int damage = 35;
-                            int projectileType = 82;
-                            if (npcType == NPCID.GoblinArcher)
-                            {
-                                damage = 11;
-                            }
-                            if (npcType == NPCID.IcyMerman)
-                            {
-                                damage = 37;
-                            }
-                            if (npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite)
-                            {
-                                damage = 40;
-                            }
+                            int projectileType = ProjectileID.FlamingArrow;
                             if (npcType == NPCID.ElfArcher)
                             {
                                 damage = 45;
                             }
-                            if (npcType == NPCID.DrManFly)
-                            {
-                                damage = 50;
-                            }
                             if (npcType == NPCID.GoblinArcher)
                             {
                                 projectileType = ProjectileID.WoodenArrowHostile;
+                                damage = 11;
                             }
                             if (npcType == NPCID.CultistArcherBlue || npcType == NPCID.CultistArcherWhite)
                             {
                                 projectileType = ProjectileID.WoodenArrowHostile;
+                                damage = 40;
                             }
                             if (npcType == NPCID.BrainScrambler)
                             {
@@ -19263,10 +19249,12 @@ namespace CalamityMod.NPCs
                             if (npcType == NPCID.IcyMerman)
                             {
                                 projectileType = ProjectileID.IcewaterSpit;
+                                damage = 37;
                             }
                             if (npcType == NPCID.DrManFly)
                             {
                                 projectileType = ProjectileID.DrManFlyFlask;
+                                damage = 50;
                             }
                             if (npcType == NPCID.StardustSoldier)
                             {
@@ -19364,7 +19352,7 @@ namespace CalamityMod.NPCs
                                 }
                                 else if (npcType == NPCID.StardustSpiderBig)
                                 {
-                                    int idx = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, 410, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                                    int idx = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.StardustSpiderSmall, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
                                     Main.npc[idx].velocity = new Vector2(distX, -6f + distY);
                                 }
                                 else
@@ -19888,7 +19876,7 @@ namespace CalamityMod.NPCs
                         npc.velocity.Y = -5f;
                         npc.netUpdate = true;
                     }
-                    if (npcType == NPCID.ChaosElemental && npc.velocity.Y < 0f)
+                    if ((npcType == NPCID.ChaosElemental || npcType == ModContent.NPCType<CultistAssassin>()) && npc.velocity.Y < 0f)
                     {
                         npc.velocity.Y *= 1.1f;
                     }
@@ -19916,7 +19904,7 @@ namespace CalamityMod.NPCs
                 npc.ai[2] = 0f;
             }
             // Teleport (Chaos elementals)
-            if (Main.netMode != NetmodeID.MultiplayerClient && npcType == NPCID.ChaosElemental && npc.ai[3] >= (float)aiGateValue)
+            if (Main.netMode != NetmodeID.MultiplayerClient && (npcType == NPCID.ChaosElemental || npcType == ModContent.NPCType<CultistAssassin>()) && npc.ai[3] >= (float)aiGateValue)
             {
                 int tileCoordsX = (int)Main.player[npc.target].position.X / 16;
                 int tileCoordsY = (int)Main.player[npc.target].position.Y / 16;
@@ -21204,7 +21192,7 @@ namespace CalamityMod.NPCs
                 {
                     if (npc.type == NPCID.GoblinSorcerer || npc.type == NPCID.Tim)
                     {
-                        int num69 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 27, 0f, 0f, 100, default(Color), (float)Main.rand.Next(1, 3));
+                        int num69 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 100, default(Color), (float)Main.rand.Next(1, 3));
                         Dust dust = Main.dust[num69];
                         dust.velocity *= 3f;
                         if (Main.dust[num69].scale > 1f)
@@ -21214,35 +21202,35 @@ namespace CalamityMod.NPCs
                     }
                     else if (npc.type == NPCID.DarkCaster)
                     {
-                        int num70 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 172, 0f, 0f, 100, default(Color), 1.5f);
+                        int num70 = Dust.NewDust(npc.position, npc.width, npc.height, 172, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num70];
                         dust.velocity *= 3f;
                         Main.dust[num70].noGravity = true;
                     }
                     else if (npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored)
                     {
-                        int num71 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f);
+                        int num71 = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f);
                         Dust dust = Main.dust[num71];
                         dust.velocity *= 2f;
                         Main.dust[num71].scale = 1.4f;
                     }
                     else if (npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite)
                     {
-                        int num72 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 174, 0f, 0f, 100, default(Color), 1.5f);
+                        int num72 = Dust.NewDust(npc.position, npc.width, npc.height, 174, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num72];
                         dust.velocity *= 3f;
                         Main.dust[num72].noGravity = true;
                     }
                     else if (npc.type == NPCID.RaggedCaster || npc.type == NPCID.RaggedCasterOpenCoat)
                     {
-                        int num73 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 175, 0f, 0f, 100, default(Color), 1.5f);
+                        int num73 = Dust.NewDust(npc.position, npc.width, npc.height, 175, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num73];
                         dust.velocity *= 3f;
                         Main.dust[num73].noGravity = true;
                     }
                     else if (npc.type == NPCID.RuneWizard)
                     {
-                        int num74 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 106, 0f, 0f, 100, default(Color), 2.5f);
+                        int num74 = Dust.NewDust(npc.position, npc.width, npc.height, 106, 0f, 0f, 100, default(Color), 2.5f);
                         Dust dust = Main.dust[num74];
                         dust.velocity *= 3f;
                         Main.dust[num74].noGravity = true;
@@ -21256,7 +21244,7 @@ namespace CalamityMod.NPCs
                     }
                     else
                     {
-                        int num76 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2.5f);
+                        int num76 = Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2.5f);
                         Dust dust = Main.dust[num76];
                         dust.velocity *= 3f;
                         Main.dust[num76].noGravity = true;
@@ -21274,7 +21262,7 @@ namespace CalamityMod.NPCs
                 {
                     if (npc.type == NPCID.GoblinSorcerer || npc.type == NPCID.Tim)
                     {
-                        int num78 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 27, 0f, 0f, 100, default(Color), (float)Main.rand.Next(1, 3));
+                        int num78 = Dust.NewDust(npc.position, npc.width, npc.height, 27, 0f, 0f, 100, default(Color), (float)Main.rand.Next(1, 3));
                         Dust dust = Main.dust[num78];
                         dust.velocity *= 3f;
                         if (Main.dust[num78].scale > 1f)
@@ -21284,35 +21272,35 @@ namespace CalamityMod.NPCs
                     }
                     else if (npc.type == NPCID.DarkCaster)
                     {
-                        int num79 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 172, 0f, 0f, 100, default(Color), 1.5f);
+                        int num79 = Dust.NewDust(npc.position, npc.width, npc.height, 172, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num79];
                         dust.velocity *= 3f;
                         Main.dust[num79].noGravity = true;
                     }
                     else if (npc.type == NPCID.RuneWizard)
                     {
-                        int num80 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 106, 0f, 0f, 100, default(Color), 2.5f);
+                        int num80 = Dust.NewDust(npc.position, npc.width, npc.height, 106, 0f, 0f, 100, default(Color), 2.5f);
                         Dust dust = Main.dust[num80];
                         dust.velocity *= 3f;
                         Main.dust[num80].noGravity = true;
                     }
                     else if (npc.type == NPCID.Necromancer || npc.type == NPCID.NecromancerArmored)
                     {
-                        int num81 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f);
+                        int num81 = Dust.NewDust(npc.position, npc.width, npc.height, 173, 0f, 0f, 0, default(Color), 1f);
                         Dust dust = Main.dust[num81];
                         dust.velocity *= 2f;
                         Main.dust[num81].scale = 1.4f;
                     }
                     else if (npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite)
                     {
-                        int num82 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 174, 0f, 0f, 100, default(Color), 1.5f);
+                        int num82 = Dust.NewDust(npc.position, npc.width, npc.height, 174, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num82];
                         dust.velocity *= 3f;
                         Main.dust[num82].noGravity = true;
                     }
                     else if (npc.type == NPCID.RaggedCaster || npc.type == NPCID.RaggedCasterOpenCoat)
                     {
-                        int num83 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 175, 0f, 0f, 100, default(Color), 1.5f);
+                        int num83 = Dust.NewDust(npc.position, npc.width, npc.height, 175, 0f, 0f, 100, default(Color), 1.5f);
                         Dust dust = Main.dust[num83];
                         dust.velocity *= 3f;
                         Main.dust[num83].noGravity = true;
@@ -21326,7 +21314,7 @@ namespace CalamityMod.NPCs
                     }
                     else
                     {
-                        int num85 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2.5f);
+                        int num85 = Dust.NewDust(npc.position, npc.width, npc.height, 6, 0f, 0f, 100, default(Color), 2.5f);
                         Dust dust = Main.dust[num85];
                         dust.velocity *= 3f;
                         Main.dust[num85].noGravity = true;
@@ -21511,21 +21499,21 @@ namespace CalamityMod.NPCs
                             num105 = num102 / num105;
                             num103 *= num105;
                             num104 *= num105;
-                            int num106 = 16;
-                            int num107 = 290;
+                            int damage = 16;
+                            int projType = ProjectileID.ShadowBeamHostile;
                             if (npc.type == NPCID.DiabolistRed || npc.type == NPCID.DiabolistWhite)
                             {
-                                num107 = 291;
-                                num106 = 32;
+                                projType = ProjectileID.InfernoHostileBolt;
+                                damage = 32;
                             }
                             if (npc.type == NPCID.RaggedCaster || npc.type == NPCID.RaggedCasterOpenCoat)
                             {
-                                num107 = 293;
-                                num106 = 32;
+                                projType = ProjectileID.LostSoulHostile;
+                                damage = 32;
                             }
-                            int num108 = Projectile.NewProjectile(vector13.X, vector13.Y, num103, num104, num107, num106, 0f, Main.myPlayer, 0f, 0f);
+                            int num108 = Projectile.NewProjectile(vector13.X, vector13.Y, num103, num104, projType, damage, 0f, Main.myPlayer, 0f, 0f);
                             Main.projectile[num108].timeLeft = 300;
-                            if (num107 == 291)
+                            if (projType == ProjectileID.InfernoHostileBolt)
                             {
                                 Main.projectile[num108].ai[0] = Main.player[npc.target].Center.X;
                                 Main.projectile[num108].ai[1] = Main.player[npc.target].Center.Y;
@@ -21876,12 +21864,12 @@ namespace CalamityMod.NPCs
         {
             if (npc.type == NPCID.Hellbat || npc.type == NPCID.Lavabat)
             {
-                int num203 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 2f);
+                int num203 = Dust.NewDust(npc.position, npc.width, npc.height, 6, npc.velocity.X * 0.2f, npc.velocity.Y * 0.2f, 100, default(Color), 2f);
                 Main.dust[num203].noGravity = true;
             }
             if (npc.type == NPCID.IceBat && Main.rand.Next(10) == 0)
             {
-                int num204 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
+                int num204 = Dust.NewDust(npc.position, npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
                 Main.dust[num204].noGravity = true;
                 Dust dust = Main.dust[num204];
                 dust.velocity *= 0.2f;
@@ -21983,7 +21971,8 @@ namespace CalamityMod.NPCs
                 npc.type == NPCID.IlluminantBat ||
                 npc.type == NPCID.IceBat || 
                 npc.type == NPCID.Lavabat || 
-                npc.type == NPCID.GiantFlyingFox)
+                npc.type == NPCID.GiantFlyingFox || 
+                npc.type == ModContent.NPCType<PlaguedFlyingFox>())
             {
                 maxSpeedX = 6f;
                 maxSpeedY = 2.5f;
@@ -22682,8 +22671,8 @@ namespace CalamityMod.NPCs
             if (Main.netMode != NetmodeID.MultiplayerClient && flag17 && npc.ai[0] == 0f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
             {
                 npc.ai[0] = 200f;
-                int num274 = 10;
-                int num275 = 31;
+                int damage = 10;
+                int projType = ProjectileID.SandBallFalling;
 
                 int projAmt = Main.rand.Next(8, 14);
                 if (Main.rand.NextBool(1000))
@@ -22693,7 +22682,7 @@ namespace CalamityMod.NPCs
                 {
                     num271 += (float)Main.rand.Next(-30, 31) * 0.05f;
                     num272 += (float)Main.rand.Next(-30, 31) * 0.05f;
-                    int num276 = Projectile.NewProjectile(vector32.X, vector32.Y, num271, num272, num275, num274, 0f, Main.myPlayer, 0f, 0f);
+                    int num276 = Projectile.NewProjectile(vector32.X, vector32.Y, num271, num272, projType, damage, 0f, Main.myPlayer, 0f, 0f);
                     Main.projectile[num276].ai[0] = 2f;
                     Main.projectile[num276].timeLeft = 300;
                     Main.projectile[num276].friendly = false;
@@ -23011,9 +23000,9 @@ namespace CalamityMod.NPCs
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[3] == 32f && !Main.player[npc.target].npcTypeNoAggro[npc.type])
                 {
-                    int num295 = 25;
-                    int num296 = 84;
-                    int num297 = Projectile.NewProjectile(vector33.X, vector33.Y, num292, num293, num296, num295, 0f, Main.myPlayer, 0f, 0f);
+                    int damage = 25;
+                    int projType = ProjectileID.PinkLaser;
+                    int num297 = Projectile.NewProjectile(vector33.X, vector33.Y, num292, num293, projType, damage, 0f, Main.myPlayer, 0f, 0f);
                 }
 
                 num290 = 12;
@@ -23100,9 +23089,9 @@ namespace CalamityMod.NPCs
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[3] == 16f)
                 {
-                    int num304 = 45;
-                    int num305 = 128;
-                    int num306 = Projectile.NewProjectile(vector34.X, vector34.Y, num301, num302, num305, num304, 0f, Main.myPlayer, 0f, 0f);
+                    int dmg = 45;
+                    int projType = ProjectileID.FrostBlastHostile;
+                    int num306 = Projectile.NewProjectile(vector34.X, vector34.Y, num301, num302, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                 }
 
                 num290 = 15;
@@ -23157,9 +23146,9 @@ namespace CalamityMod.NPCs
                             num311 = num307 / num311;
                             num308 *= num311;
                             num310 *= num311;
-                            int num312 = 40;
-                            int num313 = 288;
-                            int num314 = Projectile.NewProjectile(vector35.X, vector35.Y, num308, num310, num313, num312, 0f, Main.myPlayer, 0f, 0f);
+                            int dmg = 40;
+                            int projType = ProjectileID.GoldenShowerHostile;
+                            int num314 = Projectile.NewProjectile(vector35.X, vector35.Y, num308, num310, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
@@ -23673,22 +23662,22 @@ namespace CalamityMod.NPCs
                 {
                     if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type && Math.Abs(npc.position.X - Main.npc[i].position.X) + Math.Abs(npc.position.Y - Main.npc[i].position.Y) < (float)npc.width)
                     {
-                        if (npc.position.X < Main.npc[i].position.X)
-                        {
-                            npc.velocity.X = npc.velocity.X - 0.05f;
-                        }
-                        else
-                        {
-                            npc.velocity.X = npc.velocity.X + 0.05f;
-                        }
-                        if (npc.position.Y < Main.npc[i].position.Y)
-                        {
-                            npc.velocity.Y = npc.velocity.Y - 0.05f;
-                        }
-                        else
-                        {
-                            npc.velocity.Y = npc.velocity.Y + 0.05f;
-                        }
+						if (npc.position.X < Main.npc[i].position.X)
+						{
+							npc.velocity.X -= 0.05f;
+						}
+						else
+						{
+							npc.velocity.X += 0.05f;
+						}
+						if (npc.position.Y < Main.npc[i].position.Y)
+						{
+							npc.velocity.Y -= 0.05f;
+						}
+						else
+						{
+							npc.velocity.Y += 0.05f;
+						}
                     }
                 }
                 if (flag4)
@@ -23824,16 +23813,16 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-            else if (npc.type == NPCID.Wolf || npc.type == NPCID.Hellhound)
+            else if (npc.type == NPCID.Wolf || npc.type == NPCID.Hellhound || npc.type == ModContent.NPCType<Pitbull>())
             {
                 if (npc.velocity.Y == 0f && num4 < 100f && Math.Abs(npc.velocity.X) > 3f && ((npc.position.X + (float)(npc.width / 2) < Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) && npc.velocity.X > 0f) || (npc.position.X + (float)(npc.width / 2) > Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) && npc.velocity.X < 0f)))
                 {
-                    npc.velocity.Y = npc.velocity.Y - 6f;
+                    npc.velocity.Y -= 6f;
                 }
             }
             else if (npc.type == NPCID.Tumbleweed && npc.velocity.Y == 0f && Math.Abs(npc.velocity.X) > 3f && ((npc.Center.X < Main.player[npc.target].Center.X && npc.velocity.X > 0f) || (npc.Center.X > Main.player[npc.target].Center.X && npc.velocity.X < 0f)))
             {
-                npc.velocity.Y = npc.velocity.Y - 6f;
+                npc.velocity.Y -= 6f;
                 Main.PlaySound(SoundID.NPCHit, npc.Center, 11);
             }
 
@@ -23881,45 +23870,45 @@ namespace CalamityMod.NPCs
             float num7 = 0.1f;
             if (!flag && (npc.velocity.Y == 0f || npc.wet || (npc.velocity.X <= 0f && npc.direction < 0) || (npc.velocity.X >= 0f && npc.direction > 0)))
             {
-                if (npc.type == NPCID.Wolf)
+                if (npc.type == NPCID.Wolf || npc.type == ModContent.NPCType<Pitbull>())
                 {
                     if (npc.velocity.X > 0f && npc.direction < 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                     }
                     if (npc.velocity.X < 0f && npc.direction > 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                     }
                 }
                 else if (npc.type == NPCID.Hellhound)
                 {
                     if (npc.velocity.X > 0f && npc.direction < 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
                     }
                     if (npc.velocity.X < 0f && npc.direction > 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
                     }
                     if (npc.direction > 0 && npc.velocity.X < 3f)
                     {
-                        npc.velocity.X = npc.velocity.X + 0.15f;
+                        npc.velocity.X += 0.15f;
                     }
                     if (npc.direction < 0 && npc.velocity.X > -3f)
                     {
-                        npc.velocity.X = npc.velocity.X - 0.15f;
+                        npc.velocity.X -= 0.15f;
                     }
                 }
                 else if (npc.type == NPCID.HeadlessHorseman)
                 {
                     if (npc.velocity.X > 0f && npc.direction < 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                     }
                     if (npc.velocity.X < 0f && npc.direction > 0)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                     }
                     if (npc.velocity.X < -num6 || npc.velocity.X > num6)
                     {
@@ -23930,7 +23919,7 @@ namespace CalamityMod.NPCs
                     }
                     else if (npc.velocity.X < num6 && npc.direction == 1)
                     {
-                        npc.velocity.X = npc.velocity.X + 0.1f;
+                        npc.velocity.X += 0.1f;
                         if (npc.velocity.X > num6)
                         {
                             npc.velocity.X = num6;
@@ -23938,7 +23927,7 @@ namespace CalamityMod.NPCs
                     }
                     else if (npc.velocity.X > -num6 && npc.direction == -1)
                     {
-                        npc.velocity.X = npc.velocity.X - 0.1f;
+                        npc.velocity.X -= 0.1f;
                         if (npc.velocity.X < -num6)
                         {
                             npc.velocity.X = -num6;
@@ -23949,7 +23938,7 @@ namespace CalamityMod.NPCs
                 {
                     if (Math.Sign(npc.velocity.X) != npc.direction)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
                     }
                     num7 = 0.2f;
                 }
@@ -23957,7 +23946,7 @@ namespace CalamityMod.NPCs
                 {
                     if (Math.Sign(npc.velocity.X) != npc.direction)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.8f;
+                        npc.velocity.X *= 0.8f;
                     }
                     num6 = 12f;
                     num7 = 0.2f;
@@ -23966,7 +23955,7 @@ namespace CalamityMod.NPCs
                 {
                     if (Math.Sign(npc.velocity.X) != npc.direction)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.9f;
+                        npc.velocity.X *= 0.9f;
                     }
                     float num8 = MathHelper.Lerp(0.6f, 1f, Math.Abs(Main.windSpeedSet)) * (float)Math.Sign(Main.windSpeedSet);
                     if (!Main.player[npc.target].ZoneSandstorm)
@@ -24235,7 +24224,7 @@ namespace CalamityMod.NPCs
 
             if (npc.type == NPCID.IceTortoise && Main.rand.Next(10) == 0)
             {
-                int num537 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
+                int num537 = Dust.NewDust(npc.position, npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
                 Main.dust[num537].noGravity = true;
                 Dust dust = Main.dust[num537];
                 dust.velocity *= 0.2f;
@@ -24463,7 +24452,7 @@ namespace CalamityMod.NPCs
                 {
                     if (npc.type == NPCID.IceTortoise && Main.rand.Next(3) < 2)
                     {
-                        int num549 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
+                        int num549 = Dust.NewDust(npc.position, npc.width, npc.height, 67, npc.velocity.X * 0.5f, npc.velocity.Y * 0.5f, 90, default(Color), 1.5f);
                         Main.dust[num549].noGravity = true;
                         Dust dust = Main.dust[num549];
                         dust.velocity *= 0.2f;
@@ -24744,239 +24733,243 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Spider AI
-        public static bool BuffedSpiderAI(NPC npc, Mod mod)
-        {
-            if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(true);
-            }
-            float num567 = 3f;
-            float num568 = 0.12f;
-            if (npc.type == NPCID.DesertScorpionWall)
-            {
-                num567 = 6f;
-                num568 = 0.24f;
-            }
-            Vector2 vector70 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num569 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2);
-            float num570 = Main.player[npc.target].position.Y + (float)(Main.player[npc.target].height / 2);
-            num569 = (float)((int)(num569 / 8f) * 8);
-            num570 = (float)((int)(num570 / 8f) * 8);
-            vector70.X = (float)((int)(vector70.X / 8f) * 8);
-            vector70.Y = (float)((int)(vector70.Y / 8f) * 8);
-            num569 -= vector70.X;
-            num570 -= vector70.Y;
-            float num571 = (float)Math.Sqrt((double)(num569 * num569 + num570 * num570));
-            if (num571 == 0f)
-            {
-                num569 = npc.velocity.X;
-                num570 = npc.velocity.Y;
-            }
-            else
-            {
-                num571 = num567 / num571;
-                num569 *= num571;
-                num570 *= num571;
-            }
-            if (Main.player[npc.target].dead)
-            {
-                num569 = (float)npc.direction * num567 / 2f;
-                num570 = -num567 / 2f;
-            }
-            npc.spriteDirection = -1;
-            if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-            {
-                npc.ai[0] += 1f;
-                if (npc.ai[0] > 0f)
-                {
-                    npc.velocity.Y = npc.velocity.Y + 0.023f;
-                }
-                else
-                {
-                    npc.velocity.Y = npc.velocity.Y - 0.023f;
-                }
-                if (npc.ai[0] < -100f || npc.ai[0] > 100f)
-                {
-                    npc.velocity.X = npc.velocity.X + 0.023f;
-                }
-                else
-                {
-                    npc.velocity.X = npc.velocity.X - 0.023f;
-                }
-                if (npc.ai[0] > 200f)
-                {
-                    npc.ai[0] = -200f;
-                }
-                npc.velocity.X = npc.velocity.X + num569 * 0.009f;
-                npc.velocity.Y = npc.velocity.Y + num570 * 0.009f;
-                npc.rotation = (float)Math.Atan2((double)npc.velocity.Y, (double)npc.velocity.X);
-                if ((double)npc.velocity.X > 2.5)
-                {
-                    npc.velocity.X = npc.velocity.X * 0.9f;
-                }
-                if ((double)npc.velocity.X < -2.5)
-                {
-                    npc.velocity.X = npc.velocity.X * 0.9f;
-                }
-                if ((double)npc.velocity.Y > 2.5)
-                {
-                    npc.velocity.Y = npc.velocity.Y * 0.9f;
-                }
-                if ((double)npc.velocity.Y < -2.5)
-                {
-                    npc.velocity.Y = npc.velocity.Y * 0.9f;
-                }
-                if (npc.velocity.X > 4f)
-                {
-                    npc.velocity.X = 4f;
-                }
-                if (npc.velocity.X < -4f)
-                {
-                    npc.velocity.X = -4f;
-                }
-                if (npc.velocity.Y > 4f)
-                {
-                    npc.velocity.Y = 4f;
-                }
-                if (npc.velocity.Y < -4f)
-                {
-                    npc.velocity.Y = -4f;
-                }
-            }
-            else
-            {
-                if (npc.velocity.X < num569)
-                {
-                    npc.velocity.X = npc.velocity.X + num568;
-                    if (npc.velocity.X < 0f && num569 > 0f)
-                    {
-                        npc.velocity.X = npc.velocity.X + num568;
-                    }
-                }
-                else if (npc.velocity.X > num569)
-                {
-                    npc.velocity.X = npc.velocity.X - num568;
-                    if (npc.velocity.X > 0f && num569 < 0f)
-                    {
-                        npc.velocity.X = npc.velocity.X - num568;
-                    }
-                }
-                if (npc.velocity.Y < num570)
-                {
-                    npc.velocity.Y = npc.velocity.Y + num568;
-                    if (npc.velocity.Y < 0f && num570 > 0f)
-                    {
-                        npc.velocity.Y = npc.velocity.Y + num568;
-                    }
-                }
-                else if (npc.velocity.Y > num570)
-                {
-                    npc.velocity.Y = npc.velocity.Y - num568;
-                    if (npc.velocity.Y > 0f && num570 < 0f)
-                    {
-                        npc.velocity.Y = npc.velocity.Y - num568;
-                    }
-                }
-                npc.rotation = (float)Math.Atan2((double)num570, (double)num569);
-            }
-            if (npc.type == NPCID.DesertScorpionWall)
-            {
-                npc.rotation += MathHelper.PiOver2;
-            }
-            float num572 = 0.5f;
-            if (npc.collideX)
-            {
-                npc.netUpdate = true;
-                npc.velocity.X = npc.oldVelocity.X * -num572;
-                if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
-                {
-                    npc.velocity.X = 2f;
-                }
-                if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
-                {
-                    npc.velocity.X = -2f;
-                }
-            }
-            if (npc.collideY)
-            {
-                npc.netUpdate = true;
-                npc.velocity.Y = npc.oldVelocity.Y * -num572;
-                if (npc.velocity.Y > 0f && (double)npc.velocity.Y < 1.5)
-                {
-                    npc.velocity.Y = 2f;
-                }
-                if (npc.velocity.Y < 0f && (double)npc.velocity.Y > -1.5)
-                {
-                    npc.velocity.Y = -2f;
-                }
-            }
-            if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
-            {
-                npc.netUpdate = true;
-            }
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                if (Main.netMode != NetmodeID.MultiplayerClient && npc.target >= 0 && (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
-                {
-                    npc.localAI[0] += 1f;
-                    if (npc.localAI[0] > (float)Main.rand.Next(180, 600))
-                    {
-                        npc.localAI[0] = 0f;
-                        Vector2 vector71 = Main.player[npc.target].Center - npc.Center;
-                        vector71.Normalize();
-                        vector71 *= 8f;
-                        int num573 = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector71.X, vector71.Y, ProjectileID.WebSpit, 18, 0f, Main.myPlayer, 0f, 0f);
-                    }
-                }
-                int num574 = (int)npc.Center.X / 16;
-                int num575 = (int)npc.Center.Y / 16;
-                bool flag36 = false;
-                int num;
-                for (int num576 = num574 - 1; num576 <= num574 + 1; num576 = num + 1)
-                {
-                    for (int num577 = num575 - 1; num577 <= num575 + 1; num577 = num + 1)
-                    {
-                        if (Main.tile[num576, num577] == null)
-                        {
-                            return false;
-                        }
-                        if (Main.tile[num576, num577].wall > 0)
-                        {
-                            flag36 = true;
-                        }
-                        num = num577;
-                    }
-                    num = num576;
-                }
-                if (!flag36)
-                {
-                    if (npc.type == NPCID.JungleCreeperWall)
-                    {
-                        npc.Transform(NPCID.JungleCreeper);
-                        return false;
-                    }
-                    if (npc.type == NPCID.BlackRecluseWall)
-                    {
-                        npc.Transform(NPCID.BlackRecluse);
-                        return false;
-                    }
-                    if (npc.type == NPCID.BloodCrawlerWall)
-                    {
-                        npc.Transform(NPCID.BloodCrawler);
-                        return false;
-                    }
-                    if (npc.type == NPCID.DesertScorpionWall)
-                    {
-                        npc.Transform(NPCID.DesertScorpionWalk);
-                        return false;
-                    }
-                    npc.Transform(NPCID.WallCreeper);
-                }
-            }
-            return false;
-        }
-        #endregion
+		#region Spider AI
+		public static bool BuffedSpiderAI(NPC npc, Mod mod)
+		{
+			//Find a target
+			if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
+			{
+				npc.TargetClosest(true);
+			}
+
+			float speed = 3f;
+			float mvtAdjust = 0.12f;
+			if (npc.type == NPCID.DesertScorpionWall)
+			{
+				speed = 6f;
+				mvtAdjust = 0.24f;
+			}
+
+			//Calculate how to reach the target
+			Vector2 npcPos = npc.Center;
+			Vector2 targetPos = Main.player[npc.target].Center;
+			targetPos.X = (float)((int)(targetPos.X / 8f) * 8);
+			targetPos.Y = (float)((int)(targetPos.Y / 8f) * 8);
+			npcPos.X = (float)((int)(npcPos.X / 8f) * 8);
+			npcPos.Y = (float)((int)(npcPos.Y / 8f) * 8);
+			targetPos.X -= npcPos.X;
+			targetPos.Y -= npcPos.Y;
+			float targetDist = targetPos.Length();
+			if (targetDist == 0f)
+			{
+				targetPos.X = npc.velocity.X;
+				targetPos.Y = npc.velocity.Y;
+			}
+			else
+			{
+				targetDist = speed / targetDist;
+				targetPos.X *= targetDist;
+				targetPos.Y *= targetDist;
+			}
+
+			//If the target is dead, nobody cares
+			if (Main.player[npc.target].dead)
+			{
+				targetPos.X = (float)npc.direction * speed / 2f;
+				targetPos.Y = -speed / 2f;
+			}
+
+			//Sprite direction
+			npc.spriteDirection = -1;
+
+			//If you can't see the target, wander around
+			if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+			{
+				npc.ai[0] += 1f;
+				if (npc.ai[0] > 0f)
+				{
+					npc.velocity.Y += 0.023f;
+				}
+				else
+				{
+					npc.velocity.Y -= 0.023f;
+				}
+				if (npc.ai[0] < -100f || npc.ai[0] > 100f)
+				{
+					npc.velocity.X += 0.023f;
+				}
+				else
+				{
+					npc.velocity.X -= 0.023f;
+				}
+				if (npc.ai[0] > 200f)
+				{
+					npc.ai[0] = -200f;
+				}
+				npc.velocity.X += targetPos.X * 0.009f;
+				npc.velocity.Y += targetPos.Y * 0.009f;
+				npc.rotation = npc.velocity.ToRotation();
+				if (npc.velocity.X > 2.5f)
+				{
+					npc.velocity.X *= 0.9f;
+				}
+				if (npc.velocity.X < -2.5f)
+				{
+					npc.velocity.X *= 0.9f;
+				}
+				if (npc.velocity.Y > 2.5f)
+				{
+					npc.velocity.Y *= 0.9f;
+				}
+				if (npc.velocity.Y < -2.5f)
+				{
+					npc.velocity.Y *= 0.9f;
+				}
+				npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -4f, 4f);
+				npc.velocity.Y = MathHelper.Clamp(npc.velocity.Y, -4f, 4f);
+			}
+			//If target is in sight, move toward target
+			else
+			{
+				if (npc.velocity.X < targetPos.X)
+				{
+					npc.velocity.X += mvtAdjust;
+					if (npc.velocity.X < 0f && targetPos.X > 0f)
+					{
+						npc.velocity.X += mvtAdjust;
+					}
+				}
+				else if (npc.velocity.X > targetPos.X)
+				{
+					npc.velocity.X -= mvtAdjust;
+					if (npc.velocity.X > 0f && targetPos.X < 0f)
+					{
+						npc.velocity.X -= mvtAdjust;
+					}
+				}
+				if (npc.velocity.Y < targetPos.Y)
+				{
+					npc.velocity.Y += mvtAdjust;
+					if (npc.velocity.Y < 0f && targetPos.Y > 0f)
+					{
+						npc.velocity.Y += mvtAdjust;
+					}
+				}
+				else if (npc.velocity.Y > targetPos.Y)
+				{
+					npc.velocity.Y -= mvtAdjust;
+					if (npc.velocity.Y > 0f && targetPos.Y < 0f)
+					{
+						npc.velocity.Y -= mvtAdjust;
+					}
+				}
+				npc.rotation = targetPos.ToRotation();
+			}
+
+			//Desert Scorpion has a different sprite orientation
+			if (npc.type == NPCID.DesertScorpionWall)
+			{
+				npc.rotation += MathHelper.PiOver2;
+			}
+
+			//Wall collision behavior?
+			float half = 0.5f;
+			if (npc.collideX)
+			{
+				npc.netUpdate = true;
+				npc.velocity.X = npc.oldVelocity.X * -half;
+				if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
+				{
+					npc.velocity.X = 2f;
+				}
+				if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
+				{
+					npc.velocity.X = -2f;
+				}
+			}
+			if (npc.collideY)
+			{
+				npc.netUpdate = true;
+				npc.velocity.Y = npc.oldVelocity.Y * -half;
+				if (npc.velocity.Y > 0f && npc.velocity.Y < 1.5f)
+				{
+					npc.velocity.Y = 2f;
+				}
+				if (npc.velocity.Y < 0f && npc.velocity.Y > -1.5f)
+				{
+					npc.velocity.Y = -2f;
+				}
+			}
+
+			//Net update for changing directions
+			if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
+			{
+				npc.netUpdate = true;
+			}
+
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				//Black Recluses shoot Web Spit
+				if (Main.netMode != NetmodeID.MultiplayerClient && npc.target >= 0 && (npc.type == NPCID.BlackRecluse || npc.type == NPCID.BlackRecluseWall) && Collision.CanHit(npc.Center, 1, 1, Main.player[npc.target].Center, 1, 1))
+				{
+					npc.localAI[0] += 1f;
+					if (npc.localAI[0] > (float)Main.rand.Next(180, 600))
+					{
+						npc.localAI[0] = 0f;
+						Vector2 velocity = Main.player[npc.target].Center - npc.Center;
+						velocity.Normalize();
+						velocity *= 8f;
+						Projectile.NewProjectile(npc.Center, velocity, ProjectileID.WebSpit, 18, 0f, Main.myPlayer, 0f, 0f);
+					}
+				}
+
+				//Check for walls
+				int npcX = (int)npc.Center.X / 16;
+				int npcY = (int)npc.Center.Y / 16;
+				bool climbingWall = false;
+				for (int i = npcX - 1; i <= npcX + 1; i++)
+				{
+					for (int j = npcY - 1; j <= npcY + 1; j++)
+					{
+						if (Main.tile[i, j] == null)
+						{
+							return false;
+						}
+						if (Main.tile[i, j].wall > 0)
+						{
+							climbingWall = true;
+						}
+					}
+				}
+				//If not on a wall, transform to fighter form
+				if (!climbingWall)
+				{
+					if (npc.type == NPCID.JungleCreeperWall)
+					{
+						npc.Transform(NPCID.JungleCreeper);
+						return false;
+					}
+					if (npc.type == NPCID.BlackRecluseWall)
+					{
+						npc.Transform(NPCID.BlackRecluse);
+						return false;
+					}
+					if (npc.type == NPCID.BloodCrawlerWall)
+					{
+						npc.Transform(NPCID.BloodCrawler);
+						return false;
+					}
+					if (npc.type == NPCID.DesertScorpionWall)
+					{
+						npc.Transform(NPCID.DesertScorpionWalk);
+						return false;
+					}
+					npc.Transform(NPCID.WallCreeper);
+				}
+			}
+			return false;
+		}
+		#endregion
 
         #region Herpling AI
         public static bool BuffedHerplingAI(NPC npc, Mod mod)

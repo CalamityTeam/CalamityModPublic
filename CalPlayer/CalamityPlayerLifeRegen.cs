@@ -91,7 +91,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 16;
+				lifeRegenLost += modPlayer.abaddon ? 8 : 16;
             }
 
             if (modPlayer.nightwither)
@@ -205,7 +205,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += 20;
+				lifeRegenLost += modPlayer.alchFlask ? 10 : 20;
             }
 
             if (modPlayer.bBlood)
@@ -472,7 +472,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegenCount = 0;
             }
 
-            if (CalamityConfig.Instance.LethalLava || CalamityWorld.death) //always occurs in Death regardless of config
+            if (CalamityConfig.Instance.LethalLava || CalamityWorld.death) // Always occurs in Death regardless of config
             {
                 if (Main.myPlayer == player.whoAmI)
                 {

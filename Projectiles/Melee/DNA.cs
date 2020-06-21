@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.melee = true;
-            aiType = 493;
+            aiType = ProjectileID.CrystalVileShardHead;
         }
 
         public override void AI()

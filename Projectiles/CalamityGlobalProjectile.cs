@@ -34,18 +34,18 @@ namespace CalamityMod.Projectiles
             }
         }
 
-        // Class Types
-        public bool rogue = false;
+		// Class Types
+		public bool rogue = false;
         public bool trueMelee = false;
 
-        // Force Class Types
-        public bool forceMelee = false;
+		// Force Class Types
+		public bool forceMelee = false;
         public bool forceRanged = false;
         public bool forceMagic = false;
-        public bool forceRogue = false;
-        public bool forceMinion = false;
-        public bool forceHostile = false;
-        public bool forceTypeless = false;
+		public bool forceMinion = false;
+		public bool forceRogue = false;
+		public bool forceTypeless = false;
+		public bool forceHostile = false;
 
         // Damage Adjusters
         private bool setDamageValues = true;
@@ -597,9 +597,13 @@ namespace CalamityMod.Projectiles
                     projectile.damage = damage2;
                 }
             }
-            SKIP_CALAMITY:
+			SKIP_CALAMITY:
 
-            if (forceMelee)
+			// If rogue projectiles are not internally throwing while in-flight, they can never critically strike.
+			if (rogue)
+				projectile.thrown = true;
+
+			if (forceMelee)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
@@ -607,7 +611,8 @@ namespace CalamityMod.Projectiles
                 projectile.ranged = false;
                 projectile.magic = false;
                 projectile.minion = false;
-                rogue = false;
+				projectile.thrown = false;
+				rogue = false;
             }
             else if (forceRanged)
             {
@@ -617,7 +622,8 @@ namespace CalamityMod.Projectiles
                 projectile.ranged = true;
                 projectile.magic = false;
                 projectile.minion = false;
-                rogue = false;
+				projectile.thrown = false;
+				rogue = false;
             }
             else if (forceMagic)
             {
@@ -627,17 +633,8 @@ namespace CalamityMod.Projectiles
                 projectile.ranged = false;
                 projectile.magic = true;
                 projectile.minion = false;
-                rogue = false;
-            }
-            else if (forceRogue)
-            {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.melee = false;
-                projectile.ranged = false;
-                projectile.magic = false;
-                projectile.minion = false;
-                rogue = true;
+				projectile.thrown = false;
+				rogue = false;
             }
             else if (forceMinion)
             {
@@ -647,9 +644,32 @@ namespace CalamityMod.Projectiles
                 projectile.ranged = false;
                 projectile.magic = false;
                 projectile.minion = true;
-                rogue = false;
+				projectile.thrown = false;
+				rogue = false;
             }
-            else if (forceHostile)
+			else if (forceRogue)
+			{
+				projectile.hostile = false;
+				projectile.friendly = true;
+				projectile.melee = false;
+				projectile.ranged = false;
+				projectile.magic = false;
+				projectile.minion = false;
+				projectile.thrown = true;
+				rogue = true;
+			}
+			else if (forceTypeless)
+			{
+				projectile.hostile = false;
+				projectile.friendly = true;
+				projectile.melee = false;
+				projectile.ranged = false;
+				projectile.magic = false;
+				projectile.minion = false;
+				projectile.thrown = false;
+				rogue = false;
+			}
+			else if (forceHostile)
             {
                 projectile.hostile = true;
                 projectile.friendly = false;
@@ -657,16 +677,7 @@ namespace CalamityMod.Projectiles
                 projectile.ranged = false;
                 projectile.magic = false;
                 projectile.minion = false;
-                rogue = false;
-            }
-            else if (forceTypeless)
-            {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.melee = false;
-                projectile.ranged = false;
-                projectile.magic = false;
-                projectile.minion = false;
+				projectile.thrown = false;
                 rogue = false;
             }
 
@@ -849,7 +860,7 @@ namespace CalamityMod.Projectiles
 				}
 
 				if (modPlayer.providenceLore && projectile.owner == Main.myPlayer && projectile.damage > 0 &&
-					(projectile.melee || projectile.ranged || projectile.magic || rogue))
+					(projectile.melee || projectile.ranged || projectile.magic || projectile.thrown || rogue))
 				{
 					if (Main.rand.NextBool(5))
 					{
@@ -1019,11 +1030,8 @@ namespace CalamityMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-            if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
-            {
-				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
-					crit = true;
-			}
+			if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
+				crit = true;
 
 			// Super dummies have nearly 10 million max HP (which is used in damage calculations).
 			// This can very easily cause damage numbers that are unrealistic for the weapon.

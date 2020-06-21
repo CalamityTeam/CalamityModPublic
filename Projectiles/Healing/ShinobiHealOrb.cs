@@ -15,7 +15,6 @@ namespace CalamityMod.Projectiles.Healing
         {
             projectile.width = 20;
             projectile.height = 20;
-            aiType = ProjectileID.FrostWave;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.tileCollide = false;

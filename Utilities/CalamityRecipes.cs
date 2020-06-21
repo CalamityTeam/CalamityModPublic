@@ -1112,7 +1112,8 @@ namespace CalamityMod
                 ModContent.ItemType<DiscordianWings>(),
                 ModContent.ItemType<TarragonWings>(),
                 ModContent.ItemType<XerocWings>(),
-                ModContent.ItemType<HadarianWings>()
+                ModContent.ItemType<HadarianWings>(),
+                ModContent.ItemType<SilvaWings>()
             });
             RecipeGroup.RegisterGroup("WingsGroup", group);
         }

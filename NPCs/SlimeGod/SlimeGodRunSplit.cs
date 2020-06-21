@@ -33,7 +33,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.defense = 10;
             npc.knockBackResist = 0f;
             npc.buffImmune[ModContent.BuffType<TimeSlow>()] = false;
-            animationType = 50;
+            animationType = NPCID.KingSlime;
             npc.value = Item.buyPrice(0, 1, 0, 0);
             npc.alpha = 55;
             npc.lavaImmune = false;

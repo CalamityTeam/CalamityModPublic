@@ -113,7 +113,7 @@ namespace CalamityMod.Projectiles.Boss
                 num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 89, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile, 3);
+			projectile.ExplosionGores(3);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)

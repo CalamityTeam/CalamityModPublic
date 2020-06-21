@@ -81,6 +81,7 @@ namespace CalamityMod.NPCs.AcidRain
                 if (npc.ai[0] < 300f)
                 {
                     npc.chaseable = false;
+                    npc.knockBackResist = 0f;
                 }
                 if (Math.Abs(closest.Center.X - npc.Center.X) < 320f &&
                     closest.Center.Y - npc.Top.Y < -60f &&
@@ -103,8 +104,9 @@ namespace CalamityMod.NPCs.AcidRain
                 npc.chaseable = true;
                 if (npc.velocity.Y == 0f)
                 {
+                    npc.knockBackResist = 0.6f;
                     npc.TargetClosest(true);
-                    npc.velocity.X = npc.velocity.X * 0.85f;
+                    npc.velocity.X *= 0.85f;
                     npc.ai[2]++;
                     float hopRate = 10f + 15f * (npc.life / (float)npc.lifeMax);
                     float lungeForwardSpeed = 10f;
@@ -129,7 +131,7 @@ namespace CalamityMod.NPCs.AcidRain
                 }
                 else
                 {
-                    npc.knockBackResist = 0f;
+                    npc.knockBackResist = 0.2f;
                     npc.velocity.X *= 0.995f;
                 }
             }

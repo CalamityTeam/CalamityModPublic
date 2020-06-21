@@ -992,8 +992,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                             projectile.type == ModContent.ProjectileType<BrimstoneBarrage>() ||
                             projectile.type == ModContent.ProjectileType<BrimstoneWave>())
                         {
-							if (projectile.timeLeft > 90)
-								projectile.timeLeft = 90;
+							if (projectile.timeLeft > 60)
+								projectile.timeLeft = 60;
                         }
                         else if (projectile.type == ModContent.ProjectileType<BrimstoneGigaBlast>() || projectile.type == ModContent.ProjectileType<BrimstoneFireblast>())
                         {
@@ -1368,8 +1368,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 										num183 = (8f + speedBoost) / num183;
 										num180 *= num183;
 										num182 *= num183;
-										value9.X += num180 * 8f;
-										value9.Y += num182 * 8f;
 										Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 									}
 								}
@@ -1656,7 +1654,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                         for (int num388 = 0; num388 < 50; num388++)
                             Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Brimstone, Main.rand.Next(-30, 31) * 0.2f, Main.rand.Next(-30, 31) * 0.2f, 0, default, 1f);
 
-                        Main.PlaySound(SoundID.Roar, npc.position);
+                        Main.PlaySound(SoundID.Roar, (int)npc.position.X, (int)npc.position.Y, 0);
                     }
                 }
 
@@ -1915,8 +1913,6 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 										num183 = (8f + speedBoost) / num183;
 										num180 *= num183;
 										num182 *= num183;
-										value9.X += num180 * 8f;
-										value9.Y += num182 * 8f;
 										Projectile.NewProjectile(value9.X, value9.Y, num180 + speedBoost, num182 + speedBoost, randomShot, num829, 0f, Main.myPlayer, 0f, 0f);
 									}
 								}

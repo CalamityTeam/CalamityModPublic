@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.localNPCHitCooldown = 10;
 			projectile.extraUpdates = 1;
 			projectile.aiStyle = 18;
-			aiType = 274;
+			aiType = ProjectileID.DeathSickle;
         }
 
         public override void AI()
