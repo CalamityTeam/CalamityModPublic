@@ -132,7 +132,7 @@ namespace CalamityMod
 
 		// Boss velocity scaling data structure
 		public static SortedDictionary<int, float> bossVelocityDamageScaleValues;
-		public const float velocityScaleMin = 0.66f;
+		public const float velocityScaleMin = 0.75f;
 		public const float bitingEnemeyVelocityScale = 0.9f;
 
 		// Lists

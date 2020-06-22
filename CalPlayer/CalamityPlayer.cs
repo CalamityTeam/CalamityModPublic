@@ -5804,7 +5804,7 @@ namespace CalamityMod.CalPlayer
 				}
 				else
 				{
-					float amount = npc.velocity.Length() / npc.Calamity().maxVelocity;
+					float amount = npc.velocity.Length() / (npc.Calamity().maxVelocity * 0.5f);
 					if (amount > 1f)
 						amount = 1f;
 
