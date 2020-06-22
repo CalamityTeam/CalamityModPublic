@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -71,6 +72,7 @@ namespace CalamityMod.TileEntities
             ItemID.DirtBlock
         };
         #endregion
+
         public void ClientToServerSync()
         {
             if (Main.netMode != NetmodeID.SinglePlayer)
@@ -142,7 +144,7 @@ namespace CalamityMod.TileEntities
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == ModContent.TileType<DraedonItemCharger>();
+            return tile.active() && tile.type == ModContent.TileType<DraedonItemCharger>() && tile.frameX == 0 && tile.frameY == 0;
         }
         public override void Update()
         {
@@ -190,10 +192,33 @@ namespace CalamityMod.TileEntities
             }
             return Place(i, j);
         }
+        public override void NetSend(BinaryWriter writer, bool lightSend)
+        {
+            writer.Write(ID);
+            writer.Write(FuelItem.type);
+            writer.Write(FuelItem.stack);
+            writer.Write(ItemBeingCharged.type);
+            writer.Write(ItemBeingCharged.stack);
+            writer.Write(Charge);
+            writer.Write(ActiveTimer);
+        }
+        public override void NetReceive(BinaryReader reader, bool lightReceive)
+        {
+            ID = reader.ReadInt32();
+            FuelItem.type = reader.ReadInt32();
+            FuelItem.SetDefaults(FuelItem.type);
+            FuelItem.stack = reader.ReadInt32();
+            ItemBeingCharged.type = reader.ReadInt32();
+            ItemBeingCharged.SetDefaults(FuelItem.type);
+            ItemBeingCharged.stack = reader.ReadInt32();
+            Charge = reader.ReadInt32();
+            ActiveTimer = reader.ReadInt32();
+        }
         public override TagCompound Save()
         {
             return new TagCompound
             {
+                ["ID"] = ID, // Don't ask me why, but the ID doesn't get saved in MP otherwise.
                 ["TypeFuel"] = FuelItem.type,
                 ["StackFuel"] = FuelItem.stack,
                 ["PrefixFuel"] = FuelItem.prefix,
@@ -203,12 +228,12 @@ namespace CalamityMod.TileEntities
                 ["StackNotFuel"] = ItemBeingCharged.stack,
                 ["PrefixNotFuel"] = ItemBeingCharged.prefix,
                 ["Charge"] = Charge,
-                ["NetIDNotFuel"] = ItemBeingCharged.active && FuelItem.stack > 0 ? FuelItem.netID : 0,
+                ["NetIDNotFuel"] = ItemBeingCharged.active && FuelItem.stack > 0 ? FuelItem.netID : 0
             };
         }
         public override void Load(TagCompound tag)
         {
-            FuelItem = new Item();
+            ID = tag.GetInt("ID");
             FuelItem = new Item();
             FuelItem.SetDefaults(tag.GetInt("TypeFuel"));
             FuelItem.stack = tag.GetInt("StackFuel");

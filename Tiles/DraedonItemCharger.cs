@@ -33,18 +33,7 @@ namespace CalamityMod.Tiles
         {
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
-            int determinedID = ModContent.GetInstance<TEDraedonItemCharger>().Find(left, top);
-            if (determinedID == -1 || !(TileEntity.ByID[determinedID] is TEDraedonItemCharger))
-            {
-                ModTileEntity modTileEntity = ModTileEntity.ConstructFromType(ModContent.GetInstance<TEDraedonItemCharger>().type);
-                modTileEntity.Position = new Point16(left, top);
-                modTileEntity.ID = TileEntity.AssignNewID();
-                modTileEntity.type = ModContent.GetInstance<TEDraedonItemCharger>().type;
-                TileEntity.ByID[modTileEntity.ID] = modTileEntity;
-                TileEntity.ByPosition[modTileEntity.Position] = modTileEntity;
-                determinedID = modTileEntity.ID;
-            }
-            return (TEDraedonItemCharger)TileEntity.ByID[determinedID];
+            return (TEDraedonItemCharger)TileEntity.ByPosition[new Point16(left, top)];
         }
         public override bool CreateDust(int i, int j, ref int type)
         {
