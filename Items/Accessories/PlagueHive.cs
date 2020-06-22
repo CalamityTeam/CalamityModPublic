@@ -51,6 +51,7 @@ namespace CalamityMod.Items.Accessories
             modPlayer.uberBees = true;
             player.strongBees = true;
             modPlayer.alchFlask = true;
+            modPlayer.reducedPlagueDmg = true;
             int plagueCounter = 0;
             Lighting.AddLight((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f), 0.1f, 2f, 0.2f);
             int num = ModContent.BuffType<Plague>();

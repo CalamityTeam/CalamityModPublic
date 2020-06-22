@@ -458,6 +458,7 @@ namespace CalamityMod.CalPlayer
         public bool shadowMinions = false;
         public bool tearMinions = false;
         public bool alchFlask = false;
+        public bool reducedPlagueDmg = false;
 		public bool abaddon = false;
         public bool community = false;
         public bool fleshTotem = false;
@@ -1509,6 +1510,7 @@ namespace CalamityMod.CalPlayer
             shadowMinions = false;
             tearMinions = false;
             alchFlask = false;
+            reducedPlagueDmg = false;
 			abaddon = false;
             community = false;
             stressPills = false;

@@ -205,7 +205,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegen = 0;
 
                 player.lifeRegenTime = 0;
-				lifeRegenLost += modPlayer.alchFlask ? 10 : 20;
+				lifeRegenLost += modPlayer.reducedPlagueDmg ? 10 : 20;
             }
 
             if (modPlayer.bBlood)
