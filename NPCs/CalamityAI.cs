@@ -2873,6 +2873,9 @@ namespace CalamityMod.NPCs
 									var netMessage = mod.GetPacket();
 									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
 									netMessage.Write(Main.npc[npc2].Calamity().newAI[0]);
+									netMessage.Write(Main.npc[npc2].Calamity().newAI[1]);
+									netMessage.Write(Main.npc[npc2].Calamity().newAI[2]);
+									netMessage.Write(Main.npc[npc2].Calamity().newAI[3]);
 									netMessage.Send();
 								}
 
@@ -2887,6 +2890,8 @@ namespace CalamityMod.NPCs
 									var netMessage = mod.GetPacket();
 									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
 									netMessage.Write(Main.npc[npc3].Calamity().newAI[0]);
+									netMessage.Write(Main.npc[npc3].Calamity().newAI[1]);
+									netMessage.Write(Main.npc[npc3].Calamity().newAI[2]);
 									netMessage.Write(Main.npc[npc3].Calamity().newAI[3]);
 									netMessage.Send();
 								}
@@ -2998,6 +3003,8 @@ namespace CalamityMod.NPCs
 								var netMessage = mod.GetPacket();
 								netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
 								netMessage.Write(Main.npc[lol].Calamity().newAI[0]);
+								netMessage.Write(Main.npc[lol].Calamity().newAI[1]);
+								netMessage.Write(Main.npc[lol].Calamity().newAI[2]);
 								netMessage.Write(Main.npc[lol].Calamity().newAI[3]);
 								netMessage.Send();
 							}
