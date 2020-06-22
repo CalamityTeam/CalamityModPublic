@@ -577,7 +577,7 @@ namespace CalamityMod.NPCs.Ravager
 						}
 					}
 
-					float maxOffset = death ? 160f : 160f * (1f - lifeRatio);
+					float maxOffset = 160f + (death ? 160f : 160f * (1f - lifeRatio));
 					float offset = npc.ai[0] == 2f ? maxOffset * npc.Calamity().newAI[2] : 0f;
 
 					// Set offset to 0 if the target stops moving
