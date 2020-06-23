@@ -129,9 +129,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-            bool speedBoost = lifeRatio < 0.6 || (death && lifeRatio < 0.9);
-            bool speedBoost2 = lifeRatio < 0.2;
-            bool breathFireMore = lifeRatio < 0.15 || death;
+            bool speedBoost = lifeRatio < 0.75f || (death && lifeRatio < 0.9f);
+            bool speedBoost2 = lifeRatio < 0.3f;
+            bool breathFireMore = lifeRatio < 0.15f || death;
 
 			// Light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
@@ -306,9 +306,8 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
 					calamityGlobalNPC.newAI[1] += 1f;
 
-                    float speed = 10.5f;
-                    float spawnOffsetX = 1900f;
-                    float spawnOffsetY = 1000f;
+                    float speed = 12f;
+                    float spawnOffset = 1500f;
                     float divisor = 120f;
 
 					if (calamityGlobalNPC.newAI[1] % divisor == 0f)
@@ -320,8 +319,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 						// Side walls
 						for (int x = 0; x < totalShots; x++)
 						{
-							Projectile.NewProjectile(player.position.X + spawnOffsetX, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-							Projectile.NewProjectile(player.position.X - spawnOffsetX, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 							shotSpacing[0] -= spacingVar;
 						}
 
@@ -329,8 +328,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 						{
 							for (int x = 0; x < 10; x++)
 							{
-								Projectile.NewProjectile(player.position.X + spawnOffsetX, targetPosY + shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								Projectile.NewProjectile(player.position.X - spawnOffsetX, targetPosY + shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 								shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
 							}
 							shotSpacing[3] = 1050;
@@ -340,7 +339,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 						// Lower wall
 						for (int x = 0; x < totalShots; x++)
 						{
-							Projectile.NewProjectile(player.position.X + shotSpacing[1], player.position.Y + spawnOffsetY, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.position.X + shotSpacing[1], player.position.Y + spawnOffset, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 							shotSpacing[1] -= spacingVar;
 						}
 						shotSpacing[1] = 1050;
@@ -348,7 +347,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 						// Upper wall
 						for (int x = 0; x < totalShots; x++)
 						{
-							Projectile.NewProjectile(player.position.X + shotSpacing[2], player.position.Y - spawnOffsetY, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.position.X + shotSpacing[2], player.position.Y - spawnOffset, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 							shotSpacing[2] -= spacingVar;
 						}
 						shotSpacing[2] = 1050;

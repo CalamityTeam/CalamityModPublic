@@ -4490,11 +4490,13 @@ namespace CalamityMod.NPCs
                 if (npc.type == NPCID.TheDestroyerBody && Vector2.Distance(player.Center, npc.Center) > 80f && !flyAtTarget)
                 {
                     // Laser rate of fire
-                    int shootTime = 2 + (int)Math.Ceiling(((enraged || configBossRushBoost) ? 5D : 2D) * (1f - lifeRatio));
+                    int shootTime = 4 + (death ? 2 : (int)Math.Ceiling(2f * (1f - lifeRatio)));
                     if (CalamityWorld.bossRushActive)
                         shootTime += 1;
+					if (enraged || configBossRushBoost)
+						shootTime += 2;
 
-                    calamityGlobalNPC.newAI[0] += Main.rand.Next(shootTime);
+					calamityGlobalNPC.newAI[0] += Main.rand.Next(shootTime);
                     int randomCount = death ? Main.rand.Next(1470, 27300) : Main.rand.Next(1330, 24700);
 
                     if (calamityGlobalNPC.newAI[0] >= randomCount)
@@ -4696,7 +4698,7 @@ namespace CalamityMod.NPCs
 
 			if (flyAtTarget)
 			{
-				float speedMultiplier = phase5 ? 1.5f : phase4 ? 1.3f : 1.2f;
+				float speedMultiplier = phase5 ? 2f : phase4 ? 1.7f : 1.5f;
 				speed *= speedMultiplier;
 			}
 
@@ -12714,7 +12716,7 @@ namespace CalamityMod.NPCs
                         if (flag86 && WorldGen.SolidTile(point5.X, point5.Y))
                             flag86 = false;
 
-                        float num1163 = (float)Main.rand.Next(6, 19);
+                        float num1163 = Main.rand.Next(6, 19);
                         float num1164 = MathHelper.TwoPi / num1163;
                         float num1165 = MathHelper.TwoPi * Main.rand.NextFloat();
                         float scaleFactor8 = 1f + Main.rand.NextFloat() * 2f;

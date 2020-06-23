@@ -52,9 +52,10 @@ namespace CalamityMod.Projectiles
         public float spawnedPlayerMinionDamageValue = 1f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
+		public int defCrit = 0;
 
-        // Rogue Stuff
-        public bool stealthStrike = false; //Update all existing rogue weapons with this
+		// Rogue Stuff
+		public bool stealthStrike = false; //Update all existing rogue weapons with this
         public bool momentumCapacitatorBoost = false; //Constant acceleration
 
         // Iron Heart
@@ -76,6 +77,18 @@ namespace CalamityMod.Projectiles
 
             switch (projectile.type)
             {
+				case ProjectileID.ShadowBeamHostile:
+					projectile.timeLeft = 60;
+					break;
+
+				case ProjectileID.LostSoulHostile:
+					projectile.tileCollide = true;
+					break;
+
+				case ProjectileID.NebulaLaser:
+					projectile.extraUpdates = 1;
+					break;
+
                 case ProjectileID.StarWrath:
                     projectile.penetrate = projectile.maxPenetrate = 1;
                     break;
@@ -988,7 +1001,23 @@ namespace CalamityMod.Projectiles
         #region PostAI
         public override void PostAI(Projectile projectile)
         {
-            int x = (int)(projectile.Center.X / 16f);
+			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+
+			// Set crit here to avoid issues with projectiles that change class types in PreAI and AI
+			if (defCrit == 0 && !projectile.npcProj && !projectile.trap)
+			{
+				if (projectile.melee)
+					defCrit = player.meleeCrit;
+				else if (projectile.ranged)
+					defCrit = player.rangedCrit;
+				else if (projectile.magic)
+					defCrit = player.magicCrit;
+				else if (rogue)
+					defCrit = modPlayer.throwingCrit;
+			}
+
+			int x = (int)(projectile.Center.X / 16f);
             int y = (int)(projectile.Center.Y / 16f);
             for (int i = x - 1; i <= x + 1; i++)
             {
@@ -1022,8 +1051,22 @@ namespace CalamityMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-			if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
-				crit = true;
+			if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
+			{
+				int critChance = (int)MathHelper.Clamp(1, 100, 100 - defCrit);
+				crit = Main.rand.NextBool(critChance + 1);
+
+				if ((uint)(projectile.type - ProjectileID.DD2LightningAuraT1) <= 2u)
+				{
+					if (player.setMonkT3)
+						crit = Main.rand.NextBool(4);
+					else if (player.setMonkT2)
+						crit = Main.rand.NextBool(6);
+				}
+
+				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
+					crit = true;
+			}
 		}
 		#endregion
 
