@@ -1417,14 +1417,12 @@ namespace CalamityMod.NPCs
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
 			// Damage reduction on spawn
-			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			bool destroyerResist = DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+			if (destroyerResist || AstrumDeusIDs.Contains(npc.type))
 			{
-				if (DestroyerIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type))
+				if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 				{
-					if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
-					{
-						damage *= 0.01;
-					}
+					damage *= 0.01;
 				}
 			}
 
