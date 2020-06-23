@@ -635,6 +635,7 @@ namespace CalamityMod.NPCs.Astral
             int minStardust = Main.expertMode ? 7 : 6;
             int maxStardust = Main.expertMode ? 9 : 8;
             DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), minStardust, maxStardust);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<TitanHeart>(), 2, 1, 2);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<TitanArm>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
 			//not guarantee to prevent inventory spam
         }

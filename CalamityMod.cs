@@ -109,7 +109,6 @@ namespace CalamityMod
         // Boss Spawners
         public static int ghostKillCount = 0;
         public static int sharkKillCount = 0;
-        public static int astralKillCount = 0;
 
 		// Textures & Shaders
 		public static Texture2D heartOriginal2;

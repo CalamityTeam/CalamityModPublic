@@ -1,8 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Potions;
-using CalamityMod.NPCs.AstrumDeus;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -14,7 +12,7 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Starcore");
             Tooltip.SetDefault("May the stars guide your way\n" +
-                "Summons Astrum Deus\n" +
+                "Summons Astrum Deus at the Astral Beacon\n" +
                 "Not consumable");
         }
 
@@ -27,22 +25,6 @@ namespace CalamityMod.Items.SummonItems
             item.useTime = 45;
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.consumable = false;
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            return !Main.dayTime && player.Calamity().ZoneAstral && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>());
-        }
-
-        public override bool UseItem(Player player)
-        {
-            Main.PlaySound(SoundID.Roar, player.position, 0);
-			if (Main.netMode != NetmodeID.MultiplayerClient)
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<AstrumDeusHeadSpectral>());
-			else
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<AstrumDeusHeadSpectral>());
-
-			return true;
         }
 
         public override void AddRecipes()

@@ -525,5 +525,17 @@ namespace CalamityMod.Tiles
 
             return new int[0];
         }
-	}
+        public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
+        {
+            // Prevent tiles below an astral beacon from being destroyed.
+            if (CalamityUtils.ParanoidTileRetrieval(i, j - 1).active() &&
+                CalamityUtils.ParanoidTileRetrieval(i, j).type !=
+                CalamityUtils.ParanoidTileRetrieval(i, j - 1).type &&
+                CalamityUtils.ParanoidTileRetrieval(i, j - 1).type == ModContent.TileType<AstralBeacon>())
+            {
+                return false;
+            }
+            return base.CanKillTile(i, j, type, ref blockDamaged);
+        }
+    }
 }

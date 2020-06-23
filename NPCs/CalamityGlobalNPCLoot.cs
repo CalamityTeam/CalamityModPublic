@@ -1296,55 +1296,6 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-
-            if (NPC.downedAncientCultist && !CalamityWorld.downedStarGod && npc.type == ModContent.NPCType<Atlas>() && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()))
-            {
-                CalamityMod.astralKillCount++;
-                if (CalamityMod.astralKillCount == 1)
-                {
-                    string key = "Mods.CalamityMod.DeusText2";
-                    Color messageColor = Color.Gold;
-
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-                }
-                else if (CalamityMod.astralKillCount == 2)
-                {
-                    string key = "Mods.CalamityMod.DeusText3";
-                    Color messageColor = Color.Gold;
-
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-                }
-                if (CalamityMod.astralKillCount >= 3 && Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    int lastPlayer = npc.lastInteraction;
-
-                    if (!Main.player[lastPlayer].active || Main.player[lastPlayer].dead)
-                    {
-                        lastPlayer = npc.FindClosestPlayer();
-                    }
-
-                    if (lastPlayer >= 0)
-                    {
-                        CalamityWorld.ChangeTime(false);
-                        NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<AstrumDeusHeadSpectral>());
-                        CalamityMod.astralKillCount = 0;
-                    }
-                }
-            }
         }
         #endregion
 

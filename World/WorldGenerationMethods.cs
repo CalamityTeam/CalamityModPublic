@@ -1598,15 +1598,57 @@ namespace CalamityMod.World
                     }
                 }
             }
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
                 if (CanAstralBiomeSpawn())
+                {
                     DoAstralConversion(new Point(i, j));
+                    GenerateAstralBeacon(i, j - 120);
+                }
             }
             return true;
         }
 
+        public static void GenerateAstralBeacon(int roughX, int startY)
+        {
+            int x = roughX + WorldGen.genRand.Next(24, 72 + 1) * WorldGen.genRand.NextBool(2).ToDirectionInt();
+            int radius = WorldGen.genRand.Next(10, 13 + 1);
+
+            int y = startY;
+            while (!CalamityUtils.ParanoidTileRetrieval(x, y).active() ||
+                CalamityUtils.ParanoidTileRetrieval(x, y).type == TileID.Trees ||
+                CalamityUtils.ParanoidTileRetrieval(x, y).type == TileID.Cactus)
+            {
+                y++;
+            }
+
+            // Shove the meteor a bit into the ground.
+            y += radius / 2;
+
+            // Generate a base slime-shaped structure of astral stone.
+            WorldUtils.Gen(new Point(x, y), new Shapes.Slime(radius), Actions.Chain(new GenAction[]
+            {
+                new Actions.ClearTile(),
+                new Actions.PlaceTile((ushort)ModContent.TileType<AstralStone>())
+            }));
+            // And give it some astral ore to signify that it's an actual meteor.
+            for (int i = 0; i < 3; i++)
+            {
+                int x2 = x + WorldGen.genRand.Next(-2, 2 + 1);
+                int y2 = y + WorldGen.genRand.Next(-3, 3 + 1);
+                WorldUtils.Gen(new Point(x2, y2), new Shapes.Circle(WorldGen.genRand.Next(2, 4 + 1)), Actions.Chain(new GenAction[]
+                {
+                    new Actions.ClearTile(),
+                    new Actions.PlaceTile((ushort)ModContent.TileType<AstralOre>())
+                }));
+            }
+
+            // TODO - Use a schematic to generate the beacon when this code and the arsenal structure code are both on the master branch.
+            // Delete these comments once this is finished.
+            WorldGen.PlaceTile(x - AstralBeacon.Width / 2, y - radius - 1, ModContent.TileType<AstralBeacon>());
+        }
         public static void DoAstralConversion(object obj)
         {
             //Pre-calculate all variables necessary for elliptical area checking
