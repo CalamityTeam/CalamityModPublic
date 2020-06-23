@@ -63,12 +63,14 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.localAI[0]);
-        }
+			writer.Write(npc.alpha);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.localAI[0] = reader.ReadSingle();
-        }
+			npc.alpha = reader.ReadInt32();
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {

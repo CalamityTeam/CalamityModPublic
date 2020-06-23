@@ -90,9 +90,6 @@ namespace CalamityMod.NPCs
         public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
         public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
-		// Iron Heart (currently unimplemented)
-		// private int ironHeartDamage = 0;
-
 		// Max velocity used in contact damage scaling
 		public float maxVelocity = 0f;
 
@@ -778,11 +775,6 @@ namespace CalamityMod.NPCs
             }
 
             OtherStatChanges(npc);
-
-            if (CalamityWorld.ironHeart)
-            {
-                IronHeartChanges(npc);
-            }
         }
         #endregion
 
@@ -1222,15 +1214,6 @@ namespace CalamityMod.NPCs
                                  0f);
                 afterimageCounter++;
             }
-        }
-        #endregion
-
-        // TODO -- Change Iron Heart damage in here for Iron Heart mode
-        #region Iron Heart Changes
-        private void IronHeartChanges(NPC npc)
-        {
-            // Iron Heart damage variable will scale with npc.damage
-            // ironHeartDamage = 0;
         }
         #endregion
 
