@@ -461,7 +461,7 @@ namespace CalamityMod.CalPlayer
 					player.lifeRegen /= 2;
 			}
 
-			if (modPlayer.omegaBlueChestplate || modPlayer.godSlayerCooldown || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
+			if (CalamityWorld.ironHeart || modPlayer.omegaBlueChestplate || modPlayer.godSlayerCooldown || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
             {
                 if (player.lifeRegen > 0)
                     player.lifeRegen = 0;

@@ -1,7 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
@@ -73,7 +72,7 @@ namespace CalamityMod.Projectiles.Boss
                     OldVelocity = Vector2.Zero;
                     projectile.netUpdate = true;
                 }
-                projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             }
             // Otherwise, be sure to save the velocity the projectile started with. It will be set again when the telegraph is over.
             else if (OldVelocity == Vector2.Zero)
@@ -81,7 +80,7 @@ namespace CalamityMod.Projectiles.Boss
                 OldVelocity = projectile.velocity;
                 projectile.velocity = Vector2.Zero;
                 projectile.netUpdate = true;
-                projectile.rotation = OldVelocity.ToRotation() + 1.57f;
+                projectile.rotation = OldVelocity.ToRotation() + MathHelper.PiOver2;
             }
             TelegraphDelay++;
         }

@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
 					NPC npc = Main.npc[i];
-					if ((npc.CanBeChasedBy(projectile, false) || npc.type == NPCID.DukeFishron) && npc.active)
+					if ((npc.CanBeChasedBy(projectile, false) || (npc.type == NPCID.DukeFishron && (!npc.dontTakeDamage || npc.ai[0] > 9f))) && npc.active)
 					{
 						float extraDistance = (npc.width / 2) + (npc.height / 2);
 

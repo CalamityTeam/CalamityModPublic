@@ -90,9 +90,6 @@ namespace CalamityMod.NPCs
         public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
         public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
-		// Iron Heart (currently unimplemented)
-		// private int ironHeartDamage = 0;
-
 		// Max velocity used in contact damage scaling
 		public float maxVelocity = 0f;
 
@@ -778,11 +775,6 @@ namespace CalamityMod.NPCs
             }
 
             OtherStatChanges(npc);
-
-            if (CalamityWorld.ironHeart)
-            {
-                IronHeartChanges(npc);
-            }
         }
         #endregion
 
@@ -1225,15 +1217,6 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        // TODO -- Change Iron Heart damage in here for Iron Heart mode
-        #region Iron Heart Changes
-        private void IronHeartChanges(NPC npc)
-        {
-            // Iron Heart damage variable will scale with npc.damage
-            // ironHeartDamage = 0;
-        }
-        #endregion
-
         #region Scale Expert Multiplayer Stats
         public override void ScaleExpertStats(NPC npc, int numPlayers, float bossLifeScale)
         {
@@ -1417,14 +1400,12 @@ namespace CalamityMod.NPCs
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
 			// Damage reduction on spawn
-			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			bool destroyerResist = DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+			if (destroyerResist || AstrumDeusIDs.Contains(npc.type))
 			{
-				if (DestroyerIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type))
+				if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 				{
-					if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
-					{
-						damage *= 0.01;
-					}
+					damage *= 0.01;
 				}
 			}
 

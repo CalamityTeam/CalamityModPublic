@@ -45,16 +45,6 @@ namespace CalamityMod.Projectiles.Boss
 
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 
-            float num953 = revenge ? 110f : 100f;
-            float scaleFactor12 = revenge ? 50f : 40f;
-
-			if (projectile.ai[1] == 1f)
-			{
-				num953 *= 0.7f;
-				scaleFactor12 *= 0.7f;
-			}
-
-            float num954 = 40f;
             if (projectile.timeLeft > 30 && projectile.alpha > 0)
             {
                 projectile.alpha -= 25;
@@ -68,8 +58,18 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.alpha = 0;
             }
 
-			if (projectile.timeLeft > 120 && projectile.ai[1] == 1f)
+			if (projectile.timeLeft > 135 && projectile.ai[1] == 1f)
 				return;
+
+			float num953 = revenge ? 110f : 100f;
+			float num954 = 40f;
+			float scaleFactor12 = revenge ? 50f : 40f;
+
+			if (projectile.ai[1] == 1f)
+			{
+				num953 *= 0.7f;
+				scaleFactor12 *= 0.7f;
+			}
 
 			int num959 = (int)projectile.ai[0];
             if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
