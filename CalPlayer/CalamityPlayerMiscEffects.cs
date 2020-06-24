@@ -342,7 +342,7 @@ namespace CalamityMod.CalPlayer
 
 			if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
 			{
-				player.width = 152;
+				player.width = 80;
 				player.height = 212;
 				player.position.Y -= 170;
 			}

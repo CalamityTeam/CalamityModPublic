@@ -878,16 +878,15 @@ namespace CalamityMod.Items
                 return false;
             }
 
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0 && 
-                item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
             {
-                if (player.altFunctionUse == 0)
+                if (item.pick > 0 && item.axe > 0 && item.hammer > 0)
+                    return false;
+                if (item.Calamity().rogue || item.magic || item.ranged || item.melee)
                 {
-                    return PerformAndromedaAttacks(item, player);
-                }
-                else
-                {
-                    return AltFunctionUse(item, player);
+                    if (player.altFunctionUse == 0)
+                        return PerformAndromedaAttacks(item, player);
+                    else return false;
                 }
             }
 
