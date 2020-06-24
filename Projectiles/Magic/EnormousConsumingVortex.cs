@@ -71,7 +71,7 @@ namespace CalamityMod.Projectiles.Magic
             if (Time < 300)
             {
                 TargetingMovement();
-                if (Time % TentacleSpawnRate == TentacleSpawnRate - 1 && Main.netMode != NetmodeID.MultiplayerClient)
+                if (Time % TentacleSpawnRate == TentacleSpawnRate - 1 && Main.myPlayer == projectile.owner)
                 {
                     ProduceSubsumingHentai();
                 }
@@ -151,7 +151,7 @@ namespace CalamityMod.Projectiles.Magic
                     dust.noGravity = true;
                 }
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.myPlayer == projectile.owner)
             {
                 NPC closestTarget = projectile.Center.ClosestNPCAt(1600f, true);
                 for (int i = 0; i < 12; i++)
