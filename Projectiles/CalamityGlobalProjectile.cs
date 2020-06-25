@@ -1055,8 +1055,9 @@ namespace CalamityMod.Projectiles
 
 			if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
 			{
-				int critChance = (int)MathHelper.Clamp(100 - defCrit, 1, 100);
-				crit = Main.rand.NextBool(critChance);
+				int critMax = 100;
+				int critChance = (int)MathHelper.Clamp(critMax - defCrit, 1, critMax);
+				crit = Main.rand.Next(1, critMax + 1) <= critChance;
 
 				if ((uint)(projectile.type - ProjectileID.DD2LightningAuraT1) <= 2u)
 				{
