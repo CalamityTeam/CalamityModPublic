@@ -3305,7 +3305,7 @@ namespace CalamityMod.CalPlayer
 			}
 
 			// Brimstone Elemental lore inferno potion boost
-			if (modPlayer.brimstoneElementalLore && player.inferno)
+			if ((modPlayer.brimstoneElementalLore || modPlayer.ataxiaBlaze) && player.inferno)
 			{
 				const int FramesPerHit = 30;
 

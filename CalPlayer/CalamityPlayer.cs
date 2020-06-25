@@ -4003,16 +4003,19 @@ namespace CalamityMod.CalPlayer
                     sCalDeathCount++;
                 }
             }
-            deathCount++;
+
+			if (CalamityWorld.ironHeart)
+			{
+				KillPlayer();
+				return false;
+			}
+
+			deathCount++;
             if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
             {
                 DeathPacket(false);
             }
-            if (CalamityWorld.ironHeart)
-            {
-                KillPlayer();
-                return false;
-            }
+
             return true;
         }
         #endregion
@@ -5812,7 +5815,7 @@ namespace CalamityMod.CalPlayer
 				}
 				else
 				{
-					float amount = npc.velocity.Length() / (npc.Calamity().maxVelocity * 0.5f);
+					float amount = npc.velocity.Length() / (npc.Calamity().maxVelocity * 0.4f);
 					if (amount > 1f)
 						amount = 1f;
 

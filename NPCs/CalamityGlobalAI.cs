@@ -1389,7 +1389,7 @@ namespace CalamityMod.NPCs
             float totalSegments = GetEaterOfWorldsSegmentsCountRevDeath();
 
             // Count segments remaining
-            float segmentCount = NPC.CountNPCS(NPCID.EaterofWorldsHead) + NPC.CountNPCS(NPCID.EaterofWorldsBody) + NPC.CountNPCS(NPCID.EaterofWorldsTail); // 2f to 65f
+            float segmentCount = NPC.CountNPCS(NPCID.EaterofWorldsHead) + NPC.CountNPCS(NPCID.EaterofWorldsBody) + NPC.CountNPCS(NPCID.EaterofWorldsTail);
 
             // Percent segments remaining, add two to total for head and tail
             float lifeRatio = segmentCount / (totalSegments + 2);
@@ -1866,7 +1866,7 @@ namespace CalamityMod.NPCs
 
 		public static int GetEaterOfWorldsSegmentsCountRevDeath()
 		{
-			return CalamityWorld.death ? 80 : 75;
+			return (CalamityWorld.death || CalamityWorld.bossRushActive) ? 80 : 75;
 		}
 		#endregion
 
@@ -2522,7 +2522,7 @@ namespace CalamityMod.NPCs
 
 		public static int GetBrainOfCthuluCreepersCountRevDeath()
 		{
-			return CalamityWorld.death ? 30 : 25;
+			return (CalamityWorld.death || CalamityWorld.bossRushActive) ? 30 : 25;
 		}
 
 		private static float GetCrimsonBossKnockBack(NPC npc, int numPlayers, float lifeScale, float baseKnockBackResist)
