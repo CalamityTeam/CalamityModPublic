@@ -4012,16 +4012,19 @@ namespace CalamityMod.CalPlayer
                     sCalDeathCount++;
                 }
             }
-            deathCount++;
+
+			if (CalamityWorld.ironHeart)
+			{
+				KillPlayer();
+				return false;
+			}
+
+			deathCount++;
             if (player.whoAmI == Main.myPlayer && Main.netMode == NetmodeID.MultiplayerClient)
             {
                 DeathPacket(false);
             }
-            if (CalamityWorld.ironHeart && areThereAnyDamnBosses)
-            {
-                KillPlayer();
-                return false;
-            }
+
             return true;
         }
         #endregion
@@ -4054,6 +4057,14 @@ namespace CalamityMod.CalPlayer
             }
             return 1f;
         }
+		#endregion
+
+		#region Get Heal Life
+		public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
+		{
+			if (CalamityWorld.ironHeart)
+				healValue = 0;
+		}
 		#endregion
 
 		#region Get Weapon Damage And KB
@@ -5813,7 +5824,7 @@ namespace CalamityMod.CalPlayer
 				}
 				else
 				{
-					float amount = npc.velocity.Length() / npc.Calamity().maxVelocity;
+					float amount = npc.velocity.Length() / (npc.Calamity().maxVelocity * 0.4f);
 					if (amount > 1f)
 						amount = 1f;
 
@@ -6949,7 +6960,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Frame Effects
-
         public override void FrameEffects()
         {
             if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot ||
@@ -7162,6 +7172,20 @@ namespace CalamityMod.CalPlayer
                 }
                 damage = (int)newDamage;
             }
+
+			if (CalamityWorld.ironHeart)
+			{
+				int damageMin = player.statLifeMax2 / 4;
+				playSound = false;
+				hurtSoundTimer = 20;
+				if (damage < damageMin)
+				{
+					damage = damageMin;
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/IronHeartHurt"), (int)player.position.X, (int)player.position.Y);
+				}
+				else
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/IronHeartBigHurt"), (int)player.position.X, (int)player.position.Y);
+			}
 
             #region MultiplicativeReductions
             if (trinketOfChiBuff)
@@ -7879,7 +7903,7 @@ namespace CalamityMod.CalPlayer
             player.lastDeathPostion = player.Center;
             player.lastDeathTime = DateTime.Now;
             player.showLastDeath = true;
-            bool specialDeath = CalamityWorld.ironHeart && areThereAnyDamnBosses;
+            bool specialDeath = CalamityWorld.ironHeart;
             int coinsOwned = (int)Utils.CoinsCount(out bool flag, player.inventory, new int[0]);
             if (Main.myPlayer == player.whoAmI)
             {
@@ -7893,13 +7917,7 @@ namespace CalamityMod.CalPlayer
             if (Main.myPlayer == player.whoAmI)
             {
                 player.trashItem.SetDefaults(0, false);
-                if (specialDeath)
-                {
-                    player.difficulty = 2;
-                    player.DropItems();
-                    player.KillMeForGood();
-                }
-                else if (player.difficulty == 0)
+                if (player.difficulty == 0)
                 {
                     for (int i = 0; i < 59; i++)
                     {
@@ -10390,6 +10408,7 @@ namespace CalamityMod.CalPlayer
                 chatText = "Now is not the time!";
                 return false;
             }
+
             return true;
         }
 
