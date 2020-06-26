@@ -751,7 +751,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void NPCLoot()
         {
             // Skip the sentinel phase entirely if DoG has already been killed
-            CalamityWorld.DoGSecondStageCountdown = CalamityWorld.downedDoG ? 600 : 21600;
+            CalamityWorld.DoGSecondStageCountdown = (CalamityWorld.downedDoG || CalamityWorld.downedSecondSentinels) ? 600 : 21600;
 
             if (Main.netMode == NetmodeID.Server)
             {

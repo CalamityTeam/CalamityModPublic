@@ -1008,13 +1008,15 @@ namespace CalamityMod.Projectiles
 			if (defCrit == 0 && !projectile.npcProj && !projectile.trap)
 			{
 				if (projectile.melee)
-					defCrit = player.meleeCrit;
+					defCrit = modPlayer.critStats[0];
 				else if (projectile.ranged)
-					defCrit = player.rangedCrit;
+					defCrit = modPlayer.critStats[1];
 				else if (projectile.magic)
-					defCrit = player.magicCrit;
+					defCrit = modPlayer.critStats[2];
 				else if (rogue)
-					defCrit = modPlayer.throwingCrit;
+					defCrit = modPlayer.critStats[3];
+				else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
+					defCrit = 4;
 			}
 
 			int x = (int)(projectile.Center.X / 16f);
@@ -1053,8 +1055,9 @@ namespace CalamityMod.Projectiles
 
 			if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
 			{
-				int critChance = (int)MathHelper.Clamp(1, 100, 100 - defCrit);
-				crit = Main.rand.NextBool(critChance + 1);
+				int critMax = 100;
+				int critChance = (int)MathHelper.Clamp(defCrit, 1, critMax);
+				crit = Main.rand.Next(1, critMax + 1) <= critChance;
 
 				if ((uint)(projectile.type - ProjectileID.DD2LightningAuraT1) <= 2u)
 				{
