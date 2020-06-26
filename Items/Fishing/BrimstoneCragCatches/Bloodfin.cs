@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Buffs.Potions;
+using CalamityMod.World;
 using System.Collections.Generic;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
@@ -38,14 +39,16 @@ The life regen boost is stronger if below 75% health");
 
         public override void OnConsumeItem(Player player)
         {
-            player.statLife += 240;
+			int healAmt = CalamityWorld.ironHeart ? 0 : 240;
+            player.statLife += healAmt;
             if (player.statLife > player.statLifeMax2)
             {
                 player.statLife = player.statLifeMax2;
             }
             if (Main.myPlayer == player.whoAmI)
             {
-                player.HealEffect(240, true);
+				if (!CalamityWorld.ironHeart)
+					player.HealEffect(healAmt, true);
             }
             player.AddBuff(ModContent.BuffType<BloodfinBoost>(), 600);
 
@@ -63,7 +66,7 @@ The life regen boost is stronger if below 75% health");
         // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + item.healLife + " life";
+            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : item.healLife) + " life";
         }
     }
 }

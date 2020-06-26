@@ -391,7 +391,7 @@ namespace CalamityMod.CalPlayer
                 if (player.whoAmI == Main.myPlayer && modPlayer.bloodfinTimer <= 0)
                 {
                     modPlayer.bloodfinTimer = 30;
-					if (player.statLife <= (int)(player.statLifeMax2 * 0.75))
+					if (player.statLife <= (int)(player.statLifeMax2 * 0.75) && !CalamityWorld.ironHeart)
 						player.statLife += 1;
                 }
             }
