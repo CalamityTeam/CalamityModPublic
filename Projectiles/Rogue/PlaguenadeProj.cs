@@ -32,14 +32,14 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.ai[0] = 5f;
                 if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X * 0.97f;
-                    if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
+                    projectile.velocity.X *= 0.97f;
+                    if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
                     {
                         projectile.velocity.X = 0f;
                         projectile.netUpdate = true;
                     }
                 }
-                projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+                projectile.velocity.Y += 0.2f;
             }
             projectile.rotation += projectile.velocity.X * 0.1f;
             if (projectile.velocity.Y > 16f)
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
-            for (int num621 = 0; num621 < 20; num621++)
+            for (int num621 = 0; num621 < 10; num621++)
             {
                 int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
@@ -102,12 +102,12 @@ namespace CalamityMod.Projectiles.Rogue
                     Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 30; num623++)
+            for (int num623 = 0; num623 < 15; num623++)
             {
                 int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 89, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
 			projectile.ExplosionGores(3);
