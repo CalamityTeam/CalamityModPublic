@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -41,16 +42,16 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 180);
-            if (target.defense > 0 && crit)
+            target.AddBuff(BuffID.CursedInferno, 120);
+            if (target.defense > 0 && crit && !CalamityPlayer.areThereAnyDamnBosses)
             {
-                target.defense -= 5;
-            }
+				target.defense = target.defDefense - 5;
+			}
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            target.AddBuff(BuffID.CursedInferno, 180);
+            target.AddBuff(BuffID.CursedInferno, 120);
         }
 
         public override void AddRecipes()

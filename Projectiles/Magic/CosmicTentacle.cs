@@ -94,7 +94,6 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.immune[projectile.owner] = 5;
-            target.AddBuff(BuffID.CursedInferno, 240);
         }
     }
 }

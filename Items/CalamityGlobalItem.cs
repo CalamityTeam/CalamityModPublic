@@ -31,7 +31,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.Utilities;
 
 namespace CalamityMod.Items
 {
@@ -232,7 +231,7 @@ namespace CalamityMod.Items
                 if (item.useTime < 10)
                     damageMult -= (double)(10 - item.useTime) / 10.0;
 
-                double newDamage = (double)damage * damageMult;
+                double newDamage = damage * damageMult;
 
                 if (player.whoAmI == Main.myPlayer)
                 {
@@ -240,19 +239,19 @@ namespace CalamityMod.Items
                         Projectile.NewProjectile(position.X, position.Y, speedX * 0.5f, speedY * 0.5f, ModContent.ProjectileType<LuxorsGiftMelee>(), (int)(newDamage * 0.6), 0f, player.whoAmI, 0f, 0f);
 
                     else if (rogue)
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftRogue>(), (int)(newDamage * 0.5), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.ranged)
                         Projectile.NewProjectile(position.X, position.Y, speedX * 1.5f, speedY * 1.5f, ModContent.ProjectileType<LuxorsGiftRanged>(), (int)(newDamage * 0.4), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.magic)
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<LuxorsGiftMagic>(), (int)(newDamage * 0.8), 0f, player.whoAmI, 0f, 0f);
 
                     else if (item.summon && player.ownedProjectileCounts[ModContent.ProjectileType<LuxorsGiftSummon>()] < 1)
-                        Projectile.NewProjectile(position.X, position.Y, 0f, 0f, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, Vector2.Zero, ModContent.ProjectileType<LuxorsGiftSummon>(), damage, 0f, player.whoAmI, 0f, 0f);
                 }
             }
-            if (modPlayer.eArtifact && item.ranged && !rogue)
+            if (modPlayer.eArtifact && item.ranged)
             {
                 speedX *= 1.25f;
                 speedY *= 1.25f;
@@ -263,17 +262,17 @@ namespace CalamityMod.Items
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<GhostlyBolt>(), (int)(damage * (modPlayer.auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<GhostlyBolt>(), (int)(damage * (modPlayer.auricSet ? 4.2 : 2.6)), 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
             if (modPlayer.bloodflareRanged) //0 - 99
             {
-                if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 98)
+                if (item.ranged && Main.rand.Next(0, 100) >= 98)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BloodBomb>(), (int)(damage * (modPlayer.auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<BloodBomb>(), (int)(damage * (modPlayer.auricSet ? 2.2 : 1.6)), 2f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -298,7 +297,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.ataxiaBolt)
             {
-                if (item.ranged && !rogue && Main.rand.NextBool(2))
+                if (item.ranged && Main.rand.NextBool(2))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -308,7 +307,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.godSlayerRanged) //0 - 99
             {
-                if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 95)
+                if (item.ranged && Main.rand.Next(0, 100) >= 95)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -340,7 +339,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.reaverDoubleTap) //0 - 99
             {
-                if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 90)
+                if (item.ranged && Main.rand.Next(0, 100) >= 90)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -350,8 +349,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.victideSet)
             {
-                if ((item.ranged || item.melee || item.magic ||
-                    rogue || item.summon) && item.rare < 8 && Main.rand.NextBool(10))
+                if ((item.ranged || item.melee || item.magic || item.thrown || rogue || item.summon) && item.rare < ItemRarityID.Yellow && Main.rand.NextBool(10))
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -361,10 +359,9 @@ namespace CalamityMod.Items
             }
             if (modPlayer.dynamoStemCells)
             {
-                if (item.ranged && !rogue && Main.rand.Next(0, 100) >= 80)
+                if (item.ranged && Main.rand.Next(0, 100) >= 80)
                 {
-					double damageMult = 1.0;
-					damageMult = (double)(item.useTime) / 30;
+					double damageMult = item.useTime / 30D;
 					if (damageMult < 0.35)
 						damageMult = 0.35;
 
@@ -378,7 +375,7 @@ namespace CalamityMod.Items
             }
             if (modPlayer.prismaticRegalia) //0 - 99
             {
-                if (item.magic && Main.rand.Next(0, 100) >= 90)
+                if (item.magic && Main.rand.Next(0, 100) >= 95)
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
@@ -387,7 +384,8 @@ namespace CalamityMod.Items
 							if (i != 0)
 							{
 								Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-								Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 1.3), 2f, player.whoAmI, 0f, 0f);
+								int rocket = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<MiniRocket>(), (int)(damage * 0.8), 2f, player.whoAmI, 0f, 0f);
+                Main.projectile[rocket].Calamity().forceTypeless = true;
 							}
 						}
                     }
@@ -431,7 +429,7 @@ namespace CalamityMod.Items
 				for (int i = -8; i <= 8; i += 8)
 				{
 					Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-					Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<RainbowFront>(), damage, 0f, player.whoAmI, 0f, 0f);
+					Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<RainbowFront>(), damage, 0f, player.whoAmI, 0f, 0f);
 				}
 			}
             return true;
@@ -1149,8 +1147,7 @@ namespace CalamityMod.Items
 				{
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						line2.text = "Teleports you to the position of the mouse\n" +
-							"Teleportation is disabled while Chaos State is active";
+						line2.text += "\nTeleportation is disabled while Chaos State is active";
 					}
 				}
 			}
@@ -1160,8 +1157,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Capable of soaking up an endless amount of water\n" +
-                            "Cannot be used in the Abyss";
+                        line2.text += "\nCannot be used in the Abyss";
                     }
                 }
             }
@@ -1171,8 +1167,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.text = "1 defense\n" +
-                            "Cannot be used in the Abyss";
+                        line2.text += "\nCannot be used in the Abyss";
                     }
                 }
             }
@@ -1182,8 +1177,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Summons a heart to provide light\n" +
-                            "Provides a small amount of light in the abyss";
+                        line2.text += "\nProvides a small amount of light in the abyss";
                     }
                 }
             }
@@ -1193,8 +1187,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Creates a magical shadow orb\n" +
-                            "Provides a small amount of light in the abyss";
+                        line2.text += "\nProvides a small amount of light in the abyss";
                     }
                 }
             }
@@ -1204,8 +1197,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Summons a magic lantern that exposes nearby treasure\n" +
-                            "Provides a small amount of light in the abyss";
+                        line2.text += "\nProvides a small amount of light in the abyss";
                     }
                 }
             }
@@ -1215,8 +1207,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "Provides light under water and extra mobility on ice\n" +
-                            "Provides a small amount of light in the abyss\n" +
+                        line2.text += "\nProvides a small amount of light in the abyss\n" +
                             "Moderately reduces breath loss in the abyss";
                     }
                 }
@@ -1227,8 +1218,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Provides light under water\n" +
-                            "Provides a small amount of light in the abyss";
+                        line2.text += "\nProvides a small amount of light in the abyss";
                     }
                 }
             }
@@ -1238,8 +1228,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "Provides light under water\n" +
-                            "Provides a small amount of light in the abyss";
+                        line2.text += "\nProvides a small amount of light in the abyss";
                     }
                 }
             }
@@ -1249,8 +1238,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Summons a magical fairy\n" +
-                            "Provides a moderate amount of light in the abyss";
+                        line2.text += "\nProvides a moderate amount of light in the abyss";
                     }
                 }
             }
@@ -1260,8 +1248,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Summons a pet flickerwick to provide light\n" +
-                            "Provides a moderate amount of light in the abyss";
+                        line2.text += "\nProvides a moderate amount of light in the abyss";
                     }
                 }
             }
@@ -1271,8 +1258,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "BuffTime")
                     {
-                        line2.text = "5 minute duration\n" +
-                            "Provides a moderate amount of light in the abyss";
+                        line2.text += "\nProvides a moderate amount of light in the abyss";
                     }
                 }
             }
@@ -1282,8 +1268,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Summons a Wisp to provide light\n" +
-                            "Provides a large amount of light in the abyss";
+                        line2.text += "\nProvides a large amount of light in the abyss";
                     }
                 }
             }
@@ -1293,8 +1278,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "'I know what you're thinking...'\n" +
-                            "Provides a large amount of light in the abyss";
+                        line2.text += "\nProvides a large amount of light in the abyss";
                     }
                 }
             }
@@ -1304,8 +1288,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "BuffTime")
                     {
-                        line2.text = "2 minute duration\n" +
-                            "Greatly reduces breath loss in the abyss";
+                        line2.text += "\nGreatly reduces breath loss in the abyss";
                     }
                 }
             }
@@ -1315,30 +1298,17 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Greatly extends underwater breathing\n" +
-                            "Moderately reduces breath loss in the abyss";
+                        line2.text += "\nModerately reduces breath loss in the abyss";
                     }
                 }
             }
-            if (item.type == ItemID.NeptunesShell)
+            if (item.type == ItemID.NeptunesShell || item.type == ItemID.MoonShell)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Transforms the holder into merfolk when entering water\n" +
-                            "Greatly reduces breath loss in the abyss";
-                    }
-                }
-            }
-            if (item.type == ItemID.MoonShell)
-            {
-                foreach (TooltipLine line2 in tooltips)
-                {
-                    if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-                    {
-                        line2.text = "Turns the holder into a werewolf at night and a merfolk when entering water\n" +
-                            "Greatly reduces breath loss in the abyss";
+                        line2.text += "\nGreatly reduces breath loss in the abyss";
                     }
                 }
             }
@@ -1348,8 +1318,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "Minor increases to all stats\n" +
-                            "Greatly reduces breath loss in the abyss";
+                        line2.text += "\nGreatly reduces breath loss in the abyss";
                     }
                 }
             }
@@ -1359,8 +1328,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Reduces damage from cold sources\n" +
-                            "Makes you immune to the Chilled, Frozen, and Glacial State debuffs\n" +
+                        line2.text += "\nMakes you immune to the Chilled, Frozen, and Glacial State debuffs\n" +
 							"Provides cold protection in Death Mode";
                     }
                 }
@@ -1455,13 +1423,44 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.FireGauntlet)
+			if (item.type == ItemID.TitanGlove)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
+					{
+						line2.text += "\n10% increased true melee damage";
+					}
+				}
+			}
+			if (item.type == ItemID.PowerGlove)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					{
+						line2.text += "\n10% increased true melee damage";
+					}
+				}
+			}
+			if (item.type == ItemID.MechanicalGlove)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					{
+						line2.text += "\n10% increased true melee damage";
+					}
+				}
+			}
+			if (item.type == ItemID.FireGauntlet)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
                         line2.text = "14% increased melee damage and speed\n" +
+							"10% increased true melee damage\n" +
 							"Provides heat and cold protection in Death Mode";
                     }
                 }
@@ -1518,8 +1517,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Provides 7 seconds of immunity to lava\n" +
-							"Provides heat protection in Death Mode";
+                        line2.text += "\nProvides heat protection in Death Mode";
                     }
                 }
             }
@@ -1529,8 +1527,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
                     {
-                        line2.text = "Grants immunity to fire blocks and 7 seconds of immunity to lava\n" +
-							"Provides heat protection in Death Mode";
+                        line2.text += "\nProvides heat protection in Death Mode";
                     }
                 }
             }
@@ -1540,8 +1537,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Grants invisibility\n" +
-                            "Boosts certain stats when holding certain types of rogue weapons";
+                        line2.text += "\nBoosts certain stats when holding certain types of rogue weapons";
                     }
                 }
             }
@@ -1562,8 +1558,8 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
-                        line2.text = "Capable of mining Lihzahrd Bricks\n" +
-                            "Also capable of mining Scoria Ore found in the Abyss";
+						// I'm leaving this intentionally ambiguous so that people have to search for Scoria Ore
+                        line2.text = "Capable of mining Lihzahrd Bricks and Scoria Ore";
                     }
                 }
             }
@@ -1611,7 +1607,23 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
+
+			if (Main.player[Main.myPlayer].Calamity().trueMeleeDamage > 0D)
+			{
+				if (item.melee && item.damage > 0)
+				{
+					foreach (TooltipLine line2 in tooltips)
+					{
+						if (line2.mod == "Terraria" && line2.Name == "Damage")
+						{
+							line2.text += " : " + string.Concat((int)(Main.player[Main.myPlayer].Calamity().actualMeleeDamageStat * item.damage * 
+								(1D + Main.player[Main.myPlayer].Calamity().trueMeleeDamage) + 5E-06f)) + " true melee damage";
+						}
+					}
+				}
+			}
+
+			if (item.type == ItemID.MeteorHelmet || item.type == ItemID.MeteorSuit || item.type == ItemID.MeteorLeggings)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -1701,7 +1713,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
+			if (item.type == ItemID.AncientBattleArmorHat || item.type == ItemID.AncientBattleArmorShirt || item.type == ItemID.AncientBattleArmorPants)
             {
 				if (!Main.player[Main.myPlayer].Calamity().forbiddenCirclet)
 				{
@@ -1709,8 +1721,7 @@ namespace CalamityMod.Items
 					{
 						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
 						{
-							line2.text = "Set Bonus: Double tap " + (Main.ReversedUpDownArmorSetBonuses ? "UP" : "DOWN") + " to call an ancient storm to the cursor location\n" +
-								"Minions deal full damage while wielding magic weapons";
+							line2.text += "\nMinions deal full damage while wielding magic weapons";
 						}
 					}
 				}
@@ -1781,13 +1792,14 @@ namespace CalamityMod.Items
                     }
                 }
             }
-            if (item.type == ItemID.MoltenHelmet || item.type == ItemID.MoltenBreastplate || item.type == ItemID.MoltenGreaves)
+			if (item.type == ItemID.MoltenHelmet || item.type == ItemID.MoltenBreastplate || item.type == ItemID.MoltenGreaves)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "SetBonus")
                     {
                         line2.text = @"Set Bonus: 17% extra melee damage
+20% extra true melee damage
 Grants immunity to fire blocks, and temporary immunity to lava
 Provides heat and cold protection in Death Mode";
                     }
@@ -2067,8 +2079,8 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 180\n" +
-                            "+10 defense, 10% increased movement speed,\n" +
-                            "and 5% increased damage and critical strike chance";
+                            "+8 defense, 10% increased movement speed,\n" +
+                            "4% increased damage, and 2% increased critical strike chance";
                     }
                 }
             }
@@ -2148,7 +2160,7 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 1\n" +
                             "Average vertical speed\n" +
                             "Flight time: 180\n" +
-                            "+1 max minion and 5% increased minion damage while wearing the Spooky Armor";
+                            "Increased minion knockback and 5% increased minion damage while wearing the Spooky Armor";
                     }
                 }
             }
@@ -2195,8 +2207,7 @@ Provides heat and cold protection in Death Mode";
                             "Acceleration multiplier: 0\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "+10 defense, 10% increased damage, " +
-                            "5% increased critical strike chance, " +
+                            "+5 defense, 5% increased damage, " +
                             "10% increased movement speed and 120% increased jump speed";
                     }
                 }
@@ -2715,11 +2726,11 @@ Provides heat and cold protection in Death Mode";
 				}
 			}
         }
-        #endregion
+		#endregion
 
-        // NOTE: this function applies to all treasure bags, even modded ones (despite the name).
-        #region Boss Bag Changes
-        public override void OpenVanillaBag(string context, Player player, int arg)
+		// NOTE: this function applies to all treasure bags, even modded ones (despite the name).
+		#region Boss Bag Changes
+		public override void OpenVanillaBag(string context, Player player, int arg)
         {
 			if (context == "crate")
 			{
@@ -3090,9 +3101,8 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.MothronWings) // Spawn baby mothrons over time to attack enemies, max of 3
             {
-                player.statDefense += 10;
-                player.allDamage += 0.1f;
-                modPlayer.AllCritBoost(5);
+                player.statDefense += 5;
+                player.allDamage += 0.05f;
                 player.moveSpeed += 0.1f;
                 player.jumpSpeedBoost += 1.2f;
                 player.noFallDmg = true;
@@ -3203,7 +3213,7 @@ Provides heat and cold protection in Death Mode";
                 player.noFallDmg = true;
                 if (player.head == ArmorIDs.Head.SpookyHelmet && player.body == ArmorIDs.Body.SpookyBreastplate && player.legs == ArmorIDs.Legs.SpookyLeggings)
                 {
-                    player.maxMinions++;
+                    player.minionKB += 2f;
                     player.minionDamage += 0.05f;
                 }
             }
@@ -3215,9 +3225,9 @@ Provides heat and cold protection in Death Mode";
             }
             else if (item.type == ItemID.SteampunkWings)
             {
-                player.statDefense += 10;
-                player.allDamage += 0.05f;
-                modPlayer.AllCritBoost(5);
+                player.statDefense += 8;
+                player.allDamage += 0.04f;
+                modPlayer.AllCritBoost(2);
                 player.moveSpeed += 0.1f;
                 player.noFallDmg = true;
             }

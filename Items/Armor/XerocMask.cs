@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Xeroc Mask");
             Tooltip.SetDefault("11% increased rogue damage and critical strike chance, 22% increased movement speed\n" +
-                "Temporary immunity to lava and immunity to cursed, fire, cursed inferno, and chilled\n" +
+                "Temporary immunity to lava\n" +
 				"Provides heat protection in Death Mode\n" +
                 "Wrath of the cosmos");
         }
@@ -66,10 +66,6 @@ namespace CalamityMod.Items.Armor
             player.Calamity().throwingCrit += 11;
             player.moveSpeed += 0.22f;
             player.lavaMax += 240;
-            player.buffImmune[BuffID.OnFire] = true;
-            player.buffImmune[BuffID.CursedInferno] = true;
-            player.buffImmune[BuffID.Cursed] = true;
-            player.buffImmune[BuffID.Chilled] = true;
         }
 
         public override void AddRecipes()

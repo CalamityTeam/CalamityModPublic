@@ -398,7 +398,7 @@ namespace CalamityMod.NPCs.Crabulon
 							}
 
 							if (distanceBelowTarget > 0f)
-								speedMult += distanceBelowTarget * 0.002f;
+								speedMult += distanceBelowTarget * 0.001f;
 
 							if (speedMult > 2f)
 								speedMult = 2f;

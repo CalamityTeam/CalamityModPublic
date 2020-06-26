@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 157, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
 			}
             //Sticky Behaviour
-            CalamityUtils.StickyProjAI(projectile, 15);
+            projectile.StickyProjAI(15);
 			if (projectile.ai[0] != 1f)
 			{
 				try
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            CalamityUtils.ModifyHitNPCSticky(projectile, 20, false);
+            projectile.ModifyHitNPCSticky(20, false);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

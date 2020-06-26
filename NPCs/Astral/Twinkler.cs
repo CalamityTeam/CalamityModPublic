@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.Astral
             npc.catchItem = (short)ModContent.ItemType<TwinklerItem>();
             npc.friendly = true; // prevents critter from getting slagged
             //banner = npc.type;
-            //bannerItem = ModContent.ItemType<Items.TwinklerBanner>();
+            //bannerItem = ModContent.ItemType<TwinklerBanner>();
         }
 
         public override bool? CanBeHitByItem(Player player, Item item) => true;
@@ -56,7 +56,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }

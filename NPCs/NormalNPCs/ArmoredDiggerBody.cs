@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                         num6 *= num8;
                         num7 *= num8;
                         int num9 = 30;
-                        int num10 = 450;
+                        int num10 = ProjectileID.SaucerScrap;
                         vector.X += num6 * 5f;
                         vector.Y += num7 * 5f;
                         Projectile.NewProjectile(vector.X, vector.Y, num6, num7, num10, num9, 0f, Main.myPlayer, 0f, 0f);
@@ -134,13 +134,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

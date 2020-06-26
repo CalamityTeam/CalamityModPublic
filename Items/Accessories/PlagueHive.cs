@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
                 "Releases bees when damaged\n" +
                 "Friendly bees inflict the plague\n" +
                 "All of your attacks inflict the plague\n" +
-                "Makes you immune to the plague\n" +
+				"Reduces the damage caused to you by the plague\n" +
                 "Projectiles spawn plague seekers on enemy hits");
         }
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 30;
             item.height = 38;
-            item.value = Item.buyPrice(0, 60, 0, 0);
+            item.value = CalamityGlobalItem.Rarity9BuyPrice;
             item.expert = true;
             item.rare = 9;
             item.accessory = true;
@@ -47,7 +47,6 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            player.buffImmune[ModContent.BuffType<Plague>()] = true;
             player.bee = true;
             modPlayer.uberBees = true;
             player.strongBees = true;

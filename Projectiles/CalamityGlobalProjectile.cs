@@ -34,27 +34,28 @@ namespace CalamityMod.Projectiles
             }
         }
 
-        // Class Types
-        public bool rogue = false;
+		// Class Types
+		public bool rogue = false;
         public bool trueMelee = false;
 
-        // Force Class Types
-        public bool forceMelee = false;
+		// Force Class Types
+		public bool forceMelee = false;
         public bool forceRanged = false;
         public bool forceMagic = false;
-        public bool forceRogue = false;
-        public bool forceMinion = false;
-        public bool forceHostile = false;
-        public bool forceTypeless = false;
+		public bool forceMinion = false;
+		public bool forceRogue = false;
+		public bool forceTypeless = false;
+		public bool forceHostile = false;
 
         // Damage Adjusters
         private bool setDamageValues = true;
         public float spawnedPlayerMinionDamageValue = 1f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
+		public int defCrit = 0;
 
-        // Rogue Stuff
-        public bool stealthStrike = false; //Update all existing rogue weapons with this
+		// Rogue Stuff
+		public bool stealthStrike = false; //Update all existing rogue weapons with this
         public bool momentumCapacitatorBoost = false; //Constant acceleration
 
         // Iron Heart
@@ -71,58 +72,22 @@ namespace CalamityMod.Projectiles
         #region SetDefaults
         public override void SetDefaults(Projectile projectile)
         {
+			if (CalamityMod.trueMeleeProjectileList.Contains(projectile.type))
+				trueMelee = true;
+
             switch (projectile.type)
             {
-                case ProjectileID.Spear:
-                case ProjectileID.Trident:
-                case ProjectileID.TheRottedFork:
-                case ProjectileID.Swordfish:
-                case ProjectileID.Arkhalis:
-                case ProjectileID.DarkLance:
-                case ProjectileID.CobaltNaginata:
-                case ProjectileID.PalladiumPike:
-                case ProjectileID.MythrilHalberd:
-                case ProjectileID.OrichalcumHalberd:
-                case ProjectileID.AdamantiteGlaive:
-                case ProjectileID.TitaniumTrident:
-                case ProjectileID.MushroomSpear:
-                case ProjectileID.Gungnir:
-                case ProjectileID.ObsidianSwordfish:
-                case ProjectileID.ChlorophytePartisan:
-                case ProjectileID.MonkStaffT1:
-                case ProjectileID.MonkStaffT2:
-                case ProjectileID.MonkStaffT3:
-                case ProjectileID.NorthPoleWeapon:
+				case ProjectileID.ShadowBeamHostile:
+					projectile.timeLeft = 60;
+					break;
 
-				//tools
-                case ProjectileID.CobaltDrill:
-                case ProjectileID.MythrilDrill:
-                case ProjectileID.AdamantiteDrill:
-                case ProjectileID.PalladiumDrill:
-                case ProjectileID.OrichalcumDrill:
-                case ProjectileID.TitaniumDrill:
-                case ProjectileID.ChlorophyteDrill:
-                case ProjectileID.CobaltChainsaw:
-                case ProjectileID.MythrilChainsaw:
-                case ProjectileID.AdamantiteChainsaw:
-                case ProjectileID.PalladiumChainsaw:
-                case ProjectileID.OrichalcumChainsaw:
-                case ProjectileID.TitaniumChainsaw:
-                case ProjectileID.ChlorophyteChainsaw:
-                case ProjectileID.VortexDrill:
-                case ProjectileID.VortexChainsaw:
-                case ProjectileID.NebulaDrill:
-                case ProjectileID.NebulaChainsaw:
-                case ProjectileID.SolarFlareDrill:
-                case ProjectileID.SolarFlareChainsaw:
-                case ProjectileID.StardustDrill:
-                case ProjectileID.StardustChainsaw:
-                case ProjectileID.Hamdrax:
-                case ProjectileID.ChlorophyteJackhammer:
-                case ProjectileID.SawtoothShark:
-                case ProjectileID.ButchersChainsaw:
-                    trueMelee = true;
-                    break;
+				case ProjectileID.LostSoulHostile:
+					projectile.tileCollide = true;
+					break;
+
+				case ProjectileID.NebulaLaser:
+					projectile.extraUpdates = 1;
+					break;
 
                 case ProjectileID.StarWrath:
                     projectile.penetrate = projectile.maxPenetrate = 1;
@@ -637,9 +602,13 @@ namespace CalamityMod.Projectiles
                     projectile.damage = damage2;
                 }
             }
-            SKIP_CALAMITY:
+			SKIP_CALAMITY:
 
-            if (forceMelee)
+			// If rogue projectiles are not internally throwing while in-flight, they can never critically strike.
+			if (rogue)
+				projectile.thrown = true;
+
+			if (forceMelee)
             {
                 projectile.hostile = false;
                 projectile.friendly = true;
@@ -647,7 +616,8 @@ namespace CalamityMod.Projectiles
                 projectile.ranged = false;
                 projectile.magic = false;
                 projectile.minion = false;
-                rogue = false;
+				projectile.thrown = false;
+				rogue = false;
             }
             else if (forceRanged)
             {
@@ -657,7 +627,8 @@ namespace CalamityMod.Projectiles
                 projectile.ranged = true;
                 projectile.magic = false;
                 projectile.minion = false;
-                rogue = false;
+				projectile.thrown = false;
+				rogue = false;
             }
             else if (forceMagic)
             {
@@ -667,17 +638,8 @@ namespace CalamityMod.Projectiles
                 projectile.ranged = false;
                 projectile.magic = true;
                 projectile.minion = false;
-                rogue = false;
-            }
-            else if (forceRogue)
-            {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.melee = false;
-                projectile.ranged = false;
-                projectile.magic = false;
-                projectile.minion = false;
-                rogue = true;
+				projectile.thrown = false;
+				rogue = false;
             }
             else if (forceMinion)
             {
@@ -687,9 +649,32 @@ namespace CalamityMod.Projectiles
                 projectile.ranged = false;
                 projectile.magic = false;
                 projectile.minion = true;
-                rogue = false;
+				projectile.thrown = false;
+				rogue = false;
             }
-            else if (forceHostile)
+			else if (forceRogue)
+			{
+				projectile.hostile = false;
+				projectile.friendly = true;
+				projectile.melee = false;
+				projectile.ranged = false;
+				projectile.magic = false;
+				projectile.minion = false;
+				projectile.thrown = true;
+				rogue = true;
+			}
+			else if (forceTypeless)
+			{
+				projectile.hostile = false;
+				projectile.friendly = true;
+				projectile.melee = false;
+				projectile.ranged = false;
+				projectile.magic = false;
+				projectile.minion = false;
+				projectile.thrown = false;
+				rogue = false;
+			}
+			else if (forceHostile)
             {
                 projectile.hostile = true;
                 projectile.friendly = false;
@@ -697,16 +682,7 @@ namespace CalamityMod.Projectiles
                 projectile.ranged = false;
                 projectile.magic = false;
                 projectile.minion = false;
-                rogue = false;
-            }
-            else if (forceTypeless)
-            {
-                projectile.hostile = false;
-                projectile.friendly = true;
-                projectile.melee = false;
-                projectile.ranged = false;
-                projectile.magic = false;
-                projectile.minion = false;
+				projectile.thrown = false;
                 rogue = false;
             }
 
@@ -889,7 +865,7 @@ namespace CalamityMod.Projectiles
 				}
 
 				if (modPlayer.providenceLore && projectile.owner == Main.myPlayer && projectile.damage > 0 &&
-					(projectile.melee || projectile.ranged || projectile.magic || rogue))
+					(projectile.melee || projectile.ranged || projectile.magic || projectile.thrown || rogue))
 				{
 					if (Main.rand.NextBool(5))
 					{
@@ -1025,7 +1001,25 @@ namespace CalamityMod.Projectiles
         #region PostAI
         public override void PostAI(Projectile projectile)
         {
-            int x = (int)(projectile.Center.X / 16f);
+			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+
+			// Set crit here to avoid issues with projectiles that change class types in PreAI and AI
+			if (defCrit == 0 && !projectile.npcProj && !projectile.trap)
+			{
+				if (projectile.melee)
+					defCrit = modPlayer.critStats[0];
+				else if (projectile.ranged)
+					defCrit = modPlayer.critStats[1];
+				else if (projectile.magic)
+					defCrit = modPlayer.critStats[2];
+				else if (rogue)
+					defCrit = modPlayer.critStats[3];
+				else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
+					defCrit = 4;
+			}
+
+			int x = (int)(projectile.Center.X / 16f);
             int y = (int)(projectile.Center.Y / 16f);
             for (int i = x - 1; i <= x + 1; i++)
             {
@@ -1059,8 +1053,20 @@ namespace CalamityMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-            if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
-            {
+			if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
+			{
+				int critMax = 100;
+				int critChance = (int)MathHelper.Clamp(defCrit, 1, critMax);
+				crit = Main.rand.Next(1, critMax + 1) <= critChance;
+
+				if ((uint)(projectile.type - ProjectileID.DD2LightningAuraT1) <= 2u)
+				{
+					if (player.setMonkT3)
+						crit = Main.rand.NextBool(4);
+					else if (player.setMonkT2)
+						crit = Main.rand.NextBool(6);
+				}
+
 				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
 					crit = true;
 			}
@@ -1149,6 +1155,8 @@ namespace CalamityMod.Projectiles
 
 				if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
 				{
+					// Commented out for now to test the global life steal nerf
+					/*
 					// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
 					if (player.ghostHeal)
 					{
@@ -1170,6 +1178,7 @@ namespace CalamityMod.Projectiles
 
 						Main.player[Main.myPlayer].lifeSteal -= num;
 					}
+					*/
 
 					if (modPlayer.vampiricTalisman && rogue && crit)
 					{

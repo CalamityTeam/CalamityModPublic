@@ -32,6 +32,7 @@ namespace CalamityMod.NPCs.Yharon
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
+			npc.chaseable = false;
             npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
             npc.alpha = 255;
@@ -164,7 +165,7 @@ namespace CalamityMod.NPCs.Yharon
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                 {
                     int num8 = Main.expertMode ? 75 : 90;
-                    int num9 = 467;
+                    int num9 = ProjectileID.CultistBossFireBall;
                     Projectile.NewProjectile(vector.X, vector.Y, num4, num5, num9, num8, 0f, Main.myPlayer, 0f, 0f);
                 }
             }

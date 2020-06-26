@@ -47,6 +47,7 @@ namespace CalamityMod.NPCs.Yharon
 
         public static float Phase1_DR = 0.24f;
         public static float Phase2_DR = 0.26f;
+		public static float ChargeTelegraph_DR = 0.75f;
         public static float EnragedDR = 0.9f;
 
         public override void SetStaticDefaults()
@@ -83,7 +84,6 @@ namespace CalamityMod.NPCs.Yharon
 
 			npc.DR_NERD(Phase1_DR, null, null, null, true);
 			CalamityGlobalNPC global = npc.Calamity();
-            global.flatDRReductions.Add(BuffID.Ichor, 0.05f);
             global.flatDRReductions.Add(BuffID.CursedInferno, 0.05f);
 
             npc.noGravity = true;
@@ -411,8 +411,9 @@ namespace CalamityMod.NPCs.Yharon
                 }
             }
 
-            // Set DR based on protection boost (aka enrage)
-            npc.Calamity().DR = protectionBoost ? EnragedDR : Phase1_DR;
+			// Set DR based on protection boost (aka enrage)
+			bool chargeTelegraph = (npc.ai[0] == 0f || npc.ai[0] == 6f || npc.ai[0] == 13f) && npc.localAI[1] > 0f;
+			npc.Calamity().DR = protectionBoost ? EnragedDR : (chargeTelegraph ? ChargeTelegraph_DR : Phase1_DR);
 
             // Trigger spawn effects
             if (npc.localAI[0] == 0f)
@@ -982,7 +983,8 @@ namespace CalamityMod.NPCs.Yharon
 					if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
 						SpawnDetonatingFlares(flareDustBulletHellSpawn, player, maxFlareCount, new int[] { ModContent.NPCType<DetonatingFlare2>() });
-						DoFlareDustBulletHell(0, flareDustSpawnDivisor, projectileDamage, 36, 0f, 0f, false);
+						int totalProjectiles = 38 - (int)(npc.ai[2] / 15f); // 36 for first ring, 18 for last ring
+						DoFlareDustBulletHell(0, flareDustSpawnDivisor, projectileDamage, totalProjectiles, 0f, 0f, false);
 					}
                 }
 
@@ -1302,7 +1304,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Flare Dust bullet hell
 			else if (npc.ai[0] == 15f)
             {
-                npc.dontTakeDamage = phase4Check;
+				npc.dontTakeDamage = phase4Check;
 
 				if (npc.ai[2] == 0f)
 				{
@@ -1595,7 +1597,8 @@ namespace CalamityMod.NPCs.Yharon
 			}
 
 			// Set DR based on protection boost (aka enrage)
-			npc.Calamity().DR = protectionBoost ? EnragedDR : Phase2_DR;
+			bool chargeTelegraph = npc.ai[0] < 2f && npc.localAI[1] > 0f;
+			npc.Calamity().DR = protectionBoost ? EnragedDR : (chargeTelegraph ? ChargeTelegraph_DR : Phase2_DR);
 
             int projectileDamage = expertMode ? 110 : 125;
             if (phase4)
@@ -1607,7 +1610,7 @@ namespace CalamityMod.NPCs.Yharon
 			float chargeTime = expertMode ? 32f : 35f;
             float chargeSpeed = expertMode ? 32f : 30f;
 			float fastChargeVelocityMultiplier = 1.5f;
-			int fastChargeTelegraphTimer = 120;
+			int fastChargeTelegraphTimer = phase4 ? 60 : 120;
 
 			float fireballBreathTimer = 60f;
             float fireballBreathPhaseTimer = fireballBreathTimer + 120f;
@@ -1621,7 +1624,7 @@ namespace CalamityMod.NPCs.Yharon
             float splittingFireballBreathYVelocityTimer = 40f;
             float splittingFireballBreathPhaseTimer = splittingFireballBreathTimer + splittingFireballBreathTimer2 + splittingFireballBreathYVelocityTimer;
 
-            float spinPhaseTimer = 240f;
+            float spinPhaseTimer = phase4 ? 180f : 240f;
 			float spinTime = spinPhaseTimer / 2;
 			float spinRotation = MathHelper.TwoPi * 3 / spinTime;
 			float spinPhaseVelocity = 25f;
@@ -1821,7 +1824,7 @@ namespace CalamityMod.NPCs.Yharon
                         }
                     }
 
-					if (num28 == 5 && npc.ai[1] < phaseSwitchTimer + teleportPhaseTimer - 15f)
+					if (num28 == 5 && npc.ai[1] < phaseSwitchTimer + teleportPhaseTimer)
 					{
 						float newRotation = npc.DirectionTo(targetData.Center).ToRotation();
 						float amount = 0.04f;
@@ -1841,13 +1844,14 @@ namespace CalamityMod.NPCs.Yharon
 								npc.alpha = 255;
 						}
 
-						if (npc.ai[1] == phaseSwitchTimer + 15f)
+						float timeBeforeTeleport = teleportPhaseTimer - 15f;
+						if (npc.ai[1] == phaseSwitchTimer + timeBeforeTeleport)
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoarShort"), (int)npc.position.X, (int)npc.position.Y);
 
-						if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] == phaseSwitchTimer + 15f)
+						if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[1] == phaseSwitchTimer + timeBeforeTeleport)
 						{
 							teleportLocation = Main.rand.NextBool(2) ? (revenge ? 500 : 600) : (revenge ? -500 : -600);
-							Vector2 center = targetData.Center + new Vector2(-npc.ai[2], teleportLocation);
+							Vector2 center = targetData.Center + new Vector2(-npc.ai[2] * 500f, teleportLocation);
 							npcCenter = npc.Center = center;
 						}
 
@@ -1866,7 +1870,7 @@ namespace CalamityMod.NPCs.Yharon
 							npc.rotation = npc.rotation.AngleTowards(newRotation, amount);
 
 						npc.localAI[1] += 1f;
-						if (npc.localAI[1] == fastChargeTelegraphTimer - 60)
+						if (npc.localAI[1] == fastChargeTelegraphTimer - (phase4 ? 30 : 60))
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/YharonRoar"), (int)npc.position.X, (int)npc.position.Y);
 
 						return;
@@ -2108,7 +2112,7 @@ namespace CalamityMod.NPCs.Yharon
 			// Fireball spin
             else if (npc.ai[0] == 5f)
             {
-                npc.velocity = npc.velocity.RotatedBy(-(double)spinRotation * (float)npc.direction);
+				npc.velocity = npc.velocity.RotatedBy(-(double)spinRotation * (float)npc.direction);
                 npc.rotation -= spinRotation * npc.direction;
 
 				if (npc.ai[1] == 1f)
@@ -2127,12 +2131,15 @@ namespace CalamityMod.NPCs.Yharon
 						// For phase 4: Rotate spiral by 18 * (240 / 16) = +135 degrees and then back -135 degrees
 
 						if (npc.ai[1] % flareDustSpawnDivisor3 == 0f)
-							DoFlareDustBulletHell(1, (int)spinPhaseTimer, projectileDamage, phase4 ? 12 : 10, 12f, phase4 ? 18f : 9f, true);
+							DoFlareDustBulletHell(1, (int)spinPhaseTimer, projectileDamage, phase4 ? 12 : 10, phase4 ? 16f : 12f, phase4 ? 18f : 9f, true);
 					}
 					else if (phase2)
 					{
 						if (npc.ai[1] % flareDustSpawnDivisor == 0f)
-							DoFlareDustBulletHell(0, (int)spinPhaseTimer, projectileDamage, 36, 0f, 0f, true);
+						{
+							int totalProjectiles = 38 - (int)(npc.ai[1] / 12f); // 36 for first ring, 18 for last ring
+							DoFlareDustBulletHell(0, (int)spinPhaseTimer, projectileDamage, totalProjectiles, 0f, 0f, true);
+						}
 					}
 					else
 					{
@@ -2908,10 +2915,12 @@ namespace CalamityMod.NPCs.Yharon
 
 			if (chargeTelegraph)
 			{
-				int num86 = 120;
-				if (npc.localAI[1] < num86 - 60 || npc.localAI[1] > num86 - 20)
+				bool phase4 = startSecondAI && npc.life <= npc.lifeMax * 0.15 && (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+
+				int num86 = phase4 ? 60 : 120;
+				if (npc.localAI[1] < num86 - (phase4 ? 30 : 60) || npc.localAI[1] > num86 - (phase4 ? 10 : 20))
 				{
-					npc.frameCounter += 1D;
+					npc.frameCounter += phase4 ? 2D : 1D;
 					if (npc.frameCounter > 5D)
 					{
 						npc.frameCounter = 0D;
@@ -2925,7 +2934,7 @@ namespace CalamityMod.NPCs.Yharon
 				else
 				{
 					npc.frame.Y = frameHeight * 5;
-					if (npc.localAI[1] > num86 - 50 && npc.localAI[1] < num86 - 25)
+					if (npc.localAI[1] > num86 - (phase4 ? 25 : 50) && npc.localAI[1] < num86 - (phase4 ? 12 : 25))
 					{
 						npc.frame.Y = frameHeight * 6;
 					}
@@ -3017,7 +3026,7 @@ namespace CalamityMod.NPCs.Yharon
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {

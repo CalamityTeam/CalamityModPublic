@@ -3,7 +3,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -112,7 +111,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.damage = npc.defDamage;
 
 			// Enrage based on large slimes
-			bool flag100 = false;
+			bool phase2 = lifeRatio < 0.4f;
 			bool hyperMode = true;
 			bool purpleSlimeAlive = false;
 			bool redSlimeAlive = false;
@@ -130,7 +129,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.Calamity().newAI[1] = Main.npc[CalamityGlobalNPC.slimeGodPurple].Center.Y;
 
 					purpleSlimeAlive = true;
-					flag100 = lifeRatio >= 0.5f;
+					phase2 = lifeRatio < 0.2f;
 					hyperMode = false;
 				}
 			}
@@ -148,7 +147,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.localAI[3] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.Y;
 
 					redSlimeAlive = true;
-					flag100 = lifeRatio >= 0.5f;
+					phase2 = lifeRatio < 0.2f;
 					hyperMode = false;
 				}
 			}
@@ -239,8 +238,14 @@ namespace CalamityMod.NPCs.SlimeGod
 					Vector2 goToPosition = goToVector - vectorCenter;
 					npc.velocity = Vector2.Normalize(goToPosition) * (CalamityWorld.bossRushActive ? 24f : 16f);
 
+					bool slimeDead = false;
+					if (goToVector == purpleSlimeVector)
+						slimeDead = CalamityGlobalNPC.slimeGodPurple < 0 || !Main.npc[CalamityGlobalNPC.slimeGodPurple].active;
+					else
+						slimeDead = CalamityGlobalNPC.slimeGodRed < 0 || !Main.npc[CalamityGlobalNPC.slimeGodRed].active;
+
 					npc.ai[2] += 1f;
-					if (npc.ai[2] >= 600f)
+					if (npc.ai[2] >= 600f || slimeDead)
 					{
 						npc.ai[2] = 0f;
 						npc.Calamity().newAI[3] = 0f;
@@ -253,7 +258,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			}
 
 			// Spin and shoot orbs
-            if (!flag100)
+            if (phase2)
             {
 				npc.ai[1] += 1f;
 				if (revenge)
@@ -504,7 +509,7 @@ namespace CalamityMod.NPCs.SlimeGod
             }
 
             float num1372 = 6f;
-            if (!flag100 || death)
+            if (phase2 || death)
             {
                 num1372 = 14f;
             }
@@ -654,7 +659,7 @@ namespace CalamityMod.NPCs.SlimeGod
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 25, 40);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<OverloadedBlaster>(), 4);
@@ -664,10 +669,9 @@ namespace CalamityMod.NPCs.SlimeGod
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CrimslimeStaff>(), 4);
 
                 // Vanity
-                DropHelper.DropItemFromSetChance(npc, 7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+                DropHelper.DropItemFromSetChance(npc, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
                 // Other
-                DropHelper.DropItem(npc, ModContent.ItemType<StaticRefiner>());
             }
 
             // Mark the Slime God as dead

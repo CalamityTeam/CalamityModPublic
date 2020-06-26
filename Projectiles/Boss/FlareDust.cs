@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -84,9 +85,9 @@ namespace CalamityMod.Projectiles.Boss
 
 			distance += MathHelper.Lerp(1f, 9f, amount);
 
-			int timeGateValue = 120;
+			int timeGateValue = 180;
 			if (projectile.timeLeft < timeGateValue)
-				distance += MathHelper.Lerp(0f, 9f, (timeGateValue - projectile.timeLeft) / timeGateValue);
+				distance += 6f;
 
 			if (projectile.ai[0] == 0f)
 			{
@@ -142,12 +143,17 @@ namespace CalamityMod.Projectiles.Boss
                 num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 1f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile, 3);
+			projectile.ExplosionGores(3);
             projectile.damage = Main.expertMode ? 75 : 90;
             projectile.Damage();
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<LethalLavaBurn>(), 180);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;
 		}

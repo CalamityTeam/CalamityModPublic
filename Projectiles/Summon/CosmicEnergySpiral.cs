@@ -195,9 +195,9 @@ namespace CalamityMod.Projectiles.Summon
                 float num397 = projectile.position.Y;
                 float num398 = 1200f;
                 bool flag11 = false;
-                for (int num399 = 0; num399 < 200; num399++)
+                for (int num399 = 0; num399 < Main.maxNPCs; num399++)
                 {
-                    if (Main.npc[num399].CanBeChasedBy(projectile, true))
+                    if (Main.npc[num399].CanBeChasedBy(projectile, false))
                     {
                         float num400 = Main.npc[num399].position.X + (float)(Main.npc[num399].width / 2);
                         float num401 = Main.npc[num399].position.Y + (float)(Main.npc[num399].height / 2);
@@ -224,7 +224,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                         value15.Normalize();
                         value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<CosmicBlast>(), (int)((double)projectile.damage * 0.5), 2f, projectile.owner, (float)target, 0f);
+                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<CosmicBlast>(), (int)(projectile.damage * 0.5), 2f, projectile.owner, (float)target, 0f);
                     }
                     float num403 = 15f;
                     Vector2 vector29 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);

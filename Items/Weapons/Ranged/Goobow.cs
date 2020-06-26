@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -63,7 +64,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 18);
             recipe.AddIngredient(ItemID.Gel, 30);
             recipe.AddIngredient(ItemID.HellstoneBar, 5);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

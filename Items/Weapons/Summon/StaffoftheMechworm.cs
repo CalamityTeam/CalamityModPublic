@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Weapons.Summon
             {
                 maxMinionScale = 10;
             }
-            damage = (int)(damage * ((player.minionDamage * 5 / 3) + (player.minionDamage * 0.46f * (maxMinionScale - 1))));
+            damage = (int)(damage * ((player.MinionDamage() * 5 / 3) + (player.MinionDamage() * 0.46f * (maxMinionScale - 1))));
             int head = -1;
             int tail = -1;
             for (int num187 = 0; num187 < Main.projectile.Length; num187++)

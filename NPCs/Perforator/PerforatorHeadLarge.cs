@@ -14,8 +14,6 @@ namespace CalamityMod.NPCs.Perforator
     public class PerforatorHeadLarge : ModNPC
     {
         private bool flies = false;
-        private float speed = 12f;
-        private float turnSpeed = 0.1f;
         private int minLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 7 : 15;
         private int maxLength = (CalamityWorld.death || CalamityWorld.bossRushActive) ? 8 : 16;
         private bool TailSpawned = false;
@@ -55,6 +53,9 @@ namespace CalamityMod.NPCs.Perforator
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			float speed = 12f;
+			float turnSpeed = 0.1f;
 
 			if (expertMode)
 			{
@@ -439,13 +440,13 @@ namespace CalamityMod.NPCs.Perforator
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargePerf"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/LargePerf2"), 1f);

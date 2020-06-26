@@ -181,6 +181,7 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<EnchantedMetal>());
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Popo>());
+            shop.item[nextSlot].shopCustomPrice = 1000000; //I think this is 5 platinum
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<CryoKey>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 15, 0, 0);

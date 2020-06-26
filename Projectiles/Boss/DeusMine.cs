@@ -44,12 +44,38 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.ai[1] = 1f;
                 Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 33);
             }
-            int num8 = Main.expertMode ? 45 : 60;
-			if (projectile.timeLeft == 935)
-				projectile.damage = num8;
+
 			if (projectile.timeLeft < 85)
 				projectile.damage = 0;
-        }
+
+			if (projectile.timeLeft < 930)
+				return;
+
+			float velocity = 0.1f;
+			for (int i = 0; i < Main.maxProjectiles; i++)
+			{
+				if (Main.projectile[i].active)
+				{
+					if (i != projectile.whoAmI && Main.projectile[i].type == projectile.type)
+					{
+						if (Vector2.Distance(projectile.Center, Main.projectile[i].Center) < 48f)
+						{
+							if (projectile.position.X < Main.projectile[i].position.X)
+								projectile.velocity.X -= velocity;
+							else
+								projectile.velocity.X += velocity;
+
+							if (projectile.position.Y < Main.projectile[i].position.Y)
+								projectile.velocity.Y -= velocity;
+							else
+								projectile.velocity.Y += velocity;
+						}
+						else
+							projectile.velocity = Vector2.Zero;
+					}
+				}
+			}
+		}
 
         public override bool CanHitPlayer(Player target)
 		{

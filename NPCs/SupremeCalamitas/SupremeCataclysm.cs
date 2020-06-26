@@ -1,7 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -33,8 +32,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.defense = 100;
 			npc.DR_NERD(0.7f, 0.7f, 0.75f, 0.6f, true);
 			CalamityGlobalNPC global = npc.Calamity();
-            global.multDRReductions.Add(BuffID.Ichor, 0.9f);
-            global.multDRReductions.Add(BuffID.CursedInferno, 0.91f);
+            global.multDRReductions.Add(BuffID.CursedInferno, 0.9f);
 			npc.LifeMaxNERB(1200000, 1500000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -84,7 +82,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.TargetClosest(true);
             float num676 = 60f;
             float num677 = 1.5f;
-            float distanceX = 750f;
+
+			// Reduce acceleration if target is holding a true melee weapon
+			Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
+			if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+			{
+				num677 *= 0.5f;
+			}
+
+			float distanceX = 750f;
             if (npc.ai[3] < 750f)
             {
                 npc.ai[3] += 1f;

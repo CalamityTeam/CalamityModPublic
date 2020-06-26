@@ -224,10 +224,10 @@ namespace CalamityMod.NPCs.OldDuke
 
 			for (int num623 = 0; num623 < 30; num623++)
 			{
-				int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 3f);
+				int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Blood, 0f, 0f, 100, default, 3f);
 				Main.dust[num624].noGravity = true;
 				Main.dust[num624].velocity.Y *= 10f;
-				num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
+				num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Blood, 0f, 0f, 100, default, 2f);
 				Main.dust[num624].velocity.X *= 2f;
 			}
 

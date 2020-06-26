@@ -39,6 +39,10 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
+			//Protect against other mod projectile reflection like emode Granite Golems
+			projectile.friendly = true;
+			projectile.hostile = false;
+
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
             {

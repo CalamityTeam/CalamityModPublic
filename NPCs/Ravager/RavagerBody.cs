@@ -36,6 +36,7 @@ namespace CalamityMod.NPCs.Ravager
         public override void SetDefaults()
         {
             npc.lavaImmune = true;
+			npc.noGravity = true;
             npc.npcSlots = 20f;
             npc.aiStyle = -1;
             npc.damage = 120;
@@ -166,7 +167,7 @@ namespace CalamityMod.NPCs.Ravager
             bool rightClawActive = false;
             bool leftClawActive = false;
 
-            for (int num619 = 0; num619 < 200; num619++)
+            for (int num619 = 0; num619 < Main.maxNPCs; num619++)
             {
                 if (Main.npc[num619].active && Main.npc[num619].type == ModContent.NPCType<RavagerHead>())
                     headActive = true;
@@ -181,7 +182,7 @@ namespace CalamityMod.NPCs.Ravager
             }
 
 			bool immunePhase = headActive || rightClawActive || leftClawActive || rightLegActive || leftLegActive;
-			bool finalPhase = !leftClawActive && !rightClawActive && !headActive && !leftLegActive && !rightLegActive;
+			bool finalPhase = !leftClawActive && !rightClawActive && !headActive && !leftLegActive && !rightLegActive && expertMode;
 
 			bool enrage = false;
             if (player.position.Y + (player.height / 2) > npc.position.Y + (npc.height / 2) + 10f)
@@ -201,7 +202,7 @@ namespace CalamityMod.NPCs.Ravager
 
             if (!headActive)
             {
-                int rightDust = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 30f), 8, 8, 5, 0f, 0f, 100, default, 2.5f);
+                int rightDust = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 30f), 8, 8, DustID.Blood, 0f, 0f, 100, default, 2.5f);
                 Main.dust[rightDust].alpha += Main.rand.Next(100);
                 Main.dust[rightDust].velocity *= 0.2f;
 
@@ -211,7 +212,7 @@ namespace CalamityMod.NPCs.Ravager
 
                 if (Main.rand.NextBool(10))
                 {
-                    rightDust = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 30f), 8, 8, 6, 0f, 0f, 0, default, 1.5f);
+                    rightDust = Dust.NewDust(new Vector2(npc.Center.X, npc.Center.Y - 30f), 8, 8, DustID.Fire, 0f, 0f, 0, default, 1.5f);
                     if (Main.rand.Next(20) != 0)
                     {
                         Main.dust[rightDust].noGravity = true;
@@ -249,7 +250,7 @@ namespace CalamityMod.NPCs.Ravager
 
             if (!rightClawActive)
             {
-                int rightDust = Dust.NewDust(new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f), 8, 8, 5, 0f, 0f, 100, default, 3f);
+                int rightDust = Dust.NewDust(new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f), 8, 8, DustID.Blood, 0f, 0f, 100, default, 3f);
                 Main.dust[rightDust].alpha += Main.rand.Next(100);
                 Main.dust[rightDust].velocity *= 0.2f;
 
@@ -259,7 +260,7 @@ namespace CalamityMod.NPCs.Ravager
 
                 if (Main.rand.NextBool(10))
                 {
-                    rightDust = Dust.NewDust(new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f), 8, 8, 6, 0f, 0f, 0, default, 2f);
+                    rightDust = Dust.NewDust(new Vector2(npc.Center.X + 80f, npc.Center.Y + 45f), 8, 8, DustID.Fire, 0f, 0f, 0, default, 2f);
                     if (Main.rand.Next(20) != 0)
                     {
                         Main.dust[rightDust].noGravity = true;
@@ -289,22 +290,21 @@ namespace CalamityMod.NPCs.Ravager
 
             if (!leftClawActive)
             {
-                int leftDust = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f), 8, 8, 5, 0f, 0f, 100, default, 3f);
-                Main.dust[leftDust].alpha += Main.rand.Next(100);
-                Main.dust[leftDust].velocity *= 0.2f;
-
+                int leftDust = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f), 8, 8, DustID.Blood, 0f, 0f, 100, default, 3f);
                 Dust leftDustExpr = Main.dust[leftDust];
+                leftDustExpr.alpha += Main.rand.Next(100);
+                leftDustExpr.velocity *= 0.2f;
                 leftDustExpr.velocity.X -= 3f + Main.rand.Next(10) * 0.1f;
-                Main.dust[leftDust].fadeIn = 0.5f + Main.rand.Next(10) * 0.1f;
+                leftDustExpr.fadeIn = 0.5f + Main.rand.Next(10) * 0.1f;
 
                 if (Main.rand.NextBool(10))
                 {
-                    leftDust = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f), 8, 8, 6, 0f, 0f, 0, default, 2f);
+                    leftDust = Dust.NewDust(new Vector2(npc.Center.X - 80f, npc.Center.Y + 45f), 8, 8, DustID.Fire, 0f, 0f, 0, default, 2f);
                     if (Main.rand.Next(20) != 0)
                     {
-                        Main.dust[leftDust].noGravity = true;
-                        Main.dust[leftDust].scale *= 1f + Main.rand.Next(10) * 0.1f;
                         Dust leftDustExpr2 = Main.dust[leftDust];
+                        leftDustExpr2.noGravity = true;
+                        leftDustExpr2.scale *= 1f + Main.rand.Next(10) * 0.1f;
                         leftDustExpr2.velocity.X -= 4f;
                     }
                 }
@@ -329,22 +329,21 @@ namespace CalamityMod.NPCs.Ravager
 
             if (!rightLegActive)
             {
-                int rightDust = Dust.NewDust(new Vector2(npc.Center.X + 60f, npc.Center.Y + 60f), 8, 8, 5, 0f, 0f, 100, default, 2f);
-                Main.dust[rightDust].alpha += Main.rand.Next(100);
-                Main.dust[rightDust].velocity *= 0.2f;
-
+                int rightDust = Dust.NewDust(new Vector2(npc.Center.X + 60f, npc.Center.Y + 60f), 8, 8, DustID.Blood, 0f, 0f, 100, default, 2f);
                 Dust rightDustExpr = Main.dust[rightDust];
+                rightDustExpr.alpha += Main.rand.Next(100);
+                rightDustExpr.velocity *= 0.2f;
                 rightDustExpr.velocity.Y += 0.5f + Main.rand.Next(10) * 0.1f;
-                Main.dust[rightDust].fadeIn = 0.5f + Main.rand.Next(10) * 0.1f;
+                rightDustExpr.fadeIn = 0.5f + Main.rand.Next(10) * 0.1f;
 
                 if (Main.rand.NextBool(10))
                 {
-                    rightDust = Dust.NewDust(new Vector2(npc.Center.X + 60f, npc.Center.Y + 60f), 8, 8, 6, 0f, 0f, 0, default, 1.5f);
+                    rightDust = Dust.NewDust(new Vector2(npc.Center.X + 60f, npc.Center.Y + 60f), 8, 8, DustID.Fire, 0f, 0f, 0, default, 1.5f);
                     if (Main.rand.Next(20) != 0)
                     {
-                        Main.dust[rightDust].noGravity = true;
-                        Main.dust[rightDust].scale *= 1f + Main.rand.Next(10) * 0.1f;
                         Dust rightDustExpr2 = Main.dust[rightDust];
+                        rightDustExpr2.noGravity = true;
+                        rightDustExpr2.scale *= 1f + Main.rand.Next(10) * 0.1f;
                         rightDustExpr2.velocity.Y += 1f;
                     }
                 }
@@ -368,7 +367,7 @@ namespace CalamityMod.NPCs.Ravager
 
             if (!leftLegActive)
             {
-                int leftDust = Dust.NewDust(new Vector2(npc.Center.X - 60f, npc.Center.Y + 60f), 8, 8, 5, 0f, 0f, 100, default, 2f);
+                int leftDust = Dust.NewDust(new Vector2(npc.Center.X - 60f, npc.Center.Y + 60f), 8, 8, DustID.Blood, 0f, 0f, 100, default, 2f);
                 Main.dust[leftDust].alpha += Main.rand.Next(100);
                 Main.dust[leftDust].velocity *= 0.2f;
 
@@ -378,7 +377,7 @@ namespace CalamityMod.NPCs.Ravager
 
                 if (Main.rand.NextBool(10))
                 {
-                    leftDust = Dust.NewDust(new Vector2(npc.Center.X - 60f, npc.Center.Y + 60f), 8, 8, 6, 0f, 0f, 0, default, 1.5f);
+                    leftDust = Dust.NewDust(new Vector2(npc.Center.X - 60f, npc.Center.Y + 60f), 8, 8, DustID.Fire, 0f, 0f, 0, default, 1.5f);
                     if (Main.rand.Next(20) != 0)
                     {
                         Main.dust[leftDust].noGravity = true;
@@ -407,7 +406,7 @@ namespace CalamityMod.NPCs.Ravager
 
             if (npc.ai[0] == 0f)
             {
-                npc.noTileCollide = false;
+				npc.noTileCollide = false;
 
                 if (npc.velocity.Y == 0f)
                 {
@@ -444,20 +443,20 @@ namespace CalamityMod.NPCs.Ravager
 						velocityY = -16f;
 
 						float distanceBelowTarget = npc.position.Y - (player.position.Y + 80f);
-						float speedMult = 1f;
 
 						if (revenge)
 						{
 							if (distanceBelowTarget > 0f)
-								speedMult += distanceBelowTarget * 0.002f;
+								npc.Calamity().newAI[1] += 1f + distanceBelowTarget * 0.001f;
 
-							if (speedMult > 2f)
-								speedMult = 2f;
+							if (npc.Calamity().newAI[1] > 2f)
+								npc.Calamity().newAI[1] = 2f;
 
-							velocityY *= speedMult;
+							if (npc.Calamity().newAI[1] > 1f)
+								velocityY *= npc.Calamity().newAI[1];
 						}
 
-						if (expertMode)
+						if (expertMode && !finalPhase)
 						{
 							npc.noTileCollide = true;
 							if (shouldFall)
@@ -477,17 +476,22 @@ namespace CalamityMod.NPCs.Ravager
 							}
 						}
 
+						if (finalPhase)
+						{
+							npc.noTileCollide = true;
+							npc.Calamity().newAI[2] = player.direction;
+						}
+
 						npc.velocity.X = velocityX * npc.direction;
                         npc.velocity.Y = velocityY;
 
-                        npc.ai[0] = finalPhase && !shouldFall ? 2f : 1f;
+                        npc.ai[0] = finalPhase ? 2f : 1f;
                         npc.ai[1] = 0f;
-
-						if (npc.ai[0] == 2f)
-							npc.noGravity = true;
 					}
                 }
-            }
+
+				CustomGravity();
+			}
             else if (npc.ai[0] >= 1f)
             {
                 if (npc.velocity.Y == 0f && (npc.ai[1] == 31f || npc.ai[0] == 1f))
@@ -512,12 +516,12 @@ namespace CalamityMod.NPCs.Ravager
 
 							int spawnDistance = 360;
 
-							if (NPC.CountNPCS(ModContent.NPCType<RockPillar>()) < 2)
+							if (!NPC.AnyNPCs(ModContent.NPCType<RockPillar>()))
 							{
 								NPC.NewNPC((int)npc.Center.X - spawnDistance, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
 								NPC.NewNPC((int)npc.Center.X + spawnDistance, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
 							}
-							else if (NPC.CountNPCS(ModContent.NPCType<FlamePillar>()) < 2)
+							else if (!NPC.AnyNPCs(ModContent.NPCType<FlamePillar>()))
 							{
 								NPC.NewNPC((int)npc.Center.X - spawnDistance * 2, (int)npc.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
 								NPC.NewNPC((int)npc.Center.X + spawnDistance * 2, (int)npc.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
@@ -527,6 +531,8 @@ namespace CalamityMod.NPCs.Ravager
 
 					if (revenge)
 						npc.Calamity().newAI[0] += 1f;
+
+					npc.Calamity().newAI[1] = 0f;
 
 					for (int stompDustArea = (int)npc.position.X - 30; stompDustArea < (int)npc.position.X + npc.width + 60; stompDustArea += 30)
                     {
@@ -554,31 +560,35 @@ namespace CalamityMod.NPCs.Ravager
 					}
 
 					float amount = death ? 1f : 1f - lifeRatio;
-					float unitsAhead = MathHelper.Lerp(48f, 160f, amount);
-					Vector2 targetVector = npc.ai[0] == 2f ? player.Center + player.velocity.SafeNormalize(Vector2.UnitY) * unitsAhead : player.Center;
+					Vector2 targetVector = player.position;
 
 					if (npc.ai[0] == 2f && npc.ai[1] == 0f)
 					{
-						float aimY = targetVector.Y - 240f;
+						float aimY = targetVector.Y - 320f;
 						if (npc.Top.Y > aimY)
 						{
-							if (npc.velocity.Y > velocityY)
-								npc.velocity.Y -= 0.2f + Math.Abs(npc.Center.Y - aimY) * 0.001f;
+							if (npc.velocity.Y > 0f)
+								npc.velocity.Y -= 0.5f + Math.Abs(npc.Top.Y - aimY) * 0.001f;
 						}
 						else
 						{
-							if (npc.velocity.Y < velocityY)
-								npc.velocity.Y += 0.2f + Math.Abs(npc.Center.Y - aimY) * 0.001f;
+							if (npc.velocity.Y < 0f)
+								npc.velocity.Y += 0.5f + Math.Abs(npc.Top.Y - aimY) * 0.001f;
 						}
 					}
 
-					Vector2 aimAt = npc.ai[0] == 2f ? targetVector : player.position;
+					float maxOffset = 160f + (death ? 160f : 160f * (1f - lifeRatio));
+					float offset = npc.ai[0] == 2f ? maxOffset * npc.Calamity().newAI[2] : 0f;
 
-					if ((npc.position.X < aimAt.X && npc.position.X + npc.width > aimAt.X + player.width) || npc.ai[1] > 0f)
+					// Set offset to 0 if the target stops moving
+					if (Math.Abs(player.velocity.X) < 0.5f)
+						npc.Calamity().newAI[2] = 0f;
+
+					if ((npc.position.X < targetVector.X + offset && npc.position.X + npc.width > targetVector.X + player.width + offset) || npc.ai[1] > 0f)
                     {
 						if (npc.ai[0] == 2f)
 						{
-							float stopBeforeFallTime = 30f;
+							float stopBeforeFallTime = npc.Calamity().newAI[2] == 0f ? 20f : 30f;
 							if (expertMode)
 								stopBeforeFallTime -= death ? 15f : 15f * (1f - lifeRatio);
 
@@ -591,10 +601,11 @@ namespace CalamityMod.NPCs.Ravager
 							{
 								float fallSpeedBoost = death ? 1.2f : 1.2f * (1f - lifeRatio);
 								float fallSpeed = 1.2f + fallSpeedBoost;
-								npc.velocity.Y += fallSpeed;
 
-								if (npc.velocity.Y > 24f)
-									npc.velocity.Y = 24f;
+								if (npc.Calamity().newAI[1] > 1f)
+									fallSpeed *= npc.Calamity().newAI[1];
+
+								npc.velocity.Y += fallSpeed;
 
 								npc.ai[1] = 31f;
 							}
@@ -607,13 +618,17 @@ namespace CalamityMod.NPCs.Ravager
 							{
 								float fallSpeedBoost = death ? 0.6f : 0.6f * (1f - lifeRatio);
 								float fallSpeed = 0.6f + fallSpeedBoost;
+
+								if (npc.Calamity().newAI[1] > 1f)
+									fallSpeed *= npc.Calamity().newAI[1];
+
 								npc.velocity.Y += fallSpeed;
 							}
 						}
                     }
                     else
                     {
-						float velocityXChange = 0.2f + Math.Abs(npc.Center.X - targetVector.X) * 0.001f;
+						float velocityXChange = 0.2f + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
 						if (npc.direction < 0)
                             npc.velocity.X -= velocityXChange;
@@ -621,7 +636,7 @@ namespace CalamityMod.NPCs.Ravager
                             npc.velocity.X += velocityXChange;
 
 						float velocityXBoost = death ? 4f : 4f * (1f - lifeRatio);
-                        float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - targetVector.X) * 0.001f;
+                        float velocityX = 8f + velocityXBoost + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
 
                         if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             velocityX += 3f;
@@ -644,8 +659,36 @@ namespace CalamityMod.NPCs.Ravager
                         if (npc.velocity.X > velocityX)
                             npc.velocity.X = velocityX;
                     }
-                }
+
+					CustomGravity();
+				}
             }
+
+			void CustomGravity()
+			{
+				float gravity = npc.ai[0] == 2f ? 0f : 0.3f;
+				float maxFallSpeed = npc.ai[0] == 2f ? 24f : 10f;
+				if (npc.wet)
+				{
+					if (npc.honeyWet)
+					{
+						gravity *= 0.33f;
+						maxFallSpeed *= 0.4f;
+					}
+					else
+					{
+						gravity *= 0.66f;
+						maxFallSpeed *= 0.7f;
+					}
+				}
+
+				if (npc.Calamity().newAI[1] > 1f)
+					maxFallSpeed *= npc.Calamity().newAI[1];
+
+				npc.velocity.Y += gravity;
+				if (npc.velocity.Y > maxFallSpeed)
+					npc.velocity.Y = maxFallSpeed;
+			}
 
 			player = Main.player[npc.target];
 			if (npc.target <= 0 || npc.target == 255 || player.dead || !player.active)
@@ -708,8 +751,8 @@ namespace CalamityMod.NPCs.Ravager
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 2f);
-                Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 2f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -721,7 +764,7 @@ namespace CalamityMod.NPCs.Ravager
                 for (int k = 0; k < 50; k++)
                 {
                     Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 2f);
-                    Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }
@@ -738,7 +781,8 @@ namespace CalamityMod.NPCs.Ravager
             {
                 player.AddBuff(ModContent.BuffType<Horror>(), 600, true);
             }
-        }
+			player.AddBuff(ModContent.BuffType<ArmorCrunch>(), 300, true);
+		}
 
         public override void BossLoot(ref string name, ref int potionType)
         {

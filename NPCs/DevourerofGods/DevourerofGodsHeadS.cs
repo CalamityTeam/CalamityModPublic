@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -128,9 +129,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-            bool speedBoost = lifeRatio < 0.6 || (death && lifeRatio < 0.9);
-            bool speedBoost2 = lifeRatio < 0.2;
-            bool breathFireMore = lifeRatio < 0.15 || death;
+            bool speedBoost = lifeRatio < 0.75f || (death && lifeRatio < 0.9f);
+            bool speedBoost2 = lifeRatio < 0.3f;
+            bool breathFireMore = lifeRatio < 0.15f || death;
 
 			// Light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
@@ -222,14 +223,22 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Anger message
 			if (speedBoost2)
             {
-                if (!halfLife)
-                {
-                    string key = "Mods.CalamityMod.EdgyBossText11";
-                    Color messageColor = Color.Cyan;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    else if (Main.netMode == NetmodeID.Server)
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+				if (!halfLife)
+				{
+					string key = "Mods.CalamityMod.EdgyBossText11";
+					Color messageColor = Color.Cyan;
+					if (Main.netMode == NetmodeID.SinglePlayer)
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					else if (Main.netMode == NetmodeID.Server)
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+
+						for (int i = 0; i < 3; i++)
+							NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
+					}
 
                     halfLife = true;
                 }
@@ -297,66 +306,51 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
 					calamityGlobalNPC.newAI[1] += 1f;
 
-                    float speed = 4f;
+                    float speed = 12f;
+                    float spawnOffset = 1500f;
                     float divisor = 120f;
 
 					if (calamityGlobalNPC.newAI[1] % divisor == 0f)
 					{
-						if (calamityGlobalNPC.newAI[1] % idleCounterMax == 0f)
+						Main.PlaySound(SoundID.Item12, player.position);
+
+						float targetPosY = player.position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
+
+						// Side walls
+						for (int x = 0; x < totalShots; x++)
 						{
-							int cosmicGuardianCount = NPC.CountNPCS(ModContent.NPCType<DevourerofGodsHead2>());
-							if (cosmicGuardianCount < 2)
-							{
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
-
-								int spawnAmt = cosmicGuardianCount == 0 ? 2 : 1;
-
-								for (int i = 0; i < spawnAmt; i++)
-									NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
-							}
+							Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[0] -= spacingVar;
 						}
-						else
+
+						if (Main.rand.NextBool(2) && revenge)
 						{
-							Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 12);
-
-							float targetPosY = player.position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
-
-							// Side walls
-							for (int x = 0; x < totalShots; x++)
+							for (int x = 0; x < 10; x++)
 							{
-								Projectile.NewProjectile(player.position.X + 1000f, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								Projectile.NewProjectile(player.position.X - 1000f, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing[0] -= spacingVar;
+								Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+								shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
 							}
-
-							if (Main.rand.NextBool(2) && revenge)
-							{
-								for (int x = 0; x < 10; x++)
-								{
-									Projectile.NewProjectile(player.position.X + 1000f, targetPosY + shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-									Projectile.NewProjectile(player.position.X - 1000f, targetPosY + shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-									shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
-								}
-								shotSpacing[3] = 1050;
-							}
-							shotSpacing[0] = 1050;
-
-							// Lower wall
-							for (int x = 0; x < totalShots; x++)
-							{
-								Projectile.NewProjectile(player.position.X + shotSpacing[1], player.position.Y + 1000f, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing[1] -= spacingVar;
-							}
-							shotSpacing[1] = 1050;
-
-							// Upper wall
-							for (int x = 0; x < totalShots; x++)
-							{
-								Projectile.NewProjectile(player.position.X + shotSpacing[2], player.position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing[2] -= spacingVar;
-							}
-							shotSpacing[2] = 1050;
+							shotSpacing[3] = 1050;
 						}
+						shotSpacing[0] = 1050;
+
+						// Lower wall
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(player.position.X + shotSpacing[1], player.position.Y + spawnOffset, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[1] -= spacingVar;
+						}
+						shotSpacing[1] = 1050;
+
+						// Upper wall
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(player.position.X + shotSpacing[2], player.position.Y - spawnOffset, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[2] -= spacingVar;
+						}
+						shotSpacing[2] = 1050;
 					}
                 }
             }
@@ -871,51 +865,18 @@ namespace CalamityMod.NPCs.DevourerofGods
 			postTeleportTimer = 255;
 			npc.alpha = postTeleportTimer;
 
-			int playerWidth = player.width / 2;
-			int playerHeight = player.height / 2;
+			int randomRange = 48;
+			float distance = 480f;
+			Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
 
-			float playerVelocityX = player.velocity.X;
-			float playerVelocityY = player.velocity.Y;
-
-			int x = (int)player.position.X + playerWidth - 25;
-			int y = (int)player.position.Y + playerHeight - 25;
-
-			float velocityThreshold = 0.05f;
-			int vectorAdjustment = 500;
-			if (playerVelocityX >= velocityThreshold)
-			{
-				x += vectorAdjustment;
-				yAdjustment();
-			}
-			else if (playerVelocityX <= -velocityThreshold)
-			{
-				x -= vectorAdjustment;
-				yAdjustment();
-			}
-
-			void yAdjustment()
-			{
-				if (playerVelocityY >= velocityThreshold)
-					y += vectorAdjustment;
-				else if (playerVelocityY <= -velocityThreshold)
-					y -= vectorAdjustment;
-			}
-
-			int x2 = x + 50;
-			int y2 = y + 50;
-
-			float locationX = Main.rand.Next(x, x2);
-			float locationY = Main.rand.Next(y, y2);
-			Vector2 teleportLocation = new Vector2(locationX, locationY);
-
-			npc.position = teleportLocation;
+			npc.position = targetVector;
 			npc.netUpdate = true;
 
-			for (int i = 0; i < 200; i++)
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				if (Main.npc[i].active && (Main.npc[i].type == ModContent.NPCType<DevourerofGodsBodyS>() || Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>()))
 				{
-					Main.npc[i].position = teleportLocation;
+					Main.npc[i].position = targetVector;
                     if (Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>())
                     {
                         ((DevourerofGodsTailS)Main.npc[i].modNPC).setInvulTime(720);
@@ -924,8 +885,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 			}
 
-			Vector2 npcCenter = new Vector2(npc.position.X + (npc.width / 2), npc.position.Y + (npc.height / 2));
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), (int)npcCenter.X, (int)npcCenter.Y);
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), (int)npc.Center.X, (int)npc.Center.Y);
 
 			int dustAmt = 50;
 			int random = 5;
@@ -935,8 +895,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				random += j * 2;
 				int dustAmtSpawned = 0;
 				int scale = random * 13;
-				float dustPositionX = npcCenter.X - (scale / 2);
-				float dustPositionY = npcCenter.Y - (scale / 2);
+				float dustPositionX = npc.Center.X - (scale / 2);
+				float dustPositionY = npc.Center.Y - (scale / 2);
 				while (dustAmtSpawned < dustAmt)
 				{
 					float dustVelocityX = Main.rand.Next(-random, random);
@@ -946,10 +906,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 					dustVelocity = dustVelocityScalar / dustVelocity;
 					dustVelocityX *= dustVelocity;
 					dustVelocityY *= dustVelocity;
-					int dust = Dust.NewDust(new Vector2(dustPositionX, dustPositionY), scale, scale, 173, 0f, 0f, 100, default, 5f);
+					int dust = Dust.NewDust(new Vector2(dustPositionX, dustPositionY), scale, scale, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 5f);
 					Main.dust[dust].noGravity = true;
-					Main.dust[dust].position.X = teleportLocation.X;
-					Main.dust[dust].position.Y = teleportLocation.Y;
+					Main.dust[dust].position.X = targetVector.X;
+					Main.dust[dust].position.Y = targetVector.Y;
 					Main.dust[dust].position.X += Main.rand.Next(-10, 11);
 					Main.dust[dust].position.Y += Main.rand.Next(-10, 11);
 					Main.dust[dust].velocity.X = dustVelocityX;
@@ -1169,7 +1129,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 15; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -1179,10 +1139,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 for (int num623 = 0; num623 < 30; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }

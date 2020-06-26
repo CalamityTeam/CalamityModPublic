@@ -41,13 +41,13 @@ namespace CalamityMod.NPCs.Astral
             npc.DeathSound = mod.GetLegacySoundSlot(SoundType.NPCKilled, "Sounds/NPCKilled/AstralEnemyDeath");
             npc.knockBackResist = 0.38f;
             npc.value = Item.buyPrice(0, 0, 20, 0);
-            npc.buffImmune[20] = true;
-            npc.buffImmune[31] = false;
             npc.timeLeft = NPC.activeTime * 2;
             animationType = NPCID.WallCreeper;
             banner = npc.type;
             bannerItem = ModContent.ItemType<AstralachneaBanner>();
             npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = true;
+            npc.buffImmune[BuffID.Poisoned] = true;
+            npc.buffImmune[BuffID.Confused] = false;
             if (CalamityWorld.downedAstrageldon)
             {
                 npc.damage = 90;
@@ -148,7 +148,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }

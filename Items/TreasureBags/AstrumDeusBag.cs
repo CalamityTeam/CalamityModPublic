@@ -1,6 +1,7 @@
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Pets;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Magic;
@@ -33,10 +34,7 @@ namespace CalamityMod.Items.TreasureBags
             item.rare = 9;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
 
@@ -58,6 +56,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Equipment
 			DropHelper.DropItemRIV(player, ModContent.ItemType<AstralBulwark>(), ModContent.ItemType<HideofAstrumDeus>(), 1f, DropHelper.RareVariantDropRateFloat);
+            DropHelper.DropItemChance(player, ModContent.ItemType<ChromaticOrb>(), 5);
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<AstrumDeusMask>(), 7);

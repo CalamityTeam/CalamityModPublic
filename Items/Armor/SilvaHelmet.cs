@@ -43,7 +43,6 @@ namespace CalamityMod.Items.Armor
             modPlayer.silvaSet = true;
             modPlayer.silvaSummon = true;
             player.setBonus = "75% increased minion damage\n" +
-                "You are immune to almost all debuffs\n" +
                 "All projectiles spawn healing leaf orbs on enemy hits\n" +
                 "Max run speed and acceleration boosted by 5%\n" +
                 "If you are reduced to 1 HP you will not die from any further damage for 10 seconds\n" +

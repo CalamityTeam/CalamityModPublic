@@ -24,7 +24,7 @@ namespace CalamityMod.Buffs
             }
             else if (type >= BuffID.NebulaUpDmg1 && type <= BuffID.NebulaUpDmg3)
             {
-                float nebulaDamage = 0.075f * (float)player.nebulaLevelDamage; //7.5% to 22.5%
+                float nebulaDamage = 0.075f * player.nebulaLevelDamage; //7.5% to 22.5%
                 player.allDamage -= nebulaDamage;
             }
             else if (type >= BuffID.NebulaUpLife1 && type <= BuffID.NebulaUpLife3)
@@ -83,6 +83,18 @@ namespace CalamityMod.Buffs
                     tip = "22.5% increased damage";
                     break;
 
+                case BuffID.BeetleEndurance1:
+                    tip = "Damage taken reduced by 10%";
+                    break;
+
+                case BuffID.BeetleEndurance2:
+                    tip = "Damage taken reduced by 20%";
+                    break;
+
+                case BuffID.BeetleEndurance3:
+                    tip = "Damage taken reduced by 30%";
+                    break;
+
                 case BuffID.WeaponImbueVenom:
                 case BuffID.WeaponImbueCursedFlames:
                 case BuffID.WeaponImbueFire:
@@ -103,12 +115,6 @@ namespace CalamityMod.Buffs
 
                 case BuffID.ChaosState:
                     tip = "Rod of Discord teleports are disabled";
-                    break;
-
-                case BuffID.Ichor:
-                    tip = "Defense reduced by 20";
-					if (CalamityWorld.revenge)
-						tip += ". All damage taken increased by 25%";
                     break;
 
                 case BuffID.CursedInferno:

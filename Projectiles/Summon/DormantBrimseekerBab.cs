@@ -168,7 +168,7 @@ namespace CalamityMod.Projectiles.Summon
             if ((projectile.ai[0] > 0f && projectile.ai[0] <= MaxChargeTime && projectile.velocity.Length() >= 8f) || SeekingTarget)
             {
                 Texture2D projectileTexture = ModContent.GetTexture(Texture);
-                Texture2D flameTexture = Main.extraTexture[55];
+                Texture2D flameTexture = Main.extraTexture[ExtrasID.MeteorHeadFlame];
                 SpriteEffects spriteEffects = SpriteEffects.None;
                 if (projectile.spriteDirection == -1)
                     spriteEffects = SpriteEffects.FlipHorizontally;
