@@ -3799,7 +3799,7 @@ namespace CalamityMod.CalPlayer
 			modPlayer.critStats[0] = player.meleeCrit;
 			modPlayer.critStats[1] = player.rangedCrit;
 			modPlayer.critStats[2] = player.magicCrit;
-			modPlayer.critStats[3] = modPlayer.throwingCrit;
+			modPlayer.critStats[3] = player.thrownCrit + modPlayer.throwingCrit;
 			modPlayer.ammoReductionRanged = (int)(100f *
 				(player.ammoBox ? 0.8f : 1f) *
 				(player.ammoPotion ? 0.8f : 1f) *
