@@ -47,39 +47,39 @@ namespace CalamityMod.NPCs.NormalNPCs
                     npc.TargetClosest(true);
                     if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
-                        float num179 = 12f; //speed of projectile
-                        Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                        float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-                        float num181 = Math.Abs(num180) * 0.1f;
-                        float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
-                        float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                        float projSpeed = 12f; //speed of projectile
+						Vector2 npcPos = npc.Center;
+                        float targetX = Main.player[npc.target].Center.X - npcPos.X;
+                        float YAdjust = Math.Abs(targetX) * 0.1f;
+                        float targetY = Main.player[npc.target].Center.Y - npcPos.Y - YAdjust;
+						Vector2 velocity = new Vector2(targetX, targetY);
+						float targetDist = velocity.Length();
                         npc.netUpdate = true;
-                        num183 = num179 / num183;
-                        num180 *= num183;
-                        num182 *= num183;
-                        int num184 = 30; //projectile damage
+                        targetDist = projSpeed / targetDist;
+                        velocity.X *= targetDist;
+                        velocity.Y *= targetDist;
+                        int projDmg = 30; //projectile damage
                         if (Main.expertMode)
                         {
-                            num184 = 22;
+                            projDmg = 22;
                         }
-                        int num185 = ProjectileID.MartianTurretBolt; //projectile ID
+                        int projType = ProjectileID.MartianTurretBolt; //projectile ID
                         if (Main.rand.NextBool(8))
                         {
-                            num185 = ProjectileID.SaucerLaser; //more powerful projectile ID
+                            projType = ProjectileID.SaucerLaser; //more powerful projectile ID
                         }
-                        value9.X += num180;
-                        value9.Y += num182;
+                        npcPos.X += velocity.X;
+                        npcPos.Y += velocity.Y;
                         for (int num186 = 0; num186 < 2; num186++) //shoots two projectiles by looping twice
                         {
-                            num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-                            num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
-                            num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                            num183 = 12f / num183;
-                            num180 += (float)Main.rand.Next(-20, 21); //projectile spreadX
-                            num182 += (float)Main.rand.Next(-20, 21); //projectile spreadY
-                            num180 *= num183;
-                            num182 *= num183;
-                            Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+                            velocity = Main.player[npc.target].Center - npcPos;
+							targetDist = velocity.Length();
+                            targetDist = projSpeed / targetDist;
+                            velocity.X += (float)Main.rand.Next(-20, 21); //projectile spreadX
+                            velocity.Y += (float)Main.rand.Next(-20, 21); //projectile spreadY
+                            velocity.X *= targetDist;
+                            velocity.Y *= targetDist;
+                            Projectile.NewProjectile(npcPos, velocity, projType, projDmg, 0f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }
@@ -90,7 +90,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             }
             Vector2 center16 = npc.Center;
             Player player8 = Main.player[npc.target];
-            if (npc.target < 0 || npc.target == 255 || player8.dead || !player8.active)
+            if (npc.target < 0 || npc.target == Main.maxPlayers || player8.dead || !player8.active)
             {
                 npc.TargetClosest(true);
                 player8 = Main.player[npc.target];
@@ -384,20 +384,20 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 if (npc.ai[1] < 40f)
                 {
-                    npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 40f * 6.28318548f), default).Y * 0.2f;
+                    npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 40f * MathHelper.TwoPi), default).Y * 0.2f;
                     return;
                 }
                 if (npc.ai[1] < 80f)
                 {
-                    npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 20f * 6.28318548f), default).Y * 0.3f;
+                    npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 20f * MathHelper.TwoPi), default).Y * 0.3f;
                     return;
                 }
                 if (npc.ai[1] < 120f)
                 {
-                    npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 10f * 6.28318548f), default).Y * 0.4f;
+                    npc.rotation = Vector2.UnitY.RotatedBy((double)(npc.ai[1] / 10f * MathHelper.TwoPi), default).Y * 0.4f;
                     return;
                 }
-                npc.rotation = (npc.ai[1] - 120f) / 30f * 6.28318548f;
+                npc.rotation = (npc.ai[1] - 120f) / 30f * MathHelper.TwoPi;
                 return;
             }
             else if (npc.ai[0] == 2f)
@@ -431,47 +431,36 @@ namespace CalamityMod.NPCs.NormalNPCs
                                 npc.TargetClosest(true);
                                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                                 {
-                                    float num179 = 11f;
-                                    Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-                                    float num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-                                    float num181 = Math.Abs(num180) * 0.1f;
-                                    float num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y - num181;
-                                    float num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
+                                    float projSpeed = 11f;
+									Vector2 npcPos = npc.Center;
+                                    float targetX = Main.player[npc.target].Center.X - npcPos.X;
+                                    float YAdjust = Math.Abs(targetX) * 0.1f;
+                                    float targetY = Main.player[npc.target].Center.Y - npcPos.Y - YAdjust;
+									Vector2 velocity = new Vector2(targetX, targetY);
+									float targetDist = velocity.Length();
                                     npc.netUpdate = true;
-                                    num183 = num179 / num183;
-                                    num180 *= num183;
-                                    num182 *= num183;
-                                    int num184 = 50;
+                                    targetDist = projSpeed / targetDist;
+                                    velocity.X *= targetDist;
+                                    velocity.Y *= targetDist;
+                                    int projDmg = 50;
                                     if (Main.expertMode)
                                     {
-                                        num184 = 28;
+                                        projDmg = 28;
                                     }
-                                    if (Main.hardMode)
-                                    {
-                                        num184 = 40;
-                                        if (NPC.downedMoonlord)
-                                        {
-                                            num184 = 80;
-                                            if (Main.expertMode)
-                                            {
-                                                num184 = 45;
-                                            }
-                                        }
-                                    }
-                                    int num185 = ProjectileID.SaucerLaser;
-                                    value9.X += num180;
-                                    value9.Y += num182;
+                                    int projType = ProjectileID.SaucerLaser;
+                                    npcPos.X += velocity.X;
+                                    npcPos.Y += velocity.Y;
                                     for (int num186 = 0; num186 < 2; num186++)
                                     {
-                                        num180 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - value9.X;
-                                        num182 = Main.player[npc.target].position.Y + (float)Main.player[npc.target].height * 0.5f - value9.Y;
-                                        num183 = (float)Math.Sqrt((double)(num180 * num180 + num182 * num182));
-                                        num183 = 12f / num183;
-                                        num180 += (float)Main.rand.Next(-20, 21);
-                                        num182 += (float)Main.rand.Next(-20, 21);
-                                        num180 *= num183;
-                                        num182 *= num183;
-                                        Projectile.NewProjectile(value9.X, value9.Y, num180, num182, num185, num184, 0f, Main.myPlayer, 0f, 0f);
+                                        velocity.X = Main.player[npc.target].Center.X - npcPos.X;
+                                        velocity.Y = Main.player[npc.target].Center.Y - npcPos.Y;
+                                        targetDist = velocity.Length();
+                                        targetDist = projSpeed / targetDist;
+                                        velocity.X += (float)Main.rand.Next(-20, 21);
+                                        velocity.Y += (float)Main.rand.Next(-20, 21);
+                                        velocity.X *= targetDist;
+                                        velocity.Y *= targetDist;
+                                        Projectile.NewProjectile(npcPos, velocity, projType, projDmg, 0f, Main.myPlayer, 0f, 0f);
                                     }
                                 }
                             }
