@@ -9813,7 +9813,7 @@ namespace CalamityMod.CalPlayer
                 Texture2D robotTexture = ModContent.GetTexture("CalamityMod/Projectiles/Summon/AndromedaSmall");
                 Rectangle frame = new Rectangle(0, robotEntityInstance.CurrentFrame * 54, robotTexture.Width, robotTexture.Height / 21);
                 DrawData drawData = new DrawData(robotTexture,
-                                 drawPlayer.Center + new Vector2(0f, -8f) - Main.screenPosition,
+                                 drawPlayer.Center + new Vector2(drawPlayer.direction == 1 ? -24 : -10, -8f) - Main.screenPosition,
                                  frame,
                                  Color.White,
                                  0f,
