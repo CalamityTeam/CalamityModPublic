@@ -31,7 +31,8 @@ namespace CalamityMod.NPCs.Yharon
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
-            npc.HitSound = SoundID.NPCHit52;
+			npc.chaseable = false;
+			npc.HitSound = SoundID.NPCHit52;
             npc.DeathSound = SoundID.NPCDeath55;
             npc.alpha = 255;
         }

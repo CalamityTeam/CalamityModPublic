@@ -45,7 +45,7 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.Ichor, 120);
             if (target.damage > 0 && crit && !CalamityPlayer.areThereAnyDamnBosses)
             {
-                target.damage = target.defDamage - 10;
+                target.damage = target.defDamage - 5;
 				if (target.damage < 1)
 					target.damage = 1;
             }

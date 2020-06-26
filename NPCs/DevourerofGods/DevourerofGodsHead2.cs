@@ -135,10 +135,10 @@ namespace CalamityMod.NPCs.DevourerofGods
             if (player.dead || CalamityGlobalNPC.DoGHead < 0 || !Main.npc[CalamityGlobalNPC.DoGHead].active)
             {
                 npc.TargetClosest(false);
-                npc.velocity.Y = npc.velocity.Y - 3f;
+                npc.velocity.Y -= 3f;
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                 {
-                    npc.velocity.Y = npc.velocity.Y - 3f;
+                    npc.velocity.Y -= 3f;
                 }
                 if ((double)npc.position.Y < Main.topWorld + 16f)
                 {

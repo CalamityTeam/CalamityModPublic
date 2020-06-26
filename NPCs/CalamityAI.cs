@@ -2872,7 +2872,11 @@ namespace CalamityMod.NPCs
 								{
 									var netMessage = mod.GetPacket();
 									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+									netMessage.Write((byte)npc2);
 									netMessage.Write(Main.npc[npc2].Calamity().newAI[0]);
+									netMessage.Write(Main.npc[npc2].Calamity().newAI[1]);
+									netMessage.Write(Main.npc[npc2].Calamity().newAI[2]);
+									netMessage.Write(Main.npc[npc2].Calamity().newAI[3]);
 									netMessage.Send();
 								}
 
@@ -2886,7 +2890,10 @@ namespace CalamityMod.NPCs
 								{
 									var netMessage = mod.GetPacket();
 									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+									netMessage.Write((byte)npc3);
 									netMessage.Write(Main.npc[npc3].Calamity().newAI[0]);
+									netMessage.Write(Main.npc[npc3].Calamity().newAI[1]);
+									netMessage.Write(Main.npc[npc3].Calamity().newAI[2]);
 									netMessage.Write(Main.npc[npc3].Calamity().newAI[3]);
 									netMessage.Send();
 								}
@@ -2993,6 +3000,17 @@ namespace CalamityMod.NPCs
 							Main.npc[lol].realLife = npc.whoAmI;
 							Main.npc[lol].Calamity().newAI[0] = calamityGlobalNPC.newAI[0];
 							Main.npc[lol].Calamity().newAI[3] = calamityGlobalNPC.newAI[3];
+							if (Main.netMode == NetmodeID.Server)
+							{
+								var netMessage = mod.GetPacket();
+								netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+								netMessage.Write((byte)lol);
+								netMessage.Write(Main.npc[lol].Calamity().newAI[0]);
+								netMessage.Write(Main.npc[lol].Calamity().newAI[1]);
+								netMessage.Write(Main.npc[lol].Calamity().newAI[2]);
+								netMessage.Write(Main.npc[lol].Calamity().newAI[3]);
+								netMessage.Send();
+							}
 							Main.npc[lol].ai[2] = npc.whoAmI;
 							Main.npc[lol].ai[1] = Previous;
 							Main.npc[Previous].ai[0] = lol;

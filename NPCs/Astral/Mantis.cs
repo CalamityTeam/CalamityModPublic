@@ -64,39 +64,31 @@ namespace CalamityMod.NPCs.Astral
                 {
                     npc.velocity.X -= acceleration;
                     if (npc.velocity.X > 0)
-                    {
                         npc.velocity.X -= acceleration;
-                    }
                     if (npc.velocity.X < -maxSpeed)
-                    {
                         npc.velocity.X = -maxSpeed;
-                    }
                 }
                 else
                 {
                     npc.velocity.X += acceleration;
                     if (npc.velocity.X < 0)
-                    {
                         npc.velocity.X += acceleration;
-                    }
                     if (npc.velocity.X > maxSpeed)
-                    {
                         npc.velocity.X = maxSpeed;
-                    }
                 }
 
                 //if need to jump
                 if (npc.velocity.Y == 0f && (HoleBelow() || (npc.collideX && npc.position.X == npc.oldPosition.X)))
                 {
-                    npc.velocity.Y = (CalamityWorld.death ? -7f : -5f);
+                    npc.velocity.Y = CalamityWorld.death ? -7f : -5f;
                 }
 
                 //check if we can shoot at target.
                 Vector2 vector = npc.Center - target.Center;
-                if (Math.Abs(vector.Y) < 64f && Math.Abs(vector.X) < 540f && Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
+                if (vector.Length() < 480f && Collision.CanHit(npc.position, npc.width, npc.height, target.position, target.width, target.height))
                 {
-                    npc.ai[1]++;
-                    if (npc.ai[1] > (CalamityWorld.death ? 60f : 120f))
+                    npc.ai[1] += 1f;
+                    if (npc.ai[1] >= (CalamityWorld.death ? 60f : 120f))
                     {
                         //fire projectile
                         npc.ai[0] = 1f;
@@ -106,24 +98,19 @@ namespace CalamityMod.NPCs.Astral
                     }
                 }
                 else
-                {
                     npc.ai[1] -= 0.5f;
-                }
 
                 if (npc.justHit)
-                {
                     npc.ai[1] -= 60f;
-                }
-
 
                 if (npc.ai[1] < 0f)
                     npc.ai[1] = 0f;
             }
             else
             {
-                npc.ai[2]++;
+                npc.ai[2] += 1f;
                 npc.velocity.X *= 0.95f;
-                if (npc.ai[2] == 25f)
+                if (npc.ai[2] >= 20f)
                 {
                     Main.PlaySound(SoundID.Item71, npc.position);
                     Vector2 vector = Main.player[npc.target].Center - npc.Center;
@@ -230,7 +217,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }
