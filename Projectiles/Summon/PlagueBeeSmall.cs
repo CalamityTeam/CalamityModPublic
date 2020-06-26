@@ -28,8 +28,12 @@ namespace CalamityMod.Projectiles.Summon
 
 		public override void AI()
 		{
+			if (projectile.owner != Main.myPlayer)
+				projectile.Kill();
+
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+            projectile.rotation += projectile.spriteDirection * MathHelper.ToRadians(45f);
 
 			projectile.frameCounter++;
 			if (projectile.frameCounter >= 3)
@@ -45,12 +49,9 @@ namespace CalamityMod.Projectiles.Summon
 			Vector2 center = projectile.Center;
 			float maxDistance = 800f;
 			bool homeIn = false;
-			float num373 = projectile.position.X;
-			float num374 = projectile.position.Y;
 			projectile.ai[0] += 1f;
 			if (projectile.ai[0] > 30f)
 			{
-				projectile.ai[0] = 20f;
 				Player player = Main.player[projectile.owner];
 				if (player.HasMinionAttackTargetNPC)
 				{
@@ -95,8 +96,8 @@ namespace CalamityMod.Projectiles.Summon
 			}
 			if (!homeIn)
 			{
-				center = projectile.Center + projectile.velocity;
-				center *= 100f;
+				center.X = projectile.Center.X + projectile.velocity.X * 100f;
+				center.Y = projectile.Center.Y + projectile.velocity.Y * 100f;
 			}
 			float speed = 10f;
 			float velocityTweak = 0.14f;
