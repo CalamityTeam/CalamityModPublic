@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Boss
 			else
 				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 90) / 60f), 0f, 1f);
 
-			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             if (projectile.localAI[0] == 0f)
             {
@@ -58,19 +58,19 @@ namespace CalamityMod.Projectiles.Boss
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
             }
 
-            float num953 = revenge ? 100f : 80f; //100
-            float scaleFactor12 = revenge ? 20f : 15f; //5
-            float num954 = 40f;
-            int num959 = (int)projectile.ai[0];
-            if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
+            float turnSpeed = revenge ? 100f : 80f; //100
+            float homeSpeed = revenge ? 20f : 15f; //5
+            float minDist = 40f;
+            int target = (int)projectile.ai[0];
+            if (target >= 0 && Main.player[target].active && !Main.player[target].dead)
             {
-                if (projectile.Distance(Main.player[num959].Center) > num954)
+                if (projectile.Distance(Main.player[target].Center) > minDist)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[num959].Center);
-                    if (vector102.HasNaNs())
-                        vector102 = Vector2.UnitY;
+                    Vector2 targetVec = projectile.DirectionTo(Main.player[target].Center);
+                    if (targetVec.HasNaNs())
+                        targetVec = Vector2.UnitY;
 
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                    projectile.velocity = (projectile.velocity * (turnSpeed - 1f) + targetVec * homeSpeed) / turnSpeed;
                 }
             }
             else
@@ -85,11 +85,11 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture2D13 = Main.projectileTexture[projectile.type];
-            int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
-            int y6 = num214 * projectile.frame;
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            int frameHeight = texture.Height / Main.projFrames[projectile.type];
+            int drawStart = frameHeight * projectile.frame;
 			lightColor.R = (byte)(255 * projectile.Opacity);
-			Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+			Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, drawStart, texture.Width, frameHeight)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture.Width / 2f, frameHeight / 2f), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
 
@@ -110,14 +110,13 @@ namespace CalamityMod.Projectiles.Boss
 
 			if (projectile.ai[1] == 0f)
 			{
-				float spread = 45f * 0.0174f;
+				float spread = 45f * MathHelper.PiOver2 * 0.01f;
 				double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
 				double deltaAngle = spread / 8f;
 				double offsetAngle;
-				int i;
 				if (projectile.owner == Main.myPlayer)
 				{
-					for (i = 0; i < 8; i++)
+					for (int i = 0; i < 8; i++)
 					{
 						offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
 						Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 7f), (float)(Math.Cos(offsetAngle) * 7f), ModContent.ProjectileType<BrimstoneBarrage>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 1f);
@@ -126,15 +125,15 @@ namespace CalamityMod.Projectiles.Boss
 				}
 			}
 
-            Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 50, default, 1f);
-            for (int num194 = 0; num194 < 10; num194++)
+            Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 50, default, 1f);
+            for (int j = 0; j < 10; j++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 50, default, 1f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int redFire = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1.5f);
+                Main.dust[redFire].noGravity = true;
+                Main.dust[redFire].velocity *= 3f;
+                redFire = Dust.NewDust(projectile.position, projectile.width, projectile.height, (int)CalamityDusts.Brimstone, 0f, 0f, 50, default, 1f);
+                Main.dust[redFire].velocity *= 2f;
+                Main.dust[redFire].noGravity = true;
             }
         }
 
