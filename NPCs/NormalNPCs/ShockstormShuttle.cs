@@ -12,6 +12,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shockstorm Shuttle");
+            Main.npcFrameCount[npc.type] = 4;
         }
 
         public override void SetDefaults()
@@ -536,6 +537,14 @@ namespace CalamityMod.NPCs.NormalNPCs
                 }
                 npc.rotation = 0f;
             }
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter += 0.085f;
+            npc.frameCounter %= Main.npcFrameCount[npc.type];
+            int frame = (int)npc.frameCounter;
+            npc.frame.Y = frame * frameHeight;
         }
 
         public override void HitEffect(int hitDirection, double damage)
