@@ -5142,7 +5142,7 @@ namespace CalamityMod.CalPlayer
                         num13 *= num16;
                         num14 *= num16;
                         int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 120, 5f, player.whoAmI, 0f, 0f);
-                        Main.projectile[num17].ranged = false;
+                        Main.projectile[num17].Calamity().forceTypeless = true;
                     }
                 }
                 if (bloodflareMelee && item.melee)
@@ -5580,7 +5580,7 @@ namespace CalamityMod.CalPlayer
                         }
                         else
                         {
-                            projectileType = ProjectileID.FallingStar;
+                            projectileType = ModContent.ProjectileType<FallenStarProj>();
                         }
                         float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
                         num16 = num15 / num16;
