@@ -5123,22 +5123,15 @@ namespace CalamityMod.CalPlayer
                         float num13 = target.position.X + (float)(target.width / 2) - vector.X;
                         float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
                         num13 += (float)Main.rand.Next(-100, 101);
-                        float num15 = 25f;
-                        int projectileType = Main.rand.Next(3);
-                        if (projectileType == 0)
-                        {
-                            projectileType = ModContent.ProjectileType<AstralStar>();
-                        }
-                        else if (projectileType == 1)
-                        {
-                            projectileType = ProjectileID.HallowStar;
-                        }
-                        else
-                        {
-                            projectileType = ModContent.ProjectileType<FallenStarProj>();
-                        }
+                        float speed = 25f;
+						int projectileType = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ModContent.ProjectileType<AstralStar>(),
+							ProjectileID.HallowStar,
+							ModContent.ProjectileType<FallenStarProj>()
+						});
                         float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                        num16 = num15 / num16;
+                        num16 = speed / num16;
                         num13 *= num16;
                         num14 *= num16;
                         int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 120, 5f, player.whoAmI, 0f, 0f);
@@ -5568,22 +5561,15 @@ namespace CalamityMod.CalPlayer
                         float num13 = target.position.X + (float)(target.width / 2) - vector.X;
                         float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
                         num13 += (float)Main.rand.Next(-100, 101);
-                        float num15 = 25f;
-                        int projectileType = Main.rand.Next(3);
-                        if (projectileType == 0)
-                        {
-                            projectileType = ModContent.ProjectileType<AstralStar>();
-                        }
-                        else if (projectileType == 1)
-                        {
-                            projectileType = ProjectileID.HallowStar;
-                        }
-                        else
-                        {
-                            projectileType = ModContent.ProjectileType<FallenStarProj>();
-                        }
+                        float speed = 25f;
+						int projectileType = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ModContent.ProjectileType<AstralStar>(),
+							ProjectileID.HallowStar,
+							ModContent.ProjectileType<FallenStarProj>()
+						});
                         float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                        num16 = num15 / num16;
+                        num16 = speed / num16;
                         num13 *= num16;
                         num14 *= num16;
                         int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 120, 5f, player.whoAmI, 0f, 0f);
