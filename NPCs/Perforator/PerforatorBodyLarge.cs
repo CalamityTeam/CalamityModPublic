@@ -60,18 +60,18 @@ namespace CalamityMod.NPCs.Perforator
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 int shoot = revenge ? 5 : 4;
-                npc.localAI[0] += (float)Main.rand.Next(shoot);
-                if (npc.localAI[0] >= (float)Main.rand.Next(5500, 20000))
+                npc.localAI[0] += Main.rand.Next(shoot);
+                if (npc.localAI[0] >= Main.rand.Next(1800, 20000))
                 {
                     npc.localAI[0] = 0f;
                     npc.TargetClosest(true);
                     if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
                     {
                         float num941 = revenge ? 9f : 8f;
-                        Vector2 vector104 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)(npc.height / 2));
-                        float num942 = player.position.X + (float)player.width * 0.5f - vector104.X;
-                        float num943 = player.position.Y + (float)player.height * 0.5f - vector104.Y;
-                        float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
+                        Vector2 vector104 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + (npc.height / 2));
+                        float num942 = player.position.X + player.width * 0.5f - vector104.X;
+                        float num943 = player.position.Y + player.height * 0.5f - vector104.Y;
+                        float num944 = (float)Math.Sqrt(num942 * num942 + num943 * num943);
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;

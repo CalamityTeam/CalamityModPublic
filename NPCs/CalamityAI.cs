@@ -214,7 +214,7 @@ namespace CalamityMod.NPCs
 										vector15 *= Main.rand.Next(50, 401);
 
 										if (expertMode)
-											vector15 *= death ? 0.05f : 0.05f * (1f - lifeRatio);
+											vector15 *= 1f + (death ? 0.05f : 0.05f * (1f - lifeRatio));
 
 										if (CalamityWorld.bossRushActive)
 											vector15 *= 1.1f;

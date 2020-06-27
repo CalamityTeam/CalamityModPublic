@@ -4083,10 +4083,19 @@ namespace CalamityMod.NPCs
             {
                 pool[0] = 0f;
             }
-			if (spawnInfo.player.Calamity().underworldLore)
+
+			// Spawn Green Jellyfish in prehm and Blue Jellyfish in hardmode
+			if (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.water)
 			{
-				pool[NPCID.VoodooDemon] = 0f;
+				if (!Main.hardMode)
+					pool[NPCID.GreenJellyfish] = SpawnCondition.CaveJellyfish.Chance * 0.5f;
+				else
+					pool[NPCID.BlueJellyfish] = SpawnCondition.CaveJellyfish.Chance;
 			}
+
+			if (spawnInfo.player.Calamity().underworldLore)
+				pool[NPCID.VoodooDemon] = 0f;
+
             if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
             {
                 pool.Clear();
