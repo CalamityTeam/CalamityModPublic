@@ -3349,6 +3349,7 @@ namespace CalamityMod.CalPlayer
 				player.npcTypeNoAggro[ModContent.NPCType<PerennialSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<PlaguedJungleSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<AstralSlime>()] = true;
+				player.npcTypeNoAggro[ModContent.NPCType<GammaSlime>()] = true;
 				// LATER -- When Wulfrum Slimes start being definitely robots, remove this immunity.
 				player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
 			}
