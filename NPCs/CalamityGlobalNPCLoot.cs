@@ -380,6 +380,17 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+			//Since Calamity makes it spawn in pre-hardmode, don't want to cause other mods to freak out if they use it as a tier gate (like a new weapon or something)
+			else if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
+			{
+                DropHelper.DropItem(npc, ItemID.Glowstick, 1, 4);
+                DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.1f);
+                DropHelper.DropItemChance(npc, ItemID.Megaphone, Main.expertMode ? 0.2f : 0.1f);
+                DropHelper.DropItemCondition(npc, ItemID.JellyfishNecklace, CalamityWorld.defiled, DropHelper.DefiledDropRateFloat);
+                DropHelper.DropItemCondition(npc, ItemID.Megaphone, CalamityWorld.defiled, DropHelper.DefiledDropRateFloat);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
+				return false;
+			}
 
             return true;
         }
@@ -1428,7 +1439,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.PinkJellyfish:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 20 : 25);
                     break;
 
                 case NPCID.BlueJellyfish:

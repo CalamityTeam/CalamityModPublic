@@ -1,4 +1,3 @@
-using CalamityMod.Items.Materials;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -13,7 +12,7 @@ namespace CalamityMod.Items.Accessories
             DisplayName.SetDefault("Grand Gelatin");
             Tooltip.SetDefault("10% increased movement speed\n" +
                 "200% increased jump speed\n" +
-                "+40 max life and mana\n" +
+                "+20 max life and mana\n" +
                 "Standing still boosts life and mana regen");
         }
 
@@ -29,9 +28,9 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.moveSpeed += 0.1f;
-            player.jumpSpeedBoost += player.autoJump ? 0.5f : 2.0f;
-            player.statLifeMax2 += 40;
-            player.statManaMax2 += 40;
+            player.jumpSpeedBoost += player.autoJump ? 0.5f : 2f;
+            player.statLifeMax2 += 20;
+            player.statManaMax2 += 20;
             if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
             {
                 player.lifeRegen += 2;
@@ -45,7 +44,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<ManaJelly>());
             recipe.AddIngredient(ModContent.ItemType<LifeJelly>());
             recipe.AddIngredient(ModContent.ItemType<VitalJelly>());
-            recipe.AddIngredient(ModContent.ItemType<VerstaltiteBar>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
