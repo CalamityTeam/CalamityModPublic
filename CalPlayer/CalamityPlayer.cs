@@ -5471,8 +5471,11 @@ namespace CalamityMod.CalPlayer
 			// Forbidden armor makes you immune when holding the respective helmet's preferred weapon type
             // Profaned Soul Crystal encourages use of other weapons, nerfing the damage would not make sense.
             bool forbidden = player.head == ArmorIDs.Head.AncientBattleArmor && player.body == ArmorIDs.Body.AncientBattleArmor && player.legs == ArmorIDs.Legs.AncientBattleArmor;
-            if (isSummon && !fearmongerSet && !profanedCrystalBuffs &&
-			(!forbidden || !heldItem.magic) && (!forbiddenCirclet || !heldItem.Calamity().rogue))
+			bool reducedNerf = fearmongerSet || (forbidden && heldItem.magic) || (forbiddenCirclet && heldItem.Calamity().rogue);
+			double summonNerfMult = 0.5;
+			if (reducedNerf)
+				summonNerfMult = 0.75;
+            if (isSummon && !profanedCrystalBuffs)
             {
 				if (heldItem.type > ItemID.None)
 				{
@@ -5480,7 +5483,7 @@ namespace CalamityMod.CalPlayer
 						(heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.Calamity().rogue) &&
 						heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0)
 					{
-						damage = (int)(damage * 0.75);
+						damage = (int)(damage * summonNerfMult);
 					}
 				}
             }
