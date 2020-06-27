@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     spawnDoGCountdown--;
                     if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
 						for (int i = 0; i < 2; i++)
                             NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     spawnDoGCountdown--;
 
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
 					if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                         NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
