@@ -880,6 +880,8 @@ namespace CalamityMod.Items
 
             if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
             {
+				if (item.type == ItemID.WireKite)
+					return false;
                 if (item.pick > 0 && item.axe > 0 && item.hammer > 0)
                     return false;
                 if (item.Calamity().rogue || item.magic || item.ranged || item.melee)
