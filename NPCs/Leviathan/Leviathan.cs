@@ -584,9 +584,10 @@ namespace CalamityMod.NPCs.Leviathan
                     Main.dust[num624].velocity *= 2f;
                 }
                 float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Leviathangib1"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Leviathangib2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/Leviathangib3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/LeviathanGores/LeviGore"), 1f);
+                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/LeviathanGores/LeviGore2"), 1f);
+                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/LeviathanGores/LeviGore3"), 1f);
+                Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot("Gores/LeviathanGores/LeviGore4"), 1f);
             }
         }
 
@@ -598,6 +599,9 @@ namespace CalamityMod.NPCs.Leviathan
         // The Leviathan runs the same loot code as Anahita, but only if she dies last.
         public override void NPCLoot()
         {
+			//Trophy dropped regardless of Anahita, precedent of Twins
+            DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanTrophy>(), 10);
+
             if (!NPC.AnyNPCs(ModContent.NPCType<Siren>()))
                 DropSirenLeviLoot(npc);
         }
@@ -607,7 +611,6 @@ namespace CalamityMod.NPCs.Leviathan
         {
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeOcean>(), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeLeviathanandSiren>(), true, !CalamityWorld.downedLeviathan);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedLeviathan, 4, 2, 1);
@@ -628,6 +631,7 @@ namespace CalamityMod.NPCs.Leviathan
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<LeviathanMask>(), 7);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<AnahitaMask>(), 7);
 
                 // Fishing
                 DropHelper.DropItemChance(npc, ItemID.HotlineFishingHook, 10);

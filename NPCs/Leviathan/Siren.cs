@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -703,12 +704,12 @@ namespace CalamityMod.NPCs.Leviathan
             if (num22 != 0)
             {
                 if (npc.ai[1] == 0f && num22 != npc.direction)
-                    npc.rotation += 3.14159274f;
+                    npc.rotation += MathHelper.Pi;
 
                 npc.direction = num22;
 
                 if (npc.spriteDirection != -npc.direction)
-                    npc.rotation += 3.14159274f;
+                    npc.rotation += MathHelper.Pi;
 
                 npc.spriteDirection = -npc.direction;
             }
@@ -717,18 +718,12 @@ namespace CalamityMod.NPCs.Leviathan
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 3; k++)
-                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 0, default, 1f);
 
             if (npc.life <= 0)
             {
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SirenGores/Siren"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SirenGores/Siren2"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SirenGores/Siren3"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SirenGores/Siren4"), 1f);
-                Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SirenGores/Siren5"), 1f);
-
                 for (int k = 0; k < 50; k++)
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, 187, hitDirection, -1f, 0, default, 1f);
             }
         }
 
@@ -844,6 +839,9 @@ namespace CalamityMod.NPCs.Leviathan
         // Anahita runs the same loot code as the Leviathan, but only if she dies last.
         public override void NPCLoot()
         {
+			//Trophy dropped regardless of Levi, precedent of Twins
+            DropHelper.DropItemChance(npc, ModContent.ItemType<AnahitaTrophy>(), 10);
+
             if (!NPC.AnyNPCs(ModContent.NPCType<Leviathan>()))
                 Leviathan.DropSirenLeviLoot(npc);
         }
