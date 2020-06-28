@@ -55,22 +55,22 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            float xPos = projectile.ai[0] > 0 ? projectile.position.X + 800 : projectile.position.X - 800;
-            Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
-
-            float num80 = xPos;
-            float speedX = (float)target.position.X - vector2.X;
-            float speedY = (float)target.position.Y - vector2.Y;
-            float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-            dir = 10 / num80;
-            float random = (float)Main.rand.Next(1, 150);
             if (projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    speedX *= dir * random;
-                    speedY *= dir * random;
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<SHIV>(), projectile.damage, 1f, projectile.owner);
+					float xPos = i < 2 ? projectile.position.X + 800 : projectile.position.X - 800;
+					Vector2 source = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
+
+					float xStart = xPos;
+					Vector2 speed = target.position - source;
+					float dir = speed.Length();
+					dir = 10 / xStart;
+					float random = (float)Main.rand.Next(1, 150);
+
+                    speed.X *= dir * random;
+                    speed.Y *= dir * random;
+                    Projectile.NewProjectile(source, speed, ModContent.ProjectileType<SHIV>(), projectile.damage, 1f, projectile.owner);
                 }
             }
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
