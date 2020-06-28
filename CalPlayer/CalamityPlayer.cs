@@ -9479,6 +9479,22 @@ namespace CalamityMod.CalPlayer
                 }
             }
         });
+        public static readonly PlayerLayer DyeInvisibilityFix = new PlayerLayer("CalamityMod", "DyeInvisibilityFix", PlayerLayer.Arms, (PlayerDrawInfo drawInfo) =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (!drawPlayer.invis ||
+                drawPlayer.itemAnimation > 0)
+            {
+                return;
+            }
+            for (int i = 0; i < Main.playerDrawData.Count; i++)
+            {
+                var copy = Main.playerDrawData[i];
+                copy.shader = 0; // There's no other easy solution here to my knowledge since DrawData is a value type.
+                Main.playerDrawData[i] = copy;
+            }
+        });
         public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
         {
             if (drawInfo.shadow != 0f)
@@ -9848,6 +9864,7 @@ namespace CalamityMod.CalPlayer
             list.Add(ColdDivinityOverlay);
             list.Add(StratusSphereDrawing);
             list.Add(IbanDevRobot);
+            list.Add(DyeInvisibilityFix);
         }
 
         public PlayerLayer clAfterAll = new PlayerLayer("Calamity", "clAfterAll", PlayerLayer.MiscEffectsFront, delegate (PlayerDrawInfo drawInfo)
