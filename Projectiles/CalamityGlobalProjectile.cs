@@ -1067,6 +1067,10 @@ namespace CalamityMod.Projectiles
 						crit = Main.rand.NextBool(6);
 				}
 
+				//Needs to be done in here.  If done in the projectile file, it's overridden by the thing above
+				if (projectile.type == ProjectileType<PwnagehammerProj>() && projectile.ai[0] == 1f)
+					crit = true;
+
 				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
 					crit = true;
 			}
