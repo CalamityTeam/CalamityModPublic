@@ -1722,7 +1722,7 @@ namespace CalamityMod.Items
 					{
 						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
 						{
-							line2.text += "\nMinions deal full damage while wielding magic weapons";
+							line2.text += "\nThe minion damage nerf is reduced while wielding magic weapons";
 						}
 					}
 				}
