@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Projectiles.Melee
+namespace CalamityMod.Projectiles.Typeless
 {
 	public class YanmeisKnifeSlash : ModProjectile
 	{
@@ -25,7 +25,6 @@ namespace CalamityMod.Projectiles.Melee
 			projectile.friendly = true;
 			projectile.penetrate = -1;
 			projectile.tileCollide = false;
-			projectile.melee = true;
 			projectile.ownerHitCheck = true;
 			projectile.usesLocalNPCImmunity = true;
 			projectile.localNPCHitCooldown = 20;

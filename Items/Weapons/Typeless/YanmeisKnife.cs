@@ -1,11 +1,11 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Projectiles.Melee;
+using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Weapons.Melee
+namespace CalamityMod.Items.Weapons.Typeless
 {
 	public class YanmeisKnife : ModItem
 	{
@@ -24,7 +24,6 @@ namespace CalamityMod.Items.Weapons.Melee
 			item.width = 48;
 			item.damage = 8;
 			item.crit += 6;
-			item.melee = true;
 			item.noMelee = true;
 			item.noUseGraphic = true;
 			item.useAnimation = item.useTime = 32;
