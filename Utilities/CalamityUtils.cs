@@ -390,8 +390,8 @@ namespace CalamityMod
 						float extraDistance = (Main.npc[index].width / 2) + (Main.npc[index].height / 2);
 
 						bool canHit = true;
-						if (extraDistance < maxDistance && !ignoreTiles)
-							canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[index].Center, 1, 1);
+						if (extraDistance < distance && !ignoreTiles)
+							canHit = Collision.CanHit(origin, 1, 1, Main.npc[index].Center, 1, 1);
 
                         if (Vector2.Distance(origin, Main.npc[index].Center) < (distance + extraDistance) && canHit)
                         {
@@ -412,8 +412,8 @@ namespace CalamityMod
 						float extraDistance = (Main.npc[index].width / 2) + (Main.npc[index].height / 2);
 
 						bool canHit = true;
-						if (extraDistance < maxDistance && !ignoreTiles)
-							canHit = Collision.CanHit(projectile.Center, 1, 1, Main.npc[index].Center, 1, 1);
+						if (extraDistance < distance && !ignoreTiles)
+							canHit = Collision.CanHit(origin, 1, 1, Main.npc[index].Center, 1, 1);
 
                         if (Vector2.Distance(origin, Main.npc[index].Center) < (distance + extraDistance) && canHit)
                         {
