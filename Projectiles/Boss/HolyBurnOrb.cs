@@ -22,7 +22,7 @@ namespace CalamityMod.Projectiles.Boss
         {
             projectile.width = 30;
             projectile.height = 30;
-            projectile.friendly = true;
+            projectile.hostile = true;
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
 			projectile.alpha = 255;
@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (projectile.ai[0] < 80f)
+			if (projectile.ai[0] < 240f)
 			{
 				projectile.ai[0] += 1f;
 
@@ -41,7 +41,10 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			bool expertMode = Main.expertMode;
-            projectile.velocity *= 1.01f;
+
+			if (projectile.velocity.Length() < 16f)
+				projectile.velocity *= 1.01f;
+
             int num487 = Player.FindClosest(projectile.position, projectile.width, projectile.height);
             Vector2 vector36 = new Vector2(projectile.position.X + projectile.width * 0.5f, projectile.position.Y + projectile.height * 0.5f);
             float num489 = Main.player[num487].Center.X - vector36.X;
