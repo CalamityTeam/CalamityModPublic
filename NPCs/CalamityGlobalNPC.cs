@@ -1067,6 +1067,12 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 0.6);
             }
 
+			if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
+			{
+				npc.defense = 4;
+				npc.defDefense = npc.defense;
+			}
+
             if (Main.bloodMoon && NPC.downedMoonlord && !npc.boss && !npc.friendly && !npc.dontTakeDamage && npc.lifeMax <= 2000 && npc.damage > 0)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 3.5);
@@ -1401,7 +1407,8 @@ namespace CalamityMod.NPCs
         {
 			// Damage reduction on spawn
 			bool destroyerResist = DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-			if (destroyerResist || AstrumDeusIDs.Contains(npc.type))
+			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && CalamityWorld.bossRushActive;
+			if (destroyerResist || eaterofWorldsResist || AstrumDeusIDs.Contains(npc.type))
 			{
 				if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 				{

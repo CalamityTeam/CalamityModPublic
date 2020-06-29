@@ -1394,8 +1394,12 @@ namespace CalamityMod.NPCs
             // Percent segments remaining, add two to total for head and tail
             float lifeRatio = segmentCount / (totalSegments + 2);
 
-            // Phases
-            bool phase2 = lifeRatio < 0.9f || death;
+			// 8 seconds of reistance to prevent spawn killing
+			if (calamityGlobalNPC.newAI[1] < 480f && CalamityWorld.bossRushActive)
+				calamityGlobalNPC.newAI[1] += 1f;
+
+			// Phases
+			bool phase2 = lifeRatio < 0.9f || death;
             bool phase3 = lifeRatio < 0.75f || death;
             bool phase4 = lifeRatio < 0.4f || death;
             bool phase5 = lifeRatio < 0.1f || (death && lifeRatio < 0.33f);
@@ -1810,7 +1814,7 @@ namespace CalamityMod.NPCs
                         bool flag5 = true;
                         for (int num58 = 0; num58 < Main.maxPlayers; num58++)
                         {
-                            if (Main.player[num58].active && !Main.player[num58].dead && Main.player[num58].ZoneCorrupt)
+                            if (Main.player[num58].active && !Main.player[num58].dead && (Main.player[num58].ZoneCorrupt || Main.player[num58].ZoneCrimson))
                                 flag5 = false;
                         }
 
