@@ -31,10 +31,10 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			//Spawns the shockwave
-			Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<SabatonBoom>(), 300, 12, projectile.owner);
-            Main.PlaySound(SoundID.Item14, projectile.position);
             Player player = Main.player[projectile.owner];
+			//Spawns the shockwave
+			Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<SabatonBoom>(), (int)(300 * player.AverageDamage()), 12, projectile.owner);
+            Main.PlaySound(SoundID.Item14, projectile.position);
             player.Calamity().gSabatonFall = 0;
 			projectile.Kill();
 			//Pretty things
