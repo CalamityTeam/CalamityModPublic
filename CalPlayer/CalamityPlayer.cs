@@ -253,6 +253,7 @@ namespace CalamityMod.CalPlayer
         public int throwingCrit = 0;
         public bool throwingAmmoCost75 = false;
         public bool throwingAmmoCost66 = false;
+        public bool throwingAmmoCost55 = false;
         public bool throwingAmmoCost50 = false;
         #endregion
 
@@ -626,6 +627,11 @@ namespace CalamityMod.CalPlayer
         public bool auricBoost = false;
         public bool daedalusReflect = false;
         public bool daedalusSplit = false;
+        public bool titanHeartSet = false;
+        public bool titanHeartMask = false;
+        public bool titanHeartMantle = false;
+        public bool titanHeartBoots = false;
+        public int titanCooldown = 0;
         public bool umbraphileSet = false;
         public bool reaverBlast = false;
         public bool reaverBurst = false;
@@ -1307,6 +1313,7 @@ namespace CalamityMod.CalPlayer
             throwingCrit = 0;
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
+            throwingAmmoCost55 = false;
             throwingAmmoCost50 = false;
 			accStealthGenBoost = 0f;
 
@@ -1607,6 +1614,10 @@ namespace CalamityMod.CalPlayer
 
             statigelSet = false;
 
+            titanHeartSet = false;
+            titanHeartMask = false;
+            titanHeartMantle = false;
+            titanHeartBoots = false;
             umbraphileSet = false;
             plagueReaper = false;
 			plaguebringerPatronSet = false;
@@ -1964,8 +1975,6 @@ namespace CalamityMod.CalPlayer
 			hallowedRuneCooldown = 0;
 			doubledHorror = false;
 			sulphurBubbleCooldown = 0;
-			forbiddenCooldown = 0;
-			tornadoCooldown = 0;
 			ladHearts = 0;
 			prismaticLasers = 0;
 
@@ -2029,6 +2038,7 @@ namespace CalamityMod.CalPlayer
             throwingCrit = 0;
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
+            throwingAmmoCost55 = false;
             throwingAmmoCost50 = false;
             #endregion
 
@@ -2184,6 +2194,11 @@ namespace CalamityMod.CalPlayer
             reaverDoubleTap = false;
             shadeRegen = false;
             dsSetBonus = false;
+            titanHeartSet = false;
+            titanHeartMask = false;
+            titanHeartMantle = false;
+            titanHeartBoots = false;
+			titanCooldown = 0;
             umbraphileSet = false;
             reaverBlast = false;
             reaverBurst = false;
@@ -2212,6 +2227,8 @@ namespace CalamityMod.CalPlayer
             desertProwler = false;
             snowRuffianSet = false;
             forbiddenCirclet = false;
+			forbiddenCooldown = 0;
+			tornadoCooldown = 0;
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
             victideSet = false;
@@ -4126,6 +4143,26 @@ namespace CalamityMod.CalPlayer
             if (moscowMule)
             {
                 knockback *= 1.09f;
+            }
+            if (titanHeartMask && item.Calamity().rogue)
+            {
+                knockback *= 1.05f;
+            }
+            if (titanHeartMantle && item.Calamity().rogue)
+            {
+                knockback *= 1.05f;
+            }
+            if (titanHeartBoots && item.Calamity().rogue)
+            {
+                knockback *= 1.05f;
+            }
+            if (titanHeartSet && item.Calamity().rogue)
+            {
+                knockback *= 1.2f;
+            }
+            if (titanHeartSet && StealthStrikeAvailable() && item.Calamity().rogue)
+            {
+                knockback *= 2f;
             }
             bool ZoneForest = !ZoneAbyss && !ZoneSulphur && !ZoneAstral && !ZoneCalamity && !ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly && !player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
             if (etherealExtorter)
@@ -7123,6 +7160,18 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.FemaleHit, (int)player.position.X, (int)player.position.Y, 1, 1f, 0f); //female hit noise
                     hurtSoundTimer = 10;
                 }
+				else if (titanHeartSet)
+				{
+					playSound = false;
+					Terraria.Audio.LegacySoundStyle atlasHurt = Utils.SelectRandom(Main.rand, new Terraria.Audio.LegacySoundStyle[]
+					{
+						mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt0"),
+						mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt1"),
+						mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt2")
+					});
+					Main.PlaySound(atlasHurt, (int)player.position.X, (int)player.position.Y);
+					hurtSoundTimer = 10;
+				}
             }
 
 
