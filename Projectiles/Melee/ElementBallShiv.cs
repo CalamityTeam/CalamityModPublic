@@ -59,11 +59,11 @@ namespace CalamityMod.Projectiles.Melee
             {
                 for (int i = 0; i < 4; i++)
                 {
-					float xPos = i < 2 ? projectile.position.X + 800 : projectile.position.X - 800;
-					Vector2 source = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
+					float xPos = i < 2 ? projectile.Center.X + 800 : projectile.Center.X - 800;
+					Vector2 source = new Vector2(xPos, projectile.Center.Y + Main.rand.Next(-800, 801));
 
 					float xStart = xPos;
-					Vector2 speed = target.position - source;
+					Vector2 speed = target.Center - source;
 					float dir = speed.Length();
 					dir = 10 / xStart;
 					float random = (float)Main.rand.Next(1, 150);
