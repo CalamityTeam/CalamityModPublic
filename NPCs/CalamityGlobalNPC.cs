@@ -3509,7 +3509,7 @@ namespace CalamityMod.NPCs
 
 					if (modPlayer.nucleogenesis)
 					{
-						if ((projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+						if (projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type))
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -6079,8 +6079,10 @@ namespace CalamityMod.NPCs
 		#region Should Affect NPC
 		public static bool ShouldAffectNPC(NPC target)
         {
+			if (EaterofWorldsIDs.Contains(target.type) || DestroyerIDs.Contains(target.type))
+				return false;
+
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage &&
-                target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 &&
                 target.type != NPCType<Reaper>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() &&
                 target.type != NPCType<EidolonWyrmHeadHuge>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityMod.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
