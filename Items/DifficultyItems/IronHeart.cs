@@ -14,7 +14,7 @@ namespace CalamityMod.Items.DifficultyItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Iron Heart");
-            Tooltip.SetDefault("Healing with potions and all life regen is disabled.\n" +
+            Tooltip.SetDefault("Healing with potions and all positive life regen is disabled.\n" +
 				"Enemy damage scales with your max health.\n" +
                 "Can be toggled on and off.\n" +
 				"Using this while a boss is alive will instantly kill you and despawn the boss.");

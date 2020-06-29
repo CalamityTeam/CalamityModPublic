@@ -413,7 +413,8 @@ namespace CalamityMod.NPCs.Yharon
 
 			// Set DR based on protection boost (aka enrage)
 			bool chargeTelegraph = (npc.ai[0] == 0f || npc.ai[0] == 6f || npc.ai[0] == 13f) && npc.localAI[1] > 0f;
-			npc.Calamity().DR = protectionBoost ? EnragedDR : (chargeTelegraph ? ChargeTelegraph_DR : Phase1_DR);
+			bool bulletHell = npc.ai[0] == 8f || npc.ai[0] == 15f;
+			npc.Calamity().DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : Phase1_DR);
 
             // Trigger spawn effects
             if (npc.localAI[0] == 0f)
@@ -1598,7 +1599,8 @@ namespace CalamityMod.NPCs.Yharon
 
 			// Set DR based on protection boost (aka enrage)
 			bool chargeTelegraph = npc.ai[0] < 2f && npc.localAI[1] > 0f;
-			npc.Calamity().DR = protectionBoost ? EnragedDR : (chargeTelegraph ? ChargeTelegraph_DR : Phase2_DR);
+			bool bulletHell = npc.ai[0] == 5f;
+			npc.Calamity().DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : Phase2_DR);
 
             int projectileDamage = expertMode ? 110 : 125;
             if (phase4)

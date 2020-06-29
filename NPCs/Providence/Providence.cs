@@ -1186,17 +1186,14 @@ namespace CalamityMod.NPCs.Providence
 				if (!targetDead)
 					npc.velocity *= 0.9f;
 
-				if (Main.netMode != NetmodeID.MultiplayerClient)
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= crystalPhaseTime)
 				{
-					npc.ai[1] += 1f;
-					if (npc.ai[1] >= crystalPhaseTime)
-					{
-						if (npc.ai[1] == crystalPhaseTime)
-							Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, 0f, 0f);
+					if (npc.ai[1] == crystalPhaseTime && Main.netMode != NetmodeID.MultiplayerClient)
+						Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, 0f, 0f);
 
-						if (npc.ai[1] >= crystalPhaseTime + 210f || !nightTime)
-							npc.ai[0] = -1f;
-					}
+					if (npc.ai[1] >= crystalPhaseTime + 210f || !nightTime)
+						npc.ai[0] = -1f;
 				}
 			}
 
