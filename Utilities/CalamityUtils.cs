@@ -958,6 +958,8 @@ namespace CalamityMod
 			{
 				newDamage = (int)((dmgInput - cap) * 0.1) + cap;
 			}
+			if (newDamage < 1)
+				newDamage = 1;
 			return newDamage;
 		}
 
