@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Magic
         
         public void TargetingMovement()
         {
-            NPC potentialTarget = projectile.Center.ClosestNPCAt(1500f, true);
+            NPC potentialTarget = projectile.Center.ClosestNPCAt(1500f, true, true);
             if (potentialTarget != null)
             {
                 projectile.velocity = (projectile.velocity * 5f + projectile.DirectionTo(potentialTarget.Center) * 7f) / 6f;
@@ -153,7 +153,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             if (Main.myPlayer == projectile.owner)
             {
-                NPC closestTarget = projectile.Center.ClosestNPCAt(1600f, true);
+                NPC closestTarget = projectile.Center.ClosestNPCAt(1600f, true, true);
                 for (int i = 0; i < 12; i++)
                 {
                     float rotation = Main.rand.NextFloat(MathHelper.TwoPi);

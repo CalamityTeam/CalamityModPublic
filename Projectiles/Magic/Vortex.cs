@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Magic
             // Attempt to find a target if the projectile has none.
             if (TargetIndex == -1 && TargetCheckCooldown <= 0f)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(targetCheckDistance, true);
+                NPC potentialTarget = projectile.Center.ClosestNPCAt(targetCheckDistance, true, true);
                 if (potentialTarget != null)
                     TargetIndex = potentialTarget.whoAmI;
                 projectile.netUpdate = true;

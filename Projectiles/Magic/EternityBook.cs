@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.ai[0]++;
                 if (projectile.ai[0] == 1f)
                 {
-                    NPC target = projectile.Center.ClosestNPCAt(4400f, true);
+                    NPC target = projectile.Center.ClosestNPCAt(4400f, true, true);
 
                     if (target != null)
                     {
