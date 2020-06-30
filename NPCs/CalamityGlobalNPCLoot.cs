@@ -404,11 +404,6 @@ namespace CalamityMod.NPCs
                 CalamityWorld.bossRushStage = 7;
                 CalamityUtils.KillAllHostileProjectiles();
             }
-            else if (npc.type == NPCID.EaterofWorldsHead)
-            {
-                CalamityWorld.bossRushStage = 8;
-                CalamityUtils.KillAllHostileProjectiles();
-            }
             else if (npc.type == ModContent.NPCType<AstrumAureus.AstrumAureus>())
             {
                 CalamityWorld.bossRushStage = 9;
@@ -612,7 +607,14 @@ namespace CalamityMod.NPCs
                     CalamityUtils.KillAllHostileProjectiles();
                     break;
 
-                case NPCID.TheDestroyer:
+				case NPCID.EaterofWorldsHead:
+				case NPCID.EaterofWorldsBody:
+				case NPCID.EaterofWorldsTail:
+					CalamityWorld.bossRushStage = 8;
+					CalamityUtils.KillAllHostileProjectiles();
+					break;
+
+				case NPCID.TheDestroyer:
                     CalamityWorld.bossRushStage = 10;
                     CalamityUtils.KillAllHostileProjectiles();
 
