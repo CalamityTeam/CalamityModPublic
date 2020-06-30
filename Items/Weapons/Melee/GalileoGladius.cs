@@ -86,8 +86,6 @@ namespace CalamityMod.Items.Weapons.Melee
 			float y = player.Center.Y - (float)Main.rand.Next(500, 800);
 			Vector2 startPos = new Vector2(x, y);
 			Vector2 velocity = player.Center - startPos;
-			float num15 = player.Center.X - vector.X;
-			float num16 = player.Center.Y - vector.Y;
 			velocity.X += (float)Main.rand.Next(-100, 101);
 			float speed = 25f;
 			float targetDist = velocity.Length();
@@ -98,7 +96,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			{
 				if (player.Calamity().galileoCooldown <= 0)
 				{
-					int damage = player.GetWeaponDamage(player.ActiveItem()) * 2f;
+					int damage = player.GetWeaponDamage(player.ActiveItem()) * 2;
 					int meteor = Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<GalileosPlanet>(), damage, 15f, player.whoAmI);
 					Main.projectile[meteor].ai[1] = player.position.Y;
 					player.Calamity().galileoCooldown = 15;
