@@ -382,8 +382,8 @@ namespace CalamityMod
                 bool bossFound = false;
                 for (int index = 0; index < Main.npc.Length; index++)
                 {
-                    //if we've found a valid boss target, ignore ALL targets which aren't bosses.
-                    if (bossFound && !Main.npc[index].boss)
+                    // If we've found a valid boss target, ignore ALL targets which aren't bosses.
+                    if (bossFound && !(Main.npc[index].boss || Main.npc[index].type == NPCID.WallofFleshEye))
                         continue;
                     if (Main.npc[index].CanBeChasedBy(null, false))
                     {
@@ -395,7 +395,7 @@ namespace CalamityMod
 
                         if (Vector2.Distance(origin, Main.npc[index].Center) < (distance + extraDistance) && canHit)
                         {
-                            if (Main.npc[index].boss)
+                            if (Main.npc[index].boss || Main.npc[index].type == NPCID.WallofFleshEye)
                                 bossFound = true;
                             distance = Vector2.Distance(origin, Main.npc[index].Center);
                             closestTarget = Main.npc[index];
