@@ -7,6 +7,7 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraArrowSplit : ModProjectile
     {
+		private float speed = 0f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");
@@ -28,7 +29,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.alpha -= 5;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 20f, 20f);
         }
 
