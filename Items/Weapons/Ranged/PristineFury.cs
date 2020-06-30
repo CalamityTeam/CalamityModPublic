@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 {
     public class PristineFury : ModItem
     {
-        public static int BaseDamage = 100;
+        public static int BaseDamage = 140;
 
         public override void SetStaticDefaults()
         {
@@ -40,15 +40,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.useAmmo = 23;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-25, -10);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-25, -10);
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {

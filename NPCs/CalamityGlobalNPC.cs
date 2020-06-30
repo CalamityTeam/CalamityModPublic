@@ -3575,6 +3575,10 @@ namespace CalamityMod.NPCs
 							projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
 						damage = (int)(damage * 0.75);
 					}
+					else if (projectile.type == ProjectileType<PristineFire>() || projectile.type == ProjectileType<PristineSecondary>())
+					{
+						damage = (int)(damage * 0.5);
+					}
 					else if (projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>())
 					{
 						damage = (int)(damage * 0.5);
