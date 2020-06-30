@@ -3516,7 +3516,7 @@ namespace CalamityMod.NPCs
 				tileEnrageMult += (800 - nearbyActiveTiles) * 0.001f; // Ranges from 1f to 1.8f
 
 			// Increase projectile fire rate based on number of nearby active tiles
-			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 2f, 1f - ((tileEnrageMult - 1f) / 0.8f));
+			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 4f, 1f - ((tileEnrageMult - 1f) / 0.8f));
 
 			// Increase damage of projectiles and contact damage based on number of nearby active tiles
 			int damageIncrease = 0;
@@ -3534,7 +3534,7 @@ namespace CalamityMod.NPCs
 					num474 *= 1.25f;
 
 				npc.ai[0] += 1f;
-				if (npc.ai[0] >= 60f * projectileFireRateMultiplier)
+				if (npc.ai[0] >= 45f * projectileFireRateMultiplier)
 				{
 					npc.ai[0] = 0f;
 
@@ -3586,7 +3586,7 @@ namespace CalamityMod.NPCs
 				if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					calamityGlobalNPC.newAI[1] += 2f;
 
-				if (calamityGlobalNPC.newAI[1] >= 900f * projectileFireRateMultiplier)
+				if (calamityGlobalNPC.newAI[1] >= 600f * projectileFireRateMultiplier)
 				{
 					calamityGlobalNPC.newAI[1] = 0f;
 					int damage = (expertMode ? CalamityUtils.GetMasterModeProjectileDamage(50, 1.5) : 60) + damageIncrease;
@@ -3603,7 +3603,7 @@ namespace CalamityMod.NPCs
 						int num946 = ModContent.ProjectileType<DoGBeamPortal>();
 						vector104.X += num942 * 5f;
 						vector104.Y += num943 * 5f;
-						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, damage, 0f, Main.myPlayer, 0f, 0f);
+						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, damage, 0f, Main.myPlayer, tileEnrageMult, 0f);
 						Main.projectile[num947].timeLeft = 300;
 						npc.netUpdate = true;
 					}

@@ -5815,7 +5815,7 @@ namespace CalamityMod.CalPlayer
 				}
 				else
 				{
-					float amount = npc.velocity.Length() / (npc.Calamity().maxVelocity * 0.4f);
+					float amount = npc.velocity.Length() / (npc.Calamity().maxVelocity * 0.5f);
 					if (amount > 1f)
 						amount = 1f;
 
@@ -5908,7 +5908,7 @@ namespace CalamityMod.CalPlayer
 				if (DRStat > 0)
 					contactDamageReduction *= 1f - (DRStat * 0.01f);
 
-				contactDamageReduction = 1D - (1D / (1D + contactDamageReduction));
+				contactDamageReduction = 1D / (1D + contactDamageReduction);
 				damage = (int)(damage * contactDamageReduction);
 			}
 
@@ -6137,7 +6137,7 @@ namespace CalamityMod.CalPlayer
 				if (DRStat > 0)
 					projectileDamageReduction *= 1f - (DRStat * 0.01f);
 
-				projectileDamageReduction = 1D - (1D / (1D + projectileDamageReduction));
+				projectileDamageReduction = 1D / (1D + projectileDamageReduction);
 				damage = (int)(damage * projectileDamageReduction);
 			}
 
@@ -9289,7 +9289,6 @@ namespace CalamityMod.CalPlayer
         #endregion
 
         #region Drawing
-
         public static readonly PlayerLayer MiscEffectsBack = new PlayerLayer("CalamityMod", "MiscEffectsBack", PlayerLayer.MiscEffectsBack, delegate (PlayerDrawInfo drawInfo)
         {
             if (drawInfo.shadow != 0f)
