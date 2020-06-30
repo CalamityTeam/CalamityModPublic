@@ -24,10 +24,12 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.penetrate = 1;
+            projectile.penetrate = 2;
             projectile.timeLeft = 600;
             projectile.extraUpdates = 1;
             aiType = ProjectileID.Bullet;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -48,10 +50,98 @@ namespace CalamityMod.Projectiles.Ranged
                 Main.dust[purple].noGravity = true;
             }
 
+			if (projectile.ai[0] > 0f)
+				projectile.ai[0]--;
 			if (speed == 0f)
 				speed = projectile.velocity.Length();
-			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, speed, 12f);
-            return false;
+			if (projectile.penetrate == 1 && projectile.ai[0] <= 0f)
+			{
+				float inertia = 15f;
+				Vector2 center = projectile.Center;
+				float maxDistance = 300f;
+				bool homeIn = false;
+
+				int targetIndex = (int)projectile.ai[1];
+				NPC target = Main.npc[targetIndex];
+				if (target.CanBeChasedBy(projectile, false))
+				{
+					float extraDistance = (target.width / 2) + (target.height / 2);
+
+					bool canHit = true;
+					if (extraDistance < maxDistance)
+						canHit = Collision.CanHit(projectile.Center, 1, 1, target.Center, 1, 1);
+
+					if (Vector2.Distance(target.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+					{
+						center = target.Center;
+						homeIn = true;
+					}
+				}
+
+				if (!homeIn)
+				{
+					for (int i = 0; i < Main.maxNPCs; i++)
+					{
+						NPC npc = Main.npc[i];
+						if (npc.CanBeChasedBy(projectile, false))
+						{
+							float extraDistance = (npc.width / 2) + (npc.height / 2);
+
+							bool canHit = true;
+							if (extraDistance < maxDistance)
+								canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+
+							if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+							{
+								center = npc.Center;
+								homeIn = true;
+								break;
+							}
+						}
+					}
+				}
+
+				if (!projectile.friendly)
+				{
+					homeIn = false;
+				}
+
+				if (homeIn)
+				{
+					Vector2 homeInVector = projectile.DirectionTo(center);
+					if (homeInVector.HasNaNs())
+						homeInVector = Vector2.UnitY;
+
+					projectile.velocity = (projectile.velocity * inertia + homeInVector * speed) / (inertia + 1f);
+				}
+				return false;
+			}
+			return true;
+        }
+
+        public override bool? CanHitNPC(NPC target)
+		{
+			if (projectile.ai[0] > 0f)
+			{
+				return false;
+			}
+			return null;
+		}
+
+        public override bool CanHitPvp(Player target) => projectile.ai[0] <= 0f;
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+			projectile.ai[0] = 10f;
+            projectile.damage /= 2;
+			if (target.life > 0)
+				projectile.ai[1] = target.whoAmI;
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			projectile.ai[0] = 10f;
+            projectile.damage /= 2;
         }
     }
 }
