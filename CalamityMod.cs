@@ -698,6 +698,7 @@ namespace CalamityMod
 				ModContent.ProjectileType<StreamGougeProj>(),
 				ModContent.ProjectileType<TenebreusTidesProjectile>(),
 				ModContent.ProjectileType<TerraLanceProjectile>(),
+				ModContent.ProjectileType<TyphonsGreedStaff>(),
 				ModContent.ProjectileType<UrchinSpearProjectile>(),
 				ModContent.ProjectileType<YateveoBloomSpear>()
 			};
