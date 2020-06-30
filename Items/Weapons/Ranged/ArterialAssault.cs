@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Arterial Assault");
             Tooltip.SetDefault("Fires a chain of arrows from the sky\n" +
-                "Wooden arrows are converted to bloodfire arrows");
+                "Wooden arrows are converted to homing bloodfire arrows");
         }
 
         public override void SetDefaults()
@@ -91,7 +91,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             float speedY5 = num79;
             if (type == ProjectileID.WoodenArrowFriendly)
             {
-                int bloodfire = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<BloodfireArrowProj>(), damage, knockBack, player.whoAmI, 0f, (float)Main.rand.Next(15));
+                int bloodfire = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, ModContent.ProjectileType<BloodfireArrowProj>(), damage, knockBack, player.whoAmI, 0f, 80f);
                 Main.projectile[bloodfire].tileCollide = false;
             }
             else
