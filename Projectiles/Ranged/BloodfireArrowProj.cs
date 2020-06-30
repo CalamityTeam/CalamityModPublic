@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Items.Weapons.Ranged;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -88,7 +89,12 @@ namespace CalamityMod.Projectiles.Ranged
                 return;
             }
             Player player = Main.player[projectile.owner];
-            if (Main.rand.NextBool(3))
+			int chance = 3;
+			if (player.ActiveItem().type == ModContent.ItemType<TheStorm>())
+			{
+				chance = 6;
+			}
+            if (Main.rand.NextBool(chance))
             {
                 player.statLife += 1;
                 player.HealEffect(1);
