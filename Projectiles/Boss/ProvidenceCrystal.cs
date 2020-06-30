@@ -48,9 +48,6 @@ namespace CalamityMod.Projectiles.Boss
                 return;
             }
 
-			if (!Main.dayTime)
-				projectile.timeLeft -= CalamityWorld.death ? 9 : 16;
-
             projectile.position.X = Main.player[projectile.owner].Center.X - (projectile.width / 2);
             projectile.position.Y = Main.player[projectile.owner].Center.Y - (projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 360f;
             if (Main.player[projectile.owner].gravDir == -1f)
