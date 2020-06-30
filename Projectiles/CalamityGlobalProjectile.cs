@@ -2043,6 +2043,11 @@ namespace CalamityMod.Projectiles
 				}
 			}
 
+            if (!projectile.friendly)
+            {
+                homeIn = false;
+            }
+
 			if (homeIn)
 			{
 				Vector2 homeInVector = projectile.DirectionTo(center);
