@@ -5464,8 +5464,8 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region MultiplicativeReductions
-            // Fearmonger armor makes you immune to the summoner cross-class nerf
-			// Forbidden armor makes you immune when holding the respective helmet's preferred weapon type
+            // Fearmonger armor reduces the summoner cross-class nerf
+			// Forbidden armor reduces said nerf when holding the respective helmet's preferred weapon type
             // Profaned Soul Crystal encourages use of other weapons, nerfing the damage would not make sense.
             bool forbidden = player.head == ArmorIDs.Head.AncientBattleArmor && player.body == ArmorIDs.Body.AncientBattleArmor && player.legs == ArmorIDs.Legs.AncientBattleArmor;
 			bool reducedNerf = fearmongerSet || (forbidden && heldItem.magic) || (forbiddenCirclet && heldItem.Calamity().rogue);
@@ -5478,7 +5478,8 @@ namespace CalamityMod.CalPlayer
 				{
 					if (!heldItem.summon &&
 						(heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.Calamity().rogue) &&
-						heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0)
+						heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0 && 
+						!item.accessory && item.ammo == AmmoID.None)
 					{
 						damage = (int)(damage * summonNerfMult);
 					}
