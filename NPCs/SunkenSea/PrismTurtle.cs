@@ -34,6 +34,7 @@ namespace CalamityMod.NPCs.SunkenSea
             npc.knockBackResist = 0.15f;
             banner = npc.type;
             bannerItem = ModContent.ItemType<PrismTurtleBanner>();
+			npc.chaseable = false;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
