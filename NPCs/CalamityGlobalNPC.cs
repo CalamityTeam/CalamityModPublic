@@ -4104,9 +4104,6 @@ namespace CalamityMod.NPCs
 					pool[NPCID.BlueJellyfish] = SpawnCondition.CaveJellyfish.Chance;
 			}
 
-			if (spawnInfo.player.Calamity().underworldLore)
-				pool[NPCID.VoodooDemon] = 0f;
-
             if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
             {
                 pool.Clear();
