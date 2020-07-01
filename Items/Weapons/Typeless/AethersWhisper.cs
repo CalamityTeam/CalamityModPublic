@@ -50,16 +50,20 @@ namespace CalamityMod.Items.Weapons.Typeless
             {
                 item.ranged = true;
                 item.magic = false;
-                item.mana = 0;
             }
             else
             {
                 item.ranged = false;
                 item.magic = true;
-                item.mana = 30;
             }
             return base.CanUseItem(player);
         }
+
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+		{
+			if (player.altFunctionUse == 2)
+				mult *= 0f;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

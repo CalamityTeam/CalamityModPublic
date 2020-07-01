@@ -67,7 +67,7 @@ namespace CalamityMod.Items.Weapons.Magic
                         value9 -= vector7;
                     }
                     Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX, speedY, type, (int)(damage * 0.8), knockBack, player.whoAmI, 0.0f, 0.0f);
-                    int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack, player.whoAmI, 0.0f, 0.0f);
+                    int laser = Projectile.NewProjectile(vector2.X + value9.X, vector2.Y + value9.Y, speedX * 2f, speedY * 2f, ProjectileID.LaserMachinegunLaser, (int)(damage * 0.4), knockBack, player.whoAmI, 0f, 0f);
                     Main.projectile[laser].timeLeft = 120;
                     Main.projectile[laser].tileCollide = false;
                 }

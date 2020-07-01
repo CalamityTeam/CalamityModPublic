@@ -112,6 +112,7 @@ namespace CalamityMod.CalPlayer
 		public double trueMeleeDamage = 0D;
 		public double contactDamageReduction = 0D;
 		public double projectileDamageReduction = 0D;
+		public bool brimlashBusterBoost = false;
 		#endregion
 
 		#region External variables -- Only set by Mod.Call
@@ -2257,6 +2258,7 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             lastProjectileHit = null;
+			brimlashBusterBoost = false;
 
             if (CalamityWorld.bossRushActive)
             {

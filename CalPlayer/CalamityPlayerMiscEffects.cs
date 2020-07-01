@@ -8,6 +8,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.FishingRods;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
@@ -2656,6 +2657,12 @@ namespace CalamityMod.CalPlayer
 			{
 				if (player.ActiveItem().type != ModContent.ItemType<PrideHuntersPlanarRipper>())
 					modPlayer.planarSpeedBoost = 0;
+			}
+
+			if (modPlayer.brimlashBusterBoost)
+			{
+				if (player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>())
+					modPlayer.brimlashBusterBoost = false;
 			}
 
 			if (modPlayer.etherealExtorter)
