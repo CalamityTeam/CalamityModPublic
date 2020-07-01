@@ -34,7 +34,7 @@ namespace CalamityMod.Items.PermanentBoosters
 
 		public override bool CanUseItem(Player player) => !player.Calamity().rageBoostThree;
 
-		internal Rectangle GetCurrentFrame()
+		internal Rectangle GetCurrentFrame(bool frameCounterUp = true)
 		{
 			int frameAmt = 6;
 			if (frameCounter >= 5)
@@ -42,7 +42,8 @@ namespace CalamityMod.Items.PermanentBoosters
 				frameCounter = -1;
 				frame = frame == frameAmt - 1 ? 0 : frame + 1;
 			}
-			frameCounter++;
+			if (frameCounterUp)
+				frameCounter++;
 			return new Rectangle(0, item.height * frame, item.width, item.height);
 		}
 
@@ -63,7 +64,7 @@ namespace CalamityMod.Items.PermanentBoosters
 		public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
 		{
 			Texture2D texture = ModContent.GetTexture("CalamityMod/Items/PermanentBoosters/RedLightningContainerGlow");
-			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
+			spriteBatch.Draw(texture, item.position - Main.screenPosition, GetCurrentFrame(false), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0);
 		}
 
 		public override bool UseItem(Player player)
