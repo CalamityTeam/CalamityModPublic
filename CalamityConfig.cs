@@ -116,6 +116,12 @@ namespace CalamityMod
 		[Tooltip("Increases the player's mining speed by 75%.\nThis does not affect drills.")]
 		public bool MiningSpeedBoost { get; set; }
 
+		[Label("Boss Zen")]
+		[BackgroundColor(192, 54, 64, 192)]
+		[DefaultValue(true)]
+		[Tooltip("While a boss is alive, all players receive the Boss Zen buff which drastically reduces enemy spawn rates.")]
+		public bool BossZen { get; set; }
+
 		[Label("Never Weaken Reactive Boss DR")]
 		[BackgroundColor(192, 54, 64, 192)]
 		[DefaultValue(false)]
