@@ -1676,6 +1676,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.IcyMerman:
                 case NPCID.IceTortoise:
+                case NPCID.IceElemental:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), Main.expertMode ? 2 : 3);
                     break;
 
