@@ -11,8 +11,6 @@ namespace CalamityMod.NPCs.SunkenSea
 {
 	public class PrismTurtle : ModNPC
     {
-        public bool hasBeenHit = false;
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Prism-Back");
@@ -41,13 +39,11 @@ namespace CalamityMod.NPCs.SunkenSea
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.chaseable);
-            writer.Write(hasBeenHit);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.chaseable = reader.ReadBoolean();
-            hasBeenHit = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -123,7 +119,7 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             if (projectile.minion && !projectile.Calamity().overridesMinionDamagePrevention)
             {
-                return hasBeenHit;
+                return npc.chaseable;
             }
             return null;
         }
