@@ -60,5 +60,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			return new Color(189, 51, 164, projectile.alpha);
 		}
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.timeLeft < 600;
 	}
 }
