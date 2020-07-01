@@ -66,6 +66,7 @@ namespace CalamityMod.Projectiles.Melee
 
                 return false;
             }
+			return false;
         }
     }
 }

@@ -7,7 +7,6 @@ namespace CalamityMod.Projectiles.Ranged
 {
     public class TerraArrowSplit : ModProjectile
     {
-		private float speed = 0f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Arrow");

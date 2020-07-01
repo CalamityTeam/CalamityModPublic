@@ -5479,7 +5479,7 @@ namespace CalamityMod.CalPlayer
 					if (!heldItem.summon &&
 						(heldItem.melee || heldItem.ranged || heldItem.magic || heldItem.Calamity().rogue) &&
 						heldItem.hammer == 0 && heldItem.pick == 0 && heldItem.axe == 0 && heldItem.useStyle != 0 && 
-						!item.accessory && item.ammo == AmmoID.None)
+						!heldItem.accessory && heldItem.ammo == AmmoID.None)
 					{
 						damage = (int)(damage * summonNerfMult);
 					}
