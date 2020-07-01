@@ -207,6 +207,7 @@ namespace CalamityMod.CalPlayer
         public int hurtSoundTimer = 0;
         public int danceOfLightCharge = 0;
         public int shadowPotCooldown = 0;
+        public int dogTextCooldown = 0;
         #endregion
 
         #region Sound
@@ -1938,6 +1939,7 @@ namespace CalamityMod.CalPlayer
             galileoCooldown = 0;
             soundCooldown = 0;
             shadowPotCooldown = 0;
+			dogTextCooldown = 0;
             rage = 0;
             adrenaline = 0;
             raiderStack = 0;

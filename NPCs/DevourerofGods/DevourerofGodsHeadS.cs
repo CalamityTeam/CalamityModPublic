@@ -1163,41 +1163,21 @@ namespace CalamityMod.NPCs.DevourerofGods
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s essence was consumed by the devourer."), 1000.0, 0, false);
             }
 
-			// TODO: don't talk if the player has iframes
-            if (player.immuneTime > 0 || player.immune)
-                return;
-
-            int num = Main.rand.Next(5);
-            string key = "Mods.CalamityMod.EdgyBossText3";
-            if (num == 0)
-            {
-                key = "Mods.CalamityMod.EdgyBossText3";
-            }
-            else if (num == 1)
-            {
-                key = "Mods.CalamityMod.EdgyBossText4";
-            }
-            else if (num == 2)
-            {
-                key = "Mods.CalamityMod.EdgyBossText5";
-            }
-            else if (num == 3)
-            {
-                key = "Mods.CalamityMod.EdgyBossText6";
-            }
-            else if (num == 4)
-            {
-                key = "Mods.CalamityMod.EdgyBossText7";
-            }
-            Color messageColor = Color.Cyan;
-            if (Main.netMode == NetmodeID.SinglePlayer)
-            {
-                Main.NewText(Language.GetTextValue(key), messageColor);
-            }
-            else if (Main.netMode == NetmodeID.Server)
-            {
-                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+			if (player.Calamity().dogTextCooldown <= 0)
+			{
+				string text = Utils.SelectRandom(Main.rand, new string[]
+				{
+					"Mods.CalamityMod.EdgyBossText3",
+					"Mods.CalamityMod.EdgyBossText4",
+					"Mods.CalamityMod.EdgyBossText5",
+					"Mods.CalamityMod.EdgyBossText6",
+					"Mods.CalamityMod.EdgyBossText7"
+				});
+				Color messageColor = Color.Cyan;
+				Rectangle location = new Microsoft.Xna.Framework.Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+				CombatText.NewText(location, messageColor, Language.GetTextValue(text), true);
+				player.Calamity().dogTextCooldown = 60;
+			}
         }
     }
 }
