@@ -1019,31 +1019,34 @@ namespace CalamityMod.Projectiles
 					defCrit = 4;
 			}
 
-			int x = (int)(projectile.Center.X / 16f);
-            int y = (int)(projectile.Center.Y / 16f);
-            for (int i = x - 1; i <= x + 1; i++)
-            {
-                for (int j = y - 1; j <= y + 1; j++)
-                {
-                    if (projectile.type == ProjectileID.PureSpray || projectile.type == ProjectileID.PurificationPowder)
-                    {
-                        WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure);
-                    }
-					//commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
-                    if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
-                    {
-                        WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
-                    }
-                    if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
-                    {
-                        WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
-                    }
-                    if (projectile.type == ProjectileID.HallowSpray)
-                    {
-                        WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
-                    }
-                }
-            }
+			if (projectile.owner == Main.myPlayer && Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				int x = (int)(projectile.Center.X / 16f);
+				int y = (int)(projectile.Center.Y / 16f);
+				for (int i = x - 1; i <= x + 1; i++)
+				{
+					for (int j = y - 1; j <= y + 1; j++)
+					{
+						if (projectile.type == ProjectileID.PureSpray || projectile.type == ProjectileID.PurificationPowder)
+						{
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure);
+						}
+						//commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
+						if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
+						{
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
+						}
+						if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
+						{
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
+						}
+						if (projectile.type == ProjectileID.HallowSpray)
+						{
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
+						}
+					}
+				}
+			}
         }
         #endregion
 
