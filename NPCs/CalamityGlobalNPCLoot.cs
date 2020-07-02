@@ -174,22 +174,22 @@ namespace CalamityMod.NPCs
 
 				// First kill text (this is not a loot function)
 				if (!Main.hardMode)
-                {
-                    string key2 = "Mods.CalamityMod.UglyBossText"; //Sunken Sea buff
-					string key = "Mods.CalamityMod.SteelSkullBossText"; //clone can now be fought
-                    Color messageColor2 = Color.Aquamarine;
-					Color messageColor = Color.Crimson;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key2), messageColor2);
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-                }
+				{
+					string key2 = "Mods.CalamityMod.UglyBossText"; //Sunken Sea buff
+					//string key = "Mods.CalamityMod.SteelSkullBossText"; //clone can now be fought
+					Color messageColor2 = Color.Aquamarine;
+					//Color messageColor = Color.Crimson;
+					if (Main.netMode == NetmodeID.SinglePlayer)
+					{
+						Main.NewText(Language.GetTextValue(key2), messageColor2);
+					   // Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == NetmodeID.Server)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+						//NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
+				}
             }
             else if (lastTwinStanding)
             {
