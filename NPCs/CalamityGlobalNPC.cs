@@ -3509,7 +3509,7 @@ namespace CalamityMod.NPCs
 
 					if (modPlayer.nucleogenesis)
 					{
-						if (projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type))
+						if (projectile.IsSummon())
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3716,7 +3716,7 @@ namespace CalamityMod.NPCs
 
 		private void PierceResistGlobal(Projectile projectile, ref int damage)
 		{
-			if (projectile.minion)
+			if (projectile.IsSummon())
 				return;
 
 			if (projectile.penetrate == -1)
@@ -3753,7 +3753,7 @@ namespace CalamityMod.NPCs
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-            bool isSummon = projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type];
+            bool isSummon = projectile.IsSummon();
 
             if (modPlayer.sGenerator)
             {

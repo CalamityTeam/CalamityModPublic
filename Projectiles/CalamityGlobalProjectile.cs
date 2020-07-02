@@ -1015,7 +1015,7 @@ namespace CalamityMod.Projectiles
 					defCrit = modPlayer.critStats[2];
 				else if (rogue)
 					defCrit = modPlayer.critStats[3];
-				else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
+				else if (projectile.IsSummon())
 					defCrit = 4;
 			}
 
@@ -1302,7 +1302,7 @@ namespace CalamityMod.Projectiles
 				OTHEREFFECTS:
 
                 if (modPlayer.alchFlask &&
-                    (projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type]) &&
+                    (projectile.magic || rogue || projectile.melee || projectile.IsSummon() || projectile.ranged) &&
                     player.ownedProjectileCounts[ProjectileType<PlagueSeeker>()] < 6)
                 {
                     int plague = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileType<PlagueSeeker>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30), 0f, projectile.owner, 0f, 0f);
@@ -1601,7 +1601,7 @@ namespace CalamityMod.Projectiles
 						}
 					}
                 }
-                if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
+                if (projectile.IsSummon())
                 {
                     if (modPlayer.profanedCrystalBuffs || (modPlayer.pArtifact && !modPlayer.profanedCrystal))
                     {

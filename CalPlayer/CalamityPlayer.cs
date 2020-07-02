@@ -5211,7 +5211,7 @@ namespace CalamityMod.CalPlayer
                 return;
 
             bool isTrueMelee = proj.Calamity().trueMelee;
-            bool isSummon = proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type) || ProjectileID.Sets.MinionShot[proj.type] || ProjectileID.Sets.SentryShot[proj.type];
+            bool isSummon = proj.IsSummon();
             bool hasClassType = proj.melee || proj.ranged || proj.magic || isSummon || proj.Calamity().rogue;
 
             Item heldItem = player.ActiveItem();
