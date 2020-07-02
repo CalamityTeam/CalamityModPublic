@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
 				velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
 				if (projectile.owner == Main.myPlayer)
 				{
-					int petal = Projectile.NewProjectile(spawnPosition, velocity, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), 2f, projectile.owner);
+					int petal = Projectile.NewProjectile(spawnPosition, velocity, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner);
 					Main.projectile[petal].Calamity().forceMelee = true;
 					Main.projectile[petal].localNPCHitCooldown = -1;
 				}
