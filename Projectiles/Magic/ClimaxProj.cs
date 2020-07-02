@@ -49,7 +49,8 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, 4f, 5, ModContent.ProjectileType<ClimaxBeam>());
+			if (projectile.timeLeft % 2 == projectile.ai[0])
+				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, 4f, 5, ModContent.ProjectileType<ClimaxBeam>());
         }
 
         public override Color? GetAlpha(Color lightColor)
