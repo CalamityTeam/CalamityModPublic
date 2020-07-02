@@ -211,13 +211,13 @@ namespace CalamityMod.NPCs
 									{
 										Vector2 vector15 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
 										vector15.Normalize();
-										vector15 *= Main.rand.Next(50, 401);
+										vector15 *= Main.rand.Next(50, 401) * 0.01f;
 
 										if (expertMode)
-											vector15 *= 1f + (death ? 0.05f : 0.05f * (1f - lifeRatio));
+											vector15 *= 1f + (death ? 0.25f : 0.25f * (1f - lifeRatio));
 
 										if (CalamityWorld.bossRushActive)
-											vector15 *= 1.1f;
+											vector15 *= 1.25f;
 
 										Projectile.NewProjectile(npc.Center, vector15, ModContent.ProjectileType<SandPoisonCloud>(), damageBoom, 0f, Main.myPlayer, 0f, Main.rand.Next(-45, 1));
 									}
