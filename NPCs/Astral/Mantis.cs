@@ -110,7 +110,7 @@ namespace CalamityMod.NPCs.Astral
             {
                 npc.ai[2] += 1f;
                 npc.velocity.X *= 0.95f;
-                if (npc.ai[2] == 20f && Main.netMode != NetmodeID.MultiplayerClient) //Don't do >= 20f or it'll cause a wave of scythes
+                if (npc.ai[2] == 20f) //Don't do >= 20f or it'll cause a wave of scythes
                 {
                     Main.PlaySound(SoundID.Item71, npc.position);
                     Vector2 vector = Main.player[npc.target].Center - npc.Center;
