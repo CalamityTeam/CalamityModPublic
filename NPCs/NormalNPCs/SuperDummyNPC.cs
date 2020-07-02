@@ -23,6 +23,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 			npc.knockBackResist = 0f;
 			npc.buffImmune[BuffID.Confused] = false;
 			npc.netAlways = true;
+			npc.aiStyle = 0;
 		}
 
 		public override void UpdateLifeRegen(ref int damage)
