@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (Main.netMode != NetmodeID.MultiplayerClient && Time % player.ActiveItem().useTime == 0)
             {
-                int type = ProjectileID.WoodenArrowFriendly; // This doesn't really matter. It's overwritten anyway. But it is passed into the PackAmmo method.
+                int type = ProjectileID.WoodenArrowFriendly; // This doesn't really matter. It's overwritten anyway. But it is passed into the PickAmmo method.
                 float shotSpeed = player.ActiveItem().shootSpeed;
                 int damage = player.GetWeaponDamage(player.ActiveItem());
                 float knockBack = player.ActiveItem().knockBack;
