@@ -8851,36 +8851,39 @@ namespace CalamityMod.NPCs
                     npc.localAI[2] = 1f;
                 }
 
-				// Spawn spores
-				float spawnBoost = death ? 4f : 8f * (0.5f - lifeRatio);
-                npc.localAI[1] += 1f + spawnBoost;
-
-                if (npc.localAI[1] >= 360f)
-                {
-                    float num757 = CalamityWorld.bossRushActive ? 12f : 8f;
-                    Vector2 vector94 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num758 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector94.X + Main.rand.Next(-10, 11);
-                    float num759 = Math.Abs(num758 * 0.2f);
-
-                    float num760 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector94.Y + Main.rand.Next(-10, 11);
-                    if (num760 > 0f)
-                        num759 = 0f;
-
-                    num760 -= num759;
-                    float num761 = (float)Math.Sqrt(num758 * num758 + num760 * num760);
-                    num761 = num757 / num761;
-                    num758 *= num761;
-                    num760 *= num761;
-
-                    int num762 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, 0, 0f, 0f, 0f, 0f, 255);
-                    Main.npc[num762].velocity.X = num758;
-                    Main.npc[num762].velocity.Y = num760;
-                    Main.npc[num762].netUpdate = true;
-                    npc.localAI[1] = 0f;
-                }
-
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
+					// Spawn spores
+					if (!phase4)
+					{
+						float spawnBoost = death ? 4f : 8f * (0.5f - lifeRatio);
+						npc.localAI[1] += 1f + spawnBoost;
+
+						if (npc.localAI[1] >= 360f)
+						{
+							float num757 = CalamityWorld.bossRushActive ? 12f : 8f;
+							Vector2 vector94 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+							float num758 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector94.X + Main.rand.Next(-10, 11);
+							float num759 = Math.Abs(num758 * 0.2f);
+
+							float num760 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector94.Y + Main.rand.Next(-10, 11);
+							if (num760 > 0f)
+								num759 = 0f;
+
+							num760 -= num759;
+							float num761 = (float)Math.Sqrt(num758 * num758 + num760 * num760);
+							num761 = num757 / num761;
+							num758 *= num761;
+							num760 *= num761;
+
+							int num762 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, 0, 0f, 0f, 0f, 0f, 255);
+							Main.npc[num762].velocity.X = num758;
+							Main.npc[num762].velocity.Y = num760;
+							Main.npc[num762].netUpdate = true;
+							npc.localAI[1] = 0f;
+						}
+					}
+
 					// Fire spread of poison seeds
 					if (tentacleCount < 8)
 					{
@@ -9181,6 +9184,8 @@ namespace CalamityMod.NPCs
 
         public static bool BuffedPlanterasTentacleAI(NPC npc, Mod mod, bool chaos)
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			// Despawn if Plantera is gone
@@ -9191,8 +9196,21 @@ namespace CalamityMod.NPCs
                 return false;
             }
 
-            // Set Plantera to a variable
-            int num778 = NPC.plantBoss;
+			// 3 seconds of resistance and no damage to prevent spawn killing and unfair hits
+			if (calamityGlobalNPC.newAI[1] < 180f)
+			{
+				npc.damage = 0;
+				npc.defense = npc.defDefense + 999;
+				calamityGlobalNPC.newAI[1] += 1f;
+			}
+			else
+			{
+				npc.damage = npc.defDamage;
+				npc.defense = npc.defDefense;
+			}
+
+			// Set Plantera to a variable
+			int num778 = NPC.plantBoss;
             if (npc.ai[3] > 0f)
                 num778 = (int)npc.ai[3] - 1;
 
