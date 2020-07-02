@@ -837,7 +837,7 @@ namespace CalamityMod.CalPlayer
 					}
 					else if (modPlayer.camper && player.statLife < modPlayer.actualMaxLife)
 					{
-						int camperRegenMult = CalamityPlayer.areThereAnyDamnBosses ? 1.3f : 1.75f;
+						float camperRegenMult = CalamityPlayer.areThereAnyDamnBosses ? 1.3f : 1.75f;
 						int camperCap = CalamityPlayer.areThereAnyDamnBosses ? 20 : 30;
 						player.lifeRegen = (int)((player.lifeRegen * 2) * camperRegenMult);
 						player.lifeRegenCount = player.lifeRegenCount > camperCap ? player.lifeRegenCount : camperCap;
