@@ -15796,43 +15796,44 @@ namespace CalamityMod.NPCs
         #region Revengeance Dungeon Guardian AI
         public static void RevengeanceDungeonGuardianAI(NPC npc, bool configBossRushBoost, bool enraged)
         {
-            Vector2 vector21 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-            float num177 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2) - vector21.X;
-            float num178 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2) - vector21.Y;
-            float num179 = (float)Math.Sqrt(num177 * num177 + num178 * num178);
-            num179 = 12f / num179;
-            npc.velocity.X = num177 * num179;
-            npc.velocity.Y = num178 * num179;
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                npc.localAI[1] += 1f;
-                if (npc.localAI[1] >= 60f)
-                {
-                    npc.localAI[1] = 0f;
-                    Vector2 vector16 = npc.Center;
-                    if (Collision.CanHit(vector16, 1, 1, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-                    {
-                        float num159 = 5f;
-                        float num160 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector16.X + Main.rand.Next(-20, 21);
-                        float num161 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector16.Y + Main.rand.Next(-20, 21);
-                        float num162 = (float)Math.Sqrt(num160 * num160 + num161 * num161);
-                        num162 = num159 / num162;
-                        num160 *= num162;
-                        num161 *= num162;
-                        Vector2 value = new Vector2(num160 * 1f + Main.rand.Next(-50, 51) * 0.01f, num161 * 1f + Main.rand.Next(-50, 51) * 0.01f);
-                        value.Normalize();
-                        value *= num159;
-                        value += npc.velocity;
-                        num160 = value.X;
-                        num161 = value.Y;
-                        int num163 = 2500;
-                        int num164 = ProjectileID.Skull;
-                        vector16 += value * 5f;
-                        int num165 = Projectile.NewProjectile(vector16.X, vector16.Y, num160, num161, num164, num163, 0f, Main.myPlayer, -1f, 0f);
-                        Main.projectile[num165].timeLeft = 300;
-                    }
-                }
-            }
+			Player target = Main.player[npc.target];
+			if (npc.ai[1] != 3f)
+			{
+				Vector2 targetVector = target.Center - npc.Center;
+				float targetDist = targetVector.Length();
+				targetDist = 12f / targetDist;
+				npc.velocity.X = targetVector.X * targetDist;
+				npc.velocity.Y = targetVector.Y * targetDist;
+				if (Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					if (npc.localAI[1]++ % 60f == 59f)
+					{
+						Vector2 source = npc.Center;
+						if (Collision.CanHit(source, 1, 1, target.Center, target.width, target.height))
+						{
+							float speed = 5f;
+							float xDist = target.Center.X - source.X + Main.rand.Next(-20, 21);
+							float yDist = target.Center.Y - source.Y + Main.rand.Next(-20, 21);
+							Vector2 velocity = new Vector2(xDist, yDist);
+							float distTarget = velocity.Length();
+							distTarget = speed / distTarget;
+							velocity.X *= distTarget;
+							velocity.Y *= distTarget;
+							Vector2 offset = new Vector2(velocity.X * 1f + Main.rand.Next(-50, 51) * 0.01f, velocity.Y * 1f + Main.rand.Next(-50, 51) * 0.01f);
+							offset.Normalize();
+							offset *= speed;
+							offset += npc.velocity;
+							velocity.X = offset.X;
+							velocity.Y = offset.Y;
+							int damage = 2500;
+							int projType = ProjectileID.Skull;
+							source += offset * 5f;
+							int skull = Projectile.NewProjectile(source, velocity, projType, damage, 0f, Main.myPlayer, -1f, 0f);
+							Main.projectile[skull].timeLeft = 300;
+						}
+					}
+				}
+			}
         }
         #endregion
 
