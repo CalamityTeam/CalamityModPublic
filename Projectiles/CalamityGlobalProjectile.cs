@@ -1162,8 +1162,6 @@ namespace CalamityMod.Projectiles
 
 				if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
 				{
-					// Commented out for now to test the global life steal nerf
-					/*
 					// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
 					if (player.ghostHeal)
 					{
@@ -1179,13 +1177,12 @@ namespace CalamityMod.Projectiles
 					// Increases the degree to which Vampire Knives contribute to the lifesteal cap
 					if (projectile.type == ProjectileID.VampireKnife)
 					{
-						float num = damage * 0.0375f;
+						float num = damage * 0.075f;
 						if (num < 0f)
 							num = 0f;
 
 						Main.player[Main.myPlayer].lifeSteal -= num;
 					}
-					*/
 
 					if (modPlayer.vampiricTalisman && rogue && crit)
 					{
@@ -1208,10 +1205,13 @@ namespace CalamityMod.Projectiles
 						healMult -= projectile.numHits * 0.025f;
 						float heal = projectile.damage * healMult;
 
+						if (heal > 50)
+							heal = 50;
+
 						if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 							goto OTHEREFFECTS;
 
-						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AuricOrb>(), 1200f, 1.5f);
+						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AuricOrb>(), 1200f, 3f);
 					}
 					else if (modPlayer.silvaSet)
 					{
@@ -1219,10 +1219,13 @@ namespace CalamityMod.Projectiles
 						healMult -= projectile.numHits * 0.015f;
 						float heal = projectile.damage * healMult;
 
+						if (heal > 50)
+							heal = 50;
+
 						if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 							goto OTHEREFFECTS;
 
-						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<SilvaOrb>(), 1200f, 1.5f);
+						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<SilvaOrb>(), 1200f, 3f);
 					}
 					else if (projectile.magic)
 					{
@@ -1232,10 +1235,13 @@ namespace CalamityMod.Projectiles
 							healMult -= projectile.numHits * 0.015f;
 							float heal = projectile.damage * healMult;
 
+							if (heal > 50)
+								heal = 50;
+
 							if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 								goto OTHEREFFECTS;
 
-							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<GodSlayerHealOrb>(), 1200f, 1.5f);
+							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<GodSlayerHealOrb>(), 1200f, 2f);
 						}
 						else if (modPlayer.tarraMage)
 						{
@@ -1246,6 +1252,9 @@ namespace CalamityMod.Projectiles
 								float healMult = 0.1f;
 								healMult -= projectile.numHits * 0.05f;
 								float heal = projectile.damage * healMult;
+
+								if (heal > 50)
+									heal = 50;
 
 								if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 									goto OTHEREFFECTS;
@@ -1265,10 +1274,13 @@ namespace CalamityMod.Projectiles
 							healMult -= projectile.numHits * 0.05f;
 							float heal = projectile.damage * healMult;
 
+							if (heal > 50)
+								heal = 50;
+
 							if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 								goto OTHEREFFECTS;
 
-							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 1.5f);
+							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 2f);
 						}
 						else if (modPlayer.manaOverloader)
 						{
@@ -1276,10 +1288,13 @@ namespace CalamityMod.Projectiles
 							healMult -= projectile.numHits * 0.05f;
 							float heal = projectile.damage * healMult * (player.statMana / (float)player.statManaMax2);
 
+							if (heal > 50)
+								heal = 50;
+
 							if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 								goto OTHEREFFECTS;
 
-							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 1.5f);
+							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 2f);
 						}
 					}
 				}
