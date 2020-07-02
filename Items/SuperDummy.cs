@@ -41,12 +41,12 @@ namespace CalamityMod.Items
 			{
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
-					if (Main.npc[i].type == ModContent.NPCType<SuperDummyNPC>())
+					NPC npc = Main.npc[i];
+					if (npc.type == ModContent.NPCType<SuperDummyNPC>())
 					{
-						Main.npc[i].life = 0;
-						Main.npc[i].lifeRegen = 0;
-						Main.npc[i].checkDead();
-						Main.npc[i].netUpdate = true;
+                        npc.active = false;
+                        npc.netUpdate = true;
+                        Main.PlaySound(SoundID.NPCDeath2, npc.position);
 					}
 				}
 			}
