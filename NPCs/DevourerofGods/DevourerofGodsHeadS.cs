@@ -234,7 +234,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
 						for (int i = 0; i < 3; i++)
 							NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
@@ -885,7 +885,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 			}
 
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), (int)npc.Center.X, (int)npc.Center.Y);
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
 			int dustAmt = 50;
 			int random = 5;
