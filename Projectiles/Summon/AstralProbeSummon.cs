@@ -153,9 +153,6 @@ namespace CalamityMod.Projectiles.Summon
 			}
         }
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool CanDamage() => false;
     }
 }
