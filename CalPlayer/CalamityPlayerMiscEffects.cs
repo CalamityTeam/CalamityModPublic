@@ -1806,7 +1806,7 @@ namespace CalamityMod.CalPlayer
 						modPlayer.gSabatonFall = 300;
 						modPlayer.gSabatonCooldown = 480; //8 second cooldown
 						player.gravity *= 2f;
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X, player.velocity.Y, ModContent.ProjectileType<SabatonSlam>(), 0, 0, player.whoAmI);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y + (player.height / 5f), player.velocity.X, player.velocity.Y, ModContent.ProjectileType<SabatonSlam>(), 0, 0, player.whoAmI);
 					}
 				}
 				if (modPlayer.gSabatonCooldown == 1) //dust when ready to use again

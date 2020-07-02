@@ -757,6 +757,8 @@ namespace CalamityMod
         #region Projectile Utilities
         public static int CountProjectiles(int Type) => Main.projectile.Count(proj => proj.type == Type && proj.active);
 
+        public static int CountHookProj() => Main.projectile.Count(proj => Main.projHook[proj.type] && proj.ai[0] == 2f && proj.active && proj.owner == Main.myPlayer);
+
         public static void KillAllHostileProjectiles()
         {
             for (int x = 0; x < Main.maxProjectiles; x++)
