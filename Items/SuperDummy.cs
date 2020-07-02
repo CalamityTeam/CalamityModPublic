@@ -46,7 +46,7 @@ namespace CalamityMod.Items
 					{
                         npc.active = false;
                         npc.netUpdate = true;
-                        Main.PlaySound(SoundID.NPCDeath2, npc.position);
+                        Main.PlaySound(SoundID.NPCDeath2, npc.Center);
 					}
 				}
 			}
