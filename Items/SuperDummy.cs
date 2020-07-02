@@ -42,7 +42,7 @@ namespace CalamityMod.Items
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
 					NPC npc = Main.npc[i];
-					if (npc.type == ModContent.NPCType<SuperDummyNPC>())
+					if (npc.type == ModContent.NPCType<SuperDummyNPC>() && npc.active)
 					{
                         npc.active = false;
                         npc.netUpdate = true;
