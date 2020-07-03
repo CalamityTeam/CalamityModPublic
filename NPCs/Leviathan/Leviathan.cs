@@ -23,20 +23,21 @@ namespace CalamityMod.NPCs.Leviathan
     [AutoloadBossHead]
     public class Leviathan : ModNPC
     {
-        private bool altTextureSwap = false;
+        int counter = 0;
+        bool initialised = false;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Leviathan");
-            Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[npc.type] = 6;
         }
 
         public override void SetDefaults()
         {
             npc.npcSlots = 20f;
             npc.damage = 90;
-            npc.width = 850;
-            npc.height = 450;
+            npc.width = 650;
+            npc.height = 300;
             npc.defense = 40;
 			npc.DR_NERD(0.35f);
             npc.LifeMaxNERB(69000, 90700, 7000000);
@@ -87,14 +88,16 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SendExtraAI(BinaryWriter writer)
         {
-            writer.Write(altTextureSwap);
             writer.Write(npc.dontTakeDamage);
+            writer.Write(counter);
+            writer.Write(initialised);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
-            altTextureSwap = reader.ReadBoolean();
             npc.dontTakeDamage = reader.ReadBoolean();
+            counter = reader.ReadInt32();
+            initialised = reader.ReadBoolean();
         }
 
         public override void AI()
@@ -120,23 +123,16 @@ namespace CalamityMod.NPCs.Leviathan
                 sirenAlive = Main.npc[CalamityGlobalNPC.siren].active;
             }
 
-            int soundChoice = Main.rand.Next(3);
             int soundChoiceRage = 92;
-            if (soundChoice == 0)
-            {
-                soundChoice = 38;
-            }
-            else if (soundChoice == 1)
-            {
-                soundChoice = 39;
-            }
-            else
-            {
-                soundChoice = 40;
-            }
+			int soundChoice = Utils.SelectRandom(Main.rand, new int[]
+			{
+				38,
+				39,
+				40
+			});
             if (Main.rand.NextBool(600))
             {
-                Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, (sirenAlive && !death) ? soundChoice : soundChoiceRage);
+                Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, (sirenAlive && !death) ? soundChoice : soundChoiceRage);
             }
 
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -334,7 +330,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 					if (flag103 && (spawnParasea || spawnAberration))
                     {
-                        Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, soundChoice);
+                        Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, soundChoice);
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
 							int type = spawnAberration ? ModContent.NPCType<AquaticAberration>() : ModContent.NPCType<Parasea>();
@@ -466,7 +462,7 @@ namespace CalamityMod.NPCs.Leviathan
                             npc.velocity.X = num1045 * num1047;
                             npc.velocity.Y = num1046 * num1047;
                             npc.spriteDirection = npc.direction;
-                            Main.PlaySound(29, (int)npc.position.X, (int)npc.position.Y, soundChoiceRage);
+                            Main.PlaySound(SoundID.Zombie, (int)npc.position.X, (int)npc.position.Y, soundChoiceRage);
                             return;
                         }
 
@@ -567,7 +563,7 @@ namespace CalamityMod.NPCs.Leviathan
                 npc.position.Y = npc.position.Y - (float)(npc.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Blood, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -577,10 +573,10 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 for (int num623 = 0; num623 < 70; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Blood, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Blood, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
                 float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
@@ -660,46 +656,60 @@ namespace CalamityMod.NPCs.Leviathan
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = Main.npcTexture[npc.type];
-            Texture2D texture2 = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanTexTwo");
-            Texture2D texture3 = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAltTexOne");
-            Texture2D texture4 = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAltTexTwo");
             if (npc.ai[0] == 1f)
             {
-                if (!altTextureSwap)
-                {
-                    CalamityMod.DrawTexture(spriteBatch, texture, 0, npc, drawColor, true);
-                }
-                else
-                {
-                    CalamityMod.DrawTexture(spriteBatch, texture2, 0, npc, drawColor, true);
-                }
+				texture = Main.npcTexture[npc.type];
             }
             else
             {
-                if (!altTextureSwap)
-                {
-                    CalamityMod.DrawTexture(spriteBatch, texture3, 0, npc, drawColor, true);
-                }
-                else
-                {
-                    CalamityMod.DrawTexture(spriteBatch, texture4, 0, npc, drawColor, true);
-                }
+				texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAttack");
             }
+			int verticalFrameCount = 3;
+			int horizontalFrameCount = 2;
+            int height = texture.Height / verticalFrameCount;
+            int width = texture.Width / horizontalFrameCount;
+			SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;
+			if (npc.spriteDirection == -1)
+				spriteEffects = SpriteEffects.None;
+            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0f, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, new Vector2((float)width / 2f, (float)height / 2f), npc.scale, spriteEffects, 0f);
             return false;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 1.0;
-            if (npc.frameCounter > 6.0)
+            Texture2D texture = Main.npcTexture[npc.type];
+			int verticalFrameCount = 3;
+			int horizontalFrameCount = 2;
+            int height = texture.Height / verticalFrameCount;
+            int width = texture.Width / horizontalFrameCount;
+			int timeBetweenFrames = 8;
+
+            if (!initialised)
             {
-                npc.frame.Y = npc.frame.Y + frameHeight;
-                npc.frameCounter = 0.0;
+                counter = verticalFrameCount;
+                npc.frameCounter = timeBetweenFrames;
+                initialised = true;
             }
-            if (npc.frame.Y >= frameHeight * 3)
+
+            //ensure width and height are set.
+            npc.frame.Width = width;
+            npc.frame.Height = height;
+            npc.frameCounter++;
+            if (npc.frameCounter >= timeBetweenFrames)
             {
+                npc.frame.X = counter >= verticalFrameCount ? width + 3 : 0;
+                if (counter == verticalFrameCount)
+                    npc.frame.Y = 0;
+                else
+                    npc.frame.Y += height;
+                npc.frameCounter = 0;
+                counter++;
+            }
+            if (counter == Main.npcFrameCount[npc.type])
+            {
+                counter = 1;
                 npc.frame.Y = 0;
-                altTextureSwap = !altTextureSwap;
+                npc.frame.X = 0;
             }
         }
 
