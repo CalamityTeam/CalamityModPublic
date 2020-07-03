@@ -4,53 +4,141 @@ using CalamityMod.Items.Placeables.Banners;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
+using Microsoft.Xna.Framework;
+
 namespace CalamityMod.NPCs.NormalNPCs
 {
+    internal enum DroneAIState
+    {
+        Searching = 0,
+        Charging = 1
+    }
     public class WulfrumDrone : ModNPC
     {
+        internal DroneAIState AIState
+        {
+            get => (DroneAIState)(int)npc.ai[0];
+            set => npc.ai[0] = (int)value;
+        }
+        public float HorizontalChargeTime
+        {
+            get => npc.ai[1];
+            set => npc.ai[1] = value;
+        }
+        public float Time
+        {
+            get => npc.ai[2];
+            set => npc.ai[2] = value;
+        }
+        public float SuperchargeTimer
+        {
+            get => npc.ai[3];
+            set => npc.ai[3] = value;
+        }
+        public bool Supercharged => SuperchargeTimer > 0;
+
+        public const float TotalHorizontalChargeTime = 75f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wulfrum Drone");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[npc.type] = 6;
         }
 
         public override void SetDefaults()
         {
-            npc.damage = 10;
-            npc.aiStyle = 3;
-            aiType = NPCID.GoblinScout;
-            npc.width = 40;
-            npc.height = 30;
+            aiType = -1;
+            npc.aiStyle = -1;
+            npc.damage = 16;
+            npc.width = 32;
+            npc.height = 32;
             npc.defense = 4;
-            npc.lifeMax = 22;
+            npc.lifeMax = 21;
             npc.knockBackResist = 0.35f;
-            npc.value = Item.buyPrice(0, 0, 0, 50);
+            npc.value = Item.buyPrice(0, 0, 1, 20);
+            npc.noGravity = true;
+            npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
+            npc.buffImmune[BuffID.Confused] = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumDroneBanner>();
-            npc.buffImmune[BuffID.Confused] = false;
         }
 
-        public override void PostAI()
+        public override void AI()
         {
-            npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
+            npc.TargetClosest(false);
+
+            Player player = Main.player[npc.target];
+
+            if (Supercharged)
+            {
+                SuperchargeTimer--;
+            }
+
+            if (AIState == DroneAIState.Searching)
+            {
+                if (npc.direction == 0)
+                    npc.direction = 1;
+                Vector2 destination = player.Center + new Vector2(300f * npc.direction, -90f);
+                npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(destination) * 8f, 0.1f);
+                if (npc.Distance(destination) < 40f)
+                {
+                    Time++;
+                    npc.velocity *= 0.95f;
+                    if (Time >= 40f)
+                    {
+                        AIState = DroneAIState.Charging;
+                        npc.netUpdate = true;
+                    }
+                }
+            }
+            else
+            {
+                if (HorizontalChargeTime < 25)
+                {
+                    npc.velocity = Vector2.Lerp(npc.velocity, npc.DirectionTo(player.Center) * 8f, 0.1f);
+                }
+                if (Supercharged && Main.netMode != NetmodeID.MultiplayerClient && HorizontalChargeTime % 30f == 29f)
+                {
+                    Projectile.NewProjectile(npc.Center + Vector2.UnitX * 6f * npc.spriteDirection, npc.DirectionTo(player.Center) * 6f, ProjectileID.MartianTurretBolt, 14, 0f);
+                }
+                HorizontalChargeTime++;
+                if (HorizontalChargeTime > TotalHorizontalChargeTime)
+                {
+                    AIState = DroneAIState.Searching;
+                    HorizontalChargeTime = 0f;
+                    npc.direction = (player.Center.X - npc.Center.X < 0).ToDirectionInt();
+                    npc.netUpdate = true;
+                }
+            }
+            npc.spriteDirection = (npc.velocity.X < 0).ToDirectionInt();
+            npc.rotation = npc.velocity.X / 25f;
+
+            // Generate idle dust
+            if (!Main.dedServ)
+            {
+                Dust dust = Dust.NewDustPerfect(npc.Bottom, 229);
+                dust.color = Color.Green;
+                dust.scale = 0.9f;
+            }
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter += 0.15f;
-            npc.frameCounter %= Main.npcFrameCount[npc.type];
-            int frame = (int)npc.frameCounter;
+            npc.frameCounter++;
+            int frame = (int)(npc.frameCounter / 5) % (Main.npcFrameCount[npc.type] / 2);
+            if (Supercharged)
+                frame += Main.npcFrameCount[npc.type] / 2;
+
             npc.frame.Y = frame * frameHeight;
         }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
-            {
                 return 0f;
-            }
+
             return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.05f : 0.2f);
         }
 
