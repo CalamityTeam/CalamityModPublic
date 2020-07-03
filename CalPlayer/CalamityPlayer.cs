@@ -477,6 +477,7 @@ namespace CalamityMod.CalPlayer
         public bool depthCharm = false;
         public bool anechoicPlating = false;
         public bool jellyfishNecklace = false;
+		public bool abyssDivingGear = false;
         public bool abyssalAmulet = false;
         public bool lumenousAmulet = false;
         public bool reaperToothNecklace = false;
@@ -1583,6 +1584,7 @@ namespace CalamityMod.CalPlayer
             depthCharm = false;
             anechoicPlating = false;
             jellyfishNecklace = false;
+			abyssDivingGear = false;
             abyssalAmulet = false;
             lumenousAmulet = false;
             reaperToothNecklace = false;
@@ -3262,6 +3264,10 @@ namespace CalamityMod.CalPlayer
                 {
                     profanedCrystalHide = false;
                     profanedCrystalForce = true;
+                }
+                else if (item.type == ModContent.ItemType<AbyssalDivingGear>())
+                {
+                    abyssDivingGear = true;
                 }
             }
         }
@@ -6950,92 +6956,102 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Frame Effects
-        public override void FrameEffects()
-        {
-            if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot ||
-                player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
-            {
-                player.head = mod.GetEquipSlot("NoHead", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
-            }
-            else if (snowRuffianSet)
-            {
-                player.wings = mod.GetEquipSlot("SnowRuffWings", EquipType.Wings);
-                bool falling = player.gravDir == -1 ? player.velocity.Y < 0.05f : player.velocity.Y > 0.05f;
-                if (player.controlJump && falling)
-                {
-                    player.velocity.Y *= 0.9f;
-                    player.wingFrame = 3;
+		#region Frame Effects
+		public override void FrameEffects()
+		{
+			if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot ||
+				player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
+			{
+				player.head = mod.GetEquipSlot("NoHead", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
+			}
+			else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
+			{
+				player.legs = mod.GetEquipSlot("ProviLegs", EquipType.Legs);
+				player.body = mod.GetEquipSlot("ProviBody", EquipType.Body);
+				player.head = mod.GetEquipSlot("ProviHead", EquipType.Head);
+				player.wings = mod.GetEquipSlot("ProviWings", EquipType.Wings);
+				player.face = -1;
+
+				bool enrage = !profanedCrystalForce && profanedCrystalBuffs && player.statLife <= (int)(player.statLifeMax2 * 0.5);
+
+				if (profanedCrystalWingCounter.Value == 0)
+				{
+					int key = profanedCrystalWingCounter.Key;
+					profanedCrystalWingCounter = new KeyValuePair<int, int>(key == 3 ? 0 : key + 1, enrage ? 5 : 7);
+				}
+
+				player.wingFrame = profanedCrystalWingCounter.Key;
+				profanedCrystalWingCounter = new KeyValuePair<int, int>(profanedCrystalWingCounter.Key, profanedCrystalWingCounter.Value - 1);
+				player.armorEffectDrawOutlines = true;
+				if (profanedCrystalBuffs)
+				{
+					player.armorEffectDrawShadow = true;
+					if (enrage)
+					{
+						player.armorEffectDrawOutlinesForbidden = true;
+					}
+				}
+			}
+			else if ((snowmanPower || snowmanForce) && !snowmanHide)
+			{
+				player.legs = mod.GetEquipSlot("PopoLeg", EquipType.Legs);
+				player.body = mod.GetEquipSlot("PopoBody", EquipType.Body);
+				player.head = snowmanNoseless ? mod.GetEquipSlot("PopoNoselessHead", EquipType.Head) : mod.GetEquipSlot("PopoHead", EquipType.Head);
+				player.face = -1;
+			}
+			else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
+			{
+				player.legs = mod.GetEquipSlot("AbyssalDivingSuitLeg", EquipType.Legs);
+				player.body = mod.GetEquipSlot("AbyssalDivingSuitBody", EquipType.Body);
+				player.head = mod.GetEquipSlot("AbyssalDivingSuitHead", EquipType.Head);
+				player.face = -1;
+			}
+			else if ((sirenBoobsPower || sirenBoobsForce) && !sirenBoobsHide)
+			{
+				player.legs = mod.GetEquipSlot("SirenLeg", EquipType.Legs);
+				player.body = mod.GetEquipSlot("SirenBody", EquipType.Body);
+				player.head = mod.GetEquipSlot("SirenHead", EquipType.Head);
+				player.face = -1;
+			}
+			else if ((sirenBoobsAltPower || sirenBoobsAltForce) && !sirenBoobsAltHide)
+			{
+				player.legs = mod.GetEquipSlot("SirenLegAlt", EquipType.Legs);
+				player.body = mod.GetEquipSlot("SirenBodyAlt", EquipType.Body);
+				player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
+				player.face = -1;
+			}
+			else
+			{
+				if (profanedCrystalWingCounter.Key != 1)
+					profanedCrystalWingCounter = new KeyValuePair<int, int>(1, 7);
+				if (profanedCrystalAnimCounter.Key != 0)
+					profanedCrystalAnimCounter = new KeyValuePair<int, int>(0, 10);
+			}
+			if (snowRuffianSet)
+			{
+				player.wings = mod.GetEquipSlot("SnowRuffWings", EquipType.Wings);
+				bool falling = player.gravDir == -1 ? player.velocity.Y < 0.05f : player.velocity.Y > 0.05f;
+				if (player.controlJump && falling)
+				{
+					player.velocity.Y *= 0.9f;
+					player.wingFrame = 3;
 					player.noFallDmg = true;
 					player.fallStart = (int)(player.position.Y / 16f);
-                }
-            }
-            else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
-            {
-                player.legs = mod.GetEquipSlot("ProviLegs", EquipType.Legs);
-                player.body = mod.GetEquipSlot("ProviBody", EquipType.Body);
-                player.head = mod.GetEquipSlot("ProviHead", EquipType.Head);
-                player.wings = mod.GetEquipSlot("ProviWings", EquipType.Wings);
+				}
+			}
+			if (abyssDivingGear && (player.head == -1 || player.head == ArmorIDs.Head.FamiliarWig))
+			{
+				player.head = mod.GetEquipSlot("AbyssDivingGearHead", EquipType.Head);
+				player.face = -1;
+			}
 
-                bool enrage = !profanedCrystalForce && profanedCrystalBuffs && player.statLife <= (int)(player.statLifeMax2 * 0.5);
+			if (CalamityWorld.defiled)
+				Defiled();
 
-                if (profanedCrystalWingCounter.Value == 0)
-                {
-                    int key = profanedCrystalWingCounter.Key;
-                    profanedCrystalWingCounter = new KeyValuePair<int, int>(key == 3 ? 0 : key + 1, enrage ? 5 : 7);
-                }
-
-                player.wingFrame = profanedCrystalWingCounter.Key;
-                profanedCrystalWingCounter = new KeyValuePair<int, int>(profanedCrystalWingCounter.Key, profanedCrystalWingCounter.Value - 1);
-                player.armorEffectDrawOutlines = true;
-                if (profanedCrystalBuffs)
-                {
-                    player.armorEffectDrawShadow = true;
-                    if (enrage)
-                    {
-                        player.armorEffectDrawOutlinesForbidden = true;
-                    }
-                }
-            }
-            else if ((snowmanPower || snowmanForce) && !snowmanHide)
-            {
-                player.legs = mod.GetEquipSlot("PopoLeg", EquipType.Legs);
-                player.body = mod.GetEquipSlot("PopoBody", EquipType.Body);
-                player.head = snowmanNoseless ? mod.GetEquipSlot("PopoNoselessHead", EquipType.Head) : mod.GetEquipSlot("PopoHead", EquipType.Head);
-            }
-            else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
-            {
-                player.legs = mod.GetEquipSlot("AbyssalDivingSuitLeg", EquipType.Legs);
-                player.body = mod.GetEquipSlot("AbyssalDivingSuitBody", EquipType.Body);
-                player.head = mod.GetEquipSlot("AbyssalDivingSuitHead", EquipType.Head);
-            }
-            else if ((sirenBoobsPower || sirenBoobsForce) && !sirenBoobsHide)
-            {
-                player.legs = mod.GetEquipSlot("SirenLeg", EquipType.Legs);
-                player.body = mod.GetEquipSlot("SirenBody", EquipType.Body);
-                player.head = mod.GetEquipSlot("SirenHead", EquipType.Head);
-            }
-            else if ((sirenBoobsAltPower || sirenBoobsAltForce) && !sirenBoobsAltHide)
-            {
-                player.legs = mod.GetEquipSlot("SirenLegAlt", EquipType.Legs);
-                player.body = mod.GetEquipSlot("SirenBodyAlt", EquipType.Body);
-                player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
-            }
-            else
-            {
-                if (profanedCrystalWingCounter.Key != 1)
-                    profanedCrystalWingCounter = new KeyValuePair<int, int>(1, 7);
-                if (profanedCrystalAnimCounter.Key != 0)
-                    profanedCrystalAnimCounter = new KeyValuePair<int, int>(0, 10);
-            }
-
-            if (CalamityWorld.defiled)
-                Defiled();
-
-            if (weakPetrification)
-                WeakPetrification();
-        }
-        #endregion
+			if (weakPetrification)
+				WeakPetrification();
+		}
+		#endregion
 
         #region Limitations
         private void WeakPetrification()
@@ -9482,6 +9498,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
         });
+
         public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
         {
             if (drawInfo.shadow != 0f)
