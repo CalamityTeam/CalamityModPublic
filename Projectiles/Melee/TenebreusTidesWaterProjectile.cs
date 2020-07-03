@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 10;
 			projectile.tileCollide = false;
-			aiType = ProjectileID.SporeCloud;
+            aiType = ProjectileID.LightBeam;
         }
 
         public override void AI()

@@ -12764,18 +12764,18 @@ namespace CalamityMod.NPCs
 
                     if (npc.ai[1] == 60f)
                     {
-                        for (int num1161 = 0; num1161 < Main.maxProjectiles; num1161++)
+                        for (int i = 0; i < Main.maxProjectiles; i++)
                         {
-                            Projectile projectile = Main.projectile[num1161];
+                            Projectile projectile = Main.projectile[i];
                             if (projectile.active && (projectile.type == ProjectileID.MoonLeech || projectile.type == ProjectileID.PhantasmalBolt ||
                                 projectile.type == ProjectileID.PhantasmalDeathray || projectile.type == ProjectileID.PhantasmalEye ||
                                 projectile.type == ProjectileID.PhantasmalSphere))
                                 projectile.Kill();
                         }
 
-						for (int num1162 = 0; num1162 < Main.maxNPCs; num1162++)
+						for (int j = 0; j < Main.maxNPCs; j++)
 						{
-							NPC nPC3 = Main.npc[num1162];
+							NPC nPC3 = Main.npc[j];
 							if (nPC3.active && nPC3.type == NPCID.MoonLordFreeEye)
 							{
 								nPC3.HitEffect(0, 9999.0);
@@ -12892,9 +12892,6 @@ namespace CalamityMod.NPCs
                         npc.life = 0;
                         npc.HitEffect(0, 1337.0);
                         npc.checkDead();
-
-						if (!CalamityWorld.bossRushActive)
-							MoonLordLoot(npc);
 
 						for (int num1174 = 0; num1174 < Main.maxNPCs; num1174++)
 						{
@@ -14660,98 +14657,6 @@ namespace CalamityMod.NPCs
             }
             return false;
         }
-
-		#region Moon Lord Loot
-		private static void MoonLordLoot(NPC npc)
-		{
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeMoonLord>(), true, !NPC.downedMoonlord);
-			DropHelper.DropResidentEvilAmmo(npc, NPC.downedMoonlord, 5, 2, 1);
-
-			string key = "Mods.CalamityMod.MoonBossText";
-			Color messageColor = Color.Orange;
-			string key2 = "Mods.CalamityMod.MoonBossText2";
-			Color messageColor2 = Color.Violet;
-			string key3 = "Mods.CalamityMod.MoonBossText3";
-			Color messageColor3 = Color.Crimson;
-			string key4 = "Mods.CalamityMod.ProfanedBossText2";
-			Color messageColor4 = Color.Cyan;
-			string key5 = "Mods.CalamityMod.FutureOreText";
-			Color messageColor5 = Color.LightGray;
-
-			// Spawn Exodium and send messages about Providence, Bloodstone, Phantoplasm, etc. if ML has not been killed yet
-			if (!NPC.downedMoonlord)
-			{
-				WorldGenerationMethods.SpawnOre(ModContent.TileType<ExodiumOre>(), 12E-05, .01f, .07f);
-
-				if (Main.netMode == NetmodeID.SinglePlayer)
-				{
-					Main.NewText(Language.GetTextValue(key), messageColor);
-					Main.NewText(Language.GetTextValue(key2), messageColor2);
-					Main.NewText(Language.GetTextValue(key3), messageColor3);
-					Main.NewText(Language.GetTextValue(key4), messageColor4);
-					Main.NewText(Language.GetTextValue(key5), messageColor5);
-				}
-				else if (Main.netMode == NetmodeID.Server)
-				{
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key3), messageColor3);
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key4), messageColor4);
-					NetMessage.BroadcastChatMessage(NetworkText.FromKey(key5), messageColor5);
-				}
-			}
-
-			if (CalamityWorld.armageddon)
-			{
-				DropHelper.DropArmageddonBags(npc);
-			}
-
-			if (Main.netMode != NetmodeID.Server)
-			{
-				if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active)
-				{
-					Main.player[Main.myPlayer].Calamity().adrenaline = 0;
-				}
-			}
-
-			NPC.downedMoonlord = true;
-			NPC.LunarApocalypseIsUp = false;
-
-			npc.DropBossBags();
-
-			if (Main.rand.NextBool(10))
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 3595, 1, false, 0, false, false);
-			}
-
-			int stack = Main.rand.Next(5, 16);
-			Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 499, stack, false, 0, false, false);
-
-			int num70 = Main.rand.Next(5) + 5;
-			for (int num71 = 0; num71 < num70; num71++)
-			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, 58, 1, false, 0, false, false);
-			}
-
-			if (Main.netMode == NetmodeID.SinglePlayer)
-			{
-				Main.NewText(Language.GetTextValue("Announcement.HasBeenDefeated_Single", Language.GetTextValue("Enemies.MoonLord")), 175, 75, 255, false);
-			}
-			else if (Main.netMode == NetmodeID.Server)
-			{
-				NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasBeenDefeated_Single", new object[]
-				{
-							NetworkText.FromKey("Enemies.MoonLord", new object[0])
-				}), new Color(175, 75, 255), -1);
-			}
-
-			if (Main.netMode == NetmodeID.Server)
-			{
-				NetMessage.SendData(MessageID.WorldData, -1, -1, null, 0, 0f, 0f, 0f, 0, 0, 0);
-			}
-		}
-		#endregion
-
 		#endregion
 
 		#region Buffed Mothron AI
@@ -14861,7 +14766,7 @@ namespace CalamityMod.NPCs
                             npc.ai[0] = 2f;
                         else if (num1355 == 1)
                             npc.ai[0] = 3f;
-                        else if (num1355 == 2 && NPC.CountNPCS(478) + NPC.CountNPCS(479) < 2)
+                        else if (num1355 == 2 && NPC.CountNPCS(NPCID.MothronEgg) + NPC.CountNPCS(NPCID.MothronSpawn) < 2)
                             npc.ai[0] = 4f;
                     }
                 }

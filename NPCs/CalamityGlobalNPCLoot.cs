@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
-                if (npc.type == NPCID.Probe || npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.MoonLordCore)
+                if (npc.type == NPCID.Probe || npc.type == NPCID.ServantofCthulhu)
                 {
                     return false;
                 }
