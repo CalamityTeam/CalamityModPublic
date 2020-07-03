@@ -15,7 +15,8 @@ namespace CalamityMod.Items.LoreItems
                 "Most likely another abomination spawned from this inchoate mass of flesh.\n" +
                 "Allows you to teleport similar to the Rod of Discord while in the crimson. Place in your hotbar to use it.\n" +
 				"Teleportation is disabled while Chaos State is active.\n" +
-				"However, you become confused for a few seconds after you use it due to your overwhelming brain power.");
+				"However, you become confused for a few seconds after you use it due to your overwhelming brain power.\n" +
+				"Teleportation only occurs if the item is favorited.");
         }
 
         public override void SetDefaults()
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override bool CanUseItem(Player player)
         {
-            return player.ZoneCrimson;
+            return player.ZoneCrimson && item.favorited;
         }
 
         public override bool UseItem(Player player)

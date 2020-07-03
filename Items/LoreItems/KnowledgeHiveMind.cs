@@ -15,7 +15,8 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("A hive of clustered microbial-infected flesh.\n" +
                 "I do not believe killing it will lessen the corruption here.\n" +
                 "Place in your inventory for all of your projectiles to inflict cursed flames when in the corruption.\n" +
-				"However, enemy spawn rates will be greatly reduced while in the corruption due to your overwhelmingly-putrid odor.");
+				"However, enemy spawn rates will be greatly reduced while in the corruption due to your overwhelmingly-putrid odor.\n" +
+				"These effects only occur if the item is favorited.");
         }
 
         public override void SetDefaults()
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-            if (player.ZoneCorrupt)
+            if (player.ZoneCorrupt && item.favorited)
             {
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.hiveMindLore = true;
