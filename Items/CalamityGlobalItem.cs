@@ -2051,7 +2051,7 @@ Provides heat and cold protection in Death Mode";
                             "Flight time: 100\n" +
                             "Gills effect and you can move freely through liquids\n" +
                             "You fall faster while submerged in liquid\n" +
-                            "20% increased movement speed and 180% increased jump speed";
+                            "20% increased movement speed and 36% increased jump speed";
                     }
                 }
             }
@@ -2113,7 +2113,7 @@ Provides heat and cold protection in Death Mode";
                             "Average vertical speed\n" +
                             "Flight time: 140\n" +
                             "At night or during an eclipse, you will gain the following boosts:\n" +
-							"10% increased movement speed, 100% increased jump speed,\n" +
+							"10% increased movement speed, 20% increased jump speed,\n" +
                             "+15 defense, 10% increased damage, and 5% increased critical strike chance";
                     }
                 }
@@ -2209,7 +2209,7 @@ Provides heat and cold protection in Death Mode";
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
                             "+5 defense, 5% increased damage, " +
-                            "10% increased movement speed and 120% increased jump speed";
+                            "10% increased movement speed and 24% increased jump speed";
                     }
                 }
             }
