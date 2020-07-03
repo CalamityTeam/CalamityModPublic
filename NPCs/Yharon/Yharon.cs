@@ -1319,7 +1319,7 @@ namespace CalamityMod.NPCs.Yharon
 					// Rotate spiral by 7.2 * (300 / 12) = +90 degrees and then back -90 degrees
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
-						DoFlareDustBulletHell(1, flareDustPhaseTimer, projectileDamage, 8, 12f, 7.2f, false);
+						DoFlareDustBulletHell(1, flareDustPhaseTimer, projectileDamage, 8, 12f, 3.6f, false);
 				}
 
 				npc.velocity = npc.velocity.RotatedBy(-(double)spinPhaseRotation * (float)npc.direction);
@@ -2134,7 +2134,7 @@ namespace CalamityMod.NPCs.Yharon
 						// For phase 4: Rotate spiral by 18 * (240 / 16) = +135 degrees and then back -135 degrees
 
 						if (npc.ai[1] % flareDustSpawnDivisor3 == 0f)
-							DoFlareDustBulletHell(1, (int)spinPhaseTimer, projectileDamage, phase4 ? 12 : 10, phase4 ? 16f : 12f, phase4 ? 18f : 9f, true);
+							DoFlareDustBulletHell(1, (int)spinPhaseTimer, projectileDamage, phase4 ? 12 : 10, phase4 ? 16f : 12f, phase4 ? 2.8f : 3.2f, true);
 					}
 					else if (phase2)
 					{
