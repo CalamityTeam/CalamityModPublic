@@ -109,6 +109,9 @@ namespace CalamityMod.CalPlayer
         public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
         public int waterLeechTarget = -1;
+        public float KameiTrailXScale = 0.1f;
+        public int KameiBladeUseDelay = 0;
+        public Vector2[] KameiOldPositions = new Vector2[4];
 		public double trueMeleeDamage = 0D;
 		public double contactDamageReduction = 0D;
 		public double projectileDamageReduction = 0D;
@@ -812,6 +815,7 @@ namespace CalamityMod.CalPlayer
         public bool hallowedDefense = false;
         public bool hallowedPower = false;
         public bool hallowedRegen = false;
+        public bool kamiBoost = false;
         #endregion
 
         #region Minion
@@ -1542,6 +1546,7 @@ namespace CalamityMod.CalPlayer
             hallowedDefense = false;
             hallowedRegen = false;
             hallowedPower = false;
+            kamiBoost = false;
             IBoots = false;
             elysianFire = false;
             sTracers = false;
@@ -2063,6 +2068,7 @@ namespace CalamityMod.CalPlayer
             rRage = false;
             xRage = false;
             xWrath = false;
+            kamiBoost = false;
             graxDefense = false;
             encased = false;
             sMeleeBoost = false;
@@ -2251,6 +2257,7 @@ namespace CalamityMod.CalPlayer
             elysianGuard = false;
             #endregion
 
+            KameiBladeUseDelay = 0;
             lastProjectileHit = null;
 
             if (CalamityWorld.bossRushActive)
@@ -3585,6 +3592,7 @@ namespace CalamityMod.CalPlayer
                 ((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
                 (auricSet ? 0.1f : 0f) +
                 (dragonScales ? 0.1f : 0f) +
+                (kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
                 (cTracers ? 0.1f : 0f) +
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
@@ -3604,6 +3612,7 @@ namespace CalamityMod.CalPlayer
                 (cTracers ? 0.1f : 0f) +
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
+                (kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
                 (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 (stressPills ? 0.05f : 0f) +
                 (laudanum && horror ? 0.1f : 0f) +
@@ -9344,9 +9353,39 @@ namespace CalamityMod.CalPlayer
         {
             if (drawInfo.shadow != 0f)
                 return;
-
             Player drawPlayer = drawInfo.drawPlayer;
             Item item = drawPlayer.ActiveItem();
+
+            // Kamei trail/afterimage effect.
+            if (drawPlayer.Calamity().kamiBoost)
+            {
+                for (int i = drawPlayer.Calamity().KameiOldPositions.Length - 1; i > 0; i--)
+                {
+                    if (drawPlayer.Calamity().KameiOldPositions[i - 1] == Vector2.Zero)
+                        drawPlayer.Calamity().KameiOldPositions[i - 1] = drawPlayer.position;
+                    drawPlayer.Calamity().KameiOldPositions[i] = drawPlayer.Calamity().KameiOldPositions[i - 1];
+                }
+                drawPlayer.Calamity().KameiOldPositions[0] = drawPlayer.position;
+
+                List<DrawData> existingDrawData = Main.playerDrawData;
+                for (int i = 0; i < drawPlayer.Calamity().KameiOldPositions.Length; i++)
+                {
+                    float scale = MathHelper.Lerp(1f, 0.5f, i / (float)drawPlayer.Calamity().KameiOldPositions.Length);
+                    float opacity = MathHelper.Lerp(0.25f, 0.08f, i / (float)drawPlayer.Calamity().KameiOldPositions.Length);
+                    List<DrawData> afterimage = new List<DrawData>();
+                    for (int j = 0; j < existingDrawData.Count; j++)
+                    {
+                        var drawData = existingDrawData[j];
+                        drawData.position = existingDrawData[j].position - drawPlayer.position + drawPlayer.oldPosition;
+                        drawData.color = Color.Cyan * opacity;
+                        drawData.color.G = (byte)(drawData.color.G * 1.6);
+                        drawData.color.B = (byte)(drawData.color.B * 1.2);
+                        drawData.scale = new Vector2(scale);
+                        afterimage.Add(drawData);
+                    }
+                    Main.playerDrawData.InsertRange(0, afterimage);
+                }
+            }
 
             if (!drawPlayer.frozen &&
                 item.type > ItemID.None &&
@@ -9907,8 +9946,8 @@ namespace CalamityMod.CalPlayer
 
         public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-			// Dust modifications while high
-			if (trippy)
+            // Dust modifications while high
+            if (trippy)
 			{
 				if (Main.myPlayer == player.whoAmI)
 				{
