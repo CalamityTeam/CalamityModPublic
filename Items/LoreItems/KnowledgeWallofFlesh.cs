@@ -14,7 +14,8 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("I see the deed is done.\n" +
                 "The unholy amalgamation of flesh and hatred has been defeated.\n" +
                 "Prepare to face the terrors that lurk in the light and dark parts of this world.\n" +
-                "Place in your inventory to gain increased item grab range.");
+                "Place in your inventory to gain increased item grab range.\n" +
+				"This effect only occurs if the item is favorited.");
         }
 
         public override void SetDefaults()
@@ -33,7 +34,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.wallOfFleshLore = true;
+			if (item.favorited)
+				modPlayer.wallOfFleshLore = true;
         }
 
         public override void AddRecipes()
