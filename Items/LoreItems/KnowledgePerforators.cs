@@ -14,7 +14,8 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Perforators and their Hive");
             Tooltip.SetDefault("An abomination of comingled flesh, bone, and organ, infested primarily by blood-slurping worms.\n" +
                 "Place in your inventory for all of your projectiles to inflict ichor when in the crimson.\n" +
-				"However, enemy spawn rates will be greatly increased while in the crimson due to your body excreting a sweet-smelling pus.");
+				"However, enemy spawn rates will be greatly increased while in the crimson due to your body excreting a sweet-smelling pus.\n" +
+				"These effects only occur if the item is favorited.");
         }
 
         public override void SetDefaults()
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-            if (player.ZoneCrimson)
+            if (player.ZoneCrimson && item.favorited)
             {
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.perforatorLore = true;

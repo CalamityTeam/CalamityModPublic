@@ -3685,7 +3685,6 @@ namespace CalamityMod.CalPlayer
             }
             #endregion
         }
-
         #endregion
 
         #region Rogue Mirrors
@@ -3712,6 +3711,11 @@ namespace CalamityMod.CalPlayer
                     Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
                     Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
                 }
+
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
+                }
             }
         }
 
@@ -3732,6 +3736,11 @@ namespace CalamityMod.CalPlayer
 
                 Main.PlaySound(SoundID.Item68, Main.player[Main.myPlayer].position);
                 int eclipseBurst = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(7000 * player.RogueDamage()), 0, player.whoAmI);
+
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
+                }
             }
         }
         #endregion
@@ -8327,11 +8336,11 @@ namespace CalamityMod.CalPlayer
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[player.whoAmI] <= 0 && Main.npc[i].damage > 0)
+					NPC npc = Main.npc[i];
+                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && !npc.townNPC && npc.immune[player.whoAmI] <= 0 && npc.damage > 0)
                     {
-                        NPC nPC = Main.npc[i];
                         Rectangle rect = nPC.getRect();
-                        if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
+                        if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
                         {
                             OnDodge();
                             break;
@@ -8340,9 +8349,9 @@ namespace CalamityMod.CalPlayer
                 }
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[i].active && !Main.projectile[i].friendly && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
+					Projectile proj = Main.projectile[i];
+                    if (proj.active && !proj.friendly && proj.hostile && proj.damage > 0)
                     {
-                        Projectile proj = Main.projectile[i];
                         Rectangle rect = proj.getRect();
                         if (rectangle.Intersects(rect))
                         {

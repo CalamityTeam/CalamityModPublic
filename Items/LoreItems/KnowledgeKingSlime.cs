@@ -13,7 +13,8 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("Only a fool could be caught by this pitiful excuse for a hunter.\n" +
                 "Unfortunately, our world has no shortage of those.\n" +
 				"Place in your inventory to gain a slight movement speed and jump boost.\n" +
-				"However, your defense is slightly reduced due to your gelatinous body.");
+				"However, your defense is slightly reduced due to your gelatinous body.\n" +
+				"These effects only occur if the item is favorited.");
         }
 
         public override void SetDefaults()
@@ -31,7 +32,8 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-            player.Calamity().kingSlimeLore = true;
+			if (item.favorited)
+				player.Calamity().kingSlimeLore = true;
         }
 
         public override void AddRecipes()
