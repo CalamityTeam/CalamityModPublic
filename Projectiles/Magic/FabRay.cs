@@ -26,27 +26,32 @@ namespace CalamityMod.Projectiles.Magic
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.2f, 0.01f, 0.1f);
-            projectile.localAI[1] += 1f;
-            if (projectile.localAI[1] >= 9f && projectile.owner == Main.myPlayer)
+            projectile.ai[0] += 1f;
+            if (projectile.ai[0] % 9f == 0f && projectile.owner == Main.myPlayer)
             {
-                projectile.localAI[1] = 0f;
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FabOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FabOrb>(), projectile.damage, projectile.knockBack, projectile.owner, Main.rand.Next(2), 0f);
             }
 
-            projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] > 16f)
+            if (projectile.ai[0] > 16f && projectile.ai[0] % 2f == 0f)
             {
-                for (int num447 = 0; num447 < 2; num447++)
+				Vector2 source = projectile.position;
+				int pink = Dust.NewDust(source, 1, 1, 234, 0f, 0f, 0, default, 1.25f);
+				Main.dust[pink].noGravity = true;
+				Main.dust[pink].noLight = true;
+				Main.dust[pink].position = source;
+				Main.dust[pink].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+				Main.dust[pink].velocity *= 0.1f;
+                /*for (int i = 0; i < 2; i++)
                 {
-                    Vector2 vector33 = projectile.position;
-                    vector33 -= projectile.velocity * ((float)num447 * 0.25f);
-                    int num448 = Dust.NewDust(vector33, 1, 1, 234, 0f, 0f, 0, default, 1.25f);
-                    Main.dust[num448].noGravity = true;
-                    Main.dust[num448].noLight = true;
-                    Main.dust[num448].position = vector33;
-                    Main.dust[num448].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-					Main.dust[num448].velocity *= 0.1f;
-				}
+                    Vector2 source = projectile.position;
+                    source -= projectile.velocity * ((float)i * 0.25f);
+                    int pink = Dust.NewDust(source, 1, 1, 234, 0f, 0f, 0, default, 1.25f);
+                    Main.dust[pink].noGravity = true;
+                    Main.dust[pink].noLight = true;
+                    Main.dust[pink].position = source;
+                    Main.dust[pink].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+					Main.dust[pink].velocity *= 0.1f;
+				}*/
             }
         }
 
@@ -59,7 +64,6 @@ namespace CalamityMod.Projectiles.Magic
             }
             else
             {
-                projectile.ai[0] += 0.1f;
                 if (projectile.velocity.X != oldVelocity.X)
                 {
                     projectile.velocity.X = -oldVelocity.X;

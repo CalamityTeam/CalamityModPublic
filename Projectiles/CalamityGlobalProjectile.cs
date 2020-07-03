@@ -2133,7 +2133,7 @@ namespace CalamityMod.Projectiles
 							projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>() || (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.melee))
 							Main.projectile[projectile2].Calamity().forceMelee = true;
 
-						if (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.Calamity().rogue)
+						else if (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.Calamity().rogue)
 							Main.projectile[projectile2].Calamity().forceRogue = true;
 					}
 				}
