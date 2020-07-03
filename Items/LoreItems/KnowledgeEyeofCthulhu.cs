@@ -13,7 +13,8 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("That eye...how peculiar.\n" +
                 "I sensed it watching you more intensely as you grew stronger.\n" +
                 "Place in your inventory for night vision at night.\n" +
-				"However, your vision is reduced during the day.");
+				"However, your vision is reduced during the day.\n" +
+				"These effects only occur if the item is favorited.");
         }
 
         public override void SetDefaults()
@@ -31,10 +32,13 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-			if (!Main.dayTime)
-				player.nightVision = true;
-			else
-				player.blind = true;
+			if (item.favorited)
+			{
+				if (!Main.dayTime)
+					player.nightVision = true;
+				else
+					player.blind = true;
+			}
         }
 
         public override void AddRecipes()
