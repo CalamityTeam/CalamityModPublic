@@ -20,6 +20,9 @@ namespace CalamityMod.NPCs.Leviathan
         private bool secondClone = false;
         private bool forceChargeFrames = false;
         private int frameUsed = 0;
+		private static Texture2D sirenStabTexture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenStabbing");
+
+		//IMPORTANT: Do NOT remove the empty space on the sprites.  This is intentional for framing.  The sprite is centered and hitbox is fine already.
 
         public override void SetStaticDefaults()
         {
@@ -107,7 +110,7 @@ namespace CalamityMod.NPCs.Leviathan
             CalamityGlobalNPC.siren = npc.whoAmI;
 
             // Light
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0f, 0.5f, 0.3f);
+            Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0f, 0.5f, 0.3f);
 
 			// Target
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
@@ -727,108 +730,53 @@ namespace CalamityMod.NPCs.Leviathan
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor) // 2 total states (ice shield or no ice shield)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = Main.npcTexture[npc.type];
-            if (npc.dontTakeDamage)
-            {
-                switch (frameUsed)
-                {
-                    case 0:
-                        texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenAlt");
-                        break;
-                    case 1:
-                        texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenAltSinging");
-                        break;
-                    case 2:
-                        texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenAltStabbing");
-                        break;
-                }
-            }
-            else
-            {
-                switch (frameUsed)
-                {
-                    case 0:
-                        texture = Main.npcTexture[npc.type];
-                        break;
-                    case 1:
-                        texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenSinging");
-                        break;
-                    case 2:
-                        texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenStabbing");
-                        break;
-                }
-            }
+			switch (frameUsed)
+			{
+				case 0:
+					texture = Main.npcTexture[npc.type];
+					break;
+				case 1:
+					texture = sirenStabTexture;
+					break;
+			}
 
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            if (npc.spriteDirection == 1)
-                spriteEffects = SpriteEffects.FlipHorizontally;
-
-            if (npc.ai[0] > 2f || forceChargeFrames)
-            {
-                int width = 106;
-                Vector2 vector = new Vector2((float)(width / 2), (float)(texture.Height / Main.npcFrameCount[npc.type] / 2));
-                Rectangle frame = new Rectangle(0, 0, width, texture.Height / Main.npcFrameCount[npc.type]);
-                frame.Y = 146 * (int)(npc.frameCounter / 12.0); // 1 to 6
-                if (frame.Y >= 146 * 6 || npc.ai[0] == 4f)
-                    frame.Y = 0;
-
-                Main.spriteBatch.Draw(texture,
-                    new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)width * npc.scale / 2f + vector.X * npc.scale,
-                    npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)texture.Height * npc.scale / (float)Main.npcFrameCount[npc.type] + 4f + vector.Y * npc.scale + 0f + npc.gfxOffY),
-                    new Microsoft.Xna.Framework.Rectangle?(frame),
-                    npc.GetAlpha(drawColor),
-                    npc.rotation,
-                    vector,
-                    npc.scale,
-                    spriteEffects,
-                    0f);
-                return false;
-            }
-
-            Rectangle frame2 = npc.frame;
-            Vector2 vector11 = new Vector2((float)(Main.npcTexture[npc.type].Width / 2), (float)(Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] / 2));
-            Main.spriteBatch.Draw(texture,
-                new Vector2(npc.position.X - Main.screenPosition.X + (float)(npc.width / 2) - (float)Main.npcTexture[npc.type].Width * npc.scale / 2f + vector11.X * npc.scale,
-                npc.position.Y - Main.screenPosition.Y + (float)npc.height - (float)Main.npcTexture[npc.type].Height * npc.scale / (float)Main.npcFrameCount[npc.type] + 4f + vector11.Y * npc.scale + 0f + npc.gfxOffY),
-                new Microsoft.Xna.Framework.Rectangle?(frame2),
-                npc.GetAlpha(drawColor),
-                npc.rotation,
-                vector11,
-                npc.scale,
-                spriteEffects,
-                0f);
+			bool charging = npc.ai[0] > 2f || forceChargeFrames;
+            int height = texture.Height / Main.npcFrameCount[npc.type];
+            int width = texture.Width;
+			SpriteEffects spriteEffects = charging ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+			if (npc.spriteDirection == -1)
+				spriteEffects = charging ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0f, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, new Vector2((float)width / 2f, (float)height / 2f), npc.scale, spriteEffects, 0f);
             return false;
         }
 
-        public override void FindFrame(int frameHeight) // 6 total frames, 3 total texture types
+        public override void FindFrame(int frameHeight)
         {
-            if (forceChargeFrames)
-                frameUsed = 2;
-            else if (npc.ai[0] == 2f)
-                frameUsed = 0;
-            else if (npc.ai[0] <= 1f)
+            Texture2D texture = Main.npcTexture[npc.type];
+            if (npc.ai[0] > 2f || forceChargeFrames)
+			{
                 frameUsed = 1;
+			}
             else
-                frameUsed = 2;
+			{
+                frameUsed = 0;
+			}
+			int frameY = texture.Height / Main.npcFrameCount[npc.type];
+			int timeBetweenFrames = 8;
 
-            npc.frameCounter += 1.0;
-            if (npc.ai[0] == 3f || forceChargeFrames)
-            {
-                if (npc.frameCounter > 72.0)
-                    npc.frameCounter = 0.0;
-            }
-            else if (npc.ai[0] != 4f)
-            {
-                int frameY = 146;
-                if (npc.frameCounter > 72.0)
-                    npc.frameCounter = 0.0;
+            npc.frameCounter++;
+			if (npc.frameCounter > timeBetweenFrames * Main.npcFrameCount[npc.type])
+				npc.frameCounter = 0;
 
-                npc.frame.Y = frameY * (int)(npc.frameCounter / 12.0);
-                if (npc.frame.Y >= frameHeight * 6)
-                    npc.frame.Y = 0;
-            }
+			npc.frame.Y = frameY * (int)(npc.frameCounter / timeBetweenFrames);
+			if (npc.frame.Y >= frameHeight * Main.npcFrameCount[npc.type])
+				npc.frame.Y = 0;
+
+			//100x1140
+			//200x636
         }
 
         public override void BossLoot(ref string name, ref int potionType)
