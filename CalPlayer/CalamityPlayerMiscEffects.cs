@@ -3837,7 +3837,11 @@ namespace CalamityMod.CalPlayer
 			modPlayer.manaRegenStat = player.manaRegen;
 			modPlayer.armorPenetrationStat = player.armorPenetration;
 			modPlayer.moveSpeedStat = (int)((player.moveSpeed - 1f) * 100f);
-			modPlayer.wingFlightTimeStat = player.wingTimeMax;
+			modPlayer.wingFlightTimeStat = player.wingTimeMax / 60f;
+			float trueJumpSpeedBoost = player.jumpSpeedBoost + 
+				(player.wereWolf ? 0.2f : 0f) +
+				(player.jumpBoost ? 1.5f : 0f);
+			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
 			modPlayer.adrenalineChargeStat = 45 -
 				(modPlayer.adrenalineBoostOne ? 10 : 0) -
 				(modPlayer.adrenalineBoostTwo ? 10 : 0) -

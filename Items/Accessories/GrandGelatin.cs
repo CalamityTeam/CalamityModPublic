@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,7 +12,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Grand Gelatin");
             Tooltip.SetDefault("10% increased movement speed\n" +
-                "200% increased jump speed\n" +
+                "40% increased jump speed\n" +
                 "+20 max life and mana\n" +
                 "Standing still boosts life and mana regen");
         }
@@ -23,6 +24,19 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
             item.rare = 5;
             item.accessory = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+            bool autoJump = Main.player[Main.myPlayer].autoJump;
+			string jumpAmt = autoJump ? "10" : "40";
+            foreach (TooltipLine line2 in list)
+            {
+                if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+                {
+                    line2.text = jumpAmt + "% increased jump speed";
+                }
+            }
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

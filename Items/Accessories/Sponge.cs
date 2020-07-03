@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Accessories
                 "Poison, Freeze, Chill, Frostburn, and Venom immunity\n" +
                 "Honey-like life regen with no speed penalty, +20 max life and mana\n" +
                 "Most bee/hornet enemies and projectiles do 75% damage to you\n" +
-                "120% increased jump speed and 12% increased movement speed\n" +
+                "24% increased jump speed and 12% increased movement speed\n" +
                 "Standing still boosts life and mana regen\n" +
                 "Increased defense and damage reduction when submerged in liquid\n" +
                 "Increased movement speed when submerged in liquid\n" +

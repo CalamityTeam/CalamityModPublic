@@ -162,7 +162,8 @@ namespace CalamityMod.CalPlayer
         public int ammoReductionRanged = 0;
         public int ammoReductionRogue = 0;
         public int armorPenetrationStat = 0;
-        public int wingFlightTimeStat = 0;
+        public float wingFlightTimeStat = 0f;
+		public float jumpSpeedStat = 0f;
         public int adrenalineChargeStat = 0;
         public int rageDamageStat = 0;
         public int moveSpeedStat = 0;
