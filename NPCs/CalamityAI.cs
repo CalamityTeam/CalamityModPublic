@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
@@ -125,7 +126,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 				else
-					npc.localAI[1] = (npc.Center.X - player.Center.X < 0 ? 1f : -1f);
+					npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
 			}
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -135,7 +136,7 @@ namespace CalamityMod.NPCs
 					// Spawn segments
 					if (calamityGlobalNPC.newAI[2] == 0f && npc.ai[0] == 0f)
 					{
-						int maxLength = death ? 41 : 31;
+						int maxLength = death ? 50 : revenge ? 40 : expertMode ? 35 : 30;
 						int Previous = npc.whoAmI;
 						for (int num36 = 0; num36 < maxLength; num36++)
 						{
@@ -143,9 +144,9 @@ namespace CalamityMod.NPCs
 							if (num36 >= 0 && num36 < maxLength - 1)
 							{
 								if (num36 % 2 == 0)
-									lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBody>(), npc.whoAmI);
-								else
 									lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBodyAlt>(), npc.whoAmI);
+								else
+									lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBody>(), npc.whoAmI);
 							}
 							else
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeTail>(), npc.whoAmI);
@@ -2805,6 +2806,16 @@ namespace CalamityMod.NPCs
 				npc.TargetClosest(true);
 
 			Player player = Main.player[npc.target];
+
+			// Inflict Extreme Gravity to nearby players
+			if (revenge)
+			{
+				if (Main.netMode != NetmodeID.Server)
+				{
+					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < 5600f)
+						Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<ExtremeGrav>(), 2);
+				}
+			}
 
 			// Life
 			float lifeRatio = npc.life / (float)npc.lifeMax;
