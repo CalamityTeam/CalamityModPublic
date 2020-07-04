@@ -1,3 +1,4 @@
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -15,8 +16,8 @@ namespace CalamityMod.NPCs.AquaticScourge
         public override void SetDefaults()
         {
             npc.damage = 45;
-            npc.width = 30;
-            npc.height = 50;
+            npc.width = 32;
+            npc.height = 32;
             npc.defense = 25;
 			npc.DR_NERD(0.15f);
             npc.aiStyle = -1;
@@ -39,11 +40,14 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.dontCountMe = true;
             npc.chaseable = false;
             npc.canGhostHeal = false;
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
-        }
+
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
+				npc.scale = 1.2f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
+		}
 
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
