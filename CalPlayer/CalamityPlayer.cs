@@ -3482,14 +3482,10 @@ namespace CalamityMod.CalPlayer
                 WeakPetrification();
 
             if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
-            {
-				if (player.dashDelay != 0)
-				{
-					player.velocity *= 0.3f;
-					player.dashDelay = 0;
-				}
-                dashMod = 0;
-            }
+				DashExploitFix(true);
+
+			if (player.dash == 0 && dashMod == 0)
+				DashExploitFix(false);
 
             if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
             {
@@ -3511,17 +3507,13 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-            if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
-            {
-				if (player.dashDelay != 0)
-				{
-					player.velocity *= 0.3f;
-					player.dashDelay = 0;
-				}
-				dashMod = 0;
-            }
+			if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
+				DashExploitFix(true);
 
-            if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
+			if (player.dash == 0 && dashMod == 0)
+				DashExploitFix(false);
+
+			if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
             {
                 if (player.lifeRegen < 0)
                     player.lifeRegen = 0;
@@ -3530,11 +3522,28 @@ namespace CalamityMod.CalPlayer
 			if (boomerDukeLore)
 				player.buffImmune[ModContent.BuffType<Irradiated>()] = false;
         }
-        #endregion
+		#endregion
 
-        #region PostUpdate
+		#region Dash Exploit Fix
+		private void DashExploitFix(bool mount)
+		{
+			if (player.dashDelay != 0)
+			{
+				player.velocity *= 0.3f;
+				player.dashDelay = 0;
+			}
 
-        public override void PostUpdateMiscEffects()
+			if (!mount)
+				return;
+
+			player.dash = 0;
+			dashMod = 0;
+		}
+		#endregion
+
+		#region PostUpdate
+
+		public override void PostUpdateMiscEffects()
         {
             CalamityPlayerMiscEffects.CalamityPostUpdateMiscEffects(player, mod);
 
@@ -8348,7 +8357,7 @@ namespace CalamityMod.CalPlayer
 					NPC npc = Main.npc[i];
                     if (npc.active && !npc.dontTakeDamage && !npc.friendly && !npc.townNPC && npc.immune[player.whoAmI] <= 0 && npc.damage > 0)
                     {
-                        Rectangle rect = nPC.getRect();
+                        Rectangle rect = npc.getRect();
                         if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
                         {
                             OnDodge();
