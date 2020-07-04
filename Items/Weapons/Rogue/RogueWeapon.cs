@@ -92,6 +92,8 @@ namespace CalamityMod.Items.Weapons.Rogue
 				rogueAS -= 0.2f;
 			if (player.Calamity().gloveOfRecklessness)
 				rogueAS += 0.2f;
+			if (player.Calamity().titanHeartMantle)
+				rogueAS -= 0.2f;
 			return rogueAS;
 		}
 
@@ -133,6 +135,11 @@ namespace CalamityMod.Items.Weapons.Rogue
 			if (player.Calamity().throwingAmmoCost50)
 			{
 				if (Main.rand.Next(1, 101) > 50)
+					return false;
+			}
+			if (player.Calamity().throwingAmmoCost55)
+			{
+				if (Main.rand.Next(1, 101) > 55)
 					return false;
 			}
 			if (player.Calamity().throwingAmmoCost66)
