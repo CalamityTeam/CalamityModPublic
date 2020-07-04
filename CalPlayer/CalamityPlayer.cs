@@ -957,6 +957,10 @@ namespace CalamityMod.CalPlayer
         public bool snowmanForce;
         public bool snowmanNoseless;
         public bool snowmanPower;
+        public bool meldTransformationPrevious;
+        public bool meldTransformation;
+        public bool meldTransformationForce;
+        public bool meldTransformationPower;
 		#endregion
 
 		#endregion
@@ -1938,6 +1942,9 @@ namespace CalamityMod.CalPlayer
 
             snowmanPrevious = snowman;
             snowman = snowmanHide = snowmanForce = snowmanPower = false;
+
+            meldTransformationPrevious = meldTransformation;
+            meldTransformation = meldTransformationForce = meldTransformationPower = false;
 
             rageModeActive = false;
             adrenalineModeActive = false;
@@ -7077,6 +7084,12 @@ namespace CalamityMod.CalPlayer
 				player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
 				player.face = -1;
 			}
+            else if (meldTransformationPower || meldTransformationForce)
+            {
+                player.legs = mod.GetEquipSlot("MeldTransformationLegs", EquipType.Legs);
+                player.body = mod.GetEquipSlot("MeldTransformationBody", EquipType.Body);
+                player.head = mod.GetEquipSlot("MeldTransformationHead", EquipType.Head);
+            }
 			else
 			{
 				if (profanedCrystalWingCounter.Key != 1)

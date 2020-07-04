@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)((double)damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, (int)(damage * 0.5), knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }
@@ -52,7 +52,6 @@ namespace CalamityMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<XerocsGreatsword>());
             recipe.AddIngredient(ModContent.ItemType<Floodtide>());
             recipe.AddIngredient(ModContent.ItemType<Hellkite>());
             recipe.AddIngredient(ModContent.ItemType<TemporalFloeSword>());
@@ -62,7 +61,6 @@ namespace CalamityMod.Items.Weapons.Melee
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<XerocsGreatsword>());
             recipe.AddIngredient(ModContent.ItemType<Floodtide>());
             recipe.AddIngredient(ModContent.ItemType<Hellkite>());
             recipe.AddIngredient(ModContent.ItemType<TemporalFloeSword>());

@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mist");
-            Main.projFrames[projectile.type] = 6;
+            Main.projFrames[projectile.type] = 8;
             ProjectileID.Sets.MinionShot[projectile.type] = true;
         }
 
@@ -37,7 +37,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame++;
                 projectile.frameCounter = 0;
             }
-            if (projectile.frame > 3)
+            if (projectile.frame >= Main.projFrames[projectile.type])
             {
                 projectile.frame = 0;
             }

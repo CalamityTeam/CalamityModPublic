@@ -976,6 +976,8 @@ namespace CalamityMod
 			{
 				newDamage = (int)((dmgInput - cap) * 0.1) + cap;
 			}
+			if (newDamage < 1)
+				newDamage = 1;
 			return newDamage;
 		}
 
@@ -2927,12 +2929,13 @@ namespace CalamityMod
         public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor, int xPositionAdditive = 45, float yPositionAdditive = 35f)
         {
             Player player = Main.player[projectile.owner];
-            if (projectile.bobber && player.ActiveItem().holdStyle > 0)
+			Item item = Main.mouseItem.IsAir ? player.HeldItem : Main.mouseItem;
+            if (projectile.bobber && item.holdStyle > 0)
             {
                 float pPosX = player.MountedCenter.X;
                 float pPosY = player.MountedCenter.Y;
                 pPosY += player.gfxOffY;
-                int type = player.ActiveItem().type;
+                int type = item.type;
                 float gravDir = player.gravDir;
 
                 if (type == fishingRodType)
