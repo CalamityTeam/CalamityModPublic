@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.calamityRing = true;
+			modPlayer.voidOfExtinction = true;
             player.lavaRose = true;
             player.lavaMax += 240;
             player.allDamage += 0.15f;

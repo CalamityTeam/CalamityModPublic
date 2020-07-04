@@ -489,6 +489,7 @@ namespace CalamityMod.CalPlayer
         public bool aquaticEmblem = false;
         public bool darkSunRing = false;
         public bool calamityRing = false;
+        public bool voidOfExtinction = false;
         public bool eArtifact = false;
         public bool dArtifact = false;
         public bool gArtifact = false;
@@ -1536,6 +1537,7 @@ namespace CalamityMod.CalPlayer
 			harpyWingBoost = false; //harpy wings + harpy ring
             darkSunRing = false;
             calamityRing = false;
+            voidOfExtinction = false;
             eArtifact = false;
             dArtifact = false;
             gArtifact = false;
@@ -5913,7 +5915,7 @@ namespace CalamityMod.CalPlayer
 			if (corrEffigy)
 				contactDamageReduction -= 0.2;
 
-			if (calamityRing)
+			if (calamityRing && !voidOfExtinction)
 				contactDamageReduction -= 0.15;
 
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
@@ -6142,7 +6144,7 @@ namespace CalamityMod.CalPlayer
 			if (corrEffigy)
 				projectileDamageReduction -= 0.2;
 
-			if (calamityRing)
+			if (calamityRing && !voidOfExtinction)
 				projectileDamageReduction -= 0.15;
 
 			// 10% is converted to 9%, 25% is converted to 20%, 50% is converted to 33%, 75% is converted to 43%, 100% is converted to 50%
