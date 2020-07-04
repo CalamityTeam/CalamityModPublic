@@ -983,6 +983,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.titanBoost--;
 			if (modPlayer.prismaticLasers > 0)
 				modPlayer.prismaticLasers--;
+			if (modPlayer.titanCooldown > 0)
+				modPlayer.titanCooldown--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)

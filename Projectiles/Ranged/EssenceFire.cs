@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -50,12 +51,12 @@ namespace CalamityMod.Projectiles.Ranged
                     num296 = 0.75f;
                 }
                 projectile.ai[0] += 1f;
-                int num297 = 173;
+                int dustType = (int)CalamityDusts.PurpleCosmolite;
                 if (Main.rand.NextBool(2))
                 {
                     for (int num298 = 0; num298 < 1; num298++)
                     {
-                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
+                        int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);
                         Dust dust = Main.dust[num299];
                         if (Main.rand.NextBool(3))
                         {
