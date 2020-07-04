@@ -197,11 +197,16 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
+
+            // Prevent firing immediately
+            if (projectile.localAI[0] < 120f)
+                projectile.localAI[0] += 1f;
+
             if (projectile.ai[0] == 0f)
             {
                 float scaleFactor3 = 14f;
                 int num658 = ModContent.ProjectileType<BrimstoneFireballMinion>();
-                if (flag25 && projectile.ai[1] == 0f)
+                if (flag25 && projectile.ai[1] == 0f && projectile.localAI[0] >= 120f)
                 {
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, vector46, 0, 0))

@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Press " + hotkey + " to call an ancient storm to the cursor location\n" +
                     "The ancient storm costs " + stormMana + " mana and benefits from both summon and rogue bonuses\n" +
                     "Rogue stealth strikes spawn homing eaters on enemy hits\n" +
-                    "Minions deal full damage while wielding rogue weapons\n" +
+                    "The minion damage nerf is reduced while wielding rogue weapons\n" +
                     "Rogue and summon attacks will scale off of the stat with a higher boost\n" +
 					"Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
 					"Once you have built max stealth, you will be able to perform a Stealth Strike\n" +

@@ -96,6 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
                                 targetCenter = npcCenter;
                                 homeIn = true;
                                 targetIndex = npcIndex;
+								break;
                             }
                         }
                     }

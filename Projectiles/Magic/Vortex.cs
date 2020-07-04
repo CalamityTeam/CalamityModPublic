@@ -80,7 +80,7 @@ namespace CalamityMod.Projectiles.Magic
             // Attempt to find a target if the projectile has none.
             if (TargetIndex == -1 && TargetCheckCooldown <= 0f)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(targetCheckDistance, true);
+                NPC potentialTarget = projectile.Center.ClosestNPCAt(targetCheckDistance, true, true);
                 if (potentialTarget != null)
                     TargetIndex = potentialTarget.whoAmI;
                 projectile.netUpdate = true;
@@ -111,7 +111,7 @@ namespace CalamityMod.Projectiles.Magic
                 int dustCount = 5;
                 for (int i = 0; i < dustCount; i++)
                 {
-                    Vector2 spawnPosition = projectile.Center + projectile.Size.RotatedBy(i / (float)dustCount * MathHelper.TwoPi) * 0.5f;
+                    Vector2 spawnPosition = projectile.Center + projectile.Size.RotatedBy(i / (float)dustCount * MathHelper.TwoPi) * 0.333f;
                     Vector2 velocity = Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * Main.rand.NextFloat(6f, 16f);
                     Dust dust = Dust.NewDustPerfect(spawnPosition, 66, velocity, 0, Main.DiscoColor, 0.7f);
                     dust.noGravity = true;

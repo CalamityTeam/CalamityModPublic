@@ -110,12 +110,12 @@ namespace CalamityMod.NPCs.Astral
             {
                 npc.ai[2] += 1f;
                 npc.velocity.X *= 0.95f;
-                if (npc.ai[2] >= 20f)
+                if (npc.ai[2] == 20f) //Don't do >= 20f or it'll cause a wave of scythes
                 {
                     Main.PlaySound(SoundID.Item71, npc.position);
                     Vector2 vector = Main.player[npc.target].Center - npc.Center;
                     vector.Normalize();
-                    int damage = CalamityWorld.downedAstrageldon ? 45 : 55;
+                    int damage = CalamityWorld.downedAstrageldon ? 55 : 45;
                     Projectile.NewProjectile(npc.Center + (npc.Center.X < target.Center.X ? -14f : 14f) * Vector2.UnitX, vector * 7f, ModContent.ProjectileType<MantisRing>(), damage, 0f);
                 }
             }

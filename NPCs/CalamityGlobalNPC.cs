@@ -3520,7 +3520,7 @@ namespace CalamityMod.NPCs
 
 					if (modPlayer.nucleogenesis)
 					{
-						if (projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type))
+						if (projectile.IsSummon())
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3592,6 +3592,10 @@ namespace CalamityMod.NPCs
 						if (projectile.penetrate == -1)
 							projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
 						damage = (int)(damage * 0.75);
+					}
+					else if (projectile.type == ProjectileType<PristineFire>() || projectile.type == ProjectileType<PristineSecondary>())
+					{
+						damage = (int)(damage * 0.5);
 					}
 					else if (projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>())
 					{
@@ -3675,7 +3679,7 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.2);
 				}
-				else if (projectile.type == ProjectileType<GalileosMoon>() || projectile.type == ProjectileType<CalamariInk>())
+				else if (projectile.type == ProjectileType<CalamariInk>())
 				{
 					damage = (int)(damage * 0.5);
 				}
@@ -3723,7 +3727,7 @@ namespace CalamityMod.NPCs
 
 		private void PierceResistGlobal(Projectile projectile, ref int damage)
 		{
-			if (projectile.minion)
+			if (projectile.IsSummon())
 				return;
 
 			if (projectile.penetrate == -1)
@@ -3760,7 +3764,7 @@ namespace CalamityMod.NPCs
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-            bool isSummon = projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type];
+            bool isSummon = projectile.IsSummon();
 
             if (modPlayer.sGenerator)
             {
@@ -4071,7 +4075,7 @@ namespace CalamityMod.NPCs
 				spawnRate = (int)(spawnRate * 2.5);
 				maxSpawns = (int)(maxSpawns * 0.3f);
 			}
-			if (player.Calamity().bossZen || CalamityWorld.DoGSecondStageCountdown > 0)
+			if ((player.Calamity().bossZen || CalamityWorld.DoGSecondStageCountdown > 0) && CalamityConfig.Instance.BossZen)
 			{
 				spawnRate *= 5;
 				maxSpawns = (int)(maxSpawns * 0.001f);
@@ -4110,9 +4114,6 @@ namespace CalamityMod.NPCs
 				else
 					pool[NPCID.BlueJellyfish] = SpawnCondition.CaveJellyfish.Chance;
 			}
-
-			if (spawnInfo.player.Calamity().underworldLore)
-				pool[NPCID.VoodooDemon] = 0f;
 
             if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
             {
@@ -4541,7 +4542,7 @@ namespace CalamityMod.NPCs
         {
 			if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f))
 			{
-				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type)))
+				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type) || CalamityMod.needsDebuffIconDisplayList.Contains(npc.type)))
 				{
 					List<Texture2D> buffTextureList = new List<Texture2D>();
 
@@ -5317,7 +5318,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GoblinTinkerer:
-                    if (Main.rand.NextBool(3) && thief != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
+                    if (Main.rand.NextBool(3) && thief != -1 && CalamityWorld.Reforges >= 1)
                     {
                         chat = $"Hey, is it just me or have my pockets gotten lighter ever since " + Main.npc[thief].GivenName + " arrived?";
                     }
@@ -5611,10 +5612,10 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.Flare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
                 SetShopItem(ref shop, ref nextSlot, ItemID.BlueFlare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
-                SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss2);
+                SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss3);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Vilethorn : ItemID.CrimsonRod, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedBoss3);
+                SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedPlantBoss);
                 SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch, CalamityWorld.death);
             }

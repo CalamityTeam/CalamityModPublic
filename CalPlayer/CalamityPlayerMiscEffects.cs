@@ -8,6 +8,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
 using CalamityMod.Items.Fishing.FishingRods;
+using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs;
 using CalamityMod.NPCs.AcidRain;
@@ -342,7 +343,7 @@ namespace CalamityMod.CalPlayer
 			
 			if(player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
 			{
-				player.width = 152;
+				player.width = 80;
 				player.height = 212;
 				player.position.Y -= 170;
 			}
@@ -983,6 +984,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.titanBoost--;
 			if (modPlayer.prismaticLasers > 0)
 				modPlayer.prismaticLasers--;
+			if (modPlayer.dogTextCooldown > 0)
+				modPlayer.dogTextCooldown--;
 			if (modPlayer.titanCooldown > 0)
 				modPlayer.titanCooldown--;
 
@@ -1813,7 +1816,7 @@ namespace CalamityMod.CalPlayer
 						modPlayer.gSabatonFall = 300;
 						modPlayer.gSabatonCooldown = 480; //8 second cooldown
 						player.gravity *= 2f;
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, player.velocity.X, player.velocity.Y, ModContent.ProjectileType<SabatonSlam>(), 0, 0, player.whoAmI);
+						Projectile.NewProjectile(player.Center.X, player.Center.Y + (player.height / 5f), player.velocity.X, player.velocity.Y, ModContent.ProjectileType<SabatonSlam>(), 0, 0, player.whoAmI);
 					}
 				}
 				if (modPlayer.gSabatonCooldown == 1) //dust when ready to use again
@@ -2668,6 +2671,12 @@ namespace CalamityMod.CalPlayer
 					modPlayer.planarSpeedBoost = 0;
 			}
 
+			if (modPlayer.brimlashBusterBoost)
+			{
+				if (player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>())
+					modPlayer.brimlashBusterBoost = false;
+			}
+
 			if (modPlayer.etherealExtorter)
 			{
 				bool ZoneForest = !modPlayer.ZoneAbyss && !modPlayer.ZoneSulphur && !modPlayer.ZoneAstral && !modPlayer.ZoneCalamity &&
@@ -3359,6 +3368,7 @@ namespace CalamityMod.CalPlayer
 				player.npcTypeNoAggro[ModContent.NPCType<PerennialSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<PlaguedJungleSlime>()] = true;
 				player.npcTypeNoAggro[ModContent.NPCType<AstralSlime>()] = true;
+				player.npcTypeNoAggro[ModContent.NPCType<GammaSlime>()] = true;
 				// LATER -- When Wulfrum Slimes start being definitely robots, remove this immunity.
 				player.npcTypeNoAggro[ModContent.NPCType<WulfrumSlime>()] = true;
 			}
@@ -3761,6 +3771,10 @@ namespace CalamityMod.CalPlayer
 			if (player.endurance > 0f)
 				player.endurance = 1f - (1f / (1f + player.endurance));
 
+			// Very similar scaling to damage reduction. Ex. Frog Leg goes from 48% jump speed to 38%
+			//if (player.jumpSpeedBoost > 0f)
+			//	player.jumpSpeedBoost = (1f - 1f / (1f + (player.jumpSpeedBoost / 10f))) * 10f
+
 			if (modPlayer.yharonLore && !CalamityWorld.defiled)
 			{
 				if (player.wingTimeMax < 50000)
@@ -3837,7 +3851,11 @@ namespace CalamityMod.CalPlayer
 			modPlayer.manaRegenStat = player.manaRegen;
 			modPlayer.armorPenetrationStat = player.armorPenetration;
 			modPlayer.moveSpeedStat = (int)((player.moveSpeed - 1f) * 100f);
-			modPlayer.wingFlightTimeStat = player.wingTimeMax;
+			modPlayer.wingFlightTimeStat = player.wingTimeMax / 60f;
+			float trueJumpSpeedBoost = player.jumpSpeedBoost + 
+				(player.wereWolf ? 0.2f : 0f) +
+				(player.jumpBoost ? 1.5f : 0f);
+			modPlayer.jumpSpeedStat = trueJumpSpeedBoost * 20f;
 			modPlayer.adrenalineChargeStat = 45 -
 				(modPlayer.adrenalineBoostOne ? 10 : 0) -
 				(modPlayer.adrenalineBoostTwo ? 10 : 0) -

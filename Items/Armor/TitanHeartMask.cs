@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -54,7 +55,7 @@ namespace CalamityMod.Items.Armor
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<Stardust>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<AstralMonolith>(), 10);
 			recipe.AddIngredient(ModContent.ItemType<TitanHeart>());
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);

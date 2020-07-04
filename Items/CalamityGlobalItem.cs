@@ -154,12 +154,12 @@ namespace CalamityMod.Items
                 item.defense = 41; //7 more defense
             else if (item.type == ItemID.SolarFlareLeggings)
                 item.defense = 24; //4 more defense
-            else if (item.type == ItemID.GladiatorHelmet) //total defense pre-buff = 7 post-buff = 21
-                item.defense = 4; //2 more defense
+            else if (item.type == ItemID.GladiatorHelmet) //total defense pre-buff = 7 post-buff = 15
+                item.defense = 3; //1 more defense
             else if (item.type == ItemID.GladiatorBreastplate)
-                item.defense = 7; //4 more defense
+                item.defense = 5; //2 more defense
             else if (item.type == ItemID.GladiatorLeggings)
-                item.defense = 5; //3 more defense
+                item.defense = 4; //2 more defense
             else if (item.type == ItemID.HallowedPlateMail) //total defense pre-buff = 31, 50, 35 post-buff = 36, 55, 40
                 item.defense = 18; //3 more defense
             else if (item.type == ItemID.HallowedGreaves)
@@ -878,16 +878,17 @@ namespace CalamityMod.Items
                 return false;
             }
 
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0 && 
-                item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
             {
-                if (player.altFunctionUse == 0)
+				if (item.type == ItemID.WireKite)
+					return false;
+                if (item.pick > 0 && item.axe > 0 && item.hammer > 0)
+                    return false;
+                if (item.Calamity().rogue || item.magic || item.ranged || item.melee)
                 {
-                    return PerformAndromedaAttacks(item, player);
-                }
-                else
-                {
-                    return AltFunctionUse(item, player);
+                    if (player.altFunctionUse == 0)
+                        return PerformAndromedaAttacks(item, player);
+                    else return false;
                 }
             }
 
@@ -1721,7 +1722,7 @@ namespace CalamityMod.Items
 					{
 						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
 						{
-							line2.text += "\nMinions deal full damage while wielding magic weapons";
+							line2.text += "\nThe minion damage nerf is reduced while wielding magic weapons";
 						}
 					}
 				}
@@ -1732,7 +1733,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.text = "4 defense\n" +
+                        line2.text = "3 defense\n" +
                             "3% increased rogue damage";
                     }
                 }
@@ -1743,7 +1744,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.text = "7 defense\n" +
+                        line2.text = "5 defense\n" +
                             "3% increased rogue critical strike chance";
                     }
                 }
@@ -1754,7 +1755,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.text = "5 defense\n" +
+                        line2.text = "4 defense\n" +
                             "3% increased rogue velocity";
                     }
                 }
@@ -2050,7 +2051,7 @@ Provides heat and cold protection in Death Mode";
                             "Flight time: 100\n" +
                             "Gills effect and you can move freely through liquids\n" +
                             "You fall faster while submerged in liquid\n" +
-                            "20% increased movement speed and 180% increased jump speed";
+                            "20% increased movement speed and 36% increased jump speed";
                     }
                 }
             }
@@ -2112,7 +2113,7 @@ Provides heat and cold protection in Death Mode";
                             "Average vertical speed\n" +
                             "Flight time: 140\n" +
                             "At night or during an eclipse, you will gain the following boosts:\n" +
-							"10% increased movement speed, 100% increased jump speed,\n" +
+							"10% increased movement speed, 20% increased jump speed,\n" +
                             "+15 defense, 10% increased damage, and 5% increased critical strike chance";
                     }
                 }
@@ -2208,7 +2209,7 @@ Provides heat and cold protection in Death Mode";
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
                             "+5 defense, 5% increased damage, " +
-                            "10% increased movement speed and 120% increased jump speed";
+                            "10% increased movement speed and 24% increased jump speed";
                     }
                 }
             }
@@ -2934,8 +2935,8 @@ Provides heat and cold protection in Death Mode";
                 modPlayer.wearingRogueArmor = true;
                 player.Calamity().throwingDamage += 0.05f;
                 player.Calamity().throwingVelocity += 0.1f;
-                player.statDefense += 5;
-                player.setBonus = "+5 defense\n" +
+                player.statDefense += 3;
+                player.setBonus = "+3 defense\n" +
                             "5% increased rogue damage and 10% increased velocity\n" +
                             "Rogue stealth builds while not attacking and not moving, up to a max of 70\n" +
                             "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
@@ -3506,11 +3507,8 @@ Provides heat and cold protection in Death Mode";
             {
                 int value = item.value;
                 ItemLoader.ReforgePrice(item, ref value, ref Main.LocalPlayer.discount);
-                if (Main.LocalPlayer.Calamity().reforges <= 9) //to be reset later
-                {
-                    Main.LocalPlayer.Calamity().moneyStolenByBandit += value / 5;
-                    Main.LocalPlayer.Calamity().reforges++;
-                }
+                CalamityWorld.MoneyStolenByBandit += value / 5;
+                CalamityWorld.Reforges++;
             }
         }
         #endregion

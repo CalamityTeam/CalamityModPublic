@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.tileCollide = false;
             }
 
-            NPC closestTarget = projectile.Center.ClosestNPCAt(MaxEnemyDistance, true);
+            NPC closestTarget = projectile.Center.ClosestNPCAt(MaxEnemyDistance, true, true);
             if (closestTarget != null)
             {
                 HomingMovement(closestTarget);

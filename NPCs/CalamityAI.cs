@@ -5838,7 +5838,7 @@ namespace CalamityMod.NPCs
 					Vector2 targetVector = player.Center - vectorCenter;
 					float offsetAngle = 0f;
 					int totalProjectiles = 0;
-					int chains = 0;
+					//int chains = 0;
 
 					// Parabolic Arcs
 					if (npc.localAI[0] % 60f == 0f)

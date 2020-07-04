@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = @"30% increased minion damage
-Minions deal full damage while wielding weaponry
+The minion damage nerf while wielding weaponry is reduced
 Immunity to all forms of frost and flame
 All minion attacks grant colossal life regeneration
 15% increased damage reduction during the Pumpkin and Frost Moons

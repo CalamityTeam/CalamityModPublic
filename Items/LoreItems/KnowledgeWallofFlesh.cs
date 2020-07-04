@@ -14,8 +14,7 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("I see the deed is done.\n" +
                 "The unholy amalgamation of flesh and hatred has been defeated.\n" +
                 "Prepare to face the terrors that lurk in the light and dark parts of this world.\n" +
-                "Place in your inventory to gain increased item grab range.\n" +
-				"This effect only occurs if the item is favorited.");
+                "Favorite this item to gain increased item grab range.");
         }
 
         public override void SetDefaults()

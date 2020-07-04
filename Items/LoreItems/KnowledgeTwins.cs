@@ -13,10 +13,9 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Twins");
             Tooltip.SetDefault("The bio-mechanical watchers of the night, originally created as security using the souls extracted from human eyes.\n" +
                 "These creatures did not belong in this world, it's best to be rid of them.\n" +
-                "Place in your inventory to gain invisibility and rogue bonuses at night.\n" +
+                "Favorite this item to gain invisibility and rogue bonuses at night.\n" +
 				"However, your defense is reduced while above 50% life due to you feeling softer.\n" +
-				"Your max acceleration is reduced while below 50% life due to you feeling heavier.\n" +
-				"These effects only occur if the item is favorited.");
+				"Your max acceleration is reduced while below 50% life due to you feeling heavier.");
         }
 
         public override void SetDefaults()
