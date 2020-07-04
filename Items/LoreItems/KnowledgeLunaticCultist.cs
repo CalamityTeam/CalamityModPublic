@@ -15,7 +15,8 @@ namespace CalamityMod.Items.LoreItems
                 "Someone I once held in such contempt for his actions is now...deceased, his sealing ritual undone...prepare for the end.\n" +
                 "Your impending doom approaches...\n" +
                 "Place in your inventory for an increase to all stats during the lunar event.\n" +
-				"However, your vision is decreased due to eldritch knowledge damaging your mind.");
+				"However, your vision is decreased due to eldritch knowledge damaging your mind.\n" +
+				"These effects only occur if the item is favorited.");
         }
 
         public override void SetDefaults()
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-            if (NPC.LunarApocalypseIsUp)
+            if (NPC.LunarApocalypseIsUp && item.favorited)
             {
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.lunaticCultistLore = true;

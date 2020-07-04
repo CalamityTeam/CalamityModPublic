@@ -131,8 +131,8 @@ namespace CalamityMod
 
 		// Boss velocity scaling data structure
 		public static SortedDictionary<int, float> bossVelocityDamageScaleValues;
-		public const float velocityScaleMin = 0.75f;
-		public const float bitingEnemeyVelocityScale = 0.9f;
+		public const float velocityScaleMin = 0.5f;
+		public const float bitingEnemeyVelocityScale = 0.8f;
 
 		// Lists
 		public static IList<string> donatorList;
@@ -205,6 +205,7 @@ namespace CalamityMod
         public static List<int> angryBonesList;
         public static List<int> hornetList;
         public static List<int> mossHornetList;
+        public static List<int> bossMinionList;
 
         public static List<int> legOverrideList;
 
@@ -283,6 +284,12 @@ namespace CalamityMod
             AddEquipTexture(new ProfanedCrystalWings(), null, EquipType.Wings, "ProviWings", "CalamityMod/Items/Accessories/Wings/ProfanedSoulTransWings");
 
             AddEquipTexture(new SnowRuffianWings(), null, EquipType.Wings, "SnowRuffWings", "CalamityMod/Items/Armor/SnowRuffianWings");
+
+            AddEquipTexture(new MeldTransformationHead(), null, EquipType.Head, "MeldTransformationHead", "CalamityMod/Items/Armor/MeldTransformation_Head");
+            AddEquipTexture(new MeldTransformationBody(), null, EquipType.Body, "MeldTransformationBody", "CalamityMod/Items/Armor/MeldTransformation_Body", "CalamityMod/Items/Armor/MeldTransformation_Arms");
+            AddEquipTexture(new MeldTransformationLegs(), null, EquipType.Legs, "MeldTransformationLegs", "CalamityMod/Items/Armor/MeldTransformation_Legs");
+
+            AddEquipTexture(new AbyssDivingGearHair(), null, EquipType.Head, "AbyssDivingGearHead", "CalamityMod/Items/Accessories/AbyssalDivingGear_Face");
 
             AstralCactusTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactus");
             AstralCactusGlowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
@@ -431,6 +438,7 @@ namespace CalamityMod
             angryBonesList = null;
             hornetList = null;
             mossHornetList = null;
+            bossMinionList = null;
 
             legOverrideList = null;
 
@@ -728,7 +736,10 @@ namespace CalamityMod
                 ModContent.ProjectileType<RainbowTrail>(),
                 ModContent.ProjectileType<PrismaticBeam>(),
                 ModContent.ProjectileType<ExoLight>(),
-                ModContent.ProjectileType<ExoLightBomb>()
+                ModContent.ProjectileType<ExoLightBomb>(),
+                ModContent.ProjectileType<UltimaBowProjectile>(),
+                ModContent.ProjectileType<UltimaSpark>(), // Because of potential dust lag.
+                ModContent.ProjectileType<UltimaRay>()
             };
 
             projectileDestroyExceptionList = new List<int>()
@@ -2585,6 +2596,107 @@ namespace CalamityMod
 				NPCID.BigMossHornet,
 				NPCID.GiantMossHornet
 			};
+
+            bossMinionList = new List<int>()
+            {
+                ModContent.NPCType<DesertScourgeHeadSmall>(),
+                ModContent.NPCType<DesertScourgeBodySmall>(),
+                ModContent.NPCType<DesertScourgeTailSmall>(),
+                NPCID.SlimeSpiked,
+                NPCID.ServantofCthulhu,
+                ModContent.NPCType<CrabShroom>(),
+                NPCID.EaterofWorldsHead,
+                NPCID.EaterofWorldsBody,
+                NPCID.EaterofWorldsTail,
+                NPCID.Creeper,
+                ModContent.NPCType<PerforatorHeadSmall>(),
+                ModContent.NPCType<PerforatorBodySmall>(),
+                ModContent.NPCType<PerforatorTailSmall>(),
+                ModContent.NPCType<PerforatorHeadMedium>(),
+                ModContent.NPCType<PerforatorBodyMedium>(),
+                ModContent.NPCType<PerforatorTailMedium>(),
+                ModContent.NPCType<PerforatorHeadLarge>(),
+                ModContent.NPCType<PerforatorBodyLarge>(),
+                ModContent.NPCType<PerforatorTailLarge>(),
+                ModContent.NPCType<HiveBlob>(),
+                ModContent.NPCType<HiveBlob2>(),
+                ModContent.NPCType<DankCreeper>(),
+                NPCID.SkeletronHand,
+                ModContent.NPCType<SlimeGod>(),
+                ModContent.NPCType<SlimeGodSplit>(),
+                ModContent.NPCType<SlimeGodRun>(),
+                ModContent.NPCType<SlimeGodRunSplit>(),
+                ModContent.NPCType<SlimeSpawnCorrupt>(),
+                ModContent.NPCType<SlimeSpawnCorrupt2>(),
+                ModContent.NPCType<SlimeSpawnCrimson>(),
+                ModContent.NPCType<SlimeSpawnCrimson2>(),
+                NPCID.LeechHead,
+                NPCID.LeechBody,
+                NPCID.LeechTail,
+                NPCID.WallofFleshEye,
+                NPCID.TheHungry,
+                NPCID.TheHungryII,
+                ModContent.NPCType<Cryocore>(),
+                ModContent.NPCType<Cryocore2>(),
+                ModContent.NPCType<IceMass>(),
+                NPCID.PrimeCannon,
+                NPCID.PrimeLaser,
+                NPCID.PrimeSaw,
+                NPCID.PrimeVice,
+                ModContent.NPCType<Brimling>(),
+                NPCID.TheDestroyer,
+                NPCID.TheDestroyerBody,
+                NPCID.TheDestroyerTail,
+                ModContent.NPCType<AquaticScourgeHead>(),
+                ModContent.NPCType<AquaticScourgeBody>(),
+                ModContent.NPCType<AquaticScourgeBodyAlt>(),
+                ModContent.NPCType<AquaticScourgeTail>(),
+                ModContent.NPCType<CalamitasRun>(),
+                ModContent.NPCType<CalamitasRun2>(),
+                ModContent.NPCType<LifeSeeker>(),
+                ModContent.NPCType<SoulSeeker>(),
+                NPCID.PlanterasTentacle,
+                ModContent.NPCType<AureusSpawn>(),
+                NPCID.Spore,
+                NPCID.GolemHead,
+                NPCID.GolemHeadFree,
+                NPCID.GolemFistLeft,
+                NPCID.GolemFistRight,
+                ModContent.NPCType<PlagueMine>(),
+                ModContent.NPCType<PlagueHomingMissile>(),
+                ModContent.NPCType<RavagerClawLeft>(),
+                ModContent.NPCType<RavagerClawRight>(),
+                ModContent.NPCType<RavagerLegLeft>(),
+                ModContent.NPCType<RavagerLegLeft>(),
+                ModContent.NPCType<RavagerHead>(),
+                NPCID.CultistDragonHead,
+                NPCID.CultistDragonBody1,
+                NPCID.CultistDragonBody2,
+                NPCID.CultistDragonBody3,
+                NPCID.CultistDragonBody4,
+                NPCID.CultistDragonTail,
+                NPCID.AncientCultistSquidhead,
+                NPCID.MoonLordFreeEye,
+                NPCID.MoonLordHand,
+                NPCID.MoonLordHead,
+                ModContent.NPCType<Bumblefuck2>(),
+                ModContent.NPCType<ProvSpawnOffense>(),
+                ModContent.NPCType<ProvSpawnDefense>(),
+                ModContent.NPCType<ProvSpawnHealer>(),
+                ModContent.NPCType<DarkEnergy>(),
+                ModContent.NPCType<DarkEnergy2>(),
+                ModContent.NPCType<DarkEnergy3>(),
+                ModContent.NPCType<CosmicLantern>(),
+                ModContent.NPCType<StasisProbe>(),
+                ModContent.NPCType<StasisProbeNaked>(),
+                ModContent.NPCType<DevourerofGodsHead2>(),
+                ModContent.NPCType<DevourerofGodsBody2>(),
+                ModContent.NPCType<DevourerofGodsTail2>(),
+                ModContent.NPCType<DetonatingFlare>(),
+                ModContent.NPCType<DetonatingFlare2>(),
+                ModContent.NPCType<SupremeCataclysm>(),
+                ModContent.NPCType<SupremeCatastrophe>()
+            };
 
             Mod thorium = ModLoader.GetMod("ThoriumMod");
             if (CalamityConfig.Instance.BuffThoriumBosses && thorium != null)

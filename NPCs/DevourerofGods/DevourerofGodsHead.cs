@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                     spawnDoGCountdown--;
                     if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                     {
-						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
 						for (int i = 0; i < 2; i++)
                             NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
@@ -153,7 +153,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
                     spawnDoGCountdown--;
 
-					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
 					if (spawnDoGCountdown == 0 && Main.netMode != NetmodeID.MultiplayerClient)
                         NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
@@ -751,7 +751,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         public override void NPCLoot()
         {
             // Skip the sentinel phase entirely if DoG has already been killed
-            CalamityWorld.DoGSecondStageCountdown = CalamityWorld.downedDoG ? 600 : 21600;
+            CalamityWorld.DoGSecondStageCountdown = (CalamityWorld.downedDoG || CalamityWorld.downedSecondSentinels) ? 600 : 21600;
 
             if (Main.netMode == NetmodeID.Server)
             {

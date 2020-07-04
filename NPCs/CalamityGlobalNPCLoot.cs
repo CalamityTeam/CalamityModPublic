@@ -393,24 +393,6 @@ namespace CalamityMod.NPCs
                 CalamityWorld.bossRushStage = 7;
                 CalamityUtils.KillAllHostileProjectiles();
             }
-            else if (npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody || npc.type == NPCID.EaterofWorldsTail)
-            {
-                int count = 0;
-                for (int j = 0; j < Main.maxNPCs; j++)
-                {
-                    if (Main.npc[j].active && (Main.npc[j].type == NPCID.EaterofWorldsHead || Main.npc[j].type == NPCID.EaterofWorldsBody || Main.npc[j].type == NPCID.EaterofWorldsTail))
-                    {
-                        count++;
-                        break;
-                    }
-                }
-
-                if (count < 4)
-                {
-                    CalamityWorld.bossRushStage = 8;
-                    CalamityUtils.KillAllHostileProjectiles();
-                }
-            }
             else if (npc.type == ModContent.NPCType<AstrumAureus.AstrumAureus>())
             {
                 CalamityWorld.bossRushStage = 9;
@@ -614,7 +596,14 @@ namespace CalamityMod.NPCs
                     CalamityUtils.KillAllHostileProjectiles();
                     break;
 
-                case NPCID.TheDestroyer:
+				case NPCID.EaterofWorldsHead:
+				case NPCID.EaterofWorldsBody:
+				case NPCID.EaterofWorldsTail:
+					CalamityWorld.bossRushStage = 8;
+					CalamityUtils.KillAllHostileProjectiles();
+					break;
+
+				case NPCID.TheDestroyer:
                     CalamityWorld.bossRushStage = 10;
                     CalamityUtils.KillAllHostileProjectiles();
 
@@ -802,7 +791,7 @@ namespace CalamityMod.NPCs
             RareVariants(npc);
             CommonLoot(npc);
             TownNPCLoot(npc);
-            BossLoot(npc);
+            EventEnemyLoot(npc, Main.pumpkinMoon, Main.snowMoon, Main.eclipse);
         }
         #endregion
 
@@ -1645,6 +1634,7 @@ namespace CalamityMod.NPCs
                 case NPCID.SolarDrakomireRider:
                 case NPCID.SolarDrakomire:
                 case NPCID.SolarCrawltipedeHead:
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), Main.expertMode ? 4 : 5);
                     DropHelper.DropItemChance(npc, ItemID.FragmentSolar, Main.expertMode ? 4 : 5);
                     break;
 
@@ -1653,6 +1643,7 @@ namespace CalamityMod.NPCs
                 case NPCID.VortexHornet: //Alien Hornet
                 case NPCID.VortexHornetQueen: //Alien Queen
                 case NPCID.VortexRifleman: //Storm Diver
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), Main.expertMode ? 4 : 5);
                     DropHelper.DropItemChance(npc, ItemID.FragmentVortex, Main.expertMode ? 4 : 5);
                     break;
 
@@ -1660,7 +1651,7 @@ namespace CalamityMod.NPCs
                 case NPCID.NebulaSoldier: //Predictor
                 case NPCID.NebulaHeadcrab: //Brain Suckler
                 case NPCID.NebulaBeast: //Evolution Beast
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), 4, Main.expertMode ? 2 : 1, Main.expertMode ? 3 : 2);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), Main.expertMode ? 4 : 5);
                     DropHelper.DropItemChance(npc, ItemID.FragmentNebula, Main.expertMode ? 4 : 5);
                     break;
 
@@ -1669,6 +1660,7 @@ namespace CalamityMod.NPCs
                 case NPCID.StardustJellyfishBig: //Flow Invader
                 case NPCID.StardustCellBig: //Star Cell
                 case NPCID.StardustWormHead: //Milkyway Weaver
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), Main.expertMode ? 4 : 5);
                     DropHelper.DropItemChance(npc, ItemID.FragmentStardust, Main.expertMode ? 4 : 5);
                     break;
 
@@ -1812,36 +1804,87 @@ namespace CalamityMod.NPCs
                     DropHelper.DropItemCondition(npc, ItemID.GoldenFishingRod, Main.hardMode, 12, 1, 1);
             }
         }
-        #endregion
+		#endregion
 
-        #region Boss Loot
-        private void BossLoot(NPC npc)
-        {
-            // Not really loot code, but NPCLoot is the only death hook
-            if (npc.boss && !CalamityWorld.downedBossAny)
-            {
-                CalamityWorld.downedBossAny = true;
-                CalamityMod.UpdateServerBoolean();
-            }
+		#region Boss Loot
+		private void EventEnemyLoot(NPC npc, bool pumpkin, bool frost, bool eclipse)
+		{
+			// Not really loot code, but NPCLoot is the only death hook
+			if (npc.boss && !CalamityWorld.downedBossAny)
+			{
+				CalamityWorld.downedBossAny = true;
+				CalamityMod.UpdateServerBoolean();
+			}
 
-            // Nightmare Fuel, Endothermic Energy and Darksun Fragments
-            if (npc.type == NPCID.Pumpking)
-            {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<NightmareFuel>(), CalamityWorld.downedDoG, 10, 20);
-            }
-            else if (npc.type == NPCID.IceQueen)
-            {
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<EndothermicEnergy>(), CalamityWorld.downedDoG, 20, 40);
-            }
-            else if (npc.type == NPCID.Mothron && CalamityWorld.buffedEclipse)
-            {
-                DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 10, 20);
+			// Nightmare Fuel, Endothermic Energy and Darksun Fragments
+			if (!CalamityWorld.downedDoG)
+			{
+				return;
+			}
 
-                // Mark a buffed Mothron as killed (allowing access to Yharon P2)
-                CalamityWorld.downedBuffedMothron = true;
-                CalamityMod.UpdateServerBoolean();
-            }
-        }
+			if (frost)
+			{
+				switch (npc.type)
+				{
+					case NPCID.Nutcracker:
+					case NPCID.NutcrackerSpinning:
+					case NPCID.ElfCopter:
+					case NPCID.Flocko:
+						DropHelper.DropItemChance(npc, ModContent.ItemType<EndothermicEnergy>(), 2);
+						break;
+					case NPCID.Krampus:
+					case NPCID.Yeti:
+					case NPCID.PresentMimic:
+						DropHelper.DropItemChance(npc, ModContent.ItemType<EndothermicEnergy>(), 2, 1, 2);
+						break;
+					case NPCID.Everscream:
+						DropHelper.DropItem(npc, ModContent.ItemType<EndothermicEnergy>(), 3, 5);
+						break;
+					case NPCID.SantaNK1:
+						DropHelper.DropItem(npc, ModContent.ItemType<EndothermicEnergy>(), 5, 10);
+						break;
+					case NPCID.IceQueen:
+						DropHelper.DropItem(npc, ModContent.ItemType<EndothermicEnergy>(), 10, 20);
+						break;
+				}
+			}
+			else if (pumpkin)
+			{
+				switch (npc.type)
+				{
+					case NPCID.Splinterling:
+						DropHelper.DropItemChance(npc, ModContent.ItemType<NightmareFuel>(), 2);
+						break;
+					case NPCID.Hellhound:
+					case NPCID.Poltergeist:
+						DropHelper.DropItemChance(npc, ModContent.ItemType<NightmareFuel>(), 2, 1, 2);
+						break;
+					case NPCID.HeadlessHorseman:
+						DropHelper.DropItem(npc, ModContent.ItemType<NightmareFuel>(), 3, 5);
+						break;
+					case NPCID.MourningWood:
+						DropHelper.DropItem(npc, ModContent.ItemType<NightmareFuel>(), 5, 10);
+						break;
+					case NPCID.Pumpking:
+						DropHelper.DropItem(npc, ModContent.ItemType<NightmareFuel>(), 10, 20);
+						break;
+				}
+			}
+
+			if (!CalamityWorld.buffedEclipse)
+			{
+				return;
+			}
+
+			if (npc.type == NPCID.Mothron)
+			{
+				DropHelper.DropItem(npc, ModContent.ItemType<DarksunFragment>(), 10, 20);
+
+				// Mark a buffed Mothron as killed (allowing access to Yharon P2)
+				CalamityWorld.downedBuffedMothron = true;
+				CalamityMod.UpdateServerBoolean();
+			}
+		}
         #endregion
     }
 }

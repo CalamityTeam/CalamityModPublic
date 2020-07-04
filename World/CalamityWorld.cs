@@ -160,7 +160,8 @@ namespace CalamityMod.World
         public static bool downedSentinel1 = false; // Ceaseless Void
         public static bool downedSentinel2 = false; // Storm Weaver
         public static bool downedSentinel3 = false; // Signus, Envoy of the Devourer
-        public static bool downedPolterghast = false;
+		public static bool downedSecondSentinels = false;
+		public static bool downedPolterghast = false;
         public static bool downedDoG = false;
         public static bool downedBumble = false;
         public static bool buffedEclipse = false;
@@ -250,6 +251,7 @@ namespace CalamityMod.World
             downedGSS = false;
             downedBuffedMothron = false;
             downedBoomerDuke = false;
+			downedSecondSentinels = false;
             death = false;
             defiled = false;
             armageddon = false;
@@ -298,6 +300,8 @@ namespace CalamityMod.World
                 downed.Add("stormWeaver");
             if (downedSentinel3)
                 downed.Add("signus");
+			if (downedSecondSentinels)
+				downed.Add("secondSentinels");
             if (downedYharon)
                 downed.Add("yharon");
             if (buffedEclipse)
@@ -404,6 +408,7 @@ namespace CalamityMod.World
             downedSentinel1 = downed.Contains("ceaselessVoid");
             downedSentinel2 = downed.Contains("stormWeaver");
             downedSentinel3 = downed.Contains("signus");
+			downedSecondSentinels = downed.Contains("secondSentinels");
             downedYharon = downed.Contains("yharon");
             buffedEclipse = downed.Contains("eclipse");
             downedSCal = downed.Contains("supremeCalamitas");
@@ -528,7 +533,7 @@ namespace CalamityMod.World
                 BitsByte flags8 = reader.ReadByte();
                 forcedRainAlready = flags8[0];
                 forcedDownpourWithTear = flags8[1];
-                _ = flags8[2];
+                downedSecondSentinels = flags8[2];
                 _ = flags8[3];
                 _ = flags8[4];
                 _ = flags8[5];
@@ -619,7 +624,7 @@ namespace CalamityMod.World
             BitsByte flags8 = new BitsByte();
             flags8[0] = forcedRainAlready;
             flags8[1] = forcedDownpourWithTear;
-            flags8[2] = false;
+            flags8[2] = downedSecondSentinels;
             flags8[3] = false;
             flags8[4] = false;
             flags8[5] = false;
@@ -716,7 +721,7 @@ namespace CalamityMod.World
             BitsByte flags8 = reader.ReadByte();
             forcedRainAlready = flags8[0];
             forcedDownpourWithTear = flags8[1];
-            _ = flags8[2];
+            downedSecondSentinels = flags8[2];
             _ = flags8[3];
             _ = flags8[4];
             _ = flags8[5];

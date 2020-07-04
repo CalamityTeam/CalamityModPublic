@@ -215,6 +215,7 @@ namespace CalamityMod.NPCs.Providence
 			// Phase times
 			float phaseTime = nightTime ? 240f : 300f;
 			float crystalPhaseTime = nightTime ? 60f : 120f;
+			int nightCrystalTime = 210;
 			float attackDelayAfterCocoon = 90f;
 
 			// Phases
@@ -1189,17 +1190,19 @@ namespace CalamityMod.NPCs.Providence
 				if (!targetDead)
 					npc.velocity *= 0.9f;
 
-				if (Main.netMode != NetmodeID.MultiplayerClient)
+				npc.ai[1] += 1f;
+				if (npc.ai[1] >= crystalPhaseTime)
 				{
-					npc.ai[1] += 1f;
-					if (npc.ai[1] >= crystalPhaseTime)
+					if (npc.ai[1] == crystalPhaseTime && Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						if (npc.ai[1] == crystalPhaseTime)
-							Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, 0f, 0f);
+						int proj = Projectile.NewProjectile(player.Center.X, player.Center.Y - 360f, 0f, 0f, ModContent.ProjectileType<ProvidenceCrystal>(), crystalDamage, 0f, player.whoAmI, 0f, 0f);
 
-						if (npc.ai[1] >= crystalPhaseTime + 210f || !nightTime)
-							npc.ai[0] = -1f;
+						if (nightTime)
+							Main.projectile[proj].timeLeft = nightCrystalTime;
 					}
+
+					if (npc.ai[1] >= crystalPhaseTime + nightCrystalTime || !nightTime)
+						npc.ai[0] = -1f;
 				}
 			}
 

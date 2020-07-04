@@ -90,9 +90,6 @@ namespace CalamityMod.NPCs
         public Dictionary<int, float> flatDRReductions = new Dictionary<int, float>();
         public Dictionary<int, float> multDRReductions = new Dictionary<int, float>();
 
-		// Iron Heart (currently unimplemented)
-		// private int ironHeartDamage = 0;
-
 		// Max velocity used in contact damage scaling
 		public float maxVelocity = 0f;
 
@@ -146,6 +143,7 @@ namespace CalamityMod.NPCs
         public int clamDebuff = 0;
         public int sulphurPoison = 0;
         public int ladHearts = 0;
+        public int kamiFlu = 0;
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
 
@@ -221,9 +219,9 @@ namespace CalamityMod.NPCs
             { NPCID.GolemFistLeft, 250000 },
             { NPCID.GolemFistRight, 250000 },
 
-            { NPCID.EaterofWorldsHead, 2500000 }, // 30 seconds
-            { NPCID.EaterofWorldsBody, 2500000 },
-            { NPCID.EaterofWorldsTail, 2500000 },
+            { NPCID.EaterofWorldsHead, 15000000 }, // 30 seconds
+            { NPCID.EaterofWorldsBody, 15000000 },
+            { NPCID.EaterofWorldsTail, 15000000 },
 
             // Tier 2
             { NPCID.TheDestroyer, 2500000 }, // 30 seconds + immunity timer at start
@@ -688,6 +686,7 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(nightwither, 200, 40, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
+            ApplyDPSDebuff(kamiFlu, 250, 25, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
             if (npc.velocity.X == 0)
                 ApplyDPSDebuff(electrified, 10, 2, ref npc.lifeRegen, ref damage);
@@ -778,11 +777,6 @@ namespace CalamityMod.NPCs
             }
 
             OtherStatChanges(npc);
-
-            if (CalamityWorld.ironHeart)
-            {
-                IronHeartChanges(npc);
-            }
         }
         #endregion
 
@@ -801,7 +795,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffID.Slow] = true;
 			}
 
-			if (DestroyerIDs.Contains(npc.type) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
+			if (DestroyerIDs.Contains(npc.type) || (EaterofWorldsIDs.Contains(npc.type) && CalamityWorld.bossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC)
 			{
 				for (int k = 0; k < npc.buffImmune.Length; k++)
 				{
@@ -1075,6 +1069,12 @@ namespace CalamityMod.NPCs
                 npc.lifeMax = (int)(npc.lifeMax * 0.6);
             }
 
+			if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
+			{
+				npc.defense = 4;
+				npc.defDefense = npc.defense;
+			}
+
             if (Main.bloodMoon && NPC.downedMoonlord && !npc.boss && !npc.friendly && !npc.dontTakeDamage && npc.lifeMax <= 2000 && npc.damage > 0)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 3.5);
@@ -1222,15 +1222,6 @@ namespace CalamityMod.NPCs
                                  0f);
                 afterimageCounter++;
             }
-        }
-        #endregion
-
-        // TODO -- Change Iron Heart damage in here for Iron Heart mode
-        #region Iron Heart Changes
-        private void IronHeartChanges(NPC npc)
-        {
-            // Iron Heart damage variable will scale with npc.damage
-            // ironHeartDamage = 0;
         }
         #endregion
 
@@ -1417,14 +1408,13 @@ namespace CalamityMod.NPCs
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
 			// Damage reduction on spawn
-			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			bool destroyerResist = DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || CalamityWorld.bossRushActive);
+			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && CalamityWorld.bossRushActive;
+			if (destroyerResist || eaterofWorldsResist || AstrumDeusIDs.Contains(npc.type))
 			{
-				if (DestroyerIDs.Contains(npc.type) || AstrumDeusIDs.Contains(npc.type))
+				if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 				{
-					if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
-					{
-						damage *= 0.01;
-					}
+					damage *= 0.01;
 				}
 			}
 
@@ -1549,6 +1539,8 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.66f;
             if (wCleave > 0)
                 calcDR *= 0.75f;
+            if (npc.Calamity().kamiFlu > 0)
+                calcDR *= KamiDebuff.MultiplicativeDamageReduction;
             if (npc.onFire2)
                 calcDR *= 0.8f;
 
@@ -3140,6 +3132,8 @@ namespace CalamityMod.NPCs
 				clamDebuff--;
 			if (sulphurPoison > 0)
 				sulphurPoison--;
+            if (kamiFlu > 0)
+                kamiFlu--;
             if (relicOfResilienceCooldown > 0)
                 relicOfResilienceCooldown--;
             if (relicOfResilienceWeakness > 0)
@@ -3150,6 +3144,11 @@ namespace CalamityMod.NPCs
             // Bosses and any specific other NPCs are completely immune to having their movement impaired.
             if (npc.boss || CalamityMod.movementImpairImmuneList.Contains(npc.type))
                 return;
+
+            if (kamiFlu > 0)
+            {
+                npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
+            }
 
 			if (!CalamityPlayer.areThereAnyDamnBosses)
 			{
@@ -3521,7 +3520,7 @@ namespace CalamityMod.NPCs
 
 					if (modPlayer.nucleogenesis)
 					{
-						if ((projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type)) && ShouldAffectNPC(npc) && Main.rand.NextBool(15))
+						if (projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type))
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -4102,10 +4101,19 @@ namespace CalamityMod.NPCs
             {
                 pool[0] = 0f;
             }
-			if (spawnInfo.player.Calamity().underworldLore)
+
+			// Spawn Green Jellyfish in prehm and Blue Jellyfish in hardmode
+			if (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.water)
 			{
-				pool[NPCID.VoodooDemon] = 0f;
+				if (!Main.hardMode)
+					pool[NPCID.GreenJellyfish] = SpawnCondition.CaveJellyfish.Chance * 0.5f;
+				else
+					pool[NPCID.BlueJellyfish] = SpawnCondition.CaveJellyfish.Chance;
 			}
+
+			if (spawnInfo.player.Calamity().underworldLore)
+				pool[NPCID.VoodooDemon] = 0f;
+
             if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
             {
                 pool.Clear();
@@ -4519,6 +4527,11 @@ namespace CalamityMod.NPCs
             if (enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 return new Color(200, 50, 50, npc.alpha);
+            }
+
+            if (npc.Calamity().kamiFlu > 0)
+            {
+                return new Color(51, 197, 108, npc.alpha);
             }
 
             return null;
@@ -6082,8 +6095,10 @@ namespace CalamityMod.NPCs
 		#region Should Affect NPC
 		public static bool ShouldAffectNPC(NPC target)
         {
+			if (EaterofWorldsIDs.Contains(target.type) || DestroyerIDs.Contains(target.type))
+				return false;
+
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage &&
-                target.type != NPCID.TheDestroyerBody && target.type != NPCID.TheDestroyerTail &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 &&
                 target.type != NPCType<Reaper>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() &&
                 target.type != NPCType<EidolonWyrmHeadHuge>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityMod.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Xeroc Mask");
+            DisplayName.SetDefault("Empyrean Mask");
             Tooltip.SetDefault("11% increased rogue damage and critical strike chance, 22% increased movement speed\n" +
                 "Temporary immunity to lava\n" +
 				"Provides heat protection in Death Mode\n" +
@@ -36,6 +36,8 @@ namespace CalamityMod.Items.Armor
         {
             player.armorEffectDrawShadow = true;
             player.armorEffectDrawOutlines = true;
+			player.Calamity().meldTransformation = true;
+            player.Calamity().meldTransformationForce = true;
         }
 
         public override void UpdateArmorSet(Player player)
@@ -50,7 +52,7 @@ namespace CalamityMod.Items.Armor
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
-            if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+            if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
             {
                 player.AddBuff(BuffID.Wrath, 2);
                 player.AddBuff(BuffID.Rage, 2);
@@ -76,6 +78,30 @@ namespace CalamityMod.Items.Armor
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+    }
+
+    public class MeldTransformationHead : EquipTexture
+    {
+        public override bool DrawHead()
+        {
+            return false;
+        }
+    }
+
+    public class MeldTransformationBody : EquipTexture
+    {
+        public override bool DrawBody()
+        {
+            return false;
+        }
+    }
+
+    public class MeldTransformationLegs : EquipTexture
+    {
+        public override bool DrawLegs()
+        {
+            return false;
         }
     }
 }

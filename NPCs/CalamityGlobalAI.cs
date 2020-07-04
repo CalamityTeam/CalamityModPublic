@@ -1389,13 +1389,17 @@ namespace CalamityMod.NPCs
             float totalSegments = GetEaterOfWorldsSegmentsCountRevDeath();
 
             // Count segments remaining
-            float segmentCount = NPC.CountNPCS(NPCID.EaterofWorldsHead) + NPC.CountNPCS(NPCID.EaterofWorldsBody) + NPC.CountNPCS(NPCID.EaterofWorldsTail); // 2f to 65f
+            float segmentCount = NPC.CountNPCS(NPCID.EaterofWorldsHead) + NPC.CountNPCS(NPCID.EaterofWorldsBody) + NPC.CountNPCS(NPCID.EaterofWorldsTail);
 
             // Percent segments remaining, add two to total for head and tail
             float lifeRatio = segmentCount / (totalSegments + 2);
 
-            // Phases
-            bool phase2 = lifeRatio < 0.9f || death;
+			// 8 seconds of reistance to prevent spawn killing
+			if (calamityGlobalNPC.newAI[1] < 480f && CalamityWorld.bossRushActive)
+				calamityGlobalNPC.newAI[1] += 1f;
+
+			// Phases
+			bool phase2 = lifeRatio < 0.9f || death;
             bool phase3 = lifeRatio < 0.75f || death;
             bool phase4 = lifeRatio < 0.4f || death;
             bool phase5 = lifeRatio < 0.1f || (death && lifeRatio < 0.33f);
@@ -1460,8 +1464,14 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            // Worm variable
-            npc.realLife = -1;
+			// Set worm variable for worms
+			if (CalamityWorld.bossRushActive)
+			{
+				if (npc.ai[3] > 0f)
+					npc.realLife = (int)npc.ai[3];
+			}
+			else
+				npc.realLife = -1;
 
             // Target
             if (npc.target < 0 || npc.target == Main.maxPlayers || Main.player[npc.target].dead)
@@ -1474,94 +1484,150 @@ namespace CalamityMod.NPCs
                     npc.timeLeft = 300;
             }
 
+			if (CalamityWorld.bossRushActive)
+			{
+				// Check if other segments are still alive, if not, die
+				if (npc.type > NPCID.EaterofWorldsHead)
+				{
+					bool shouldDespawn = true;
+					for (int i = 0; i < Main.maxNPCs; i++)
+					{
+						if (Main.npc[i].active && Main.npc[i].type == NPCID.EaterofWorldsHead)
+							shouldDespawn = false;
+					}
+					if (!shouldDespawn)
+					{
+						if (npc.ai[1] > 0f)
+							shouldDespawn = false;
+						else if (Main.npc[(int)npc.ai[1]].life > 0)
+							shouldDespawn = false;
+					}
+					if (shouldDespawn)
+					{
+						npc.life = 0;
+						npc.HitEffect(0, 10.0);
+						npc.checkDead();
+						npc.active = false;
+					}
+				}
+			}
+
             // Spawn segments
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if ((npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody) && npc.ai[0] == 0f)
-                {
-                    // Spawn entire worm
-                    if (npc.type == NPCID.EaterofWorldsHead)
-                    {
-                        // Length
-                        npc.ai[2] = totalSegments;
+				if (CalamityWorld.bossRushActive)
+				{
+					// Spawn segments from head
+					if (npc.ai[0] == 0f && npc.type == NPCID.EaterofWorldsHead)
+					{
+						npc.ai[3] = npc.whoAmI;
+						npc.realLife = npc.whoAmI;
+						int index = npc.whoAmI;
 
-                        // Body spawn
-                        npc.ai[0] = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), npc.type + 1, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                    }
-                    else if (npc.type == NPCID.EaterofWorldsBody && npc.ai[2] > 0f)
-                    {
-                        // Body spawn
-                        npc.ai[0] = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), npc.type, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                    }
-                    else
-                    {
-                        // Tail spawn
-                        npc.ai[0] = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), npc.type + 1, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                    }
+						for (int j = 0; j <= totalSegments; j++)
+						{
+							int type = NPCID.EaterofWorldsBody;
+							if (j == totalSegments)
+								type = NPCID.EaterofWorldsTail;
 
-                    // Worm shit
-                    Main.npc[(int)npc.ai[0]].ai[1] = npc.whoAmI;
-                    Main.npc[(int)npc.ai[0]].ai[2] = npc.ai[2] - 1f;
-                    npc.netUpdate = true;
-                }
-
-                // Splitting effect
-                if (!Main.npc[(int)npc.ai[1]].active && !Main.npc[(int)npc.ai[0]].active)
-                {
-                    npc.life = 0;
-                    npc.HitEffect(0, 10.0);
-                    npc.checkDead();
-                    npc.active = false;
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
-                }
-                if (npc.type == NPCID.EaterofWorldsHead && !Main.npc[(int)npc.ai[0]].active)
-                {
-                    npc.life = 0;
-                    npc.HitEffect(0, 10.0);
-                    npc.checkDead();
-                    npc.active = false;
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
-                }
-                if (npc.type == NPCID.EaterofWorldsTail && !Main.npc[(int)npc.ai[1]].active)
-                {
-                    npc.life = 0;
-                    npc.HitEffect(0, 10.0);
-                    npc.checkDead();
-                    npc.active = false;
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
-                }
-                if (npc.type == NPCID.EaterofWorldsBody && (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != npc.aiStyle))
-                {
-                    npc.type = NPCID.EaterofWorldsHead;
-                    int whoAmI = npc.whoAmI;
-                    float num25 = npc.life / (float)npc.lifeMax;
-                    float num26 = npc.ai[0];
-					int aiTimer = calamityGlobalNPC.AITimer;
-                    npc.SetDefaultsKeepPlayerInteraction(npc.type);
-                    npc.life = (int)(npc.lifeMax * num25);
-                    npc.ai[0] = num26;
-                    npc.TargetClosest(true);
-                    npc.netUpdate = true;
-                    npc.whoAmI = whoAmI;
-					calamityGlobalNPC.AITimer = aiTimer;
-                }
-                if (npc.type == NPCID.EaterofWorldsBody && (!Main.npc[(int)npc.ai[0]].active || Main.npc[(int)npc.ai[0]].aiStyle != npc.aiStyle))
-                {
-                    int whoAmI2 = npc.whoAmI;
-                    float num27 = npc.life / (float)npc.lifeMax;
-                    float num28 = npc.ai[1];
-					int aiTimer = calamityGlobalNPC.AITimer;
-					npc.SetDefaultsKeepPlayerInteraction(npc.type);
-                    npc.life = (int)(npc.lifeMax * num27);
-                    npc.ai[1] = num28;
-                    npc.TargetClosest(true);
-                    npc.netUpdate = true;
-                    npc.whoAmI = whoAmI2;
-					calamityGlobalNPC.AITimer = aiTimer;
+							int segment = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), type, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+							Main.npc[segment].ai[3] = npc.whoAmI;
+							Main.npc[segment].realLife = npc.whoAmI;
+							Main.npc[segment].ai[1] = index;
+							Main.npc[index].ai[0] = segment;
+							NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, segment, 0f, 0f, 0f, 0, 0, 0);
+							index = segment;
+						}
+					}
 				}
+				else
+				{
+					if ((npc.type == NPCID.EaterofWorldsHead || npc.type == NPCID.EaterofWorldsBody) && npc.ai[0] == 0f)
+					{
+						// Spawn entire worm
+						if (npc.type == NPCID.EaterofWorldsHead)
+						{
+							// Length
+							npc.ai[2] = totalSegments;
 
-                if (!npc.active && Main.netMode == NetmodeID.Server)
-                    NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+							// Body spawn
+							npc.ai[0] = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), npc.type + 1, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+						}
+						else if (npc.type == NPCID.EaterofWorldsBody && npc.ai[2] > 0f)
+						{
+							// Body spawn
+							npc.ai[0] = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), npc.type, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+						}
+						else
+						{
+							// Tail spawn
+							npc.ai[0] = NPC.NewNPC((int)(npc.position.X + (npc.width / 2)), (int)(npc.position.Y + npc.height), npc.type + 1, npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+						}
+
+						// Worm shit
+						Main.npc[(int)npc.ai[0]].ai[1] = npc.whoAmI;
+						Main.npc[(int)npc.ai[0]].ai[2] = npc.ai[2] - 1f;
+						npc.netUpdate = true;
+					}
+
+					// Splitting effect
+					if (!Main.npc[(int)npc.ai[1]].active && !Main.npc[(int)npc.ai[0]].active)
+					{
+						npc.life = 0;
+						npc.HitEffect(0, 10.0);
+						npc.checkDead();
+						npc.active = false;
+						NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+					}
+					if (npc.type == NPCID.EaterofWorldsHead && !Main.npc[(int)npc.ai[0]].active)
+					{
+						npc.life = 0;
+						npc.HitEffect(0, 10.0);
+						npc.checkDead();
+						npc.active = false;
+						NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+					}
+					if (npc.type == NPCID.EaterofWorldsTail && !Main.npc[(int)npc.ai[1]].active)
+					{
+						npc.life = 0;
+						npc.HitEffect(0, 10.0);
+						npc.checkDead();
+						npc.active = false;
+						NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+					}
+					if (npc.type == NPCID.EaterofWorldsBody && (!Main.npc[(int)npc.ai[1]].active || Main.npc[(int)npc.ai[1]].aiStyle != npc.aiStyle))
+					{
+						npc.type = NPCID.EaterofWorldsHead;
+						int whoAmI = npc.whoAmI;
+						float num25 = npc.life / (float)npc.lifeMax;
+						float num26 = npc.ai[0];
+						int aiTimer = calamityGlobalNPC.AITimer;
+						npc.SetDefaultsKeepPlayerInteraction(npc.type);
+						npc.life = (int)(npc.lifeMax * num25);
+						npc.ai[0] = num26;
+						npc.TargetClosest(true);
+						npc.netUpdate = true;
+						npc.whoAmI = whoAmI;
+						calamityGlobalNPC.AITimer = aiTimer;
+					}
+					if (npc.type == NPCID.EaterofWorldsBody && (!Main.npc[(int)npc.ai[0]].active || Main.npc[(int)npc.ai[0]].aiStyle != npc.aiStyle))
+					{
+						int whoAmI2 = npc.whoAmI;
+						float num27 = npc.life / (float)npc.lifeMax;
+						float num28 = npc.ai[1];
+						int aiTimer = calamityGlobalNPC.AITimer;
+						npc.SetDefaultsKeepPlayerInteraction(npc.type);
+						npc.life = (int)(npc.lifeMax * num27);
+						npc.ai[1] = num28;
+						npc.TargetClosest(true);
+						npc.netUpdate = true;
+						npc.whoAmI = whoAmI2;
+						calamityGlobalNPC.AITimer = aiTimer;
+					}
+
+					if (!npc.active && Main.netMode == NetmodeID.Server)
+						NetMessage.SendData(MessageID.StrikeNPC, -1, -1, null, npc.whoAmI, -1f, 0f, 0f, 0, 0, 0);
+				}
             }
 
             // Movement
@@ -1748,7 +1814,7 @@ namespace CalamityMod.NPCs
                         bool flag5 = true;
                         for (int num58 = 0; num58 < Main.maxPlayers; num58++)
                         {
-                            if (Main.player[num58].active && !Main.player[num58].dead && Main.player[num58].ZoneCorrupt)
+                            if (Main.player[num58].active && !Main.player[num58].dead && (Main.player[num58].ZoneCorrupt || Main.player[num58].ZoneCrimson))
                                 flag5 = false;
                         }
 
@@ -1866,7 +1932,7 @@ namespace CalamityMod.NPCs
 
 		public static int GetEaterOfWorldsSegmentsCountRevDeath()
 		{
-			return CalamityWorld.death ? 80 : 75;
+			return (CalamityWorld.death || CalamityWorld.bossRushActive) ? 80 : 75;
 		}
 		#endregion
 
@@ -2522,7 +2588,7 @@ namespace CalamityMod.NPCs
 
 		public static int GetBrainOfCthuluCreepersCountRevDeath()
 		{
-			return CalamityWorld.death ? 30 : 25;
+			return (CalamityWorld.death || CalamityWorld.bossRushActive) ? 30 : 25;
 		}
 
 		private static float GetCrimsonBossKnockBack(NPC npc, int numPlayers, float lifeScale, float baseKnockBackResist)
@@ -7148,37 +7214,32 @@ namespace CalamityMod.NPCs
 
                             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 64f)
                             {
-                                if (Main.netMode != NetmodeID.MultiplayerClient)
-                                {
-                                    if (NPC.CountNPCS(NPCID.Probe) < 3)
-                                        NPC.NewNPC((int)npc.Center.X, (int)(npc.Center.Y + 4f), NPCID.Probe);
-                                    else
-                                    {
-                                        Vector2 vector16 = npc.Center;
-                                        float num159 = CalamityWorld.bossRushActive ? 6f : 4f;
-                                        float num160 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector16.X + Main.rand.Next(-20, 21);
-                                        float num161 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector16.Y + Main.rand.Next(-20, 21);
-                                        float num162 = (float)Math.Sqrt(num160 * num160 + num161 * num161);
-                                        num162 = num159 / num162;
-                                        num160 *= num162;
-                                        num161 *= num162;
+								if (Main.netMode != NetmodeID.MultiplayerClient)
+								{
+									Vector2 vector16 = npc.Center;
+									float num159 = CalamityWorld.bossRushActive ? 6f : 4f;
+									float num160 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector16.X + Main.rand.Next(-20, 21);
+									float num161 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector16.Y + Main.rand.Next(-20, 21);
+									float num162 = (float)Math.Sqrt(num160 * num160 + num161 * num161);
+									num162 = num159 / num162;
+									num160 *= num162;
+									num161 *= num162;
 
-                                        Vector2 value = new Vector2(num160 * 1f + Main.rand.Next(-50, 51) * 0.01f, num161 * 1f + Main.rand.Next(-50, 51) * 0.01f);
-                                        value.Normalize();
-                                        value *= num159;
-                                        num160 = value.X;
-                                        num161 = value.Y;
+									Vector2 value = new Vector2(num160 * 1f + Main.rand.Next(-50, 51) * 0.01f, num161 * 1f + Main.rand.Next(-50, 51) * 0.01f);
+									value.Normalize();
+									value *= num159;
+									num160 = value.X;
+									num161 = value.Y;
 
-                                        int num163 = 28;
-										if (death)
-											num163 += 3;
-										int num164 = ProjectileID.Skull;
-                                        vector16 += value * 5f;
-                                        int num165 = Projectile.NewProjectile(vector16.X, vector16.Y, num160, num161, num164, num163, 0f, Main.myPlayer, -1f, 0f);
-                                        Main.projectile[num165].timeLeft = 180;
-                                        Main.projectile[num165].tileCollide = false;
-                                    }
-                                }
+									int num163 = 28;
+									if (death)
+										num163 += 3;
+									int num164 = ProjectileID.Skull;
+									vector16 += value * 5f;
+									int num165 = Projectile.NewProjectile(vector16.X, vector16.Y, num160, num161, num164, num163, 0f, Main.myPlayer, -1f, 0f);
+									Main.projectile[num165].timeLeft = 180;
+									Main.projectile[num165].tileCollide = false;
+								}
                             }
 
                             // Go to floating phase, or spinning phase if in phase 2
@@ -8785,36 +8846,39 @@ namespace CalamityMod.NPCs
                     npc.localAI[2] = 1f;
                 }
 
-				// Spawn spores
-				float spawnBoost = death ? 4f : 8f * (0.5f - lifeRatio);
-                npc.localAI[1] += 1f + spawnBoost;
-
-                if (npc.localAI[1] >= 360f)
-                {
-                    float num757 = CalamityWorld.bossRushActive ? 12f : 8f;
-                    Vector2 vector94 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num758 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector94.X + Main.rand.Next(-10, 11);
-                    float num759 = Math.Abs(num758 * 0.2f);
-
-                    float num760 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector94.Y + Main.rand.Next(-10, 11);
-                    if (num760 > 0f)
-                        num759 = 0f;
-
-                    num760 -= num759;
-                    float num761 = (float)Math.Sqrt(num758 * num758 + num760 * num760);
-                    num761 = num757 / num761;
-                    num758 *= num761;
-                    num760 *= num761;
-
-                    int num762 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, 0, 0f, 0f, 0f, 0f, 255);
-                    Main.npc[num762].velocity.X = num758;
-                    Main.npc[num762].velocity.Y = num760;
-                    Main.npc[num762].netUpdate = true;
-                    npc.localAI[1] = 0f;
-                }
-
 				if (Main.netMode != NetmodeID.MultiplayerClient)
 				{
+					// Spawn spores
+					if (!phase4)
+					{
+						float spawnBoost = death ? 4f : 8f * (0.5f - lifeRatio);
+						npc.localAI[1] += 1f + spawnBoost;
+
+						if (npc.localAI[1] >= 360f)
+						{
+							float num757 = CalamityWorld.bossRushActive ? 12f : 8f;
+							Vector2 vector94 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+							float num758 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector94.X + Main.rand.Next(-10, 11);
+							float num759 = Math.Abs(num758 * 0.2f);
+
+							float num760 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector94.Y + Main.rand.Next(-10, 11);
+							if (num760 > 0f)
+								num759 = 0f;
+
+							num760 -= num759;
+							float num761 = (float)Math.Sqrt(num758 * num758 + num760 * num760);
+							num761 = num757 / num761;
+							num758 *= num761;
+							num760 *= num761;
+
+							int num762 = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.Spore, 0, 0f, 0f, 0f, 0f, 255);
+							Main.npc[num762].velocity.X = num758;
+							Main.npc[num762].velocity.Y = num760;
+							Main.npc[num762].netUpdate = true;
+							npc.localAI[1] = 0f;
+						}
+					}
+
 					// Fire spread of poison seeds
 					if (tentacleCount < 8)
 					{
@@ -9115,6 +9179,8 @@ namespace CalamityMod.NPCs
 
         public static bool BuffedPlanterasTentacleAI(NPC npc, Mod mod, bool chaos)
         {
+			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
+
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			// Despawn if Plantera is gone
@@ -9125,8 +9191,21 @@ namespace CalamityMod.NPCs
                 return false;
             }
 
-            // Set Plantera to a variable
-            int num778 = NPC.plantBoss;
+			// 3 seconds of resistance and no damage to prevent spawn killing and unfair hits
+			if (calamityGlobalNPC.newAI[1] < 180f)
+			{
+				npc.damage = 0;
+				npc.defense = npc.defDefense + 999;
+				calamityGlobalNPC.newAI[1] += 1f;
+			}
+			else
+			{
+				npc.damage = npc.defDamage;
+				npc.defense = npc.defDefense;
+			}
+
+			// Set Plantera to a variable
+			int num778 = NPC.plantBoss;
             if (npc.ai[3] > 0f)
                 num778 = (int)npc.ai[3] - 1;
 

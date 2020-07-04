@@ -10,7 +10,7 @@ namespace CalamityMod.Projectiles.Rogue
     public class DestructionStar : ModProjectile
     {
 		public int hitCount = 0;
-        private static float Radius = 43f;
+        private static float Radius = 47f;
 
         public override void SetStaticDefaults()
         {
@@ -19,8 +19,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void SetDefaults()
         {
-            projectile.width = 86;
-            projectile.height = 86;
+            projectile.width = 94;
+            projectile.height = 94;
             projectile.friendly = true;
             projectile.penetrate = 16;
             projectile.usesLocalNPCImmunity = true;
@@ -89,8 +89,7 @@ namespace CalamityMod.Projectiles.Rogue
 			}
             if (projectile.owner == Main.myPlayer)
             {
-				int i;
-				for (i = 0; i < hitCount; i++)
+				for (int i = 0; i < hitCount; i++)
 				{
                     Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     while (value15.X == 0f && value15.Y == 0f)
@@ -99,7 +98,7 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                     value15.Normalize();
                     value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<DestructionBolt>(), (int)((double)projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<DestructionBolt>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
                 }
 			}
 		}

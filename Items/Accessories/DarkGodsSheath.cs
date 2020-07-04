@@ -44,7 +44,6 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<SilencingSheath>());
             recipe.AddIngredient(ModContent.ItemType<RuinMedallion>());
             recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Stardust>(), 25);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

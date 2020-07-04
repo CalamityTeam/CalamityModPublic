@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Shard");
+            DisplayName.SetDefault("Wulfrum Metal Scrap");
         }
 
         public override void SetDefaults()

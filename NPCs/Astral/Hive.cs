@@ -121,13 +121,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            //only 1 hive possible.
-            bool anyHives = NPC.CountNPCS(npc.type) > 0;
-            if (anyHives)
-                return 0f;
-
-            Tile tile = Main.tile[spawnInfo.spawnTileX, spawnInfo.spawnTileY];
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player) || NPC.AnyNPCs(npc.type))
             {
                 return 0f;
             }

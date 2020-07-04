@@ -14,7 +14,8 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("The curse is said to only affect the elderly.\n" +
                 "After they are afflicted they become an immortal vessel for an ancient demon of the underworld.\n" +
                 "Place in your inventory to gain increased damage while in the dungeon.\n" +
-				"However, your max health is decreased due to Skeletron's curse.");
+				"However, your max health is decreased due to Skeletron's curse.\n" +
+				"These effects only occur if the item is favorited.");
         }
 
         public override void SetDefaults()
@@ -32,7 +33,7 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-            if (player.ZoneDungeon)
+            if (player.ZoneDungeon && item.favorited)
             {
                 CalamityPlayer modPlayer = player.Calamity();
                 modPlayer.skeletronLore = true;

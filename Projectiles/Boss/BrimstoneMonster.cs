@@ -56,15 +56,11 @@ namespace CalamityMod.Projectiles.Boss
             }
 
 			int choice = (int)projectile.ai[1];
-			if (projectile.soundDelay <= 0 && (choice == 0 || choice == 2))
+			if (projectile.localAI[0] == 0f)
 			{
-				projectile.soundDelay = 420;
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimstoneMonsterDrone"), (int)projectile.Center.X, (int)projectile.Center.Y);
-			}
-
-            if (projectile.localAI[0] == 0f)
-            {
-                projectile.localAI[0] += 1f;
+				projectile.soundDelay = 1125 - (choice * 225);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimstoneMonsterSpawn"), (int)projectile.Center.X, (int)projectile.Center.Y);
+				projectile.localAI[0] += 1f;
 				switch (choice)
 				{
 					case 0:
@@ -82,10 +78,16 @@ namespace CalamityMod.Projectiles.Boss
 					default:
 						break;
 				}
-            }
+			}
 
-            if (speedAdd < speedLimit)
-                speedAdd += 0.04f;
+			if (speedAdd < speedLimit)
+				speedAdd += 0.04f;
+
+			if (projectile.soundDelay <= 0 && (choice == 0 || choice == 2))
+			{
+				projectile.soundDelay = 420;
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimstoneMonsterDrone"), (int)projectile.Center.X, (int)projectile.Center.Y);
+			}
 
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 
