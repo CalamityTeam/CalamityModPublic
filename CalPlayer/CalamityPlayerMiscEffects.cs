@@ -339,8 +339,8 @@ namespace CalamityMod.CalPlayer
 			{
 				player.Calamity().andromedaState = AndromedaPlayerState.Inactive;
 			}
-
-			if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
+			
+			if(player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
 			{
 				player.width = 152;
 				player.height = 212;
@@ -905,6 +905,8 @@ namespace CalamityMod.CalPlayer
 			// Cooldowns and timers
 			if (modPlayer.gainRageCooldown > 0)
 				modPlayer.gainRageCooldown--;
+			if (modPlayer.KameiBladeUseDelay > 0)
+				modPlayer.KameiBladeUseDelay--;
 			if (modPlayer.galileoCooldown > 0)
 				modPlayer.galileoCooldown--;
 			if (modPlayer.soundCooldown > 0)
@@ -981,6 +983,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.titanBoost--;
 			if (modPlayer.prismaticLasers > 0)
 				modPlayer.prismaticLasers--;
+			if (modPlayer.titanCooldown > 0)
+				modPlayer.titanCooldown--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -1139,8 +1143,14 @@ namespace CalamityMod.CalPlayer
                 player.endurance += 0.07f;
             }
 
-            // Absorber bonus
-            if (modPlayer.absorber)
+			if (modPlayer.kamiBoost)
+			{
+				player.allDamage += 0.3f;
+				player.statDefense += 20;
+			}
+
+			// Absorber bonus
+			if (modPlayer.absorber)
 			{
 				player.moveSpeed += 0.12f;
 				player.jumpSpeedBoost += 1.2f;
@@ -3844,7 +3854,7 @@ namespace CalamityMod.CalPlayer
 		#region Rogue Mirrors
 		private static void RogueMirrors(Player player, CalamityPlayer modPlayer)
 		{
-			Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
+			Rectangle rectangle = new Rectangle((int)(player.position.X + player.velocity.X * 0.5f - 4f), (int)(player.position.Y + player.velocity.Y * 0.5f - 4f), player.width + 8, player.height + 8);
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				NPC npc = Main.npc[i];

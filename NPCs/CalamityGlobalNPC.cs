@@ -143,6 +143,7 @@ namespace CalamityMod.NPCs
         public int clamDebuff = 0;
         public int sulphurPoison = 0;
         public int ladHearts = 0;
+        public int kamiFlu = 0;
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
 
@@ -685,6 +686,7 @@ namespace CalamityMod.NPCs
             ApplyDPSDebuff(nightwither, 200, 40, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(dFlames, 2500, 500, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(bBlood, 50, 10, ref npc.lifeRegen, ref damage);
+            ApplyDPSDebuff(kamiFlu, 250, 25, ref npc.lifeRegen, ref damage);
             ApplyDPSDebuff(sulphurPoison, 180, 36, ref npc.lifeRegen, ref damage);
             if (npc.velocity.X == 0)
                 ApplyDPSDebuff(electrified, 10, 2, ref npc.lifeRegen, ref damage);
@@ -1537,6 +1539,8 @@ namespace CalamityMod.NPCs
                 calcDR *= 0.66f;
             if (wCleave > 0)
                 calcDR *= 0.75f;
+            if (npc.Calamity().kamiFlu > 0)
+                calcDR *= KamiDebuff.MultiplicativeDamageReduction;
             if (npc.onFire2)
                 calcDR *= 0.8f;
 
@@ -3128,6 +3132,8 @@ namespace CalamityMod.NPCs
 				clamDebuff--;
 			if (sulphurPoison > 0)
 				sulphurPoison--;
+            if (kamiFlu > 0)
+                kamiFlu--;
             if (relicOfResilienceCooldown > 0)
                 relicOfResilienceCooldown--;
             if (relicOfResilienceWeakness > 0)
@@ -3138,6 +3144,11 @@ namespace CalamityMod.NPCs
             // Bosses and any specific other NPCs are completely immune to having their movement impaired.
             if (npc.boss || CalamityMod.movementImpairImmuneList.Contains(npc.type))
                 return;
+
+            if (kamiFlu > 0)
+            {
+                npc.velocity = Vector2.Clamp(npc.velocity, new Vector2(-KamiDebuff.MaxNPCSpeed), new Vector2(KamiDebuff.MaxNPCSpeed));
+            }
 
 			if (!CalamityPlayer.areThereAnyDamnBosses)
 			{
@@ -4516,6 +4527,11 @@ namespace CalamityMod.NPCs
             if (enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
             {
                 return new Color(200, 50, 50, npc.alpha);
+            }
+
+            if (npc.Calamity().kamiFlu > 0)
+            {
+                return new Color(51, 197, 108, npc.alpha);
             }
 
             return null;

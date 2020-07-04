@@ -1683,6 +1683,7 @@ namespace CalamityMod.NPCs
                 case NPCID.SolarDrakomireRider:
                 case NPCID.SolarDrakomire:
                 case NPCID.SolarCrawltipedeHead:
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), Main.expertMode ? 4 : 5);
                     DropHelper.DropItemChance(npc, ItemID.FragmentSolar, Main.expertMode ? 4 : 5);
                     break;
 
@@ -1691,6 +1692,7 @@ namespace CalamityMod.NPCs
                 case NPCID.VortexHornet: //Alien Hornet
                 case NPCID.VortexHornetQueen: //Alien Queen
                 case NPCID.VortexRifleman: //Storm Diver
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), Main.expertMode ? 4 : 5);
                     DropHelper.DropItemChance(npc, ItemID.FragmentVortex, Main.expertMode ? 4 : 5);
                     break;
 
@@ -1698,7 +1700,7 @@ namespace CalamityMod.NPCs
                 case NPCID.NebulaSoldier: //Predictor
                 case NPCID.NebulaHeadcrab: //Brain Suckler
                 case NPCID.NebulaBeast: //Evolution Beast
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), 4, Main.expertMode ? 2 : 1, Main.expertMode ? 3 : 2);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), Main.expertMode ? 4 : 5);
                     DropHelper.DropItemChance(npc, ItemID.FragmentNebula, Main.expertMode ? 4 : 5);
                     break;
 
@@ -1707,6 +1709,7 @@ namespace CalamityMod.NPCs
                 case NPCID.StardustJellyfishBig: //Flow Invader
                 case NPCID.StardustCellBig: //Star Cell
                 case NPCID.StardustWormHead: //Milkyway Weaver
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<MeldBlob>(), Main.expertMode ? 4 : 5);
                     DropHelper.DropItemChance(npc, ItemID.FragmentStardust, Main.expertMode ? 4 : 5);
                     break;
 

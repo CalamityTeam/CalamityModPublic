@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.AquaticScourge
         {
             npc.npcSlots = 16f;
             npc.damage = 80;
-            npc.width = 100;
+            npc.width = 90;
             npc.height = 90;
             npc.defense = 10;
 			npc.DR_NERD(0.1f);
@@ -57,10 +57,13 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.DeathSound = SoundID.NPCDeath1;
             npc.netAlways = true;
             bossBag = ModContent.ItemType<AquaticScourgeBag>();
-            if (Main.expertMode)
-            {
-                npc.scale = 1.15f;
-            }
+
+			if (CalamityWorld.death || CalamityWorld.bossRushActive)
+				npc.scale = 1.2f;
+			else if (CalamityWorld.revenge)
+				npc.scale = 1.15f;
+			else if (Main.expertMode)
+				npc.scale = 1.1f;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

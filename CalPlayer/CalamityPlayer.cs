@@ -109,6 +109,9 @@ namespace CalamityMod.CalPlayer
         public Projectile lastProjectileHit;
         public double acidRoundMultiplier = 1D;
         public int waterLeechTarget = -1;
+        public float KameiTrailXScale = 0.1f;
+        public int KameiBladeUseDelay = 0;
+        public Vector2[] KameiOldPositions = new Vector2[4];
 		public double trueMeleeDamage = 0D;
 		public double contactDamageReduction = 0D;
 		public double projectileDamageReduction = 0D;
@@ -253,6 +256,7 @@ namespace CalamityMod.CalPlayer
         public int throwingCrit = 0;
         public bool throwingAmmoCost75 = false;
         public bool throwingAmmoCost66 = false;
+        public bool throwingAmmoCost55 = false;
         public bool throwingAmmoCost50 = false;
         #endregion
 
@@ -477,6 +481,7 @@ namespace CalamityMod.CalPlayer
         public bool depthCharm = false;
         public bool anechoicPlating = false;
         public bool jellyfishNecklace = false;
+		public bool abyssDivingGear = false;
         public bool abyssalAmulet = false;
         public bool lumenousAmulet = false;
         public bool reaperToothNecklace = false;
@@ -626,6 +631,11 @@ namespace CalamityMod.CalPlayer
         public bool auricBoost = false;
         public bool daedalusReflect = false;
         public bool daedalusSplit = false;
+        public bool titanHeartSet = false;
+        public bool titanHeartMask = false;
+        public bool titanHeartMantle = false;
+        public bool titanHeartBoots = false;
+        public int titanCooldown = 0;
         public bool umbraphileSet = false;
         public bool reaverBlast = false;
         public bool reaverBurst = false;
@@ -811,6 +821,7 @@ namespace CalamityMod.CalPlayer
         public bool hallowedDefense = false;
         public bool hallowedPower = false;
         public bool hallowedRegen = false;
+        public bool kamiBoost = false;
         #endregion
 
         #region Minion
@@ -943,6 +954,10 @@ namespace CalamityMod.CalPlayer
         public bool snowmanForce;
         public bool snowmanNoseless;
         public bool snowmanPower;
+        public bool meldTransformationPrevious;
+        public bool meldTransformation;
+        public bool meldTransformationForce;
+        public bool meldTransformationPower;
 		#endregion
 
 		#endregion
@@ -1307,6 +1322,7 @@ namespace CalamityMod.CalPlayer
             throwingCrit = 0;
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
+            throwingAmmoCost55 = false;
             throwingAmmoCost50 = false;
 			accStealthGenBoost = 0f;
 
@@ -1541,6 +1557,7 @@ namespace CalamityMod.CalPlayer
             hallowedDefense = false;
             hallowedRegen = false;
             hallowedPower = false;
+            kamiBoost = false;
             IBoots = false;
             elysianFire = false;
             sTracers = false;
@@ -1583,6 +1600,7 @@ namespace CalamityMod.CalPlayer
             depthCharm = false;
             anechoicPlating = false;
             jellyfishNecklace = false;
+			abyssDivingGear = false;
             abyssalAmulet = false;
             lumenousAmulet = false;
             reaperToothNecklace = false;
@@ -1607,6 +1625,10 @@ namespace CalamityMod.CalPlayer
 
             statigelSet = false;
 
+            titanHeartSet = false;
+            titanHeartMask = false;
+            titanHeartMantle = false;
+            titanHeartBoots = false;
             umbraphileSet = false;
             plagueReaper = false;
 			plaguebringerPatronSet = false;
@@ -1908,6 +1930,9 @@ namespace CalamityMod.CalPlayer
             snowmanPrevious = snowman;
             snowman = snowmanHide = snowmanForce = snowmanPower = false;
 
+            meldTransformationPrevious = meldTransformation;
+            meldTransformation = meldTransformationForce = meldTransformationPower = false;
+
             rageModeActive = false;
             adrenalineModeActive = false;
 
@@ -1964,8 +1989,6 @@ namespace CalamityMod.CalPlayer
 			hallowedRuneCooldown = 0;
 			doubledHorror = false;
 			sulphurBubbleCooldown = 0;
-			forbiddenCooldown = 0;
-			tornadoCooldown = 0;
 			ladHearts = 0;
 			prismaticLasers = 0;
 
@@ -2029,6 +2052,7 @@ namespace CalamityMod.CalPlayer
             throwingCrit = 0;
             throwingAmmoCost75 = false;
             throwingAmmoCost66 = false;
+            throwingAmmoCost55 = false;
             throwingAmmoCost50 = false;
             #endregion
 
@@ -2061,6 +2085,7 @@ namespace CalamityMod.CalPlayer
             rRage = false;
             xRage = false;
             xWrath = false;
+            kamiBoost = false;
             graxDefense = false;
             encased = false;
             sMeleeBoost = false;
@@ -2184,6 +2209,11 @@ namespace CalamityMod.CalPlayer
             reaverDoubleTap = false;
             shadeRegen = false;
             dsSetBonus = false;
+            titanHeartSet = false;
+            titanHeartMask = false;
+            titanHeartMantle = false;
+            titanHeartBoots = false;
+			titanCooldown = 0;
             umbraphileSet = false;
             reaverBlast = false;
             reaverBurst = false;
@@ -2212,6 +2242,8 @@ namespace CalamityMod.CalPlayer
             desertProwler = false;
             snowRuffianSet = false;
             forbiddenCirclet = false;
+			forbiddenCooldown = 0;
+			tornadoCooldown = 0;
             eskimoSet = false; //vanilla armor
             meteorSet = false; //vanilla armor, for Space Gun nerf
             victideSet = false;
@@ -2249,6 +2281,7 @@ namespace CalamityMod.CalPlayer
             elysianGuard = false;
             #endregion
 
+            KameiBladeUseDelay = 0;
             lastProjectileHit = null;
 
             if (CalamityWorld.bossRushActive)
@@ -3263,6 +3296,10 @@ namespace CalamityMod.CalPlayer
                     profanedCrystalHide = false;
                     profanedCrystalForce = true;
                 }
+                else if (item.type == ModContent.ItemType<AbyssalDivingGear>())
+                {
+                    abyssDivingGear = true;
+                }
             }
         }
 
@@ -3579,6 +3616,7 @@ namespace CalamityMod.CalPlayer
                 ((frostFlare && player.statLife < (int)(player.statLifeMax2 * 0.25)) ? 0.15f : 0f) +
                 (auricSet ? 0.1f : 0f) +
                 (dragonScales ? 0.1f : 0f) +
+                (kamiBoost ? KamiBuff.RunAccelerationBoost : 0f) +
                 (cTracers ? 0.1f : 0f) +
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
@@ -3598,6 +3636,7 @@ namespace CalamityMod.CalPlayer
                 (cTracers ? 0.1f : 0f) +
                 (silvaSet ? 0.05f : 0f) +
                 (eTracers ? 0.05f : 0f) +
+                (kamiBoost ? KamiBuff.RunSpeedBoost : 0f) +
                 (etherealExtorter && player.ZoneBeach ? 0.05f : 0f) +
                 (stressPills ? 0.05f : 0f) +
                 (laudanum && horror ? 0.1f : 0f) +
@@ -3679,7 +3718,6 @@ namespace CalamityMod.CalPlayer
             }
             #endregion
         }
-
         #endregion
 
         #region Rogue Mirrors
@@ -3706,6 +3744,11 @@ namespace CalamityMod.CalPlayer
                     Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
                     Main.projectile[lumenyl].frame = Main.rand.Next(0, 4);
                 }
+
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
+                }
             }
         }
 
@@ -3726,6 +3769,11 @@ namespace CalamityMod.CalPlayer
 
                 Main.PlaySound(SoundID.Item68, Main.player[Main.myPlayer].position);
                 int eclipseBurst = Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<EclipseMirrorBurst>(), (int)(7000 * player.RogueDamage()), 0, player.whoAmI);
+
+                if (player.whoAmI == Main.myPlayer)
+                {
+                    NetMessage.SendData(MessageID.Dodge, -1, -1, null, player.whoAmI, 1f, 0f, 0f, 0, 0, 0);
+                }
             }
         }
         #endregion
@@ -4126,6 +4174,26 @@ namespace CalamityMod.CalPlayer
             if (moscowMule)
             {
                 knockback *= 1.09f;
+            }
+            if (titanHeartMask && item.Calamity().rogue)
+            {
+                knockback *= 1.05f;
+            }
+            if (titanHeartMantle && item.Calamity().rogue)
+            {
+                knockback *= 1.05f;
+            }
+            if (titanHeartBoots && item.Calamity().rogue)
+            {
+                knockback *= 1.05f;
+            }
+            if (titanHeartSet && item.Calamity().rogue)
+            {
+                knockback *= 1.2f;
+            }
+            if (titanHeartSet && StealthStrikeAvailable() && item.Calamity().rogue)
+            {
+                knockback *= 2f;
             }
             bool ZoneForest = !ZoneAbyss && !ZoneSulphur && !ZoneAstral && !ZoneCalamity && !ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly && !player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
             if (etherealExtorter)
@@ -6950,92 +7018,108 @@ namespace CalamityMod.CalPlayer
         }
         #endregion
 
-        #region Frame Effects
-        public override void FrameEffects()
-        {
-            if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot ||
-                player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
+		#region Frame Effects
+		public override void FrameEffects()
+		{
+			if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot ||
+				player.Calamity().andromedaState == AndromedaPlayerState.SpecialAttack)
+			{
+				player.head = mod.GetEquipSlot("NoHead", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
+			}
+			else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
+			{
+				player.legs = mod.GetEquipSlot("ProviLegs", EquipType.Legs);
+				player.body = mod.GetEquipSlot("ProviBody", EquipType.Body);
+				player.head = mod.GetEquipSlot("ProviHead", EquipType.Head);
+				player.wings = mod.GetEquipSlot("ProviWings", EquipType.Wings);
+				player.face = -1;
+
+				bool enrage = !profanedCrystalForce && profanedCrystalBuffs && player.statLife <= (int)(player.statLifeMax2 * 0.5);
+
+				if (profanedCrystalWingCounter.Value == 0)
+				{
+					int key = profanedCrystalWingCounter.Key;
+					profanedCrystalWingCounter = new KeyValuePair<int, int>(key == 3 ? 0 : key + 1, enrage ? 5 : 7);
+				}
+
+				player.wingFrame = profanedCrystalWingCounter.Key;
+				profanedCrystalWingCounter = new KeyValuePair<int, int>(profanedCrystalWingCounter.Key, profanedCrystalWingCounter.Value - 1);
+				player.armorEffectDrawOutlines = true;
+				if (profanedCrystalBuffs)
+				{
+					player.armorEffectDrawShadow = true;
+					if (enrage)
+					{
+						player.armorEffectDrawOutlinesForbidden = true;
+					}
+				}
+			}
+			else if ((snowmanPower || snowmanForce) && !snowmanHide)
+			{
+				player.legs = mod.GetEquipSlot("PopoLeg", EquipType.Legs);
+				player.body = mod.GetEquipSlot("PopoBody", EquipType.Body);
+				player.head = snowmanNoseless ? mod.GetEquipSlot("PopoNoselessHead", EquipType.Head) : mod.GetEquipSlot("PopoHead", EquipType.Head);
+				player.face = -1;
+			}
+			else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
+			{
+				player.legs = mod.GetEquipSlot("AbyssalDivingSuitLeg", EquipType.Legs);
+				player.body = mod.GetEquipSlot("AbyssalDivingSuitBody", EquipType.Body);
+				player.head = mod.GetEquipSlot("AbyssalDivingSuitHead", EquipType.Head);
+				player.face = -1;
+			}
+			else if ((sirenBoobsPower || sirenBoobsForce) && !sirenBoobsHide)
+			{
+				player.legs = mod.GetEquipSlot("SirenLeg", EquipType.Legs);
+				player.body = mod.GetEquipSlot("SirenBody", EquipType.Body);
+				player.head = mod.GetEquipSlot("SirenHead", EquipType.Head);
+				player.face = -1;
+			}
+			else if ((sirenBoobsAltPower || sirenBoobsAltForce) && !sirenBoobsAltHide)
+			{
+				player.legs = mod.GetEquipSlot("SirenLegAlt", EquipType.Legs);
+				player.body = mod.GetEquipSlot("SirenBodyAlt", EquipType.Body);
+				player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
+				player.face = -1;
+			}
+            else if (meldTransformationPower || meldTransformationForce)
             {
-                player.head = mod.GetEquipSlot("NoHead", EquipType.Head); // To make the head invisible on the map. The map was having a hissy fit because of hitbox changes.
+                player.legs = mod.GetEquipSlot("MeldTransformationLegs", EquipType.Legs);
+                player.body = mod.GetEquipSlot("MeldTransformationBody", EquipType.Body);
+                player.head = mod.GetEquipSlot("MeldTransformationHead", EquipType.Head);
             }
-            else if (snowRuffianSet)
-            {
-                player.wings = mod.GetEquipSlot("SnowRuffWings", EquipType.Wings);
-                bool falling = player.gravDir == -1 ? player.velocity.Y < 0.05f : player.velocity.Y > 0.05f;
-                if (player.controlJump && falling)
-                {
-                    player.velocity.Y *= 0.9f;
-                    player.wingFrame = 3;
+			else
+			{
+				if (profanedCrystalWingCounter.Key != 1)
+					profanedCrystalWingCounter = new KeyValuePair<int, int>(1, 7);
+				if (profanedCrystalAnimCounter.Key != 0)
+					profanedCrystalAnimCounter = new KeyValuePair<int, int>(0, 10);
+			}
+			if (snowRuffianSet)
+			{
+				player.wings = mod.GetEquipSlot("SnowRuffWings", EquipType.Wings);
+				bool falling = player.gravDir == -1 ? player.velocity.Y < 0.05f : player.velocity.Y > 0.05f;
+				if (player.controlJump && falling)
+				{
+					player.velocity.Y *= 0.9f;
+					player.wingFrame = 3;
 					player.noFallDmg = true;
 					player.fallStart = (int)(player.position.Y / 16f);
-                }
-            }
-            else if ((profanedCrystal || profanedCrystalForce) && !profanedCrystalHide)
-            {
-                player.legs = mod.GetEquipSlot("ProviLegs", EquipType.Legs);
-                player.body = mod.GetEquipSlot("ProviBody", EquipType.Body);
-                player.head = mod.GetEquipSlot("ProviHead", EquipType.Head);
-                player.wings = mod.GetEquipSlot("ProviWings", EquipType.Wings);
+				}
+			}
+			if (abyssDivingGear && (player.head == -1 || player.head == ArmorIDs.Head.FamiliarWig))
+			{
+				player.head = mod.GetEquipSlot("AbyssDivingGearHead", EquipType.Head);
+				player.face = -1;
+			}
 
-                bool enrage = !profanedCrystalForce && profanedCrystalBuffs && player.statLife <= (int)(player.statLifeMax2 * 0.5);
+			if (CalamityWorld.defiled)
+				Defiled();
 
-                if (profanedCrystalWingCounter.Value == 0)
-                {
-                    int key = profanedCrystalWingCounter.Key;
-                    profanedCrystalWingCounter = new KeyValuePair<int, int>(key == 3 ? 0 : key + 1, enrage ? 5 : 7);
-                }
-
-                player.wingFrame = profanedCrystalWingCounter.Key;
-                profanedCrystalWingCounter = new KeyValuePair<int, int>(profanedCrystalWingCounter.Key, profanedCrystalWingCounter.Value - 1);
-                player.armorEffectDrawOutlines = true;
-                if (profanedCrystalBuffs)
-                {
-                    player.armorEffectDrawShadow = true;
-                    if (enrage)
-                    {
-                        player.armorEffectDrawOutlinesForbidden = true;
-                    }
-                }
-            }
-            else if ((snowmanPower || snowmanForce) && !snowmanHide)
-            {
-                player.legs = mod.GetEquipSlot("PopoLeg", EquipType.Legs);
-                player.body = mod.GetEquipSlot("PopoBody", EquipType.Body);
-                player.head = snowmanNoseless ? mod.GetEquipSlot("PopoNoselessHead", EquipType.Head) : mod.GetEquipSlot("PopoHead", EquipType.Head);
-            }
-            else if ((abyssalDivingSuitPower || abyssalDivingSuitForce) && !abyssalDivingSuitHide)
-            {
-                player.legs = mod.GetEquipSlot("AbyssalDivingSuitLeg", EquipType.Legs);
-                player.body = mod.GetEquipSlot("AbyssalDivingSuitBody", EquipType.Body);
-                player.head = mod.GetEquipSlot("AbyssalDivingSuitHead", EquipType.Head);
-            }
-            else if ((sirenBoobsPower || sirenBoobsForce) && !sirenBoobsHide)
-            {
-                player.legs = mod.GetEquipSlot("SirenLeg", EquipType.Legs);
-                player.body = mod.GetEquipSlot("SirenBody", EquipType.Body);
-                player.head = mod.GetEquipSlot("SirenHead", EquipType.Head);
-            }
-            else if ((sirenBoobsAltPower || sirenBoobsAltForce) && !sirenBoobsAltHide)
-            {
-                player.legs = mod.GetEquipSlot("SirenLegAlt", EquipType.Legs);
-                player.body = mod.GetEquipSlot("SirenBodyAlt", EquipType.Body);
-                player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
-            }
-            else
-            {
-                if (profanedCrystalWingCounter.Key != 1)
-                    profanedCrystalWingCounter = new KeyValuePair<int, int>(1, 7);
-                if (profanedCrystalAnimCounter.Key != 0)
-                    profanedCrystalAnimCounter = new KeyValuePair<int, int>(0, 10);
-            }
-
-            if (CalamityWorld.defiled)
-                Defiled();
-
-            if (weakPetrification)
-                WeakPetrification();
-        }
-        #endregion
+			if (weakPetrification)
+				WeakPetrification();
+		}
+		#endregion
 
         #region Limitations
         private void WeakPetrification()
@@ -7123,6 +7207,18 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.FemaleHit, (int)player.position.X, (int)player.position.Y, 1, 1f, 0f); //female hit noise
                     hurtSoundTimer = 10;
                 }
+				else if (titanHeartSet)
+				{
+					playSound = false;
+					Terraria.Audio.LegacySoundStyle atlasHurt = Utils.SelectRandom(Main.rand, new Terraria.Audio.LegacySoundStyle[]
+					{
+						mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt0"),
+						mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt1"),
+						mod.GetLegacySoundSlot(SoundType.NPCHit, "Sounds/NPCHit/AtlasHurt2")
+					});
+					Main.PlaySound(atlasHurt, (int)player.position.X, (int)player.position.Y);
+					hurtSoundTimer = 10;
+				}
             }
 
 
@@ -8311,11 +8407,11 @@ namespace CalamityMod.CalPlayer
                 Rectangle rectangle = new Rectangle((int)((double)player.position.X + (double)player.velocity.X * 0.5 - 4.0), (int)((double)player.position.Y + (double)player.velocity.Y * 0.5 - 4.0), player.width + 8, player.height + 8);
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    if (Main.npc[i].active && !Main.npc[i].dontTakeDamage && !Main.npc[i].friendly && !Main.npc[i].townNPC && Main.npc[i].immune[player.whoAmI] <= 0 && Main.npc[i].damage > 0)
+					NPC npc = Main.npc[i];
+                    if (npc.active && !npc.dontTakeDamage && !npc.friendly && !npc.townNPC && npc.immune[player.whoAmI] <= 0 && npc.damage > 0)
                     {
-                        NPC nPC = Main.npc[i];
                         Rectangle rect = nPC.getRect();
-                        if (rectangle.Intersects(rect) && (nPC.noTileCollide || player.CanHit(nPC)))
+                        if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
                         {
                             OnDodge();
                             break;
@@ -8324,9 +8420,9 @@ namespace CalamityMod.CalPlayer
                 }
                 for (int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if (Main.projectile[i].active && !Main.projectile[i].friendly && Main.projectile[i].hostile && Main.projectile[i].damage > 0)
+					Projectile proj = Main.projectile[i];
+                    if (proj.active && !proj.friendly && proj.hostile && proj.damage > 0)
                     {
-                        Projectile proj = Main.projectile[i];
                         Rectangle rect = proj.getRect();
                         if (rectangle.Intersects(rect))
                         {
@@ -9319,9 +9415,39 @@ namespace CalamityMod.CalPlayer
         {
             if (drawInfo.shadow != 0f)
                 return;
-
             Player drawPlayer = drawInfo.drawPlayer;
             Item item = drawPlayer.ActiveItem();
+
+            // Kamei trail/afterimage effect.
+            if (drawPlayer.Calamity().kamiBoost)
+            {
+                for (int i = drawPlayer.Calamity().KameiOldPositions.Length - 1; i > 0; i--)
+                {
+                    if (drawPlayer.Calamity().KameiOldPositions[i - 1] == Vector2.Zero)
+                        drawPlayer.Calamity().KameiOldPositions[i - 1] = drawPlayer.position;
+                    drawPlayer.Calamity().KameiOldPositions[i] = drawPlayer.Calamity().KameiOldPositions[i - 1];
+                }
+                drawPlayer.Calamity().KameiOldPositions[0] = drawPlayer.position;
+
+                List<DrawData> existingDrawData = Main.playerDrawData;
+                for (int i = 0; i < drawPlayer.Calamity().KameiOldPositions.Length; i++)
+                {
+                    float scale = MathHelper.Lerp(1f, 0.5f, i / (float)drawPlayer.Calamity().KameiOldPositions.Length);
+                    float opacity = MathHelper.Lerp(0.25f, 0.08f, i / (float)drawPlayer.Calamity().KameiOldPositions.Length);
+                    List<DrawData> afterimage = new List<DrawData>();
+                    for (int j = 0; j < existingDrawData.Count; j++)
+                    {
+                        var drawData = existingDrawData[j];
+                        drawData.position = existingDrawData[j].position - drawPlayer.position + drawPlayer.oldPosition;
+                        drawData.color = Color.Cyan * opacity;
+                        drawData.color.G = (byte)(drawData.color.G * 1.6);
+                        drawData.color.B = (byte)(drawData.color.B * 1.2);
+                        drawData.scale = new Vector2(scale);
+                        afterimage.Add(drawData);
+                    }
+                    Main.playerDrawData.InsertRange(0, afterimage);
+                }
+            }
 
             if (!drawPlayer.frozen &&
                 item.type > ItemID.None &&
@@ -9482,6 +9608,7 @@ namespace CalamityMod.CalPlayer
                 }
             }
         });
+
         public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
         {
             if (drawInfo.shadow != 0f)
@@ -9881,8 +10008,8 @@ namespace CalamityMod.CalPlayer
 
         public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
         {
-			// Dust modifications while high
-			if (trippy)
+            // Dust modifications while high
+            if (trippy)
 			{
 				if (Main.myPlayer == player.whoAmI)
 				{

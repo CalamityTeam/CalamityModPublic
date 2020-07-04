@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -60,5 +61,7 @@ namespace CalamityMod.Projectiles.Summon
 		{
 			return new Color(189, 51, 164, projectile.alpha);
 		}
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.timeLeft < 600;
 	}
 }

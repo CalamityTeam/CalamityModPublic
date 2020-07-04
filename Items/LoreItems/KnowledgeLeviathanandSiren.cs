@@ -16,7 +16,8 @@ namespace CalamityMod.Items.LoreItems
                 "Perhaps two genetic misfits outcast from their homes that found comfort in assisting one another.\n" +
                 "Place in your inventory to gain increased max health while wearing the siren heart and treasure detect while wearing the strange orb.\n" +
                 "Allows the young siren pet to move normally while outside of liquids.\n" +
-				"However, if you're not submerged in liquid you will have decreased defense and damage reduction.");
+				"However, if you're not submerged in liquid you will have decreased defense and damage reduction.\n" +
+				"These effects only occur if the item is favorited.");
         }
 
         public override void SetDefaults()
@@ -35,7 +36,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.leviathanAndSirenLore = true;
+			if (item.favorited)
+				modPlayer.leviathanAndSirenLore = true;
         }
 
         public override void AddRecipes()
