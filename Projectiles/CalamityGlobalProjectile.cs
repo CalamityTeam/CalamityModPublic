@@ -1306,7 +1306,7 @@ namespace CalamityMod.Projectiles
                     player.ownedProjectileCounts[ProjectileType<PlagueSeeker>()] < 6)
                 {
                     int plague = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileType<PlagueSeeker>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30), 0f, projectile.owner, 0f, 0f);
-                    Main.projectile[plague].Calamity().forceTypeless = false;
+                    Main.projectile[plague].Calamity().forceTypeless = true;
                 }
 
                 if (modPlayer.reaverBlast && projectile.melee)
