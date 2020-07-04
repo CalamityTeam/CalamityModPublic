@@ -19916,7 +19916,7 @@ namespace CalamityMod.NPCs
                             bool foundGoodTeleport = true;
                             // I don't understand why the hell this exists if it's only for Chaos Elementals, but I suppose I'll
                             // Leave it here
-                            if (npcType == NPCID.DarkCaster && Main.tile[randX, num181 - 1].wall == 0)
+                            if (npcType == NPCID.DarkCaster && Main.tile[randX, num181 - 1].wall == WallID.None)
                             {
                                 foundGoodTeleport = false;
                             }
