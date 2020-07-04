@@ -986,6 +986,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.prismaticLasers--;
 			if (modPlayer.dogTextCooldown > 0)
 				modPlayer.dogTextCooldown--;
+			if (modPlayer.titanCooldown > 0)
+				modPlayer.titanCooldown--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)

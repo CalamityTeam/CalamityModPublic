@@ -1546,6 +1546,9 @@ namespace CalamityMod.NPCs.Yharon
 					case 3:
 						npc.dontTakeDamage = phase4;
 						break;
+					case 4:
+						npc.dontTakeDamage = false;
+						break;
 				}
 
 				if (!npc.dontTakeDamage)

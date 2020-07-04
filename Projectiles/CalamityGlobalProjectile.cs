@@ -1495,6 +1495,22 @@ namespace CalamityMod.Projectiles
 						}
 					}
 
+					if (modPlayer.titanHeartSet && stealthStrike && modPlayer.titanCooldown <= 0)
+					{
+						int dmg = (int)(85 + (projectile.damage * 0.05f));
+						int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), dmg, projectile.knockBack, projectile.owner, 0f, 0f);
+						Main.projectile[boom].Calamity().forceRogue = true;
+						Main.PlaySound(SoundID.Item14, projectile.position);
+						for (int dustexplode = 0; dustexplode < 360; dustexplode++)
+						{
+							Vector2 dustd = new Vector2(17f, 17f).RotatedBy(MathHelper.ToRadians(dustexplode));
+							int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, Main.rand.NextBool(2) ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 3f);
+							Main.dust[d].noGravity = true;
+							Main.dust[d].position = projectile.Center;
+						}
+						modPlayer.titanCooldown = 15;
+					}
+
 					if (modPlayer.corrosiveSpine && projectile.type != ProjectileType<Corrocloud1>() && projectile.type != ProjectileType<Corrocloud2>() && projectile.type != ProjectileType<Corrocloud3>())
 					{
 						for (int i = 0; i < 3; i++)

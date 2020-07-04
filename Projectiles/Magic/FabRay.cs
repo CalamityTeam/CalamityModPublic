@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
         {
             Lighting.AddLight(projectile.Center, 0.2f, 0.01f, 0.1f);
             projectile.ai[0] += 1f;
-            if (projectile.ai[0] % 9f == 0f && projectile.owner == Main.myPlayer)
+            if (projectile.ai[0] >= 6f && projectile.owner == Main.myPlayer)
             {
                 Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ModContent.ProjectileType<FabOrb>(), projectile.damage, projectile.knockBack, projectile.owner, Main.rand.Next(2), 0f);
             }
@@ -41,17 +41,6 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[pink].position = source;
 				Main.dust[pink].scale = (float)Main.rand.Next(70, 110) * 0.013f;
 				Main.dust[pink].velocity *= 0.1f;
-                /*for (int i = 0; i < 2; i++)
-                {
-                    Vector2 source = projectile.position;
-                    source -= projectile.velocity * ((float)i * 0.25f);
-                    int pink = Dust.NewDust(source, 1, 1, 234, 0f, 0f, 0, default, 1.25f);
-                    Main.dust[pink].noGravity = true;
-                    Main.dust[pink].noLight = true;
-                    Main.dust[pink].position = source;
-                    Main.dust[pink].scale = (float)Main.rand.Next(70, 110) * 0.013f;
-					Main.dust[pink].velocity *= 0.1f;
-				}*/
             }
         }
 

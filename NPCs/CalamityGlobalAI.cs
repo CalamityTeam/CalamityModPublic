@@ -7214,37 +7214,32 @@ namespace CalamityMod.NPCs
 
                             if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 64f)
                             {
-                                if (Main.netMode != NetmodeID.MultiplayerClient)
-                                {
-                                    if (NPC.CountNPCS(NPCID.Probe) < 3)
-                                        NPC.NewNPC((int)npc.Center.X, (int)(npc.Center.Y + 4f), NPCID.Probe);
-                                    else
-                                    {
-                                        Vector2 vector16 = npc.Center;
-                                        float num159 = CalamityWorld.bossRushActive ? 6f : 4f;
-                                        float num160 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector16.X + Main.rand.Next(-20, 21);
-                                        float num161 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector16.Y + Main.rand.Next(-20, 21);
-                                        float num162 = (float)Math.Sqrt(num160 * num160 + num161 * num161);
-                                        num162 = num159 / num162;
-                                        num160 *= num162;
-                                        num161 *= num162;
+								if (Main.netMode != NetmodeID.MultiplayerClient)
+								{
+									Vector2 vector16 = npc.Center;
+									float num159 = CalamityWorld.bossRushActive ? 6f : 4f;
+									float num160 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector16.X + Main.rand.Next(-20, 21);
+									float num161 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector16.Y + Main.rand.Next(-20, 21);
+									float num162 = (float)Math.Sqrt(num160 * num160 + num161 * num161);
+									num162 = num159 / num162;
+									num160 *= num162;
+									num161 *= num162;
 
-                                        Vector2 value = new Vector2(num160 * 1f + Main.rand.Next(-50, 51) * 0.01f, num161 * 1f + Main.rand.Next(-50, 51) * 0.01f);
-                                        value.Normalize();
-                                        value *= num159;
-                                        num160 = value.X;
-                                        num161 = value.Y;
+									Vector2 value = new Vector2(num160 * 1f + Main.rand.Next(-50, 51) * 0.01f, num161 * 1f + Main.rand.Next(-50, 51) * 0.01f);
+									value.Normalize();
+									value *= num159;
+									num160 = value.X;
+									num161 = value.Y;
 
-                                        int num163 = 28;
-										if (death)
-											num163 += 3;
-										int num164 = ProjectileID.Skull;
-                                        vector16 += value * 5f;
-                                        int num165 = Projectile.NewProjectile(vector16.X, vector16.Y, num160, num161, num164, num163, 0f, Main.myPlayer, -1f, 0f);
-                                        Main.projectile[num165].timeLeft = 180;
-                                        Main.projectile[num165].tileCollide = false;
-                                    }
-                                }
+									int num163 = 28;
+									if (death)
+										num163 += 3;
+									int num164 = ProjectileID.Skull;
+									vector16 += value * 5f;
+									int num165 = Projectile.NewProjectile(vector16.X, vector16.Y, num160, num161, num164, num163, 0f, Main.myPlayer, -1f, 0f);
+									Main.projectile[num165].timeLeft = 180;
+									Main.projectile[num165].tileCollide = false;
+								}
                             }
 
                             // Go to floating phase, or spinning phase if in phase 2
