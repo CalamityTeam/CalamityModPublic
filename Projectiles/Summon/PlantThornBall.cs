@@ -17,7 +17,6 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.width = 30;
             projectile.height = 30;
-			projectile.scale = 0.75f;
             projectile.friendly = true;
             projectile.penetrate = 3;
             projectile.timeLeft = 300;
