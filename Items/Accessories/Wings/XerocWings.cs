@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Xeroc Wings");
+            DisplayName.SetDefault("Exodus Wings");
             Tooltip.SetDefault("Highly radioactive\n" +
                 "Horizontal speed: 8.5\n" +
                 "Acceleration multiplier: 2\n" +
