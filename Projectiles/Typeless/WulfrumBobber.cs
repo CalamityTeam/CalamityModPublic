@@ -24,8 +24,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
-            Player player = Main.player[projectile.owner];
-            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<WulfrumRod>(), new Color(200, 200, 200, 100));
+            CalamityUtils.DrawFishingLine(projectile, ModContent.ItemType<WulfrumRod>(), new Color(200, 200, 200, 100), 38, 28f);
             return false;
 		}
     }

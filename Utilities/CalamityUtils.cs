@@ -958,6 +958,8 @@ namespace CalamityMod
 			{
 				newDamage = (int)((dmgInput - cap) * 0.1) + cap;
 			}
+			if (newDamage < 1)
+				newDamage = 1;
 			return newDamage;
 		}
 
@@ -2909,12 +2911,13 @@ namespace CalamityMod
         public static void DrawFishingLine(this Projectile projectile, int fishingRodType, Color poleColor, int xPositionAdditive = 45, float yPositionAdditive = 35f)
         {
             Player player = Main.player[projectile.owner];
-            if (projectile.bobber && player.ActiveItem().holdStyle > 0)
+			Item item = Main.mouseItem.IsAir ? player.HeldItem : Main.mouseItem;
+            if (projectile.bobber && item.holdStyle > 0)
             {
                 float pPosX = player.MountedCenter.X;
                 float pPosY = player.MountedCenter.Y;
                 pPosY += player.gfxOffY;
-                int type = player.ActiveItem().type;
+                int type = item.type;
                 float gravDir = player.gravDir;
 
                 if (type == fishingRodType)
@@ -3391,6 +3394,20 @@ namespace CalamityMod
 			}
 			return (t - from) / (to - from);
 		}
+
+        /// <summary>
+        /// Clamps the distance between vectors via normalization.
+        /// </summary>
+        /// <param name="start">The starting point.</param>
+        /// <param name="end">The ending point.</param>
+        /// <param name="maxDistance">The maximum possible distance between the two vectors before they get clamped.</param>
+        public static void DistanceClamp(ref Vector2 start, ref Vector2 end, float maxDistance)
+        {
+            if (Vector2.Distance(end, start) > maxDistance)
+            {
+                end = start + Vector2.Normalize(end - start) * maxDistance;
+            }
+        }
 
 		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 World.cs function
 		public static Rectangle ClampToWorld(Rectangle tileRectangle)

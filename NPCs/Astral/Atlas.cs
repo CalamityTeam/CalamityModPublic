@@ -610,7 +610,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }
@@ -635,8 +635,10 @@ namespace CalamityMod.NPCs.Astral
             int minStardust = Main.expertMode ? 7 : 6;
             int maxStardust = Main.expertMode ? 9 : 8;
             DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), minStardust, maxStardust);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<TitanArm>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
+            DropHelper.DropItem(npc, ModContent.ItemType<TitanHeart>());
+
 			//not guarantee to prevent inventory spam
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<TitanArm>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
         }
     }
 }

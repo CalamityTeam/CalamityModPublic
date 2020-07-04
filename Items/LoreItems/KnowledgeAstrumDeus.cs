@@ -14,7 +14,8 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Astrum Deus");
             Tooltip.SetDefault("God of the stars and largest vessel for the Astral Infection.\n" +
                 "Though struck down from its place among the stars its remnants have gathered strength, aiming to take its rightful place in the cosmos once more.\n" +
-                "Place in your inventory to gain increased movement speed in space.");
+                "Place in your inventory to gain increased movement speed in space.\n" +
+				"This effect only occurs if the item is favorited.");
         }
 
         public override void SetDefaults()
@@ -33,7 +34,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.astrumDeusLore = true;
+			if (item.favorited)
+				modPlayer.astrumDeusLore = true;
         }
 
         public override void AddRecipes()

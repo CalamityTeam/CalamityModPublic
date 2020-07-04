@@ -561,10 +561,10 @@ namespace CalamityMod.NPCs.Ravager
 
 					float amount = death ? 1f : 1f - lifeRatio;
 					Vector2 targetVector = player.position;
+					float aimY = targetVector.Y - 320f;
 
 					if (npc.ai[0] == 2f && npc.ai[1] == 0f)
 					{
-						float aimY = targetVector.Y - 320f;
 						if (npc.Top.Y > aimY)
 						{
 							if (npc.velocity.Y > 0f)
@@ -577,14 +577,14 @@ namespace CalamityMod.NPCs.Ravager
 						}
 					}
 
-					float maxOffset = death ? 160f : 160f * (1f - lifeRatio);
+					float maxOffset = 160f + (death ? 160f : 160f * (1f - lifeRatio));
 					float offset = npc.ai[0] == 2f ? maxOffset * npc.Calamity().newAI[2] : 0f;
 
 					// Set offset to 0 if the target stops moving
 					if (Math.Abs(player.velocity.X) < 0.5f)
 						npc.Calamity().newAI[2] = 0f;
 
-					if ((npc.position.X < targetVector.X + offset && npc.position.X + npc.width > targetVector.X + player.width + offset) || npc.ai[1] > 0f)
+					if ((npc.position.X < targetVector.X + offset && npc.position.X + npc.width > targetVector.X + player.width + offset && (npc.Top.Y <= aimY || npc.ai[0] != 2f)) || npc.ai[1] > 0f)
                     {
 						if (npc.ai[0] == 2f)
 						{

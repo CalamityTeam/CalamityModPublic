@@ -212,6 +212,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					{
 						npc.Calamity().newAI[2] = npc.life;
 						npc.Calamity().newAI[3] = 1f;
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodPossession"), (int)npc.position.X, (int)npc.position.Y);
 					}
 				}
 
@@ -249,6 +250,25 @@ namespace CalamityMod.NPCs.SlimeGod
 					{
 						npc.ai[2] = 0f;
 						npc.Calamity().newAI[3] = 0f;
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodExit"), (int)npc.position.X, (int)npc.position.Y);
+						for (int i = 0; i < 20; i++)
+						{
+							int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
+							Main.dust[dust].velocity *= 3f;
+							if (Main.rand.NextBool(2))
+							{
+								Main.dust[dust].scale = 0.5f;
+								Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+							}
+						}
+						for (int j = 0; j < 30; j++)
+						{
+							int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 3f);
+							Main.dust[dust].noGravity = true;
+							Main.dust[dust].velocity *= 5f;
+							dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
+							Main.dust[dust].velocity *= 2f;
+						}
 					}
 
 					return;
@@ -687,12 +707,12 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 40;
                 npc.height = 40;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
@@ -700,7 +720,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 70; num623++)

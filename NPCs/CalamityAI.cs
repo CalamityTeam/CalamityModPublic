@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
 using CalamityMod.Events;
@@ -125,7 +126,7 @@ namespace CalamityMod.NPCs
 					}
 				}
 				else
-					npc.localAI[1] = (npc.Center.X - player.Center.X < 0 ? 1f : -1f);
+					npc.localAI[1] = npc.Center.X - player.Center.X < 0 ? 1f : -1f;
 			}
 
 			if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -135,7 +136,7 @@ namespace CalamityMod.NPCs
 					// Spawn segments
 					if (calamityGlobalNPC.newAI[2] == 0f && npc.ai[0] == 0f)
 					{
-						int maxLength = death ? 41 : 31;
+						int maxLength = death ? 50 : revenge ? 40 : expertMode ? 35 : 30;
 						int Previous = npc.whoAmI;
 						for (int num36 = 0; num36 < maxLength; num36++)
 						{
@@ -143,9 +144,9 @@ namespace CalamityMod.NPCs
 							if (num36 >= 0 && num36 < maxLength - 1)
 							{
 								if (num36 % 2 == 0)
-									lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBody>(), npc.whoAmI);
-								else
 									lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBodyAlt>(), npc.whoAmI);
+								else
+									lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeBody>(), npc.whoAmI);
 							}
 							else
 								lol = NPC.NewNPC((int)npc.position.X + (npc.width / 2), (int)npc.position.Y + (npc.height / 2), ModContent.NPCType<AquaticScourgeTail>(), npc.whoAmI);
@@ -211,13 +212,13 @@ namespace CalamityMod.NPCs
 									{
 										Vector2 vector15 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
 										vector15.Normalize();
-										vector15 *= Main.rand.Next(50, 401);
+										vector15 *= Main.rand.Next(50, 401) * 0.01f;
 
 										if (expertMode)
-											vector15 *= death ? 0.05f : 0.05f * (1f - lifeRatio);
+											vector15 *= 1f + (death ? 0.25f : 0.25f * (1f - lifeRatio));
 
 										if (CalamityWorld.bossRushActive)
-											vector15 *= 1.1f;
+											vector15 *= 1.25f;
 
 										Projectile.NewProjectile(npc.Center, vector15, ModContent.ProjectileType<SandPoisonCloud>(), damageBoom, 0f, Main.myPlayer, 0f, Main.rand.Next(-45, 1));
 									}
@@ -2806,6 +2807,16 @@ namespace CalamityMod.NPCs
 
 			Player player = Main.player[npc.target];
 
+			// Inflict Extreme Gravity to nearby players
+			if (revenge)
+			{
+				if (Main.netMode != NetmodeID.Server)
+				{
+					if (!Main.player[Main.myPlayer].dead && Main.player[Main.myPlayer].active && Vector2.Distance(Main.player[Main.myPlayer].Center, npc.Center) < 5600f)
+						Main.player[Main.myPlayer].AddBuff(ModContent.BuffType<ExtremeGrav>(), 2);
+				}
+			}
+
 			// Life
 			float lifeRatio = npc.life / (float)npc.lifeMax;
 
@@ -2872,7 +2883,11 @@ namespace CalamityMod.NPCs
 								{
 									var netMessage = mod.GetPacket();
 									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+									netMessage.Write((byte)npc2);
 									netMessage.Write(Main.npc[npc2].Calamity().newAI[0]);
+									netMessage.Write(Main.npc[npc2].Calamity().newAI[1]);
+									netMessage.Write(Main.npc[npc2].Calamity().newAI[2]);
+									netMessage.Write(Main.npc[npc2].Calamity().newAI[3]);
 									netMessage.Send();
 								}
 
@@ -2886,7 +2901,10 @@ namespace CalamityMod.NPCs
 								{
 									var netMessage = mod.GetPacket();
 									netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+									netMessage.Write((byte)npc3);
 									netMessage.Write(Main.npc[npc3].Calamity().newAI[0]);
+									netMessage.Write(Main.npc[npc3].Calamity().newAI[1]);
+									netMessage.Write(Main.npc[npc3].Calamity().newAI[2]);
 									netMessage.Write(Main.npc[npc3].Calamity().newAI[3]);
 									netMessage.Send();
 								}
@@ -2993,6 +3011,17 @@ namespace CalamityMod.NPCs
 							Main.npc[lol].realLife = npc.whoAmI;
 							Main.npc[lol].Calamity().newAI[0] = calamityGlobalNPC.newAI[0];
 							Main.npc[lol].Calamity().newAI[3] = calamityGlobalNPC.newAI[3];
+							if (Main.netMode == NetmodeID.Server)
+							{
+								var netMessage = mod.GetPacket();
+								netMessage.Write((byte)CalamityModMessageType.SyncCalamityNPCAIArray);
+								netMessage.Write((byte)lol);
+								netMessage.Write(Main.npc[lol].Calamity().newAI[0]);
+								netMessage.Write(Main.npc[lol].Calamity().newAI[1]);
+								netMessage.Write(Main.npc[lol].Calamity().newAI[2]);
+								netMessage.Write(Main.npc[lol].Calamity().newAI[3]);
+								netMessage.Send();
+							}
 							Main.npc[lol].ai[2] = npc.whoAmI;
 							Main.npc[lol].ai[1] = Previous;
 							Main.npc[Previous].ai[0] = lol;
@@ -3498,7 +3527,7 @@ namespace CalamityMod.NPCs
 				tileEnrageMult += (800 - nearbyActiveTiles) * 0.001f; // Ranges from 1f to 1.8f
 
 			// Increase projectile fire rate based on number of nearby active tiles
-			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 2f, 1f - ((tileEnrageMult - 1f) / 0.8f));
+			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 4f, 1f - ((tileEnrageMult - 1f) / 0.8f));
 
 			// Increase damage of projectiles and contact damage based on number of nearby active tiles
 			int damageIncrease = 0;
@@ -3516,7 +3545,7 @@ namespace CalamityMod.NPCs
 					num474 *= 1.25f;
 
 				npc.ai[0] += 1f;
-				if (npc.ai[0] >= 60f * projectileFireRateMultiplier)
+				if (npc.ai[0] >= 45f * projectileFireRateMultiplier)
 				{
 					npc.ai[0] = 0f;
 
@@ -3568,7 +3597,7 @@ namespace CalamityMod.NPCs
 				if (calamityGlobalNPC.enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
 					calamityGlobalNPC.newAI[1] += 2f;
 
-				if (calamityGlobalNPC.newAI[1] >= 900f * projectileFireRateMultiplier)
+				if (calamityGlobalNPC.newAI[1] >= 600f * projectileFireRateMultiplier)
 				{
 					calamityGlobalNPC.newAI[1] = 0f;
 					int damage = (expertMode ? CalamityUtils.GetMasterModeProjectileDamage(50, 1.5) : 60) + damageIncrease;
@@ -3585,7 +3614,7 @@ namespace CalamityMod.NPCs
 						int num946 = ModContent.ProjectileType<DoGBeamPortal>();
 						vector104.X += num942 * 5f;
 						vector104.Y += num943 * 5f;
-						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, damage, 0f, Main.myPlayer, 0f, 0f);
+						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, damage, 0f, Main.myPlayer, tileEnrageMult, 0f);
 						Main.projectile[num947].timeLeft = 300;
 						npc.netUpdate = true;
 					}

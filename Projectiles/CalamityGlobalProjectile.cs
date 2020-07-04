@@ -52,9 +52,10 @@ namespace CalamityMod.Projectiles
         public float spawnedPlayerMinionDamageValue = 1f;
         public int spawnedPlayerMinionProjectileDamageValue = 0;
         public int defDamage = 0;
+		public int defCrit = 0;
 
-        // Rogue Stuff
-        public bool stealthStrike = false; //Update all existing rogue weapons with this
+		// Rogue Stuff
+		public bool stealthStrike = false; //Update all existing rogue weapons with this
         public bool momentumCapacitatorBoost = false; //Constant acceleration
 
         // Iron Heart
@@ -84,6 +85,18 @@ namespace CalamityMod.Projectiles
 
             switch (projectile.type)
             {
+				case ProjectileID.ShadowBeamHostile:
+					projectile.timeLeft = 60;
+					break;
+
+				case ProjectileID.LostSoulHostile:
+					projectile.tileCollide = true;
+					break;
+
+				case ProjectileID.NebulaLaser:
+					projectile.extraUpdates = 1;
+					break;
+
                 case ProjectileID.StarWrath:
                     projectile.penetrate = projectile.maxPenetrate = 1;
                     break;
@@ -996,7 +1009,25 @@ namespace CalamityMod.Projectiles
         #region PostAI
         public override void PostAI(Projectile projectile)
         {
-            int x = (int)(projectile.Center.X / 16f);
+			Player player = Main.player[projectile.owner];
+			CalamityPlayer modPlayer = player.Calamity();
+
+			// Set crit here to avoid issues with projectiles that change class types in PreAI and AI
+			if (defCrit == 0 && !projectile.npcProj && !projectile.trap)
+			{
+				if (projectile.melee)
+					defCrit = modPlayer.critStats[0];
+				else if (projectile.ranged)
+					defCrit = modPlayer.critStats[1];
+				else if (projectile.magic)
+					defCrit = modPlayer.critStats[2];
+				else if (rogue)
+					defCrit = modPlayer.critStats[3];
+				else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
+					defCrit = 4;
+			}
+
+			int x = (int)(projectile.Center.X / 16f);
             int y = (int)(projectile.Center.Y / 16f);
             for (int i = x - 1; i <= x + 1; i++)
             {
@@ -1030,40 +1061,39 @@ namespace CalamityMod.Projectiles
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-			if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap && rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
-				crit = true;
-
 			// Super dummies have nearly 10 million max HP (which is used in damage calculations).
 			// This can very easily cause damage numbers that are unrealistic for the weapon.
 			// As a result, they are omitted in this code.
 			if (!target.boss && target.type != NPCType<SuperDummyNPC>())
 			{
-				if (target.HitSound != SoundID.NPCHit1 && target.HitSound != SoundID.NPCHit6 && target.HitSound != SoundID.NPCHit7 &&
-					target.HitSound != SoundID.NPCHit8 && target.HitSound != SoundID.NPCHit9 && target.HitSound != SoundID.NPCHit12 &&
-					target.HitSound != SoundID.NPCHit13 && target.HitSound != SoundID.NPCHit14 && target.HitSound != SoundID.NPCHit18 &&
-					target.HitSound != SoundID.NPCHit19 && target.HitSound != SoundID.NPCHit20 && target.HitSound != SoundID.NPCHit21 &&
-					target.HitSound != SoundID.NPCHit22 && target.HitSound != SoundID.NPCHit23 && target.HitSound != SoundID.NPCHit24 &&
-					target.HitSound != SoundID.NPCHit25 && target.HitSound != SoundID.NPCHit26 && target.HitSound != SoundID.NPCHit27 &&
-					target.HitSound != SoundID.NPCHit28 && target.HitSound != SoundID.NPCHit29 && target.HitSound != SoundID.NPCHit31 &&
-					target.HitSound != SoundID.NPCHit32 && target.HitSound != SoundID.NPCHit33 && target.HitSound != SoundID.NPCHit35 &&
-					target.HitSound != SoundID.NPCHit37 && target.HitSound != SoundID.NPCHit38 && target.HitSound != SoundID.NPCHit40 &&
-					target.HitSound != SoundID.NPCHit43 && target.HitSound != SoundID.NPCHit44 && target.HitSound != SoundID.NPCHit45 &&
-					target.HitSound != SoundID.NPCHit46 && target.HitSound != SoundID.NPCHit47 && target.HitSound != SoundID.NPCHit48 &&
-					target.HitSound != SoundID.NPCHit50 && target.HitSound != SoundID.NPCHit51 && target.HitSound != SoundID.NPCHit55 &&
-					target.HitSound != SoundID.NPCHit56 && target.HitSound != SoundID.NPCHit57 && hasInorganicEnemyHitBoost)
+				if (target.Inorganic() && hasInorganicEnemyHitBoost)
 				{
 					damage += (int)(target.lifeMax * inorganicEnemyHitBoost);
 					inorganicEnemyHitEffect?.Invoke(target);
 				}
-				if (target.HitSound != SoundID.NPCHit4 && target.HitSound != SoundID.NPCHit41 && target.HitSound != SoundID.NPCHit2 &&
-					target.HitSound != SoundID.NPCHit5 && target.HitSound != SoundID.NPCHit11 && target.HitSound != SoundID.NPCHit30 &&
-					target.HitSound != SoundID.NPCHit34 && target.HitSound != SoundID.NPCHit36 && target.HitSound != SoundID.NPCHit42 &&
-					target.HitSound != SoundID.NPCHit49 && target.HitSound != SoundID.NPCHit52 && target.HitSound != SoundID.NPCHit53 &&
-					target.HitSound != SoundID.NPCHit54 && target.HitSound != null && hasOrganicEnemyHitBoost)
+				if (target.Organic() && hasOrganicEnemyHitBoost)
 				{
 					damage += (int)(target.lifeMax * organicEnemyHitBoost);
 					organicEnemyHitEffect?.Invoke(target);
 				}
+			}
+
+			if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap)
+			{
+				int critMax = 100;
+				int critChance = (int)MathHelper.Clamp(defCrit, 1, critMax);
+				crit = Main.rand.Next(1, critMax + 1) <= critChance;
+
+				if ((uint)(projectile.type - ProjectileID.DD2LightningAuraT1) <= 2u)
+				{
+					if (player.setMonkT3)
+						crit = Main.rand.NextBool(4);
+					else if (player.setMonkT2)
+						crit = Main.rand.NextBool(6);
+				}
+
+				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
+					crit = true;
 			}
 		}
 		#endregion
@@ -1150,8 +1180,6 @@ namespace CalamityMod.Projectiles
 
 				if (Main.player[Main.myPlayer].lifeSteal > 0f && target.canGhostHeal && target.type != NPCID.TargetDummy && target.type != NPCType<SuperDummyNPC>() && !player.moonLeech)
 				{
-					// Commented out for now to test the global life steal nerf
-					/*
 					// Increases the degree to which Spectre Healing set contributes to the lifesteal cap
 					if (player.ghostHeal)
 					{
@@ -1167,13 +1195,12 @@ namespace CalamityMod.Projectiles
 					// Increases the degree to which Vampire Knives contribute to the lifesteal cap
 					if (projectile.type == ProjectileID.VampireKnife)
 					{
-						float num = damage * 0.0375f;
+						float num = damage * 0.075f;
 						if (num < 0f)
 							num = 0f;
 
 						Main.player[Main.myPlayer].lifeSteal -= num;
 					}
-					*/
 
 					if (modPlayer.vampiricTalisman && rogue && crit)
 					{
@@ -1194,10 +1221,13 @@ namespace CalamityMod.Projectiles
 						healMult -= projectile.numHits * 0.025f;
 						float heal = projectile.damage * healMult;
 
+						if (heal > 50)
+							heal = 50;
+
 						if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 							goto OTHEREFFECTS;
 
-						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AuricOrb>(), 1200f, 1.5f);
+						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AuricOrb>(), 1200f, 3f);
 					}
 					else if (modPlayer.silvaSet)
 					{
@@ -1205,10 +1235,13 @@ namespace CalamityMod.Projectiles
 						healMult -= projectile.numHits * 0.015f;
 						float heal = projectile.damage * healMult;
 
+						if (heal > 50)
+							heal = 50;
+
 						if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 							goto OTHEREFFECTS;
 
-						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<SilvaOrb>(), 1200f, 1.5f);
+						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<SilvaOrb>(), 1200f, 3f);
 					}
 					else if (projectile.magic)
 					{
@@ -1218,10 +1251,13 @@ namespace CalamityMod.Projectiles
 							healMult -= projectile.numHits * 0.015f;
 							float heal = projectile.damage * healMult;
 
+							if (heal > 50)
+								heal = 50;
+
 							if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 								goto OTHEREFFECTS;
 
-							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<GodSlayerHealOrb>(), 1200f, 1.5f);
+							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<GodSlayerHealOrb>(), 1200f, 2f);
 						}
 						else if (modPlayer.tarraMage)
 						{
@@ -1232,6 +1268,9 @@ namespace CalamityMod.Projectiles
 								float healMult = 0.1f;
 								healMult -= projectile.numHits * 0.05f;
 								float heal = projectile.damage * healMult;
+
+								if (heal > 50)
+									heal = 50;
 
 								if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 									goto OTHEREFFECTS;
@@ -1251,10 +1290,13 @@ namespace CalamityMod.Projectiles
 							healMult -= projectile.numHits * 0.05f;
 							float heal = projectile.damage * healMult;
 
+							if (heal > 50)
+								heal = 50;
+
 							if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 								goto OTHEREFFECTS;
 
-							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 1.5f);
+							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 2f);
 						}
 						else if (modPlayer.manaOverloader)
 						{
@@ -1262,10 +1304,13 @@ namespace CalamityMod.Projectiles
 							healMult -= projectile.numHits * 0.05f;
 							float heal = projectile.damage * healMult * (player.statMana / (float)player.statManaMax2);
 
+							if (heal > 50)
+								heal = 50;
+
 							if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
 								goto OTHEREFFECTS;
 
-							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 1.5f);
+							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 2f);
 						}
 					}
 				}
@@ -1464,6 +1509,22 @@ namespace CalamityMod.Projectiles
 							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, xVector, yVector, ProjectileType<ForbiddenCircletEater>(), dmg, projectile.knockBack, projectile.owner, 0f, 0f);
                             modPlayer.forbiddenCooldown = 15;
 						}
+					}
+
+					if (modPlayer.titanHeartSet && stealthStrike && modPlayer.titanCooldown <= 0)
+					{
+						int dmg = (int)(85 + (projectile.damage * 0.05f));
+						int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), dmg, projectile.knockBack, projectile.owner, 0f, 0f);
+						Main.projectile[boom].Calamity().forceRogue = true;
+						Main.PlaySound(SoundID.Item14, projectile.position);
+						for (int dustexplode = 0; dustexplode < 360; dustexplode++)
+						{
+							Vector2 dustd = new Vector2(17f, 17f).RotatedBy(MathHelper.ToRadians(dustexplode));
+							int d = Dust.NewDust(projectile.Center, projectile.width, projectile.height, Main.rand.NextBool(2) ? ModContent.DustType<AstralBlue>() : ModContent.DustType<AstralOrange>(), dustd.X, dustd.Y, 100, default, 3f);
+							Main.dust[d].noGravity = true;
+							Main.dust[d].position = projectile.Center;
+						}
+						modPlayer.titanCooldown = 15;
 					}
 
 					if (modPlayer.corrosiveSpine && projectile.type != ProjectileType<Corrocloud1>() && projectile.type != ProjectileType<Corrocloud2>() && projectile.type != ProjectileType<Corrocloud3>())
