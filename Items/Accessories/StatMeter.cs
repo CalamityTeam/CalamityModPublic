@@ -126,7 +126,7 @@ namespace CalamityMod.Items.Accessories
 			// Generic stats always render.
 			sb.Append("Defense: ").Append(defense);
 			sb.Append(" | DR: ").Append(DR).Append("%");
-			sb.Append(" | Life Regen: ").Append(lifeRegen).Append("%\n");
+			sb.Append(" | Life Regen: ").Append(lifeRegen).Append("\n");
 			sb.Append("Armor Penetration: ").Append(armorPenetration);
 			sb.Append(" | Wing Flight Time: ").Append(wingFlightTime).Append(" seconds\n");
 			sb.Append("Jump Speed Boost: ").Append(jumpSpeed).Append("%");
