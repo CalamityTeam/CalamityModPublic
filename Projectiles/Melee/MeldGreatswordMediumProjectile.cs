@@ -1,15 +1,18 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Melee
 {
-	public class PlasmaBall : ModProjectile
+	public class MeldGreatswordMediumProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Ball");
+            DisplayName.SetDefault("Bolt");
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
@@ -24,6 +27,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
+            projectile.rotation = projectile.velocity.ToRotation();
             Vector2 value7 = new Vector2(6f, 12f);
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 48f)
@@ -49,6 +53,12 @@ namespace CalamityMod.Projectiles.Melee
             Main.dust[num458].velocity *= 0f;
 
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 400f, 12f, 20f);
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            return false;
         }
     }
 }

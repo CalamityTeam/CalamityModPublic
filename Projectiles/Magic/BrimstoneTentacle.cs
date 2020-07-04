@@ -25,6 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+			projectile.localAI[1]++;
             if (projectile.velocity.X != projectile.velocity.X)
             {
                 if (Math.Abs(projectile.velocity.X) < 1f)
@@ -53,7 +54,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = projectile.width;
             projectile.position.X = center10.X - (float)(projectile.width / 2);
             projectile.position.Y = center10.Y - (float)(projectile.height / 2);
-            if ((double)projectile.localAI[0] < 0.1)
+            if (projectile.localAI[0] < 0.1f)
             {
                 projectile.localAI[0] += 0.01f;
             }
@@ -74,7 +75,7 @@ namespace CalamityMod.Projectiles.Magic
             }
             projectile.ai[0] *= 1.05f;
             projectile.ai[1] *= 1.05f;
-            if (projectile.scale < 1f)
+            if (projectile.scale < 1f && projectile.localAI[1] > 5f)
             {
                 int num897 = 0;
                 while ((float)num897 < projectile.scale * 10f)

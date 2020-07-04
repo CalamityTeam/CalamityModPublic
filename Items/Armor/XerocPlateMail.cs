@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Xeroc Plate Mail");
+            DisplayName.SetDefault("Empyrean Cloak");
             Tooltip.SetDefault("+20 max life\n" +
                 "6% increased movement speed\n" +
                 "7% increased rogue damage and critical strike chance\n" +
