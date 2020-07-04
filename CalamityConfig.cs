@@ -64,7 +64,7 @@ namespace CalamityMod
 
 		[BackgroundColor(192, 54, 64, 192)]
 		[Label("Lock Meter Positions")]
-		[DefaultValue(false)]
+		[DefaultValue(true)]
 		[Tooltip("Prevents clicking on the Stealth, Rage and Adrenaline Meters.\nThis stops them from being dragged around with the mouse.")]
 		public bool MeterPosLock { get; set; }
 
