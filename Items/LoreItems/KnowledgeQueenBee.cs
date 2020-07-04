@@ -12,8 +12,7 @@ namespace CalamityMod.Items.LoreItems
         {
             DisplayName.SetDefault("Queen Bee");
             Tooltip.SetDefault("As crude as the giant insects are they can prove useful in certain situations...given the ability to control them.\n" +
-                "Place in your inventory to make small bees and weak hornets friendly.\n" +
-				"This effect only occurs if the item is favorited.");
+                "Favorite this item to make small bees and weak hornets friendly.");
         }
 
         public override void SetDefaults()

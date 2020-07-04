@@ -13,9 +13,8 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("King Slime");
             Tooltip.SetDefault("Only a fool could be caught by this pitiful excuse for a hunter.\n" +
                 "Unfortunately, our world has no shortage of those.\n" +
-				"Place in your inventory to gain 5% increased movement speed and 2% increased jump speed.\n" +
-				"However, your defense is reduced by 3 due to your gelatinous body.\n" +
-				"These effects only occur if the item is favorited.");
+				"Favorite this item to gain 5% increased movement speed and 2% increased jump speed.\n" +
+				"However, your defense is reduced by 3 due to your gelatinous body.");
         }
 
         public override void SetDefaults()

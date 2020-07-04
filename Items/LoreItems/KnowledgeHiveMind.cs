@@ -14,9 +14,8 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Hive Mind");
             Tooltip.SetDefault("A hive of clustered microbial-infected flesh.\n" +
                 "I do not believe killing it will lessen the corruption here.\n" +
-                "Place in your inventory for all of your projectiles to inflict cursed flames when in the corruption.\n" +
-				"However, enemy spawn rates will be greatly reduced while in the corruption due to your overwhelmingly-putrid odor.\n" +
-				"These effects only occur if the item is favorited.");
+                "Favorite this item for all of your projectiles to inflict cursed flames when in the corruption.\n" +
+				"However, enemy spawn rates will be greatly reduced while in the corruption due to your overwhelmingly-putrid odor.");
         }
 
         public override void SetDefaults()

@@ -14,8 +14,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Astrum Deus");
             Tooltip.SetDefault("God of the stars and largest vessel for the Astral Infection.\n" +
                 "Though struck down from its place among the stars its remnants have gathered strength, aiming to take its rightful place in the cosmos once more.\n" +
-                "Place in your inventory to gain increased movement speed in space.\n" +
-				"This effect only occurs if the item is favorited.");
+                "Favorite this item to gain increased movement speed in space.");
         }
 
         public override void SetDefaults()
