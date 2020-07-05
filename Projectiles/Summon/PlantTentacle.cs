@@ -11,6 +11,8 @@ namespace CalamityMod.Projectiles.Summon
 	public class PlantTentacle : ModProjectile
     {
 		private bool initialized = false;
+		private int counter = 0;
+		private float desiredDistance = 150f;
 
         public override void SetStaticDefaults()
         {
@@ -22,8 +24,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 30;
+            projectile.width = 22;
+            projectile.height = 24;
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
@@ -33,8 +35,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.tileCollide = false;
             projectile.timeLeft *= 5;
             projectile.minion = true;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 12;
+            projectile.usesIDStaticNPCImmunity = true;
+            projectile.idStaticNPCHitCooldown = 12;
         }
 
         public override void AI()
@@ -71,34 +73,76 @@ namespace CalamityMod.Projectiles.Summon
             if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
             {
                 int trueDamage = (int)(projectile.Calamity().spawnedPlayerMinionProjectileDamageValue /
-                    projectile.Calamity().spawnedPlayerMinionDamageValue *
-                    player.MinionDamage());
+                    projectile.Calamity().spawnedPlayerMinionDamageValue * player.MinionDamage());
                 projectile.damage = trueDamage;
             }
 
+			if (player.Calamity().plantera)
+			{
+				projectile.timeLeft = 2;
+			}
+
 			projectile.rotation = (projectile.Center - hostPlant.Center).ToRotation() + MathHelper.Pi;
 
-			float radians = MathHelper.TwoPi / 6f;
-			float xOffset = hostPlant.Center.X + 150f;
-			Vector2 source = new Vector2(xOffset, hostPlant.Center.Y);
-			Vector2 goal = (source - hostPlant.Center).RotatedBy(radians * projectile.ai[0]);
+			projectile.MinionAntiClump(1f);
 
-			//Vector2 hourVector = (radians * projectile.ai[0]).ToRotationVector2();
-
-			Vector2 targetPos = goal - projectile.Center;
+			counter++;
+			if (counter % 30 == 0) //changes every half second
+			{
+				desiredDistance = Main.rand.NextFloat(175f, 225f);
+			}
+			Vector2 targetPos = hostPlant.Center - projectile.Center;
 			float targetDist = targetPos.Length();
 			targetPos.Normalize();
-			if (targetDist > 150f)
+			if (targetDist > desiredDistance)
 			{
-				float speedMult = 8f;
+				float speedMult = 10f;
+				speedMult += (targetDist - desiredDistance) * 0.2f; //+0.2f for every 1f away from the desired distance
 				targetPos *= speedMult;
 				projectile.velocity = (projectile.velocity * 40f + targetPos) / 41f;
 			}
 			else
 			{
-				float reverseSpeedMult = 4f;
+				float reverseSpeedMult = 5f;
 				targetPos *= -reverseSpeedMult;
 				projectile.velocity = (projectile.velocity * 40f + targetPos) / 41f;
+			}
+
+			if (targetDist > 2000f)
+			{
+				projectile.position.X = hostPlant.Center.X - (float)(projectile.width / 2);
+				projectile.position.Y = hostPlant.Center.Y - (float)(projectile.height / 2);
+				projectile.netUpdate = true;
+			}
+
+			if (projectile.ai[0] >= 3f)
+			{
+				if (hostPlant.Center.X - projectile.Center.X > 0)
+				{
+					projectile.velocity.X += 0.05f;
+				}
+			}
+			else
+			{
+				if (hostPlant.Center.X - projectile.Center.X < 0)
+				{
+					projectile.velocity.X -= 0.05f;
+				}
+			}
+
+			if (projectile.ai[0] % 2f == 0f)
+			{
+				if (hostPlant.Center.Y - projectile.Center.Y > 0)
+				{
+					projectile.velocity.Y += 0.05f;
+				}
+			}
+			else
+			{
+				if (hostPlant.Center.Y - projectile.Center.Y < 0)
+				{
+					projectile.velocity.Y -= 0.05f;
+				}
 			}
         }
 
@@ -158,6 +202,50 @@ namespace CalamityMod.Projectiles.Summon
                 }
             }
             return true;
+        }
+
+		//It draws the host plant in here in order to have it draw over the tentacles
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+			//Only 1 tentacle needs to draw this, the last one spawned because it's latest in the projectile array.
+            if (projectile.ai[0] < 5)
+            {
+                return;
+            }
+
+            if (projectile.ai[1] < 0 || projectile.ai[1] >= Main.maxProjectiles)
+            {
+                return;
+            }
+
+            // If something has gone wrong with either the tentacle or the host plant, return.
+            Projectile hostPlant = Main.projectile[(int)projectile.ai[1]];
+            if (projectile.type != ModContent.ProjectileType<PlantTentacle>() || !hostPlant.active || hostPlant.type != ModContent.ProjectileType<PlantSummon>())
+            {
+                return;
+            }
+
+            Texture2D texture = Main.projectileTexture[hostPlant.type];
+            int height = texture.Height / Main.projFrames[hostPlant.type];
+            int frameHeight = height * hostPlant.frame;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (hostPlant.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+			Color color = Lighting.GetColor((int)hostPlant.Center.X / 16, (int)(hostPlant.Center.Y / 16f));
+
+            Main.spriteBatch.Draw(texture, hostPlant.Center - Main.screenPosition + new Vector2(0f, hostPlant.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), color, hostPlant.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), hostPlant.scale, spriteEffects, 0f);
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.Poisoned, 120);
+			target.AddBuff(BuffID.Venom, 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            target.AddBuff(BuffID.Poisoned, 120);
+			target.AddBuff(BuffID.Venom, 120);
         }
     }
 }
