@@ -816,6 +816,8 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 			}
 
+            if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
+                npc.buffImmune[BuffType<KamiDebuff>()] = false;
             npc.buffImmune[BuffType<Enraged>()] = false;
         }
         #endregion
