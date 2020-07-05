@@ -17,12 +17,12 @@ namespace CalamityMod.Items.Weapons.Summon
 			"Fires seeds and spiky balls from afar to poison targets\n" +
 			"Enrages when you get under 50% health and begins ramming enemies\n" +
 			"While enraged, it will additionally start firing spore clouds\n" +
-			"Occupies 2 minion slots and there can only be one");
+			"Occupies 3 minion slots and there can only be one");
 		}
 
 		public override void SetDefaults()
 		{
-			item.damage = 70;
+			item.damage = 75;
 			item.mana = 10;
 			item.width = 66;
 			item.height = 70;
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			item.summon = true;
 		}
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 2;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 3;
 
 		public override void AddRecipes()
 		{
