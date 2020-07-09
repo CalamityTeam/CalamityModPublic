@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
             }
             if (projectile.ai[0] == 0f)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxDistanceFromTarget, true);
+                NPC potentialTarget = projectile.Center.ClosestNPCAt(MaxDistanceFromTarget, true, true);
                 if (potentialTarget != null)
                 {
                     if (projectile.Distance(potentialTarget.Center) > MinDistanceFromTarget)

@@ -14,9 +14,8 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("The great sea worm appears to have survived the extreme heat and has even adapted to it.\n" +
                 "What used to be a majestic beast swimming through the water has now become a dried-up and\n" +
                 "gluttonous husk, constantly on a voracious search for its next meal.\n" +
-                "Place in your inventory for an increase to defense while in the desert or sunken sea.\n" +
-				"However, you will deal decreased damage while in these areas due to being a husk of your former self.\n" +
-				"These effects only occur if the item is favorited.");
+                "Favorite this item for an increase to defense while in the desert or sunken sea.\n" +
+				"However, you will deal decreased damage while in these areas due to being a husk of your former self.");
         }
 
         public override void SetDefaults()

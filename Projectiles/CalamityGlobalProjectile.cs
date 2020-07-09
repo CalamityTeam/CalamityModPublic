@@ -1023,35 +1023,38 @@ namespace CalamityMod.Projectiles
 					defCrit = modPlayer.critStats[2];
 				else if (rogue)
 					defCrit = modPlayer.critStats[3];
-				else if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
+				else if (projectile.IsSummon())
 					defCrit = 4;
 			}
 
-			int x = (int)(projectile.Center.X / 16f);
-            int y = (int)(projectile.Center.Y / 16f);
-            for (int i = x - 1; i <= x + 1; i++)
-            {
-                for (int j = y - 1; j <= y + 1; j++)
-                {
-                    if (projectile.type == ProjectileID.PureSpray || projectile.type == ProjectileID.PurificationPowder)
-                    {
-                        WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure);
-                    }
-					//commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
-                    if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
-                    {
-                        WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
-                    }
-                    if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
-                    {
-                        WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
-                    }
-                    if (projectile.type == ProjectileID.HallowSpray)
-                    {
-                        WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
-                    }
-                }
-            }
+			if (projectile.owner == Main.myPlayer/* && Main.netMode != NetmodeID.MultiplayerClient*/)
+			{
+				int x = (int)(projectile.Center.X / 16f);
+				int y = (int)(projectile.Center.Y / 16f);
+				for (int i = x - 1; i <= x + 1; i++)
+				{
+					for (int j = y - 1; j <= y + 1; j++)
+					{
+						if (projectile.type == ProjectileID.PureSpray || projectile.type == ProjectileID.PurificationPowder)
+						{
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Pure);
+						}
+						//commented out for Terraria 1.4 when vile/vicious powder spread corruption/crimson
+						if (projectile.type == ProjectileID.CorruptSpray)// || projectile.type == ProjectileID.VilePowder)
+						{
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Corrupt);
+						}
+						if (projectile.type == ProjectileID.CrimsonSpray)// || projectile.type == ProjectileID.ViciousPowder)
+						{
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Crimson);
+						}
+						if (projectile.type == ProjectileID.HallowSpray)
+						{
+							WorldGenerationMethods.ConvertFromAstral(i, j, ConvertType.Hallow);
+						}
+					}
+				}
+			}
         }
         #endregion
 
@@ -1092,6 +1095,10 @@ namespace CalamityMod.Projectiles
 						crit = Main.rand.NextBool(6);
 				}
 
+				//Needs to be done in here.  If done in the projectile file, it's overridden by the thing above
+				if (projectile.type == ProjectileType<PwnagehammerProj>() && projectile.ai[0] == 1f)
+					crit = true;
+
 				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
 					crit = true;
 			}
@@ -1106,7 +1113,7 @@ namespace CalamityMod.Projectiles
 
             if (projectile.owner == Main.myPlayer && !projectile.npcProj && !projectile.trap && projectile.friendly)
             {
-				if (projectile.type == (ProjectileID.StardustDragon1 | ProjectileID.StardustDragon2 | ProjectileID.StardustDragon3 | ProjectileID.StardustDragon4))
+				if (ProjectileID.Sets.StardustDragon[projectile.type])
 				{
 					target.immune[projectile.owner] = 10;
 				}
@@ -1205,8 +1212,10 @@ namespace CalamityMod.Projectiles
 					if (modPlayer.vampiricTalisman && rogue && crit)
 					{
 						float heal = MathHelper.Clamp(damage * 0.015f, 0f, 6f);
-						Main.player[Main.myPlayer].lifeSteal -= heal * 2f;
-						Projectile.NewProjectile(target.position.X, target.position.Y, 0f, 0f, ProjectileID.VampireHeal, 0, 0f, projectile.owner, projectile.owner, heal);
+						if ((int)heal > 0)
+						{
+							SpawnLifeStealProjectile(projectile, player, heal, ProjectileID.VampireHeal, 1200f, 2f);
+						}
 					}
 
 					if ((modPlayer.bloodyGlove || modPlayer.electricianGlove) && rogue && stealthStrike)
@@ -1298,7 +1307,7 @@ namespace CalamityMod.Projectiles
 
 							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 2f);
 						}
-						else if (modPlayer.manaOverloader)
+						else if (modPlayer.manaOverloader && player.inventory[player.selectedItem].magic)
 						{
 							float healMult = 0.2f;
 							healMult -= projectile.numHits * 0.05f;
@@ -1318,7 +1327,7 @@ namespace CalamityMod.Projectiles
 				OTHEREFFECTS:
 
                 if (modPlayer.alchFlask &&
-                    (projectile.magic || rogue || projectile.melee || projectile.minion || projectile.ranged || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type]) &&
+                    (projectile.magic || rogue || projectile.melee || projectile.IsSummon() || projectile.ranged) &&
                     player.ownedProjectileCounts[ProjectileType<PlagueSeeker>()] < 6)
                 {
                     int plague = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileType<PlagueSeeker>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.25, 30), 0f, projectile.owner, 0f, 0f);
@@ -1633,7 +1642,7 @@ namespace CalamityMod.Projectiles
 						}
 					}
                 }
-                if (projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type])
+                if (projectile.IsSummon())
                 {
                     if (modPlayer.profanedCrystalBuffs || (modPlayer.pArtifact && !modPlayer.profanedCrystal))
                     {
@@ -1791,11 +1800,11 @@ namespace CalamityMod.Projectiles
         #region Drawing
         public override Color? GetAlpha(Projectile projectile, Color lightColor)
         {
-            if (Main.player[Main.myPlayer].Calamity().omniscience && projectile.hostile)
-                return Color.Coral;
-
             if (Main.player[Main.myPlayer].Calamity().trippy)
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, projectile.alpha);
+
+            if (Main.player[Main.myPlayer].Calamity().omniscience && projectile.hostile)
+                return Color.Coral;
 
             if (projectile.type == ProjectileID.PinkLaser)
             {
@@ -2093,6 +2102,11 @@ namespace CalamityMod.Projectiles
 				}
 			}
 
+            if (!projectile.friendly)
+            {
+                homeIn = false;
+            }
+
 			if (homeIn)
 			{
 				Vector2 homeInVector = projectile.DirectionTo(center);
@@ -2160,7 +2174,7 @@ namespace CalamityMod.Projectiles
 							projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>() || (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.melee))
 							Main.projectile[projectile2].Calamity().forceMelee = true;
 
-						if (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.Calamity().rogue)
+						else if (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.Calamity().rogue)
 							Main.projectile[projectile2].Calamity().forceRogue = true;
 					}
 				}

@@ -13,9 +13,8 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Skeletron");
             Tooltip.SetDefault("The curse is said to only affect the elderly.\n" +
                 "After they are afflicted they become an immortal vessel for an ancient demon of the underworld.\n" +
-                "Place in your inventory to gain increased damage while in the dungeon.\n" +
-				"However, your max health is decreased due to Skeletron's curse.\n" +
-				"These effects only occur if the item is favorited.");
+                "Favorite this item to gain increased damage while in the dungeon.\n" +
+				"However, your max health is decreased due to Skeletron's curse.");
         }
 
         public override void SetDefaults()

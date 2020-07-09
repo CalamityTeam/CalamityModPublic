@@ -29,28 +29,31 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.value = Item.buyPrice(1, 0, 0, 0);
             item.UseSound = SoundID.Item38;
             item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
+            item.shoot = ProjectileID.Bullet;
             item.shootSpeed = 12f;
-            item.useAmmo = 97;
+            item.useAmmo = AmmoID.Bullet;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-15, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
+
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+		{
+			float damageMult = 0f;
+            if (Main.hardMode)
+				damageMult = 1f;
+            if (NPC.downedMoonlord)
+				damageMult = 3f;
+			mult += damageMult;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (Main.hardMode)
-            { item.damage = 12; }
-            if (NPC.downedMoonlord)
-            { item.damage = 24; }
-            int num6 = Main.rand.Next(25, 36);
-            for (int index = 0; index < num6; ++index)
+            int bulletAmt = Main.rand.Next(25, 36);
+            for (int index = 0; index < bulletAmt; ++index)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-10, 11) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-10, 11) * 0.05f;
-                int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[shot].timeLeft = 180;
             }
             return false;

@@ -371,8 +371,9 @@ namespace CalamityMod
 		/// </summary>
 		/// <param name="origin">The position where we wish to check for nearby NPCs</param>
 		/// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
+		/// <param name="ignoreTiles">Whether to ignore tiles when finding a target or not</param>
 		/// <param name="bossPriority">Whether bosses should be prioritized in targetting or not</param>
-		public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool bossPriority = false)
+		public static NPC ClosestNPCAt(this Vector2 origin, float maxDistanceToCheck, bool ignoreTiles = true, bool bossPriority = false)
         {
             NPC closestTarget = null;
             float distance = maxDistanceToCheck;
@@ -381,14 +382,20 @@ namespace CalamityMod
                 bool bossFound = false;
                 for (int index = 0; index < Main.npc.Length; index++)
                 {
-                    //if we've found a valid boss target, ignore ALL targets which aren't bosses.
-                    if (bossFound && !Main.npc[index].boss)
+                    // If we've found a valid boss target, ignore ALL targets which aren't bosses.
+                    if (bossFound && !(Main.npc[index].boss || Main.npc[index].type == NPCID.WallofFleshEye))
                         continue;
                     if (Main.npc[index].CanBeChasedBy(null, false))
                     {
-                        if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
+						float extraDistance = (Main.npc[index].width / 2) + (Main.npc[index].height / 2);
+
+						bool canHit = true;
+						if (extraDistance < distance && !ignoreTiles)
+							canHit = Collision.CanHit(origin, 1, 1, Main.npc[index].Center, 1, 1);
+
+                        if (Vector2.Distance(origin, Main.npc[index].Center) < (distance + extraDistance) && canHit)
                         {
-                            if (Main.npc[index].boss)
+                            if (Main.npc[index].boss || Main.npc[index].type == NPCID.WallofFleshEye)
                                 bossFound = true;
                             distance = Vector2.Distance(origin, Main.npc[index].Center);
                             closestTarget = Main.npc[index];
@@ -402,7 +409,13 @@ namespace CalamityMod
                 {
                     if (Main.npc[index].CanBeChasedBy(null, false))
                     {
-                        if (Vector2.Distance(origin, Main.npc[index].Center) < distance)
+						float extraDistance = (Main.npc[index].width / 2) + (Main.npc[index].height / 2);
+
+						bool canHit = true;
+						if (extraDistance < distance && !ignoreTiles)
+							canHit = Collision.CanHit(origin, 1, 1, Main.npc[index].Center, 1, 1);
+
+                        if (Vector2.Distance(origin, Main.npc[index].Center) < (distance + extraDistance) && canHit)
                         {
                             distance = Vector2.Distance(origin, Main.npc[index].Center);
                             closestTarget = Main.npc[index];
@@ -418,13 +431,14 @@ namespace CalamityMod
         /// <param name="origin">The position where we wish to check for nearby NPCs</param>
         /// <param name="maxDistanceToCheck">Maximum amount of pixels to check around the origin</param>
         /// <param name="owner">Owner of the minion</param>
-        public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner)
+		/// <param name="ignoreTiles">Whether to ignore tiles when finding a target or not</param>
+        public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true)
         {
             if (owner.HasMinionAttackTargetNPC)
             {
                 return Main.npc[owner.MinionAttackTargetNPC];
             }
-            return ClosestNPCAt(origin, maxDistanceToCheck);
+            return ClosestNPCAt(origin, maxDistanceToCheck, ignoreTiles);
         }
 
         /// <summary>
@@ -742,6 +756,10 @@ namespace CalamityMod
 
         #region Projectile Utilities
         public static int CountProjectiles(int Type) => Main.projectile.Count(proj => proj.type == Type && proj.active);
+
+        public static int CountHookProj() => Main.projectile.Count(proj => Main.projHook[proj.type] && proj.ai[0] == 2f && proj.active && proj.owner == Main.myPlayer);
+
+        public static bool IsSummon(this Projectile proj) => proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type) || ProjectileID.Sets.MinionShot[proj.type] || ProjectileID.Sets.SentryShot[proj.type];
 
         public static void KillAllHostileProjectiles()
         {

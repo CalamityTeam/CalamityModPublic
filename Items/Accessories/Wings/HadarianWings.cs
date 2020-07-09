@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 1.75\n" +
                 "Good vertical speed\n" +
                 "Flight time: 120\n" +
-                "20% increased movement speed and 40% increased jump speed while wearing the Astral Armor");
+                "20% increased movement speed and 8% increased jump speed while wearing the Astral Armor");
         }
 
         public override void SetDefaults()

@@ -21,8 +21,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.ranged = true;
             item.width = 58;
             item.height = 26;
-            item.useTime = 14;
-            item.useAnimation = 14;
+            item.useTime = item.useAnimation = 13;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 6.5f;
@@ -47,24 +46,21 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse == 2)
-            {
-                item.useTime = 42;
-                item.useAnimation = 42;
-            }
-            else
-            {
-                item.useTime = 13;
-                item.useAnimation = 13;
-            }
             return base.CanUseItem(player);
         }
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse == 2)
+				return (13f/42f);
+			return 1f;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigNuke>(), (int)((double)damage * 2.2999), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<BigNuke>(), (int)(damage * 2.2999), knockBack, player.whoAmI, 0f, 0f);
                 return false;
             }
             else

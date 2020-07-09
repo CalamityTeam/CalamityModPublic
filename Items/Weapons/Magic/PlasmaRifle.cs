@@ -23,8 +23,7 @@ namespace CalamityMod.Items.Weapons.Magic
             item.magic = true;
             item.width = 48;
             item.height = 22;
-            item.useTime = 40;
-            item.useAnimation = 40;
+            item.useTime = item.useAnimation = 8;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 4f;
@@ -51,20 +50,27 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                item.mana = 5;
-                item.useTime = 8;
-                item.useAnimation = 8;
                 item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt");
             }
             else
             {
-                item.mana = 40;
-                item.useTime = 40;
-                item.useAnimation = 40;
                 item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBlast");
             }
             return base.CanUseItem(player);
         }
+
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+		{
+			if (player.altFunctionUse == 2)
+				mult *= 0.125f;
+		}
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse == 2)
+				return 1f;
+			return 0.2f;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

@@ -561,17 +561,6 @@ namespace CalamityMod.NPCs.Providence
 							if (useLaser || nightTime)
 							{
 								npc.TargetClosest(false);
-								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
-								float num1219 = v3.Length() / 500f;
-								if (num1219 > 1f)
-									num1219 = 1f;
-								num1219 = 1f - num1219;
-								num1219 *= 2f;
-								if (num1219 > 1f)
-									num1219 = 1f;
-
-								npc.localAI[0] = v3.ToRotation();
-								npc.localAI[1] = num1219;
 							}
 							break; // 1200
 						case 7:
@@ -594,17 +583,6 @@ namespace CalamityMod.NPCs.Providence
 							if (useLaser || nightTime)
 							{
 								npc.TargetClosest(false);
-								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
-								float num1219 = v3.Length() / 500f;
-								if (num1219 > 1f)
-									num1219 = 1f;
-								num1219 = 1f - num1219;
-								num1219 *= 2f;
-								if (num1219 > 1f)
-									num1219 = 1f;
-
-								npc.localAI[0] = v3.ToRotation();
-								npc.localAI[1] = num1219;
 							}
 							break;
 						case 13:
@@ -629,17 +607,6 @@ namespace CalamityMod.NPCs.Providence
 							if (useLaser)
 							{
 								npc.TargetClosest(false);
-								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
-								float num1219 = v3.Length() / 500f;
-								if (num1219 > 1f)
-									num1219 = 1f;
-								num1219 = 1f - num1219;
-								num1219 *= 2f;
-								if (num1219 > 1f)
-									num1219 = 1f;
-
-								npc.localAI[0] = v3.ToRotation();
-								npc.localAI[1] = num1219;
 							}
 							break;
 						case 2:
@@ -674,17 +641,6 @@ namespace CalamityMod.NPCs.Providence
 							if (useLaser)
 							{
 								npc.TargetClosest(false);
-								Vector2 v3 = player.Center - vector - new Vector2(0f, -22f);
-								float num1219 = v3.Length() / 500f;
-								if (num1219 > 1f)
-									num1219 = 1f;
-								num1219 = 1f - num1219;
-								num1219 *= 2f;
-								if (num1219 > 1f)
-									num1219 = 1f;
-
-								npc.localAI[0] = v3.ToRotation();
-								npc.localAI[1] = num1219;
 							}
 							break;
 						case 12:
@@ -1213,10 +1169,6 @@ namespace CalamityMod.NPCs.Providence
 				npc.ai[2] += 1f;
 				if (npc.ai[2] < 120f)
 				{
-					npc.localAI[1] -= 0.07f;
-					if (npc.localAI[1] < 0f)
-						npc.localAI[1] = 0f;
-
 					if (npc.ai[2] >= 40f)
 					{
 						int num1220 = 0;
@@ -1268,25 +1220,6 @@ namespace CalamityMod.NPCs.Providence
 							npc.netUpdate = true;
 						}
 					}
-
-					npc.localAI[1] += 0.05f;
-					if (npc.localAI[1] > 1f)
-						npc.localAI[1] = 1f;
-
-					float num1226 = (npc.ai[3] >= 0f).ToDirectionInt();
-					float num1227 = npc.ai[3];
-					if (num1227 < 0f)
-						num1227 *= -1f;
-					num1227 += -(MathHelper.TwoPi + MathHelper.Pi);
-					num1227 += num1226 * MathHelper.TwoPi / rotation;
-
-					npc.localAI[0] = num1227;
-				}
-				else
-				{
-					npc.localAI[1] -= 0.07f;
-					if (npc.localAI[1] < 0f)
-						npc.localAI[1] = 0f;
 				}
 
 				npc.ai[1] += 1f;

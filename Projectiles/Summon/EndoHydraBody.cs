@@ -9,7 +9,7 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class EndoHydraBody : ModProjectile
     {
-        public const float DistanceToCheck = 1350f;
+        public const float DistanceToCheck = 1600f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydra Body");
