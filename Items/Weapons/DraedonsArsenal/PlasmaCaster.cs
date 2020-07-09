@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class PlasmaCaster : ModItem
 	{
-		private int BaseDamage = 2800;
+		private int BaseDamage = 933;
 
 		public override void SetStaticDefaults()
 		{
@@ -42,28 +42,29 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.useAmmo = AmmoID.Bullet;
 		}
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+		public override bool AltFunctionUse(Player player) => true;
 
-		public override bool CanUseItem(Player player)
-		{
+        public override void GetWeaponKnockback(Player player, ref float knockback)
+        {
 			if (player.altFunctionUse == 2)
 			{
-				item.useAnimation = 15;
-				item.useTime = 15;
-				item.damage = BaseDamage / 3;
-				item.knockBack = 3f;
+				knockback *= (3f/7f);
 			}
-			else
-			{
-				item.useAnimation = 45;
-				item.useTime = 45;
-				item.damage = BaseDamage;
-				item.knockBack = 7f;
-			}
-			return base.CanUseItem(player);
+		}
+
+        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
+		{
+			float damageMult = 0f;
+            if (player.altFunctionUse != 2)
+				damageMult = 2f;
+			mult += damageMult;
+		}
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse == 2)
+				return 3f;
+			return 1f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
