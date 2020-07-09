@@ -4470,7 +4470,7 @@ namespace CalamityMod.NPCs
 			
 			if (CalamityWorld.bossRushActive)
 			{
-				num2 = 45;
+				num2 = 35;
 				num3 *= 1.1f;
 				scaleFactor *= 1.15f;
 				chargeTime -= 3;
@@ -4481,18 +4481,18 @@ namespace CalamityMod.NPCs
 				scaleFactor *= 0.25f;
 
 			// Variables
-			int num6 = 120;
-			int num7 = 24;
-			float num8 = 0.3f;
-			float scaleFactor2 = 6f;
+			int num6 = CalamityWorld.bossRushActive ? 60 : 120;
+			int num7 = CalamityWorld.bossRushActive ? 12 : 24;
+			float num8 = CalamityWorld.bossRushActive ? 0.6f : 0.4f;
+			float scaleFactor2 = CalamityWorld.bossRushActive ? 10f : 7f;
 			int num9 = 120;
 			int num10 = 180;
 			int num11 = 180;
 			int num12 = 30;
-			int num13 = 120;
-			int num14 = 24;
+			int num13 = CalamityWorld.bossRushActive ? 60 : 120;
+			int num14 = CalamityWorld.bossRushActive ? 12 : 24;
 			float spinTime = num13 / 2;
-			float scaleFactor3 = 9f;
+			float scaleFactor3 = CalamityWorld.bossRushActive ? 11f : 9f;
 			float scaleFactor4 = 22f;
 			float num15 = MathHelper.TwoPi / spinTime;
 			int num16 = 75;
@@ -4545,7 +4545,7 @@ namespace CalamityMod.NPCs
 			// Enrage
 			if (enrage)
 			{
-				num2 = 40;
+				num2 = 30;
 				npc.damage = npc.defDamage * 2;
 				npc.defense = npc.defDefense * 2;
 				npc.ai[3] = 0f;
@@ -4694,30 +4694,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
 				Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
-				if (npc.velocity.X < vector3.X)
-				{
-					npc.velocity.X += num3;
-					if (npc.velocity.X < 0f && vector3.X > 0f)
-						npc.velocity.X += num3;
-				}
-				else if (npc.velocity.X > vector3.X)
-				{
-					npc.velocity.X -= num3;
-					if (npc.velocity.X > 0f && vector3.X < 0f)
-						npc.velocity.X -= num3;
-				}
-				if (npc.velocity.Y < vector3.Y)
-				{
-					npc.velocity.Y += num3;
-					if (npc.velocity.Y < 0f && vector3.Y > 0f)
-						npc.velocity.Y += num3;
-				}
-				else if (npc.velocity.Y > vector3.Y)
-				{
-					npc.velocity.Y -= num3;
-					if (npc.velocity.Y > 0f && vector3.Y < 0f)
-						npc.velocity.Y -= num3;
-				}
+				npc.SimpleFlyMovement(vector3, num3);
 
 				// Rotation and direction
 				int num22 = Math.Sign(player.Center.X - vector.X);
@@ -4856,30 +4833,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
 				Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor2;
-				if (npc.velocity.X < vector5.X)
-				{
-					npc.velocity.X += num8;
-					if (npc.velocity.X < 0f && vector5.X > 0f)
-						npc.velocity.X += num8;
-				}
-				else if (npc.velocity.X > vector5.X)
-				{
-					npc.velocity.X -= num8;
-					if (npc.velocity.X > 0f && vector5.X < 0f)
-						npc.velocity.X -= num8;
-				}
-				if (npc.velocity.Y < vector5.Y)
-				{
-					npc.velocity.Y += num8;
-					if (npc.velocity.Y < 0f && vector5.Y > 0f)
-						npc.velocity.Y += num8;
-				}
-				else if (npc.velocity.Y > vector5.Y)
-				{
-					npc.velocity.Y -= num8;
-					if (npc.velocity.Y > 0f && vector5.Y < 0f)
-						npc.velocity.Y -= num8;
-				}
+				npc.SimpleFlyMovement(vector5, num8);
 
 				// Play sounds and spawn Tooth Balls
 				if (npc.ai[2] == 0f)
@@ -4994,30 +4948,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
 				Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
-				if (npc.velocity.X < vector8.X)
-				{
-					npc.velocity.X += num3;
-					if (npc.velocity.X < 0f && vector8.X > 0f)
-						npc.velocity.X += num3;
-				}
-				else if (npc.velocity.X > vector8.X)
-				{
-					npc.velocity.X -= num3;
-					if (npc.velocity.X > 0f && vector8.X < 0f)
-						npc.velocity.X -= num3;
-				}
-				if (npc.velocity.Y < vector8.Y)
-				{
-					npc.velocity.Y += num3;
-					if (npc.velocity.Y < 0f && vector8.Y > 0f)
-						npc.velocity.Y += num3;
-				}
-				else if (npc.velocity.Y > vector8.Y)
-				{
-					npc.velocity.Y -= num3;
-					if (npc.velocity.Y > 0f && vector8.Y < 0f)
-						npc.velocity.Y -= num3;
-				}
+				npc.SimpleFlyMovement(vector8, num3);
 
 				// Direction and rotation
 				int num27 = Math.Sign(player.Center.X - vector.X);

@@ -35,6 +35,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
@@ -2972,7 +2973,17 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 34:
+				case 34:
+					if (npc.type != NPCType<OldDuke.OldDuke>() && npc.type != NPCType<OldDukeSharkron>() &&
+						npc.type != NPCType<OldDukeToothBall>())
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 35:
                     if (npc.type != NPCType<SlimeGod.SlimeGod>() && npc.type != NPCType<SlimeGodRun>() &&
                         npc.type != NPCType<SlimeGodCore>() && npc.type != NPCType<SlimeGodSplit>() &&
                         npc.type != NPCType<SlimeGodRunSplit>() && npc.type != NPCType<SlimeSpawnCorrupt>() &&
@@ -2985,7 +2996,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 35:
+                case 36:
                     if (npc.type != NPCType<Providence.Providence>() && npc.type != NPCType<ProvSpawnDefense>() &&
                         npc.type != NPCType<ProvSpawnOffense>() && npc.type != NPCType<ProvSpawnHealer>())
                     {
@@ -2995,7 +3006,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 36:
+                case 37:
                     if (npc.type != NPCType<SupremeCalamitas.SupremeCalamitas>() && npc.type != NPCType<SCalWormBody>() &&
                         npc.type != NPCType<SCalWormBodyWeak>() && npc.type != NPCType<SCalWormHead>() &&
                         npc.type != NPCType<SCalWormTail>() && npc.type != NPCType<SoulSeekerSupreme>() &&
@@ -3008,7 +3019,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 37:
+                case 38:
                     if (npc.type != NPCType<Yharon.Yharon>() && npc.type != NPCType<DetonatingFlare>() &&
                         npc.type != NPCType<DetonatingFlare2>())
                     {
@@ -3018,7 +3029,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 38:
+                case 39:
                     if (npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
                         npc.type != NPCType<DevourerofGodsTailS>())
                     {

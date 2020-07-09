@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -29,6 +30,10 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.damage = 180;
 			npc.defense = 100;
 			npc.lifeMax = 8000;
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = 100000;
+			}
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.knockBackResist = 0f;
