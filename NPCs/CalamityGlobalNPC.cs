@@ -1071,6 +1071,8 @@ namespace CalamityMod.NPCs
 
 			if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
 			{
+				npc.damage = 40;
+				npc.defDamage = npc.damage;
 				npc.defense = 4;
 				npc.defDefense = npc.defense;
 			}
@@ -1412,7 +1414,7 @@ namespace CalamityMod.NPCs
 			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && CalamityWorld.bossRushActive;
 			if (destroyerResist || eaterofWorldsResist || AstrumDeusIDs.Contains(npc.type))
 			{
-				if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
+				if (newAI[1] < 600f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 				{
 					damage *= 0.01;
 				}
@@ -4097,15 +4099,6 @@ namespace CalamityMod.NPCs
         #region Edit Spawn Pool
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyss ||
-                spawnInfo.player.Calamity().ZoneCalamity ||
-                spawnInfo.player.Calamity().ZoneSulphur ||
-                spawnInfo.player.Calamity().ZoneSunkenSea ||
-                (spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp))
-            {
-                pool[0] = 0f;
-            }
-
 			// Spawn Green Jellyfish in prehm and Blue Jellyfish in hardmode
 			if (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.water)
 			{
@@ -4114,6 +4107,15 @@ namespace CalamityMod.NPCs
 				else
 					pool[NPCID.BlueJellyfish] = SpawnCondition.CaveJellyfish.Chance;
 			}
+
+			if (spawnInfo.player.Calamity().ZoneAbyss ||
+                spawnInfo.player.Calamity().ZoneCalamity ||
+                spawnInfo.player.Calamity().ZoneSulphur ||
+                spawnInfo.player.Calamity().ZoneSunkenSea ||
+                (spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp))
+            {
+                pool[0] = 0f;
+            }
 
             if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
             {
