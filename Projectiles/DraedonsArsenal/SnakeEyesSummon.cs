@@ -67,6 +67,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 Initialize(player);
                 projectile.localAI[0] = 1f;
             }
+            AdjustDamage(player);
             GrantBuffs(player);
             NPC potentialTarget = projectile.Center.MinionHoming(820f, player);
             if (potentialTarget == null || SufferingFromSeparationAnxiety)

@@ -1,9 +1,8 @@
+using CalamityMod.Items;
 using CalamityMod.Tiles;
-using Microsoft.Xna.Framework;
 using System.IO;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
@@ -24,23 +23,23 @@ namespace CalamityMod.TileEntities
         }
         public override void Update()
         {
-            if (HeldItem.type != ItemID.DirtBlock)
+            if (HeldItem.type != ModContent.ItemType<PowerCell>())
             {
-                HeldItem.SetDefaults(ItemID.DirtBlock);
+                HeldItem.SetDefaults(ModContent.ItemType<PowerCell>());
                 HeldItem.stack = 0;
             }
-            SyncTile();
+
             Time++;
-            if (Time % 180 == 0)
+            if (Time % 3 == 2 && Main.tileFrame[ModContent.TileType<DraedonFuelFactory>()] == 43)
             {
                 HeldItem.stack++;
             }
+            SyncTile();
         }
         public override void OnKill()
         {
             if (Main.LocalPlayer.Calamity().CurrentlyViewedFactory == this)
                 Main.LocalPlayer.Calamity().CurrentlyViewedFactory = null;
-            base.OnKill();
         }
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
         {

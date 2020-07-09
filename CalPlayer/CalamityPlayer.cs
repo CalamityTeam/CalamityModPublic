@@ -119,10 +119,6 @@ namespace CalamityMod.CalPlayer
 		public double projectileDamageReduction = 0D;
 		#endregion
 
-        public double trueMeleeDamage = 0D;
-        public double contactDamageReduction = 0D;
-        public double projectileDamageReduction = 0D;
-
         public int CurrentlyViewedFactoryX = -1;
         public int CurrentlyViewedFactoryY = -1;
         public TEDraedonFuelFactory CurrentlyViewedFactory;
@@ -930,6 +926,7 @@ namespace CalamityMod.CalPlayer
         public bool causticDragon = false;
         public bool plaguebringerPatronSummon = false;
         public bool howlTrio = false;
+        public bool mountedScanner = false;
         #endregion
 
         #region Biome
@@ -980,8 +977,6 @@ namespace CalamityMod.CalPlayer
         public bool meldTransformation;
         public bool meldTransformationForce;
         public bool meldTransformationPower;
-		#endregion
-
 		#endregion
 
 		#region SavingAndLoading
@@ -1940,6 +1935,7 @@ namespace CalamityMod.CalPlayer
             causticDragon = false;
 			plaguebringerPatronSummon = false;
 			howlTrio = false;
+            mountedScanner = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -8488,7 +8484,7 @@ namespace CalamityMod.CalPlayer
 					NPC npc = Main.npc[i];
                     if (npc.active && !npc.dontTakeDamage && !npc.friendly && !npc.townNPC && npc.immune[player.whoAmI] <= 0 && npc.damage > 0)
                     {
-                        Rectangle rect = nPC.getRect();
+                        Rectangle rect = npc.getRect();
                         if (rectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
                         {
                             OnDodge();

@@ -67,10 +67,6 @@ namespace CalamityMod.TileEntities
         public const int TotalSparkUpdatesPerFrame = 3;
         public const int ActiveTimerMax = 30;
 
-        public static readonly List<int> LegalFuelItems = new List<int>()
-        {
-            ItemID.DirtBlock
-        };
         #endregion
 
         public void ClientToServerSync()

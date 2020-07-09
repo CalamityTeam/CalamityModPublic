@@ -1,8 +1,10 @@
+using CalamityMod.Items;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace CalamityMod.UI
@@ -93,7 +95,7 @@ namespace CalamityMod.UI
         public static bool UseFuel(ref Item itemToUse, ref Item fuel)
         {
             // Withdraw the stored fuel.
-            if ((TEDraedonItemCharger.LegalFuelItems.Contains(itemToUse.type) || itemToUse.type == ItemID.None) && fuel.stack > 0)
+            if ((itemToUse.type == ModContent.ItemType<PowerCell>() || itemToUse.type == ItemID.None) && fuel.stack > 0)
             {
                 int oldMouseStack = itemToUse.stack;
                 itemToUse = fuel.Clone();
@@ -103,7 +105,7 @@ namespace CalamityMod.UI
                 return true;
             }
             // Deposit fuel.
-            else if (TEDraedonItemCharger.LegalFuelItems.Contains(itemToUse.type) && itemToUse.stack > 0 && fuel.stack == 0)
+            else if (itemToUse.type == ModContent.ItemType<PowerCell>() && itemToUse.stack > 0 && fuel.stack == 0)
             {
                 int oldStack = itemToUse.stack;
                 fuel = itemToUse.Clone();
