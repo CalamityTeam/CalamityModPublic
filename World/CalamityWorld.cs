@@ -1295,7 +1295,7 @@ namespace CalamityMod.World
                             }
 
                             // After Providence is dead
-                            else if (bossRushStage == 36)
+                            else if (bossRushStage == 37)
                             {
                                 string key = "Mods.CalamityMod.BossRushTierFourEndText2";
                                 Color messageColor = Color.LightCoral;
@@ -1359,7 +1359,7 @@ namespace CalamityMod.World
                         }
 
                         // Remove Providence debuff for next boss fight
-                        else if (bossRushStage == 36)
+                        else if (bossRushStage == 37)
                         {
                             for (int playerIndex = 0; playerIndex < Main.maxPlayers; playerIndex++)
                             {
@@ -1399,9 +1399,8 @@ namespace CalamityMod.World
                                     break;
                                 case 5:
                                     ChangeTime(true);
-                                    NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-100, 101)),
-                                        (int)(player.position.Y - 400f),
-                                        NPCID.Golem, 0, 0f, 0f, 0f, 0f, 255);
+                                    int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.Golem, 1);
+									Main.npc[npc].timeLeft *= 20;
                                     break;
                                 case 6:
                                     ChangeTime(true);
@@ -1437,8 +1436,9 @@ namespace CalamityMod.World
                                     break;
                                 case 14:
                                     ChangeTime(false);
-                                    NPC.SpawnOnPlayer(closestPlayer, NPCID.SkeletronHead);
-                                    break;
+									int npc6 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.SkeletronHead, 1);
+									Main.npc[npc6].timeLeft *= 20;
+									break;
                                 case 15:
                                     ChangeTime(true);
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<StormWeaverHead>());
@@ -1452,9 +1452,10 @@ namespace CalamityMod.World
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DesertScourgeHeadSmall>());
                                     break;
                                 case 18:
-                                    int num1302 = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, NPCID.CultistBoss, 0, 0f, 0f, 0f, 0f, 255);
-                                    Main.npc[num1302].direction = Main.npc[num1302].spriteDirection = Math.Sign(player.Center.X - (float)player.Center.X - 90f);
-                                    break;
+                                    int npc2 = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, NPCID.CultistBoss, 1);
+                                    Main.npc[npc2].direction = Main.npc[npc2].spriteDirection = Math.Sign(player.Center.X - player.Center.X - 90f);
+									Main.npc[npc2].timeLeft *= 20;
+									break;
                                 case 19:
                                     for (int doom = 0; doom < Main.maxNPCs; doom++)
                                     {
@@ -1466,8 +1467,9 @@ namespace CalamityMod.World
                                             Main.npc[doom].netUpdate = true;
                                         }
                                     }
-                                    NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<CrabulonIdle>(), 0, 0f, 0f, 0f, 0f, 255);
-                                    break;
+                                    int npc3 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<CrabulonIdle>(), 1);
+									Main.npc[npc3].timeLeft *= 20;
+									break;
                                 case 20:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.Plantera);
                                     break;
@@ -1487,11 +1489,13 @@ namespace CalamityMod.World
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Signus>());
                                     break;
                                 case 26:
-                                    NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<RavagerBody>(), 0, 0f, 0f, 0f, 0f, 255);
-                                    break;
+                                    int npc4 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<RavagerBody>(), 1);
+									Main.npc[npc4].timeLeft *= 20;
+									break;
                                 case 27:
-                                    NPC.NewNPC((int)(player.position.X + (float)Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.DukeFishron, 0, 0f, 0f, 0f, 0f, 255);
-                                    break;
+                                    int npc5 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.DukeFishron, 1);
+									Main.npc[npc5].timeLeft *= 20;
+									break;
                                 case 28:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.MoonLordCore);
                                     break;
@@ -1514,23 +1518,27 @@ namespace CalamityMod.World
                                     ChangeTime(true);
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Siren>());
                                     break;
-                                case 34:
+								case 34:
+									int npc7 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<OldDuke>(), 1);
+									Main.npc[npc7].timeLeft *= 20;
+									break;
+								case 35:
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGod>());
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGodRun>());
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGodCore>());
                                     break;
-                                case 35:
+                                case 36:
                                     ChangeTime(true);
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Providence>());
                                     break;
-                                case 36:
+                                case 37:
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SupremeCalamitas>());
                                     break;
-                                case 37:
+                                case 38:
                                     ChangeTime(true);
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Yharon>());
                                     break;
-                                case 38:
+                                case 39:
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DevourerofGodsHeadS>());
                                     break;
                             }

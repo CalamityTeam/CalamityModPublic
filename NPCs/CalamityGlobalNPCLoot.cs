@@ -502,30 +502,35 @@ namespace CalamityMod.NPCs
                     CalamityUtils.KillAllHostileProjectiles();
                 }
             }
-            else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
+			else if (npc.type == ModContent.NPCType<OldDuke.OldDuke>())
+			{
+				CalamityWorld.bossRushStage = 35;
+				CalamityUtils.KillAllHostileProjectiles();
+			}
+			else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
             {
                 if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
                     !NPC.AnyNPCs(ModContent.NPCType<SlimeGod.SlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
                 {
-                    CalamityWorld.bossRushStage = 35;
+                    CalamityWorld.bossRushStage = 36;
                     CalamityUtils.KillAllHostileProjectiles();
                 }
                 else if (npc.type == ModContent.NPCType<SlimeGodSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
                     NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
                 {
-                    CalamityWorld.bossRushStage = 35;
+                    CalamityWorld.bossRushStage = 36;
                     CalamityUtils.KillAllHostileProjectiles();
                 }
                 else if (npc.type == ModContent.NPCType<SlimeGodRunSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) &&
                     NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod.SlimeGod>()))
                 {
-                    CalamityWorld.bossRushStage = 35;
+                    CalamityWorld.bossRushStage = 36;
                     CalamityUtils.KillAllHostileProjectiles();
                 }
             }
             else if (npc.type == ModContent.NPCType<Providence.Providence>())
             {
-                CalamityWorld.bossRushStage = 36;
+                CalamityWorld.bossRushStage = 37;
                 CalamityUtils.KillAllHostileProjectiles();
 
                 string key = "Mods.CalamityMod.BossRushTierFourEndText";
@@ -541,12 +546,12 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == ModContent.NPCType<SupremeCalamitas.SupremeCalamitas>())
             {
-                CalamityWorld.bossRushStage = 37;
+                CalamityWorld.bossRushStage = 38;
                 CalamityUtils.KillAllHostileProjectiles();
             }
             else if (npc.type == ModContent.NPCType<Yharon.Yharon>())
             {
-                CalamityWorld.bossRushStage = 38;
+                CalamityWorld.bossRushStage = 39;
                 CalamityUtils.KillAllHostileProjectiles();
             }
             else if (npc.type == ModContent.NPCType<DevourerofGodsHeadS>())

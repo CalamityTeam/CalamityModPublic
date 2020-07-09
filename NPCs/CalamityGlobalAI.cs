@@ -1394,8 +1394,8 @@ namespace CalamityMod.NPCs
             // Percent segments remaining, add two to total for head and tail
             float lifeRatio = segmentCount / (totalSegments + 2);
 
-			// 8 seconds of reistance to prevent spawn killing
-			if (calamityGlobalNPC.newAI[1] < 480f && CalamityWorld.bossRushActive)
+			// 10 seconds of resistance to prevent spawn killing
+			if (calamityGlobalNPC.newAI[1] < 600f && CalamityWorld.bossRushActive)
 				calamityGlobalNPC.newAI[1] += 1f;
 
 			// Phases
@@ -4424,8 +4424,8 @@ namespace CalamityMod.NPCs
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
-			// 8 seconds of reistance to prevent spawn killing
-			if (calamityGlobalNPC.newAI[1] < 480f)
+			// 10 seconds of resistance to prevent spawn killing
+			if (calamityGlobalNPC.newAI[1] < 600f)
                 calamityGlobalNPC.newAI[1] += 1f;
 
             // Percent life remaining
@@ -10280,16 +10280,16 @@ namespace CalamityMod.NPCs
 
             // Variables
             int num6 = CalamityWorld.bossRushActive ? 40 : 80;
-            int num7 = 4;
-            float num8 = 0.3f;
-            float scaleFactor2 = 5f;
+            int num7 = CalamityWorld.bossRushActive ? 2 : 4;
+            float num8 = CalamityWorld.bossRushActive ? 0.5f : 0.3f;
+            float scaleFactor2 = CalamityWorld.bossRushActive ? 8f : 5f;
             int num9 = 90;
             int num10 = 180;
             int num11 = 180;
             int num12 = 30;
             int num13 = CalamityWorld.bossRushActive ? 60 : 120;
-            int num14 = 4;
-            float scaleFactor3 = 6f;
+            int num14 = CalamityWorld.bossRushActive ? 2 : 4;
+            float scaleFactor3 = CalamityWorld.bossRushActive ? 10f : 7f;
             float scaleFactor4 = 20f;
             float num15 = MathHelper.TwoPi / (num13 / 2);
             int num16 = 75;
@@ -10375,53 +10375,20 @@ namespace CalamityMod.NPCs
                 num17 += MathHelper.TwoPi;
             if (num17 > MathHelper.TwoPi)
                 num17 -= MathHelper.TwoPi;
-            if (npc.ai[0] == -1f)
-                num17 = 0f;
-            if (npc.ai[0] == 3f)
-                num17 = 0f;
-            if (npc.ai[0] == 4f)
-                num17 = 0f;
-            if (npc.ai[0] == 8f)
+            if (npc.ai[0] == -1f || npc.ai[0] == 3f || npc.ai[0] == 4f || npc.ai[0] == 8f)
                 num17 = 0f;
 
             float num18 = 0.04f;
-            if (npc.ai[0] == 1f || npc.ai[0] == 6f)
+            if (npc.ai[0] == 1f || npc.ai[0] == 6f || npc.ai[0] == 7f)
                 num18 = 0f;
-            if (npc.ai[0] == 7f)
-                num18 = 0f;
-            if (npc.ai[0] == 3f)
-                num18 = 0.01f;
-            if (npc.ai[0] == 4f)
-                num18 = 0.01f;
-            if (npc.ai[0] == 8f)
+            if (npc.ai[0] == 3f || npc.ai[0] == 4f || npc.ai[0] == 8f)
                 num18 = 0.01f;
 
-            if (npc.rotation < num17)
-            {
-                if ((num17 - npc.rotation) > MathHelper.Pi)
-                    npc.rotation -= num18;
-                else
-                    npc.rotation += num18;
-            }
-            if (npc.rotation > num17)
-            {
-                if ((npc.rotation - num17) > MathHelper.Pi)
-                    npc.rotation += num18;
-                else
-                    npc.rotation -= num18;
-            }
+			if (num18 != 0f)
+				npc.rotation = npc.rotation.AngleTowards(num17, num18);
 
-            if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
-                npc.rotation = num17;
-            if (npc.rotation < 0f)
-                npc.rotation += MathHelper.TwoPi;
-            if (npc.rotation > MathHelper.TwoPi)
-                npc.rotation -= MathHelper.TwoPi;
-            if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
-                npc.rotation = num17;
-
-            // Alpha adjustments
-            if (npc.ai[0] != -1f && npc.ai[0] < 9f)
+			// Alpha adjustments
+			if (npc.ai[0] != -1f && npc.ai[0] < 9f)
             {
                 if (Collision.SolidCollision(npc.position, npc.width, npc.height))
                     npc.alpha += 15;
@@ -10497,30 +10464,7 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 300 * Math.Sign((vector - player.Center).X);
 
                 Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
-                if (npc.velocity.X < vector3.X)
-                {
-                    npc.velocity.X += num3;
-                    if (npc.velocity.X < 0f && vector3.X > 0f)
-                        npc.velocity.X += num3;
-                }
-                else if (npc.velocity.X > vector3.X)
-                {
-                    npc.velocity.X -= num3;
-                    if (npc.velocity.X > 0f && vector3.X < 0f)
-                        npc.velocity.X -= num3;
-                }
-                if (npc.velocity.Y < vector3.Y)
-                {
-                    npc.velocity.Y += num3;
-                    if (npc.velocity.Y < 0f && vector3.Y > 0f)
-                        npc.velocity.Y += num3;
-                }
-                else if (npc.velocity.Y > vector3.Y)
-                {
-                    npc.velocity.Y -= num3;
-                    if (npc.velocity.Y > 0f && vector3.Y < 0f)
-                        npc.velocity.Y -= num3;
-                }
+				npc.SimpleFlyMovement(vector3, num3);
 
                 // Rotation and direction
                 int num22 = Math.Sign(player.Center.X - vector.X);
@@ -10640,7 +10584,7 @@ namespace CalamityMod.NPCs
                 }
 
                 npc.ai[2] += 1f;
-                if (npc.ai[2] >= (float)chargeTime)
+                if (npc.ai[2] >= chargeTime)
                 {
                     npc.ai[0] = 0f;
                     npc.ai[1] = 0f;
@@ -10658,30 +10602,7 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 300 * Math.Sign((vector - player.Center).X);
 
                 Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor2;
-                if (npc.velocity.X < vector5.X)
-                {
-                    npc.velocity.X += num8;
-                    if (npc.velocity.X < 0f && vector5.X > 0f)
-                        npc.velocity.X += num8;
-                }
-                else if (npc.velocity.X > vector5.X)
-                {
-                    npc.velocity.X -= num8;
-                    if (npc.velocity.X > 0f && vector5.X < 0f)
-                        npc.velocity.X -= num8;
-                }
-                if (npc.velocity.Y < vector5.Y)
-                {
-                    npc.velocity.Y += num8;
-                    if (npc.velocity.Y < 0f && vector5.Y > 0f)
-                        npc.velocity.Y += num8;
-                }
-                else if (npc.velocity.Y > vector5.Y)
-                {
-                    npc.velocity.Y -= num8;
-                    if (npc.velocity.Y > 0f && vector5.Y < 0f)
-                        npc.velocity.Y -= num8;
-                }
+				npc.SimpleFlyMovement(vector5, num8);
 
                 // Play sounds and spawn bubbles
                 if (npc.ai[2] == 0f)
@@ -10726,7 +10647,7 @@ namespace CalamityMod.NPCs
                 npc.velocity.Y = MathHelper.Lerp(npc.velocity.Y, 0f, 0.02f);
 
                 // Play sound and spawn sharknadoes
-                if (npc.ai[2] == (float)(num9 - 30))
+                if (npc.ai[2] == (num9 - 30))
                     Main.PlaySound(SoundID.Zombie, (int)vector.X, (int)vector.Y, 9, 1f, 0f);
 
                 if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == num9 - 30)
@@ -10784,30 +10705,7 @@ namespace CalamityMod.NPCs
                     npc.ai[1] = 300 * Math.Sign((vector - player.Center).X);
 
                 Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -200f) - vector - npc.velocity) * scaleFactor;
-                if (npc.velocity.X < vector8.X)
-                {
-                    npc.velocity.X += num3;
-                    if (npc.velocity.X < 0f && vector8.X > 0f)
-                        npc.velocity.X += num3;
-                }
-                else if (npc.velocity.X > vector8.X)
-                {
-                    npc.velocity.X -= num3;
-                    if (npc.velocity.X > 0f && vector8.X < 0f)
-                        npc.velocity.X -= num3;
-                }
-                if (npc.velocity.Y < vector8.Y)
-                {
-                    npc.velocity.Y += num3;
-                    if (npc.velocity.Y < 0f && vector8.Y > 0f)
-                        npc.velocity.Y += num3;
-                }
-                else if (npc.velocity.Y > vector8.Y)
-                {
-                    npc.velocity.Y -= num3;
-                    if (npc.velocity.Y > 0f && vector8.Y < 0f)
-                        npc.velocity.Y -= num3;
-                }
+				npc.SimpleFlyMovement(vector8, num3);
 
                 // Direction and rotation
                 int num27 = Math.Sign(player.Center.X - vector.X);

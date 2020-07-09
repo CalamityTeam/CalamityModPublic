@@ -35,6 +35,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
@@ -1073,6 +1074,8 @@ namespace CalamityMod.NPCs
 
 			if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
 			{
+				npc.damage = 40;
+				npc.defDamage = npc.damage;
 				npc.defense = 4;
 				npc.defDefense = npc.defense;
 			}
@@ -1414,7 +1417,7 @@ namespace CalamityMod.NPCs
 			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && CalamityWorld.bossRushActive;
 			if (destroyerResist || eaterofWorldsResist || AstrumDeusIDs.Contains(npc.type))
 			{
-				if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
+				if (newAI[1] < 600f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 				{
 					damage *= 0.01;
 				}
@@ -2972,7 +2975,17 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 34:
+				case 34:
+					if (npc.type != NPCType<OldDuke.OldDuke>() && npc.type != NPCType<OldDukeSharkron>() &&
+						npc.type != NPCType<OldDukeToothBall>())
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 35:
                     if (npc.type != NPCType<SlimeGod.SlimeGod>() && npc.type != NPCType<SlimeGodRun>() &&
                         npc.type != NPCType<SlimeGodCore>() && npc.type != NPCType<SlimeGodSplit>() &&
                         npc.type != NPCType<SlimeGodRunSplit>() && npc.type != NPCType<SlimeSpawnCorrupt>() &&
@@ -2985,7 +2998,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 35:
+                case 36:
                     if (npc.type != NPCType<Providence.Providence>() && npc.type != NPCType<ProvSpawnDefense>() &&
                         npc.type != NPCType<ProvSpawnOffense>() && npc.type != NPCType<ProvSpawnHealer>())
                     {
@@ -2995,7 +3008,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 36:
+                case 37:
                     if (npc.type != NPCType<SupremeCalamitas.SupremeCalamitas>() && npc.type != NPCType<SCalWormBody>() &&
                         npc.type != NPCType<SCalWormBodyWeak>() && npc.type != NPCType<SCalWormHead>() &&
                         npc.type != NPCType<SCalWormTail>() && npc.type != NPCType<SoulSeekerSupreme>() &&
@@ -3008,7 +3021,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 37:
+                case 38:
                     if (npc.type != NPCType<Yharon.Yharon>() && npc.type != NPCType<DetonatingFlare>() &&
                         npc.type != NPCType<DetonatingFlare2>())
                     {
@@ -3018,7 +3031,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 38:
+                case 39:
                     if (npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
                         npc.type != NPCType<DevourerofGodsTailS>())
                     {
@@ -4099,15 +4112,6 @@ namespace CalamityMod.NPCs
         #region Edit Spawn Pool
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyss ||
-                spawnInfo.player.Calamity().ZoneCalamity ||
-                spawnInfo.player.Calamity().ZoneSulphur ||
-                spawnInfo.player.Calamity().ZoneSunkenSea ||
-                (spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp))
-            {
-                pool[0] = 0f;
-            }
-
 			// Spawn Green Jellyfish in prehm and Blue Jellyfish in hardmode
 			if (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.water)
 			{
@@ -4116,6 +4120,15 @@ namespace CalamityMod.NPCs
 				else
 					pool[NPCID.BlueJellyfish] = SpawnCondition.CaveJellyfish.Chance;
 			}
+
+			if (spawnInfo.player.Calamity().ZoneAbyss ||
+                spawnInfo.player.Calamity().ZoneCalamity ||
+                spawnInfo.player.Calamity().ZoneSulphur ||
+                spawnInfo.player.Calamity().ZoneSunkenSea ||
+                (spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp))
+            {
+                pool[0] = 0f;
+            }
 
             if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
             {

@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.OldDuke
 {
@@ -27,7 +28,11 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.height = 40;
 			npc.defense = 0;
 			npc.lifeMax = 5000;
-            npc.alpha = 255;
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = 75000;
+			}
+			npc.alpha = 255;
             npc.knockBackResist = 0f;
 			for (int k = 0; k < npc.buffImmune.Length; k++)
 			{
