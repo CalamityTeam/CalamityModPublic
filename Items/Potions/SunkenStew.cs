@@ -1,5 +1,6 @@
 using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Fishing.BrimstoneCragCatches;
+using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -43,7 +44,8 @@ Grants Well Fed");
 
         public override bool UseItem(Player player)
         {
-            player.statLife += 120;
+			int healAmt = CalamityWorld.ironHeart ? 0 : 120;
+            player.statLife += healAmt;
             player.statMana += 150;
             if (player.statLife > player.statLifeMax2)
             {
@@ -56,7 +58,8 @@ Grants Well Fed");
             player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
             if (Main.myPlayer == player.whoAmI)
             {
-                player.HealEffect(120, true);
+				if (!CalamityWorld.ironHeart)
+					player.HealEffect(healAmt, true);
                 player.ManaEffect(150);
             }
 
@@ -76,7 +79,7 @@ Grants Well Fed");
         // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + item.healLife + " life";
+            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : item.healLife) + " life";
         }
 
         public override void AddRecipes()

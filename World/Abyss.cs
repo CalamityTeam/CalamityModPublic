@@ -665,18 +665,52 @@ namespace CalamityMod.World
         #endregion
 
         #region Removal of stupid Tiles above the Sea
+
+        public static List<int> OtherTilesForSulphSeaToDestroy = new List<int>()
+        {
+            TileID.PalmTree,
+            TileID.Sunflower,
+            TileID.CorruptThorns,
+            TileID.CrimtaneThorns,
+            TileID.CorruptGrass,
+            TileID.CorruptPlants,
+            TileID.Stalactite,
+            TileID.ImmatureHerbs,
+            TileID.MatureHerbs,
+        };
+
+        public static List<int> WallsForSulphSeaToDestroy = new List<int>()
+        {
+            WallID.Dirt,
+            WallID.DirtUnsafe,
+            WallID.DirtUnsafe1,
+            WallID.DirtUnsafe2,
+            WallID.DirtUnsafe3,
+            WallID.DirtUnsafe4,
+            WallID.Cave6Unsafe, // Rocky dirt wall
+            WallID.GrassUnsafe,
+            WallID.CorruptGrassUnsafe,
+            WallID.EbonstoneUnsafe,
+            WallID.CrimstoneUnsafe,
+        };
         public static void RemoveStupidTilesAboveSea()
         {
             for (int x = 0; x < BiomeWidth; x++)
             {
                 int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
-                for (int y = YStart - 100; y < YStart + 60; y++)
+                for (int y = YStart - 140; y < YStart + 80; y++)
                 {
-                    if (YStartWhitelist.Contains(CalamityUtils.ParanoidTileRetrieval(trueX, y).type))
+                    int type = CalamityUtils.ParanoidTileRetrieval(trueX, y).type;
+                    if (YStartWhitelist.Contains(type) ||
+                        OtherTilesForSulphSeaToDestroy.Contains(type))
                     {
                         if (Main.tile[trueX, y] == null)
                             Main.tile[trueX, y] = new Tile();
                         Main.tile[trueX, y].active(false);
+                    }
+                    if (WallsForSulphSeaToDestroy.Contains(Main.tile[trueX, y].wall))
+                    {
+                        Main.tile[trueX, y].wall = 0;
                     }
                 }
             }
@@ -723,11 +757,9 @@ namespace CalamityMod.World
         public static void DetermineYStart()
         {
             int maxHeight = 0;
-            for (int i = 0; i < BiomeWidth - 18; i++)
+            for (int i = 40; i < BiomeWidth + 30; i++)
             {
-                int xCheck = CalamityWorld.abyssSide ?
-                    BiomeWidth - i :
-                    Main.maxTilesX - BiomeWidth + i;
+                int xCheck = CalamityWorld.abyssSide ? i : Main.maxTilesX - i;
                 int YStart = (int)WorldGen.worldSurfaceLow - 20; // 30 tiles below the absolute lowest a floating island can spawn
                 while (!Main.tile[xCheck, YStart].active() || !YStartWhitelist.Contains(Main.tile[xCheck, YStart].type))
                 {

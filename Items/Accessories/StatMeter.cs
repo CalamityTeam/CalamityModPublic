@@ -62,7 +62,8 @@ namespace CalamityMod.Items.Accessories
 			int lifeRegen = modPlayer.lifeRegenStat;
 			int manaRegen = modPlayer.manaRegenStat;
 			int armorPenetration = modPlayer.armorPenetrationStat;
-			int wingFlightTime = modPlayer.wingFlightTimeStat;
+			string wingFlightTime = modPlayer.wingFlightTimeStat.ToString("n2");
+			string jumpSpeed = modPlayer.jumpSpeedStat.ToString("n2");
 			int moveSpeed = modPlayer.moveSpeedStat;
 			int lightLevel = modPlayer.abyssLightLevelStat;
 			int breathLoss = modPlayer.abyssBreathLossStat;
@@ -124,10 +125,11 @@ namespace CalamityMod.Items.Accessories
 
 			// Generic stats always render.
 			sb.Append("Defense: ").Append(defense);
-			sb.Append(" | DR: ").Append(DR).Append("%\n");
-			sb.Append("Life Regen: ").Append(lifeRegen);
-			sb.Append(" | Armor Penetration: ").Append(armorPenetration).Append("\n");
-			sb.Append("Wing Flight Time: ").Append(wingFlightTime);
+			sb.Append(" | DR: ").Append(DR).Append("%");
+			sb.Append(" | Life Regen: ").Append(lifeRegen).Append("\n");
+			sb.Append("Armor Penetration: ").Append(armorPenetration);
+			sb.Append(" | Wing Flight Time: ").Append(wingFlightTime).Append(" seconds\n");
+			sb.Append("Jump Speed Boost: ").Append(jumpSpeed).Append("%");
 			sb.Append(" | Movement Speed Boost: ").Append(moveSpeed).Append("%\n\n");
 			sb.Append(CalamityWorld.death ? "Abyss/Cave Light Strength: " : "Abyss Light Strength: ").Append(lightLevel).Append("\n\n");
 

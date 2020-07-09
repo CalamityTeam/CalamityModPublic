@@ -60,6 +60,8 @@ namespace CalamityMod.World
         public static bool dragonScalesBought = false;
         private const int saveVersion = 0;
         public static int ArmoredDiggerSpawnCooldown = 0;
+        public static int MoneyStolenByBandit = 0;
+        public static int Reforges;
 
         //Boss Rush
         public static bool bossRushActive = false; //Whether Boss Rush is active or not
@@ -383,6 +385,12 @@ namespace CalamityMod.World
                 },
                 {
                     "acidRainPoints", acidRainPoints
+                },
+                {
+                    "Reforges", Reforges
+                },
+                {
+                    "MoneyStolenByBandit", MoneyStolenByBandit
                 }
             };
         }
@@ -447,6 +455,8 @@ namespace CalamityMod.World
 
             abyssChasmBottom = tag.GetInt("abyssChasmBottom");
             acidRainPoints = tag.GetInt("acidRainPoints");
+            Reforges = tag.GetInt("Reforges");
+            MoneyStolenByBandit = tag.GetInt("MoneyStolenByBandit");
         }
         #endregion
 
@@ -456,6 +466,8 @@ namespace CalamityMod.World
             int loadVersion = reader.ReadInt32();
             abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
+            Reforges = reader.ReadInt32();
+            MoneyStolenByBandit = reader.ReadInt32();
 
             if (loadVersion == 0)
             {
@@ -641,6 +653,8 @@ namespace CalamityMod.World
             writer.Write(flags8);
             writer.Write(abyssChasmBottom);
             writer.Write(acidRainPoints);
+            writer.Write(Reforges);
+            writer.Write(MoneyStolenByBandit);
         }
         #endregion
 
@@ -730,6 +744,8 @@ namespace CalamityMod.World
 
             abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
+            Reforges = reader.ReadInt32();
+            MoneyStolenByBandit = reader.ReadInt32();
         }
         #endregion
 
@@ -1681,7 +1697,7 @@ namespace CalamityMod.World
                 }
             }
 
-            if (death && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon && !Main.pumpkinMoon && !DD2Event.Ongoing && player.statLifeMax2 >= 300) //does not occur while a boss is alive or during certain events
+            if (death && !CalamityPlayer.areThereAnyDamnBosses && !Main.snowMoon && !Main.pumpkinMoon && !DD2Event.Ongoing && player.statLifeMax2 >= 300 && !WorldGen.spawnEye && WorldGen.spawnHardBoss <= 0) //does not occur while a boss is alive or during certain events
             {
                 if (bossSpawnCountdown <= 0 && deathBossSpawnCooldown <= 0) // Check for countdown and cooldown being 0
                 {

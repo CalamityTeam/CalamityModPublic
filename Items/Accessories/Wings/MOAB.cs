@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 1\n" +
                 "Good vertical speed\n" +
                 "Flight time: 75\n" +
-                "Increases jump height and allows auto-jump\n" +
+                "16% increased jump speed and allows auto-jump\n" +
                 "Grants the player cloud, blizzard, and sandstorm mid-air jumps");
         }
 

@@ -12,6 +12,7 @@ namespace CalamityMod.NPCs.OldDuke
 {
 	public class OldDukeToothBall : ModNPC
 	{
+		bool spawnedProjectiles = false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Tooth Ball");
@@ -42,11 +43,13 @@ namespace CalamityMod.NPCs.OldDuke
 		public override void SendExtraAI(BinaryWriter writer)
 		{
 			writer.Write(npc.dontTakeDamage);
+			writer.Write(spawnedProjectiles);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			npc.dontTakeDamage = reader.ReadBoolean();
+			spawnedProjectiles = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -201,8 +204,9 @@ namespace CalamityMod.NPCs.OldDuke
                 Main.dust[num624].noGravity = true;
             }
 
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.netMode != NetmodeID.MultiplayerClient && !spawnedProjectiles)
             {
+				spawnedProjectiles = true;
 				int totalProjectiles = 4;
 				float radians = MathHelper.TwoPi / totalProjectiles;
 				int damage = Main.expertMode ? 55 : 70;

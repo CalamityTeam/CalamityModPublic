@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("The Absorber");
             Tooltip.SetDefault("12% increased movement speed\n" +
-                "120% increased jump speed\n" +
+                "24% increased jump speed\n" +
                 "+20 max life and mana\n" +
                 "Standing still boosts life and mana regen\n" +
                 "Increased defense and damage reduction when submerged in liquid\n" +

@@ -28,6 +28,7 @@ namespace CalamityMod.Projectiles.Summon
             aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
+			projectile.tileCollide = false;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -35,5 +36,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
             return false;
         }
+
+        public override Color? GetAlpha(Color lightColor) => new Color(200, 200, 200, 200);
     }
 }

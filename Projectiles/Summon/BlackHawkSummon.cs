@@ -241,7 +241,7 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.ai[1] += Main.rand.Next(1, 4);
 			}
 			//Set the minion to be ready for attack
-			if (projectile.ai[1] > 90f)
+			if (projectile.ai[1] > 130f)
 			{
 				projectile.ai[1] = 0f;
 				projectile.netUpdate = true;

@@ -29,7 +29,7 @@ namespace CalamityMod.Projectiles.Melee
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0f, 0f, 0.5f);
-            int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.6f);
+            int num458 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 0.6f);
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0.5f;
             Main.dust[num458].velocity += projectile.velocity * 0.1f;
@@ -66,7 +66,7 @@ namespace CalamityMod.Projectiles.Melee
                 num466 = num465 / num466;
                 num463 *= num466;
                 num464 *= num466;
-                int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 1.2f);
+                int num467 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 1.2f);
                 Dust dust = Main.dust[num467];
                 dust.noGravity = true;
                 dust.position.X = projectile.Center.X;
@@ -85,7 +85,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 300);
+			if (Main.rand.NextBool(2))
+				target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
         }
     }
 }

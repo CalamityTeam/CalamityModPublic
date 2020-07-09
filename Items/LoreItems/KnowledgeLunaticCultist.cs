@@ -14,9 +14,8 @@ namespace CalamityMod.Items.LoreItems
             Tooltip.SetDefault("The gifted one that terminated my grand summoning so long ago with his uncanny powers over the arcane.\n" +
                 "Someone I once held in such contempt for his actions is now...deceased, his sealing ritual undone...prepare for the end.\n" +
                 "Your impending doom approaches...\n" +
-                "Place in your inventory for an increase to all stats during the lunar event.\n" +
-				"However, your vision is decreased due to eldritch knowledge damaging your mind.\n" +
-				"These effects only occur if the item is favorited.");
+                "Favorite this item for an increase to all stats during the lunar event.\n" +
+				"However, your vision is decreased due to eldritch knowledge damaging your mind.");
         }
 
         public override void SetDefaults()

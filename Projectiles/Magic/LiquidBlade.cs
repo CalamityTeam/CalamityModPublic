@@ -120,34 +120,18 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            float xPos = projectile.ai[0] > 0 ? projectile.position.X + 800 : projectile.position.X - 800;
-            Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
-            float num80 = xPos;
-            float speedX = (float)target.position.X - vector2.X;
-            float speedY = (float)target.position.Y - vector2.Y;
-            float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-            dir = 10 / num80;
-            speedX *= dir * 150;
-            speedY *= dir * 150;
-            if (speedX > 15f)
-            {
-                speedX = 15f;
-            }
-            if (speedX < -15f)
-            {
-                speedX = -15f;
-            }
-            if (speedY > 15f)
-            {
-                speedY = 15f;
-            }
-            if (speedY < -15f)
-            {
-                speedY = -15f;
-            }
+			float xPos = projectile.Center.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
+			float yPos = projectile.Center.Y + Main.rand.Next(-800, 801);
+			Vector2 spawnPosition = new Vector2(xPos, yPos);
+			Vector2 velocity = target.Center - spawnPosition;
+			float dir = 10 / spawnPosition.X;
+			velocity.X *= dir * 150;
+			velocity.Y *= dir * 150;
+			velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
+			velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
             if (projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<LiquidBlade2>(), (int)(projectile.damage * 0.75), 1f, projectile.owner);
+                Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<LiquidBlade2>(), (int)(projectile.damage * 0.75), 1f, projectile.owner);
             }
             target.AddBuff(BuffID.Ichor, 240);
             target.AddBuff(BuffID.Frostburn, 240);

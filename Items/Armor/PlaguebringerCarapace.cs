@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plaguebringer Carapace");
-            Tooltip.SetDefault("Immunity to the Plague\n" +
+            Tooltip.SetDefault("Reduces the damage caused to you by the plague\n" +
 			"12% increased minion damage and +1 max minions\n" +
 			"Friendly bees inflict the plague");
         }
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Armor
             player.Calamity().plaguebringerCarapace = true;
             player.maxMinions += 2;
             player.minionDamage += 0.12f;
-            player.buffImmune[ModContent.BuffType<Plague>()] = true;
+            player.Calamity().reducedPlagueDmg = true;
         }
 
 		public override void AddRecipes()

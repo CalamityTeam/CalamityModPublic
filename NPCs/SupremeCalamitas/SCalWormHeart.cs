@@ -53,7 +53,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
         {
             if (projectile.type == ModContent.ProjectileType<Celestus2>())
             {
-                damage = (int)((double)damage * 0.66);
+                damage = (int)(damage * 0.66);
             }
         }
 
