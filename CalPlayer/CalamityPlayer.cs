@@ -116,6 +116,7 @@ namespace CalamityMod.CalPlayer
 		public double contactDamageReduction = 0D;
 		public double projectileDamageReduction = 0D;
 		public bool brimlashBusterBoost = false;
+		public float animusBoost = 1f;
 		#endregion
 
 		#region External variables -- Only set by Mod.Call
@@ -2297,6 +2298,7 @@ namespace CalamityMod.CalPlayer
             KameiBladeUseDelay = 0;
             lastProjectileHit = null;
 			brimlashBusterBoost = false;
+			animusBoost = 1f;
 
             if (CalamityWorld.bossRushActive)
             {

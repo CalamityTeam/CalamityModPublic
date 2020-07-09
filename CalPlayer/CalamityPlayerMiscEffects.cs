@@ -2676,6 +2676,11 @@ namespace CalamityMod.CalPlayer
 				if (player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>())
 					modPlayer.brimlashBusterBoost = false;
 			}
+			if (modPlayer.animusBoost > 1f)
+			{
+				if (player.ActiveItem().type != ModContent.ItemType<Animus>())
+					modPlayer.animusBoost = 1f;
+			}
 
 			if (modPlayer.etherealExtorter)
 			{
