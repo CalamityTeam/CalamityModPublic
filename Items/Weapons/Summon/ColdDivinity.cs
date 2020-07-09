@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
-			add += player.MinionDamage() - 1f;
+			mult += player.MinionDamage() - 1f;
 		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
