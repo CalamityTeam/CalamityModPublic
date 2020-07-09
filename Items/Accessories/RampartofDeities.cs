@@ -1,6 +1,8 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -19,8 +21,7 @@ namespace CalamityMod.Items.Accessories
                 "Only active above 25% life\n" +
                 "Grants immunity to knockback and reduces the cooldown of healing potions\n" +
                 "Puts a shell around the owner when below 50% life that reduces damage\n" +
-                "The shell becomes more powerful when below 15% life and reduces damage even further\n" +
-				"Provides heat and cold protection in Death Mode");
+                "The shell becomes more powerful when below 15% life and reduces damage even further");
         }
 
         public override void SetDefaults()
@@ -31,6 +32,21 @@ namespace CalamityMod.Items.Accessories
             item.defense = 12;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
+					{
+						line2.text = "The shell becomes more powerful when below 15% life and reduces damage even further\n" +
+						"Provides heat and cold protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

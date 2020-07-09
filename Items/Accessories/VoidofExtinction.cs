@@ -1,8 +1,10 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,8 +24,7 @@ namespace CalamityMod.Items.Accessories
                 "Drops brimstone fireballs from the sky occasionally\n" +
                 "15% increase to all damage\n" +
                 "Brimstone fire rains down while invincibility is active\n" +
-                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava\n" +
-				"Provides heat protection in Death Mode");
+                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava");
         }
 
         public override void SetDefaults()
@@ -34,6 +35,21 @@ namespace CalamityMod.Items.Accessories
             item.expert = true;
             item.rare = 8;
             item.accessory = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
+					{
+						line2.text = "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().calamityRing;

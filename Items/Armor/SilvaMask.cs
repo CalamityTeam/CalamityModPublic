@@ -53,8 +53,7 @@ namespace CalamityMod.Items.Armor
                 "Rogue stealth builds while not attacking and slower while moving, up to a max of 125\n" +
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed\n" +
-				"Provides cold protection in Death Mode";
+                "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
         }
 
         public override void UpdateEquip(Player player)

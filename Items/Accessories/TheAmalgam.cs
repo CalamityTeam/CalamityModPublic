@@ -5,7 +5,9 @@ using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -35,8 +37,7 @@ namespace CalamityMod.Items.Accessories
                                "75% increased movement speed, 10% increase to all damage, and plus 40 defense while submerged in any liquid\n" +
 							   "The above bonuses also apply when passing through the clump's poisonous seawater\n" +
                                "Temporary immunity to lava, greatly reduces lava burn damage, and 15% increased damage while in lava\n" +
-                               "You have a damaging aura that envenoms nearby enemies and increased movement in liquids\n" +
-							   "Provides heat protection in Death Mode");
+                               "You have a damaging aura that envenoms nearby enemies and increased movement in liquids");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(9, 6));
         }
 
@@ -48,6 +49,21 @@ namespace CalamityMod.Items.Accessories
             item.expert = true;
             item.rare = 9;
             item.accessory = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
+					{
+						line2.text = "You have a damaging aura that envenoms nearby enemies and increased movement in liquids\n" +
+						"Provides cold protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().fungalClump;

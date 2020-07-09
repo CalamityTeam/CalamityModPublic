@@ -1,5 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,8 +15,7 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Bloodflare Wyvern Helm");
             Tooltip.SetDefault("You can move freely through liquids and have temporary immunity to lava\n" +
-                "+3 max minions\n" +
-				"Provides heat protection in Death Mode");
+                "+3 max minions");
         }
 
         public override void SetDefaults()
@@ -24,6 +25,21 @@ namespace CalamityMod.Items.Armor
             item.value = Item.buyPrice(0, 60, 0, 0);
             item.defense = 16; //85
             item.Calamity().customRarity = CalamityRarity.PureGreen;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					{
+						line2.text = "+3 max minions\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

@@ -1,9 +1,11 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -30,8 +32,7 @@ namespace CalamityMod.Items.Accessories
                 "Enemies take damage when they hit you\n" +
                 "Taking a hit will make you move very fast for a short time\n" +
                 "You emit a mushroom spore and spark explosion when you are hit\n" +
-                "Enemy attacks will have part of their damage absorbed and used to heal you\n" +
-				"Provides cold protection in Death Mode");
+                "Enemy attacks will have part of their damage absorbed and used to heal you");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 30));
         }
 
@@ -43,6 +44,21 @@ namespace CalamityMod.Items.Accessories
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip12")
+					{
+						line2.text = "Enemy attacks will have part of their damage absorbed and used to heal you\n" +
+						"Provides cold protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

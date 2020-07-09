@@ -1,5 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,8 +17,7 @@ namespace CalamityMod.Items.Armor
             Tooltip.SetDefault("Temporary immunity to lava\n" +
                 "Can move freely through liquids\n" +
                 "10% increased magic damage and critical strike chance\n" +
-                "5% increased damage reduction, +100 max mana, and 15% reduced mana usage\n" +
-				"Provides heat protection in Death Mode");
+                "5% increased damage reduction, +100 max mana, and 15% reduced mana usage");
         }
 
         public override void SetDefaults()
@@ -26,6 +27,21 @@ namespace CalamityMod.Items.Armor
             item.value = Item.buyPrice(0, 50, 0, 0);
             item.defense = 10; //98
             item.Calamity().customRarity = CalamityRarity.Turquoise;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip3")
+					{
+						line2.text = "5% increased damage reduction, +100 max mana, and 15% reduced mana usage\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

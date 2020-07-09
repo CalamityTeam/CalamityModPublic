@@ -11,9 +11,9 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tarragon Breastplate");
-            Tooltip.SetDefault("10% increased damage and 5% increased critical strike chance\n" +
-                       "+2 life regen and +40 max life\n" +
-                       "Breastplate of the exiler");
+            Tooltip.SetDefault("Breastplate of the exiler\n" +
+					"10% increased damage and 5% increased critical strike chance\n" +
+					"+2 life regen and +40 max life");
         }
 
         public override void SetDefaults()

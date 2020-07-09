@@ -1,5 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Rogue;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -20,8 +22,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Flight time: 120\n" +
                 "7% increase to all damage\n" +
                 "All melee attacks and projectiles inflict frostburn\n" +
-                "Icicles rain down as you fly\n" +
-				"Provides heat and cold protection in Death Mode");
+                "Icicles rain down as you fly");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 3));
         }
 
@@ -33,6 +34,21 @@ namespace CalamityMod.Items.Accessories.Wings
             item.expert = true;
             item.rare = 5;
             item.accessory = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
+					{
+						line2.text = "Icicles rain down as you fly\n" +
+						"Provides heat and cold protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)

@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.Projectiles.Summon;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,6 +43,22 @@ namespace CalamityMod.Items.Weapons.Summon
             item.shootSpeed = 10f;
             item.summon = true;
         }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip6")
+					{
+						line2.text = "Provides heat and cold protection in Death Mode when in use\n" +
+						"Revengeance Drop";
+					}
+				}
+			}
+        }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             damage = (int)(damage * player.MinionDamage());
