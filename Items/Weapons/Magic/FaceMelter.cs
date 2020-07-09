@@ -89,8 +89,8 @@ namespace CalamityMod.Items.Weapons.Magic
                 }
                 else
                 {
-                    SpeedX *= 1.5f;
-                    SpeedY *= 1.5f;
+                    speedX *= 1.5f;
+                    speedY *= 1.5f;
                     type = ModContent.ProjectileType<MelterNote2>();
                 }
                 Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
