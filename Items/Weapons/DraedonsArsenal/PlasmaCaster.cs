@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class PlasmaCaster : ModItem
 	{
-		private int BaseDamage = 933;
+		private int BaseDamage = 2800;
 
 		public override void SetStaticDefaults()
 		{
@@ -44,22 +44,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override bool AltFunctionUse(Player player) => true;
 
-        public override void GetWeaponKnockback(Player player, ref float knockback)
-        {
-			if (player.altFunctionUse == 2)
-			{
-				knockback *= (3f/7f);
-			}
-		}
-
-        public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-		{
-			float damageMult = 0f;
-            if (player.altFunctionUse != 2)
-				damageMult = 2f;
-			mult += damageMult;
-		}
-
 		public override float UseTimeMultiplier	(Player player)
 		{
 			if (player.altFunctionUse == 2)
@@ -79,14 +63,18 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			int ammoConsumed = 20;
 			float SpeedX = velocity.X + (float)Main.rand.Next(-3, 4) * 0.05f;
 			float SpeedY = velocity.Y + (float)Main.rand.Next(-3, 4) * 0.05f;
+			float damageMult = 1f;
+			float kbMult = 1f;
 			if (player.altFunctionUse == 2)
 			{
 				ammoConsumed = 5;
 				SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
 				SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
+				damageMult = 0.3333f;
+				kbMult = 3f/7f;
 			}
 
-			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlasmaCasterShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlasmaCasterShot>(), (int)(damage * damageMult), knockBack * kbMult, player.whoAmI, 0f, 0f);
 
 			// Consume 20 or 5 ammo per shot
 			CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, ammoConsumed);
