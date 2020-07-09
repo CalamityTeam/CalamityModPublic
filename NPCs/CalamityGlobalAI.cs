@@ -1394,8 +1394,8 @@ namespace CalamityMod.NPCs
             // Percent segments remaining, add two to total for head and tail
             float lifeRatio = segmentCount / (totalSegments + 2);
 
-			// 8 seconds of reistance to prevent spawn killing
-			if (calamityGlobalNPC.newAI[1] < 480f && CalamityWorld.bossRushActive)
+			// 10 seconds of resistance to prevent spawn killing
+			if (calamityGlobalNPC.newAI[1] < 600f && CalamityWorld.bossRushActive)
 				calamityGlobalNPC.newAI[1] += 1f;
 
 			// Phases
@@ -4424,8 +4424,8 @@ namespace CalamityMod.NPCs
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
-			// 8 seconds of reistance to prevent spawn killing
-			if (calamityGlobalNPC.newAI[1] < 480f)
+			// 10 seconds of resistance to prevent spawn killing
+			if (calamityGlobalNPC.newAI[1] < 600f)
                 calamityGlobalNPC.newAI[1] += 1f;
 
             // Percent life remaining

@@ -42,6 +42,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         private int idleCounter = idleCounterMax;
         public int laserWallPhase = 0;
 		private int postTeleportTimer = 0;
+		private int laserWallType = 0;
 
         public override void SetStaticDefaults()
         {
@@ -93,7 +94,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(idleCounter);
             writer.Write(laserWallPhase);
 			writer.Write(postTeleportTimer);
-        }
+			writer.Write(laserWallType);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -106,7 +108,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             idleCounter = reader.ReadInt32();
             laserWallPhase = reader.ReadInt32();
 			postTeleportTimer = reader.ReadInt32();
-        }
+			laserWallType = reader.ReadInt32();
+		}
 
         public override void BossHeadRotation(ref float rotation)
         {
@@ -314,25 +317,50 @@ namespace CalamityMod.NPCs.DevourerofGods
 					{
 						Main.PlaySound(SoundID.Item12, player.position);
 
-						float targetPosY = player.position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
-
 						// Side walls
-						for (int x = 0; x < totalShots; x++)
+						float targetPosY = player.position.Y;
+						switch (laserWallType)
 						{
-							Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-							Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-							shotSpacing[0] -= spacingVar;
-						}
+							case 0:
 
-						if (Main.rand.NextBool(2) && revenge)
-						{
-							for (int x = 0; x < 10; x++)
-							{
-								Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
-							}
-							shotSpacing[3] = 1050;
+								for (int x = 0; x < totalShots; x++)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									shotSpacing[0] -= spacingVar;
+								}
+								laserWallType = 1;
+								break;
+
+							case 1:
+
+								targetPosY += 50f;
+								for (int x = 0; x < totalShots; x++)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									shotSpacing[0] -= spacingVar;
+								}
+								laserWallType = revenge ? 2 : 0;
+								break;
+
+							case 2:
+
+								for (int x = 0; x < totalShots; x++)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									shotSpacing[0] -= spacingVar;
+								}
+								for (int x = 0; x < 10; x++)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
+								}
+								shotSpacing[3] = 1050;
+								laserWallType = 0;
+								break;
 						}
 						shotSpacing[0] = 1050;
 
@@ -351,6 +379,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 							shotSpacing[2] -= spacingVar;
 						}
 						shotSpacing[2] = 1050;
+
 					}
                 }
             }
@@ -866,7 +895,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 			npc.alpha = postTeleportTimer;
 
 			int randomRange = 48;
-			float distance = 480f;
+			float distance = 640f;
 			Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
 
 			npc.position = targetVector;

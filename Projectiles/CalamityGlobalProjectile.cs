@@ -1273,7 +1273,7 @@ namespace CalamityMod.Projectiles
 
 							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 2f);
 						}
-						else if (modPlayer.manaOverloader)
+						else if (modPlayer.manaOverloader && player.inventory[player.selectedItem].magic)
 						{
 							float healMult = 0.2f;
 							healMult -= projectile.numHits * 0.05f;

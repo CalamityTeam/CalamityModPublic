@@ -3508,9 +3508,6 @@ namespace CalamityMod.CalPlayer
             if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
 				DashExploitFix(true);
 
-			if (player.dash == 0 && dashMod == 0)
-				DashExploitFix(false);
-
             if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
             {
                 if (player.lifeRegen < 0)
@@ -3533,9 +3530,6 @@ namespace CalamityMod.CalPlayer
 
 			if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
 				DashExploitFix(true);
-
-			if (player.dash == 0 && dashMod == 0)
-				DashExploitFix(false);
 
 			if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
             {
@@ -3691,13 +3685,20 @@ namespace CalamityMod.CalPlayer
                 runAccMult *= 0.5f;
                 runSpeedMult *= 0.5f;
             }
-            if (player.powerrun && CalamityWorld.revenge)
+			if (CalamityWorld.revenge)
+			{
+				if (player.powerrun)
+				{
+					runSpeedMult *= 0.6666667f;
+				}
+				if ((player.slippy || player.slippy2) && player.iceSkate)
+				{
+					runAccMult *= 0.6666667f;
+				}
+			}
+			if (CalamityWorld.death && deathModeBlizzardTime > 0)
             {
-                runSpeedMult *= 0.6666667f;
-            }
-            if (CalamityWorld.death && deathModeBlizzardTime > 0)
-            {
-                float speedMult = (float)(3600 - deathModeBlizzardTime) / 3600f;
+                float speedMult = (3600 - deathModeBlizzardTime) / 3600f;
                 runAccMult *= speedMult;
                 runSpeedMult *= speedMult;
             }
@@ -3710,15 +3711,15 @@ namespace CalamityMod.CalPlayer
             if (player.pulley && dashMod > 0)
             {
                 ModDashMovement();
-            }
+			}
             else if (player.grappling[0] == -1 && !player.tongued)
             {
                 ModHorizontalMovement();
-                if (dashMod > 0)
-                {
+
+				if (dashMod > 0)
                     ModDashMovement();
-                }
-                if (pAmulet && modStealth < 1f)
+
+				if (pAmulet && modStealth < 1f)
                 {
                     float num43 = player.maxRunSpeed / 2f * (1f - modStealth);
                     player.maxRunSpeed -= num43;

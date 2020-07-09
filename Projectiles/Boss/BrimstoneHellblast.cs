@@ -50,8 +50,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
             }
-            projectile.velocity.X *= 1.03f;
-            projectile.velocity.Y *= 1.03f;
+            projectile.velocity *= 1.03f;
             if (projectile.velocity.X < 0f)
             {
                 projectile.spriteDirection = -1;
