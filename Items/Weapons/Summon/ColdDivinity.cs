@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Cold Divinity");
             Tooltip.SetDefault("Legendary Drop\n" +
-                "Summons the power of the ancient ice castle\n" +
+							   "Summons the power of the ancient ice castle\n" +
                                "For each minion slot used, you will gain an additional orbiting shield spike\n" +
                                "These spikes accelerate rapidly towards a nearby enemy to inflict heavy damage\n" +
                                "They take some time to regenerate after launching themselves at the target, however\n" +
@@ -51,7 +51,7 @@ namespace CalamityMod.Items.Weapons.Summon
 			{
 				foreach (TooltipLine line2 in list)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip6")
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip7")
 					{
 						line2.text = "Provides heat and cold protection in Death Mode when in use\n" +
 						"Revengeance Drop";
