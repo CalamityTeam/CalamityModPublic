@@ -11,7 +11,6 @@ namespace CalamityMod.Items.Weapons.Rogue
 	public class Hypothermia : RogueWeapon
     {
 		private int counter = 0;
-		private bool justStealthStriked = false;
 
         public override void SetStaticDefaults()
         {
@@ -46,38 +45,21 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			counter++;
-			if (counter >= 7)
-				counter = 0;
-
-            if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
+            if (player.Calamity().StealthStrikeAvailable() && counter == 0)
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
-				justStealthStriked = true;
-                return false;
             }
-			if (justStealthStriked) //this is Ben, no I don't know how what I did translates to what happened in game but we're rolling with it
+			int projAmt = Main.rand.Next(1, 3);
+			for (int index = 0; index < projAmt; ++index)
 			{
-				if (counter == 1 || counter == 2 || counter == 3 || counter == 4 || counter == 5 || counter == 6)
-				{
-					if (counter == 6)
-					{
-						justStealthStriked = false;
-					}
-					return false;
-				}
+				float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
+				float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, Main.rand.Next(4), 0f);
 			}
-			else
-			{
-				int num6 = Main.rand.Next(1, 3);
-				for (int index = 0; index < num6; ++index)
-				{
-					float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-					float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, Main.rand.Next(4), 0.0f);
-				}
-			}	
+			counter++;
+			if (counter >= 7)
+				counter = 0;
             return false;
         }
 
