@@ -33,6 +33,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.noUseGraphic = true;
             item.melee = true;
             item.channel = true;
+
+            item.Calamity().Chargeable = true;
         }
 
         public override void AddRecipes()
