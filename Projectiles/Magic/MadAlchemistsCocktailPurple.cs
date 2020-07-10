@@ -25,17 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            projectile.rotation += Math.Abs(projectile.velocity.X) * 0.04f * (float)projectile.direction;
-            projectile.ai[0] += 1f;
-            if (projectile.ai[0] >= 90f)
-            {
-                projectile.velocity.Y = projectile.velocity.Y + 0.4f;
-                projectile.velocity.X = projectile.velocity.X * 0.97f;
-            }
-            if (projectile.velocity.Y > 16f)
-            {
-                projectile.velocity.Y = 16f;
-            }
+			MadAlchemistsCocktailBlue.FlaskAI();
         }
 
         public override void Kill(int timeLeft)
@@ -45,12 +35,12 @@ namespace CalamityMod.Projectiles.Magic
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num221 = 0; num221 < 4; num221++)
+                for (int i = 0; i < 4; i++)
                 {
-                    Vector2 value17 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    value17.Normalize();
-                    value17 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value17.X, value17.Y, ModContent.ProjectileType<MadAlchemistsCocktailShrapnel>(), projectile.damage / 3, 0f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Vector2 velocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+                    velocity.Normalize();
+                    velocity *= Main.rand.Next(10, 201) * 0.01f;
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<MadAlchemistsCocktailShrapnel>(), projectile.damage / 3, 0f, projectile.owner, 0f, Main.rand.Next(-45, 1));
                 }
             }
         }
