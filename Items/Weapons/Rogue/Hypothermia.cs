@@ -11,12 +11,13 @@ namespace CalamityMod.Items.Weapons.Rogue
 	public class Hypothermia : RogueWeapon
     {
 		private int counter = 0;
+		private bool stealthChunks = false;
 
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hypothermia");
             Tooltip.SetDefault("Fires a constant barrage of black ice shards\n" +
-                               "Stealth strikes additionally launch a short-ranged ice chunk that shatters into ice shards");
+                               "Stealth strikes launch a chain short ranged ice chunks that shatter into ice shards");
         }
 
         public override void SafeSetDefaults()
@@ -45,21 +46,31 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.Calamity().StealthStrikeAvailable() && counter == 0)
+            if (player.Calamity().StealthStrikeAvailable()) //setting up the stealth strikes
+			{
+				stealthChunks = true;
+			}
+			if (stealthChunks)
             {
                 int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<HypothermiaChunk>(), damage, knockBack, player.whoAmI, 0f, 0f);
                 Main.projectile[stealth].Calamity().stealthStrike = true;
             }
-			int projAmt = Main.rand.Next(1, 3);
-			for (int index = 0; index < projAmt; ++index)
+			else
 			{
-				float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
-				float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, Main.rand.Next(4), 0f);
+				int projAmt = Main.rand.Next(1, 3);
+				for (int index = 0; index < projAmt; ++index)
+				{
+					float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
+					float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
+					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, Main.rand.Next(4), 0f);
+				}
 			}
 			counter++;
 			if (counter >= 7)
+			{
 				counter = 0;
+				stealthChunks = false;
+			}
             return false;
         }
 
