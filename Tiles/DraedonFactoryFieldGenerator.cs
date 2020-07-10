@@ -1,6 +1,7 @@
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
@@ -94,18 +95,18 @@ namespace CalamityMod.Tiles
 
                     DelegateMethods.c_1 = Color.Cyan;
                     DelegateMethods.f_1 = 1f;
-                    DelegateMethods.c_1 *= Utils.InverseLerp(1600f, 1000f, System.Math.Abs(positionWorldCoords.X - player.Center.X), true) *
-                        Utils.InverseLerp(1000f, 660f, System.Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
-                    DelegateMethods.f_1 *= Utils.InverseLerp(1600f, 1000f, System.Math.Abs(positionWorldCoords.X - player.Center.X), true) *
-                        Utils.InverseLerp(1000f, 660f, System.Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
+                    DelegateMethods.c_1 *= Utils.InverseLerp(1600f, 1000f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(1000f, 660f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
+                    DelegateMethods.f_1 *= Utils.InverseLerp(1600f, 1000f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(1000f, 660f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
                     Utils.DrawLaser(spriteBatch, laserTexture, pointsToDraw[k], pointsToDraw[(k + 1) % pointsToDraw.Length], new Vector2(0.3f), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
 
                     DelegateMethods.c_1 = Color.White * 0.7f;
                     DelegateMethods.f_1 = 0.7f;
-                    DelegateMethods.c_1 *= Utils.InverseLerp(1600f, 1000f, System.Math.Abs(positionWorldCoords.X - player.Center.X), true) *
-                        Utils.InverseLerp(1000f, 660f, System.Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
-                    DelegateMethods.f_1 *= Utils.InverseLerp(1600f, 1000f, System.Math.Abs(positionWorldCoords.X - player.Center.X), true) *
-                        Utils.InverseLerp(1000f, 660f, System.Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
+                    DelegateMethods.c_1 *= Utils.InverseLerp(1600f, 1000f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(1000f, 660f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
+                    DelegateMethods.f_1 *= Utils.InverseLerp(1600f, 1000f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(1000f, 660f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
                     Utils.DrawLaser(spriteBatch, laserTexture, pointsToDraw[k], pointsToDraw[(k + 1) % pointsToDraw.Length], new Vector2(0.6f), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
                 }
             }
