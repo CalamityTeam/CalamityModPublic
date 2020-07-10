@@ -50,7 +50,7 @@ namespace CalamityMod.Projectiles.Ranged
                 int dustType = 176;
                 for (int i = 0; i < 3; i++)
                 {
-                    int fire = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 1, default, 1f);
+                    int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 1, default, 1f);
 					Dust dust = Main.dust[fire];
 					if (Main.rand.NextBool(3))
 					{
@@ -79,6 +79,11 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
+        }
+
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
             target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
         }
     }

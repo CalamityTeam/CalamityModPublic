@@ -86,5 +86,10 @@ namespace CalamityMod.Projectiles.Ranged
         {
             target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
         }
+
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
+            target.AddBuff(BuffID.OnFire, 60 * Main.rand.Next(1, 4));
+        }
     }
 }
