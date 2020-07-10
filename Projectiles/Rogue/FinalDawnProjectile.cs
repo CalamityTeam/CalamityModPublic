@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
             Player player = Main.player[projectile.owner];
 
-			if (player.dead || player is null || Main.myPlayer != projectile.owner)
+			if (player.dead || player is null)
 				projectile.Kill();
 
             if (Main.myPlayer == player.whoAmI)
@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Rogue
                         Projectile.NewProjectile(player.Center,
                                                  player.DirectionTo(Main.MouseWorld) * 38f,
                                                  ModContent.ProjectileType<FinalDawnThrow2>(),
-                                                 (int)(projectile.damage * 2.5f),
+                                                 (int)(projectile.damage * 1.5f),
                                                  projectile.knockBack,
                                                  projectile.owner);
                         player.Calamity().ConsumeStealthByAttacking();
@@ -111,6 +111,7 @@ namespace CalamityMod.Projectiles.Rogue
                                                  projectile.DirectionTo(Main.MouseWorld) * 38f,
                                                  ModContent.ProjectileType<FinalDawnThrow>(), projectile.damage,
                                                  projectile.knockBack, projectile.owner);
+                        player.Calamity().ConsumeStealthByAttacking();
                     }
                 }
                 // Close range attack
@@ -122,17 +123,18 @@ namespace CalamityMod.Projectiles.Rogue
                         Projectile.NewProjectile(projectile.Center,
                                                  projectile.velocity,
                                                  ModContent.ProjectileType<FinalDawnHorizontalSlash>(),
-                                                 (int)(projectile.damage * 2.5f),
+                                                 (int)(projectile.damage * 1.5f),
                                                  projectile.knockBack,
                                                  projectile.owner);
                         player.Calamity().ConsumeStealthByAttacking();
                     }
                     else
                     {
+						//This one doesn't consume stealth since it replenishes stealth on hits
                         Projectile.NewProjectile(projectile.Center,
                                                  projectile.velocity,
                                                  ModContent.ProjectileType<FinalDawnFireSlash>(),
-                                                 (int)(projectile.damage * 1.5f),
+                                                 projectile.damage,
                                                  projectile.knockBack,
                                                  projectile.owner);
                     }

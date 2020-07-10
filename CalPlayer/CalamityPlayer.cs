@@ -10729,8 +10729,14 @@ namespace CalamityMod.CalPlayer
 
         private float UpdateStealthGenStats()
         {
+			int finalDawnProjCount = player.ownedProjectileCounts[ModContent.ProjectileType<FinalDawnProjectile>()] +
+			player.ownedProjectileCounts[ModContent.ProjectileType<FinalDawnFireSlash>()] +
+			player.ownedProjectileCounts[ModContent.ProjectileType<FinalDawnHorizontalSlash>()] +
+			player.ownedProjectileCounts[ModContent.ProjectileType<FinalDawnThrow>()] +
+			player.ownedProjectileCounts[ModContent.ProjectileType<FinalDawnThrow2>()];
+
             // If you are actively using an item, you cannot gain stealth.
-            if (player.itemAnimation > 0)
+            if (player.itemAnimation > 0 || finalDawnProjCount > 0)
                 return 0f;
 
             // Penumbra Potion provides various boosts to rogue stealth generation
