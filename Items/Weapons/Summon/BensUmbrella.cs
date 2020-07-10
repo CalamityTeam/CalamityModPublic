@@ -22,39 +22,38 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.mana = 99;
             item.damage = 963;
+            item.knockBack = 1f;
+            item.mana = 99;
+            item.useTime = item.useAnimation = 10;
+            item.summon = true;
+            item.shootSpeed = 0f;
+            item.shoot = ModContent.ProjectileType<MagicHat>();
+
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 74;
             item.height = 72;
-            item.useTime = item.useAnimation = 10;
             item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-            item.rare = 10;
             item.UseSound = SoundID.Item68;
-            item.shoot = ModContent.ProjectileType<MagicHat>();
-            item.shootSpeed = 10f;
-            item.summon = true;
+            item.value = Item.buyPrice(5, 0, 0, 0);
+            item.rare = 10;
+            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 5;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            position = Main.MouseWorld;
-            speedX = 0;
-            speedY = 0;
-            for (int x = 0; x < Main.projectile.Length; x++)
+            for (int x = 0; x < Main.maxProjectiles; x++)
             {
                 Projectile projectile = Main.projectile[x];
                 if (projectile.active && projectile.owner == player.whoAmI && projectile.type == type)
                 {
                     projectile.Kill();
+					break;
                 }
             }
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI);
+            Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
             return false;
         }
 

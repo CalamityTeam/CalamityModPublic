@@ -33,50 +33,40 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (Main.rand.Next(8) == 0)
+            if (Main.rand.NextBool(8))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 138, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            for (int n = 0; n < Main.rand.Next(3, 6); n++) //3 to 5 spears
-            {
-                float x = target.position.X + (float)Main.rand.Next(-400, 400);
-                float y = target.position.Y - (float)Main.rand.Next(500, 800);
-                Vector2 vector = new Vector2(x, y);
-                float num13 = target.position.X + (float)(target.width / 2) - vector.X;
-                float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
-                num13 += (float)Main.rand.Next(-100, 101);
-                int num15 = 29;
-                float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                num16 = (float)num15 / num16;
-                num13 *= num16;
-                num14 *= num16;
-                Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * 0.08f * Main.rand.NextFloat(4f, 7f)), (int)(projectile.knockBack * 0.1f * Main.rand.NextFloat(7f, 10f)), projectile.owner, 0f, 0f);
-            }
+			SpawnSpears(target.Center);
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
+			SpawnSpears(target.Center);
+        }
+
+		private void SpawnSpears(Vector2 targetPos)
+		{
             for (int n = 0; n < Main.rand.Next(3, 6); n++) //3 to 5 spears
             {
-                float x = target.position.X + (float)Main.rand.Next(-400, 400);
-                float y = target.position.Y - (float)Main.rand.Next(500, 800);
-                Vector2 vector = new Vector2(x, y);
-                float num13 = target.position.X + (float)(target.width / 2) - vector.X;
-                float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
-                num13 += (float)Main.rand.Next(-100, 101);
-                int num15 = 29;
-                float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                num16 = (float)num15 / num16;
-                num13 *= num16;
-                num14 *= num16;
-                Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * 0.08f * Main.rand.NextFloat(4f, 7f)), (int)(projectile.knockBack * 0.1f * Main.rand.NextFloat(7f, 10f)), projectile.owner, 0f, 0f);
+                float x = targetPos.X + Main.rand.Next(-400, 401);
+                float y = targetPos.Y - Main.rand.Next(500, 801);
+                Vector2 source = new Vector2(x, y);
+				Vector2 velocity = targetPos - source;
+                velocity.X += Main.rand.Next(-100, 101);
+                float speed = 29f;
+                float targetDist = velocity.Length();
+                targetDist = speed / targetDist;
+                velocity.X *= targetDist;
+                velocity.Y *= targetDist;
+                Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * 0.08f * Main.rand.NextFloat(4f, 7f)), (int)(projectile.knockBack * 0.1f * Main.rand.NextFloat(7f, 10f)), projectile.owner, 0f, 0f);
             }
-        }
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

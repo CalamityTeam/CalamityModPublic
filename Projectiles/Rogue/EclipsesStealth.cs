@@ -56,19 +56,24 @@ namespace CalamityMod.Projectiles.Rogue
                     }
                 }
             }
+
+			//Behavior when not sticking to anything
             if (projectile.ai[0] == 0f)
             {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
                 if (Main.rand.NextBool(8)) //dust
                 {
                     Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 138, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
                 }
             }
+
+			//Ensures that a spear will last 15 seconds after it hits something
 			if (projectile.ai[0] == 1f && !changedTimeLeft)
 			{
 				projectile.timeLeft = 900;
 				changedTimeLeft = true;
 			}
+
             //Sticky Behaviour
             projectile.StickyProjAI(15);
         }

@@ -35,8 +35,8 @@ namespace CalamityMod.Projectiles.Summon
         {
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+
+            if (projectile.frameCounter++ % 6 == 0)
             {
                 projectile.frame++;
                 projectile.frameCounter = 0;
@@ -45,19 +45,18 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.frame = 0;
             }
-            projectile.ai[0]++;
-            projectile.ai[1]++;
-            if (projectile.ai[0] >= 20f)
+
+            if (projectile.ai[0]++ % 20f == 0f)
             {
                 Vector2 dspeed = projectile.velocity * Main.rand.NextFloat(0.3f,0.6f);
                 int dust = Dust.NewDust(projectile.Center, 1, 1, 67, dspeed.X, dspeed.Y, 50, default, 1.2f);
                 Main.dust[dust].noGravity = true;
-                projectile.ai[0] = 0f;
             }
 
             //Homing
-            if (projectile.ai[1] > 30f)
+            if (projectile.ai[1]++ > 30f)
                 HomingAI();
+
             //Fade in
             if (projectile.alpha > 0)
             {
@@ -94,7 +93,7 @@ namespace CalamityMod.Projectiles.Summon
                 for (int i = 0; i < Main.npc.Length; ++i)
                 {
                     NPC npc = Main.npc[i];
-                    if (npc == null || !npc.active)
+                    if (npc is null || !npc.active)
                         continue;
 
                     if (npc.CanBeChasedBy(projectile, false))
@@ -130,10 +129,7 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, 239, 0, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 239, 0, projectile.alpha);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
