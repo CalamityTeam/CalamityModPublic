@@ -44,7 +44,7 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.tileCollide = true;
             }
 
-            if (Main.rand.Next(10) == 0)
+            if (Main.rand.NextBool(10))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 191, projectile.oldVelocity.X * 0.5f, projectile.oldVelocity.Y * 0.5f, 0, default, 0.8f);
             }

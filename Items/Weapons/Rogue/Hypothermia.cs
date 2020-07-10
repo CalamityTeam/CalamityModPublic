@@ -57,7 +57,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 				justStealthStriked = true;
                 return false;
             }
-			if (justStealthStriked == true) //this is Ben, no I don't know how what I did translates to what happened in game but we're rolling with it
+			if (justStealthStriked) //this is Ben, no I don't know how what I did translates to what happened in game but we're rolling with it
 			{
 				if (counter == 1 || counter == 2 || counter == 3 || counter == 4 || counter == 5 || counter == 6)
 				{
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 				{
 					float SpeedX = speedX + (float)Main.rand.Next(-40, 41) * 0.05f;
 					float SpeedY = speedY + (float)Main.rand.Next(-40, 41) * 0.05f;
-					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+					Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, Main.rand.Next(4), 0.0f);
 				}
 			}	
             return false;
