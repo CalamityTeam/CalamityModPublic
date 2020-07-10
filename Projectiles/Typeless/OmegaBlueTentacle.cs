@@ -232,6 +232,9 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
             GameShaders.Armor.ApplySecondary(Main.player[projectile.owner].cBody, Main.player[projectile.owner], new DrawData?());
             projectile.rotation = (projectile.Center - segment[5]).ToRotation();
             Texture2D texture2D13 = Main.projectileTexture[projectile.type];
@@ -241,6 +244,9 @@ namespace CalamityMod.Projectiles.Typeless
                 Main.spriteBatch.Draw(segmentSprite, segment[i] - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), segmentSprite.Bounds, projectile.GetAlpha(lightColor), 0f, segmentSprite.Bounds.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
             }
             Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), texture2D13.Bounds, projectile.GetAlpha(lightColor), projectile.rotation, texture2D13.Bounds.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
     }
