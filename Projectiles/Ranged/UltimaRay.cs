@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.arrow = true;
             projectile.penetrate = -1;
             projectile.alpha = 255;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = 10;
             projectile.usesLocalNPCImmunity = true;
         }
         public override bool PreAI()
