@@ -46,7 +46,7 @@ Grants Well Fed");
         {
 			int healAmt = CalamityWorld.ironHeart ? 0 : 120;
 			if (player.Calamity().bloodPactBuffTimer > 0)
-				healAmt = (int)(healValue * 1.5);
+				healAmt = (int)(healAmt * 1.5);
             player.statLife += healAmt;
             player.statMana += 150;
             if (player.statLife > player.statLifeMax2)

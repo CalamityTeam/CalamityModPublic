@@ -41,7 +41,7 @@ The life regen boost is stronger if below 75% health");
         {
 			int healAmt = CalamityWorld.ironHeart ? 0 : 240;
 			if (player.Calamity().bloodPactBuffTimer > 0)
-				healAmt = (int)(healValue * 1.5);
+				healAmt = (int)(healAmt * 1.5);
             player.statLife += healAmt;
             if (player.statLife > player.statLifeMax2)
             {

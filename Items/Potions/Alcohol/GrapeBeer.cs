@@ -43,7 +43,7 @@ Reduces defense by 2 and movement speed by 5%");
         {
 			int healAmt = CalamityWorld.ironHeart ? 0 : 100;
 			if (player.Calamity().bloodPactBuffTimer > 0)
-				healAmt = (int)(healValue * 1.5);
+				healAmt = (int)(healAmt * 1.5);
             player.statLife += healAmt;
             player.statMana += 100;
             if (player.statLife > player.statLifeMax2)
