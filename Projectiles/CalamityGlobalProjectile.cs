@@ -1199,6 +1199,30 @@ namespace CalamityMod.Projectiles
 						player.HealEffect(1);
 					}
 
+					bool otherHealTypes = modPlayer.auricSet || modPlayer.silvaSet || modPlayer.godSlayerMage || modPlayer.tarraMage || modPlayer.ataxiaMage;
+
+					if (projectile.magic && player.ActiveItem().magic)
+					{
+						if (modPlayer.manaOverloader && otherHealTypes)
+						{
+							if (Main.rand.NextBool(2))
+							{
+								float healMult = 0.2f;
+								healMult -= projectile.numHits * 0.05f;
+								float heal = projectile.damage * healMult * (player.statMana / (float)player.statManaMax2);
+
+								if (heal > 50)
+									heal = 50;
+
+								if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
+									goto OTHEREFFECTS;
+
+								SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 2f);
+								goto OTHEREFFECTS;
+							}
+						}
+					}
+
 					if (modPlayer.auricSet)
 					{
 						float healMult = 0.05f;
@@ -1227,8 +1251,22 @@ namespace CalamityMod.Projectiles
 
 						SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<SilvaOrb>(), 1200f, 3f);
 					}
-					else if (projectile.magic)
+					else if (projectile.magic && player.ActiveItem().magic)
 					{
+						if (modPlayer.manaOverloader)
+						{
+							float healMult = 0.2f;
+							healMult -= projectile.numHits * 0.05f;
+							float heal = projectile.damage * healMult * (player.statMana / (float)player.statManaMax2);
+
+							if (heal > 50)
+								heal = 50;
+
+							if (!CanSpawnLifeStealProjectile(projectile, healMult, heal))
+								goto OTHEREFFECTS;
+
+							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<ManaOverloaderHealOrb>(), 1200f, 2f);
+						}
 						if (modPlayer.godSlayerMage)
 						{
 							float healMult = 0.06f;
@@ -1282,7 +1320,7 @@ namespace CalamityMod.Projectiles
 
 							SpawnLifeStealProjectile(projectile, player, heal, ProjectileType<AtaxiaHealOrb>(), 1200f, 2f);
 						}
-						else if (modPlayer.manaOverloader && player.inventory[player.selectedItem].magic)
+						else if (modPlayer.manaOverloader)
 						{
 							float healMult = 0.2f;
 							healMult -= projectile.numHits * 0.05f;
