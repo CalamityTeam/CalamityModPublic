@@ -3214,7 +3214,8 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.reaperToothNecklace)
 			{
 				player.allDamage += 0.25f;
-				player.statDefense /= 2;
+				if (player.statDefense > 0)
+					player.statDefense /= 2;
 			}
 
 			if (modPlayer.deepDiver)
