@@ -57,19 +57,18 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//projectile movement
-            projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 60f;
+            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
             {
-                projectile.position.Y = projectile.position.Y + 150f;
+                projectile.position.Y += 120f;
                 projectile.rotation = MathHelper.Pi;
             }
             else
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)(int)projectile.position.X;
-            projectile.position.Y = (float)(int)projectile.position.Y;
+            projectile.position.X = (int)projectile.position.X;
+            projectile.position.Y = (int)projectile.position.Y;
 
 			//Change the summons scale size a little bit to make it pulse in and out
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;

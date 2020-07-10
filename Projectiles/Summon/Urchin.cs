@@ -73,22 +73,21 @@ namespace CalamityMod.Projectiles.Summon
                     player.MinionDamage());
                 projectile.damage = damage2;
             }
-            float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
-            num395 *= 0.2f;
-            projectile.scale = num395 + 0.95f;
-            projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 60f;
+            float scalar = (float)Main.mouseTextColor / 200f - 0.35f;
+            scalar *= 0.2f;
+            projectile.scale = scalar + 0.95f;
+            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
             {
-                projectile.position.Y = projectile.position.Y + 120f;
-                projectile.rotation = 3.14f;
+                projectile.position.Y += 120f;
+                projectile.rotation = MathHelper.Pi;
             }
             else
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)(int)projectile.position.X;
-            projectile.position.Y = (float)(int)projectile.position.Y;
+            projectile.position.X = (int)projectile.position.X;
+            projectile.position.Y = (int)projectile.position.Y;
             if (projectile.owner == Main.myPlayer)
             {
                 if (projectile.ai[0] != 0f)
