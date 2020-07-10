@@ -67,7 +67,7 @@ namespace CalamityMod.Projectiles.Rogue
 					}
 					value15.Normalize();
 					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<HypothermiaShard>(), (int)((float)projectile.damage * 0.33f), projectile.knockBack * 0.75f, Main.myPlayer, Main.rand.Next(0,4), 1f);
+					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<HypothermiaShard>(), (int)(projectile.damage * 0.33f), projectile.knockBack * 0.75f, Main.myPlayer, Main.rand.Next(4), 1f);
 				}
 			}
         }
