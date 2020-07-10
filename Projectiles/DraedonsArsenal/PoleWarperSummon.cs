@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,13 +43,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 24;
-        }
-
-        public override void SendExtraAI(BinaryWriter writer)
-        {
-        }
-        public override void ReceiveExtraAI(BinaryReader reader)
-        {
         }
 
         public override void AI()
