@@ -29,6 +29,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
             if (count == 0f)
             {
                 Main.PlaySound(SoundID.Item73, projectile.position);

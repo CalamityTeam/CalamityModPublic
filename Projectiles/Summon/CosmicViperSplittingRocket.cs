@@ -76,9 +76,9 @@ namespace CalamityMod.Projectiles.Summon
 					}
                 }
             }
-			else if (Main.npc[projectile.ai[0]].active && projectile.ai[0] != -1f)
+			else if (Main.npc[(int)projectile.ai[0]].active && projectile.ai[0] != -1f)
 			{
-                NPC npc = Main.npc[projectile.ai[0]];
+                NPC npc = Main.npc[(int)projectile.ai[0]];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
 					float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);

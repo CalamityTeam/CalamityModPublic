@@ -32,7 +32,8 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+			Player player = Main.player[projectile.owner];
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {

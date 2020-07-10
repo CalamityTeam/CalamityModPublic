@@ -42,11 +42,11 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					ModContent.DustType<AstralOrange>(),
 					ModContent.DustType<AstralBlue>()
-                }
-                int num137 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
-                Main.dust[num137].alpha = projectile.alpha;
-                Main.dust[num137].velocity *= 0f;
-                Main.dust[num137].noGravity = true;
+                };
+                int astral = Dust.NewDust(projectile.position, 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
+                Main.dust[astral].alpha = projectile.alpha;
+                Main.dust[astral].velocity *= 0f;
+                Main.dust[astral].noGravity = true;
             }
             float num472 = projectile.Center.X;
             float num473 = projectile.Center.Y;
@@ -69,9 +69,9 @@ namespace CalamityMod.Projectiles.Summon
 					}
 				}
 			}
-			else if (projectile.ai[0] != -1f && Main.npc[projectile.ai[0]].active)
+			else if (projectile.ai[0] != -1f && Main.npc[(int)projectile.ai[0]].active)
 			{
-				NPC npc = Main.npc[projectile.ai[0]];
+				NPC npc = Main.npc[(int)projectile.ai[0]];
                 if (npc.CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1))
                 {
 					float num476 = npc.Center.X;

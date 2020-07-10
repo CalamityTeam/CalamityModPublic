@@ -104,7 +104,7 @@ namespace CalamityMod.Projectiles.Summon
 					maxRange = targetDist;
 					targetPos = target.Center;
 					foundEnemy = true;
-					targetIndex = npc.whoAmI;
+					targetIndex = target.whoAmI;
 				}
 			}
 			//else, search through all available NPCs

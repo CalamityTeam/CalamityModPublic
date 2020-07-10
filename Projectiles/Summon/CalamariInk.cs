@@ -60,15 +60,15 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-			else if (Main.npc[projectile.ai[0]].active && projectile.ai[0] != -1f)
+			else if (Main.npc[(int)projectile.ai[0]].active && projectile.ai[0] != -1f)
 			{
-                NPC npc = Main.npc[projectile.ai[0]];
+                NPC npc = Main.npc[(int)projectile.ai[0]];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
                     float dist = (projectile.Center - npc.Center).Length();
                     if (dist < maxHomingRange)
                     {
-                        targetIdx = projectile.ai[0];
+                        targetIdx = (int)projectile.ai[0];
                         maxHomingRange = dist;
                         hasHomingTarget = true;
                     }

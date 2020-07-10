@@ -32,6 +32,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
+			Player player = Main.player[projectile.owner];
             projectile.frameCounter++;
             if (projectile.frameCounter > 3)
             {
@@ -61,9 +62,9 @@ namespace CalamityMod.Projectiles.Summon
 					float num478 = Math.Abs(projectile.Center.X - num476) + Math.Abs(projectile.Center.Y - num477);
 					if (num478 < num474)
 					{
-						num472 = num476;
-						num473 = num477;
-						flag17 = true;
+						centerX = num476;
+						centerY = num477;
+						homeIn = true;
 					}
 				}
             }
