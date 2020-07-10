@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class ForbiddenCirclet : ModItem
     {
-		public const int manaCost = 50;
-		public const int tornadoBaseDmg = 100;
+		public const int manaCost = 60;
+		public const int tornadoBaseDmg = 80;
 		public const float tornadoBaseKB = 1f;
 
         public override void SetStaticDefaults()

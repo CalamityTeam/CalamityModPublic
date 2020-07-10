@@ -2849,7 +2849,7 @@ namespace CalamityMod.CalPlayer
                     plagueReaperCooldown = 1800;
 				if (forbiddenCirclet && forbiddenCooldown <= 0)
 				{
-					forbiddenCooldown = 20;
+					forbiddenCooldown = 45;
                     int stormMana = (int)(ForbiddenCirclet.manaCost * player.manaCost);
                     if (player.statMana < stormMana)
                     {
