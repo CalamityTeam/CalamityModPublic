@@ -45,6 +45,7 @@ namespace CalamityMod.Projectiles.Summon
 			Vector2 center = projectile.Center;
 			float maxDistance = 500f;
 			bool homeIn = false;
+            int target = (int)projectile.ai[0];
 
             if (player.HasMinionAttackTargetNPC)
             {
@@ -64,7 +65,23 @@ namespace CalamityMod.Projectiles.Summon
 					}
                 }
 			}
-			else
+			else if (Main.npc[target].CanBeChasedBy(projectile, false))
+            {
+				NPC npc = Main.npc[target];
+
+				float extraDistance = (npc.width / 2) + (npc.height / 2);
+
+				bool canHit = true;
+				if (extraDistance < maxDistance)
+					canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+
+				if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance) && canHit)
+				{
+					center = npc.Center;
+					homeIn = true;
+				}
+            }
+			if (!homeIn)
 			{
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{

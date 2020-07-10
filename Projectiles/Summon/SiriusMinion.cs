@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                else
+                if (!flag11)
                 {
                     for (int num399 = 0; num399 < Main.npc.Length; num399++)
                     {

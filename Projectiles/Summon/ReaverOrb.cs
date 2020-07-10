@@ -108,6 +108,7 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             num508 = num515;
                             flag18 = true;
+							break;
                         }
                     }
                 }

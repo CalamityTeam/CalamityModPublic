@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver4;
         }
 
         public override Color? GetAlpha(Color lightColor)

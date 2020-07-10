@@ -93,6 +93,7 @@ namespace CalamityMod.Projectiles.Summon
 			Vector2 targetPos = projectile.position;
 			float maxRange = 900f;
 			bool foundEnemy = false;
+			int targetIndex = -1;
 			//If the player has targetted an enemy, choose that one
 			NPC target = projectile.OwnerMinionAttackTargetNPC;
 			if (target != null && target.CanBeChasedBy(projectile, false))
@@ -103,6 +104,7 @@ namespace CalamityMod.Projectiles.Summon
 					maxRange = targetDist;
 					targetPos = target.Center;
 					foundEnemy = true;
+					targetIndex = npc.whoAmI;
 				}
 			}
 			//else, search through all available NPCs
@@ -119,6 +121,7 @@ namespace CalamityMod.Projectiles.Summon
 							maxRange = targetDist;
 							targetPos = npc.Center;
 							foundEnemy = true;
+							targetIndex = index;
 						}
 					}
 				}
@@ -272,7 +275,7 @@ namespace CalamityMod.Projectiles.Summon
 			targetVec.Normalize();
 			targetVec *= speedMult;
             Main.PlaySound(SoundID.Item20, projectile.position);
-			int fireball = Projectile.NewProjectile(projectile.Center, targetVec, ModContent.ProjectileType<HowlsHeartFireball>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			int fireball = Projectile.NewProjectile(projectile.Center, targetVec, ModContent.ProjectileType<HowlsHeartFireball>(), projectile.damage, projectile.knockBack, projectile.owner, targetIndex, 0f);
 			Main.projectile[fireball].netUpdate = true;
 			Main.projectile[fireball].frame = Main.rand.Next(4);
 			projectile.netUpdate = true;

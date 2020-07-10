@@ -117,7 +117,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                else
+                if (!flag18)
                 {
                     for (int num512 = 0; num512 < Main.maxNPCs; num512++)
                     {

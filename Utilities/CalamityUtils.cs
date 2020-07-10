@@ -1068,8 +1068,8 @@ namespace CalamityMod
 					}
 				}
 			}
-			//If no npc is specifically targetted, check through the entire array
-			else
+			//If no npc is specifically targetted or the selected enemy can't be found, check through the entire array
+			if (!foundTarget)
 			{
 				for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
 				{

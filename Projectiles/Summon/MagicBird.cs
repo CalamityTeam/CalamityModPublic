@@ -89,7 +89,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else
+            if (!hasHomingTarget)
             {
                 for (int i = 0; i < Main.npc.Length; ++i)
                 {

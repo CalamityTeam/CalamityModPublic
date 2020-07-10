@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Summon
             float num473 = projectile.Center.Y;
             float num474 = 400f;
             bool flag17 = false;
-            for (int num475 = 0; num475 < 200; num475++)
+            for (int num475 = 0; num475 < Main.maxNPCs; num475++)
             {
                 if (Main.npc[num475].CanBeChasedBy(projectile, false) && Collision.CanHit(projectile.Center, 1, 1, Main.npc[num475].Center, 1, 1))
                 {
@@ -93,10 +93,9 @@ namespace CalamityMod.Projectiles.Summon
             double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
             double deltaAngle = spread / 8f;
             double offsetAngle;
-            int i;
             if (projectile.owner == Main.myPlayer)
             {
-                for (i = 0; i < 2; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<PhoenixFireFriendly>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);

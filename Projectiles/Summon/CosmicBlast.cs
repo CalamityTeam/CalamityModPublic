@@ -56,16 +56,54 @@ namespace CalamityMod.Projectiles.Summon
             float num474 = 1200f;
             bool flag17 = false;
             int target = (int)projectile.ai[0];
-            if (Main.npc[target].CanBeChasedBy(projectile, false))
+            if (player.HasMinionAttackTargetNPC)
+            {
+                NPC npc = Main.npc[player.MinionAttackTargetNPC];
+				if (npc.CanBeChasedBy(projectile, false))
+				{
+					float num476 = npc.position.X + (float)(npc.width / 2);
+					float num477 = npc.position.Y + (float)(npc.height / 2);
+					float num478 = Math.Abs(projectile.Center.X - num476) + Math.Abs(projectile.Center.Y - num477);
+					if (num478 < num474)
+					{
+						num472 = num476;
+						num473 = num477;
+						flag17 = true;
+					}
+				}
+            }
+			else if (Main.npc[target].CanBeChasedBy(projectile, false))
             {
                 float num476 = Main.npc[target].position.X + (float)(Main.npc[target].width / 2);
                 float num477 = Main.npc[target].position.Y + (float)(Main.npc[target].height / 2);
-                float num478 = Math.Abs(projectile.position.X + (float)(projectile.width / 2) - num476) + Math.Abs(projectile.position.Y + (float)(projectile.height / 2) - num477);
+                float num478 = Math.Abs(projectile.Center.X - num476) + Math.Abs(projectile.Center.Y - num477);
                 if (num478 < num474)
                 {
                     num472 = num476;
                     num473 = num477;
                     flag17 = true;
+                }
+            }
+            if (!flag17)
+            {
+                for (int i = 0; i < Main.maxNPCs; ++i)
+                {
+                    NPC npc = Main.npc[i];
+                    if (npc is null || !npc.active)
+                        continue;
+
+                    if (npc.CanBeChasedBy(projectile, false))
+                    {
+						float num476 = npc.position.X + (float)(npc.width / 2);
+						float num477 = npc.position.Y + (float)(npc.height / 2);
+						float num478 = Math.Abs(projectile.Center.X - num476) + Math.Abs(projectile.Center.Y - num477);
+						if (num478 < num474)
+						{
+							num472 = num476;
+							num473 = num477;
+							flag17 = true;
+						}
+                    }
                 }
             }
             if (flag17)

@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Summon
 					}
 				}
 				//If no npc is specifically targetted, check through the entire array
-				else
+				if (!npcFound)
 				{
 					for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
 					{
