@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
 							speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
 							if (numSpecProj < 2 && !hitEnemy)
 							{
-								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<Prismalline3>(), (int)(projectile.damage * 1.25), projectile.knockBack, projectile.owner, 0f, 0f);
+								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<Prismalline3>(), (int)(projectile.damage * 1.1), projectile.knockBack, projectile.owner, 0f, 0f);
 								++numSpecProj;
 							}
 							else
@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Rogue
 							}
 							speed.Normalize();
 							speed *= (float)Main.rand.Next(30, 61) * 0.1f * 2f;
-							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<Prismalline3>(), (int)(projectile.damage * 1.25), projectile.knockBack, projectile.owner, 1f, 0f);
+							Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<Prismalline3>(), (int)(projectile.damage * 1.15), projectile.knockBack, projectile.owner, 1f, 0f);
 						}
 					}
                 }
