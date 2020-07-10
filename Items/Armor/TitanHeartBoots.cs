@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Armor
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Titan Heart Boots");
-			Tooltip.SetDefault("10% increased rogue velocity and 5% boosted rogue knockback");
+			Tooltip.SetDefault("4% increased rogue damage, 10% increased rogue velocity, and 5% increased rogue knockback");
 		}
 
 		public override void SetDefaults()
@@ -28,6 +28,7 @@ namespace CalamityMod.Items.Armor
 		{
 			player.Calamity().titanHeartBoots = true;
 			player.Calamity().throwingVelocity += 0.1f;
+			modPlayer.throwingDamage += 0.04f;
 		}
 
 		public override void AddRecipes()

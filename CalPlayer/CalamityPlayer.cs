@@ -4519,6 +4519,10 @@ namespace CalamityMod.CalPlayer
 						target.AddBuff(BuffID.Midas, 120, false);
 						break;*/
 				}
+				if (titanHeartMask)
+				{
+					target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
+				}
             }
             if (holyWrath)
             {
@@ -4731,6 +4735,10 @@ namespace CalamityMod.CalPlayer
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
                     }
+					if (titanHeartMask)
+					{
+						target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
+					}
                 }
                 if (vexation)
                 {
@@ -4858,6 +4866,10 @@ namespace CalamityMod.CalPlayer
 					/*case 4:
 						target.AddBuff(BuffID.Midas, 120, false);
 						break;*/
+				}
+				if (titanHeartMask)
+				{
+					target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
 				}
             }
             if (holyWrath)
@@ -5066,6 +5078,10 @@ namespace CalamityMod.CalPlayer
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
                     }
+					if (titanHeartMask)
+					{
+						target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
+					}
                 }
                 if (vexation)
                 {
