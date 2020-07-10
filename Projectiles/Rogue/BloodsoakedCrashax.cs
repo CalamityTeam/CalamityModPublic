@@ -85,16 +85,16 @@ namespace CalamityMod.Projectiles.Rogue
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-			OnHitEffects();
+			OnHitEffects(!target.canGhostHeal || Main.player[projectile.owner].moonLeech);
 		}
 
 		public override void OnHitPvp(Player target, int damage, bool crit)
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
-			OnHitEffects();
+			OnHitEffects(Main.player[projectile.owner].moonLeech);
 		}
 
-		private void OnHitEffects()
+		private void OnHitEffects(bool cannotLifesteal)
 		{
 			if (grind < 10)
 			{
@@ -108,7 +108,7 @@ namespace CalamityMod.Projectiles.Rogue
 			}
 
 			Player player = Main.player[projectile.owner];
-			if (!target.canGhostHeal || player.moonLeech) //canGhostHeal be like lol
+			if (cannotLifesteal) //canGhostHeal be like lol
 			{
 				return;
 			}
