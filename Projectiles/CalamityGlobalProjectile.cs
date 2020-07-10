@@ -1840,7 +1840,7 @@ namespace CalamityMod.Projectiles
 
 		public static void DrawCenteredAndAfterimage(Projectile projectile, Color lightColor, int trailingMode, int afterimageCounter, Texture2D texture = null, bool drawCentered = true)
         {
-            if (texture == null)
+            if (texture is null)
                 texture = Main.projectileTexture[projectile.type];
 
             int frameHeight = texture.Height / Main.projFrames[projectile.type];
