@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					ModContent.DustType<AstralOrange>(),
 					ModContent.DustType<AstralBlue>()
-                };
+                });
                 int astral = Dust.NewDust(projectile.position, 1, 1, randomDust, 0f, 0f, 0, default, 0.5f);
                 Main.dust[astral].alpha = projectile.alpha;
                 Main.dust[astral].velocity *= 0f;

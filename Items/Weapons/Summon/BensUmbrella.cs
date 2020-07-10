@@ -9,65 +9,65 @@ using Terraria.ModLoader;
 namespace CalamityMod.Items.Weapons.Summon
 {
 	public class BensUmbrella : ModItem
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Temporal Umbrella");
-            Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
+	{
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Temporal Umbrella");
+			Tooltip.SetDefault("Surprisingly sturdy, I reckon this could defeat the Mafia in a single blow\n" +
 							   "Summons a magic hat to hover above your head\n" +
-                               "The hat will release a variety of objects to assault your foes\n" +
-                               "Requires 5 minion slots to use\n" +
-                               "There can only be one");
-        }
+							   "The hat will release a variety of objects to assault your foes\n" +
+							   "Requires 5 minion slots to use\n" +
+							   "There can only be one");
+		}
 
-        public override void SetDefaults()
-        {
-            item.damage = 963;
-            item.knockBack = 1f;
-            item.mana = 99;
-            item.useTime = item.useAnimation = 10;
-            item.summon = true;
-            item.shootSpeed = 0f;
-            item.shoot = ModContent.ProjectileType<MagicHat>();
+		public override void SetDefaults()
+		{
+			item.damage = 963;
+			item.knockBack = 1f;
+			item.mana = 99;
+			item.useTime = item.useAnimation = 10;
+			item.summon = true;
+			item.shootSpeed = 0f;
+			item.shoot = ModContent.ProjectileType<MagicHat>();
 
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.width = 74;
-            item.height = 72;
-            item.noMelee = true;
-            item.UseSound = SoundID.Item68;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-        }
+			item.useStyle = ItemUseStyleID.SwingThrow;
+			item.width = 74;
+			item.height = 72;
+			item.noMelee = true;
+			item.UseSound = SoundID.Item68;
+			item.value = Item.buyPrice(5, 0, 0, 0);
+			item.rare = 10;
+			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+		}
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 5;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && player.maxMinions >= 5;
 
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            for (int x = 0; x < Main.maxProjectiles; x++)
-            {
-                Projectile projectile = Main.projectile[x];
-                if (projectile.active && projectile.owner == player.whoAmI && projectile.type == type)
-                {
-                    projectile.Kill();
+		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+		{
+			for (int x = 0; x < Main.maxProjectiles; x++)
+			{
+				Projectile projectile = Main.projectile[x];
+				if (projectile.active && projectile.owner == player.whoAmI && projectile.type == type)
+				{
+					projectile.Kill();
 					break;
-                }
-            }
-            Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
-            return false;
-        }
+				}
+			}
+			Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+			return false;
+		}
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<SpikecragStaff>());
-            recipe.AddIngredient(ModContent.ItemType<SarosPossession>());
-            recipe.AddIngredient(ItemID.Umbrella);
-            recipe.AddIngredient(ItemID.TopHat);
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<SpikecragStaff>());
+			recipe.AddIngredient(ModContent.ItemType<SarosPossession>());
+			recipe.AddIngredient(ItemID.Umbrella);
+			recipe.AddIngredient(ItemID.TopHat);
 			recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 4);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }
