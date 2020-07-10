@@ -988,6 +988,8 @@ namespace CalamityMod.CalPlayer
 				modPlayer.dogTextCooldown--;
 			if (modPlayer.titanCooldown > 0)
 				modPlayer.titanCooldown--;
+			if (modPlayer.bloodPactBuffTimer > 0)
+				modPlayer.bloodPactBuffTimer--;
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -2514,6 +2516,15 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.eQuiver)
 			{
 				player.magicQuiver = true;
+			}
+
+			if (modPlayer.bloodPactBuffTimer > 0)
+			{
+				player.allDamage += 0.05f;
+				player.statDefense += 20;
+				player.endurance += 0.1f;
+				player.longInvince = true;
+				player.crimsonRegen = true;
 			}
 
 			if (modPlayer.fabsolVodka)

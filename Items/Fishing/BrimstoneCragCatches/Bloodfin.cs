@@ -40,6 +40,8 @@ The life regen boost is stronger if below 75% health");
         public override void OnConsumeItem(Player player)
         {
 			int healAmt = CalamityWorld.ironHeart ? 0 : 240;
+			if (player.Calamity().bloodPactBuffTimer > 0)
+				healAmt = (int)(healValue * 1.5);
             player.statLife += healAmt;
             if (player.statLife > player.statLifeMax2)
             {
@@ -66,7 +68,10 @@ The life regen boost is stronger if below 75% health");
         // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : item.healLife) + " life";
+			float healMult = 1f;
+			if (Main.player[Main.myPlayer].Calamity().bloodPactBuffTimer > 0)
+				healMult = 1.5f;
+            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : (int)(item.healLife * healMult)) + " life";
         }
     }
 }

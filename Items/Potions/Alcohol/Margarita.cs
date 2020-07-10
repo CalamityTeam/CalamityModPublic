@@ -45,6 +45,8 @@ Reduces defense by 6 and life regen by 1");
         public override void OnConsumeItem(Player player)
         {
 			int healAmt = CalamityWorld.ironHeart ? 0 : 200;
+			if (player.Calamity().bloodPactBuffTimer > 0)
+				healAmt = (int)(healValue * 1.5);
             player.statLife += healAmt;
             player.statMana += 200;
             if (player.statLife > player.statLifeMax2)
@@ -74,7 +76,10 @@ Reduces defense by 6 and life regen by 1");
         // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : item.healLife) + " life";
+			float healMult = 1f;
+			if (Main.player[Main.myPlayer].Calamity().bloodPactBuffTimer > 0)
+				healMult = 1.5f;
+            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : (int)(item.healLife * healMult)) + " life";
         }
     }
 }

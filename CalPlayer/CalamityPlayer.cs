@@ -472,6 +472,7 @@ namespace CalamityMod.CalPlayer
         public bool fleshTotem = false;
         public bool fleshTotemCooldown = false;
         public bool bloodPact = false;
+		public int bloodPactBuffTimer = 0;
         public bool bloodflareCore = false;
         public bool coreOfTheBloodGod = false;
         public bool elementalHeart = false;
@@ -2005,6 +2006,7 @@ namespace CalamityMod.CalPlayer
 			sulphurBubbleCooldown = 0;
 			ladHearts = 0;
 			prismaticLasers = 0;
+			bloodPactBuffTimer = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -4127,6 +4129,8 @@ namespace CalamityMod.CalPlayer
 		#region Get Heal Life
 		public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
 		{
+			if (bloodPactBuffTimer > 0)
+				healValue = (int)(healValue * 1.5);
 			if (CalamityWorld.ironHeart)
 				healValue = 0;
 		}
@@ -7242,8 +7246,13 @@ namespace CalamityMod.CalPlayer
                 (DoGLore ? 0.1 : 0.0) +
                 ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0.0) +
                 (enraged ? 0.25 : 0.0) +
-                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0.0) +
-                ((bloodPact && Main.rand.NextBool(4)) ? 1.5 : 0.0);
+                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0.0);
+
+			if (bloodPact && Main.rand.NextBool(4))
+			{
+				bloodPactBuffTimer = 600;
+				damageMult += 1.25;
+			}
 
             if (CalamityWorld.revenge)
             {
