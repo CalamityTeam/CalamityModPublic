@@ -1,3 +1,4 @@
+using CalamityMod.Items.Placeables;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -51,7 +52,7 @@ namespace CalamityMod.Tiles
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+            Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<DraedonsFuelFactoryItem>());
             int left = i - Main.tile[i, j].frameX % 64 / 16;
             int top = j - Main.tile[i, j].frameY % 64 / 16;
 

@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 26;
 			item.height = 26;
 			item.summon = true;
-			item.damage = 35;
+			item.damage = 27;
 			item.knockBack = 2f;
 			item.useTime = item.useAnimation = 35;
 			item.autoReuse = true;
@@ -69,6 +70,19 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 				currentScannerIndex++;
 			}
 			return false;
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
+			recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
+			recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

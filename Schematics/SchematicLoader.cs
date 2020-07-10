@@ -22,6 +22,7 @@ namespace CalamityMod.Schematics
         #region Loading/Unloading
         internal static void LoadEverything()
         {
+            PilePlacementMaps = new Dictionary<string, PilePlacementFunction>();
             TileMaps = new Dictionary<string, Tile[,]>
             {
                 // Texture loading does not require a .png at the end of the path string.

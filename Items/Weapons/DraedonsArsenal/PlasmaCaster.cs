@@ -40,6 +40,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.shoot = ModContent.ProjectileType<PlasmaCasterShot>();
 			item.shootSpeed = 1f;
 			item.useAmmo = AmmoID.Bullet;
+
+			item.Calamity().Chargeable = true;
 		}
 
 		public override bool AltFunctionUse(Player player)

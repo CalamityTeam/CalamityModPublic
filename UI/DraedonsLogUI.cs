@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -68,7 +69,7 @@ namespace CalamityMod.UI
                 }
             }
 
-            string placeholderText = "Bottom text.";
+            string placeholderText = "This is placeholder text. Yell at the lore writers to make something for this that pertains to Draedon and Co.";
 
             // Create text and arrows.
             if (FadeTime >= FadeTimeMax - 4 && Active)
@@ -76,12 +77,6 @@ namespace CalamityMod.UI
                 int textWidth = (int)(xScale * 2 * pageTexture.Width) - TextStartOffsetX;
                 List<string> dialogLines = Utils.WordwrapString(placeholderText, Main.fontMouseText, textWidth, 250, out _).ToList();
                 dialogLines.RemoveAll(text => string.IsNullOrEmpty(text));
-
-                // Remove the '-' added at the end of the line. WordwrapString adds them for some weird reason,
-                for (int i = 0; i < dialogLines.Count; i++)
-                {
-                    dialogLines[i] = dialogLines[i].Substring(0, dialogLines[i].Length - 2);
-                }
 
                 int totalPages = dialogLines.Count / (TotalLinesPerPage * 2 + 2);
 
@@ -156,7 +151,7 @@ namespace CalamityMod.UI
                             textDrawPositionY = 50 + (i - startingLine - (TotalLinesPerPage + 1)) * 24 + (int)yPageTop;
                         }
 
-                        Color drawColor = Color.Lerp(Color.Cyan, Color.DarkCyan, (float)System.Math.Cos(i * 0.4) * 0.5f + 0.5f);
+                        Color drawColor = Color.Lerp(Color.Cyan, Color.DarkCyan, (float)Math.Cos(i * 0.4) * 0.5f + 0.5f);
                         Utils.DrawBorderStringFourWay(spriteBatch,
                                                       Main.fontMouseText,
                                                       dialogLines[i],

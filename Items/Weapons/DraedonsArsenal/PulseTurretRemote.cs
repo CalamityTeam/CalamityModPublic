@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -27,8 +28,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = SoundID.Item15;
 			item.noMelee = true;
 
-			item.value = CalamityGlobalItem.Rarity2BuyPrice;
-			item.rare = 2;
+			item.value = CalamityGlobalItem.Rarity4BuyPrice;
+			item.rare = 4;
 
 			item.shoot = ModContent.ProjectileType<PulseTurret>();
 			item.shootSpeed = 1f;
@@ -56,6 +57,19 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 				Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
 			}
 			return false;
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
+			recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
+			recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }

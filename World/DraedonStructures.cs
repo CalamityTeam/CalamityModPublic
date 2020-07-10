@@ -1,3 +1,4 @@
+using CalamityMod.Items;
 using CalamityMod.Items.Materials;
 using CalamityMod.Schematics;
 using Microsoft.Xna.Framework;
@@ -21,6 +22,7 @@ namespace CalamityMod.World
     }
     public static class DraedonStructures
     {
+        public static bool DraedonsLogPresentInWorld = false;
         public static void FillWorkshopChest(Chest chest)
         {
             int potionType = Utils.SelectRandom(Main.rand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
@@ -34,6 +36,11 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
+            if (!DraedonsLogPresentInWorld)
+            {
+                contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLog>(), 1));
+                DraedonsLogPresentInWorld = true;
+            }
             for (int i = 0; i < contents.Count; i++)
             {
                 chest.item[i].SetDefaults(contents[i].Type);

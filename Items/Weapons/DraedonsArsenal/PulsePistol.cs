@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -30,11 +31,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.noMelee = true;
 
 			item.value = CalamityGlobalItem.Rarity3BuyPrice;
-			item.rare = ItemRarityID.Orange;
+			item.rare = 3;
 
 			item.shoot = ModContent.ProjectileType<PulseRifleShot>();
 			item.shootSpeed = 1.2f; // Keep in mind that the shot has extra updates.
 			item.useAmmo = AmmoID.Bullet;
+
+			item.Calamity().Chargeable = true;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -51,5 +54,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		// Disable vanilla ammo consumption
 		public override bool ConsumeAmmo(Player player) => false;
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
+			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
@@ -20,7 +21,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             item.width = 22;
             item.height = 28;
-            item.damage = 35;
+            item.damage = 50;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.consumable = true;
@@ -30,8 +31,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity2BuyPrice;
-            item.rare = 2;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = 5;
             item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
             item.shootSpeed = 10f;
             item.Calamity().rogue = true;
@@ -41,6 +42,17 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             Projectile grenade = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             grenade.Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 1);
+            recipe.AddIngredient(ItemID.HallowedBar, 2);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this, 200);
+            recipe.AddRecipe();
         }
     }
 }

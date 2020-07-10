@@ -30,7 +30,7 @@ namespace CalamityMod.TileEntities
             }
 
             Time++;
-            if (Time % 3 == 2 && Main.tileFrame[ModContent.TileType<DraedonFuelFactory>()] == 43)
+            if (Time % 5 == 4 && Main.tileFrame[Main.tile[Position.X, Position.Y].type] == 43)
             {
                 HeldItem.stack++;
             }

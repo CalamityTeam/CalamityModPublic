@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -41,6 +42,17 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 				Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
 			}
 			return false;
+		}
+
+		public override void AddRecipes()
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 6);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 6);
+			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 8);
+			recipe.AddTile(TileID.Anvils);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }
