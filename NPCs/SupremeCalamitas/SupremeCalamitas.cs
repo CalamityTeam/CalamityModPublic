@@ -2223,7 +2223,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Vanity
             DropHelper.DropItem(npc, ModContent.ItemType<BrimstoneJewel>(), Main.expertMode);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), Main.expertMode, CalamityWorld.death);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), true, CalamityWorld.death);
 
             // Other
             DropHelper.DropItemChance(npc, ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
