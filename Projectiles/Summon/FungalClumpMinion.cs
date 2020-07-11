@@ -260,6 +260,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 return;
             }
+			if (healAmt > 50f)
+				healAmt = 50f;
 			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 1f);
         }
 
