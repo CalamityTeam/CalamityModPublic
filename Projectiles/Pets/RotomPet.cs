@@ -95,11 +95,9 @@ namespace CalamityMod.Projectiles.Pets
 
 		private void UpdateFrames()
 		{
-			projectile.frameCounter++;
-			if (projectile.frameCounter > 6)
+			if (projectile.frameCounter % 6 == 0)
 			{
 				projectile.frame++;
-				projectile.frameCounter = 0;
 			}
 			if (projectile.frame >= 4)
 			{

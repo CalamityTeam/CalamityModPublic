@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 
 		public override void AI()
 		{
-			MadAlchemistsCocktailBlue.FlaskAI(projectile);
+			MadAlchemistsCocktailBlue.FlaskAI();
 		}
 
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -78,16 +78,16 @@ namespace CalamityMod.Projectiles.Magic
 			{
 				int prettyEffects = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 200, default, dustScaleA);
 				Dust dust = Main.dust[prettyEffects];
-				dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * Main.rand.NextFloat() * (float)projectile.width / 2f;
+				dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * Main.rand.NextFloat() * projectile.width / 2f;
 				dust.noGravity = true;
 				dust.velocity *= 4f;
 				dust.velocity += dustVel * Main.rand.NextFloat();
 				prettyEffects = Dust.NewDust(projectile.position, projectile.width, projectile.height, 174, 0f, 0f, 100, default, dustScaleB);
-				dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * Main.rand.NextFloat() * (float)projectile.width / 2f;
+				dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * Main.rand.NextFloat() * projectile.width / 2f;
 				dust.velocity *= 3f;
 				dust.noGravity = true;
 				prettyEffects = Dust.NewDust(projectile.position, projectile.width, projectile.height, 229, 0f, 0f, 100, default, dustScaleB);
-				dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * Main.rand.NextFloat() * (float)projectile.width / 2f;
+				dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * Main.rand.NextFloat() * projectile.width / 2f;
 				dust.velocity *= 2f;
 				dust.noGravity = true;
 				dust.fadeIn = 1f;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Magic
 			}
 			for (int j = 0; j < 20; j++)
 			{
-				int dusty = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 0, default, dustScaleA);
+				int dusty = Dust.NewDust(projectile.position, projectile.width, projectile.height, 206, 0f, 0f, 0, default, num52);
 				Dust dust = Main.dust[dusty];
 				dust.position = projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 3f;
 				dust.noGravity = true;

@@ -36,11 +36,9 @@ namespace CalamityMod.Projectiles.Summon
             projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
             projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
 
-			projectile.frameCounter++;
-            if (projectile.frameCounter > 6)
+            if (projectile.frameCounter++ % 6 == 0)
             {
                 projectile.frame++;
-				projectile.frameCounter = 0;
             }
             if (projectile.frame >= 7)
             {

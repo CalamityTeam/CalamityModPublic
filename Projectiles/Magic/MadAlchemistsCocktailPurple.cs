@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			MadAlchemistsCocktailBlue.FlaskAI(projectile);
+			MadAlchemistsCocktailBlue.FlaskAI();
         }
 
         public override void Kill(int timeLeft)
@@ -37,9 +37,9 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    Vector2 velocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
                     velocity.Normalize();
-                    velocity *= (float)Main.rand.Next(10, 201) * 0.01f;
+                    velocity *= Main.rand.Next(10, 201) * 0.01f;
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<MadAlchemistsCocktailShrapnel>(), projectile.damage / 3, 0f, projectile.owner, 0f, Main.rand.Next(-45, 1));
                 }
             }
