@@ -25,17 +25,27 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			MadAlchemistsCocktailBlue.FlaskAI();
+            projectile.rotation += Math.Abs(projectile.velocity.X) * 0.04f * (float)projectile.direction;
+            projectile.ai[0] += 1f;
+            if (projectile.ai[0] >= 90f)
+            {
+                projectile.velocity.Y = projectile.velocity.Y + 0.4f;
+                projectile.velocity.X = projectile.velocity.X * 0.97f;
+            }
+            if (projectile.velocity.Y > 16f)
+            {
+                projectile.velocity.Y = 16f;
+            }
         }
 
         public override void Kill(int timeLeft)
         {
             int height = 480;
-            float dustScaleA = 3f;
-            float dustScaleB = 2.4f;
-            float dustScaleC = 3.8f;
-			Vector2 dustDirection = (-MathHelper.PiOver2).ToRotationVector2();
-			Vector2 dustVel = dustDirection * projectile.velocity.Length() * projectile.MaxUpdates;
+            float num50 = 3f;
+            float num51 = 2.4f;
+            float num52 = 3.8f;
+            Vector2 value3 = (0f - 1.57079637f).ToRotationVector2();
+            Vector2 value4 = value3 * projectile.velocity.Length() * (float)projectile.MaxUpdates;
             Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 20, 2f, 0f);
             Main.PlaySound(SoundID.Item107, projectile.position);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
@@ -49,44 +59,55 @@ namespace CalamityMod.Projectiles.Magic
             projectile.localNPCHitCooldown = 10;
             projectile.damage *= 3;
             projectile.Damage();
-            for (int i = 0; i < 60; i++)
+            int num3;
+            for (int num53 = 0; num53 < 60; num53 = num3 + 1)
             {
-                int red = Dust.NewDust(projectile.position, projectile.width, projectile.height, 174, 0f, 0f, 200, default, dustScaleA);
-                Dust dust = Main.dust[red];
-                dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * Main.rand.NextFloat() * projectile.width / 2f;
-                dust.noGravity = true;
+                int num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 200, default, num50);
+                Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                Main.dust[num54].noGravity = true;
+                Dust dust = Main.dust[num54];
                 dust.velocity *= 8f;
+                dust = Main.dust[num54];
                 dust.velocity += value4 * Main.rand.NextFloat();
-                red = Dust.NewDust(projectile.position, projectile.width, projectile.height, 174, 0f, 0f, 100, default, dustScaleB);
-                dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * Main.rand.NextFloat() * projectile.width / 2f;
+                num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default, num51);
+                Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                dust = Main.dust[num54];
                 dust.velocity *= 6f;
-                dust.noGravity = true;
-                dust.fadeIn = 1f;
-                dust.color = Color.Crimson * 0.5f;
+                Main.dust[num54].noGravity = true;
+                Main.dust[num54].fadeIn = 1f;
+                Main.dust[num54].color = Color.Crimson * 0.5f;
+                dust = Main.dust[num54];
                 dust.velocity += value4 * Main.rand.NextFloat();
-                red = Dust.NewDust(projectile.position, projectile.width, projectile.height, 174, 0f, 0f, 100, default, dustScaleB);
-                dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * Main.rand.NextFloat() * projectile.width / 2f;
+                num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default, num51);
+                Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                dust = Main.dust[num54];
                 dust.velocity *= 4f;
-                dust.noGravity = true;
-                dust.fadeIn = 1f;
-                dust.color = Color.Crimson * 0.5f;
+                Main.dust[num54].noGravity = true;
+                Main.dust[num54].fadeIn = 1f;
+                Main.dust[num54].color = Color.Crimson * 0.5f;
+                dust = Main.dust[num54];
                 dust.velocity += value4 * Main.rand.NextFloat();
-                red = Dust.NewDust(projectile.position, projectile.width, projectile.height, 174, 0f, 0f, 100, default, dustScaleB);
-                dust.position = projectile.Center + Vector2.UnitY.RotatedByRandom(Math.PI) * Main.rand.NextFloat() * projectile.width / 2f;
+                num54 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 100, default, num51);
+                Main.dust[num54].position = projectile.Center + Vector2.UnitY.RotatedByRandom(3.1415927410125732) * (float)Main.rand.NextDouble() * (float)projectile.width / 2f;
+                dust = Main.dust[num54];
                 dust.velocity *= 2f;
-                dust.noGravity = true;
-                dust.fadeIn = 1f;
-                dust.color = Color.Crimson * 0.5f;
+                Main.dust[num54].noGravity = true;
+                Main.dust[num54].fadeIn = 1f;
+                Main.dust[num54].color = Color.Crimson * 0.5f;
+                dust = Main.dust[num54];
                 dust.velocity += value4 * Main.rand.NextFloat();
+                num3 = num53;
             }
-            for (int j = 0; j < 30; j++)
+            for (int num55 = 0; num55 < 30; num55 = num3 + 1)
             {
-                int crimson = Dust.NewDust(projectile.position, projectile.width, projectile.height, 174, 0f, 0f, 0, default, dustScaleC);
-                Dust dust = Main.dust[crimson];
-                dust.position = projectile.Center + Vector2.UnitX.RotatedByRandom(Math.PI).RotatedBy((double)projectile.velocity.ToRotation(), default) * projectile.width / 3f;
-                dust.noGravity = true;
+                int num56 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 174, 0f, 0f, 0, default, num52);
+                Main.dust[num56].position = projectile.Center + Vector2.UnitX.RotatedByRandom(3.1415927410125732).RotatedBy((double)projectile.velocity.ToRotation(), default) * (float)projectile.width / 3f;
+                Main.dust[num56].noGravity = true;
+                Dust dust = Main.dust[num56];
                 dust.velocity *= 0.5f;
+                dust = Main.dust[num56];
                 dust.velocity += value4 * (0.6f + 0.6f * Main.rand.NextFloat());
+                num3 = num55;
             }
         }
     }

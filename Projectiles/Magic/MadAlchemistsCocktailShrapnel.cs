@@ -24,18 +24,27 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-            Vector2 adjustVec = new Vector2(6f, 12f);
-			for (int i = 0; i < 2; i++)
-			{
-				Vector2 offset = Vector2.UnitX * -15f;
-				offset = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + i * MathHelper.Pi), default) * adjustVec * 0.75f;
-				int shrapnel = Dust.NewDust(projectile.Center, 0, 0, 173, 0f, 0f, 160, default, 0.75f);
-				Main.dust[shrapnel].noGravity = true;
-				Main.dust[shrapnel].position = projectile.Center + offset;
-				Main.dust[shrapnel].velocity = projectile.velocity;
-			}
-            int violet = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1f);
-            Main.dust[violet].noGravity = true;
+            Vector2 value7 = new Vector2(6f, 12f);
+            projectile.localAI[0] += 1f;
+            if (projectile.localAI[0] == 48f)
+            {
+                projectile.localAI[0] = 0f;
+            }
+            else
+            {
+                for (int num41 = 0; num41 < 2; num41++)
+                {
+                    Vector2 value8 = Vector2.UnitX * -15f;
+                    value8 = -Vector2.UnitY.RotatedBy((double)(projectile.localAI[0] * 0.1308997f + (float)num41 * 3.14159274f), default) * value7 * 0.75f;
+                    int num42 = Dust.NewDust(projectile.Center, 0, 0, 173, 0f, 0f, 160, default, 0.75f);
+                    Main.dust[num42].noGravity = true;
+                    Main.dust[num42].position = projectile.Center + value8;
+                    Main.dust[num42].velocity = projectile.velocity;
+                }
+            }
+
+            int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1f);
+            Main.dust[num458].noGravity = true;
 
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 500f, 12f, 20f);
         }

@@ -39,40 +39,37 @@ namespace CalamityMod.Projectiles.Magic
             projectile.rotation += projectile.velocity.X * 0.1f;
             projectile.rotation += (float)projectile.direction * 0.003f;
             projectile.velocity *= 0.96f;
-
-            Rectangle cloudHitbox = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
-            for (int i = 0; i < Main.maxProjectiles; i++)
+            Rectangle rectangle5 = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
+            int num3;
+            for (int num894 = 0; num894 < 1000; num894 = num3 + 1)
             {
-				Projectile otherProj = Main.projectile[i];
-				// Short circuits to make the loop as fast as possible
-				if (!otherProj.active || otherProj.owner != projectile.owner || !otherProj.minion || i == projectile.whoAmI)
-					continue;
-
-                if (otherProj.type == projectile.type)
+                if (num894 != projectile.whoAmI && Main.projectile[num894].active)
                 {
-                    Rectangle otherProjHitbox = new Rectangle((int)otherProj.position.X, (int)otherProj.position.Y, otherProj.width, otherProj.height);
-                    if (cloudHitbox.Intersects(otherProjHitbox))
+                    Rectangle value43 = new Rectangle((int)Main.projectile[num894].position.X, (int)Main.projectile[num894].position.Y, Main.projectile[num894].width, Main.projectile[num894].height);
+                    if (rectangle5.Intersects(value43))
                     {
-                        Vector2 projDistance = otherProj.Center - projectile.Center;
-                        if (projDistance.X == 0f && projDistance.Y == 0f)
+                        Vector2 vector105 = Main.projectile[num894].Center - projectile.Center;
+                        if (vector105.X == 0f && vector105.Y == 0f)
                         {
-                            if (i < projectile.whoAmI)
+                            if (num894 < projectile.whoAmI)
                             {
-                                projDistance.X = -1f;
-                                projDistance.Y = 1f;
+                                vector105.X = -1f;
+                                vector105.Y = 1f;
                             }
                             else
                             {
-                                projDistance.X = 1f;
-                                projDistance.Y = -1f;
+                                vector105.X = 1f;
+                                vector105.Y = -1f;
                             }
                         }
-                        projDistance.Normalize();
-                        projDistance *= 0.005f;
-                        projectile.velocity -= projDistance;
-                        otherProj.velocity += projDistance;
+                        vector105.Normalize();
+                        vector105 *= 0.005f;
+                        projectile.velocity -= vector105;
+                        Projectile projectile2 = Main.projectile[num894];
+                        projectile2.velocity += vector105;
                     }
                 }
+                num3 = num894;
             }
         }
     }
