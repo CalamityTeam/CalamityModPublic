@@ -61,10 +61,10 @@ namespace CalamityMod.Projectiles.Summon
                     player.MinionDamage());
                 projectile.damage = damage2;
             }
-            float num633 = 700f;
-            float num634 = 1100f;
-            float num635 = 2400f;
-            float num636 = 150f;
+            float num633 = Calamitamini.Range;
+            float num634 = Calamitamini.SeparationAnxietyMin;
+            float num635 = Calamitamini.SeparationAnxietyMax;
+            float num636 = Calamitamini.SafeDist;
             bool flag64 = projectile.type == ModContent.ProjectileType<Cataclymini>();
             if (flag64)
             {
@@ -165,14 +165,14 @@ namespace CalamityMod.Projectiles.Summon
                 float num650 = 6f;
                 if (flag26)
                 {
-                    num650 = 15f;
+                    num650 = 18f;
                 }
                 Vector2 center2 = projectile.Center;
                 Vector2 vector48 = player.Center - center2 + new Vector2(0f, -60f);
                 float num651 = vector48.Length();
-                if (num651 > 200f && num650 < 8f)
+                if (num651 > 200f && num650 < 10f)
                 {
-                    num650 = 8f;
+                    num650 = 10f;
                 }
                 if (num651 < num636 && flag26 && !Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
                 {
@@ -181,8 +181,8 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num651 > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2);
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
                     projectile.netUpdate = true;
                 }
                 if (num651 > 70f)

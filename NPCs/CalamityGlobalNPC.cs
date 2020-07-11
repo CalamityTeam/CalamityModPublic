@@ -35,6 +35,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.HiveMind;
 using CalamityMod.NPCs.Leviathan;
 using CalamityMod.NPCs.NormalNPCs;
+using CalamityMod.NPCs.OldDuke;
 using CalamityMod.NPCs.Perforator;
 using CalamityMod.NPCs.PlaguebringerGoliath;
 using CalamityMod.NPCs.Polterghast;
@@ -1071,6 +1072,8 @@ namespace CalamityMod.NPCs
 
 			if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
 			{
+				npc.damage = 40;
+				npc.defDamage = npc.damage;
 				npc.defense = 4;
 				npc.defDefense = npc.defense;
 			}
@@ -1412,7 +1415,7 @@ namespace CalamityMod.NPCs
 			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && CalamityWorld.bossRushActive;
 			if (destroyerResist || eaterofWorldsResist || AstrumDeusIDs.Contains(npc.type))
 			{
-				if (newAI[1] < 480f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
+				if (newAI[1] < 600f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
 				{
 					damage *= 0.01;
 				}
@@ -2970,7 +2973,17 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 34:
+				case 34:
+					if (npc.type != NPCType<OldDuke.OldDuke>() && npc.type != NPCType<OldDukeSharkron>() &&
+						npc.type != NPCType<OldDukeToothBall>())
+					{
+						npc.active = false;
+						npc.netUpdate = true;
+					}
+
+					break;
+
+				case 35:
                     if (npc.type != NPCType<SlimeGod.SlimeGod>() && npc.type != NPCType<SlimeGodRun>() &&
                         npc.type != NPCType<SlimeGodCore>() && npc.type != NPCType<SlimeGodSplit>() &&
                         npc.type != NPCType<SlimeGodRunSplit>() && npc.type != NPCType<SlimeSpawnCorrupt>() &&
@@ -2983,7 +2996,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 35:
+                case 36:
                     if (npc.type != NPCType<Providence.Providence>() && npc.type != NPCType<ProvSpawnDefense>() &&
                         npc.type != NPCType<ProvSpawnOffense>() && npc.type != NPCType<ProvSpawnHealer>())
                     {
@@ -2993,7 +3006,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 36:
+                case 37:
                     if (npc.type != NPCType<SupremeCalamitas.SupremeCalamitas>() && npc.type != NPCType<SCalWormBody>() &&
                         npc.type != NPCType<SCalWormBodyWeak>() && npc.type != NPCType<SCalWormHead>() &&
                         npc.type != NPCType<SCalWormTail>() && npc.type != NPCType<SoulSeekerSupreme>() &&
@@ -3006,7 +3019,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 37:
+                case 38:
                     if (npc.type != NPCType<Yharon.Yharon>() && npc.type != NPCType<DetonatingFlare>() &&
                         npc.type != NPCType<DetonatingFlare2>())
                     {
@@ -3016,7 +3029,7 @@ namespace CalamityMod.NPCs
 
                     break;
 
-                case 38:
+                case 39:
                     if (npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
                         npc.type != NPCType<DevourerofGodsTailS>())
                     {
@@ -3520,7 +3533,7 @@ namespace CalamityMod.NPCs
 
 					if (modPlayer.nucleogenesis)
 					{
-						if (projectile.minion || projectile.sentry || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type] || CalamityMod.projectileMinionList.Contains(projectile.type))
+						if (projectile.IsSummon())
 						{
 							damage = npc.lifeMax * 3;
 						}
@@ -3592,6 +3605,10 @@ namespace CalamityMod.NPCs
 						if (projectile.penetrate == -1)
 							projectile.penetrate = projectile.Calamity().stealthStrike ? 6 : 9;
 						damage = (int)(damage * 0.75);
+					}
+					else if (projectile.type == ProjectileType<PristineFire>() || projectile.type == ProjectileType<PristineSecondary>())
+					{
+						damage = (int)(damage * 0.5);
 					}
 					else if (projectile.type == ProjectileType<ElementalAxeMinion>() || projectile.type == ProjectileType<DazzlingStabber>())
 					{
@@ -3675,7 +3692,7 @@ namespace CalamityMod.NPCs
 				{
 					damage = (int)(damage * 0.2);
 				}
-				else if (projectile.type == ProjectileType<GalileosMoon>() || projectile.type == ProjectileType<CalamariInk>())
+				else if (projectile.type == ProjectileType<CalamariInk>())
 				{
 					damage = (int)(damage * 0.5);
 				}
@@ -3723,7 +3740,7 @@ namespace CalamityMod.NPCs
 
 		private void PierceResistGlobal(Projectile projectile, ref int damage)
 		{
-			if (projectile.minion)
+			if (projectile.IsSummon())
 				return;
 
 			if (projectile.penetrate == -1)
@@ -3760,7 +3777,7 @@ namespace CalamityMod.NPCs
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-            bool isSummon = projectile.minion || projectile.sentry || CalamityMod.projectileMinionList.Contains(projectile.type) || ProjectileID.Sets.MinionShot[projectile.type] || ProjectileID.Sets.SentryShot[projectile.type];
+            bool isSummon = projectile.IsSummon();
 
             if (modPlayer.sGenerator)
             {
@@ -4071,7 +4088,7 @@ namespace CalamityMod.NPCs
 				spawnRate = (int)(spawnRate * 2.5);
 				maxSpawns = (int)(maxSpawns * 0.3f);
 			}
-			if (player.Calamity().bossZen || CalamityWorld.DoGSecondStageCountdown > 0)
+			if ((player.Calamity().bossZen || CalamityWorld.DoGSecondStageCountdown > 0) && CalamityConfig.Instance.BossZen)
 			{
 				spawnRate *= 5;
 				maxSpawns = (int)(maxSpawns * 0.001f);
@@ -4093,15 +4110,6 @@ namespace CalamityMod.NPCs
         #region Edit Spawn Pool
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.Calamity().ZoneAbyss ||
-                spawnInfo.player.Calamity().ZoneCalamity ||
-                spawnInfo.player.Calamity().ZoneSulphur ||
-                spawnInfo.player.Calamity().ZoneSunkenSea ||
-                (spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp))
-            {
-                pool[0] = 0f;
-            }
-
 			// Spawn Green Jellyfish in prehm and Blue Jellyfish in hardmode
 			if (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.water)
 			{
@@ -4111,8 +4119,14 @@ namespace CalamityMod.NPCs
 					pool[NPCID.BlueJellyfish] = SpawnCondition.CaveJellyfish.Chance;
 			}
 
-			if (spawnInfo.player.Calamity().underworldLore)
-				pool[NPCID.VoodooDemon] = 0f;
+			if (spawnInfo.player.Calamity().ZoneAbyss ||
+                spawnInfo.player.Calamity().ZoneCalamity ||
+                spawnInfo.player.Calamity().ZoneSulphur ||
+                spawnInfo.player.Calamity().ZoneSunkenSea ||
+                (spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp))
+            {
+                pool[0] = 0f;
+            }
 
             if (spawnInfo.player.Calamity().ZoneSulphur && !spawnInfo.player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
             {
@@ -4541,7 +4555,7 @@ namespace CalamityMod.NPCs
         {
 			if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f))
 			{
-				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type)))
+				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type) || CalamityMod.needsDebuffIconDisplayList.Contains(npc.type)))
 				{
 					List<Texture2D> buffTextureList = new List<Texture2D>();
 
@@ -5317,7 +5331,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.GoblinTinkerer:
-                    if (Main.rand.NextBool(3) && thief != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
+                    if (Main.rand.NextBool(3) && thief != -1 && CalamityWorld.Reforges >= 1)
                     {
                         chat = $"Hey, is it just me or have my pockets gotten lighter ever since " + Main.npc[thief].GivenName + " arrived?";
                     }
@@ -5611,10 +5625,10 @@ namespace CalamityMod.NPCs
                 SetShopItem(ref shop, ref nextSlot, ItemID.Flare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
                 SetShopItem(ref shop, ref nextSlot, ItemID.BlueFlare, (Main.LocalPlayer.HasItem(ItemType<FirestormCannon>()) || Main.LocalPlayer.HasItem(ItemType<SpectralstormCannon>())) && !Main.LocalPlayer.HasItem(ItemID.FlareGun));
                 SetShopItem(ref shop, ref nextSlot, ItemID.ApprenticeBait, NPC.downedBoss1);
-                SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss2);
+                SetShopItem(ref shop, ref nextSlot, ItemID.JourneymanBait, NPC.downedBoss3);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.Vilethorn : ItemID.CrimsonRod, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
                 SetShopItem(ref shop, ref nextSlot, WorldGen.crimson ? ItemID.BallOHurt : ItemID.TheRottedFork, WorldGen.shadowOrbSmashed || NPC.downedBoss2);
-                SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedBoss3);
+                SetShopItem(ref shop, ref nextSlot, ItemID.MasterBait, NPC.downedPlantBoss);
                 SetShopItem(ref shop, ref nextSlot, ItemID.AngelStatue, NPC.FindFirstNPC(NPCType<THIEF>()) != -1, Item.buyPrice(0, 5));
                 SetShopItem(ref shop, ref nextSlot, ItemID.UltrabrightTorch, CalamityWorld.death);
             }

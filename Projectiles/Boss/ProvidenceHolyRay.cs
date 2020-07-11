@@ -53,10 +53,8 @@ namespace CalamityMod.Projectiles.Boss
 
             if (Main.npc[(int)projectile.ai[1]].active && Main.npc[(int)projectile.ai[1]].type == ModContent.NPCType<Providence>())
             {
-                Vector2 value21 = new Vector2(27f, 59f);
                 Vector2 fireFrom = new Vector2(Main.npc[(int)projectile.ai[1]].Center.X, Main.npc[(int)projectile.ai[1]].Center.Y + 32f);
-                Vector2 value22 = Utils.Vector2FromElipse(Main.npc[(int)projectile.ai[1]].localAI[0].ToRotationVector2(), value21 * Main.npc[(int)projectile.ai[1]].localAI[1]);
-                projectile.position = fireFrom + value22 - new Vector2(projectile.width, projectile.height) / 2f;
+                projectile.position = fireFrom - new Vector2(projectile.width, projectile.height) / 2f;
             }
 
             if (projectile.velocity.HasNaNs() || projectile.velocity == Vector2.Zero)

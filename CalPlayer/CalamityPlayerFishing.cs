@@ -97,6 +97,8 @@ namespace CalamityMod.CalPlayer
 						CalamityUtils.AddWithCondition<int>(fishList, ItemID.FlarefinKoi, !modPlayer.ZoneCalamity);
 						CalamityUtils.AddWithCondition<int>(fishList, ItemID.Obsidifish, !modPlayer.ZoneCalamity);
 						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<CoastalDemonfish>(), modPlayer.ZoneCalamity);
+						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<Shadowfish>(), modPlayer.ZoneCalamity);
+						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<BrimstoneFish>(), modPlayer.ZoneCalamity);
 					}
 					else if (water)
 					{

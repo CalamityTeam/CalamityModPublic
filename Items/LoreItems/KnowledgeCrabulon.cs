@@ -13,9 +13,8 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Crabulon");
             Tooltip.SetDefault("A crab and its mushrooms, a love story.\n" +
                 "It's interesting how creatures can adapt given certain circumstances.\n" +
-                "Place in your inventory to gain the Mushy buff while underground or in the mushroom biome.\n" +
-				"However, your movement speed will be decreased while in these areas due to you being covered in fungi.\n" +
-				"These effects only occur if the item is favorited.");
+                "Favorite this item to gain the Mushy buff while underground or in the mushroom biome.\n" +
+				"However, your movement speed will be decreased while in these areas due to you being covered in fungi.");
         }
 
         public override void SetDefaults()

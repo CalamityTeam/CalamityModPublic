@@ -14,7 +14,9 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("True melee strikes deal 30% more damage\n" +
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
                 "After a dodge you will be granted a buff to all damage, melee speed, and all crit chance for a short time\n" +
-                "After a successful dodge you must wait 13 seconds before you can dodge again");
+                "After a successful dodge you must wait 13 seconds before you can dodge again\n" +
+                "This cooldown will be 50 percent longer if you have Chaos State\n" +
+                "While on cooldown, Chaos State will be 50 percent longer");
         }
 
         public override void SetDefaults()

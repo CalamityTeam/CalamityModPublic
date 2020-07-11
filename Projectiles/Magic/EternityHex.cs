@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Magic
 
             if (!target.active)
             {
-                NPC potentialNPC = projectile.Center.ClosestNPCAt(4400f, true);
+                NPC potentialNPC = projectile.Center.ClosestNPCAt(4400f, true, true);
                 if (potentialNPC != null)
                 {
                     projectile.ai[0] = potentialNPC.whoAmI;

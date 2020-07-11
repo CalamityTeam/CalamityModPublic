@@ -79,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
             }
 			projectile.MinionAntiClump(0.1f);
             Vector2 vector = projectile.position;
-            float num10 = 1200f;
+            float num10 = 1800f;
             bool flag = false;
             if (Collision.SolidCollision(projectile.position, projectile.width, projectile.height))
             {
@@ -133,10 +133,10 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            float num16 = 1000f;
+            float num16 = 1200f;
             if (flag)
             {
-                num16 = 2500f;
+                num16 = 3000f;
             }
             if (Vector2.Distance(player.Center, projectile.Center) > num16)
             {
@@ -191,8 +191,9 @@ namespace CalamityMod.Projectiles.Summon
                 }
                 if (num23 > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.width / 2);
+                    projectile.position.X = player.Center.X - (float)(projectile.width / 2);
+                    projectile.position.Y = player.Center.Y - (float)(projectile.width / 2);
+					projectile.netUpdate = true;
                 }
                 if (Math.Abs(vector6.X) > 40f || Math.Abs(vector6.Y) > 10f)
                 {
@@ -242,7 +243,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.ai[1] += 1f;
                 }
             }
-            if (projectile.ai[1] > 60f)
+            if (projectile.ai[1] > 75f)
             {
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;

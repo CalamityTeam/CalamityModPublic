@@ -302,12 +302,6 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 num188 = revenge ? 11f : 10f;
                 num189 = revenge ? 0.31f : 0.28f;
-
-                if (!Main.player[npc.target].ZoneSkyHeight && CalamityWorld.DoGSecondStageCountdown <= 0 && expertMode)
-                {
-                    num188 *= 2f;
-                    num189 *= 2f;
-                }
             }
             float num48 = num188 * 1.3f;
             float num49 = num188 * 0.7f;
