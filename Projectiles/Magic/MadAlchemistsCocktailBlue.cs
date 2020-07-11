@@ -25,13 +25,14 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			FlaskAI();
+			FlaskAI(projectile);
         }
 
-		public static void FlaskAI()
+		public static void FlaskAI(Projectile projectile)
 		{
             projectile.rotation += Math.Abs(projectile.velocity.X) * 0.04f * projectile.direction;
-            if (projectile.ai[0]++ >= 90f)
+			projectile.ai[0] += 1f;
+            if (projectile.ai[0] >= 90f)
             {
                 projectile.velocity.Y += 0.4f;
                 projectile.velocity.X *= 0.97f;
@@ -52,10 +53,10 @@ namespace CalamityMod.Projectiles.Magic
             {
                 for (int i = 0; i < projAmt; i++)
                 {
-                    Vector2 velocity = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
+                    Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     velocity.Normalize();
-                    velocity *= Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<MadAlchemistsCocktailGasCloud>(), projectile.damage / 4, 0f, projectile.owner, 0f, Main.rand.Next(-45, 1));
+                    velocity *= (float)Main.rand.Next(10, 201) * 0.01f;
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<MadAlchemistsCocktailGasCloud>(), projectile.damage / 4, 0f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
         }

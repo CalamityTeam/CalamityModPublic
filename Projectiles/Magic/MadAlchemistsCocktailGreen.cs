@@ -25,13 +25,13 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			MadAlchemistsCocktailBlue.FlaskAI();
+			MadAlchemistsCocktailBlue.FlaskAI(projectile);
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item107, projectile.position);
-            Main.PlaySound(SoundID.Item88, projectile.position);
+            Main.PlaySound(SoundID.Item107, projectile.Center);
+            Main.PlaySound(SoundID.Item88, projectile.Center);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 704, 1f);
             Gore.NewGore(projectile.Center, -projectile.oldVelocity * 0.2f, 705, 1f);
             for (int i = 0; i < 3; i++)
@@ -40,14 +40,14 @@ namespace CalamityMod.Projectiles.Magic
                 float y = projectile.Center.Y - Main.rand.Next(500, 600);
                 Vector2 source = new Vector2(x, y);
 				Vector2 velocity = projectile.Center - source;
-                velocity.X += Main.rand.Next(-100, 101);
+                velocity.X += (float)Main.rand.Next(-100, 101);
                 float speed = 25f;
                 float targetDist = velocity.Length();
                 targetDist = speed / targetDist;
                 velocity.X *= targetDist;
                 velocity.Y *= targetDist;
 
-                float ai2 = velocity.Y + projectile.position.Y;
+                float ai2 = velocity.Y + projectile.Center.Y;
                 if (projectile.owner == Main.myPlayer)
                     Projectile.NewProjectile(source, velocity, ProjectileID.LunarFlare, projectile.damage / 2, projectile.knockBack * 2f, projectile.owner, 0f, ai2);
             }
