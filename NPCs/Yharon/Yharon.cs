@@ -2832,11 +2832,11 @@ namespace CalamityMod.NPCs.Yharon
                 DropHelper.DropItem(npc, ModContent.ItemType<HellcasterFragment>(), true, soulFragMin, soulFragMax);
 
                 // Equipment
-                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>());
+                DropHelper.DropItem(npc, ModContent.ItemType<DrewsWings>(), Main.expertMode);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<VoidVortex>(), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<YharimsCrystal>(), 100); //not affected by defiled and not a leggie
+                DropHelper.DropItemChance(npc, ModContent.ItemType<VoidVortex>(), Main.expertMode, DropHelper.RareVariantDropRateInt);
+                DropHelper.DropItemChance(npc, ModContent.ItemType<YharimsCrystal>(), Main.expertMode, 100); //not affected by defiled and not a leggie
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<YharonTrophy>(), 10);

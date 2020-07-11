@@ -2197,7 +2197,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Weapons
 
 			// All non-hybrid weapons are listed twice so that the drop rates are actually equal between each unique weapon
-			DropHelper.DropItemFromSetCondition(npc, Main.expertMode,
+			DropHelper.DropItemFromSetCondition(npc, true, Main.expertMode,
 				ModContent.ItemType<Animus>(), ModContent.ItemType<Animus>(),
 				ModContent.ItemType<Azathoth>(), ModContent.ItemType<Azathoth>(),
 				ModContent.ItemType<Contagion>(), ModContent.ItemType<Contagion>(),
@@ -2219,11 +2219,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				ModContent.ItemType<BensUmbrella>(), ModContent.ItemType<BensUmbrella>(), //Temporal Umbrella
 				ModContent.ItemType<PrototypeAndromechaRing>(), ModContent.ItemType<PrototypeAndromechaRing>()
 			);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), Main.expertMode, CalamityWorld.revenge);
 
             // Vanity
-            DropHelper.DropItem(npc, ModContent.ItemType<BrimstoneJewel>());
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), CalamityWorld.death);
+            DropHelper.DropItem(npc, ModContent.ItemType<BrimstoneJewel>(), Main.expertMode);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), Main.expertMode, CalamityWorld.death);
 
             // Other
             DropHelper.DropItemChance(npc, ModContent.ItemType<SupremeCalamitasTrophy>(), 10);
