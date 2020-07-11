@@ -14,9 +14,8 @@ namespace CalamityMod.Items.Weapons.Summon
 		{
 			DisplayName.SetDefault("Plantation Staff");
 			Tooltip.SetDefault("Summons a miniature plantera to protect you\n" +
-			"Fires seeds and spiky balls from afar to poison targets\n" +
-			"Enrages when you get under 50% health and begins ramming enemies\n" +
-			"While enraged, it will additionally start firing spore clouds\n" +
+			"Fires seeds, spiky balls, and spore clouds from afar to poison targets\n" +
+			"Enrages when you get under 75% health and begins ramming enemies\n" +
 			"Occupies 3 minion slots and there can only be one");
 		}
 
