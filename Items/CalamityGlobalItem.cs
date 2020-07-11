@@ -2280,7 +2280,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                             "Acceleration multiplier: 0\n" +
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
-                            "+5 defense, 5% increased damage, " +
+                            "+5 defense, 5% increased damage,\n" +
                             "10% increased movement speed and 24% increased jump speed";
                     }
                 }
