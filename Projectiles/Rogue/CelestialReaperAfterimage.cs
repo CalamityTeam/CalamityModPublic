@@ -24,7 +24,7 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override void AI()
         {
-            projectile.rotation += MathHelper.ToRadians(30f); //buzzsaw scythe
+            projectile.rotation += MathHelper.ToRadians(30f); // Buzzsaw scythe.
             NPC target = projectile.position.ClosestNPCAt(640f);
             if (target != null)
             {

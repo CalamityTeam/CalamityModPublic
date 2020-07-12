@@ -9,8 +9,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class BlazingStar : RogueWeapon
     {
-        public static int BaseDamage = 92;
-        public static float Speed = 13f;
+        public const float Speed = 13f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blazing Star");
@@ -20,7 +19,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override void SafeSetDefaults()
         {
-            item.damage = BaseDamage;
+            item.damage = 92;
             item.crit = 4;
             item.Calamity().rogue = true;
             item.noMelee = true;
@@ -49,24 +48,20 @@ namespace CalamityMod.Items.Weapons.Rogue
                     for (int i = 0; i < item.stack; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-MathHelper.ToRadians(8f), MathHelper.ToRadians(8f), i / (float)(item.stack - 1)));
-                        int projectileIndex2 = Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, i == 1 ? type : ModContent.ProjectileType<BlazingStarProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
-                        Main.projectile[projectileIndex2].Calamity().stealthStrike = true;
-                        int projectileIndex = Projectile.NewProjectile(position, perturbedSpeed, type, damage, knockBack, player.whoAmI, 0f);
-                        Main.projectile[projectileIndex].penetrate = -1;
-                        Main.projectile[projectileIndex].Calamity().stealthStrike = true;
+                        Projectile.NewProjectileDirect(position, perturbedSpeed, type, damage, knockBack, player.whoAmI, 0f, 0f).Calamity().stealthStrike = true;
+
+                        Projectile projectile = Projectile.NewProjectileDirect(position, perturbedSpeed, type, damage, knockBack, player.whoAmI, 0f);
+                        projectile.penetrate = -1;
+                        projectile.Calamity().stealthStrike = true;
 
                     }
                     return false;
                 }
-                return true;
             }
             return true;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            return player.ownedProjectileCounts[item.shoot] < item.stack;
-        }
+        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < item.stack;
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
