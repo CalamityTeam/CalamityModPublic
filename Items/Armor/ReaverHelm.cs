@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class ReaverHelm : ModItem
     {
+		//Defense and DR Helm
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Helm");

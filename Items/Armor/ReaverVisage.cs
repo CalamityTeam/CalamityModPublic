@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class ReaverVisage : ModItem
     {
+		//Jump/Flight Boosts and Movement Speed Helm
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Visage");

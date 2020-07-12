@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class ReaverCap : ModItem
     {
+		//Health and Regen Helm
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Headgear");

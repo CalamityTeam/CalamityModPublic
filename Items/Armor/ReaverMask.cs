@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class ReaverMask : ModItem
     {
+		//Damage and Crit Helm
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Mask");
