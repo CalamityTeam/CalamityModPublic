@@ -252,6 +252,8 @@ namespace CalamityMod.NPCs.TownNPCs
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
             nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
+            nextSlot++;
             if (CalamityWorld.downedSlimeGod)
             {
                 shop.item[nextSlot].SetDefaults(ModContent.ItemType<GelDart>());
