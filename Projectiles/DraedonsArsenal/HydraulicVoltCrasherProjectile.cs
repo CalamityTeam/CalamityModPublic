@@ -49,6 +49,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 if (player.channel)
                 {
+                    // Attempt to use power from the held item.
+                    if (player.ActiveItem().type >= ItemID.Count &&
+                        player.ActiveItem().Calamity().Chargeable &&
+                        player.ActiveItem().Calamity().CurrentCharge > 0 &&
+                        Main.rand.NextBool(50))
+                    {
+                        player.ActiveItem().Calamity().CurrentCharge--;
+                    }
+
                     float speed = player.inventory[player.selectedItem].shootSpeed * projectile.scale;
                     Vector2 toPointTo = Main.MouseWorld;
                     if (player.gravDir == -1f)
