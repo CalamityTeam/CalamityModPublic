@@ -2965,7 +2965,7 @@ namespace CalamityMod.NPCs
                 case 33:
                     if (npc.type != NPCType<Siren>() && npc.type != NPCType<Leviathan.Leviathan>() &&
                         npc.type != NPCType<AquaticAberration>() && npc.type != NPCType<Parasea>() &&
-                        npc.type != NPCType<SirenClone>() && npc.type != NPCType<SirenIce>())
+                        npc.type != NPCType<SirenIce>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;

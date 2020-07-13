@@ -946,11 +946,6 @@ namespace CalamityMod.CalPlayer
         public bool sirenBoobsHide;
         public bool sirenBoobsForce;
         public bool sirenBoobsPower;
-        public bool sirenBoobsAltPrevious;
-        public bool sirenBoobsAlt;
-        public bool sirenBoobsAltHide;
-        public bool sirenBoobsAltForce;
-        public bool sirenBoobsAltPower;
         public bool snowmanPrevious;
         public bool snowman;
         public bool snowmanHide;
@@ -1264,7 +1259,7 @@ namespace CalamityMod.CalPlayer
                 player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 100;
             if (leviathanAndSirenLore)
             {
-                if (sirenBoobsPrevious || sirenBoobsAltPrevious)
+                if (sirenBoobsPrevious)
                     player.statLifeMax2 += player.statLifeMax2 / 5 / 20 * 5;
             }
             if (absoluteRage)
@@ -1934,8 +1929,6 @@ namespace CalamityMod.CalPlayer
 
             sirenBoobsPrevious = sirenBoobs;
             sirenBoobs = sirenBoobsHide = sirenBoobsForce = sirenBoobsPower = false;
-            sirenBoobsAltPrevious = sirenBoobsAlt;
-            sirenBoobsAlt = sirenBoobsAltHide = sirenBoobsAltForce = sirenBoobsAltPower = false;
 
             profanedCrystalPrevious = profanedCrystal;
             profanedCrystal = profanedCrystalBuffs = profanedCrystalForce = profanedCrystalHide = false;
@@ -3300,11 +3293,6 @@ namespace CalamityMod.CalPlayer
                     sirenBoobsHide = false;
                     sirenBoobsForce = true;
                 }
-                else if (item.type == ModContent.ItemType<SirensHeartAlt>())
-                {
-                    sirenBoobsAltHide = false;
-                    sirenBoobsAltForce = true;
-                }
                 else if (item.type == ModContent.ItemType<ProfanedSoulCrystal>())
                 {
                     profanedCrystalHide = false;
@@ -3481,11 +3469,7 @@ namespace CalamityMod.CalPlayer
             {
                 player.AddBuff(ModContent.BuffType<SirenBobs>(), 60, true);
             }
-            else if (sirenBoobsAlt)
-            {
-                player.AddBuff(ModContent.BuffType<SirenBobsAlt>(), 60, true);
-            }
-            if ((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3)
+            if (sirenBoobs && NPC.downedBoss3)
             {
                 if (player.whoAmI == Main.myPlayer && !sirenIceCooldown)
                 {
@@ -5954,6 +5938,47 @@ namespace CalamityMod.CalPlayer
 					contactDamageReduction += 0.1;
 			}
 
+			if (trinketOfChiBuff)
+				contactDamageReduction += 0.15;
+
+			// Fearmonger set provides 15% multiplicative DR that ignores caps during the Holiday Moons.
+			// To prevent abuse, this effect does not work if there are any bosses alive.
+			if (fearmongerSet && !areThereAnyDamnBosses && (Main.pumpkinMoon || Main.snowMoon))
+				contactDamageReduction += 0.15;
+
+			if (abyssalDivingSuitPlates)
+				contactDamageReduction += 0.15;
+
+			if (sirenIce)
+				contactDamageReduction += 0.2;
+
+			if (encased)
+				contactDamageReduction += 0.3;
+
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] > 0 && player.ActiveItem().type == ModContent.ItemType<LionHeart>())
+				contactDamageReduction += 0.5;
+
+			if (theBee && player.statLife >= player.statLifeMax2 && theBeeCooldown <= 0)
+			{
+				contactDamageReduction += 0.5;
+				theBeeCooldown = 600;
+			}
+
+			if (CalamityWorld.revenge)
+			{
+				if (!CalamityWorld.downedBossAny)
+					contactDamageReduction += 0.2;
+
+				if (CalamityConfig.Instance.Rippers)
+				{
+					if (adrenaline == adrenalineMax && !adrenalineModeActive)
+						contactDamageReduction += 0.5;
+				}
+			}
+
+			if (player.mount.Active && (player.mount.Type == ModContent.MountType<AngryDogMount>() || player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
+				contactDamageReduction += 0.1;
+
 			if (leviathanAndSirenLore)
 			{
 				if (!player.IsUnderwater())
@@ -6182,6 +6207,47 @@ namespace CalamityMod.CalPlayer
                 if (CalamityMod.hardModeNerfList.Contains(proj.type))
                     projectileDamageReduction += 0.25;
             }
+
+			if (trinketOfChiBuff)
+				projectileDamageReduction += 0.15;
+
+			// Fearmonger set provides 15% multiplicative DR that ignores caps during the Holiday Moons.
+			// To prevent abuse, this effect does not work if there are any bosses alive.
+			if (fearmongerSet && !areThereAnyDamnBosses && (Main.pumpkinMoon || Main.snowMoon))
+				projectileDamageReduction += 0.15;
+
+			if (abyssalDivingSuitPlates)
+				projectileDamageReduction += 0.15;
+
+			if (sirenIce)
+				projectileDamageReduction += 0.2;
+
+			if (encased)
+				projectileDamageReduction += 0.3;
+
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] > 0 && player.ActiveItem().type == ModContent.ItemType<LionHeart>())
+				projectileDamageReduction += 0.5;
+
+			if (theBee && player.statLife >= player.statLifeMax2 && theBeeCooldown <= 0)
+			{
+				projectileDamageReduction += 0.5;
+				theBeeCooldown = 600;
+			}
+
+			if (CalamityWorld.revenge)
+			{
+				if (!CalamityWorld.downedBossAny)
+					projectileDamageReduction += 0.2;
+
+				if (CalamityConfig.Instance.Rippers)
+				{
+					if (adrenaline == adrenalineMax && !adrenalineModeActive)
+						projectileDamageReduction += 0.5;
+				}
+			}
+
+			if (player.mount.Active && (player.mount.Type == ModContent.MountType<AngryDogMount>() || player.mount.Type == ModContent.MountType<OnyxExcavator>()) && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
+				projectileDamageReduction += 0.1;
 
 			if (leviathanAndSirenLore)
 			{
@@ -7087,13 +7153,6 @@ namespace CalamityMod.CalPlayer
 				player.head = mod.GetEquipSlot("SirenHead", EquipType.Head);
 				player.face = -1;
 			}
-			else if ((sirenBoobsAltPower || sirenBoobsAltForce) && !sirenBoobsAltHide)
-			{
-				player.legs = mod.GetEquipSlot("SirenLegAlt", EquipType.Legs);
-				player.body = mod.GetEquipSlot("SirenBodyAlt", EquipType.Body);
-				player.head = mod.GetEquipSlot("SirenHeadAlt", EquipType.Head);
-				player.face = -1;
-			}
             else if (meldTransformationPower || meldTransformationForce)
             {
                 player.legs = mod.GetEquipSlot("MeldTransformationLegs", EquipType.Legs);
@@ -7213,7 +7272,7 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.NPCHit, (int)player.position.X, (int)player.position.Y, 4, 1f, 0f); //metal hit noise
                     hurtSoundTimer = 10;
                 }
-                else if (((sirenBoobsPower || sirenBoobsForce) && !sirenBoobsHide) || ((sirenBoobsAltPower || sirenBoobsAltForce) && !sirenBoobsAltHide))
+                else if ((sirenBoobsPower || sirenBoobsForce) && !sirenBoobsHide)
                 {
                     playSound = false;
                     Main.PlaySound(SoundID.FemaleHit, (int)player.position.X, (int)player.position.Y, 1, 1f, 0f); //female hit noise
@@ -7232,7 +7291,6 @@ namespace CalamityMod.CalPlayer
 					hurtSoundTimer = 10;
 				}
             }
-
 
             #region MultiplierBoosts
             double damageMult = 1.0 +
@@ -7286,64 +7344,11 @@ namespace CalamityMod.CalPlayer
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/IronHeartBigHurt"), (int)player.position.X, (int)player.position.Y);
 			}
 
-            #region MultiplicativeReductions
-            if (trinketOfChiBuff)
-            {
-                damage = (int)(damage * 0.85);
-            }
-            if (purpleCandle)
-            {
-                damage = (int)(damage - (player.statDefense * 0.05));
-            }
-            // Fearmonger set provides 15% multiplicative DR that ignores caps during the Holiday Moons.
-            // To prevent abuse, this effect does not work if there are any bosses alive.
-            if (fearmongerSet && !areThereAnyDamnBosses && (Main.pumpkinMoon || Main.snowMoon))
-            {
-                damage = (int)(damage * 0.85f);
-            }
-            if (abyssalDivingSuitPlates)
-            {
-                damage = (int)(damage * 0.85);
-            }
-            if (sirenIce)
-            {
-                damage = (int)(damage * 0.85);
-            }
-            if (encased)
-            {
-                damage = (int)(damage * 0.7);
-            }
-			if (player.ownedProjectileCounts[ModContent.ProjectileType<EnergyShell>()] > 0 && player.ActiveItem().type == ModContent.ItemType<LionHeart>())
-            {
-                damage = (int)(damage * 0.5);
-            }
-            if (theBee && player.statLife >= player.statLifeMax2 && theBeeCooldown <= 0)
-            {
-                damage = (int)(damage * 0.5);
-                theBeeCooldown = 600;
-            }
-            if (CalamityWorld.revenge)
-            {
-                if (!CalamityWorld.downedBossAny)
-                    damage = (int)(damage * 0.8);
+			if (purpleCandle)
+				damage = (int)(damage - (player.statDefense * 0.05));
 
-                if (CalamityConfig.Instance.Rippers)
-                {
-                    if (adrenaline == adrenalineMax && !adrenalineModeActive)
-                        damage = (int)(damage * 0.5);
-                }
-            }
-            if (player.mount.Active && (player.mount.Type == ModContent.MountType<AngryDogMount>() || player.mount.Type == ModContent.MountType<OnyxExcavator>())
-                && Math.Abs(player.velocity.X) > player.mount.RunSpeed / 2f)
-            {
-                damage = (int)(damage * 0.9);
-            }
-            #endregion
-
-            if ((godSlayerDamage && damage <= 80) || damage < 1)
-            {
+			if ((godSlayerDamage && damage <= 80) || damage < 1)
                 damage = 1;
-            }
 
             #region HealingEffects
             if (revivify)
@@ -7489,7 +7494,7 @@ namespace CalamityMod.CalPlayer
                 {
                     player.AddBuff(ModContent.BuffType<ReaverRage>(), 180);
                 }
-                if (fBarrier || ((sirenBoobs || sirenBoobsAlt) && NPC.downedBoss3))
+                if (fBarrier || (sirenBoobs && NPC.downedBoss3))
                 {
                     Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 27);
                     for (int m = 0; m < Main.maxNPCs; m++)
@@ -12091,7 +12096,7 @@ namespace CalamityMod.CalPlayer
                 light += 1;
             if (fathomSwarmerVisage)
                 light += 1;
-            if (sirenBoobs || sirenBoobsAlt)
+            if (sirenBoobs)
                 light += 1;
             if (aAmpoule) // sponge inherits this and doesn't stack with ampoule
                 light += 1;

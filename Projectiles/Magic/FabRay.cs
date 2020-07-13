@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[pink].noGravity = true;
 				Main.dust[pink].noLight = true;
 				Main.dust[pink].position = source;
-				Main.dust[pink].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+				Main.dust[pink].scale = Main.rand.Next(70, 110) * 0.013f;
 				Main.dust[pink].velocity *= 0.1f;
             }
         }

@@ -93,16 +93,20 @@ namespace CalamityMod.NPCs.OldDuke
 				npc.active = false;
 				return;
             }
+
             npc.ai[3] += 1f;
-            npc.dontTakeDamage = (npc.ai[3] >= 600f ? false : true);
+            npc.dontTakeDamage = npc.ai[3] >= 600f ? false : true;
             if (npc.ai[3] >= 480f)
             {
-                npc.velocity.Y *= 0.985f;
-                npc.velocity.X *= 0.985f;
+                npc.velocity *= 0.985f;
                 return;
             }
+
             float num1372 = 12f;
-            Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);
+			if (Main.expertMode || CalamityWorld.bossRushActive)
+				num1372 += Vector2.Distance(player.Center, npc.Center) * 0.01f;
+
+			Vector2 vector167 = new Vector2(npc.Center.X + npc.direction * 20, npc.Center.Y + 6f);
             float num1373 = player.position.X + player.width * 0.5f - vector167.X;
             float num1374 = player.Center.Y - vector167.Y;
             float num1375 = (float)Math.Sqrt(num1373 * num1373 + num1374 * num1374);
@@ -183,7 +187,7 @@ namespace CalamityMod.NPCs.OldDuke
 
             npc.position.X = npc.position.X + (npc.width / 2);
             npc.position.Y = npc.position.Y + (npc.height / 2);
-            npc.width = (npc.height = 96);
+            npc.width = npc.height = 96;
             npc.position.X = npc.position.X - (npc.width / 2);
             npc.position.Y = npc.position.Y - (npc.height / 2);
 
