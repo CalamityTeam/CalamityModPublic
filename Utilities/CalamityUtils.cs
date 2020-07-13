@@ -3186,6 +3186,27 @@ namespace CalamityMod
             return array;
         }
 
+        /// <summary>
+        /// Retrieves all the colors from a <see cref="Texture2D"/> and returns them as a 2D <see cref="Color"/> array.
+        /// </summary>
+        /// <param name="texture">The texture to load.</param>
+        /// <returns></returns>
+        public static Color[,] GetColorsFromTexture(this Texture2D texture)
+        {
+            Color[] alignedColors = new Color[texture.Width * texture.Height];
+            texture.GetData(alignedColors); // Fills the color array with all the colors in the texture
+
+            Color[,] colors2D = new Color[texture.Width, texture.Height];
+            for (int x = 0; x < texture.Width; x++)
+            {
+                for (int y = 0; y < texture.Height; y++)
+                {
+                    colors2D[x, y] = alignedColors[x + y * texture.Width];
+                }
+            }
+            return colors2D;
+        }
+
         public static string CombineStrings(params object[] args)
         {
             StringBuilder result = new StringBuilder(1024);
