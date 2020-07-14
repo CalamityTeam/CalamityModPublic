@@ -3576,7 +3576,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 
             for (int i = 54; i < Main.maxInventory; i++)
             {
-                if (player.inventory[i].ammo == item.useAmmo && player.inventory[i].stack >= ammoConsumed)
+                if (player.inventory[i].ammo == item.useAmmo && (player.inventory[i].stack >= ammoConsumed || !player.inventory[i].consumable))
                 {
                     itemAmmo = player.inventory[i];
                     flag = true;
@@ -3588,7 +3588,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             {
                 for (int j = 0; j < 54; j++)
                 {
-                    if (player.inventory[j].ammo == item.useAmmo && player.inventory[j].stack >= ammoConsumed)
+                    if (player.inventory[j].ammo == item.useAmmo && (player.inventory[j].stack >= ammoConsumed || !player.inventory[j].consumable))
                     {
                         itemAmmo = player.inventory[j];
                         break;
