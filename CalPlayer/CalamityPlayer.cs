@@ -21,6 +21,7 @@ using CalamityMod.NPCs.Abyss;
 using CalamityMod.NPCs.AcidRain;
 using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.Calamitas;
+using CalamityMod.NPCs.Cryogen;
 using CalamityMod.NPCs.Crags;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.NPCs.GreatSandShark;
@@ -43,6 +44,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.TileEntities;
 using CalamityMod.Tiles;
 using CalamityMod.UI;
 using CalamityMod.World;
@@ -118,8 +120,21 @@ namespace CalamityMod.CalPlayer
 		public bool brimlashBusterBoost = false;
 		#endregion
 
-		#region External variables -- Only set by Mod.Call
-		public int externalAbyssLight = 0;
+        public int CurrentlyViewedFactoryX = -1;
+        public int CurrentlyViewedFactoryY = -1;
+        public TEDraedonFuelFactory CurrentlyViewedFactory;
+
+        public int CurrentlyViewedChargerX = -1;
+        public int CurrentlyViewedChargerY = -1;
+        public TEDraedonItemCharger CurrentlyViewedCharger;
+
+        public int CurrentlyViewedHologramX = -1;
+        public int CurrentlyViewedHologramY = -1;
+        public string CurrentlyViewedHologramText;
+        #endregion
+
+        #region External variables -- Only set by Mod.Call
+        public int externalAbyssLight = 0;
         public bool externalColdImmunity = false;
         public bool externalHeatImmunity = false;
 		#endregion
@@ -908,9 +923,13 @@ namespace CalamityMod.CalPlayer
         public List<int> GammaCanisters = new List<int>();
         public bool rustyDrone = false;
         public bool tundraFlameBlossom = false;
+        public bool starSwallowerPetFroge = false;
+        public bool snakeEyes = false;
+        public bool poleWarper = false;
         public bool causticDragon = false;
         public bool plaguebringerPatronSummon = false;
         public bool howlTrio = false;
+        public bool mountedScanner = false;
         #endregion
 
         #region Biome
@@ -956,8 +975,6 @@ namespace CalamityMod.CalPlayer
         public bool meldTransformation;
         public bool meldTransformationForce;
         public bool meldTransformationPower;
-		#endregion
-
 		#endregion
 
 		#region SavingAndLoading
@@ -1920,9 +1937,13 @@ namespace CalamityMod.CalPlayer
             gammaHead = false;
             rustyDrone = false;
             tundraFlameBlossom = false;
+            starSwallowerPetFroge = false;
+            snakeEyes = false;
+            poleWarper = false;
             causticDragon = false;
 			plaguebringerPatronSummon = false;
 			howlTrio = false;
+            mountedScanner = false;
 
             abyssalDivingSuitPrevious = abyssalDivingSuit;
             abyssalDivingSuit = abyssalDivingSuitHide = abyssalDivingSuitForce = abyssalDivingSuitPower = false;
@@ -2287,6 +2308,15 @@ namespace CalamityMod.CalPlayer
             elysianGuard = false;
             #endregion
 
+            CurrentlyViewedFactoryX = CurrentlyViewedFactoryY = -1;
+            CurrentlyViewedFactory = null;
+
+            CurrentlyViewedChargerX = CurrentlyViewedChargerY = -1;
+            CurrentlyViewedCharger = null;
+
+            CurrentlyViewedHologramX = CurrentlyViewedHologramY = -1;
+            CurrentlyViewedHologramText = string.Empty;
+
             KameiBladeUseDelay = 0;
             lastProjectileHit = null;
 			brimlashBusterBoost = false;
@@ -2340,6 +2370,19 @@ namespace CalamityMod.CalPlayer
 
             bool usePlague = NPC.AnyNPCs(ModContent.NPCType<PlaguebringerGoliath>());
             player.ManageSpecialBiomeVisuals("CalamityMod:PlaguebringerGoliath", usePlague);
+
+            bool useCryogen = NPC.AnyNPCs(ModContent.NPCType<Cryogen>());
+            if (SkyManager.Instance["CalamityMod:Cryogen"] != null && useCryogen != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
+            {
+                if (useCryogen)
+                {
+                    SkyManager.Instance.Activate("CalamityMod:Cryogen", player.Center);
+                }
+                else
+                {
+                    SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
+                }
+            }
 
             Point point = player.Center.ToTileCoordinates();
             bool aboveGround = point.Y > Main.maxTilesY - 320;
@@ -3573,6 +3616,36 @@ namespace CalamityMod.CalPlayer
                 rage = 0;
                 gaelSwitchTimer = GaelSwitchPhase.None;
             }
+
+            // Disable the factory UI if the player is far from the associated factory.
+            if (CurrentlyViewedFactory != null)
+            {
+                Vector2 factoryPosition = new Vector2(CurrentlyViewedFactoryX, CurrentlyViewedFactoryY);
+                if (player.Distance(factoryPosition) > 1200f)
+                {
+                    CurrentlyViewedFactory = null;
+                    CurrentlyViewedFactoryX = CurrentlyViewedFactoryY = -1;
+                }
+            }
+
+            // Disable the charger UI if the player is far from the associated charger.
+            if (CurrentlyViewedCharger != null)
+            {
+                Vector2 chargerPosition = new Vector2(CurrentlyViewedChargerX, CurrentlyViewedChargerY);
+                if (player.Distance(chargerPosition) > 1200f)
+                {
+                    CurrentlyViewedCharger = null;
+                    CurrentlyViewedChargerX = CurrentlyViewedChargerY = -1;
+                }
+            }
+
+            // Disable the hologram UI if the player is far from the associated hologram.
+            Vector2 hologramPosition = new Vector2(CurrentlyViewedHologramX, CurrentlyViewedHologramY) * 16f;
+            if (player.Distance(hologramPosition) > 120f)
+            {
+                CurrentlyViewedHologramX = CurrentlyViewedHologramY = -1;
+                CurrentlyViewedHologramText = string.Empty;
+            }
         }
 
         #region Dragon Scale Logic
@@ -3789,6 +3862,7 @@ namespace CalamityMod.CalPlayer
         #region Pre Kill
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
+            PopupGUIManager.SuspendAll();
             if (player.Calamity().andromedaState == AndromedaPlayerState.LargeRobot)
             {
                 if (!Main.dedServ)
@@ -9743,8 +9817,9 @@ namespace CalamityMod.CalPlayer
 					tailFrame = 0;
 				}
 				tailFrameUp = 0;
-			}
-		}
+            }
+            Main.blockInput = PopupGUIManager.AnyGUIsActive;
+        }
 
 		public static readonly PlayerLayer Tail = new PlayerLayer("CalamityMod", "Tail", PlayerLayer.BackAcc, delegate (PlayerDrawInfo drawInfo)
 		{

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -65,6 +66,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     bool flag2 = player.channel && !player.noItems && !player.CCed;
 					if (flag2)
 					{
+						// Attempt to use power from the held item.
+						if (player.ActiveItem().type >= ItemID.Count &&
+							player.ActiveItem().Calamity().Chargeable &&
+							player.ActiveItem().Calamity().CurrentCharge > 0 && 
+							Main.rand.NextBool((int)(120 / (float)fireRate)))
+						{
+							player.ActiveItem().Calamity().CurrentCharge--;
+						}
+
 						// Consume 2 ammo per shot
 						CalamityGlobalItem.ConsumeAdditionalAmmo(player, player.ActiveItem(), 2);
 
