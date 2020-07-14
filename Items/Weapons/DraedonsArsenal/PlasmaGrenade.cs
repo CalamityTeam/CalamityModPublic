@@ -13,8 +13,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plasma Grenade");
-            Tooltip.SetDefault("Throws a rolling barrel that explodes on wall collision\n" +
-                               "Stealth strikes make it rain on collision");
+            Tooltip.SetDefault("Throws a grenade that explodes into plasma on collision\n" +
+                               "Stealth strikes explode violently into a vaporizing explosion on collision");
         }
 
         public override void SafeSetDefaults()
