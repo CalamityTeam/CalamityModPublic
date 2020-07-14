@@ -1384,8 +1384,7 @@ namespace CalamityMod.Projectiles
                         Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 103);
                         projectile.position = projectile.Center;
                         projectile.width = projectile.height = 96;
-                        projectile.position.X -= projectile.width / 2;
-                        projectile.position.Y -= projectile.height / 2;
+                        projectile.Center = projectile.position;
                         for (int num193 = 0; num193 < 3; num193++)
                         {
                             Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
