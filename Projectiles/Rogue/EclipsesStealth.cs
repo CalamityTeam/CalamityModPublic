@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				if (Main.rand.NextBool(2) && Main.myPlayer == projectile.owner)
 				{
-					float dmgKBMult = Main.rand.NextFloat(0.3f, 0.5f);
+					float dmgKBMult = Main.rand.NextFloat(0.4f, 0.6f);
 					int spearAmt = Main.rand.Next(1, 3); //1 to 2 spears
 					for (int n = 0; n < spearAmt; n++)
 					{
