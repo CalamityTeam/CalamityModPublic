@@ -1102,14 +1102,13 @@ namespace CalamityMod.Projectiles
 						crit = Main.rand.NextBool(6);
 				}
 
-				//Needs to be done in here.  If done in the projectile file, it's overridden by the thing above
-				if (projectile.type == ProjectileType<PwnagehammerProj>() && projectile.ai[0] == 1f)
-					crit = true;
-
 				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
 					crit = true;
 
-				//Done here since crit calcs are overridden here
+				//Following things need to be done in here.  If done in the projectile file, it's overridden by the thing above
+				if (projectile.type == ProjectileType<PwnagehammerProj>() && projectile.ai[0] == 1f)
+					crit = true;
+
 				if (projectile.type == ProjectileType<ImpactRound>())
 				{
 					double damageMult = 1D;
@@ -1122,6 +1121,13 @@ namespace CalamityMod.Projectiles
 						damageMult += 0.1;
 					}
 					damage = (int)(damage * damageMult);
+				}
+
+				if (projectile.type == ProjectileType<SphereSpiked>())
+				{
+					damage = (int)(damage * 1.2);
+					if (!crit)
+						crit = Main.rand.NextBool(10);
 				}
 			}
 		}
