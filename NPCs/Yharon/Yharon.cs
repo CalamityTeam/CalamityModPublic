@@ -2130,7 +2130,7 @@ namespace CalamityMod.NPCs.Yharon
 				npc.ai[1] += 1f;
 				if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-					if (secondPhasePhase == 3)
+					if (secondPhasePhase >= 3)
 					{
 						// Rotate spiral by 9 * (240 / 12) = +90 degrees and then back -90 degrees
 
@@ -2178,7 +2178,7 @@ namespace CalamityMod.NPCs.Yharon
                 if (npc.ai[1] >= spinPhaseTimer)
                 {
                     npc.ai[0] = 1f;
-                    npc.ai[1] = secondPhasePhase == 2 ? increasedIdleTimeAfterBulletHell : 0f;
+                    npc.ai[1] = secondPhasePhase >= 2 ? increasedIdleTimeAfterBulletHell : 0f;
                     npc.ai[2] = 0f;
 					npc.localAI[2] = 0f;
 					npc.velocity /= 2f;

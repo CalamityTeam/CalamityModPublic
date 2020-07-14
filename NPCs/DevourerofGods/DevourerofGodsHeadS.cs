@@ -525,7 +525,13 @@ namespace CalamityMod.NPCs.DevourerofGods
                     num189 = homingTurnSpeed;
                 }
 
-                float num48 = num188 * 1.3f;
+				if (revenge)
+				{
+					num188 += Vector2.Distance(player.Center, npc.Center) * 0.005f * (1f - lifeRatio);
+					num189 += Vector2.Distance(player.Center, npc.Center) * 0.0001f * (1f - lifeRatio);
+				}
+
+				float num48 = num188 * 1.3f;
                 float num49 = num188 * 0.7f;
                 float num50 = npc.velocity.Length();
                 if (num50 > 0f)
@@ -649,7 +655,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 				if (expertMode)
 					turnSpeed += 0.12f * (1f - lifeRatio);
 
-                bool increaseSpeed = distanceFromTarget > 3200f;
+				if (revenge)
+					turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
+
+				bool increaseSpeed = distanceFromTarget > 3200f;
 
 				// Enrage
 				if (tooFarAway)

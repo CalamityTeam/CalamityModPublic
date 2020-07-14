@@ -17,7 +17,6 @@ namespace CalamityMod.NPCs.Leviathan
     public class Siren : ModNPC
     {
         private bool spawnedLevi = false;
-        private bool secondClone = false;
         private bool forceChargeFrames = false;
         private int frameUsed = 0;
 		private static Texture2D sirenStabTexture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenStabbing");
@@ -26,7 +25,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Siren");
+            DisplayName.SetDefault("Anahita");
             Main.npcFrameCount[npc.type] = 6;
         }
 
@@ -37,7 +36,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.width = 100;
             npc.height = 100;
             npc.defense = 20;
-			npc.DR_NERD(0.05f);
+			npc.DR_NERD(0.2f);
             npc.LifeMaxNERB(27400, 41600, 2600000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -88,20 +87,22 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(spawnedLevi);
-            writer.Write(secondClone);
             writer.Write(forceChargeFrames);
             writer.Write(npc.localAI[0]);
-            writer.Write(frameUsed);
+			writer.Write(npc.localAI[2]);
+			writer.Write(npc.localAI[3]);
+			writer.Write(frameUsed);
             writer.Write(npc.dontTakeDamage);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             spawnedLevi = reader.ReadBoolean();
-            secondClone = reader.ReadBoolean();
             forceChargeFrames = reader.ReadBoolean();
             npc.localAI[0] = reader.ReadSingle();
-            frameUsed = reader.ReadInt32();
+			npc.localAI[2] = reader.ReadSingle();
+			npc.localAI[3] = reader.ReadSingle();
+			frameUsed = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
         }
 
@@ -117,86 +118,143 @@ namespace CalamityMod.NPCs.Leviathan
 			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
 				npc.TargetClosest(true);
 
+			// Check for Leviathan
+			bool leviAlive = false;
+			if (CalamityGlobalNPC.leviathan != -1)
+				leviAlive = Main.npc[CalamityGlobalNPC.leviathan].active;
+
 			// Variables
 			Player player = Main.player[npc.target];
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            Vector2 vector = npc.Center;
-            Vector2 spawnAt = vector + new Vector2(0f, npc.height / 2f);
-            bool isNotOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
+			bool isNotOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
+			float lifeRatio = npc.life / (float)npc.lifeMax;
+			float bubbleVelocity = CalamityWorld.bossRushActive ? 10f : 5f;
+			if (!leviAlive)
+				bubbleVelocity += 1.5f * (1f - lifeRatio);
 
-            // Percent life remaining
-            float lifeRatio = npc.life / (float)npc.lifeMax;
+			npc.damage = npc.defDamage;
 
-            // Phases
-            bool phase2 = lifeRatio < 0.66f || death;
-            bool phase3 = lifeRatio < 0.33f || (death && lifeRatio < 0.66f);
+			Vector2 vector = npc.Center;
 
-            // Check for Leviathan
-            bool leviAlive = false;
-            if (CalamityGlobalNPC.leviathan != -1)
-                leviAlive = Main.npc[CalamityGlobalNPC.leviathan].active;
+			// Phases
+			bool phase2 = lifeRatio < 0.7f;
+            bool phase3 = lifeRatio < 0.4f;
+			bool phase4 = lifeRatio < 0.1f;
 
             // Spawn Leviathan and Clones, change music
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (phase2 || death)
+                if (phase3)
                 {
                     if (!spawnedLevi)
                     {
-                        if (revenge)
-                            NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y - 200, ModContent.NPCType<SirenClone>());
-
                         Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
                         if (calamityModMusic != null)
                             music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
                         else
                             music = MusicID.Boss3;
 
-                        NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<Leviathan>());
-                        spawnedLevi = true;
-                    }
-                }
-
-                // Spawn Clone
-                if (phase3 && revenge)
-                {
-                    if (!secondClone)
-                    {
-                        NPC.NewNPC((int)spawnAt.X, (int)spawnAt.Y - 200, ModContent.NPCType<SirenClone>());
-                        secondClone = true;
+						NPC.NewNPC((int)vector.X, (int)vector.Y + 480, ModContent.NPCType<Leviathan>(), 1);
+						spawnedLevi = true;
                     }
                 }
             }
 
-            // Ice Shield
-            if (npc.ai[3] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                int num6 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<SirenIce>(), npc.whoAmI);
-                npc.ai[3] = num6 + 1;
-                npc.localAI[1] = -1f;
-                npc.netUpdate = true;
-                Main.npc[num6].ai[0] = npc.whoAmI;
-                Main.npc[num6].netUpdate = true;
-            }
+			// Ice Shield
+			if (npc.localAI[2] < 3f)
+			{
+				if (npc.ai[3] == 0f && npc.localAI[1] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
+				{
+					int num6 = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<SirenIce>(), npc.whoAmI);
+					npc.ai[3] = num6 + 1;
+					npc.localAI[1] = -1f;
+					npc.localAI[2] += 1f;
+					npc.netUpdate = true;
+					Main.npc[num6].ai[0] = npc.whoAmI;
+					Main.npc[num6].netUpdate = true;
+				}
 
-            int num7 = (int)npc.ai[3] - 1;
-            if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<SirenIce>())
-                npc.dontTakeDamage = true;
-            else
-            {
-                npc.dontTakeDamage = isNotOcean && !CalamityWorld.bossRushActive;
-                npc.ai[3] = 0f;
+				int num7 = (int)npc.ai[3] - 1;
+				if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<SirenIce>())
+					npc.dontTakeDamage = true;
+				else
+				{
+					npc.dontTakeDamage = isNotOcean && !CalamityWorld.bossRushActive;
+					npc.ai[3] = 0f;
 
-                if (npc.localAI[1] == -1f)
-                    npc.localAI[1] = revenge ? 600f : 1200f;
-                if (npc.localAI[1] > 0f)
-                    npc.localAI[1] -= 1f;
-            }
+					if (npc.localAI[1] == -1f)
+						npc.localAI[1] = 1f;
+					else
+					{
+						switch ((int)npc.localAI[2])
+						{
+							case 1:
+								if (phase2)
+									npc.localAI[1] = 0f;
+								break;
+							case 2:
+								if (phase3)
+									npc.localAI[1] = 0f;
+								break;
+						}
+					}
+				}
+			}
+			else
+			{
+				npc.dontTakeDamage = isNotOcean && !CalamityWorld.bossRushActive;
 
-            // Alpha
-            if (isNotOcean)
+				int num7 = (int)npc.ai[3] - 1;
+				if (num7 != -1 && Main.npc[num7].active && Main.npc[num7].type == ModContent.NPCType<SirenIce>())
+					npc.dontTakeDamage = true;
+			}
+
+			if (phase3)
+			{
+				if (CalamityGlobalNPC.leviathan != -1)
+				{
+					if (Main.npc[CalamityGlobalNPC.leviathan].active)
+					{
+						if (Main.npc[CalamityGlobalNPC.leviathan].life / (float)Main.npc[CalamityGlobalNPC.leviathan].lifeMax >= 0.4f)
+						{
+							ChargeRotation(player, vector);
+							ChargeLocation(player, vector, false, true);
+
+							npc.alpha += 3;
+							if (npc.alpha >= 255)
+								npc.alpha = 255;
+							else
+							{
+								for (int k = 0; k < 3; k++)
+								{
+									int dust = Dust.NewDust(npc.position, npc.width, npc.height, 172, 0f, 0f, 100, default, 2f);
+									Main.dust[dust].noGravity = true;
+									Main.dust[dust].noLight = true;
+								}
+							}
+
+							npc.dontTakeDamage = true;
+							npc.damage = 0;
+
+							if (npc.ai[0] != -1f)
+							{
+								npc.ai[0] = -1f;
+								npc.ai[1] = 0f;
+								npc.ai[2] = 0f;
+								npc.localAI[0] = 0f;
+								npc.netUpdate = true;
+							}
+
+							return;
+						}
+					}
+				}
+			}
+
+			// Alpha
+			if (isNotOcean)
             {
                 npc.alpha += 3;
                 if (npc.alpha >= 150)
@@ -254,6 +312,7 @@ namespace CalamityMod.NPCs.Leviathan
 						npc.localAI[0] = 0f;
 						npc.netUpdate = true;
 					}
+
 					return;
 				}
 			}
@@ -265,17 +324,12 @@ namespace CalamityMod.NPCs.Leviathan
             // Phase switch
             if (npc.ai[0] == -1f)
             {
-                int random = (phase2 && expertMode) ? 3 : 2;
-                int num871 = Main.rand.Next(random);
+                int random = ((phase2 && expertMode && !leviAlive) || phase4) ? 4 : 3;
+				int num618;
+				do num618 = Main.rand.Next(random);
+				while (num618 == npc.ai[1] || num618 == 1);
 
-                if (num871 == 0)
-                    num871 = phase3 ? 3 : 0;
-                else if (num871 == 1)
-                    num871 = 2;
-                else
-                    num871 = 3;
-
-                npc.ai[0] = num871;
+				npc.ai[0] = num618;
 
                 if (npc.ai[0] != 3f)
                 {
@@ -351,20 +405,27 @@ namespace CalamityMod.NPCs.Leviathan
                 npc.rotation = npc.velocity.X * 0.02f;
                 npc.TargetClosest(true);
 
-                Vector2 vector119 = new Vector2(npc.position.X + (npc.width / 2) + (Main.rand.Next(20) * npc.direction), npc.position.Y + npc.height * 0.8f);
+                Vector2 vector119 = new Vector2(npc.position.X + (npc.width / 2) + (15 * npc.direction), npc.position.Y + 30);
                 Vector2 vector120 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
                 float num1058 = player.position.X + (player.width / 2) - vector120.X;
                 float num1059 = player.position.Y + (player.height / 2) - vector120.Y;
                 float num1060 = (float)Math.Sqrt(num1058 * num1058 + num1059 * num1059);
 
                 npc.ai[1] += 1f;
-                if (phase2)
-                    npc.ai[1] += 0.25f;
-                if (phase3)
-                    npc.ai[1] += 0.25f;
+				int num638 = 0;
+				for (int num639 = 0; num639 < 255; num639++)
+				{
+					if (Main.player[num639].active && !Main.player[num639].dead && (vector - Main.player[num639].Center).Length() < 1000f)
+						num638++;
+				}
+				npc.ai[1] += num638 / 2;
 
                 bool flag103 = false;
-                if (npc.ai[1] > 20f)
+				float num640 = 20f;
+				if (!leviAlive || phase4)
+					num640 -= 12f * (1f - lifeRatio);
+
+				if (npc.ai[1] > num640)
                 {
                     npc.ai[1] = 0f;
                     npc.ai[2] += 1f;
@@ -376,13 +437,14 @@ namespace CalamityMod.NPCs.Leviathan
                     Main.PlaySound(2, (int)npc.position.X, (int)npc.position.Y, 85);
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        int num1061 = 371;
-                        int num1062 = NPC.NewNPC((int)vector119.X, (int)vector119.Y - 30, num1061, 0, 0f, 0f, 0f, 0f, 255);
-                        Main.npc[num1062].velocity.X = Main.rand.Next(-200, 201) * (CalamityWorld.bossRushActive ? 0.02f : 0.01f);
-                        Main.npc[num1062].velocity.Y = Main.rand.Next(-200, 201) * (CalamityWorld.bossRushActive ? 0.02f : 0.01f);
-                        Main.npc[num1062].localAI[0] = 60f;
-                        Main.npc[num1062].netUpdate = true;
-                    }
+                        int spawn = NPC.NewNPC((int)vector119.X, (int)vector119.Y, NPCID.DetonatingBubble);
+						Main.npc[spawn].target = npc.target;
+						Main.npc[spawn].velocity = player.Center - vector119;
+						Main.npc[spawn].velocity.Normalize();
+						Main.npc[spawn].velocity *= bubbleVelocity;
+						Main.npc[spawn].netUpdate = true;
+						Main.npc[spawn].ai[3] = Main.rand.Next(80, 121) / 100f;
+					}
                 }
 
                 if (num1060 > 600f)
@@ -434,125 +496,88 @@ namespace CalamityMod.NPCs.Leviathan
                 }
             }
 
-            // Float around and fire projectiles
+            // Fly near target and summon bullet hells
             else if (npc.ai[0] == 2f)
             {
                 npc.rotation = npc.velocity.X * 0.02f;
-                Vector2 vector121 = new Vector2(npc.position.X + (npc.width / 2), npc.position.Y + (npc.height / 2));
 
-                npc.ai[1] += 1f;
-                bool flag104 = false;
-				if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+				Vector2 targetVector = player.Center + new Vector2(0f, -350f);
+				Vector2 vector3 = Vector2.Normalize(targetVector - vector - npc.velocity) * (CalamityWorld.bossRushActive ? 18f : 12f);
+				float acceleration = CalamityWorld.bossRushActive ? 0.5f : 0.25f;
+
+				if (Math.Abs(npc.Center.Y - targetVector.Y) > 50f || Math.Abs(npc.Center.X - player.Center.X) > 350f)
+					npc.SimpleFlyMovement(vector3, acceleration);
+
+				npc.ai[1] += 1f;
+
+				float divisor = 140f;
+				if (!leviAlive || phase4)
+					divisor -= (float)Math.Ceiling(50f * (1f - lifeRatio));
+
+				bool shootProjectiles = npc.ai[1] % divisor == 0f;
+				if (Main.netMode != NetmodeID.MultiplayerClient && shootProjectiles)
 				{
-					if (npc.ai[1] % 10f == 9f)
-						flag104 = true;
+					int projectileDamage = expertMode ? 26 : 32;
+					float projectileVelocity = expertMode ? 3f : 2f;
+
+					if (!leviAlive || phase4)
+					{
+						projectileDamage += expertMode ? 3 : 4;
+						projectileVelocity += 2f * (1f - lifeRatio);
+					}
+
+					int totalProjectiles = 8;
+					int projectileDistance = 600;
+					int projectileType = ModContent.ProjectileType<WaterSpear>();
+					switch ((int)npc.localAI[3])
+					{
+						case 0:
+							Main.PlaySound(SoundID.Item21, player.position);
+							break;
+						case 1:
+							totalProjectiles = 3;
+							projectileType = ModContent.ProjectileType<FrostMist>();
+							Main.PlaySound(SoundID.Item30, player.position);
+							break;
+						case 2:
+							totalProjectiles = 5;
+							projectileType = ModContent.ProjectileType<SirenSong>();
+							float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
+							Main.harpNote = soundPitch;
+							Main.PlaySound(SoundID.Item26, player.position);
+							break;
+					}
+					npc.localAI[3] += 1f;
+					if (npc.localAI[3] > 2f)
+						npc.localAI[3] = 0f;
+
+					if ((phase2 && !leviAlive) || phase4)
+						totalProjectiles += (int)(totalProjectiles * 0.67);
+
+					float radians = MathHelper.TwoPi / totalProjectiles;
+					for (int i = 0; i < totalProjectiles; i++)
+					{
+						Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -projectileVelocity).RotatedBy(radians * i)) * projectileDistance;
+						Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * projectileVelocity;
+						Projectile.NewProjectile(spawnVector, velocity, projectileType, projectileDamage, 0f, Main.myPlayer);
+					}
 				}
-				else if (expertMode)
+
+				if (Math.Abs(npc.Center.X - player.Center.X) > 10f)
 				{
-					if ((phase3 && !leviAlive) || CalamityWorld.bossRushActive)
-					{
-						if (npc.ai[1] % 15f == 14f)
-							flag104 = true;
-					}
-					else if (phase2)
-					{
-						if (npc.ai[1] % 20f == 19f)
-							flag104 = true;
-					}
-					else if (npc.ai[1] % 25f == 24f)
-						flag104 = true;
+					float playerLocation = vector.X - player.Center.X;
+					npc.direction = playerLocation < 0f ? 1 : -1;
+					npc.spriteDirection = npc.direction;
 				}
-				else if (npc.ai[1] % 30f == 29f)
-					flag104 = true;
 
-                if (flag104 && (npc.position.Y + npc.height < player.position.Y || (!leviAlive && phase2)) && Collision.CanHit(vector121, 1, 1, player.position, player.width, player.height))
-                {
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                    {
-                        float num1070 = revenge ? 15f : 13f;
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                            num1070 = 24f;
-                        else if (isNotOcean || (!leviAlive && phase2) || death)
-                            num1070 = revenge ? 17f : 16f;
-                        else
-                        {
-                            if (phase3)
-                                num1070 += 2f;
-                        }
+				float phaseTimer = 300f;
+				if (!leviAlive || phase4)
+					phaseTimer -= 150f * (1f - lifeRatio);
 
-                        float num1071 = player.position.X + player.width * 0.5f - vector121.X;
-                        float num1072 = player.position.Y + player.height * 0.5f - vector121.Y;
-                        float num1073 = (float)Math.Sqrt(num1071 * num1071 + num1072 * num1072);
-                        num1073 = num1070 / num1073;
-                        num1071 *= num1073;
-                        num1072 *= num1073;
-
-                        int num1074 = expertMode ? 26 : 32;
-                        int num1075 = ModContent.ProjectileType<WaterSpear>();
-                        switch (Main.rand.Next(6))
-                        {
-                            case 0:
-                                num1075 = ModContent.ProjectileType<SirenSong>();
-                                break;
-                            case 1:
-                                num1075 = ModContent.ProjectileType<FrostMist>();
-                                break;
-                            case 2:
-                            case 3:
-                            case 4:
-                            case 5:
-                                num1075 = ModContent.ProjectileType<WaterSpear>();
-                                break;
-                        }
-                        if (isNotOcean)
-                            num1074 *= 2;
-
-                        float ai0 = (!leviAlive && num1075 == ModContent.ProjectileType<FrostMist>()) ? 1f : 0f;
-                        Projectile.NewProjectile(vector121.X, vector121.Y, num1071, num1072, num1075, num1074, 0f, Main.myPlayer, ai0, 0f);
-                    }
-                }
-
-                if (npc.position.Y > player.position.Y - 300f)
-                {
-                    if (npc.velocity.Y > 0f)
-                        npc.velocity.Y *= 0.98f;
-                    npc.velocity.Y -= CalamityWorld.bossRushActive ? 0.15f : 0.1f;
-                    if (npc.velocity.Y > 4f)
-                        npc.velocity.Y = 4f;
-                }
-                else if (npc.position.Y < player.position.Y - 500f)
-                {
-                    if (npc.velocity.Y < 0f)
-                        npc.velocity.Y *= 0.98f;
-                    npc.velocity.Y += CalamityWorld.bossRushActive ? 0.15f : 0.1f;
-                    if (npc.velocity.Y < -4f)
-                        npc.velocity.Y = -4f;
-                }
-                if (npc.position.X + (npc.width / 2) > player.position.X + (player.width / 2) + 100f)
-                {
-                    if (npc.velocity.X > 0f)
-                        npc.velocity.X *= 0.98f;
-                    npc.velocity.X -= CalamityWorld.bossRushActive ? 0.15f : 0.1f;
-                    if (npc.velocity.X > 8f)
-                        npc.velocity.X = 8f;
-                }
-                if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2) - 100f)
-                {
-                    if (npc.velocity.X < 0f)
-                        npc.velocity.X *= 0.98f;
-                    npc.velocity.X += CalamityWorld.bossRushActive ? 0.15f : 0.1f;
-                    if (npc.velocity.X < -8f)
-                        npc.velocity.X = -8f;
-                }
-
-                float playerLocation = vector.X - player.Center.X;
-                npc.direction = playerLocation < 0f ? 1 : -1;
-                npc.spriteDirection = npc.direction;
-
-                if (npc.ai[1] >= 300f)
+				if (npc.ai[1] >= phaseTimer)
                 {
                     npc.ai[0] = -1f;
-                    npc.ai[1] = 0f;
+                    npc.ai[1] = 2f;
                     npc.netUpdate = true;
                 }
             }
@@ -560,25 +585,22 @@ namespace CalamityMod.NPCs.Leviathan
             // Set up charge
             else if (npc.ai[0] == 3f)
             {
-                ChargeLocation(player, vector, leviAlive, revenge);
+                ChargeLocation(player, vector, leviAlive && !phase4, revenge);
 
                 npc.ai[1] += 1f;
 
-                if (npc.ai[1] >= (revenge ? 40f : 60f))
+                if (npc.ai[1] >= (revenge ? 45f : 60f))
                 {
                     forceChargeFrames = true;
-                    npc.ai[0] = npc.ai[2] >= (leviAlive ? 2f : 3f) ? -1f : 4f;
-                    npc.ai[1] = 0f;
+                    npc.ai[0] = npc.ai[2] >= ((leviAlive && !phase4) ? 2f : 3f) ? -1f : 4f;
+                    npc.ai[1] = npc.ai[2] >= ((leviAlive && !phase4) ? 2f : 3f) ? 3f : 0f;
                     npc.localAI[0] = 0f;
 
                     // Velocity and rotation
-                    float chargeVelocity = leviAlive ? 16f : 21f;
+                    float chargeVelocity = CalamityWorld.bossRushActive ? 31f : (leviAlive && !phase4) ? 21f : 26f;
 
 					if (revenge)
 						chargeVelocity += 2f + (death ? 4f : 4f * (1f - lifeRatio));
-
-                    if (CalamityWorld.bossRushActive)
-                        chargeVelocity = 26f;
 
                     npc.velocity = Vector2.Normalize(player.Center - vector) * chargeVelocity;
                     npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X);
@@ -590,7 +612,7 @@ namespace CalamityMod.NPCs.Leviathan
                         npc.direction = num22;
 
                         if (npc.spriteDirection == 1)
-                            npc.rotation += 3.14159274f;
+                            npc.rotation += MathHelper.Pi;
 
                         npc.spriteDirection = -npc.direction;
                     }
@@ -600,12 +622,14 @@ namespace CalamityMod.NPCs.Leviathan
             // Charge
             else if (npc.ai[0] == 4f)
             {
-                // Spawn dust
-                int num24 = 7;
+				npc.damage = (int)(npc.defDamage * 1.5);
+
+				// Spawn dust
+				int num24 = 7;
                 for (int j = 0; j < num24; j++)
                 {
-                    Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((j - (num24 / 2 - 1)) * 3.1415926535897931 / (float)num24, default) + vector;
-                    Vector2 vector4 = ((float)(Main.rand.NextDouble() * 3.1415927410125732) - 1.57079637f).ToRotationVector2() * Main.rand.Next(3, 8);
+                    Vector2 arg_E1C_0 = (Vector2.Normalize(npc.velocity) * new Vector2((npc.width + 50) / 2f, npc.height) * 0.75f).RotatedBy((j - (num24 / 2 - 1)) * MathHelper.Pi / num24) + vector;
+                    Vector2 vector4 = ((float)(Main.rand.NextDouble() * MathHelper.Pi) - MathHelper.PiOver2).ToRotationVector2() * Main.rand.Next(3, 8);
                     int num25 = Dust.NewDust(arg_E1C_0 + vector4, 0, 0, 172, vector4.X * 2f, vector4.Y * 2f, 100, default, 1.4f);
                     Main.dust[num25].noGravity = true;
                     Main.dust[num25].noLight = true;
@@ -614,7 +638,7 @@ namespace CalamityMod.NPCs.Leviathan
                 }
 
                 npc.ai[1] += 1f;
-                if (npc.ai[1] >= (leviAlive ? 45f : 35f))
+                if (npc.ai[1] >= ((leviAlive && !phase4) ? 50f : 35f))
                 {
                     npc.ai[0] = 3f;
                     npc.ai[1] = 0f;
@@ -629,82 +653,35 @@ namespace CalamityMod.NPCs.Leviathan
         {
             float num17 = (float)Math.Atan2(player.Center.Y - vector.Y, player.Center.X - vector.X);
             if (npc.spriteDirection == 1)
-                num17 += 3.14159274f;
+                num17 += MathHelper.Pi;
             if (num17 < 0f)
-                num17 += 6.28318548f;
-            if (num17 > 6.28318548f)
-                num17 -= 6.28318548f;
+                num17 += MathHelper.TwoPi;
+            if (num17 > MathHelper.TwoPi)
+                num17 -= MathHelper.TwoPi;
 
             float num18 = 0.04f;
             if (npc.ai[0] == 4f)
                 num18 = 0f;
 
-            if (npc.rotation < num17)
-            {
-                if ((num17 - npc.rotation) > 3.1415926535897931)
-                    npc.rotation -= num18;
-                else
-                    npc.rotation += num18;
-            }
-            if (npc.rotation > num17)
-            {
-                if ((npc.rotation - num17) > 3.1415926535897931)
-                    npc.rotation += num18;
-                else
-                    npc.rotation -= num18;
-            }
-
-            if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
-                npc.rotation = num17;
-            if (npc.rotation < 0f)
-                npc.rotation += 6.28318548f;
-            if (npc.rotation > 6.28318548f)
-                npc.rotation -= 6.28318548f;
-            if (npc.rotation > num17 - num18 && npc.rotation < num17 + num18)
-                npc.rotation = num17;
-        }
+			if (num18 != 0f)
+				npc.rotation = npc.rotation.AngleTowards(num17, num18);
+		}
 
         // Move to charge location
         private void ChargeLocation(Player player, Vector2 vector, bool leviAlive, bool revenge)
         {
-            float distance = leviAlive ? 400f : 350f;
+            float distance = leviAlive ? 600f : 500f;
 
             // Velocity
             if (npc.localAI[0] == 0f)
                 npc.localAI[0] = (int)distance * Math.Sign((vector - player.Center).X);
 
-            Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.localAI[0], -distance) - vector - npc.velocity) * 9f;
-            float acceleration = revenge ? 0.75f : 0.5f;
-            if (CalamityWorld.bossRushActive)
-                acceleration = 1f;
+            Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.localAI[0], -distance) - vector - npc.velocity) * 12f;
+            float acceleration = CalamityWorld.bossRushActive ? 1f : revenge ? 0.75f : 0.5f;
+			npc.SimpleFlyMovement(vector3, acceleration);
 
-            if (npc.velocity.X < vector3.X)
-            {
-                npc.velocity.X += acceleration;
-                if (npc.velocity.X < 0f && vector3.X > 0f)
-                    npc.velocity.X += acceleration;
-            }
-            else if (npc.velocity.X > vector3.X)
-            {
-                npc.velocity.X -= acceleration;
-                if (npc.velocity.X > 0f && vector3.X < 0f)
-                    npc.velocity.X -= acceleration;
-            }
-            if (npc.velocity.Y < vector3.Y)
-            {
-                npc.velocity.Y += acceleration;
-                if (npc.velocity.Y < 0f && vector3.Y > 0f)
-                    npc.velocity.Y += acceleration;
-            }
-            else if (npc.velocity.Y > vector3.Y)
-            {
-                npc.velocity.Y -= acceleration;
-                if (npc.velocity.Y > 0f && vector3.Y < 0f)
-                    npc.velocity.Y -= acceleration;
-            }
-
-            // Rotation
-            int num22 = Math.Sign(player.Center.X - vector.X);
+			// Rotation
+			int num22 = Math.Sign(player.Center.X - vector.X);
             if (num22 != 0)
             {
                 if (npc.ai[1] == 0f && num22 != npc.direction)

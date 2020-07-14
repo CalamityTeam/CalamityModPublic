@@ -429,7 +429,7 @@ namespace CalamityMod.CalPlayer
 				player.buffImmune[BuffID.Electrified] = true;
 
 			// Reduce breath meter while in icy water instead of chilling
-			bool canBreath = (modPlayer.sirenBoobs && NPC.downedBoss3) || (modPlayer.sirenBoobsAlt && NPC.downedBoss3) || player.gills || player.merman;
+			bool canBreath = (modPlayer.sirenBoobs && NPC.downedBoss3) || player.gills || player.merman;
 			if (player.arcticDivingGear || canBreath)
 			{
 				player.buffImmune[ModContent.BuffType<FrozenLungs>()] = true;
@@ -1251,7 +1251,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.cFreeze)
 			{
 				light[0] += 0.3f;
-				light[1] += (float)Main.DiscoG / 400f;
+				light[1] += Main.DiscoG / 400f;
 				light[2] += 0.5f;
 			}
 			if (modPlayer.sirenIce)
@@ -1260,11 +1260,11 @@ namespace CalamityMod.CalPlayer
 				light[1] += 1f;
 				light[2] += 1.25f;
 			}
-			if (modPlayer.sirenBoobs || modPlayer.sirenBoobsAlt)
+			if (modPlayer.sirenBoobs)
 			{
-				light[0] += 1.5f;
+				light[0] += 0.1f;
 				light[1] += 1f;
-				light[2] += 0.1f;
+				light[2] += 1.5f;
 			}
 			if (modPlayer.tarraSummon)
 			{
@@ -1914,7 +1914,7 @@ namespace CalamityMod.CalPlayer
 						(modPlayer.aquaticEmblem ? 0.25 : 0D) - // 0.75
 						(player.accMerman ? 0.3 : 0D) - // 0.7
 						(modPlayer.victideSet ? 0.2 : 0D) - // 0.85
-						(((modPlayer.sirenBoobs || modPlayer.sirenBoobsAlt) && NPC.downedBoss3) ? 0.3 : 0D) - // 0.7
+						((modPlayer.sirenBoobs && NPC.downedBoss3) ? 0.3 : 0D) - // 0.7
 						(modPlayer.abyssalDivingSuit ? 0.3 : 0D); // 0.7
 
 					// Limit the multiplier to 5%
@@ -1978,7 +1978,7 @@ namespace CalamityMod.CalPlayer
 						(modPlayer.aquaticEmblem ? 10D : 0D) + // 40
 						(player.accMerman ? 15D : 0D) + // 55
 						(modPlayer.victideSet ? 5D : 0D) + // 60
-						(((modPlayer.sirenBoobs || modPlayer.sirenBoobsAlt) && NPC.downedBoss3) ? 15D : 0D) + // 75
+						((modPlayer.sirenBoobs && NPC.downedBoss3) ? 15D : 0D) + // 75
 						(modPlayer.abyssalDivingSuit ? 15D : 0D); // 90
 
 					// Limit the multiplier to 50
@@ -2864,7 +2864,6 @@ namespace CalamityMod.CalPlayer
 					player.ClearBuff(BuffID.Regeneration);
 				if (player.FindBuffIndex(BuffID.Lifeforce) > -1)
 					player.ClearBuff(BuffID.Lifeforce);
-				player.discount = true;
 				player.lifeMagnet = true;
 				player.calmed = true;
 			}
