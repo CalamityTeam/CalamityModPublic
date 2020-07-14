@@ -1,6 +1,6 @@
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Potions.Alcohol;
-using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
@@ -385,7 +385,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = ModContent.ProjectileType<FabRay>();
+            projType = ModContent.ProjectileType<CirrusRay>();
             attackDelay = 1;
         }
 
