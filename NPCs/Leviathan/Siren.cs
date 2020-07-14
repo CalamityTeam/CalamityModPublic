@@ -526,7 +526,7 @@ namespace CalamityMod.NPCs.Leviathan
 					}
 
 					int totalProjectiles = 8;
-					int projectileDistance = 600;
+					int projectileDistance = 800;
 					int projectileType = ModContent.ProjectileType<WaterSpear>();
 					switch ((int)npc.localAI[3])
 					{
@@ -539,7 +539,7 @@ namespace CalamityMod.NPCs.Leviathan
 							Main.PlaySound(SoundID.Item30, player.position);
 							break;
 						case 2:
-							totalProjectiles = 5;
+							totalProjectiles = 6;
 							projectileType = ModContent.ProjectileType<SirenSong>();
 							float soundPitch = (Main.rand.NextFloat() - 0.5f) * 0.5f;
 							Main.harpNote = soundPitch;
@@ -551,7 +551,7 @@ namespace CalamityMod.NPCs.Leviathan
 						npc.localAI[3] = 0f;
 
 					if ((phase2 && !leviAlive) || phase4)
-						totalProjectiles += (int)(totalProjectiles * 0.67);
+						totalProjectiles += totalProjectiles / 2;
 
 					float radians = MathHelper.TwoPi / totalProjectiles;
 					for (int i = 0; i < totalProjectiles; i++)

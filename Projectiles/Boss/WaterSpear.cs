@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (projectile.velocity.Length() < 10f)
+			if (projectile.velocity.Length() < 12f)
 				projectile.velocity *= 1.01f;
 
             if (projectile.ai[1] == 0f)

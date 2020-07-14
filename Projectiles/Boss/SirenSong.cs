@@ -1,3 +1,4 @@
+using CalamityMod.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -23,7 +24,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.hostile = true;
 			projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 480;
+            projectile.timeLeft = 960;
 			projectile.Opacity = 0f;
         }
 
@@ -44,7 +45,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.timeLeft < 60)
 				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
 			else
-				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 420) / 60f), 0f, 1f);
+				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 540) / 60f), 0f, 1f);
 
 			if (projectile.localAI[0] == 0f)
             {
@@ -60,7 +61,13 @@ namespace CalamityMod.Projectiles.Boss
             }
 
             Lighting.AddLight(projectile.Center, 0.7f * projectile.Opacity, 0.5f * projectile.Opacity, 0f);
-        }
+
+			if (CalamityGlobalNPC.leviathan != -1)
+			{
+				if (Main.npc[CalamityGlobalNPC.leviathan].active)
+					projectile.extraUpdates = 1;
+			}
+		}
 
 		public override bool CanHitPlayer(Player target) => projectile.Opacity == 1f;
 
