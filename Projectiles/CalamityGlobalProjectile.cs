@@ -9,6 +9,7 @@ using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Melee.Yoyos;
+using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
@@ -78,13 +79,13 @@ namespace CalamityMod.Projectiles
 		public bool overridesMinionDamagePrevention = false;
 
         #region SetDefaults
-        public override void SetDefaults(Projectile projectile)
-        {
+		public override void SetDefaults(Projectile projectile)
+		{
 			if (CalamityMod.trueMeleeProjectileList.Contains(projectile.type))
 				trueMelee = true;
 
-            switch (projectile.type)
-            {
+			switch (projectile.type)
+			{
 				case ProjectileID.ShadowBeamHostile:
 					projectile.timeLeft = 60;
 					break;
@@ -97,23 +98,24 @@ namespace CalamityMod.Projectiles
 					projectile.extraUpdates = 1;
 					break;
 
-                case ProjectileID.StarWrath:
-                    projectile.penetrate = projectile.maxPenetrate = 1;
-                    break;
+				case ProjectileID.StarWrath:
+					projectile.penetrate = projectile.maxPenetrate = 1;
+					break;
 
-                case ProjectileID.Spazmamini:
-                case ProjectileID.Retanimini:
-                case ProjectileID.MiniRetinaLaser:
-                    projectile.localNPCHitCooldown = 10;
-                    projectile.usesLocalNPCImmunity = true;
-                    break;
-                default:
-                    break;
-            }
+				case ProjectileID.Spazmamini:
+				case ProjectileID.Retanimini:
+				case ProjectileID.MiniRetinaLaser:
+					projectile.localNPCHitCooldown = 10;
+					projectile.usesLocalNPCImmunity = true;
+					projectile.usesIDStaticNPCImmunity = false;
+					break;
+				default:
+					break;
+			}
 
-            // Disable Lunatic Cultist's homing resistance globally
-            ProjectileID.Sets.Homing[projectile.type] = false;
-        }
+			// Disable Lunatic Cultist's homing resistance globally
+			ProjectileID.Sets.Homing[projectile.type] = false;
+		}
         #endregion
 
         #region PreAI
