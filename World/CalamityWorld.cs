@@ -904,7 +904,7 @@ namespace CalamityMod.World
                 }));
 
 
-                tasks.Insert(FinalIndex + 3, new PassLegacy("DraedonThings", (GenerationProgress progress) =>
+                tasks.Insert(FinalIndex + 3, new PassLegacy("Rust and Dust", (GenerationProgress progress) =>
                 {
                     List<Point> workshopPositions = new List<Point>();
                     for (int i = 0; i < 10; i++)

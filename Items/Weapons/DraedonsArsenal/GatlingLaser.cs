@@ -41,7 +41,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
 			item.shootSpeed = 24f;
-			item.useAmmo = AmmoID.Bullet;
 
 			item.Calamity().Chargeable = true;
 		}

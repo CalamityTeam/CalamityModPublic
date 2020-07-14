@@ -34,8 +34,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.rare = 3;
 
 			item.shoot = ModContent.ProjectileType<PulseRifleShot>();
-			item.shootSpeed = 1.2f; // Keep in mind that the shot has extra updates.
-			item.useAmmo = AmmoID.Bullet;
+			item.shootSpeed = 5.2f; // Keep in mind that the shot has extra updates.
 
 			item.Calamity().Chargeable = true;
 		}

@@ -75,8 +75,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 							player.ActiveItem().Calamity().CurrentCharge--;
 						}
 
-						// Consume 2 ammo per shot
-						CalamityGlobalItem.ConsumeAdditionalAmmo(player, player.ActiveItem(), 2);
 
 						float scaleFactor = player.ActiveItem().shootSpeed * projectile.scale;
 						Vector2 value2 = vector;
