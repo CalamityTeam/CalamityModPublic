@@ -2144,27 +2144,12 @@ namespace CalamityMod.NPCs.Yharon
 							DoFlareDustBulletHell(1, (int)spinPhaseTimer, projectileDamage, totalProjectiles, projectileVelocity, radialOffset, true);
 						}
 					}
-					else if (secondPhasePhase == 2)
+					else
 					{
 						if (npc.ai[1] % flareDustSpawnDivisor == 0f)
 						{
-							int totalProjectiles = 38 - (int)(npc.ai[1] / 12f); // 36 for first ring, 18 for last ring
+							int totalProjectiles = (secondPhasePhase == 2 ? 42 : 38) - (int)(npc.ai[1] / 12f); // 36 for first ring, 18 for last ring
 							DoFlareDustBulletHell(0, (int)spinPhaseTimer, projectileDamage, totalProjectiles, 0f, 0f, true);
-						}
-					}
-					else
-					{
-						if (npc.ai[1] % flareDustSpawnDivisor2 == 0f)
-						{
-							if (Main.netMode != NetmodeID.MultiplayerClient)
-							{
-								float xOffset = 30f;
-								Vector2 position = npc.Center + new Vector2((110f + xOffset) * npc.direction, -20f).RotatedBy(npc.rotation);
-								Vector2 projectileVelocity = targetData.Center - position;
-								projectileVelocity.Normalize();
-								projectileVelocity *= 0.1f;
-								Projectile.NewProjectile(position, projectileVelocity, ModContent.ProjectileType<FlareDust2>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-							}
 						}
 					}
 
