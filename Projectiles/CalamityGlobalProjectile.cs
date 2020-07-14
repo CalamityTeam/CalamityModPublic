@@ -1058,7 +1058,12 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-		#region ModifyHitNPC
+		#region ModifyHit
+		public override void ModifyHitPlayer(Projectile projectile, Player target, ref int damage, ref bool crit)
+		{
+			target.Calamity().lastProjectileHit = projectile;
+		}
+
 		public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			Player player = Main.player[projectile.owner];
@@ -1101,6 +1106,21 @@ namespace CalamityMod.Projectiles
 
 				if (rogue && stealthStrike && modPlayer.stealthStrikeAlwaysCrits)
 					crit = true;
+
+				//Done here since crit calcs are overridden here
+				if (projectile.type == ProjectileType<ImpactRound>())
+				{
+					double damageMult = 1D;
+					if (crit)
+					{
+						damageMult += 0.25;
+					}
+					if (target.Inorganic())
+					{
+						damageMult += 0.1;
+					}
+					damage = (int)(damage * damageMult);
+				}
 			}
 		}
 		#endregion

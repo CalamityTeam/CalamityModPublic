@@ -201,10 +201,5 @@ namespace CalamityMod.Projectiles.Boss
 			int buffType = Main.dayTime ? ModContent.BuffType<HolyFlames>() : ModContent.BuffType<Nightwither>();
             target.AddBuff(buffType, 300);
         }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
-        {
-			target.Calamity().lastProjectileHit = projectile;
-		}
     }
 }

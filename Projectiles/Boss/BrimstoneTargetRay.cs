@@ -175,10 +175,5 @@ namespace CalamityMod.Projectiles.Boss
 		{
 			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 300);
 		}
-
-		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
-		{
-			target.Calamity().lastProjectileHit = projectile;
-		}
 	}
 }

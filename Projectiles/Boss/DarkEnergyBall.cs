@@ -92,10 +92,5 @@ namespace CalamityMod.Projectiles.Boss
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 90, 0f, 0f);
             }
         }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
-        {
-			target.Calamity().lastProjectileHit = projectile;
-		}
     }
 }

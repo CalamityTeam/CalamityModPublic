@@ -72,10 +72,5 @@ namespace CalamityMod.Projectiles.Boss
                 Main.projectile[num236].netUpdate = true;
             }
         }
-
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
-        {
-			target.Calamity().lastProjectileHit = projectile;
-		}
     }
 }
