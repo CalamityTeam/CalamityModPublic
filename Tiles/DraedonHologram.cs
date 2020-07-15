@@ -22,7 +22,7 @@ namespace CalamityMod.Tiles
             Main.tileNoAttach[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
             TileObjectData.newTile.Height = 7;
-            TileObjectData.newTile.Origin = new Point16(2, 6);
+            TileObjectData.newTile.Origin = new Point16(3, 6);
             TileObjectData.newTile.CoordinateHeights = new int[TileObjectData.newTile.Height];
             TileObjectData.newTile.CoordinatePadding = 0;
             for (int i = 0; i < TileObjectData.newTile.CoordinateHeights.Length; i++)
@@ -33,6 +33,7 @@ namespace CalamityMod.Tiles
             animationFrameHeight = 112;
 
             soundType = SoundID.Tink;
+            dustType = 229;
             minPick = 100;
             AddMapEntry(new Color(99, 131, 199));
         }
