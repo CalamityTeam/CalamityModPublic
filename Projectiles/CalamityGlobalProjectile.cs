@@ -1060,12 +1060,7 @@ namespace CalamityMod.Projectiles
         }
         #endregion
 
-		#region ModifyHit
-		public override void ModifyHitPlayer(Projectile projectile, Player target, ref int damage, ref bool crit)
-		{
-			target.Calamity().lastProjectileHit = projectile;
-		}
-
+		#region ModifyHitNPC
 		public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			Player player = Main.player[projectile.owner];

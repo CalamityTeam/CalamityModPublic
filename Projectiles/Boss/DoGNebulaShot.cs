@@ -108,5 +108,10 @@ namespace CalamityMod.Projectiles.Boss
             }
             return false;
         }
+
+        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+        {
+			target.Calamity().lastProjectileHit = projectile;
+		}
     }
 }
