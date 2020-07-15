@@ -54,6 +54,7 @@ namespace CalamityMod.Items.Accessories
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.dAmulet = true;
             modPlayer.rampartOfDeities = true;
+            modPlayer.fBulwark = true;
             modPlayer.jellyfishNecklace = true;
         }
 

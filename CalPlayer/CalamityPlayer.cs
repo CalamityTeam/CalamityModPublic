@@ -7051,7 +7051,7 @@ namespace CalamityMod.CalPlayer
         #region Can Hit
         public override bool? CanHitNPC(Item item, NPC target)
         {
-            if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
+            if (camper && player.StandingStill())
             {
                 return false;
             }
@@ -7060,7 +7060,7 @@ namespace CalamityMod.CalPlayer
 
         public override bool? CanHitNPCWithProj(Projectile proj, NPC target)
         {
-            if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
+            if (camper && player.StandingStill())
             {
                 return false;
             }
@@ -10181,7 +10181,7 @@ namespace CalamityMod.CalPlayer
             }
             if (IBoots)
             {
-                if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
+                if (player.velocity.Length() > 0.05f && !player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
@@ -10201,7 +10201,7 @@ namespace CalamityMod.CalPlayer
             }
             if (elysianFire)
             {
-                if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
+                if (player.velocity.Length() > 0.05f && !player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
@@ -10221,7 +10221,7 @@ namespace CalamityMod.CalPlayer
             }
             if (dsSetBonus)
             {
-                if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
+                if (player.velocity.Length() > 0.05f && !player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
@@ -10241,7 +10241,7 @@ namespace CalamityMod.CalPlayer
             }
             if (auricSet)
             {
-                if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
+                if (player.velocity.Length() > 0.05f && !player.mount.Active)
                 {
                     if (drawInfo.shadow == 0f)
                     {
@@ -10471,7 +10471,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (draedonsHeart && !shadeRegen && !cFreeze && (double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+            if (draedonsHeart && !shadeRegen && !cFreeze && player.StandingStill() && player.itemAnimation == 0)
             {
                 if (noRogueStealth)
                 {
@@ -10801,7 +10801,7 @@ namespace CalamityMod.CalPlayer
 
             // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
             // Stealth only regenerates at 1/3 speed while moving.
-            bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
+            bool standstill = player.StandingStill(0.1f) && !player.mount.Active;
             return standstill ? stealthGenStandstill : stealthGenMoving * 0.333333f * stealthAcceleration;
         }
 
