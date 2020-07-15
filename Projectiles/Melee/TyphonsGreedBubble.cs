@@ -39,32 +39,27 @@ namespace CalamityMod.Projectiles.Melee
             {
                 projectile.frame = 0;
             }
-            float num953 = 50f * projectile.ai[1]; //100
-            float scaleFactor12 = 10f * projectile.ai[1]; //5
+            float inertia = 50f * projectile.ai[1]; //100
+            float speed = 10f * projectile.ai[1]; //5
             float num954 = 40f;
-            if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+            if (Math.Abs(projectile.velocity.X) > 0.2f)
             {
                 projectile.spriteDirection = -projectile.direction;
             }
-            if (projectile.velocity.X < 0f)
-            {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-            }
-            else
-            {
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-            }
+			projectile.rotation = projectile.velocity.ToRotation();
             Lighting.AddLight(projectile.Center, 0f, 0.1f, 0.7f);
-            if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
+
+			Player player = Main.player[projectile.owner];
+            if (player.active && !player.dead)
             {
-                if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
+                if (projectile.Distance(player.Center) > num954)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
+                    Vector2 vector102 = projectile.DirectionTo(player.Center);
                     if (vector102.HasNaNs())
                     {
                         vector102 = Vector2.UnitY;
                     }
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + vector102 * speed) / inertia;
                 }
             }
             else
@@ -90,7 +85,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
+			if (Main.rand.NextBool(3))
+				target.AddBuff(ModContent.BuffType<CrushDepth>(), 180);
         }
 
         public override void Kill(int timeLeft)
@@ -98,18 +94,18 @@ namespace CalamityMod.Projectiles.Melee
             Main.PlaySound(SoundID.Item21, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 64;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.position.X -= (float)(projectile.width / 2);
+            projectile.position.Y -= (float)(projectile.height / 2);
             for (int num193 = 0; num193 < 2; num193++)
             {
-                Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
             }
             for (int num194 = 0; num194 < 6; num194++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 186, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
+                int num195 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 186, 0f, 0f, 0, new Color(0, 255, 255), 2.5f);
                 Main.dust[num195].noGravity = true;
                 Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 186, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
+                num195 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 186, 0f, 0f, 100, new Color(0, 255, 255), 1.5f);
                 Main.dust[num195].velocity *= 2f;
                 Main.dust[num195].noGravity = true;
             }
@@ -117,6 +113,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.damage /= 2;
             projectile.Damage();
         }
     }

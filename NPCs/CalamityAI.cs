@@ -2797,8 +2797,8 @@ namespace CalamityMod.NPCs
 			else
 				npc.damage = npc.defDamage;
 
-			// 8 seconds of reistance to prevent spawn killing
-			if (calamityGlobalNPC.newAI[1] < 480f)
+			// 10 seconds of reistance to prevent spawn killing
+			if (calamityGlobalNPC.newAI[1] < 600f)
 				calamityGlobalNPC.newAI[1] += 1f;
 
 			// Get a target
@@ -3738,6 +3738,29 @@ namespace CalamityMod.NPCs
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			Vector2 vector = npc.Center;
 
+			// If target is outside the jungle for more than 3 seconds, enrage
+			if (!player.ZoneJungle)
+			{
+				if (npc.localAI[1] < 300f)
+					npc.localAI[1] += 1f;
+			}
+			else
+			{
+				if (npc.localAI[1] > 0f)
+					npc.localAI[1] -= 1f;
+			}
+
+			// If dragonfolly is off screen, enrage for the next couple attacks
+			if (Vector2.Distance(player.Center, vector) > 960f)
+				npc.localAI[2] = 2f;
+
+			// Enrage scale
+			int enrageScale = 1;
+			if (npc.localAI[1] >= 300f)
+				enrageScale += 1;
+			if (npc.localAI[2] > 0f)
+				enrageScale += 1;
+
 			// Despawn
 			if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
 			{
@@ -3781,13 +3804,14 @@ namespace CalamityMod.NPCs
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
 			bool phase3 = lifeRatio < (death ? 0.4f : revenge ? 0.25f : 0.1f) && expertMode;
 
+			float birbSpawnPhaseTimer = 180f;
 			float newPhaseTimer = 180f;
 			bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
 				(phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
 
 			npc.dontTakeDamage = phaseSwitchPhase;
 
-			calamityGlobalNPC.DR = npc.ai[0] == 5f ? 0.75f : 0.1f;
+			calamityGlobalNPC.DR = (npc.ai[0] == 5f || enrageScale == 3) ? 0.75f : 0.1f;
 
 			if (phaseSwitchPhase)
 			{
@@ -3867,9 +3891,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// Max spawn amount
-			int num1305 = revenge ? 3 : 2;
-			if (phase2)
-				num1305 = death ? 2 : 1;
+			int maxBirbs = phase2 ? 1 : 2;
 
 			// Variable for charging
 			float chargeDistance = 600f;
@@ -3877,6 +3899,7 @@ namespace CalamityMod.NPCs
 				chargeDistance -= 50f;
 			if (phase3)
 				chargeDistance -= 50f;
+			chargeDistance -= (enrageScale - 1) * 100f;
 
 			// Don't collide with tiles, disable gravity
 			npc.noTileCollide = false;
@@ -3900,7 +3923,7 @@ namespace CalamityMod.NPCs
 				// Slow down if colliding with tiles
 				if (npc.collideX)
 				{
-					npc.velocity.X *= (-npc.oldVelocity.X * 0.5f);
+					npc.velocity.X *= -npc.oldVelocity.X * 0.5f;
 					if (npc.velocity.X > 4f)
 						npc.velocity.X = 4f;
 					if (npc.velocity.X < -4f)
@@ -3908,7 +3931,7 @@ namespace CalamityMod.NPCs
 				}
 				if (npc.collideY)
 				{
-					npc.velocity.Y *= (-npc.oldVelocity.Y * 0.5f);
+					npc.velocity.Y *= -npc.oldVelocity.Y * 0.5f;
 					if (npc.velocity.Y > 4f)
 						npc.velocity.Y = 4f;
 					if (npc.velocity.Y < -4f)
@@ -3928,7 +3951,7 @@ namespace CalamityMod.NPCs
 				}
 				else if (value51.Length() > 240f)
 				{
-					float scaleFactor15 = 12f;
+					float scaleFactor15 = 12f + (enrageScale - 1) * 6f;
 					float num1306 = 30f;
 					value51.Normalize();
 					value51 *= scaleFactor15;
@@ -3959,6 +3982,14 @@ namespace CalamityMod.NPCs
 							npc.TargetClosest(true);
 							npc.ai[0] = 5f;
 							npc.localAI[0] = 0f;
+
+							// Decrease enraged attacks by 1
+							if (npc.localAI[2] > 0f)
+								npc.localAI[2] -= 1f;
+
+							// Decrease amount of attacks until able to spawn small birbs again
+							if (npc.localAI[3] > 0f)
+								npc.localAI[3] -= 1f;
 						}
 						else
 						{
@@ -3967,33 +3998,68 @@ namespace CalamityMod.NPCs
 								num1307 = 1;
 
 							int damage = expertMode ? CalamityUtils.GetMasterModeProjectileDamage(50, 1.5) : 60;
+							float featherVelocity = 3f + (enrageScale - 1) * 1.5f;
 
-							if (num1307 == 0 && canHit)
+							if (num1307 == 0 && canHit && npc.localAI[3] == 0f)
 							{
 								npc.TargetClosest(true);
 								npc.ai[0] = 2f;
+
+								// Decrease enraged attacks by 1
+								if (npc.localAI[2] > 0f)
+									npc.localAI[2] -= 1f;
+
+								// Birb will do at least 1 different attack before entering this phase again
+								npc.localAI[3] = 1f;
 							}
 							else if (num1307 == 1)
 							{
 								npc.TargetClosest(true);
 								npc.ai[0] = 3f;
+
+								// Decrease enraged attacks by 1
+								if (npc.localAI[2] > 0f)
+									npc.localAI[2] -= 1f;
+
+								// Decrease amount of attacks until able to use other attacks again
+								if (npc.localAI[3] > 0f)
+									npc.localAI[3] -= 1f;
+
 								if (phase2)
 								{
-									Main.PlaySound(SoundID.Item102, (int)npc.position.X, (int)npc.position.Y);
-									Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-2, 3), -4f, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, 0f);
+									Main.PlaySound(SoundID.Item102, (int)player.position.X, (int)player.position.Y);
+									int totalProjectiles = phase3 ? 5 : 3;
+									float radians = MathHelper.TwoPi / totalProjectiles;
+									int distance = 560;
+									for (int i = 0; i < totalProjectiles; i++)
+									{
+										Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
+										Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
+										Projectile.NewProjectile(spawnVector, velocity, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer);
+									}
 								}
 							}
-							else if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < num1305)
+							else if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && npc.localAI[3] == 0f)
 							{
 								npc.TargetClosest(true);
 								npc.ai[0] = 4f;
-								Main.PlaySound(SoundID.Item102, (int)npc.position.X, (int)npc.position.Y);
-								int featherAmt = phase2 ? 3 : 6;
-								if (death)
-									featherAmt *= 2;
-								for (int num186 = 0; num186 < featherAmt; num186++)
+
+								// Birb will do at least 2 different attacks before entering this phase again
+								npc.localAI[3] = 2f;
+
+								// Decrease enraged attacks by 1
+								if (npc.localAI[2] > 0f)
+									npc.localAI[2] -= 1f;
+
+								Main.PlaySound(SoundID.Item102, (int)player.position.X, (int)player.position.Y);
+								int totalProjectiles = phase2 ? 6 : 9;
+								float radians = MathHelper.TwoPi / totalProjectiles;
+								int distance = phase2 ? 720 : 880;
+								for (int i = 0; i < totalProjectiles; i++)
 								{
-									Projectile.NewProjectile(npc.Center.X, npc.Center.Y, Main.rand.Next(-4, 5), -3f, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer, 0f, 0f);
+									Vector2 spawnVector = player.Center + Vector2.Normalize(new Vector2(0f, -featherVelocity).RotatedBy(radians * i)) * distance;
+									Vector2 velocity = Vector2.Normalize(player.Center - spawnVector) * featherVelocity;
+									Projectile.NewProjectile(spawnVector, velocity, ModContent.ProjectileType<RedLightningFeather>(), damage, 0f, Main.myPlayer);
 								}
 							}
 						}
@@ -4026,7 +4092,8 @@ namespace CalamityMod.NPCs
 					npc.ai[3] = 0f;
 				}
 
-				float scaleFactor16 = 14f + value52.Length() / 100f; //7
+				float velocity = 14f + (enrageScale - 1) * 4f;
+				float scaleFactor16 = velocity + value52.Length() / 100f;
 				float num1308 = 25f;
 				value52.Normalize();
 				value52 *= scaleFactor16;
@@ -4060,7 +4127,7 @@ namespace CalamityMod.NPCs
 
 				if (npc.collideX)
 				{
-					npc.velocity.X *= (-npc.oldVelocity.X * 0.5f);
+					npc.velocity.X *= -npc.oldVelocity.X * 0.5f;
 					if (npc.velocity.X > 4f)
 						npc.velocity.X = 4f;
 					if (npc.velocity.X < -4f)
@@ -4068,7 +4135,7 @@ namespace CalamityMod.NPCs
 				}
 				if (npc.collideY)
 				{
-					npc.velocity.Y *= (-npc.oldVelocity.Y * 0.5f);
+					npc.velocity.Y *= -npc.oldVelocity.Y * 0.5f;
 					if (npc.velocity.Y > 4f)
 						npc.velocity.Y = 4f;
 					if (npc.velocity.Y < -4f)
@@ -4081,7 +4148,8 @@ namespace CalamityMod.NPCs
 				if (expertMode)
 					npc.ai[2] += 0.0166666675f;
 
-				float scaleFactor17 = 8f + npc.ai[2] + value53.Length() / 120f; //4
+				float velocity = 8f + (enrageScale - 1) * 2f;
+				float scaleFactor17 = velocity + npc.ai[2] + value53.Length() / 120f;
 				float num1309 = 20f;
 				value53.Normalize();
 				value53 *= scaleFactor17;
@@ -4118,14 +4186,16 @@ namespace CalamityMod.NPCs
 				else
 					value54.X -= chargeDistance;
 
-				if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance - 50f && Math.Abs(npc.Center.Y - player.Center.Y) < (phase3 ? 100f : 20f))
+				float verticalDistanceGateValue = (phase3 ? 100f : 20f) + (enrageScale - 1) * 20f;
+				if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance - 50f && Math.Abs(npc.Center.Y - player.Center.Y) < verticalDistanceGateValue)
 				{
 					npc.ai[0] = 3.1f;
 					npc.ai[1] = 0f;
 				}
 
 				npc.ai[1] += 0.0333333351f;
-				float scaleFactor18 = 18f + npc.ai[1];
+				float velocity = 16f + (enrageScale - 1) * 4f;
+				float scaleFactor18 = velocity + npc.ai[1];
 				float num1310 = 4f;
 				value54.Normalize();
 				value54 *= scaleFactor18;
@@ -4141,7 +4211,7 @@ namespace CalamityMod.NPCs
 
 				Vector2 vector206 = player.Center - npc.Center;
 				vector206.Y -= 12f;
-				float scaleFactor19 = 32f; //16
+				float scaleFactor19 = 28f + (enrageScale - 1) * 4f;
 				float num1311 = 8f;
 				vector206.Normalize();
 				vector206 *= scaleFactor19;
@@ -4173,14 +4243,15 @@ namespace CalamityMod.NPCs
 			// Charge
 			else if (npc.ai[0] == 3.2f)
 			{
-				npc.damage = (int)(npc.defDamage * 1.5);
+				npc.damage = (int)(npc.defDamage * 1.3);
 
 				npc.collideX = false;
 				npc.collideY = false;
 				npc.noTileCollide = true;
 
 				npc.ai[2] += 0.0333333351f;
-				npc.velocity.X = (32f + npc.ai[2]) * npc.ai[1];
+				float velocity = 28f + (enrageScale - 1) * 4f;
+				npc.velocity.X = (velocity + npc.ai[2]) * npc.ai[1];
 
 				if ((npc.ai[1] > 0f && npc.Center.X > player.Center.X + (chargeDistance - 140f)) || (npc.ai[1] < 0f && npc.Center.X < player.Center.X - (chargeDistance - 140f)))
 				{
@@ -4205,138 +4276,74 @@ namespace CalamityMod.NPCs
 				npc.rotation = (npc.rotation * rotationMult * 0.5f + npc.velocity.X * rotationAmt * 0.85f) / 5f;
 			}
 
-			// Find tile coordinates for birb spawn
+			// Birb spawn
 			else if (npc.ai[0] == 4f)
 			{
-				npc.ai[0] = 0f;
-
-				if (Main.netMode != NetmodeID.MultiplayerClient)
+				if (npc.ai[1] == 0f)
 				{
-					npc.ai[1] = -1f;
-					npc.ai[2] = -1f;
+					Vector2 destination2 = player.Center + new Vector2(0f, -200f);
+					Vector2 desiredVelocity2 = npc.DirectionTo(destination2) * 18f;
+					npc.SimpleFlyMovement(desiredVelocity2, 1.5f);
 
-					for (int num1312 = 0; num1312 < 1000; num1312++)
+					if (npc.velocity.X < 0f)
+						npc.direction = -1;
+					else
+						npc.direction = 1;
+
+					npc.spriteDirection = npc.direction;
+
+					npc.ai[2] += 1f;
+					if (npc.Distance(player.Center) < 600f || npc.ai[2] >= 180f)
 					{
-						int num1313 = (int)player.Center.X / 16;
-						int num1314 = (int)player.Center.Y / 16;
-
-						int num1315 = 30 + num1312 / 50;
-						int num1316 = 20 + num1312 / 75;
-
-						num1313 += Main.rand.Next(-num1315, num1315 + 1);
-						num1314 += Main.rand.Next(-num1316, num1316 + 1);
-
-						if (!WorldGen.SolidTile(num1313, num1314))
-						{
-							while (!WorldGen.SolidTile(num1313, num1314) && num1314 < Main.worldSurface)
-								num1314++;
-
-							if ((new Vector2(num1313 * 16 + 8, num1314 * 16 + 8) - player.Center).Length() < 1200f)
-							{
-								npc.ai[0] = 4.1f;
-								npc.ai[1] = num1313;
-								npc.ai[2] = num1314;
-								break;
-							}
-						}
+						npc.ai[1] = 1f;
+						npc.netUpdate = true;
 					}
 				}
-
-				npc.netUpdate = true;
-			}
-
-			// Move to birb spawn location
-			else if (npc.ai[0] == 4.1f)
-			{
-				if (npc.velocity.X < -2f)
-					npc.direction = -1;
-				else if (npc.velocity.X > 2f)
-					npc.direction = 1;
-
-				npc.spriteDirection = npc.direction;
-				npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
-
-				npc.noTileCollide = true;
-
-				int num1317 = (int)npc.ai[1];
-				int num1318 = (int)npc.ai[2];
-
-				float x2 = num1317 * 16 + 8;
-				float y2 = num1318 * 16 - 20;
-
-				Vector2 vector207 = new Vector2(x2, y2);
-				vector207 -= npc.Center;
-				float num1319 = 12f + vector207.Length() / 150f;
-				if (num1319 > 20f)
-					num1319 = 20f;
-
-				float num1320 = 10f;
-				if (vector207.Length() < 50f)
-					npc.ai[0] = 4.2f;
-
-				vector207.Normalize();
-				vector207 *= num1319;
-				npc.velocity = (npc.velocity * (num1320 - 1f) + vector207) / num1320;
-			}
-
-			// Spawn birbs
-			else if (npc.ai[0] == 4.2f)
-			{
-				npc.rotation = (npc.rotation * rotationMult + npc.velocity.X * rotationAmt * 1.25f) / 10f;
-
-				npc.noTileCollide = true;
-
-				int num1321 = (int)npc.ai[1];
-				int num1322 = (int)npc.ai[2];
-
-				float x3 = num1321 * 16 + 8;
-				float y3 = num1322 * 16 - 20;
-
-				Vector2 vector208 = new Vector2(x3, y3);
-				vector208 -= npc.Center;
-
-				float num1323 = 4f; //4
-				float num1324 = 2f; //2
-
-				if (Main.netMode != NetmodeID.MultiplayerClient && vector208.Length() < 20f)
+				else
 				{
-					int num1325 = 10;
-					if (expertMode)
-						num1325 = (int)(num1325 * 0.75);
+					if (npc.ai[1] < 90f)
+						npc.velocity *= 0.95f;
+					else
+						npc.velocity *= 0.98f;
 
-					npc.ai[3] += 1f;
-					if (npc.ai[3] == num1325)
+					if (npc.ai[1] == 90f)
 					{
-						SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsySummon, (int)npc.position.X, (int)npc.position.Y);
+						if (npc.velocity.Y > 0f)
+							npc.velocity.Y /= 3f;
+
+						npc.velocity.Y -= 3f;
+					}
+
+					// Sound
+					if (npc.ai[1] == birbSpawnPhaseTimer - 60f)
+					{
+						SoundEffectInstance sound = Main.PlaySound(SoundID.DD2_BetsyScream, (int)npc.position.X, (int)npc.position.Y);
 						if (sound != null)
 						{
 							sound.Pitch = 0.25f;
 						}
-
-						NPC.NewNPC(num1321 * 16 + 8, num1322 * 16, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
 					}
-					else if (npc.ai[3] == num1325 * 2)
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						npc.TargetClosest(true);
-						npc.ai[0] = 0f;
-						npc.ai[1] = 0f;
-						npc.ai[2] = 0f;
-						npc.ai[3] = 0f;
-
-						if (NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < num1305 && Main.rand.NextBool(2))
-							npc.ai[0] = 4f;
-						else if (Collision.SolidCollision(npc.position, npc.width, npc.height))
-							npc.ai[0] = 1f;
+						bool spawnFlag = NPC.CountNPCS(ModContent.NPCType<Bumblefuck2>()) < maxBirbs && (npc.ai[1] == 140f || npc.ai[1] == 170f);
+						if (spawnFlag)
+						{
+							Vector2 vector7 = npc.Center + (MathHelper.TwoPi * Main.rand.NextFloat()).ToRotationVector2() * new Vector2(2f, 1f) * 50f * (0.6f + Main.rand.NextFloat() * 0.4f);
+							if (Vector2.Distance(vector7, player.Center) > 150f)
+								NPC.NewNPC((int)vector7.X, (int)vector7.Y, ModContent.NPCType<Bumblefuck2>(), npc.whoAmI);
+						}
 					}
+
+					npc.ai[1] += 1f;
 				}
 
-				if (vector208.Length() > num1323)
+				if (npc.ai[1] >= birbSpawnPhaseTimer)
 				{
-					vector208.Normalize();
-					vector208 *= num1323;
+					npc.ai[0] = 0f;
+					npc.ai[1] = 0f;
+					npc.ai[2] = 0f;
 				}
-
-				npc.velocity = (npc.velocity * (num1324 - 1f) + vector208) / num1324;
 			}
 
 			// Spit homing aura sphere
@@ -4355,7 +4362,8 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * npc.direction) * (npc.width + 20) / 2f + vector;
-						Projectile.NewProjectile(vector7.X, vector7.Y, 0f, 0f, ModContent.ProjectileType<BirbAuraFlare>(), 0, 0f, Main.myPlayer, phase3 ? 1f : 0f, npc.target + 1);
+						float ai0 = (phase3 ? 1f : 0f) + (enrageScale - 1);
+						Projectile.NewProjectile(vector7.X, vector7.Y, 0f, 0f, ModContent.ProjectileType<BirbAuraFlare>(), 0, 0f, Main.myPlayer, ai0, npc.target + 1);
 					}
 				}
 
@@ -4462,7 +4470,7 @@ namespace CalamityMod.NPCs
 			
 			if (CalamityWorld.bossRushActive)
 			{
-				num2 = 45;
+				num2 = 35;
 				num3 *= 1.1f;
 				scaleFactor *= 1.15f;
 				chargeTime -= 3;
@@ -4473,18 +4481,18 @@ namespace CalamityMod.NPCs
 				scaleFactor *= 0.25f;
 
 			// Variables
-			int num6 = 120;
-			int num7 = 24;
-			float num8 = 0.3f;
-			float scaleFactor2 = 6f;
+			int num6 = CalamityWorld.bossRushActive ? 60 : 120;
+			int num7 = CalamityWorld.bossRushActive ? 12 : 24;
+			float num8 = CalamityWorld.bossRushActive ? 0.6f : 0.4f;
+			float scaleFactor2 = CalamityWorld.bossRushActive ? 10f : 7f;
 			int num9 = 120;
 			int num10 = 180;
 			int num11 = 180;
 			int num12 = 30;
-			int num13 = 120;
-			int num14 = 24;
+			int num13 = CalamityWorld.bossRushActive ? 60 : 120;
+			int num14 = CalamityWorld.bossRushActive ? 12 : 24;
 			float spinTime = num13 / 2;
-			float scaleFactor3 = 9f;
+			float scaleFactor3 = CalamityWorld.bossRushActive ? 11f : 9f;
 			float scaleFactor4 = 22f;
 			float num15 = MathHelper.TwoPi / spinTime;
 			int num16 = 75;
@@ -4537,7 +4545,7 @@ namespace CalamityMod.NPCs
 			// Enrage
 			if (enrage)
 			{
-				num2 = 40;
+				num2 = 30;
 				npc.damage = npc.defDamage * 2;
 				npc.defense = npc.defDefense * 2;
 				npc.ai[3] = 0f;
@@ -4686,30 +4694,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
 				Vector2 vector3 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
-				if (npc.velocity.X < vector3.X)
-				{
-					npc.velocity.X += num3;
-					if (npc.velocity.X < 0f && vector3.X > 0f)
-						npc.velocity.X += num3;
-				}
-				else if (npc.velocity.X > vector3.X)
-				{
-					npc.velocity.X -= num3;
-					if (npc.velocity.X > 0f && vector3.X < 0f)
-						npc.velocity.X -= num3;
-				}
-				if (npc.velocity.Y < vector3.Y)
-				{
-					npc.velocity.Y += num3;
-					if (npc.velocity.Y < 0f && vector3.Y > 0f)
-						npc.velocity.Y += num3;
-				}
-				else if (npc.velocity.Y > vector3.Y)
-				{
-					npc.velocity.Y -= num3;
-					if (npc.velocity.Y > 0f && vector3.Y < 0f)
-						npc.velocity.Y -= num3;
-				}
+				npc.SimpleFlyMovement(vector3, num3);
 
 				// Rotation and direction
 				int num22 = Math.Sign(player.Center.X - vector.X);
@@ -4848,30 +4833,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
 				Vector2 vector5 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor2;
-				if (npc.velocity.X < vector5.X)
-				{
-					npc.velocity.X += num8;
-					if (npc.velocity.X < 0f && vector5.X > 0f)
-						npc.velocity.X += num8;
-				}
-				else if (npc.velocity.X > vector5.X)
-				{
-					npc.velocity.X -= num8;
-					if (npc.velocity.X > 0f && vector5.X < 0f)
-						npc.velocity.X -= num8;
-				}
-				if (npc.velocity.Y < vector5.Y)
-				{
-					npc.velocity.Y += num8;
-					if (npc.velocity.Y < 0f && vector5.Y > 0f)
-						npc.velocity.Y += num8;
-				}
-				else if (npc.velocity.Y > vector5.Y)
-				{
-					npc.velocity.Y -= num8;
-					if (npc.velocity.Y > 0f && vector5.Y < 0f)
-						npc.velocity.Y -= num8;
-				}
+				npc.SimpleFlyMovement(vector5, num8);
 
 				// Play sounds and spawn Tooth Balls
 				if (npc.ai[2] == 0f)
@@ -4885,7 +4847,7 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (npc.width + 20) / 2f + vector;
-						NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, ModContent.NPCType<OldDukeToothBall>(), 0, 0f, 0f, 0f, 0f, 255);
+						NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, ModContent.NPCType<OldDukeToothBall>());
 					}
 				}
 
@@ -4986,30 +4948,7 @@ namespace CalamityMod.NPCs
 					npc.ai[1] = 500 * Math.Sign((vector - player.Center).X);
 
 				Vector2 vector8 = Vector2.Normalize(player.Center + new Vector2(npc.ai[1], -300f) - vector - npc.velocity) * scaleFactor;
-				if (npc.velocity.X < vector8.X)
-				{
-					npc.velocity.X += num3;
-					if (npc.velocity.X < 0f && vector8.X > 0f)
-						npc.velocity.X += num3;
-				}
-				else if (npc.velocity.X > vector8.X)
-				{
-					npc.velocity.X -= num3;
-					if (npc.velocity.X > 0f && vector8.X < 0f)
-						npc.velocity.X -= num3;
-				}
-				if (npc.velocity.Y < vector8.Y)
-				{
-					npc.velocity.Y += num3;
-					if (npc.velocity.Y < 0f && vector8.Y > 0f)
-						npc.velocity.Y += num3;
-				}
-				else if (npc.velocity.Y > vector8.Y)
-				{
-					npc.velocity.Y -= num3;
-					if (npc.velocity.Y > 0f && vector8.Y < 0f)
-						npc.velocity.Y -= num3;
-				}
+				npc.SimpleFlyMovement(vector8, num3);
 
 				// Direction and rotation
 				int num27 = Math.Sign(player.Center.X - vector.X);
@@ -5176,7 +5115,7 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
-						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>(), 0, 0f, 0f, 0f, 0f, 255);
+						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>());
 						Main.npc[num31].target = npc.target;
 						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * scaleFactor3;
 						Main.npc[num31].netUpdate = true;
@@ -5582,8 +5521,8 @@ namespace CalamityMod.NPCs
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (float)(npc.width + 20) / 2f + vector;
-						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>(), 0, 0f, 0f, 0f, 0f, 255);
+						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
+						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>());
 						Main.npc[num31].target = npc.target;
 						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * scaleFactor3;
 						Main.npc[num31].netUpdate = true;
@@ -5838,7 +5777,7 @@ namespace CalamityMod.NPCs
 					Vector2 targetVector = player.Center - vectorCenter;
 					float offsetAngle = 0f;
 					int totalProjectiles = 0;
-					int chains = 0;
+					//int chains = 0;
 
 					// Parabolic Arcs
 					if (npc.localAI[0] % 60f == 0f)

@@ -59,10 +59,10 @@ namespace CalamityMod.Projectiles.Melee
 			target.AddBuff(BuffID.Venom, 300);
 			if (crit)
 			{
-				float xPos = projectile.position.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
-				float yPos = projectile.position.Y + Main.rand.Next(-800, 801);
+				float xPos = projectile.Center.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
+				float yPos = projectile.Center.Y + Main.rand.Next(-800, 801);
 				Vector2 spawnPosition = new Vector2(xPos, yPos);
-				Vector2 velocity = target.position - spawnPosition;
+				Vector2 velocity = target.Center - spawnPosition;
 				float dir = 10 / spawnPosition.X;
 				velocity.X *= dir * 150;
 				velocity.Y *= dir * 150;
@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Melee
 				velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
 				if (projectile.owner == Main.myPlayer)
 				{
-					int petal = Projectile.NewProjectile(spawnPosition, velocity, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), 2f, projectile.owner);
+					int petal = Projectile.NewProjectile(spawnPosition, velocity, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner);
 					Main.projectile[petal].Calamity().forceMelee = true;
 					Main.projectile[petal].localNPCHitCooldown = -1;
 				}

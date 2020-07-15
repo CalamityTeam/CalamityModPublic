@@ -40,7 +40,7 @@ namespace CalamityMod.Items.Weapons.Ranged
             for (int i = -8; i <= 8; i += 8)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<FeatherLarge>(), damage / 4, 0f, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position, perturbedSpeed, ModContent.ProjectileType<FeatherLarge>(), damage / 4, 0f, player.whoAmI, 0f, 0f);
             }
             return true;
         }

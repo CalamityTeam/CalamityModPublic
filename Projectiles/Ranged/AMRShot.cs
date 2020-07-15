@@ -44,18 +44,17 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 for (int x = 0; x < 8; x++)
                 {
-                    float xPos = x > 4 ? projectile.position.X + 500 : projectile.position.X - 500;
-                    Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-500, 501));
-                    float num80 = xPos;
-                    float speedX = (float)target.position.X - vector2.X;
-                    float speedY = (float)target.position.Y - vector2.Y;
-                    float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-                    dir = 10 / num80;
-                    speedX *= dir * 150;
-                    speedY *= dir * 150;
+                    float xPos = x > 4 ? projectile.Center.X + 500 : projectile.Center.X - 500;
+					float yPos = projectile.Center.Y + Main.rand.Next(-500, 501);
+                    Vector2 spawnPosition = new Vector2(xPos, yPos);
+					Vector2 velocity = target.Center - spawnPosition;
+                    float dir = velocity.Length();
+                    dir = 10 / spawnPosition.X;
+					velocity.X *= dir * 150;
+					velocity.Y *= dir * 150;
                     if (projectile.owner == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.1), 1f, projectile.owner);
+                        Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.1), 1f, projectile.owner);
                     }
                 }
             }

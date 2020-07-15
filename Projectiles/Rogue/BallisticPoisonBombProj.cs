@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     vector15.Normalize();
                     vector15 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<BallisticPoisonCloud>(), (int)(projectile.damage * 0.3), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<BallisticPoisonCloud>(), (int)(projectile.damage * 0.25), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                     num3 = num321;
                 }
             }

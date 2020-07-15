@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.velocity.Length() < (projectile.ai[1] == 0f ? 14f : 10f))
 				projectile.velocity *= 1.01f;
 
-			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+			projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
 			projectile.frameCounter++;
             if (projectile.frameCounter > 4)

@@ -21,6 +21,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -59,8 +60,14 @@ namespace CalamityMod.Items
 
 		public int timesUsed = 0;
 
-		// Rarity is provided both as the classic int and the new enum.
-		public CalamityRarity customRarity = CalamityRarity.NoEffect;
+        // The damage modifications for the item are handled in player files.
+        public int CurrentCharge = ChargeMax;
+        public bool Chargeable = false;
+        public const int ChargeMax = 150;
+        public const float ChargeDamageMinMultiplier = 0.4f;
+
+        // Rarity is provided both as the classic int and the new enum.
+        public CalamityRarity customRarity = CalamityRarity.NoEffect;
 		public int postMoonLordRarity 
 		{
 			get => (int)customRarity;
@@ -154,12 +161,12 @@ namespace CalamityMod.Items
                 item.defense = 41; //7 more defense
             else if (item.type == ItemID.SolarFlareLeggings)
                 item.defense = 24; //4 more defense
-            else if (item.type == ItemID.GladiatorHelmet) //total defense pre-buff = 7 post-buff = 21
-                item.defense = 4; //2 more defense
+            else if (item.type == ItemID.GladiatorHelmet) //total defense pre-buff = 7 post-buff = 15
+                item.defense = 3; //1 more defense
             else if (item.type == ItemID.GladiatorBreastplate)
-                item.defense = 7; //4 more defense
+                item.defense = 5; //2 more defense
             else if (item.type == ItemID.GladiatorLeggings)
-                item.defense = 5; //3 more defense
+                item.defense = 4; //2 more defense
             else if (item.type == ItemID.HallowedPlateMail) //total defense pre-buff = 31, 50, 35 post-buff = 36, 55, 40
                 item.defense = 18; //3 more defense
             else if (item.type == ItemID.HallowedGreaves)
@@ -211,6 +218,10 @@ namespace CalamityMod.Items
         #region Shoot
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            if (item.type >= ItemID.Count && item.Calamity().Chargeable && item.Calamity().CurrentCharge > 0 && Main.rand.NextBool(120 / (int)MathHelper.Max(1, item.useAnimation)))
+            {
+                CurrentCharge--;
+            }
 			CalamityPlayer modPlayer = player.Calamity();
             if (rogue)
             {
@@ -446,15 +457,10 @@ namespace CalamityMod.Items
         {
             return new TagCompound
             {
-                {
-                    "rogue", rogue
-                },
-                {
-                    "timesUsed", timesUsed
-                },
-                {
-                    "rarity", (int)customRarity
-                }
+                ["rogue"] = rogue,
+                ["timesUsed"] = timesUsed,
+                ["rarity"] = (int)customRarity,
+                ["Charge"] = CurrentCharge
             };
         }
 
@@ -463,6 +469,7 @@ namespace CalamityMod.Items
             rogue = tag.GetBool("rogue");
             timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
+            CurrentCharge = tag.GetInt("Charge");
         }
 
         public override void LoadLegacy(Item item, BinaryReader reader)
@@ -470,6 +477,7 @@ namespace CalamityMod.Items
             int loadVersion = reader.ReadInt32();
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
+            CurrentCharge = reader.ReadInt32();
 
             if (loadVersion == 0)
             {
@@ -490,6 +498,7 @@ namespace CalamityMod.Items
             writer.Write(flags);
             writer.Write((int)customRarity);
             writer.Write(timesUsed);
+            writer.Write(CurrentCharge);
         }
 
         public override void NetReceive(Item item, BinaryReader reader)
@@ -499,6 +508,7 @@ namespace CalamityMod.Items
 
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
+            CurrentCharge = reader.ReadInt32();
         }
         #endregion
 
@@ -866,6 +876,11 @@ namespace CalamityMod.Items
         public override bool CanUseItem(Item item, Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
+
+            // Restrict behavior when reading Dreadon's Log.
+            if (PopupGUIManager.AnyGUIsActive)
+                return false;
+
             if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
                 (item.damage > 0 || item.ammo != AmmoID.None))
             {
@@ -878,16 +893,17 @@ namespace CalamityMod.Items
                 return false;
             }
 
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0 && 
-                item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
             {
-                if (player.altFunctionUse == 0)
+				if (item.type == ItemID.WireKite)
+					return false;
+                if (item.pick > 0 && item.axe > 0 && item.hammer > 0)
+                    return false;
+                if (item.Calamity().rogue || item.magic || item.ranged || item.melee)
                 {
-                    return PerformAndromedaAttacks(item, player);
-                }
-                else
-                {
-                    return AltFunctionUse(item, player);
+                    if (player.altFunctionUse == 0)
+                        return PerformAndromedaAttacks(item, player);
+                    else return false;
                 }
             }
 
@@ -981,6 +997,16 @@ namespace CalamityMod.Items
 				}
 			}
             return true;
+        }
+        #endregion
+
+        #region Modify Weapon Damage
+        public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
+        {
+            if (item.Calamity().Chargeable)
+            {
+                mult *= MathHelper.Lerp(ChargeDamageMinMultiplier, 1f, item.Calamity().CurrentCharge / (float)ChargeMax);
+            }
         }
         #endregion
 
@@ -1127,9 +1153,9 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			#endregion
+            #endregion
 
-			/*if (item.ammo == 97)
+            /*if (item.ammo == 97)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -1141,7 +1167,7 @@ namespace CalamityMod.Items
                 }
             }*/
 
-			if (item.type == ItemID.RodofDiscord)
+            if (item.type == ItemID.RodofDiscord)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
@@ -1721,7 +1747,7 @@ namespace CalamityMod.Items
 					{
 						if (line2.mod == "Terraria" && line2.Name == "SetBonus")
 						{
-							line2.text += "\nMinions deal full damage while wielding magic weapons";
+							line2.text += "\nThe minion damage nerf is reduced while wielding magic weapons";
 						}
 					}
 				}
@@ -1732,7 +1758,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.text = "4 defense\n" +
+                        line2.text = "3 defense\n" +
                             "3% increased rogue damage";
                     }
                 }
@@ -1743,7 +1769,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.text = "7 defense\n" +
+                        line2.text = "5 defense\n" +
                             "3% increased rogue critical strike chance";
                     }
                 }
@@ -1754,7 +1780,7 @@ namespace CalamityMod.Items
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Defense")
                     {
-                        line2.text = "5 defense\n" +
+                        line2.text = "4 defense\n" +
                             "3% increased rogue velocity";
                     }
                 }
@@ -2050,7 +2076,7 @@ Provides heat and cold protection in Death Mode";
                             "Flight time: 100\n" +
                             "Gills effect and you can move freely through liquids\n" +
                             "You fall faster while submerged in liquid\n" +
-                            "20% increased movement speed and 180% increased jump speed";
+                            "20% increased movement speed and 36% increased jump speed";
                     }
                 }
             }
@@ -2112,7 +2138,7 @@ Provides heat and cold protection in Death Mode";
                             "Average vertical speed\n" +
                             "Flight time: 140\n" +
                             "At night or during an eclipse, you will gain the following boosts:\n" +
-							"10% increased movement speed, 100% increased jump speed,\n" +
+							"10% increased movement speed, 20% increased jump speed,\n" +
                             "+15 defense, 10% increased damage, and 5% increased critical strike chance";
                     }
                 }
@@ -2208,7 +2234,7 @@ Provides heat and cold protection in Death Mode";
                             "Average vertical speed\n" +
                             "Flight time: 160\n" +
                             "+5 defense, 5% increased damage, " +
-                            "10% increased movement speed and 120% increased jump speed";
+                            "10% increased movement speed and 24% increased jump speed";
                     }
                 }
             }
@@ -2724,7 +2750,15 @@ Provides heat and cold protection in Death Mode";
 					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Astral upon activation");
 					tooltips.Add(line);
 				}
-			}
+            }
+
+            if (item.type > ItemID.Count && item.Calamity().Chargeable)
+            {
+                float chargeRatio = item.Calamity().CurrentCharge / (float)ChargeMax;
+                chargeRatio *= 100f; // Turn the 0-1 ratio to a 0-100 percentage.
+                TooltipLine line = new TooltipLine(mod, "Tooltip0", $"Current Charge: {chargeRatio:N1}%");
+                tooltips.Add(line);
+            }
         }
 		#endregion
 
@@ -2934,8 +2968,8 @@ Provides heat and cold protection in Death Mode";
                 modPlayer.wearingRogueArmor = true;
                 player.Calamity().throwingDamage += 0.05f;
                 player.Calamity().throwingVelocity += 0.1f;
-                player.statDefense += 5;
-                player.setBonus = "+5 defense\n" +
+                player.statDefense += 3;
+                player.setBonus = "+3 defense\n" +
                             "5% increased rogue damage and 10% increased velocity\n" +
                             "Rogue stealth builds while not attacking and not moving, up to a max of 70\n" +
                             "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
@@ -3506,11 +3540,8 @@ Provides heat and cold protection in Death Mode";
             {
                 int value = item.value;
                 ItemLoader.ReforgePrice(item, ref value, ref Main.LocalPlayer.discount);
-                if (Main.LocalPlayer.Calamity().reforges <= 9) //to be reset later
-                {
-                    Main.LocalPlayer.Calamity().moneyStolenByBandit += value / 5;
-                    Main.LocalPlayer.Calamity().reforges++;
-                }
+                CalamityWorld.MoneyStolenByBandit += value / 5;
+                CalamityWorld.Reforges++;
             }
         }
         #endregion

@@ -90,8 +90,8 @@ namespace CalamityMod.Projectiles.Summon
             projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 180f;
             if (player.gravDir == -1f)
             {
-                projectile.position.Y = projectile.position.Y + 360f;
-                projectile.rotation = 3.14f;
+                projectile.position.Y += 360f;
+                projectile.rotation = MathHelper.Pi;
             }
             else
             {
@@ -101,6 +101,10 @@ namespace CalamityMod.Projectiles.Summon
             projectile.position.Y = (float)(int)projectile.position.Y;
             if (projectile.owner == Main.myPlayer)
             {
+				// Prevent firing immediately
+				if (projectile.localAI[0] < 120f)
+					projectile.localAI[0] += 1f;
+
                 if (projectile.ai[0] != 0f)
                 {
                     projectile.ai[0] -= 1f;
@@ -145,7 +149,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                if (flag18)
+                if (flag18 && projectile.localAI[0] >= 120f)
                 {
                     float num516 = num506;
                     float num517 = num507;

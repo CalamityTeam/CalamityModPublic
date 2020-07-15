@@ -14,6 +14,8 @@ namespace CalamityMod.Items.Accessories
                 "Grants the ability to dash; dashing into an attack will cause you to dodge it\n" +
                 "After a dodge you will be granted a buff to all damage, melee speed, and all crit chance for a short time\n" +
                 "After a successful dodge you must wait 15 seconds before you can dodge again\n" +
+                "This cooldown will be twice as long if you have Chaos State\n" +
+                "While on cooldown, Chaos State will last twice as long\n" +
                 "Revengeance drop");
         }
 

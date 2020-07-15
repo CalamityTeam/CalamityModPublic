@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.penetrate = 1;
             projectile.magic = true;
             projectile.tileCollide = false;
-			projectile.timeLeft = 600;
+			projectile.timeLeft = 300;
 			projectile.alpha = 180;
         }
 
@@ -124,7 +124,7 @@ namespace CalamityMod.Projectiles.Magic
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Daybreak, 300);
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<EventHorizonBlackhole>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<EventHorizonBlackhole>(), (int)(projectile.damage * 0.5f), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

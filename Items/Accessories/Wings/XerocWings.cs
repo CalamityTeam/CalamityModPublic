@@ -13,13 +13,13 @@ namespace CalamityMod.Items.Accessories.Wings
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Xeroc Wings");
+            DisplayName.SetDefault("Exodus Wings");
             Tooltip.SetDefault("Highly radioactive\n" +
                 "Horizontal speed: 8.5\n" +
                 "Acceleration multiplier: 2\n" +
                 "Good vertical speed\n" +
                 "Flight time: 180\n" +
-                "5% increased rogue damage and critical strike chance while wearing the Xeroc Armor");
+                "5% increased rogue damage and critical strike chance while wearing the Empyrean Armor");
         }
 
         public override void SetDefaults()

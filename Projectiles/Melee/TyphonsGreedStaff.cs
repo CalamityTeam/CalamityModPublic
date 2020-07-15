@@ -140,38 +140,21 @@ namespace CalamityMod.Projectiles.Melee
             player.itemAnimation = 2;
             player.itemRotation = MathHelper.WrapAngle(projectile.rotation);
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= 12f)
+            if (projectile.localAI[0] % 12f == 0f)
             {
-                projectile.localAI[0] = 0f;
-                float xPos = Main.rand.NextBool(2) ? projectile.position.X + 800f : projectile.position.X - 800f;
-                Vector2 vector20 = new Vector2(xPos, projectile.position.Y + (float)Main.rand.Next(-800, 801));
-                float num80 = xPos;
-                float speedX = (float)player.position.X - vector20.X;
-                float speedY = (float)player.position.Y - vector20.Y;
-                float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-                dir = 10 / num80;
-                speedX *= dir * 150;
-                speedY *= dir * 150;
-                if (speedX > 15f)
-                {
-                    speedX = 15f;
-                }
-                if (speedX < -15f)
-                {
-                    speedX = -15f;
-                }
-                if (speedY > 15f)
-                {
-                    speedY = 15f;
-                }
-                if (speedY < -15f)
-                {
-                    speedY = -15f;
-                }
+				float xPos = projectile.Center.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
+				float yPos = projectile.Center.Y + Main.rand.Next(-800, 801);
+				Vector2 spawnPosition = new Vector2(xPos, yPos);
+				Vector2 velocity = player.Center - spawnPosition;
+				float dir = 10 / spawnPosition.X;
+				velocity.X *= dir * 150;
+				velocity.Y *= dir * 150;
+				velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
+				velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
                 if (projectile.owner == Main.myPlayer)
                 {
                     float ai1 = Main.rand.NextFloat() + 0.5f;
-                    Projectile.NewProjectile(vector20.X, vector20.Y, speedX, speedY, ModContent.ProjectileType<TyphonsGreedBubble>(), projectile.damage, 2f, projectile.owner, 0.0f, ai1);
+                    Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<TyphonsGreedBubble>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, ai1);
                 }
             }
         }

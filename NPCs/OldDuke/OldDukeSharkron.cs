@@ -8,11 +8,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.World;
 
 namespace CalamityMod.NPCs.OldDuke
 {
 	public class OldDukeSharkron : ModNPC
 	{
+		bool spawnedProjectiles = false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Sulphurous Sharkron");
@@ -28,6 +30,10 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.damage = 180;
 			npc.defense = 100;
 			npc.lifeMax = 8000;
+			if (CalamityWorld.bossRushActive)
+			{
+				npc.lifeMax = 100000;
+			}
 			npc.HitSound = SoundID.NPCHit1;
 			npc.DeathSound = SoundID.NPCDeath1;
 			npc.knockBackResist = 0f;
@@ -45,12 +51,14 @@ namespace CalamityMod.NPCs.OldDuke
 		{
 			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.noGravity);
+			writer.Write(spawnedProjectiles);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.noGravity = reader.ReadBoolean();
+			spawnedProjectiles = reader.ReadBoolean();
 		}
 
 		public override void AI()
@@ -231,8 +239,9 @@ namespace CalamityMod.NPCs.OldDuke
 				Main.dust[num624].velocity.X *= 2f;
 			}
 
-			if (Main.netMode != NetmodeID.MultiplayerClient)
+			if (Main.netMode != NetmodeID.MultiplayerClient && !spawnedProjectiles)
 			{
+				spawnedProjectiles = true;
 				int spawnX = npc.width / 2;
 				int damage = Main.expertMode ? 55 : 70;
 				for (int i = 0; i < 2; i++)

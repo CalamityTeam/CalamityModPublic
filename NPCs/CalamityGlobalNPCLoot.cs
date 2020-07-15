@@ -91,7 +91,7 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.revenge)
             {
-                if (npc.type == NPCID.Probe || npc.type == NPCID.ServantofCthulhu || npc.type == NPCID.MoonLordCore)
+                if (npc.type == NPCID.Probe || npc.type == NPCID.ServantofCthulhu)
                 {
                     return false;
                 }
@@ -174,22 +174,22 @@ namespace CalamityMod.NPCs
 
 				// First kill text (this is not a loot function)
 				if (!Main.hardMode)
-                {
-                    string key2 = "Mods.CalamityMod.UglyBossText"; //Sunken Sea buff
-					string key = "Mods.CalamityMod.SteelSkullBossText"; //clone can now be fought
-                    Color messageColor2 = Color.Aquamarine;
-					Color messageColor = Color.Crimson;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key2), messageColor2);
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-                }
+				{
+					string key2 = "Mods.CalamityMod.UglyBossText"; //Sunken Sea buff
+					//string key = "Mods.CalamityMod.SteelSkullBossText"; //clone can now be fought
+					Color messageColor2 = Color.Aquamarine;
+					//Color messageColor = Color.Crimson;
+					if (Main.netMode == NetmodeID.SinglePlayer)
+					{
+						Main.NewText(Language.GetTextValue(key2), messageColor2);
+					   // Main.NewText(Language.GetTextValue(key), messageColor);
+					}
+					else if (Main.netMode == NetmodeID.Server)
+					{
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key2), messageColor2);
+						//NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+					}
+				}
             }
             else if (lastTwinStanding)
             {
@@ -380,6 +380,21 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
+			//Since Calamity makes it spawn in pre-hardmode, don't want to cause other mods to freak out if they use it as a tier gate (like a new weapon or something)
+			else if (npc.type == NPCID.GreenJellyfish && !Main.hardMode)
+			{
+                DropHelper.DropItem(npc, ItemID.Glowstick, 1, 4);
+                DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, 0.1f);
+                DropHelper.DropItemChance(npc, ItemID.Megaphone, Main.expertMode ? 0.2f : 0.1f);
+                DropHelper.DropItemCondition(npc, ItemID.JellyfishNecklace, CalamityWorld.defiled, DropHelper.DefiledDropRateFloat);
+                DropHelper.DropItemCondition(npc, ItemID.Megaphone, CalamityWorld.defiled, DropHelper.DefiledDropRateFloat);
+				DropHelper.DropItemChance(npc, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
+				return false;
+			}
+			else if (npc.type == NPCID.VoodooDemon && Main.player[npc.target].Calamity().underworldLore)
+			{
+                NPCLoader.blockLoot.Add(ItemID.GuideVoodooDoll);
+			}
 
             return true;
         }
@@ -487,30 +502,35 @@ namespace CalamityMod.NPCs
                     CalamityUtils.KillAllHostileProjectiles();
                 }
             }
-            else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
+			else if (npc.type == ModContent.NPCType<OldDuke.OldDuke>())
+			{
+				CalamityWorld.bossRushStage = 35;
+				CalamityUtils.KillAllHostileProjectiles();
+			}
+			else if (npc.type == ModContent.NPCType<SlimeGodCore>() || npc.type == ModContent.NPCType<SlimeGodSplit>() || npc.type == ModContent.NPCType<SlimeGodRunSplit>())
             {
                 if (npc.type == ModContent.NPCType<SlimeGodCore>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
                     !NPC.AnyNPCs(ModContent.NPCType<SlimeGod.SlimeGod>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
                 {
-                    CalamityWorld.bossRushStage = 35;
+                    CalamityWorld.bossRushStage = 36;
                     CalamityUtils.KillAllHostileProjectiles();
                 }
                 else if (npc.type == ModContent.NPCType<SlimeGodSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRunSplit>()) &&
                     NPC.CountNPCS(ModContent.NPCType<SlimeGodSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodRun>()))
                 {
-                    CalamityWorld.bossRushStage = 35;
+                    CalamityWorld.bossRushStage = 36;
                     CalamityUtils.KillAllHostileProjectiles();
                 }
                 else if (npc.type == ModContent.NPCType<SlimeGodRunSplit>() && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodCore>()) && !NPC.AnyNPCs(ModContent.NPCType<SlimeGodSplit>()) &&
                     NPC.CountNPCS(ModContent.NPCType<SlimeGodRunSplit>()) < 2 && !NPC.AnyNPCs(ModContent.NPCType<SlimeGod.SlimeGod>()))
                 {
-                    CalamityWorld.bossRushStage = 35;
+                    CalamityWorld.bossRushStage = 36;
                     CalamityUtils.KillAllHostileProjectiles();
                 }
             }
             else if (npc.type == ModContent.NPCType<Providence.Providence>())
             {
-                CalamityWorld.bossRushStage = 36;
+                CalamityWorld.bossRushStage = 37;
                 CalamityUtils.KillAllHostileProjectiles();
 
                 string key = "Mods.CalamityMod.BossRushTierFourEndText";
@@ -526,12 +546,12 @@ namespace CalamityMod.NPCs
             }
             else if (npc.type == ModContent.NPCType<SupremeCalamitas.SupremeCalamitas>())
             {
-                CalamityWorld.bossRushStage = 37;
+                CalamityWorld.bossRushStage = 38;
                 CalamityUtils.KillAllHostileProjectiles();
             }
             else if (npc.type == ModContent.NPCType<Yharon.Yharon>())
             {
-                CalamityWorld.bossRushStage = 38;
+                CalamityWorld.bossRushStage = 39;
                 CalamityUtils.KillAllHostileProjectiles();
             }
             else if (npc.type == ModContent.NPCType<DevourerofGodsHeadS>())
@@ -1368,7 +1388,7 @@ namespace CalamityMod.NPCs
                     break;
 
                 case NPCID.PinkJellyfish:
-                    DropHelper.DropItemChance(npc, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 5 : 7);
+                    DropHelper.DropItemChance(npc, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 20 : 25);
                     break;
 
                 case NPCID.BlueJellyfish:
@@ -1616,6 +1636,7 @@ namespace CalamityMod.NPCs
 
                 case NPCID.IcyMerman:
                 case NPCID.IceTortoise:
+                case NPCID.IceElemental:
                     DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofEleum>(), Main.expertMode ? 2 : 3);
                     break;
 

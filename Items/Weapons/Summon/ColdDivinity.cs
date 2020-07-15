@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.HoldingUp;
             item.noMelee = true;
             item.knockBack = 4.5f;
-            item.value = Item.buyPrice(0, 48, 0, 0);
+            item.value = Item.buyPrice(0, 36, 0, 0);
             item.rare = 5;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
             item.UseSound = SoundID.Item30;

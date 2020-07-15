@@ -90,7 +90,7 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         Projectile.NewProjectile(projectile.Center,
                             6f * projectile.DirectionTo(Main.npc[(int)body.ai[0]].Center),
-                            ModContent.ProjectileType<EndoRay>(), projectile.damage, 2f, projectile.owner);
+                            ModContent.ProjectileType<EndoRay>(), projectile.damage, projectile.knockBack, projectile.owner);
                     }
 
                     if (projectile.ai[1] % 40f >= 33f)
