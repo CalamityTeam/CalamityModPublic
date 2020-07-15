@@ -438,14 +438,14 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				if (power >= 60 && player.FindBuffIndex(BuffID.Gills) > -1 && CalamityWorld.downedCalamitas && Main.rand.NextBool(25) && power < 160)
+				if (player.FindBuffIndex(BuffID.Gills) > -1 && CalamityWorld.downedCalamitas && Main.rand.NextBool(25))
 				{
 					caughtType = ModContent.ItemType<Floodtide>();
 				}
 
 				if (junk)
 				{
-					if (canSulphurFish && power < 40)
+					if (canSulphurFish)
 					{
 						caughtType = ModContent.ItemType<PlantyMush>();
 					}
@@ -474,23 +474,17 @@ namespace CalamityMod.CalPlayer
 
 				if (canSulphurFish)
 				{
-					if (power >= 40)
+					if (Main.rand.NextBool(15))
 					{
-						if (Main.rand.NextBool(15) && power < 80)
-						{
-							caughtType = ModContent.ItemType<PlantyMush>();
-						}
-						if (Main.rand.NextBool(25) && power < 160)
-						{
-							caughtType = ModContent.ItemType<AlluringBait>();
-						}
-						if (power >= 110)
-						{
-							if (Main.rand.NextBool(25) && power < 240)
-							{
-								caughtType = ModContent.ItemType<AbyssalAmulet>();
-							}
-						}
+						caughtType = ModContent.ItemType<PlantyMush>();
+					}
+					if (Main.rand.NextBool(25))
+					{
+						caughtType = ModContent.ItemType<AlluringBait>();
+					}
+					if (Main.rand.NextBool(25))
+					{
+						caughtType = ModContent.ItemType<AbyssalAmulet>();
 					}
 					if (player.cratePotion && Main.rand.NextBool(5)) // 20%
 					{
