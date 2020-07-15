@@ -107,7 +107,8 @@ namespace CalamityMod.NPCs.Leviathan
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Siren>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                    int siren = NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Siren>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+					CalamityUtils.BossAwakenMessage(siren);
                 }
             }
         }

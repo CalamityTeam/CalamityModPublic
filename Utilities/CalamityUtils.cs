@@ -539,7 +539,24 @@ namespace CalamityMod
 			}
 			return false;
 		}
-        #endregion
+
+		/// <summary>
+		/// Shortcut for the generic boss summon message.
+		/// </summary>
+		/// <param name="npcIndex">The whoAmI index of the summoned npc.</param>
+		public static void BossAwakenMessage(int npcIndex)
+		{
+			string typeName = Main.npc[npcIndex].TypeName;
+			if (Main.netMode == NetmodeID.SinglePlayer)
+			{
+				Main.NewText(Language.GetTextValue("Announcement.HasAwoken", typeName), new Color(175, 75, 255));
+			}
+			else if (Main.netMode == NetmodeID.Server)
+			{
+				NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]{Main.npc[npcIndex].GetTypeNetName()}), new Color(175, 75, 255));
+			}
+		}
+		#endregion
 
         #region Item Utilities
         public static bool IsPostML(this CalamityRarity calrare)

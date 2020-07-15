@@ -156,7 +156,8 @@ namespace CalamityMod.NPCs.Leviathan
                         else
                             music = MusicID.Boss3;
 
-						NPC.NewNPC((int)vector.X, (int)vector.Y + 480, ModContent.NPCType<Leviathan>(), 1);
+						int levi = NPC.NewNPC((int)vector.X, (int)vector.Y + 480, ModContent.NPCType<Leviathan>(), 1);
+						CalamityUtils.BossAwakenMessage(levi);
 						spawnedLevi = true;
                     }
                 }

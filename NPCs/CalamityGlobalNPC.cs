@@ -6162,22 +6162,7 @@ namespace CalamityMod.NPCs
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, type);
-							string typeName2 = Main.npc[num8].TypeName;
-
-							if (Main.netMode == NetmodeID.SinglePlayer)
-							{
-								Main.NewText(Language.GetTextValue("Announcement.HasAwoken", typeName2), new Color(175, 75, 255));
-								return;
-							}
-
-							if (Main.netMode == NetmodeID.Server)
-							{
-								NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]
-								{
-										Main.npc[num8].GetTypeNetName()
-								}), new Color(175, 75, 255));
-								return;
-							}
+							CalamityUtils.BossAwakenMessage(num8);
 						}
 						else
 						{
