@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
         }
 
         public override void SetDefaults()
