@@ -240,8 +240,8 @@ namespace CalamityMod.NPCs.Yharon
 			}
 
 			// Phase bools
-            bool phase2Check = npc.life <= npc.lifeMax * (revenge ? 0.8 : (expertMode ? 0.7 : 0.5));
-            bool phase3Check = npc.life <= npc.lifeMax * (revenge ? 0.5 : (expertMode ? 0.4 : 0.25));
+            bool phase2Check = death || npc.life <= npc.lifeMax * (revenge ? 0.8 : (expertMode ? 0.7 : 0.5));
+            bool phase3Check = npc.life <= npc.lifeMax * (death ? 0.6 : (revenge ? 0.5 : (expertMode ? 0.4 : 0.25)));
             bool phase4Check = npc.life <= npc.lifeMax * 0.1;
 			bool phase1Change = npc.ai[0] > -1f;
             bool phase2Change = npc.ai[0] > 5f;
@@ -1475,9 +1475,9 @@ namespace CalamityMod.NPCs.Yharon
         #region AI2
         public void Yharon_AI2(bool expertMode, bool revenge, bool death, float pie)
         {
-            bool phase2 = npc.life <= npc.lifeMax * (revenge ? 0.8 : (expertMode ? 0.7 : 0.5));
-            bool phase3 = npc.life <= npc.lifeMax * (revenge ? 0.5 : (expertMode ? 0.4 : 0.25));
-            bool phase4 = npc.life <= npc.lifeMax * 0.2 && revenge;
+            bool phase2 = death || npc.life <= npc.lifeMax * (revenge ? 0.8 : (expertMode ? 0.7 : 0.5));
+            bool phase3 = npc.life <= npc.lifeMax * (death ? 0.65 : (revenge ? 0.5 : (expertMode ? 0.4 : 0.25)));
+            bool phase4 = npc.life <= npc.lifeMax * (death ? 0.3 : 0.2) && revenge;
 
             if (npc.ai[0] != 8f)
             {
@@ -1635,7 +1635,6 @@ namespace CalamityMod.NPCs.Yharon
 			float spinRotation = MathHelper.TwoPi * 3 / spinTime;
 			float spinPhaseVelocity = 25f;
 			int flareDustSpawnDivisor = 24;
-			int flareDustSpawnDivisor2 = 5;
 			int flareDustSpawnDivisor3 = 12 + (secondPhasePhase == 4 ? 4 : 0);
 			float increasedIdleTimeAfterBulletHell = -120f;
 
