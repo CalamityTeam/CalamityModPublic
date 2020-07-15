@@ -42,17 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
 					int spearAmt = Main.rand.Next(1, 3); //1 to 2 spears
 					for (int n = 0; n < spearAmt; n++)
 					{
-						float xStart = projectile.position.X + Main.rand.Next(-400, 400);
-						float yStart = projectile.position.Y - Main.rand.Next(500, 800);
-						Vector2 startPos = new Vector2(xStart, yStart);
-						Vector2 velocity = projectile.Center - startPos;
-						velocity.X += (float)Main.rand.Next(-100, 101);
-						float travelDist = velocity.Length();
-						float spearSpeed = 29f;
-						travelDist = spearSpeed / travelDist;
-						velocity.X *= travelDist;
-						velocity.Y *= travelDist;
-						Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * dmgKBMult), projectile.knockBack * dmgKBMult, projectile.owner, 0f, 0f);
+						CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<EclipsesSmol>(), (int)(projectile.damage * dmgKBMult), projectile.knockBack * dmgKBMult, projectile.owner);
 					}
 				}
 			}

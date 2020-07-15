@@ -131,26 +131,8 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						float x = player.position.X + Main.rand.NextFloat(-400, 400);
-						float y = player.position.Y - Main.rand.NextFloat(500, 800);
-						Vector2 projOrigin = new Vector2(x, y);
-						float xDist = player.Center.X - projOrigin.X;
-						float yDist = player.Center.Y - projOrigin.Y;
-						xDist += Main.rand.NextFloat(-100, 100);
-						float speed = 22f;
-						Vector2 playerVector = new Vector2(xDist, yDist);
-						float playerDist = playerVector.Length();
-						playerDist = speed / playerDist;
-						playerVector.X *= playerDist;
-						playerVector.Y *= playerDist;
 						int type = Main.rand.NextBool(2) ? ProjectileType<AuraRain>() : ProjectileType<StandingFire>();
-						int rain = Projectile.NewProjectile(projOrigin, playerVector, type, (int)(ProjectileDamage * player.AverageDamage()), 1f, player.whoAmI, 0f, 0f);
-						Projectile proj = Main.projectile[rain];
-						proj.tileCollide = false;
-						proj.usesLocalNPCImmunity = true;
-						proj.localNPCHitCooldown = 10;
-						proj.usesIDStaticNPCImmunity = false;
-						proj.Calamity().forceTypeless = true;
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, type, (int)(ProjectileDamage * player.AverageDamage()), 5f, player.whoAmI, 6, 1);
                     }
                 }
             }

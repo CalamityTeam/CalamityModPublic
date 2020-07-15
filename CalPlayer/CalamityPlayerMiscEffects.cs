@@ -483,9 +483,9 @@ namespace CalamityMod.CalPlayer
 			{
 				if (modPlayer.hydrothermalSmoke)
 				{
-					if ((double)player.velocity.X > 0 || (double)player.velocity.Y > 0 || (double)player.velocity.X < -0.1 || (double)player.velocity.Y < -0.1)
+					if (player.velocity.X > 0f || player.velocity.Y > 0f || player.velocity.X < -0.1f || player.velocity.Y < -0.1f)
 					{
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<HydrothermalSmoke>(), 0, 0f, player.whoAmI, 0f, 0f);
+						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HydrothermalSmoke>(), 0, 0f, player.whoAmI, 0f, 0f);
 					}
 				}
 				//trying to find a workaround because apparently putting the bool in ResetEffects prevents it from working
@@ -632,7 +632,7 @@ namespace CalamityMod.CalPlayer
 									Vector2 velocity = new Vector2(windVelocity * 0.2f, 3f * Main.rand.NextFloat());
 
 									if (player.miscCounter % divisor == 0 && Main.rand.NextBool(3))
-										Projectile.NewProjectile(spawnPoint.X, spawnPoint.Y, velocity.X, velocity.Y, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 2f, 0f);
+										Projectile.NewProjectile(spawnPoint, velocity, ModContent.ProjectileType<IceRain>(), 20, 0f, player.whoAmI, 2f, 0f);
 								}
 							}
 							else
@@ -1463,7 +1463,7 @@ namespace CalamityMod.CalPlayer
 										}
 
 										if (flag && Main.myPlayer == player.whoAmI)
-											Projectile.NewProjectile(center.X, center.Y, 0f, 0f, ModContent.ProjectileType<TheDeadlyMicrobeProjectile>(), damage, knockBack, player.whoAmI, 0f, 0f);
+											Projectile.NewProjectile(center, Vector2.Zero, ModContent.ProjectileType<TheDeadlyMicrobeProjectile>(), damage, knockBack, player.whoAmI, 0f, 0f);
 									}
 								}
 							}
@@ -3330,7 +3330,7 @@ namespace CalamityMod.CalPlayer
 
 							value15.Normalize();
 							value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
-							int spark = Projectile.NewProjectile(nPC.Center.X, nPC.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, player.whoAmI, 0f, 0f);
+							int spark = Projectile.NewProjectile(nPC.Center, value15, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, player.whoAmI, 0f, 0f);
 							Main.projectile[spark].Calamity().forceTypeless = true;
 							Main.projectile[spark].localNPCHitCooldown = -2;
 							Main.projectile[spark].penetrate = 5;
@@ -3444,7 +3444,7 @@ namespace CalamityMod.CalPlayer
 						player.AddBuff(ModContent.BuffType<YharonKindleBuff>(), 3600, true);
 
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<SonOfYharon>()] < 2)
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<SonOfYharon>(), (int)(232f * player.MinionDamage()), 2f, Main.myPlayer, 0f, 0f);
 				}
 			}
 
@@ -3590,7 +3590,7 @@ namespace CalamityMod.CalPlayer
 				if (player.whoAmI == Main.myPlayer)
 				{
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] < 1)
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<BlunderBoosterAura>(), (int)(30 * player.RogueDamage()), 0f, player.whoAmI, 0f, 0f);
+						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<BlunderBoosterAura>(), (int)(30 * player.RogueDamage()), 0f, player.whoAmI, 0f, 0f);
 				}
 			}
 			else if (player.ownedProjectileCounts[ModContent.ProjectileType<BlunderBoosterAura>()] != 0)
@@ -3623,7 +3623,7 @@ namespace CalamityMod.CalPlayer
 					}
 					//Summon the aura
 					if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] < 1)
-						Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<TeslaAura>(), (int)(10 * player.AverageDamage()), 0f, player.whoAmI, 0f, 0f);
+						Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TeslaAura>(), (int)(10 * player.AverageDamage()), 0f, player.whoAmI, 0f, 0f);
 				}
 			}
 			else if (player.ownedProjectileCounts[ModContent.ProjectileType<TeslaAura>()] != 0)

@@ -29,6 +29,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
@@ -985,6 +986,69 @@ namespace CalamityMod
                 }
             }
         }
+
+		public static void ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10)
+		{
+			float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit + 1f);
+			if (projType == ModContent.ProjectileType<AstralStarMagic>())
+				x = targetPos.X + xLimit;
+			float y = targetPos.Y - Main.rand.NextFloat(yLimitLower, yLimitUpper + 1f);
+			Vector2 source = new Vector2(x, y);
+			Vector2 velocity = targetPos - source;
+			velocity.X += Main.rand.NextFloat(-xVariance, xVariance + 1f);
+			float speed = projSpeed;
+			float targetDist = velocity.Length();
+			targetDist = speed / targetDist;
+			velocity.X *= targetDist;
+			velocity.Y *= targetDist;
+			int index = Projectile.NewProjectile(source, velocity, projType, damage, knockback, owner, 0f, 0f);
+			Projectile proj = Main.projectile[index];
+			CalamityGlobalProjectile modProj = proj.Calamity();
+			if (projType == ModContent.ProjectileType<AstralStarMagic>())
+				proj.timeLeft = 120;
+			if (projType == ModContent.ProjectileType<AuraRain>())
+				proj.tileCollide = false;
+			if (forceType > 0)
+			{
+				switch (forceType)
+				{
+					case 1:
+						modProj.forceMelee = true;
+						break;
+					case 2:
+						modProj.forceRanged = true;
+						break;
+					case 3:
+						modProj.forceMagic = true;
+						break;
+					case 4:
+						modProj.forceMinion = true;
+						break;
+					case 5:
+						modProj.forceRogue = true;
+						break;
+					case 6:
+						modProj.forceTypeless = true;
+						break;
+				}
+			}
+			if (immunitySetting > 0)
+			{
+				switch (forceType)
+				{
+					case 1:
+						proj.usesLocalNPCImmunity = true;
+						proj.localNPCHitCooldown = cooldown;
+						proj.usesIDStaticNPCImmunity = false;
+						break;
+					case 2:
+						proj.usesLocalNPCImmunity = false;
+						proj.idStaticNPCHitCooldown = cooldown;
+						proj.usesIDStaticNPCImmunity = true;
+						break;
+				}
+			}
+		}
 
 		public static int DamageSoftCap(double dmgInput, int cap)
 		{

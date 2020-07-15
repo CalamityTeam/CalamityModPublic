@@ -85,21 +85,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						float x = player.position.X + (float)Main.rand.Next(-400, 400);
-						float y = player.position.Y - (float)Main.rand.Next(500, 800);
-						Vector2 source = new Vector2(x, y);
-						Vector2 velocity = player.Center - source;
-						velocity.X += (float)Main.rand.Next(-100, 101);
-						float speed = 22f;
-						float targetDist = velocity.Length();
-						targetDist = speed / targetDist;
-						velocity.X *= targetDist;
-						velocity.Y *= targetDist;
-						int fire = Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
-						Main.projectile[fire].ai[1] = player.position.Y;
-						Main.projectile[fire].usesLocalNPCImmunity = true;
-						Main.projectile[fire].localNPCHitCooldown = 60;
-						Main.projectile[fire].usesIDStaticNPCImmunity = false;
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI, 0, 1, 60);
                     }
                 }
             }
