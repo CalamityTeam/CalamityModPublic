@@ -13,8 +13,8 @@ namespace CalamityMod.UI
         public int Page = 0;
         public int ArrowClickCooldown;
         public bool HoveringOverBook = false;
-        public const int TextStartOffsetX = 40;
         public const int TotalLinesPerPage = 16;
+        public const int TextStartOffsetX = 40;
         public override void Update()
         {
             if (Active)
@@ -144,12 +144,12 @@ namespace CalamityMod.UI
                     bool onNextPage = i - startingLine > TotalLinesPerPage;
                     if (dialogLines[i] != null)
                     {
-                        int textDrawPositionX = Main.screenWidth / 2 - (int)((pageTexture.Width * 2 - TextStartOffsetX) * Main.screenWidth / 2560f);
-                        int textDrawPositionY = 50 + (int)((i - startingLine) * 24 * Main.screenHeight / 1440f) + (int)yPageTop;
+                        int textDrawPositionX = Main.screenWidth / 2 - (int)((pageTexture.Width * 2) * Main.screenWidth / 2560f);
+                        int textDrawPositionY = (int)(50 + (i - startingLine) * 24 * Main.screenHeight / 1440f) + (int)yPageTop;
                         if (onNextPage)
                         {
                             textDrawPositionX = Main.screenWidth / 2 + (int)(TextStartOffsetX * 1.5 * Main.screenWidth / 2560f);
-                            textDrawPositionY = 50 + (int)((i - startingLine - (TotalLinesPerPage + 1)) * 24 * Main.screenHeight / 1440f) + (int)yPageTop;
+                            textDrawPositionY = (int)(50 + (i - startingLine - (TotalLinesPerPage + 1)) * 24 * Main.screenHeight / 1440f) + (int)yPageTop;
                         }
 
                         Color drawColor = Color.Lerp(Color.Cyan, Color.DarkCyan, (float)Math.Cos(i * 0.4) * 0.5f + 0.5f);
@@ -160,8 +160,7 @@ namespace CalamityMod.UI
                                                       textDrawPositionY,
                                                       drawColor,
                                                       Color.Black,
-                                                      Vector2.Zero,
-                                                      Main.screenWidth / 2560f);
+                                                      Vector2.Zero);
                     }
                 }
             }

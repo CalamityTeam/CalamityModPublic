@@ -198,6 +198,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     laser.timeLeft *= 2;
                     laser.tileCollide = false;
                     laser.netUpdate = true;
+                    laser.Calamity().forceMinion = true;
                 }
                 projectile.ai[1]++;
                 OldCenter = projectile.Center;
