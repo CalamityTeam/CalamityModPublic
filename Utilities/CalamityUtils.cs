@@ -988,7 +988,7 @@ namespace CalamityMod
             }
         }
 
-		public static void ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10)
+		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10)
 		{
 			float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
 			if (projType == ModContent.ProjectileType<AstralStarMagic>())
@@ -1002,13 +1002,8 @@ namespace CalamityMod
 			targetDist = speed / targetDist;
 			velocity.X *= targetDist;
 			velocity.Y *= targetDist;
-			int index = Projectile.NewProjectile(source, velocity, projType, damage, knockback, owner, 0f, 0f);
-			Projectile proj = Main.projectile[index];
+			Projectile proj = Projectile.NewProjectileDirect(source, velocity, projType, damage, knockback, owner, 0f, 0f);
 			CalamityGlobalProjectile modProj = proj.Calamity();
-			if (projType == ModContent.ProjectileType<AstralStarMagic>())
-				proj.timeLeft = 120;
-			if (projType == ModContent.ProjectileType<AuraRain>())
-				proj.tileCollide = false;
 			if (forceType > 0)
 			{
 				switch (forceType)
@@ -1049,6 +1044,7 @@ namespace CalamityMod
 						break;
 				}
 			}
+			return proj;
 		}
 
 		public static int DamageSoftCap(double dmgInput, int cap)

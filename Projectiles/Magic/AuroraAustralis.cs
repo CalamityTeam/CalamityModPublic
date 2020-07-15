@@ -76,7 +76,8 @@ namespace CalamityMod.Projectiles.Magic
 				if (Main.player[projectile.owner].ownedProjectileCounts[ModContent.ProjectileType<AstralStarMagic>()] < 30)
 				{
 					float dmgKBMult = Main.rand.NextFloat(0.25f, 0.75f);
-					CalamityUtils.ProjectileRain(projectile.Center, projectile.velocity.X, 100f, 500f, 800f, Main.rand.NextFloat(10f, 20f), ModContent.ProjectileType<AstralStarMagic>(), (int)(projectile.damage * dmgKBMult), projectile.knockBack * dmgKBMult, projectile.owner);
+					Projectile star = CalamityUtils.ProjectileRain(projectile.Center, projectile.velocity.X, 100f, 500f, 800f, Main.rand.NextFloat(10f, 20f), ModContent.ProjectileType<AstralStarMagic>(), (int)(projectile.damage * dmgKBMult), projectile.knockBack * dmgKBMult, projectile.owner);
+					star.timeLeft = 120;
 				}
 			}
 
