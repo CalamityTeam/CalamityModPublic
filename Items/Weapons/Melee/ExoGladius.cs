@@ -91,20 +91,10 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.OnFire, 120);
             target.AddBuff(BuffID.Ichor, 120);
 
-            float x = target.Center.X + (float)Main.rand.Next(-400, 400);
-            float y = target.Center.Y - (float)Main.rand.Next(500, 800);
-            Vector2 vector = new Vector2(x, y);
-            float num15 = target.Center.X + (float)(target.width / 2) - vector.X;
-            float num16 = target.Center.Y + (float)(target.height / 2) - vector.Y;
-            num15 += (float)Main.rand.Next(-100, 101);
-            int num17 = 25;
-            float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-            num18 = (float)num17 / num18;
-            num15 *= num18;
-            num16 *= num18;
             if (player.whoAmI == Main.myPlayer)
             {
-				Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<ExoGladComet>(), (int)(item.damage * player.MeleeDamage()), 15f, player.whoAmI, 0f, 0f);
+                int damage = player.GetWeaponDamage(player.ActiveItem());
+                CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, projectile.owner);
             }
         }
 
@@ -131,20 +121,10 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.OnFire, 120);
             target.AddBuff(BuffID.Ichor, 120);
 
-            float x = target.Center.X + (float)Main.rand.Next(-400, 400);
-            float y = target.Center.Y - (float)Main.rand.Next(500, 800);
-            Vector2 vector = new Vector2(x, y);
-            float num15 = target.Center.X + (float)(target.width / 2) - vector.X;
-            float num16 = target.Center.Y + (float)(target.height / 2) - vector.Y;
-            num15 += (float)Main.rand.Next(-100, 101);
-            int num17 = 25;
-            float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-            num18 = (float)num17 / num18;
-            num15 *= num18;
-            num16 *= num18;
             if (player.whoAmI == Main.myPlayer)
             {
-				Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<ExoGladComet>(), (int)(item.damage * player.MeleeDamage()), 15f, player.whoAmI, 0f, 0f);
+                int damage = player.GetWeaponDamage(player.ActiveItem());
+                CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, projectile.owner);
             }
         }
     }

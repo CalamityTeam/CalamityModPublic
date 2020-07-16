@@ -81,25 +81,14 @@ namespace CalamityMod.Items.Weapons.Melee
 		}
 
 		private void SpawnMeteor(Player player)
-		{
-			float x = player.Center.X + (float)Main.rand.Next(-400, 400);
-			float y = player.Center.Y - (float)Main.rand.Next(500, 800);
-			Vector2 startPos = new Vector2(x, y);
-			Vector2 velocity = player.Center - startPos;
-			velocity.X += (float)Main.rand.Next(-100, 101);
-			float speed = 25f;
-			float targetDist = velocity.Length();
-			targetDist = speed / targetDist;
-			velocity.X *= targetDist;
-			velocity.Y *= targetDist;
+        {
 			if (player.whoAmI == Main.myPlayer)
 			{
 				if (player.Calamity().galileoCooldown <= 0)
-				{
-					int damage = player.GetWeaponDamage(player.ActiveItem()) * 2;
-					int meteor = Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<GalileosPlanet>(), damage, 15f, player.whoAmI);
-					Main.projectile[meteor].ai[1] = player.position.Y;
-					player.Calamity().galileoCooldown = 15;
+                {
+                    int damage = player.GetWeaponDamage(player.ActiveItem()) * 2;
+                    CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<GalileosPlanet>(), damage, 15f, projectile.owner);
+                    player.Calamity().galileoCooldown = 15;
 				}
 			}
 		}
