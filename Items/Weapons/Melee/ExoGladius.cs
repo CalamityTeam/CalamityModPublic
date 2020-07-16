@@ -70,17 +70,6 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            if (!player.immune)
-            {
-                player.immune = true;
-				if (player.immuneTime < 10)
-					player.immuneTime = 10;
-				if (player.hurtCooldowns[0] < 10)
-					player.hurtCooldowns[0] = 10;
-				if (player.hurtCooldowns[1] < 10)
-					player.hurtCooldowns[1] = 10;
-            }
-
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
@@ -91,26 +80,11 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.OnFire, 120);
             target.AddBuff(BuffID.Ichor, 120);
 
-            if (player.whoAmI == Main.myPlayer)
-            {
-                int damage = player.GetWeaponDamage(player.ActiveItem());
-                CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, projectile.owner);
-            }
+            OnHitEffects(player);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            if (!player.immune)
-            {
-                player.immune = true;
-				if (player.immuneTime < 10)
-					player.immuneTime = 10;
-				if (player.hurtCooldowns[0] < 10)
-					player.hurtCooldowns[0] = 10;
-				if (player.hurtCooldowns[1] < 10)
-					player.hurtCooldowns[1] = 10;
-            }
-
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
@@ -121,11 +95,26 @@ namespace CalamityMod.Items.Weapons.Melee
             target.AddBuff(BuffID.OnFire, 120);
             target.AddBuff(BuffID.Ichor, 120);
 
+            OnHitEffects(player);
+        }
+
+        private void OnHitEffects(Player player)
+        {
+            if (!player.immune)
+            {
+                player.immune = true;
+                if (player.immuneTime < 10)
+                    player.immuneTime = 10;
+                if (player.hurtCooldowns[0] < 10)
+                    player.hurtCooldowns[0] = 10;
+                if (player.hurtCooldowns[1] < 10)
+                    player.hurtCooldowns[1] = 10;
+            }
+
             if (player.whoAmI == Main.myPlayer)
             {
                 int damage = player.GetWeaponDamage(player.ActiveItem());
-                CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, projectile.owner);
+                CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, player.whoAmI);
             }
         }
-    }
 }
