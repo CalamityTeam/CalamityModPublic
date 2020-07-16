@@ -168,7 +168,7 @@ namespace CalamityMod.CalPlayer
 				{
 					if (Main.rand.Next(100) < chanceForCrates)
 					{
-						if (Main.rand.NextBool(chanceForRareItems) && modPlayer.enchantedPearl && modPlayer.fishingStation && player.cratePotion)
+						if (Main.rand.NextBool(chanceForBiomeCrate))
 						{
 							if (modPlayer.ZoneCalamity)
 								caughtType = ModContent.ItemType<BrimstoneCrate>();
