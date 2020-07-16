@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
@@ -35,7 +36,7 @@ namespace CalamityMod.Items.LoreItems
             if (player.mount.Active || !item.favorited)
                 return;
 
-            if (player.dashDelay < 0)
+            if (player.dashDelay < 0 || (player.velocity.Length() >= 11f && CalamityPlayer.areThereAnyDamnBosses)) //If you go over 52.8 mph
                 player.velocity.X *= 0.9f;
 
             player.slippy2 = true;
