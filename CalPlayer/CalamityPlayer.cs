@@ -6186,6 +6186,10 @@ namespace CalamityMod.CalPlayer
 					damage = (int)(damage * 0.65);
 			}
 
+			// Reduce the bullshit damage Ichor Stickers do
+			if (proj.type == ProjectileID.GoldenShowerHostile)
+				damage = (int)(damage * 0.35);
+
 			if (CalamityWorld.revenge)
 			{
 				double damageMultiplier = 1D;
