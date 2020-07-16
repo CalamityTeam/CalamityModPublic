@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.localAI[0] == 0f)
 			{
 				projectile.soundDelay = 1125 - (choice * 225);
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimstoneMonsterSpawn"), (int)projectile.Center.X, (int)projectile.Center.Y);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimstoneMonsterSpawn"), projectile.Center);
 				projectile.localAI[0] += 1f;
 				switch (choice)
 				{
@@ -86,21 +86,21 @@ namespace CalamityMod.Projectiles.Boss
 			if (projectile.soundDelay <= 0 && (choice == 0 || choice == 2))
 			{
 				projectile.soundDelay = 420;
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimstoneMonsterDrone"), (int)projectile.Center.X, (int)projectile.Center.Y);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimstoneMonsterDrone"), projectile.Center);
 			}
 
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 
             Lighting.AddLight(projectile.Center, 3f, 0f, 0f);
 
-            float num953 = (revenge ? 5f : 4.5f) + speedAdd; //100
-            float scaleFactor12 = (revenge ? 1.5f : 1.35f) + (speedAdd * 0.25f); //5
-            float num954 = 160f;
+            float inertia = (revenge ? 5f : 4.5f) + speedAdd; //100
+            float speed = (revenge ? 1.5f : 1.35f) + (speedAdd * 0.25f); //5
+            float minDist = 160f;
 
 			if (NPC.AnyNPCs(ModContent.NPCType<SoulSeekerSupreme>()))
 			{
-				num953 *= 0.5f;
-				scaleFactor12 *= 0.5f;
+				inertia *= 0.5f;
+				speed *= 0.5f;
 			}
 
 			if (projectile.timeLeft < 90)
@@ -108,16 +108,16 @@ namespace CalamityMod.Projectiles.Boss
 			else
 				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 35910) / 90f), 0f, 1f);
 
-			int num959 = (int)projectile.ai[0];
-            if (num959 >= 0 && Main.player[num959].active && !Main.player[num959].dead)
+			int target = (int)projectile.ai[0];
+            if (target >= 0 && Main.player[target].active && !Main.player[target].dead)
             {
-                if (projectile.Distance(Main.player[num959].Center) > num954)
+                if (projectile.Distance(Main.player[target].Center) > minDist)
                 {
-                    Vector2 vector102 = projectile.DirectionTo(Main.player[num959].Center);
-                    if (vector102.HasNaNs())
-                        vector102 = Vector2.UnitY;
+                    Vector2 targetVec = projectile.DirectionTo(Main.player[target].Center);
+                    if (targetVec.HasNaNs())
+                        targetVec = Vector2.UnitY;
 
-                    projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                    projectile.velocity = (projectile.velocity * (inertia - 1f) + targetVec * speed) / inertia;
                 }
             }
             else
@@ -130,26 +130,28 @@ namespace CalamityMod.Projectiles.Boss
             }
 
 			// Fly away from other brimstone monsters
-			float velocity = 0.05f;
-			for (int i = 0; i < Main.maxProjectiles; i++)
+			float pushForce = 0.05f;
+			for (int k = 0; k < Main.maxProjectiles; k++)
 			{
-				if (Main.projectile[i].active)
-				{
-					if (i != projectile.whoAmI && Main.projectile[i].type == projectile.type)
-					{
-						if (Vector2.Distance(projectile.Center, Main.projectile[i].Center) < 320f)
-						{
-							if (projectile.position.X < Main.projectile[i].position.X)
-								projectile.velocity.X -= velocity;
-							else
-								projectile.velocity.X += velocity;
+				Projectile otherProj = Main.projectile[k];
+				// Short circuits to make the loop as fast as possible
+				if (!otherProj.active || k == projectile.whoAmI)
+					continue;
 
-							if (projectile.position.Y < Main.projectile[i].position.Y)
-								projectile.velocity.Y -= velocity;
-							else
-								projectile.velocity.Y += velocity;
-						}
-					}
+				// If the other projectile is indeed the same owned by the same player and they're too close, nudge them away.
+				bool sameProjType = otherProj.type == projectile.type;
+				float taxicabDist = Vector2.Distance(projectile.Center, otherProj.Center);
+				if (sameProjType && taxicabDist < 320f)
+				{
+					if (projectile.position.X < otherProj.position.X)
+						projectile.velocity.X -= pushForce;
+					else
+						projectile.velocity.X += pushForce;
+
+					if (projectile.position.Y < otherProj.position.Y)
+						projectile.velocity.Y -= pushForce;
+					else
+						projectile.velocity.Y += pushForce;
 				}
 			}
 		}
