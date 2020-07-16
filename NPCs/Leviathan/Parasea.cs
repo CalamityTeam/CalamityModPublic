@@ -22,8 +22,8 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
             npc.damage = 50;
-            npc.width = 90;
-            npc.height = 20;
+            npc.width = 30;
+            npc.height = 30;
             npc.defense = 8;
             npc.lifeMax = 650;
             if (CalamityWorld.bossRushActive)

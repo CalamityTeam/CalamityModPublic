@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Projectiles.Magic
+namespace CalamityMod.Projectiles.Typeless
 {
-    public class FabRay : ModProjectile
+    public class CirrusRay : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,12 +16,13 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 4;
             projectile.friendly = true;
             projectile.magic = true;
-            projectile.penetrate = 20;
+            projectile.penetrate = 5;
             projectile.extraUpdates = 100;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 300;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 0;
-        }
+			projectile.npcProj = true;
+		}
 
         public override void AI()
         {
@@ -29,7 +30,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.ai[0] += 1f;
             if (projectile.ai[0] % 6f == 0f && projectile.owner == Main.myPlayer)
             {
-                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<FabOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CirrusOrb>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
             }
 
             if (projectile.ai[0] > 16f && projectile.ai[0] % 2f == 0f)
