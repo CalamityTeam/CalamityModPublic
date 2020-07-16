@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
 		public override void SetDefaults()
 		{
-			item.damage = 85;
+			item.damage = 61;
 			item.knockBack = 5f;
 			item.useTime = item.useAnimation = 30;
 			item.mana = 20;

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetDefaults()
 		{
 			item.shootSpeed = 10f;
-			item.damage = 15;
+			item.damage = 9;
 			item.mana = 12;
 			item.width = 38;
 			item.height = 24;

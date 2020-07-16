@@ -240,7 +240,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     Vector2 spawnPosition = projectile.Center + Vector2.UnitX * 8f * projectile.spriteDirection;
 
-                    float shootSpeed = 9f;
+                    float shootSpeed = 14f;
                     float gravity = -StarSwallowerAcid.Gravity;
                     float distance = Vector2.Distance(spawnPosition, potentialTarget.Center);
                     float angle = 0.5f * (float)Math.Asin(MathHelper.Clamp(gravity * distance / (float)Math.Pow(shootSpeed, 2), -1f, 1f));

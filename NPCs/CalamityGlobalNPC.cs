@@ -3575,15 +3575,15 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.2);
 					}
-					else if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileID.Electrosphere)
+					else if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					{
-						damage = (int)(damage * 0.4);
+						damage = (int)(damage * 0.25);
 					}
-					else if (projectile.type == ProjectileType<SpikecragSpike>())
+					else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>())
 					{
 						damage = (int)(damage * 0.5);
 					}
-					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
+					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser || projectile.type == ProjectileID.Electrosphere)
 					{
 						damage = (int)(damage * 0.75);
 					}
@@ -3652,7 +3652,7 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.9);
 					}
-					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>())
+					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>() || projectile.type == ProjectileType<PoleWarperSummon>())
 					{
 						damage = (int)(damage * 0.5);
 					}

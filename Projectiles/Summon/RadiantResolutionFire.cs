@@ -48,6 +48,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 5;
+			projectile.damage /= 2;
             projectile.Damage();
             Main.PlaySound(SoundID.Item14, projectile.position);
             for (int i = 0; i < 20; i++)
