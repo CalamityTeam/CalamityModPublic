@@ -62,11 +62,11 @@ namespace CalamityMod.Items.Tools
 				item.pick = PickPower;
 				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
-				item.tileBoost += 50;
+				item.tileBoost = 50;
 				item.UseSound = SoundID.Item1;
 				item.useStyle = ItemUseStyleID.SwingThrow;
 				item.useTime = 2;
-				item.useAnimation = 10;
+				item.useAnimation = 2;
 				item.useTurn = true;
 				item.autoReuse = true;
 				item.noMelee = false;
@@ -92,6 +92,9 @@ namespace CalamityMod.Items.Tools
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
+			if (player.altFunctionUse == 2)
+				return;
+
 			if (Main.rand.NextBool(3))
 			{
 				int num307 = Main.rand.Next(3);

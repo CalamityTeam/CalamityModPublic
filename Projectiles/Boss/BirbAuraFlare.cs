@@ -119,7 +119,7 @@ namespace CalamityMod.Projectiles.Boss
 				int damage = Main.expertMode ? 75 : 100;
 				if (projectile.ai[0] >= 1f)
 				{
-					x += 500f;
+					x += 750f;
 					if ((int)(x / 16f) > Main.maxTilesX - 10)
 					{
 						x = (Main.maxTilesX - 10) * 16f;
@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Boss
 					Main.projectile[num237].timeLeft = 900;
 					Main.projectile[num237].netUpdate = true;
 
-					x -= 1000f;
+					x -= 1500f;
 					if ((int)(x / 16f) < 10)
 					{
 						x = 160f;

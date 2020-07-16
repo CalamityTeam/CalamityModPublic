@@ -1,6 +1,6 @@
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Potions.Alcohol;
-using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
@@ -194,8 +194,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.player[Main.myPlayer].Calamity().chibii)
                 dialogue.Add("Is that a toy? Looks like something I'd carry around if I was 5 years old.");
 
-            if ((Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide) ||
-                (Main.player[Main.myPlayer].Calamity().sirenBoobsAlt && !Main.player[Main.myPlayer].Calamity().sirenBoobsAltHide))
+            if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
                 dialogue.Add("Nice scales...did it get hot in here?");
 
             if (Main.player[Main.myPlayer].Calamity().fabsolVodka)
@@ -386,7 +385,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = ModContent.ProjectileType<FabRay>();
+            projType = ModContent.ProjectileType<CirrusRay>();
             attackDelay = 1;
         }
 
