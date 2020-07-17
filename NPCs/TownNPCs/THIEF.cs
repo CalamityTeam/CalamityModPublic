@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.TownNPCs
             "Penelope", "Marisa", "Maribel",
             "Valerie", "Jessica", "Rowan",
             "Jessie", "Jade", "Hearn",
-            "Amber", "Anne", "Indiana",
+            "Amber", "Anne", "Indiana", "Xplizzy"
         };
 
         public override void SetStaticDefaults()
