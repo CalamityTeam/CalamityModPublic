@@ -7497,7 +7497,7 @@ namespace CalamityMod.CalPlayer
                 }
                 if (sirenIce)
                 {
-                    Main.PlaySound(SoundID.NPCKilled7, player.Center);
+                    Main.PlaySound(SoundID.NPCKilled, (int)player.Center.X, (int)player.Center.Y, 7);
                     player.AddBuff(ModContent.BuffType<IceShieldBrokenBuff>(), 1800);
                     for (int d = 0; d < 10; d++)
                     {

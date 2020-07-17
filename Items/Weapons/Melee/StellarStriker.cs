@@ -49,7 +49,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 SpawnFlares(player, item.knockBack);
         }
 
-        public static void SpawnFlares(Player player, float knockBack)
+        private void SpawnFlares(Player player, float knockBack)
         {
             Main.PlaySound(SoundID.Item88, player.position);
             int i = Main.myPlayer;
@@ -76,7 +76,7 @@ namespace CalamityMod.Items.Weapons.Melee
             int num112 = 2;
             for (int num113 = 0; num113 < num112; num113++)
             {
-                vector2 = new Vector2(player.position.X + (float)player.width * 0.5f + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+                vector2 = new Vector2(player.Center.X + (float)(Main.rand.Next(201) * -(float)player.direction) + ((float)Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
                 vector2.X = (vector2.X + player.Center.X) / 2f + (float)Main.rand.Next(-200, 201);
                 vector2.Y -= (float)(100 * num113);
                 num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X + (float)Main.rand.Next(-40, 41) * 0.03f;

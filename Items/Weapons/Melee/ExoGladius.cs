@@ -117,4 +117,5 @@ namespace CalamityMod.Items.Weapons.Melee
                 CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, player.whoAmI);
             }
         }
+	}
 }

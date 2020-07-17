@@ -141,7 +141,7 @@ namespace CalamityMod.Projectiles.Ranged
             target.AddBuff(BuffID.Ichor, 120);
 		}
 
-        public override void OnHitPvp(NPC target, int damage, bool crit)
+        public override void OnHitPvp(Player target, int damage, bool crit)
         {
 			OnHitEffects();
             target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
