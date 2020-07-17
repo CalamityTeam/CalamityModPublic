@@ -122,77 +122,61 @@ namespace CalamityMod.Projectiles.Rogue
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
-			int typhoonAmt = 3;
-			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
-			{
-                Main.PlaySound(SoundID.Item84, projectile.position);
-                for (int typhoonCount = 0; typhoonCount < typhoonAmt; typhoonCount++)
-				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int typhoon = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
-					Main.projectile[typhoon].Calamity().forceRogue = true;
-					Main.projectile[typhoon].usesLocalNPCImmunity = true;
-            		Main.projectile[typhoon].localNPCHitCooldown = 10;
-				}
-			}
+			OnHitEffects();
         }
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<CrushDepth>(), 600);
+			OnHitEffects();
+        }
+
+		private void OnHitEffects()
+		{
 			int typhoonAmt = 3;
 			if (projectile.owner == Main.myPlayer && projectile.Calamity().stealthStrike)
 			{
                 Main.PlaySound(SoundID.Item84, projectile.position);
                 for (int typhoonCount = 0; typhoonCount < typhoonAmt; typhoonCount++)
 				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
+					Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+					while (velocity.X == 0f && velocity.Y == 0f)
 					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+						velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int typhoon = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 3, 0f, projectile.owner, 0f, 1f);
+					velocity.Normalize();
+					velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
+					int typhoon = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<NuclearFuryProjectile>(), projectile.damage / 2, 0f, projectile.owner, 0f, 0f);
 					Main.projectile[typhoon].Calamity().forceRogue = true;
 					Main.projectile[typhoon].usesLocalNPCImmunity = true;
             		Main.projectile[typhoon].localNPCHitCooldown = 10;
 				}
 			}
-        }
+		}
 
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item21, projectile.position);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = 100;
-            projectile.height = 100;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 5; num621++)
+			projectile.position = projectile.Center;
+            projectile.width = projectile.height = 100;
+            projectile.Center = projectile.position;
+            for (int d = 0; d < 5; d++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int water = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
+                Main.dust[water].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[water].scale = 0.5f;
+                    Main.dust[water].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 8; num623++)
+            for (int d = 0; d < 8; d++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int water = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 3f);
+                Main.dust[water].noGravity = true;
+                Main.dust[water].velocity *= 5f;
+                water = Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, 0f, 0f, 100, default, 2f);
+                Main.dust[water].velocity *= 2f;
             }
         }
     }
