@@ -41,7 +41,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override void AI()
         {
-			if (projectile.velocity.Length() < 12f)
+			if (projectile.velocity.Length() < 10f)
 				projectile.velocity *= 1.01f;
 
             if (projectile.ai[1] == 0f)
@@ -59,10 +59,10 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.ai[1] = 1f;
             }
 
-			if (projectile.timeLeft < 60)
-				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
+			if (projectile.timeLeft < 30)
+				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 30f, 0f, 1f);
 			else
-				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 240) / 60f), 0f, 1f);
+				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 270) / 30f), 0f, 1f);
 
 			projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
             Lighting.AddLight(projectile.Center, 0f, 0f, 0.5f * projectile.Opacity);

@@ -39,7 +39,15 @@ namespace CalamityMod.NPCs.Calamitas
             npc.buffImmune[BuffID.OnFire] = true;
         }
 
-        public override void FindFrame(int frameHeight)
+		public override bool PreAI()
+		{
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
+
+			return true;
+		}
+
+		public override void FindFrame(int frameHeight)
         {
             npc.frameCounter += 0.15f;
             npc.frameCounter %= Main.npcFrameCount[npc.type];

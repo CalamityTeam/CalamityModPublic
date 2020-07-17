@@ -325,7 +325,7 @@ namespace CalamityMod.NPCs.Leviathan
             // Phase switch
             if (npc.ai[0] == -1f)
             {
-                int random = ((phase2 && expertMode && !leviAlive) || phase4) ? 4 : 3;
+                int random = (((phase2 || death) && expertMode && !leviAlive) || phase4) ? 4 : 3;
 				int num618;
 				do num618 = Main.rand.Next(random);
 				while (num618 == npc.ai[1] || num618 == 1);
@@ -528,7 +528,7 @@ namespace CalamityMod.NPCs.Leviathan
 					}
 
 					int totalProjectiles = 8;
-					int projectileDistance = 800;
+					int projectileDistance = 600;
 					int projectileType = ModContent.ProjectileType<WaterSpear>();
 					switch ((int)npc.localAI[3])
 					{
@@ -552,7 +552,7 @@ namespace CalamityMod.NPCs.Leviathan
 					if (npc.localAI[3] > 2f)
 						npc.localAI[3] = 0f;
 
-					if ((phase2 && !leviAlive) || phase4)
+					if (((phase2 || death) && !leviAlive) || phase4)
 						totalProjectiles += totalProjectiles / 2;
 
 					float radians = MathHelper.TwoPi / totalProjectiles;

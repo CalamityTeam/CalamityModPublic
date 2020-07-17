@@ -87,10 +87,10 @@ namespace CalamityMod.Projectiles.Boss
 				}
 			}
 
-			if (projectile.timeLeft < 60)
-				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
+			if (projectile.timeLeft < 30)
+				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 30f, 0f, 1f);
 			else
-				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 240) / 60f), 0f, 1f);
+				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 270) / 30f), 0f, 1f);
 
 			int num103 = Player.FindClosest(projectile.Center, 1, 1);
 			projectile.ai[1] += 1f;

@@ -955,14 +955,14 @@ namespace CalamityMod.NPCs.Polterghast
         {
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			bool phase2 = (double)npc.life >= (double)npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33);
+			bool phase2 = npc.life >= npc.lifeMax * (revenge ? (death ? 0.8 : 0.5) : 0.33);
             npc.frameCounter += 1D;
             if (npc.frameCounter > 6D)
             {
                 npc.frameCounter = 0D;
                 npc.frame.Y += frameHeight;
             }
-            if ((double)npc.life >= (double)npc.lifeMax * (death ? 0.9 : 0.75))
+            if (npc.life >= npc.lifeMax * (death ? 0.9 : 0.75))
             {
                 if (npc.frame.Y > frameHeight * 3)
                 {
@@ -1018,12 +1018,12 @@ namespace CalamityMod.NPCs.Polterghast
             Dust.NewDust(npc.position, npc.width, npc.height, 180, hitDirection, -1f, 0, default, 1f);
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 90;
                 npc.height = 90;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 10; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);
@@ -1031,7 +1031,7 @@ namespace CalamityMod.NPCs.Polterghast
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 60; num623++)
