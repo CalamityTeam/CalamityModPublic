@@ -38,28 +38,6 @@ namespace CalamityMod.Items.Weapons.Magic
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
-			float speed = item.shootSpeed;
-			Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
-			float xDist = Main.mouseX + Main.screenPosition.X - playerPos.X;
-			float yDist = Main.mouseY + Main.screenPosition.Y - playerPos.Y;
-			if (player.gravDir == -1f)
-			{
-				yDist = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - playerPos.Y;
-			}
-			Vector2 vector = new Vector2(xDist, yDist);
-			float speedMult = vector.Length();
-			if ((float.IsNaN(xDist) && float.IsNaN(yDist)) || (xDist == 0f && yDist == 0f))
-			{
-				xDist = player.direction;
-				yDist = 0f;
-				speedMult = speed;
-			}
-			else
-			{
-				speedMult = speed / speedMult;
-			}
-			xDist *= speedMult;
-			yDist *= speedMult;
 			int leechAmt = 2;
 			if (Main.rand.NextBool(3))
 			{
@@ -71,23 +49,9 @@ namespace CalamityMod.Items.Weapons.Magic
 			}
 			if (Main.rand.NextBool(5))
 			{
-				leechAmt ++;
+				leechAmt++;
 			}
-			for (int i = 0; i < leechAmt; i++)
-			{
-				float xVec = xDist;
-				float yVec = yDist;
-				float spreadMult = 0.05f * i;
-				xVec += Main.rand.NextFloat(-25f, 25f) * spreadMult;
-				yVec += Main.rand.NextFloat(-25f, 25f) * spreadMult;
-				Vector2 directionToShoot = new Vector2(xVec, yVec);
-				speedMult = directionToShoot.Length();
-				speedMult = speed / speedMult;
-				xVec *= speedMult;
-				yVec *= speedMult;
-				directionToShoot = new Vector2(xVec, yVec);
-				Projectile.NewProjectile(playerPos, directionToShoot, type, damage, knockBack, player.whoAmI, 0f, 0f);
-			}
+			CalamityUtils.ProjectileToMouse(player, leechAmt, item.shootSpeed, 0.05f, 25f, type, damage, knockBack, player.whoAmI, false);
 			return false;
 		}
 	}
