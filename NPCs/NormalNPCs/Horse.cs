@@ -156,7 +156,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-				npc.ExplosionGores(3);
+				CalamityUtils.ExplosionGores(npc.Center, 3);
             }
         }
 

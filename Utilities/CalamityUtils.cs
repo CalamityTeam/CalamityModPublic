@@ -457,45 +457,6 @@ namespace CalamityMod
             return true;
         }
 
-        /// <summary>
-        /// Call this function in the Kill function of your npc to spawn cloud-like gores.
-        /// </summary>
-        /// <param name="npc">The npc you're adding explosion clouds to</param>
-        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
-        public static void ExplosionGores (this NPC npc, int goreAmt)
-        {
-            Vector2 goreVec = new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f);
-			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
-			{
-				float velocityMult = 0.33f;
-				if (goreIndex < (int)(goreAmt/3))
-				{
-					velocityMult = 0.66f;
-				}
-				if (goreIndex >= (int)((2*goreAmt)/3))
-				{
-					velocityMult = 1f;
-				}
-				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				Gore gore = Main.gore[smoke];
-				gore.velocity *= velocityMult;
-				gore.velocity.X += 1f;
-				gore.velocity.Y += 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X -= 1f;
-				gore.velocity.Y += 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X += 1f;
-				gore.velocity.Y -= 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X -= 1f;
-				gore.velocity.Y -= 1f;
-			}
-        }
-
 		/// <summary>
 		/// Check if an NPC is organic
 		/// </summary>
@@ -790,45 +751,6 @@ namespace CalamityMod
                     projectile.Kill();
                 }
             }
-        }
-
-        /// <summary>
-        /// Call this function in the Kill function of your projectile to spawn cloud-like gores. Used primarily for explosions
-        /// </summary>
-        /// <param name="projectile">The projectile you're adding explosion clouds to</param>
-        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
-        public static void ExplosionGores (this Projectile projectile, int goreAmt)
-        {
-            Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
-			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
-			{
-				float velocityMult = 0.33f;
-				if (goreIndex < (int)(goreAmt/3))
-				{
-					velocityMult = 0.66f;
-				}
-				if (goreIndex >= (int)((2*goreAmt)/3))
-				{
-					velocityMult = 1f;
-				}
-				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				Gore gore = Main.gore[smoke];
-				gore.velocity *= velocityMult;
-				gore.velocity.X += 1f;
-				gore.velocity.Y += 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X -= 1f;
-				gore.velocity.Y += 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X += 1f;
-				gore.velocity.Y -= 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X -= 1f;
-				gore.velocity.Y -= 1f;
-			}
         }
 
         /// <summary>
@@ -3459,6 +3381,45 @@ namespace CalamityMod
         }
 
 		public static int SecondsToFrames(float seconds) => (int)(seconds * 60);
+
+        /// <summary>
+        /// Call this function in the Kill function of your npc to spawn cloud-like gores.
+        /// </summary>
+        /// <param name="goreSource">The spot to spawn the explosion clouds</param>
+        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
+        public static void ExplosionGores (Vector2 goreSource, int goreAmt)
+        {
+            Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+			{
+				float velocityMult = 0.33f;
+				if (goreIndex < (int)(goreAmt/3))
+				{
+					velocityMult = 0.66f;
+				}
+				if (goreIndex >= (int)((2*goreAmt)/3))
+				{
+					velocityMult = 1f;
+				}
+				int smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				Gore gore = Main.gore[smoke];
+				gore.velocity *= velocityMult;
+				gore.velocity.X += 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X += 1f;
+				gore.velocity.Y -= 1f;
+				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y -= 1f;
+			}
+        }
 
 		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 Main.cs function
 		public static float GetLerpValue(float from, float to, float t, bool clamped = false)

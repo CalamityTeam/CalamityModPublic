@@ -47,7 +47,7 @@ namespace CalamityMod.Projectiles.Rogue
                 Projectile.NewProjectile(posX, posY, 0f, 0f, ModContent.ProjectileType<SeafoamBubble>(), (int)((double)projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
             }
 
-			projectile.ExplosionGores((projectile.Calamity().stealthStrike ? 6 : 3));
+			CalamityUtils.ExplosionGores(projectile.Center, (projectile.Calamity().stealthStrike ? 6 : 3));
         }
     }
 }
