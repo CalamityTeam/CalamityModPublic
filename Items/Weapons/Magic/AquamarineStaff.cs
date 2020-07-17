@@ -43,7 +43,8 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int index = 0; index < 2; ++index)
+            int num6 = Main.rand.Next(2, 3);
+            for (int index = 0; index < num6; ++index)
             {
                 float SpeedX = speedX + (float)Main.rand.Next(-30, 31) * 0.05f;
                 float SpeedY = speedY + (float)Main.rand.Next(-30, 31) * 0.05f;

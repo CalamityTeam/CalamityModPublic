@@ -3615,9 +3615,49 @@ namespace CalamityMod.CalPlayer
 			{
 				float shootSpeed = 18f;
 				int dmg = (int)(50 * player.MagicDamage());
+				Vector2 startPos = player.RotatedRelativePoint(player.MountedCenter, true);
+				Vector2 velocity = Main.MouseWorld - startPos;
+				if (player.gravDir == -1f)
+				{
+					velocity.Y = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - startPos.Y;
+				}
+				float travelDist = velocity.Length();
+				if ((float.IsNaN(velocity.X) && float.IsNaN(velocity.Y)) || (velocity.X == 0f && velocity.Y == 0f))
+				{
+					velocity.X = player.direction;
+					velocity.Y = 0f;
+					travelDist = shootSpeed;
+				}
+				else
+				{
+					travelDist = shootSpeed / travelDist;
+				}
+
 				int laserAmt = Main.rand.Next(2);
-				Projectile laser = CalamityUtils.ProjectileToMouse(player, laserAmt, 18f, 0f, 50f, ModContent.ProjectileType<MagicNebulaShot>(), dmg, 4f, player.whoAmI, true);
-				laser.localNPCHitCooldown = 5;
+				for (int index = 0; index < laserAmt; index++)
+				{
+					startPos = new Vector2(player.Center.X + (Main.rand.Next(201) * -(float)player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
+					startPos.X = (startPos.X + player.Center.X) / 2f + Main.rand.Next(-200, 201);
+					startPos.Y -= 100 * index;
+					velocity.X = Main.mouseX + Main.screenPosition.X - startPos.X;
+					velocity.Y = Main.mouseY + Main.screenPosition.Y - startPos.Y;
+					if (velocity.Y < 0f)
+					{
+						velocity.Y *= -1f;
+					}
+					if (velocity.Y < 20f)
+					{
+						velocity.Y = 20f;
+					}
+					travelDist = velocity.Length();
+					travelDist = shootSpeed / travelDist;
+					velocity.X *= travelDist;
+					velocity.Y *= travelDist;
+					velocity.X += Main.rand.Next(-50, 51) * 0.02f;
+					velocity.Y += Main.rand.Next(-50, 51) * 0.02f;
+					int laser = Projectile.NewProjectile(startPos, velocity, ModContent.ProjectileType<MagicNebulaShot>(), dmg, 4f, player.whoAmI, 0f, 0f);
+					Main.projectile[laser].localNPCHitCooldown = 5;
+				}
 				Main.PlaySound(SoundID.Item12, player.Center);
 			}
 			if (modPlayer.prismaticLasers == 1800)
