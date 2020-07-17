@@ -147,25 +147,25 @@ namespace CalamityMod.NPCs.SulphurousSea
                 }
                 else
                 {
-                    npc.velocity.X = npc.velocity.X + (float)npc.direction * 0.2f;
+                    npc.velocity.X += (float)npc.direction * 0.2f;
                     if (npc.velocity.X < -4f || npc.velocity.X > 4f)
                     {
-                        npc.velocity.X = npc.velocity.X * 0.95f;
+                        npc.velocity.X *= 0.95f;
                     }
                     if (npc.ai[0] == -1f)
                     {
-                        npc.velocity.Y = npc.velocity.Y - 0.01f;
-                        if ((double)npc.velocity.Y < -0.3)
-                        {
-                            npc.ai[0] = 1f;
-                        }
-                    }
-                    else
-                    {
-                        npc.velocity.Y = npc.velocity.Y + 0.01f;
-                        if ((double)npc.velocity.Y > 0.3)
-                        {
-                            npc.ai[0] = -1f;
+						npc.velocity.Y -= 0.01f;
+						if (npc.velocity.Y < -0.3f)
+						{
+							npc.ai[0] = 1f;
+						}
+					}
+					else
+					{
+						npc.velocity.Y += 0.01f;
+						if (npc.velocity.Y > 0.3f)
+						{
+							npc.ai[0] = -1f;
                         }
                     }
                 }
@@ -194,9 +194,9 @@ namespace CalamityMod.NPCs.SulphurousSea
                         npc.ai[0] = -1f;
                     }
                 }
-                if ((double)npc.velocity.Y > 0.4 || (double)npc.velocity.Y < -0.4)
+                if (npc.velocity.Y > 0.4f || npc.velocity.Y < -0.4f)
                 {
-                    npc.velocity.Y = npc.velocity.Y * 0.95f;
+                    npc.velocity.Y *= 0.95f;
                 }
             }
             else
@@ -261,11 +261,11 @@ namespace CalamityMod.NPCs.SulphurousSea
                 }
             }
             npc.rotation = npc.velocity.Y * (float)npc.direction * 0.1f;
-            if ((double)npc.rotation < -0.2)
+            if (npc.rotation < -0.2f)
             {
                 npc.rotation = -0.2f;
             }
-            if ((double)npc.rotation > 0.2)
+            if (npc.rotation > 0.2f)
             {
                 npc.rotation = 0.2f;
                 return;
@@ -303,7 +303,7 @@ namespace CalamityMod.NPCs.SulphurousSea
             }
             for (int num621 = 0; num621 < 25; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 31, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(npc.position, npc.width, npc.height, 31, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -314,10 +314,10 @@ namespace CalamityMod.NPCs.SulphurousSea
             }
             for (int num623 = 0; num623 < 50; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 5, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
                 Main.dust[num624].noGravity = true;
             }

@@ -88,42 +88,33 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
-			Main.PlaySound(SoundID.Item96, projectile.position);
+			OnHitEffects(target.Center);
 			target.AddBuff(BuffID.Wet, 240);
             target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);
+        }
 
-            int type = ModContent.ProjectileType<SeasSearingBubble>();
+        public override void OnHitPvp(Player target, int damage, bool crit)
+		{
+			OnHitEffects(target.Center);
+			target.AddBuff(BuffID.Wet, 240);
+            target.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), 240);
+        }
+
+		private void OnHitEffects(Vector2 targetPos)
+		{
+			Main.PlaySound(SoundID.Item96, projectile.Center);
 			if (projectile.ai[0] == 1f)
 			{
-				int numWaterBlasts = 2;
-				int waterDamage = SeasSearing.BaseDamage / 2;
-				float waterKB = 1f;
-				Player owner = Main.player[projectile.owner];
-				for (int i = 0; i < numWaterBlasts; ++i)
+				for (int x = 0; x < 2; x++)
 				{
-					float startOffsetX = Main.rand.NextFloat(1000f, 1400f) * (Main.rand.NextBool() ? -1f : 1f);
-					float startOffsetY = Main.rand.NextFloat(80f, 900f) * (Main.rand.NextBool() ? -1f : 1f);
-					Vector2 startPos = new Vector2(target.Center.X + startOffsetX, target.Center.Y + startOffsetY);
-					float dx = target.Center.X - startPos.X;
-					float dy = target.Center.Y - startPos.Y;
-
-					// Add some randomness / inaccuracy
-					dx += Main.rand.NextFloat(-5f, 5f);
-					dy += Main.rand.NextFloat(-5f, 5f);
-					float speed = Main.rand.NextFloat(20f, 25f);
-					float dist = (float)Math.Sqrt((double)(dx * dx + dy * dy));
-					dist = speed / dist;
-					dx *= dist;
-					dy *= dist;
-					Vector2 waterVel = new Vector2(dx, dy);
-					float angle = Main.rand.NextFloat(MathHelper.TwoPi);
 					if (projectile.owner == Main.myPlayer)
 					{
-						int idx = Projectile.NewProjectile(startPos, waterVel, type, waterDamage, waterKB, projectile.owner, 0f, 0f);
-						Main.projectile[idx].rotation = angle;
-						Main.projectile[idx].tileCollide = false;
-						Main.projectile[idx].usesLocalNPCImmunity = true;
-						Main.projectile[idx].localNPCHitCooldown = -1;
+						float angle = Main.rand.NextFloat(MathHelper.TwoPi);
+						Projectile bubble = CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(20f, 25f), ModContent.ProjectileType<SeasSearingBubble>(), projectile.damage / 2, 1f, projectile.owner);
+						bubble.rotation = angle;
+						bubble.tileCollide = false;
+						bubble.usesLocalNPCImmunity = true;
+						bubble.localNPCHitCooldown = -1;
 					}
 				}
 			}

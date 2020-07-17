@@ -142,19 +142,10 @@ namespace CalamityMod.Projectiles.Melee
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] % 12f == 0f)
             {
-				float xPos = projectile.Center.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
-				float yPos = projectile.Center.Y + Main.rand.Next(-800, 801);
-				Vector2 spawnPosition = new Vector2(xPos, yPos);
-				Vector2 velocity = player.Center - spawnPosition;
-				float dir = 10 / spawnPosition.X;
-				velocity.X *= dir * 150;
-				velocity.Y *= dir * 150;
-				velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
-				velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
                 if (projectile.owner == Main.myPlayer)
                 {
-                    float ai1 = Main.rand.NextFloat() + 0.5f;
-                    Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<TyphonsGreedBubble>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, ai1);
+					Projectile bubble = CalamityUtils.ProjectileBarrage(projectile.Center, player.Center, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<TyphonsGreedBubble>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, true);
+					bubble.ai[1] = Main.rand.NextFloat() + 0.5f;
                 }
             }
         }
@@ -164,10 +155,10 @@ namespace CalamityMod.Projectiles.Melee
             Rectangle myRect = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int i = 0; i < 200; i++)
+                for (int i = 0; i < Main.maxNPCs; i++)
                 {
                     if (Main.npc[i].active && !Main.npc[i].dontTakeDamage &&
-                        ((projectile.friendly && (!Main.npc[i].friendly || projectile.type == 318 || (Main.npc[i].type == NPCID.Guide && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
+                        ((projectile.friendly && (!Main.npc[i].friendly || (Main.npc[i].type == NPCID.Guide && projectile.owner < 255 && Main.player[projectile.owner].killGuide) || (Main.npc[i].type == NPCID.Clothier && projectile.owner < 255 && Main.player[projectile.owner].killClothier))) ||
                         (projectile.hostile && Main.npc[i].friendly && !Main.npc[i].dontTakeDamageFromHostiles)) && (projectile.owner < 0 || Main.npc[i].immune[projectile.owner] == 0 || projectile.maxPenetrate == 1))
                     {
                         if (Main.npc[i].noTileCollide || !projectile.ownerHitCheck || projectile.CanHit(Main.npc[i]))

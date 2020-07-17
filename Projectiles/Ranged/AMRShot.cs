@@ -40,28 +40,31 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (crit)
-            {
-                for (int x = 0; x < 8; x++)
-                {
-                    float xPos = x > 4 ? projectile.Center.X + 500 : projectile.Center.X - 500;
-					float yPos = projectile.Center.Y + Main.rand.Next(-500, 501);
-                    Vector2 spawnPosition = new Vector2(xPos, yPos);
-					Vector2 velocity = target.Center - spawnPosition;
-                    float dir = velocity.Length();
-                    dir = 10 / spawnPosition.X;
-					velocity.X *= dir * 150;
-					velocity.Y *= dir * 150;
-                    if (projectile.owner == Main.myPlayer)
-                    {
-                        Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.1), 1f, projectile.owner);
-                    }
-                }
-            }
+			OnHitEffects(target.Center, crit);
             target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
             if (target.defense > 50)
             {
                 target.defense -= 50;
+            }
+		}
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			OnHitEffects(target.Center, crit);
+            target.AddBuff(ModContent.BuffType<MarkedforDeath>(), 600);
+		}
+
+		private void OnHitEffects(Vector2 targetPos, bool crit)
+		{
+            if (crit)
+            {
+                for (int x = 0; x < 8; x++)
+                {
+                    if (projectile.owner == Main.myPlayer)
+                    {
+						CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, x > 4, 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.1), 1f, projectile.owner);
+					}
+                }
             }
         }
     }

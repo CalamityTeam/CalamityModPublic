@@ -120,23 +120,28 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			float xPos = projectile.Center.X + 800 * Main.rand.NextBool(2).ToDirectionInt();
-			float yPos = projectile.Center.Y + Main.rand.Next(-800, 801);
-			Vector2 spawnPosition = new Vector2(xPos, yPos);
-			Vector2 velocity = target.Center - spawnPosition;
-			float dir = 10 / spawnPosition.X;
-			velocity.X *= dir * 150;
-			velocity.Y *= dir * 150;
-			velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
-			velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
-            if (projectile.owner == Main.myPlayer)
-            {
-                Projectile.NewProjectile(spawnPosition, velocity, ModContent.ProjectileType<LiquidBlade2>(), (int)(projectile.damage * 0.75), 1f, projectile.owner);
-            }
+			OnHitEffects(target.Center);
             target.AddBuff(BuffID.Ichor, 240);
             target.AddBuff(BuffID.Frostburn, 240);
             target.AddBuff(BuffID.OnFire, 240);
             target.AddBuff(BuffID.CursedInferno, 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			OnHitEffects(target.Center);
+            target.AddBuff(BuffID.Ichor, 240);
+            target.AddBuff(BuffID.Frostburn, 240);
+            target.AddBuff(BuffID.OnFire, 240);
+            target.AddBuff(BuffID.CursedInferno, 120);
+        }
+
+		private void OnHitEffects(Vector2 targetPos)
+		{
+			if (projectile.owner == Main.myPlayer)
+			{
+				CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<LiquidBlade2>(), (int)(projectile.damage * 0.75), 1f, projectile.owner, true);
+			}
         }
     }
 }
