@@ -910,23 +910,6 @@ namespace CalamityMod
             }
         }
 
-        /// <summary>
-        /// Shortcut for raining projectiles at a certain position
-        /// </summary>
-        /// <param name="targetPos">Target to barrage with projectiles</param>
-        /// <param name="xLimit">Horizontal randomization limits for spawning</param>
-        /// <param name="xVariance">Horizontal randomization amount of the target</param>
-        /// <param name="yLimitLower">Vertical lower limit for spawning</param>
-        /// <param name="yLimitUpper">Vertical upper limit for spawning</param>
-        /// <param name="projSpeed">How fast the projectiles should be</param>
-        /// <param name="projType">Type of proj to spawn</param>
-        /// <param name="damage">Damage of the projectile</param>
-        /// <param name="knockback">Knockback of the projectile</param>
-        /// <param name="owner">Who owns the projectile</param>
-		// Made the below three parameters before deciding to just return a projectile
-        /// <param name="forceType">Set it to a number to set the type of the projectile via the force methods</param>
-        /// <param name="immunitySetting">Set to 1 for local immunity, set to 2 for ID static immunity</param>
-        /// <param name="cooldown">Cooldown of the above, defaults to 10</param>
 		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10)
 		{
 			float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
@@ -983,91 +966,6 @@ namespace CalamityMod
 						break;
 				}
 			}
-			return proj;
-		}
-
-        /// <summary>
-        /// Shortcut for spawning projectiles aimed at the mouse either from above or in a spread
-        /// </summary>
-        /// <param name="player">Player who spawns the projectiles</param>
-        /// <param name="projAmount">Number of projectiles to spawn</param>
-        /// <param name="projSpeed">How fast the projectiles should be</param>
-        /// <param name="spreadMult">Slight variance in the cone</param>
-        /// <param name="targetVariance">Cone of spread</param>
-        /// <param name="projType">Type of proj to spawn</param>
-        /// <param name="damage">Damage of the projectile</param>
-        /// <param name="knockback">Knockback of the projectile</param>
-        /// <param name="owner">Who owns the projectile</param>
-        /// <param name="above">Set to true for the projectiles to spawn above (like Stellar Striker). Set to false for the projectiles to be thrown in a spread (like Illustrious Knives)</param>
-		public static Projectile ProjectileToMouse(Player player, int projAmount, float projSpeed, float spreadMult, float targetVariance, int projType, int damage, float knockback, int owner, bool above, float targetVariance2 = 0f, float spreadMult2 = 0.02f)
-		{
-            float speed = projSpeed;
-            Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
-            float xDist = Main.mouseX + Main.screenPosition.X - source.X;
-            float yDist = Main.mouseY + Main.screenPosition.Y - source.Y;
-            if (player.gravDir == -1f)
-            {
-                yDist = Main.screenPosition.Y + Main.screenHeight - Main.mouseY - source.Y;
-            }
-			Vector2 mouseDir = new Vector2(xDist, yDist);
-			float speedMult = mouseDir.Length();
-            if ((float.IsNaN(mouseDir.X) && float.IsNaN(mouseDir.Y)) || (mouseDir.X == 0f && mouseDir.Y == 0f))
-            {
-                mouseDir.X = player.direction;
-                mouseDir.Y = 0f;
-                speedMult = speed;
-            }
-            else
-            {
-                speedMult = speed / speedMult;
-            }
-
-			if (!above)
-			{
-				mouseDir.X *= speedMult;
-				mouseDir.Y *= speedMult;
-			}
-
-			Projectile proj;
-            int projAmt = projAmount;
-            for (int i = 0; i < projAmt; i++)
-            {
-				if (above)
-				{
-					source = new Vector2(player.Center.X + (Main.rand.NextFloat(200f) * -player.direction) + (Main.mouseX + Main.screenPosition.X - player.position.X), player.MountedCenter.Y - 600f);
-					source.X = (source.X + player.Center.X) / 2f + Main.rand.NextFloat(-200, 201);
-					source.Y -= (float)(100 * i);
-					mouseDir.X = (float)Main.mouseX + Main.screenPosition.X - source.X + Main.rand.NextFloat(-targetVariance2, targetVariance2) * spreadMult;
-					mouseDir.Y = (float)Main.mouseY + Main.screenPosition.Y - source.Y;
-					if (mouseDir.Y < 0f)
-					{
-						mouseDir.Y *= -1f;
-					}
-					if (mouseDir.Y < 20f)
-					{
-						mouseDir.Y = 20f;
-					}
-					speedMult = mouseDir.Length();
-					speedMult = speed / speedMult;
-					mouseDir.X *= speedMult;
-					mouseDir.Y *= speedMult;
-					mouseDir.Y += Main.rand.NextFloat(-targetVariance, targetVariance) * spreadMult2;
-					proj = Projectile.NewProjectileDirect(source, mouseDir, projType, damage, knockback, owner);
-				}
-				else
-				{
-					float xVec = mouseDir.X;
-					float yVec = mouseDir.Y;
-					float spreadMultiplier = spreadMult * i;
-					mouseDir.X += Main.rand.NextFloat(-targetVariance, targetVariance) * spreadMultiplier;
-					mouseDir.Y += Main.rand.NextFloat(-targetVariance, targetVariance) * spreadMultiplier;
-					speedMult = mouseDir.Length();
-					speedMult = speed / speedMult;
-					mouseDir.X *= speedMult;
-					mouseDir.Y *= speedMult;
-					Projectile.NewProjectile(source, mouseDir, type, damage, knockBack, player.whoAmI, 0f, 0f);
-				}
-            }
 			return proj;
 		}
 

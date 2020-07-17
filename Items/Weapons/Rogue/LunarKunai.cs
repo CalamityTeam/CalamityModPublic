@@ -42,9 +42,64 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			int knifeAmt = player.Calamity().StealthStrikeAvailable() ? 5 : 3;
-			Projectile knife = CalamityUtils.ProjectileToMouse(player, knifeAmt, item.shootSpeed, 0.05f, 35f, type, damage, knockBack, player.whoAmI, false);
-			knife.Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            float num72 = item.shootSpeed;
+            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
+            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
+            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            if (player.gravDir == -1f)
+            {
+                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
+            }
+            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
+            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
+            {
+                num78 = (float)player.direction;
+                num79 = 0f;
+                num80 = num72;
+            }
+            else
+            {
+                num80 = num72 / num80;
+            }
+            num78 *= num80;
+            num79 *= num80;
+			if (player.Calamity().StealthStrikeAvailable())
+			{
+				for (int i = 0; i < 5; i++)
+				{
+					float num148 = num78;
+					float num149 = num79;
+					float num150 = 0.05f * (float)i;
+					num148 += (float)Main.rand.Next(-35, 36) * num150;
+					num149 += (float)Main.rand.Next(-35, 36) * num150;
+					num80 = (float)Math.Sqrt((double)(num148 * num148 + num149 * num149));
+					num80 = num72 / num80;
+					num148 *= num80;
+					num149 *= num80;
+					float x4 = vector2.X;
+					float y4 = vector2.Y;
+					int stealth = Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+				}
+			}
+			else
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					float num148 = num78;
+					float num149 = num79;
+					float num150 = 0.05f * (float)i;
+					num148 += (float)Main.rand.Next(-35, 36) * num150;
+					num149 += (float)Main.rand.Next(-35, 36) * num150;
+					num80 = (float)Math.Sqrt((double)(num148 * num148 + num149 * num149));
+					num80 = num72 / num80;
+					num148 *= num80;
+					num149 *= num80;
+					float x4 = vector2.X;
+					float y4 = vector2.Y;
+					Projectile.NewProjectile(x4, y4, num148, num149, ModContent.ProjectileType<LunarKunaiProj>(), damage, knockBack, player.whoAmI, 0f, 0f);
+				}
+			}
 			return false;
         }
 
