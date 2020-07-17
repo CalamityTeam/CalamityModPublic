@@ -351,7 +351,7 @@ namespace CalamityMod.NPCs.SulphurousSea
         public override void NPCLoot()
         {
             DropHelper.DropItemCondition(npc, ModContent.ItemType<SulphuricAcidCannon>(), CalamityWorld.downedPolterghast, 3, 1, 1);
-            int item = Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.SharkFin, Main.rand.Next(2, 5), false, 0, false, false);
+            int item = Item.NewItem(npc.Center, npc.Size, ItemID.SharkFin, Main.rand.Next(2, 5), false, 0, false, false);
             Main.item[item].color = new Color(151, 115, 57, 255);
             NetMessage.SendData(88, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
         }
