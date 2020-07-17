@@ -1065,7 +1065,7 @@ namespace CalamityMod
 					speedMult = speed / speedMult;
 					mouseDir.X *= speedMult;
 					mouseDir.Y *= speedMult;
-					proj = Projectile.NewProjectile(source, mouseDir, projType, damage, knockback, owner);
+					proj = Projectile.NewProjectileDirect(source, mouseDir, projType, damage, knockback, owner);
 				}
             }
 			return proj;
