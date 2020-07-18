@@ -6100,6 +6100,17 @@ namespace CalamityMod.CalPlayer
 					damage = (int)(damage * 0.6);
 			}
 
+			if (CalamityWorld.ironHeart)
+			{
+				int damageMin = 60 + (player.statLifeMax2 / 10);
+				int damageWithDR = (int)(damage * (1f - player.endurance));
+				if (damage < damageMin)
+				{
+					player.endurance = 0f;
+					damage = damageMin;
+				}
+			}
+
 			if (aBulwarkRare)
 			{
 				aBulwarkRareMeleeBoostTimer += 3 * damage;
@@ -6129,7 +6140,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-        }
+		}
         #endregion
 
         #region Modify Hit By Proj
@@ -6175,6 +6186,10 @@ namespace CalamityMod.CalPlayer
 				if (proj.type == ProjectileID.Boulder)
 					damage = (int)(damage * 0.65);
 			}
+
+			// Reduce the bullshit damage Ichor Stickers do
+			if (proj.type == ProjectileID.GoldenShowerHostile)
+				damage = (int)(damage * 0.35);
 
 			if (CalamityWorld.revenge)
 			{
@@ -6362,7 +6377,18 @@ namespace CalamityMod.CalPlayer
 				damage = (int)(damage * projectileDamageReduction);
 			}
 
-            if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
+			if (CalamityWorld.ironHeart)
+			{
+				int damageMin = 60 + (player.statLifeMax2 / 10);
+				int damageWithDR = (int)(damage * (1f - player.endurance));
+				if (damage < damageMin)
+				{
+					player.endurance = 0f;
+					damage = damageMin;
+				}
+			}
+
+			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
                 if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && !CalamityMod.trapProjectileList.Contains(proj.type))
                 {
@@ -7407,14 +7433,11 @@ namespace CalamityMod.CalPlayer
 
 			if (CalamityWorld.ironHeart)
 			{
-				int damageMin = player.statLifeMax2 / 4;
+				int damageMin = 60 + (player.statLifeMax2 / 10);
 				playSound = false;
 				hurtSoundTimer = 20;
-				if (damage < damageMin)
-				{
-					damage = damageMin;
+				if (damage <= damageMin)
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/IronHeartHurt"), (int)player.position.X, (int)player.position.Y);
-				}
 				else
 					Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/IronHeartBigHurt"), (int)player.position.X, (int)player.position.Y);
 			}

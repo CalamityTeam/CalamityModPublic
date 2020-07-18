@@ -48,7 +48,10 @@ namespace CalamityMod.NPCs.Astral
 
         public override void AI()
         {
-            if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
+
+			if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
             }

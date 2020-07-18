@@ -35,7 +35,7 @@ namespace CalamityMod.NPCs.StormWeaver
             CalamityGlobalNPC global = npc.Calamity();
             global.DR = 0.999999f;
             global.unbreakableDR = true;
-			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
 			npc.LifeMaxNERB(notDoGFight ? 100000 : 20000, notDoGFight ? 100000 : 20000, 170000);
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
@@ -83,7 +83,7 @@ namespace CalamityMod.NPCs.StormWeaver
         {
 			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            if (npc.defense < 99999 && CalamityWorld.DoGSecondStageCountdown <= 0)
+            if (npc.defense < 99999 && (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2))
             {
                 npc.defense = 99999;
             }

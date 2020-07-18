@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.Yharon
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARONREBIRTH");
             else
                 music = MusicID.Boss1;
-            if (CalamityWorld.downedBuffedMothron || CalamityWorld.bossRushActive)
+            if (CalamityWorld.buffedEclipse || CalamityWorld.bossRushActive)
             {
                 if (calamityModMusic != null)
                     music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/YHARON");
@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.Yharon
 			if (startSecondAI)
             {
                 // Despawn and drop phase 1 loot
-                if (!CalamityWorld.downedBuffedMothron && !CalamityWorld.bossRushActive)
+                if (!CalamityWorld.buffedEclipse && !CalamityWorld.bossRushActive)
                 {
                     npc.DeathSound = null;
                     npc.dontTakeDamage = true;
@@ -194,7 +194,7 @@ namespace CalamityMod.NPCs.Yharon
 
                     if (npc.timeLeft < 5)
                     {
-                        string key = "Mods.CalamityMod.DargonBossText2";
+                        /*string key = "Mods.CalamityMod.DargonBossText2";
                         Color messageColor = Color.Orange;
                         if (Main.netMode == NetmodeID.SinglePlayer)
                         {
@@ -203,7 +203,7 @@ namespace CalamityMod.NPCs.Yharon
                         else if (Main.netMode == NetmodeID.Server)
                         {
                             NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                        }
+                        }*/
 
                         startSecondAI = false;
 
@@ -221,7 +221,16 @@ namespace CalamityMod.NPCs.Yharon
                 }
 
 				if (phaseOneLoot)
+				{
+					npc.boss = false;
+
+					if (dropLoot)
+						npc.NPCLoot();
+
+					npc.boss = true;
+
 					npc.Calamity().AITimer = 0;
+				}
 
                 // Don't drop phase 1 loot
                 phaseOneLoot = false;
@@ -240,8 +249,8 @@ namespace CalamityMod.NPCs.Yharon
 			}
 
 			// Phase bools
-            bool phase2Check = npc.life <= npc.lifeMax * (revenge ? 0.8 : (expertMode ? 0.7 : 0.5));
-            bool phase3Check = npc.life <= npc.lifeMax * (revenge ? 0.5 : (expertMode ? 0.4 : 0.25));
+            bool phase2Check = death || npc.life <= npc.lifeMax * (revenge ? 0.8 : (expertMode ? 0.7 : 0.5));
+            bool phase3Check = npc.life <= npc.lifeMax * (death ? 0.6 : (revenge ? 0.5 : (expertMode ? 0.4 : 0.25)));
             bool phase4Check = npc.life <= npc.lifeMax * 0.1;
 			bool phase1Change = npc.ai[0] > -1f;
             bool phase2Change = npc.ai[0] > 5f;
@@ -1475,9 +1484,9 @@ namespace CalamityMod.NPCs.Yharon
         #region AI2
         public void Yharon_AI2(bool expertMode, bool revenge, bool death, float pie)
         {
-            bool phase2 = npc.life <= npc.lifeMax * (revenge ? 0.8 : (expertMode ? 0.7 : 0.5));
-            bool phase3 = npc.life <= npc.lifeMax * (revenge ? 0.5 : (expertMode ? 0.4 : 0.25));
-            bool phase4 = npc.life <= npc.lifeMax * 0.2 && revenge;
+            bool phase2 = death || npc.life <= npc.lifeMax * (revenge ? 0.8 : (expertMode ? 0.7 : 0.5));
+            bool phase3 = npc.life <= npc.lifeMax * (death ? 0.65 : (revenge ? 0.5 : (expertMode ? 0.4 : 0.25)));
+            bool phase4 = npc.life <= npc.lifeMax * (death ? 0.3 : 0.2) && revenge;
 
             if (npc.ai[0] != 8f)
             {
@@ -1635,7 +1644,6 @@ namespace CalamityMod.NPCs.Yharon
 			float spinRotation = MathHelper.TwoPi * 3 / spinTime;
 			float spinPhaseVelocity = 25f;
 			int flareDustSpawnDivisor = 24;
-			int flareDustSpawnDivisor2 = 5;
 			int flareDustSpawnDivisor3 = 12 + (secondPhasePhase == 4 ? 4 : 0);
 			float increasedIdleTimeAfterBulletHell = -120f;
 
@@ -2163,7 +2171,7 @@ namespace CalamityMod.NPCs.Yharon
                 if (npc.ai[1] >= spinPhaseTimer)
                 {
                     npc.ai[0] = 1f;
-                    npc.ai[1] = secondPhasePhase >= 2 ? increasedIdleTimeAfterBulletHell : 0f;
+                    npc.ai[1] = increasedIdleTimeAfterBulletHell;
                     npc.ai[2] = 0f;
 					npc.localAI[2] = 0f;
 					npc.velocity /= 2f;
@@ -2809,7 +2817,7 @@ namespace CalamityMod.NPCs.Yharon
             }
 
             // These drops only occur in Phase 2 (where you actually kill Yharon)
-            if (startSecondAI)
+            if (startSecondAI && !phaseOneLoot)
             {
                 // Materials
                 int soulFragMin = Main.expertMode ? 22 : 15;

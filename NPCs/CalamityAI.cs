@@ -3540,7 +3540,7 @@ namespace CalamityMod.NPCs
 			{
 				float num472 = npc.Center.X;
 				float num473 = npc.Center.Y;
-				float num474 = (float)(275D * (1D - lifeRatio)) * tileEnrageMult;
+				float num474 = (death ? 275f : (float)(275D * (1D - lifeRatio))) * tileEnrageMult;
 				if (!player.ZoneDungeon)
 					num474 *= 1.25f;
 

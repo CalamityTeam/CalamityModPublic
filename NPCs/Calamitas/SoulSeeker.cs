@@ -72,8 +72,10 @@ namespace CalamityMod.NPCs.Calamitas
 
         public override bool PreAI()
         {
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
 			npc.damage = 0;
-            bool expertMode = Main.expertMode;
+
+			bool expertMode = Main.expertMode;
 			if (CalamityGlobalNPC.calamitas < 0 || !Main.npc[CalamityGlobalNPC.calamitas].active)
 			{
 				npc.active = false;

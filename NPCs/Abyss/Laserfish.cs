@@ -52,6 +52,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
+
             CalamityAI.PassiveSwimmingAI(npc, mod, 0, Main.player[npc.target].Calamity().GetAbyssAggro(400f, 200f), 0.15f, 0.15f, 4f, 4f, 0.1f);
         }
 

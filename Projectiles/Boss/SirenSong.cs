@@ -42,10 +42,10 @@ namespace CalamityMod.Projectiles.Boss
         {
             projectile.velocity *= 0.985f;
 
-			if (projectile.timeLeft < 60)
-				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 60f, 0f, 1f);
+			if (projectile.timeLeft < 30)
+				projectile.Opacity = MathHelper.Clamp(projectile.timeLeft / 30f, 0f, 1f);
 			else
-				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 900) / 60f), 0f, 1f);
+				projectile.Opacity = MathHelper.Clamp(1f - ((projectile.timeLeft - 930) / 30f), 0f, 1f);
 
 			if (projectile.localAI[0] == 0f)
             {

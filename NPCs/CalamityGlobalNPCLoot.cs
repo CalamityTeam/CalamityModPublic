@@ -1745,8 +1745,8 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Reaper:
                 case NPCID.Psycho:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), Main.expertMode ? 0.75f : 0.5f, 1, 4);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedBuffedMothron, Main.expertMode ? 0.06f : 0.04f, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), CalamityWorld.downedCalamitas || NPC.downedPlantBoss, Main.expertMode ? 0.75f : 0.5f, 1, 4);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.buffedEclipse, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 
 				//other solar eclipse creatures
@@ -1762,7 +1762,7 @@ namespace CalamityMod.NPCs
                 case NPCID.DeadlySphere:
                 case NPCID.DrManFly:
                 case NPCID.Nailhead:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedBuffedMothron, Main.expertMode ? 0.06f : 0.04f, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.buffedEclipse, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 
                 case NPCID.MartianOfficer:

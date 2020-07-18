@@ -40,7 +40,10 @@ namespace CalamityMod.NPCs.StormWeaver
 
         public override void AI()
         {
-            bool revenge = CalamityWorld.revenge;
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
+
+			bool revenge = CalamityWorld.revenge;
             if (npc.target < 0 || npc.target == 255 || Main.player[npc.target].dead)
             {
                 npc.TargetClosest(true);
@@ -124,7 +127,7 @@ namespace CalamityMod.NPCs.StormWeaver
             {
                 npc.localAI[0] = 0f;
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 180f)
+            if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 120f)
             {
                 npc.localAI[0] = 0f;
                 if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
