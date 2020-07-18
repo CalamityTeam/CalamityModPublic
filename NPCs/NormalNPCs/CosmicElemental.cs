@@ -11,7 +11,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cosmic Elemental");
-            Main.npcFrameCount[npc.type] = 22;
+            Main.npcFrameCount[npc.type] = 11;
         }
 
         public override void SetDefaults()
@@ -32,6 +32,30 @@ namespace CalamityMod.NPCs.NormalNPCs
             bannerItem = ModContent.ItemType<CosmicElementalBanner>();
             npc.buffImmune[BuffID.Confused] = false;
         }
+
+		public override void FindFrame(int frameHeight)
+		{
+			npc.frameCounter++;
+			if (npc.frameCounter > 6)
+			{
+				npc.frame.Y += frameHeight;
+				npc.frameCounter = 0;
+			}
+			if (npc.ai[0] == -1f)
+			{
+				if (npc.frame.Y >= frameHeight * 11)
+					npc.frame.Y = frameHeight * 10;
+				else if (npc.frame.Y <= frameHeight * 5)
+					npc.frame.Y = frameHeight * 6;
+				npc.rotation += npc.velocity.X * 0.2f;
+			}
+			else
+			{
+				if (npc.frame.Y >= frameHeight * 6)
+					npc.frame.Y = 0;
+				npc.rotation = npc.velocity.X * 0.1f;
+			}
+		}
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
@@ -68,37 +92,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(10))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BoneSword);
-            }
-            if (Main.rand.NextBool(50))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Starfury);
-            }
-            if (Main.rand.NextBool(100))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.EnchantedSword);
-            }
-            if (Main.rand.NextBool(1000))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Arkhalis);
-            }
-            if (CalamityWorld.defiled)
-            {
-                if (Main.rand.NextBool(20))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Starfury);
-                }
-                if (Main.rand.NextBool(20))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.EnchantedSword);
-                }
-                if (Main.rand.NextBool(20))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Arkhalis);
-                }
-            }
+			DropHelper.DropItemChance(npc, ItemID.BoneSword, 10);
+			DropHelper.DropItemChance(npc, ItemID.Starfury, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 50);
+			DropHelper.DropItemChance(npc, ItemID.EnchantedSword, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 100);
+			DropHelper.DropItemChance(npc, ItemID.Arkhalis, CalamityWorld.defiled ? DropHelper.DefiledDropRateInt : 1000);
         }
     }
 }
