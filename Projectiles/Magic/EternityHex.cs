@@ -193,7 +193,7 @@ namespace CalamityMod.Projectiles.Magic
             {
                 float randomAngle = Main.rand.NextFloat() * MathHelper.TwoPi;
                 float outwardnessFactor = Main.rand.NextFloat();
-                Vector2 spawnPosition = target.Center + randomAngle.ToRotationVector2() * MathHelper.Lerp(70f, 600f, outwardnessFactor);
+                Vector2 spawnPosition = target.Center + randomAngle.ToRotationVector2() * MathHelper.Lerp(70f, EternityCircle.TargetOffsetRadius - 60f, outwardnessFactor);
                 Vector2 velocity = (randomAngle - 3f * MathHelper.Pi / 8f).ToRotationVector2() * (10f + 9f * Main.rand.NextFloat() + 4f * outwardnessFactor);
                 Dust swirlingDust = Dust.NewDustPerfect(spawnPosition, Eternity.DustID, new Vector2?(velocity), 0, Main.rand.NextBool(3) ? Eternity.BlueColor : Eternity.PinkColor, 1.4f);
                 swirlingDust.scale = 0.8f;

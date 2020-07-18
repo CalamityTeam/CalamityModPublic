@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Magic
             get => (int)projectile.localAI[1];
             set => projectile.localAI[1] = value;
         }
-        public const float TargetOffsetRadius = 670f;
+        public const float TargetOffsetRadius = 595f;
         public const float SinusoidalOffsetAngleIncrement = 0.54f;
         public static readonly float SinusoidalPositionAngleIncrement = MathHelper.ToRadians(3.5f);
         public override void SetStaticDefaults()
