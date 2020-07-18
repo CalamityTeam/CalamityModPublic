@@ -1,4 +1,6 @@
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.SummonItems;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.Projectiles.Boss;
@@ -27,11 +29,22 @@ namespace CalamityMod.Tiles.Astral
             name.SetDefault("Astral Beacon");
             AddMapEntry(new Color(128, 128, 158), name);
             disableSmartCursor = true;
+            minPick = 200;
         }
 
         public override bool CanExplode(int i, int j) => false;
 
-        public override bool CanKillTile(int i, int j, ref bool blockDamaged) => false;
+        public override bool CreateDust(int i, int j, ref int type)
+        {
+            type = Utils.SelectRandom(Main.rand, ModContent.DustType<AstralBlue>(), ModContent.DustType<AstralOrange>());
+            return true;
+        }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, Width * 16, Height * 16, ModContent.ItemType<AstralBeaconItem>());
+        }
+
         public override bool NewRightClick(int i, int j)
         {
             Tile tile = Main.tile[i, j];
@@ -82,6 +95,7 @@ namespace CalamityMod.Tiles.Astral
 
             return true;
         }
+
         public override void MouseOver(int i, int j)
         {
             Main.LocalPlayer.showItemIcon2 = ModContent.ItemType<TitanHeart>();
