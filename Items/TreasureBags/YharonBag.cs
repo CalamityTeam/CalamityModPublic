@@ -42,8 +42,6 @@ namespace CalamityMod.Items.TreasureBags
         {
             player.TryGettingDevArmor();
 
-            // Materials
-
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<DragonRage>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<TheBurningSky>(), 3);

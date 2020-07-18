@@ -54,7 +54,7 @@ namespace CalamityMod.Items.Weapons.Summon
             recipe.AddIngredient(ModContent.ItemType<FuelCellBundle>());
             recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 8);
-            recipe.AddIngredient(ItemID.LunarBar, 10);
+            recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

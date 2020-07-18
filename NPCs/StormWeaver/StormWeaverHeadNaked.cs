@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.npcSlots = 5f;
             npc.width = 74;
             npc.height = 74;
-			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
 			npc.LifeMaxNERB(notDoGFight ? 900000 : 150000, notDoGFight ? 900000 : 150000, 3500000);
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
@@ -663,9 +663,12 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
             }
 
-            // Mark Storm Weaver as dead
-            CalamityWorld.downedSentinel2 = true;
-            CalamityMod.UpdateServerBoolean();
+			// Mark Storm Weaver as dead
+			if (CalamityWorld.DoGSecondStageCountdown <= 0)
+			{
+				CalamityWorld.downedSentinel2 = true;
+				CalamityMod.UpdateServerBoolean();
+			}
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

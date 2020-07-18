@@ -422,7 +422,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 6, 11);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 11, 17);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<GildedProboscis>(), 4);
@@ -463,7 +463,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 for (int i = 0; i < 6; i++) // 1 head, 1 wing, 4 legs = 6. one wing due to them being chonky boyes now
                 {
                     string gore = "Gores/Bumble";
-                    float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     gore += i == 0 ? "Head" : i > 1 ? "Leg" : "Wing";
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot(gore), 1f);
                 }
