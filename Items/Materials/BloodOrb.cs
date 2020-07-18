@@ -7,7 +7,7 @@ namespace CalamityMod.Items.Materials
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Blorb");
+            DisplayName.SetDefault("Blood Orb");
         }
 
         public override void SetDefaults()
@@ -21,9 +21,9 @@ namespace CalamityMod.Items.Materials
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
+            float num = Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 0.75f * num, 0f, 0f);
+            Lighting.AddLight((int)((item.position.X + (item.width / 2)) / 16f), (int)((item.position.Y + (item.height / 2)) / 16f), 0.75f * num, 0f, 0f);
         }
     }
 }

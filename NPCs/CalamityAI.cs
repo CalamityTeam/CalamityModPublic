@@ -3540,7 +3540,7 @@ namespace CalamityMod.NPCs
 			{
 				float num472 = npc.Center.X;
 				float num473 = npc.Center.Y;
-				float num474 = (float)(275D * (1D - lifeRatio)) * tileEnrageMult;
+				float num474 = (death ? 275f : (float)(275D * (1D - lifeRatio))) * tileEnrageMult;
 				if (!player.ZoneDungeon)
 					num474 *= 1.25f;
 
@@ -4194,7 +4194,7 @@ namespace CalamityMod.NPCs
 				}
 
 				npc.ai[1] += 0.0333333351f;
-				float velocity = 18f + (enrageScale - 1) * 6f;
+				float velocity = 16f + (enrageScale - 1) * 4f;
 				float scaleFactor18 = velocity + npc.ai[1];
 				float num1310 = 4f;
 				value54.Normalize();
@@ -4211,7 +4211,7 @@ namespace CalamityMod.NPCs
 
 				Vector2 vector206 = player.Center - npc.Center;
 				vector206.Y -= 12f;
-				float scaleFactor19 = 32f + (enrageScale - 1) * 4f;
+				float scaleFactor19 = 28f + (enrageScale - 1) * 4f;
 				float num1311 = 8f;
 				vector206.Normalize();
 				vector206 *= scaleFactor19;
@@ -4243,14 +4243,14 @@ namespace CalamityMod.NPCs
 			// Charge
 			else if (npc.ai[0] == 3.2f)
 			{
-				npc.damage = (int)(npc.defDamage * 1.5);
+				npc.damage = (int)(npc.defDamage * 1.3);
 
 				npc.collideX = false;
 				npc.collideY = false;
 				npc.noTileCollide = true;
 
 				npc.ai[2] += 0.0333333351f;
-				float velocity = 32f + (enrageScale - 1) * 4f;
+				float velocity = 28f + (enrageScale - 1) * 4f;
 				npc.velocity.X = (velocity + npc.ai[2]) * npc.ai[1];
 
 				if ((npc.ai[1] > 0f && npc.Center.X > player.Center.X + (chargeDistance - 140f)) || (npc.ai[1] < 0f && npc.Center.X < player.Center.X - (chargeDistance - 140f)))
@@ -4847,7 +4847,7 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector6 = Vector2.Normalize(player.Center - vector) * (npc.width + 20) / 2f + vector;
-						NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, ModContent.NPCType<OldDukeToothBall>(), 0, 0f, 0f, 0f, 0f, 255);
+						NPC.NewNPC((int)vector6.X, (int)vector6.Y + 45, ModContent.NPCType<OldDukeToothBall>());
 					}
 				}
 
@@ -5115,7 +5115,7 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
-						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>(), 0, 0f, 0f, 0f, 0f, 255);
+						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>());
 						Main.npc[num31].target = npc.target;
 						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * scaleFactor3;
 						Main.npc[num31].netUpdate = true;
@@ -5521,8 +5521,8 @@ namespace CalamityMod.NPCs
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (float)(npc.width + 20) / 2f + vector;
-						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>(), 0, 0f, 0f, 0f, 0f, 255);
+						Vector2 vector10 = Vector2.Normalize(npc.velocity) * (npc.width + 20) / 2f + vector;
+						int num31 = NPC.NewNPC((int)vector10.X, (int)vector10.Y + 45, ModContent.NPCType<OldDukeToothBall>());
 						Main.npc[num31].target = npc.target;
 						Main.npc[num31].velocity = Vector2.Normalize(npc.velocity).RotatedBy(MathHelper.PiOver2 * npc.direction) * scaleFactor3;
 						Main.npc[num31].netUpdate = true;

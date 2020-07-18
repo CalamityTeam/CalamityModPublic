@@ -49,9 +49,9 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<InfernalRift>());
-            recipe.AddIngredient(ModContent.ItemType<EvergladeSpray>());
             recipe.AddIngredient(ItemID.AquaScepter);
-            recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
+			recipe.AddRecipeGroup("CursedFlameIchor", 20);
+			recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 5);
             recipe.AddIngredient(ItemID.LunarBar, 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
@@ -62,9 +62,9 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
             float num72 = item.shootSpeed;
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            float f = Main.rand.NextFloat() * 6.28318548f;
+            float num78 = Main.mouseX + Main.screenPosition.X - vector2.X;
+            float num79 = Main.mouseY + Main.screenPosition.Y - vector2.Y;
+            float f = Main.rand.NextFloat() * MathHelper.TwoPi;
             float value12 = 20f;
             float value13 = 60f;
             Vector2 vector13 = vector2 + f.ToRotationVector2() * MathHelper.Lerp(value12, value13, Main.rand.NextFloat());
@@ -75,7 +75,7 @@ namespace CalamityMod.Items.Weapons.Magic
                 {
                     break;
                 }
-                f = Main.rand.NextFloat() * 6.28318548f;
+                f = Main.rand.NextFloat() * MathHelper.TwoPi;
             }
             Vector2 mouseWorld = Main.MouseWorld;
             Vector2 vector14 = mouseWorld - vector13;

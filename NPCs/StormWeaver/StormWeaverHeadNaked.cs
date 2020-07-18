@@ -37,7 +37,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.npcSlots = 5f;
             npc.width = 74;
             npc.height = 74;
-			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
 			npc.LifeMaxNERB(notDoGFight ? 900000 : 150000, notDoGFight ? 900000 : 150000, 3500000);
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
@@ -75,12 +75,16 @@ namespace CalamityMod.NPCs.StormWeaver
         {
             writer.Write(invinceTime);
             writer.Write(npc.dontTakeDamage);
+			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
         }
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             invinceTime = reader.ReadInt32();
             npc.dontTakeDamage = reader.ReadBoolean();
+			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
         }
 
         public override void AI()
@@ -278,8 +282,28 @@ namespace CalamityMod.NPCs.StormWeaver
 				{
 					if (npc.localAI[1] == 2f)
 					{
+						num188 += Vector2.Distance(Main.player[npc.target].Center, npc.Center) * 0.01f * (1f - (float)lifeRatio);
+						num189 += Vector2.Distance(Main.player[npc.target].Center, npc.Center) * 0.0001f * (1f - (float)lifeRatio);
 						num188 *= 2f;
 						num189 *= 0.75f;
+
+						float stopChargeDistance = 800f * npc.localAI[2];
+						if (stopChargeDistance < 0)
+						{
+							if (npc.Center.X < Main.player[npc.target].Center.X + stopChargeDistance)
+							{
+								npc.localAI[1] = 0f;
+								calamityGlobalNPC.newAI[0] = 0f;
+							}
+						}
+						else
+						{
+							if (npc.Center.X > Main.player[npc.target].Center.X + stopChargeDistance)
+							{
+								npc.localAI[1] = 0f;
+								calamityGlobalNPC.newAI[0] = 0f;
+							}
+						}
 					}
 
 					int dustAmt = 5;
@@ -347,7 +371,15 @@ namespace CalamityMod.NPCs.StormWeaver
 				}
 
 				if (revenge)
-					npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * num188 * 2f;
+					npc.velocity = Vector2.Normalize(Main.player[npc.target].Center - npc.Center) * (num188 + Vector2.Distance(Main.player[npc.target].Center, npc.Center) * 0.01f * (1f - (float)lifeRatio)) * 2f;
+
+				float chargeDirection = 0;
+				if (npc.velocity.X < 0f)
+					chargeDirection = -1f;
+				else if (npc.velocity.X > 0f)
+					chargeDirection = 1f;
+
+				npc.localAI[2] = chargeDirection;
 			}
 
 			num191 = (int)(num191 / 16f) * 16;
@@ -631,9 +663,12 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
             }
 
-            // Mark Storm Weaver as dead
-            CalamityWorld.downedSentinel2 = true;
-            CalamityMod.UpdateServerBoolean();
+			// Mark Storm Weaver as dead
+			if (CalamityWorld.DoGSecondStageCountdown <= 0)
+			{
+				CalamityWorld.downedSentinel2 = true;
+				CalamityMod.UpdateServerBoolean();
+			}
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

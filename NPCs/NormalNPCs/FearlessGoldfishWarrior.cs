@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = Main.hardMode ? 120 : 30;
+            npc.damage = Main.hardMode ? 100 : 30;
             npc.width = 36;
             npc.height = 32;
             npc.defense = Main.hardMode ? 10 : 2;

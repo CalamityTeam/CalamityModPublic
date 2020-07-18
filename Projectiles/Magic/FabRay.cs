@@ -12,8 +12,8 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 4;
+            projectile.height = 4;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 20;
@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Magic
 				Main.dust[pink].noGravity = true;
 				Main.dust[pink].noLight = true;
 				Main.dust[pink].position = source;
-				Main.dust[pink].scale = (float)Main.rand.Next(70, 110) * 0.013f;
+				Main.dust[pink].scale = Main.rand.Next(70, 110) * 0.013f;
 				Main.dust[pink].velocity *= 0.1f;
             }
         }

@@ -123,8 +123,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("Ah, nice duds, my child!");
             }
 
-            if ((Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide) ||
-                (Main.player[Main.myPlayer].Calamity().sirenBoobsAlt && !Main.player[Main.myPlayer].Calamity().sirenBoobsAltHide))
+            if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
             {
                 dialogue.Add("Shouldn't you be wearing a clam bra?");
             }
