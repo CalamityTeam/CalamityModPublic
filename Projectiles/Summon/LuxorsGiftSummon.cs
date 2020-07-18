@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
 
 			projectile.ChargingMinionAI(700f, 1000f, 2200f, 150f, 0, 40f, 9f, -4f, 40f, 9f, true, true);
 
-            projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public override Color? GetAlpha(Color lightColor)

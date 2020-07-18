@@ -5257,13 +5257,7 @@ namespace CalamityMod.CalPlayer
 				{
 					for (int s = 0; s < 3; s++)
 					{
-						Vector2 velocity = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-						while (velocity.X == 0f && velocity.Y == 0f)
-						{
-							velocity = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-						}
-						velocity.Normalize();
-						velocity *= (float)Main.rand.Next(30, 61) * 0.1f;
+						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
 						Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI);
 					}
 				}
@@ -5666,13 +5660,7 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int s = 0; s < 3; s++)
                     {
-                        Vector2 velocity = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                        while (velocity.X == 0f && velocity.Y == 0f)
-                        {
-                            velocity = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                        }
-                        velocity.Normalize();
-                        velocity *= (float)Main.rand.Next(30, 61) * 0.1f;
+						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
                         Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI);
                     }
                 }
@@ -5680,13 +5668,7 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int s = 0; s < 3; s++)
                     {
-                        Vector2 velocity = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                        while (velocity.X == 0f && velocity.Y == 0f)
-                        {
-                            velocity = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                        }
-                        velocity.Normalize();
-                        velocity *= (float)Main.rand.Next(30, 61) * 0.1f;
+						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
                         int spark = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<Spark>(), (int)(damage * 0.1), 0f, player.whoAmI);
                         Main.projectile[spark].Calamity().forceRogue = true;
                         Main.projectile[spark].localNPCHitCooldown = -1;
@@ -5711,13 +5693,7 @@ namespace CalamityMod.CalPlayer
                     int leafAmt = Main.rand.Next(2, 4);
                     for (int l = 0; l < leafAmt; l++)
                     {
-                        Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        while (velocity.X == 0f && velocity.Y == 0f)
-                        {
-                            velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        }
-                        velocity.Normalize();
-                        velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
+						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         int FUCKYOU = Projectile.NewProjectile(target.Center, velocity, ProjectileID.Leaf, (int)(damage * 0.25), 0f, player.whoAmI);
                         Main.projectile[FUCKYOU].Calamity().forceTypeless = true;
                         Main.projectile[FUCKYOU].netUpdate = true;
@@ -5751,13 +5727,7 @@ namespace CalamityMod.CalPlayer
                     bloodflareMageCooldown = 120;
                     for (int i = 0; i < 3; i++)
                     {
-                        Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        while (velocity.X == 0f && velocity.Y == 0f)
-                        {
-                            velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        }
-                        velocity.Normalize();
-                        velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
+						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                         int fire = Projectile.NewProjectile(target.Center, velocity, ProjectileID.BallofFire, (int)(damage * 0.5), 0f, player.whoAmI);
                         Main.projectile[fire].Calamity().forceTypeless = true;
                         Main.projectile[fire].netUpdate = true;
