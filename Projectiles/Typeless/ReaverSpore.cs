@@ -17,23 +17,28 @@ namespace CalamityMod.Projectiles.Typeless
 		public override void SetDefaults()
 		{
 			projectile.width = projectile.height = 16;
-			projectile.aiStyle = 105;
 			projectile.friendly = true;
 			projectile.penetrate = 1;
 			projectile.alpha = 255;
 			projectile.timeLeft = 3600;
 			projectile.tileCollide = false;
 			projectile.ignoreWater = true;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 60;
+		}
+
+		public override void AI()
+		{
+			projectile.SporeSacAI();
 		}
 
 		public override void Kill(int timeLeft)
 		{
-			Vector2 velocity = CalamityUtils.RandomVelocity(100f, 1f, 1f, 0.3f);
-			int gas = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), projectile.damage, 0f, projectile.owner);
-			Main.projectile[gas].usesLocalNPCImmunity = true;
-			Main.projectile[gas].localNPCHitCooldown = 30;
+			if (projectile.owner == Main.myPlayer)
+			{
+				Vector2 velocity = CalamityUtils.RandomVelocity(100f, 1f, 1f, 0.3f);
+				int gas = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SporeGas + Main.rand.Next(3), projectile.damage, 0f, projectile.owner);
+				Main.projectile[gas].usesLocalNPCImmunity = true;
+				Main.projectile[gas].localNPCHitCooldown = 30;
+			}
 		}
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
