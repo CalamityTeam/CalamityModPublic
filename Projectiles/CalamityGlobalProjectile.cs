@@ -2065,7 +2065,7 @@ namespace CalamityMod.Projectiles
 			Projectile orb = Projectile.NewProjectileDirect(projectile.Center, velocity, projType, damage, 0f, projectile.owner, gsPhantom ? 0f : target, gsPhantom ? ai1 : 0f);
 			return orb;
 		}
-			
+
 		public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float N)
 		{
 			Vector2 center = projectile.Center;
