@@ -1,5 +1,6 @@
 using CalamityMod.Items.Weapons.Rogue;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -81,14 +82,14 @@ namespace CalamityMod.Projectiles.Rogue
 					projectile.localAI[1] = 10f;
 					if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
 					{
-						projectile.velocity.X = projectile.velocity.X * 0.97f;
-						if ((double)projectile.velocity.X > -0.01 && (double)projectile.velocity.X < 0.01)
+						projectile.velocity.X *= 0.97f;
+						if (Math.Abs(projectile.velocity.X) < 0.01)
 						{
 							projectile.velocity.X = 0f;
 							projectile.netUpdate = true;
 						}
 					}
-					projectile.velocity.Y = projectile.velocity.Y + 0.2f;
+					projectile.velocity.Y += 0.2f;
 				}
 				projectile.rotation += projectile.velocity.X * 0.1f;
 			}				
@@ -121,19 +122,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override void Kill(int timeLeft)
         {
 			Player player = Main.player[projectile.owner];
-			int num251 = Main.rand.Next(2, 4);
+			int needleAmt = Main.rand.Next(2, 4);
 			if (projectile.owner == Main.myPlayer)
 			{
-				for (int num252 = 0; num252 < num251; num252++)
+				for (int n = 0; n < needleAmt; n++)
 				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NastyChollaNeedle>(), (int)((NastyCholla.BaseDamage/4) * (player.allDamage + player.meleeDamage - 1f)), 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<NastyChollaNeedle>(), (int)((NastyCholla.BaseDamage/4) * player.RogueDamage()), 0f, projectile.owner, 0f, 0f);
 				}
 			}
 		}

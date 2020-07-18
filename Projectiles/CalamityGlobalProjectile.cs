@@ -846,7 +846,7 @@ namespace CalamityMod.Projectiles
 							for (int i = 0; i < 2; i++)
 							{
 								Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
-								int shard = Projectile.NewProjectile(projectile.oldPosition + projectile.Size * 0.5f, value15, ProjectileID.CrystalShard, (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
+								int shard = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.CrystalShard, (int)(projectile.damage * 0.25), 0f, projectile.owner, 0f, 0f);
 								Main.projectile[shard].ranged = false;
 							}
 						}
@@ -1434,13 +1434,13 @@ namespace CalamityMod.Projectiles
 					}
 					else if (modPlayer.ataxiaMage && modPlayer.ataxiaDmg <= 0)
 					{
-						SpawnOrb(projectile, 1.25f, ProjectileType<AtaxiaOrb>(), 800f, 20f);
+						SpawnOrb(projectile, (int)(projectile.damage * 0.625), ProjectileType<AtaxiaOrb>(), 800f, 20f);
 						int cooldown = (int)(projectile.damage * 0.5f);
 						modPlayer.ataxiaDmg += cooldown;
 					}
 					else if (modPlayer.godSlayerMage && modPlayer.godSlayerDmg <= 0)
 					{
-						SpawnOrb(projectile, modPlayer.auricSet ? 2f : 1.5f, ProjectileType<GodSlayerOrb>(), 800f, 20f);
+						SpawnOrb(projectile, (int)(projectile.damage * (modPlayer.auricSet ? 1 : 0.75)), ProjectileType<GodSlayerOrb>(), 800f, 20f);
 						int cooldown = (int)(projectile.damage * 0.5f);
 						modPlayer.godSlayerDmg += cooldown;
 					}
@@ -1449,27 +1449,26 @@ namespace CalamityMod.Projectiles
                 {
                     if (modPlayer.ataxiaGeyser && player.ownedProjectileCounts[ProjectileType<ChaosGeyser>()] < 3)
                     {
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileType<ChaosGeyser>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 35), 0f, projectile.owner, 0f, 0f);
+                        Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<ChaosGeyser>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 35), 0f, projectile.owner, 0f, 0f);
                     }
                 }
                 if (rogue)
                 {
                     if (modPlayer.xerocSet && modPlayer.xerocDmg <= 0 && player.ownedProjectileCounts[ProjectileType<XerocFire>()] < 3 && player.ownedProjectileCounts[ProjectileType<XerocBlast>()] < 3)
                     {
+						int cooldown = (int)(projectile.damage * 0.5f);
 						switch (Main.rand.Next(5))
 						{
 							case 0:
 
-								SpawnOrb(projectile, 1.6f, ProjectileType<XerocStar>(), 800f, Main.rand.Next(15, 30));
-								int cooldown = (int)(projectile.damage * 0.5f);
+								SpawnOrb(projectile, (int)(projectile.damage * 0.8), ProjectileType<XerocStar>(), 800f, Main.rand.Next(15, 30));
 								modPlayer.xerocDmg += cooldown;
 
 								break;
 
 							case 1:
 
-								SpawnOrb(projectile, 1.25f, ProjectileType<XerocOrb>(), 800f, 30f);
-								int cooldown = (int)(projectile.damage * 0.5f);
+								SpawnOrb(projectile, (int)(projectile.damage * 0.625), ProjectileType<XerocOrb>(), 800f, 30f);
 								modPlayer.xerocDmg += cooldown;
 
 								if (target.canGhostHeal && Main.player[Main.myPlayer].lifeSteal > 0f)
@@ -1488,20 +1487,19 @@ namespace CalamityMod.Projectiles
 
 							case 2:
 
-								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileType<XerocFire>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 40), 0f, projectile.owner, 0f, 0f);
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<XerocFire>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.15, 40), 0f, projectile.owner, 0f, 0f);
 
 								break;
 
 							case 3:
 
-								Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, 0f, 0f, ProjectileType<XerocBlast>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 40), 0f, projectile.owner, 0f, 0f);
+								Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<XerocBlast>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 40), 0f, projectile.owner, 0f, 0f);
 
 								break;
 
 							case 4:
 
-								SpawnOrb(projectile, 1.2f, ProjectileType<XerocBubble>(), 800f, 15f);
-								int cooldown = (int)(projectile.damage * 0.5f);
+								SpawnOrb(projectile, (int)(projectile.damage * 0.6), ProjectileType<XerocBubble>(), 800f, 15f);
 								modPlayer.xerocDmg += cooldown;
 
 								break;
@@ -1644,37 +1642,9 @@ namespace CalamityMod.Projectiles
 						if (CalamityMod.boomerangProjList.Contains(projectile.type))
 						{
 							int spiritDamage = CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 60);
-							int[] array = new int[Main.maxNPCs];
-							int targetArrayA = 0;
-							int targetArrayB = 0;
-							for (int index = 0; index < Main.maxNPCs; ++index)
-							{
-								NPC npc = Main.npc[index];
-								if (npc.CanBeChasedBy(projectile, false))
-								{
-									float npcDist = Vector2.Distance(projectile.Center, npc.Center);
-									if (npcDist < 800f)
-									{
-										if (Collision.CanHit(projectile.position, 1, 1, npc.position, npc.width, npc.height) && npcDist > 50f)
-										{
-											array[targetArrayB] = index;
-											++targetArrayB;
-										}
-										else if (targetArrayB == 0)
-										{
-											array[targetArrayA] = index;
-											++targetArrayA;
-										}
-									}
-								}
-							}
-							if (targetArrayA == 0 && targetArrayB == 0)
-								return;
-							int target = targetArrayB <= 0 ? array[Main.rand.Next(targetArrayA)] : array[Main.rand.Next(targetArrayB)];
-							Vector2 velocity = CalamityUtils.RandomVelocity(100f, 4f, 4f, 1f);
-							int ghost = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SpectreWrath, spiritDamage, 0f, projectile.owner, target, 0f);
-							Main.projectile[ghost].Calamity().forceRogue = true;
-							Main.projectile[ghost].penetrate = 1;
+							Projectile ghost = SpawnOrb(projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
+							ghost.Calamity().forceRogue = true;
+							ghost.penetrate = 1;
 							modPlayer.shadowPotCooldown = 30;
 						}
 						if (CalamityMod.flaskBombProjList.Contains(projectile.type))
@@ -1728,7 +1698,7 @@ namespace CalamityMod.Projectiles
 
                     if (modPlayer.godSlayerSummon && modPlayer.godSlayerDmg <= 0)
                     {
-						SpawnOrb(projectile, 2f, ProjectileType<GodSlayerPhantom>(), 800f, 15f, true);
+						SpawnOrb(projectile, projectile.damage, ProjectileType<GodSlayerPhantom>(), 800f, 15f, true);
 						int cooldown = (int)(projectile.damage * 0.5f);
 						modPlayer.godSlayerDmg += cooldown;
                     }
@@ -1776,7 +1746,7 @@ namespace CalamityMod.Projectiles
 							}
 							else if (modPlayer.jellyChargedBattery)
 							{
-								SpawnOrb(projectile, 1.05f, ProjectileType<EnergyOrb>(), 800f, 15f);
+								SpawnOrb(projectile, (int)(projectile.damage * 0.525), ProjectileType<EnergyOrb>(), 800f, 15f);
 								int cooldown = (int)(projectile.damage * 0.5f);
 								modPlayer.jellyDmg += cooldown;
 							}
@@ -2056,16 +2026,15 @@ namespace CalamityMod.Projectiles
 		#endregion
 
 		#region AI Shortcuts
-		public void SpawnOrb(Projectile projectile, float dmgMult, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
+		public static Projectile SpawnOrb(Projectile projectile, int damage, int projType, float distanceRequired, float speedMult, bool gsPhantom = false)
         {
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
 
-			int damage = (int)(projectile.damage * 0.5f);
             float ai1 = Main.rand.NextFloat() + 0.5f;
 			int[] array = new int[Main.maxNPCs];
-			int targetArrayIndexA = 0;
-			int targetArrayIndexB = 0;
+			int targetArrayA = 0;
+			int targetArrayB = 0;
 			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				NPC npc = Main.npc[i];
@@ -2076,32 +2045,25 @@ namespace CalamityMod.Projectiles
 					{
 						if (Collision.CanHit(projectile.position, 1, 1, npc.position, npc.width, npc.height) && enemyDist > 50f)
 						{
-							array[targetArrayIndexB] = i;
-							targetArrayIndexB++;
+							array[targetArrayB] = i;
+							targetArrayB++;
 						}
-						else if (targetArrayIndexB == 0)
+						else if (targetArrayB == 0)
 						{
-							array[targetArrayIndexA] = i;
-							targetArrayIndexA++;
+							array[targetArrayA] = i;
+							targetArrayA++;
 						}
 					}
 				}
 			}
-			if (targetArrayIndexA == 0 && targetArrayIndexB == 0)
+			if (targetArrayA == 0 && targetArrayB == 0)
 			{
-				return;
+				return Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ProjectileType<NobodyKnows>(), 0, 0f, projectile.owner);
 			}
-			int ai0;
-			if (targetArrayIndexB > 0)
-			{
-				ai0 = array[Main.rand.Next(targetArrayIndexB)];
-			}
-			else
-			{
-				ai0 = array[Main.rand.Next(targetArrayIndexA)];
-			}
+			int target = targetArrayB <= 0 ? array[Main.rand.Next(targetArrayA)] : array[Main.rand.Next(targetArrayB)];
 			Vector2 velocity = CalamityUtils.RandomVelocity(100f, speedMult, speedMult, 1f);
-			Projectile.NewProjectile(projectile.Center, velocity, projType, (int)(damage * dmgMult), 0f, projectile.owner, gsPhantom ? 0f : ai0, gsPhantom ? ai1 : 0f);
+			Projectile orb = Projectile.NewProjectileDirect(projectile.Center, velocity, projType, damage, 0f, projectile.owner, gsPhantom ? 0f : target, gsPhantom ? ai1 : 0f);
+			return orb;
 		}
 			
 		public static void HomeInOnNPC(Projectile projectile, bool ignoreTiles, float distanceRequired, float homingVelocity, float N)

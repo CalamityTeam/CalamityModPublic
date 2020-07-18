@@ -47,37 +47,9 @@ namespace CalamityMod.Projectiles.Rogue
 					if (Main.rand.NextBool(2))
 					{
 						int spiritDamage = projectile.damage / 2;
-						int[] array = new int[Main.maxNPCs];
-						int targetArrayA = 0;
-						int targetArrayB = 0;
-						for (int index = 0; index < Main.maxNPCs; ++index)
-						{
-							NPC npc = Main.npc[index];
-							if (npc.CanBeChasedBy(projectile, false))
-							{
-								float npcDist = Vector2.Distance(projectile.Center, npc.Center);
-								if (npcDist < 800f)
-								{
-									if (Collision.CanHit(projectile.position, 1, 1, npc.position, npc.width, npc.height) && npcDist > 50f)
-									{
-										array[targetArrayB] = index;
-										++targetArrayB;
-									}
-									else if (targetArrayB == 0)
-									{
-										array[targetArrayA] = index;
-										++targetArrayA;
-									}
-								}
-							}
-						}
-						if (targetArrayA == 0 && targetArrayB == 0)
-							return;
-						int target = targetArrayB <= 0 ? array[Main.rand.Next(targetArrayA)] : array[Main.rand.Next(targetArrayB)];
-						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 4f, 4f, 1f);
-						int ghost = Projectile.NewProjectile(projectile.Center, velocity, ProjectileID.SpectreWrath, spiritDamage, 0f, projectile.owner, target, 0f);
-						Main.projectile[ghost].Calamity().forceRogue = true;
-						Main.projectile[ghost].penetrate = 1;
+						Projectile ghost = CalamityGlobalProjectile.SpawnOrb(projectile, spiritDamage, ProjectileID.SpectreWrath, 800f, 4f);
+						ghost.Calamity().forceRogue = true;
+						ghost.penetrate = 1;
 					}
 				}
             }

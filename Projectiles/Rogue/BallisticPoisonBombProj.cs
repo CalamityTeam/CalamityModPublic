@@ -1,5 +1,6 @@
 using CalamityMod.Projectiles.Typeless;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -90,8 +91,8 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.ai[0] = 10f;
                 if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X * 0.97f;
-                    if (projectile.velocity.X > -0.01f && projectile.velocity.X < 0.01f)
+                    projectile.velocity.X *= 0.97f;
+                    if (Math.Abs(projectile.velocity.X) < 0.01f)
                     {
                         projectile.velocity.X = 0f;
                         projectile.netUpdate = true;
@@ -108,49 +109,39 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.width = projectile.height = 128;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            Main.PlaySound(SoundID.Item, (int)projectile.Center.X, (int)projectile.Center.Y, 14);
-            int num251 = Main.rand.Next(3, 5);
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+            int projAmt = Main.rand.Next(3, 5);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < num251; num252++)
+                for (int s = 0; s < projAmt; s++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<BallisticPoisonBombSpike>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<BallisticPoisonBombSpike>(), (int)(projectile.damage * 0.5), 0f, projectile.owner, 0f, 0f);
                 }
-                int num320 = Main.rand.Next(8, 13);
-                int num3;
-                for (int num321 = 0; num321 < num320; num321 = num3 + 1)
+                int cloudAmt = Main.rand.Next(8, 13);
+                for (int c = 0; c < cloudAmt; c++)
                 {
-                    Vector2 vector15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    vector15.Normalize();
-                    vector15 *= (float)Main.rand.Next(10, 201) * 0.01f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, vector15.X, vector15.Y, ModContent.ProjectileType<BallisticPoisonCloud>(), (int)(projectile.damage * 0.25), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
-                    num3 = num321;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<BallisticPoisonCloud>(), (int)(projectile.damage * 0.25), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }
-            for (int num621 = 0; num621 < 5; num621++)
+            for (int d = 0; d < 5; d++)
             {
-                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 14, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int boom = Dust.NewDust(projectile.position, projectile.width, projectile.height, 14, 0f, 0f, 100, default, 2f);
+                Main.dust[boom].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[boom].scale = 0.5f;
+                    Main.dust[boom].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 9; num623++)
+            for (int d = 0; d < 9; d++)
             {
-                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
+                Main.dust[fire].noGravity = true;
+                Main.dust[fire].velocity *= 5f;
+                fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                Main.dust[fire].velocity *= 2f;
             }
 			CalamityUtils.ExplosionGores(projectile.Center, 3);
         }
