@@ -910,6 +910,53 @@ namespace CalamityMod
             }
         }
 
+		public static void StickToTiles(this Projectile projectile)
+		{
+            try
+            {
+                int xLeft = (int)(projectile.position.X / 16f) - 1;
+                int xRight = (int)((projectile.position.X + (float)projectile.width) / 16f) + 2;
+                int yBottom = (int)(projectile.position.Y / 16f) - 1;
+                int yTop = (int)((projectile.position.Y + (float)projectile.height) / 16f) + 2;
+                if (xLeft < 0)
+                {
+                    xLeft = 0;
+                }
+                if (xRight > Main.maxTilesX)
+                {
+                    xRight = Main.maxTilesX;
+                }
+                if (yBottom < 0)
+                {
+                    yBottom = 0;
+                }
+                if (yTop > Main.maxTilesY)
+                {
+                    yTop = Main.maxTilesY;
+                }
+                for (int x = xLeft; x < xRight; x++)
+                {
+                    for (int y = yBottom; y < yTop; y++)
+                    {
+						Tile tile = Main.tile[x, y];
+                        if (tile != null && !TileID.Sets.Platforms[tile.type] && tile.type != TileID.PlanterBox && tile.nactive() && (Main.tileSolid[tile.type] || (Main.tileSolidTop[tile.type] && tile.frameY == 0)))
+                        {
+                            Vector2 tileSize;
+                            tileSize.X = (float)(x * 16);
+                            tileSize.Y = (float)(y * 16);
+                            if (projectile.position.X + (float)projectile.width - 4f > tileSize.X && projectile.position.X + 4f < tileSize.X + 16f && projectile.position.Y + (float)projectile.height - 4f > tileSize.Y && projectile.position.Y + 4f < tileSize.Y + 16f)
+                            {
+                                projectile.velocity.X = 0f;
+                                projectile.velocity.Y = -0.2f;
+                            }
+                        }
+                    }
+                }
+            } catch
+            {
+            }
+		}
+
 		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10)
 		{
 			float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);

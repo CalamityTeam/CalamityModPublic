@@ -34,48 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.StickyProjAI(15);
 			if (projectile.ai[0] != 1f)
 			{
-				try
-				{
-					int num223 = (int)(projectile.position.X / 16f) - 1;
-					int num224 = (int)((projectile.position.X + (float)projectile.width) / 16f) + 2;
-					int num225 = (int)(projectile.position.Y / 16f) - 1;
-					int num226 = (int)((projectile.position.Y + (float)projectile.height) / 16f) + 2;
-					if (num223 < 0)
-					{
-						num223 = 0;
-					}
-					if (num224 > Main.maxTilesX)
-					{
-						num224 = Main.maxTilesX;
-					}
-					if (num225 < 0)
-					{
-						num225 = 0;
-					}
-					if (num226 > Main.maxTilesY)
-					{
-						num226 = Main.maxTilesY;
-					}
-					for (int num227 = num223; num227 < num224; num227++)
-					{
-						for (int num228 = num225; num228 < num226; num228++)
-						{
-							if (Main.tile[num227, num228] != null && Main.tile[num227, num228].nactive() && (Main.tileSolid[(int)Main.tile[num227, num228].type] || (Main.tileSolidTop[(int)Main.tile[num227, num228].type] && Main.tile[num227, num228].frameY == 0)))
-							{
-								Vector2 vector19;
-								vector19.X = (float)(num227 * 16);
-								vector19.Y = (float)(num228 * 16);
-								if (projectile.position.X + (float)projectile.width - 4f > vector19.X && projectile.position.X + 4f < vector19.X + 16f && projectile.position.Y + (float)projectile.height - 4f > vector19.Y && projectile.position.Y + 4f < vector19.Y + 16f)
-								{
-									projectile.velocity.X = 0f;
-									projectile.velocity.Y = -0.2f;
-								}
-							}
-						}
-					}
-				} catch
-				{
-				}
+				projectile.StickToTiles();
 				projectile.localAI[1] += 1f;
 				if (projectile.localAI[1] > 10f)
 				{
@@ -83,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
 					if (projectile.velocity.Y == 0f && projectile.velocity.X != 0f)
 					{
 						projectile.velocity.X *= 0.97f;
-						if (Math.Abs(projectile.velocity.X) < 0.01)
+						if (Math.Abs(projectile.velocity.X) < 0.01f)
 						{
 							projectile.velocity.X = 0f;
 							projectile.netUpdate = true;
@@ -92,7 +51,7 @@ namespace CalamityMod.Projectiles.Rogue
 					projectile.velocity.Y += 0.2f;
 				}
 				projectile.rotation += projectile.velocity.X * 0.1f;
-			}				
+			}
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

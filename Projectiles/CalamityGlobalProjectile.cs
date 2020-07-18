@@ -1399,22 +1399,20 @@ namespace CalamityMod.Projectiles
                     if (modPlayer.silvaMage && projectile.penetrate == 1 && Main.rand.Next(0, 100) >= 97)
                     {
                         Main.PlaySound(SoundID.Zombie, (int)projectile.position.X, (int)projectile.position.Y, 103);
-                        projectile.position = projectile.Center;
-                        projectile.width = projectile.height = 96;
-                        projectile.Center = projectile.position;
-                        for (int d = 0; d < 3; d++)
-                        {
-                            Dust.NewDust(projectile.position, projectile.width, projectile.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
-                        }
-                        for (int d = 0; d < 30; d++)
-                        {
-                            int explode = Dust.NewDust(projectile.position, projectile.width, projectile.height, 157, 0f, 0f, 0, new Color(Main.DiscoR, 203, 103), 2.5f);
-                            Main.dust[explode].noGravity = true;
-                            Main.dust[explode].velocity *= 3f;
-                            explode = Dust.NewDust(projectile.position, projectile.width, projectile.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
-                            Main.dust[explode].velocity *= 2f;
-                            Main.dust[explode].noGravity = true;
-                        }
+						ExpandHitboxBy(projectile, 96);
+						for (int d = 0; d < 3; d++)
+						{
+							Dust.NewDust(projectile.position, projectile.width, projectile.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
+						}
+						for (int d = 0; d < 30; d++)
+						{
+							int explode = Dust.NewDust(projectile.position, projectile.width, projectile.height, 157, 0f, 0f, 0, new Color(Main.DiscoR, 203, 103), 2.5f);
+							Main.dust[explode].noGravity = true;
+							Main.dust[explode].velocity *= 3f;
+							explode = Dust.NewDust(projectile.position, projectile.width, projectile.height, 157, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.5f);
+							Main.dust[explode].velocity *= 2f;
+							Main.dust[explode].noGravity = true;
+						}
                         projectile.damage *= modPlayer.auricSet ? 7 : 4;
 						projectile.localNPCHitCooldown = 10;
 						projectile.usesLocalNPCImmunity = true;
