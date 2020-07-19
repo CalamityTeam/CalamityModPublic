@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpWorkBench();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Work Bench");
+            name.SetDefault("Plagued Work Bench");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.WorkBenches };

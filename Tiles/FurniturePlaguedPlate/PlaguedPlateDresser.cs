@@ -11,11 +11,11 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpDresser();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Dresser");
+            name.SetDefault("Plagued Dresser");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Dressers };
-            dresser = "Plagued Plate Dresser";
+            dresser = "Plagued Dresser";
             dresserDrop = ModContent.ItemType<Items.Placeables.FurniturePlaguedPlate.PlaguedPlateDresser>();
         }
 
