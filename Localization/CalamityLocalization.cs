@@ -95,7 +95,6 @@ namespace CalamityMod.Localization
                 new [] { "AureusBossText2", "A faint ethereal click can be heard from the dungeon." },
                 new [] { "AstralBossText", "The seal of the stars has been broken! You can now mine Astral Ore." },
                 new [] { "DeusText", "A star-spawned horror tunnels through the astral infection." },
-                new [] { "DeusAltarRejectText", "The god of the stars rejects your offering. You must unleash the power of the lunar Cultist to perform the ritual." },
                 new [] { "DeusAltarRejectNightText", "The god of the stars rejects your offering. The ritual can only be performed at night." },
 
                 new [] { "CalamitasBossText", "You underestimate my power..." },

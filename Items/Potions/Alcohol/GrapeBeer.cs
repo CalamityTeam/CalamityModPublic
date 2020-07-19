@@ -42,8 +42,8 @@ Reduces defense by 2 and movement speed by 5%");
         public override void OnConsumeItem(Player player)
         {
 			int healAmt = CalamityWorld.ironHeart ? 0 : 100;
-			if (player.Calamity().bloodPactBuffTimer > 0)
-				healAmt = (int)(healAmt * 1.5);
+            if (player.Calamity().bloodPactBoost)
+                healAmt = (int)(healAmt * 1.5);
             player.statLife += healAmt;
             player.statMana += 100;
             if (player.statLife > player.statLifeMax2)
@@ -74,8 +74,8 @@ Reduces defense by 2 and movement speed by 5%");
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
 			float healMult = 1f;
-			if (Main.player[Main.myPlayer].Calamity().bloodPactBuffTimer > 0)
-				healMult = 1.5f;
+            if (Main.LocalPlayer.Calamity().bloodPactBoost)
+                healMult = 1.5f;
             tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : (int)(item.healLife * healMult)) + " life";
         }
     }
