@@ -1,6 +1,7 @@
 using CalamityMod.Items.Placeables;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -130,6 +131,24 @@ namespace CalamityMod.Tiles
 
             Recipe.FindRecipes();
             return true;
+        }
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            int xPos = Main.tile[i, j].frameX;
+            int yPos = Main.tile[i, j].frameY;
+            Tile trackTile = Main.tile[i, j];
+            xPos += Main.tileFrame[trackTile.type] / 15 * 64;
+            yPos += Main.tileFrame[trackTile.type] % 15 * 68;
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonFuelFactory");
+            Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+            Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;
+            Color drawColor = Lighting.GetColor(i, j);
+
+            if (!trackTile.halfBrick() && trackTile.slope() == 0)
+                spriteBatch.Draw(glowmask, drawOffset, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+            else if (trackTile.halfBrick())
+                spriteBatch.Draw(glowmask, drawOffset + Vector2.UnitY * 8f, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+            return false;
         }
     }
 }

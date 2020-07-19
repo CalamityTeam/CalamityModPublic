@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mounted Scanner");
+			Tooltip.SetDefault("Summons a powerful weapon above your head that fires lasers at nearby enemies");
 		}
 
 		public override void SetDefaults()
@@ -19,7 +20,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 26;
 			item.height = 26;
 			item.summon = true;
-			item.damage = 27;
+			item.damage = 15;
 			item.knockBack = 2f;
 			item.useTime = item.useAnimation = 35;
 			item.autoReuse = true;

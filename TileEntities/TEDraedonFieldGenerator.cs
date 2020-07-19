@@ -27,19 +27,19 @@ namespace CalamityMod.TileEntities
                     ActiveTimer++;
                 Time++;
 
-                if (Time % 20 == 19)
+                if (Time % 40 == 39)
                 {
                     float speed = 5f;
                     Vector2 aimOffset = (player.velocity + player.oldVelocity) * 0.5f * player.Distance(positionWorldCoords) / (speed * speed);
                     Vector2 velocity = Vector2.Normalize(player.Center - positionWorldCoords + aimOffset) * speed;
-                    Projectile.NewProjectileDirect(positionWorldCoords, velocity, ModContent.ProjectileType<DreadonLaser>(), 40, 4f);
+                    Projectile.NewProjectileDirect(positionWorldCoords, velocity, ModContent.ProjectileType<DraedonLaser>(), 27, 4f);
                 }
-                if (Time % 75 == 74)
+                if (Time % 95 == 94)
                 {
                     for (int i = 0; i < 9; i++)
                     {
                         float angle = i / 9f * MathHelper.TwoPi;
-                        Projectile.NewProjectileDirect(positionWorldCoords, Vector2.Normalize(player.Center - positionWorldCoords).RotatedBy(angle) * 7f, ModContent.ProjectileType<DreadonLaser>(), 40, 4f);
+                        Projectile.NewProjectileDirect(positionWorldCoords, Vector2.Normalize(player.Center - positionWorldCoords).RotatedBy(angle) * 7f, ModContent.ProjectileType<DraedonLaser>(), 27, 4f);
                     }
                 }
             }

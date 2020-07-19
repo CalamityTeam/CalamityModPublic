@@ -3406,12 +3406,12 @@ namespace CalamityMod
                     }
                     return true;
                 }, InterfaceScaleType.None));
-                layers.Insert(invasionIndex + 1, new LegacyGameInterfaceLayer("Popup GUIs", () =>
-                {
-                    PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
             }
+            layers.Add(new LegacyGameInterfaceLayer("Popup GUIs", () =>
+            {
+                PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
+                return true;
+            }, InterfaceScaleType.None));
         }
 
         public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f)
@@ -4081,6 +4081,7 @@ namespace CalamityMod
                             (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.Calamity().CurrentCharge = currentCharge;
                         }
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).ActiveTimer = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).DepositWithdrawCooldown = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.DraedonFieldGeneratorSync:
                         int entityID2 = reader.ReadInt32();
