@@ -49,6 +49,20 @@ namespace CalamityMod.Schematics
                     yOffset += tiles.GetLength(1);
                     break;
             }
+            ushort[,] oldWalls = new ushort[tiles.GetLength(0), tiles.GetLength(1)];
+            for (int x = 0; x < tiles.GetLength(0); x++)
+            {
+                for (int y = 0; y < tiles.GetLength(1); y++)
+                {
+                    Tile tile = Main.tile[x + xOffset, y + yOffset];
+                    oldWalls[x, y] = tile.wall;
+
+                    // Attempting to break chests causes the game to attempt to infinitely recurse in an attempt to break the tile, resulting in a stack overflow.
+                    if (tile.type == TileID.Containers)
+                        continue;
+                    WorldGen.KillTile(x + xOffset, y + yOffset);
+                }
+            }
             for (int x = 0; x < tiles.GetLength(0); x++)
             {
                 for (int y = 0; y < tiles.GetLength(1); y++)
@@ -68,13 +82,12 @@ namespace CalamityMod.Schematics
                             }
                         }
 
-                        ushort oldWall = Main.tile[x + xOffset, y + yOffset].wall;
                         Main.tile[x + xOffset, y + yOffset] = (Tile)tiles[x, y].Clone();
 
                         // If specified, preserve walls if they're not not being overrided and there's no active tile in its place.
-                        if (preserveWalls && Main.tile[x + xOffset, y + yOffset].wall == 0 && !Main.tile[x + xOffset, y + yOffset].active())
+                        if (preserveWalls && oldWalls[x, y] != 0)
                         {
-                            Main.tile[x + xOffset, y + yOffset].wall = oldWall;
+                            Main.tile[x + xOffset, y + yOffset].wall = oldWalls[x, y];
                         }
 
                         Rectangle placeInArea = new Rectangle(x, y, tiles.GetLength(0), tiles.GetLength(1));
