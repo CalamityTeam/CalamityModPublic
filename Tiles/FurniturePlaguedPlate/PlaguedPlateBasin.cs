@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Basin");
+            name.SetDefault("Broken Plagued 'Bed'");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
             adjTiles = new int[] { TileID.Torches };

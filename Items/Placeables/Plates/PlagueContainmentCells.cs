@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Placeables.Plates
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Plague Containment Cells");
+            DisplayName.SetDefault("Plagueplate");
             Tooltip.SetDefault("It resonates with otherworldly energy.");
         }
 
