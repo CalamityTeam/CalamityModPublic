@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             DisplayName.SetDefault("Plasma Grenade");
             Tooltip.SetDefault("Throws a grenade that explodes into plasma on collision\n" +
-                               "Stealth strikes explode violently into a vaporizing explosion on collision");
+                               "Stealth strikes explode violently on collision into a vaporizing blast");
         }
 
         public override void SafeSetDefaults()
