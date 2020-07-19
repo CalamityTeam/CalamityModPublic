@@ -13,8 +13,8 @@ namespace CalamityMod.UI
         public int Page = 0;
         public int ArrowClickCooldown;
         public bool HoveringOverBook = false;
-        public const int TextStartOffsetX = 40;
         public const int TotalLinesPerPage = 16;
+        public const int TextStartOffsetX = 40;
         public override void Update()
         {
             if (Active)
@@ -75,6 +75,7 @@ namespace CalamityMod.UI
             if (FadeTime >= FadeTimeMax - 4 && Active)
             {
                 int textWidth = (int)(xScale * 2 * pageTexture.Width) - TextStartOffsetX;
+                textWidth = (int)(textWidth * Main.screenWidth / 2560f);
                 List<string> dialogLines = Utils.WordwrapString(placeholderText, Main.fontMouseText, textWidth, 250, out _).ToList();
                 dialogLines.RemoveAll(text => string.IsNullOrEmpty(text));
 
@@ -143,12 +144,12 @@ namespace CalamityMod.UI
                     bool onNextPage = i - startingLine > TotalLinesPerPage;
                     if (dialogLines[i] != null)
                     {
-                        int textDrawPositionX = Main.screenWidth / 2 - pageTexture.Width * 2 - TextStartOffsetX;
-                        int textDrawPositionY = 50 + (i - startingLine) * 24 + (int)yPageTop;
+                        int textDrawPositionX = Main.screenWidth / 2 - (int)((pageTexture.Width * 2) * Main.screenWidth / 2560f);
+                        int textDrawPositionY = (int)(50 + (i - startingLine) * 24 * Main.screenHeight / 1440f) + (int)yPageTop;
                         if (onNextPage)
                         {
-                            textDrawPositionX = Main.screenWidth / 2 + (int)(TextStartOffsetX * 1.5);
-                            textDrawPositionY = 50 + (i - startingLine - (TotalLinesPerPage + 1)) * 24 + (int)yPageTop;
+                            textDrawPositionX = Main.screenWidth / 2 + (int)(TextStartOffsetX * 1.5 * Main.screenWidth / 2560f);
+                            textDrawPositionY = (int)(50 + (i - startingLine - (TotalLinesPerPage + 1)) * 24 * Main.screenHeight / 1440f) + (int)yPageTop;
                         }
 
                         Color drawColor = Color.Lerp(Color.Cyan, Color.DarkCyan, (float)Math.Cos(i * 0.4) * 0.5f + 0.5f);

@@ -9,22 +9,22 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.TileEntities
 {
-    public class TEBaseTurret : ModTileEntity
+    public abstract class TEBaseTurret : ModTileEntity
     {
         public int Time;
         public int Direction;
         public float Rotation;
-        public virtual int TileType => ModContent.TileType<DraedonTurretTile>();
-        public virtual int ShootWaitTime => 15;
-        public virtual int ShootRate => 60;
-        public virtual int ProjectileDamage => 20;
-        public virtual float ShootSpeed => 5f;
-        public virtual float ShootSpawnOffset => 32f;
-        public virtual float ProjectileKnockback => 3f;
         public virtual float MaxAngleOffestShootPrompt => MathHelper.ToRadians(35f);
-        public virtual int ProjectileShot => ModContent.ProjectileType<DreadonLaser>();
-        public virtual Vector2 ShootCoordsOffset => new Vector2(22f + 4f * Direction, -2f);
-        public virtual float TargetDistanceCheck => 600f;
+        public abstract int ShootWaitTime { get; }
+        public abstract int ShootRate { get; }
+        public abstract int ProjectileDamage { get; }
+        public abstract float ShootSpeed { get; }
+        public abstract float ShootSpawnOffset { get; }
+        public abstract float ProjectileKnockback { get; }
+        public abstract int TileType { get; }
+        public abstract int ProjectileShot { get; }
+        public abstract Vector2 ShootCoordsOffset { get; }
+        public abstract float TargetDistanceCheck { get; }
         public void SyncTile()
         {
             NetMessage.SendData(MessageID.TileEntitySharing, -1, -1, null, ID, Position.X, Position.Y);

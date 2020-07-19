@@ -171,9 +171,12 @@ namespace CalamityMod.NPCs.CeaselessVoid
                 }
             }
 
-            // Mark Ceaseless Void as dead
-            CalamityWorld.downedSentinel1 = true;
-            CalamityMod.UpdateServerBoolean();
+			// Mark Ceaseless Void as dead
+			if (CalamityWorld.DoGSecondStageCountdown <= 0)
+			{
+				CalamityWorld.downedSentinel1 = true;
+				CalamityMod.UpdateServerBoolean();
+			}
         }
 
         public override void BossLoot(ref string name, ref int potionType)

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		public const int Lifetime = 25;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Laser Rifle");
+			DisplayName.SetDefault("Plasma Explosion");
 		}
 
 		public override void SetDefaults()

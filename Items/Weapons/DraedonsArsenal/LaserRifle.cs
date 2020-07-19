@@ -38,8 +38,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.Calamity().customRarity = CalamityRarity.RareVariant;
 
 			item.shoot = ModContent.ProjectileType<LaserRifleShot>();
-			item.shootSpeed = 1f;
-			item.useAmmo = AmmoID.Bullet;
+			item.shootSpeed = 5f;
 
 			item.Calamity().Chargeable = true;
 		}
