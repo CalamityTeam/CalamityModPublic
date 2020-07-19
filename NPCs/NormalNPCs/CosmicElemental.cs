@@ -1,6 +1,8 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,12 +21,10 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.npcSlots = 0.5f;
             npc.aiStyle = 91;
             npc.damage = 20;
-            npc.width = 20;
-            npc.height = 30;
+            npc.width = npc.height = 30;
             npc.defense = 10;
             npc.lifeMax = 25;
             npc.knockBackResist = 0.5f;
-            animationType = NPCID.GraniteFlyer;
             npc.value = Item.buyPrice(0, 0, 3, 0);
             npc.HitSound = SoundID.NPCHit7;
             npc.DeathSound = SoundID.NPCDeath6;
@@ -56,6 +56,20 @@ namespace CalamityMod.NPCs.NormalNPCs
 				npc.rotation = npc.velocity.X * 0.1f;
 			}
 		}
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Texture2D texture = Main.npcTexture[npc.type];
+            int height = texture.Height / Main.npcFrameCount[npc.type];
+            int width = texture.Width;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == -1)
+			{
+				spriteEffects = SpriteEffects.FlipHorizontally;
+			}
+            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0f, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, new Vector2(width / 2f, height / 2f), npc.scale, spriteEffects, 0f);
+            return false;
+        }
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
