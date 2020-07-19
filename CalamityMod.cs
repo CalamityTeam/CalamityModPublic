@@ -112,7 +112,6 @@ namespace CalamityMod
         // Boss Spawners
         public static int ghostKillCount = 0;
         public static int sharkKillCount = 0;
-        public static int astralKillCount = 0;
 
 		// Textures & Shaders
         public static Texture2D heartOriginal2;
@@ -4095,7 +4094,12 @@ namespace CalamityMod
 						Main.npc[npcIndex2].Calamity().newAI[2] = reader.ReadSingle();
 						Main.npc[npcIndex2].Calamity().newAI[3] = reader.ReadSingle();
 						break;
-					default:
+                    case CalamityModMessageType.ProvidenceDyeConditionSync:
+                        byte npcIndex3 = reader.ReadByte();
+                        (Main.npc[npcIndex3].modNPC as Providence).hasTakenDaytimeDamage = reader.ReadBoolean();
+                        break;
+
+                    default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
                 }
@@ -4178,7 +4182,8 @@ namespace CalamityMod
         AcidRainOldDukeSummonSync,
         GaelsGreatswordSwingSync,
         SpawnSuperDummy,
-        SyncCalamityNPCAIArray,
+		SyncCalamityNPCAIArray,
+        ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
         DraedonGeneratorStackSync,
         DraedonChargerSync,
         DraedonFieldGeneratorSync

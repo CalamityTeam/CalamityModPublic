@@ -9,6 +9,7 @@ using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.DifficultyItems;
+using CalamityMod.Items.Dyes;
 using CalamityMod.Items.Mounts;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
@@ -9831,8 +9832,53 @@ namespace CalamityMod.CalPlayer
                 }
             }
         }
+        public static readonly List<Color> MoonlightDyeDayColors = new List<Color>()
+        {
+            new Color(255, 163, 56),
+            new Color(235, 30, 19),
+            new Color(242, 48, 187),
+        };
+        public static readonly List<Color> MoonlightDyeNightColors = new List<Color>()
+        {
+            new Color(24, 134, 198),
+            new Color(130, 40, 150),
+            new Color(40, 64, 150),
+        };
 
-		public override void PreUpdate()
+        public static void DetermineMoonlightDyeColors(out Color drawColor, Color dayColor, Color nightColor)
+        {
+            int totalTime = Main.dayTime ? 54000 : 32400;
+            float transitionTime = 5400;
+            //Color dayColor = new Color(255, 163, 56);
+            //Color nightColor = new Color(24, 134, 198);
+            float interval = Utils.InverseLerp(0f, transitionTime, (float)Main.time, true) + Utils.InverseLerp(totalTime - transitionTime, totalTime, (float)Main.time, true);
+            if (Main.dayTime)
+            {
+                // Dusk.
+                if (Main.time >= totalTime - transitionTime)
+                    drawColor = Color.Lerp(dayColor, nightColor, Utils.InverseLerp(totalTime - transitionTime, totalTime, (float)Main.time, true));
+                // Dawn.
+                else if (Main.time <= transitionTime)
+                    drawColor = Color.Lerp(nightColor, dayColor, interval);
+                else
+                    drawColor = dayColor;
+            }
+            else
+            {
+                drawColor = nightColor;
+            }
+        }
+        public static Color GetCurrentMoonlightDyeColor(float angleOffset = 0f)
+        {
+            float interval = (float)Math.Cos(Main.GlobalTime * 0.6f + angleOffset) * 0.5f + 0.5f;
+            interval = MathHelper.Clamp(interval, 0f, 0.995f);
+            Color dayColorToUse = CalamityUtils.MulticolorLerp(interval, MoonlightDyeDayColors.ToArray());
+            Color nightColorToUse = CalamityUtils.MulticolorLerp(interval, MoonlightDyeNightColors.ToArray());
+            DetermineMoonlightDyeColors(out Color drawColor, dayColorToUse, nightColorToUse);
+            return drawColor;
+        }
+
+        public override void PreUpdate()
         {
             tailFrameUp++;
 			if (tailFrameUp == 8)
@@ -9843,6 +9889,13 @@ namespace CalamityMod.CalPlayer
 					tailFrame = 0;
 				}
 				tailFrameUp = 0;
+            }
+            for (int i = 0; i < player.dye.Length; i++)
+            {
+                if (player.dye[i].type == ModContent.ItemType<ProfanedMoonlightDye>())
+                {
+                    GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(GetCurrentMoonlightDyeColor());
+                }
             }
             Main.blockInput = PopupGUIManager.AnyGUIsActive;
         }
@@ -10084,6 +10137,44 @@ namespace CalamityMod.CalPlayer
             }
         });
 
+        public static readonly PlayerLayer ProfanedMoonlightDyeEffects = new PlayerLayer("CalamityMod", "ProfanedMoonlight", PlayerLayer.Body, (drawInfo) =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            int totalMoonlightDyes = drawPlayer.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>());
+            if (totalMoonlightDyes <= 0)
+                return;
+            float auroraCount = 12 + (int)MathHelper.Clamp(totalMoonlightDyes, 0f, 4f) * 2;
+            float opacity = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
+
+            if (Main.dayTime)
+                opacity *= 0.4f;
+            else
+                opacity *= 0.25f;
+
+            float time01 = Main.GlobalTime % 3f / 3f;
+            Texture2D auroraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AuroraTexture");
+            for (int i = 0; i < auroraCount; i++)
+            {
+                float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;
+                float timeOffset = (float)Math.Sin(time01 * MathHelper.TwoPi + incrementOffsetAngle * 2f);
+                float rotation = (float)Math.Sin(incrementOffsetAngle) * MathHelper.Pi / 12f;
+                float yOffset = (float)Math.Sin(time01 * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
+                Color color = GetCurrentMoonlightDyeColor(incrementOffsetAngle);
+                Vector2 offset = new Vector2(20f * timeOffset, yOffset - 14f);
+                DrawData drawData = new DrawData(auroraTexture,
+                                 drawPlayer.Top + offset - Main.screenPosition,
+                                 null,
+                                 color * opacity,
+                                 rotation + MathHelper.PiOver2,
+                                 auroraTexture.Size() * 0.5f,
+                                 0.135f,
+                                 SpriteEffects.None,
+                                 1);
+
+                Main.playerDrawData.Add(drawData);
+            }
+        });
+
         public override void ModifyDrawLayers(List<PlayerLayer> list)
         {
             MiscEffectsBack.visible = true;
@@ -10112,6 +10203,7 @@ namespace CalamityMod.CalPlayer
 			}
             list.Add(ColdDivinityOverlay);
             list.Add(StratusSphereDrawing);
+            list.Add(ProfanedMoonlightDyeEffects);
             list.Add(IbanDevRobot);
             list.Add(DyeInvisibilityFix);
         }
