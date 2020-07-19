@@ -1,21 +1,22 @@
 using CalamityMod.Items.Placeables.Walls;
+using CalamityMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items.Placeables
+namespace CalamityMod.Items.Placeables.Plates
 {
-    public class Cinderplate : ModItem
+    public class Chaosplate : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cinderplate");
+            DisplayName.SetDefault("Chaosplate");
             Tooltip.SetDefault("It resonates with otherworldly energy.");
         }
 
         public override void SetDefaults()
         {
-            item.createTile = ModContent.TileType<Tiles.Cinderplate>();
+            item.createTile = ModContent.TileType<Tiles.Plates.Chaosplate>();
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
@@ -32,15 +33,15 @@ namespace CalamityMod.Items.Placeables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Hellstone, 6);
+            recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 1);
             recipe.AddIngredient(ItemID.Obsidian, 3);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this, 3);
+            recipe.AddTile(TileID.Hellforge);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<CinderplateWall>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<ChaosplateWall>(), 4);
             recipe.SetResult(this);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
         }
     }
