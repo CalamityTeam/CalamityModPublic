@@ -491,7 +491,7 @@ namespace CalamityMod.CalPlayer
         public bool fleshTotem = false;
         public bool fleshTotemCooldown = false;
         public bool bloodPact = false;
-		public int bloodPactBuffTimer = 0;
+		public bool bloodPactBoost = false;
         public bool bloodflareCore = false;
         public bool coreOfTheBloodGod = false;
         public bool elementalHeart = false;
@@ -1822,6 +1822,7 @@ namespace CalamityMod.CalPlayer
             polarisBoostTwo = false;
             polarisBoostThree = false;
             bloodfinBoost = false;
+			bloodPactBoost = false;
 
             killSpikyBalls = false;
 
@@ -2025,7 +2026,6 @@ namespace CalamityMod.CalPlayer
 			sulphurBubbleCooldown = 0;
 			ladHearts = 0;
 			prismaticLasers = 0;
-			bloodPactBuffTimer = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -2204,6 +2204,7 @@ namespace CalamityMod.CalPlayer
             revivify = false;
             healCounter = 300;
             danceOfLightCharge = 0;
+			bloodPactBoost = false;
             #endregion
 
             #region Armorbonuses
@@ -4192,7 +4193,7 @@ namespace CalamityMod.CalPlayer
 		#region Get Heal Life
 		public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
 		{
-			if (bloodPactBuffTimer > 0)
+			if (bloodPactBoost)
 				healValue = (int)(healValue * 1.5);
 			if (CalamityWorld.ironHeart)
 				healValue = 0;
@@ -7365,7 +7366,7 @@ namespace CalamityMod.CalPlayer
 
 			if (bloodPact && Main.rand.NextBool(4))
 			{
-				bloodPactBuffTimer = 600;
+				player.AddBuff(ModContent.BuffType<BloodyBoost>(), 600);
 				damageMult += 1.25;
 			}
 

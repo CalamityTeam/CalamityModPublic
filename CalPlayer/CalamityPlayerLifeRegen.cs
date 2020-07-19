@@ -694,7 +694,7 @@ namespace CalamityMod.CalPlayer
             {
                 player.lifeRegen += 2;
             }
-			if (modPlayer.bloodPactBuffTimer > 0)
+			if (modPlayer.bloodPactBoost)
             {
                 player.lifeRegen += 2;
             }
