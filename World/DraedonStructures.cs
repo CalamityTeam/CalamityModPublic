@@ -127,7 +127,7 @@ namespace CalamityMod.World
                     return;
                 goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
             }
-            SchematicPlacementHelpers.PlaceDraedonStructure("Workshop", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillWorkshopChest);
+            SchematicPlacementHelpers.PlaceStructure("Workshop", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillWorkshopChest);
         }
         public static void PlacePlagueLab(out Point placementPoint, List<Point> workshopPoints)
         {
@@ -167,7 +167,7 @@ namespace CalamityMod.World
                     return;
                 goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
             }
-            SchematicPlacementHelpers.PlaceDraedonStructure("Plague Research Facility", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillLaboratoryChest);
+            SchematicPlacementHelpers.PlaceStructure("Plague Research Facility", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillLaboratoryChest);
         }
     }
 }

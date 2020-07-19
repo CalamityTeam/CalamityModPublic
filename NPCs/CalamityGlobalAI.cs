@@ -25986,7 +25986,7 @@ namespace CalamityMod.NPCs
             npc.noGravity = true;
             npc.noTileCollide = false;
             npc.defense = npc.defDefense;
-            if (npc.justHit && Main.netMode != NetmodeID.MultiplayerClient && Main.rand.Next(10) == 0)
+            if (npc.justHit && Main.netMode != NetmodeID.MultiplayerClient && Main.rand.NextBool(10))
             {
                 npc.netUpdate = true;
                 npc.ai[0] = -1f;
@@ -25996,7 +25996,7 @@ namespace CalamityMod.NPCs
             {
                 npc.defense = npc.defDefense + 10;
                 npc.noGravity = false;
-                npc.velocity.X = npc.velocity.X * 0.98f;
+                npc.velocity.X *= 0.98f;
                 npc.ai[1] += 1f;
                 if (npc.ai[1] >= 120f)
                 {
