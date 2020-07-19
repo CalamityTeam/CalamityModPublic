@@ -154,6 +154,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         public override void NPCLoot()
         {
             DropHelper.DropItem(npc, ModContent.ItemType<WulfrumShard>(), 2, 3);
+            DropHelper.DropItem(npc, ModContent.ItemType<EnergyCore>());
         }
     }
 }
