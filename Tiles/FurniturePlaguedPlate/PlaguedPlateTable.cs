@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpTable();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Table");
+            name.SetDefault("Plagued Table");
             AddMapEntry(new Color(191, 142, 111), name);
             adjTiles = new int[] { TileID.Tables };
         }
