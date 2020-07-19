@@ -228,7 +228,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public void NPCTargetingAI(NPC potentialTarget, Player player)
         {
             HandleHop(potentialTarget.Center);
-            if (Collision.CanHitLine(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, projectile.height) && AcidShootCooldown <= 0f)
+            if (Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, projectile.height) && AcidShootCooldown <= 0f)
             {
                 AcidShootTimer++;
                 ReleasingAcid = AcidShootTimer >= 16 && AcidShootTimer <= 44;
@@ -245,7 +245,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     float distance = Vector2.Distance(spawnPosition, potentialTarget.Center);
                     float angle = 0.5f * (float)Math.Asin(MathHelper.Clamp(gravity * distance / (float)Math.Pow(shootSpeed, 2), -1f, 1f));
 
-                    Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.04f);
+                    Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.015f);
                     velocity.X *= (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
 
                     projectile.spriteDirection = (potentialTarget.Center.X - projectile.Center.X > 0).ToDirectionInt();
@@ -267,7 +267,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             else if (AcidShootCooldown > 0f)
                 AcidShootCooldown--;
-            projectile.velocity.X *= 0.935f;
+            projectile.velocity.X *= 0.8f;
         }
         public void AntiStickyMovement(float antiStickAcceleration = 0.05f)
         {

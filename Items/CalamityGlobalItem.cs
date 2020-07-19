@@ -64,7 +64,8 @@ namespace CalamityMod.Items
         public int CurrentCharge = ChargeMax;
         public bool Chargeable = false;
         public const int ChargeMax = 150;
-        public const float ChargeDamageMinMultiplier = 0.4f;
+        public const float ChargeDamageMinMultiplier = 0.75f;
+        public const float ChargeDamageReductionThreshold = 0.75f;
 
         // Rarity is provided both as the classic int and the new enum.
         public CalamityRarity customRarity = CalamityRarity.NoEffect;
@@ -1005,7 +1006,11 @@ namespace CalamityMod.Items
         {
             if (item.Calamity().Chargeable)
             {
-                mult *= MathHelper.Lerp(ChargeDamageMinMultiplier, 1f, item.Calamity().CurrentCharge / (float)ChargeMax);
+                float chargeDamageMultiplier = 1f;
+                float chargeRatio = item.Calamity().CurrentCharge / (float)ChargeMax;
+                if (chargeRatio < ChargeDamageReductionThreshold)
+                    chargeDamageMultiplier = MathHelper.Lerp(ChargeDamageMinMultiplier, 1f, chargeRatio * ChargeDamageReductionThreshold);
+                mult *= chargeDamageMultiplier;
             }
         }
         #endregion

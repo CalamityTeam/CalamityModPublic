@@ -48,7 +48,7 @@ namespace CalamityMod.NPCs.Signus
                 music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/ScourgeofTheUniverse");
             else
                 music = MusicID.Boss4;
-			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel3;
 			npc.LifeMaxNERB(notDoGFight ? 280000 : 70000, notDoGFight ? 445500 : 109500, 2400000);
             if (notDoGFight)
             {
@@ -789,9 +789,12 @@ namespace CalamityMod.NPCs.Signus
 				CalamityMod.UpdateServerBoolean();
 			}
 
-            // Mark Signus as dead
-            CalamityWorld.downedSentinel3 = true;
-            CalamityMod.UpdateServerBoolean();
+			// Mark Signus as dead
+			if (CalamityWorld.DoGSecondStageCountdown <= 0)
+			{
+				CalamityWorld.downedSentinel3 = true;
+				CalamityMod.UpdateServerBoolean();
+			}
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

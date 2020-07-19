@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
+using Terraria;
 
 namespace CalamityMod.UI
 {
@@ -14,11 +15,20 @@ namespace CalamityMod.UI
         public static void SuspendAll()
         {
             DraedonLogGUI.Active = false;
+            DraedonLogGUI.FadeTime = 0;
         }
         public static void UpdateAndDraw(SpriteBatch spriteBatch)
         {
+            if (Main.ingameOptionsWindow || Main.inFancyUI)
+            {
+                SuspendAll();
+                return;
+            }
             if (AnyGUIsActive)
             {
+                Main.playerInventory = false;
+                if (Main.LocalPlayer.sign > 0 || Main.LocalPlayer.talkNPC > 0)
+                    Main.CloseNPCChatOrSign();
                 GetActiveGUI.Update();
                 if (GetActiveGUI == null)
                     return;

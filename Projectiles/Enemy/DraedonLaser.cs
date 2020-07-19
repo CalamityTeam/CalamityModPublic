@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Enemy
 {
-    public class DreadonLaser : ModProjectile
+    public class DraedonLaser : ModProjectile
     {
         public float TrailLength
         {

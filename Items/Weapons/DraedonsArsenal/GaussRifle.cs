@@ -36,7 +36,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.shoot = ModContent.ProjectileType<GaussRifleBlast>();
 			item.shootSpeed = 27f;
-			item.useAmmo = AmmoID.Bullet;
 
 			item.Calamity().Chargeable = true;
 		}

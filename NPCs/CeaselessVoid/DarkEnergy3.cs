@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
             npc.height = 80;
             npc.defense = 50;
             npc.lifeMax = 6000;
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            if (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1)
             {
                 npc.lifeMax = 24000;
             }
@@ -39,8 +39,8 @@ namespace CalamityMod.NPCs.CeaselessVoid
             {
                 npc.lifeMax = 44000;
             }
-            double HPBoost = (double)CalamityConfig.Instance.BossHealthBoost * 0.01;
-            npc.lifeMax += (int)((double)npc.lifeMax * HPBoost);
+            double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+            npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.aiStyle = -1;
             aiType = -1;
             npc.knockBackResist = 0.3f;
@@ -253,10 +253,10 @@ namespace CalamityMod.NPCs.CeaselessVoid
 
 		public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
-            if (CalamityWorld.DoGSecondStageCountdown <= 0)
+            if (CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel1)
             {
                 if (projectile.type == ModContent.ProjectileType<MoltenAmputatorProj>())
-                    damage = (int)((double)damage * 0.9);
+                    damage = (int)(damage * 0.9);
             }
         }
 
