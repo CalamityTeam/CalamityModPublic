@@ -356,6 +356,8 @@ namespace CalamityMod.CalPlayer
         public bool perforatorLore = false;
         public bool queenBeeLore = false;
         public bool skeletronLore = false;
+        // This lore boolean is a bit different from the others. It just stops Slime God lore effects from stacking.
+        public bool slimeGodLoreProcessed = false;
         public bool wallOfFleshLore = false;
         public bool twinsLore = false;
         public bool destroyerLore = false;
@@ -1463,6 +1465,7 @@ namespace CalamityMod.CalPlayer
             perforatorLore = false;
             queenBeeLore = false;
             skeletronLore = false;
+            slimeGodLoreProcessed = false;
             wallOfFleshLore = false;
             twinsLore = false;
             destroyerLore = false;
