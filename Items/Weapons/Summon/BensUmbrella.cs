@@ -46,14 +46,14 @@ namespace CalamityMod.Items.Weapons.Summon
 		{
 			for (int x = 0; x < Main.maxProjectiles; x++)
 			{
-				Projectile projectile = Main.projectile[x];
-				if (projectile.active && projectile.owner == player.whoAmI && projectile.type == type)
+				Projectile proj = Main.projectile[x];
+				if (proj.active && proj.owner == player.whoAmI && proj.type == type)
 				{
-					projectile.Kill();
+					proj.Kill();
 					break;
 				}
 			}
-			Projectile.NewProjectile(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+			Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI);
 			return false;
 		}
 
