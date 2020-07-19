@@ -24,7 +24,7 @@ namespace CalamityMod.Tiles
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Field Generator");
             AddMapEntry(new Color(53, 49, 52), name);
-            minPick = 190;
+            minPick = 65;
         }
         public TEDraedonFieldGenerator RetrieveTileEntity(int i, int j)
         {
