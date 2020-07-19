@@ -60,7 +60,6 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.noTileCollide = true;
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
-            npc.buffImmune[BuffID.Confused] = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumDroneBanner>();
         }

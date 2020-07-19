@@ -582,6 +582,10 @@ namespace CalamityMod.CalPlayer
         public bool rustyMedal = false;
         public bool noStupidNaturalARSpawns = false;
         public bool burdenBreakerYeet = false;
+		public bool roverDrive = false;
+		public int roverDriveTimer = 0;
+		public int roverFrameCounter = 0;
+		public int roverFrame = 0;
         #endregion
 
         #region Armor Set
@@ -1610,6 +1614,7 @@ namespace CalamityMod.CalPlayer
             rustyMedal = false;
             noStupidNaturalARSpawns = false;
             burdenBreakerYeet = false;
+			roverDrive = false;
 
             daedalusReflect = false;
             daedalusSplit = false;
@@ -2022,6 +2027,7 @@ namespace CalamityMod.CalPlayer
 			sulphurBubbleCooldown = 0;
 			ladHearts = 0;
 			prismaticLasers = 0;
+			roverDriveTimer = 0;
 
             alcoholPoisoning = false;
             shadowflame = false;
@@ -9890,6 +9896,15 @@ namespace CalamityMod.CalPlayer
 				}
 				tailFrameUp = 0;
             }
+
+			int frameAmt = 11;
+			if (roverFrameCounter >= 7)
+			{
+				roverFrameCounter = -1;
+				roverFrame = roverFrame == frameAmt - 1 ? 0 : roverFrame + 1;
+			}
+			roverFrameCounter++;
+
             for (int i = 0; i < player.dye.Length; i++)
             {
                 if (player.dye[i].type == ModContent.ItemType<ProfanedMoonlightDye>())
@@ -9998,6 +10013,28 @@ namespace CalamityMod.CalPlayer
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
                 int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
                 DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, new Color(53, Main.DiscoG, 255) * 0.5f, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1.15f, drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                Main.playerDrawData.Add(data);
+            }
+        });
+
+        public static readonly PlayerLayer RoverDriveShield = new PlayerLayer("CalamityMod", "RoverDrive", PlayerLayer.Skin, (drawInfo) =>
+        {
+            Player drawPlayer = drawInfo.drawPlayer;
+            CalamityPlayer modPlayer = drawPlayer.Calamity();
+            if (modPlayer.roverDriveTimer < 616 && modPlayer.roverDrive)
+            {
+                Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/RoverAccShield");
+				int frameAmt = 11;
+				int height = texture.Height / frameAmt;
+				int frameHeight = height * modPlayer.roverFrame;
+				Vector2 drawPos = drawPlayer.Center - Main.screenPosition + new Vector2(0f, drawPlayer.gfxOffY);
+				Rectangle frame = new Rectangle(0, frameHeight, texture.Width, height);
+				Color color = Color.White * 0.625f;
+				Vector2 origin = new Vector2(texture.Width / 2f, height / 2f);
+				float scale = 1f + (float)Math.Cos(Main.GlobalTime) * 0.1f;
+				SpriteEffects spriteEffects = drawPlayer.direction != -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
+                DrawData data = new DrawData(texture, drawPos, frame, color, 0f, origin, scale, spriteEffects, 0);
                 Main.playerDrawData.Add(data);
             }
         });
@@ -10202,6 +10239,7 @@ namespace CalamityMod.CalPlayer
 				list.Insert(drawTheStupidSign, ForbiddenCircletSign);
 			}
             list.Add(ColdDivinityOverlay);
+            list.Add(RoverDriveShield);
             list.Add(StratusSphereDrawing);
             list.Add(ProfanedMoonlightDyeEffects);
             list.Add(IbanDevRobot);

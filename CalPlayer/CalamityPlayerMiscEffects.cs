@@ -988,6 +988,15 @@ namespace CalamityMod.CalPlayer
 				modPlayer.dogTextCooldown--;
 			if (modPlayer.titanCooldown > 0)
 				modPlayer.titanCooldown--;
+			if (modPlayer.roverDrive)
+			{
+				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))
+					modPlayer.roverDriveTimer++;
+				if (modPlayer.roverDriveTimer >= CalamityUtils.SecondsToFrames(30f))
+					modPlayer.roverDriveTimer = 0;
+			}
+			else
+				modPlayer.roverDriveTimer = CalamityUtils.SecondsToFrames(10f) + 1; //Doesn't reset to zero to prevent exploits
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
@@ -1150,6 +1159,13 @@ namespace CalamityMod.CalPlayer
 			{
 				player.allDamage += 0.3f;
 				player.statDefense += 20;
+			}
+
+			if (modPlayer.roverDriveTimer < 616)
+			{
+				player.statDefense += 10;
+				if (modPlayer.roverDriveTimer > 606)
+					player.statDefense -= modPlayer.roverDriveTimer - 606; //so it scales down when the shield dies
 			}
 
 			// Absorber bonus

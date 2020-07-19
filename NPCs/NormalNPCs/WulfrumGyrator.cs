@@ -48,6 +48,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath14;
             banner = npc.type;
             bannerItem = ModContent.ItemType<WulfrumGyratorBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void FindFrame(int frameHeight)
@@ -88,7 +89,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                 Math.Abs(player.Center.X - npc.Center.X) < PlayerSearchDistance &&
                 Math.Abs(player.Center.X - npc.Center.X) > PlayerTargetingThreshold)
             {
-                int direction = Math.Sign(player.Center.X - npc.Center.X);
+                int direction = Math.Sign(player.Center.X - npc.Center.X) * (npc.confused ? -1 : 1);
                 if (npc.direction != direction)
                 {
                     npc.direction = direction;
