@@ -32,6 +32,8 @@ namespace CalamityMod.Tiles
             minPick = 65;
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public TEDraedonTurret RetrieveTileEntity(int i, int j)
         {
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
