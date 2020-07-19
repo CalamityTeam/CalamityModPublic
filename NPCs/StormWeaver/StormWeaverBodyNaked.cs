@@ -27,7 +27,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.width = 40;
             npc.height = 40;
             npc.lifeMax = 100000;
-			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
 			npc.LifeMaxNERB(notDoGFight ? 900000 : 150000, notDoGFight ? 900000 : 150000, 3500000);
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)

@@ -11,6 +11,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Schematics;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -1598,11 +1599,26 @@ namespace CalamityMod.World
                     }
                 }
             }
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
                 if (CanAstralBiomeSpawn())
+                {
                     DoAstralConversion(new Point(i, j));
+                    int checkWidth = 70;
+                    float height = 9000;
+                    for (int x = i - checkWidth / 2; x < i + checkWidth / 2; x++)
+                    {
+                        int y = j - 100;
+                        while (!CalamityUtils.ParanoidTileRetrieval(x, y).active())
+                        {
+                            y++;
+                        }
+                        height = (int)MathHelper.Min(height, y);
+                    }
+                    SchematicPlacementHelpers.PlaceStructure("Astral Beacon", new Point(i, (int)height - 30), SchematicPlacementHelpers.PlacementAnchorType.Center);
+                }
             }
             return true;
         }

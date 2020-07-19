@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
@@ -32,8 +33,11 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-            if (player.mount.Active || !item.favorited)
+            CalamityPlayer modPlayer = player.Calamity();
+            if (player.mount.Active || !item.favorited || modPlayer.slimeGodLoreProcessed)
                 return;
+
+            modPlayer.slimeGodLoreProcessed = true;
 
             if (player.dashDelay < 0)
                 player.velocity.X *= 0.9f;

@@ -21,6 +21,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -59,8 +60,15 @@ namespace CalamityMod.Items
 
 		public int timesUsed = 0;
 
-		// Rarity is provided both as the classic int and the new enum.
-		public CalamityRarity customRarity = CalamityRarity.NoEffect;
+        // The damage modifications for the item are handled in player files.
+        public int CurrentCharge = ChargeMax;
+        public bool Chargeable = false;
+        public const int ChargeMax = 150;
+        public const float ChargeDamageMinMultiplier = 0.75f;
+        public const float ChargeDamageReductionThreshold = 0.75f;
+
+        // Rarity is provided both as the classic int and the new enum.
+        public CalamityRarity customRarity = CalamityRarity.NoEffect;
 		public int postMoonLordRarity 
 		{
 			get => (int)customRarity;
@@ -211,6 +219,10 @@ namespace CalamityMod.Items
         #region Shoot
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            if (item.type >= ItemID.Count && item.Calamity().Chargeable && item.Calamity().CurrentCharge > 0 && Main.rand.NextBool(120 / (int)MathHelper.Max(1, item.useAnimation)))
+            {
+                CurrentCharge--;
+            }
 			CalamityPlayer modPlayer = player.Calamity();
             if (rogue)
             {
@@ -446,15 +458,10 @@ namespace CalamityMod.Items
         {
             return new TagCompound
             {
-                {
-                    "rogue", rogue
-                },
-                {
-                    "timesUsed", timesUsed
-                },
-                {
-                    "rarity", (int)customRarity
-                }
+                ["rogue"] = rogue,
+                ["timesUsed"] = timesUsed,
+                ["rarity"] = (int)customRarity,
+                ["Charge"] = CurrentCharge
             };
         }
 
@@ -463,6 +470,7 @@ namespace CalamityMod.Items
             rogue = tag.GetBool("rogue");
             timesUsed = tag.GetInt("timesUsed");
             customRarity = (CalamityRarity)tag.GetInt("rarity");
+            CurrentCharge = tag.GetInt("Charge");
         }
 
         public override void LoadLegacy(Item item, BinaryReader reader)
@@ -470,6 +478,7 @@ namespace CalamityMod.Items
             int loadVersion = reader.ReadInt32();
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
+            CurrentCharge = reader.ReadInt32();
 
             if (loadVersion == 0)
             {
@@ -490,6 +499,7 @@ namespace CalamityMod.Items
             writer.Write(flags);
             writer.Write((int)customRarity);
             writer.Write(timesUsed);
+            writer.Write(CurrentCharge);
         }
 
         public override void NetReceive(Item item, BinaryReader reader)
@@ -499,6 +509,7 @@ namespace CalamityMod.Items
 
             customRarity = (CalamityRarity)reader.ReadInt32();
             timesUsed = reader.ReadInt32();
+            CurrentCharge = reader.ReadInt32();
         }
         #endregion
 
@@ -866,6 +877,11 @@ namespace CalamityMod.Items
         public override bool CanUseItem(Item item, Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
+
+            // Restrict behavior when reading Dreadon's Log.
+            if (PopupGUIManager.AnyGUIsActive)
+                return false;
+
             if (player.ownedProjectileCounts[ModContent.ProjectileType<RelicOfDeliveranceSpear>()] > 0 &&
                 (item.damage > 0 || item.ammo != AmmoID.None))
             {
@@ -982,6 +998,20 @@ namespace CalamityMod.Items
 				}
 			}
             return true;
+        }
+        #endregion
+
+        #region Modify Weapon Damage
+        public override void ModifyWeaponDamage(Item item, Player player, ref float add, ref float mult, ref float flat)
+        {
+            if (item.Calamity().Chargeable)
+            {
+                float chargeDamageMultiplier = 1f;
+                float chargeRatio = item.Calamity().CurrentCharge / (float)ChargeMax;
+                if (chargeRatio < ChargeDamageReductionThreshold)
+                    chargeDamageMultiplier = MathHelper.Lerp(ChargeDamageMinMultiplier, 1f, chargeRatio * ChargeDamageReductionThreshold);
+                mult *= chargeDamageMultiplier;
+            }
         }
         #endregion
 
@@ -1128,9 +1158,9 @@ namespace CalamityMod.Items
 					}
 				}
 			}
-			#endregion
+            #endregion
 
-			/*if (item.ammo == 97)
+            /*if (item.ammo == 97)
             {
                 foreach (TooltipLine line2 in tooltips)
                 {
@@ -1142,7 +1172,7 @@ namespace CalamityMod.Items
                 }
             }*/
 
-			if (item.type == ItemID.RodofDiscord)
+            if (item.type == ItemID.RodofDiscord)
 			{
 				foreach (TooltipLine line2 in tooltips)
 				{
@@ -2725,7 +2755,15 @@ Provides heat and cold protection in Death Mode";
 					TooltipLine line = new TooltipLine(mod, "Tooltip0", "Forces surrounding biome state to Astral upon activation");
 					tooltips.Add(line);
 				}
-			}
+            }
+
+            if (item.type > ItemID.Count && item.Calamity().Chargeable)
+            {
+                float chargeRatio = item.Calamity().CurrentCharge / (float)ChargeMax;
+                chargeRatio *= 100f; // Turn the 0-1 ratio to a 0-100 percentage.
+                TooltipLine line = new TooltipLine(mod, "Tooltip0", $"Current Charge: {chargeRatio:N1}%");
+                tooltips.Add(line);
+            }
         }
 		#endregion
 

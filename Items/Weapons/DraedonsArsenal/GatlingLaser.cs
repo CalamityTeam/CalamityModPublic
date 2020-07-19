@@ -1,3 +1,5 @@
+using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -40,7 +42,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
 			item.shootSpeed = 24f;
-			item.useAmmo = AmmoID.Bullet;
+
+			item.Calamity().Chargeable = true;
 		}
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
@@ -62,16 +65,17 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			return new Vector2(-20, 0);
 		}
 
-		/*public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe r = new ModRecipe(mod);
-			r.AddIngredient(null, "CrownJewel");
-			r.AddIngredient(null, "GalacticaSingularity", 5);
-			r.AddIngredient(null, "BarofLife", 10);
-			r.AddIngredient(null, "CosmiliteBar", 15);
-			r.AddTile(TileID.LunarCraftingStation);
-			r.SetResult(this);
-			r.AddRecipe();
-		}*/
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<LaserRifle>());
+			recipe.AddIngredient(ModContent.ItemType<T1000>());
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

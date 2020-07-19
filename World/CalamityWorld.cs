@@ -30,6 +30,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Schematics;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -902,19 +903,40 @@ namespace CalamityMod.World
                     SmallBiomes.PlaceShrines();
                 }));
 
-                tasks.Insert(FinalIndex + 3, new PassLegacy("Abyss", delegate (GenerationProgress progress)
+
+                tasks.Insert(FinalIndex + 3, new PassLegacy("Rust and Dust", (GenerationProgress progress) =>
+                {
+                    List<Point> workshopPositions = new List<Point>();
+                    int workshopCount = Main.maxTilesX / 600;
+                    int labCount = Main.maxTilesX / 1100;
+                    DraedonStructures.DraedonsLogWorkshopIndex = WorldGen.genRand.Next(workshopCount);
+
+                    for (int i = 0; i < workshopCount; i++)
+                    {
+                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions);
+                        DraedonStructures.CurrentWorkshopIndex = i;
+                        workshopPositions.Add(placementPosition);
+                    }
+                    for (int i = 0; i < labCount; i++)
+                    {
+                        DraedonStructures.PlacePlagueLab(out Point placementPosition2, workshopPositions);
+                        workshopPositions.Add(placementPosition2);
+                    }
+                }));
+
+                tasks.Insert(FinalIndex + 4, new PassLegacy("Abyss", delegate (GenerationProgress progress)
                 {
                     progress.Message = "The Abyss";
                     Abyss.PlaceAbyss();
                 }));
 
-                tasks.Insert(FinalIndex + 4, new PassLegacy("Sulphur2", delegate (GenerationProgress progress)
+                tasks.Insert(FinalIndex + 5, new PassLegacy("Sulphur2", delegate (GenerationProgress progress)
                 {
                     progress.Message = "Finishing Sulphur Sea";
                     Abyss.FinishGeneratingSulphurSea();
                 }));
 
-                tasks.Insert(FinalIndex + 5, new PassLegacy("IWannaRock", delegate (GenerationProgress progress)
+                tasks.Insert(FinalIndex + 6, new PassLegacy("IWannaRock", delegate (GenerationProgress progress)
                 {
                     progress.Message = "I Wanna Rock";
                     WorldGenerationMethods.PlaceRoxShrine();

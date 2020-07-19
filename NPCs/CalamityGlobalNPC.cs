@@ -359,6 +359,49 @@ namespace CalamityMod.NPCs
 			ProjectileID.GiantBee
 			//ProjectileID.ScarabBomb
 		};
+
+		public static List<int> ZeroContactDamageNPCList = new List<int>
+		{
+			NPCID.DarkCaster,
+			NPCID.FireImp,
+			NPCID.Tim,
+			NPCID.CultistArcherBlue,
+			NPCID.DesertDjinn,
+			NPCID.DiabolistRed,
+			NPCID.DiabolistWhite,
+			NPCID.Gastropod,
+			NPCID.IceElemental,
+			NPCID.IchorSticker,
+			NPCID.Necromancer,
+			NPCID.NecromancerArmored,
+			NPCID.RaggedCaster,
+			NPCID.RaggedCasterOpenCoat,
+			NPCID.RuneWizard,
+			NPCID.SkeletonArcher,
+			NPCID.SkeletonCommando,
+			NPCID.SkeletonSniper,
+			NPCID.TacticalSkeleton,
+			NPCID.Clown,
+			NPCID.GoblinArcher,
+			NPCID.GoblinSorcerer,
+			NPCID.GoblinSummoner,
+			NPCID.PirateCrossbower,
+			NPCID.PirateDeadeye,
+			NPCID.PirateCaptain,
+			NPCID.DrManFly,
+			NPCID.MartianWalker,
+			NPCID.MartianTurret,
+			NPCID.ElfCopter,
+			NPCID.ElfArcher,
+			NPCID.NebulaBrain,
+			NPCID.StardustJellyfishBig,
+			NPCID.PirateShipCannon,
+			NPCID.MartianSaucer,
+			NPCID.MartianSaucerCannon,
+			NPCID.MartianSaucerCore,
+			NPCID.MartianSaucerTurret,
+			NPCID.Probe
+		};
 		#endregion
 
 		#region Instance Per Entity
@@ -1648,10 +1691,12 @@ namespace CalamityMod.NPCs
                 npc.dontTakeDamage = CalamityPlayer.areThereAnyDamnBosses;
             }
 
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			if (ZeroContactDamageNPCList.Contains(npc.type))
+				npc.damage = 0;
+
             if (DestroyerIDs.Contains(npc.type) || EaterofWorldsIDs.Contains(npc.type))
-            {
                 npc.buffImmune[BuffType<Enraged>()] = false;
-            }
 
             if (npc.type == NPCID.Bee || npc.type == NPCID.BeeSmall || npc.type == NPCID.Hornet || npc.type == NPCID.HornetFatty || npc.type == NPCID.HornetHoney ||
                 npc.type == NPCID.HornetLeafy || npc.type == NPCID.HornetSpikey || npc.type == NPCID.HornetStingy || npc.type == NPCID.BigHornetStingy || npc.type == NPCID.LittleHornetStingy ||
@@ -1666,9 +1711,7 @@ namespace CalamityMod.NPCs
             }
 
             if (CalamityWorld.bossRushActive && !npc.friendly && !npc.townNPC)
-            {
                 BossRushForceDespawnOtherNPCs(npc, mod);
-            }
 
 			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
@@ -2965,7 +3008,7 @@ namespace CalamityMod.NPCs
                 case 33:
                     if (npc.type != NPCType<Siren>() && npc.type != NPCType<Leviathan.Leviathan>() &&
                         npc.type != NPCType<AquaticAberration>() && npc.type != NPCType<Parasea>() &&
-                        npc.type != NPCType<SirenClone>() && npc.type != NPCType<SirenIce>())
+                        npc.type != NPCType<SirenIce>())
                     {
                         npc.active = false;
                         npc.netUpdate = true;

@@ -1,5 +1,5 @@
 using CalamityMod.CalPlayer;
-using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
 using System.Collections.Generic;
 using Terraria;

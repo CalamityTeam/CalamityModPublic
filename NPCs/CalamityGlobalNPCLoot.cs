@@ -1305,55 +1305,6 @@ namespace CalamityMod.NPCs
                     }
                 }
             }
-
-            if (NPC.downedAncientCultist && !CalamityWorld.downedStarGod && npc.type == ModContent.NPCType<Atlas>() && !NPC.AnyNPCs(ModContent.NPCType<AstrumDeusHeadSpectral>()))
-            {
-                CalamityMod.astralKillCount++;
-                if (CalamityMod.astralKillCount == 1)
-                {
-                    string key = "Mods.CalamityMod.DeusText2";
-                    Color messageColor = Color.Gold;
-
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-                }
-                else if (CalamityMod.astralKillCount == 2)
-                {
-                    string key = "Mods.CalamityMod.DeusText3";
-                    Color messageColor = Color.Gold;
-
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    }
-                    else if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-                    }
-                }
-                if (CalamityMod.astralKillCount >= 3 && Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    int lastPlayer = npc.lastInteraction;
-
-                    if (!Main.player[lastPlayer].active || Main.player[lastPlayer].dead)
-                    {
-                        lastPlayer = npc.FindClosestPlayer();
-                    }
-
-                    if (lastPlayer >= 0)
-                    {
-                        CalamityWorld.ChangeTime(false);
-                        NPC.SpawnOnPlayer(lastPlayer, ModContent.NPCType<AstrumDeusHeadSpectral>());
-                        CalamityMod.astralKillCount = 0;
-                    }
-                }
-            }
         }
         #endregion
 
@@ -1794,8 +1745,8 @@ namespace CalamityMod.NPCs
 
                 case NPCID.Reaper:
                 case NPCID.Psycho:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), (CalamityWorld.downedCalamitas || NPC.downedPlantBoss), Main.expertMode ? 0.75f : 0.5f, 1, 4);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedBuffedMothron, Main.expertMode ? 0.06f : 0.04f, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<SolarVeil>(), CalamityWorld.downedCalamitas || NPC.downedPlantBoss, Main.expertMode ? 0.75f : 0.5f, 1, 4);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.buffedEclipse, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 
 				//other solar eclipse creatures
@@ -1811,7 +1762,7 @@ namespace CalamityMod.NPCs
                 case NPCID.DeadlySphere:
                 case NPCID.DrManFly:
                 case NPCID.Nailhead:
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.downedBuffedMothron, Main.expertMode ? 0.06f : 0.04f, 1, 1);
+                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DarksunFragment>(), CalamityWorld.buffedEclipse, Main.expertMode ? 0.06f : 0.04f, 1, 1);
                     break;
 
                 case NPCID.MartianOfficer:

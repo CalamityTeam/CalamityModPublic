@@ -43,7 +43,7 @@ namespace CalamityMod.NPCs.Leviathan
         public override void AI()
         {
             npc.TargetClosest(true);
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.55f, 0.25f, 0f);
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.25f, 0.55f);
             for (int num569 = 0; num569 < 200; num569++)
             {
                 if (Main.npc[num569].active && Main.npc[num569].boss)
@@ -86,7 +86,7 @@ namespace CalamityMod.NPCs.Leviathan
         {
             if (CalamityWorld.revenge && Main.rand.NextBool(4))
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, Main.rand.NextBool(2) ? ModContent.ItemType<SirensHeart>() : ModContent.ItemType<SirensHeartAlt>());
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SirensHeart>());
             }
         }
 
