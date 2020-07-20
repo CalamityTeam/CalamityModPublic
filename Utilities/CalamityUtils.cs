@@ -541,7 +541,7 @@ namespace CalamityMod
 			}
 		}
 
-		/// Inflict typical exo weapon debuffs. This helps bypass the 5 debuff limit by checking if the NPC already has it.
+		/// Inflict typical exo weapon debuffs. Duration multiplier optional.
 		/// </summary>
 		/// <param name="target">The NPC attacked.</param>
 		/// <param name="multiplier">Debuff time multiplier if needed.</param>
