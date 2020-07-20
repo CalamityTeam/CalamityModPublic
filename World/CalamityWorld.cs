@@ -139,6 +139,7 @@ namespace CalamityMod.World
 		//Spawned NPCs
         public static bool spawnedBandit = false;
         public static bool spawnedCirrus = false;
+		public static bool foundHomePermafrost = false;
 
         #region Downed Bools
         public static bool downedBossAny = false; //Any boss
@@ -173,6 +174,7 @@ namespace CalamityMod.World
         public static bool downedSCal = false;
         public static bool downedGSS = false;
         public static bool downedCLAM = false;
+        public static bool downedCLAMHardMode = false;
         public static bool downedBetsy = false; //Betsy
 
         public static bool downedEoCAcidRain = false;
@@ -219,6 +221,7 @@ namespace CalamityMod.World
             abyssSide = false;
 			spawnedBandit = false;
 			spawnedCirrus = false;
+			foundHomePermafrost = false;
             downedDesertScourge = false;
             downedAquaticScourge = false;
             downedHiveMind = false;
@@ -240,6 +243,7 @@ namespace CalamityMod.World
             buffedEclipse = false;
             downedSCal = false;
             downedCLAM = false;
+            downedCLAMHardMode = false;
             downedBumble = false;
             downedCrabulon = false;
             downedBetsy = false;
@@ -355,6 +359,8 @@ namespace CalamityMod.World
                 downed.Add("bossRushActive");
             if (downedCLAM)
                 downed.Add("clam");
+            if (downedCLAMHardMode)
+                downed.Add("clamHardmode");
             if (dragonScalesBought)
                 downed.Add("scales");
             if (rainingAcid)
@@ -363,6 +369,8 @@ namespace CalamityMod.World
                 downed.Add("bandit");
             if (spawnedCirrus)
                 downed.Add("drunkPrincess");
+            if (foundHomePermafrost)
+                downed.Add("archmageHome");
             if (downedEoCAcidRain)
                 downed.Add("eocRain");
             if (downedAquaticScourgeAcidRain)
@@ -443,10 +451,12 @@ namespace CalamityMod.World
             abyssSide = downed.Contains("abyssSide");
             bossRushActive = downed.Contains("bossRushActive");
             downedCLAM = downed.Contains("clam");
+            downedCLAMHardMode = downed.Contains("clamHardmode");
             dragonScalesBought = downed.Contains("scales");
             rainingAcid = downed.Contains("acidRain");
             spawnedBandit = downed.Contains("bandit");
             spawnedCirrus = downed.Contains("drunkPrincess");
+            foundHomePermafrost = downed.Contains("archmageHome");
             downedEoCAcidRain = downed.Contains("eocRain");
             downedAquaticScourgeAcidRain = downed.Contains("hmRain");
             triedToSummonOldDuke = downed.Contains("spawnedBoomer");
@@ -547,8 +557,8 @@ namespace CalamityMod.World
                 forcedRainAlready = flags8[0];
                 forcedDownpourWithTear = flags8[1];
                 downedSecondSentinels = flags8[2];
-                _ = flags8[3];
-                _ = flags8[4];
+                foundHomePermafrost = flags8[3];
+                downedCLAMHardMode = flags8[4];
                 _ = flags8[5];
                 _ = flags8[6];
                 _ = flags8[7];
@@ -638,8 +648,8 @@ namespace CalamityMod.World
             flags8[0] = forcedRainAlready;
             flags8[1] = forcedDownpourWithTear;
             flags8[2] = downedSecondSentinels;
-            flags8[3] = false;
-            flags8[4] = false;
+            flags8[3] = foundHomePermafrost;
+            flags8[4] = downedCLAMHardMode;
             flags8[5] = false;
             flags8[6] = false;
             flags8[7] = false;
@@ -737,8 +747,8 @@ namespace CalamityMod.World
             forcedRainAlready = flags8[0];
             forcedDownpourWithTear = flags8[1];
             downedSecondSentinels = flags8[2];
-            _ = flags8[3];
-            _ = flags8[4];
+            foundHomePermafrost = flags8[3];
+            downedCLAMHardMode = flags8[4];
             _ = flags8[5];
             _ = flags8[6];
             _ = flags8[7];

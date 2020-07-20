@@ -1,6 +1,8 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Weapons.Melee;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -70,7 +72,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<EbonianGel>(), 15, 16);
+            int item = Item.NewItem(npc.Center, npc.Size, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 21), false, 0, false, false);
+            Main.item[item].color = new Color(250, 50, 50, 255);
+            NetMessage.SendData(88, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
+
             DropHelper.DropItem(npc, ItemID.Gel, 10, 14);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), NPC.downedBoss3, 0.01f, 1, 1);
         }

@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Armor
 		{
 			DisplayName.SetDefault("Titan Heart Mantle");
 			Tooltip.SetDefault("45% chance to not consume rogue items\n" +
-			"5% boosted rogue knockback but 20% lowered rogue shoot speed");
+			"5% boosted rogue knockback but 15% lowered rogue shoot speed");
 		}
 
 		public override void SetDefaults()

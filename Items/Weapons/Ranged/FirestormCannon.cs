@@ -54,18 +54,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override bool CanUseItem(Player player)
         {
-            if (player.altFunctionUse == 2)
-            {
-                item.useTime = 27;
-                item.useAnimation = 27;
-            }
-            else
-            {
-                item.useTime = 9;
-                item.useAnimation = 9;
-            }
             return base.CanUseItem(player);
         }
+
+		public override float UseTimeMultiplier	(Player player)
+		{
+			if (player.altFunctionUse == 2)
+				return 0.3333f;
+			return 1f;
+		}
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

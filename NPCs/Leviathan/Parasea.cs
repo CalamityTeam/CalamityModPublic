@@ -1,6 +1,7 @@
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,8 +23,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.noTileCollide = true;
             npc.canGhostHeal = false;
             npc.damage = 50;
-            npc.width = 30;
-            npc.height = 30;
+            npc.width = npc.height = 30;
             npc.defense = 8;
             npc.lifeMax = 650;
             if (CalamityWorld.bossRushActive)
@@ -61,6 +61,18 @@ namespace CalamityMod.NPCs.Leviathan
             npc.frameCounter %= Main.npcFrameCount[npc.type];
             int frame = (int)npc.frameCounter;
             npc.frame.Y = frame * frameHeight;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Texture2D texture = Main.npcTexture[npc.type];
+            int height = texture.Height / Main.npcFrameCount[npc.type];
+            int width = texture.Width;
+			SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;
+			if (npc.spriteDirection == -1)
+				spriteEffects = SpriteEffects.None;
+            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0f, npc.gfxOffY), npc.frame, npc.GetAlpha(drawColor), npc.rotation, new Vector2((float)width / 2f, (float)height / 2f), npc.scale, spriteEffects, 0f);
+            return false;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

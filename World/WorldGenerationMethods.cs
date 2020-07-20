@@ -1606,18 +1606,29 @@ namespace CalamityMod.World
                 if (CanAstralBiomeSpawn())
                 {
                     DoAstralConversion(new Point(i, j));
-                    int checkWidth = 70;
-                    float height = 9000;
+                    int checkWidth = 180;
+                    float averageHeight = 0f;
+                    float lowestHeight = 0f;
                     for (int x = i - checkWidth / 2; x < i + checkWidth / 2; x++)
                     {
-                        int y = j - 100;
-                        while (!CalamityUtils.ParanoidTileRetrieval(x, y).active())
+                        int y = j - 200;
+                        while (!CalamityUtils.ParanoidTileRetrieval(x, y).active() || CalamityUtils.ParanoidTileRetrieval(x, y).type == TileID.Trees)
                         {
                             y++;
+                            if (y > j - 10)
+                                break;
                         }
-                        height = (int)MathHelper.Min(height, y);
+                        lowestHeight = (int)MathHelper.Max(lowestHeight, y);
+                        averageHeight += y;
                     }
-                    SchematicPlacementHelpers.PlaceStructure("Astral Beacon", new Point(i, (int)height - 30), SchematicPlacementHelpers.PlacementAnchorType.Center);
+                    lowestHeight -= 36f;
+                    averageHeight /= checkWidth;
+                    float height = lowestHeight;
+
+                    // If there's a sudden change between the average and lowest height (which is indicative of holes/chasms), go with the average.
+                    if (Math.Abs(lowestHeight - averageHeight) > 50f)
+                        height = averageHeight;
+                    SchematicPlacementHelpers.PlaceStructure("Astral Beacon", new Point(i, (int)height - 20), SchematicPlacementHelpers.PlacementAnchorType.Center);
                 }
             }
             return true;

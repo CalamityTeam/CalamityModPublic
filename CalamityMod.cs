@@ -3391,6 +3391,13 @@ namespace CalamityMod
                     StealthUI.Draw(Main.spriteBatch, Main.LocalPlayer);
                     return true;
                 }, InterfaceScaleType.None));
+
+                // Popup GUIs.
+                layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Popup GUIs", () =>
+                {
+                    PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
+                    return true;
+                }, InterfaceScaleType.None));
             }
 
             // Invasion UI (used for Acid Rain)
@@ -3406,11 +3413,6 @@ namespace CalamityMod
                     return true;
                 }, InterfaceScaleType.None));
             }
-            layers.Add(new LegacyGameInterfaceLayer("Popup GUIs", () =>
-            {
-                PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
-                return true;
-            }, InterfaceScaleType.None));
         }
 
         public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f)

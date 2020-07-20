@@ -24,8 +24,9 @@ namespace CalamityMod.Tiles
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Field Generator");
             AddMapEntry(new Color(53, 49, 52), name);
-            minPick = 190;
+            minPick = 65;
         }
+
         public TEDraedonFieldGenerator RetrieveTileEntity(int i, int j)
         {
             int determinedID = ModContent.GetInstance<TEDraedonFieldGenerator>().Find(i, j);
@@ -41,15 +42,20 @@ namespace CalamityMod.Tiles
             }
             return (TEDraedonFieldGenerator)TileEntity.ByID[determinedID];
         }
+
+        public override bool CanExplode(int i, int j) => false;
+
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 226);
             return false;
         }
+
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             TEDraedonFieldGenerator charger = RetrieveTileEntity(i, j);

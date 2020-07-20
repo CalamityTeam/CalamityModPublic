@@ -1,7 +1,9 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,13 +19,12 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Camper");
-            Tooltip.SetDefault("You deal no damage unless stationary\n" +
+            Tooltip.SetDefault("In rest may we find victory.\n" +
+				"You deal no damage unless stationary\n" +
                 "Standing still grants buff(s) dependent on what weapon you're holding\n" +
                 "Standing still provides a damaging aura around you\n" +
                 "While moving, you regenerate health as if standing still\n" +
-				"Provides a small amount of light in the Abyss\n" +
-				"Provides cold protection in Death Mode\n" +
-                "In rest may we find victory.");
+				"Provides a small amount of light in the Abyss");
         }
 
         public override void SetDefaults()
@@ -34,6 +35,21 @@ namespace CalamityMod.Items.Accessories
             item.rare = 7;
             item.accessory = true;
             item.defense = 10;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip5")
+					{
+						line2.text = "Provides a small amount of light in the Abyss\n" +
+						"Provides cold protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

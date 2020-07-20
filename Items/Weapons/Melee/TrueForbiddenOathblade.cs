@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Weapons.Melee
             for (int i = -index; i <= index; i += index)
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.ToRadians(i));
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position, perturbedSpeed, type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
             }
             return false;
         }
@@ -52,7 +52,7 @@ namespace CalamityMod.Items.Weapons.Melee
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ForbiddenOathblade>());
             recipe.AddIngredient(ModContent.ItemType<CalamityDust>(), 3);
-            recipe.AddIngredient(ModContent.ItemType<LivingShard>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 3);
             recipe.AddIngredient(ItemID.BrokenHeroSword);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
@@ -81,9 +81,8 @@ namespace CalamityMod.Items.Weapons.Melee
                 float num52 = 2f;
                 Vector2 value3 = (target.rotation - MathHelper.PiOver2).ToRotationVector2();
                 Vector2 value4 = value3 * target.velocity.Length();
-                Main.PlaySound(SoundID.Item14, target.position);
-                int num3;
-                for (int num53 = 0; num53 < 40; num53 = num3 + 1)
+                Main.PlaySound(SoundID.Item14, target.Center);
+                for (int num53 = 0; num53 < 40; num53++)
                 {
                     int num54 = Dust.NewDust(target.position, target.width, target.height, 173, 0f, 0f, 200, default, num50);
                     Dust dust = Main.dust[num54];
@@ -100,9 +99,8 @@ namespace CalamityMod.Items.Weapons.Melee
                     dust.fadeIn = 1f;
                     dust.color = Color.Crimson * 0.5f;
                     dust.velocity += value4 * Main.rand.NextFloat();
-                    num3 = num53;
                 }
-                for (int num55 = 0; num55 < 20; num55 = num3 + 1)
+                for (int num55 = 0; num55 < 20; num55++)
                 {
                     int num56 = Dust.NewDust(target.position, target.width, target.height, 173, 0f, 0f, 0, default, num52);
                     Dust dust = Main.dust[num56];
@@ -111,7 +109,6 @@ namespace CalamityMod.Items.Weapons.Melee
                     dust.velocity.Y -= 1.5f;
                     dust.velocity *= 0.5f;
                     dust.velocity += value4 * (0.6f + 0.6f * Main.rand.NextFloat());
-                    num3 = num55;
                 }
             }
         }

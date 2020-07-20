@@ -2,6 +2,8 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -17,8 +19,7 @@ namespace CalamityMod.Items.Armor
                        "25% increased movement speed\n" +
                        "Attacks have a 2% chance to do no damage to you\n" +
                        "8% increased damage and 5% increased critical strike chance\n" +
-                       "You will freeze enemies near you when you are struck\n" +
-					   "Provides heat and cold protection in Death Mode");
+                       "You will freeze enemies near you when you are struck");
         }
 
         public override void SetDefaults()
@@ -28,6 +29,21 @@ namespace CalamityMod.Items.Armor
             item.value = Item.buyPrice(1, 44, 0, 0);
             item.defense = 48;
             item.Calamity().customRarity = CalamityRarity.Violet;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
+					{
+						line2.text = "You will freeze enemies near you when you are struck\n" +
+						"Provides heat and cold protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override void UpdateEquip(Player player)

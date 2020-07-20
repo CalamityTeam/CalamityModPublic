@@ -1,6 +1,4 @@
-﻿using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -75,17 +73,15 @@ namespace CalamityMod.Projectiles.Ranged
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, width, height);
             return null;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 180);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 180);
-            target.AddBuff(ModContent.BuffType<Plague>(), 180);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 180);
-            target.AddBuff(BuffID.CursedInferno, 180);
-            target.AddBuff(BuffID.Frostburn, 180);
-            target.AddBuff(BuffID.OnFire, 180);
-            target.AddBuff(BuffID.Ichor, 180);
+			target.ExoDebuffs(2f);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.ExoDebuffs(2f);
         }
     }
 }

@@ -33,12 +33,12 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            if (Main.rand.Next(8) == 0)
+            if (Main.rand.NextBool(8))
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 191, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
             projectile.rotation += Math.Sign(projectile.velocity.X) * MathHelper.ToRadians(8f);
-			if (projectile.Calamity().stealthStrike == true || hitCount > 16)
+			if (projectile.Calamity().stealthStrike || hitCount > 16)
 				hitCount = 16;
         }
 
@@ -91,14 +91,8 @@ namespace CalamityMod.Projectiles.Rogue
             {
 				for (int i = 0; i < hitCount; i++)
 				{
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<DestructionBolt>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<DestructionBolt>(), (int)(projectile.damage * 0.5), 0f, Main.myPlayer, 0f, 0f);
                 }
 			}
 		}

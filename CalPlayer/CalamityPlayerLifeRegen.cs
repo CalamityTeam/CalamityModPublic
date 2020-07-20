@@ -596,7 +596,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.absorber)
 			{
-				if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
+				if (player.StandingStill() && player.itemAnimation == 0)
 					player.lifeRegen += 2;
 			}
 
@@ -694,6 +694,10 @@ namespace CalamityMod.CalPlayer
             {
                 player.lifeRegen += 2;
             }
+			if (modPlayer.bloodPactBoost)
+            {
+                player.lifeRegen += 2;
+            }
 
 			if (modPlayer.bloodflareSummon)
 			{
@@ -719,7 +723,7 @@ namespace CalamityMod.CalPlayer
 				int lifeRegenMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 1 : 4;
 				float lifeRegenLifeRegenTimeMaxBoost = CalamityPlayer.areThereAnyDamnBosses ? 8f : 30f;
 
-				if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0)
+				if (player.StandingStill() && player.itemAnimation == 0)
 				{
 					bool boostedRegen = false;
 					bool noSunlight = false;
@@ -865,7 +869,7 @@ namespace CalamityMod.CalPlayer
 				if (player.statLife < modPlayer.actualMaxLife)
 				{
 					bool noLifeRegenCap = (player.shinyStone || modPlayer.draedonsHeart || modPlayer.cFreeze || modPlayer.shadeRegen || modPlayer.photosynthesis || modPlayer.camper) &&
-						Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f && player.itemAnimation == 0;
+						player.StandingStill() && player.itemAnimation == 0;
 
 					if (!noLifeRegenCap)
 					{

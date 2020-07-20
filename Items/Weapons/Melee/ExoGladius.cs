@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
@@ -68,84 +66,36 @@ namespace CalamityMod.Items.Weapons.Melee
             }
         }
 
-        public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
+		{
+			target.ExoDebuffs();
+			OnHitEffects(player);
+		}
+
+		public override void OnHitPvp(Player player, Player target, int damage, bool crit)
+		{
+			target.ExoDebuffs();
+			OnHitEffects(player);
+		}
+
+        private void OnHitEffects(Player player)
         {
             if (!player.immune)
             {
                 player.immune = true;
-				if (player.immuneTime < 10)
-					player.immuneTime = 10;
-				if (player.hurtCooldowns[0] < 10)
-					player.hurtCooldowns[0] = 10;
-				if (player.hurtCooldowns[1] < 10)
-					player.hurtCooldowns[1] = 10;
+                if (player.immuneTime < 10)
+                    player.immuneTime = 10;
+                if (player.hurtCooldowns[0] < 10)
+                    player.hurtCooldowns[0] = 10;
+                if (player.hurtCooldowns[1] < 10)
+                    player.hurtCooldowns[1] = 10;
             }
 
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
-
-            float x = target.Center.X + (float)Main.rand.Next(-400, 400);
-            float y = target.Center.Y - (float)Main.rand.Next(500, 800);
-            Vector2 vector = new Vector2(x, y);
-            float num15 = target.Center.X + (float)(target.width / 2) - vector.X;
-            float num16 = target.Center.Y + (float)(target.height / 2) - vector.Y;
-            num15 += (float)Main.rand.Next(-100, 101);
-            int num17 = 25;
-            float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-            num18 = (float)num17 / num18;
-            num15 *= num18;
-            num16 *= num18;
             if (player.whoAmI == Main.myPlayer)
             {
-				Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<ExoGladComet>(), (int)(item.damage * player.MeleeDamage()), 15f, player.whoAmI, 0f, 0f);
+                int damage = player.GetWeaponDamage(player.ActiveItem());
+                CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 25f, ModContent.ProjectileType<ExoGladComet>(), damage, 15f, player.whoAmI);
             }
         }
-
-        public override void OnHitPvp(Player player, Player target, int damage, bool crit)
-        {
-            if (!player.immune)
-            {
-                player.immune = true;
-				if (player.immuneTime < 10)
-					player.immuneTime = 10;
-				if (player.hurtCooldowns[0] < 10)
-					player.hurtCooldowns[0] = 10;
-				if (player.hurtCooldowns[1] < 10)
-					player.hurtCooldowns[1] = 10;
-            }
-
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
-
-            float x = target.Center.X + (float)Main.rand.Next(-400, 400);
-            float y = target.Center.Y - (float)Main.rand.Next(500, 800);
-            Vector2 vector = new Vector2(x, y);
-            float num15 = target.Center.X + (float)(target.width / 2) - vector.X;
-            float num16 = target.Center.Y + (float)(target.height / 2) - vector.Y;
-            num15 += (float)Main.rand.Next(-100, 101);
-            int num17 = 25;
-            float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-            num18 = (float)num17 / num18;
-            num15 *= num18;
-            num16 *= num18;
-            if (player.whoAmI == Main.myPlayer)
-            {
-				Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<ExoGladComet>(), (int)(item.damage * player.MeleeDamage()), 15f, player.whoAmI, 0f, 0f);
-            }
-        }
-    }
+	}
 }

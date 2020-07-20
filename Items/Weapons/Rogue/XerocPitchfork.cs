@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Xeroc Pitchfork");
+			DisplayName.SetDefault("Antumbra Transpiercer");
 			Tooltip.SetDefault("Stealth strikes leave homing stars in their wake");
 		}
 
@@ -41,11 +41,10 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (player.Calamity().StealthStrikeAvailable())
 			{
-				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+				int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
 				Main.projectile[stealth].Calamity().stealthStrike = true;
-				return false;
 			}
-			return true;
+			return !player.Calamity().StealthStrikeAvailable();
 		}
 
 		public override void AddRecipes()
