@@ -79,6 +79,7 @@ namespace CalamityMod.Projectiles.Summon
             float range = 1000f;
             Vector2 targetVec = projectile.position;
             bool foundTarget = false;
+			int targetIndex = -1;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
@@ -89,10 +90,11 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         targetVec = npc.Center;
                         foundTarget = true;
+						targetIndex = npc.whoAmI;
                     }
                 }
             }
-            else
+            if (!foundTarget)
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
@@ -104,6 +106,7 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             targetVec = npc.Center;
                             foundTarget = true;
+							targetIndex = num645;
                         }
                     }
                 }
@@ -147,7 +150,7 @@ namespace CalamityMod.Projectiles.Summon
 					Vector2 velocity = targetVec - projectile.Center;
 					velocity.Normalize();
 					velocity *= speedMult;
-					Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, 0f, projectile.owner, 0f, 0f);
+					Projectile.NewProjectile(projectile.Center, velocity, projType, projectile.damage, 0f, projectile.owner, targetIndex, 0f);
 					projectile.netUpdate = true;
 				}
 			}

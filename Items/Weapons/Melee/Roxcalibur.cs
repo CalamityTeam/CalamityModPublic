@@ -213,7 +213,7 @@ namespace CalamityMod.Items.Weapons.Melee
                 //Spawns a projectile on the tip of the sword in the alt fire
                 float positionx;
                 float positiony = position.Y + (item.height / 2) + 23;
-                ;
+
                 int cooldown = 0;
                 //Check if the entire cooldown has passed
                 if (Roxcooldown >= 600)

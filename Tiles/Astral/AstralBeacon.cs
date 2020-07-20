@@ -64,16 +64,6 @@ namespace CalamityMod.Tiles.Astral
 
             bool usingStarcore = Main.LocalPlayer.HasItem(ModContent.ItemType<Starcore>());
 
-            if (!NPC.downedAncientCultist)
-            {
-                string localizationKey = "Mods.CalamityMod.DeusAltarRejectText";
-                if (Main.netMode == NetmodeID.SinglePlayer)
-                    Main.NewText(Language.GetTextValue(localizationKey), FailColor);
-                else if (Main.netMode == NetmodeID.Server)
-                    NetMessage.BroadcastChatMessage(NetworkText.FromKey(localizationKey), FailColor);
-                return true;
-            }
-
             if (Main.dayTime)
             {
                 string localizationKey = "Mods.CalamityMod.DeusAltarRejectNightText";

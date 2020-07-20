@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                     Vector2 velocity = Utils.NextVector2Circular(Main.rand, 7.2f, 7.2f);
                     Projectile.NewProjectile(projectile.Center, velocity,
                                              ModContent.ProjectileType<FinalDawnFireball>(),
-                                             (int)(projectile.damage * 0.8), projectile.knockBack, projectile.owner, 0f,
+                                             (int)(projectile.damage * 0.3), projectile.knockBack, projectile.owner, 0f,
                                              target.whoAmI);
                 }
                 HasHitEnemy = true;
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Rogue
 		{
 			Player player = Main.player[projectile.owner];
 
-			if (player.dead || player is null || Main.myPlayer != projectile.owner)
+			if (player.dead || player is null)
 				projectile.Kill();
 
             if (projectile.localAI[0] == 0)

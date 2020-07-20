@@ -59,7 +59,7 @@ namespace CalamityMod.Projectiles.Ranged
                 fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                 Main.dust[fire].velocity *= 2f;
             }
-			projectile.ExplosionGores(3);
+			CalamityUtils.ExplosionGores(projectile.Center, 3);
             if (projectile.owner == Main.myPlayer)
             {
                 for (int i = 0; i < 3; i++)

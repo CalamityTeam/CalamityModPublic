@@ -11,6 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
     public class Celestus : RogueWeapon
     {
 		private int counter = 0;
+		private bool stealthScythes = false;
 
         public override void SetStaticDefaults()
         {
@@ -42,21 +43,26 @@ namespace CalamityMod.Items.Weapons.Rogue
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-			counter++;
-			if (counter >= 3)
-				counter = 0;
-
             if (player.Calamity().StealthStrikeAvailable()) //setting the stealth strike
             {
-                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage / 2, knockBack, player.whoAmI, 0f, 1f);
-                Main.projectile[stealth].Calamity().stealthStrike = true;
-                return false;
-            }
-			else if (counter == 1 || counter == 2)
-			{
-				return false;
+				stealthScythes = true;
 			}
-            return true;
+			if (stealthScythes)
+			{
+                int stealth = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage / 2, knockBack, player.whoAmI, 0f, 0f);
+                Main.projectile[stealth].Calamity().stealthStrike = true;
+            }
+			else if (counter == 0)
+			{
+				Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, 0f, 0f);
+			}
+			counter++;
+			if (counter >= 3)
+			{
+				stealthScythes = false;
+				counter = 0;
+			}
+            return false;
         }
 
         public override void AddRecipes()

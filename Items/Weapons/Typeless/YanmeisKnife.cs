@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 			DisplayName.SetDefault("Yanmei's Knife");
 			Tooltip.SetDefault("When hitting a boss or its minions, you gain various boosts and cripple the enemy hit\n" +
 							   "A knife from an unknown world\n" +
-							   "An owner who's heart is pure and free of taint\n" +
+							   "An owner whose heart is pure and free of taint\n" +
 							   "A heart of iron and valor");
 		}
 

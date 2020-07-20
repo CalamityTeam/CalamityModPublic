@@ -49,6 +49,8 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -860,6 +862,8 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 			}
 
+            if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
+                npc.buffImmune[BuffType<KamiDebuff>()] = false;
             npc.buffImmune[BuffType<Enraged>()] = false;
         }
         #endregion
@@ -1912,7 +1916,7 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case 3:
-						if (npc.type == NPCType<StormlionCharger>() || npc.type == NPCType<WulfrumDrone>() ||
+						if (npc.type == NPCType<StormlionCharger>() ||
 							npc.type == NPCType<AstralachneaGround>() || npc.type == NPCType<CultistAssassin>())
 						{
 							return CalamityGlobalAI.BuffedFighterAI(npc, mod);
@@ -3616,15 +3620,15 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.2);
 					}
-					else if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileID.Electrosphere)
+					else if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					{
-						damage = (int)(damage * 0.4);
+						damage = (int)(damage * 0.25);
 					}
-					else if (projectile.type == ProjectileType<SpikecragSpike>())
+					else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>())
 					{
 						damage = (int)(damage * 0.5);
 					}
-					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
+					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser || projectile.type == ProjectileID.Electrosphere)
 					{
 						damage = (int)(damage * 0.75);
 					}
@@ -3693,7 +3697,7 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.9);
 					}
-					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>())
+					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>() || projectile.type == ProjectileType<PoleWarperSummon>())
 					{
 						damage = (int)(damage * 0.5);
 					}
@@ -5933,7 +5937,7 @@ namespace CalamityMod.NPCs
                     return true;
                 }
             }
-            return false;
+            return CalamityUtils.FindFirstProjectile(ProjectileType<DeusRitualDrama>()) != -1;
         }
 		#endregion
 
@@ -6203,22 +6207,7 @@ namespace CalamityMod.NPCs
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
 							int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, type);
-							string typeName2 = Main.npc[num8].TypeName;
-
-							if (Main.netMode == NetmodeID.SinglePlayer)
-							{
-								Main.NewText(Language.GetTextValue("Announcement.HasAwoken", typeName2), new Color(175, 75, 255));
-								return;
-							}
-
-							if (Main.netMode == NetmodeID.Server)
-							{
-								NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]
-								{
-										Main.npc[num8].GetTypeNetName()
-								}), new Color(175, 75, 255));
-								return;
-							}
+							CalamityUtils.BossAwakenMessage(num8);
 						}
 						else
 						{

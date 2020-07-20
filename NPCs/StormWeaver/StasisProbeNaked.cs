@@ -238,7 +238,7 @@ namespace CalamityMod.NPCs.StormWeaver
                     Main.dust[num624].velocity *= 2f;
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/StasisProbeNaked1"), 1f);
-				npc.ExplosionGores(1);
+				CalamityUtils.ExplosionGores(npc.Center, 1);
             }
         }
 

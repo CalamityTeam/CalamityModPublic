@@ -20,7 +20,7 @@ namespace CalamityMod.UI
 				DrawPosition.Y = Main.screenHeight / 2 + Main.LocalPlayer.height / 2f + 24f;
 			}
 			CalamityPlayer modPlayer = player.Calamity();
-			if (modPlayer.stealthUIAlpha <= 0f || !CalamityConfig.Instance.StealthBar || modPlayer.rogueStealthMax <= 0)
+			if (modPlayer.stealthUIAlpha <= 0f || !CalamityConfig.Instance.StealthBar || modPlayer.rogueStealthMax <= 0f || !modPlayer.wearingRogueArmor)
 			{
 				if (CalamityConfig.Instance.StealthMeterPosX != DrawPosition.X)
 				{
