@@ -2128,7 +2128,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<ScourgeoftheCosmosProj>(),
                 ModContent.ProjectileType<SpearofDestinyProjectile>(),
                 ModContent.ProjectileType<SpearofPaleolithProj>(),
-                ModContent.ProjectileType<XerocPitchforkProjectile>(),
+                ModContent.ProjectileType<AntumbraShardProjectile>(),
                 ModContent.ProjectileType<TurbulanceProjectile>(),
                 ModContent.ProjectileType<NightsGazeProjectile>()
             };

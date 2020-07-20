@@ -128,7 +128,7 @@ namespace CalamityMod.Projectiles.Rogue
 			}
         }
 
-		public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
 			if (projectile.ai[1] <= 40f && projectile.ai[0] != 1f)
 			{
