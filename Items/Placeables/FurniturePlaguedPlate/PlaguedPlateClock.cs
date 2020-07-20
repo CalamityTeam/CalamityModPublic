@@ -8,6 +8,7 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Plagued Clock");
         }
 
         public override void SetDefaults()

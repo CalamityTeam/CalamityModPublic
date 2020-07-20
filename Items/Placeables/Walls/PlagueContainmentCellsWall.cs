@@ -8,6 +8,7 @@ namespace CalamityMod.Items.Placeables.Walls
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Plagueplate Wall");
         }
 
         public override void SetDefaults()

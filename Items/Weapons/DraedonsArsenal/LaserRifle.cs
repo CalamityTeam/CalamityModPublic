@@ -51,10 +51,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 				velocity *= 5f;
 			}
 
-			float SpeedX = velocity.X + (float)Main.rand.Next(-1, 2) * 0.05f;
-			float SpeedY = velocity.Y + (float)Main.rand.Next(-1, 2) * 0.05f;
-
-			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<LaserRifleShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
+			for (int i = 0; i < 2; i++)
+			{
+				float SpeedX = velocity.X + Main.rand.Next(-1, 2) * 0.05f;
+				float SpeedY = velocity.Y + Main.rand.Next(-1, 2) * 0.05f;
+				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<LaserRifleShot>(), damage, knockBack, player.whoAmI, i, 0f);
+			}
 
 			// Consume 4 ammo per shot
 			CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 4);

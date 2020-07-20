@@ -77,13 +77,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			}
 
 			int ammoConsumed = 20;
-			float SpeedX = velocity.X + (float)Main.rand.Next(-3, 4) * 0.05f;
-			float SpeedY = velocity.Y + (float)Main.rand.Next(-3, 4) * 0.05f;
+			float SpeedX = velocity.X + Main.rand.Next(-3, 4) * 0.05f;
+			float SpeedY = velocity.Y + Main.rand.Next(-3, 4) * 0.05f;
 			if (player.altFunctionUse == 2)
 			{
 				ammoConsumed = 5;
-				SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
-				SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
+				SpeedX = velocity.X + Main.rand.Next(-15, 16) * 0.05f;
+				SpeedY = velocity.Y + Main.rand.Next(-15, 16) * 0.05f;
 			}
 
 			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlasmaCasterShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
