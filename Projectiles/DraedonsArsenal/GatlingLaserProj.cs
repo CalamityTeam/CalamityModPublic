@@ -109,8 +109,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 							velocity2.Normalize();
 							velocity2 *= 5f;
 						}
-						float SpeedX = velocity2.X + Main.rand.Next(-1, 2) * 0.01f;
-						float SpeedY = velocity2.Y + Main.rand.Next(-1, 2) * 0.01f;
+						float SpeedX = velocity2.X + Main.rand.Next(-1, 2) * 0.005f;
+						float SpeedY = velocity2.Y + Main.rand.Next(-1, 2) * 0.005f;
 						float ai0 = projectile.ai[0] - 2f; // 0, 1, or 2
 						Projectile.NewProjectile(value2.X, value2.Y, SpeedX, SpeedY, type, weaponDamage2, projectile.knockBack, projectile.owner, ai0, 0f);
 					}

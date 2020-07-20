@@ -78,6 +78,7 @@ namespace CalamityMod.Projectiles.Summon
 					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
 					{
 						homeIn = true;
+						break;
 					}
 				}
 			}

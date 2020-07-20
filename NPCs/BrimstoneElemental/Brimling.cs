@@ -48,6 +48,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 			npc.buffImmune[BuffID.StardustMinionBleed] = false;
 			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
 			npc.buffImmune[BuffID.Oiled] = false;
+			npc.buffImmune[BuffID.BoneJavelin] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
 			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
@@ -57,8 +58,10 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Plague>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
+            npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;

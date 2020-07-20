@@ -47,8 +47,7 @@ namespace CalamityMod.Items.Armor
                 "This effect only triggers once per life and if you are reduced to 400 max life the invincibility effect will stop\n" +
                 "Your max life will return to normal if you die\n" +
                 "Increases your rate of fire with all ranged weapons\n" +
-                "During the silva invulnerability time your ranged weapons will do 40% more damage\n" +
-				"Provides cold protection in Death Mode";
+                "During the silva invulnerability time your ranged weapons will do 40% more damage";
         }
 
         public override void UpdateEquip(Player player)

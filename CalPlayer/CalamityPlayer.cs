@@ -15,6 +15,7 @@ using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
+using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.NPCs;
@@ -119,6 +120,7 @@ namespace CalamityMod.CalPlayer
 		public double contactDamageReduction = 0D;
 		public double projectileDamageReduction = 0D;
 		public bool brimlashBusterBoost = false;
+		public float animusBoost = 1f;
 		#endregion
 
         public int CurrentlyViewedFactoryX = -1;
@@ -489,6 +491,7 @@ namespace CalamityMod.CalPlayer
         public bool fleshTotem = false;
         public bool fleshTotemCooldown = false;
         public bool bloodPact = false;
+		public bool bloodPactBoost = false;
         public bool bloodflareCore = false;
         public bool coreOfTheBloodGod = false;
         public bool elementalHeart = false;
@@ -1819,6 +1822,7 @@ namespace CalamityMod.CalPlayer
             polarisBoostTwo = false;
             polarisBoostThree = false;
             bloodfinBoost = false;
+			bloodPactBoost = false;
 
             killSpikyBalls = false;
 
@@ -2200,6 +2204,7 @@ namespace CalamityMod.CalPlayer
             revivify = false;
             healCounter = 300;
             danceOfLightCharge = 0;
+			bloodPactBoost = false;
             #endregion
 
             #region Armorbonuses
@@ -2324,6 +2329,7 @@ namespace CalamityMod.CalPlayer
             KameiBladeUseDelay = 0;
             lastProjectileHit = null;
 			brimlashBusterBoost = false;
+			animusBoost = 1f;
 
             if (CalamityWorld.bossRushActive)
             {
@@ -2885,7 +2891,7 @@ namespace CalamityMod.CalPlayer
                     plagueReaperCooldown = 1800;
 				if (forbiddenCirclet && forbiddenCooldown <= 0)
 				{
-					forbiddenCooldown = 20;
+					forbiddenCooldown = 45;
                     int stormMana = (int)(ForbiddenCirclet.manaCost * player.manaCost);
                     if (player.statMana < stormMana)
                     {
@@ -4187,6 +4193,8 @@ namespace CalamityMod.CalPlayer
 		#region Get Heal Life
 		public override void GetHealLife(Item item, bool quickHeal, ref int healValue)
 		{
+			if (bloodPactBoost)
+				healValue = (int)(healValue * 1.5);
 			if (CalamityWorld.ironHeart)
 				healValue = 0;
 		}
@@ -4341,112 +4349,105 @@ namespace CalamityMod.CalPlayer
                         player.itemAnimation == (int)(player.itemAnimationMax * 0.7) ||
                         player.itemAnimation == (int)(player.itemAnimationMax * 0.9))
                     {
-                        float num339 = 0f;
-                        float num340 = 0f;
-                        float num341 = 0f;
-                        float num342 = 0f;
+                        float yVel = 0f;
+                        float xVel = 0f;
+                        float yOffset = 0f;
+                        float xOffset = 0f;
                         if (player.itemAnimation == (int)(player.itemAnimationMax * 0.9))
                         {
-                            num339 = -7f;
+                            yVel = -7f;
                         }
                         if (player.itemAnimation == (int)(player.itemAnimationMax * 0.7))
                         {
-                            num339 = -6f;
-                            num340 = 2f;
+                            yVel = -6f;
+                            xVel = 2f;
                         }
                         if (player.itemAnimation == (int)(player.itemAnimationMax * 0.5))
                         {
-                            num339 = -4f;
-                            num340 = 4f;
+                            yVel = -4f;
+                            xVel = 4f;
                         }
                         if (player.itemAnimation == (int)(player.itemAnimationMax * 0.3))
                         {
-                            num339 = -2f;
-                            num340 = 6f;
+                            yVel = -2f;
+                            xVel = 6f;
                         }
                         if (player.itemAnimation == (int)(player.itemAnimationMax * 0.1))
                         {
-                            num340 = 7f;
+                            xVel = 7f;
                         }
                         if (player.itemAnimation == (int)(player.itemAnimationMax * 0.7))
                         {
-                            num342 = 26f;
+                            xOffset = 26f;
                         }
                         if (player.itemAnimation == (int)(player.itemAnimationMax * 0.3))
                         {
-                            num342 -= 4f;
-                            num341 -= 20f;
+                            xOffset -= 4f;
+                            yOffset -= 20f;
                         }
                         if (player.itemAnimation == (int)(player.itemAnimationMax * 0.1))
                         {
-                            num341 += 6f;
+                            yOffset += 6f;
                         }
                         if (player.direction == -1)
                         {
                             if (player.itemAnimation == (int)(player.itemAnimationMax * 0.9))
                             {
-                                num342 -= 8f;
+                                xOffset -= 8f;
                             }
                             if (player.itemAnimation == (int)(player.itemAnimationMax * 0.7))
                             {
-                                num342 -= 6f;
+                                xOffset -= 6f;
                             }
                         }
-                        num339 *= 1.5f;
-                        num340 *= 1.5f;
-                        num342 *= (float)player.direction;
-                        num341 *= player.gravDir;
-                        Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + num342, (float)(hitbox.Y + hitbox.Height / 2) + num341, (float)player.direction * num340, num339 * player.gravDir, ProjectileID.Mushroom, (int)(item.damage * 0.25f * player.MeleeDamage()), 0f, player.whoAmI, 0f, 0f);
+                        yVel *= 1.5f;
+                        xVel *= 1.5f;
+                        xOffset *= (float)player.direction;
+                        yOffset *= player.gravDir;
+                        Projectile.NewProjectile((float)(hitbox.X + hitbox.Width / 2) + xOffset, (float)(hitbox.Y + hitbox.Height / 2) + yOffset, (float)player.direction * xVel, yVel * player.gravDir, ProjectileID.Mushroom, (int)(item.damage * 0.25f * player.MeleeDamage()), 0f, player.whoAmI, 0f, 0f);
                     }
                 }
                 if (aWeapon)
                 {
                     if (Main.rand.NextBool(3))
                     {
-                        int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, ModContent.DustType<BrimstoneFlame>(), player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 0.75f);
-                    }
-                }
-                if (aChicken)
-                {
-                    if (Main.rand.NextBool(3))
-                    {
-                        int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 244, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 0.75f);
+                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, ModContent.DustType<BrimstoneFlame>(), player.velocity.X * 0.2f + player.direction * 3f, player.velocity.Y * 0.2f, 100, default, 0.75f);
                     }
                 }
                 if (eGauntlet)
                 {
                     if (Main.rand.NextBool(3))
                     {
-                        int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 66, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.25f);
-                        Main.dust[num280].noGravity = true;
+                        int element = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 66, player.velocity.X * 0.2f + player.direction * 3f, player.velocity.Y * 0.2f, 100, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.25f);
+                        Main.dust[element].noGravity = true;
                     }
                 }
                 if (cryogenSoul)
                 {
                     if (Main.rand.NextBool(3))
                     {
-                        int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 67, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 0.75f);
+                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 67, player.velocity.X * 0.2f + player.direction * 3f, player.velocity.Y * 0.2f, 100, default, 0.75f);
                     }
                 }
                 if (xerocSet)
                 {
                     if (Main.rand.NextBool(3))
                     {
-                        int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 58, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 1.25f);
+                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 58, player.velocity.X * 0.2f + player.direction * 3f, player.velocity.Y * 0.2f, 100, default, 1.25f);
                     }
                 }
                 if (reaverBlast)
                 {
                     if (Main.rand.NextBool(3))
                     {
-                        int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 74, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 0.75f);
+                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 74, player.velocity.X * 0.2f + player.direction * 3f, player.velocity.Y * 0.2f, 100, default, 0.75f);
                     }
                 }
                 if (dsSetBonus)
                 {
                     if (Main.rand.NextBool(3))
                     {
-                        int num280 = Dust.NewDust(new Vector2((float)hitbox.X, (float)hitbox.Y), hitbox.Width, hitbox.Height, 27, player.velocity.X * 0.2f + (float)(player.direction * 3), player.velocity.Y * 0.2f, 100, default, 2.5f);
+                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 27, player.velocity.X * 0.2f + player.direction * 3f, player.velocity.Y * 0.2f, 100, default, 2.5f);
                     }
                 }
             }
@@ -4469,11 +4470,8 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 			}
-            if (!item.melee && (int) player.meleeEnchant == 7)
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
-
-			if (item.melee)
-				titanBoost = 600;
+            if (!item.melee && player.meleeEnchant == 7)
+                Projectile.NewProjectile(target.Center, target.velocity, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
 
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
@@ -4496,6 +4494,7 @@ namespace CalamityMod.CalPlayer
 
             if (item.melee) //prevents Deep Sea Dumbell from snagging true melee debuff memes
             {
+				titanBoost = 600;
                 if (eGauntlet)
                 {
 					int duration = 90;
@@ -4571,9 +4570,13 @@ namespace CalamityMod.CalPlayer
 					case 8:
 						target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
 						break;
-					/*case 4:
+					case 4:
 						target.AddBuff(BuffID.Midas, 120, false);
-						break;*/
+						break;
+				}
+				if (titanHeartMask)
+				{
+					target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
 				}
             }
             if (holyWrath)
@@ -4763,9 +4766,9 @@ namespace CalamityMod.CalPlayer
 						case 8:
 							target.AddBuff(BuffID.Poisoned, 60 * Main.rand.Next(5, 10), false);
 							break;
-						/*case 4:
+						case 4:
 							target.AddBuff(BuffID.Midas, 120, false);
-							break;*/
+							break;
 					}
                     if (etherealExtorter)
                     {
@@ -4787,6 +4790,10 @@ namespace CalamityMod.CalPlayer
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
                     }
+					if (titanHeartMask)
+					{
+						target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
+					}
                 }
                 if (vexation)
                 {
@@ -4820,11 +4827,8 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-            if (!item.melee && (int) player.meleeEnchant == 7)
-                Projectile.NewProjectile(target.Center.X, target.Center.Y, target.velocity.X, target.velocity.Y, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
-
-			if (item.melee)
-				titanBoost = 600;
+            if (!item.melee && player.meleeEnchant == 7)
+                Projectile.NewProjectile(target.Center, target.velocity, ProjectileID.ConfettiMelee, 0, 0f, player.whoAmI, 0f, 0f);
 
             if (omegaBlueChestplate)
                 target.AddBuff(ModContent.BuffType<CrushDepth>(), 240);
@@ -4847,6 +4851,7 @@ namespace CalamityMod.CalPlayer
 
             if (item.melee)
             {
+				titanBoost = 600;
                 if (eGauntlet)
                 {
 					int duration = 90;
@@ -4914,6 +4919,10 @@ namespace CalamityMod.CalPlayer
 					/*case 4:
 						target.AddBuff(BuffID.Midas, 120, false);
 						break;*/
+				}
+				if (titanHeartMask)
+				{
+					target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
 				}
             }
             if (holyWrath)
@@ -5122,6 +5131,10 @@ namespace CalamityMod.CalPlayer
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
                     }
+					if (titanHeartMask)
+					{
+						target.AddBuff(ModContent.BuffType<AstralInfectionDebuff>(), 60 * Main.rand.Next(1,6), false); // 1 to 5 seconds
+					}
                 }
                 if (vexation)
                 {
@@ -5241,22 +5254,16 @@ namespace CalamityMod.CalPlayer
                     {
                         if (player.ownedProjectileCounts[ModContent.ProjectileType<ChaosGeyser>()] < 3)
                         {
-                            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<ChaosGeyser>(), (int)(damage * 0.15), 2f, player.whoAmI, 0f, 0f);
+                            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<ChaosGeyser>(), (int)(damage * 0.15), 2f, player.whoAmI, 0f, 0f);
                         }
                     }
 				}
 				if (unstablePrism && crit)
 				{
-					for (int num252 = 0; num252 < 3; num252++)
+					for (int s = 0; s < 3; s++)
 					{
-						Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-						while (value15.X == 0f && value15.Y == 0f)
-						{
-							value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-						}
-						value15.Normalize();
-						value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
-						Projectile.NewProjectile(target.Center.X, target.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI, 0f, 0f);
+						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
+						Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI);
 					}
 				}
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)
@@ -5264,25 +5271,13 @@ namespace CalamityMod.CalPlayer
                     astralStarRainCooldown = 60;
                     for (int n = 0; n < 3; n++)
                     {
-                        float x = target.position.X + (float)Main.rand.Next(-400, 400);
-                        float y = target.position.Y - (float)Main.rand.Next(500, 800);
-                        Vector2 vector = new Vector2(x, y);
-                        float num13 = target.position.X + (float)(target.width / 2) - vector.X;
-                        float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
-                        num13 += (float)Main.rand.Next(-100, 101);
-                        float speed = 25f;
 						int projectileType = Utils.SelectRandom(Main.rand, new int[]
 						{
 							ModContent.ProjectileType<AstralStar>(),
 							ProjectileID.HallowStar,
 							ModContent.ProjectileType<FallenStarProj>()
 						});
-                        float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                        num16 = speed / num16;
-                        num13 *= num16;
-                        num14 *= num16;
-                        int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 120, 5f, player.whoAmI, 0f, 0f);
-                        Main.projectile[num17].Calamity().forceTypeless = true;
+						CalamityUtils.ProjectileRain(target.Center, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6);
                     }
                 }
                 if (bloodflareMelee && item.melee)
@@ -5434,7 +5429,7 @@ namespace CalamityMod.CalPlayer
 
                 if (randomChance < 15)
                     randomChance = 15;
-                if (Main.rand.Next(randomChance) == 0)
+                if (Main.rand.NextBool(randomChance))
                     damageMult += 1.0;
             }
             if (silvaCountdown > 0 && hasSilvaEffect && silvaRanged && proj.ranged)
@@ -5611,7 +5606,7 @@ namespace CalamityMod.CalPlayer
 			// Forbidden armor reduces said nerf when holding the respective helmet's preferred weapon type
             // Profaned Soul Crystal encourages use of other weapons, nerfing the damage would not make sense.
             bool forbidden = player.head == ArmorIDs.Head.AncientBattleArmor && player.body == ArmorIDs.Body.AncientBattleArmor && player.legs == ArmorIDs.Legs.AncientBattleArmor;
-			bool reducedNerf = fearmongerSet || (forbidden && heldItem.magic) || (forbiddenCirclet && heldItem.Calamity().rogue);
+			bool reducedNerf = fearmongerSet || (forbidden && heldItem.magic);
 			double summonNerfMult = 0.5;
 			if (reducedNerf)
 				summonNerfMult = 0.75;
@@ -5664,36 +5659,24 @@ namespace CalamityMod.CalPlayer
             {
                 if (theBee && player.statLife >= player.statLifeMax2)
                 {
-                    Main.PlaySound(SoundID.Item, (int)proj.position.X, (int)proj.position.Y, 110);
+                    Main.PlaySound(SoundID.Item110, proj.Center);
                 }
                 if (unstablePrism && crit)
                 {
-                    for (int num252 = 0; num252 < 3; num252++)
+                    for (int s = 0; s < 3; s++)
                     {
-                        Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                        while (value15.X == 0f && value15.Y == 0f)
-                        {
-                            value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                        }
-                        value15.Normalize();
-                        value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
-                        Projectile.NewProjectile(proj.oldPosition.X + (float)(proj.width / 2), proj.oldPosition.Y + (float)(proj.height / 2), value15.X, value15.Y, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI, 0f, 0f);
+						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
+                        Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI);
                     }
                 }
                 if (electricianGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue)
                 {
-                    for (int num252 = 0; num252 < 3; num252++)
+                    for (int s = 0; s < 3; s++)
                     {
-                        Vector2 value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                        while (value15.X == 0f && value15.Y == 0f)
-                        {
-                            value15 = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-                        }
-                        value15.Normalize();
-                        value15 *= (float)Main.rand.Next(30, 61) * 0.1f;
-                        int num17 = Projectile.NewProjectile(proj.oldPosition.X + (float)(proj.width / 2), proj.oldPosition.Y + (float)(proj.height / 2), value15.X, value15.Y, ModContent.ProjectileType<Spark>(), (int)(damage * 0.1), 0f, player.whoAmI, 0f, 0f);
-                        Main.projectile[num17].Calamity().forceRogue = true;
-                        Main.projectile[num17].localNPCHitCooldown = -1;
+						Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
+                        int spark = Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<Spark>(), (int)(damage * 0.1), 0f, player.whoAmI);
+                        Main.projectile[spark].Calamity().forceRogue = true;
+                        Main.projectile[spark].localNPCHitCooldown = -1;
                     }
                 }
                 if (astralStarRain && crit && astralStarRainCooldown <= 0)
@@ -5701,41 +5684,22 @@ namespace CalamityMod.CalPlayer
                     astralStarRainCooldown = 60;
                     for (int n = 0; n < 3; n++)
                     {
-                        float x = target.position.X + (float)Main.rand.Next(-400, 400);
-                        float y = target.position.Y - (float)Main.rand.Next(500, 800);
-                        Vector2 vector = new Vector2(x, y);
-                        float num13 = target.position.X + (float)(target.width / 2) - vector.X;
-                        float num14 = target.position.Y + (float)(target.height / 2) - vector.Y;
-                        num13 += (float)Main.rand.Next(-100, 101);
-                        float speed = 25f;
 						int projectileType = Utils.SelectRandom(Main.rand, new int[]
 						{
 							ModContent.ProjectileType<AstralStar>(),
 							ProjectileID.HallowStar,
 							ModContent.ProjectileType<FallenStarProj>()
 						});
-                        float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                        num16 = speed / num16;
-                        num13 *= num16;
-                        num14 *= num16;
-                        int num17 = Projectile.NewProjectile(x, y, num13, num14, projectileType, 120, 5f, player.whoAmI, 0f, 0f);
-                        Main.projectile[num17].Calamity().forceTypeless = true;
+						CalamityUtils.ProjectileRain(target.Center, 400f, 100f, 500f, 800f, 25f, projectileType, (int)(120 * player.AverageDamage()), 5f, player.whoAmI, 6);
                     }
                 }
                 if (tarraRanged && crit && proj.ranged)
                 {
-                    int num251 = Main.rand.Next(2, 4);
-                    for (int num252 = 0; num252 < num251; num252++)
+                    int leafAmt = Main.rand.Next(2, 4);
+                    for (int l = 0; l < leafAmt; l++)
                     {
-                        Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        while (value15.X == 0f && value15.Y == 0f)
-                        {
-                            value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        }
-                        value15.Normalize();
-                        value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        int FUCKYOU = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
-                            value15.X, value15.Y, ProjectileID.Leaf, (int)(damage * 0.25), 0f, player.whoAmI, 0f, 0f);
+						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                        int FUCKYOU = Projectile.NewProjectile(target.Center, velocity, ProjectileID.Leaf, (int)(damage * 0.25), 0f, player.whoAmI);
                         Main.projectile[FUCKYOU].Calamity().forceTypeless = true;
                         Main.projectile[FUCKYOU].netUpdate = true;
                     }
@@ -5744,22 +5708,22 @@ namespace CalamityMod.CalPlayer
                 {
                     if (target.canGhostHeal)
                     {
-                        float num11 = 0.03f;
-                        num11 -= (float)proj.numHits * 0.015f;
-                        if (num11 < 0f)
+                        float projHitMult = 0.03f;
+                        projHitMult -= (float)proj.numHits * 0.015f;
+                        if (projHitMult < 0f)
                         {
-                            num11 = 0f;
+                            projHitMult = 0f;
                         }
-                        float num12 = (float)proj.damage * num11;
-                        if (num12 < 0f)
+                        float cooldownMult = proj.damage * projHitMult;
+                        if (cooldownMult < 0f)
                         {
-                            num12 = 0f;
+                            cooldownMult = 0f;
                         }
                         if (player.lifeSteal > 0f)
                         {
                             player.statLife += 1;
                             player.HealEffect(1);
-                            player.lifeSteal -= num12 * 2f;
+                            player.lifeSteal -= cooldownMult * 2f;
                         }
                     }
                 }
@@ -5768,22 +5732,15 @@ namespace CalamityMod.CalPlayer
                     bloodflareMageCooldown = 120;
                     for (int i = 0; i < 3; i++)
                     {
-                        Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        while (value15.X == 0f && value15.Y == 0f)
-                        {
-                            value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                        }
-                        value15.Normalize();
-                        value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                        int fire = Projectile.NewProjectile(target.position.X + (float)(target.width / 2), target.position.Y + (float)(target.height / 2),
-                            value15.X, value15.Y, ProjectileID.BallofFire, (int)(damage * 0.5), 0f, player.whoAmI, 0f, 0f);
+						Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                        int fire = Projectile.NewProjectile(target.Center, velocity, ProjectileID.BallofFire, (int)(damage * 0.5), 0f, player.whoAmI);
                         Main.projectile[fire].Calamity().forceTypeless = true;
                         Main.projectile[fire].netUpdate = true;
                     }
                 }
                 if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || proj.Calamity().stealthStrike) && proj.type != ModContent.ProjectileType<UmbraphileBoom>())
                 {
-                    Projectile.NewProjectile(proj.Center.X, proj.Center.Y, 0f, 0f, ModContent.ProjectileType<UmbraphileBoom>(), CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50), 0f, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(proj.Center, Vector2.Zero, ModContent.ProjectileType<UmbraphileBoom>(), CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50), 0f, player.whoAmI);
                 }
                 if (bloodflareMelee && isTrueMelee)
                 {
@@ -6976,7 +6933,7 @@ namespace CalamityMod.CalPlayer
         {
             if (sulfurSet && !proj.friendly)
             {
-                if (Main.player[proj.owner] == null)
+                if (Main.player[proj.owner] is null)
                 {
                     if (!Main.npc[proj.owner].friendly)
                         Main.npc[proj.owner].AddBuff(BuffID.Poisoned, 120);
@@ -7082,7 +7039,7 @@ namespace CalamityMod.CalPlayer
         #region Can Hit
         public override bool? CanHitNPC(Item item, NPC target)
         {
-            if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
+            if (camper && player.StandingStill())
             {
                 return false;
             }
@@ -7091,7 +7048,7 @@ namespace CalamityMod.CalPlayer
 
         public override bool? CanHitNPCWithProj(Projectile proj, NPC target)
         {
-            if (camper && ((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05))
+            if (camper && player.StandingStill())
             {
                 return false;
             }
@@ -7158,9 +7115,12 @@ namespace CalamityMod.CalPlayer
                     num79 *= num80;
                     float speedX4 = num78 + (float)Main.rand.Next(-30, 31) * 0.02f;
                     float speedY5 = num79 + (float)Main.rand.Next(-30, 31) * 0.02f;
-                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.15f), (int)(knockBack), player.whoAmI, 0f, (float)Main.rand.Next(15));
-                    Main.projectile[p].knockBack /= 2;
+                    int p = Projectile.NewProjectile(vector2.X, vector2.Y, speedX4, speedY5, type, (int)(damage * 0.15f), knockBack * 0.5f, player.whoAmI);
                     Main.projectile[p].Calamity().forceRogue = true; //in case melee/rogue variants bug out
+					if (item.type == ModContent.ItemType<FinalDawn>())
+					{
+						Main.projectile[p].ai[1] = 1f;
+					}
                     if (StealthStrikeAvailable())
                     {
                         int knifeCount = 15;
@@ -7402,8 +7362,13 @@ namespace CalamityMod.CalPlayer
                 (DoGLore ? 0.1 : 0.0) +
                 ((player.beetleDefense && player.beetleOrbs > 0) ? (0.05 * player.beetleOrbs) : 0.0) +
                 (enraged ? 0.25 : 0.0) +
-                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0.0) +
-                ((bloodPact && Main.rand.NextBool(4)) ? 1.5 : 0.0);
+                ((CalamityWorld.defiled && Main.rand.NextBool(4)) ? 0.5 : 0.0);
+
+			if (bloodPact && Main.rand.NextBool(4))
+			{
+				player.AddBuff(ModContent.BuffType<BloodyBoost>(), 600);
+				damageMult += 1.25;
+			}
 
             if (CalamityWorld.revenge)
             {
@@ -7507,76 +7472,48 @@ namespace CalamityMod.CalPlayer
                     {
                         Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 14);
                         player.AddBuff(ModContent.BuffType<AbyssalDivingSuitPlatesBroken>(), 10830);
-                        for (int num621 = 0; num621 < 20; num621++)
+                        for (int d = 0; d < 20; d++)
                         {
-                            int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 31, 0f, 0f, 100, default, 2f);
-                            Main.dust[num622].velocity *= 3f;
+                            int dust = Dust.NewDust(player.position, player.width, player.height, 31, 0f, 0f, 100, default, 2f);
+                            Main.dust[dust].velocity *= 3f;
                             if (Main.rand.NextBool(2))
                             {
-                                Main.dust[num622].scale = 0.5f;
-                                Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                                Main.dust[dust].scale = 0.5f;
+                                Main.dust[dust].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                             }
                         }
-                        for (int num623 = 0; num623 < 35; num623++)
+                        for (int d = 0; d < 35; d++)
                         {
-                            int num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 6, 0f, 0f, 100, default, 3f);
-                            Main.dust[num624].noGravity = true;
-                            Main.dust[num624].velocity *= 5f;
-                            num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 6, 0f, 0f, 100, default, 2f);
-                            Main.dust[num624].velocity *= 2f;
+                            int fire = Dust.NewDust(player.position, player.width, player.height, DustID.Fire, 0f, 0f, 100, default, 3f);
+                            Main.dust[fire].noGravity = true;
+                            Main.dust[fire].velocity *= 5f;
+                            fire = Dust.NewDust(player.position, player.width, player.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                            Main.dust[fire].velocity *= 2f;
                         }
-                        for (int num625 = 0; num625 < 3; num625++)
-                        {
-                            float scaleFactor10 = 0.33f;
-                            if (num625 == 1)
-                            {
-                                scaleFactor10 = 0.66f;
-                            }
-                            if (num625 == 2)
-                            {
-                                scaleFactor10 = 1f;
-                            }
-                            int num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                            Gore gore = Main.gore[num626];
-                            gore.velocity *= scaleFactor10;
-                            gore.velocity.X += 1f;
-                            gore.velocity.Y += 1f;
-                            num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                            gore.velocity *= scaleFactor10;
-                            gore.velocity.X -= 1f;
-                            gore.velocity.Y += 1f;
-                            num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                            gore.velocity *= scaleFactor10;
-                            gore.velocity.X += 1f;
-                            gore.velocity.Y -= 1f;
-                            num626 = Gore.NewGore(new Vector2(player.position.X + (float)(player.width / 2) - 24f, player.position.Y + (float)(player.height / 2) - 24f), default, Main.rand.Next(61, 64), 1f);
-                            gore.velocity *= scaleFactor10;
-                            gore.velocity.X -= 1f;
-                            gore.velocity.Y -= 1f;
-                        }
+						CalamityUtils.ExplosionGores(player.Center, 3);
                     }
                 }
                 if (sirenIce)
                 {
-                    Main.PlaySound(SoundID.NPCKilled, (int)player.position.X, (int)player.position.Y, 7);
+                    Main.PlaySound(SoundID.NPCKilled, (int)player.Center.X, (int)player.Center.Y, 7);
                     player.AddBuff(ModContent.BuffType<IceShieldBrokenBuff>(), 1800);
-                    for (int num621 = 0; num621 < 10; num621++)
+                    for (int d = 0; d < 10; d++)
                     {
-                        int num622 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 67, 0f, 0f, 100, default, 2f);
-                        Main.dust[num622].velocity *= 3f;
+                        int ice = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 100, default, 2f);
+                        Main.dust[ice].velocity *= 3f;
                         if (Main.rand.NextBool(2))
                         {
-                            Main.dust[num622].scale = 0.5f;
-                            Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                            Main.dust[ice].scale = 0.5f;
+                            Main.dust[ice].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                         }
                     }
-                    for (int num623 = 0; num623 < 15; num623++)
+                    for (int d = 0; d < 15; d++)
                     {
-                        int num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 67, 0f, 0f, 100, default, 3f);
-                        Main.dust[num624].noGravity = true;
-                        Main.dust[num624].velocity *= 5f;
-                        num624 = Dust.NewDust(new Vector2(player.position.X, player.position.Y), player.width, player.height, 67, 0f, 0f, 100, default, 2f);
-                        Main.dust[num624].velocity *= 2f;
+                        int ice = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 100, default, 3f);
+                        Main.dust[ice].noGravity = true;
+                        Main.dust[ice].velocity *= 5f;
+                        ice = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 100, default, 2f);
+                        Main.dust[ice].velocity *= 2f;
                     }
                 }
                 if (tarraMelee)
@@ -7602,24 +7539,24 @@ namespace CalamityMod.CalPlayer
                     {
                         if (Main.npc[m].active && !Main.npc[m].friendly)
                         {
-                            float distance = (Main.npc[m].Center - player.Center).Length();
-                            float num10 = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
-                            if (num10 > 500f)
+                            float npcDist = (Main.npc[m].Center - player.Center).Length();
+                            float freezeDist = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
+                            if (freezeDist > 500f)
                             {
-                                num10 = 500f + (num10 - 500f) * 0.75f;
+                                freezeDist = 500f + (freezeDist - 500f) * 0.75f;
                             }
-                            if (num10 > 700f)
+                            if (freezeDist > 700f)
                             {
-                                num10 = 700f + (num10 - 700f) * 0.5f;
+                                freezeDist = 700f + (freezeDist - 700f) * 0.5f;
                             }
-                            if (num10 > 900f)
+                            if (freezeDist > 900f)
                             {
-                                num10 = 900f + (num10 - 900f) * 0.25f;
+                                freezeDist = 900f + (freezeDist - 900f) * 0.25f;
                             }
-                            if (distance < num10)
+                            if (npcDist < freezeDist)
                             {
-                                float num11 = (float)Main.rand.Next(90 + (int)damage / 3, 240 + (int)damage / 2);
-                                Main.npc[m].AddBuff(ModContent.BuffType<GlacialState>(), (int)num11, false);
+                                float duration = (float)Main.rand.Next(90 + (int)damage / 3, 240 + (int)damage / 2);
+                                Main.npc[m].AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
                             }
                         }
                     }
@@ -7742,18 +7679,7 @@ namespace CalamityMod.CalPlayer
                     {
                         for (int n = 0; n < 4; n++)
                         {
-                            float x = player.position.X + (float)Main.rand.Next(-400, 400);
-                            float y = player.position.Y - (float)Main.rand.Next(500, 800);
-                            Vector2 vector = new Vector2(x, y);
-                            float num13 = player.position.X + (float)(player.width / 2) - vector.X;
-                            float num14 = player.position.Y + (float)(player.height / 2) - vector.Y;
-                            num13 += (float)Main.rand.Next(-100, 101);
-                            int num15 = 20;
-                            float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                            num16 = (float)num15 / num16;
-                            num13 *= num16;
-                            num14 *= num16;
-                            int num17 = Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<StickyFeatherAero>(), (int)(20 * player.AverageDamage()), 1f, player.whoAmI, 0f, 0f);
+							CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 20f, ModContent.ProjectileType<StickyFeatherAero>(), (int)(20 * player.AverageDamage()), 1f, player.whoAmI);
                         }
                     }
                 }
@@ -7767,39 +7693,14 @@ namespace CalamityMod.CalPlayer
                     int starAmt = aBulwarkRare ? 12 : 5;
                     for (int n = 0; n < starAmt; n++)
                     {
-                        float x = player.position.X + (float)Main.rand.Next(-400, 400);
-                        float y = player.position.Y - (float)Main.rand.Next(500, 800);
-                        Vector2 vector = new Vector2(x, y);
-                        float num13 = player.position.X + (float)(player.width / 2) - vector.X;
-                        float num14 = player.position.Y + (float)(player.height / 2) - vector.Y;
-                        num13 += (float)Main.rand.Next(-100, 101);
-                        int num15 = 29;
-                        float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                        num16 = (float)num15 / num16;
-                        num13 *= num16;
-                        num14 *= num16;
-                        int num17 = Projectile.NewProjectile(x, y, num13, num14, ModContent.ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<AstralStar>(), (int)(320 * player.AverageDamage()), 5f, player.whoAmI);
                     }
                 }
                 if (dAmulet)
                 {
                     for (int n = 0; n < 3; n++)
                     {
-                        float x = player.position.X + (float)Main.rand.Next(-400, 400);
-                        float y = player.position.Y - (float)Main.rand.Next(500, 800);
-                        Vector2 vector = new Vector2(x, y);
-                        float num13 = player.position.X + (float)(player.width / 2) - vector.X;
-                        float num14 = player.position.Y + (float)(player.height / 2) - vector.Y;
-                        num13 += (float)Main.rand.Next(-100, 101);
-                        int num15 = 29;
-                        float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                        num16 = (float)num15 / num16;
-                        num13 *= num16;
-                        num14 *= num16;
-                        int star = Projectile.NewProjectile(x, y, num13, num14, ProjectileID.HallowStar, (int)(130 * player.AverageDamage()), 4f, player.whoAmI, 0f, 0f);
-                        Main.projectile[star].usesLocalNPCImmunity = true;
-                        Main.projectile[star].localNPCHitCooldown = 5;
-                        Main.projectile[star].Calamity().forceTypeless = true;
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(130 * player.AverageDamage()), 4f, player.whoAmI, 6, 1, 5);
                     }
 
                     /*int num = 1;
@@ -7820,21 +7721,7 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int n = 0; n < 3; n++)
                     {
-                        float x = player.position.X + (float)Main.rand.Next(-400, 400);
-                        float y = player.position.Y - (float)Main.rand.Next(500, 800);
-                        Vector2 vector = new Vector2(x, y);
-                        float num13 = player.position.X + (float)(player.width / 2) - vector.X;
-                        float num14 = player.position.Y + (float)(player.height / 2) - vector.Y;
-                        num13 += (float)Main.rand.Next(-100, 101);
-                        int num15 = 29;
-                        float num16 = (float)Math.Sqrt((double)(num13 * num13 + num14 * num14));
-                        num16 = (float)num15 / num16;
-                        num13 *= num16;
-                        num14 *= num16;
-                        int star = Projectile.NewProjectile(x, y, num13, num14, ProjectileID.HallowStar, (int)(150 * player.AverageDamage()), 4f, player.whoAmI, 0f, 0f);
-                        Main.projectile[star].usesLocalNPCImmunity = true;
-                        Main.projectile[star].localNPCHitCooldown = 5;
-                        Main.projectile[star].Calamity().forceTypeless = true;
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 29f, ProjectileID.HallowStar, (int)(150 * player.AverageDamage()), 4f, player.whoAmI, 6, 1, 5);
                     }
                     int num = 1;
                     if (Main.rand.NextBool(3))
@@ -7860,17 +7747,16 @@ namespace CalamityMod.CalPlayer
                     double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int i;
                     int fDamage = (int)(56 * player.AverageDamage());
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        for (i = 0; i < 4; i++)
+                        for (int i = 0; i < 4; i++)
                         {
                             float xPos = Main.rand.NextBool(2) ? player.Center.X + 100 : player.Center.X - 100;
-                            Vector2 vector2 = new Vector2(xPos, player.Center.Y + Main.rand.Next(-100, 101));
+                            Vector2 spawnPos = new Vector2(xPos, player.Center.Y + Main.rand.Next(-100, 101));
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            int spore1 = Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
-                            int spore2 = Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
+                            int spore1 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
+                            int spore2 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ProjectileID.TruffleSpore, fDamage, 1.25f, player.whoAmI, 0f, 0f);
                             Main.projectile[spore1].timeLeft = 120;
                             Main.projectile[spore2].timeLeft = 120;
                         }
@@ -7886,13 +7772,12 @@ namespace CalamityMod.CalPlayer
                     double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int i;
                     int sDamage = hardMode ? 36 : 6;
                     if (aSparkRare)
                         sDamage += hardMode ? 12 : 2;
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        for (i = 0; i < 4; i++)
+                        for (int i = 0; i < 4; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             int spark1 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<Spark>(), (int)(sDamage * player.AverageDamage()), 1.25f, player.whoAmI, 0f, 0f);
@@ -7914,7 +7799,7 @@ namespace CalamityMod.CalPlayer
                     for (int i = 0; i < 5; i++)
                     {
                         Main.PlaySound(SoundID.Item, (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y, 61);
-                        int inkBomb = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), ModContent.ProjectileType<InkBombProjectile>(), 0, 0, player.whoAmI);
+                        Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-0f, -4f), ModContent.ProjectileType<InkBombProjectile>(), 0, 0, player.whoAmI);
                     }
                 }
             }
@@ -7942,7 +7827,7 @@ namespace CalamityMod.CalPlayer
                     int eDamage = (int)(100 * player.AverageDamage());
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<ChaosBlaze>(), eDamage, 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<ChaosBlaze>(), eDamage, 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -7955,17 +7840,16 @@ namespace CalamityMod.CalPlayer
                     double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int i;
                     int sDamage = (int)(27 * player.RangedDamage()); //daedalus ranged helm
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        for (i = 0; i < 8; i++)
+                        for (int i = 0; i < 8; i++)
                         {
                             float randomSpeed = (float)Main.rand.Next(1, 7);
                             float randomSpeed2 = (float)Main.rand.Next(1, 7);
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            int shard = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, 90, sDamage, 1f, player.whoAmI, 0f, 0f);
-                            int shard2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, 90, sDamage, 1f, player.whoAmI, 0f, 0f);
+                            int shard = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f) + randomSpeed, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
+                            int shard2 = Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f) + randomSpeed2, ProjectileID.CrystalShard, sDamage, 1f, player.whoAmI, 0f, 0f);
                             Main.projectile[shard].Calamity().forceTypeless = true;
                             Main.projectile[shard2].Calamity().forceTypeless = true;
                         }
@@ -7981,19 +7865,18 @@ namespace CalamityMod.CalPlayer
                     double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int i;
                     int rDamage = (int)(58 * player.RogueDamage()); //Reaver rogue helm
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        for (i = 0; i < 4; i++)
+                        for (int i = 0; i < 4; i++)
                         {
                             float xPos = Main.rand.NextBool(2) ? player.Center.X + 100 : player.Center.X - 100;
-                            Vector2 vector2 = new Vector2(xPos, player.Center.Y + Main.rand.Next(-100, 101));
+                            Vector2 spawnPos = new Vector2(xPos, player.Center.Y + Main.rand.Next(-100, 101));
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-                            int rspore1 = Projectile.NewProjectile(vector2.X, vector2.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), 567, rDamage, 2f, player.whoAmI, 0f, 0f);
+                            int rspore1 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ReaverSpore>(), rDamage, 2f, player.whoAmI, 0f, 0f);
                             Main.projectile[rspore1].usesLocalNPCImmunity = true;
                             Main.projectile[rspore1].localNPCHitCooldown = 60;
-                            int rspore2 = Projectile.NewProjectile(vector2.X, vector2.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), 568, rDamage, 2f, player.whoAmI, 0f, 0f);
+                            int rspore2 = Projectile.NewProjectile(spawnPos.X, spawnPos.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<ReaverSpore>(), rDamage, 2f, player.whoAmI, 1f, 0f);
                             Main.projectile[rspore2].usesLocalNPCImmunity = true;
                             Main.projectile[rspore2].localNPCHitCooldown = 60;
                         }
@@ -8009,10 +7892,9 @@ namespace CalamityMod.CalPlayer
                     double startAngle = Math.Atan2(player.velocity.X, player.velocity.Y) - spread / 2;
                     double deltaAngle = spread / 8f;
                     double offsetAngle;
-                    int i;
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        for (i = 0; i < 4; i++)
+                        for (int i = 0; i < 4; i++)
                         {
                             offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
                             Projectile.NewProjectile(player.Center.X, player.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<GodKiller>(), (int)(900 * player.MeleeDamage()), 5f, player.whoAmI, 0f, 0f);
@@ -8028,7 +7910,7 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 74);
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        Projectile.NewProjectile(player.Center.X, player.Center.Y, 0f, 0f, ModContent.ProjectileType<GodSlayerBlaze>(), (int)((auricSet ? 2400 : 1200) * player.MagicDamage()), 1f, player.whoAmI, 0f, 0f);
+                        Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<GodSlayerBlaze>(), (int)((auricSet ? 2400 : 1200) * player.MagicDamage()), 1f, player.whoAmI, 0f, 0f);
                     }
                 }
             }
@@ -8038,41 +7920,11 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int l = 0; l < 2; l++)
                     {
-                        float x = player.position.X + (float)Main.rand.Next(-400, 400);
-                        float y = player.position.Y - (float)Main.rand.Next(500, 800);
-                        Vector2 vector = new Vector2(x, y);
-                        float num15 = player.position.X + (float)(player.width / 2) - vector.X;
-                        float num16 = player.position.Y + (float)(player.height / 2) - vector.Y;
-                        num15 += (float)Main.rand.Next(-100, 101);
-                        int num17 = 22;
-                        float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-                        num18 = (float)num17 / num18;
-                        num15 *= num18;
-                        num16 *= num18;
-                        int num19 = Projectile.NewProjectile(x, y, num15, num16, ProjectileID.ShadowBeamFriendly, (int)(3000 * player.AverageDamage()), 7f, player.whoAmI, 0f, 0f);
-                        Main.projectile[num19].ai[1] = player.position.Y;
-                        Main.projectile[num19].usesLocalNPCImmunity = true;
-                        Main.projectile[num19].localNPCHitCooldown = 10;
-                        Main.projectile[num19].Calamity().forceTypeless = true;
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.ShadowBeamFriendly, (int)(3000 * player.AverageDamage()), 7f, player.whoAmI, 6, 1);
                     }
                     for (int l = 0; l < 5; l++)
                     {
-                        float x = player.position.X + (float)Main.rand.Next(-400, 400);
-                        float y = player.position.Y - (float)Main.rand.Next(500, 800);
-                        Vector2 vector = new Vector2(x, y);
-                        float num15 = player.position.X + (float)(player.width / 2) - vector.X;
-                        float num16 = player.position.Y + (float)(player.height / 2) - vector.Y;
-                        num15 += (float)Main.rand.Next(-100, 101);
-                        int num17 = 22;
-                        float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-                        num18 = (float)num17 / num18;
-                        num15 *= num18;
-                        num16 *= num18;
-                        int num19 = Projectile.NewProjectile(x, y, num15, num16, ProjectileID.DemonScythe, (int)(5000 * player.AverageDamage()), 7f, player.whoAmI, 0f, 0f);
-                        Main.projectile[num19].ai[1] = player.position.Y;
-                        Main.projectile[num19].usesLocalNPCImmunity = true;
-                        Main.projectile[num19].localNPCHitCooldown = 10;
-                        Main.projectile[num19].Calamity().forceTypeless = true;
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ProjectileID.DemonScythe, (int)(5000 * player.AverageDamage()), 7f, player.whoAmI, 6, 1);
                     }
                 }
             }
@@ -10374,7 +10226,7 @@ namespace CalamityMod.CalPlayer
             }
             if (IBoots)
             {
-                if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
+                if (player.velocity.Length() > 0.05f && !player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
@@ -10394,7 +10246,7 @@ namespace CalamityMod.CalPlayer
             }
             if (elysianFire)
             {
-                if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
+                if (player.velocity.Length() > 0.05f && !player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
@@ -10414,7 +10266,7 @@ namespace CalamityMod.CalPlayer
             }
             if (dsSetBonus)
             {
-                if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
+                if (player.velocity.Length() > 0.05f && !player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
@@ -10434,7 +10286,7 @@ namespace CalamityMod.CalPlayer
             }
             if (auricSet)
             {
-                if (((double)Math.Abs(player.velocity.X) > 0.05 || (double)Math.Abs(player.velocity.Y) > 0.05) && !player.mount.Active)
+                if (player.velocity.Length() > 0.05f && !player.mount.Active)
                 {
                     if (drawInfo.shadow == 0f)
                     {
@@ -10664,7 +10516,7 @@ namespace CalamityMod.CalPlayer
                     fullBright = true;
                 }
             }
-            if (draedonsHeart && !shadeRegen && !cFreeze && (double)Math.Abs(player.velocity.X) < 0.05 && (double)Math.Abs(player.velocity.Y) < 0.05 && player.itemAnimation == 0)
+            if (draedonsHeart && !shadeRegen && !cFreeze && player.StandingStill() && player.itemAnimation == 0)
             {
                 if (noRogueStealth)
                 {
@@ -10916,8 +10768,14 @@ namespace CalamityMod.CalPlayer
 
         private float UpdateStealthGenStats()
         {
+			int finalDawnProjCount = player.ownedProjectileCounts[ModContent.ProjectileType<FinalDawnProjectile>()] +
+			player.ownedProjectileCounts[ModContent.ProjectileType<FinalDawnFireSlash>()] +
+			player.ownedProjectileCounts[ModContent.ProjectileType<FinalDawnHorizontalSlash>()] +
+			player.ownedProjectileCounts[ModContent.ProjectileType<FinalDawnThrow>()] +
+			player.ownedProjectileCounts[ModContent.ProjectileType<FinalDawnThrow2>()];
+
             // If you are actively using an item, you cannot gain stealth.
-            if (player.itemAnimation > 0)
+            if (player.itemAnimation > 0 || finalDawnProjCount > 0)
                 return 0f;
 
             // Penumbra Potion provides various boosts to rogue stealth generation
@@ -10988,7 +10846,7 @@ namespace CalamityMod.CalPlayer
 
             // You get 100% stealth regen while standing still and not on a mount. Otherwise, you get your stealth regeneration while moving.
             // Stealth only regenerates at 1/3 speed while moving.
-            bool standstill = Math.Abs(player.velocity.X) < 0.1f && Math.Abs(player.velocity.Y) < 0.1f && !player.mount.Active;
+            bool standstill = player.StandingStill(0.1f) && !player.mount.Active;
             return standstill ? stealthGenStandstill : stealthGenMoving * 0.333333f * stealthAcceleration;
         }
 

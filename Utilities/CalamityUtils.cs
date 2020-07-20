@@ -1,3 +1,5 @@
+using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Items;
 using CalamityMod.Items.Tools.ClimateChange;
@@ -29,6 +31,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles;
+using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
@@ -94,6 +97,7 @@ namespace CalamityMod
         public static float AverageDamage(this Player player) => player.allDamage + (player.meleeDamage + player.rangedDamage + player.magicDamage + player.minionDamage + player.Calamity().throwingDamage - 5f) / 5f;
 
         public static bool IsUnderwater(this Player player) => Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
+		public static bool StandingStill(this Player player, float velocity = 0.05f) => player.velocity.Length() < velocity;
         public static bool InSpace(this Player player)
         {
             float x = Main.maxTilesX / 4200f;
@@ -146,6 +150,25 @@ namespace CalamityMod
         {
             return player.inventory.Any(item => items.Contains(item.type));
         }
+
+		/// <summary>
+		/// Inflict typical exo weapon debuffs in pvp.
+		/// </summary>
+		/// <param name="target">The Player attacked.</param>
+		/// <param name="multiplier">Debuff time multiplier if needed.</param>
+		/// <returns>Inflicts debuffs if the target isn't immune.</returns>
+		public static void ExoDebuffs(this Player target, float multiplier = 1f)
+		{
+			target.AddBuff(ModContent.BuffType<ExoFreeze>(), (int)(30 * multiplier));
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
+			target.AddBuff(ModContent.BuffType<GlacialState>(), (int)(120 * multiplier));
+			target.AddBuff(ModContent.BuffType<Plague>(), (int)(120 * multiplier));
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), (int)(120 * multiplier));
+			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
+			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
+			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
+			target.AddBuff(BuffID.Ichor, (int)(120 * multiplier));
+		}
         #endregion
 
         #region NPC Utilities
@@ -455,45 +478,6 @@ namespace CalamityMod
             return true;
         }
 
-        /// <summary>
-        /// Call this function in the Kill function of your npc to spawn cloud-like gores.
-        /// </summary>
-        /// <param name="npc">The npc you're adding explosion clouds to</param>
-        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
-        public static void ExplosionGores (this NPC npc, int goreAmt)
-        {
-            Vector2 goreVec = new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f);
-			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
-			{
-				float velocityMult = 0.33f;
-				if (goreIndex < (int)(goreAmt/3))
-				{
-					velocityMult = 0.66f;
-				}
-				if (goreIndex >= (int)((2*goreAmt)/3))
-				{
-					velocityMult = 1f;
-				}
-				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				Gore gore = Main.gore[smoke];
-				gore.velocity *= velocityMult;
-				gore.velocity.X += 1f;
-				gore.velocity.Y += 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X -= 1f;
-				gore.velocity.Y += 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X += 1f;
-				gore.velocity.Y -= 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X -= 1f;
-				gore.velocity.Y -= 1f;
-			}
-        }
-
 		/// <summary>
 		/// Check if an NPC is organic
 		/// </summary>
@@ -538,6 +522,41 @@ namespace CalamityMod
 				return true;
 			}
 			return false;
+		}
+
+		/// <summary>
+		/// Shortcut for the generic boss summon message.
+		/// </summary>
+		/// <param name="npcIndex">The whoAmI index of the summoned npc.</param>
+		public static void BossAwakenMessage(int npcIndex)
+		{
+			string typeName = Main.npc[npcIndex].TypeName;
+			if (Main.netMode == NetmodeID.SinglePlayer)
+			{
+				Main.NewText(Language.GetTextValue("Announcement.HasAwoken", typeName), new Color(175, 75, 255));
+			}
+			else if (Main.netMode == NetmodeID.Server)
+			{
+				NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]{Main.npc[npcIndex].GetTypeNetName()}), new Color(175, 75, 255));
+			}
+		}
+
+		/// Inflict typical exo weapon debuffs. Duration multiplier optional.
+		/// </summary>
+		/// <param name="target">The NPC attacked.</param>
+		/// <param name="multiplier">Debuff time multiplier if needed.</param>
+		/// <returns>Inflicts debuffs if they can.</returns>
+		public static void ExoDebuffs(this NPC target, float multiplier = 1f)
+		{
+			target.AddBuff(BuffID.Ichor, (int)(120 * multiplier));
+			target.AddBuff(BuffID.CursedInferno, (int)(120 * multiplier));
+			target.AddBuff(ModContent.BuffType<ExoFreeze>(), (int)(30 * multiplier));
+			target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)(120 * multiplier));
+			target.AddBuff(ModContent.BuffType<GlacialState>(), (int)(120 * multiplier));
+			target.AddBuff(ModContent.BuffType<Plague>(), (int)(120 * multiplier));
+			target.AddBuff(ModContent.BuffType<HolyFlames>(), (int)(120 * multiplier));
+			target.AddBuff(BuffID.Frostburn, (int)(120 * multiplier));
+			target.AddBuff(BuffID.OnFire, (int)(120 * multiplier));
 		}
         #endregion
 
@@ -789,45 +808,6 @@ namespace CalamityMod
         }
 
         /// <summary>
-        /// Call this function in the Kill function of your projectile to spawn cloud-like gores. Used primarily for explosions
-        /// </summary>
-        /// <param name="projectile">The projectile you're adding explosion clouds to</param>
-        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
-        public static void ExplosionGores (this Projectile projectile, int goreAmt)
-        {
-            Vector2 goreVec = new Vector2(projectile.position.X + (float)(projectile.width / 2) - 24f, projectile.position.Y + (float)(projectile.height / 2) - 24f);
-			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
-			{
-				float velocityMult = 0.33f;
-				if (goreIndex < (int)(goreAmt/3))
-				{
-					velocityMult = 0.66f;
-				}
-				if (goreIndex >= (int)((2*goreAmt)/3))
-				{
-					velocityMult = 1f;
-				}
-				int smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				Gore gore = Main.gore[smoke];
-				gore.velocity *= velocityMult;
-				gore.velocity.X += 1f;
-				gore.velocity.Y += 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X -= 1f;
-				gore.velocity.Y += 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X += 1f;
-				gore.velocity.Y -= 1f;
-				smoke = Gore.NewGore(goreVec, default, Main.rand.Next(61, 64), 1f);
-				gore.velocity *= velocityMult;
-				gore.velocity.X -= 1f;
-				gore.velocity.Y -= 1f;
-			}
-        }
-
-        /// <summary>
         /// Call this function in the ai of your projectile so it can stick to enemies, also requires ModifyHitNPCSticky to be called in ModifyHitNPC
         /// </summary>
         /// <param name="projectile">The projectile you're adding sticky behaviour to</param>
@@ -984,6 +964,132 @@ namespace CalamityMod
             }
         }
 
+		public static void StickToTiles(this Projectile projectile)
+		{
+            try
+            {
+                int xLeft = (int)(projectile.position.X / 16f) - 1;
+                int xRight = (int)((projectile.position.X + (float)projectile.width) / 16f) + 2;
+                int yBottom = (int)(projectile.position.Y / 16f) - 1;
+                int yTop = (int)((projectile.position.Y + (float)projectile.height) / 16f) + 2;
+                if (xLeft < 0)
+                {
+                    xLeft = 0;
+                }
+                if (xRight > Main.maxTilesX)
+                {
+                    xRight = Main.maxTilesX;
+                }
+                if (yBottom < 0)
+                {
+                    yBottom = 0;
+                }
+                if (yTop > Main.maxTilesY)
+                {
+                    yTop = Main.maxTilesY;
+                }
+                for (int x = xLeft; x < xRight; x++)
+                {
+                    for (int y = yBottom; y < yTop; y++)
+                    {
+						Tile tile = Main.tile[x, y];
+                        if (tile != null && !TileID.Sets.Platforms[tile.type] && tile.type != TileID.PlanterBox && tile.nactive() && (Main.tileSolid[tile.type] || (Main.tileSolidTop[tile.type] && tile.frameY == 0)))
+                        {
+                            Vector2 tileSize;
+                            tileSize.X = (float)(x * 16);
+                            tileSize.Y = (float)(y * 16);
+                            if (projectile.position.X + (float)projectile.width - 4f > tileSize.X && projectile.position.X + 4f < tileSize.X + 16f && projectile.position.Y + (float)projectile.height - 4f > tileSize.Y && projectile.position.Y + 4f < tileSize.Y + 16f)
+                            {
+                                projectile.velocity.X = 0f;
+                                projectile.velocity.Y = -0.2f;
+                            }
+                        }
+                    }
+                }
+            } catch
+            {
+            }
+		}
+
+		public static Projectile ProjectileRain(Vector2 targetPos, float xLimit, float xVariance, float yLimitLower, float yLimitUpper, float projSpeed, int projType, int damage, float knockback, int owner, int forceType = 0, int immunitySetting = 0, int cooldown = 10)
+		{
+			float x = targetPos.X + Main.rand.NextFloat(-xLimit, xLimit);
+			if (projType == ModContent.ProjectileType<AstralStarMagic>())
+				x = targetPos.X + xLimit;
+			float y = targetPos.Y - Main.rand.NextFloat(yLimitLower, yLimitUpper);
+			Vector2 source = new Vector2(x, y);
+			Vector2 velocity = targetPos - source;
+			velocity.X += Main.rand.NextFloat(-xVariance, xVariance);
+			float speed = projSpeed;
+			float targetDist = velocity.Length();
+			targetDist = speed / targetDist;
+			velocity.X *= targetDist;
+			velocity.Y *= targetDist;
+			Projectile proj = Projectile.NewProjectileDirect(source, velocity, projType, damage, knockback, owner, 0f, 0f);
+			CalamityGlobalProjectile modProj = proj.Calamity();
+			if (forceType > 0)
+			{
+				switch (forceType)
+				{
+					case 1:
+						modProj.forceMelee = true;
+						break;
+					case 2:
+						modProj.forceRanged = true;
+						break;
+					case 3:
+						modProj.forceMagic = true;
+						break;
+					case 4:
+						modProj.forceMinion = true;
+						break;
+					case 5:
+						modProj.forceRogue = true;
+						break;
+					case 6:
+						modProj.forceTypeless = true;
+						break;
+				}
+			}
+			if (immunitySetting > 0)
+			{
+				switch (forceType)
+				{
+					case 1:
+						proj.usesLocalNPCImmunity = true;
+						proj.localNPCHitCooldown = cooldown;
+						proj.usesIDStaticNPCImmunity = false;
+						break;
+					case 2:
+						proj.usesLocalNPCImmunity = false;
+						proj.idStaticNPCHitCooldown = cooldown;
+						proj.usesIDStaticNPCImmunity = true;
+						break;
+				}
+			}
+			return proj;
+		}
+
+		public static Projectile ProjectileBarrage(Vector2 originVec, Vector2 targetPos, bool fromRight, float xOffsetMin, float xOffsetMax, float yOffsetMin, float yOffsetMax, float projSpeed, int projType, int damage, float knockback, int owner, bool clamped = false, float inaccuracyOffset = 5f)
+		{
+			float xPos = originVec.X + Main.rand.NextFloat(xOffsetMin, xOffsetMax) * fromRight.ToDirectionInt();
+			float yPos = originVec.Y + Main.rand.NextFloat(yOffsetMin, yOffsetMax) * Main.rand.NextBool().ToDirectionInt();
+			Vector2 spawnPosition = new Vector2(xPos, yPos);
+			Vector2 velocity = targetPos - spawnPosition;
+			velocity.X += Main.rand.NextFloat(-inaccuracyOffset, inaccuracyOffset);
+			velocity.Y += Main.rand.NextFloat(-inaccuracyOffset, inaccuracyOffset);
+			velocity.Normalize();
+			velocity *= projSpeed * (clamped ? 150f : 1f);
+			//This clamp means the spawned projectiles only go at diagnals and are not accurate
+			if (clamped)
+			{
+				velocity.X = MathHelper.Clamp(velocity.X, -15f, 15f);
+				velocity.Y = MathHelper.Clamp(velocity.Y, -15f, 15f);
+			}
+			Projectile proj = Projectile.NewProjectileDirect(spawnPosition, velocity, projType, damage, knockback, owner);
+			return proj;
+		}
+
 		public static int DamageSoftCap(double dmgInput, int cap)
 		{
 			int newDamage = (int)(dmgInput);
@@ -994,6 +1100,169 @@ namespace CalamityMod
 			if (newDamage < 1)
 				newDamage = 1;
 			return newDamage;
+		}
+
+		public static Vector2 RandomVelocity(float directionMult, float speedLowerLimit, float speedCap, float speedMult = 0.1f)
+		{
+			Vector2 velocity = new Vector2(Main.rand.NextFloat(-directionMult, directionMult), Main.rand.NextFloat(-directionMult, directionMult));
+			//Rerolling to avoid dividing by zero
+			while (velocity.X == 0f && velocity.Y == 0f)
+			{
+				velocity = new Vector2(Main.rand.NextFloat(-directionMult, directionMult), Main.rand.NextFloat(-directionMult, directionMult));
+			}
+			velocity.Normalize();
+			velocity *= Main.rand.NextFloat(speedLowerLimit, speedCap) * speedMult;
+			return velocity;
+		}
+
+		public static void SporeSacAI(this Projectile projectile)
+		{
+			Player player = Main.player[projectile.owner];
+
+			float scaleAmt = 1f - (float)projectile.alpha / 255f;
+			scaleAmt *= projectile.scale;
+			Lighting.AddLight(projectile.Center, 0.25f * scaleAmt, 0.025f * scaleAmt, 0.275f * scaleAmt);
+
+			projectile.localAI[0] += 1f;
+			if (projectile.localAI[0] >= 90f)
+			{
+				projectile.localAI[0] *= -1f;
+			}
+			if (projectile.localAI[0] >= 0f)
+			{
+				projectile.scale += 0.003f;
+			}
+			else
+			{
+				projectile.scale -= 0.003f;
+			}
+			projectile.rotation += 0.0025f * projectile.scale;
+			float yVel = 1f;
+			float xVel = 1f;
+			if (projectile.identity % 6 == 0)
+			{
+				xVel *= -1f;
+			}
+			if (projectile.identity % 6 == 1)
+			{
+				yVel *= -1f;
+			}
+			if (projectile.identity % 6 == 2)
+			{
+				xVel *= -1f;
+				yVel *= -1f;
+			}
+			if (projectile.identity % 6 == 3)
+			{
+				xVel = 0f;
+			}
+			if (projectile.identity % 6 == 4)
+			{
+				yVel = 0f;
+			}
+			projectile.localAI[1] += 1f;
+			if (projectile.localAI[1] > 60f)
+			{
+				projectile.localAI[1] = -180f;
+			}
+			if (projectile.localAI[1] >= -60f)
+			{
+				projectile.velocity.X += 0.002f * xVel;
+				projectile.velocity.Y += 0.002f * yVel;
+			}
+			else
+			{
+				projectile.velocity.X -= 0.002f * xVel;
+				projectile.velocity.Y -= 0.002f * yVel;
+			}
+			projectile.ai[0] += 1f;
+			if (projectile.ai[0] > 5400f)
+			{
+				projectile.damage = 0;
+				projectile.ai[1] = 1f;
+				if (projectile.alpha < 255)
+				{
+					projectile.alpha += 5;
+					if (projectile.alpha > 255)
+					{
+						projectile.alpha = 255;
+					}
+				}
+				else if (projectile.owner == Main.myPlayer)
+				{
+					projectile.Kill();
+				}
+			}
+			else
+			{
+				float playerDist = (projectile.Center - player.Center).Length() / 100f;
+				if (playerDist > 4f)
+				{
+					playerDist *= 1.1f;
+				}
+				if (playerDist > 5f)
+				{
+					playerDist *= 1.2f;
+				}
+				if (playerDist > 6f)
+				{
+					playerDist *= 1.3f;
+				}
+				if (playerDist > 7f)
+				{
+					playerDist *= 1.4f;
+				}
+				if (playerDist > 8f)
+				{
+					playerDist *= 1.5f;
+				}
+				if (playerDist > 9f)
+				{
+					playerDist *= 1.6f;
+				}
+				if (playerDist > 10f)
+				{
+					playerDist *= 1.7f;
+				}
+				projectile.ai[0] += playerDist;
+				if (projectile.alpha > 50)
+				{
+					projectile.alpha -= 10;
+					if (projectile.alpha < 50)
+					{
+						projectile.alpha = 50;
+					}
+				}
+			}
+			bool foundTarget = false;
+			Vector2 targetPos = new Vector2(0f, 0f);
+			float maxDist = 600f;
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				NPC npc = Main.npc[i];
+				if (npc.CanBeChasedBy(projectile, false))
+				{
+					float targetDist = Vector2.Distance(projectile.Center, npc.Center);
+					if (targetDist < maxDist)
+					{
+						targetPos = npc.Center;
+						foundTarget = true;
+						break;
+					}
+				}
+			}
+			if (foundTarget)
+			{
+				Vector2 targetVec = targetPos - projectile.Center;
+				targetVec.Normalize();
+				targetVec *= 0.75f;
+				projectile.velocity = (projectile.velocity * 10f + targetVec) / 11f;
+				return;
+			}
+			if (projectile.velocity.Length() > 0.2f)
+			{
+				projectile.velocity *= 0.98f;
+			}
 		}
 
 		public static void MinionAntiClump(this Projectile projectile, float pushForce = 0.05f)
@@ -1023,7 +1292,7 @@ namespace CalamityMod
 			}
 		}
 
-		public static void ChargingMinionAI(this Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging)
+		public static void ChargingMinionAI(this Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging, int updateDifference = 1)
 		{
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
@@ -1036,7 +1305,7 @@ namespace CalamityMod
 			if (projectile.ai[0] == 2f)
 			{
 				projectile.ai[1] += 1f;
-				projectile.extraUpdates = initialUpdates + (projectile.type == ModContent.ProjectileType<CloudElementalMinion>() ? 2 : 1);
+				projectile.extraUpdates = initialUpdates + updateDifference;
 				if (projectile.ai[1] > chargeDelayTime)
 				{
 					projectile.ai[1] = 1f;
@@ -1083,8 +1352,8 @@ namespace CalamityMod
 					}
 				}
 			}
-			//If no npc is specifically targetted, check through the entire array
-			else
+			//If no npc is specifically targetted or the selected enemy can't be found, check through the entire array
+			if (!foundTarget)
 			{
 				for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
 				{
@@ -3396,6 +3665,45 @@ namespace CalamityMod
         }
 
 		public static int SecondsToFrames(float seconds) => (int)(seconds * 60);
+
+        /// <summary>
+        /// Call this function to spawn explosion clouds at the specified location. Good for when NPCs or projectiles die and need to explode.
+        /// </summary>
+        /// <param name="goreSource">The spot to spawn the explosion clouds</param>
+        /// <param name="goreAmt">Number of times it loops to spawn gores</param>
+        public static void ExplosionGores (Vector2 goreSource, int goreAmt)
+        {
+            Vector2 source = new Vector2(goreSource.X - 24f, goreSource.Y - 24f);
+			for (int goreIndex = 0; goreIndex < goreAmt; goreIndex++)
+			{
+				float velocityMult = 0.33f;
+				if (goreIndex < (int)(goreAmt/3))
+				{
+					velocityMult = 0.66f;
+				}
+				if (goreIndex >= (int)((2*goreAmt)/3))
+				{
+					velocityMult = 1f;
+				}
+				int smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				Gore gore = Main.gore[smoke];
+				gore.velocity *= velocityMult;
+				gore.velocity.X += 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y += 1f;
+				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X += 1f;
+				gore.velocity.Y -= 1f;
+				smoke = Gore.NewGore(source, default, Main.rand.Next(61, 64), 1f);
+				gore.velocity *= velocityMult;
+				gore.velocity.X -= 1f;
+				gore.velocity.Y -= 1f;
+			}
+        }
 
 		// REMOVE THIS IN CALAMITY 1.4, it's a 1.4 Main.cs function
 		public static float GetLerpValue(float from, float to, float t, bool clamped = false)

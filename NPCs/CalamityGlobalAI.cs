@@ -22502,132 +22502,149 @@ namespace CalamityMod.NPCs
         }
         #endregion
 
-        #region Antlion AI
-        public static bool BuffedAntlionAI(NPC npc, Mod mod)
-        {
-            npc.TargetClosest(true);
+		#region Antlion AI
+		public static bool BuffedAntlionAI(NPC npc, Mod mod)
+		{
+			npc.TargetClosest(true);
 
-            float num270 = 12f;
-            Vector2 vector32 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
-            float num271 = Main.player[npc.target].position.X + (float)(Main.player[npc.target].width / 2) - vector32.X;
-            float num272 = Main.player[npc.target].position.Y - vector32.Y;
-            float num273 = (float)Math.Sqrt((double)(num271 * num271 + num272 * num272));
+			//Calculate speed and velocity of the sand balls
+			float speed = 12f;
+			float xVel = Main.player[npc.target].Center.X - npc.Center.X;
+			float yVel = Main.player[npc.target].position.Y - npc.Center.Y;
+			Vector2 velocity = new Vector2(xVel, yVel);
+			float targetDist = velocity.Length();
 
-            num273 = num270 / num273;
-            num271 *= num273;
-            num272 *= num273;
+			targetDist = speed / targetDist;
+			velocity.X *= targetDist;
+			velocity.Y *= targetDist;
 
-            bool flag17 = false;
-            if (npc.directionY < 0)
-            {
-                npc.rotation = (float)(Math.Atan2((double)num272, (double)num271) + MathHelper.PiOver2);
-                flag17 = ((double)npc.rotation >= -1.2 && (double)npc.rotation <= 1.2);
-                if ((double)npc.rotation < -0.8)
-                {
-                    npc.rotation = -0.8f;
-                }
-                else if ((double)npc.rotation > 0.8)
-                {
-                    npc.rotation = 0.8f;
-                }
-                if (npc.velocity.X != 0f)
-                {
-                    npc.velocity.X = npc.velocity.X * 0.9f;
-                    if ((double)npc.velocity.X > -0.1 || (double)npc.velocity.X < 0.1)
-                    {
-                        npc.netUpdate = true;
-                        npc.velocity.X = 0f;
-                    }
-                }
-            }
+			//Adjust rotation and velocity
+			bool canShoot = false;
+			if (npc.directionY < 0)
+			{
+				//Set rotation based on the target location
+				npc.rotation = velocity.ToRotation() + MathHelper.PiOver2;
+				//Antlions can only shoot if rotated between a certain cone of spread based on the target location
+				canShoot = Math.Abs(npc.rotation) <= 1.2f;
 
-            if (npc.ai[0] > 0f)
-            {
-                if (npc.ai[0] == 200f)
-                {
-                    Main.PlaySound(SoundID.NPCDeath13, npc.position);
-                }
-                npc.ai[0] -= 1f;
-            }
+				//Hardcap rotation so it doesn't look weird, but since the above calculation happens first, it ignores this cap
+				if (npc.rotation < -0.8f)
+				{
+					npc.rotation = -0.8f;
+				}
+				else if (npc.rotation > 0.8f)
+				{
+					npc.rotation = 0.8f;
+				}
 
-            if (Main.netMode != NetmodeID.MultiplayerClient && flag17 && npc.ai[0] == 0f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
-            {
-                npc.ai[0] = 200f;
-                int damage = 10;
-                int projType = ProjectileID.SandBallFalling;
+				//Antlions generally don't move horizontally so prevent that as needed
+				if (npc.velocity.X != 0f)
+				{
+					npc.velocity.X *= 0.9f;
+					if (Math.Abs(npc.velocity.X) < 0.1f)
+					{
+						npc.netUpdate = true;
+						npc.velocity.X = 0f;
+					}
+				}
+			}
 
-                int projAmt = Main.rand.Next(8, 14);
-                if (Main.rand.NextBool(1000))
-                    projAmt = Main.rand.Next(80, 131);
+			//Decrement the firing cooldown, play a sound if at full meaning it just fired
+			if (npc.ai[0] > 0f)
+			{
+				if (npc.ai[0] == 200f)
+				{
+					Main.PlaySound(SoundID.NPCDeath13, npc.position);
+				}
+				npc.ai[0] -= 1f;
+			}
 
-                for (int i = 0; i < projAmt; i++)
-                {
-                    num271 += (float)Main.rand.Next(-30, 31) * 0.05f;
-                    num272 += (float)Main.rand.Next(-30, 31) * 0.05f;
-                    int num276 = Projectile.NewProjectile(vector32.X, vector32.Y, num271, num272, projType, damage, 0f, Main.myPlayer, 0f, 0f);
-                    Main.projectile[num276].ai[0] = 2f;
-                    Main.projectile[num276].timeLeft = 300;
-                    Main.projectile[num276].friendly = false;
-                    NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, num276, 0f, 0f, 0f, 0, 0, 0);
-                }
-                npc.netUpdate = true;
-            }
+			//Antlions should only fire if the target is in the shooting cone and has a line of sight as well as not being on cooldown.
+			bool lineofSight = Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height);
+			if (Main.netMode != NetmodeID.MultiplayerClient && canShoot && npc.ai[0] == 0f && lineofSight)
+			{
+				//Reset the firing cooldown to 3.3333 seconds
+				npc.ai[0] = 200f;
 
-            try
-            {
-                int num277 = (int)npc.position.X / 16;
-                int num278 = (int)(npc.position.X + (float)(npc.width / 2)) / 16;
-                int num279 = (int)(npc.position.X + (float)npc.width) / 16;
-                int num280 = (int)(npc.position.Y + (float)npc.height) / 16;
-                bool flag18 = false;
-                if (Main.tile[num277, num280] == null)
-                {
-                    Main.tile[num277, num280] = new Tile();
-                }
-                if (Main.tile[num278, num280] == null)
-                {
-                    Main.tile[num277, num280] = new Tile();
-                }
-                if (Main.tile[num279, num280] == null)
-                {
-                    Main.tile[num277, num280] = new Tile();
-                }
-                if ((Main.tile[num277, num280].nactive() && Main.tileSolid[(int)Main.tile[num277, num280].type]) || (Main.tile[num278, num280].nactive() && Main.tileSolid[(int)Main.tile[num278, num280].type]) || (Main.tile[num279, num280].nactive() && Main.tileSolid[(int)Main.tile[num279, num280].type]))
-                {
-                    flag18 = true;
-                }
-                if (flag18)
-                {
-                    npc.noGravity = true;
-                    npc.noTileCollide = true;
-                    npc.velocity.Y = -0.2f;
-                }
-                else
-                {
-                    npc.noGravity = false;
-                    npc.noTileCollide = false;
-                    if (Main.rand.Next(2) == 0)
-                    {
-                        int num281 = Dust.NewDust(new Vector2(npc.position.X - 4f, npc.position.Y + (float)npc.height - 8f), npc.width + 8, 24, 32, 0f, npc.velocity.Y / 2f, 0, default(Color), 1f);
-                        Dust var_9_DC3B_cp_0_cp_0 = Main.dust[num281];
-                        var_9_DC3B_cp_0_cp_0.velocity.X = var_9_DC3B_cp_0_cp_0.velocity.X * 0.4f;
-                        Dust var_9_DC5F_cp_0_cp_0 = Main.dust[num281];
-                        var_9_DC5F_cp_0_cp_0.velocity.Y = var_9_DC5F_cp_0_cp_0.velocity.Y * -1f;
-                        if (Main.rand.Next(2) == 0)
-                        {
-                            Main.dust[num281].noGravity = true;
-                            Dust dust = Main.dust[num281];
-                            dust.scale += 0.2f;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-            }
-            return false;
-        }
-        #endregion
+				//With the Rev and Death damage calculations, this becomes 56 damage.
+				int damage = 10;
+
+				int projType = ProjectileID.SandBallFalling;
+				int projAmt = Main.rand.Next(8, 14);
+				if (Main.rand.NextBool(1000))
+					projAmt = Main.rand.Next(80, 131);
+
+				for (int i = 0; i < projAmt; i++)
+				{
+					//Adjust the velocity to make it a shotgun-like spread
+					velocity.X += (float)Main.rand.Next(-30, 31) * 0.05f;
+					velocity.Y += (float)Main.rand.Next(-30, 31) * 0.05f;
+
+					int sandBall = Projectile.NewProjectile(npc.Center, velocity, projType, damage, 0f, Main.myPlayer, 0f, 0f);
+					Main.projectile[sandBall].ai[0] = 2f;
+					Main.projectile[sandBall].timeLeft = 300;
+					Main.projectile[sandBall].friendly = false;
+					NetMessage.SendData(MessageID.SyncProjectile, -1, -1, null, sandBall, 0f, 0f, 0f, 0, 0, 0);
+				}
+				npc.netUpdate = true;
+			}
+
+			try
+			{
+				//This tile checking behavior is used for when Antlions cover themselves in sand and need to rise upward to get to the surface
+				int xLeft = (int)npc.position.X / 16;
+				int xCenter = (int)npc.Center.X / 16;
+				int xRight = (int)(npc.position.X + (float)npc.width) / 16;
+				int y = (int)(npc.position.Y + (float)npc.height) / 16;
+				bool tileClimbing = false;
+				if (Main.tile[xLeft, y] is null)
+				{
+					Main.tile[xLeft, y] = new Tile();
+				}
+				if (Main.tile[xCenter, y] is null)
+				{
+					Main.tile[xLeft, y] = new Tile();
+				}
+				if (Main.tile[xRight, y] is null)
+				{
+					Main.tile[xLeft, y] = new Tile();
+				}
+				if ((Main.tile[xLeft, y].nactive() && Main.tileSolid[(int)Main.tile[xLeft, y].type]) || (Main.tile[xCenter, y].nactive() && Main.tileSolid[(int)Main.tile[xCenter, y].type]) || (Main.tile[xRight, y].nactive() && Main.tileSolid[(int)Main.tile[xRight, y].type]))
+				{
+					tileClimbing = true;
+				}
+				if (tileClimbing)
+				{
+					npc.noGravity = true;
+					npc.noTileCollide = true;
+					npc.velocity.Y = -0.2f;
+				}
+
+				//If not rising up through tiles, occasionally spawn some dust
+				else
+				{
+					npc.noGravity = false;
+					npc.noTileCollide = false;
+					if (Main.rand.NextBool(2))
+					{
+						int sand = Dust.NewDust(new Vector2(npc.position.X - 4f, npc.position.Y + (float)npc.height - 8f), npc.width + 8, 24, 32, 0f, npc.velocity.Y / 2f, 0, default(Color), 1f);
+						Dust dust = Main.dust[sand];
+						dust.velocity.X *= 0.4f;
+						dust.velocity.Y *= -1f;
+						if (Main.rand.NextBool(2))
+						{
+							dust.noGravity = true;
+							dust.scale += 0.2f;
+						}
+					}
+				}
+			}
+			catch
+			{
+			}
+			return false;
+		}
+		#endregion
 
         #region Spike Ball AI
         public static bool BuffedSpikeBallAI(NPC npc, Mod mod)
@@ -22775,6 +22792,7 @@ namespace CalamityMod.NPCs
                         int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, vector255.X, vector255.Y, ProjectileID.FlamesTrap, 20, 0f, Main.myPlayer, 0f, 0f);
                         Main.projectile[proj].tileCollide = false;
                         Main.projectile[proj].friendly = false;
+                        Main.projectile[proj].trap = false;
                     }
                 }
             }
@@ -24813,7 +24831,7 @@ namespace CalamityMod.NPCs
 				{
 					for (int j = npcY - 1; j <= npcY + 1; j++)
 					{
-						if (Main.tile[i, j] == null)
+						if (Main.tile[i, j] is null)
 						{
 							return false;
 						}

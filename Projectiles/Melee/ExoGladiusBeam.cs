@@ -118,15 +118,15 @@ namespace CalamityMod.Projectiles.Melee
             projectile.scale += (maxScale - 1) / (float)penetrationAmt;
             projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
 
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            projectile.scale += (maxScale - 1) / (float)penetrationAmt;
+            projectile.ai[1] = 5 + Main.rand.Next(-2, 3);
+
+			target.ExoDebuffs();
         }
     }
 }

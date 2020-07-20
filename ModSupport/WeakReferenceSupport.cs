@@ -272,7 +272,7 @@ namespace CalamityMod
 				List<int> bosses = new List<int>() { NPCType<SlimeGodCore>(), NPCType<SlimeGod>(), NPCType<SlimeGodRun>() };
 				int summon = ItemType<OverloadedSludge>();
 				List<int> loot = new List<int>() { ItemType<SlimeGodBag>(), ItemID.Gel, ItemType<PurifiedGel>(), ItemType<OverloadedBlaster>(), ItemType<AbyssalTome>(), ItemType<EldritchTome>(), ItemType<CorroslimeStaff>(), ItemType<CrimslimeStaff>(), ItemType<GelDart>(), ItemType<ManaOverloader>(), ItemType<ElectrolyteGelPack>(), ItemType<PurifiedJam>(), ItemID.HealingPotion };
-				List<int> collection = new List<int>() { ItemType<SlimeGodTrophy>(), ItemType<SlimeGodMask>(), ItemType<SlimeGodMask2>(), ItemType<KnowledgeSlimeGod>(), ItemType<StaticRefiner>() };
+				List<int> collection = new List<int>() { ItemType<SlimeGodTrophy>(), ItemType<SlimeGodMask>(), ItemType<SlimeGodMask2>(), ItemType<KnowledgeSlimeGod>() };
 				string instructions = $"Use an [i:{summon}]";
 				string despawn = CalamityUtils.ColorMessage("The gelatinous monstrosity achieved vengeance for its brethren.", new Color(0xBA, 0x55, 0x33));
 				AddBoss(bossChecklist, calamity, "Slime God", order, bosses, DownedSlimeGod, summon, loot, collection, instructions, despawn);
@@ -522,7 +522,7 @@ namespace CalamityMod
 				BossDifficulty.TryGetValue("Yharon", out float order);
 				int type = NPCType<Yharon>();
 				int summon = ItemType<ChickenEgg>();
-				List<int> loot = new List<int>() { ItemType<YharonBag>(), ItemType<HellcasterFragment>(), ItemType<DragonRage>(), ItemType<TheBurningSky>(), ItemType<DragonsBreath>(), ItemType<ChickenCannon>(), ItemType<PhoenixFlameBarrage>(), ItemType<AngryChickenStaff>(), ItemType<ProfanedTrident>(), ItemType<FinalDawn>(), ItemType<VoidVortex>(), ItemType<YharimsCrystal>(), ItemType<YharimsGift>(), ItemType<DrewsWings>(), ItemType<BossRush>(), ItemType<OmegaHealingPotion>() };
+				List<int> loot = new List<int>() { ItemType<YharonBag>(), ItemType<HellcasterFragment>(), ItemType<DragonRage>(), ItemType<TheBurningSky>(), ItemType<DragonsBreath>(), ItemType<ChickenCannon>(), ItemType<PhoenixFlameBarrage>(), ItemType<AngryChickenStaff>(), ItemType<ProfanedTrident>(), ItemType<FinalDawn>(), ItemType<VoidVortex>(), ItemType<YharimsCrystal>(), ItemType<YharimsGift>(), ItemType<DrewsWings>(), /*ItemType<BossRush>(), */ItemType<OmegaHealingPotion>() };
 				List<int> collection = new List<int>() { ItemType<YharonTrophy>(), ItemType<YharonMask>(), ItemType<KnowledgeYharon>(), ItemType<ForgottenDragonEgg>(), ItemType<FoxDrive>() };
 				string instructions = $"Use a [i:{summon}] in the Jungle Biome";
 				// TODO -- this setup code is only run once, so the despawn message can't be changed post-eclipse. Find a way around this.

@@ -75,19 +75,18 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.75f / 255f);
-            projectile.position.X = Main.player[projectile.owner].Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = Main.player[projectile.owner].Center.Y - (float)(projectile.height / 2) + Main.player[projectile.owner].gfxOffY - 60f;
-            if (Main.player[projectile.owner].gravDir == -1f)
+            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
+            if (player.gravDir == -1f)
             {
-                projectile.position.Y = projectile.position.Y + 120f;
-                projectile.rotation = 3.14f;
+                projectile.position.Y += 120f;
+                projectile.rotation = MathHelper.Pi;
             }
             else
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)(int)projectile.position.X;
-            projectile.position.Y = (float)(int)projectile.position.Y;
+            projectile.position.X = (int)projectile.position.X;
+            projectile.position.Y = (int)projectile.position.Y;
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
             projectile.scale = num395 + 0.95f;
@@ -118,7 +117,7 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                else
+                if (!flag18)
                 {
                     for (int num512 = 0; num512 < Main.maxNPCs; num512++)
                     {

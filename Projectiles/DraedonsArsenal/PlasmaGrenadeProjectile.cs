@@ -74,6 +74,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             else
             {
                 CalamityGlobalProjectile.ExpandHitboxBy(projectile, 240);
+				projectile.usesLocalNPCImmunity = true;
+				projectile.localNPCHitCooldown = 10;
                 projectile.Damage();
                 if (!Main.dedServ)
                 {

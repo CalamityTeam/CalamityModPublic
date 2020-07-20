@@ -12,7 +12,7 @@ namespace CalamityMod.Projectiles.Rogue
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Pitchfork");
+            DisplayName.SetDefault("Antumbra Transpiercer");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -33,13 +33,13 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
-            if (Main.rand.NextBool(3))
-            {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 62, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
-            }
             if (projectile.spriteDirection == -1)
             {
                 projectile.rotation -= 1.57f;
+            }
+            if (Main.rand.NextBool(3))
+            {
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 62, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
 			if (projectile.timeLeft % 12 == 0)
 			{

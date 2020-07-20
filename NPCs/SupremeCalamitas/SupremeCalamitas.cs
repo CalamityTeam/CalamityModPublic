@@ -227,6 +227,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             CalamityMod.StopRain();
 
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive);
 			Vector2 vectorCenter = npc.Center;
@@ -677,7 +678,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
-                    if (bulletHellCounter2 % 225 == 0 && expertMode) //giant homing fireballs
+					int divisor = revenge ? 225 : expertMode ? 450 : 675;
+                    if (bulletHellCounter2 % divisor == 0 && expertMode) //giant homing fireballs
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 1f * uDieLul, ModContent.ProjectileType<BrimstoneMonster>(), damage, 0f, Main.myPlayer, 0f, passedVar);
                         passedVar += 1f;
@@ -2197,7 +2199,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             // Weapons
 
 			// All non-hybrid weapons are listed twice so that the drop rates are actually equal between each unique weapon
-			DropHelper.DropItemFromSetCondition(npc, Main.expertMode,
+			DropHelper.DropItemFromSetCondition(npc, true, Main.expertMode,
 				ModContent.ItemType<Animus>(), ModContent.ItemType<Animus>(),
 				ModContent.ItemType<Azathoth>(), ModContent.ItemType<Azathoth>(),
 				ModContent.ItemType<Contagion>(), ModContent.ItemType<Contagion>(),
@@ -2219,11 +2221,11 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 				ModContent.ItemType<BensUmbrella>(), ModContent.ItemType<BensUmbrella>(), //Temporal Umbrella
 				ModContent.ItemType<PrototypeAndromechaRing>(), ModContent.ItemType<PrototypeAndromechaRing>()
 			);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), CalamityWorld.revenge);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Vehemenc>(), Main.expertMode, CalamityWorld.revenge);
 
             // Vanity
-            DropHelper.DropItem(npc, ModContent.ItemType<BrimstoneJewel>());
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), CalamityWorld.death);
+            DropHelper.DropItem(npc, ModContent.ItemType<BrimstoneJewel>(), Main.expertMode);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Levi>(), true, CalamityWorld.death);
 
             // Other
             DropHelper.DropItemChance(npc, ModContent.ItemType<SupremeCalamitasTrophy>(), 10);

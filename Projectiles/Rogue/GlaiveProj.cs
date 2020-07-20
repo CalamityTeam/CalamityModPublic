@@ -82,25 +82,25 @@ namespace CalamityMod.Projectiles.Rogue
                 // Home back in on the player.
                 if (projectile.velocity.X < xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X + acceleration;
+                    projectile.velocity.X += acceleration;
                     if (projectile.velocity.X < 0f && xDist > 0f)
                         projectile.velocity.X += acceleration;
                 }
                 else if (projectile.velocity.X > xDist)
                 {
-                    projectile.velocity.X = projectile.velocity.X - acceleration;
+                    projectile.velocity.X -= acceleration;
                     if (projectile.velocity.X > 0f && xDist < 0f)
                         projectile.velocity.X -= acceleration;
                 }
                 if (projectile.velocity.Y < yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y + acceleration;
+                    projectile.velocity.Y += acceleration;
                     if (projectile.velocity.Y < 0f && yDist > 0f)
                         projectile.velocity.Y += acceleration;
                 }
                 else if (projectile.velocity.Y > yDist)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y - acceleration;
+                    projectile.velocity.Y -= acceleration;
                     if (projectile.velocity.Y > 0f && yDist < 0f)
                         projectile.velocity.Y -= acceleration;
                 }

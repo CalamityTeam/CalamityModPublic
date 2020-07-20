@@ -13,8 +13,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
+            projectile.width = projectile.height = 12;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
@@ -29,32 +28,30 @@ namespace CalamityMod.Projectiles.Ranged
             {
                 projectile.scale *= 1.01f;
             }
+
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.35f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0.45f / 255f);
-            if (projectile.timeLeft > 600)
+
+            if (projectile.ai[0]++ > 5f)
             {
-                projectile.timeLeft = 600;
-            }
-            if (projectile.ai[0] > 5f)
-            {
-                float num296 = 1f;
+                float dustScaleSize = 1f;
                 if (projectile.ai[0] == 6f)
                 {
-                    num296 = 0.25f;
+                    dustScaleSize = 0.25f;
                 }
                 else if (projectile.ai[0] == 7f)
                 {
-                    num296 = 0.5f;
+                    dustScaleSize = 0.5f;
                 }
                 else if (projectile.ai[0] == 8f)
                 {
-                    num296 = 0.75f;
+                    dustScaleSize = 0.75f;
                 }
                 projectile.ai[0] += 1f;
-                int num297 = 176;
-                for (int num298 = 0; num298 < 3; num298++)
+                int dustType = 176;
+                for (int i = 0; i < 3; i++)
                 {
-                    int num299 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, num297, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 1, default, 1f);
-					Dust dust = Main.dust[num299];
+                    int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 1, default, 1f);
+					Dust dust = Main.dust[fire];
 					if (Main.rand.NextBool(3))
 					{
 						dust.noGravity = true;
@@ -68,7 +65,7 @@ namespace CalamityMod.Projectiles.Ranged
 					}
 					dust.velocity.X *= 1.2f;
 					dust.velocity.Y *= 1.2f;
-					dust.scale *= num296;
+					dust.scale *= dustScaleSize;
 					dust.velocity += projectile.velocity;
 					if (!dust.noGravity)
 					{
@@ -76,15 +73,17 @@ namespace CalamityMod.Projectiles.Ranged
 					}
                 }
             }
-            else
-            {
-                projectile.ai[0] += 1f;
-            }
+
             projectile.rotation += 0.3f * (float)projectile.direction;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
+        }
+
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
             target.AddBuff(ModContent.BuffType<Nightwither>(), 300);
         }
     }

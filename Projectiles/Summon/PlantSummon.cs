@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -23,6 +24,7 @@ namespace CalamityMod.Projectiles.Summon
             Main.projFrames[projectile.type] = 8;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            ProjectileID.Sets.NeedsUUID[projectile.type] = true;
         }
 
         public override void SetDefaults()
@@ -32,7 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.netImportant = true;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.minionSlots = 2f;
+            projectile.minionSlots = 3f;
             projectile.timeLeft = 18000;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
@@ -49,7 +51,7 @@ namespace CalamityMod.Projectiles.Summon
             CalamityPlayer modPlayer = player.Calamity();
 			CalamityGlobalProjectile modProj = projectile.Calamity();
 
-			if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+			if (player.statLife <= (int)(player.statLifeMax2 * 0.75))
 			{
 				if (Main.myPlayer == projectile.owner)
 				{
@@ -69,6 +71,7 @@ namespace CalamityMod.Projectiles.Summon
                 modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
                 modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
 				SpawnDust();
+				SpawnTentacles();
                 initialized = true;
             }
             if (player.MinionDamage() != modProj.spawnedPlayerMinionDamageValue)
@@ -173,10 +176,17 @@ namespace CalamityMod.Projectiles.Summon
 						if (Main.myPlayer == projectile.owner)
 						{
 							Vector2 velocity = targetVec - projectile.Center;
-							velocity.Normalize();
-							velocity *= projSpeed;
-							velocity *= speedMult;
-							Projectile.NewProjectile(projectile.Center, velocity, projType, projDmg, projectile.knockBack, projectile.owner, 0f, 0f);
+							if (projType != thornBall && Main.rand.NextBool(3))
+							{
+								FireShotgun(velocity, 0.7f);
+							}
+							else
+							{
+								velocity.Normalize();
+								velocity *= projSpeed;
+								velocity *= speedMult;
+								Projectile.NewProjectile(projectile.Center, velocity, projType, projDmg, projectile.knockBack, projectile.owner, 0f, 0f);
+							}
 							projectile.netUpdate = true;
 						}
 					}
@@ -223,7 +233,7 @@ namespace CalamityMod.Projectiles.Summon
 						}
 					}
 				}
-				else
+				if (!foundTarget)
 				{
 					for (int num645 = 0; num645 < Main.maxNPCs; num645++)
 					{
@@ -274,23 +284,7 @@ namespace CalamityMod.Projectiles.Summon
 							}
 							if (Main.rand.NextBool(3))
 							{
-								float projSpeedMult = 3f;
-								if (Main.rand.NextBool(2) && CalamityUtils.CountProjectiles(sporeClouds) < 9)
-								{
-									projType = sporeClouds;
-									projSpeedMult = 10f;
-								}
-								else
-								{
-									projType = Main.rand.NextBool(2) ? greenSeed : pinkSeed;
-								}
-								int projDmg = (int)(projectile.damage * 0.8f);
-								Vector2 projVelocity = whereIsTarget * projSpeedMult;
-								for (int i = -8; i <= 8; i += 8)
-								{
-									Vector2 perturbedSpeed = projVelocity.RotatedBy(MathHelper.ToRadians(i));
-									Projectile.NewProjectile(projectile.Center, perturbedSpeed, projType, projDmg, projectile.knockBack * 0.8f, player.whoAmI, Main.rand.Next(3), 1f);
-								}
+								FireShotgun(whereIsTarget, 0.8f);
 							}
 							float chargeSpeed = 8f;
 							projectile.velocity = whereIsTarget * chargeSpeed;
@@ -391,6 +385,29 @@ namespace CalamityMod.Projectiles.Summon
 			}
 		}
 
+		private void FireShotgun(Vector2 whereIsTarget, float attackMult)
+		{
+			whereIsTarget.Normalize();
+			float projSpeedMult = 3f;
+			int projType = pinkSeed;
+			if (Main.rand.NextBool(2) && CalamityUtils.CountProjectiles(sporeClouds) < 9)
+			{
+				projType = sporeClouds;
+				projSpeedMult = 10f;
+			}
+			else
+			{
+				projType = Main.rand.NextBool(2) ? greenSeed : pinkSeed;
+			}
+			int projDmg = (int)(projectile.damage * attackMult);
+			Vector2 projVelocity = whereIsTarget * projSpeedMult;
+			for (int i = -8; i <= 8; i += 8)
+			{
+				Vector2 perturbedSpeed = projVelocity.RotatedBy(MathHelper.ToRadians(i));
+				Projectile.NewProjectile(projectile.Center, perturbedSpeed, projType, projDmg, projectile.knockBack * attackMult, projectile.owner, Main.rand.Next(3), 1f);
+			}
+		}
+
 		private void HandleRotation(bool targetFound, Vector2 whereIsTarget)
 		{
 			if (targetFound && !enraged)
@@ -401,9 +418,6 @@ namespace CalamityMod.Projectiles.Summon
 			{
 				projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
 			}
-				/*if (enraged)
-					projectile.rotation = (whereIsTarget - projectile.Center).ToRotation() + MathHelper.Pi;
-				else*/
 		}
 
 		private void Framing()
@@ -442,6 +456,18 @@ namespace CalamityMod.Projectiles.Summon
 			}
 		}
 
+		private void SpawnTentacles()
+		{
+			if (projectile.owner == Main.myPlayer)
+			{
+				int tentacleAmt = 6;
+				for (int tentacleIndex = 0; tentacleIndex < tentacleAmt; tentacleIndex++)
+				{
+					Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlantTentacle>(), projectile.damage, projectile.knockBack, projectile.owner, tentacleIndex, Projectile.GetByUUID(projectile.owner, projectile.whoAmI));
+				}
+			}
+		}
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 300);
@@ -455,5 +481,18 @@ namespace CalamityMod.Projectiles.Summon
         }
 
         public override bool CanDamage() => enraged;
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Texture2D texture = Main.projectileTexture[projectile.type];
+            int height = texture.Height / Main.projFrames[projectile.type];
+            int frameHeight = height * projectile.frame;
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (projectile.spriteDirection == -1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
+
+            Main.spriteBatch.Draw(texture, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, frameHeight, texture.Width, height)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture.Width / 2f, (float)height / 2f), projectile.scale, spriteEffects, 0f);
+			return false;
+        }
     }
 }

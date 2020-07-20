@@ -74,7 +74,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     type = ModContent.ProjectileType<UltimaRay>();
                     shotVelocity = shotVelocity.RotatedByRandom(0.03f);
-                    damage *= 2;
+                    damage = (int)(damage * 1.5);
                 }
                 // Sometimes fire little sparks if the bow is fully charged.
                 if (Time >= Ultima.FullChargeTime * 0.7f && Main.rand.NextBool(6))
