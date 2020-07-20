@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<FungalCarapace>());
             recipe.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
             recipe.AddIngredient(ModContent.ItemType<AmidiasSpark>());
+            recipe.AddIngredient(ModContent.ItemType<RoverDrive>());
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
@@ -68,6 +69,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<GiantShell>());
             recipe.AddIngredient(ModContent.ItemType<GiantTortoiseShell>());
             recipe.AddIngredient(ModContent.ItemType<AmidiasSpark>());
+            recipe.AddIngredient(ModContent.ItemType<RoverDrive>());
             recipe.AddIngredient(ModContent.ItemType<DepthCells>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Lumenite>(), 15);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 5);
