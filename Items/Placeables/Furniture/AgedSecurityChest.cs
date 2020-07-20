@@ -6,6 +6,11 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class AgedSecurityChest : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Aged Security Chest");
+        }
+
         public override void SetDefaults()
         {
             item.width = 32;

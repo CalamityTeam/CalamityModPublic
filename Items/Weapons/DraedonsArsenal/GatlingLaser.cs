@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -41,7 +42,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 			item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
 			item.shootSpeed = 24f;
-			item.useAmmo = AmmoID.Bullet;
 
 			item.Calamity().Chargeable = true;
 		}
@@ -72,7 +72,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<LaserRifle>());
-			recipe.AddIngredient(ItemID.LaserMachinegun);
+			recipe.AddIngredient(ModContent.ItemType<T1000>());
 			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

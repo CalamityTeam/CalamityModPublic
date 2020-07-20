@@ -22,10 +22,11 @@ namespace CalamityMod.World
     }
     public static class DraedonStructures
     {
-        public static bool DraedonsLogPresentInWorld = false;
+        public static int CurrentWorkshopIndex;
+        public static int DraedonsLogWorkshopIndex;
         public static void FillWorkshopChest(Chest chest)
         {
-            int potionType = Utils.SelectRandom(Main.rand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(8, 14 + 1)),
@@ -36,11 +37,8 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
-            if (!DraedonsLogPresentInWorld)
-            {
+            if (CurrentWorkshopIndex == DraedonsLogWorkshopIndex)
                 contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLog>(), 1));
-                DraedonsLogPresentInWorld = true;
-            }
             for (int i = 0; i < contents.Count; i++)
             {
                 chest.item[i].SetDefaults(contents[i].Type);
@@ -49,7 +47,7 @@ namespace CalamityMod.World
         }
         public static void FillLaboratoryChest(Chest chest)
         {
-            int potionType = Utils.SelectRandom(Main.rand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+            int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(10, 17 + 1)),
@@ -66,6 +64,31 @@ namespace CalamityMod.World
                 chest.item[i].stack = contents[i].Stack;
             }
         }
+        public static bool ShouldAvoidLocation(Point placementPoint)
+        {
+            Tile tile = CalamityUtils.ParanoidTileRetrieval(placementPoint.X, placementPoint.Y);
+            if (tile.lava())
+                return true;
+            if (tile.type == TileID.BlueDungeonBrick ||
+                tile.type == TileID.GreenDungeonBrick ||
+                tile.type == TileID.PinkDungeonBrick)
+            {
+                return true;
+            }
+            if (tile.type == TileID.LihzahrdBrick ||
+                tile.wall == WallID.LihzahrdBrickUnsafe)
+            {
+                return true;
+            }
+            if (tile.type == TileID.Crimstone ||
+                tile.wall == WallID.CrimstoneUnsafe ||
+                tile.type == TileID.Ebonstone ||
+                tile.wall == WallID.EbonstoneUnsafe)
+            {
+                return true;
+            }
+            return false;
+        }
         public static void PlaceWorkshop(out Point placementPoint, List<Point> workshopPoints)
         {
             int tries = 0;
@@ -79,8 +102,7 @@ namespace CalamityMod.World
             Vector2 schematicSize = new Vector2(SchematicLoader.TileMaps["Workshop"].GetLength(0), SchematicLoader.TileMaps["Workshop"].GetLength(1));
             int activeTilesInArea = 0;
             int xCheckArea = 40;
-            bool anyDungeonBricks = false;
-            bool anyLihzardBricks = false;
+            bool canGenerateInLocation = true;
 
             // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
             bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 240f);
@@ -92,29 +114,20 @@ namespace CalamityMod.World
                     Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                     if (tile.active())
                     {
-                        if (tile.type == TileID.BlueDungeonBrick ||
-                            tile.type == TileID.GreenDungeonBrick ||
-                            tile.type == TileID.PinkDungeonBrick)
-                        {
-                            anyDungeonBricks = true;
-                        }
-                        if (tile.type == TileID.LihzahrdBrick ||
-                            tile.wall == WallID.LihzahrdBrickUnsafe)
-                        {
-                            anyLihzardBricks = true;
-                        }
+                        if (ShouldAvoidLocation(new Point(x, y)))
+                            canGenerateInLocation = false;
                         activeTilesInArea++;
                     }
                 }
             }
-            if (anyDungeonBricks || anyLihzardBricks || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f)
+            if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f)
             {
                 tries++;
-                if (tries > 2500)
+                if (tries > 25000)
                     return;
                 goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
             }
-            SchematicPlacementHelpers.PlaceDraedonStructure("Workshop", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillWorkshopChest);
+            SchematicPlacementHelpers.PlaceStructure("Workshop", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillWorkshopChest);
         }
         public static void PlacePlagueLab(out Point placementPoint, List<Point> workshopPoints)
         {
@@ -129,8 +142,7 @@ namespace CalamityMod.World
             Vector2 schematicSize = new Vector2(SchematicLoader.TileMaps["Plague Research Facility"].GetLength(0), SchematicLoader.TileMaps["Plague Research Facility"].GetLength(1));
             int activeTilesInArea = 0;
             int xCheckArea = 30;
-            bool anyDungeonBricks = false;
-            bool anyLihzardBricks = false;
+            bool canGenerateInLocation = true;
 
             // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
             bool nearbyOtherWorkshop = workshopPoints.Any(point => Vector2.Distance(point.ToVector2(), new Vector2(placementPositionX, placementPositionY)) < 240f);
@@ -142,29 +154,20 @@ namespace CalamityMod.World
                     Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
                     if (tile.active())
                     {
-                        if (tile.type == TileID.BlueDungeonBrick ||
-                            tile.type == TileID.GreenDungeonBrick ||
-                            tile.type == TileID.PinkDungeonBrick)
-                        {
-                            anyDungeonBricks = true;
-                        }
-                        if (tile.type == TileID.LihzahrdBrick ||
-                            tile.wall == WallID.LihzahrdBrickUnsafe)
-                        {
-                            anyLihzardBricks = true;
-                        }
+                        if (ShouldAvoidLocation(new Point(x, y)))
+                            canGenerateInLocation = false;
                         activeTilesInArea++;
                     }
                 }
             }
-            if (anyLihzardBricks || anyDungeonBricks || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.3f)
+            if (!canGenerateInLocation || nearbyOtherWorkshop || activeTilesInArea / totalTiles > 0.35f)
             {
                 tries++;
-                if (tries > 6000)
+                if (tries > 25000)
                     return;
                 goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
             }
-            SchematicPlacementHelpers.PlaceDraedonStructure("Plague Research Facility", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillLaboratoryChest);
+            SchematicPlacementHelpers.PlaceStructure("Plague Research Facility", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillLaboratoryChest);
         }
     }
 }

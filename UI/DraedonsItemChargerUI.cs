@@ -35,7 +35,7 @@ namespace CalamityMod.UI
                 bool cooldownComplete = depositWithdrawCooldown == 0;
                 if (Main.netMode != NetmodeID.SinglePlayer)
                 {
-                    cooldownComplete = Main.time % 5 == 0;
+                    cooldownComplete = Main.time % 7 == 0;
                 }
                 if (mouseRectangle.Intersects(FuelIconBounds) && fuel.stack > 0)
                     Main.HoverItem = fuel.Clone();

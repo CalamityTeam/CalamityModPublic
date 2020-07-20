@@ -112,7 +112,6 @@ namespace CalamityMod
         // Boss Spawners
         public static int ghostKillCount = 0;
         public static int sharkKillCount = 0;
-        public static int astralKillCount = 0;
 
 		// Textures & Shaders
         public static Texture2D heartOriginal2;
@@ -3406,12 +3405,12 @@ namespace CalamityMod
                     }
                     return true;
                 }, InterfaceScaleType.None));
-                layers.Insert(invasionIndex + 1, new LegacyGameInterfaceLayer("Popup GUIs", () =>
-                {
-                    PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
-                    return true;
-                }, InterfaceScaleType.None));
             }
+            layers.Add(new LegacyGameInterfaceLayer("Popup GUIs", () =>
+            {
+                PopupGUIManager.UpdateAndDraw(Main.spriteBatch);
+                return true;
+            }, InterfaceScaleType.None));
         }
 
         public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f)
@@ -4081,6 +4080,7 @@ namespace CalamityMod
                             (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.Calamity().CurrentCharge = currentCharge;
                         }
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).ActiveTimer = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).DepositWithdrawCooldown = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.DraedonFieldGeneratorSync:
                         int entityID2 = reader.ReadInt32();
@@ -4094,7 +4094,12 @@ namespace CalamityMod
 						Main.npc[npcIndex2].Calamity().newAI[2] = reader.ReadSingle();
 						Main.npc[npcIndex2].Calamity().newAI[3] = reader.ReadSingle();
 						break;
-					default:
+                    case CalamityModMessageType.ProvidenceDyeConditionSync:
+                        byte npcIndex3 = reader.ReadByte();
+                        (Main.npc[npcIndex3].modNPC as Providence).hasTakenDaytimeDamage = reader.ReadBoolean();
+                        break;
+
+                    default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
                         break;
                 }
@@ -4177,7 +4182,8 @@ namespace CalamityMod
         AcidRainOldDukeSummonSync,
         GaelsGreatswordSwingSync,
         SpawnSuperDummy,
-        SyncCalamityNPCAIArray,
+		SyncCalamityNPCAIArray,
+        ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
         DraedonGeneratorStackSync,
         DraedonChargerSync,
         DraedonFieldGeneratorSync

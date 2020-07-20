@@ -2673,7 +2673,7 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.brimlashBusterBoost)
 			{
-				if (player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>())
+				if (player.ActiveItem().type != ModContent.ItemType<BrimlashBuster>() && player.ActiveItem().type != ModContent.ItemType<EvilSmasher>())
 					modPlayer.brimlashBusterBoost = false;
 			}
 

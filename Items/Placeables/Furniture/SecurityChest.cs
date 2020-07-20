@@ -5,6 +5,11 @@ namespace CalamityMod.Items.Placeables.Furniture
 {
     public class SecurityChest : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Security Chest");
+        }
+
         public override void SetDefaults()
         {
             item.width = 32;

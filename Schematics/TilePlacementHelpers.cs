@@ -25,7 +25,7 @@ namespace CalamityMod.Schematics
                 wall = wall
             };
         }
-        public static void PlaceDraedonStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, Action<Chest> chestInteraction = null, bool preserveWalls = true)
+        public static void PlaceStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, Action<Chest> chestInteraction = null, bool preserveWalls = true)
         {
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             Tile[,] tiles = TileMaps[mapKey];

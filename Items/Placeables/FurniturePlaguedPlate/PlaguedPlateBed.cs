@@ -8,6 +8,8 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Plagued 'Bed'");
+            Tooltip.SetDefault("Counts as a bed");
         }
 
         public override void SetDefaults()

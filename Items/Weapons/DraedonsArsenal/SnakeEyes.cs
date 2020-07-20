@@ -12,12 +12,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Snake Eyes");
+			Tooltip.SetDefault("Summons a mechanical watcher that zaps and flies around enemies.");
 		}
 
 		public override void SetDefaults()
 		{
 			item.shootSpeed = 10f;
-			item.damage = 15;
+			item.damage = 11;
 			item.mana = 12;
 			item.width = 38;
 			item.height = 24;

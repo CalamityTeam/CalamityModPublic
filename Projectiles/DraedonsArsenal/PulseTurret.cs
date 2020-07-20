@@ -78,7 +78,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Vector2 shootPosition = projectile.Center - ((standTexture.Height / 2 + 6f) * Vector2.UnitY);
                     shootPosition += (projectile.Size * 0.5f).RotatedBy(projectile.rotation - MathHelper.ToRadians(18f) - (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi);
 
-                    if (Math.Abs(Vector2.Normalize(potentialTarget.Center - shootPosition).ToRotation() - projectile.rotation) < MathHelper.ToRadians(32f) + (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi)
+                    bool aimingAtTarget = Math.Abs(Vector2.Normalize(potentialTarget.Center - shootPosition).ToRotation() - projectile.rotation) < MathHelper.ToRadians(32f) + (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
+                    if (aimingAtTarget || projectile.Distance(potentialTarget.Center) < 45f)
                     {
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PulseRifleFire"), shootPosition);
                         Projectile.NewProjectile(shootPosition,
