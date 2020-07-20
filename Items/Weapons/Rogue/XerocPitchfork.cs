@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.maxStack = 999;
 			item.value = 10000;
 			item.rare = 9;
-			item.shoot = ModContent.ProjectileType<XerocPitchforkProjectile>();
+			item.shoot = ModContent.ProjectileType<AntumbraShardProjectile>();
 			item.shootSpeed = 16f;
 			item.Calamity().rogue = true;
 		}
