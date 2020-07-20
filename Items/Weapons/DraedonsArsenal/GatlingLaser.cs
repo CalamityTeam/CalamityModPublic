@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class GatlingLaser : ModItem
 	{
-		private int BaseDamage = 430;
+		private int BaseDamage = 600;
 
 		public override void SetStaticDefaults()
 		{

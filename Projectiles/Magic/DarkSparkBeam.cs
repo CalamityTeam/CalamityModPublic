@@ -28,7 +28,7 @@ namespace CalamityMod.Projectiles.Magic
             projectile.alpha = 255;
             projectile.tileCollide = false;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 14;
+            projectile.localNPCHitCooldown = 15;
         }
 
         public override void SendExtraAI(BinaryWriter writer)

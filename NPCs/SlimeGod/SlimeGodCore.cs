@@ -528,14 +528,10 @@ namespace CalamityMod.NPCs.SlimeGod
 				}
             }
 
-            float num1372 = 6f;
-            if (phase2 || death)
+            float num1372 = death ? 14f : revenge ? 11f : expertMode ? 8.5f : 6f;
+            if (phase2)
             {
-                num1372 = 14f;
-            }
-            else if (revenge)
-            {
-                num1372 = 10f;
+                num1372 = revenge ? 14f : expertMode ? 12.5f : 11f;
             }
             if (CalamityWorld.bossRushActive || player.gravDir == -1f)
             {
