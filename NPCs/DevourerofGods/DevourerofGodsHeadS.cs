@@ -1009,7 +1009,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ModContent.ItemType<SupremeHealingPotion>(), 8, 14);
+            DropHelper.DropItem(npc, ModContent.ItemType<SupremeHealingPotion>(), 5, 15);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDoG, 6, 3, 2);

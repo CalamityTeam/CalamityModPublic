@@ -64,22 +64,9 @@ namespace CalamityMod.Projectiles.Melee.Spears
             for (int i = 0; i < projAmt; ++i)
             {
 				int type = Main.rand.NextBool() ? ModContent.ProjectileType<TenebreusTidesWaterSword>() : ModContent.ProjectileType<TenebreusTidesWaterSpear>();
-                float startOffsetX = Main.rand.NextFloat(1000f, 1400f) * (Main.rand.NextBool() ? -1f : 1f);
-                float startOffsetY = Main.rand.NextFloat(80f, 900f) * (Main.rand.NextBool() ? -1f : 1f);
-                Vector2 startPos = new Vector2(targetPos.X + startOffsetX, targetPos.Y + startOffsetY);
-                Vector2 projVel = targetPos - startPos;
-
-                // Add some randomness / inaccuracy to the projectile target location
-                projVel.X += Main.rand.NextFloat(-5f, 5f);
-                projVel.Y += Main.rand.NextFloat(-5f, 5f);
-                float speed = Main.rand.NextFloat(25f, 35f);
-                float dist = projVel.Length();
-                dist = speed / dist;
-                projVel.X *= dist;
-                projVel.Y *= dist;
                 if (projectile.owner == Main.myPlayer)
                 {
-                    Projectile.NewProjectile(startPos, projVel, type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+					CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(25f, 35f), type, projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner);
                 }
             }
         }

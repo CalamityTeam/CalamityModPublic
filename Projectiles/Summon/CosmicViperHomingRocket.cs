@@ -71,7 +71,21 @@ namespace CalamityMod.Projectiles.Summon
 					}
                 }
             }
-			else
+			else if (Main.npc[(int)projectile.ai[0]].active && projectile.ai[0] != -1f)
+			{
+                NPC npc = Main.npc[(int)projectile.ai[0]];
+                if (npc.CanBeChasedBy(projectile, false))
+                {
+					float extraDistance = (float)(npc.width / 2) + (float)(npc.height / 2);
+
+					if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+					{
+						center = npc.Center;
+						homeIn = true;
+					}
+                }
+			}
+			if (!homeIn)
 			{
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{

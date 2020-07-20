@@ -95,7 +95,7 @@ namespace CalamityMod.Projectiles.Rogue
 				projectile.Damage();
 				for (int i = 0; i < 10; i++)
 				{
-					int smoke = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
+					int smoke = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 2f);
 					Main.dust[smoke].velocity *= 3f;
 					if (Main.rand.NextBool(2))
 					{
@@ -105,13 +105,13 @@ namespace CalamityMod.Projectiles.Rogue
 				}
 				for (int j = 0; j < 15; j++)
 				{
-					int plague = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 89, 0f, 0f, 100, default, 3f);
+					int plague = Dust.NewDust(projectile.position, projectile.width, projectile.height, 89, 0f, 0f, 100, default, 3f);
 					Main.dust[plague].noGravity = true;
 					Main.dust[plague].velocity *= 5f;
-					int fire = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+					int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
 					Main.dust[fire].velocity *= 2f;
 				}
-				projectile.ExplosionGores(3);
+				CalamityUtils.ExplosionGores(projectile.Center, 3);
             }
         }
 

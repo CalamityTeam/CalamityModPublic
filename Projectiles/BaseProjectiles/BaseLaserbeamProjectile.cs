@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
 using Terraria;
 using Terraria.Enums;
 using Terraria.ModLoader;
@@ -9,6 +10,7 @@ namespace CalamityMod.Projectiles.BaseProjectiles
 {
     public abstract class BaseLaserbeamProjectile : ModProjectile
     {
+        #region Auto-Properties
         public float RotationalSpeed
         {
             get => projectile.ai[0];
@@ -24,6 +26,13 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             get => projectile.localAI[1];
             set => projectile.localAI[1] = value;
         }
+        #endregion
+
+        #region Virtual Methods
+
+        /// <summary>
+        /// Handles all AI logic for the laser. Can be overridden, but you probably won't need to do that.
+        /// </summary>
         public virtual void Behavior()
         {
             // Attach to some arbitrary thing/position optionally. (The ai[1] value is a reserved for this in vanilla's Phantasmal Deathray)
@@ -49,18 +58,25 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             DelegateMethods.v3_1 = LightCastColor.ToVector3();
             Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.width * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CastLight));
         }
+
+        /// <summary>
+        /// Handles movement logic for the laser. By default causes arcing/sweeping motiom.
+        /// </summary>
         public virtual void UpdateLaserMotion()
         {
             // This part is rather complicated at a glance.
             // What it's doing is converting the velocity to an angle, doing something with that angle, and changing it back into the velocity.
-            // In this case, "doing something with that angle" means incrementing it by a constant.
+            // In this case, "doing something with that angle" means incrementing it by a constant. This allows the laser to perform "arcing" motion.
             // You could attempt to make it intelligent by having it move towards the target like the Last Prism, but that's not done here.
-            // This allows one to cause an arcing motion.
 
             float updatedVelocityDirection = projectile.velocity.ToRotation() + RotationalSpeed;
             projectile.rotation = updatedVelocityDirection - MathHelper.PiOver2; // Pretty much all lasers have a vertical sheet.
             projectile.velocity = updatedVelocityDirection.ToRotationVector2();
         }
+
+        /// <summary>
+        /// Calculates the total scale of the laser. By default uses a clamped sine of time.
+        /// </summary>
         public virtual void DetermineScale()
         {
             projectile.scale = (float)Math.Sin(Time / Lifetime * MathHelper.Pi) * 6f * MaxScale;
@@ -69,13 +85,48 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 projectile.scale = MaxScale;
             }
         }
-        public virtual void AttachToSomething() { } // Does nothing by default.
-        public virtual float DetermineLaserLength() => MaxLaserLength; // Go with the default length and ignore any obstacles by default.
+        
+        /// <summary>
+        /// Handles direct attachment to things. The projectile.ai[1] array index is reserved for this. Does nothing by default.
+        /// </summary>
+        public virtual void AttachToSomething() { }
+
+        /// <summary>
+        /// Calculates the current laser's length. By default does not collide with tiles. <see cref="DetermineLaserLength_CollideWithTiles"/> is a generic laser collision method if you want to do that.
+        /// </summary>
+        /// <returns>The laser length as a float.</returns>
+        public virtual float DetermineLaserLength() => MaxLaserLength;
+
+        /// <summary>
+        /// An extra, empty by default method that exists so that a developer can add custom code after all typical AI logic is done. Think of it like PostAI.
+        /// </summary>
         public virtual void ExtraBehavior() { }
+        #endregion
+
+        #region Helper Methods
+
+        /// <summary>
+        /// Calculates the laser length while taking tiles into account.
+        /// </summary>
+        /// <param name="samplePointCount">The amount of samples the ray uses. The higher this is, the more precision, but also more calculations done.</param>
+        public float DetermineLaserLength_CollideWithTiles(int samplePointCount)
+        {
+            float[] laserLengthSamplePoints = new float[samplePointCount];
+            Collision.LaserScan(projectile.Center, projectile.velocity, projectile.scale, MaxLaserLength, laserLengthSamplePoints);
+            return laserLengthSamplePoints.Average();
+        }
+        #endregion
+
+        #region Hook Overrides
         public override void AI()
         {
             Behavior();
             ExtraBehavior();
+        }
+        public override void CutTiles()
+        {
+            DelegateMethods.tilecut_0 = TileCuttingContext.AttackMelee;
+            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.Size.Length() * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -84,13 +135,13 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 return false;
 
             // Start texture drawing.
-            spriteBatch.Draw(LaserBeginTexture, 
-                             projectile.Center - Main.screenPosition, 
+            spriteBatch.Draw(LaserBeginTexture,
+                             projectile.Center - Main.screenPosition,
                              null,
                              LaserOverlayColor,
                              projectile.rotation,
                              LaserBeginTexture.Size() / 2f,
-                             projectile.scale, 
+                             projectile.scale,
                              SpriteEffects.None,
                              0f);
 
@@ -107,13 +158,13 @@ namespace CalamityMod.Projectiles.BaseProjectiles
                 float incrementalBodyLength = 0f;
                 while (incrementalBodyLength + 1f < laserBodyLength)
                 {
-                    spriteBatch.Draw(LaserMiddleTexture, 
-                                     centerOnLaser - Main.screenPosition, 
-                                     null, 
-                                     LaserOverlayColor, 
+                    spriteBatch.Draw(LaserMiddleTexture,
+                                     centerOnLaser - Main.screenPosition,
+                                     null,
+                                     LaserOverlayColor,
                                      projectile.rotation,
-                                     LaserMiddleTexture.Width * 0.5f * Vector2.UnitX, 
-                                     projectile.scale, 
+                                     LaserMiddleTexture.Width * 0.5f * Vector2.UnitX,
+                                     projectile.scale,
                                      SpriteEffects.None,
                                      0f);
                     incrementalBodyLength += laserOffset;
@@ -137,25 +188,16 @@ namespace CalamityMod.Projectiles.BaseProjectiles
             }
             return false;
         }
-        public override void CutTiles()
-        {
-            DelegateMethods.tilecut_0 = TileCuttingContext.AttackMelee;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.Size.Length() * projectile.scale, new Utils.PerLinePoint(DelegateMethods.CutTiles));
-        }
-
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             if (projHitbox.Intersects(targetHitbox))
                 return true;
             float unused = 69420f;
-            if (Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.Size.Length() * projectile.scale, ref unused))
-            {
-                return true;
-            }
-            return false;
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.Size.Length() * projectile.scale, ref unused);
         }
+        #endregion
 
-        #region Virtual Values
+        #region Virtual Properties
         public virtual float Lifetime => 120f;
         public virtual float MaxScale => 1f;
         public virtual float MaxLaserLength => 2400f; // Be careful with this. Going too high will cause lag.

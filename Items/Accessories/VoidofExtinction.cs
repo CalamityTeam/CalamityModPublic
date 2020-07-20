@@ -1,8 +1,10 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -22,8 +24,7 @@ namespace CalamityMod.Items.Accessories
                 "Drops brimstone fireballs from the sky occasionally\n" +
                 "15% increase to all damage\n" +
                 "Brimstone fire rains down while invincibility is active\n" +
-                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava\n" +
-				"Provides heat protection in Death Mode");
+                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava");
         }
 
         public override void SetDefaults()
@@ -34,6 +35,21 @@ namespace CalamityMod.Items.Accessories
             item.expert = true;
             item.rare = 8;
             item.accessory = true;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
+					{
+						line2.text = "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().calamityRing;
@@ -69,21 +85,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-						float x = player.position.X + (float)Main.rand.Next(-400, 400);
-						float y = player.position.Y - (float)Main.rand.Next(500, 800);
-						Vector2 source = new Vector2(x, y);
-						Vector2 velocity = player.Center - source;
-						velocity.X += (float)Main.rand.Next(-100, 101);
-						float speed = 22f;
-						float targetDist = velocity.Length();
-						targetDist = speed / targetDist;
-						velocity.X *= targetDist;
-						velocity.Y *= targetDist;
-						int fire = Projectile.NewProjectile(source, velocity, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
-						Main.projectile[fire].ai[1] = player.position.Y;
-						Main.projectile[fire].usesLocalNPCImmunity = true;
-						Main.projectile[fire].localNPCHitCooldown = 60;
-						Main.projectile[fire].usesIDStaticNPCImmunity = false;
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI, 0, 1, 60);
                     }
                 }
             }

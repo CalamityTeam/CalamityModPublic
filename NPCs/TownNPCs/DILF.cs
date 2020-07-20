@@ -52,19 +52,21 @@ namespace CalamityMod.NPCs.TownNPCs
             animationType = NPCID.Guide;
         }
 
-        public override bool CanTownNPCSpawn(int numTownNPCs, int money)
-        {
-            return CalamityWorld.downedCryogen;
-        }
+		public override void AI()
+		{
+			if (!CalamityWorld.foundHomePermafrost && !npc.homeless)
+			{
+				CalamityWorld.foundHomePermafrost = true;
+			}
+		}
 
-        public override string TownNPCName()
-        {
-            return "Permafrost";
-        }
+        public override bool CanTownNPCSpawn(int numTownNPCs, int money) => CalamityWorld.downedCryogen;
+
+        public override string TownNPCName() => "Permafrost";
 
         public override string GetChat()
         {
-            if (npc.homeless) //not sure how to check if he has ever found a home before (to make this dialogue only run when he first spawns)
+            if (npc.homeless && !CalamityWorld.foundHomePermafrost)
             {
                 if (Main.rand.NextBool(2))
                     return "I deeply appreciate you rescuing me from being trapped within my frozen castle... It's been many, many years...";

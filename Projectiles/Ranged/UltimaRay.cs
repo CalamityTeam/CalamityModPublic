@@ -14,7 +14,7 @@ namespace CalamityMod.Projectiles.Ranged
             set => projectile.ai[1] = value;
         }
         public override float MaxScale => 0.7f;
-        public override float MaxLaserLength => 1599.999999f;
+        public override float MaxLaserLength => 2400f;
         public override float Lifetime => 50f;
         public override Color LaserOverlayColor => Main.hslToRgb((float)Math.Sin(Main.GlobalTime * 2.3f + HueOffset) * 0.5f + 0.5f, 1f, 0.775f) * Utils.InverseLerp(Lifetime, 0f, Time, true);
         public override Color LightCastColor => LaserOverlayColor;
@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.arrow = true;
             projectile.penetrate = -1;
             projectile.alpha = 255;
-            projectile.localNPCHitCooldown = 8;
+            projectile.localNPCHitCooldown = 10;
             projectile.usesLocalNPCImmunity = true;
         }
         public override bool PreAI()

@@ -18,29 +18,31 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 20;
+            projectile.height = 20;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
             projectile.tileCollide = false;
             projectile.timeLeft = 600;
             projectile.aiStyle = 27;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
         {
-            projectile.velocity.X *= 1.075f;
-            projectile.velocity.Y *= 1.075f;
-            int num250 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
-            Main.dust[num250].noGravity = true;
-            Main.dust[num250].velocity *= 0f;
+			if (projectile.velocity.Length() < 25f && projectile.timeLeft % 2 == 0)
+				projectile.velocity *= 1.04f;
+
+            int rainbow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
+            Main.dust[rainbow].noGravity = true;
+            Main.dust[rainbow].velocity = Vector2.Zero;
         }
 
         public override void Kill(int timeLeft)
         {
-            int num = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-            Main.dust[num].noGravity = true;
+            int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+            Main.dust[rainbow].noGravity = true;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

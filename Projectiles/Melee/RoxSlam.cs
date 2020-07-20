@@ -19,15 +19,25 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            Player player = Main.player[Main.myPlayer];
+            Player player = Main.player[projectile.owner];
             //Kills the projectile if the alt attack ended
             if (player.itemAnimation == 0)
             {
                 projectile.Kill();
             }
-            //Makes the projectiles follow the player
-            projectile.velocity.X = player.velocity.X;
-            projectile.velocity.Y = player.velocity.Y;
+            //Makes the projectiles track the player
+			float posX;
+			float posY = player.Center.Y + 63;
+			// Makes the projectile follow the proper position on the X axis
+			if (player.direction == 1)
+			{
+				posX = player.Center.X + 6;
+			}
+			else
+			{
+				posX = player.Center.X - 8;
+			}
+			projectile.Center = new Vector2(posX, posY - (player.height / 10f));
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
