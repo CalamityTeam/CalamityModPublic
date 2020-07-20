@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 		public override float UseTimeMultiplier	(Player player)
 		{
 			if (player.altFunctionUse == 2)
-				return (9f/27f);
+				return 0.3333f;
 			return 1f;
 		}
 
