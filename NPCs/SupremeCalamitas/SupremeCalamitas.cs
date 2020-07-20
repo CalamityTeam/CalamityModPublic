@@ -227,6 +227,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             CalamityMod.StopRain();
 
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive);
 			Vector2 vectorCenter = npc.Center;
@@ -677,7 +678,8 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 10f * uDieLul, ModContent.ProjectileType<BrimstoneFireblast>(), damage, 0f, Main.myPlayer, 0f, 0f);
                     }
-                    if (bulletHellCounter2 % 225 == 0 && expertMode) //giant homing fireballs
+					int divisor = revenge ? 225 : expertMode ? 450 : 675;
+                    if (bulletHellCounter2 % divisor == 0 && expertMode) //giant homing fireballs
                     {
                         Projectile.NewProjectile(player.position.X + Main.rand.Next(-1000, 1000), player.position.Y - 1000f, 0f, 1f * uDieLul, ModContent.ProjectileType<BrimstoneMonster>(), damage, 0f, Main.myPlayer, 0f, passedVar);
                         passedVar += 1f;
