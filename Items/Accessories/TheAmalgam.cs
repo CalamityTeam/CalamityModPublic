@@ -60,7 +60,7 @@ namespace CalamityMod.Items.Accessories
 					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
 					{
 						line2.text = "You have a damaging aura that envenoms nearby enemies and increased movement in liquids\n" +
-						"Provides cold protection in Death Mode";
+						"Provides heat protection in Death Mode";
 					}
 				}
 			}

@@ -792,6 +792,21 @@ namespace CalamityMod
             }
         }
 
+        public static int FindFirstProjectile(int Type)
+        {
+			int index = -1;
+            for (int x = 0; x < Main.maxProjectiles; x++)
+            {
+                Projectile proj = Main.projectile[x];
+                if (proj.active && proj.type == Type)
+                {
+                    index = x;
+					break;
+                }
+            }
+			return index;
+        }
+
         /// <summary>
         /// Call this function in the ai of your projectile so it can stick to enemies, also requires ModifyHitNPCSticky to be called in ModifyHitNPC
         /// </summary>

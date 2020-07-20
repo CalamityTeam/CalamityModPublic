@@ -8,18 +8,19 @@ namespace CalamityMod.Items.Weapons.Rogue
 {
     public class ToxicantTwister : RogueWeapon
     {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Toxicant Twister");
-            Tooltip.SetDefault("Throws a speedy, homing boomerang\n" +
-                               "Stealth strikes fire two boomerangs that go much faster and release sand rapidly");
-        }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Toxicant Twister");
+			Tooltip.SetDefault("Throws a slow moving boomerang\n" +
+				"After a few moments, the boomerang chooses a target and rapidly homes in\n" +
+				"Stealth strikes fire three boomerangs that home in faster and rapidly release sand");
+		}
 
         public override void SafeSetDefaults()
         {
             item.width = 42;
             item.height = 46;
-            item.damage = 650;
+            item.damage = 750;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.useAnimation = item.useTime = 20;
@@ -39,21 +40,13 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             if (player.Calamity().StealthStrikeAvailable())
 			{
-				float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-				float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-				int stealth = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<ToxicantTwisterProjectile>(), damage, knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[stealth].Calamity().stealthStrike = true;
-				Main.projectile[stealth].velocity *= 1.5f;
-				Main.projectile[stealth].timeLeft = 420;
-				Main.projectile[stealth].penetrate = -1;
-				Main.projectile[stealth].localNPCHitCooldown = 6;
-
-				float SpeedX2 = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
-				float SpeedY2 = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
-				int stealth2 = Projectile.NewProjectile(position.X, position.Y, SpeedX2, SpeedY2, type, (int)(damage * 0.6f), knockBack, player.whoAmI, 0f, 0f);
-				Main.projectile[stealth2].Calamity().stealthStrike = true;
-				Main.projectile[stealth2].penetrate += 2;
-				Main.projectile[stealth2].localNPCHitCooldown = 8;
+				for (int i = 0; i < 3; i++)
+				{
+					float SpeedX = speedX + (float)Main.rand.Next(-20, 21) * 0.05f;
+					float SpeedY = speedY + (float)Main.rand.Next(-20, 21) * 0.05f;
+					int stealth = Projectile.NewProjectile(position, new Vector2(SpeedX, SpeedY), type, damage, knockBack, player.whoAmI);
+					Main.projectile[stealth].Calamity().stealthStrike = true;
+				}
 			}
 			else
 			{
