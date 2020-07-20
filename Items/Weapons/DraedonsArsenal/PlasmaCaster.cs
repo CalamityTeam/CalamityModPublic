@@ -9,6 +9,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class PlasmaCaster : ModItem
 	{
+		public const int BaseDamage = 1100;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Plasma Caster");
@@ -22,7 +23,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 62;
 			item.height = 30;
 			item.magic = true;
-			item.damage = 1100;
+			item.damage = BaseDamage;
 			item.knockBack = 7f;
 			item.useTime = 45;
 			item.useAnimation = 45;
