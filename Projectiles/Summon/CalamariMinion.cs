@@ -141,6 +141,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 center = Main.player[projectile.owner].Center;
             Vector2 value = new Vector2(0.5f);
             value.Y = 0f;
+			int targetIndex = -1;
             if (player.HasMinionAttackTargetNPC)
             {
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
@@ -152,11 +153,11 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         vector = vector2;
                         flag = true;
-                        int num11 = npc.whoAmI;
+						targetIndex = npc.whoAmI;
                     }
                 }
             }
-            else
+            if (!flag)
             {
                 for (int k = 0; k < Main.maxNPCs; k++)
                 {
@@ -170,6 +171,7 @@ namespace CalamityMod.Projectiles.Summon
                             num10 = num13;
                             vector = vector3;
                             flag = true;
+							targetIndex = k;
                         }
                     }
                 }
@@ -321,7 +323,7 @@ namespace CalamityMod.Projectiles.Summon
                             Vector2 vector7 = vector - projectile.Center;
                             vector7.Normalize();
                             vector7 *= scaleFactor4;
-                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y + 20, vector7.X, vector7.Y, num28, projectile.damage, 0f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y + 20, vector7.X, vector7.Y, num28, projectile.damage, 0f, Main.myPlayer, targetIndex, 0f);
                             projectile.netUpdate = true;
                         }
                     }

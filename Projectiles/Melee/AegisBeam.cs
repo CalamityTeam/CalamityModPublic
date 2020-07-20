@@ -38,7 +38,7 @@ namespace CalamityMod.Projectiles.Melee
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 73);
                 projectile.localAI[0] += 1f;
             }
-            int num458 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 0.8f);
+            int num458 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 0.8f);
             Main.dust[num458].noGravity = true;
             Main.dust[num458].velocity *= 0.5f;
             Main.dust[num458].velocity += projectile.velocity * 0.1f;
@@ -56,39 +56,32 @@ namespace CalamityMod.Projectiles.Melee
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
             Main.PlaySound(SoundID.Item20, projectile.Center);
-            for (int dust = 0; dust <= 30; dust++)
+            for (int d = 0; d <= 30; d++)
             {
                 float num463 = (float)Main.rand.Next(-10, 11);
                 float num464 = (float)Main.rand.Next(-10, 11);
-                float num465 = (float)Main.rand.Next(3, 9);
+                float speed = (float)Main.rand.Next(3, 9);
                 float num466 = (float)Math.Sqrt((double)(num463 * num463 + num464 * num464));
-                num466 = num465 / num466;
+                num466 = speed / num466;
                 num463 *= num466;
                 num464 *= num466;
                 int num467 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 246, 0f, 0f, 100, new Color(255, Main.DiscoG, 53), 1.2f);
-                Main.dust[num467].noGravity = true;
-                Main.dust[num467].position.X = projectile.Center.X;
-                Main.dust[num467].position.Y = projectile.Center.Y;
-                Dust expr_149DF_cp_0 = Main.dust[num467];
-                expr_149DF_cp_0.position.X += (float)Main.rand.Next(-10, 11);
-                Dust expr_14A09_cp_0 = Main.dust[num467];
-                expr_14A09_cp_0.position.Y += (float)Main.rand.Next(-10, 11);
-                Main.dust[num467].velocity.X = num463;
-                Main.dust[num467].velocity.Y = num464;
+                Dust dust = Main.dust[num467];
+                dust.noGravity = true;
+                dust.position.X = projectile.Center.X;
+                dust.position.Y = projectile.Center.Y;
+                dust.position.X += (float)Main.rand.Next(-10, 11);
+                dust.position.Y += (float)Main.rand.Next(-10, 11);
+                dust.velocity.X = num463;
+                dust.velocity.Y = num464;
             }
-            int num251 = Main.rand.Next(2, 4);
+            int flameAmt = Main.rand.Next(2, 4);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < num251; num252++)
+                for (int i = 0; i < flameAmt; i++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<AegisFlame>(), (int)((double)projectile.damage * 0.75), 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AegisFlame>(), (int)(projectile.damage * 0.75), 0f, projectile.owner, 0f, 0f);
                 }
             }
         }

@@ -53,14 +53,18 @@ namespace CalamityMod.Schematics
                     yOffset += tiles.GetLength(1);
                     break;
             }
-            for (int x = 0; x < oldWalls.GetLength(0); x++)
+            ushort[,] oldWalls = new ushort[tiles.GetLength(0), tiles.GetLength(1)];
+            for (int x = 0; x < tiles.GetLength(0); x++)
             {
-                for (int y = 0; y < oldWalls.GetLength(1); y++)
+                for (int y = 0; y < tiles.GetLength(1); y++)
                 {
-                    if (WorldGen.InWorld(x + xOffset, y + yOffset))
-                    {
-                        oldWalls[x, y] = CalamityUtils.ParanoidTileRetrieval(x + xOffset, y + yOffset).wall;
-                    }
+                    Tile tile = Main.tile[x + xOffset, y + yOffset];
+                    oldWalls[x, y] = tile.wall;
+
+                    // Attempting to break chests causes the game to attempt to infinitely recurse in an attempt to break the tile, resulting in a stack overflow.
+                    if (tile.type == TileID.Containers)
+                        continue;
+                    WorldGen.KillTile(x + xOffset, y + yOffset);
                 }
             }
             for (int x = 0; x < tiles.GetLength(0); x++)

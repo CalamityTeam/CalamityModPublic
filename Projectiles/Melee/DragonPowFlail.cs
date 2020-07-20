@@ -150,61 +150,57 @@ namespace CalamityMod.Projectiles.Melee
             if (target.type == NPCID.TargetDummy)
                 return;
 
-            PetalStorm(target, damage, knockback, crit);
-            Waterfalls(target, damage, knockback, crit);
+            PetalStorm(target.Center);
+            Waterfalls(target.Center);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+            // Inflicts Abyssal Flames and Holy Flames for 8 seconds on-hit
+            target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 480);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 480);
+
+            projectile.ai[0] = 1f;
+            projectile.netUpdate = true;
+
+            PetalStorm(target.Center);
+            Waterfalls(target.Center);
         }
 
         // Spawns a storm of flower petals on-hit.
-        private void PetalStorm(NPC target, int damage, float knockback, bool crit)
+        private void PetalStorm(Vector2 targetPos)
         {
-            Main.PlaySound(SoundID.Item105, target.Center);
+            Main.PlaySound(SoundID.Item105, targetPos);
 
             int type = ProjectileID.FlowerPetal;
             int numPetals = 12;
             int petalDamage = projectile.damage / 8;
             float petalKB = 0f;
-            Player owner = Main.player[projectile.owner];
             for (int i = 0; i < numPetals; ++i)
             {
-                float startOffsetX = Main.rand.NextFloat(1000f, 1400f) * (Main.rand.NextBool() ? -1f : 1f);
-                float startOffsetY = Main.rand.NextFloat(80f, 900f) * (Main.rand.NextBool() ? -1f : 1f);
-                Vector2 startPos = new Vector2(target.Center.X + startOffsetX, target.Center.Y + startOffsetY);
-                float dx = target.Center.X - startPos.X;
-                float dy = target.Center.Y - startPos.Y;
-
-                // Add some randomness / inaccuracy to the petal target location
-                dx += Main.rand.NextFloat(-5f, 5f);
-                dy += Main.rand.NextFloat(-5f, 5f);
-                float speed = Main.rand.NextFloat(DragonPow.MinPetalSpeed, DragonPow.MaxPetalSpeed);
-                float dist = (float)Math.Sqrt((double)(dx * dx + dy * dy));
-                dist = speed / dist;
-                dx *= dist;
-                dy *= dist;
-                Vector2 petalVel = new Vector2(dx, dy);
-                float angle = Main.rand.NextFloat(MathHelper.TwoPi);
-                if (projectile.owner == Main.myPlayer)
-                {
-                    int idx = Projectile.NewProjectile(startPos, petalVel, type, petalDamage, petalKB, projectile.owner, 0f, 0f);
-                    Main.projectile[idx].rotation = angle;
-                    Main.projectile[idx].melee = true;
-                    Main.projectile[idx].usesLocalNPCImmunity = true;
-                    Main.projectile[idx].localNPCHitCooldown = -1;
-                }
+				if (projectile.owner == Main.myPlayer)
+				{
+					float angle = Main.rand.NextFloat(MathHelper.TwoPi);
+					Projectile petal = CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 1000f, 1400f, 80f, 900f, Main.rand.NextFloat(DragonPow.MinPetalSpeed, DragonPow.MaxPetalSpeed), type, petalDamage, petalKB, projectile.owner);
+					petal.rotation = angle;
+					petal.Calamity().forceMelee = true;
+					petal.usesLocalNPCImmunity = true;
+					petal.localNPCHitCooldown = -1;
+				}
             }
         }
 
-        private void Waterfalls(NPC target, int damage, float knockback, bool crit)
+        private void Waterfalls(Vector2 targetPos)
         {
             int type = ModContent.ProjectileType<Waterfall>();
             int numWaterfalls = 12;
             int waterfallDamage = projectile.damage / 6;
             float waterfallKB = 0f;
-            Player owner = Main.player[projectile.owner];
             for (int i = 0; i < numWaterfalls; ++i)
             {
                 float startOffsetX = Main.rand.NextFloat(-120f, 120f);
                 float startOffsetY = Main.rand.NextFloat(-740f, -700f);
-                Vector2 startPos = new Vector2(target.Center.X + startOffsetX, target.Center.Y + startOffsetY);
+                Vector2 startPos = new Vector2(targetPos.X + startOffsetX, targetPos.Y + startOffsetY);
                 float fallSpeed = Main.rand.NextFloat(DragonPow.MinWaterfallSpeed, DragonPow.MaxWaterfallSpeed);
                 Vector2 fallVec = new Vector2(0f, fallSpeed);
                 fallVec = fallVec.RotatedBy(Main.rand.NextFloat(-0.08f, 0.08f));

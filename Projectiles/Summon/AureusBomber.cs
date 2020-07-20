@@ -82,7 +82,7 @@ namespace CalamityMod.Projectiles.Summon
 			float idleDistance = vectorToIdlePosition.Length();
 
 			//dust effects
-			if (Main.rand.Next(10) == 0)
+			if (Main.rand.NextBool(10))
 			{
 				int index = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, dustType, 0.0f, 0.0f, 100, Color.Transparent, 2f);
 				Main.dust[index].velocity *= 0.3f;

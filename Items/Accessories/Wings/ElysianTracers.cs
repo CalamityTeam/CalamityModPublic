@@ -1,6 +1,8 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -23,8 +25,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "36% increased running acceleration\n" +
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
-                "Temporary immunity to lava\n" +
-				"Provides heat protection in Death Mode");
+                "Temporary immunity to lava");
         }
 
         public override void SetDefaults()
@@ -34,6 +35,21 @@ namespace CalamityMod.Items.Accessories.Wings
             item.value = CalamityGlobalItem.Rarity14BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip9")
+					{
+						line2.text = "Temporary immunity to lava\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

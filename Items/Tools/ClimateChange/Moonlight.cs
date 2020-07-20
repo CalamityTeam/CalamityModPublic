@@ -1,5 +1,5 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.NPCs;
+using CalamityMod.CalPlayer;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,7 +28,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
 
         public override bool CanUseItem(Player player)
         {
-            return Main.dayTime && !CalamityGlobalNPC.AnyBossNPCS();
+            return Main.dayTime && !CalamityPlayer.areThereAnyDamnBosses;
         }
 
         public override bool UseItem(Player player)

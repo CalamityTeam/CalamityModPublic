@@ -1,7 +1,9 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
@@ -24,8 +26,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Greater mobility on ice\n" +
                 "Water and lava walking\n" +
                 "Temporary immunity to lava\n" +
-                "Being hit for over 200 damage will make you immune for an extended period of time\n" +
-				"Provides heat protection in Death Mode");
+                "Being hit for over 200 damage will make you immune for an extended period of time");
         }
 
         public override void SetDefaults()
@@ -35,6 +36,21 @@ namespace CalamityMod.Items.Accessories.Wings
             item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.Violet;
+        }
+
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip10")
+					{
+						line2.text = "Being hit for over 200 damage will make you immune for an extended period of time\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

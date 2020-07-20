@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -245,15 +243,21 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 60);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 240);
-            target.AddBuff(ModContent.BuffType<Plague>(), 240);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 240);
-            target.AddBuff(BuffID.CursedInferno, 240);
-            target.AddBuff(BuffID.Frostburn, 240);
-            target.AddBuff(BuffID.OnFire, 240);
-            target.AddBuff(BuffID.Ichor, 240);
+			target.ExoDebuffs(2f);
+
+            if (projectile.ai[0] == 7f)
+            {
+                projectile.velocity *= 0.25f;
+            }
+            else if (projectile.ai[0] == 8f)
+            {
+                projectile.velocity *= -1f;
+            }
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.ExoDebuffs(2f);
 
             if (projectile.ai[0] == 7f)
             {

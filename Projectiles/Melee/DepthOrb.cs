@@ -55,8 +55,7 @@ namespace CalamityMod.Projectiles.Melee
             Main.PlaySound(SoundID.Item10, projectile.position);
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 64;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+			projectile.Center = projectile.position;
             for (int dustIndex = 0; dustIndex < 30; dustIndex++)
             {
                 float num463 = (float)Main.rand.Next(-10, 11);
@@ -80,6 +79,7 @@ namespace CalamityMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
+			projectile.damage /= 2;
             projectile.Damage();
         }
 

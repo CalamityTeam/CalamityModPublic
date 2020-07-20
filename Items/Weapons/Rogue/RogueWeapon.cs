@@ -93,7 +93,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			if (player.Calamity().gloveOfRecklessness)
 				rogueAS += 0.2f;
 			if (player.Calamity().titanHeartMantle)
-				rogueAS -= 0.2f;
+				rogueAS -= 0.15f;
 			return rogueAS;
 		}
 
