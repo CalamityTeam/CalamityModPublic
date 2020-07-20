@@ -3652,7 +3652,7 @@ namespace CalamityMod
 		public static int SecondsToFrames(float seconds) => (int)(seconds * 60);
 
         /// <summary>
-        /// Call this function in the Kill function of your npc to spawn cloud-like gores.
+        /// Call this function to spawn explosion clouds at the specified location. Good for when NPCs or projectiles die and need to explode.
         /// </summary>
         /// <param name="goreSource">The spot to spawn the explosion clouds</param>
         /// <param name="goreAmt">Number of times it loops to spawn gores</param>
