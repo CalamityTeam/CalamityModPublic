@@ -89,7 +89,7 @@ namespace CalamityMod.World
             }
             return false;
         }
-        public static void PlaceWorkshop(out Point placementPoint, List<Point> workshopPoints)
+        public static void PlaceWorkshop(out Point placementPoint, List<Point> workshopPoints, string mapKey)
         {
             int tries = 0;
 
@@ -99,7 +99,7 @@ namespace CalamityMod.World
             int placementPositionY = WorldGen.genRand.Next(underworldTop - 550, underworldTop - 50);
 
             placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(SchematicLoader.TileMaps["Workshop"].GetLength(0), SchematicLoader.TileMaps["Workshop"].GetLength(1));
+            Vector2 schematicSize = new Vector2(SchematicLoader.TileMaps[mapKey].GetLength(0), SchematicLoader.TileMaps[mapKey].GetLength(1));
             int activeTilesInArea = 0;
             int xCheckArea = 40;
             bool canGenerateInLocation = true;
@@ -127,9 +127,9 @@ namespace CalamityMod.World
                     return;
                 goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
             }
-            SchematicPlacementHelpers.PlaceStructure("Workshop", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillWorkshopChest);
+            SchematicPlacementHelpers.PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillWorkshopChest);
         }
-        public static void PlacePlagueLab(out Point placementPoint, List<Point> workshopPoints)
+        public static void PlaceResearchFacility(out Point placementPoint, List<Point> workshopPoints, string mapKey)
         {
             int tries = 0;
 
@@ -139,7 +139,7 @@ namespace CalamityMod.World
             int placementPositionY = WorldGen.genRand.Next(underworldTop - 400, underworldTop - 50);
 
             placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(SchematicLoader.TileMaps["Plague Research Facility"].GetLength(0), SchematicLoader.TileMaps["Plague Research Facility"].GetLength(1));
+            Vector2 schematicSize = new Vector2(SchematicLoader.TileMaps[mapKey].GetLength(0), SchematicLoader.TileMaps[mapKey].GetLength(1));
             int activeTilesInArea = 0;
             int xCheckArea = 30;
             bool canGenerateInLocation = true;
@@ -167,7 +167,7 @@ namespace CalamityMod.World
                     return;
                 goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
             }
-            SchematicPlacementHelpers.PlaceStructure("Plague Research Facility", new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillLaboratoryChest);
+            SchematicPlacementHelpers.PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, FillLaboratoryChest);
         }
     }
 }

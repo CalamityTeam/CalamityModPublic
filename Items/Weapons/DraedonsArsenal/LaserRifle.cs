@@ -9,8 +9,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class LaserRifle : ModItem
 	{
-		private int BaseDamage = 200;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Heavy Laser Rifle");
@@ -23,7 +21,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 84;
 			item.height = 28;
 			item.ranged = true;
-			item.damage = BaseDamage;
+			item.damage = 270;
 			item.knockBack = 4f;
 			item.useTime = 25;
 			item.useAnimation = 25;
@@ -33,14 +31,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserRifleFire");
 			item.noMelee = true;
 
-			item.value = CalamityGlobalItem.Rarity10BuyPrice;
+			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
 			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.RareVariant;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
 
 			item.shoot = ModContent.ProjectileType<LaserRifleShot>();
 			item.shootSpeed = 5f;
 
 			item.Calamity().Chargeable = true;
+			item.Calamity().ChargeMax = 190;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -74,13 +73,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			return new Vector2(-20, 0);
 		}
 
-
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
+			recipe.AddIngredient(ItemID.LunarBar, 5);
 			recipe.AddIngredient(ItemID.LaserRifle);
 			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);

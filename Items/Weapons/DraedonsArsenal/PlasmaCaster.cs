@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,8 +9,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class PlasmaCaster : ModItem
 	{
-		private int BaseDamage = 2800;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Plasma Caster");
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 62;
 			item.height = 30;
 			item.magic = true;
-			item.damage = BaseDamage;
+			item.damage = 1100;
 			item.knockBack = 7f;
 			item.useTime = 45;
 			item.useAnimation = 45;
@@ -33,14 +32,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire");
 			item.noMelee = true;
 
-			item.value = Item.buyPrice(1, 80, 0, 0);
+			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
 			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.RareVariant;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
 
 			item.shoot = ModContent.ProjectileType<PlasmaCasterShot>();
 			item.shootSpeed = 5f;
 
 			item.Calamity().Chargeable = true;
+			item.Calamity().ChargeMax = 190;
 		}
 
 		public override bool AltFunctionUse(Player player)
@@ -105,16 +105,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			return new Vector2(-10, 0);
 		}
 
-		/*public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe r = new ModRecipe(mod);
-			r.AddIngredient(null, "CrownJewel");
-			r.AddIngredient(null, "GalacticaSingularity", 5);
-			r.AddIngredient(null, "BarofLife", 10);
-			r.AddIngredient(null, "CosmiliteBar", 15);
-			r.AddTile(TileID.LunarCraftingStation);
-			r.SetResult(this);
-			r.AddRecipe();
-		}*/
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
+			recipe.AddIngredient(ItemID.LunarBar, 5);
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

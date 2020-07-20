@@ -10,8 +10,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class GatlingLaser : ModItem
 	{
-		private int BaseDamage = 430;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gatling Laser");
@@ -24,7 +22,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 58;
 			item.height = 24;
 			item.magic = true;
-			item.damage = BaseDamage;
+			item.damage = 81;
 			item.knockBack = 1f;
 			item.useTime = 2;
 			item.useAnimation = 2;
@@ -36,14 +34,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireStart");
 			item.noMelee = true;
 
-			item.value = Item.buyPrice(1, 80, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.RareVariant;
+			item.value = CalamityGlobalItem.Rarity8BuyPrice;
+			item.rare = 8;
 
 			item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
 			item.shootSpeed = 24f;
 
 			item.Calamity().Chargeable = true;
+			item.Calamity().ChargeMax = 135;
 		}
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
@@ -70,9 +68,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<LaserRifle>());
-			recipe.AddIngredient(ModContent.ItemType<T1000>());
+			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
+			recipe.AddIngredient(ItemID.LaserMachinegun);
 			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

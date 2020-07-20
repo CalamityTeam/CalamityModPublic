@@ -73,7 +73,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             else
             {
-                CalamityGlobalProjectile.ExpandHitboxBy(projectile, 240);
+                CalamityGlobalProjectile.ExpandHitboxBy(projectile, 360);
+				projectile.usesLocalNPCImmunity = true;
+				projectile.localNPCHitCooldown = 10;
                 projectile.Damage();
                 if (!Main.dedServ)
                 {
@@ -82,7 +84,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                         int type = Main.rand.NextBool(3) ? 261 : (int)CalamityDusts.SulfurousSeaAcid;
                         Dust dust = Dust.NewDustPerfect(projectile.Center + Main.rand.NextVector2Circular(10f, 10f), type);
                         dust.scale = Main.rand.NextFloat(1.3f, 1.5f);
-                        dust.velocity = Main.rand.NextVector2CircularEdge(10f, 10f);
+                        dust.velocity = Main.rand.NextVector2CircularEdge(15f, 15f);
                         dust.noGravity = true;
                         if (type == 261)
                         {

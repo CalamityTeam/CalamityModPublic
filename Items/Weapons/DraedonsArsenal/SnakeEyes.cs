@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetDefaults()
 		{
 			item.shootSpeed = 10f;
-			item.damage = 11;
+			item.damage = 211;
 			item.mana = 12;
 			item.width = 38;
 			item.height = 24;
@@ -26,8 +26,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.noMelee = true;
 			item.knockBack = 3f;
-			item.value = CalamityGlobalItem.Rarity3BuyPrice;
-			item.rare = ItemRarityID.Orange;
+			item.value = CalamityGlobalItem.Rarity10BuyPrice;
+			item.rare = 10;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
 			item.UseSound = SoundID.Item15;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<SnakeEyesSummon>();
@@ -44,10 +45,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 7);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
-			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 7);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
+			recipe.AddIngredient(ItemID.LunarBar, 5);
+			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}
