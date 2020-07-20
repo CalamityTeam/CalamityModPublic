@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Scythe");
+			DisplayName.SetDefault("Valediction");
 			ProjectileID.Sets.TrailCacheLength[projectile.type] = 6;
 			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
 		}
