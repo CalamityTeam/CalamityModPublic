@@ -189,7 +189,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     offsetMultiplier = new Vector2(1f, -1f);
                     break;
             }
-            if (Time % 30f == 0f)
+            if (Time % 20f == 0f)
             {
                 if (projectile.ai[1] > 0 && Main.myPlayer == projectile.owner)
                 {
@@ -206,8 +206,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             else
             {
                 EyeOutwardness = MathHelper.Lerp(EyeOutwardness, 1f, 0.15f);
-                EyeRotation = EyeRotation.AngleTowards(projectile.AngleTo(npc.Center), MathHelper.TwoPi / 30f);
-                projectile.Center = Vector2.SmoothStep(OldCenter, npc.Center + (new Vector2(300f) + projectile.Size * 0.5f) * offsetMultiplier, Time % 30f / 30f);
+                EyeRotation = EyeRotation.AngleTowards(projectile.AngleTo(npc.Center), MathHelper.TwoPi / 20f);
+                projectile.Center = Vector2.SmoothStep(OldCenter, npc.Center + (new Vector2(300f) + projectile.Size * 0.5f) * offsetMultiplier, Time % 20f / 20f);
             }
         }
         public void GenerateAfterimageDust()

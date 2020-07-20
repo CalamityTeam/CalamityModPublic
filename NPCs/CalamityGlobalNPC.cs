@@ -149,6 +149,7 @@ namespace CalamityMod.NPCs
         public int kamiFlu = 0;
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
+        public int GaussFluxTimer = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -3198,6 +3199,8 @@ namespace CalamityMod.NPCs
                 relicOfResilienceCooldown--;
             if (relicOfResilienceWeakness > 0)
                 relicOfResilienceWeakness--;
+            if (GaussFluxTimer > 0)
+                GaussFluxTimer--;
             if (ladHearts > 0)
 				ladHearts--;
 

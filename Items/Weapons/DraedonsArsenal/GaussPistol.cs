@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.height = 22;
 			item.magic = true;
 			item.mana = 6;
-			item.damage = 25;
+			item.damage = 70;
 			item.knockBack = 11f;
 			item.useTime = item.useAnimation = 20;
 			item.autoReuse = true;
@@ -27,22 +27,23 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GaussWeaponFire");
 			item.noMelee = true;
 
-			item.value = CalamityGlobalItem.Rarity3BuyPrice;
-			item.rare = 3;
+			item.value = CalamityGlobalItem.Rarity5BuyPrice;
+			item.rare = 5;
 
 			item.shoot = ModContent.ProjectileType<GaussPistolShot>();
 			item.shootSpeed = 14f;
 
+			item.Calamity().ChargeMax = 85;
 			item.Calamity().Chargeable = true;
 		}
 
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 7);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 6);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 6);
+			recipe.AddIngredient(ItemID.HallowedBar, 5);
+			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

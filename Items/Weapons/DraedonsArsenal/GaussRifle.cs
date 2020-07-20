@@ -1,6 +1,5 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
-using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -21,7 +20,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 112;
 			item.height = 36;
 			item.ranged = true;
-			item.damage = 8000;
+			item.damage = 170;
 			item.knockBack = 30f;
 			item.useTime = item.useAnimation = 28;
 			item.autoReuse = true;
@@ -30,9 +29,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GaussWeaponFire");
 			item.noMelee = true;
 
-			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-			item.rare = ItemRarityID.Red;
-			item.Calamity().customRarity = CalamityRarity.RareVariant; // In accordance with the other post-ML Arsenal weapons that Fabsol made.
+			item.value = CalamityGlobalItem.Rarity8BuyPrice;
+			item.rare = 8;
 
 			item.shoot = ModContent.ProjectileType<GaussRifleBlast>();
 			item.shootSpeed = 27f;
@@ -51,9 +49,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
 			recipe.AddIngredient(ItemID.LaserRifle);
-			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

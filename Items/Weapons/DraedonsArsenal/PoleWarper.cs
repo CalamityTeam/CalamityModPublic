@@ -1,5 +1,6 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -12,13 +13,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pole Warper");
-			Tooltip.SetDefault("Summons two floating magnets which repel each other");
+			Tooltip.SetDefault("Summons two floating magnets that repel each other");
 		}
 
 		public override void SetDefaults()
 		{
 			item.shootSpeed = 10f;
-			item.damage = 33;
+			item.damage = 700;
 			item.mana = 12;
 			item.width = 38;
 			item.height = 24;
@@ -26,8 +27,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.noMelee = true;
 			item.knockBack = 8f;
-			item.value = CalamityGlobalItem.Rarity4BuyPrice;
-			item.rare = 4;
+
+			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+			item.rare = 10;
+			item.Calamity().customRarity = CalamityRarity.RareVariant;
+
 			item.UseSound = SoundID.Item15;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<PoleWarperSummon>();
@@ -73,10 +77,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 6);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 6);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

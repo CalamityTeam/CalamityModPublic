@@ -62,5 +62,10 @@ namespace CalamityMod.Schematics
             SpecifiedTile.honey(liquidType == LiquidState.Honey);
             return this;
         }
+        public TileDefinitionStructure MakeActuated()
+        {
+            SpecifiedTile.inActive(true);
+            return this;
+        }
     }
 }
