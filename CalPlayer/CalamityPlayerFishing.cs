@@ -478,7 +478,7 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<PlantyMush>();
 					}
-					if (Main.rand.NextBool(25))
+					if (Main.rand.NextFloat() < 0.08f)
 					{
 						caughtType = Utils.SelectRandom(Main.rand, new int[]
 						{
