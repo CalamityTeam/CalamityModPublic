@@ -19,7 +19,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         }
         public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Voltage Stream");
+			DisplayName.SetDefault("Gauss Flux");
 		}
 
         public override void SetDefaults()
