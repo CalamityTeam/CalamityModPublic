@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 				for (int i = 0; i < 2; i++)
 				{
-					int num41 = Dust.NewDust(projectile.Center, 0, 0, dust, 0f, 0f, 160, default, 2f);
+					int num41 = Dust.NewDust(projectile.Center, 0, 0, dust, 0f, 0f, 160, projectile.ai[0] == 0f ? default : new Color(255, 255, 0), 2f);
 					Main.dust[num41].noGravity = true;
 					Main.dust[num41].position = projectile.Center;
 					Main.dust[num41].velocity = projectile.velocity;
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 		public override void Kill(int timeLeft)
 		{
-			int height = 40;
+			int height = 60;
 			projectile.position = projectile.Center;
 			projectile.width = projectile.height = height;
 			projectile.Center = projectile.position;
@@ -74,8 +74,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 			LaserBurst(2.4f, 4.2f); // 60 dusts
 
-			int num3;
-			for (int num640 = 0; num640 < 100; num640 = num3 + 1)
+			for (int num640 = 0; num640 < 100; num640++)
 			{
 				float num641 = 4f;
 
@@ -96,8 +95,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				dust2.velocity.X = dust2.velocity.X + num644;
 				dust2.velocity.Y = dust2.velocity.Y + num645;
 				dust2.noGravity = true;
-
-				num3 = num640;
 			}
 		}
 
@@ -105,8 +102,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		{
 			float angleRandom = 0.05f;
 
-			int num3;
-			for (int num53 = 0; num53 < 20; num53 = num3 + 1)
+			for (int num53 = 0; num53 < 20; num53++)
 			{
 				float dustSpeed = Main.rand.NextFloat(speed1, speed2);
 				Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(projectile.velocity.ToRotation());
@@ -132,10 +128,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				Main.dust[num54].color = Color.Orange * 0.5f;
 
 				dust2 = Main.dust[num54];
-
-				num3 = num53;
 			}
-			for (int num55 = 0; num55 < 10; num55 = num3 + 1)
+			for (int num55 = 0; num55 < 10; num55++)
 			{
 				float dustSpeed = Main.rand.NextFloat(speed1, speed2);
 				Vector2 dustVel = new Vector2(dustSpeed, 0.0f).RotatedBy(projectile.velocity.ToRotation());
@@ -149,8 +143,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				Dust dust2 = Main.dust[num56];
 				dust2.velocity *= 0.5f;
 				dust2 = Main.dust[num56];
-
-				num3 = num55;
 			}
 		}
 	}
