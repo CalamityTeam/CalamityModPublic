@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Antumbra Transpiercer");
+			DisplayName.SetDefault("Shard of Antumbra");
 			Tooltip.SetDefault("Stealth strikes leave homing stars in their wake");
 		}
 
