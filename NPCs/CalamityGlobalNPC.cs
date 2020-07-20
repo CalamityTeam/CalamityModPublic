@@ -49,6 +49,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -5933,7 +5934,7 @@ namespace CalamityMod.NPCs
                     return true;
                 }
             }
-            return false;
+            return CalamityUtils.FindFirstProjectile(ProjectileType<DeusRitualDrama>()) != -1;
         }
 		#endregion
 
