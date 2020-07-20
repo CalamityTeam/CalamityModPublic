@@ -1261,7 +1261,7 @@ namespace CalamityMod
 
 				// If the other projectile is indeed the same owned by the same player and they're too close, nudge them away.
 				bool sameProjType = otherProj.type == projectile.type;
-				float taxicabDist = Vector2.Distance(projectile.Center, otherProj.Center);
+				float taxicabDist = Math.Abs(projectile.position.X - otherProj.position.X) + Math.Abs(projectile.position.Y - otherProj.position.Y);
 				if (sameProjType && taxicabDist < projectile.width)
 				{
 					if (projectile.position.X < otherProj.position.X)
