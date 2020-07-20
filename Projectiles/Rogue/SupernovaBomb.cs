@@ -92,7 +92,7 @@ namespace CalamityMod.Projectiles.Rogue
 					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<SupernovaSpike>(), (int)(projectile.damage * 0.6), 0f, projectile.owner, 0f, 0f);
                 }
-				float spread = 60f * 0.0174f;
+				float spread = MathHelper.Pi / 3f;
 				double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
 				double deltaAngle = spread / 6f;
 				double offsetAngle;
