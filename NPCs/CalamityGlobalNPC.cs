@@ -2532,6 +2532,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.wizardName = true;
                                 break;
                         }
 
@@ -2553,6 +2554,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.steampunkerName = true;
                                 break;
                         }
 
@@ -2569,6 +2571,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.stylistName = true;
                                 break;
                         }
 
@@ -2585,6 +2588,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.witchDoctorName = true;
                                 break;
                         }
 
@@ -2601,6 +2605,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.taxCollectorName = true;
                                 break;
                         }
 
@@ -2617,6 +2622,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.pirateName = true;
                                 break;
                         }
 
@@ -2638,6 +2644,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.mechanicName = true;
                                 break;
                         }
 
@@ -2659,6 +2666,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.armsDealerName = true;
                                 break;
                         }
 
@@ -2680,6 +2688,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.dryadName = true;
                                 break;
                         }
 
@@ -2696,6 +2705,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.nurseName = true;
                                 break;
                         }
 
@@ -2712,6 +2722,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.anglerName = true;
                                 break;
                         }
 
@@ -2728,6 +2739,7 @@ namespace CalamityMod.NPCs
                                 break;
 
                             default:
+								CalamityWorld.clothierName = true;
                                 break;
                         }
 
