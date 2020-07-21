@@ -3888,28 +3888,13 @@ namespace CalamityMod.NPCs
 
                 if (Main.rand.NextBool(maxValue) && Main.wallDungeon[Main.tile[(int)npc.Center.X / 16, (int)npc.Center.Y / 16].wall])
                 {
-                    int randomType = Main.rand.Next(4);
-                    switch (randomType)
-                    {
-                        case 0:
-                            randomType = NPCType<PhantomSpirit>();
-                            break;
-
-                        case 1:
-                            randomType = NPCType<PhantomSpiritS>();
-                            break;
-
-                        case 2:
-                            randomType = NPCType<PhantomSpiritM>();
-                            break;
-
-                        case 3:
-                            randomType = NPCType<PhantomSpiritL>();
-                            break;
-
-                        default:
-                            break;
-                    }
+					int randomType = Utils.SelectRandom(Main.rand, new int[]
+					{
+						NPCType<PhantomSpirit>(),
+						NPCType<PhantomSpiritS>(),
+						NPCType<PhantomSpiritM>(),
+						NPCType<PhantomSpiritL>()
+					});
 
                     NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, randomType, 0, 0f, 0f, 0f, 0f, 255);
                 }
@@ -3931,25 +3916,22 @@ namespace CalamityMod.NPCs
                         {
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int num261 = Main.rand.Next(2) + 2;
-                                int num;
-                                for (int num262 = 0; num262 < num261; num262 = num + 1)
+                                int slimeAmt = Main.rand.Next(2) + 2; //2 to 3 extra
+                                for (int s = 0; s < slimeAmt; s++)
                                 {
-                                    int num263 = NPC.NewNPC((int)(npc.position.X + npc.width / 2), (int)(npc.position.Y + npc.height), 1, 0, 0f, 0f, 0f, 0f, 255);
-                                    NPC npc2 = Main.npc[num263];
-                                    npc2.SetDefaults(-5, -1f);
+                                    int slime = NPC.NewNPC((int)npc.Center.X, (int)(npc.position.Y + npc.height), NPCID.BlueSlime, 0, 0f, 0f, 0f, 0f, 255);
+                                    NPC npc2 = Main.npc[slime];
+                                    npc2.SetDefaults(NPCID.BabySlime);
                                     npc2.velocity.X = npc.velocity.X * 2f;
                                     npc2.velocity.Y = npc.velocity.Y;
-                                    npc2.velocity.X += Main.rand.Next(-20, 20) * 0.1f + num262 * npc.direction * 0.3f;
-                                    npc2.velocity.Y -= Main.rand.Next(0, 10) * 0.1f + num262;
+                                    npc2.velocity.X += Main.rand.Next(-20, 20) * 0.1f + s * npc.direction * 0.3f;
+                                    npc2.velocity.Y -= Main.rand.Next(0, 10) * 0.1f + s;
                                     npc2.ai[0] = -1000 * Main.rand.Next(3);
 
-                                    if (Main.netMode == NetmodeID.Server && num263 < 200)
+                                    if (Main.netMode == NetmodeID.Server && slime < Main.maxNPCs)
                                     {
-                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num263, 0f, 0f, 0f, 0, 0, 0);
+                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, slime, 0f, 0f, 0f, 0, 0, 0);
                                     }
-
-                                    num = num262;
                                 }
                             }
                         }
@@ -4445,7 +4427,6 @@ namespace CalamityMod.NPCs
                     dust.alpha = 200;
                     dust.velocity.Y -= 0.2f;
                     dust.velocity *= 1.2f;
-                    dust = Main.dust[num4];
                     dust.scale += Main.rand.NextFloat();
                 }
             }
@@ -4547,10 +4528,8 @@ namespace CalamityMod.NPCs
 			{
 				if (Main.rand.NextBool(5))
 				{
-					Vector2 vector2_2 = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
-					vector2_2.Normalize();
-					vector2_2.X *= 0.66f;
-					int heart = Gore.NewGore(npc.position + new Vector2((float)Main.rand.Next(npc.width + 1), (float)Main.rand.Next(npc.height + 1)), vector2_2 * (float)Main.rand.Next(3, 6) * 0.33f, 331, (float)Main.rand.Next(40, 121) * 0.01f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(10f, 1f, 1f, 0.66f);
+					int heart = Gore.NewGore(npc.position + new Vector2(Main.rand.Next(npc.width + 1), Main.rand.Next(npc.height + 1)), velocity * Main.rand.Next(3, 6) * 0.33f, 331, Main.rand.Next(40, 121) * 0.01f);
 					Main.gore[heart].sticky = false;
 					Main.gore[heart].velocity *= 0.4f;
 					Main.gore[heart].velocity.Y -= 0.6f;
@@ -6142,7 +6121,7 @@ namespace CalamityMod.NPCs
 			}
 
 			int players = 0;
-			for (int i = 0; i < 255; i++)
+			for (int i = 0; i < Main.maxPlayers; i++)
 			{
 				if (Main.player[i] != null && Main.player[i].active)
 				{
@@ -6188,14 +6167,14 @@ namespace CalamityMod.NPCs
                 {
 					if (plr == Main.myPlayer && projectile.ai[0] == 0f)
 					{
-						for (int num13 = 0; num13 < Main.maxInventory; num13++)
+						for (int item = 0; item < Main.maxInventory; item++)
 						{
-							if (player.inventory[num13].type == baitType)
+							if (player.inventory[item].type == baitType)
 							{
-								player.inventory[num13].stack--;
-								if (player.inventory[num13].stack <= 0)
+								player.inventory[item].stack--;
+								if (player.inventory[item].stack <= 0)
 								{
-									player.inventory[num13].SetDefaults(0, false);
+									player.inventory[item].SetDefaults(0, false);
 								}
 								break;
 							}
@@ -6206,8 +6185,8 @@ namespace CalamityMod.NPCs
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, type);
-							CalamityUtils.BossAwakenMessage(num8);
+							int boss = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, type);
+							CalamityUtils.BossAwakenMessage(boss);
 						}
 						else
 						{
