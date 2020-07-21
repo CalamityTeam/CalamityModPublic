@@ -1178,7 +1178,8 @@ namespace CalamityMod
                 ModContent.ItemType<DazzlingStabberStaff>(),
                 ModContent.ItemType<PristineFury>(),
                 ModContent.ItemType<SarosPossession>(),
-                ModContent.ItemType<CinderBlossomStaff>()
+                ModContent.ItemType<CinderBlossomStaff>(),
+                ModContent.ItemType<FinalDawn>()
             };
 
             iceWeaponList = new List<int>()
@@ -1354,7 +1355,13 @@ namespace CalamityMod
                 ModContent.ItemType<YateveoBloom>(),
                 ModContent.ItemType<TerraDisk>(),
                 ModContent.ItemType<TerraDiskMelee>(),
-                ModContent.ItemType<BelladonnaSpiritStaff>()
+                ModContent.ItemType<BelladonnaSpiritStaff>(),
+                ModContent.ItemType<TenebreusTides>(),
+                ModContent.ItemType<Greentide>(),
+                ModContent.ItemType<Leviatitan>(),
+                ModContent.ItemType<BrackishFlask>(),
+                ModContent.ItemType<LeviathanTeeth>(),
+                ModContent.ItemType<GastricBelcherStaff>()
             };
 
             alcoholList = new List<int>()
@@ -2242,7 +2249,8 @@ namespace CalamityMod
                 ModContent.ItemType<AcidicRainBarrel>(),
                 ModContent.ItemType<SkyfinBombers>(),
                 ModContent.ItemType<SpentFuelContainer>(),
-                ModContent.ItemType<SealedSingularity>()
+                ModContent.ItemType<SealedSingularity>(),
+                ModContent.ItemType<PlasmaGrenade>()
             };
 
             flaskBombProjList = new List<int>()
@@ -2272,7 +2280,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<GreenDonkeyKongReference>(),
                 ModContent.ProjectileType<SkyfinNuke>(),
                 ModContent.ProjectileType<SpentFuelContainerProjectile>(),
-                ModContent.ProjectileType<SealedSingularityProj>()
+                ModContent.ProjectileType<SealedSingularityProj>(),
+                ModContent.ProjectileType<PlasmaGrenadeProjectile>()
             };
 
             spikyBallList = new List<int>()
@@ -2415,6 +2424,7 @@ namespace CalamityMod
                 ModContent.ItemType<SirensSong>(),
                 ModContent.ItemType<BrackishFlask>(),
                 ModContent.ItemType<LeviathanTeeth>(),
+                ModContent.ItemType<GastricBelcherStaff>(),
                 ModContent.ItemType<LureofEnthrallment>(),
                 ModContent.ItemType<AquaticScourgeBag>(),
                 ModContent.ItemType<OldDukeBag>(),
