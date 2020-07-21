@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 	{
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Antumbra Transpiercer");
+			DisplayName.SetDefault("Shard of Antumbra");
 			Tooltip.SetDefault("Stealth strikes leave homing stars in their wake");
 		}
 
@@ -32,7 +32,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 			item.maxStack = 999;
 			item.value = 10000;
 			item.rare = 9;
-			item.shoot = ModContent.ProjectileType<XerocPitchforkProjectile>();
+			item.shoot = ModContent.ProjectileType<AntumbraShardProjectile>();
 			item.shootSpeed = 16f;
 			item.Calamity().rogue = true;
 		}

@@ -49,6 +49,7 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
@@ -148,6 +149,7 @@ namespace CalamityMod.NPCs
         public int kamiFlu = 0;
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
+        public int GaussFluxTimer = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -1915,7 +1917,7 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case 3:
-						if (npc.type == NPCType<StormlionCharger>() || npc.type == NPCType<WulfrumDrone>() ||
+						if (npc.type == NPCType<StormlionCharger>() ||
 							npc.type == NPCType<AstralachneaGround>() || npc.type == NPCType<CultistAssassin>())
 						{
 							return CalamityGlobalAI.BuffedFighterAI(npc, mod);
@@ -3197,6 +3199,8 @@ namespace CalamityMod.NPCs
                 relicOfResilienceCooldown--;
             if (relicOfResilienceWeakness > 0)
                 relicOfResilienceWeakness--;
+            if (GaussFluxTimer > 0)
+                GaussFluxTimer--;
             if (ladHearts > 0)
 				ladHearts--;
 
@@ -5936,7 +5940,7 @@ namespace CalamityMod.NPCs
                     return true;
                 }
             }
-            return false;
+            return CalamityUtils.FindFirstProjectile(ProjectileType<DeusRitualDrama>()) != -1;
         }
 		#endregion
 

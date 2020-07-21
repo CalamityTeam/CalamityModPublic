@@ -917,19 +917,26 @@ namespace CalamityMod.World
                 tasks.Insert(FinalIndex + 3, new PassLegacy("Rust and Dust", (GenerationProgress progress) =>
                 {
                     List<Point> workshopPositions = new List<Point>();
-                    int workshopCount = Main.maxTilesX / 600;
-                    int labCount = Main.maxTilesX / 1100;
+                    int workshopCount = Main.maxTilesX / 1200;
+                    int labCount = Main.maxTilesX / 1800;
                     DraedonStructures.DraedonsLogWorkshopIndex = WorldGen.genRand.Next(workshopCount);
 
                     for (int i = 0; i < workshopCount; i++)
                     {
-                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions);
+                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions, "Workshop");
                         DraedonStructures.CurrentWorkshopIndex = i;
                         workshopPositions.Add(placementPosition);
+
+                        DraedonStructures.PlaceWorkshop(out Point placementPosition2, workshopPositions, "Workshop 2");
+                        DraedonStructures.CurrentWorkshopIndex = i;
+                        workshopPositions.Add(placementPosition2);
                     }
                     for (int i = 0; i < labCount; i++)
                     {
-                        DraedonStructures.PlacePlagueLab(out Point placementPosition2, workshopPositions);
+                        DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions, "Research Facility");
+                        workshopPositions.Add(placementPosition);
+
+                        DraedonStructures.PlaceResearchFacility(out Point placementPosition2, workshopPositions, "Research Facility 2");
                         workshopPositions.Add(placementPosition2);
                     }
                 }));

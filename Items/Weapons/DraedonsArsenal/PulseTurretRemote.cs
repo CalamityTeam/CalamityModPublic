@@ -19,7 +19,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 28;
 			item.height = 26;
 			item.sentry = true;
-			item.damage = 21;
+			item.damage = 100;
 			item.knockBack = 0f;
 			item.useTime = item.useAnimation = 35;
 			item.autoReuse = true;
@@ -28,8 +28,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = SoundID.Item15;
 			item.noMelee = true;
 
-			item.value = CalamityGlobalItem.Rarity4BuyPrice;
-			item.rare = 4;
+			item.value = CalamityGlobalItem.Rarity5BuyPrice;
+			item.rare = 5;
 
 			item.shoot = ModContent.ProjectileType<PulseTurret>();
 			item.shootSpeed = 1f;
@@ -64,10 +64,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ItemID.HallowedBar, 5);
+			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

@@ -8,11 +8,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class XerocPitchforkProjectile : ModProjectile
+    public class AntumbraShardProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Antumbra Transpiercer");
+            DisplayName.SetDefault("Antumbra Shard");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }

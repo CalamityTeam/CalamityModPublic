@@ -478,13 +478,13 @@ namespace CalamityMod.CalPlayer
 					{
 						caughtType = ModContent.ItemType<PlantyMush>();
 					}
-					if (Main.rand.NextBool(25))
+					if (Main.rand.NextFloat() < 0.08f)
 					{
-						caughtType = ModContent.ItemType<AlluringBait>();
-					}
-					if (Main.rand.NextBool(25))
-					{
-						caughtType = ModContent.ItemType<AbyssalAmulet>();
+						caughtType = Utils.SelectRandom(Main.rand, new int[]
+						{
+							ModContent.ItemType<AlluringBait>(),
+							ModContent.ItemType<AbyssalAmulet>()
+						});
 					}
 					if (player.cratePotion && Main.rand.NextBool(5)) // 20%
 					{

@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Rogue
             if (projectile.ai[0] == 1f)
             {
                 projectile.ai[0] = 0f;
-                projectile.damage = (int)((double) projectile.damage * (projectile.ai[1] == 1f ? 0.9f : 0.75f));
+                projectile.damage = (int)(projectile.damage * (projectile.ai[1] == 1f ? 0.9f : 0.75f));
                 projectile.ai[1] = 0f;
             }
             projectile.ai[1] += 0.75f;

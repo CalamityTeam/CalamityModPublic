@@ -61,9 +61,9 @@ namespace CalamityMod.Items
 		public int timesUsed = 0;
 
         // The damage modifications for the item are handled in player files.
-        public int CurrentCharge = ChargeMax;
+        public int CurrentCharge;
         public bool Chargeable = false;
-        public const int ChargeMax = 150;
+        public int ChargeMax;
         public const float ChargeDamageMinMultiplier = 0.75f;
         public const float ChargeDamageReductionThreshold = 0.75f;
 
@@ -99,6 +99,7 @@ namespace CalamityMod.Items
         #region SetDefaults
         public override void SetDefaults(Item item)
         {
+            item.Calamity().ChargeMax = ChargeMax;
             if (customRarity.IsPostML() && item.rare != 10)
                 item.rare = 10;
 

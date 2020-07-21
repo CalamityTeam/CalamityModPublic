@@ -151,7 +151,7 @@ namespace CalamityMod.TileEntities
             }
             if (FuelItem.stack > 0 &&
                 ItemBeingCharged.stack > 0 &&
-                Charge < CalamityGlobalItem.ChargeMax)
+                Charge < ItemBeingCharged.Calamity().ChargeMax)
             {
                 if (Time % 25 == 0)
                 {

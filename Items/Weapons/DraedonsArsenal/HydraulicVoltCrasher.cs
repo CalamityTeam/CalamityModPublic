@@ -25,16 +25,18 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.damage = 99;
             item.hammer = 230;
             item.UseSound = SoundID.Item23;
+
             item.shoot = ModContent.ProjectileType<HydraulicVoltCrasherProjectile>();
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
-            item.value = CalamityGlobalItem.Rarity10BuyPrice;
+            item.rare = 5;
+            item.value = CalamityGlobalItem.Rarity5BuyPrice;
+
             item.noMelee = true;
             item.noUseGraphic = true;
             item.melee = true;
             item.channel = true;
 
             item.Calamity().Chargeable = true;
+            item.Calamity().ChargeMax = 85;
         }
 
         public override void AddRecipes()
@@ -42,8 +44,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<MeldiateBar>(), 5);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddIngredient(ItemID.HallowedBar, 5);
+            recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
