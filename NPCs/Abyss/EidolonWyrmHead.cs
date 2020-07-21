@@ -76,7 +76,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
-            if (npc.justHit || npc.life <= npc.lifeMax * 0.98 || Main.player[npc.target].chaosState)
+            if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState)
             {
                 detectsPlayer = true;
                 npc.damage = Main.expertMode ? 340 : 170;
@@ -221,16 +221,29 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.spriteDirection = 1;
             }
-            if (Main.player[npc.target].dead)
-            {
-                npc.TargetClosest(false);
-            }
-            npc.alpha -= 42;
+			if (Main.player[npc.target].dead)
+			{
+				npc.TargetClosest(false);
+
+				npc.velocity.Y += 3f;
+				if (npc.position.Y > Main.worldSurface * 16.0)
+					npc.velocity.Y += 3f;
+
+				if (npc.position.Y > (Main.maxTilesY - 200) * 16.0)
+				{
+					for (int a = 0; a < Main.maxNPCs; a++)
+					{
+						if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyAlt>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBody>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmTail>())
+							Main.npc[a].active = false;
+					}
+				}
+			}
+			npc.alpha -= 42;
             if (npc.alpha < 0)
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmTail>()) || !Main.player[npc.target].Calamity().ZoneAbyss)
+            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmTail>()))
             {
                 npc.active = false;
             }

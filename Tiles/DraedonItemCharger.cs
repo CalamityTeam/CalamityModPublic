@@ -33,6 +33,10 @@ namespace CalamityMod.Tiles
         {
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
+            if (!TileEntity.ByPosition.ContainsKey(new Point16(left, top)))
+            {
+                TileEntity.ByPosition[new Point16(left, top)] = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEDraedonItemCharger>());
+            }
             return (TEDraedonItemCharger)TileEntity.ByPosition[new Point16(left, top)];
         }
         public override bool CreateDust(int i, int j, ref int type)

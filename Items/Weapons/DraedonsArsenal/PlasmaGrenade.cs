@@ -1,6 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -21,7 +22,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             item.width = 22;
             item.height = 28;
-            item.damage = 50;
+            item.damage = 5000;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.consumable = true;
@@ -31,10 +32,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+
+            item.value = Item.buyPrice(0, 2, 0, 0);
+            item.rare = 10;
+            item.Calamity().customRarity = CalamityRarity.RareVariant;
+
             item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
-            item.shootSpeed = 10f;
+            item.shootSpeed = 19f;
             item.Calamity().rogue = true;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -49,9 +53,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 1);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 1);
-            recipe.AddIngredient(ItemID.HallowedBar, 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 200);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 1);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.SetResult(this, 800);
             recipe.AddRecipe();
         }
     }

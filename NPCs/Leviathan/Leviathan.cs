@@ -128,7 +128,7 @@ namespace CalamityMod.NPCs.Leviathan
 			// Phases
 			bool phase2 = (lifeRatio < 0.7f && expertMode) || death;
 			bool phase3 = lifeRatio < 0.4f;
-			bool phase4 = lifeRatio < 0.1f;
+			bool phase4 = lifeRatio < 0.2f;
 
 			npc.spriteDirection = (npc.direction > 0) ? 1 : -1;
 

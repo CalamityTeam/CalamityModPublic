@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             Projectile.NewProjectileDirect(npc.Center,
                                            Vector2.Zero,
                                            ModContent.ProjectileType<VoltageStream>(),
-                                           projectile.damage,
+                                           (int)(projectile.damage * 0.35),
                                            0f,
                                            projectile.owner,
                                            0f,

@@ -78,7 +78,7 @@ namespace CalamityMod.NPCs.Abyss
 			{
 				npc.TargetClosest(true);
 			}
-			if (npc.justHit || npc.life <= npc.lifeMax * 0.98 || Main.player[npc.target].chaosState)
+			if (npc.justHit || detectsPlayer || Main.player[npc.target].chaosState)
             {
 				if (!detectsPlayer)
 				{
@@ -216,6 +216,7 @@ namespace CalamityMod.NPCs.Abyss
                     }
                 }
             }
+
             if (npc.velocity.X < 0f)
             {
                 npc.spriteDirection = -1;
@@ -224,16 +225,32 @@ namespace CalamityMod.NPCs.Abyss
             {
                 npc.spriteDirection = 1;
             }
+
             if (Main.player[npc.target].dead)
             {
                 npc.TargetClosest(false);
-            }
+
+				npc.velocity.Y += 3f;
+				if (npc.position.Y > Main.worldSurface * 16.0)
+					npc.velocity.Y += 3f;
+
+				if (npc.position.Y > (Main.maxTilesY - 200) * 16.0)
+				{
+					for (int a = 0; a < Main.maxNPCs; a++)
+					{
+						if (Main.npc[a].type == npc.type || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyAltHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmBodyHuge>() || Main.npc[a].type == ModContent.NPCType<EidolonWyrmTailHuge>())
+							Main.npc[a].active = false;
+					}
+				}
+			}
+
             npc.alpha -= 42;
             if (npc.alpha < 0)
             {
                 npc.alpha = 0;
             }
-            if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmTailHuge>()))
+
+			if (Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 6400f || !NPC.AnyNPCs(ModContent.NPCType<EidolonWyrmTailHuge>()))
             {
                 npc.active = false;
             }
