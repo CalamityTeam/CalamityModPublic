@@ -2644,18 +2644,18 @@ namespace CalamityMod.NPCs
                         break;
 
                     case NPCID.ArmsDealer:
-						if (CalamityWorld.armsDealer)
+						if (CalamityWorld.armsDealerName)
 							break;
                         switch (Main.rand.Next(26)) // 24 arms dealer names
                         {
                             case 0:
                                 npc.GivenName = "Drifter";
-								CalamityWorld.armsDealer = true;
+								CalamityWorld.armsDealerName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Finchi"; 
-								CalamityWorld.armsDealer = true;
+								CalamityWorld.armsDealerName = true;
                                 break;
 
                             default:
