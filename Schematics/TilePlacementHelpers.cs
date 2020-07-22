@@ -52,7 +52,7 @@ namespace CalamityMod.Schematics
                     yOffset += tiles.GetLength(1);
                     break;
             }
-            ushort[,] oldWalls = new ushort[tiles.GetLength(0), tiles.GetLength(1)];
+            oldWalls = new ushort[tiles.GetLength(0), tiles.GetLength(1)];
             for (int x = 0; x < tiles.GetLength(0); x++)
             {
                 for (int y = 0; y < tiles.GetLength(1); y++)
