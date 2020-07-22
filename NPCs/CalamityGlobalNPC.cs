@@ -471,6 +471,33 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCalCatastrophe, NPCType<SupremeCatastrophe>());
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
             ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
+
+			if (NPC.FindFirstNPC(NPCID.Guide) == -1)
+				CalamityWorld.guideName = false;
+			if (NPC.FindFirstNPC(NPCID.Wizard) == -1)
+				CalamityWorld.wizardName = false;
+			if (NPC.FindFirstNPC(NPCID.Steampunker) == -1)
+				CalamityWorld.steampunkerName = false;
+			if (NPC.FindFirstNPC(NPCID.Stylist) == -1)
+				CalamityWorld.stylistName = false;
+			if (NPC.FindFirstNPC(NPCID.WitchDoctor) == -1)
+				CalamityWorld.witchDoctorName = false;
+			if (NPC.FindFirstNPC(NPCID.TaxCollector) == -1)
+				CalamityWorld.taxCollectorName = false;
+			if (NPC.FindFirstNPC(NPCID.Pirate) == -1)
+				CalamityWorld.pirateName = false;
+			if (NPC.FindFirstNPC(NPCID.Mechanic) == -1)
+				CalamityWorld.mechanicName = false;
+			if (NPC.FindFirstNPC(NPCID.ArmsDealer) == -1)
+				CalamityWorld.armsDealerName = false;
+			if (NPC.FindFirstNPC(NPCID.Dryad) == -1)
+				CalamityWorld.dryadName = false;
+			if (NPC.FindFirstNPC(NPCID.Nurse) == -1)
+				CalamityWorld.nurseName = false;
+			if (NPC.FindFirstNPC(NPCID.Angler) == -1)
+				CalamityWorld.anglerName = false;
+			if (NPC.FindFirstNPC(NPCID.Clothier) == -1)
+				CalamityWorld.clothierName = false;
         }
         #endregion
 
@@ -2453,205 +2480,266 @@ namespace CalamityMod.NPCs
                 switch (npc.type)
                 {
                     case NPCID.Guide:
+						if (CalamityWorld.guideName)
+							break;
                         switch (Main.rand.Next(38)) // 34 guide names
                         {
                             case 0:
                                 npc.GivenName = "Lapp";
+								CalamityWorld.guideName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Ben Shapiro"; 
+								CalamityWorld.guideName = true;
                                 break;
 
                             case 2:
                                 npc.GivenName = "StreakistYT";
+								CalamityWorld.guideName = true;
                                 break;
 
                             case 3:
                                 npc.GivenName = "Neoplasmatic";
+								CalamityWorld.guideName = true;
                                 break;
 
                             default:
+								CalamityWorld.guideName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Wizard:
+						if (CalamityWorld.wizardName)
+							break;
                         switch (Main.rand.Next(26)) // 23 wizard names
                         {
                             case 0:
                                 npc.GivenName = "Mage One-Trick";
+								CalamityWorld.wizardName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Inorim, son of Ivukey";
+								CalamityWorld.wizardName = true;
                                 break;
 
                             case 2:
                                 npc.GivenName = "Jensen";
+								CalamityWorld.wizardName = true;
                                 break;
 
                             default:
+								CalamityWorld.wizardName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Steampunker:
+						if (CalamityWorld.steampunkerName)
+							break;
                         switch (Main.rand.Next(23)) // 21 steampunker names
                         {
                             case 0:
                                 npc.GivenName = "Vorbis";
+								CalamityWorld.steampunkerName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Angel";
+								CalamityWorld.steampunkerName = true;
                                 break;
 
                             default:
+								CalamityWorld.steampunkerName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Stylist:
+						if (CalamityWorld.stylistName)
+							break;
                         switch (Main.rand.Next(21)) // 20 stylist names
                         {
                             case 0:
                                 npc.GivenName = "Amber";
+								CalamityWorld.stylistName = true;
                                 break;
 
                             default:
+								CalamityWorld.stylistName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.WitchDoctor:
+						if (CalamityWorld.witchDoctorName)
+							break;
                         switch (Main.rand.Next(11)) // 10 witch doctor names
                         {
                             case 0:
                                 npc.GivenName = "Sok'ar";
+								CalamityWorld.witchDoctorName = true;
                                 break;
 
                             default:
+								CalamityWorld.witchDoctorName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.TaxCollector:
+						if (CalamityWorld.taxCollectorName)
+							break;
                         switch (Main.rand.Next(21)) // 20 tax collector names
                         {
                             case 0:
                                 npc.GivenName = "Emmett";
+								CalamityWorld.taxCollectorName = true;
                                 break;
 
                             default:
+								CalamityWorld.taxCollectorName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Pirate:
+						if (CalamityWorld.pirateName)
+							break;
                         switch (Main.rand.Next(12)) // 11 pirate names
                         {
                             case 0:
                                 npc.GivenName = "Tyler Van Hook";
+								CalamityWorld.pirateName = true;
                                 break;
 
                             default:
+								CalamityWorld.pirateName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Mechanic:
+						if (CalamityWorld.mechanicName)
+							break;
                         switch (Main.rand.Next(26)) // 24 mechanic names
                         {
                             case 0:
                                 npc.GivenName = "Lilly";
+								CalamityWorld.mechanicName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Daawn"; 
+								CalamityWorld.mechanicName = true;
                                 break;
 
                             default:
+								CalamityWorld.mechanicName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.ArmsDealer:
+						if (CalamityWorld.armsDealerName)
+							break;
                         switch (Main.rand.Next(26)) // 24 arms dealer names
                         {
                             case 0:
                                 npc.GivenName = "Drifter";
+								CalamityWorld.armsDealerName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Finchi"; 
+								CalamityWorld.armsDealerName = true;
                                 break;
 
                             default:
+								CalamityWorld.armsDealerName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Dryad:
+						if (CalamityWorld.dryadName)
+							break;
                         switch (Main.rand.Next(23)) // 21 Dryad names
                         {
                             case 0:
                                 npc.GivenName = "Rythmi";
+								CalamityWorld.dryadName = true;
                                 break;
 
                             case 1:
-                                npc.GivenName = "Izuna"; 
+                                npc.GivenName = "Izuna";
+								CalamityWorld.dryadName = true;
                                 break;
 
                             default:
+								CalamityWorld.dryadName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Nurse:
+						if (CalamityWorld.nurseName)
+							break;
                         switch (Main.rand.Next(25)) // 24 nurse names
                         {
                             case 0:
                                 npc.GivenName = "Farsni";
+								CalamityWorld.nurseName = true;
                                 break;
 
                             default:
+								CalamityWorld.nurseName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Angler:
+						if (CalamityWorld.anglerName)
+							break;
                         switch (Main.rand.Next(23)) // 22 angler names
                         {
                             case 0:
                                 npc.GivenName = "Dazren";
+								CalamityWorld.anglerName = true;
                                 break;
 
                             default:
+								CalamityWorld.anglerName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Clothier:
+						if (CalamityWorld.clothierName)
+							break;
                         switch (Main.rand.Next(26)) // 25 clothier names
                         {
                             case 0:
                                 npc.GivenName = "Joeseph Jostar";
+								CalamityWorld.clothierName = true;
                                 break;
 
                             default:
+								CalamityWorld.clothierName = true;
                                 break;
                         }
 
