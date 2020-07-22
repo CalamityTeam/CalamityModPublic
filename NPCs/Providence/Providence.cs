@@ -1240,10 +1240,8 @@ namespace CalamityMod.NPCs.Providence
 				if (projectile.active)
 				{
 					if (projectile.type == ModContent.ProjectileType<HolyFire2>() || projectile.type == ModContent.ProjectileType<HolyFlare>())
-					{
 						projectile.Kill();
-					}
-					else if (projectile.type == ModContent.ProjectileType<MoltenBlast>())
+					else if (projectile.type == ModContent.ProjectileType<HolyBlast>() || projectile.type == ModContent.ProjectileType<HolyFire>())
 						projectile.active = false;
 				}
 			}
