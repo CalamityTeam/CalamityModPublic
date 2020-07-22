@@ -32,7 +32,6 @@ namespace CalamityMod.Schematics
         {
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             Tile[,] tiles = TileMaps[mapKey];
-            ushort[,] oldWalls = new ushort[tiles.GetLength(0), tiles.GetLength(1)];
             int xOffset = placementPosition.X;
             int yOffset = placementPosition.Y;
             // Top-left is the default for terraria. There is no need to include it in this switch.

@@ -5667,6 +5667,7 @@ namespace CalamityMod.NPCs
         }
 		#endregion
 
+		#region Buff Town NPC
 		public override void BuffTownNPC(ref float damageMult, ref int defense)
 		{
 			if (NPC.downedMoonlord)
@@ -5700,6 +5701,7 @@ namespace CalamityMod.NPCs
 				defense += 20;
 			}
 		}
+		#endregion
 
 		#region Shop Stuff
 		public override void SetupShop(int type, Chest shop, ref int nextSlot)
