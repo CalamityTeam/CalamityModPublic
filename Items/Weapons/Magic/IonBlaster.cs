@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             float manaAmount = (float)player.statMana * 0.01f;
             float damageMult = manaAmount * 0.75f;
-            int projectile = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, (int)((double)damage * damageMult), knockBack, player.whoAmI, 0.0f, 0.0f);
+            int projectile = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * damageMult), knockBack, player.whoAmI);
             Main.projectile[projectile].scale = manaAmount;
             return false;
         }
