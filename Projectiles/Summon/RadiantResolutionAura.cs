@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Summon
             float allocatedSlots = projectile.ai[0];
             projectile.rotation += MathHelper.ToRadians(3f) + MathHelper.ToRadians(allocatedSlots * 0.85f);
 
-			float damageMult = Math.Log(allocatedSlots, 3) + 1f;
+			float damageMult = (float)Math.Log(allocatedSlots, 3) + 1f;
 
 			//Softcap the mult after 9 slots
 			float newMult = damageMult;
