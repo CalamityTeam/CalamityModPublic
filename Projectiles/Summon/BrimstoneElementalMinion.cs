@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Big Busty Rose");
+            DisplayName.SetDefault("Brimstone Elemental");
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
