@@ -4257,6 +4257,13 @@ namespace CalamityMod.NPCs
 					pool[NPCID.BlueJellyfish] = SpawnCondition.CaveJellyfish.Chance;
 			}
 
+			// Add Truffle Worm spawns to surface mushroom biome
+			if (spawnInfo.player.ZoneGlowshroom && Main.hardMode && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneSkyHeight))
+			{
+				if (NPC.CountNPCS(NPCID.TruffleWorm) < 2)
+					pool[NPCID.TruffleWorm] = SpawnCondition.OverworldMushroom.Chance * 0.5f;
+			}
+
 			if (spawnInfo.player.Calamity().ZoneAbyss ||
                 spawnInfo.player.Calamity().ZoneCalamity ||
                 spawnInfo.player.Calamity().ZoneSulphur ||
