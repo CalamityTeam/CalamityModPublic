@@ -5665,10 +5665,44 @@ namespace CalamityMod.NPCs
                     break;
             }
         }
-        #endregion
+		#endregion
 
-        #region Shop Stuff
-        public override void SetupShop(int type, Chest shop, ref int nextSlot)
+		public override void BuffTownNPC(ref float damageMult, ref int defense)
+		{
+			if (NPC.downedMoonlord)
+			{
+				damageMult += 0.6f;
+				defense += 20;
+			}
+			if (CalamityWorld.downedProvidence)
+			{
+				damageMult += 0.2f;
+				defense += 12;
+			}
+			if (CalamityWorld.downedPolterghast)
+			{
+				damageMult += 0.2f;
+				defense += 12;
+			}
+			if (CalamityWorld.downedDoG)
+			{
+				damageMult += 0.2f;
+				defense += 12;
+			}
+			if (CalamityWorld.downedYharon)
+			{
+				damageMult += 0.2f;
+				defense += 12;
+			}
+			if (CalamityWorld.downedSCal)
+			{
+				damageMult += 0.6f;
+				defense += 20;
+			}
+		}
+
+		#region Shop Stuff
+		public override void SetupShop(int type, Chest shop, ref int nextSlot)
         {
             if (type == NPCID.Merchant)
             {

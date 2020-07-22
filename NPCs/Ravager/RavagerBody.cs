@@ -95,14 +95,12 @@ namespace CalamityMod.NPCs.Ravager
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.dontTakeDamage);
-			writer.Write(npc.noGravity);
 			writer.Write(velocityY);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
-			npc.noGravity = reader.ReadBoolean();
 			velocityY = reader.ReadSingle();
 		}
 
@@ -568,7 +566,7 @@ namespace CalamityMod.NPCs.Ravager
 					{
 						if (npc.Top.Y > aimY)
 						{
-							if (npc.velocity.Y > 0f)
+							if (npc.velocity.Y >= 0f)
 								npc.velocity.Y -= 0.5f + Math.Abs(npc.Top.Y - aimY) * 0.001f;
 						}
 						else

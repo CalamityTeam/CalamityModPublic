@@ -94,7 +94,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 int random = Main.rand.Next(4);
                 if (random == 0)
                 {
-                    return "Hey! Nice night. I'm gonna make some Bloody Marys. Celery included. Want one?";
+                    return "Hey, nice night! I'm gonna make some Bloody Marys, celery included. Want one?";
                 }
                 else if (random == 1)
                 {
