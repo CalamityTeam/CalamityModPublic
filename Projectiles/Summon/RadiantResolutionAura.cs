@@ -72,7 +72,16 @@ namespace CalamityMod.Projectiles.Summon
             float allocatedSlots = projectile.ai[0];
             projectile.rotation += MathHelper.ToRadians(3f) + MathHelper.ToRadians(allocatedSlots * 0.85f);
 
-            int radiantOrbDamage = (int)(projectile.damage * (Math.Log(allocatedSlots, 2.5) + 1f));
+			float damageMult = Math.Log(allocatedSlots, 3) + 1f;
+
+			//Softcap the mult after 9 slots
+			float newMult = damageMult;
+			if (newMult > 3f)
+			{
+				newMult = ((damageMult - 3f) * 0.1f) + 3f;
+			}
+
+            int radiantOrbDamage = (int)(projectile.damage * newMult);
             int radiantOrbAppearRate = (int)(130 * Math.Pow(0.9, allocatedSlots));
 
             if (radiantOrbAppearRate < 7)

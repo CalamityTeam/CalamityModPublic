@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 if (Main.myPlayer == projectile.owner)
                 {
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MassivePlasmaExplosion>(), projectile.damage * 3, projectile.knockBack * 3f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MassivePlasmaExplosion>(), projectile.damage * 2, projectile.knockBack * 2f, projectile.owner);
                 }
                 if (!Main.dedServ)
                 {
@@ -74,8 +74,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             else
             {
                 CalamityGlobalProjectile.ExpandHitboxBy(projectile, 360);
-				        projectile.usesLocalNPCImmunity = true;
-				        projectile.localNPCHitCooldown = 10;
+				projectile.usesLocalNPCImmunity = true;
+				projectile.localNPCHitCooldown = 10;
                 projectile.Damage();
                 if (!Main.dedServ)
                 {

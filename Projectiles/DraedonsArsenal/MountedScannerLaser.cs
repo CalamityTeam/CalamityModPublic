@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
-            projectile.penetrate = -1;
+            projectile.penetrate = 2;
             projectile.alpha = 255;
             projectile.localNPCHitCooldown = 15;
             projectile.usesLocalNPCImmunity = true;

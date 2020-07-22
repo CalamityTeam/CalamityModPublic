@@ -261,7 +261,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 if (AcidShootTimer > 48)
                 {
                     AcidShootTimer = 0;
-                    AcidShootCooldown = 20f;
+                    AcidShootCooldown = 10f;
                     projectile.netUpdate = true;
                 }
             }
