@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.friendly = true;
             projectile.minion = true;
             projectile.minionSlots = 0f;
-            projectile.penetrate = 2;
+            projectile.penetrate = -1;
             projectile.alpha = 255;
             projectile.localNPCHitCooldown = 15;
             projectile.usesLocalNPCImmunity = true;
@@ -84,5 +84,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
             }
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+			projectile.damage /= 3;
+		}
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			projectile.damage /= 3;
+		}
     }
 }
