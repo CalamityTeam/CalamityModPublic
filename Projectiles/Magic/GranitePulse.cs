@@ -110,7 +110,7 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 initialized = true;
             }
-            if (projectile.timeLeft % 50 == 49 && projectile.alpha <= 0)
+            if (projectile.timeLeft % 50 == 1 && projectile.alpha <= 0)
             {
                 Main.PlaySound(SoundID.NPCHit53, projectile.Center);
                 CalamityGlobalProjectile.ExpandHitboxBy(projectile, 20);
