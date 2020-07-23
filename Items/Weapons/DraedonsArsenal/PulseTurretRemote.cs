@@ -22,6 +22,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.sentry = true;
 			item.damage = 100;
 			item.knockBack = 0f;
+			item.mana = 10;
 			item.useTime = item.useAnimation = 25;
 			item.autoReuse = true;
 
@@ -65,7 +66,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-			recipe.AddIngredient(ItemID.HallowedBar, 5);
+			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
