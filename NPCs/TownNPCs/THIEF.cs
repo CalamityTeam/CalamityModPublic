@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.TownNPCs
 				bool rich = player.InventoryHas(ItemID.PlatinumCoin) || player.PortableStorageHas(ItemID.PlatinumCoin);
                 if (player.active && rich)
                 {
-                    return NPC.downedBoss3;
+                    return NPC.downedBoss3 || CalamityWorld.spawnedBandit;
                 }
             }
             return CalamityWorld.spawnedBandit;

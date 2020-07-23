@@ -60,7 +60,7 @@ namespace CalamityMod.NPCs.TownNPCs
 				bool hasVodka = player.InventoryHas(ModContent.ItemType<FabsolsVodka>())/* || player.PortableStorageHas(ModContent.ItemType<FabsolsVodka>())*/;
                 if (player.active && hasVodka)
                 {
-                    return Main.hardMode;
+                    return Main.hardMode || CalamityWorld.spawnedCirrus;
                 }
             }
             return CalamityWorld.spawnedCirrus;
