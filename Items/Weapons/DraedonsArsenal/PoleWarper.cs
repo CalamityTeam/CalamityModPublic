@@ -29,8 +29,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.knockBack = 8f;
 
 			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.RareVariant;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.UseSound = SoundID.Item15;
 			item.autoReuse = true;
@@ -77,7 +77,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 6);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 6);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

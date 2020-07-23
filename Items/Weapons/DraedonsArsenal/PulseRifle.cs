@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PulseRifleFire");
 			item.noMelee = true;
 
-			item.value = Item.buyPrice(1, 80, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.RareVariant;
+			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PulseRifleShot>();
 			item.shootSpeed = 5f;
@@ -80,9 +80,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 			recipe.AddIngredient(ModContent.ItemType<PulsePistol>());
 			recipe.AddIngredient(ItemID.LaserRifle);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());

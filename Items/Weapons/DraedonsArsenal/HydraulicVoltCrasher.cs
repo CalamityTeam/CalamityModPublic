@@ -27,8 +27,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.UseSound = SoundID.Item23;
 
             item.shoot = ModContent.ProjectileType<HydraulicVoltCrasherProjectile>();
-            item.rare = 5;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
             item.noMelee = true;
             item.noUseGraphic = true;

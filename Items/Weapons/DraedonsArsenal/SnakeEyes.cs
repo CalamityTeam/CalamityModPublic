@@ -26,9 +26,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.noMelee = true;
 			item.knockBack = 3f;
-			item.value = CalamityGlobalItem.Rarity10BuyPrice;
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
+
+			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+
 			item.UseSound = SoundID.Item15;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<SnakeEyesSummon>();

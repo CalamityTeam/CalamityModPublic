@@ -33,9 +33,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
 
-            item.value = Item.buyPrice(0, 2, 0, 0);
-            item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.RareVariant;
+            item.value = Item.sellPrice(silver: 80);
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
             item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
             item.shootSpeed = 19f;
