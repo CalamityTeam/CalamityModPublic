@@ -37,8 +37,6 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
-            if (CurrentWorkshopIndex == DraedonsLogWorkshopIndex)
-                contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLog>(), 1));
             for (int i = 0; i < contents.Count; i++)
             {
                 chest.item[i].SetDefaults(contents[i].Type);

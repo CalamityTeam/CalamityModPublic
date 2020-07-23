@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
-    public class DraedonsLog : ModItem
+    public class DraedonsLogSunkenSea : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draedon's Log");
+            DisplayName.SetDefault("Draedon's Log - Study on Sunken Aquatic Life");
             Tooltip.SetDefault("Click to view its contents");
         }
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Items
         {
             if (Main.myPlayer == player.whoAmI)
             {
-                PopupGUIManager.DraedonLogGUI.Active = !PopupGUIManager.DraedonLogGUI.Active;
+                PopupGUIManager.DraedonLogSunkenSeaGUI.Active = !PopupGUIManager.DraedonLogSunkenSeaGUI.Active;
             }
             return true;
         }
