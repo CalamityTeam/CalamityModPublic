@@ -69,6 +69,7 @@ namespace CalamityMod.World
         public static bool deactivateStupidFuckingBullshit = false; //Force Boss Rush to inactive
         public static int bossRushStage = 0; //Boss Rush Stage
         public static int bossRushSpawnCountdown = 180; //Delay before another Boss Rush boss can spawn
+		public static int bossRushHostileProjKillCounter = 0;
 
         //Death Mode natural boss spawns
         public static int bossSpawnCountdown = 0; //Death Mode natural boss spawn countdown
@@ -226,6 +227,7 @@ namespace CalamityMod.World
             bossRushActive = false;
             bossRushSpawnCountdown = 180;
             bossSpawnCountdown = 0;
+			bossRushHostileProjKillCounter = 0;
 			deathBossSpawnCooldown = 0;
             bossType = 0;
 			newAltarX = 0;
@@ -1543,7 +1545,7 @@ namespace CalamityMod.World
                         // Spawn bosses
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Main.PlaySound(SoundID.Roar, player.position, 0);
+							bool playSpecialSound = false;
                             switch (bossRushStage)
                             {
                                 case 0:
@@ -1567,6 +1569,7 @@ namespace CalamityMod.World
                                     ChangeTime(true);
                                     int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.Golem, 1);
 									Main.npc[npc].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc);
                                     break;
                                 case 6:
                                     ChangeTime(true);
@@ -1604,6 +1607,7 @@ namespace CalamityMod.World
                                     ChangeTime(false);
 									int npc6 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.SkeletronHead, 1);
 									Main.npc[npc6].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc6);
 									break;
                                 case 15:
                                     ChangeTime(true);
@@ -1621,6 +1625,7 @@ namespace CalamityMod.World
                                     int npc2 = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, NPCID.CultistBoss, 1);
                                     Main.npc[npc2].direction = Main.npc[npc2].spriteDirection = Math.Sign(player.Center.X - player.Center.X - 90f);
 									Main.npc[npc2].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc2);
 									break;
                                 case 19:
                                     for (int doom = 0; doom < Main.maxNPCs; doom++)
@@ -1635,6 +1640,7 @@ namespace CalamityMod.World
                                     }
                                     int npc3 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<CrabulonIdle>(), 1);
 									Main.npc[npc3].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc3);
 									break;
                                 case 20:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.Plantera);
@@ -1655,12 +1661,16 @@ namespace CalamityMod.World
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Signus>());
                                     break;
                                 case 26:
+									playSpecialSound = true;
+									Main.PlaySound(SoundID.Roar, player.position, 2);
                                     int npc4 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<RavagerBody>(), 1);
 									Main.npc[npc4].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc4);
 									break;
                                 case 27:
                                     int npc5 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.DukeFishron, 1);
 									Main.npc[npc5].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc5);
 									break;
                                 case 28:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.MoonLordCore);
@@ -1687,6 +1697,7 @@ namespace CalamityMod.World
 								case 34:
 									int npc7 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<OldDuke>(), 1);
 									Main.npc[npc7].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc7);
 									break;
 								case 35:
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGod>());
@@ -1695,7 +1706,11 @@ namespace CalamityMod.World
                                     break;
                                 case 36:
                                     ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Providence>());
+									playSpecialSound = true;
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceSpawn"), player.Center);
+									int prov = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), ModContent.NPCType<Providence>(), 1);
+									Main.npc[prov].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(prov);
                                     break;
                                 case 37:
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SupremeCalamitas>());
@@ -1705,9 +1720,13 @@ namespace CalamityMod.World
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Yharon>());
                                     break;
                                 case 39:
+									playSpecialSound = true;
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), player.Center);
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DevourerofGodsHeadS>());
                                     break;
                             }
+							if (!playSpecialSound)
+								Main.PlaySound(SoundID.Roar, player.position, 0);
                         }
                     }
                 }
@@ -1727,6 +1746,19 @@ namespace CalamityMod.World
                     }
                 }
             }
+			if (bossRushHostileProjKillCounter > 0)
+			{
+				bossRushHostileProjKillCounter--;
+				if (bossRushHostileProjKillCounter == 1)
+					CalamityUtils.KillAllHostileProjectiles();
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.BRHostileProjKillSync);
+                    netMessage.Write(bossRushHostileProjKillCounter);
+                    netMessage.Send();
+                }
+			}
 
             if (DoGSecondStageCountdown > 0)
             {
@@ -1832,7 +1864,16 @@ namespace CalamityMod.World
                 }
             }
 			if (ArmoredDiggerSpawnCooldown > 0)
+			{
 				ArmoredDiggerSpawnCooldown--;
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.ArmoredDiggerCountdownSync);
+                    netMessage.Write(ArmoredDiggerSpawnCooldown);
+                    netMessage.Send();
+                }
+			}
 
             if (Main.dayTime && Main.hardMode)
             {

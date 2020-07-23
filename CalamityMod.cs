@@ -4016,9 +4016,17 @@ namespace CalamityMod
                         int countdown2 = reader.ReadInt32();
                         CalamityWorld.bossSpawnCountdown = countdown2;
                         break;
-                    case CalamityModMessageType.DeathBossSpawnCountdownSync:
+                    case CalamityModMessageType.BRHostileProjKillSync:
                         int countdown3 = reader.ReadInt32();
-                        CalamityWorld.deathBossSpawnCooldown = countdown3;
+                        CalamityWorld.bossRushHostileProjKillCounter = countdown3;
+                        break;
+                    case CalamityModMessageType.DeathBossSpawnCountdownSync:
+                        int countdown4 = reader.ReadInt32();
+                        CalamityWorld.deathBossSpawnCooldown = countdown4;
+                        break;
+                    case CalamityModMessageType.ArmoredDiggerCountdownSync:
+                        int countdown5 = reader.ReadInt32();
+                        CalamityWorld.ArmoredDiggerSpawnCooldown = countdown5;
                         break;
                     case CalamityModMessageType.BossTypeSync:
                         int type = reader.ReadInt32();
