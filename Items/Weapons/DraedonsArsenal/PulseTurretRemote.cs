@@ -7,11 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PulseTurretRemote : ModItem
+	public class PulseTurretRemote : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pulse Turret Remote");
+			Tooltip.SetDefault("Summons a pulse turret which eradicates nearby foes with focused energy blasts\n" +
+							   "Especially effective against inorganic targets");
 		}
 
 		public override void SetDefaults()
@@ -31,7 +33,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.noMelee = true;
 
 			item.value = CalamityGlobalItem.Rarity5BuyPrice;
-			item.rare = 5;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PulseTurret>();
 			item.shootSpeed = 1f;
@@ -65,9 +68,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 14);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 16);
 			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

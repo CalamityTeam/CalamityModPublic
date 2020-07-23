@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,13 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class GatlingLaser : ModItem
+	public class GatlingLaser : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gatling Laser");
 			Tooltip.SetDefault("Large laser cannon used primarily by Yharim's fleet and base defense force\n" +
-				"Highly accurate, but lacks the power to punch through defensive targets");
+							   "Highly accurate, but lacks the power to punch through defensive targets");
 		}
 
 		public override void SetDefaults()
@@ -35,7 +34,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.noMelee = true;
 
 			item.value = CalamityGlobalItem.Rarity8BuyPrice;
-			item.rare = 8;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
 			item.shootSpeed = 24f;
@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.Calamity().ChargeMax = 135;
 		}
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -66,8 +66,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
+			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
 			recipe.AddIngredient(ItemID.LaserMachinegun);
 			recipe.AddTile(TileID.LunarCraftingStation);

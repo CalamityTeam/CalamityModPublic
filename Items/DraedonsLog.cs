@@ -17,7 +17,8 @@ namespace CalamityMod.Items
         {
             item.width = 40;
             item.height = 40;
-            item.rare = 11;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
             item.useAnimation = item.useTime = 20;
             item.useStyle = ItemUseStyleID.HoldingUp;
         }
