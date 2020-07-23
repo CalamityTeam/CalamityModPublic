@@ -91,6 +91,7 @@ using Terraria.UI;
 using CalamityMod.Schematics;
 using CalamityMod.Tiles;
 using CalamityMod.TileEntities;
+using CalamityMod.Projectiles.DraedonsArsenal;
 
 namespace CalamityMod
 {
@@ -127,6 +128,7 @@ namespace CalamityMod
         public static Effect CustomShader;
         public static Effect LightShader;
         public static Effect TentacleShader;
+        public static Effect LightDistortionShader;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
@@ -298,6 +300,7 @@ namespace CalamityMod
             CustomShader = GetEffect("Effects/CustomShader");
             LightShader = GetEffect("Effects/LightBurstShader");
             TentacleShader = GetEffect("Effects/TentacleShader");
+            LightDistortionShader = GetEffect("Effects/DistortionShader");
 
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -333,8 +336,9 @@ namespace CalamityMod
             Filters.Scene["CalamityMod:LightBurst"].Load();
 
             GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
+            GameShaders.Misc["CalamityMod:LightDistortion"] = new MiscShaderData(new Ref<Effect>(LightDistortionShader), "DistortionPass");
 
-			RipperUI.Reset();
+            RipperUI.Reset();
             AstralArcanumUI.Load(this);
 
 			GameShaders.Hair.BindShader(ModContent.ItemType<AdrenalineHairDye>(), new LegacyHairShaderData().UseLegacyMethod((Player player, Color newColor, ref bool lighting) => Color.Lerp(player.hairColor, new Color(0, 255, 171), ((float)player.Calamity().adrenaline / (float)player.Calamity().adrenalineMax))));
@@ -780,6 +784,7 @@ namespace CalamityMod
                 ModContent.ProjectileType<SylvanSlashAttack>(),
                 ModContent.ProjectileType<InfernadoFriendly>(),
 				ModContent.ProjectileType<MurasamaSlash>(),
+                ModContent.ProjectileType<PhaseslayerProjectile>(),
 
 				//Some hostile boss projectiles
                 ModContent.ProjectileType<BrimstoneMonster>(),
