@@ -22,6 +22,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		// When the accumuluated "charge exhaustion" meter reaches this value, the Phaseslayer item loses one point of charge.
 		public const float ChargeLossBreakpoint = 300f;
 
+		public const int SwordBeamCooldown = 15;
 		private const float MaximumMouseRange = 360f;
 		private const float ProjCenterOffset = 36f;
 
@@ -77,7 +78,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 			projectile.penetrate = -1;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 3;
+			projectile.localNPCHitCooldown = 7;
 		}
 
 		public override void AI()
@@ -87,6 +88,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			float rotationAdjusted = MathHelper.WrapAngle(projectile.rotation) + MathHelper.Pi;
 			float oldRotationAdjusted = MathHelper.WrapAngle(projectile.oldRot[1]) + MathHelper.Pi;
 			float deltaAngle = Math.Abs(rotationAdjusted - oldRotationAdjusted);
+
+			// Frame 1 effect: Prevent the sword from instantly firing a sword beam.
+			if (projectile.localAI[1] == 0f)
+			{
+				projectile.localAI[1] = 1f;
+				projectile.soundDelay = SwordBeamCooldown;
+			}
 
 			ManipulatePlayer(player);
 			bool wasBig = !IsSmall;
@@ -242,7 +250,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				}
 
 				// The sound delay doubles as the sword beam's cooldown.
-				projectile.soundDelay = 15;
+				projectile.soundDelay = SwordBeamCooldown;
 				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/ELRFire"), projectile.Center);
 			}
 		}
