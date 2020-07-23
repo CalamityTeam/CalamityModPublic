@@ -457,9 +457,15 @@ namespace CalamityMod
 		/// <param name="ignoreTiles">Whether to ignore tiles when finding a target or not</param>
         public static NPC MinionHoming(this Vector2 origin, float maxDistanceToCheck, Player owner, bool ignoreTiles = true)
         {
-            if (owner.HasMinionAttackTargetNPC)
+			if (owner is null || owner.whoAmI < 0 || owner.whoAmI > Main.maxPlayers || owner.MinionAttackTargetNPC < 0 || owner.MinionAttackTargetNPC > Main.maxNPCs)
+				return ClosestNPCAt(origin, maxDistanceToCheck, ignoreTiles);
+			NPC npc = Main.npc[owner.MinionAttackTargetNPC];
+			bool canHit = true;
+			if (!ignoreTiles)
+				canHit = Collision.CanHit(origin, 1, 1, npc.Center, 1, 1);
+            if (owner.HasMinionAttackTargetNPC && canHit)
             {
-                return Main.npc[owner.MinionAttackTargetNPC];
+                return npc;
             }
             return ClosestNPCAt(origin, maxDistanceToCheck, ignoreTiles);
         }
@@ -964,7 +970,7 @@ namespace CalamityMod
             }
         }
 
-		public static void StickToTiles(this Projectile projectile)
+		public static void StickToTiles(this Projectile projectile, bool ignorePlatforms, bool stickToEverything)
 		{
             try
             {
@@ -993,7 +999,13 @@ namespace CalamityMod
                     for (int y = yBottom; y < yTop; y++)
                     {
 						Tile tile = Main.tile[x, y];
-                        if (tile != null && !TileID.Sets.Platforms[tile.type] && tile.type != TileID.PlanterBox && tile.nactive() && (Main.tileSolid[tile.type] || (Main.tileSolidTop[tile.type] && tile.frameY == 0)))
+						bool platformCheck = true;
+						if (ignorePlatforms)
+							platformCheck = !TileID.Sets.Platforms[tile.type] && tile.type != TileID.PlanterBox;
+						bool tableCheck = false;
+						if (stickToEverything)
+							tableCheck = Main.tileSolidTop[tile.type] && tile.frameY == 0;
+                        if (tile != null && tile.nactive() && platformCheck && (Main.tileSolid[tile.type] || tableCheck))
                         {
                             Vector2 tileSize;
                             tileSize.X = (float)(x * 16);

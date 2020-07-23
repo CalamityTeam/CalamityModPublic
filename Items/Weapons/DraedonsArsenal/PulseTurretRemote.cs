@@ -57,6 +57,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 					}
 				}
 				Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+				//player.UpdateMaxTurrets();
 			}
 			return false;
 		}

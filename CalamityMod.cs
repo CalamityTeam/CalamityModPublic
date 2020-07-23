@@ -69,8 +69,11 @@ using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Tiles.LivingFire;
+using CalamityMod.Schematics;
 using CalamityMod.Skies;
+using CalamityMod.TileEntities;
+using CalamityMod.Tiles;
+using CalamityMod.Tiles.LivingFire;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -88,10 +91,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
-using CalamityMod.Schematics;
-using CalamityMod.Tiles;
-using CalamityMod.TileEntities;
-using CalamityMod.Projectiles.DraedonsArsenal;
 
 namespace CalamityMod
 {
