@@ -7,11 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PulseTurretRemote : ModItem
+	public class PulseTurretRemote : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pulse Turret Remote");
+			Tooltip.SetDefault("Summons a pulse turret which eradicates nearby foes with focused energy blasts\n" +
+							   "Especially effective against inorganic targets");
 		}
 
 		public override void SetDefaults()
@@ -63,9 +65,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-			recipe.AddIngredient(ItemID.HallowedBar, 5);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
+			recipe.AddIngredient(ItemID.HallowedBar, 10);
+			recipe.AddIngredient(ItemID.SoulofSight, 20);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

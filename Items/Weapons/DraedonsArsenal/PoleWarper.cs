@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
@@ -8,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PoleWarper : ModItem
+	public class PoleWarper : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -75,9 +76,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 6);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 6);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 25);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<DazzlingStabberStaff>());
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

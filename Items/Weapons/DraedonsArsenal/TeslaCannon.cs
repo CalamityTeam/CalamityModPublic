@@ -58,28 +58,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			float SpeedY = velocity.Y + (float)Main.rand.Next(-1, 2) * 0.02f;
 
 			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<TeslaCannonShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
-
-			// Consume 30 ammo per shot
-			CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 30);
-
 			return false;
 		}
 
-		// Disable vanilla ammo consumption
-		public override bool ConsumeAmmo(Player player)
-		{
-			return false;
-		}
-
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-20, 0);
-		}
+		public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
 
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 25);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 			recipe.AddIngredient(ItemID.ChargedBlasterCannon);

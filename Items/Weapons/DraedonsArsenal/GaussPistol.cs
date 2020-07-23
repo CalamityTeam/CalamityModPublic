@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gauss Pistol");
+			Tooltip.SetDefault("Fires a devastating high velocity blast with extreme knockback");
 		}
 
 		public override void SetDefaults()
@@ -41,9 +42,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 6);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 6);
-			recipe.AddIngredient(ItemID.HallowedBar, 5);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 8);
+			recipe.AddIngredient(ItemID.HallowedBar, 10);
+			recipe.AddIngredient(ItemID.SpaceGun);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

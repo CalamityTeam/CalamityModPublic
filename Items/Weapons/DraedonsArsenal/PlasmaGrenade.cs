@@ -41,6 +41,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.shootSpeed = 19f;
             item.Calamity().rogue = true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile grenade = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
@@ -55,7 +56,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 1);
             recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 1);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this, 800);
+            recipe.SetResult(this, 999);
             recipe.AddRecipe();
         }
     }

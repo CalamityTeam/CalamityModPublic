@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,12 +8,12 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class GaussRifle : ModItem
+	public class GaussRifle : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gauss Rifle");
-			Tooltip.SetDefault("Fires an enormous pulse of energy");
+			Tooltip.SetDefault("Fires a devastating high velocity blast with absurd knockback");
 		}
 
 		public override void SetDefaults()
@@ -48,10 +49,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 18);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
+			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
-			recipe.AddIngredient(ItemID.LaserRifle);
+			recipe.AddIngredient(ModContent.ItemType<SpectreRifle>());
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

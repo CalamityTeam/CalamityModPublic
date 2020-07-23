@@ -64,8 +64,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			void AddIndividualRecipe(int saberID)
 			{
 				ModRecipe recipe = new ModRecipe(mod);
-				recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20);
-				recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
+				recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+				recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 25);
 				recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
 				recipe.AddIngredient(saberID);
 				recipe.AddTile(ModContent.TileType<DraedonsForge>());
