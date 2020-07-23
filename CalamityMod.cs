@@ -4191,6 +4191,8 @@ namespace CalamityMod
         BossRushStage,
         DoGCountdownSync,
         BossSpawnCountdownSync,
+		BRHostileProjKillSync,
+		ArmoredDiggerCountdownSync,
         BossTypeSync,
         DeathCountSync,
         RevengeanceBoolSync,
