@@ -32,8 +32,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.noMelee = true;
 
 			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<LaserRifleShot>();
 			item.shootSpeed = 5f;
@@ -50,23 +50,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 				velocity.Normalize();
 				velocity *= 5f;
 			}
-
 			for (int i = 0; i < 2; i++)
 			{
 				float SpeedX = velocity.X + Main.rand.Next(-1, 2) * 0.05f;
 				float SpeedY = velocity.Y + Main.rand.Next(-1, 2) * 0.05f;
 				Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<LaserRifleShot>(), damage, knockBack, player.whoAmI, i, 0f);
 			}
-
-			// Consume 4 ammo per shot
-			CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 4);
-
-			return false;
-		}
-
-		// Disable vanilla ammo consumption
-		public override bool ConsumeAmmo(Player player)
-		{
 			return false;
 		}
 
@@ -80,9 +69,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
-			recipe.AddIngredient(ItemID.LunarBar, 5);
-			recipe.AddIngredient(ItemID.LaserRifle);
+			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
+			recipe.AddIngredient(ItemID.LunarBar, 4);
+			recipe.AddIngredient(ItemID.SniperRifle);
 			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

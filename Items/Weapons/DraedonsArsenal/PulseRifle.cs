@@ -36,9 +36,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PulseRifleFire");
 			item.noMelee = true;
 
-			item.value = Item.buyPrice(1, 80, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.RareVariant;
+			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PulseRifleShot>();
 			item.shootSpeed = 5f;
@@ -59,32 +59,19 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			float SpeedY = velocity.Y + (float)Main.rand.Next(-1, 2) * 0.05f;
 
 			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PulseRifleShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
-
-			// Consume 6 ammo per shot
-			CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 6);
-
 			return false;
 		}
 
-		// Disable vanilla ammo consumption
-		public override bool ConsumeAmmo(Player player)
-		{
-			return false;
-		}
-
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-10, 0);
-		}
+		public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 16);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 24);
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			// The only arsenal weapon that is an upgrade of another arsenal weapon (and it makes sense).
 			recipe.AddIngredient(ModContent.ItemType<PulsePistol>());
-			recipe.AddIngredient(ItemID.LaserRifle);
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
