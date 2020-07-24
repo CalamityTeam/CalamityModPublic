@@ -757,7 +757,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
                     {
 						int random = Main.rand.Next(-1000, 1001);
 						Projectile.NewProjectile(player.position.X + 1000f, player.position.Y + random, -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), damage, 0f, Main.myPlayer, 0f, 0f);
-						Projectile.NewProjectile(player.position.X - 1000f, player.position.Y - random, -5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), damage, 0f, Main.myPlayer, 0f, 0f);
+						Projectile.NewProjectile(player.position.X - 1000f, player.position.Y - random, 5f * uDieLul, 0f, ModContent.ProjectileType<BrimstoneWave>(), damage, 0f, Main.myPlayer, 0f, 0f);
 					}
                     bulletHellCounter += 1;
                     if (bulletHellCounter > (enraged ? 12 : 14))
