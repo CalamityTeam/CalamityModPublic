@@ -1068,6 +1068,9 @@ namespace CalamityMod.Items
                     case CalamityRarity.Rainbow:
                         tt2.overrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
                         break;
+                    case CalamityRarity.DraedonRust:
+                        tt2.overrideColor = new Color(204, 71, 35);
+                        break;
                     case CalamityRarity.RareVariant:
                         tt2.overrideColor = new Color(255, 140, 0);
                         break;

@@ -141,7 +141,7 @@ namespace CalamityMod.NPCs.Leviathan
 			// Phases
 			bool phase2 = lifeRatio < 0.7f;
             bool phase3 = lifeRatio < 0.4f;
-			bool phase4 = lifeRatio < 0.1f;
+			bool phase4 = lifeRatio < 0.2f;
 
             // Spawn Leviathan and Clones, change music
             if (Main.netMode != NetmodeID.MultiplayerClient)

@@ -57,15 +57,10 @@ namespace CalamityMod.NPCs.TownNPCs
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
-                if (player.active)
+				bool hasVodka = player.InventoryHas(ModContent.ItemType<FabsolsVodka>())/* || player.PortableStorageHas(ModContent.ItemType<FabsolsVodka>())*/;
+                if (player.active && hasVodka)
                 {
-                    for (int j = 0; j < player.inventory.Length; j++)
-                    {
-                        if (player.inventory[j].type == ModContent.ItemType<FabsolsVodka>())
-                        {
-                            return Main.hardMode;
-                        }
-                    }
+                    return Main.hardMode || CalamityWorld.spawnedCirrus;
                 }
             }
             return CalamityWorld.spawnedCirrus;
@@ -94,7 +89,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 int random = Main.rand.Next(4);
                 if (random == 0)
                 {
-                    return "Hey! Nice night. I'm gonna make some Bloody Marys. Celery included. Want one?";
+                    return "Hey, nice night! I'm gonna make some Bloody Marys, celery included. Want one?";
                 }
                 else if (random == 1)
                 {

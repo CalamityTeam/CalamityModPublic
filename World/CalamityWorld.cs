@@ -136,10 +136,23 @@ namespace CalamityMod.World
         public static int[] SChestY = new int[10];
         public static bool roxShrinePlaced = false;
 
-		//Spawned NPCs
+		//Town NPC bools
         public static bool spawnedBandit = false;
         public static bool spawnedCirrus = false;
 		public static bool foundHomePermafrost = false;
+		public static bool guideName = false;
+		public static bool wizardName = false;
+		public static bool steampunkerName = false;
+		public static bool stylistName = false;
+		public static bool witchDoctorName = false;
+		public static bool taxCollectorName = false;
+		public static bool pirateName = false;
+		public static bool mechanicName = false;
+		public static bool armsDealerName = false;
+		public static bool dryadName = false;
+		public static bool nurseName = false;
+		public static bool anglerName = false;
+		public static bool clothierName = false;
 
         #region Downed Bools
         public static bool downedBossAny = false; //Any boss
@@ -222,6 +235,19 @@ namespace CalamityMod.World
 			spawnedBandit = false;
 			spawnedCirrus = false;
 			foundHomePermafrost = false;
+			guideName = false;
+			wizardName = false;
+			steampunkerName = false;
+			stylistName = false;
+			witchDoctorName = false;
+			taxCollectorName = false;
+			pirateName = false;
+			mechanicName = false;
+			armsDealerName = false;
+			dryadName = false;
+			nurseName = false;
+			anglerName = false;
+			clothierName = false;
             downedDesertScourge = false;
             downedAquaticScourge = false;
             downedHiveMind = false;
@@ -371,6 +397,32 @@ namespace CalamityMod.World
                 downed.Add("drunkPrincess");
             if (foundHomePermafrost)
                 downed.Add("archmageHome");
+            if (guideName)
+                downed.Add("guideName");
+            if (wizardName)
+                downed.Add("wizardName");
+            if (steampunkerName)
+                downed.Add("steampunkerName");
+            if (stylistName)
+                downed.Add("stylistName");
+            if (witchDoctorName)
+                downed.Add("witchDoctorName");
+            if (taxCollectorName)
+                downed.Add("taxCollectorName");
+            if (pirateName)
+                downed.Add("pirateName");
+            if (mechanicName)
+                downed.Add("mechanicName");
+            if (armsDealerName)
+                downed.Add("armsDealerName");
+            if (dryadName)
+                downed.Add("dryadName");
+            if (nurseName)
+                downed.Add("nurseName");
+            if (anglerName)
+                downed.Add("anglerName");
+            if (clothierName)
+                downed.Add("clothierName");
             if (downedEoCAcidRain)
                 downed.Add("eocRain");
             if (downedAquaticScourgeAcidRain)
@@ -457,6 +509,19 @@ namespace CalamityMod.World
             spawnedBandit = downed.Contains("bandit");
             spawnedCirrus = downed.Contains("drunkPrincess");
             foundHomePermafrost = downed.Contains("archmageHome");
+			guideName = downed.Contains("guideName");
+			wizardName = downed.Contains("wizardName");
+			steampunkerName = downed.Contains("stylistName");
+			stylistName = downed.Contains("stylistName");
+			witchDoctorName = downed.Contains("witchDoctorName");
+			taxCollectorName = downed.Contains("taxCollectorName");
+			pirateName = downed.Contains("pirateName");
+			mechanicName = downed.Contains("mechanicName");
+			armsDealerName = downed.Contains("armsDealerName");
+			dryadName = downed.Contains("dryadName");
+			nurseName = downed.Contains("nurseName");
+			anglerName = downed.Contains("anglerName");
+			clothierName = downed.Contains("clothierName");
             downedEoCAcidRain = downed.Contains("eocRain");
             downedAquaticScourgeAcidRain = downed.Contains("hmRain");
             triedToSummonOldDuke = downed.Contains("spawnedBoomer");
@@ -559,9 +624,29 @@ namespace CalamityMod.World
                 downedSecondSentinels = flags8[2];
                 foundHomePermafrost = flags8[3];
                 downedCLAMHardMode = flags8[4];
-                _ = flags8[5];
-                _ = flags8[6];
-                _ = flags8[7];
+                guideName = flags8[5];
+                wizardName = flags8[6];
+                steampunkerName = flags8[7];
+
+                BitsByte flags9 = reader.ReadByte();
+                stylistName = flags9[0];
+                witchDoctorName = flags9[1];
+                taxCollectorName = flags9[2];
+                pirateName = flags9[3];
+                mechanicName = flags9[4];
+                armsDealerName = flags9[5];
+                dryadName = flags9[6];
+                nurseName = flags9[7];
+
+                BitsByte flags10 = reader.ReadByte();
+                anglerName = flags10[0];
+                clothierName = flags10[1];
+                _ = flags10[2];
+                _ = flags10[3];
+                _ = flags10[4];
+                _ = flags10[5];
+                _ = flags10[6];
+                _ = flags10[7];
             }
             else
             {
@@ -650,9 +735,29 @@ namespace CalamityMod.World
             flags8[2] = downedSecondSentinels;
             flags8[3] = foundHomePermafrost;
             flags8[4] = downedCLAMHardMode;
-            flags8[5] = false;
-            flags8[6] = false;
-            flags8[7] = false;
+            flags8[5] = guideName;
+            flags8[6] = wizardName;
+            flags8[7] = steampunkerName;
+
+            BitsByte flags9 = new BitsByte();
+            flags9[0] = stylistName;
+            flags9[1] = witchDoctorName;
+            flags9[2] = taxCollectorName;
+            flags9[3] = pirateName;
+            flags9[4] = mechanicName;
+            flags9[5] = armsDealerName;
+            flags9[6] = dryadName;
+            flags9[7] = nurseName;
+
+            BitsByte flags10 = new BitsByte();
+            flags10[0] = anglerName;
+            flags10[1] = clothierName;
+            flags10[2] = false;
+            flags10[3] = false;
+            flags10[4] = false;
+            flags10[5] = false;
+            flags10[6] = false;
+            flags10[7] = false;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -662,6 +767,8 @@ namespace CalamityMod.World
             writer.Write(flags6);
             writer.Write(flags7);
             writer.Write(flags8);
+            writer.Write(flags9);
+            writer.Write(flags10);
             writer.Write(abyssChasmBottom);
             writer.Write(acidRainPoints);
             writer.Write(Reforges);
@@ -749,9 +856,29 @@ namespace CalamityMod.World
             downedSecondSentinels = flags8[2];
             foundHomePermafrost = flags8[3];
             downedCLAMHardMode = flags8[4];
-            _ = flags8[5];
-            _ = flags8[6];
-            _ = flags8[7];
+			guideName = flags8[5];
+			wizardName = flags8[6];
+			steampunkerName = flags8[7];
+
+			BitsByte flags9 = reader.ReadByte();
+			stylistName = flags9[0];
+			witchDoctorName = flags9[1];
+			taxCollectorName = flags9[2];
+			pirateName = flags9[3];
+			mechanicName = flags9[4];
+			armsDealerName = flags9[5];
+			dryadName = flags9[6];
+			nurseName = flags9[7];
+
+			BitsByte flags10 = reader.ReadByte();
+			anglerName = flags10[0];
+			clothierName = flags10[1];
+			_ = flags10[2];
+			_ = flags10[3];
+			_ = flags10[4];
+			_ = flags10[5];
+			_ = flags10[6];
+			_ = flags10[7];
 
             abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
