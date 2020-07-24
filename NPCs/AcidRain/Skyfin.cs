@@ -31,7 +31,7 @@ namespace CalamityMod.NPCs.AcidRain
             npc.aiStyle = aiType = -1;
 
             npc.damage = 12;
-            npc.lifeMax = 150;
+            npc.lifeMax = 70;
             npc.defense = 6;
             npc.knockBackResist = 1f;
 
