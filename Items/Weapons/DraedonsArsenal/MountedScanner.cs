@@ -22,6 +22,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.summon = true;
 			item.damage = 19;
 			item.knockBack = 2f;
+			item.mana = 10;
 			item.useTime = item.useAnimation = 25;
 			item.autoReuse = true;
 

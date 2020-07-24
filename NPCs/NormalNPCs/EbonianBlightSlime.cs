@@ -69,7 +69,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            DropHelper.DropItem(npc, ModContent.ItemType<EbonianGel>(), 15, 16);
+            DropHelper.DropItem(npc, ModContent.ItemType<EbonianGel>(), 15, 20);
             DropHelper.DropItem(npc, ItemID.Gel, 10, 14);
         }
     }

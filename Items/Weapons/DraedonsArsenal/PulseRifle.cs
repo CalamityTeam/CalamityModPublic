@@ -44,6 +44,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.shootSpeed = 5f;
 
 			item.Calamity().Chargeable = true;
+			item.Calamity().ChargeMax = 250;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

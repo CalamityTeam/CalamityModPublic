@@ -13,6 +13,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Typeless.FiniteUse;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -1021,6 +1022,8 @@ namespace CalamityMod.Projectiles
 					defCrit = modPlayer.critStats[3];
 				else if (projectile.IsSummon())
 					defCrit = 4;
+				else if (player.ActiveItem().crit > 0)
+					defCrit = player.ActiveItem().crit;
 			}
 
 			if (projectile.owner == Main.myPlayer/* && Main.netMode != NetmodeID.MultiplayerClient*/)
@@ -1117,6 +1120,15 @@ namespace CalamityMod.Projectiles
 					damage = (int)(damage * 1.2);
 					if (!crit)
 						crit = Main.rand.NextBool(10);
+				}
+
+				if (projectile.type == ProjectileType<MagnumRound>())
+				{
+					if (crit)
+					{
+						damage = (int)(damage * 1.25);
+						knockback *= 1.25f;
+					}
 				}
 			}
 		}

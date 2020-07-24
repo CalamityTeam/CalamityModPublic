@@ -996,7 +996,7 @@ namespace CalamityMod.CalPlayer
 					modPlayer.roverDriveTimer = 0;
 			}
 			else
-				modPlayer.roverDriveTimer = CalamityUtils.SecondsToFrames(10f) + 1; //Doesn't reset to zero to prevent exploits
+				modPlayer.roverDriveTimer = 616; //Doesn't reset to zero to prevent exploits
 
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)

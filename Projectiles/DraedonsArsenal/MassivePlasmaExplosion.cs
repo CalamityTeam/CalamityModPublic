@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			projectile.tileCollide = false;
 			projectile.Calamity().rogue = true;
 			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			projectile.idStaticNPCHitCooldown = 12;
 		}
 
 		public override void AI()
