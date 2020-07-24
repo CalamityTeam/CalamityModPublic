@@ -20,6 +20,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Tools;
 using CalamityMod.Items.TreasureBags;
+using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
@@ -59,6 +60,7 @@ using CalamityMod.NPCs.SunkenSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.Projectiles.Hybrid;
 using CalamityMod.Projectiles.Magic;
@@ -67,8 +69,11 @@ using CalamityMod.Projectiles.Melee.Spears;
 using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.Tiles.LivingFire;
+using CalamityMod.Schematics;
 using CalamityMod.Skies;
+using CalamityMod.TileEntities;
+using CalamityMod.Tiles;
+using CalamityMod.Tiles.LivingFire;
 using CalamityMod.UI;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -86,10 +91,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.UI;
-using CalamityMod.Schematics;
-using CalamityMod.Tiles;
-using CalamityMod.TileEntities;
-using CalamityMod.Projectiles.DraedonsArsenal;
 
 namespace CalamityMod
 {
@@ -1183,7 +1184,8 @@ namespace CalamityMod
                 ModContent.ItemType<DazzlingStabberStaff>(),
                 ModContent.ItemType<PristineFury>(),
                 ModContent.ItemType<SarosPossession>(),
-                ModContent.ItemType<CinderBlossomStaff>()
+                ModContent.ItemType<CinderBlossomStaff>(),
+                ModContent.ItemType<FinalDawn>()
             };
 
             iceWeaponList = new List<int>()
@@ -1359,7 +1361,13 @@ namespace CalamityMod
                 ModContent.ItemType<YateveoBloom>(),
                 ModContent.ItemType<TerraDisk>(),
                 ModContent.ItemType<TerraDiskMelee>(),
-                ModContent.ItemType<BelladonnaSpiritStaff>()
+                ModContent.ItemType<BelladonnaSpiritStaff>(),
+                ModContent.ItemType<TenebreusTides>(),
+                ModContent.ItemType<Greentide>(),
+                ModContent.ItemType<Leviatitan>(),
+                ModContent.ItemType<BrackishFlask>(),
+                ModContent.ItemType<LeviathanTeeth>(),
+                ModContent.ItemType<GastricBelcherStaff>()
             };
 
             alcoholList = new List<int>()
@@ -2247,7 +2255,8 @@ namespace CalamityMod
                 ModContent.ItemType<AcidicRainBarrel>(),
                 ModContent.ItemType<SkyfinBombers>(),
                 ModContent.ItemType<SpentFuelContainer>(),
-                ModContent.ItemType<SealedSingularity>()
+                ModContent.ItemType<SealedSingularity>(),
+                ModContent.ItemType<PlasmaGrenade>()
             };
 
             flaskBombProjList = new List<int>()
@@ -2277,7 +2286,8 @@ namespace CalamityMod
                 ModContent.ProjectileType<GreenDonkeyKongReference>(),
                 ModContent.ProjectileType<SkyfinNuke>(),
                 ModContent.ProjectileType<SpentFuelContainerProjectile>(),
-                ModContent.ProjectileType<SealedSingularityProj>()
+                ModContent.ProjectileType<SealedSingularityProj>(),
+                ModContent.ProjectileType<PlasmaGrenadeProjectile>()
             };
 
             spikyBallList = new List<int>()
@@ -2420,6 +2430,7 @@ namespace CalamityMod
                 ModContent.ItemType<SirensSong>(),
                 ModContent.ItemType<BrackishFlask>(),
                 ModContent.ItemType<LeviathanTeeth>(),
+                ModContent.ItemType<GastricBelcherStaff>(),
                 ModContent.ItemType<LureofEnthrallment>(),
                 ModContent.ItemType<AquaticScourgeBag>(),
                 ModContent.ItemType<OldDukeBag>(),
@@ -4005,9 +4016,17 @@ namespace CalamityMod
                         int countdown2 = reader.ReadInt32();
                         CalamityWorld.bossSpawnCountdown = countdown2;
                         break;
-                    case CalamityModMessageType.DeathBossSpawnCountdownSync:
+                    case CalamityModMessageType.BRHostileProjKillSync:
                         int countdown3 = reader.ReadInt32();
-                        CalamityWorld.deathBossSpawnCooldown = countdown3;
+                        CalamityWorld.bossRushHostileProjKillCounter = countdown3;
+                        break;
+                    case CalamityModMessageType.DeathBossSpawnCountdownSync:
+                        int countdown4 = reader.ReadInt32();
+                        CalamityWorld.deathBossSpawnCooldown = countdown4;
+                        break;
+                    case CalamityModMessageType.ArmoredDiggerCountdownSync:
+                        int countdown5 = reader.ReadInt32();
+                        CalamityWorld.ArmoredDiggerSpawnCooldown = countdown5;
                         break;
                     case CalamityModMessageType.BossTypeSync:
                         int type = reader.ReadInt32();
@@ -4175,6 +4194,8 @@ namespace CalamityMod
         BossRushStage,
         DoGCountdownSync,
         BossSpawnCountdownSync,
+		BRHostileProjKillSync,
+		ArmoredDiggerCountdownSync,
         BossTypeSync,
         DeathCountSync,
         RevengeanceBoolSync,

@@ -97,7 +97,25 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.Kill();
             }
             Time++;
+
+			if (projectile.damage <= 0)
+				projectile.Kill();
         }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+			ReduceDamage();
+		}
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			ReduceDamage();
+		}
+
+		private void ReduceDamage()
+		{
+			projectile.damage = (int)(projectile.damage * 0.75);
+		}
 
 		public override void Kill(int timeLeft)
 		{
