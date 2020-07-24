@@ -11,11 +11,11 @@ namespace CalamityMod.UI
 {
 	public class DraedonsItemChargerUI
     {
-        public static int RectangleWidth => (int)(40 / Main.GameViewMatrix.Zoom.X);
+        public static int RectangleWidth => (int)(36 / Main.GameViewMatrix.Zoom.X);
         public static int RectangleHeight => (int)(40 / Main.GameViewMatrix.Zoom.Y);
         public static Vector2 ChargerPosition => new Vector2(Main.LocalPlayer.Calamity().CurrentlyViewedChargerX, Main.LocalPlayer.Calamity().CurrentlyViewedChargerY);
-        public static Rectangle FuelIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 8, (int)ChargerPosition.Y - 54, RectangleWidth, RectangleHeight);
-        public static Rectangle ChargingItemIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 8, (int)ChargerPosition.Y - 94, RectangleWidth, RectangleHeight);
+        public static Rectangle FuelIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 24, (int)ChargerPosition.Y - 54, RectangleWidth, RectangleHeight);
+        public static Rectangle ChargingItemIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 24, (int)ChargerPosition.Y - 94, RectangleWidth, RectangleHeight);
         public static void Draw(SpriteBatch spriteBatch)
         {
             if (Main.LocalPlayer.Calamity().CurrentlyViewedCharger != null)
@@ -122,11 +122,13 @@ namespace CalamityMod.UI
             if (itemToUse.type == ItemID.None && chargeItem.stack > 0)
             {
                 int oldCharge = charger.Charge;
+                byte prefix = chargeItem.prefix;
                 itemToUse = chargeItem.Clone();
                 itemToUse.SetDefaults(itemToUse.type);
                 itemToUse.Calamity().CurrentCharge = oldCharge;
+                itemToUse.prefix = prefix;
                 chargeItem.stack = 0;
-                return false;
+                return true;
             }
             // Insert an item.
             else if (itemToUse.stack == 1 && chargeItem.stack == 0)
@@ -135,9 +137,9 @@ namespace CalamityMod.UI
                     return false;
                 if (!itemToUse.Calamity().Chargeable)
                     return false;
+                byte prefix = chargeItem.prefix;
                 charger.Charge = itemToUse.Calamity().CurrentCharge;
                 chargeItem = itemToUse.Clone();
-                chargeItem.SetDefaults(chargeItem.type);
                 itemToUse = new Item();
                 return true;
             }

@@ -23,6 +23,7 @@ namespace CalamityMod.TileEntities
         }
         public override void Update()
         {
+            HeldItem.favorited = false;
             if (HeldItem.type != ModContent.ItemType<PowerCell>())
             {
                 HeldItem.SetDefaults(ModContent.ItemType<PowerCell>());

@@ -4074,8 +4074,11 @@ namespace CalamityMod
                         int entityID = reader.ReadInt32();
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.type = reader.ReadInt32();
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.position = reader.ReadVector2();
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.type = reader.ReadInt32();
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.prefix = reader.ReadByte();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.position = reader.ReadVector2();
                         int currentCharge = reader.ReadInt32();
                         if (currentCharge != -1)
                         {
