@@ -90,7 +90,7 @@ namespace CalamityMod.Items.TreasureBags
 							}
 							else if (coinCount > 10000)
 							{
-								int auCoinAmt = coinCount / 10000f;
+								int auCoinAmt = coinCount / 10000;
 								if (auCoinAmt > 50 && Main.rand.NextBool(2))
 								{
 									auCoinAmt /= Main.rand.Next(3) + 1;
@@ -104,7 +104,7 @@ namespace CalamityMod.Items.TreasureBags
 							}
 							else if (coinCount > 100)
 							{
-								int agCoinAmt = coinCount / 100f;
+								int agCoinAmt = coinCount / 100;
 								if (agCoinAmt > 50 && Main.rand.NextBool(2))
 								{
 									agCoinAmt /= Main.rand.Next(3) + 1;
