@@ -46,7 +46,7 @@ namespace CalamityMod.NPCs.AcidRain
             else if (CalamityWorld.downedAquaticScourge)
             {
                 npc.damage = 85;
-                npc.lifeMax = 700;
+                npc.lifeMax = 400;
 				npc.DR_NERD(0.05f);
             }
 
