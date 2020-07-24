@@ -154,7 +154,7 @@ namespace CalamityMod.Tiles
         // LATER -- clean up copied decompiled pot code here
         public override bool Drop(int i, int j, int type)
         {
-            if (type == TileID.Pots || type == ModContent.TileType<AbyssalPots>())
+            if (type == TileID.Pots || type == ModContent.TileType<AbyssalPots>() || type == ModContent.TileType<SulphurousPots>())
             {
                 int x = Main.maxTilesX;
                 int y = Main.maxTilesY;
