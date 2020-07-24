@@ -150,6 +150,17 @@ namespace CalamityMod
         {
             return player.inventory.Any(item => items.Contains(item.type));
         }
+        public static bool PortableStorageHas(this Player player, params int[] items)
+        {
+			bool hasItem = false;
+            if (player.bank.item.Any(item => items.Contains(item.type)))
+				hasItem = true;
+            if (player.bank2.item.Any(item => items.Contains(item.type)))
+				hasItem = true;
+            if (player.bank3.item.Any(item => items.Contains(item.type)))
+				hasItem = true;
+            return hasItem;
+        }
 
 		/// <summary>
 		/// Inflict typical exo weapon debuffs in pvp.

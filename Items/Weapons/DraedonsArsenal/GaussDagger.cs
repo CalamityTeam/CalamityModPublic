@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gauss Dagger");
-            Tooltip.SetDefault("Hitting enemies in rapid succession causes them to become enveloped in a magnetic flux");
+            Tooltip.SetDefault("Repeat strikes envelop foes in magnetic flux");
         }
         public override void SetDefaults()
         {
@@ -28,7 +28,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 7f;
 
             item.value = CalamityGlobalItem.Rarity3BuyPrice;
-            item.rare = 3;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
@@ -55,7 +56,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
-            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
+            recipe.AddIngredient(ItemID.MeteoriteBar, 4);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

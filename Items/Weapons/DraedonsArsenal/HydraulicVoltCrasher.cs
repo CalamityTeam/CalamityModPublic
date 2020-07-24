@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydraulic Volt Crasher");
-            Tooltip.SetDefault("Zaps nearby enemies on hit");
+            Tooltip.SetDefault("An electrically charged jackhammer which shocks all nearby foes on hit");
         }
 
         public override void SetDefaults()
@@ -27,8 +27,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.UseSound = SoundID.Item23;
 
             item.shoot = ModContent.ProjectileType<HydraulicVoltCrasherProjectile>();
-            item.rare = 5;
             item.value = CalamityGlobalItem.Rarity5BuyPrice;
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
             item.noMelee = true;
             item.noUseGraphic = true;
@@ -42,9 +43,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 10);
-            recipe.AddIngredient(ItemID.HallowedBar, 5);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
+            recipe.AddIngredient(ItemID.HallowedBar, 10);
+            recipe.AddIngredient(ItemID.SoulofMight, 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

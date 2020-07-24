@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PlasmaCaster : ModItem
+	public class PlasmaCaster : ModItem
 	{
 		public const int BaseDamage = 1100;
 		public override void SetStaticDefaults()
@@ -34,8 +35,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.noMelee = true;
 
 			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PlasmaCasterShot>();
 			item.shootSpeed = 5f;
@@ -62,31 +63,19 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 				velocity *= 5f;
 			}
 
-			int ammoConsumed = 20;
 			float SpeedX = velocity.X + (float)Main.rand.Next(-3, 4) * 0.05f;
 			float SpeedY = velocity.Y + (float)Main.rand.Next(-3, 4) * 0.05f;
 			float damageMult = 1f;
 			float kbMult = 1f;
 			if (player.altFunctionUse == 2)
 			{
-				ammoConsumed = 5;
 				SpeedX = velocity.X + (float)Main.rand.Next(-15, 16) * 0.05f;
 				SpeedY = velocity.Y + (float)Main.rand.Next(-15, 16) * 0.05f;
 				damageMult = 0.3333f;
-				kbMult = 3f/7f;
+				kbMult = 3f / 7f;
 			}
 
 			Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, ModContent.ProjectileType<PlasmaCasterShot>(), (int)(damage * damageMult), knockBack * kbMult, player.whoAmI, 0f, 0f);
-
-			// Consume 20 or 5 ammo per shot
-			CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, ammoConsumed);
-
-			return false;
-		}
-
-		// Disable vanilla ammo consumption
-		public override bool ConsumeAmmo(Player player)
-		{
 			return false;
 		}
 
@@ -100,8 +89,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 10);
-			recipe.AddIngredient(ItemID.LunarBar, 5);
+			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
+			recipe.AddIngredient(ItemID.LunarBar, 4);
+			// still awkward that the item called Plasma Rifle is the same class and exact same tier as this item
+			recipe.AddIngredient(ModContent.ItemType<Wingman>());
 			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
