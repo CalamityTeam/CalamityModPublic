@@ -14,8 +14,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
+            projectile.width = 10;
+            projectile.height = 10;
             projectile.friendly = true;
             projectile.ignoreWater = true;
             projectile.ranged = true;
@@ -51,7 +51,7 @@ namespace CalamityMod.Projectiles.Ranged
                     scalar = 0.75f;
                 }
                 projectile.ai[0] += 1f;
-                int dustType = 62;
+                int dustType = Main.rand.NextBool(4) ? 61 : 62;
                 if (Main.rand.NextBool(2))
                 {
 					int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, projectile.velocity.X * 0.2f, projectile.velocity.Y * 0.2f, 100, default, 1f);

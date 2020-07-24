@@ -35,6 +35,8 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             for (int randomBullets = 0; randomBullets <= 4; randomBullets++)

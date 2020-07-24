@@ -20,10 +20,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		{
 			item.width = 28;
 			item.height = 26;
+			item.summon = true;
 			item.sentry = true;
 			item.damage = 100;
 			item.knockBack = 0f;
-			item.useTime = item.useAnimation = 35;
+			item.mana = 10;
+			item.useTime = item.useAnimation = 25;
 			item.autoReuse = true;
 
 			item.useStyle = ItemUseStyleID.HoldingUp;
@@ -58,6 +60,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 					}
 				}
 				Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+				//player.UpdateMaxTurrets();
 			}
 			return false;
 		}
@@ -65,10 +68,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
-			recipe.AddIngredient(ItemID.HallowedBar, 10);
-			recipe.AddIngredient(ItemID.SoulofSight, 20);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 18);
+			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

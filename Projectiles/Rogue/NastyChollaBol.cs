@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.StickyProjAI(15);
 			if (projectile.ai[0] != 1f)
 			{
-				projectile.StickToTiles();
+				projectile.StickToTiles(true, false);
 				projectile.localAI[1] += 1f;
 				if (projectile.localAI[1] > 10f)
 				{

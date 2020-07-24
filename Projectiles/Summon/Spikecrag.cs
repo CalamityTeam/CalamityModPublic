@@ -60,6 +60,8 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity.Y = 10f;
             }
 
+			projectile.StickToTiles(false, false);
+
 			if (projectile.ai[0] > 0f)
 			{
 				projectile.ai[0] -= 1f;
@@ -75,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
 				{
 					float extraDistance = (float)(Main.npc[i].width / 2) + (Main.npc[i].height / 2);
 
-					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance))
+					if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < (maxDistance + extraDistance) && Collision.CanHit(projectile.Center, projectile.width, projectile.height, Main.npc[i].Center, Main.npc[i].width, Main.npc[i].height))
 					{
 						homeIn = true;
 						break;

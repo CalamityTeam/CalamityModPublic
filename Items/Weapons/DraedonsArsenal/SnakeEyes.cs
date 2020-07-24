@@ -19,11 +19,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetDefaults()
 		{
 			item.shootSpeed = 10f;
-			item.damage = 211;
+			item.damage = 75;
 			item.mana = 12;
 			item.width = 38;
 			item.height = 24;
-			item.useTime = item.useAnimation = 30;
+			item.useTime = item.useAnimation = 15;
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.noMelee = true;
 			item.knockBack = 3f;
