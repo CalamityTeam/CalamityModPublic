@@ -1,3 +1,4 @@
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -6,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace CalamityMod.Tiles.Abyss
 {
-	public class AbyssalPots : ModTile
+	public class SulphurousPots : ModTile
 	{
 		public override void SetDefaults()
 		{
@@ -21,22 +22,9 @@ namespace CalamityMod.Tiles.Abyss
 			TileObjectData.addTile(Type);
 			ModTranslation name = CreateMapEntryName();
 			name.SetDefault("Pot");
-			AddMapEntry(new Color(47, 79, 79), name); //dark slate gray
-			dustType = 29;
+			AddMapEntry(new Color(226, 205, 101), name);
+			dustType = (int)CalamityDusts.SulfurousSeaAcid;
 			soundType = SoundID.Shatter;
-		}
-
-		public override bool CreateDust(int i, int j, ref int type)
-		{
-			if (Main.rand.NextBool(2))
-			{
-				type = 29;
-			}
-			else
-			{
-				type = 186;
-			}
-			return true;
 		}
 
 		public override void NumDust(int i, int j, bool fail, ref int num)

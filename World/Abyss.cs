@@ -1127,7 +1127,7 @@ namespace CalamityMod.World
 							{
 								if (WorldGen.genRand.Next(5) == 0)
 								{
-									WorldGen.PlacePot(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssalPots>(), 0);
+									WorldGen.PlacePot(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssalPots>());
 									CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
 								}
 							}
@@ -1136,8 +1136,7 @@ namespace CalamityMod.World
 							{
 								if (WorldGen.genRand.Next(3) == 0)
 								{
-									int style = WorldGen.genRand.Next(25, 28);
-									WorldGen.PlacePot(abyssIndex, abyssIndex2, TileID.Pots, style);
+									WorldGen.PlacePot(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<SulphurousPots>());
 									CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
 								}
 							}
@@ -1158,7 +1157,7 @@ namespace CalamityMod.World
 							{
 								if (WorldGen.genRand.Next(5) == 0)
 								{
-									WorldGen.PlacePot(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssalPots>(), 0);
+									WorldGen.PlacePot(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<AbyssalPots>());
 									CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
 								}
 							}
@@ -1167,8 +1166,7 @@ namespace CalamityMod.World
 							{
 								if (WorldGen.genRand.Next(3) == 0)
 								{
-									int style = WorldGen.genRand.Next(25, 28);
-									WorldGen.PlacePot(abyssIndex, abyssIndex2, TileID.Pots, style);
+									WorldGen.PlacePot(abyssIndex, abyssIndex2, (ushort)ModContent.TileType<SulphurousPots>());
 									CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
 								}
 							}

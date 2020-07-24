@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.TreasureBags
 {
-    public class AbyssalTreasure : ModItem
+    public class SulphuricTreasure : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyssal Treasure");
+            DisplayName.SetDefault("Sulphuric Treasure");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
@@ -19,14 +19,14 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 1; //Blue for thematics
+            item.rare = 2; //Green for thematics
         }
 
         public override bool CanRightClick() => true;
 
         public override void RightClick(Player player)
         {
-			if (Main.rand.NextBool(10))
+			if (Main.rand.NextBool(15))
 			{
 				int potionType = Utils.SelectRandom(WorldGen.genRand, new int[]
 				{
@@ -54,21 +54,21 @@ namespace CalamityMod.Items.TreasureBags
 				switch (Main.rand.Next(10))
 				{
 					case 0:
-						int sglowstickAmt = Main.rand.Next(2, 6);
+						int glowstickAmt = Main.rand.Next(2, 6);
 						if (Main.expertMode)
 						{
-							sglowstickAmt += Main.rand.Next(1, 7);
+							glowstickAmt += Main.rand.Next(1, 7);
 						}
-						DropHelper.DropItem(player, ItemID.SpelunkerGlowstick, sglowstickAmt);
+						DropHelper.DropItem(player, ItemID.Glowstick, glowstickAmt);
 						break;
 					case 1:
-						DropHelper.DropItem(player, ItemID.HellfireArrow, 10, 20);
+						DropHelper.DropItem(player, ItemID.JestersArrow, 10, 20);
 						break;
 					case 2:
-						DropHelper.DropItem(player, ModContent.ItemType<SunkenStew>());
+						DropHelper.DropItem(player, ItemID.HealingPotion);
 						break;
 					case 3:
-						DropHelper.DropItem(player, ItemID.StickyDynamite);
+						DropHelper.DropItem(player, ItemID.Bomb, 5, 8);
 						break;
 					default:
 						int coinCount = 5000 + Main.rand.Next(-100, 101);

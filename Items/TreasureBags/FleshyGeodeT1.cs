@@ -18,7 +18,7 @@ namespace CalamityMod.Items.TreasureBags
             item.consumable = true;
             item.width = 24;
             item.height = 24;
-            item.rare = 1;
+            item.rare = 8;
         }
 
         public override bool CanRightClick() => true;
