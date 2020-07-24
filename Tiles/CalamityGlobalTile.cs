@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Potions;
+using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Environment;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -195,125 +196,10 @@ namespace CalamityMod.Tiles
                         abyssPosX = true;
                     }
                 }
-                if (abyssPosX && abyssPosY)
-                {
-                    if (Main.rand.NextBool(10))
-                    {
-						int potionType = Utils.SelectRandom(WorldGen.genRand, new int[]
-						{
-							ItemID.SpelunkerPotion,
-							ItemID.MagicPowerPotion,
-							ItemID.ShinePotion,
-							ItemID.WaterWalkingPotion,
-							ItemID.ObsidianSkinPotion,
-							ItemID.WaterWalkingPotion,
-							ItemID.GravitationPotion,
-							ItemID.RegenerationPotion,
-							ModContent.ItemType<TriumphPotion>(),
-							ModContent.ItemType<AnechoicCoating>(),
-							ItemID.GillsPotion,
-							ItemID.EndurancePotion,
-							ItemID.HeartreachPotion,
-							ItemID.FlipperPotion,
-							ItemID.LifeforcePotion,
-							ItemID.InfernoPotion
-						});
-                        Item.NewItem(i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
-                    }
-                    else
-                    {
-                        int lootType = Main.rand.Next(10); //0 to 9
-                        if (lootType == 0) //spelunker glowsticks
-                        {
-                            int sglowstickAmt = Main.rand.Next(2, 6);
-                            if (Main.expertMode)
-                            {
-                                sglowstickAmt += Main.rand.Next(1, 7);
-                            }
-                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SpelunkerGlowstick, sglowstickAmt, false, 0, false, false);
-                        }
-                        else if (lootType == 1) //hellfire arrows
-                        {
-                            int arrowAmt = Main.rand.Next(10, 21);
-                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.HellfireArrow, arrowAmt, false, 0, false, false);
-                        }
-                        else if (lootType == 2) //stew
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SunkenStew>(), 1, false, 0, false, false);
-                        }
-                        else if (lootType == 3) //sticky dynamite
-                        {
-                            Item.NewItem(i * 16, j * 16, 16, 16, ItemID.StickyDynamite, 1, false, 0, false, false);
-                        }
-                        else //money
-                        {
-                            float num13 = (float)(5000 + WorldGen.genRand.Next(-100, 101));
-                            while ((int)num13 > 0)
-                            {
-                                if (num13 > 1000000f)
-                                {
-                                    int ptCoinAmt = (int)(num13 / 1000000f);
-                                    if (ptCoinAmt > 50 && Main.rand.NextBool(2))
-                                    {
-                                        ptCoinAmt /= Main.rand.Next(3) + 1;
-                                    }
-                                    if (Main.rand.NextBool(2))
-                                    {
-                                        ptCoinAmt /= Main.rand.Next(3) + 1;
-                                    }
-                                    num13 -= (float)(1000000 * ptCoinAmt);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
-                                }
-                                else if (num13 > 10000f)
-                                {
-                                    int auCoinAmt = (int)(num13 / 10000f);
-                                    if (auCoinAmt > 50 && Main.rand.NextBool(2))
-                                    {
-                                        auCoinAmt /= Main.rand.Next(3) + 1;
-                                    }
-                                    if (Main.rand.NextBool(2))
-                                    {
-                                        auCoinAmt /= Main.rand.Next(3) + 1;
-                                    }
-                                    num13 -= (float)(10000 * auCoinAmt);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
-                                }
-                                else if (num13 > 100f)
-                                {
-                                    int agCoinAmt = (int)(num13 / 100f);
-                                    if (agCoinAmt > 50 && Main.rand.NextBool(2))
-                                    {
-                                        agCoinAmt /= Main.rand.Next(3) + 1;
-                                    }
-                                    if (Main.rand.NextBool(2))
-                                    {
-                                        agCoinAmt /= Main.rand.Next(3) + 1;
-                                    }
-                                    num13 -= (float)(100 * agCoinAmt);
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
-                                }
-                                else
-                                {
-                                    int cuCoinAmt = (int)num13;
-                                    if (cuCoinAmt > 50 && Main.rand.NextBool(2))
-                                    {
-                                        cuCoinAmt /= Main.rand.Next(3) + 1;
-                                    }
-                                    if (Main.rand.NextBool(2))
-                                    {
-                                        cuCoinAmt /= Main.rand.Next(4) + 1;
-                                    }
-                                    if (cuCoinAmt < 1)
-                                    {
-                                        cuCoinAmt = 1;
-                                    }
-                                    num13 -= (float)cuCoinAmt;
-                                    Item.NewItem(i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
-                                }
-                            }
-                        }
-                    }
-                }
+				if (abyssPosX && abyssPosY)
+				{
+					Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>(), 1, false, 0, false, false);
+				}
                 else if (sulphurPosX)
                 {
                     if (Main.rand.NextBool(15))

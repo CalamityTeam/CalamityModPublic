@@ -808,19 +808,8 @@ namespace CalamityMod.NPCs.Ravager
 			if (!Main.expertMode)
             {
                 // Materials
-                int barMin = CalamityWorld.downedProvidence ? 5 : 1;
-                int barMax = CalamityWorld.downedProvidence ? 10 : 3;
-                int coreMin = CalamityWorld.downedProvidence ? 1 : 1;
-                int coreMax = CalamityWorld.downedProvidence ? 3 : 2;
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 50, 60);
-                DropHelper.DropItem(npc, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
-                DropHelper.DropItem(npc, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<BarofLife>(), CalamityWorld.downedProvidence, 2, 1, 1);
-                DropHelper.DropItemCondition(npc, ModContent.ItemType<CoreofCalamity>(), CalamityWorld.downedProvidence, 3, 1, 1);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<FleshyGeodeT1>(), !CalamityWorld.downedProvidence);
+				DropHelper.DropItemCondition(npc, ModContent.ItemType<FleshyGeodeT2>(), CalamityWorld.downedProvidence);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<UltimusCleaver>(), 4);

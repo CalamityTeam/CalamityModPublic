@@ -1128,7 +1128,7 @@ namespace CalamityMod.World
                                 if (WorldGen.genRand.Next(5) == 0)
                                 {
                                     int style = WorldGen.genRand.Next(13, 16);
-                                    WorldGen.PlacePot(abyssIndex, abyssIndex2, 28, style);
+                                    WorldGen.PlacePot(abyssIndex, abyssIndex2, TileID.Pots, style);
                                     CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
@@ -1138,7 +1138,7 @@ namespace CalamityMod.World
                                 if (WorldGen.genRand.Next(3) == 0)
                                 {
                                     int style = WorldGen.genRand.Next(25, 28);
-                                    WorldGen.PlacePot(abyssIndex, abyssIndex2, 28, style);
+                                    WorldGen.PlacePot(abyssIndex, abyssIndex2, TileID.Pots, style);
                                     CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
@@ -1160,7 +1160,7 @@ namespace CalamityMod.World
                                 if (WorldGen.genRand.Next(5) == 0)
                                 {
                                     int style = WorldGen.genRand.Next(13, 16);
-                                    WorldGen.PlacePot(abyssIndex, abyssIndex2, 28, style);
+                                    WorldGen.PlacePot(abyssIndex, abyssIndex2, TileID.Pots, style);
                                     CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
@@ -1170,7 +1170,7 @@ namespace CalamityMod.World
                                 if (WorldGen.genRand.Next(3) == 0)
                                 {
                                     int style = WorldGen.genRand.Next(25, 28);
-                                    WorldGen.PlacePot(abyssIndex, abyssIndex2, 28, style);
+                                    WorldGen.PlacePot(abyssIndex, abyssIndex2, TileID.Pots, style);
                                     CalamityUtils.SafeSquareTileFrame(abyssIndex, abyssIndex2, true);
                                 }
                             }
