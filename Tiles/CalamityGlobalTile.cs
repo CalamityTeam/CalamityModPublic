@@ -154,20 +154,20 @@ namespace CalamityMod.Tiles
         // LATER -- clean up copied decompiled pot code here
         public override bool Drop(int i, int j, int type)
         {
-            if (type == TileID.Pots)
+            if (type == TileID.Pots || type == ModContent.TileType<AbyssalPots>())
             {
                 int x = Main.maxTilesX;
                 int y = Main.maxTilesY;
                 int genLimit = x / 2;
                 int abyssChasmSteps = y / 4;
-                int abyssChasmY = y - abyssChasmSteps + (int)((double)y * 0.055); //132 = 1932 large
+                int abyssChasmY = y - abyssChasmSteps + (int)(y * 0.055); //132 = 1932 large
                 if (y < 1500)
                 {
-                    abyssChasmY = y - abyssChasmSteps + (int)((double)y * 0.095); //114 = 1014 small
+                    abyssChasmY = y - abyssChasmSteps + (int)(y * 0.095); //114 = 1014 small
                 }
                 else if (y < 2100)
                 {
-                    abyssChasmY = y - abyssChasmSteps + (int)((double)y * 0.0735); //132 = 1482 medium
+                    abyssChasmY = y - abyssChasmSteps + (int)(y * 0.0735); //132 = 1482 medium
                 }
                 int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
 
