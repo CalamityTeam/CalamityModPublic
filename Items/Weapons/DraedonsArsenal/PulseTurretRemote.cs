@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 14);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 16);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 18);
 			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
 			recipe.AddTile(TileID.MythrilAnvil);
