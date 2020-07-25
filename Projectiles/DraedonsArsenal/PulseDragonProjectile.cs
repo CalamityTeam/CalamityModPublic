@@ -28,12 +28,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             get => projectile.ai[1];
             set => projectile.ai[1] = value;
         }
-        public float InitialDirection
-        {
-            get => projectile.localAI[0];
-            set => projectile.localAI[0] = value;
-        }
         public const int SpinTime = 60;
+        public const int TotalSpins = 5;
         public const int ChargeTime = 25;
         public const int ReelbackTime = 25;
         public const int Lifetime = SpinTime + ChargeTime + ReelbackTime;
@@ -74,18 +70,25 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             if (projectile.timeLeft >= Lifetime - SpinTime)
             {
                 float time = Utils.InverseLerp(Lifetime, Lifetime - SpinTime, projectile.timeLeft);
-                float angle = time * MathHelper.TwoPi * 5f + InitialRotation;
-                projectile.Center = player.Center + angle.ToRotationVector2().RotatedBy(InitialRotation) * 60f;
-                projectile.rotation = InitialRotation + angle;
+                float offsetAngle = time * MathHelper.TwoPi * TotalSpins + InitialRotation; // Spin several times.
+                projectile.Center = player.Center + offsetAngle.ToRotationVector2().RotatedBy(InitialRotation) * 60f;
+                projectile.rotation = InitialRotation + offsetAngle;
                 projectile.velocity = Vector2.Zero;
                 projectile.tileCollide = false;
             }
             else if (projectile.timeLeft >= Lifetime - SpinTime - ChargeTime)
             {
                 float time = Utils.InverseLerp(Lifetime - SpinTime, Lifetime - SpinTime - ChargeTime, projectile.timeLeft, true);
-                float offsetAngle = (time - 0.5f) * 2f * 1.8f;
-                offsetAngle *= (Math.Cos(InitialRotation) > 0).ToDirectionInt();
-                projectile.velocity = InitialRotation.ToRotationVector2().RotatedBy(offsetAngle * InitialDirection) * 29f;
+                float offsetAngle = MathHelper.Lerp(-1.8f, 1.8f, time); // Set the range of the offset to -1.8 and 1.8 based off of the time.
+                offsetAngle *= (Math.Cos(InitialRotation) > 0).ToDirectionInt(); // Incorporate direction into the offset angle.
+
+                projectile.velocity = InitialRotation.ToRotationVector2().RotatedBy(offsetAngle) * 29f;
+
+                // Adjust the velocity to go along with the player's if the velocity directions are similar so that the player's movement doesn't hinder the projectile's movement.
+                if (Vector2.Dot(projectile.velocity.SafeNormalize(Vector2.Zero), player.velocity.SafeNormalize(Vector2.Zero)) > 0.45f)
+                {
+                    projectile.velocity += player.velocity;
+                }
                 projectile.tileCollide = true;
             }
             else

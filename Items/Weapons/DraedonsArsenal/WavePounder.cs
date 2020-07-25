@@ -8,40 +8,38 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-	public class SystemBane : RogueWeapon
+	public class WavePounder : RogueWeapon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("System Bane");
-            Tooltip.SetDefault("Releases an unstable weapon that sticks to the ground and shocks nearby enemies with electricity\n" +
-                               "Stealth Strikes cause the weapon to emit an electrical field that shocks enemies within\n" +
-                               "Stacks up to 5");
+            DisplayName.SetDefault("Wave Pounder");
+            Tooltip.SetDefault("Releases a bomb that explodes into violent waves of energy\n" +
+                               "Stealth Strikes cause the bomb to have a much more powerful explosion effect");
         }
 
         public override void SafeSetDefaults()
         {
-            item.damage = 45;
+            item.damage = 100;
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.width = 42;
-            item.height = 36;
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.width = 26;
+            item.height = 44;
+            item.useTime = 56;
+            item.useAnimation = 56;
             item.autoReuse = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f;
-            item.value = CalamityGlobalItem.Rarity8BuyPrice;
+            item.knockBack = 0f;
+
+            item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
             item.rare = ItemRarityID.Red;
+
             item.Calamity().customRarity = CalamityRarity.DraedonRust;
             item.UseSound = SoundID.Item1;
-            item.maxStack = 5;
 
             item.shootSpeed = 16f;
-            item.shoot = ModContent.ProjectileType<SystemBaneProjectile>();
+            item.shoot = ModContent.ProjectileType<WavePounderProjectile>();
         }
-
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < item.stack;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -52,12 +50,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4); // Less materials are used than unusual because this projectile is stackable.
-            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 1);
-            recipe.AddIngredient(ItemID.SpikyBall, 20);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
+            recipe.AddIngredient(ItemID.LunarBar, 4);
+            recipe.AddIngredient(ModContent.ItemType<BrackishFlask>());
+            recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

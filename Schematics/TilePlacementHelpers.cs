@@ -1,9 +1,7 @@
-using CalamityMod.TileEntities;
 using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityMod.Schematics.SchematicLoader;
@@ -20,84 +18,166 @@ namespace CalamityMod.Schematics
             BottomLeft,
             BottomRight,
         }
-        internal static void HandleNullTile(ref Tile tile)
+        internal static Tile SchematicTileConversion(Tile oldTile, Tile toReplaceWith, Color schematicColorAtPosition)
         {
-            ushort wall = tile.wall;
-            tile = new Tile
-            {
-                wall = wall
-            };
+            float opacity = schematicColorAtPosition.A / 255f;
+
+            Tile newTile = new Tile();
+            // Destroy the original tile completely.
+            if (opacity == 0f)
+                return newTile;
+
+            // Destroy the original tile itself but preserve the wall.
+            if (oldTile.wall != 0 && toReplaceWith.wall == 0 && opacity > 0f && opacity <= 0.33f)
+                newTile.wall = oldTile.wall;
+
+            // Do nothing to the tile.
+            if (opacity > 0.33f && opacity <= 0.66f)
+                newTile = (Tile)oldTile.Clone();
+
+            // Completely replace the tile.
+            if (opacity > 0.66f)
+                newTile = (Tile)toReplaceWith.Clone();
+            return newTile;
         }
-        public static void PlaceStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, Action<Chest> chestInteraction = null, bool preserveWalls = true)
+        public static void PlaceStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, Action<Chest> chestInteraction = null)
         {
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
-            Tile[,] tiles = TileMaps[mapKey];
-			ushort[,] oldWalls = new ushort[tiles.GetLength(0), tiles.GetLength(1)];
+            ColorTileCombination[,] schematic = TileMaps[mapKey];
+			Tile[,] oldTiles = new Tile[schematic.GetLength(0), schematic.GetLength(1)];
 			int xOffset = placementPosition.X;
             int yOffset = placementPosition.Y;
             // Top-left is the default for terraria. There is no need to include it in this switch.
             switch (placementAnchor)
             {
                 case PlacementAnchorType.TopRight:
-                    xOffset += tiles.GetLength(0);
+                    xOffset += schematic.GetLength(0);
                     break;
                 case PlacementAnchorType.Center:
-                    xOffset += tiles.GetLength(0) / 2;
-                    yOffset += tiles.GetLength(1) / 2;
+                    xOffset += schematic.GetLength(0) / 2;
+                    yOffset += schematic.GetLength(1) / 2;
                     break;
                 case PlacementAnchorType.BottomLeft:
-                    yOffset += tiles.GetLength(1);
+                    yOffset += schematic.GetLength(1);
                     break;
                 case PlacementAnchorType.BottomRight:
-                    xOffset += tiles.GetLength(0);
-                    yOffset += tiles.GetLength(1);
+                    xOffset += schematic.GetLength(0);
+                    yOffset += schematic.GetLength(1);
                     break;
             }
-            for (int x = 0; x < tiles.GetLength(0); x++)
+            for (int x = 0; x < schematic.GetLength(0); x++)
             {
-                for (int y = 0; y < tiles.GetLength(1); y++)
+                for (int y = 0; y < schematic.GetLength(1); y++)
                 {
-                    Tile tile = Main.tile[x + xOffset, y + yOffset];
-                    oldWalls[x, y] = tile.wall;
+                    oldTiles[x, y] = (Tile)Main.tile[x + xOffset, y + yOffset].Clone();
 
                     // Attempting to break chests causes the game to attempt to infinitely recurse in an attempt to break the tile, resulting in a stack overflow.
-                    if (tile.type == TileID.Containers)
+                    if (oldTiles[x, y].type == TileID.Containers)
                         continue;
                     WorldGen.KillTile(x + xOffset, y + yOffset);
                 }
             }
-            for (int x = 0; x < tiles.GetLength(0); x++)
+            for (int x = 0; x < schematic.GetLength(0); x++)
             {
-                for (int y = 0; y < tiles.GetLength(1); y++)
+                for (int y = 0; y < schematic.GetLength(1); y++)
                 {
                     if (WorldGen.InWorld(x + xOffset, y + yOffset))
                     {
-                        var modTile = TileLoader.GetTile(tiles[x, y].type);
-                        bool isChest = tiles[x, y].type == TileID.Containers || (modTile != null && modTile.chest != "");
+                        Tile tile = schematic[x, y].InternalTile;
+                        ModTile modTile = TileLoader.GetTile(tile.type);
+                        bool isChest = tile.type == TileID.Containers || (modTile != null && modTile.chest != "");
 
                         // If the determined tile type is a chest, define it appropriately.
                         if (isChest)
                         {
-                            if (tiles[x, y].frameX == 0 && tiles[x, y].frameY == 0)
+                            if (tile.frameX % 36 == 0 && tile.frameY == 0)
                             {
-                                Chest chest = PlaceChest(x + xOffset, y + yOffset, tiles[x, y].type);
+                                Chest chest = PlaceChest(x + xOffset, y + yOffset, tile.type);
                                 chestInteraction?.Invoke(chest);
                             }
                         }
-                        if (tiles[x, y].type == ModContent.TileType<DraedonItemCharger>())
+                        if (tile.type == ModContent.TileType<DraedonItemCharger>() ||
+                            tile.type == ModContent.TileType<DraedonHologram>())
                         {
-                            WorldGen.PlaceTile(x, y, tiles[x, y].type);
+                            WorldGen.PlaceTile(x, y, tile.type);
                         }
 
-                        Main.tile[x + xOffset, y + yOffset] = (Tile)tiles[x, y].Clone();
+                        Main.tile[x + xOffset, y + yOffset] = SchematicTileConversion(oldTiles[x, y], (Tile)tile.Clone(), schematic[x, y].InternalColor);
 
-                        // If specified, preserve walls if they're not not being overrided and there's no active tile in its place.
-                        if (preserveWalls && oldWalls[x, y] != 0 && tiles[x, y].wall == 0)
+                        Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
+
+                        // Dictionary.TryGetValue returns null if the specified key is not present.
+                        pilePlacementFunction?.Invoke(x + xOffset, y + yOffset, placeInArea);
+                    }
+                }
+            }
+        }
+        public static void PlaceStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, ref bool specialCondition, Action<Chest, int, bool> chestInteraction = null)
+        {
+            PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
+            ColorTileCombination[,] schematic = TileMaps[mapKey];
+            Tile[,] oldTiles = new Tile[schematic.GetLength(0), schematic.GetLength(1)];
+            int xOffset = placementPosition.X;
+            int yOffset = placementPosition.Y;
+            // Top-left is the default for terraria. There is no need to include it in this switch.
+            switch (placementAnchor)
+            {
+                case PlacementAnchorType.TopRight:
+                    xOffset += schematic.GetLength(0);
+                    break;
+                case PlacementAnchorType.Center:
+                    xOffset += schematic.GetLength(0) / 2;
+                    yOffset += schematic.GetLength(1) / 2;
+                    break;
+                case PlacementAnchorType.BottomLeft:
+                    yOffset += schematic.GetLength(1);
+                    break;
+                case PlacementAnchorType.BottomRight:
+                    xOffset += schematic.GetLength(0);
+                    yOffset += schematic.GetLength(1);
+                    break;
+            }
+            for (int x = 0; x < schematic.GetLength(0); x++)
+            {
+                for (int y = 0; y < schematic.GetLength(1); y++)
+                {
+                    oldTiles[x, y] = (Tile)CalamityUtils.ParanoidTileRetrieval(x + xOffset, y + yOffset).Clone();
+
+                    // Attempting to break chests causes the game to attempt to infinitely recurse in an attempt to break the tile, resulting in a stack overflow.
+                    if (oldTiles[x, y].type == TileID.Containers)
+                        continue;
+                    WorldGen.KillTile(x + xOffset, y + yOffset);
+                }
+            }
+            for (int x = 0; x < schematic.GetLength(0); x++)
+            {
+                for (int y = 0; y < schematic.GetLength(1); y++)
+                {
+                    if (WorldGen.InWorld(x + xOffset, y + yOffset))
+                    {
+                        Tile tile = schematic[x, y].InternalTile;
+                        ModTile modTile = TileLoader.GetTile(tile.type);
+                        bool isChest = tile.type == TileID.Containers || (modTile != null && modTile.chest != "");
+
+                        if (tile.type == ModContent.TileType<DraedonItemCharger>() ||
+                            tile.type == ModContent.TileType<DraedonHologram>())
                         {
-                            Main.tile[x + xOffset, y + yOffset].wall = oldWalls[x, y];
+                            WorldGen.PlaceTile(x, y, tile.type);
+                        }
+                        // If the determined tile type is a chest, define it appropriately.
+                        if (isChest)
+                        {
+                            if (tile.frameX % 36 == 0 && tile.frameY == 0)
+                            {
+                                Chest chest = PlaceChest(x + xOffset, y + yOffset, tile.type);
+                                chestInteraction?.Invoke(chest, tile.type, specialCondition);
+                                specialCondition = true;
+                            }
                         }
 
-                        Rectangle placeInArea = new Rectangle(x, y, tiles.GetLength(0), tiles.GetLength(1));
+                        Main.tile[x + xOffset, y + yOffset] = SchematicTileConversion(oldTiles[x, y], (Tile)tile.Clone(), schematic[x, y].InternalColor);
+
+                        Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
 
                         // Dictionary.TryGetValue returns null if the specified key is not present.
                         pilePlacementFunction?.Invoke(x + xOffset, y + yOffset, placeInArea);

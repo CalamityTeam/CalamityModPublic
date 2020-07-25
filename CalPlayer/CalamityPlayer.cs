@@ -65,6 +65,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using CalamityMod.Projectiles.DraedonsArsenal;
 
 namespace CalamityMod.CalPlayer
 {
@@ -1977,6 +1978,33 @@ namespace CalamityMod.CalPlayer
             adrenalineModeActive = false;
 
             lastProjectileHit = null;
+        }
+        #endregion
+
+        #region Screen Position Movements
+        public override void ModifyScreenPosition()
+        {
+            if (CalamityWorld.ScreenShakeSpots.Count > 0)
+            {
+                // Fail-safe to ensure that spots don't last forever.
+                Dictionary<int, ScreenShakeSpot> screenShakeSpots = new Dictionary<int, ScreenShakeSpot>();
+                List<int> screenShakeUUIDs = CalamityWorld.ScreenShakeSpots.Keys.ToList();
+                for (int i = 0; i < CalamityWorld.ScreenShakeSpots.Count; i++)
+                {
+                    int uuid = screenShakeUUIDs[i];
+                    if (Main.projectile[uuid].active)
+                    {
+                        screenShakeSpots.Add(uuid, CalamityWorld.ScreenShakeSpots[uuid]);
+                    }
+                }
+                CalamityWorld.ScreenShakeSpots = screenShakeSpots;
+
+                foreach (var spot in CalamityWorld.ScreenShakeSpots)
+                {
+                    float maxPower = Utils.InverseLerp(1300f, 0f, Vector2.Distance(spot.Value.Position, player.Center), true) * spot.Value.ScreenShakePower;
+                    Main.screenPosition += Main.rand.NextVector2Circular(maxPower, maxPower);
+                }
+            }
         }
         #endregion
 
