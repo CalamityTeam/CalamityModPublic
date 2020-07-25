@@ -8,7 +8,7 @@ namespace CalamityMod.Items.TreasureBags
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Necromantic Geode");
+            DisplayName.SetDefault("Fleshy Geode");
             Tooltip.SetDefault("{$CommonItemTooltip.RightClickToOpen}");
         }
 
