@@ -596,7 +596,7 @@ namespace CalamityMod.NPCs.Ravager
 						{
 							float stopBeforeFallTime = npc.Calamity().newAI[2] == 0f ? 15f : 20f;
 							if (expertMode)
-								stopBeforeFallTime -= death ? 10f : 10f * (1f - lifeRatio);
+								stopBeforeFallTime -= death ? 5f : 5f * (1f - lifeRatio);
 
 							if (npc.ai[1] < stopBeforeFallTime)
 							{
