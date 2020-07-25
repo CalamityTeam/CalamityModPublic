@@ -416,8 +416,6 @@ namespace CalamityMod.NPCs.Providence
 				cocoonDR : delayAttacks ?
 				MathHelper.Lerp(normalDR, cocoonDR, npc.localAI[2] / attackDelayAfterCocoon) : normalDR;
 
-			npc.Calamity().DR = 0f;
-
 			// Movement
 			if (npc.ai[0] != 2f && npc.ai[0] != 5f)
             {
@@ -1574,7 +1572,7 @@ namespace CalamityMod.NPCs.Providence
 			if (challenge)
 			{
 				bool goldenGun = projectile.type == ModContent.ProjectileType<GoldenGunProj>();
-				bool allowedClass = projectile.minion || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);
+				bool allowedClass = projectile.IsSummon() || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);
 				bool allowedDamage = allowedClass && damage <= (npc.lifeMax * 0.005f); //0.5% max hp
 				bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;
 				if ((!goldenGun && !allowedDamage && projectile.type != ModContent.ProjectileType<MiniGuardianDefense>() && projectile.type != ModContent.ProjectileType<MiniGuardianAttack>()) || !allowedBabs)
