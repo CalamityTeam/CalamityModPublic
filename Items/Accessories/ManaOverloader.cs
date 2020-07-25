@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Accessories
             Tooltip.SetDefault("Increases max mana by 50 and magic damage by 6%\n" +
                                "Life regen lowered by 3 if mana is above 50% of its maximum\n" +
                                "Grants spectre healing, the amount healed scales with your mana\n" +
+							   "The healing only works while holding a magic weapon\n" +
 							   "The more mana you have, the more you heal");
         }
 
@@ -19,8 +20,8 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 30;
             item.height = 30;
-            item.value = Item.buyPrice(0, 15, 0, 0);
-            item.rare = 9;
+            item.value = CalamityGlobalItem.Rarity4BuyPrice;
+            item.rare = 4;
             item.accessory = true;
             item.expert = true;
         }

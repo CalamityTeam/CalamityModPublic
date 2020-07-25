@@ -35,6 +35,7 @@ namespace CalamityMod.World
                 }
             }
         }
+
         public static int BlockDepth
         {
             get
@@ -56,6 +57,7 @@ namespace CalamityMod.World
                 }
             }
         }
+
         public static int YStart = 0;
         public static readonly List<int> SulphSeaTiles = new List<int>()
         {
@@ -63,12 +65,12 @@ namespace CalamityMod.World
             ModContent.TileType<SulphurousSandstone>(),
             ModContent.TileType<HardenedSulphurousSandstone>()
         };
+
         public static void PlaceSulphurSea()
         {
             CalamityWorld.abyssSide = Main.dungeonX < Main.maxTilesX / 2;
             DetermineYStart();
             CreateStartingBlock();
-            GenerateUpperSea();
             CreateWater();
             GenerateHardenedSandstone();
             RemoveStupidTilesAboveSea();
@@ -156,95 +158,6 @@ namespace CalamityMod.World
             float sineSquaredRandom3 = randomValue2 * (float)Math.Sin(xAsAngle * randomValue2);
             float sineSquaredRandom4 = (float)Math.Sin(randomValue1 / randomValue2 * xAsAngle) * (float)Math.Cos(randomValue1 * MathHelper.Pi);
             return 0.25f * Math.Abs(sineSquaredRandom1 + 0.5f * sineSquaredRandom2 + sineSquaredRandom3 - sineSquaredRandom4) + 0.25f;
-        }
-        #endregion
-
-        #region Generating Upper Beach Outline
-        public static void GenerateUpperSea()
-        {
-            int seaStartX = CalamityWorld.abyssSide ? 0 : Main.maxTilesX;
-            int seaEndX = CalamityWorld.abyssSide ? BiomeWidth : Main.maxTilesX - BiomeWidth;
-            int xCounter = 80;
-            float depth = 1f;
-            int yTop = 0;
-            while (!Main.tile[seaEndX - 1, yTop].active())
-            {
-                yTop++;
-            }
-            yTop += WorldGen.genRand.Next(1, 5);
-            for (int x = seaEndX - 1; x != seaStartX; x += (CalamityWorld.abyssSide ? -1 : 1))
-            {
-                xCounter++;
-                if (xCounter < BiomeWidth * 0.05)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.2f;
-                }
-                else if (xCounter < BiomeWidth * 0.08)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.15f;
-                }
-                else if (xCounter < BiomeWidth * 0.1)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.1f;
-                }
-                else if (xCounter < BiomeWidth * 0.15)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.07f;
-                }
-                else if (xCounter < BiomeWidth * 0.2)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.05f;
-                }
-                else if (xCounter < BiomeWidth * 0.25)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.04f;
-                }
-                else if (xCounter < BiomeWidth * 0.325)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.03f;
-                }
-                else if (xCounter < BiomeWidth * 0.375)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.02f;
-                }
-                else if (xCounter < BiomeWidth * 0.45)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.01f;
-                }
-                else if (xCounter < BiomeWidth * 0.6)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.005f;
-                }
-                else if (xCounter < BiomeWidth * 0.75)
-                {
-                    depth += WorldGen.genRand.Next(10, 20) * 0.001f;
-                }
-                int depthAdditive = WorldGen.genRand.Next(15, 20);
-                int y = 0;
-                while (y < yTop + depth + depthAdditive)
-                {
-                    if (y < yTop + depth * 0.75f - 3f)
-                    {
-                        Main.tile[x, y].active(false);
-                        if (y > yTop)
-                        {
-                            Main.tile[x, y].liquid = 255;
-                        }
-                        else if (y == yTop)
-                        {
-                            Main.tile[x, y].liquid = 127;
-                        }
-                    }
-                    else if (y > yTop &&
-                        (Main.tile[x, y].type == (ushort)ModContent.TileType<SulphurousSand>() ||
-                         Main.tile[x, y].type == (ushort)ModContent.TileType<SulphurousSandstone>()))
-                    {
-                        Main.tile[x, y].active(true);
-                    }
-                    Main.tile[x, y].wall = 0;
-                    y++;
-                }
-            }
         }
         #endregion
 
@@ -752,18 +665,52 @@ namespace CalamityMod.World
         #endregion
 
         #region Removal of stupid Tiles above the Sea
+
+        public static List<int> OtherTilesForSulphSeaToDestroy = new List<int>()
+        {
+            TileID.PalmTree,
+            TileID.Sunflower,
+            TileID.CorruptThorns,
+            TileID.CrimtaneThorns,
+            TileID.CorruptGrass,
+            TileID.CorruptPlants,
+            TileID.Stalactite,
+            TileID.ImmatureHerbs,
+            TileID.MatureHerbs,
+        };
+
+        public static List<int> WallsForSulphSeaToDestroy = new List<int>()
+        {
+            WallID.Dirt,
+            WallID.DirtUnsafe,
+            WallID.DirtUnsafe1,
+            WallID.DirtUnsafe2,
+            WallID.DirtUnsafe3,
+            WallID.DirtUnsafe4,
+            WallID.Cave6Unsafe, // Rocky dirt wall
+            WallID.GrassUnsafe,
+            WallID.CorruptGrassUnsafe,
+            WallID.EbonstoneUnsafe,
+            WallID.CrimstoneUnsafe,
+        };
         public static void RemoveStupidTilesAboveSea()
         {
             for (int x = 0; x < BiomeWidth; x++)
             {
                 int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
-                for (int y = YStart - 100; y < YStart + 60; y++)
+                for (int y = YStart - 140; y < YStart + 80; y++)
                 {
-                    if (YStartWhitelist.Contains(CalamityUtils.ParanoidTileRetrieval(trueX, y).type))
+                    int type = CalamityUtils.ParanoidTileRetrieval(trueX, y).type;
+                    if (YStartWhitelist.Contains(type) ||
+                        OtherTilesForSulphSeaToDestroy.Contains(type))
                     {
                         if (Main.tile[trueX, y] == null)
                             Main.tile[trueX, y] = new Tile();
                         Main.tile[trueX, y].active(false);
+                    }
+                    if (WallsForSulphSeaToDestroy.Contains(Main.tile[trueX, y].wall))
+                    {
+                        Main.tile[trueX, y].wall = 0;
                     }
                 }
             }
@@ -810,14 +757,11 @@ namespace CalamityMod.World
         public static void DetermineYStart()
         {
             int maxHeight = 0;
-            for (int i = 0; i < BiomeWidth - 18; i++)
+            for (int i = 40; i < BiomeWidth + 30; i++)
             {
-                int xCheck = CalamityWorld.abyssSide ?
-                    BiomeWidth - i :
-                    Main.maxTilesX - BiomeWidth + i;
+                int xCheck = CalamityWorld.abyssSide ? i : Main.maxTilesX - i;
                 int YStart = (int)WorldGen.worldSurfaceLow - 20; // 30 tiles below the absolute lowest a floating island can spawn
-                while (!Main.tile[xCheck, YStart].active() || !YStartWhitelist.Contains(Main.tile[xCheck, YStart].type) ||
-                       Main.tile[xCheck, YStart].type == TileID.LivingWood || Main.tile[xCheck, YStart].type == TileID.LeafBlock)
+                while (!Main.tile[xCheck, YStart].active() || !YStartWhitelist.Contains(Main.tile[xCheck, YStart].type))
                 {
                     YStart++;
                     if (YStart > Main.rockLayer - 40)

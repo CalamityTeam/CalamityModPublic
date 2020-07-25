@@ -17,8 +17,8 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
+            projectile.width = 20;
+            projectile.height = 20;
             projectile.friendly = true;
             projectile.melee = true;
             projectile.penetrate = 1;
@@ -29,9 +29,9 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            int num250 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
-            Main.dust[num250].noGravity = true;
-            Main.dust[num250].velocity *= 0f;
+            int rainbow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
+            Main.dust[rainbow].noGravity = true;
+            Main.dust[rainbow].velocity = Vector2.Zero;
 
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 36f, 20f);
         }
@@ -48,35 +48,38 @@ namespace CalamityMod.Projectiles.Melee
         {
             for (int k = 0; k < 4; k++)
             {
-                int num = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
-                Main.dust[num].noGravity = true;
+                int rainbow = Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1f);
+                Main.dust[rainbow].noGravity = true;
             }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            float xPos = projectile.ai[0] > 0 ? projectile.position.X + 800 : projectile.position.X - 800;
-            Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
-
-            float num80 = xPos;
-            float speedX = (float)target.position.X - vector2.X;
-            float speedY = (float)target.position.Y - vector2.Y;
-            float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-            dir = 10 / num80;
-            float random = (float)Main.rand.Next(1, 150);
-            if (projectile.owner == Main.myPlayer)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    speedX *= dir * random;
-                    speedY *= dir * random;
-                    Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<SHIV>(), projectile.damage, 1f, projectile.owner);
-                }
-            }
+			OnHitEffects(target.Center);
             target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
             target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
             target.AddBuff(ModContent.BuffType<Plague>(), 120);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			OnHitEffects(target.Center);
+            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
+            target.AddBuff(ModContent.BuffType<Plague>(), 120);
+        }
+
+		private void OnHitEffects(Vector2 targetPos)
+		{
+			for (int x = 0; x < 4; x++)
+			{
+				if (projectile.owner == Main.myPlayer)
+				{
+					CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, x > 2, 800f, 800f, 0f, 800f, 1f, ModContent.ProjectileType<SHIV>(), projectile.damage, projectile.knockBack, projectile.owner, false, 50f);
+				}
+			}
         }
     }
 }

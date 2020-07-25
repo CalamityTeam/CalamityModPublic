@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -19,6 +20,8 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             name.SetDefault("Static Refiner");
             AddMapEntry(new Color(191, 142, 111), name);
             animationFrameHeight = 54;
+			//also counts as a Solidifier
+            adjTiles = new int[] { TileID.Solidifier };
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -115,18 +118,4 @@ namespace CalamityMod.Tiles.Furniture.CraftingStations
             Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<Items.Placeables.Furniture.CraftingStations.StaticRefiner>());
         }
     }
-
-    //class ExampleAnimatedTileItem : ModItem
-    //{
-    //    public override void SetStaticDefaults()
-    //    {
-    //        DisplayName.SetDefault("Red Firefly in a Bottle");
-    //    }
-
-    //    public override void SetDefaults()
-    //    {
-    //        item.CloneDefaults(ItemID.FireflyinaBottle);
-    //        item.createTile = ModContent.TileType<ExampleAnimatedTileTile>();
-    //    }
-    //}
 }

@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Materials;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using CalamityMod.World;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -52,13 +53,25 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = @"30% increased minion damage
-Minions deal full damage while wielding weaponry
+			if (CalamityWorld.death)
+			{
+				player.setBonus = @"30% increased minion damage
+The minion damage nerf while wielding weaponry is reduced
 Immunity to all forms of frost and flame
 All minion attacks grant colossal life regeneration
 15% increased damage reduction during the Pumpkin and Frost Moons
 This extra damage reduction ignores the soft cap
 Provides cold protection in Death Mode";
+			}
+			else
+			{
+				player.setBonus = @"30% increased minion damage
+The minion damage nerf while wielding weaponry is reduced
+Immunity to all forms of frost and flame
+All minion attacks grant colossal life regeneration
+15% increased damage reduction during the Pumpkin and Frost Moons
+This extra damage reduction ignores the soft cap";
+			}
 
             // This bool encompasses cross-class nerf immunity, colossal life regen on minion attack, and the holiday moon DR
             player.Calamity().fearmongerSet = true;

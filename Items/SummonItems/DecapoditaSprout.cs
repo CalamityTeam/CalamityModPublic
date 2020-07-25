@@ -31,12 +31,17 @@ namespace CalamityMod.Items.SummonItems
 
         public override bool UseItem(Player player)
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+			Main.PlaySound(SoundID.Roar, player.position, 0);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)(player.position.X + Main.rand.Next(-50, 51)), (int)(player.position.Y - 50f), ModContent.NPCType<CrabulonIdle>(), 0, 0f, 0f, 0f, 0f, 255);
-                Main.PlaySound(SoundID.Roar, player.position, 0);
+                int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-50, 51)), (int)(player.position.Y - 50f), ModContent.NPCType<CrabulonIdle>(), 1);
+				Main.npc[npc].timeLeft *= 20;
+				CalamityUtils.BossAwakenMessage(npc);
             }
-            return true;
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<CrabulonIdle>());
+
+			return true;
         }
 
         public override void AddRecipes()

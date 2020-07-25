@@ -10,10 +10,10 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Xeroc Cuisses");
-            Tooltip.SetDefault("5% increased rogue damage and critical strike chance\n" +
-                       "20% increased movement speed\n" +
-                       "Speed of the cosmos");
+            DisplayName.SetDefault("Empyrean Cuisses");
+            Tooltip.SetDefault("Speed of the cosmos\n" +
+					"5% increased rogue damage and critical strike chance\n" +
+					"20% increased movement speed");
         }
 
         public override void SetDefaults()

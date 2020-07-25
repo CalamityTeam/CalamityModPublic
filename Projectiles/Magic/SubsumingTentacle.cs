@@ -70,7 +70,7 @@ namespace CalamityMod.Projectiles.Magic
                 projectile.tileCollide = false;
             }
 
-            NPC closestTarget = projectile.Center.ClosestNPCAt(MaxEnemyDistance, true);
+            NPC closestTarget = projectile.Center.ClosestNPCAt(MaxEnemyDistance, true, true);
             if (closestTarget != null)
             {
                 HomingMovement(closestTarget);
@@ -111,8 +111,8 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Main.spriteBatch.End();
-			Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             if (projectile.scale < 1f)
             {
@@ -136,8 +136,8 @@ namespace CalamityMod.Projectiles.Magic
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

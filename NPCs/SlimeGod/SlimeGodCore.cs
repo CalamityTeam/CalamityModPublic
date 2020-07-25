@@ -3,7 +3,6 @@ using CalamityMod.CalPlayer;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Furniture.CraftingStations;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Potions;
 using CalamityMod.Items.TreasureBags;
@@ -112,7 +111,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			npc.damage = npc.defDamage;
 
 			// Enrage based on large slimes
-			bool flag100 = false;
+			bool phase2 = lifeRatio < 0.4f;
 			bool hyperMode = true;
 			bool purpleSlimeAlive = false;
 			bool redSlimeAlive = false;
@@ -130,7 +129,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.Calamity().newAI[1] = Main.npc[CalamityGlobalNPC.slimeGodPurple].Center.Y;
 
 					purpleSlimeAlive = true;
-					flag100 = lifeRatio >= 0.5f;
+					phase2 = lifeRatio < 0.2f;
 					hyperMode = false;
 				}
 			}
@@ -148,7 +147,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.localAI[3] = Main.npc[CalamityGlobalNPC.slimeGodRed].Center.Y;
 
 					redSlimeAlive = true;
-					flag100 = lifeRatio >= 0.5f;
+					phase2 = lifeRatio < 0.2f;
 					hyperMode = false;
 				}
 			}
@@ -213,6 +212,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					{
 						npc.Calamity().newAI[2] = npc.life;
 						npc.Calamity().newAI[3] = 1f;
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodPossession"), (int)npc.position.X, (int)npc.position.Y);
 					}
 				}
 
@@ -239,11 +239,36 @@ namespace CalamityMod.NPCs.SlimeGod
 					Vector2 goToPosition = goToVector - vectorCenter;
 					npc.velocity = Vector2.Normalize(goToPosition) * (CalamityWorld.bossRushActive ? 24f : 16f);
 
+					bool slimeDead = false;
+					if (goToVector == purpleSlimeVector)
+						slimeDead = CalamityGlobalNPC.slimeGodPurple < 0 || !Main.npc[CalamityGlobalNPC.slimeGodPurple].active;
+					else
+						slimeDead = CalamityGlobalNPC.slimeGodRed < 0 || !Main.npc[CalamityGlobalNPC.slimeGodRed].active;
+
 					npc.ai[2] += 1f;
-					if (npc.ai[2] >= 600f)
+					if (npc.ai[2] >= 600f || slimeDead)
 					{
 						npc.ai[2] = 0f;
 						npc.Calamity().newAI[3] = 0f;
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SlimeGodExit"), (int)npc.position.X, (int)npc.position.Y);
+						for (int i = 0; i < 20; i++)
+						{
+							int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
+							Main.dust[dust].velocity *= 3f;
+							if (Main.rand.NextBool(2))
+							{
+								Main.dust[dust].scale = 0.5f;
+								Main.dust[dust].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+							}
+						}
+						for (int j = 0; j < 30; j++)
+						{
+							int dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 3f);
+							Main.dust[dust].noGravity = true;
+							Main.dust[dust].velocity *= 5f;
+							dust = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
+							Main.dust[dust].velocity *= 2f;
+						}
 					}
 
 					return;
@@ -253,7 +278,7 @@ namespace CalamityMod.NPCs.SlimeGod
 			}
 
 			// Spin and shoot orbs
-            if (!flag100)
+            if (phase2)
             {
 				npc.ai[1] += 1f;
 				if (revenge)
@@ -339,7 +364,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								if (npc.ai[1] % 10f == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
+								if (npc.ai[1] % 15f == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
 								{
 									if (expertMode && Main.rand.NextBool(2))
 									{
@@ -421,7 +446,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, vectorCenter) > 160f)
 					{
-						if (npc.ai[1] % 20f == 0f)
+						if (npc.ai[1] % 40f == 0f)
 						{
 							if (expertMode && Main.rand.NextBool(2))
 							{
@@ -503,14 +528,10 @@ namespace CalamityMod.NPCs.SlimeGod
 				}
             }
 
-            float num1372 = 6f;
-            if (!flag100 || death)
+            float num1372 = death ? 14f : revenge ? 11f : expertMode ? 8.5f : 6f;
+            if (phase2)
             {
-                num1372 = 14f;
-            }
-            else if (revenge)
-            {
-                num1372 = 10f;
+                num1372 = revenge ? 14f : expertMode ? 12.5f : 11f;
             }
             if (CalamityWorld.bossRushActive || player.gravDir == -1f)
             {
@@ -654,7 +675,7 @@ namespace CalamityMod.NPCs.SlimeGod
             if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 25, 40);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<OverloadedBlaster>(), 4);
@@ -664,10 +685,9 @@ namespace CalamityMod.NPCs.SlimeGod
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CrimslimeStaff>(), 4);
 
                 // Vanity
-                DropHelper.DropItemFromSetChance(npc, 7, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+                DropHelper.DropItemFromSetChance(npc, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
                 // Other
-                DropHelper.DropItem(npc, ModContent.ItemType<StaticRefiner>());
             }
 
             // Mark the Slime God as dead
@@ -683,12 +703,12 @@ namespace CalamityMod.NPCs.SlimeGod
             }
             if (npc.life <= 0)
             {
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 40;
                 npc.height = 40;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 40; num621++)
                 {
                     int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 4, 0f, 0f, 100, default, 2f);
@@ -696,7 +716,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 70; num623++)

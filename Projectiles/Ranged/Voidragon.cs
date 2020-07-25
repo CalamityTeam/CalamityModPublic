@@ -26,7 +26,6 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.ignoreWater = true;
-            aiType = 503;
         }
 
         public override void AI()

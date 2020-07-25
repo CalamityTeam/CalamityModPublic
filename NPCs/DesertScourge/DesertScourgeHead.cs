@@ -24,8 +24,6 @@ namespace CalamityMod.NPCs.DesertScourge
     public class DesertScourgeHead : ModNPC
     {
         private bool flies = false;
-        private float speed = 8f;
-        private float turnSpeed = 0.08f;
         private bool TailSpawned = false;
 
         public override void SetStaticDefaults()
@@ -87,6 +85,9 @@ namespace CalamityMod.NPCs.DesertScourge
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
+
+			float speed = 8f;
+			float turnSpeed = 0.08f;
 
 			if (expertMode)
 			{
@@ -549,7 +550,7 @@ namespace CalamityMod.NPCs.DesertScourge
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -557,7 +558,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScourgeHead2"), 1f);
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

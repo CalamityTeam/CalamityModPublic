@@ -1,7 +1,10 @@
 using CalamityMod.CalPlayer;
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,29 +24,35 @@ namespace CalamityMod.Items.Accessories
                 "Drops brimstone fireballs from the sky occasionally\n" +
                 "15% increase to all damage\n" +
                 "Brimstone fire rains down while invincibility is active\n" +
-                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava\n" +
-				"Provides heat protection in Death Mode");
+                "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava");
         }
 
         public override void SetDefaults()
         {
             item.width = 26;
             item.height = 26;
-            item.value = Item.buyPrice(0, 30, 0, 0);
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.expert = true;
-            item.rare = 9;
+            item.rare = 8;
             item.accessory = true;
         }
 
-        public override bool CanEquipAccessory(Player player, int slot)
+        public override void ModifyTooltips(List<TooltipLine> list)
         {
-            CalamityPlayer modPlayer = player.Calamity();
-            if (modPlayer.calamityRing)
-            {
-                return false;
-            }
-            return true;
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip4")
+					{
+						line2.text = "Temporary immunity to lava, greatly reduces lava burn damage, and 25% increased damage while in lava\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
         }
+
+        public override bool CanEquipAccessory(Player player, int slot) => !player.Calamity().calamityRing;
 
         public override void AddRecipes()
         {
@@ -51,6 +60,8 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ItemID.ObsidianRose);
             recipe.AddIngredient(ModContent.ItemType<Gehenna>());
             recipe.AddIngredient(ModContent.ItemType<CalamityRing>());
+            recipe.AddIngredient(ModContent.ItemType<CoreofChaos>());
+            recipe.AddIngredient(ModContent.ItemType<CruptixBar>(), 3);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
@@ -60,6 +71,7 @@ namespace CalamityMod.Items.Accessories
         {
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.calamityRing = true;
+			modPlayer.voidOfExtinction = true;
             player.lavaRose = true;
             player.lavaMax += 240;
             player.allDamage += 0.15f;
@@ -73,26 +85,7 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        for (int l = 0; l < 1; l++)
-                        {
-                            float x = player.position.X + (float)Main.rand.Next(-400, 400);
-                            float y = player.position.Y - (float)Main.rand.Next(500, 800);
-                            Vector2 vector = new Vector2(x, y);
-                            float num15 = player.position.X + (float)(player.width / 2) - vector.X;
-                            float num16 = player.position.Y + (float)(player.height / 2) - vector.Y;
-                            num15 += (float)Main.rand.Next(-100, 101);
-                            int num17 = 22;
-                            float num18 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
-                            num18 = (float)num17 / num18;
-                            num15 *= num18;
-                            num16 *= num18;
-                            int num19 = Projectile.NewProjectile(x, y, num15, num16, ModContent.ProjectileType<StandingFire>(), (int)(40 * player.AverageDamage()), 5f, player.whoAmI, 0f, 0f);
-                            Main.projectile[num19].ai[1] = player.position.Y;
-                            Main.projectile[num19].usesLocalNPCImmunity = true;
-                            Main.projectile[num19].localNPCHitCooldown = 60;
-							Main.projectile[num19].usesIDStaticNPCImmunity = false;
-
-                        }
+						CalamityUtils.ProjectileRain(player.Center, 400f, 100f, 500f, 800f, 22f, ModContent.ProjectileType<StandingFire>(), (int)(30 * player.AverageDamage()), 5f, player.whoAmI, 0, 1, 60);
                     }
                 }
             }
@@ -107,20 +100,20 @@ namespace CalamityMod.Items.Accessories
                 {
                     if (player.whoAmI == Main.myPlayer)
                     {
-                        int speed2 = 25;
+                        int projSpeed = 25;
                         float spawnX = Main.rand.Next(1000) - 500 + player.Center.X;
                         float spawnY = -1000 + player.Center.Y;
                         Vector2 baseSpawn = new Vector2(spawnX, spawnY);
                         Vector2 baseVelocity = player.Center - baseSpawn;
                         baseVelocity.Normalize();
-                        baseVelocity *= speed2;
+                        baseVelocity *= projSpeed;
                         for (int i = 0; i < FireProjectiles; i++)
                         {
                             Vector2 spawn = baseSpawn;
-                            spawn.X = spawn.X + i * 30 - (FireProjectiles * 15);
+                            spawn.X += i * 30 - (FireProjectiles * 15);
                             Vector2 velocity = baseVelocity.RotatedBy(MathHelper.ToRadians(-FireAngleSpread / 2 + (FireAngleSpread * i / (float)FireProjectiles)));
                             velocity.X = velocity.X + 3 * Main.rand.NextFloat() - 1.5f;
-                            Projectile.NewProjectile(spawn.X, spawn.Y, velocity.X, velocity.Y, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), (int)(70 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
+                            Projectile.NewProjectile(spawn, velocity, ModContent.ProjectileType<BrimstoneHellfireballFriendly2>(), (int)(70 * player.AverageDamage()), 5f, Main.myPlayer, 0f, 0f);
                         }
                     }
                 }

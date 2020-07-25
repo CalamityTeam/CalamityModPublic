@@ -1,3 +1,5 @@
+using CalamityMod.Items.Materials;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
@@ -21,6 +23,16 @@ namespace CalamityMod.Items.Placeables.Furniture.CraftingStations
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.consumable = true;
             item.createTile = ModContent.TileType<Tiles.Furniture.CraftingStations.StaticRefiner>();
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 5);
+            recipe.AddIngredient(ItemID.Solidifier);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

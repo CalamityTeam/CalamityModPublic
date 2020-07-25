@@ -28,7 +28,6 @@ namespace CalamityMod.Projectiles.Boss
             projectile.tileCollide = false;
             projectile.penetrate = -1;
             projectile.timeLeft = 255;
-            projectile.alpha = 0;
             cooldownSlot = 1;
         }
 
@@ -45,38 +44,33 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frame = 0;
             }
             projectile.alpha += 1;
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, (255 - projectile.alpha) * 0f / 255f, (255 - projectile.alpha) * 0f / 255f);
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.9f / 255f, 0f, 0f);
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
                 Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 20);
             }
-            projectile.velocity.X *= 1.03f;
-            projectile.velocity.Y *= 1.03f;
+            projectile.velocity *= 1.03f;
             if (projectile.velocity.X < 0f)
             {
                 projectile.spriteDirection = -1;
-                projectile.rotation = (float)Math.Atan2((double)-(double)projectile.velocity.Y, (double)-(double)projectile.velocity.X);
+                projectile.rotation = (float)Math.Atan2(-projectile.velocity.Y, -projectile.velocity.X);
             }
             else
             {
                 projectile.spriteDirection = 1;
-                projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
+                projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X);
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
+			lightColor.R = (byte)(255 * projectile.Opacity);
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
             return false;
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(250, 50, 50, projectile.alpha);
-        }
-
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+		public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 180);
 

@@ -68,6 +68,7 @@ namespace CalamityMod.NPCs.Bumblebirb
             npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.boss = true;
@@ -88,12 +89,18 @@ namespace CalamityMod.NPCs.Bumblebirb
 		{
 			writer.Write(npc.dontTakeDamage);
 			writer.Write(npc.localAI[0]);
+			writer.Write(npc.localAI[1]);
+			writer.Write(npc.localAI[2]);
+			writer.Write(npc.localAI[3]);
 		}
 
 		public override void ReceiveExtraAI(BinaryReader reader)
 		{
 			npc.dontTakeDamage = reader.ReadBoolean();
 			npc.localAI[0] = reader.ReadSingle();
+			npc.localAI[1] = reader.ReadSingle();
+			npc.localAI[2] = reader.ReadSingle();
+			npc.localAI[3] = reader.ReadSingle();
 		}
 
 		public override void AI()
@@ -115,21 +122,22 @@ namespace CalamityMod.NPCs.Bumblebirb
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			// Percent life remaining
-			float lifeRatio = (float)npc.life / (float)npc.lifeMax;
+			float lifeRatio = npc.life / (float)npc.lifeMax;
 
 			// Phases
 			bool phase2 = lifeRatio < (revenge ? 0.75f : 0.5f) || death;
 			bool phase3 = lifeRatio < (death ? 0.4f : revenge ? 0.25f : 0.1f);
+			bool birbSpawn = npc.ai[0] == 4f && npc.ai[1] > 0f;
 
 			float newPhaseTimer = 180f;
 			bool phaseSwitchPhase = (phase2 && calamityGlobalNPC.newAI[0] < newPhaseTimer && calamityGlobalNPC.newAI[2] != 1f) ||
 				(phase3 && calamityGlobalNPC.newAI[1] < newPhaseTimer && calamityGlobalNPC.newAI[3] != 1f);
 
-			if (phaseSwitchPhase)
+			if (phaseSwitchPhase || birbSpawn)
 			{
-				float frameGateValue = phase3 ? calamityGlobalNPC.newAI[1] : calamityGlobalNPC.newAI[0];
+				float frameGateValue = birbSpawn ? npc.ai[1] : phase3 ? calamityGlobalNPC.newAI[1] : calamityGlobalNPC.newAI[0];
 				int num116 = 180;
-				if (frameGateValue < (float)(num116 - 60) || frameGateValue > (float)(num116 - 20))
+				if (frameGateValue < (num116 - 60) || frameGateValue > (num116 - 20))
 				{
 					npc.frameCounter += 1D;
 					if (npc.frameCounter > 5D)
@@ -145,7 +153,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 				else
 				{
 					npc.frame.Y = frameHeight * 4;
-					if (frameGateValue > (float)(num116 - 50) && frameGateValue < (float)(num116 - 25))
+					if (frameGateValue > (num116 - 50) && frameGateValue < (num116 - 25))
 					{
 						npc.frame.Y = frameHeight * 5;
 					}
@@ -154,7 +162,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			else if (npc.ai[0] == 5f)
 			{
 				int num115 = 120;
-				if (npc.ai[1] < (float)(num115 - 50) || npc.ai[1] > (float)(num115 - 10))
+				if (npc.ai[1] < (num115 - 50) || npc.ai[1] > (num115 - 10))
 				{
 					npc.frameCounter += 1D;
 					if (npc.frameCounter > 5D)
@@ -170,7 +178,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 				else
 				{
 					npc.frame.Y = frameHeight * 4;
-					if (npc.ai[1] > (float)(num115 - 40) && npc.ai[1] < (float)(num115 - 15))
+					if (npc.ai[1] > (num115 - 40) && npc.ai[1] < (num115 - 15))
 					{
 						npc.frame.Y = frameHeight * 5;
 					}
@@ -415,7 +423,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 			if (!Main.expertMode)
             {
                 // Materials
-                DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 6, 11);
+                DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 11, 17);
 
                 // Weapons
                 DropHelper.DropItemChance(npc, ModContent.ItemType<GildedProboscis>(), 4);
@@ -456,7 +464,7 @@ namespace CalamityMod.NPCs.Bumblebirb
                 for (int i = 0; i < 6; i++) // 1 head, 1 wing, 4 legs = 6. one wing due to them being chonky boyes now
                 {
                     string gore = "Gores/Bumble";
-                    float randomSpread = (float)(Main.rand.Next(-200, 200) / 100);
+                    float randomSpread = Main.rand.Next(-200, 201) / 100f;
                     gore += i == 0 ? "Head" : i > 1 ? "Leg" : "Wing";
                     Gore.NewGore(npc.position, npc.velocity * randomSpread, mod.GetGoreSlot(gore), 1f);
                 }

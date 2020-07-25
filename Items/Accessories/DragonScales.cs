@@ -9,17 +9,17 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dragon Scales");
-            Tooltip.SetDefault("Causes all rogue projectiles to emit a slow fireball as it travels\n" +
+            Tooltip.SetDefault("Only a living dragon holds true treasure\n" +
+							   "Rogue projectiles create slow fireballs as they travel\n" +
                                "Stealth strikes create infernados on death\n" +
-                               "After Yharon is dead, you are granted 10% movement speed and acceleration\n" +
-                               "'Only a living dragon holds true treasure'");
+                               "After Yharon is dead, you gain 10% movement speed and acceleration");
         }
 
         public override void SetDefaults()
         {
             item.width = 32;
             item.height = 34;
-            item.value = Item.buyPrice(0, 90, 0, 0);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.Violet;
             item.accessory = true;

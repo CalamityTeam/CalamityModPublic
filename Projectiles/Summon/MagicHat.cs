@@ -57,24 +57,23 @@ namespace CalamityMod.Projectiles.Summon
             }
 
 			//projectile movement
-            projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 60f;
+            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
             {
-                projectile.position.Y = projectile.position.Y + 150f;
+                projectile.position.Y += 120f;
                 projectile.rotation = MathHelper.Pi;
             }
             else
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)(int)projectile.position.X;
-            projectile.position.Y = (float)(int)projectile.position.Y;
+            projectile.position.X = (int)projectile.position.X;
+            projectile.position.Y = (int)projectile.position.Y;
 
 			//Change the summons scale size a little bit to make it pulse in and out
-            float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
-            num395 *= 0.2f;
-            projectile.scale = num395 + 0.95f;
+            float scalar = (float)Main.mouseTextColor / 200f - 0.35f;
+            scalar *= 0.2f;
+            projectile.scale = scalar + 0.95f;
 
 			//on summon dust and flexible damage
             if (projectile.localAI[0] == 0f)
@@ -97,54 +96,30 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.damage = damage2;
             }
 
-			//finding an enemy, then shooting projectiles at it
+			//finding an enemy, then shooting projectiles if it's detected
             if (projectile.owner == Main.myPlayer)
             {
-                float projPosX = projectile.position.X;
-                float projPosY = projectile.position.Y;
                 float detectionRange = Range;
                 bool enemyDetected = false;
-                if (player.HasMinionAttackTargetNPC)
-                {
-                    NPC npc = Main.npc[player.MinionAttackTargetNPC];
-                    if (npc.CanBeChasedBy(projectile, false))
-                    {
-                        float xDist = npc.position.X + (float)(npc.width / 2);
-                        float yDist = npc.position.Y + (float)(npc.height / 2);
-                        float enemyDist = Math.Abs(projPosX + (float)(projectile.width / 2) - xDist) + Math.Abs(projPosY + (float)(projectile.height / 2) - yDist);
-                        if (enemyDist < detectionRange)
-                        {
-                            detectionRange = enemyDist;
-                            projPosX = xDist;
-                            projPosY = yDist;
-                            enemyDetected = true;
-                        }
-                    }
-                }
-                else
-                {
-                    for (int index = 0; index < Main.npc.Length; index++)
-                    {
-						NPC target = Main.npc[index];
-                        if (target.CanBeChasedBy(projectile, true))
-                        {
-                            float xDist = target.position.X + (float)(target.width / 2);
-                            float yDist = target.position.Y + (float)(target.height / 2);
-                            float enemyDist = Math.Abs(projPosX + (float)(projectile.width / 2) - xDist) + Math.Abs(projPosY + (float)(projectile.height / 2) - yDist);
-                            if (enemyDist < detectionRange)
-                            {
-                                detectionRange = enemyDist;
-                                projPosX = xDist;
-                                projPosY = yDist;
-                                enemyDetected = true;
-                            }
-                        }
-                    }
-                }
+
+				for (int i = 0; i < Main.maxNPCs; i++)
+				{
+					NPC npc = Main.npc[i];
+					if (npc.CanBeChasedBy(projectile, false))
+					{
+						float extraDistance = (npc.width / 2) + (npc.height / 2);
+
+						if (Vector2.Distance(npc.Center, projectile.Center) < (detectionRange + extraDistance))
+						{
+							enemyDetected = true;
+							break;
+						}
+					}
+				}
                 if (enemyDetected)
                 {
 					projectile.ai[1] += 1f;
-					if ((projectile.ai[1] % 5f) == 0f)
+					if (projectile.ai[1] % 5f == 0f)
 					{
 						int amount = Main.rand.Next(1, 2);
 						for (int i = 0; i < amount; i++)
@@ -159,7 +134,7 @@ namespace CalamityMod.Projectiles.Summon
 							});
 							float velocityX = Main.rand.NextFloat(-10f, 10f);
 							float velocityY = Main.rand.NextFloat(-15f, -8f);
-							Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocityX, velocityY, projType, projectile.damage, 0f, projectile.owner, 0f, 0f);
+							Projectile.NewProjectile(projectile.oldPosition.X + (float)(projectile.width / 2), projectile.oldPosition.Y + (float)(projectile.height / 2), velocityX, velocityY, projType, projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
 						}
 					}
                 }

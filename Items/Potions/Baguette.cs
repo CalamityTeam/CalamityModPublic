@@ -29,8 +29,15 @@ namespace CalamityMod.Items.Potions
             item.consumable = true;
             item.value = Item.buyPrice(0, 0, 50, 0);
             item.buffType = ModContent.BuffType<BaguetteBuff>();
-            item.buffTime = 72000;
+            item.buffTime = CalamityUtils.SecondsToFrames(300f);
             item.Calamity().customRarity = CalamityRarity.Dedicated;
+        }
+
+        public override void OnConsumeItem(Player player)
+        {
+			//5 minutes for both
+            player.AddBuff(ModContent.BuffType<BaguetteBuff>(), CalamityUtils.SecondsToFrames(300f));
+            player.AddBuff(BuffID.WellFed, CalamityUtils.SecondsToFrames(300f));
         }
 
         public override void AddRecipes()

@@ -25,10 +25,10 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 2.355f;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
             if (projectile.spriteDirection == -1)
             {
-                projectile.rotation -= 1.57f;
+                projectile.rotation -= MathHelper.PiOver2;
             }
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 300f, 25f, 20f);
         }
@@ -49,16 +49,10 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.ai[0] == 1f)
 			{
 				int shardCount = Main.rand.Next(1,4);
-				for (int num252 = 0; num252 < shardCount; num252++)
+				for (int s = 0; s < shardCount; s++)
 				{
-					Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					while (value15.X == 0f && value15.Y == 0f)
-					{
-						value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-					}
-					value15.Normalize();
-					value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-					int shard = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+					int shard = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<AquashardSplit>(), projectile.damage / 3, 0f, projectile.owner, 0f, 0f);
 					Main.projectile[shard].Calamity().forceRogue = true;
 					Main.projectile[shard].penetrate = 1;
 				}

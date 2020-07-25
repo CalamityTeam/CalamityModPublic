@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -41,6 +42,7 @@ namespace CalamityMod.NPCs.DevourerofGods
         private int idleCounter = idleCounterMax;
         public int laserWallPhase = 0;
 		private int postTeleportTimer = 0;
+		private int laserWallType = 0;
 
         public override void SetStaticDefaults()
         {
@@ -92,7 +94,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             writer.Write(idleCounter);
             writer.Write(laserWallPhase);
 			writer.Write(postTeleportTimer);
-        }
+			writer.Write(laserWallType);
+		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -105,7 +108,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             idleCounter = reader.ReadInt32();
             laserWallPhase = reader.ReadInt32();
 			postTeleportTimer = reader.ReadInt32();
-        }
+			laserWallType = reader.ReadInt32();
+		}
 
         public override void BossHeadRotation(ref float rotation)
         {
@@ -128,9 +132,9 @@ namespace CalamityMod.NPCs.DevourerofGods
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-            bool speedBoost = lifeRatio < 0.6 || (death && lifeRatio < 0.9);
-            bool speedBoost2 = lifeRatio < 0.2;
-            bool breathFireMore = lifeRatio < 0.15 || death;
+            bool speedBoost = lifeRatio < 0.75f || (death && lifeRatio < 0.9f);
+            bool speedBoost2 = lifeRatio < 0.3f;
+            bool breathFireMore = lifeRatio < 0.15f || death;
 
 			// Light
 			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.2f, 0.05f, 0.2f);
@@ -222,14 +226,22 @@ namespace CalamityMod.NPCs.DevourerofGods
 			// Anger message
 			if (speedBoost2)
             {
-                if (!halfLife)
-                {
-                    string key = "Mods.CalamityMod.EdgyBossText11";
-                    Color messageColor = Color.Cyan;
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                        Main.NewText(Language.GetTextValue(key), messageColor);
-                    else if (Main.netMode == NetmodeID.Server)
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+				if (!halfLife)
+				{
+					string key = "Mods.CalamityMod.EdgyBossText11";
+					Color messageColor = Color.Cyan;
+					if (Main.netMode == NetmodeID.SinglePlayer)
+						Main.NewText(Language.GetTextValue(key), messageColor);
+					else if (Main.netMode == NetmodeID.Server)
+						NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
+
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
+
+						for (int i = 0; i < 3; i++)
+							NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
+					}
 
                     halfLife = true;
                 }
@@ -297,66 +309,77 @@ namespace CalamityMod.NPCs.DevourerofGods
                 {
 					calamityGlobalNPC.newAI[1] += 1f;
 
-                    float speed = 4f;
+                    float speed = 12f;
+                    float spawnOffset = 1500f;
                     float divisor = 120f;
 
 					if (calamityGlobalNPC.newAI[1] % divisor == 0f)
 					{
-						if (calamityGlobalNPC.newAI[1] % idleCounterMax == 0f)
+						Main.PlaySound(SoundID.Item12, player.position);
+
+						// Side walls
+						float targetPosY = player.position.Y;
+						switch (laserWallType)
 						{
-							int cosmicGuardianCount = NPC.CountNPCS(ModContent.NPCType<DevourerofGodsHead2>());
-							if (cosmicGuardianCount < 2)
-							{
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+							case 0:
 
-								int spawnAmt = cosmicGuardianCount == 0 ? 2 : 1;
+								for (int x = 0; x < totalShots; x++)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									shotSpacing[0] -= spacingVar;
+								}
+								laserWallType = 1;
+								break;
 
-								for (int i = 0; i < spawnAmt; i++)
-									NPC.SpawnOnPlayer(npc.FindClosestPlayer(), ModContent.NPCType<DevourerofGodsHead2>());
-							}
-						}
-						else
-						{
-							Main.PlaySound(2, (int)player.position.X, (int)player.position.Y, 12);
+							case 1:
 
-							float targetPosY = player.position.Y + (Main.rand.NextBool(2) ? 50f : 0f);
+								targetPosY += 50f;
+								for (int x = 0; x < totalShots; x++)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									shotSpacing[0] -= spacingVar;
+								}
+								laserWallType = revenge ? 2 : 0;
+								break;
 
-							// Side walls
-							for (int x = 0; x < totalShots; x++)
-							{
-								Projectile.NewProjectile(player.position.X + 1000f, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								Projectile.NewProjectile(player.position.X - 1000f, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing[0] -= spacingVar;
-							}
+							case 2:
 
-							if (Main.rand.NextBool(2) && revenge)
-							{
+								for (int x = 0; x < totalShots; x++)
+								{
+									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[0], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[0], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									shotSpacing[0] -= spacingVar;
+								}
 								for (int x = 0; x < 10; x++)
 								{
-									Projectile.NewProjectile(player.position.X + 1000f, targetPosY + shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-									Projectile.NewProjectile(player.position.X - 1000f, targetPosY + shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(player.position.X + spawnOffset, targetPosY + shotSpacing[3], -speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+									Projectile.NewProjectile(player.position.X - spawnOffset, targetPosY + shotSpacing[3], speed, 0f, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
 									shotSpacing[3] -= Main.rand.NextBool(2) ? 180 : 200;
 								}
 								shotSpacing[3] = 1050;
-							}
-							shotSpacing[0] = 1050;
-
-							// Lower wall
-							for (int x = 0; x < totalShots; x++)
-							{
-								Projectile.NewProjectile(player.position.X + shotSpacing[1], player.position.Y + 1000f, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing[1] -= spacingVar;
-							}
-							shotSpacing[1] = 1050;
-
-							// Upper wall
-							for (int x = 0; x < totalShots; x++)
-							{
-								Projectile.NewProjectile(player.position.X + shotSpacing[2], player.position.Y - 1000f, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
-								shotSpacing[2] -= spacingVar;
-							}
-							shotSpacing[2] = 1050;
+								laserWallType = 0;
+								break;
 						}
+						shotSpacing[0] = 1050;
+
+						// Lower wall
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(player.position.X + shotSpacing[1], player.position.Y + spawnOffset, 0f, -speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[1] -= spacingVar;
+						}
+						shotSpacing[1] = 1050;
+
+						// Upper wall
+						for (int x = 0; x < totalShots; x++)
+						{
+							Projectile.NewProjectile(player.position.X + shotSpacing[2], player.position.Y - spawnOffset, 0f, speed, ModContent.ProjectileType<DoGDeath>(), projectileDamage, 0f, Main.myPlayer, 0f, 0f);
+							shotSpacing[2] -= spacingVar;
+						}
+						shotSpacing[2] = 1050;
+
 					}
                 }
             }
@@ -502,7 +525,13 @@ namespace CalamityMod.NPCs.DevourerofGods
                     num189 = homingTurnSpeed;
                 }
 
-                float num48 = num188 * 1.3f;
+				if (revenge)
+				{
+					num188 += Vector2.Distance(player.Center, npc.Center) * 0.005f * (1f - lifeRatio);
+					num189 += Vector2.Distance(player.Center, npc.Center) * 0.0001f * (1f - lifeRatio);
+				}
+
+				float num48 = num188 * 1.3f;
                 float num49 = num188 * 0.7f;
                 float num50 = npc.velocity.Length();
                 if (num50 > 0f)
@@ -626,7 +655,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 				if (expertMode)
 					turnSpeed += 0.12f * (1f - lifeRatio);
 
-                bool increaseSpeed = distanceFromTarget > 3200f;
+				if (revenge)
+					turnSpeed += Vector2.Distance(player.Center, npc.Center) * 0.00005f * (1f - lifeRatio);
+
+				bool increaseSpeed = distanceFromTarget > 3200f;
 
 				// Enrage
 				if (tooFarAway)
@@ -871,51 +903,18 @@ namespace CalamityMod.NPCs.DevourerofGods
 			postTeleportTimer = 255;
 			npc.alpha = postTeleportTimer;
 
-			int playerWidth = player.width / 2;
-			int playerHeight = player.height / 2;
+			int randomRange = 48;
+			float distance = 640f;
+			Vector2 targetVector = player.Center + player.velocity.SafeNormalize(Vector2.UnitX) * distance + new Vector2(Main.rand.Next(-randomRange, randomRange + 1), Main.rand.Next(-randomRange, randomRange + 1));
 
-			float playerVelocityX = player.velocity.X;
-			float playerVelocityY = player.velocity.Y;
-
-			int x = (int)player.position.X + playerWidth - 25;
-			int y = (int)player.position.Y + playerHeight - 25;
-
-			float velocityThreshold = 0.05f;
-			int vectorAdjustment = 500;
-			if (playerVelocityX >= velocityThreshold)
-			{
-				x += vectorAdjustment;
-				yAdjustment();
-			}
-			else if (playerVelocityX <= -velocityThreshold)
-			{
-				x -= vectorAdjustment;
-				yAdjustment();
-			}
-
-			void yAdjustment()
-			{
-				if (playerVelocityY >= velocityThreshold)
-					y += vectorAdjustment;
-				else if (playerVelocityY <= -velocityThreshold)
-					y -= vectorAdjustment;
-			}
-
-			int x2 = x + 50;
-			int y2 = y + 50;
-
-			float locationX = Main.rand.Next(x, x2);
-			float locationY = Main.rand.Next(y, y2);
-			Vector2 teleportLocation = new Vector2(locationX, locationY);
-
-			npc.position = teleportLocation;
+			npc.position = targetVector;
 			npc.netUpdate = true;
 
-			for (int i = 0; i < 200; i++)
+			for (int i = 0; i < Main.maxNPCs; i++)
 			{
 				if (Main.npc[i].active && (Main.npc[i].type == ModContent.NPCType<DevourerofGodsBodyS>() || Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>()))
 				{
-					Main.npc[i].position = teleportLocation;
+					Main.npc[i].position = targetVector;
                     if (Main.npc[i].type == ModContent.NPCType<DevourerofGodsTailS>())
                     {
                         ((DevourerofGodsTailS)Main.npc[i].modNPC).setInvulTime(720);
@@ -924,8 +923,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 				}
 			}
 
-			Vector2 npcCenter = new Vector2(npc.position.X + (npc.width / 2), npc.position.Y + (npc.height / 2));
-			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LargeMechGaussRifle"), (int)npcCenter.X, (int)npcCenter.Y);
+			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerAttack"), (int)player.position.X, (int)player.position.Y);
 
 			int dustAmt = 50;
 			int random = 5;
@@ -935,8 +933,8 @@ namespace CalamityMod.NPCs.DevourerofGods
 				random += j * 2;
 				int dustAmtSpawned = 0;
 				int scale = random * 13;
-				float dustPositionX = npcCenter.X - (scale / 2);
-				float dustPositionY = npcCenter.Y - (scale / 2);
+				float dustPositionX = npc.Center.X - (scale / 2);
+				float dustPositionY = npc.Center.Y - (scale / 2);
 				while (dustAmtSpawned < dustAmt)
 				{
 					float dustVelocityX = Main.rand.Next(-random, random);
@@ -946,10 +944,10 @@ namespace CalamityMod.NPCs.DevourerofGods
 					dustVelocity = dustVelocityScalar / dustVelocity;
 					dustVelocityX *= dustVelocity;
 					dustVelocityY *= dustVelocity;
-					int dust = Dust.NewDust(new Vector2(dustPositionX, dustPositionY), scale, scale, 173, 0f, 0f, 100, default, 5f);
+					int dust = Dust.NewDust(new Vector2(dustPositionX, dustPositionY), scale, scale, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 5f);
 					Main.dust[dust].noGravity = true;
-					Main.dust[dust].position.X = teleportLocation.X;
-					Main.dust[dust].position.Y = teleportLocation.Y;
+					Main.dust[dust].position.X = targetVector.X;
+					Main.dust[dust].position.Y = targetVector.Y;
 					Main.dust[dust].position.X += Main.rand.Next(-10, 11);
 					Main.dust[dust].position.Y += Main.rand.Next(-10, 11);
 					Main.dust[dust].velocity.X = dustVelocityX;
@@ -1011,7 +1009,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             DropHelper.DropBags(npc);
 
-            DropHelper.DropItem(npc, ModContent.ItemType<SupremeHealingPotion>(), 8, 14);
+            DropHelper.DropItem(npc, ModContent.ItemType<SupremeHealingPotion>(), 5, 15);
             DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsTrophy>(), 10);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDevourerofGods>(), true, !CalamityWorld.downedDoG);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedDoG, 6, 3, 2);
@@ -1169,7 +1167,7 @@ namespace CalamityMod.NPCs.DevourerofGods
                 npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 15; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
@@ -1179,10 +1177,10 @@ namespace CalamityMod.NPCs.DevourerofGods
                 }
                 for (int num623 = 0; num623 < 30; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }
@@ -1203,41 +1201,21 @@ namespace CalamityMod.NPCs.DevourerofGods
                 player.KillMe(PlayerDeathReason.ByCustomReason(player.name + "'s essence was consumed by the devourer."), 1000.0, 0, false);
             }
 
-			// TODO: don't talk if the player has iframes
-            if (player.immuneTime > 0 || player.immune)
-                return;
-
-            int num = Main.rand.Next(5);
-            string key = "Mods.CalamityMod.EdgyBossText3";
-            if (num == 0)
-            {
-                key = "Mods.CalamityMod.EdgyBossText3";
-            }
-            else if (num == 1)
-            {
-                key = "Mods.CalamityMod.EdgyBossText4";
-            }
-            else if (num == 2)
-            {
-                key = "Mods.CalamityMod.EdgyBossText5";
-            }
-            else if (num == 3)
-            {
-                key = "Mods.CalamityMod.EdgyBossText6";
-            }
-            else if (num == 4)
-            {
-                key = "Mods.CalamityMod.EdgyBossText7";
-            }
-            Color messageColor = Color.Cyan;
-            if (Main.netMode == NetmodeID.SinglePlayer)
-            {
-                Main.NewText(Language.GetTextValue(key), messageColor);
-            }
-            else if (Main.netMode == NetmodeID.Server)
-            {
-                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
+			if (player.Calamity().dogTextCooldown <= 0)
+			{
+				string text = Utils.SelectRandom(Main.rand, new string[]
+				{
+					"Mods.CalamityMod.EdgyBossText3",
+					"Mods.CalamityMod.EdgyBossText4",
+					"Mods.CalamityMod.EdgyBossText5",
+					"Mods.CalamityMod.EdgyBossText6",
+					"Mods.CalamityMod.EdgyBossText7"
+				});
+				Color messageColor = Color.Cyan;
+				Rectangle location = new Microsoft.Xna.Framework.Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
+				CombatText.NewText(location, messageColor, Language.GetTextValue(text), true);
+				player.Calamity().dogTextCooldown = 60;
+			}
         }
     }
 }

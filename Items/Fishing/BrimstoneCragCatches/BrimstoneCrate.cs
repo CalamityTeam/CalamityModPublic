@@ -39,7 +39,7 @@ namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 			DropHelper.DropItem(player, ModContent.ItemType<DemonicBoneAsh>(), 3, 5);
             DropHelper.DropItemCondition(player, ModContent.ItemType<EssenceofChaos>(), Main.hardMode, 0.5f, 5, 15);
             DropHelper.DropItemCondition(player, ModContent.ItemType<BlightedLens>(), Main.hardMode, 0.15f, 2, 6);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyCore>(), NPC.downedMechBoss1 && NPC.downedMechBoss2 && NPC.downedMechBoss3, 0.5f, 5, 15);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<UnholyCore>(), CalamityWorld.downedBrimstoneElemental, 0.5f, 5, 15);
             DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 0.25f, 8, 10);
 
             // Weapons (none)

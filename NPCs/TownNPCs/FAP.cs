@@ -1,6 +1,6 @@
 using CalamityMod.Items.Placeables.Furniture;
 using CalamityMod.Items.Potions.Alcohol;
-using CalamityMod.Projectiles.Magic;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
@@ -57,15 +57,10 @@ namespace CalamityMod.NPCs.TownNPCs
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
-                if (player.active)
+				bool hasVodka = player.InventoryHas(ModContent.ItemType<FabsolsVodka>())/* || player.PortableStorageHas(ModContent.ItemType<FabsolsVodka>())*/;
+                if (player.active && hasVodka)
                 {
-                    for (int j = 0; j < player.inventory.Length; j++)
-                    {
-                        if (player.inventory[j].type == ModContent.ItemType<FabsolsVodka>())
-                        {
-                            return Main.hardMode;
-                        }
-                    }
+                    return Main.hardMode || CalamityWorld.spawnedCirrus;
                 }
             }
             return CalamityWorld.spawnedCirrus;
@@ -94,7 +89,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 int random = Main.rand.Next(4);
                 if (random == 0)
                 {
-                    return "Hey! Nice night. I'm gonna make some Bloody Marys. Celery included. Want one?";
+                    return "Hey, nice night! I'm gonna make some Bloody Marys, celery included. Want one?";
                 }
                 else if (random == 1)
                 {
@@ -141,7 +136,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (BirthdayParty.PartyIsUp)
                 dialogue.Add("You'll always find me at parties where booze is involved...well, you'll always find booze where I'm involved.");
 
-            if (Main.invasionType == 4)
+            if (Main.invasionType == InvasionID.MartianMadness)
                 dialogue.Add("Shoot down the space invaders! Sexy time will be postponed if we are invaded by UFOs!");
 
             if (CalamityWorld.downedCryogen)
@@ -194,8 +189,7 @@ namespace CalamityMod.NPCs.TownNPCs
             if (Main.player[Main.myPlayer].Calamity().chibii)
                 dialogue.Add("Is that a toy? Looks like something I'd carry around if I was 5 years old.");
 
-            if ((Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide) ||
-                (Main.player[Main.myPlayer].Calamity().sirenBoobsAlt && !Main.player[Main.myPlayer].Calamity().sirenBoobsAltHide))
+            if (Main.player[Main.myPlayer].Calamity().sirenBoobs && !Main.player[Main.myPlayer].Calamity().sirenBoobsHide)
                 dialogue.Add("Nice scales...did it get hot in here?");
 
             if (Main.player[Main.myPlayer].Calamity().fabsolVodka)
@@ -386,7 +380,7 @@ namespace CalamityMod.NPCs.TownNPCs
 
         public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
-            projType = ModContent.ProjectileType<FabRay>();
+            projType = ModContent.ProjectileType<CirrusRay>();
             attackDelay = 1;
         }
 

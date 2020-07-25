@@ -1032,8 +1032,7 @@ namespace CalamityMod
                 ItemID.SolarFlarePickaxe,
                 ItemID.VortexPickaxe,
                 ItemID.NebulaPickaxe,
-                ItemID.StardustPickaxe,
-				ModContent.ItemType<GallantPickaxe>()
+                ItemID.StardustPickaxe
             });
             RecipeGroup.RegisterGroup("LunarPickaxe", group);
 
@@ -1112,7 +1111,8 @@ namespace CalamityMod
                 ModContent.ItemType<DiscordianWings>(),
                 ModContent.ItemType<TarragonWings>(),
                 ModContent.ItemType<XerocWings>(),
-                ModContent.ItemType<HadarianWings>()
+                ModContent.ItemType<HadarianWings>(),
+                ModContent.ItemType<SilvaWings>()
             });
             RecipeGroup.RegisterGroup("WingsGroup", group);
         }

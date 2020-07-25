@@ -97,6 +97,8 @@ namespace CalamityMod.CalPlayer
 						CalamityUtils.AddWithCondition<int>(fishList, ItemID.FlarefinKoi, !modPlayer.ZoneCalamity);
 						CalamityUtils.AddWithCondition<int>(fishList, ItemID.Obsidifish, !modPlayer.ZoneCalamity);
 						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<CoastalDemonfish>(), modPlayer.ZoneCalamity);
+						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<Shadowfish>(), modPlayer.ZoneCalamity);
+						CalamityUtils.AddWithCondition<int>(fishList, ModContent.ItemType<BrimstoneFish>(), modPlayer.ZoneCalamity);
 					}
 					else if (water)
 					{
@@ -166,7 +168,7 @@ namespace CalamityMod.CalPlayer
 				{
 					if (Main.rand.Next(100) < chanceForCrates)
 					{
-						if (Main.rand.NextBool(chanceForRareItems) && modPlayer.enchantedPearl && modPlayer.fishingStation && player.cratePotion)
+						if (Main.rand.NextBool(chanceForBiomeCrate))
 						{
 							if (modPlayer.ZoneCalamity)
 								caughtType = ModContent.ItemType<BrimstoneCrate>();
@@ -436,14 +438,14 @@ namespace CalamityMod.CalPlayer
 					}
 				}
 
-				if (power >= 60 && player.FindBuffIndex(BuffID.Gills) > -1 && CalamityWorld.downedCalamitas && Main.rand.NextBool(25) && power < 160)
+				if (player.FindBuffIndex(BuffID.Gills) > -1 && CalamityWorld.downedCalamitas && Main.rand.NextBool(25))
 				{
 					caughtType = ModContent.ItemType<Floodtide>();
 				}
 
 				if (junk)
 				{
-					if (canSulphurFish && power < 40)
+					if (canSulphurFish)
 					{
 						caughtType = ModContent.ItemType<PlantyMush>();
 					}
@@ -472,23 +474,17 @@ namespace CalamityMod.CalPlayer
 
 				if (canSulphurFish)
 				{
-					if (power >= 40)
+					if (Main.rand.NextBool(15))
 					{
-						if (Main.rand.NextBool(15) && power < 80)
+						caughtType = ModContent.ItemType<PlantyMush>();
+					}
+					if (Main.rand.NextFloat() < 0.08f)
+					{
+						caughtType = Utils.SelectRandom(Main.rand, new int[]
 						{
-							caughtType = ModContent.ItemType<PlantyMush>();
-						}
-						if (Main.rand.NextBool(25) && power < 160)
-						{
-							caughtType = ModContent.ItemType<AlluringBait>();
-						}
-						if (power >= 110)
-						{
-							if (Main.rand.NextBool(25) && power < 240)
-							{
-								caughtType = ModContent.ItemType<AbyssalAmulet>();
-							}
-						}
+							ModContent.ItemType<AlluringBait>(),
+							ModContent.ItemType<AbyssalAmulet>()
+						});
 					}
 					if (player.cratePotion && Main.rand.NextBool(5)) // 20%
 					{

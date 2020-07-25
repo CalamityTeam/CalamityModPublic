@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,6 +35,7 @@ namespace CalamityMod.Items.Armor
         {
             player.setBonus = "When you take over 100 damage in one hit you become immune to damage for an extended period of time\n" +
                     "Grants an extra jump and increased jump height\n" +
+					"30% increased jump speed\n" +
                     "Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
                     "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                     "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
@@ -60,7 +62,7 @@ namespace CalamityMod.Items.Armor
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<PurifiedGel>(), 5);
             recipe.AddIngredient(ItemID.HellstoneBar, 9);
-            recipe.AddTile(TileID.Anvils);
+            recipe.AddTile(ModContent.TileType<StaticRefiner>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

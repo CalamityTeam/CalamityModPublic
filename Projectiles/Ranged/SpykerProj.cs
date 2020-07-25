@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.ranged = true;
             projectile.extraUpdates = 2;
             projectile.aiStyle = 93;
-            aiType = 514;
+            aiType = ProjectileID.NailFriendly;
         }
 
         public override void AI()
@@ -66,24 +66,18 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.width = projectile.height = 32;
             projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
             projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            int num251 = Main.rand.Next(3, 6);
+            int projAmt = Main.rand.Next(3, 6);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < num251; num252++)
+                for (int p = 0; p < projAmt; p++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<NeedlerProj>(), (int)((double)projectile.damage * 0.65), 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<NeedlerProj>(), (int)(projectile.damage * 0.65), 0f, projectile.owner, 0f, 0f);
                 }
             }
             for (int num621 = 0; num621 < 3; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 46, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.2f);
+                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 46, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -93,10 +87,10 @@ namespace CalamityMod.Projectiles.Ranged
             }
             for (int num623 = 0; num623 < 5; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 39, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.7f);
+                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 39, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1.7f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 44, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1f);
+                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 44, 0f, 0f, 100, new Color(Main.DiscoR, 203, 103), 1f);
                 Main.dust[num624].velocity *= 2f;
             }
         }

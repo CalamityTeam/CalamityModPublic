@@ -68,6 +68,7 @@ namespace CalamityMod.NPCs.Cryogen
 			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
 			npc.buffImmune[BuffID.Oiled] = false;
 			npc.buffImmune[BuffID.BoneJavelin] = false;
+			npc.buffImmune[BuffID.ShadowFlame] = false;
 			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
@@ -78,6 +79,7 @@ namespace CalamityMod.NPCs.Cryogen
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Plague>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;

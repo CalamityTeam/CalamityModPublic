@@ -14,7 +14,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Ravager");
             Tooltip.SetDefault("The flesh golem constructed using twisted necromancy during the time of my conquest to counter my unstoppable forces.\n" +
                 "Its creators were slaughtered by it moments after its conception. It is for the best that it has been destroyed.\n" +
-                "Place in your inventory to gain an increase to all damage, but at the cost of reduced wing flight time.");
+                "Favorite this item to gain an increase to all damage, but at the cost of reduced wing flight time.");
         }
 
         public override void SetDefaults()
@@ -33,7 +33,8 @@ namespace CalamityMod.Items.LoreItems
         public override void UpdateInventory(Player player)
         {
             CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.ravagerLore = true;
+			if (item.favorited)
+				modPlayer.ravagerLore = true;
         }
 
         public override void AddRecipes()

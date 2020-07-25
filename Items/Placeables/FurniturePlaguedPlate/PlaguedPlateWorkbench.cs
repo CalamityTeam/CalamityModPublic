@@ -8,11 +8,11 @@ namespace CalamityMod.Items.Placeables.FurniturePlaguedPlate
     {
         public override void SetStaticDefaults()
         {
+            DisplayName.SetDefault("Plagued Work Bench");
         }
 
         public override void SetDefaults()
         {
-            item.SetNameOverride("Plagued Plate Work Bench");
             item.width = 8;
             item.height = 10;
             item.maxStack = 999;

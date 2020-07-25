@@ -49,19 +49,18 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-            projectile.position.Y = player.Center.Y - (float)(projectile.height / 2) + player.gfxOffY - 60f;
+            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
             if (player.gravDir == -1f)
             {
-                projectile.position.Y = projectile.position.Y + 140f;
-                projectile.rotation = 3.14f;
+                projectile.position.Y += 120f;
+                projectile.rotation = MathHelper.Pi;
             }
             else
             {
                 projectile.rotation = 0f;
             }
-            projectile.position.X = (float)(int)projectile.position.X;
-            projectile.position.Y = (float)(int)projectile.position.Y;
+            projectile.position.X = (int)projectile.position.X;
+            projectile.position.Y = (int)projectile.position.Y;
             float num395 = (float)Main.mouseTextColor / 200f - 0.35f;
             num395 *= 0.2f;
             projectile.scale = num395 + 0.95f;
@@ -112,11 +111,11 @@ namespace CalamityMod.Projectiles.Summon
                         }
                     }
                 }
-                else
+                if (!flag11)
                 {
                     for (int num399 = 0; num399 < Main.maxNPCs; num399++)
                     {
-                        if (Main.npc[num399].CanBeChasedBy(projectile, true))
+                        if (Main.npc[num399].CanBeChasedBy(projectile, false))
                         {
                             float num400 = Main.npc[num399].position.X + (float)(Main.npc[num399].width / 2);
                             float num401 = Main.npc[num399].position.Y + (float)(Main.npc[num399].height / 2);

@@ -41,8 +41,10 @@ namespace CalamityMod.NPCs.OldDuke
             npc.damage = 200;
             npc.defense = 100;
 			npc.DR_NERD(0.5f, null, null, null, true);
-			npc.lifeMax = CalamityWorld.revenge ? 1000000 : 750000;
-            npc.knockBackResist = 0f;
+			npc.LifeMaxNERB(750000, 1000000, 4000000);
+			double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
+			npc.lifeMax += (int)(npc.lifeMax * HPBoost);
+			npc.knockBackResist = 0f;
             npc.noTileCollide = true;
             npc.noGravity = true;
             npc.npcSlots = 15f;

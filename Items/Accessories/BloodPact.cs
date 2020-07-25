@@ -10,7 +10,9 @@ namespace CalamityMod.Items.Accessories
         {
             DisplayName.SetDefault("Blood Pact");
             Tooltip.SetDefault("Doubles your max HP\n" +
-                "Allows you to be critically hit 25% of the time");
+                "Allows you to be critically hit 25% of the time\n" +
+				"After a critical hit, you gain various buffs for ten seconds\n" +
+				"Any healing potions consumed during this time period heal 50 percent more health");
         }
 
         public override void SetDefaults()
@@ -18,7 +20,7 @@ namespace CalamityMod.Items.Accessories
             item.width = 26;
             item.height = 26;
             item.rare = 8;
-            item.value = Item.buyPrice(0, 24, 0, 0);
+            item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.accessory = true;
         }
 

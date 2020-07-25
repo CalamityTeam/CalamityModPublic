@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Summon
             projectile.minionSlots = 0f;
             projectile.ignoreWater = true;
             projectile.aiStyle = 1;
-            aiType = 242;
+            aiType = ProjectileID.BulletHighVelocity;
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
         }
@@ -55,6 +55,15 @@ namespace CalamityMod.Projectiles.Summon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             target.AddBuff(BuffID.Poisoned, 180);
+			if (projectile.ai[1] == 1f)
+				target.AddBuff(BuffID.Venom, 180);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.AddBuff(BuffID.Poisoned, 180);
+			if (projectile.ai[1] == 1f)
+				target.AddBuff(BuffID.Venom, 180);
         }
     }
 }

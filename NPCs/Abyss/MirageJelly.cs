@@ -213,7 +213,7 @@ namespace CalamityMod.NPCs.Abyss
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 5, 7);
             DropHelper.DropItemChance(npc, ModContent.ItemType<LifeJelly>(), Main.expertMode ? 5 : 7);
             DropHelper.DropItemChance(npc, ModContent.ItemType<ManaJelly>(), Main.expertMode ? 5 : 7);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<VitalJelly>(), Main.hardMode, Main.expertMode ? 5 : 7, 1, 1);
+            DropHelper.DropItemChance(npc, ModContent.ItemType<VitalJelly>(), Main.expertMode ? 5 : 7);
 			float necklaceDropRate = CalamityWorld.defiled ? DropHelper.DefiledDropRateFloat : 0.01f;
 			DropHelper.DropItemChance(npc, ItemID.JellyfishNecklace, necklaceDropRate);
         }
@@ -228,13 +228,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

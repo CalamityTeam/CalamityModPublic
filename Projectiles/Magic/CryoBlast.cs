@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -11,12 +12,14 @@ namespace CalamityMod.Projectiles.Magic
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Blast");
+            Main.projFrames[projectile.type] = 4;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 32;
+            projectile.width = projectile.height = 35;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 4;
@@ -29,24 +32,48 @@ namespace CalamityMod.Projectiles.Magic
             if (projectile.scale <= 3.6f)
             {
                 projectile.scale *= 1.01f;
-                projectile.width = (int)(16f * projectile.scale);
-                projectile.height = (int)(32f * projectile.scale);
+				projectile.position = projectile.Center;
+                projectile.width = (int)(35f * projectile.scale);
+                projectile.height = (int)(35f * projectile.scale);
+				projectile.Center = projectile.position;
             }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+
+			if (projectile.timeLeft < 53)
+				projectile.alpha += 5;
+
+            projectile.spriteDirection = projectile.direction = (projectile.velocity.X > 0).ToDirectionInt();
+            projectile.rotation = projectile.velocity.ToRotation() + (projectile.spriteDirection == 1 ? 0f : MathHelper.Pi);
+
+            if (projectile.frameCounter++ % 4 == 3)
+            {
+                projectile.frame++;
+            }
+            if (projectile.frame >= Main.projFrames[projectile.type])
+            {
+                projectile.frame = 0;
+            }
+
             Lighting.AddLight(projectile.Center, 0.5f, 0.5f, 0.5f);
+
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] > 4f)
             {
-                for (int num468 = 0; num468 < 3; num468++)
-                {
-                    int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, 0f, 0f, 100, default, projectile.scale);
-                    Main.dust[num469].noGravity = true;
-                    Main.dust[num469].velocity *= 0f;
-                    int num470 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 185, 0f, 0f, 100, default, projectile.scale);
-                    Main.dust[num470].noGravity = true;
-                    Main.dust[num470].velocity *= 0f;
-                }
+				int ice = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, 0f, 0f, 100, default, projectile.scale * 0.5f);
+				Main.dust[ice].noGravity = true;
+				Main.dust[ice].velocity *= 0f;
+				int snow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 185, 0f, 0f, 100, default, projectile.scale * 0.5f);
+				Main.dust[snow].noGravity = true;
+				Main.dust[snow].velocity *= 0f;
             }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+			if (projectile.timeLeft > 599)
+				return false;
+
+			CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 2);
+            return false;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

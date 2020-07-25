@@ -14,7 +14,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("Aquatic Scourge");
             Tooltip.SetDefault("A horror born of pollution and insatiable hunger; based on size alone this was merely a juvenile.\n" +
                 "These scourge creatures are the largest aquatic predators and very rarely do they frequent such shallow waters.\n" +
-                "Place in your inventory to gain immunity to the sulphurous waters and increase the stat gains from the Well Fed buff.\n" +
+                "Favorite this item to gain immunity to the sulphurous waters and increase the stat gains from the Well Fed buff.\n" +
                 "However, without the Well Fed buff your stats will decrease due to your insatiable hunger.");
         }
 
@@ -31,11 +31,12 @@ namespace CalamityMod.Items.LoreItems
             return false;
         }
 
-        public override void UpdateInventory(Player player)
-        {
-            CalamityPlayer modPlayer = player.Calamity();
-            modPlayer.aquaticScourgeLore = true;
-        }
+		public override void UpdateInventory(Player player)
+		{
+			CalamityPlayer modPlayer = player.Calamity();
+			if (item.favorited)
+				modPlayer.aquaticScourgeLore = true;
+		}
 
         public override void AddRecipes()
         {

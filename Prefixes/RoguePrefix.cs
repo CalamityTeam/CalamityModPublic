@@ -93,10 +93,17 @@ namespace CalamityMod.Prefixes
 
 		public override void ValidateItem(Item item, ref bool invalid)
 		{
-			if (item.damage == Math.Round(item.damage * damageMult))
+			if (item.damage == Math.Round(item.damage * damageMult) && damageMult != 1f)
 				invalid = true;
-			if (item.useAnimation == Math.Round(item.useAnimation * useTimeMult))
+			if (item.useAnimation == Math.Round(item.useAnimation * useTimeMult) && useTimeMult != 1f)
 				invalid = true;
+			// This code is commented out because CanRoll already guarantees that rogue prefixes will never appear on consumable items.
+			// Setting invalid to true doesn't do anything good.
+			// It just makes prefixed consumable rogue weapons put TML in an infinite loop looking for an appropriate prefix.
+			/*
+			if (item.consumable)
+				invalid = true;
+			*/
 		}
 	}
 

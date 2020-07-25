@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpLamp();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Lamp");
+            name.SetDefault("Plagued Lamp");
             AddMapEntry(new Color(191, 142, 111), name);
 
             disableSmartCursor = true;

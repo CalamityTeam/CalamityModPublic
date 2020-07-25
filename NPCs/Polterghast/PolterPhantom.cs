@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Dusts;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,6 +44,7 @@ namespace CalamityMod.NPCs.Polterghast
             npc.buffImmune[BuffID.CursedInferno] = false;
             npc.buffImmune[BuffID.Daybreak] = false;
 			npc.buffImmune[BuffID.StardustMinionBleed] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
 			npc.buffImmune[BuffID.Oiled] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
@@ -83,7 +85,7 @@ namespace CalamityMod.NPCs.Polterghast
                 return;
             }
 
-            Lighting.AddLight((int)((npc.position.X + (float)(npc.width / 2)) / 16f), (int)((npc.position.Y + (float)(npc.height / 2)) / 16f), 0.5f, 0.25f, 0.75f);
+            Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0.5f, 0.25f, 0.75f);
 
             npc.TargetClosest(true);
 
@@ -92,7 +94,10 @@ namespace CalamityMod.NPCs.Polterghast
             if (Vector2.Distance(Main.player[npc.target].Center, vector) > 6000f)
                 npc.active = false;
 
-            bool speedBoost1 = false;
+			// Scale multiplier based on nearby active tiles
+			float tileEnrageMult = Main.npc[CalamityGlobalNPC.ghostBoss].ai[3];
+
+			bool speedBoost1 = false;
             bool despawnBoost = false;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
@@ -118,12 +123,12 @@ namespace CalamityMod.NPCs.Polterghast
                 }
                 num = num733;
             }
-            num730 /= (float)num732;
-            num731 /= (float)num732;
+            num730 /= num732;
+            num731 /= num732;
 
             float num734 = 3f;
             float num735 = 0.03f;
-            if (!Main.player[npc.target].ZoneDungeon && !CalamityWorld.bossRushActive && (double)Main.player[npc.target].position.Y < Main.worldSurface * 16.0)
+            if (!Main.player[npc.target].ZoneDungeon && !CalamityWorld.bossRushActive && Main.player[npc.target].position.Y < Main.worldSurface * 16.0)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
@@ -159,16 +164,20 @@ namespace CalamityMod.NPCs.Polterghast
                 num734 += 8f;
             }
 
-            float num738 = (float)Math.Sqrt((double)(num736 * num736 + num737 * num737));
+            float num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
             int num739 = 500;
             if (speedBoost1)
                 num739 += 500;
             if (expertMode)
                 num739 += 150;
 
-            if (num738 >= (float)num739)
+			// Increase speed based on nearby active tiles
+			num734 *= tileEnrageMult;
+			num735 *= tileEnrageMult;
+
+			if (num738 >= num739)
             {
-                num738 = (float)num739 / num738;
+                num738 = num739 / num738;
                 num736 *= num738;
                 num737 *= num738;
             }
@@ -178,7 +187,7 @@ namespace CalamityMod.NPCs.Polterghast
             vector91 = new Vector2(vector.X, vector.Y);
             num736 = num730 - vector91.X;
             num737 = num731 - vector91.Y;
-            num738 = (float)Math.Sqrt((double)(num736 * num736 + num737 * num737));
+            num738 = (float)Math.Sqrt(num736 * num736 + num737 * num737);
 
             if (num738 < num734)
             {
@@ -220,7 +229,7 @@ namespace CalamityMod.NPCs.Polterghast
             Vector2 vector92 = new Vector2(vector.X, vector.Y);
             float num740 = Main.player[npc.target].Center.X - vector92.X;
             float num741 = Main.player[npc.target].Center.Y - vector92.Y;
-            npc.rotation = (float)Math.Atan2((double)num741, (double)num740) + 1.57f;
+            npc.rotation = (float)Math.Atan2(num741, num740) + 1.57f;
 
             npc.damage = npc.defDamage;
 
@@ -288,7 +297,9 @@ namespace CalamityMod.NPCs.Polterghast
         {
             if (CalamityWorld.revenge)
                 player.AddBuff(ModContent.BuffType<Horror>(), 180, true);
-        }
+
+			player.AddBuff(BuffID.MoonLeech, 360, true);
+		}
 
         public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
@@ -315,7 +326,7 @@ namespace CalamityMod.NPCs.Polterghast
                 npc.position.Y = npc.position.Y - (float)(npc.height / 2);
                 for (int num621 = 0; num621 < 10; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 60, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.Phantoplasm, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {

@@ -32,7 +32,7 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Ranged
             projectile.Damage();
             for (int num621 = 0; num621 < 2; num621++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                int num622 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num622].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
@@ -67,13 +67,13 @@ namespace CalamityMod.Projectiles.Ranged
             }
             for (int num623 = 0; num623 < 6; num623++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
+                int num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 3f);
                 Main.dust[num624].noGravity = true;
                 Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
+                num624 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 244, 0f, 0f, 100, default, 2f);
                 Main.dust[num624].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile, 3);
+			CalamityUtils.ExplosionGores(projectile.Center, 3);
             float x = projectile.position.X + (float)Main.rand.Next(-400, 400);
             float y = projectile.position.Y - (float)Main.rand.Next(500, 800);
             Vector2 vector = new Vector2(x, y);

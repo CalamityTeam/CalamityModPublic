@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.Alcohol;
+using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -43,7 +44,10 @@ Reduces defense by 6 and life regen by 1");
 
         public override void OnConsumeItem(Player player)
         {
-            player.statLife += 200;
+			int healAmt = CalamityWorld.ironHeart ? 0 : 200;
+			if (player.Calamity().bloodPactBoost)
+				healAmt = (int)(healAmt * 1.5);
+            player.statLife += healAmt;
             player.statMana += 200;
             if (player.statLife > player.statLifeMax2)
             {
@@ -56,7 +60,8 @@ Reduces defense by 6 and life regen by 1");
             player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
             if (Main.myPlayer == player.whoAmI)
             {
-                player.HealEffect(200, true);
+				if (!CalamityWorld.ironHeart)
+					player.HealEffect(healAmt, true);
                 player.ManaEffect(200);
             }
             player.AddBuff(ModContent.BuffType<MargaritaBuff>(), 10800);
@@ -71,7 +76,10 @@ Reduces defense by 6 and life regen by 1");
         // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + item.healLife + " life";
+			float healMult = 1f;
+			if (Main.player[Main.myPlayer].Calamity().bloodPactBoost)
+				healMult = 1.5f;
+            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : (int)(item.healLife * healMult)) + " life";
         }
     }
 }

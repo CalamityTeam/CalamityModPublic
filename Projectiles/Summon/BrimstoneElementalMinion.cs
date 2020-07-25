@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Big Busty Rose");
+            DisplayName.SetDefault("Brimstone Elemental");
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
             Lighting.AddLight(projectile.Center, 1.25f * num, 0f * num, 0.5f * num);
-            if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+            if (Math.Abs(projectile.velocity.X) > 0.2f)
             {
                 projectile.spriteDirection = -projectile.direction;
             }
@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else
+            if (!flag25)
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
@@ -197,11 +197,16 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.ai[1] = 0f;
                 projectile.netUpdate = true;
             }
+
+            // Prevent firing immediately
+            if (projectile.localAI[0] < 120f)
+                projectile.localAI[0] += 1f;
+
             if (projectile.ai[0] == 0f)
             {
                 float scaleFactor3 = 14f;
                 int num658 = ModContent.ProjectileType<BrimstoneFireballMinion>();
-                if (flag25 && projectile.ai[1] == 0f)
+                if (flag25 && projectile.ai[1] == 0f && projectile.localAI[0] >= 120f)
                 {
                     projectile.ai[1] += 1f;
                     if (Main.myPlayer == projectile.owner && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, vector46, 0, 0))

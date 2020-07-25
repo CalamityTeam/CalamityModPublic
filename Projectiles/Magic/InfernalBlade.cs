@@ -59,24 +59,21 @@ namespace CalamityMod.Projectiles.Magic
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
             Main.PlaySound(SoundID.Item10, projectile.position);
-            int num487 = Main.rand.Next(4, 10);
-            for (int num488 = 0; num488 < num487; num488++)
+            int dustAmt = Main.rand.Next(4, 10);
+            for (int d = 0; d < dustAmt; d++)
             {
-                int num489 = Dust.NewDust(projectile.Center, 0, 0, 182, 0f, 0f, 100, default, 1f);
-                Main.dust[num489].velocity *= 1.6f;
-                Dust expr_FEDF_cp_0 = Main.dust[num489];
-                expr_FEDF_cp_0.velocity.Y -= 1f;
-                Main.dust[num489].velocity += -projectile.velocity * (Main.rand.NextFloat() * 2f - 1f) * 0.5f;
-                Main.dust[num489].scale = 2f;
-                Main.dust[num489].fadeIn = 0.5f;
-                Main.dust[num489].noGravity = true;
+                int fire = Dust.NewDust(projectile.Center, 0, 0, 182, 0f, 0f, 100, default, 1f);
+                Dust dust = Main.dust[fire];
+                dust.velocity *= 1.6f;
+                dust.velocity.Y -= 1f;
+                dust.velocity += -projectile.velocity * (Main.rand.NextFloat() * 2f - 1f) * 0.5f;
+                dust.scale = 2f;
+                dust.fadeIn = 0.5f;
+                dust.noGravity = true;
             }
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(255, 50, 50, 0);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(255, 50, 50, 0);
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -119,37 +116,22 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            float xPos = projectile.ai[0] > 0 ? projectile.position.X + 800 : projectile.position.X - 800;
-            Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-800, 801));
-
-            float num80 = xPos;
-            float speedX = (float)target.position.X - vector2.X;
-            float speedY = (float)target.position.Y - vector2.Y;
-            float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-            dir = 10 / num80;
-            speedX *= dir * 150;
-            speedY *= dir * 150;
-            if (speedX > 15f)
-            {
-                speedX = 15f;
-            }
-            if (speedX < -15f)
-            {
-                speedX = -15f;
-            }
-            if (speedY > 15f)
-            {
-                speedY = 15f;
-            }
-            if (speedY < -15f)
-            {
-                speedY = -15f;
-            }
-            if (projectile.owner == Main.myPlayer)
-            {
-                Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<InfernalBlade2>(), (int)((double)projectile.damage * 0.75), 1f, projectile.owner);
-            }
+			OnHitEffects(target.Center);
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			OnHitEffects(target.Center);
+            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 240);
+        }
+
+		private void OnHitEffects(Vector2 targetPos)
+		{
+			if (projectile.owner == Main.myPlayer)
+			{
+				CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ModContent.ProjectileType<InfernalBlade2>(), (int)(projectile.damage * 0.75), 1f, projectile.owner, true);
+			}
         }
     }
 }

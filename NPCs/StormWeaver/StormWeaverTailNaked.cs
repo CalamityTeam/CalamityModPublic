@@ -1,4 +1,5 @@
-﻿using CalamityMod.World;
+﻿using CalamityMod.Dusts;
+using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -15,7 +16,8 @@ namespace CalamityMod.NPCs.StormWeaver
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Storm Weaver");
-        }
+			NPCID.Sets.TrailingMode[npc.type] = 1;
+		}
 
         public override void SetDefaults()
         {
@@ -23,7 +25,7 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.npcSlots = 5f;
             npc.width = 48;
             npc.height = 80;
-			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0;
+			bool notDoGFight = CalamityWorld.DoGSecondStageCountdown <= 0 || !CalamityWorld.downedSentinel2;
 			npc.LifeMaxNERB(notDoGFight ? 900000 : 150000, notDoGFight ? 900000 : 150000, 3500000);
 			Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
             if (calamityModMusic != null)
@@ -51,8 +53,6 @@ namespace CalamityMod.NPCs.StormWeaver
             npc.HitSound = SoundID.NPCHit13;
             npc.DeathSound = SoundID.NPCDeath13;
             npc.netAlways = true;
-            NPCID.Sets.TrailCacheLength[npc.type] = 8;
-            NPCID.Sets.TrailingMode[npc.type] = 1;
             for (int k = 0; k < npc.buffImmune.Length; k++)
             {
                 npc.buffImmune[k] = true;
@@ -132,7 +132,7 @@ namespace CalamityMod.NPCs.StormWeaver
                 }
             }
 
-            Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
+			Vector2 vector18 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num191 = Main.player[npc.target].position.X + (Main.player[npc.target].width / 2);
             float num192 = Main.player[npc.target].position.Y + (Main.player[npc.target].height / 2);
             num191 = (int)(num191 / 16f) * 16;
@@ -172,85 +172,100 @@ namespace CalamityMod.NPCs.StormWeaver
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            SpriteEffects spriteEffects = SpriteEffects.None;
-            Color color24 = npc.GetAlpha(drawColor);
-            Color color25 = Lighting.GetColor((int)((double)npc.position.X + (double)npc.width * 0.5) / 16, (int)(((double)npc.position.Y + (double)npc.height * 0.5) / 16.0));
-            Texture2D texture2D3 = Main.npcTexture[npc.type];
-            int num156 = Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type];
-            int y3 = num156 * (int)npc.frameCounter;
-            Rectangle rectangle = new Rectangle(0, y3, texture2D3.Width, num156);
-            Vector2 origin2 = rectangle.Size() / 2f;
-            int num157 = 8;
-            int num158 = 2;
-            int num159 = 1;
-            float num160 = 0f;
-            int num161 = num159;
-            while (((num158 > 0 && num161 < num157) || (num158 < 0 && num161 > num157)) && CalamityConfig.Instance.Afterimages)
-            {
-                Color color26 = npc.GetAlpha(color25);
-                {
-                    goto IL_6899;
-                }
-                IL_6881:
-                num161 += num158;
-                continue;
-                IL_6899:
-                float num164 = (float)(num157 - num161);
-                if (num158 < 0)
-                {
-                    num164 = (float)(num159 - num161);
-                }
-                color26 *= num164 / ((float)NPCID.Sets.TrailCacheLength[npc.type] * 1.5f);
-                Vector2 value4 = npc.oldPos[num161];
-                float num165 = npc.rotation;
-                Main.spriteBatch.Draw(texture2D3, value4 + npc.Size / 2f - Main.screenPosition + new Vector2(0, npc.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(rectangle), color26, num165 + npc.rotation * num160 * (float)(num161 - 1) * -(float)spriteEffects.HasFlag(SpriteEffects.FlipHorizontally).ToDirectionInt(), origin2, npc.scale, spriteEffects, 0f);
-                goto IL_6881;
-            }
-            var something = npc.direction == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-            spriteBatch.Draw(texture2D3, npc.Center - Main.screenPosition + new Vector2(0, npc.gfxOffY), npc.frame, color24, npc.rotation, npc.frame.Size() / 2, npc.scale, something, 0);
-            return false;
-        }
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
+			SpriteEffects spriteEffects = SpriteEffects.None;
+			if (npc.spriteDirection == 1)
+				spriteEffects = SpriteEffects.FlipHorizontally;
 
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
+			Texture2D texture2D15 = Main.npcTexture[npc.type];
+			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+			Color color36 = Color.White;
+			float amount9 = 0.5f;
+			int num153 = 5;
+
+			if (CalamityConfig.Instance.Afterimages)
+			{
+				for (int num155 = 1; num155 < num153; num155 += 2)
+				{
+					Color color38 = lightColor;
+					if (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] > 280f && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
+					{
+						byte newColor = (byte)MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[0] - 280f) / 120f * 255f, 0f, 255f);
+						color38.R = 0;
+						color38.G = newColor;
+						color38.B = newColor;
+					}
+					color38 = Color.Lerp(color38, color36, amount9);
+					color38 = npc.GetAlpha(color38);
+					color38 *= (num153 - num155) / 15f;
+					Vector2 vector41 = npc.oldPos[num155] + new Vector2(npc.width, npc.height) / 2f - Main.screenPosition;
+					vector41 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
+					vector41 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+					spriteBatch.Draw(texture2D15, vector41, npc.frame, color38, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+				}
+			}
+
+			Vector2 vector43 = npc.Center - Main.screenPosition;
+			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height) * npc.scale / 2f;
+			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			Color color = npc.GetAlpha(lightColor);
+			if (Main.npc[(int)npc.ai[2]].Calamity().newAI[0] > 280f && (CalamityWorld.revenge || CalamityWorld.bossRushActive))
+			{
+				byte newColor = (byte)MathHelper.Clamp((Main.npc[(int)npc.ai[2]].Calamity().newAI[0] - 280f) / 120f * 255f, 0f, 255f);
+				color.R = 0;
+				color.G = newColor;
+				color.B = newColor;
+			}
+			spriteBatch.Draw(texture2D15, vector43, npc.frame, color, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+
+			return false;
+		}
+
+		public override bool CanHitPlayer(Player target, ref int cooldownSlot)
         {
             cooldownSlot = 1;
             return true;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			int buffDuration = Main.npc[(int)npc.ai[2]].Calamity().newAI[0] >= 400f ? 100 : 30;
+			player.AddBuff(BuffID.Electrified, buffDuration, true);
+		}
+
+		public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 173, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNudeTail1"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/SWNudeTail2"), 1f);
-                npc.position.X = npc.position.X + (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y + (float)(npc.height / 2);
+                npc.position.X = npc.position.X + (npc.width / 2);
+                npc.position.Y = npc.position.Y + (npc.height / 2);
                 npc.width = 30;
                 npc.height = 30;
-                npc.position.X = npc.position.X - (float)(npc.width / 2);
-                npc.position.Y = npc.position.Y - (float)(npc.height / 2);
+                npc.position.X = npc.position.X - (npc.width / 2);
+                npc.position.Y = npc.position.Y - (npc.height / 2);
                 for (int num621 = 0; num621 < 20; num621++)
                 {
-                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    int num622 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num622].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
                 for (int num623 = 0; num623 < 40; num623++)
                 {
-                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 3f);
+                    int num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 3f);
                     Main.dust[num624].noGravity = true;
                     Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 173, 0f, 0f, 100, default, 2f);
+                    num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, (int)CalamityDusts.PurpleCosmolite, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
             }

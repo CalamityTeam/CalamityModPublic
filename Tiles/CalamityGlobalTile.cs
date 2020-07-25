@@ -11,6 +11,7 @@ using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Terraria;
 using Terraria.ID;
@@ -525,5 +526,23 @@ namespace CalamityMod.Tiles
 
             return new int[0];
         }
-	}
+        public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
+        {
+            int[] indestructableTiles = new int[]
+            {
+                ModContent.TileType<DraedonTurretTile>(),
+                ModContent.TileType<DraedonFactoryFieldGenerator>(),
+                ModContent.TileType<AstralBeacon>()
+            };
+            // Prevent tiles below an astral beacon from being destroyed.
+            if (CalamityUtils.ParanoidTileRetrieval(i, j - 1).active() &&
+                CalamityUtils.ParanoidTileRetrieval(i, j).type !=
+                CalamityUtils.ParanoidTileRetrieval(i, j - 1).type &&
+                indestructableTiles.Contains(CalamityUtils.ParanoidTileRetrieval(i, j - 1).type))
+            {
+                return false;
+            }
+            return base.CanKillTile(i, j, type, ref blockDamaged);
+        }
+    }
 }

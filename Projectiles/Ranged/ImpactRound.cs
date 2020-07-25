@@ -43,19 +43,5 @@ namespace CalamityMod.Projectiles.Ranged
 		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor) => projectile.timeLeft < 600;
-
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            double damageMult = 1D;
-			if (crit)
-			{
-				damageMult += 0.25;
-			}
-            if (target.Inorganic())
-            {
-				damageMult += 0.1;
-			}
-			damage = (int)(damage * damageMult);
-		}
     }
 }

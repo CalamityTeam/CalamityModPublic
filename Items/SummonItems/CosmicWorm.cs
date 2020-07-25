@@ -2,6 +2,7 @@ using CalamityMod.Items.Materials;
 using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -15,7 +16,8 @@ namespace CalamityMod.Items.SummonItems
         {
             DisplayName.SetDefault("Cosmic Worm");
             Tooltip.SetDefault("Summons the Devourer of Gods\n" +
-                "Not consumable");
+				"SENTINEL WARNING TOOLTIP LINE HERE\n" +
+				"Not consumable");
         }
 
         public override void SetDefaults()
@@ -29,7 +31,19 @@ namespace CalamityMod.Items.SummonItems
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override bool CanUseItem(Player player)
+		public override void ModifyTooltips(List<TooltipLine> list)
+		{
+			foreach (TooltipLine line2 in list)
+			{
+				if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+				{
+					bool sentinelsNotDefeated = !CalamityWorld.downedSentinel1 || !CalamityWorld.downedSentinel2 || !CalamityWorld.downedSentinel3;
+					line2.text = sentinelsNotDefeated ? "WARNING! Some sentinels have not been truly defeated yet and will spawn at full power during this fight!" : "";
+				}
+			}
+		}
+
+		public override bool CanUseItem(Player player)
         {
             return !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHead>()) && !NPC.AnyNPCs(ModContent.NPCType<DevourerofGodsHeadS>()) && CalamityWorld.DoGSecondStageCountdown <= 0 && CalamityWorld.downedBossAny;
         }
@@ -39,15 +53,16 @@ namespace CalamityMod.Items.SummonItems
             string key = "Mods.CalamityMod.EdgyBossText12";
             Color messageColor = Color.Cyan;
             if (Main.netMode == NetmodeID.SinglePlayer)
-            {
                 Main.NewText(Language.GetTextValue(key), messageColor);
-            }
             else if (Main.netMode == NetmodeID.Server)
-            {
                 NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
-            }
-            NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
+
 			Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), (int)player.position.X, (int)player.position.Y);
+			if (Main.netMode != NetmodeID.MultiplayerClient)
+				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
+			else
+				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<DevourerofGodsHead>());
+
 			return true;
         }
 
@@ -60,6 +75,17 @@ namespace CalamityMod.Items.SummonItems
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
+			recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ItemID.IronBar, 30);
+			recipe.anyIronBar = true;
+			recipe.AddIngredient(ItemID.LunarBar, 10);
+			recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>(), 20);
+			recipe.AddIngredient(ItemID.SoulofLight, 20);
+			recipe.AddIngredient(ItemID.SoulofNight, 20);
+			recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 30);
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
     }
 }

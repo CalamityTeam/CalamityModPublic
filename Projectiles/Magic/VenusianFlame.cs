@@ -9,6 +9,8 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class VenusianFlame : ModProjectile
     {
+		private bool initialized = false;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Venusian Cinder");
@@ -31,6 +33,23 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
+			//Rotation
+			if (projectile.ai[1] > 0f)
+			{
+				projectile.rotation = -projectile.velocity.X * 0.05f + MathHelper.PiOver2;
+			}
+			else
+			{
+				projectile.rotation = projectile.velocity.ToRotation();
+			}
+			projectile.ai[1]--;
+
+			//frames
+			if (!initialized)
+			{
+				initialized = true;
+				projectile.frame = Main.rand.Next(Main.projFrames[projectile.type]);
+			}
             projectile.frameCounter++;
             if (projectile.frameCounter > 4)
             {
@@ -41,6 +60,8 @@ namespace CalamityMod.Projectiles.Magic
             {
                 projectile.frame = 0;
             }
+
+			//movement
             if (projectile.velocity.X != projectile.velocity.X)
             {
                 projectile.velocity.X *= -0.1f;
@@ -68,13 +89,25 @@ namespace CalamityMod.Projectiles.Magic
                 }
                 projectile.velocity.Y += 0.2f;
             }
-            projectile.rotation += projectile.velocity.X * 0.1f;
-            if (projectile.ai[1] == 0f && projectile.type >= 326 && projectile.type <= 328)
+            if (projectile.velocity.Y < 0.25f && projectile.velocity.Y > 0.15f)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item13, projectile.position);
+                projectile.velocity.X *= 0.8f;
             }
-			if (Main.rand.NextBool(2))
+            if (projectile.velocity.Y > 16f)
+            {
+                projectile.velocity.Y = 16f;
+            }
+            if (projectile.velocity.Y < 0.25f && projectile.velocity.Y > 0.15f)
+            {
+                projectile.velocity.X *= 0.8f;
+            }
+            if (projectile.velocity.Y > 16f)
+            {
+                projectile.velocity.Y = 16f;
+            }
+
+			//Dust
+			if (Main.rand.NextBool(4))
 			{
 				int num199 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1f);
 				Dust dust = Main.dust[num199];
@@ -84,7 +117,7 @@ namespace CalamityMod.Projectiles.Magic
 				dust.noGravity = true;
 				dust.velocity.Y -= 2f;
 			}
-            if (Main.rand.NextBool(3))
+            if (Main.rand.NextBool(10))
             {
                 int num200 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 55, 0f, 0f, 100, default, 1f);
                 Dust dust2 = Main.dust[num200];
@@ -94,15 +127,6 @@ namespace CalamityMod.Projectiles.Magic
                 dust2.noGravity = true;
                 dust2.velocity *= 0.1f;
             }
-            if (projectile.velocity.Y < 0.25f && projectile.velocity.Y > 0.15f)
-            {
-                projectile.velocity.X *= 0.8f;
-            }
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
-            if (projectile.velocity.Y > 16f)
-            {
-                projectile.velocity.Y = 16f;
-            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -110,7 +134,11 @@ namespace CalamityMod.Projectiles.Magic
             target.AddBuff(BuffID.OnFire, 300);
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity) => false;
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+			projectile.ai[1] = 10f;
+            return false;
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

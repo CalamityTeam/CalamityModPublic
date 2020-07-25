@@ -1,8 +1,8 @@
+using CalamityMod.Dusts;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using CalamityMod.Dusts;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Typeless
 {
@@ -11,7 +11,7 @@ namespace CalamityMod.Projectiles.Typeless
         public override void SetDefaults()
         {
             projectile.width = 10;
-            projectile.height = 50;
+            projectile.height = 35;
             projectile.friendly = true;
             projectile.timeLeft = 300;
             projectile.tileCollide = true;
@@ -31,12 +31,15 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-			//Spawns the shockwave
-			Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<SabatonBoom>(), 300, 12, projectile.owner);
-            Main.PlaySound(SoundID.Item14, projectile.position);
             Player player = Main.player[projectile.owner];
-            player.Calamity().gSabatonFall = 0;
-			projectile.Kill();
+			//Spawns the shockwave
+			if (Main.myPlayer == projectile.owner)
+			{
+				Projectile.NewProjectile(projectile.position.X + 25, projectile.position.Y + 25, 0f, 0f, ModContent.ProjectileType<SabatonBoom>(), (int)(300 * player.AverageDamage()), 12, projectile.owner);
+				Main.PlaySound(SoundID.Item14, projectile.position);
+				player.Calamity().gSabatonFall = 0;
+				projectile.Kill();
+			}
 			//Pretty things
 			for (int dustexplode = 0; dustexplode < 360; dustexplode++)
 			{

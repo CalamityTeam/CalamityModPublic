@@ -31,8 +31,7 @@ namespace CalamityMod.Items.Tools
 			item.crit += 25;
             item.width = 70;
             item.height = 70;
-            item.useTime = 20;
-            item.useAnimation = 20;
+            item.useTime = item.useAnimation = 2;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.knockBack = 9f;
 			item.shootSpeed = 14f;
@@ -50,10 +49,7 @@ namespace CalamityMod.Items.Tools
 			return new Vector2(10, 10);
 		}
 
-		public override bool AltFunctionUse(Player player)
-		{
-			return true;
-		}
+		public override bool AltFunctionUse(Player player) => true;
 
 		public override bool CanUseItem(Player player)
 		{
@@ -62,11 +58,9 @@ namespace CalamityMod.Items.Tools
 				item.pick = PickPower;
 				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
-				item.tileBoost += 50;
+				item.tileBoost = 50;
 				item.UseSound = SoundID.Item1;
 				item.useStyle = ItemUseStyleID.SwingThrow;
-				item.useTime = 2;
-				item.useAnimation = 10;
 				item.useTurn = true;
 				item.autoReuse = true;
 				item.noMelee = false;
@@ -80,8 +74,6 @@ namespace CalamityMod.Items.Tools
 				item.tileBoost = 0;
 				item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
 				item.useStyle = ItemUseStyleID.HoldingOut;
-				item.useTime = 20;
-				item.useAnimation = 20;
 				item.useTurn = false;
 				item.autoReuse = false;
 				item.noMelee = true;
@@ -92,22 +84,18 @@ namespace CalamityMod.Items.Tools
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
 		{
+			if (player.altFunctionUse == 2)
+				return;
+
 			if (Main.rand.NextBool(3))
 			{
-				int num307 = Main.rand.Next(3);
-				if (num307 == 0)
+				int dustType = Utils.SelectRandom(Main.rand, new int[]
 				{
-					num307 = 173;
-				}
-				else if (num307 == 1)
-				{
-					num307 = 57;
-				}
-				else
-				{
-					num307 = 58;
-				}
-				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, num307);
+					173,
+					57,
+					58
+				});
+				int dust = Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, dustType);
 			}
 		}
 

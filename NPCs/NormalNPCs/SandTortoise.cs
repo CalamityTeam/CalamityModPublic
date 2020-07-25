@@ -24,26 +24,27 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.scale = 1.5f;
             npc.lifeMax = 580;
             npc.knockBackResist = 0.2f;
-            animationType = 153;
+            animationType = NPCID.GiantTortoise;
             npc.value = Item.buyPrice(0, 0, 15, 0);
             npc.HitSound = SoundID.NPCHit24;
             npc.DeathSound = SoundID.NPCDeath27;
             npc.noGravity = false;
             banner = npc.type;
             bannerItem = ModContent.ItemType<SandTortoiseBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void HitEffect(int hitDirection, double damage)
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

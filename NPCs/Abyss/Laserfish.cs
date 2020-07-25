@@ -52,6 +52,9 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void AI()
         {
+			// Setting this in SetDefaults will disable expert mode scaling, so put it here instead
+			npc.damage = 0;
+
             CalamityAI.PassiveSwimmingAI(npc, mod, 0, Main.player[npc.target].Calamity().GetAbyssAggro(400f, 200f), 0.15f, 0.15f, 4f, 4f, 0.1f);
         }
 
@@ -126,13 +129,13 @@ namespace CalamityMod.NPCs.Abyss
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 25; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Laserfish"), 1f);
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/Laserfish2"), 1f);

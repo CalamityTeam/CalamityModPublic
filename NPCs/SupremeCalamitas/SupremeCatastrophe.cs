@@ -1,7 +1,6 @@
 using CalamityMod.Dusts;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Summon;
-using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -83,7 +82,15 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             npc.TargetClosest(true);
             float num676 = 60f;
             float num677 = 1.5f;
-            float distanceX = 750f;
+
+			// Reduce acceleration if target is holding a true melee weapon
+			Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
+			if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+			{
+				num677 *= 0.5f;
+			}
+
+			float distanceX = 750f;
             if (npc.ai[3] < 750f)
             {
                 npc.ai[3] += 1f;

@@ -49,14 +49,15 @@ namespace CalamityMod.Projectiles.Magic
                 }
             }
 
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, 4f, 5, ModContent.ProjectileType<ClimaxBeam>());
+			if (projectile.timeLeft % 2 == projectile.ai[0])
+				CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 400f, 8f, 4f, 2, ModContent.ProjectileType<ClimaxBeam>(), 1D, true);
         }
 
         public override Color? GetAlpha(Color lightColor)
         {
             if (projectile.timeLeft < 30)
             {
-                float num7 = (float)projectile.timeLeft / 30f;
+                float num7 = projectile.timeLeft / 30f;
                 projectile.alpha = (int)(255f - 255f * num7);
             }
             return new Color(255 - projectile.alpha, 255 - projectile.alpha, 255 - projectile.alpha, 0);
@@ -67,8 +68,10 @@ namespace CalamityMod.Projectiles.Magic
             Texture2D texture2D13 = Main.projectileTexture[projectile.type];
             int num214 = Main.projectileTexture[projectile.type].Height / Main.projFrames[projectile.type];
             int y6 = num214 * projectile.frame;
-            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2((float)texture2D13.Width / 2f, (float)num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture2D13, projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY), new Microsoft.Xna.Framework.Rectangle?(new Rectangle(0, y6, texture2D13.Width, num214)), projectile.GetAlpha(lightColor), projectile.rotation, new Vector2(texture2D13.Width / 2f, num214 / 2f), projectile.scale, SpriteEffects.None, 0f);
             return false;
         }
+
+        public override bool CanDamage() => false;
     }
 }

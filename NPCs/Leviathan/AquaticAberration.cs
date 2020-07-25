@@ -20,8 +20,8 @@ namespace CalamityMod.NPCs.Leviathan
         {
             npc.aiStyle = -1;
             npc.damage = 55;
-            npc.width = 70;
-            npc.height = 40;
+            npc.width = 50;
+            npc.height = 50;
             npc.defense = 14;
             npc.lifeMax = 1600;
             if (CalamityWorld.bossRushActive)
@@ -184,13 +184,13 @@ namespace CalamityMod.NPCs.Leviathan
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

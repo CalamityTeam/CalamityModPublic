@@ -63,6 +63,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.HitSound = SoundID.NPCHit52;
@@ -300,12 +301,12 @@ namespace CalamityMod.NPCs.ProfanedGuardians
             potionType = ItemID.GreaterHealingPotion;
         }
 
-        public override void OnHitPlayer(Player player, int damage, bool crit)
-        {
-            player.AddBuff(BuffID.OnFire, 600, true);
-        }
+		public override void OnHitPlayer(Player player, int damage, bool crit)
+		{
+			player.AddBuff(ModContent.BuffType<HolyFlames>(), 300, true);
+		}
 
-        public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
+		public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
             npc.lifeMax = (int)(npc.lifeMax * 0.7f * bossLifeScale);
             npc.damage = (int)(npc.damage * 0.8f);

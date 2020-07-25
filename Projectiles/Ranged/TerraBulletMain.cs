@@ -71,16 +71,10 @@ namespace CalamityMod.Projectiles.Ranged
         {
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < 2; num252++)
+                for (int b = 0; b < 2; b++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
-                    {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ModContent.ProjectileType<TerraBulletSplit>(), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 70f, 100f);
+                    Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TerraBulletSplit>(), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
                 }
             }
             Main.PlaySound(SoundID.Item118, projectile.position);

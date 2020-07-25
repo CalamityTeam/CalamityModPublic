@@ -36,10 +36,10 @@ namespace CalamityMod.Projectiles.Summon
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 2f, 2f, 2f);
-            bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<RadiantResolutionAura>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             player.AddBuff(ModContent.BuffType<RadiantResolutionBuff>(), 3600);
+            bool isCorrectProjectile = projectile.type == ModContent.ProjectileType<RadiantResolutionAura>();
             if (isCorrectProjectile)
             {
                 if (player.dead)
@@ -72,8 +72,17 @@ namespace CalamityMod.Projectiles.Summon
             float allocatedSlots = projectile.ai[0];
             projectile.rotation += MathHelper.ToRadians(3f) + MathHelper.ToRadians(allocatedSlots * 0.85f);
 
-            int radiantOrbDamage = (int)(projectile.damage * Math.Log(allocatedSlots + 1f, 1.414214));
-            int radiantOrbAppearRate = (int)(124 * Math.Pow(0.9, allocatedSlots));
+			float damageMult = (float)Math.Log(allocatedSlots, 3) + 1f;
+
+			//Softcap the mult after 9 slots
+			float newMult = damageMult;
+			if (newMult > 3f)
+			{
+				newMult = ((damageMult - 3f) * 0.1f) + 3f;
+			}
+
+            int radiantOrbDamage = (int)(projectile.damage * newMult);
+            int radiantOrbAppearRate = (int)(130 * Math.Pow(0.9, allocatedSlots));
 
             if (radiantOrbAppearRate < 7)
                 radiantOrbAppearRate = 7;
@@ -87,9 +96,9 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (projectile.ai[1] % 35 == 34)
                 {
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 2; i++)
                     {
-                        float angle = MathHelper.Lerp(-MathHelper.ToRadians(30f), MathHelper.ToRadians(30f), i / 3f);
+                        float angle = MathHelper.Lerp(-MathHelper.ToRadians(20f), MathHelper.ToRadians(20f), i / 2f);
                         Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center).RotatedBy(angle) * 15f,
                             ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, projectile.knockBack, projectile.owner);
                     }
@@ -98,9 +107,9 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     Projectile.NewProjectile(projectile.Center + Utils.NextVector2Unit(Main.rand) * Main.rand.NextFloat(100f, 360f),
                         projectile.DirectionTo(potentialTarget.Center) * 2f, ModContent.ProjectileType<RadiantResolutionOrb>(), radiantOrbDamage, projectile.knockBack * 4f, projectile.owner);
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i < 3; i++)
                     {
-                        float angle = MathHelper.Lerp(-MathHelper.ToRadians(40f), MathHelper.ToRadians(40f), i / 4f);
+                        float angle = MathHelper.Lerp(-MathHelper.ToRadians(30f), MathHelper.ToRadians(30f), i / 3f);
                         Projectile.NewProjectile(projectile.Center, projectile.DirectionTo(potentialTarget.Center).RotatedBy(angle) * 19f,
                             ModContent.ProjectileType<RadiantResolutionFire>(), radiantOrbDamage / 2, projectile.knockBack, projectile.owner);
                     }

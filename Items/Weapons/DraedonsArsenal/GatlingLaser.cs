@@ -1,3 +1,4 @@
+using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -6,15 +7,13 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class GatlingLaser : ModItem
+	public class GatlingLaser : ModItem
 	{
-		private int BaseDamage = 430;
-
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gatling Laser");
 			Tooltip.SetDefault("Large laser cannon used primarily by Yharim's fleet and base defense force\n" +
-				"Highly accurate, but lacks the power to punch through defensive targets");
+							   "Highly accurate, but lacks the power to punch through defensive targets");
 		}
 
 		public override void SetDefaults()
@@ -22,7 +21,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 58;
 			item.height = 24;
 			item.magic = true;
-			item.damage = BaseDamage;
+			item.damage = 54;
 			item.knockBack = 1f;
 			item.useTime = 2;
 			item.useAnimation = 2;
@@ -34,16 +33,18 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireStart");
 			item.noMelee = true;
 
-			item.value = Item.buyPrice(1, 80, 0, 0);
-			item.rare = 10;
-			item.Calamity().customRarity = CalamityRarity.RareVariant;
+			item.value = CalamityGlobalItem.Rarity8BuyPrice;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<GatlingLaserProj>();
 			item.shootSpeed = 24f;
-			item.useAmmo = AmmoID.Bullet;
+
+			item.Calamity().Chargeable = true;
+			item.Calamity().ChargeMax = 135;
 		}
 
-        public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
@@ -62,16 +63,17 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			return new Vector2(-20, 0);
 		}
 
-		/*public override void AddRecipes()
+		public override void AddRecipes()
 		{
-			ModRecipe r = new ModRecipe(mod);
-			r.AddIngredient(null, "CrownJewel");
-			r.AddIngredient(null, "GalacticaSingularity", 5);
-			r.AddIngredient(null, "BarofLife", 10);
-			r.AddIngredient(null, "CosmiliteBar", 15);
-			r.AddTile(TileID.LunarCraftingStation);
-			r.SetResult(this);
-			r.AddRecipe();
-		}*/
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
+			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
+			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
+			recipe.AddIngredient(ItemID.LaserMachinegun);
+			recipe.AddTile(TileID.LunarCraftingStation);
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
 	}
 }

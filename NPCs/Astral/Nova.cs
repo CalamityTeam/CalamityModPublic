@@ -262,7 +262,7 @@ namespace CalamityMod.NPCs.Astral
 
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.PillarZone())
+            if (CalamityGlobalNPC.AnyEvents(spawnInfo.player))
             {
                 return 0f;
             }

@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.TownNPCs
             "Penelope", "Marisa", "Maribel",
             "Valerie", "Jessica", "Rowan",
             "Jessie", "Jade", "Hearn",
-            "Amber", "Anne", "Indiana",
+            "Amber", "Anne", "Indiana", "Xplizzy"
         };
 
         public override void SetStaticDefaults()
@@ -71,9 +71,10 @@ namespace CalamityMod.NPCs.TownNPCs
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
-                if (player.active && player.InventoryHas(ItemID.PlatinumCoin))
+				bool rich = player.InventoryHas(ItemID.PlatinumCoin) || player.PortableStorageHas(ItemID.PlatinumCoin);
+                if (player.active && rich)
                 {
-                    return NPC.downedBoss3;
+                    return NPC.downedBoss3 || CalamityWorld.spawnedBandit;
                 }
             }
             return CalamityWorld.spawnedBandit;
@@ -192,13 +193,13 @@ namespace CalamityMod.NPCs.TownNPCs
         public string Refund()
         {
             int goblinIndex = NPC.FindFirstNPC(NPCID.GoblinTinkerer);
-            if (goblinIndex != -1 && Main.LocalPlayer.Calamity().reforges >= 10)
+            if (goblinIndex != -1 && CalamityWorld.Reforges >= 1)
             {
-                Main.LocalPlayer.Calamity().reforges = 0;
-                Main.LocalPlayer.SellItem((int)Main.LocalPlayer.Calamity().moneyStolenByBandit, 1);
-                Main.LocalPlayer.Calamity().moneyStolenByBandit = 0;
+                CalamityWorld.Reforges = 0;
+                Main.LocalPlayer.SellItem(CalamityWorld.MoneyStolenByBandit, 1);
+                CalamityWorld.MoneyStolenByBandit = 0;
                 NPC goblinFucker = Main.npc[goblinIndex];
-                Main.PlaySound(SoundID.Coins, -1, -1, 1, 1f, 0f); //money dink sound
+                Main.PlaySound(SoundID.Coins, -1, -1, 1, 1f, 0f); // Money dink sound
                 switch (Main.rand.Next(2))
                 {
                     case 0:
@@ -206,8 +207,9 @@ namespace CalamityMod.NPCs.TownNPCs
                     case 1:
                         return "Hey, if government officials can get tax, why can't I? The heck do you mean that these two things are nothing alike?";
                 }
+                CalamityMod.UpdateServerBoolean();
             }
-            return "Sorry, I got nothing.";
+            return "Sorry, I got nothing. Perhaps you could reforge something and come back later...";
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -250,6 +252,8 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
             nextSlot++;
             if (CalamityWorld.downedSlimeGod)
             {

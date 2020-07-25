@@ -53,7 +53,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 100);
+            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<Excelsus>(), 4);
             recipe.AddIngredient(ModContent.ItemType<CosmicViperEngine>());
             recipe.AddIngredient(ItemID.WingsVortex);

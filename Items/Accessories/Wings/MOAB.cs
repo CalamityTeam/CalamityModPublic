@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories.Wings
                 "Acceleration multiplier: 1\n" +
                 "Good vertical speed\n" +
                 "Flight time: 75\n" +
-                "Increases jump height and allows auto-jump\n" +
+                "16% increased jump speed and allows auto-jump\n" +
                 "Grants the player cloud, blizzard, and sandstorm mid-air jumps");
         }
 
@@ -26,8 +26,8 @@ namespace CalamityMod.Items.Accessories.Wings
         {
             item.width = 28;
             item.height = 32;
-            item.value = Item.buyPrice(0, 39, 99, 99);
-            item.rare = 8;
+            item.value = CalamityGlobalItem.Rarity6BuyPrice;
+            item.rare = 6;
             item.accessory = true;
         }
 
@@ -41,46 +41,46 @@ namespace CalamityMod.Items.Accessories.Wings
                     Main.PlaySound(SoundID.Item13, player.position);
                     player.rocketDelay2 = 60;
                 }
-                int num66 = 2;
+                int dustAmt = 2;
                 if (player.controlUp)
                 {
-                    num66 = 4;
+                    dustAmt = 4;
                 }
-                for (int num67 = 0; num67 < num66; num67++)
+                for (int index = 0; index < dustAmt; index++)
                 {
-                    int type = 6;
+                    int type = DustID.Fire;
                     if (player.head == 41)
                     {
                         int arg_58FD_0 = player.body;
                     }
                     float scale = 1.75f;
                     int alpha = 100;
-                    float x = player.position.X + (float)(player.width / 2) + 16f;
+                    float xStart = player.Center.X + 16f;
                     if (player.direction > 0)
                     {
-                        x = player.position.X + (float)(player.width / 2) - 26f;
+                        xStart = player.Center.X - 26f;
                     }
-                    float num68 = player.position.Y + (float)player.height - 18f;
-                    if (num67 == 1 || num67 == 3)
+                    float yStart = player.position.Y + (float)player.height - 18f;
+                    if (index == 1 || index == 3)
                     {
-                        x = player.position.X + (float)(player.width / 2) + 8f;
+                        xStart = player.Center.X + 8f;
                         if (player.direction > 0)
                         {
-                            x = player.position.X + (float)(player.width / 2) - 20f;
+                            xStart = player.Center.X - 20f;
                         }
-                        num68 += 6f;
+                        yStart += 6f;
                     }
-                    if (num67 > 1)
+                    if (index > 1)
                     {
-                        num68 += player.velocity.Y;
+                        yStart += player.velocity.Y;
                     }
-                    int num69 = Dust.NewDust(new Vector2(x, num68), 8, 8, type, 0f, 0f, alpha, default, scale);
+                    int num69 = Dust.NewDust(new Vector2(xStart, yStart), 8, 8, type, 0f, 0f, alpha, default, scale);
                     Dust dust = Main.dust[num69];
                     dust.velocity.X *= 0.1f;
                     dust.velocity.Y = Main.dust[num69].velocity.Y * 1f + 2f * player.gravDir - player.velocity.Y * 0.3f;
                     dust.noGravity = true;
                     dust.shader = GameShaders.Armor.GetSecondaryShader(player.cWings, player);
-                    if (num66 == 4)
+                    if (dustAmt == 4)
                     {
                         dust.velocity.Y += 6f;
                     }

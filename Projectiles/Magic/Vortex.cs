@@ -1,5 +1,3 @@
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -80,7 +78,7 @@ namespace CalamityMod.Projectiles.Magic
             // Attempt to find a target if the projectile has none.
             if (TargetIndex == -1 && TargetCheckCooldown <= 0f)
             {
-                NPC potentialTarget = projectile.Center.ClosestNPCAt(targetCheckDistance, true);
+                NPC potentialTarget = projectile.Center.ClosestNPCAt(targetCheckDistance, true, true);
                 if (potentialTarget != null)
                     TargetIndex = potentialTarget.whoAmI;
                 projectile.netUpdate = true;
@@ -111,7 +109,7 @@ namespace CalamityMod.Projectiles.Magic
                 int dustCount = 5;
                 for (int i = 0; i < dustCount; i++)
                 {
-                    Vector2 spawnPosition = projectile.Center + projectile.Size.RotatedBy(i / (float)dustCount * MathHelper.TwoPi) * 0.5f;
+                    Vector2 spawnPosition = projectile.Center + projectile.Size.RotatedBy(i / (float)dustCount * MathHelper.TwoPi) * 0.333f;
                     Vector2 velocity = Main.rand.NextFloat(MathHelper.TwoPi).ToRotationVector2() * Main.rand.NextFloat(6f, 16f);
                     Dust dust = Dust.NewDustPerfect(spawnPosition, 66, velocity, 0, Main.DiscoColor, 0.7f);
                     dust.noGravity = true;
@@ -149,15 +147,12 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<ExoFreeze>(), 30);
-            target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
-            target.AddBuff(ModContent.BuffType<GlacialState>(), 120);
-            target.AddBuff(ModContent.BuffType<Plague>(), 120);
-            target.AddBuff(ModContent.BuffType<HolyFlames>(), 120);
-            target.AddBuff(BuffID.CursedInferno, 120);
-            target.AddBuff(BuffID.Frostburn, 120);
-            target.AddBuff(BuffID.OnFire, 120);
-            target.AddBuff(BuffID.Ichor, 120);
+			target.ExoDebuffs();
+        }
+
+        public override void OnHitPvp(Player target, int damage, bool crit)
+        {
+			target.ExoDebuffs();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

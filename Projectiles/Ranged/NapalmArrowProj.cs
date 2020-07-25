@@ -1,3 +1,4 @@
+using CalamityMod.Projectiles.Rogue;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -26,10 +27,10 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             if (Main.rand.NextBool(5))
             {
-                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 6, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
+                Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, DustID.Fire, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
         }
 
@@ -37,40 +38,42 @@ namespace CalamityMod.Projectiles.Ranged
         {
             projectile.position = projectile.Center;
             projectile.width = projectile.height = 32;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+            projectile.position.X -= (float)(projectile.width / 2);
+            projectile.position.Y -= (float)(projectile.height / 2);
             Main.PlaySound(SoundID.Item14, projectile.position);
-            for (int num621 = 0; num621 < 5; num621++)
+            for (int j = 0; j < 5; j++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                Main.dust[fire].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[fire].scale = 0.5f;
+                    Main.dust[fire].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 10; num623++)
+            for (int k = 0; k < 10; k++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 6, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3f);
+                Main.dust[fire].noGravity = true;
+                Main.dust[fire].velocity *= 5f;
+                fire = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 2f);
+                Main.dust[fire].velocity *= 2f;
             }
-			CalamityUtils.ExplosionGores(projectile, 3);
+			CalamityUtils.ExplosionGores(projectile.Center, 3);
             if (projectile.owner == Main.myPlayer)
             {
-                for (int num252 = 0; num252 < 3; num252++)
+                for (int i = 0; i < 3; i++)
                 {
-                    Vector2 value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-                    while (value15.X == 0f && value15.Y == 0f)
+                    Vector2 velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                    while (velocity.X == 0f && velocity.Y == 0f)
                     {
-                        value15 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+                        velocity = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
                     }
-                    value15.Normalize();
-                    value15 *= (float)Main.rand.Next(70, 101) * 0.1f;
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, value15.X, value15.Y, ProjectileID.MolotovFire + Main.rand.Next(3), (int)((double)projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+                    velocity.Normalize();
+                    velocity *= (float)Main.rand.Next(70, 101) * 0.1f;
+                    int flames = Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+					Main.projectile[flames].Calamity().forceRanged = true;
+					Main.projectile[flames].penetrate = 3;
                 }
             }
         }

@@ -8,8 +8,8 @@ namespace CalamityMod.Items.Armor
     [AutoloadEquip(EquipType.Head)]
     public class ForbiddenCirclet : ModItem
     {
-		public const int manaCost = 50;
-		public const int tornadoBaseDmg = 100;
+		public const int manaCost = 60;
+		public const int tornadoBaseDmg = 80;
 		public const float tornadoBaseKB = 1f;
 
         public override void SetStaticDefaults()
@@ -48,7 +48,6 @@ namespace CalamityMod.Items.Armor
             player.setBonus = "Press " + hotkey + " to call an ancient storm to the cursor location\n" +
                     "The ancient storm costs " + stormMana + " mana and benefits from both summon and rogue bonuses\n" +
                     "Rogue stealth strikes spawn homing eaters on enemy hits\n" +
-                    "Minions deal full damage while wielding rogue weapons\n" +
                     "Rogue and summon attacks will scale off of the stat with a higher boost\n" +
 					"Rogue stealth builds while not attacking and slower while moving, up to a max of 100\n" +
 					"Once you have built max stealth, you will be able to perform a Stealth Strike\n" +

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using Terraria;
 using Terraria.ModLoader;
 using CalamityMod.Items;
+using Terraria.ID;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -65,8 +66,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     bool flag2 = player.channel && !player.noItems && !player.CCed;
 					if (flag2)
 					{
-						// Consume 2 ammo per shot
-						CalamityGlobalItem.ConsumeAdditionalAmmo(player, player.ActiveItem(), 2);
+						// Attempt to use power from the held item.
+						if (player.ActiveItem().type >= ItemID.Count &&
+							player.ActiveItem().Calamity().Chargeable &&
+							player.ActiveItem().Calamity().CurrentCharge > 0 && 
+							Main.rand.NextBool((int)(120 / (float)fireRate)))
+						{
+							player.ActiveItem().Calamity().CurrentCharge--;
+						}
+
 
 						float scaleFactor = player.ActiveItem().shootSpeed * projectile.scale;
 						Vector2 value2 = vector;
@@ -101,8 +109,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 							velocity2.Normalize();
 							velocity2 *= 5f;
 						}
-						float SpeedX = velocity2.X + Main.rand.Next(-1, 2) * 0.01f;
-						float SpeedY = velocity2.Y + Main.rand.Next(-1, 2) * 0.01f;
+						float SpeedX = velocity2.X + Main.rand.Next(-1, 2) * 0.005f;
+						float SpeedY = velocity2.Y + Main.rand.Next(-1, 2) * 0.005f;
 						float ai0 = projectile.ai[0] - 2f; // 0, 1, or 2
 						Projectile.NewProjectile(value2.X, value2.Y, SpeedX, SpeedY, type, weaponDamage2, projectile.knockBack, projectile.owner, ai0, 0f);
 					}

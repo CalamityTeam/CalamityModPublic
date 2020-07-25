@@ -51,12 +51,26 @@ namespace CalamityMod.Projectiles.Summon
 					}
                 }
 			}
-			else
+            else if (projectile.ai[0] != -1f)
+            {
+                NPC npc = Main.npc[(int)projectile.ai[0]];
+                if ((npc.CanBeChasedBy(projectile, false) || npc.type == NPCID.DukeFishron) && npc.active)
+                {
+					float extraDistance = (npc.width / 2) + (npc.height / 2);
+
+					if (Vector2.Distance(npc.Center, projectile.Center) < (maxDistance + extraDistance))
+					{
+						center = npc.Center;
+						homeIn = true;
+					}
+                }
+			}
+			if (!homeIn)
 			{
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
 					NPC npc = Main.npc[i];
-					if ((npc.CanBeChasedBy(projectile, false) || npc.type == NPCID.DukeFishron) && npc.active)
+					if ((npc.CanBeChasedBy(projectile, false) || (npc.type == NPCID.DukeFishron && (!npc.dontTakeDamage || npc.ai[0] > 9f))) && npc.active)
 					{
 						float extraDistance = (npc.width / 2) + (npc.height / 2);
 

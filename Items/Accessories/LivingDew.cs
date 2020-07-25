@@ -10,15 +10,16 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Living Dew");
-            Tooltip.SetDefault("5% increased damage reduction, +5 defense, and increased life regen while in the Jungle");
+            Tooltip.SetDefault("5% increased damage reduction, +5 defense, and increased life regen while in the Jungle\n" +
+			"Immunity to Poison");
         }
 
         public override void SetDefaults()
         {
             item.width = 20;
             item.height = 20;
-            item.value = Item.buyPrice(0, 12, 0, 0);
-            item.rare = 5;
+            item.value = CalamityGlobalItem.Rarity3BuyPrice;
+            item.rare = 3;
             item.accessory = true;
         }
 
@@ -30,17 +31,17 @@ namespace CalamityMod.Items.Accessories
                 player.statDefense += 5;
                 player.endurance += 0.05f;
             }
+            player.buffImmune[BuffID.Poisoned] = true;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<ManeaterBulb>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<TrapperBulb>(), 2);
             recipe.AddIngredient(ModContent.ItemType<MurkyPaste>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<GypsyPowder>());
-            recipe.AddIngredient(ModContent.ItemType<BeetleJuice>(), 3);
-            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.AddIngredient(ItemID.BeeWax, 10);
+            recipe.AddIngredient(ItemID.Bezoar);
+            recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

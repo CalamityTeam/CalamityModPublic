@@ -33,10 +33,7 @@ namespace CalamityMod.Items.TreasureBags
             item.expert = true;
         }
 
-        public override bool CanRightClick()
-        {
-            return true;
-        }
+        public override bool CanRightClick() => true;
 
         public override void PostUpdate() => CalamityUtils.ForceItemIntoWorld(item);
 
@@ -63,6 +60,7 @@ namespace CalamityMod.Items.TreasureBags
 
             // Vanity
             DropHelper.DropItemChance(player, ModContent.ItemType<LeviathanMask>(), 7);
+            DropHelper.DropItemChance(player, ModContent.ItemType<AnahitaMask>(), 7);
 
             // Fishing
             DropHelper.DropItemChance(player, ItemID.HotlineFishingHook, 10);

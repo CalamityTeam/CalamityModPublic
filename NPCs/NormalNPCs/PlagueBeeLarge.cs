@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.DamageOverTime;
+using CalamityMod.Dusts;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Banners;
 using Microsoft.Xna.Framework;
@@ -26,9 +27,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.scale = 0.75f;
             npc.lifeMax = 300;
             npc.aiStyle = 5;
-            aiType = 210;
+            aiType = NPCID.Bee;
             npc.knockBackResist = 0f;
-            animationType = 210;
+            animationType = NPCID.Bee;
             npc.value = Item.buyPrice(0, 0, 10, 0);
             npc.HitSound = SoundID.NPCHit4;
             npc.DeathSound = SoundID.NPCDeath14;
@@ -122,13 +123,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 5; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 46, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, (int)CalamityDusts.Plague, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

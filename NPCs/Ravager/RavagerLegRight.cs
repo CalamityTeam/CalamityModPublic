@@ -46,6 +46,7 @@ namespace CalamityMod.NPCs.Ravager
             npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.noGravity = true;
             npc.canGhostHeal = false;
@@ -127,8 +128,8 @@ namespace CalamityMod.NPCs.Ravager
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-                Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
@@ -136,8 +137,8 @@ namespace CalamityMod.NPCs.Ravager
                 Gore.NewGore(npc.position, npc.velocity, mod.GetGoreSlot("Gores/ScavengerGores/ScavengerLegRight2"), 1f);
                 for (int k = 0; k < 20; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
-                    Dust.NewDust(npc.position, npc.width, npc.height, 6, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

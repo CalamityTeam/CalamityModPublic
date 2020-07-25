@@ -1,6 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.DataStructures;
@@ -26,7 +26,7 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 32;
             item.height = 40;
-            item.value = Item.buyPrice(1, 40, 0, 0);
+            item.value = CalamityGlobalItem.Rarity12BuyPrice;
             item.rare = 10;
             item.accessory = true;
             item.Calamity().customRarity = CalamityRarity.Dedicated;

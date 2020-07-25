@@ -1,5 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.World;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -11,11 +13,10 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Xeroc Mask");
-            Tooltip.SetDefault("11% increased rogue damage and critical strike chance, 22% increased movement speed\n" +
-                "Temporary immunity to lava and immunity to cursed, fire, cursed inferno, and chilled\n" +
-				"Provides heat protection in Death Mode\n" +
-                "Wrath of the cosmos");
+            DisplayName.SetDefault("Empyrean Mask");
+            Tooltip.SetDefault("Wrath of the cosmos\n" +
+				"11% increased rogue damage and critical strike chance, 22% increased movement speed\n" +
+                "Temporary immunity to lava");
         }
 
         public override void SetDefaults()
@@ -27,6 +28,21 @@ namespace CalamityMod.Items.Armor
             item.defense = 20; //71
         }
 
+        public override void ModifyTooltips(List<TooltipLine> list)
+        {
+			if (CalamityWorld.death)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
+					{
+						line2.text = "Temporary immunity to lava\n" +
+						"Provides heat protection in Death Mode";
+					}
+				}
+			}
+        }
+
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
             return body.type == ModContent.ItemType<XerocPlateMail>() && legs.type == ModContent.ItemType<XerocCuisses>();
@@ -36,6 +52,8 @@ namespace CalamityMod.Items.Armor
         {
             player.armorEffectDrawShadow = true;
             player.armorEffectDrawOutlines = true;
+			player.Calamity().meldTransformation = true;
+            player.Calamity().meldTransformationForce = true;
         }
 
         public override void UpdateArmorSet(Player player)
@@ -50,7 +68,7 @@ namespace CalamityMod.Items.Armor
                 "Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
                 "Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
                 "The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
-            if (player.statLife <= (int)((double)player.statLifeMax2 * 0.5))
+            if (player.statLife <= (int)(player.statLifeMax2 * 0.5))
             {
                 player.AddBuff(BuffID.Wrath, 2);
                 player.AddBuff(BuffID.Rage, 2);
@@ -66,10 +84,6 @@ namespace CalamityMod.Items.Armor
             player.Calamity().throwingCrit += 11;
             player.moveSpeed += 0.22f;
             player.lavaMax += 240;
-            player.buffImmune[BuffID.OnFire] = true;
-            player.buffImmune[BuffID.CursedInferno] = true;
-            player.buffImmune[BuffID.Cursed] = true;
-            player.buffImmune[BuffID.Chilled] = true;
         }
 
         public override void AddRecipes()
@@ -80,6 +94,30 @@ namespace CalamityMod.Items.Armor
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+    }
+
+    public class MeldTransformationHead : EquipTexture
+    {
+        public override bool DrawHead()
+        {
+            return false;
+        }
+    }
+
+    public class MeldTransformationBody : EquipTexture
+    {
+        public override bool DrawBody()
+        {
+            return false;
+        }
+    }
+
+    public class MeldTransformationLegs : EquipTexture
+    {
+        public override bool DrawLegs()
+        {
+            return false;
         }
     }
 }

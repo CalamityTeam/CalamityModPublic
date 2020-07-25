@@ -1,6 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
@@ -21,10 +21,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 28;
-            item.value = Item.buyPrice(1, 50, 0, 0);
+            item.value = CalamityGlobalItem.Rarity15BuyPrice;
             item.accessory = true;
             item.rare = 10;
-            item.Calamity().customRarity = CalamityRarity.Developer;
+            item.Calamity().customRarity = CalamityRarity.Violet;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

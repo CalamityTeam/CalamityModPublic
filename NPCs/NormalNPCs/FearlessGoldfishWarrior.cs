@@ -22,7 +22,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npc.aiStyle = -1;
             aiType = -1;
-            npc.damage = Main.hardMode ? 120 : 30;
+            npc.damage = Main.hardMode ? 100 : 30;
             npc.width = 36;
             npc.height = 32;
             npc.defense = Main.hardMode ? 10 : 2;
@@ -33,6 +33,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             npc.DeathSound = SoundID.NPCDeath1;
             banner = npc.type;
             bannerItem = ModContent.ItemType<FearlessGoldfishWarriorBanner>();
+            npc.buffImmune[BuffID.Confused] = false;
         }
 
         public override void AI()
@@ -426,13 +427,13 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             for (int k = 0; k < 3; k++)
             {
-                Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
             }
             if (npc.life <= 0)
             {
                 for (int k = 0; k < 15; k++)
                 {
-                    Dust.NewDust(npc.position, npc.width, npc.height, 5, hitDirection, -1f, 0, default, 1f);
+                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
                 }
             }
         }

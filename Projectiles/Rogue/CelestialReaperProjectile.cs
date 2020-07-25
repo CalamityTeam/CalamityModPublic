@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool? CanHitNPC(NPC target)
 		{
-			if (HomingCooldown != 0)
+			if (HomingCooldown > 0)
 			{
 				return false;
 			}
@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override bool CanHitPvp(Player target)
 		{
-			return HomingCooldown == 0;
+			return HomingCooldown <= 0;
 		}
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

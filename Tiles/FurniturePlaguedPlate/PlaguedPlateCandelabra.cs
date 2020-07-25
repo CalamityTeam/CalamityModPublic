@@ -11,7 +11,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
         {
             this.SetUpCandelabra();
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Plagued Plate Candelabra");
+            name.SetDefault("Plagued Candelabra");
             AddMapEntry(new Color(191, 142, 111), name);
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Torches };

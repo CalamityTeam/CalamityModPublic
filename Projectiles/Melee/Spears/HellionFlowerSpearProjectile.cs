@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.Melee.Spears
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
             projectile.ownerHitCheck = true;
-            projectile.Calamity().trueMelee = true;
+            //projectile.Calamity().trueMelee = true;
         }
 
         public override float InitialSpeed => 3f;
@@ -37,27 +37,29 @@ namespace CalamityMod.Projectiles.Melee.Spears
         {
             Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X * 2.4f, projectile.velocity.Y * 2.4f, ModContent.ProjectileType<HellionSpike>(), (int)(projectile.damage * 0.65), projectile.knockBack * 0.85f, projectile.owner, 0f, 0f);
         };
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            target.immune[projectile.owner] = 8;
-            target.AddBuff(BuffID.Venom, 300);
+
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
+			target.immune[projectile.owner] = 8;
+			OnHitEffects(target.Center, crit);
+			target.AddBuff(BuffID.Venom, 300);
+		}
+
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
+			OnHitEffects(target.Center, crit);
+			target.AddBuff(BuffID.Venom, 300);
+		}
+
+		private void OnHitEffects(Vector2 targetPos, bool crit)
+		{
             if (crit)
             {
-                float xPos = projectile.position.X + 800f * Main.rand.NextBool(2).ToDirectionInt();
-                Vector2 spawnPosition = new Vector2(xPos, projectile.position.Y - Main.rand.Next(-800, 801));
-                float speedX = target.position.X - spawnPosition.X;
-                float speedY = target.position.Y - spawnPosition.Y;
-                float magnitude = (float)Math.Sqrt(speedX * speedX + speedY * speedY);
-                magnitude = 10f / xPos;
-                speedX *= magnitude * 150;
-                speedY *= magnitude * 150;
-                speedX = MathHelper.Clamp(speedX, -15f, 15f);
-                speedY = MathHelper.Clamp(speedY, -15f, 15f);
-                if (projectile.owner == Main.myPlayer)
+				if (projectile.owner == Main.myPlayer)
 				{
-                    int petal = Projectile.NewProjectile(spawnPosition.X, spawnPosition.Y, speedX, speedY, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), 2f, projectile.owner);
-					Main.projectile[petal].Calamity().forceMelee = true;
-					Main.projectile[petal].localNPCHitCooldown = -1;
+					Projectile petal = CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, Main.rand.NextBool(), 800f, 800f, 0f, 800f, 10f, ProjectileID.FlowerPetal, (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, true);
+					petal.Calamity().forceMelee = true;
+					petal.localNPCHitCooldown = -1;
 				}
             }
         }
