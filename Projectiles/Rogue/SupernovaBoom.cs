@@ -6,50 +6,51 @@ using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.Rogue
 {
-    public class SupernovaBoom : ModProjectile
-    {
-        public int frameX = 0;
-        public int frameY = 0;
+	public class SupernovaBoom : ModProjectile
+	{
+		public int frameX = 0;
+		public int frameY = 0;
 		private const int horizontalFrames = 5;
 		private const int verticalFrames = 4;
 		private const int frameLength = 5;
+		private const float radius = 409f;
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Explosion");
-        }
+		public override void SetStaticDefaults()
+		{
+			DisplayName.SetDefault("Explosion");
+		}
 
-        public override void SetDefaults()
-        {
-            projectile.width = 400;
-            projectile.height = 400;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.Calamity().rogue = true;
-            projectile.penetrate = -1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = frameLength * horizontalFrames * verticalFrames / 5;
-        }
+		public override void SetDefaults()
+		{
+			projectile.width = 408;
+			projectile.height = 410;
+			projectile.friendly = true;
+			projectile.ignoreWater = true;
+			projectile.tileCollide = false;
+			projectile.Calamity().rogue = true;
+			projectile.penetrate = -1;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = frameLength * horizontalFrames * verticalFrames / 5;
+		}
 
-        public override void AI()
-        {
-            projectile.frameCounter++;
-            if (projectile.frameCounter % frameLength == frameLength - 1)
-            {
-                frameY++;
-                if (frameY >= verticalFrames)
-                {
-                    frameX++;
-                    frameY = 0;
-                }
-                if (frameX >= horizontalFrames)
-                {
-                    projectile.Kill();
-                }
-            }
+		public override void AI()
+		{
+			projectile.frameCounter++;
+			if (projectile.frameCounter % frameLength == frameLength - 1)
+			{
+				frameY++;
+				if (frameY >= verticalFrames)
+				{
+					frameX++;
+					frameY = 0;
+				}
+				if (frameX >= horizontalFrames)
+				{
+					projectile.Kill();
+				}
+			}
 
-            Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
+			Lighting.AddLight(projectile.Center, Main.DiscoR * 0.5f / 255f, Main.DiscoG * 0.5f / 255f, Main.DiscoB * 0.5f / 255f);
 
 			/*float dustSpeed = (float)Main.rand.Next(12, 36);
 			Vector2 dustVel = CalamityUtils.RandomVelocity(40f, dustSpeed, dustSpeed, 1f);
@@ -62,33 +63,50 @@ namespace CalamityMod.Projectiles.Rogue
 			int rainbow = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 100, default, 2f);
 			Dust dust = Main.dust[rainbow];
 			dust.noGravity = true;
-			dust.position.X = projectile.Center.X;
-			dust.position.Y = projectile.Center.Y;
+			dust.position = projectile.Center;
 			dust.position.X += (float)Main.rand.Next(-10, 11);
 			dust.position.Y += (float)Main.rand.Next(-10, 11);
 			dust.velocity = dustVel;*/
-        }
+		}
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
+		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
+		{
+			float dist1 = Vector2.Distance(projectile.Center, targetHitbox.TopLeft());
+			float dist2 = Vector2.Distance(projectile.Center, targetHitbox.TopRight());
+			float dist3 = Vector2.Distance(projectile.Center, targetHitbox.BottomLeft());
+			float dist4 = Vector2.Distance(projectile.Center, targetHitbox.BottomRight());
+
+			float minDist = dist1;
+			if (dist2 < minDist)
+				minDist = dist2;
+			if (dist3 < minDist)
+				minDist = dist3;
+			if (dist4 < minDist)
+				minDist = dist4;
+
+			return minDist <= radius;
+		}
+
+		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+		{
 			Texture2D texture = Main.projectileTexture[projectile.type];
 			int length = texture.Width / horizontalFrames;
 			int height = texture.Height / verticalFrames;
 			Vector2 drawPos = projectile.Center - Main.screenPosition + new Vector2(0f, projectile.gfxOffY);
-            Rectangle frame = new Rectangle(frameX * length, frameY * height, length, height);
+			Rectangle frame = new Rectangle(frameX * length, frameY * height, length, height);
 			Vector2 origin = new Vector2(length / 2f, height / 2f);
-            spriteBatch.Draw(texture, drawPos, frame, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
-            return false;
-        }
+			spriteBatch.Draw(texture, drawPos, frame, Color.White, projectile.rotation, origin, projectile.scale, SpriteEffects.None, 0f);
+			return false;
+		}
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
+		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+		{
 			target.ExoDebuffs();
-        }
+		}
 
-        public override void OnHitPvp(Player target, int damage, bool crit)
-        {
+		public override void OnHitPvp(Player target, int damage, bool crit)
+		{
 			target.ExoDebuffs();
-        }
-    }
+		}
+	}
 }
