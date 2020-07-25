@@ -1099,9 +1099,13 @@ namespace CalamityMod.World
                         islandLocationX -= 25;
                         break;
                 }
+
                 CalamityWorld.AbyssIslandX[CalamityWorld.numAbyssIslands] = islandLocationX;
                 CalamityWorld.numAbyssIslands++;
+
                 islandLocationY += islandLocationOffset;
+				if (islandLocationY >= CalamityWorld.abyssChasmBottom - 50)
+					break;
             }
 
             CalamityWorld.AbyssItemArray = CalamityUtils.ShuffleArray(CalamityWorld.AbyssItemArray);
