@@ -4214,10 +4214,10 @@ namespace CalamityMod.World
                         }
                     }
                 }
-                if (num <= 2f && vector.Y < (Main.rockLayer + Main.maxTilesY * 0.3))
+                /*if (num <= 2f && vector.Y < (Main.rockLayer + Main.maxTilesY * 0.3))
                 {
                     num = 2f;
-                }
+                }*/
                 vector += vector2;
                 vector2.X += WorldGen.genRand.Next(-1, 2) * 0.01f;
                 if (vector2.X > 0.02)
