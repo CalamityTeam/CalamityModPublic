@@ -57,7 +57,7 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				for (int n = 0; n < 3; n++)
 				{
-					Projectile lightning = ProjectileRain(projectile.Center, 400f, 100f, -800f, -500f, 8f, ModContent.ProjectileType<BlunderBoosterLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+					Projectile lightning = CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, -800f, -500f, 8f, ModContent.ProjectileType<BlunderBoosterLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
 					lightning.ai[0] = Main.rand.Next(2);
 				}
 			}
