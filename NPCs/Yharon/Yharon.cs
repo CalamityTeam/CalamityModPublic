@@ -2867,6 +2867,13 @@ namespace CalamityMod.NPCs.Yharon
         #region Strike NPC
         public override bool StrikeNPC(ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
+			// Safeguard if damage would kill phase 1 before phase 2.
+			if (phaseOneLoot && (damage >= npc.life || (crit && damage * 2 >= npc.life)))
+			{
+				float lifeAboveTenPercent = npc.life - npc.lifeMax * 0.1f;
+				damage = MathHelper.Clamp((float)damage, 0f, lifeAboveTenPercent);
+			}
+
             // Safeguard to prevent damage which would allow skipping phase 2.
             if (!startSecondAI && dropLoot)
             {
