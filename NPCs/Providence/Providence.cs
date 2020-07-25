@@ -4,6 +4,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Dyes;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -16,20 +17,20 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.FurnitureProfaned;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Items.Dyes;
-using CalamityMod.Projectiles.Summon;
-using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.NPCs.Providence
 {
@@ -45,7 +46,7 @@ namespace CalamityMod.NPCs.Providence
         private int immuneTimer = 300;
         private int frameUsed = 0;
         private int healTimer = 0;
-        private bool challenge = Main.expertMode && Main.netMode == NetmodeID.SinglePlayer; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
+        internal bool challenge = Main.expertMode/* && Main.netMode == NetmodeID.SinglePlayer*/; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
 		internal bool hasTakenDaytimeDamage = false;
 
 		public static float normalDR = 0.35f;
@@ -1266,7 +1267,7 @@ namespace CalamityMod.NPCs.Providence
             DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), true, biomeType == 2 && Main.expertMode);
 
 			// Drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
-			bool shouldDrop = challenge || (Main.expertMode && Main.rand.NextBool(CalamityWorld.downedSCal ? 10 : 200));
+			bool shouldDrop = challenge/* || (Main.expertMode && Main.rand.NextBool(CalamityWorld.downedSCal ? 10 : 200))*/;
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, shouldDrop);
 
 			// Special drop for defeating her at night
@@ -1339,8 +1340,8 @@ namespace CalamityMod.NPCs.Providence
 
         private void SpawnLootBox()
         {
-            int tileCenterX = (int)(npc.position.X + (npc.width / 2)) / 16;
-            int tileCenterY = (int)(npc.position.Y + (npc.height / 2)) / 16;
+            int tileCenterX = (int)npc.Center.X / 16;
+            int tileCenterY = (int)npc.Center.Y / 16;
             int halfBox = npc.width / 2 / 16 + 1;
             for (int x = tileCenterX - halfBox; x <= tileCenterX + halfBox; x++)
             {
@@ -1571,13 +1572,31 @@ namespace CalamityMod.NPCs.Providence
 
 			if (challenge)
 			{
-				bool goldenGun = projectile.type == ModContent.ProjectileType<GoldenGunProj>();
+				List<int> exceptionList = new List<int>()
+				{ 
+					ModContent.ProjectileType<GoldenGunProj>(),
+					ModContent.ProjectileType<MiniGuardianDefense>(),
+					ModContent.ProjectileType<MiniGuardianAttack>(),
+					ModContent.ProjectileType<SilvaCrystalExplosion>(),
+					ModContent.ProjectileType<GhostlyMine>()
+				};
+
 				bool allowedClass = projectile.IsSummon() || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);
-				bool allowedDamage = allowedClass && damage <= (npc.lifeMax * 0.005f); //0.5% max hp
+				bool allowedDamage = allowedClass && damage <= (npc.lifeMax * 0.001f); //0.1% max hp
 				bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;
-				if ((!goldenGun && !allowedDamage && projectile.type != ModContent.ProjectileType<MiniGuardianDefense>() && projectile.type != ModContent.ProjectileType<MiniGuardianAttack>()) || !allowedBabs)
+
+				if ((exceptionList.TrueForAll(x => projectile.type != x) && !allowedDamage) || !allowedBabs)
 				{
 					challenge = false;
+
+					if (Main.netMode != NetmodeID.SinglePlayer)
+					{
+						var netMessage = mod.GetPacket();
+						netMessage.Write((byte)CalamityModMessageType.PSCChallengeSync);
+						netMessage.Write((byte)npc.whoAmI);
+						netMessage.Write(challenge);
+						netMessage.Send();
+					}
 				}
 			}
         }
@@ -1597,7 +1616,18 @@ namespace CalamityMod.NPCs.Providence
 			}
 
 			if (challenge)
+			{
 				challenge = false;
+
+				if (Main.netMode != NetmodeID.SinglePlayer)
+				{
+					var netMessage = mod.GetPacket();
+					netMessage.Write((byte)CalamityModMessageType.PSCChallengeSync);
+					netMessage.Write((byte)npc.whoAmI);
+					netMessage.Write(challenge);
+					netMessage.Send();
+				}
+			}
         }
 
         public override void HitEffect(int hitDirection, double damage)
