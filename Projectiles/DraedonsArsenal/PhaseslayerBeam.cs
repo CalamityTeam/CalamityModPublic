@@ -43,6 +43,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.frameCounter++;
         }
 
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            damage -= target.defense / 4;
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D bladeTexture = ModContent.GetTexture(Texture);

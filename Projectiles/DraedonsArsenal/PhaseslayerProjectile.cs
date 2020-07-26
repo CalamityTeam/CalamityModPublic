@@ -108,6 +108,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			HandleFadeout();
 		}
 
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			damage -= target.defense / 4;
+		}
+
 		private void ManipulatePlayer(Player player)
 		{
 			if (Main.myPlayer == player.whoAmI)

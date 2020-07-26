@@ -14,23 +14,6 @@ namespace CalamityMod.TileEntities
             Tile tile = Main.tile[i, j];
             return tile.active() && tile.type == ModContent.TileType<DraedonHologram>();
         }
-        public override void Update()
-        {
-            if ((int)(Main.GlobalTime * 60) % 20f == 19f)
-            {
-                CloseToPlayer = false;
-                foreach (var player in Main.player)
-                {
-                    if (!player.active)
-                        continue;
-                    if (player.Distance(Position.ToWorldCoordinates()) < 560f)
-                    {
-                        CloseToPlayer = true;
-                        break;
-                    }
-                }
-            }
-        }
         public override void NetSend(BinaryWriter writer, bool lightSend)
         {
             writer.Write(CloseToPlayer);
@@ -43,7 +26,7 @@ namespace CalamityMod.TileEntities
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                NetMessage.SendTileSquare(Main.myPlayer, i, j, 3);
+                NetMessage.SendTileSquare(Main.myPlayer, i, j, 7);
                 NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
                 return -1;
             }
