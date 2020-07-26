@@ -61,21 +61,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
 		public override void AddRecipes()
 		{
-			void AddIndividualRecipe(int saberID)
-			{
-				ModRecipe recipe = new ModRecipe(mod);
-				recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
-				recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 25);
-				recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-				recipe.AddIngredient(saberID);
-				recipe.AddTile(ModContent.TileType<DraedonsForge>());
-				recipe.SetResult(this);
-				recipe.AddRecipe();
-			}
-			
-			int[] phasesabers = { ItemID.WhitePhasesaber, ItemID.RedPhasesaber, ItemID.GreenPhasesaber, ItemID.BluePhasesaber, ItemID.PurplePhasesaber, ItemID.YellowPhasesaber };
-			foreach (int id in phasesabers)
-				AddIndividualRecipe(id);
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 25);
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddRecipeGroup("AnyPhasesaber");
+			recipe.AddIngredient(saberID);
+			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+			recipe.SetResult(this);
+			recipe.AddRecipe();
 		}
 	}
 }
