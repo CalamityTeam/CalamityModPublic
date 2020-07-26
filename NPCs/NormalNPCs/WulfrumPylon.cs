@@ -133,7 +133,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (spawnInfo.playerFloorX > Main.maxTilesX * 0.333f && spawnInfo.playerFloorX < Main.maxTilesX - Main.maxTilesX * 0.333f)
                 return 0f;
 
-            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.06f : 0.22f);
+            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.06f : 0.15f);
         }
 
         public override void HitEffect(int hitDirection, double damage)
