@@ -2,49 +2,50 @@ using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Tools
 {
-    public class CrystylCrusher : ModItem
-    {
+	public class CrystylCrusher : ModItem
+	{
 		private static int PickPower = 5000;
 		private static float LaserSpeed = 14f;
 
 		public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Crystyl Crusher");
-            Tooltip.SetDefault("Gotta dig faster, gotta go deeper\n" +
-				"5000% pickaxe power\n" +
+		{
+			DisplayName.SetDefault("Crystyl Crusher");
+			Tooltip.SetDefault("Gotta dig faster, gotta go deeper\n" +
 				"Right click to swing normally");
 			Item.staff[item.type] = true;
 		}
 
-        public override void SetDefaults()
-        {
-            item.damage = 2000;
-            item.melee = true;
+		public override void SetDefaults()
+		{
+			item.damage = 2000;
+			item.melee = true;
 			item.noMelee = true;
 			item.channel = true;
 			item.crit += 25;
-            item.width = 70;
-            item.height = 70;
-            item.useTime = item.useAnimation = 2;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.knockBack = 9f;
+			item.width = 70;
+			item.height = 70;
+			item.useTime = item.useAnimation = 2;
+			item.useStyle = ItemUseStyleID.HoldingOut;
+			item.knockBack = 9f;
 			item.shootSpeed = 14f;
-            item.value = Item.buyPrice(5, 0, 0, 0);
-            item.rare = 10;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
+			item.value = Item.buyPrice(5, 0, 0, 0);
+			item.rare = 10;
+			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
 			item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
-            item.Calamity().customRarity = CalamityRarity.ItemSpecific;
-        }
+			item.Calamity().customRarity = CalamityRarity.ItemSpecific;
+			item.pick = PickPower;
+		}
 
 		public override Vector2? HoldoutOrigin()
 		{
-			if (item.pick == PickPower)
+			if (item.useStyle == ItemUseStyleID.SwingThrow)
 				return null;
 			return new Vector2(10, 10);
 		}
@@ -55,7 +56,6 @@ namespace CalamityMod.Items.Tools
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.pick = PickPower;
 				item.shoot = ProjectileID.None;
 				item.shootSpeed = 0f;
 				item.tileBoost = 50;
@@ -68,10 +68,9 @@ namespace CalamityMod.Items.Tools
 			}
 			else
 			{
-				item.pick = 0;
 				item.shoot = ModContent.ProjectileType<CrystylCrusherRay>();
 				item.shootSpeed = LaserSpeed;
-				item.tileBoost = 0;
+				item.tileBoost = -6;
 				item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/CrystylCharge");
 				item.useStyle = ItemUseStyleID.HoldingOut;
 				item.useTurn = false;
@@ -80,6 +79,20 @@ namespace CalamityMod.Items.Tools
 				item.channel = true;
 			}
 			return base.CanUseItem(player);
+		}
+
+		public override void ModifyTooltips(List<TooltipLine> list)
+		{
+			if (item.useStyle == ItemUseStyleID.HoldingOut)
+			{
+				foreach (TooltipLine line2 in list)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "TileBoost")
+					{
+						line2.text = "";
+					}
+				}
+			}
 		}
 
 		public override void MeleeEffects(Player player, Rectangle hitbox)
@@ -100,14 +113,14 @@ namespace CalamityMod.Items.Tools
 		}
 
 		public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddRecipeGroup("LunarPickaxe");
-            recipe.AddIngredient(ModContent.ItemType<BlossomPickaxe>());
-            recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
-            recipe.AddTile(ModContent.TileType<DraedonsForge>());
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
-    }
+		{
+			ModRecipe recipe = new ModRecipe(mod);
+			recipe.AddRecipeGroup("LunarPickaxe");
+			recipe.AddIngredient(ModContent.ItemType<BlossomPickaxe>());
+			recipe.AddIngredient(ModContent.ItemType<ShadowspecBar>(), 5);
+			recipe.AddTile(ModContent.TileType<DraedonsForge>());
+			recipe.SetResult(this);
+			recipe.AddRecipe();
+		}
+	}
 }
