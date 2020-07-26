@@ -31,8 +31,9 @@ namespace CalamityMod.TileEntities
             }
 
             Time++;
+            // Sometimes the item gets fucked up and it gets a maxStack of 0. Using it as a max can be unreliable as a result.
             bool rightTimeToMakeCell = Time % 5 == 4 && Main.tileFrame[Main.tile[Position.X, Position.Y].type] == 43;
-            if (HeldItem.stack < HeldItem.maxStack && rightTimeToMakeCell)
+            if (HeldItem.stack < 999 && rightTimeToMakeCell)
             {
                 HeldItem.stack++;
             }
