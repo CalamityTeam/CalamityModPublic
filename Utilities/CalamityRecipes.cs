@@ -1013,16 +1013,16 @@ namespace CalamityMod
             });
             RecipeGroup.RegisterGroup("SiltGroup", group);
 
-            group = new RecipeGroup(() => "Any Phasesaber", new int[]
-            {
-                ItemID.WhitePhasesaber,
+			group = new RecipeGroup(() => "Any Phasesaber", new int[]
+			{
+				ItemID.WhitePhasesaber,
 				ItemID.RedPhasesaber,
 				ItemID.GreenPhasesaber,
 				ItemID.BluePhasesaber,
 				ItemID.PurplePhasesaber,
 				ItemID.YellowPhasesaber
-            });
-            RecipeGroup.RegisterGroup("AnyPhasesaber", group);
+			});
+			RecipeGroup.RegisterGroup("AnyPhasesaber", group);
 
             group = new RecipeGroup(() => "Any Hardmode Anvil", new int[]
             {
