@@ -95,14 +95,12 @@ namespace CalamityMod.NPCs.Ravager
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(npc.dontTakeDamage);
-			writer.Write(npc.noGravity);
 			writer.Write(velocityY);
 		}
 
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             npc.dontTakeDamage = reader.ReadBoolean();
-			npc.noGravity = reader.ReadBoolean();
 			velocityY = reader.ReadSingle();
 		}
 
@@ -137,11 +135,11 @@ namespace CalamityMod.NPCs.Ravager
             if (npc.localAI[0] == 0f && Main.netMode != NetmodeID.MultiplayerClient)
             {
                 npc.localAI[0] = 1f;
-                NPC.NewNPC((int)npc.Center.X - 70, (int)npc.Center.Y + 88, ModContent.NPCType<RavagerLegLeft>(), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X + 70, (int)npc.Center.Y + 88, ModContent.NPCType<RavagerLegRight>(), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X - 120, (int)npc.Center.Y + 50, ModContent.NPCType<RavagerClawLeft>(), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X + 120, (int)npc.Center.Y + 50, ModContent.NPCType<RavagerClawRight>(), 0, 0f, 0f, 0f, 0f, 255);
-                NPC.NewNPC((int)npc.Center.X + 1, (int)npc.Center.Y - 20, ModContent.NPCType<RavagerHead>(), 0, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X - 70, (int)npc.Center.Y + 88, ModContent.NPCType<RavagerLegLeft>());
+                NPC.NewNPC((int)npc.Center.X + 70, (int)npc.Center.Y + 88, ModContent.NPCType<RavagerLegRight>());
+                NPC.NewNPC((int)npc.Center.X - 120, (int)npc.Center.Y + 50, ModContent.NPCType<RavagerClawLeft>());
+                NPC.NewNPC((int)npc.Center.X + 120, (int)npc.Center.Y + 50, ModContent.NPCType<RavagerClawRight>());
+                NPC.NewNPC((int)npc.Center.X + 1, (int)npc.Center.Y - 20, ModContent.NPCType<RavagerHead>());
             }
 
             if (npc.target >= 0 && Main.player[npc.target].dead)
@@ -519,13 +517,13 @@ namespace CalamityMod.NPCs.Ravager
 
 							if (!NPC.AnyNPCs(ModContent.NPCType<RockPillar>()))
 							{
-								NPC.NewNPC((int)npc.Center.X - spawnDistance, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
-								NPC.NewNPC((int)npc.Center.X + spawnDistance, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>(), 0, 0f, 0f, 0f, 0f, 255);
+								NPC.NewNPC((int)npc.Center.X - spawnDistance, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>());
+								NPC.NewNPC((int)npc.Center.X + spawnDistance, (int)npc.Center.Y - 10, ModContent.NPCType<RockPillar>());
 							}
 							else if (!NPC.AnyNPCs(ModContent.NPCType<FlamePillar>()))
 							{
-								NPC.NewNPC((int)npc.Center.X - spawnDistance * 2, (int)npc.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
-								NPC.NewNPC((int)npc.Center.X + spawnDistance * 2, (int)npc.Center.Y - 10, ModContent.NPCType<FlamePillar>(), 0, 0f, 0f, 0f, 0f, 255);
+								NPC.NewNPC((int)npc.Center.X - spawnDistance * 2, (int)npc.Center.Y - 10, ModContent.NPCType<FlamePillar>());
+								NPC.NewNPC((int)npc.Center.X + spawnDistance * 2, (int)npc.Center.Y - 10, ModContent.NPCType<FlamePillar>());
 							}
 						}
                     }
@@ -534,6 +532,7 @@ namespace CalamityMod.NPCs.Ravager
 						npc.Calamity().newAI[0] += 1f;
 
 					npc.Calamity().newAI[1] = 0f;
+					npc.Calamity().newAI[3] = 0f;
 
 					for (int stompDustArea = (int)npc.position.X - 30; stompDustArea < (int)npc.position.X + npc.width + 60; stompDustArea += 30)
                     {
@@ -560,22 +559,26 @@ namespace CalamityMod.NPCs.Ravager
 							npc.noTileCollide = false;
 					}
 
-					float amount = death ? 1f : 1f - lifeRatio;
 					Vector2 targetVector = player.position;
-					float aimY = targetVector.Y - 320f;
+					float aimY = targetVector.Y - 480f;
+					float distanceFromTargetPos = Math.Abs(npc.Top.Y - aimY);
+					bool inRange = npc.Top.Y <= aimY + 16f && npc.Top.Y >= aimY - 16f;
 
 					if (npc.ai[0] == 2f && npc.ai[1] == 0f)
 					{
-						if (npc.Top.Y > aimY)
-						{
-							if (npc.velocity.Y > 0f)
-								npc.velocity.Y -= 0.5f + Math.Abs(npc.Top.Y - aimY) * 0.001f;
-						}
+						npc.Calamity().newAI[3] += 1f;
+
+						if (inRange)
+							npc.velocity.Y = 0f;
+						else if (npc.Top.Y > aimY)
+							npc.velocity.Y -= 0.2f + distanceFromTargetPos * 0.001f;
 						else
-						{
-							if (npc.velocity.Y < 0f)
-								npc.velocity.Y += 0.5f + Math.Abs(npc.Top.Y - aimY) * 0.001f;
-						}
+							npc.velocity.Y += 0.2f + distanceFromTargetPos * 0.001f;
+
+						if (npc.velocity.Y < velocityY)
+							npc.velocity.Y = velocityY;
+						if (npc.velocity.Y > -velocityY)
+							npc.velocity.Y = -velocityY;
 					}
 
 					float maxOffset = 160f + (death ? 160f : 160f * (1f - lifeRatio));
@@ -584,14 +587,16 @@ namespace CalamityMod.NPCs.Ravager
 					// Set offset to 0 if the target stops moving
 					if (Math.Abs(player.velocity.X) < 0.5f)
 						npc.Calamity().newAI[2] = 0f;
+					else
+						npc.Calamity().newAI[2] = player.direction;
 
-					if ((npc.position.X < targetVector.X + offset && npc.position.X + npc.width > targetVector.X + player.width + offset && (npc.Top.Y <= aimY || npc.ai[0] != 2f)) || npc.ai[1] > 0f)
+					if ((npc.position.X < targetVector.X + offset && npc.position.X + npc.width > targetVector.X + player.width + offset && (inRange || npc.ai[0] != 2f)) || npc.ai[1] > 0f || npc.Calamity().newAI[3] >= 180f)
                     {
 						if (npc.ai[0] == 2f)
 						{
-							float stopBeforeFallTime = npc.Calamity().newAI[2] == 0f ? 20f : 30f;
+							float stopBeforeFallTime = npc.Calamity().newAI[2] == 0f ? 15f : 20f;
 							if (expertMode)
-								stopBeforeFallTime -= death ? 15f : 15f * (1f - lifeRatio);
+								stopBeforeFallTime -= death ? 5f : 5f * (1f - lifeRatio);
 
 							if (npc.ai[1] < stopBeforeFallTime)
 							{
@@ -629,7 +634,11 @@ namespace CalamityMod.NPCs.Ravager
                     }
                     else
                     {
+						float velocityMult = 1.8f;
 						float velocityXChange = 0.2f + Math.Abs(npc.Center.X - player.Center.X) * 0.001f;
+
+						if (npc.ai[0] == 2f)
+							velocityXChange *= velocityMult;
 
 						if (npc.direction < 0)
                             npc.velocity.X -= velocityXChange;
@@ -653,7 +662,7 @@ namespace CalamityMod.NPCs.Ravager
                             velocityX += 1f;
 
 						if (npc.ai[0] == 2f)
-							velocityX *= 1.4f;
+							velocityX *= velocityMult;
 
                         if (npc.velocity.X < -velocityX)
                             npc.velocity.X = -velocityX;
@@ -768,12 +777,6 @@ namespace CalamityMod.NPCs.Ravager
                     Dust.NewDust(npc.position, npc.width, npc.height, DustID.Fire, hitDirection, -1f, 0, default, 1f);
                 }
             }
-        }
-
-        public override bool CanHitPlayer(Player target, ref int cooldownSlot)
-        {
-            cooldownSlot = 1;
-            return true;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

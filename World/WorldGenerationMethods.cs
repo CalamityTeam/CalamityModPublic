@@ -2305,8 +2305,8 @@ namespace CalamityMod.World
         #region EvilIsland
         public static void EvilIsland(int i, int j)
         {
-            double num = (double)WorldGen.genRand.Next(100, 150); //100 150
-            float num2 = (float)WorldGen.genRand.Next(20, 30); //20 30
+            double num = (double)WorldGen.genRand.Next(100, 150);
+            float num2 = (float)WorldGen.genRand.Next(20, 30);
             int num3 = i;
             int num4 = i;
             int num5 = i;
@@ -4214,10 +4214,10 @@ namespace CalamityMod.World
                         }
                     }
                 }
-                if (num <= 2f && vector.Y < (Main.rockLayer + Main.maxTilesY * 0.3))
+                /*if (num <= 2f && vector.Y < (Main.rockLayer + Main.maxTilesY * 0.3))
                 {
                     num = 2f;
-                }
+                }*/
                 vector += vector2;
                 vector2.X += WorldGen.genRand.Next(-1, 2) * 0.01f;
                 if (vector2.X > 0.02)

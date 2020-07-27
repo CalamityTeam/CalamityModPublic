@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		{
 			item.width = 62;
 			item.height = 22;
-			item.ranged = true;
+			item.magic = true;
 			item.damage = 22;
 			item.knockBack = 0f;
 			item.useTime = item.useAnimation = 20;
@@ -31,35 +31,32 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.noMelee = true;
 
 			item.value = CalamityGlobalItem.Rarity3BuyPrice;
-			item.rare = 3;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<PulseRifleShot>();
-			item.shootSpeed = 5.2f; // Keep in mind that the shot has extra updates.
+			item.shootSpeed = 5.2f; // This may seem low but the shot has 10 extra updates.
 
 			item.Calamity().Chargeable = true;
+			item.Calamity().ChargeMax = 50;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<PulsePistolShot>(), damage, knockBack, player.whoAmI, 0f, 0f);
-
-			// Consume 6 ammo per shot
-			CalamityGlobalItem.ConsumeAdditionalAmmo(player, item, 6);
-
 			return false;
 		}
 
 		public override Vector2? HoldoutOffset() => new Vector2(10f, 0f);
-
-		// Disable vanilla ammo consumption
-		public override bool ConsumeAmmo(Player player) => false;
 
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
-			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
+			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
+			recipe.AddIngredient(ItemID.MeteoriteBar, 4);
+			recipe.AddIngredient(ItemID.FlintlockPistol);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

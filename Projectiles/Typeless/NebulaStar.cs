@@ -40,7 +40,7 @@ namespace CalamityMod.Projectiles.Typeless
 		public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
 		{
 			Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
-			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/NebulaStarGlow"), projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
+			spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/NebulaStarGlow"), projectile.Center - Main.screenPosition, frame, Color.White * ((255 - projectile.alpha) / 255f), projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
 		}
 	}
 }

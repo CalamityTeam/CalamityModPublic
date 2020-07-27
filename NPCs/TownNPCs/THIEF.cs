@@ -71,9 +71,10 @@ namespace CalamityMod.NPCs.TownNPCs
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
-                if (player.active && player.InventoryHas(ItemID.PlatinumCoin))
+				bool rich = player.InventoryHas(ItemID.PlatinumCoin) || player.PortableStorageHas(ItemID.PlatinumCoin);
+                if (player.active && rich)
                 {
-                    return NPC.downedBoss3;
+                    return NPC.downedBoss3 || CalamityWorld.spawnedBandit;
                 }
             }
             return CalamityWorld.spawnedBandit;

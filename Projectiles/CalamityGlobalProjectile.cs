@@ -13,6 +13,7 @@ using CalamityMod.Projectiles.Ranged;
 using CalamityMod.Projectiles.Rogue;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
+using CalamityMod.Projectiles.Typeless.FiniteUse;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -1021,6 +1022,8 @@ namespace CalamityMod.Projectiles
 					defCrit = modPlayer.critStats[3];
 				else if (projectile.IsSummon())
 					defCrit = 4;
+				else if (player.ActiveItem().crit > 0)
+					defCrit = player.ActiveItem().crit;
 			}
 
 			if (projectile.owner == Main.myPlayer/* && Main.netMode != NetmodeID.MultiplayerClient*/)
@@ -1117,6 +1120,15 @@ namespace CalamityMod.Projectiles
 					damage = (int)(damage * 1.2);
 					if (!crit)
 						crit = Main.rand.NextBool(10);
+				}
+
+				if (projectile.type == ProjectileType<MagnumRound>())
+				{
+					if (crit)
+					{
+						damage = (int)(damage * 1.25);
+						knockback *= 1.25f;
+					}
 				}
 			}
 		}
@@ -2104,7 +2116,7 @@ namespace CalamityMod.Projectiles
 			}
 		}
 
-		public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D)
+		public static void MagnetSphereHitscan(Projectile projectile, float distanceRequired, float homingVelocity, float projectileTimer, int maxTargets, int spawnedProjectile, double damageMult = 1D, bool attackMultiple = false)
 		{
 			float maxDistance = distanceRequired;
 			bool homeIn = false;
@@ -2147,6 +2159,24 @@ namespace CalamityMod.Projectiles
 					Vector2 value = projectile.Center + projectile.velocity * 4f;
 					Vector2 velocity = Vector2.Normalize(Main.npc[randomTarget].Center - value) * homingVelocity;
 
+					if (attackMultiple)
+					{
+						for (int i = 0; i < targetArrayIndex; i++)
+						{
+							velocity = Vector2.Normalize(Main.npc[targetArray[i]].Center - value) * homingVelocity;
+
+							if (projectile.owner == Main.myPlayer)
+							{
+								int projectile2 = Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
+
+								if (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.Calamity().rogue)
+									Main.projectile[projectile2].Calamity().forceRogue = true;
+							}
+						}
+
+						return;
+					}
+
 					if (projectile.type == ProjectileType<GodsGambitYoyo>())
 					{
 						velocity.Y += Main.rand.Next(-30, 31) * 0.05f;
@@ -2160,9 +2190,6 @@ namespace CalamityMod.Projectiles
 						if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
 							projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>() || (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.melee))
 							Main.projectile[projectile2].Calamity().forceMelee = true;
-
-						else if (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.Calamity().rogue)
-							Main.projectile[projectile2].Calamity().forceRogue = true;
 					}
 				}
 			}

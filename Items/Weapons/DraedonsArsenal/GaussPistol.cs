@@ -10,6 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gauss Pistol");
+			Tooltip.SetDefault("Fires a devastating high velocity blast with extreme knockback");
 		}
 
 		public override void SetDefaults()
@@ -18,7 +19,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.height = 22;
 			item.magic = true;
 			item.mana = 6;
-			item.damage = 25;
+			item.damage = 70;
 			item.knockBack = 11f;
 			item.useTime = item.useAnimation = 20;
 			item.autoReuse = true;
@@ -27,22 +28,25 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GaussWeaponFire");
 			item.noMelee = true;
 
-			item.value = CalamityGlobalItem.Rarity3BuyPrice;
-			item.rare = 3;
+			item.value = CalamityGlobalItem.Rarity5BuyPrice;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<GaussPistolShot>();
 			item.shootSpeed = 14f;
 
+			item.Calamity().ChargeMax = 85;
 			item.Calamity().Chargeable = true;
 		}
 
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 7);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 10);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 8);
+			recipe.AddIngredient(ItemID.HallowedBar, 10);
+			recipe.AddIngredient(ItemID.SpaceGun);
+			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

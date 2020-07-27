@@ -8695,7 +8695,7 @@ namespace CalamityMod.NPCs
 						float radians = MathHelper.TwoPi / totalTentacles;
 						for (int i = 0; i < totalTentacles; i++)
 						{
-							Vector2 vector255 = new Vector2(0f, -60f * totalTentacles).RotatedBy(radians * i);
+							Vector2 vector255 = new Vector2(0f, -65f * totalTentacles).RotatedBy(radians * i);
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, vector255.X, vector255.Y, 1f, 0f, 255);
 						}
 					}
@@ -8821,7 +8821,7 @@ namespace CalamityMod.NPCs
 						float radians = MathHelper.TwoPi / totalTentacles;
 						for (int i = 0; i < totalTentacles; i++)
 						{
-							Vector2 vector255 = new Vector2(0f, -60f * totalTentacles).RotatedBy(radians * i);
+							Vector2 vector255 = new Vector2(0f, -65f * totalTentacles).RotatedBy(radians * i);
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, vector255.X, vector255.Y, 2f, 0f, 255);
 						}
 					}
@@ -10160,7 +10160,7 @@ namespace CalamityMod.NPCs
             if (!Collision.CanHit(Main.npc[NPC.golemBoss].Center, 1, 1, Main.player[npc.target].Center, 1, 1))
                 npc.ai[2] += 8f;
 
-            if (npc.ai[2] >= 150f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
+            if (npc.ai[2] >= 240f && Vector2.Distance(Main.player[npc.target].Center, npc.Center) > 160f)
             {
                 npc.ai[2] = 0f;
 

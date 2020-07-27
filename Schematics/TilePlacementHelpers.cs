@@ -1,6 +1,9 @@
+using CalamityMod.TileEntities;
+using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static CalamityMod.Schematics.SchematicLoader;
@@ -29,7 +32,8 @@ namespace CalamityMod.Schematics
         {
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             Tile[,] tiles = TileMaps[mapKey];
-            int xOffset = placementPosition.X;
+			ushort[,] oldWalls = new ushort[tiles.GetLength(0), tiles.GetLength(1)];
+			int xOffset = placementPosition.X;
             int yOffset = placementPosition.Y;
             // Top-left is the default for terraria. There is no need to include it in this switch.
             switch (placementAnchor)
@@ -49,8 +53,8 @@ namespace CalamityMod.Schematics
                     yOffset += tiles.GetLength(1);
                     break;
             }
-            ushort[,] oldWalls = new ushort[tiles.GetLength(0), tiles.GetLength(1)];
-            for (int x = 0; x < tiles.GetLength(0); x++)
+			oldWalls = new ushort[tiles.GetLength(0), tiles.GetLength(1)];
+			for (int x = 0; x < tiles.GetLength(0); x++)
             {
                 for (int y = 0; y < tiles.GetLength(1); y++)
                 {
@@ -81,11 +85,15 @@ namespace CalamityMod.Schematics
                                 chestInteraction?.Invoke(chest);
                             }
                         }
+                        if (tiles[x, y].type == ModContent.TileType<DraedonItemCharger>())
+                        {
+                            WorldGen.PlaceTile(x, y, tiles[x, y].type);
+                        }
 
                         Main.tile[x + xOffset, y + yOffset] = (Tile)tiles[x, y].Clone();
 
                         // If specified, preserve walls if they're not not being overrided and there's no active tile in its place.
-                        if (preserveWalls && oldWalls[x, y] != 0)
+                        if (preserveWalls && oldWalls[x, y] != 0 && tiles[x, y].wall == 0)
                         {
                             Main.tile[x + xOffset, y + yOffset].wall = oldWalls[x, y];
                         }

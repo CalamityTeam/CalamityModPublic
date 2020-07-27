@@ -12,13 +12,13 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Star Swallower Containment Unit");
-			Tooltip.SetDefault("Summons a mechanical frog that vomits plasma onto enemies");
+			Tooltip.SetDefault("Summons a biomechanical frog that vomits plasma onto enemies");
 		}
 
 		public override void SetDefaults()
 		{
 			item.shootSpeed = 10f;
-			item.damage = 20;
+			item.damage = 24;
 			item.mana = 10;
 			item.width = 18;
 			item.height = 28;
@@ -27,7 +27,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.noMelee = true;
 			item.knockBack = 2.25f;
 			item.value = CalamityGlobalItem.Rarity3BuyPrice;
-			item.rare = 3;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 			item.UseSound = SoundID.Item15;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<StarSwallowerSummon>();
@@ -48,9 +49,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 6);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 6);
-			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 8);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
+			recipe.AddIngredient(ItemID.MeteoriteBar, 4);
+			recipe.AddIngredient(ItemID.Frog);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

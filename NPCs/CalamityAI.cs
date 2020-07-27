@@ -3529,10 +3529,13 @@ namespace CalamityMod.NPCs
 			// Increase projectile fire rate based on number of nearby active tiles
 			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 4f, 1f - ((tileEnrageMult - 1f) / 0.8f));
 
+			// Decrease projectile time left based on number of nearby active tiles
+			int baseProjectileTimeLeft = (int)(333.4f * tileEnrageMult);
+
 			// Increase damage of projectiles and contact damage based on number of nearby active tiles
 			int damageIncrease = 0;
 			if (nearbyActiveTiles < 400)
-				damageIncrease += (400 - nearbyActiveTiles) / 20; // Ranges from 0 to 20
+				damageIncrease += (400 - nearbyActiveTiles) / 40; // Ranges from 0 to 10
 
 			npc.damage = npc.defDamage + damageIncrease * 4;
 
@@ -3615,7 +3618,7 @@ namespace CalamityMod.NPCs
 						vector104.X += num942 * 5f;
 						vector104.Y += num943 * 5f;
 						int num947 = Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, num946, damage, 0f, Main.myPlayer, tileEnrageMult, 0f);
-						Main.projectile[num947].timeLeft = 300;
+						Main.projectile[num947].timeLeft = baseProjectileTimeLeft / 2;
 						npc.netUpdate = true;
 					}
 
@@ -3626,7 +3629,8 @@ namespace CalamityMod.NPCs
 							for (int i = 0; i < 12; i++)
 							{
 								float ai1 = player.ZoneDungeon ? 0f : 1f;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergyBall2>(), damage, 0f, Main.myPlayer, i * 30, ai1);
+								int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, 0f, 0f, ModContent.ProjectileType<DarkEnergyBall2>(), damage, 0f, Main.myPlayer, i * 30, ai1);
+								Main.projectile[proj].timeLeft = baseProjectileTimeLeft;
 							}
 						}
 						else
@@ -3641,7 +3645,8 @@ namespace CalamityMod.NPCs
 							for (i = 0; i < 4; i++)
 							{
 								offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-								Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), ModContent.ProjectileType<DarkEnergyBall>(), damage, 0f, Main.myPlayer, passedVar, 0f);
+								int proj = Projectile.NewProjectile(npc.Center.X, npc.Center.Y, (float)(Math.Sin(offsetAngle) * 3f), (float)(Math.Cos(offsetAngle) * 3f), ModContent.ProjectileType<DarkEnergyBall>(), damage, 0f, Main.myPlayer, passedVar, 0f);
+								Main.projectile[proj].timeLeft = baseProjectileTimeLeft;
 								passedVar += 1f;
 							}
 						}

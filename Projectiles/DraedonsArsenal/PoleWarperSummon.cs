@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             GrantBuffs(player);
             NPC potentialTarget = projectile.Center.MinionHoming(900f, player);
-            if (potentialTarget == null)
+            if (potentialTarget is null)
             {
                 PlayerMovement(player);
                 RepelMovement();

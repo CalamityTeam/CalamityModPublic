@@ -364,7 +364,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								if (npc.ai[1] % 10f == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
+								if (npc.ai[1] % 15f == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
 								{
 									if (expertMode && Main.rand.NextBool(2))
 									{
@@ -446,7 +446,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, vectorCenter) > 160f)
 					{
-						if (npc.ai[1] % 20f == 0f)
+						if (npc.ai[1] % 40f == 0f)
 						{
 							if (expertMode && Main.rand.NextBool(2))
 							{

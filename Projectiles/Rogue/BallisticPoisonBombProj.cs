@@ -31,7 +31,7 @@ namespace CalamityMod.Projectiles.Rogue
             {
                 Dust.NewDust(projectile.position + projectile.velocity, projectile.width, projectile.height, 14, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f);
             }
-			projectile.StickToTiles();
+			projectile.StickToTiles(true, false);
             if (projectile.owner == Main.myPlayer && projectile.timeLeft <= 3)
             {
                 projectile.tileCollide = false;
@@ -72,7 +72,7 @@ namespace CalamityMod.Projectiles.Rogue
                 int cloudAmt = Main.rand.Next(8, 13);
                 for (int c = 0; c < cloudAmt; c++)
                 {
-					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 10f, 200f, 0.01f);
                     Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<BallisticPoisonCloud>(), (int)(projectile.damage * 0.25), 1f, projectile.owner, 0f, (float)Main.rand.Next(-45, 1));
                 }
             }

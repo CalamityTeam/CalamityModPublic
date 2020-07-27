@@ -37,32 +37,25 @@ namespace CalamityMod.Projectiles.Boss
             projectile.timeLeft = TotalRitualTime;
         }
 
-        public override void AI()
-        {
-            Time++;
-            if (Time == TotalRitualTime - PulseTime)
-            {
-                int idx = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
-                if (idx != -1)
-                {
-                    if (Main.netMode == NetmodeID.SinglePlayer)
-                    {
-                        Main.NewText(Language.GetTextValue("Announcement.HasAwoken", Main.npc[idx].TypeName), new Color(175, 75, 255));
-                        return;
-                    }
-
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]
-                        {
-                            Main.npc[idx].GetTypeNetName()
-                        }), new Color(175, 75, 255));
-                        return;
-                    }
-                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, idx);
-                }
-            }
-        }
+		public override void AI()
+		{
+			Time++;
+			if (Time == TotalRitualTime - PulseTime)
+			{
+				int idx = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y - (int)MaxUpwardRise, ModContent.NPCType<AstrumDeusHeadSpectral>(), 1);
+				if (idx != -1)
+				{
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						CalamityUtils.BossAwakenMessage(idx);
+					}
+					else
+					{
+						NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, idx);
+					}
+				}
+			}
+		}
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
