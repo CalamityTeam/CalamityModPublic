@@ -9873,7 +9873,7 @@ namespace CalamityMod.CalPlayer
         {
             Player drawPlayer = drawInfo.drawPlayer;
             CalamityPlayer modPlayer = drawPlayer.Calamity();
-            if (modPlayer.roverDriveTimer < 616 && modPlayer.roverDrive)
+            if (modPlayer.roverDriveTimer < 616 && modPlayer.roverDrive && !drawPlayer.dead)
             {
                 Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/RoverAccShield");
 				int frameAmt = 11;
