@@ -23,7 +23,10 @@ namespace CalamityMod.UI
             if (Main.LocalPlayer.Calamity().CurrentlyViewedCharger != null)
             {
                 if (Main.LocalPlayer.chest != -1)
-                    Main.LocalPlayer.chest = -1;
+                {
+                    Main.LocalPlayer.Calamity().CurrentlyViewedCharger = null;
+                    return;
+                }
                 ref TEDraedonItemCharger charger = ref Main.LocalPlayer.Calamity().CurrentlyViewedCharger;
                 ref int depositWithdrawCooldown = ref charger.DepositWithdrawCooldown;
                 ref Item itemBeingCharged = ref charger.ItemBeingCharged;

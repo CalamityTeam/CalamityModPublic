@@ -15,7 +15,10 @@ namespace CalamityMod.UI
             if (Main.LocalPlayer.Calamity().CurrentlyViewedFactory != null)
             {
                 if (Main.LocalPlayer.chest != -1)
-                    Main.LocalPlayer.chest = -1;
+                {
+                    Main.LocalPlayer.Calamity().CurrentlyViewedFactory = null;
+                    return;
+                }
                 Item fuel = Main.LocalPlayer.Calamity().CurrentlyViewedFactory.HeldItem;
                 Vector2 position = new Vector2(Main.LocalPlayer.Calamity().CurrentlyViewedFactoryX, Main.LocalPlayer.Calamity().CurrentlyViewedFactoryY);
 
