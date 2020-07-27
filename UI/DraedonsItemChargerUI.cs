@@ -6,30 +6,34 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.UI.Chat;
 
 namespace CalamityMod.UI
 {
 	public class DraedonsItemChargerUI
     {
-        public static int RectangleWidth => (int)(36 / Main.GameViewMatrix.Zoom.X);
-        public static int RectangleHeight => (int)(40 / Main.GameViewMatrix.Zoom.Y);
+        public static int RectangleWidth => (int)(39 / Main.GameViewMatrix.Zoom.X);
+        public static int RectangleHeight => (int)(39 / Main.GameViewMatrix.Zoom.Y);
         public static Vector2 ChargerPosition => new Vector2(Main.LocalPlayer.Calamity().CurrentlyViewedChargerX, Main.LocalPlayer.Calamity().CurrentlyViewedChargerY);
-        public static Rectangle FuelIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 24, (int)ChargerPosition.Y - 54, RectangleWidth, RectangleHeight);
-        public static Rectangle ChargingItemIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 24, (int)ChargerPosition.Y - 94, RectangleWidth, RectangleHeight);
+        public static Rectangle FuelIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 24, (int)ChargerPosition.Y - RectangleHeight - 44, RectangleWidth, RectangleHeight);
+        public static Rectangle ChargingItemIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 24, (int)ChargerPosition.Y - RectangleHeight / 2 - 84, RectangleWidth, RectangleHeight);
+        public const float IconScale = 0.7f;
         public static void Draw(SpriteBatch spriteBatch)
         {
             if (Main.LocalPlayer.Calamity().CurrentlyViewedCharger != null)
             {
+                if (Main.LocalPlayer.chest != -1)
+                    Main.LocalPlayer.chest = -1;
                 ref TEDraedonItemCharger charger = ref Main.LocalPlayer.Calamity().CurrentlyViewedCharger;
                 ref int depositWithdrawCooldown = ref charger.DepositWithdrawCooldown;
                 ref Item itemBeingCharged = ref charger.ItemBeingCharged;
                 ref Item fuel = ref charger.FuelItem;
 
                 // Draw the fuel as an inventory slot.
-                ItemSlot.Draw(spriteBatch, ref fuel, 0, ChargerPosition + new Vector2(8f, -54f) - Main.screenPosition);
+                DrawItemSlot(spriteBatch, ref fuel, ChargerPosition + new Vector2(24f, -44f) - Main.screenPosition);
 
                 // Draw the item being charged as an inventory slot.
-                ItemSlot.Draw(spriteBatch, ref itemBeingCharged, 0, ChargerPosition + new Vector2(8f, -94f) - Main.screenPosition);
+                DrawWeaponSlot(spriteBatch, ref itemBeingCharged, ChargerPosition + new Vector2(24f, -84f) - Main.screenPosition);
 
                 Rectangle mouseRectangle = new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2);
                 bool cooldownComplete = depositWithdrawCooldown == 0;
@@ -92,6 +96,64 @@ namespace CalamityMod.UI
                 charger.DrawAllSparks(spriteBatch);
             }
         }
+
+        public static void DrawItemSlot(SpriteBatch spriteBatch, ref Item item, Vector2 drawPosition)
+        {
+            Texture2D iconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonFuelCellUISlot");
+
+            // This check is done twice because the draw order matters. We want to draw the background icon before any text.
+            if (item.stack > 0)
+                iconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonFuelCellUISlotFilled");
+            spriteBatch.Draw(iconTexture, drawPosition, null, Color.White, 0f, iconTexture.Size() * 0.5f, IconScale, SpriteEffects.None, 0f);
+            if (item.stack > 0)
+            {
+                float inventoryScale = Main.inventoryScale;
+                Vector2 numberOffset = iconTexture.Size() * 0.2f;
+                ChatManager.DrawColorCodedStringWithShadow(spriteBatch,
+                                                           Main.fontItemStack,
+                                                           item.stack.ToString(),
+                                                           drawPosition + numberOffset * inventoryScale,
+                                                           Color.White,
+                                                           0f,
+                                                           Vector2.Zero,
+                                                           new Vector2(inventoryScale),
+                                                           -1f,
+                                                           inventoryScale);
+            }
+        }
+
+        public static void DrawWeaponSlot(SpriteBatch spriteBatch, ref Item item, Vector2 drawPosition)
+        {
+            Texture2D iconTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonWeaponUISlot");
+
+            spriteBatch.Draw(iconTexture, drawPosition, null, Color.White, 0f, iconTexture.Size() * 0.5f, IconScale, SpriteEffects.None, 0f);
+            if (!item.IsAir)
+            {
+                float inventoryScale = Main.inventoryScale;
+                Texture2D itemTexture = Main.itemTexture[item.type];
+                Rectangle itemFrame = Main.itemAnimations[item.type] == null ? itemTexture.Frame(1, 1, 0, 0) : Main.itemAnimations[item.type].GetFrame(itemTexture);
+
+                float baseScale = 1f;
+                Color _ = Color.White;
+                ItemSlot.GetItemLight(ref _, ref baseScale, item, false);
+                float scaleRestrictor = 1f;
+                if (itemFrame.Width > 46 || itemFrame.Height > 46)
+                {
+                    if (itemFrame.Width > itemFrame.Height)
+                        scaleRestrictor = 46f / itemFrame.Width;
+                    else 
+                        scaleRestrictor = 46f / itemFrame.Height;
+                }
+                scaleRestrictor *= inventoryScale;
+
+                if (ItemLoader.PreDrawInInventory(item, spriteBatch, drawPosition, itemFrame, item.GetAlpha(Color.White), item.GetColor(Color.White), itemTexture.Size() * 0.5f, scaleRestrictor * baseScale))
+                {
+                    spriteBatch.Draw(itemTexture, drawPosition, itemFrame, item.GetAlpha(Color.White), 0f, itemTexture.Size() * 0.5f, scaleRestrictor * baseScale, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(itemTexture, drawPosition, itemFrame, item.GetColor(Color.White), 0f, itemTexture.Size() * 0.5f, scaleRestrictor * baseScale, SpriteEffects.None, 0f);
+                }
+            }
+        }
+
         public static bool UseFuel(ref Item itemToUse, ref Item fuel)
         {
             // Withdraw the stored fuel.
@@ -116,6 +178,7 @@ namespace CalamityMod.UI
             }
             return false;
         }
+
         public static bool UseChargeItem(ref Item itemToUse, ref Item chargeItem, ref TEDraedonItemCharger charger)
         {
             // Withdraw the placed item.
