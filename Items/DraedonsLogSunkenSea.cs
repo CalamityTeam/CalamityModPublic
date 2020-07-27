@@ -15,8 +15,8 @@ namespace CalamityMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 40;
-            item.height = 40;
+            item.width = 28;
+            item.height = 28;
             item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DraedonRust;
             item.useAnimation = item.useTime = 20;
