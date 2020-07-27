@@ -16,7 +16,7 @@ namespace CalamityMod.Items.Weapons.Summon
         public const int CrippleTime = 360; // 6 seconds
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Prototype Andromecha Ring");
+            DisplayName.SetDefault("Flamsteed Ring");
             Tooltip.SetDefault("Summons a colossal controllable mech\n" +
                                "Right click to display the mech's control panel\n" +
                                "The panel has 3 possible configurations, that you can choose using the brackets on the UI\n" +
