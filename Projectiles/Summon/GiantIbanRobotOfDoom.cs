@@ -47,8 +47,8 @@ namespace CalamityMod.Projectiles.Summon
         public int LaserCooldown = 0;
         public static Vector2 LightningShootOffset;
         public const int SpecialLightningBaseDamage = 5600;
-        public const int RegicideBaseDamageSmall = 12650;
-        public const int RegicideBaseDamageLarge = 17800;
+        public const int RegicideBaseDamageSmall = 9487;
+        public const int RegicideBaseDamageLarge = 22250;
         public const int LaserBaseDamage = 21000;
 
         public override void SetStaticDefaults()
