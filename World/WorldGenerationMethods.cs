@@ -2305,8 +2305,8 @@ namespace CalamityMod.World
         #region EvilIsland
         public static void EvilIsland(int i, int j)
         {
-            double num = (double)WorldGen.genRand.Next(100, 150); //100 150
-            float num2 = (float)WorldGen.genRand.Next(20, 30); //20 30
+            double num = (double)WorldGen.genRand.Next(100, 150);
+            float num2 = (float)WorldGen.genRand.Next(20, 30);
             int num3 = i;
             int num4 = i;
             int num5 = i;
