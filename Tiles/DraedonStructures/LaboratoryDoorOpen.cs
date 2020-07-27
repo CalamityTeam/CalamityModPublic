@@ -47,7 +47,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             short frameY = 0;
             for (int dy = -4; dy < 4; dy++)
             {
-                if (Main.tile[i, j + dy].type == ModContent.TileType<LaboratoryDoorClosed>())
+                if (Main.tile[i, j + dy].type == ModContent.TileType<LaboratoryDoorOpen>())
                 {
                     if (Main.tile[i, j + dy] == null)
                     {

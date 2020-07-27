@@ -12,6 +12,7 @@ namespace CalamityMod.TileEntities
         public int Time;
         public int ActiveTimer;
         public const int ActiveTimerMax = 45;
+        public const float Radius = 660f;
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
@@ -21,20 +22,20 @@ namespace CalamityMod.TileEntities
         {
             Player player = Main.player[Player.FindClosest(Position.ToVector2() * 16, 1, 1)];
             Vector2 positionWorldCoords = Position.ToVector2() * 16f;
-            if (Vector2.Distance(player.Center, positionWorldCoords) < 960f && !player.dead)
+            if (Vector2.Distance(player.Center, positionWorldCoords) < Radius && !player.dead)
             {
                 if (ActiveTimer < ActiveTimerMax)
                     ActiveTimer++;
                 Time++;
 
-                if (Time % 40 == 39)
+                if (Time % 75 == 74)
                 {
                     float speed = 5f;
                     Vector2 aimOffset = (player.velocity + player.oldVelocity) * 0.5f * player.Distance(positionWorldCoords) / (speed * speed);
                     Vector2 velocity = Vector2.Normalize(player.Center - positionWorldCoords + aimOffset) * speed;
                     Projectile.NewProjectileDirect(positionWorldCoords, velocity, ModContent.ProjectileType<DraedonLaser>(), 27, 4f);
                 }
-                if (Time % 95 == 94)
+                if (Time % 150 == 149)
                 {
                     for (int i = 0; i < 9; i++)
                     {

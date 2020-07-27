@@ -8,7 +8,7 @@ namespace CalamityMod.TileEntities
     public class TEDraedonTurret : TEBaseTurret
     {
         public override int ShootWaitTime => 15;
-        public override int ShootRate => 60;
+        public override int ShootRate => 90;
         public override int ProjectileDamage => 20;
         public override float ShootSpeed => 5f;
         public override float ShootSpawnOffset => 32f;
