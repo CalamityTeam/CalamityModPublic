@@ -1,5 +1,6 @@
 using CalamityMod.Items.Placeables.DraedonStructures;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
@@ -38,6 +39,21 @@ namespace CalamityMod.Tiles.DraedonStructures
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<AgedLaboratoryServerItem>());
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            int xFrameOffset = Main.tile[i, j].frameX;
+            int yFrameOffset = Main.tile[i, j].frameY;
+            Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonStructures/AgedLaboratoryServerGlow");
+            Vector2 drawOffest = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
+            Vector2 drawPosition = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + drawOffest;
+            Color drawColour = Color.White;
+            Tile trackTile = Main.tile[i, j];
+            if (!trackTile.halfBrick() && trackTile.slope() == 0)
+                spriteBatch.Draw(glowmask, drawPosition, new Rectangle(xFrameOffset, yFrameOffset, 18, 18), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
+            else if (trackTile.halfBrick())
+                spriteBatch.Draw(glowmask, drawPosition + new Vector2(0f, 8f), new Rectangle(xFrameOffset, yFrameOffset, 18, 8), drawColour, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
         }
     }
 }
