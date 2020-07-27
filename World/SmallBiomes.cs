@@ -29,8 +29,8 @@ namespace CalamityMod.World
         {
             int x = Main.maxTilesX;
             int xIslandGen = WorldGen.crimson ?
-                WorldGen.genRand.Next((int)((double)x * 0.15), (int)((double)x * 0.2)) :
-                WorldGen.genRand.Next((int)((double)x * 0.8), (int)((double)x * 0.85));
+                WorldGen.genRand.Next((int)(x * 0.1), (int)(x * 0.15)) :
+                WorldGen.genRand.Next((int)(x * 0.85), (int)(x * 0.9));
             int yIslandGen = WorldGen.genRand.Next(90, 151);
             yIslandGen = Math.Min(yIslandGen, (int)WorldGen.worldSurfaceLow - 50);
 
@@ -61,10 +61,10 @@ namespace CalamityMod.World
             int generateBack = genLimit - 80; //Small = 2020
             int generateForward = genLimit + 80; //Small = 2180
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Surface Shrine
+            for (int k = 0; k < (int)(x * y * 50E-05); k++) //Surface Shrine
             {
-                int tilesX = WorldGen.genRand.Next((int)((double)x * 0.3), generateBack);
-                int tilesX2 = WorldGen.genRand.Next(generateForward, (int)((double)x * 0.7));
+                int tilesX = WorldGen.genRand.Next((int)(x * 0.3), generateBack);
+                int tilesX2 = WorldGen.genRand.Next(generateForward, (int)(x * 0.7));
                 int tilesY = WorldGen.genRand.Next((int)(y * .3f), (int)(y * .35f));
 
                 if (Main.tile[tilesX, tilesY].type == TileID.Dirt || Main.tile[tilesX, tilesY].type == TileID.Stone)
@@ -79,7 +79,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Evil Shrine
+            for (int k = 0; k < (int)(x * y * 50E-05); k++) //Evil Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * .3f), (int)(y * .35f));
@@ -93,10 +93,10 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Cavern Shrine
+            for (int k = 0; k < (int)(x * y * 50E-05); k++) //Cavern Shrine
             {
-                int tilesX = WorldGen.genRand.Next((int)((double)x * 0.3), generateBack);
-                int tilesX2 = WorldGen.genRand.Next(generateForward, (int)((double)x * 0.7));
+                int tilesX = WorldGen.genRand.Next((int)(x * 0.3), generateBack);
+                int tilesX2 = WorldGen.genRand.Next(generateForward, (int)(x * 0.7));
                 int tilesY = WorldGen.genRand.Next((int)(y * .55f), (int)(y * .8f));
 
                 if (Main.tile[tilesX, tilesY].type == TileID.Stone)
@@ -111,7 +111,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Ice Shrine
+            for (int k = 0; k < (int)(x * y * 50E-05); k++) //Ice Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
@@ -123,7 +123,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Desert Shrine
+            for (int k = 0; k < (int)(x * y * 50E-05); k++) //Desert Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
@@ -135,7 +135,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Mushroom Shrine
+            for (int k = 0; k < (int)(x * y * 50E-05); k++) //Mushroom Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
@@ -147,7 +147,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Granite Shrine
+            for (int k = 0; k < (int)(x * y * 50E-05); k++) //Granite Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
@@ -159,7 +159,7 @@ namespace CalamityMod.World
                 }
             }
 
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++) //Marble Shrine
+            for (int k = 0; k < (int)(x * y * 50E-05); k++) //Marble Shrine
             {
                 int tilesX = WorldGen.genRand.Next(0, x);
                 int tilesY = WorldGen.genRand.Next((int)(y * .35f), (int)(y * .5f));
@@ -172,7 +172,7 @@ namespace CalamityMod.World
             }
 
             //Murasama Shrine
-            WorldGenerationMethods.SpecialHut(TileID.HellstoneBrick, TileID.Hellstone, WallID.HellstoneBrick, 8, WorldGen.genRand.Next((int)((double)x * 0.97), (int)((double)x * 0.98)), y - 60);
+            WorldGenerationMethods.SpecialHut(TileID.HellstoneBrick, TileID.Hellstone, WallID.HellstoneBrick, 8, WorldGen.genRand.Next((int)(x * 0.97), (int)(x * 0.98)), y - 60);
         }
     }
 }
