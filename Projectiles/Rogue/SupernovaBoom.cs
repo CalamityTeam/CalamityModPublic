@@ -13,7 +13,7 @@ namespace CalamityMod.Projectiles.Rogue
 		private const int horizontalFrames = 5;
 		private const int verticalFrames = 4;
 		private const int frameLength = 5;
-		private const float radius = 409f;
+		private const float radius = 204.5f;
 
 		public override void SetStaticDefaults()
 		{
