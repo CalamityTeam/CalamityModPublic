@@ -7,7 +7,7 @@ namespace CalamityMod.Buffs.StatBuffs
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Siren Speed");
+            DisplayName.SetDefault("Ocean's Blessing");
             Description.SetDefault("15% increased max speed and acceleration");
             Main.debuff[Type] = false;
             Main.pvpBuff[Type] = true;
