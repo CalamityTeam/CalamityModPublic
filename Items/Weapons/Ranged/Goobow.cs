@@ -30,9 +30,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = 4;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
+            item.shoot = ProjectileID.WoodenArrowFriendly;
             item.shootSpeed = 12f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -43,16 +43,16 @@ namespace CalamityMod.Items.Weapons.Ranged
             Vector2 velocity = new Vector2(speedX, speedY);
             velocity.Normalize();
             velocity *= 20f;
-            bool flag11 = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
+            bool canHit = Collision.CanHit(source, 0, 0, source + velocity, 0, 0);
             for (int i = 0; i < projAmt; i++)
             {
                 float offsetAmt = i - (projAmt - 1f) / 2f;
                 Vector2 offset = velocity.RotatedBy((double)(piOver10 * offsetAmt), default);
-                if (!flag11)
+                if (!canHit)
                 {
                     offset -= velocity;
                 }
-                int index = Projectile.NewProjectile(source.X + offset.X, source.Y + offset.Y, speedX * 0.6f, speedY * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI, 0f, 0f);
+                int index = Projectile.NewProjectile(source + offset, new Vector2(speedX, speedY) * 0.6f, ProjectileID.SlimeGun, damage / 4, 0f, player.whoAmI);
                 Main.projectile[index].Calamity().forceRanged = true;
                 Main.projectile[index].usesLocalNPCImmunity = true;
                 Main.projectile[index].localNPCHitCooldown = 10;
