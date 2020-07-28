@@ -1539,55 +1539,26 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.ObsidianSkinPotion)
             {
-				if (CalamityWorld.death)
+				string heatImmunity = CalamityWorld.death ? "\nProvides heat protection in Death Mode" : "";
+				foreach (TooltipLine line2 in tooltips)
 				{
-					foreach (TooltipLine line2 in tooltips)
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-						{
-							line2.text = "Provides immunity to direct damage from touching lava\n" +
-								"Provides temporary immunity to lava burn damage\n" +
-								"Reduces lava burn damage\n" +
-								"Provides heat protection in Death Mode";
-						}
-					}
-				}
-				else
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-						{
-							line2.text = "Provides immunity to direct damage from touching lava\n" +
-								"Provides temporary immunity to lava burn damage\n" +
-								"Reduces lava burn damage";
-						}
+						line2.text = "Provides immunity to direct damage from touching lava\n" +
+							"Provides temporary immunity to lava burn damage\n" +
+							"Reduces lava burn damage" + heatImmunity;
 					}
 				}
             }
             if (item.type == ItemID.ObsidianRose)
             {
-				if (CalamityWorld.death)
+				string heatImmunity = CalamityWorld.death ? "\nProvides heat protection in Death Mode" : "";
+				foreach (TooltipLine line2 in tooltips)
 				{
-					foreach (TooltipLine line2 in tooltips)
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
 					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-						{
-							line2.text = "Reduced direct damage from touching lava\n" +
-								"Greatly reduces lava burn damage\n" +
-								"Provides heat protection in Death Mode";
-						}
-					}
-				}
-				else
-				{
-					foreach (TooltipLine line2 in tooltips)
-					{
-						if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
-						{
-							line2.text = "Reduced direct damage from touching lava\n" +
-								"Greatly reduces lava burn damage";
-						}
+						line2.text = "Reduced direct damage from touching lava\n" +
+							"Greatly reduces lava burn damage" + heatImmunity;
 					}
 				}
             }
@@ -1946,12 +1917,13 @@ Grants immunity to fire blocks, and temporary immunity to lava";
             }
             if (item.type == ItemID.HandWarmer)
             {
+				string coldImmunity = CalamityWorld.death ? "\nProvides cold protection in Death Mode" : "";
                 foreach (TooltipLine line2 in tooltips)
                 {
                     if (line2.mod == "Terraria" && line2.Name == "Tooltip0")
                     {
                         line2.text = "Provides immunity to chilling and freezing effects\n" +
-							"Provides a regeneration boost while wearing the Eskimo armor";
+							"Provides a regeneration boost while wearing the Eskimo armor" + coldImmunity;
                     }
                 }
             }
@@ -3066,27 +3038,14 @@ Grants immunity to fire blocks, and temporary immunity to lava";
                 player.statDefense += 2;
                 player.fireWalk = true;
                 player.lavaMax += 180;
-				if (CalamityWorld.death)
-				{
-					player.setBonus = "+2 defense\n" +
-								"5% increased rogue damage and critical strike chance\n" +
-								"Grants immunity to fire blocks and temporary immunity to lava\n" +
-								"Rogue stealth builds while not attacking and not moving, up to a max of 80\n" +
-								"Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-								"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-								"The higher your rogue stealth the higher your rogue damage, crit, and movement speed\n" +
-								"Provides heat protection in Death Mode";
-				}
-				else
-				{
-					player.setBonus = "+2 defense\n" +
-								"5% increased rogue damage and critical strike chance\n" +
-								"Grants immunity to fire blocks and temporary immunity to lava\n" +
-								"Rogue stealth builds while not attacking and not moving, up to a max of 80\n" +
-								"Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
-								"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
-								"The higher your rogue stealth the higher your rogue damage, crit, and movement speed";
-				}
+				string heatImmunity = CalamityWorld.death ? "\nProvides heat protection in Death Mode" : "";
+				player.setBonus = "+2 defense\n" +
+							"5% increased rogue damage and critical strike chance\n" +
+							"Grants immunity to fire blocks and temporary immunity to lava\n" +
+							"Rogue stealth builds while not attacking and not moving, up to a max of 80\n" +
+							"Once you have built max stealth, you will be able to perform a Stealth Strike\n" +
+							"Rogue stealth only reduces when you attack, it does not reduce while moving\n" +
+							"The higher your rogue stealth the higher your rogue damage, crit, and movement speed" + heatImmunity;
             }
             else if (set == "Molten")
             {
@@ -3098,19 +3057,10 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 				modPlayer.eskimoSet = true;
 				player.buffImmune[BuffID.Frostburn] = true;
 				player.buffImmune[ModContent.BuffType<GlacialState>()] = true;
-				if (CalamityWorld.death)
-				{
-					player.setBonus = "All ice-themed weapons receive a 10% damage bonus\n" +
-					"Cold enemies will deal reduced contact damage to the player\n" +
-					"Provides immunity to the Frostburn and Glacial State debuffs\n" +
-					"Provides cold immunity in Death Mode";
-				}
-				else
-				{
-					player.setBonus = "All ice-themed weapons receive a 10% damage bonus\n" +
-					"Cold enemies will deal reduced contact damage to the player\n" +
-					"Provides immunity to the Frostburn and Glacial State debuffs";
-				}
+				string coldImmunity = CalamityWorld.death ? "\nProvides cold protection in Death Mode" : "";
+				player.setBonus = "All ice-themed weapons receive a 10% damage bonus\n" +
+				"Cold enemies will deal reduced contact damage to the player\n" +
+				"Provides immunity to the Frostburn and Glacial State debuffs" + coldImmunity;
             }
             else if (set == "Meteor")
             {
