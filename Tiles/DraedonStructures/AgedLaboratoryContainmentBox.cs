@@ -1,6 +1,7 @@
 using CalamityMod.Items.Placeables.DraedonStructures;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -17,6 +18,16 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileWaterDeath[Type] = false;
             Main.tileSolidTop[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+            TileObjectData.newTile.StyleWrapLimit = 2;
+            TileObjectData.newTile.StyleMultiplier = 2;
+            TileObjectData.newTile.StyleHorizontal = true;
+
+            TileObjectData.newTile.Direction = TileObjectDirection.PlaceRight;
+
+            TileObjectData.newAlternate.CopyFrom(TileObjectData.newTile);
+            TileObjectData.newAlternate.Direction = TileObjectDirection.PlaceLeft;
+            TileObjectData.addAlternate(1);
+
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Aged Laboratory Containment Box");
