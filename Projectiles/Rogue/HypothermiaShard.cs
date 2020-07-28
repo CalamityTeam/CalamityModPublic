@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Rogue
             counter += 0.25f;
             if (Main.rand.NextBool(10))
             {
-                int num300 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 191, 0f, 0f, 0, default, 0.8f);
+                int num300 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 191, 0f, 0f, 0, default, 0.8f);
                 Main.dust[num300].noGravity = true;
                 Main.dust[num300].velocity *= 0.2f;
             }

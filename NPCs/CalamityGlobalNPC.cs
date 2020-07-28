@@ -49,6 +49,8 @@ using CalamityMod.NPCs.SulphurousSea;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.NPCs.Yharon;
+using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
 using CalamityMod.Projectiles.Ranged;
@@ -147,6 +149,7 @@ namespace CalamityMod.NPCs
         public int kamiFlu = 0;
         public int relicOfResilienceCooldown = 0;
         public int relicOfResilienceWeakness = 0;
+        public int GaussFluxTimer = 0;
 
         // whoAmI Variables
         public static int[] bobbitWormBottom = new int[5];
@@ -468,6 +471,33 @@ namespace CalamityMod.NPCs
             ResetSavedIndex(ref SCalCatastrophe, NPCType<SupremeCatastrophe>());
             ResetSavedIndex(ref SCal, NPCType<SupremeCalamitas.SupremeCalamitas>());
             ResetSavedIndex(ref SCalWorm, NPCType<SCalWormHead>());
+
+			if (NPC.FindFirstNPC(NPCID.Guide) == -1)
+				CalamityWorld.guideName = false;
+			if (NPC.FindFirstNPC(NPCID.Wizard) == -1)
+				CalamityWorld.wizardName = false;
+			if (NPC.FindFirstNPC(NPCID.Steampunker) == -1)
+				CalamityWorld.steampunkerName = false;
+			if (NPC.FindFirstNPC(NPCID.Stylist) == -1)
+				CalamityWorld.stylistName = false;
+			if (NPC.FindFirstNPC(NPCID.WitchDoctor) == -1)
+				CalamityWorld.witchDoctorName = false;
+			if (NPC.FindFirstNPC(NPCID.TaxCollector) == -1)
+				CalamityWorld.taxCollectorName = false;
+			if (NPC.FindFirstNPC(NPCID.Pirate) == -1)
+				CalamityWorld.pirateName = false;
+			if (NPC.FindFirstNPC(NPCID.Mechanic) == -1)
+				CalamityWorld.mechanicName = false;
+			if (NPC.FindFirstNPC(NPCID.ArmsDealer) == -1)
+				CalamityWorld.armsDealerName = false;
+			if (NPC.FindFirstNPC(NPCID.Dryad) == -1)
+				CalamityWorld.dryadName = false;
+			if (NPC.FindFirstNPC(NPCID.Nurse) == -1)
+				CalamityWorld.nurseName = false;
+			if (NPC.FindFirstNPC(NPCID.Angler) == -1)
+				CalamityWorld.anglerName = false;
+			if (NPC.FindFirstNPC(NPCID.Clothier) == -1)
+				CalamityWorld.clothierName = false;
         }
         #endregion
 
@@ -860,6 +890,8 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffType<SulphuricPoisoning>()] = false;
 			}
 
+            if (YanmeisKnifeSlash.CanRecieveCoolEffectsFrom(npc))
+                npc.buffImmune[BuffType<KamiDebuff>()] = false;
             npc.buffImmune[BuffType<Enraged>()] = false;
         }
         #endregion
@@ -1912,7 +1944,7 @@ namespace CalamityMod.NPCs
 						}
 						break;
 					case 3:
-						if (npc.type == NPCType<StormlionCharger>() || npc.type == NPCType<WulfrumDrone>() ||
+						if (npc.type == NPCType<StormlionCharger>() ||
 							npc.type == NPCType<AstralachneaGround>() || npc.type == NPCType<CultistAssassin>())
 						{
 							return CalamityGlobalAI.BuffedFighterAI(npc, mod);
@@ -2448,205 +2480,266 @@ namespace CalamityMod.NPCs
                 switch (npc.type)
                 {
                     case NPCID.Guide:
+						if (CalamityWorld.guideName)
+							break;
                         switch (Main.rand.Next(38)) // 34 guide names
                         {
                             case 0:
                                 npc.GivenName = "Lapp";
+								CalamityWorld.guideName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Ben Shapiro"; 
+								CalamityWorld.guideName = true;
                                 break;
 
                             case 2:
                                 npc.GivenName = "StreakistYT";
+								CalamityWorld.guideName = true;
                                 break;
 
                             case 3:
                                 npc.GivenName = "Neoplasmatic";
+								CalamityWorld.guideName = true;
                                 break;
 
                             default:
+								CalamityWorld.guideName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Wizard:
+						if (CalamityWorld.wizardName)
+							break;
                         switch (Main.rand.Next(26)) // 23 wizard names
                         {
                             case 0:
                                 npc.GivenName = "Mage One-Trick";
+								CalamityWorld.wizardName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Inorim, son of Ivukey";
+								CalamityWorld.wizardName = true;
                                 break;
 
                             case 2:
                                 npc.GivenName = "Jensen";
+								CalamityWorld.wizardName = true;
                                 break;
 
                             default:
+								CalamityWorld.wizardName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Steampunker:
+						if (CalamityWorld.steampunkerName)
+							break;
                         switch (Main.rand.Next(23)) // 21 steampunker names
                         {
                             case 0:
                                 npc.GivenName = "Vorbis";
+								CalamityWorld.steampunkerName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Angel";
+								CalamityWorld.steampunkerName = true;
                                 break;
 
                             default:
+								CalamityWorld.steampunkerName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Stylist:
+						if (CalamityWorld.stylistName)
+							break;
                         switch (Main.rand.Next(21)) // 20 stylist names
                         {
                             case 0:
                                 npc.GivenName = "Amber";
+								CalamityWorld.stylistName = true;
                                 break;
 
                             default:
+								CalamityWorld.stylistName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.WitchDoctor:
+						if (CalamityWorld.witchDoctorName)
+							break;
                         switch (Main.rand.Next(11)) // 10 witch doctor names
                         {
                             case 0:
                                 npc.GivenName = "Sok'ar";
+								CalamityWorld.witchDoctorName = true;
                                 break;
 
                             default:
+								CalamityWorld.witchDoctorName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.TaxCollector:
+						if (CalamityWorld.taxCollectorName)
+							break;
                         switch (Main.rand.Next(21)) // 20 tax collector names
                         {
                             case 0:
                                 npc.GivenName = "Emmett";
+								CalamityWorld.taxCollectorName = true;
                                 break;
 
                             default:
+								CalamityWorld.taxCollectorName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Pirate:
+						if (CalamityWorld.pirateName)
+							break;
                         switch (Main.rand.Next(12)) // 11 pirate names
                         {
                             case 0:
                                 npc.GivenName = "Tyler Van Hook";
+								CalamityWorld.pirateName = true;
                                 break;
 
                             default:
+								CalamityWorld.pirateName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Mechanic:
+						if (CalamityWorld.mechanicName)
+							break;
                         switch (Main.rand.Next(26)) // 24 mechanic names
                         {
                             case 0:
                                 npc.GivenName = "Lilly";
+								CalamityWorld.mechanicName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Daawn"; 
+								CalamityWorld.mechanicName = true;
                                 break;
 
                             default:
+								CalamityWorld.mechanicName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.ArmsDealer:
+						if (CalamityWorld.armsDealerName)
+							break;
                         switch (Main.rand.Next(26)) // 24 arms dealer names
                         {
                             case 0:
                                 npc.GivenName = "Drifter";
+								CalamityWorld.armsDealerName = true;
                                 break;
 
                             case 1:
                                 npc.GivenName = "Finchi"; 
+								CalamityWorld.armsDealerName = true;
                                 break;
 
                             default:
+								CalamityWorld.armsDealerName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Dryad:
+						if (CalamityWorld.dryadName)
+							break;
                         switch (Main.rand.Next(23)) // 21 Dryad names
                         {
                             case 0:
                                 npc.GivenName = "Rythmi";
+								CalamityWorld.dryadName = true;
                                 break;
 
                             case 1:
-                                npc.GivenName = "Izuna"; 
+                                npc.GivenName = "Izuna";
+								CalamityWorld.dryadName = true;
                                 break;
 
                             default:
+								CalamityWorld.dryadName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Nurse:
+						if (CalamityWorld.nurseName)
+							break;
                         switch (Main.rand.Next(25)) // 24 nurse names
                         {
                             case 0:
                                 npc.GivenName = "Farsni";
+								CalamityWorld.nurseName = true;
                                 break;
 
                             default:
+								CalamityWorld.nurseName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Angler:
+						if (CalamityWorld.anglerName)
+							break;
                         switch (Main.rand.Next(23)) // 22 angler names
                         {
                             case 0:
                                 npc.GivenName = "Dazren";
+								CalamityWorld.anglerName = true;
                                 break;
 
                             default:
+								CalamityWorld.anglerName = true;
                                 break;
                         }
 
                         break;
 
                     case NPCID.Clothier:
+						if (CalamityWorld.clothierName)
+							break;
                         switch (Main.rand.Next(26)) // 25 clothier names
                         {
                             case 0:
                                 npc.GivenName = "Joeseph Jostar";
+								CalamityWorld.clothierName = true;
                                 break;
 
                             default:
+								CalamityWorld.clothierName = true;
                                 break;
                         }
 
@@ -3008,7 +3101,7 @@ namespace CalamityMod.NPCs
                 case 33:
                     if (npc.type != NPCType<Siren>() && npc.type != NPCType<Leviathan.Leviathan>() &&
                         npc.type != NPCType<AquaticAberration>() && npc.type != NPCType<Parasea>() &&
-                        npc.type != NPCType<SirenIce>())
+                        npc.type != NPCType<SirenIce>() && npc.type != NPCID.DetonatingBubble)
                     {
                         npc.active = false;
                         npc.netUpdate = true;
@@ -3194,6 +3287,8 @@ namespace CalamityMod.NPCs
                 relicOfResilienceCooldown--;
             if (relicOfResilienceWeakness > 0)
                 relicOfResilienceWeakness--;
+            if (GaussFluxTimer > 0)
+                GaussFluxTimer--;
             if (ladHearts > 0)
 				ladHearts--;
 
@@ -3616,15 +3711,15 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.2);
 					}
-					else if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>() || projectile.type == ProjectileID.Electrosphere)
+					else if (ProjectileID.Sets.StardustDragon[projectile.type] || projectile.type == ProjectileType<PlaguenadeBee>() || projectile.type == ProjectileType<PlaguenadeProj>())
 					{
-						damage = (int)(damage * 0.4);
+						damage = (int)(damage * 0.25);
 					}
-					else if (projectile.type == ProjectileType<SpikecragSpike>())
+					else if (projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>())
 					{
 						damage = (int)(damage * 0.5);
 					}
-					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileType<ForbiddenSunProjectile>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileID.DD2BetsyArrow || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser)
+					else if (projectile.type == ProjectileType<SolarBeam2>() || projectile.type == ProjectileID.InfernoFriendlyBolt || projectile.type == ProjectileID.InfernoFriendlyBlast || projectile.type == ProjectileID.RainbowFront || projectile.type == ProjectileID.RainbowBack || projectile.type == ProjectileType<PlagueFang>() || projectile.type == ProjectileType<SakuraBullet>() || projectile.type == ProjectileType<PurpleButterfly>() || projectile.type == ProjectileType<ForbiddenSunburst>() || projectile.type == ProjectileType<IceCluster>() || projectile.type == ProjectileID.ChargedBlasterLaser || projectile.type == ProjectileID.Electrosphere)
 					{
 						damage = (int)(damage * 0.75);
 					}
@@ -3693,7 +3788,7 @@ namespace CalamityMod.NPCs
 					{
 						damage = (int)(damage * 0.9);
 					}
-					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>())
+					if (projectile.type == ProjectileType<SHPExplosion>() || projectile.type == ProjectileType<DormantBrimseekerBab>() || projectile.type == ProjectileType<PoleWarperSummon>())
 					{
 						damage = (int)(damage * 0.5);
 					}
@@ -3884,28 +3979,13 @@ namespace CalamityMod.NPCs
 
                 if (Main.rand.NextBool(maxValue) && Main.wallDungeon[Main.tile[(int)npc.Center.X / 16, (int)npc.Center.Y / 16].wall])
                 {
-                    int randomType = Main.rand.Next(4);
-                    switch (randomType)
-                    {
-                        case 0:
-                            randomType = NPCType<PhantomSpirit>();
-                            break;
-
-                        case 1:
-                            randomType = NPCType<PhantomSpiritS>();
-                            break;
-
-                        case 2:
-                            randomType = NPCType<PhantomSpiritM>();
-                            break;
-
-                        case 3:
-                            randomType = NPCType<PhantomSpiritL>();
-                            break;
-
-                        default:
-                            break;
-                    }
+					int randomType = Utils.SelectRandom(Main.rand, new int[]
+					{
+						NPCType<PhantomSpirit>(),
+						NPCType<PhantomSpiritS>(),
+						NPCType<PhantomSpiritM>(),
+						NPCType<PhantomSpiritL>()
+					});
 
                     NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, randomType, 0, 0f, 0f, 0f, 0f, 255);
                 }
@@ -3927,25 +4007,22 @@ namespace CalamityMod.NPCs
                         {
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                int num261 = Main.rand.Next(2) + 2;
-                                int num;
-                                for (int num262 = 0; num262 < num261; num262 = num + 1)
+                                int slimeAmt = Main.rand.Next(2) + 2; //2 to 3 extra
+                                for (int s = 0; s < slimeAmt; s++)
                                 {
-                                    int num263 = NPC.NewNPC((int)(npc.position.X + npc.width / 2), (int)(npc.position.Y + npc.height), 1, 0, 0f, 0f, 0f, 0f, 255);
-                                    NPC npc2 = Main.npc[num263];
-                                    npc2.SetDefaults(-5, -1f);
+                                    int slime = NPC.NewNPC((int)npc.Center.X, (int)(npc.position.Y + npc.height), NPCID.BlueSlime, 0, 0f, 0f, 0f, 0f, 255);
+                                    NPC npc2 = Main.npc[slime];
+                                    npc2.SetDefaults(NPCID.BabySlime);
                                     npc2.velocity.X = npc.velocity.X * 2f;
                                     npc2.velocity.Y = npc.velocity.Y;
-                                    npc2.velocity.X += Main.rand.Next(-20, 20) * 0.1f + num262 * npc.direction * 0.3f;
-                                    npc2.velocity.Y -= Main.rand.Next(0, 10) * 0.1f + num262;
+                                    npc2.velocity.X += Main.rand.Next(-20, 20) * 0.1f + s * npc.direction * 0.3f;
+                                    npc2.velocity.Y -= Main.rand.Next(0, 10) * 0.1f + s;
                                     npc2.ai[0] = -1000 * Main.rand.Next(3);
 
-                                    if (Main.netMode == NetmodeID.Server && num263 < 200)
+                                    if (Main.netMode == NetmodeID.Server && slime < Main.maxNPCs)
                                     {
-                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num263, 0f, 0f, 0f, 0, 0, 0);
+                                        NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, slime, 0f, 0f, 0f, 0, 0, 0);
                                     }
-
-                                    num = num262;
                                 }
                             }
                         }
@@ -4160,6 +4237,13 @@ namespace CalamityMod.NPCs
 					pool[NPCID.GreenJellyfish] = SpawnCondition.CaveJellyfish.Chance * 0.5f;
 				else
 					pool[NPCID.BlueJellyfish] = SpawnCondition.CaveJellyfish.Chance;
+			}
+
+			// Add Truffle Worm spawns to surface mushroom biome
+			if (spawnInfo.player.ZoneGlowshroom && Main.hardMode && (spawnInfo.player.ZoneOverworldHeight || spawnInfo.player.ZoneSkyHeight))
+			{
+				if (NPC.CountNPCS(NPCID.TruffleWorm) < 2)
+					pool[NPCID.TruffleWorm] = SpawnCondition.OverworldMushroom.Chance * 0.5f;
 			}
 
 			if (spawnInfo.player.Calamity().ZoneAbyss ||
@@ -4441,7 +4525,6 @@ namespace CalamityMod.NPCs
                     dust.alpha = 200;
                     dust.velocity.Y -= 0.2f;
                     dust.velocity *= 1.2f;
-                    dust = Main.dust[num4];
                     dust.scale += Main.rand.NextFloat();
                 }
             }
@@ -4543,10 +4626,8 @@ namespace CalamityMod.NPCs
 			{
 				if (Main.rand.NextBool(5))
 				{
-					Vector2 vector2_2 = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
-					vector2_2.Normalize();
-					vector2_2.X *= 0.66f;
-					int heart = Gore.NewGore(npc.position + new Vector2((float)Main.rand.Next(npc.width + 1), (float)Main.rand.Next(npc.height + 1)), vector2_2 * (float)Main.rand.Next(3, 6) * 0.33f, 331, (float)Main.rand.Next(40, 121) * 0.01f);
+					Vector2 velocity = CalamityUtils.RandomVelocity(10f, 1f, 1f, 0.66f);
+					int heart = Gore.NewGore(npc.position + new Vector2(Main.rand.Next(npc.width + 1), Main.rand.Next(npc.height + 1)), velocity * Main.rand.Next(3, 6) * 0.33f, 331, Main.rand.Next(40, 121) * 0.01f);
 					Main.gore[heart].sticky = false;
 					Main.gore[heart].velocity *= 0.4f;
 					Main.gore[heart].velocity.Y -= 0.6f;
@@ -5658,10 +5739,46 @@ namespace CalamityMod.NPCs
                     break;
             }
         }
-        #endregion
+		#endregion
 
-        #region Shop Stuff
-        public override void SetupShop(int type, Chest shop, ref int nextSlot)
+		#region Buff Town NPC
+		public override void BuffTownNPC(ref float damageMult, ref int defense)
+		{
+			if (NPC.downedMoonlord)
+			{
+				damageMult += 0.6f;
+				defense += 20;
+			}
+			if (CalamityWorld.downedProvidence)
+			{
+				damageMult += 0.2f;
+				defense += 12;
+			}
+			if (CalamityWorld.downedPolterghast)
+			{
+				damageMult += 0.2f;
+				defense += 12;
+			}
+			if (CalamityWorld.downedDoG)
+			{
+				damageMult += 0.2f;
+				defense += 12;
+			}
+			if (CalamityWorld.downedYharon)
+			{
+				damageMult += 0.2f;
+				defense += 12;
+			}
+			if (CalamityWorld.downedSCal)
+			{
+				damageMult += 0.6f;
+				defense += 20;
+			}
+		}
+		#endregion
+
+		#region Shop Stuff
+		public override void SetupShop(int type, Chest shop, ref int nextSlot)
         {
             if (type == NPCID.Merchant)
             {
@@ -5933,7 +6050,7 @@ namespace CalamityMod.NPCs
                     return true;
                 }
             }
-            return false;
+            return CalamityUtils.FindFirstProjectile(ProjectileType<DeusRitualDrama>()) != -1;
         }
 		#endregion
 
@@ -6138,7 +6255,7 @@ namespace CalamityMod.NPCs
 			}
 
 			int players = 0;
-			for (int i = 0; i < 255; i++)
+			for (int i = 0; i < Main.maxPlayers; i++)
 			{
 				if (Main.player[i] != null && Main.player[i].active)
 				{
@@ -6184,14 +6301,14 @@ namespace CalamityMod.NPCs
                 {
 					if (plr == Main.myPlayer && projectile.ai[0] == 0f)
 					{
-						for (int num13 = 0; num13 < Main.maxInventory; num13++)
+						for (int item = 0; item < Main.maxInventory; item++)
 						{
-							if (player.inventory[num13].type == baitType)
+							if (player.inventory[item].type == baitType)
 							{
-								player.inventory[num13].stack--;
-								if (player.inventory[num13].stack <= 0)
+								player.inventory[item].stack--;
+								if (player.inventory[item].stack <= 0)
 								{
-									player.inventory[num13].SetDefaults(0, false);
+									player.inventory[item].SetDefaults(0, false);
 								}
 								break;
 							}
@@ -6202,23 +6319,8 @@ namespace CalamityMod.NPCs
 
 						if (Main.netMode != NetmodeID.MultiplayerClient)
 						{
-							int num8 = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, type);
-							string typeName2 = Main.npc[num8].TypeName;
-
-							if (Main.netMode == NetmodeID.SinglePlayer)
-							{
-								Main.NewText(Language.GetTextValue("Announcement.HasAwoken", typeName2), new Color(175, 75, 255));
-								return;
-							}
-
-							if (Main.netMode == NetmodeID.Server)
-							{
-								NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]
-								{
-										Main.npc[num8].GetTypeNetName()
-								}), new Color(175, 75, 255));
-								return;
-							}
+							int boss = NPC.NewNPC((int)projectile.Center.X, (int)projectile.Center.Y + 100, type);
+							CalamityUtils.BossAwakenMessage(boss);
 						}
 						else
 						{

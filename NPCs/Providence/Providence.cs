@@ -27,6 +27,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using CalamityMod.Items.Dyes;
 using CalamityMod.Projectiles.Summon;
 using CalamityMod.Projectiles.Typeless;
 
@@ -35,7 +36,6 @@ namespace CalamityMod.NPCs.Providence
     [AutoloadBossHead]
     public class Providence : ModNPC
     {
-		private bool hasTakenDaytimeDamage = false;
         private bool text = false;
         private bool useDefenseFrames = false;
         private float bossLife;
@@ -46,8 +46,9 @@ namespace CalamityMod.NPCs.Providence
         private int frameUsed = 0;
         private int healTimer = 0;
         private bool challenge = Main.expertMode && Main.netMode == NetmodeID.SinglePlayer; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
+		internal bool hasTakenDaytimeDamage = false;
 
-        public static float normalDR = 0.35f;
+		public static float normalDR = 0.35f;
         public static float cocoonDR = 0.9f;
 
         public override void SetStaticDefaults()
@@ -91,6 +92,7 @@ namespace CalamityMod.NPCs.Providence
             npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.noGravity = true;
@@ -414,8 +416,10 @@ namespace CalamityMod.NPCs.Providence
 				cocoonDR : delayAttacks ?
 				MathHelper.Lerp(normalDR, cocoonDR, npc.localAI[2] / attackDelayAfterCocoon) : normalDR;
 
-            // Movement
-            if (npc.ai[0] != 2f && npc.ai[0] != 5f)
+			npc.Calamity().DR = 0f;
+
+			// Movement
+			if (npc.ai[0] != 2f && npc.ai[0] != 5f)
             {
                 // Firing holy ray or not
                 bool firingLaser = npc.ai[0] == 7f;
@@ -1236,10 +1240,8 @@ namespace CalamityMod.NPCs.Providence
 				if (projectile.active)
 				{
 					if (projectile.type == ModContent.ProjectileType<HolyFire2>() || projectile.type == ModContent.ProjectileType<HolyFlare>())
-					{
 						projectile.Kill();
-					}
-					else if (projectile.type == ModContent.ProjectileType<MoltenBlast>())
+					else if (projectile.type == ModContent.ProjectileType<HolyBlast>() || projectile.type == ModContent.ProjectileType<HolyFire>())
 						projectile.active = false;
 				}
 			}
@@ -1270,7 +1272,7 @@ namespace CalamityMod.NPCs.Providence
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, shouldDrop);
 
 			// Special drop for defeating her at night
-			//DropHelper.DropItemCondition(npc, ModContent.ItemType<SpecialItem>(), true, !hasTakenDaytimeDamage);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedMoonlightDye>(), true, !hasTakenDaytimeDamage, 3, 4);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
@@ -1557,7 +1559,17 @@ namespace CalamityMod.NPCs.Providence
 
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
+			bool oldDaytimeDamageCheck = hasTakenDaytimeDamage;
 			hasTakenDaytimeDamage = Main.dayTime;
+
+			if (oldDaytimeDamageCheck != hasTakenDaytimeDamage && Main.netMode != NetmodeID.SinglePlayer)
+			{
+				var netMessage = mod.GetPacket();
+				netMessage.Write((byte)CalamityModMessageType.ProvidenceDyeConditionSync);
+				netMessage.Write((byte)npc.whoAmI);
+				netMessage.Write(hasTakenDaytimeDamage);
+				netMessage.Send();
+			}
 
 			if (challenge)
 			{
@@ -1573,8 +1585,18 @@ namespace CalamityMod.NPCs.Providence
         }
 
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
-        {
+		{
+			bool oldDaytimeDamageCheck = hasTakenDaytimeDamage;
 			hasTakenDaytimeDamage = Main.dayTime;
+
+			if (oldDaytimeDamageCheck != hasTakenDaytimeDamage && Main.netMode != NetmodeID.SinglePlayer)
+			{
+				var netMessage = mod.GetPacket();
+				netMessage.Write((byte)CalamityModMessageType.ProvidenceDyeConditionSync);
+				netMessage.Write((byte)npc.whoAmI);
+				netMessage.Write(hasTakenDaytimeDamage);
+				netMessage.Send();
+			}
 
 			if (challenge)
 				challenge = false;

@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		public const int Lifetime = 25;
 		public override void SetStaticDefaults()
 		{
-			DisplayName.SetDefault("Laser Rifle");
+			DisplayName.SetDefault("Plasma Explosion");
 		}
 
 		public override void SetDefaults()
@@ -27,7 +27,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			projectile.tileCollide = false;
 			projectile.Calamity().rogue = true;
 			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = 10;
+			projectile.idStaticNPCHitCooldown = 12;
 		}
 
 		public override void AI()

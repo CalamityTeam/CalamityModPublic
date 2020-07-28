@@ -71,7 +71,6 @@ namespace CalamityMod.Projectiles.Summon
             projectile.timeLeft *= 5;
             projectile.tileCollide = false;
             projectile.alpha = 255;
-            projectile.Calamity().rogue = true;
             projectile.usesIDStaticNPCImmunity = true;
             projectile.idStaticNPCHitCooldown = 11;
         }

@@ -47,29 +47,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             CalamityPlayer modPlayer = player.Calamity();
             bool hasSummonerSet = modPlayer.tarraSummon || modPlayer.bloodflareSummon || modPlayer.godSlayerSummon || modPlayer.silvaSummon || modPlayer.dsSetBonus || modPlayer.omegaBlueSet || modPlayer.fearmongerSet; //demonshade included so summoner isn't forced to use auric for BR
-            player.itemTime = item.useTime;
-            Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-            float num78 = (float)Main.mouseX + Main.screenPosition.X - vector2.X;
-            float num79 = (float)Main.mouseY + Main.screenPosition.Y - vector2.Y;
-            if (player.gravDir == -1f)
-            {
-                num79 = Main.screenPosition.Y + (float)Main.screenHeight - (float)Main.mouseY - vector2.Y;
-            }
-            float num80 = (float)Math.Sqrt((double)(num78 * num78 + num79 * num79));
-            if ((float.IsNaN(num78) && float.IsNaN(num79)) || (num78 == 0f && num79 == 0f))
-            {
-                num78 = (float)player.direction;
-                num80 = item.shootSpeed;
-            }
-            else
-            {
-                num80 = item.shootSpeed / num80;
-            }
-            num78 = 0f;
-            num79 = 0f;
-            vector2.X = (float)Main.mouseX + Main.screenPosition.X;
-            vector2.Y = (float)Main.mouseY + Main.screenPosition.Y;
-            Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, type, (int)((double)damage * (hasSummonerSet ? 1.0 : 0.66)), knockBack, player.whoAmI, 0f, 0f);
+            Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, (int)(damage * (hasSummonerSet ? 1 : 0.66)), knockBack, player.whoAmI, 0f, 0f);
             return false;
         }
 

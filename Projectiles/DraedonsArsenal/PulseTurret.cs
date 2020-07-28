@@ -49,9 +49,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.velocity.Y += 0.5f;
             }
 
-            NPC potentialTarget = projectile.Center.MinionHoming(850f, player);
+            NPC potentialTarget = projectile.Center.MinionHoming(850f, player, false);
 
-            if (potentialTarget != null && Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, potentialTarget.height))
+            if (potentialTarget != null)
             {
                 projectile.spriteDirection = (potentialTarget.Center.X - projectile.Center.X > 0).ToDirectionInt();
                 projectile.ai[0]++;
@@ -78,11 +78,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     Vector2 shootPosition = projectile.Center - ((standTexture.Height / 2 + 6f) * Vector2.UnitY);
                     shootPosition += (projectile.Size * 0.5f).RotatedBy(projectile.rotation - MathHelper.ToRadians(18f) - (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi);
 
-                    if (Math.Abs(Vector2.Normalize(potentialTarget.Center - shootPosition).ToRotation() - projectile.rotation) < MathHelper.ToRadians(32f) + (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi)
+                    bool aimingAtTarget = Math.Abs(Vector2.Normalize(potentialTarget.Center - shootPosition).ToRotation() - projectile.rotation) < MathHelper.ToRadians(32f) + (projectile.spriteDirection == -1).ToInt() * MathHelper.Pi;
+                    if (aimingAtTarget || projectile.Distance(potentialTarget.Center) < 45f)
                     {
                         Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PulseRifleFire"), shootPosition);
                         Projectile.NewProjectile(shootPosition,
-                                                 Vector2.Normalize(potentialTarget.Center - shootPosition) * 24f,
+                                                 Vector2.Normalize(potentialTarget.Center - shootPosition) * 12f,
                                                  ModContent.ProjectileType<PulseTurretShot>(),
                                                  projectile.damage,
                                                  projectile.knockBack,
@@ -92,7 +93,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                             for (int i = -1; i <= 1; i += 2)
                             {
                                 Projectile.NewProjectile(shootPosition,
-                                                         Vector2.Normalize(potentialTarget.Center - shootPosition).RotatedBy(i * MathHelper.ToRadians(28f)) * 14f,
+                                                         Vector2.Normalize(potentialTarget.Center - shootPosition).RotatedBy(i * MathHelper.ToRadians(28f)) * 7f,
                                                          ModContent.ProjectileType<PulseTurretShot>(),
                                                          projectile.damage,
                                                          projectile.knockBack,
@@ -117,6 +118,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 projectile.rotation = projectile.rotation.AngleLerp(0f, MathHelper.TwoPi / 50f);
             }
+
+			projectile.StickToTiles(false, false);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         }
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Snake Eyes");
+            DisplayName.SetDefault("Pole Warper");
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             GrantBuffs(player);
             NPC potentialTarget = projectile.Center.MinionHoming(900f, player);
-            if (potentialTarget == null)
+            if (potentialTarget is null)
             {
                 PlayerMovement(player);
                 RepelMovement();

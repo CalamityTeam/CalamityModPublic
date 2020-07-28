@@ -1,6 +1,7 @@
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -13,15 +14,15 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plasma Grenade");
-            Tooltip.SetDefault("Throws a rolling barrel that explodes on wall collision\n" +
-                               "Stealth strikes make it rain on collision");
+            Tooltip.SetDefault("Throws a grenade that explodes into plasma on collision\n" +
+                               "Stealth strikes explode violently on collision into a vaporizing blast");
         }
 
         public override void SafeSetDefaults()
         {
             item.width = 22;
             item.height = 28;
-            item.damage = 50;
+            item.damage = 7143;
             item.noMelee = true;
             item.noUseGraphic = true;
             item.consumable = true;
@@ -31,12 +32,16 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 3f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.value = CalamityGlobalItem.Rarity5BuyPrice;
-            item.rare = 5;
+
+            item.value = Item.sellPrice(silver: 80);
+            item.rare = ItemRarityID.Red;
+            item.Calamity().customRarity = CalamityRarity.DraedonRust;
+
             item.shoot = ModContent.ProjectileType<PlasmaGrenadeProjectile>();
-            item.shootSpeed = 10f;
+            item.shootSpeed = 19f;
             item.Calamity().rogue = true;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile grenade = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
@@ -49,9 +54,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 1);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 1);
-            recipe.AddIngredient(ItemID.HallowedBar, 2);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(this, 200);
+            recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 1);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
+            recipe.SetResult(this, 999);
             recipe.AddRecipe();
         }
     }

@@ -142,7 +142,7 @@ namespace CalamityMod.Projectiles.Summon
 					}
 				}
 				//If no npc is specifically targetted, check through the entire array
-				else
+				if (!npcFound)
 				{
 					for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
 					{
@@ -260,6 +260,8 @@ namespace CalamityMod.Projectiles.Summon
             {
                 return;
             }
+			if (healAmt > 50f)
+				healAmt = 50f;
 			CalamityGlobalProjectile.SpawnLifeStealProjectile(projectile, Main.player[projectile.owner], healAmt, ModContent.ProjectileType<FungalHeal>(), 1200f, 1f);
         }
 

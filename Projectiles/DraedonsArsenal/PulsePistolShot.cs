@@ -33,7 +33,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.width = 16;
             projectile.height = 16;
             projectile.friendly = true;
-            projectile.sentry = true;
+            projectile.magic = true;
             projectile.penetrate = 1;
             projectile.extraUpdates = 10;
             projectile.timeLeft = 120 * (1 + projectile.extraUpdates);

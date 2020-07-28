@@ -45,6 +45,8 @@ Grants Well Fed");
         public override bool UseItem(Player player)
         {
 			int healAmt = CalamityWorld.ironHeart ? 0 : 120;
+			if (player.Calamity().bloodPactBoost)
+				healAmt = (int)(healAmt * 1.5);
             player.statLife += healAmt;
             player.statMana += 150;
             if (player.statLife > player.statLifeMax2)
@@ -79,7 +81,10 @@ Grants Well Fed");
         // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
         public override void ModifyTooltips(List<TooltipLine> tooltips)
         {
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : item.healLife) + " life";
+			float healMult = 1f;
+			if (Main.player[Main.myPlayer].Calamity().bloodPactBoost)
+				healMult = 1.5f;
+            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : (int)(item.healLife * healMult)) + " life";
         }
 
         public override void AddRecipes()

@@ -52,9 +52,9 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.timeLeft = 2;
                 }
             }
-            projectile.Center = Main.player[projectile.owner].Center + Vector2.UnitY * (Main.player[projectile.owner].gfxOffY - 60f);
-            if (Main.player[projectile.owner].gravDir == -1f)
-                projectile.position.Y += 140f;
+            projectile.Center = player.Center + Vector2.UnitY * (player.gfxOffY - 60f);
+            if (player.gravDir == -1f)
+                projectile.position.Y += 120f;
             projectile.position.X = (int)projectile.position.X;
             projectile.position.Y = (int)projectile.position.Y;
             projectile.position = projectile.position.Floor();

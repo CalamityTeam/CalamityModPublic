@@ -59,6 +59,8 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.velocity.Y = 10f;
             }
 
+			projectile.StickToTiles(false, false);
+
             int target = 0;
             float num633 = 800f;
             Vector2 vector46 = projectile.position;
@@ -77,7 +79,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else
+            if (!flag25)
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {
@@ -112,18 +114,8 @@ namespace CalamityMod.Projectiles.Summon
             }
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            if (projectile.penetrate == 0)
-            {
-                projectile.Kill();
-            }
-            return false;
-        }
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 
-        public override bool CanDamage()
-        {
-            return false;
-        }
+        public override bool CanDamage() => false;
     }
 }

@@ -1,5 +1,4 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Materials
@@ -9,11 +8,16 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Titan Heart");
+            Tooltip.SetDefault("Also used at the Astral Beacon");
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.AncientBattleArmorMaterial);
+            item.width = 10;
+            item.height = 10;
+            item.maxStack = 999;
+            item.value = Item.sellPrice(gold: 1);
+            item.rare = 5;
         }
     }
 }

@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Mounted Scanner");
+			Tooltip.SetDefault("Summons a powerful weapon above your head that fires lasers at nearby enemies");
 		}
 
 		public override void SetDefaults()
@@ -19,17 +20,19 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.width = 26;
 			item.height = 26;
 			item.summon = true;
-			item.damage = 27;
+			item.damage = 19;
 			item.knockBack = 2f;
-			item.useTime = item.useAnimation = 35;
+			item.mana = 10;
+			item.useTime = item.useAnimation = 25;
 			item.autoReuse = true;
 
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.UseSound = SoundID.Item15;
 			item.noMelee = true;
 
-			item.value = CalamityGlobalItem.Rarity4BuyPrice;
-			item.rare = 4;
+			item.value = CalamityGlobalItem.Rarity5BuyPrice;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
 			item.shoot = ModContent.ProjectileType<MountedScannerSummon>();
 			item.shootSpeed = 1f;
@@ -77,10 +80,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			ModRecipe recipe = new ModRecipe(mod);
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ItemID.HallowedBar, 10);
+			recipe.AddIngredient(ItemID.SoulofFright, 20);
+			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

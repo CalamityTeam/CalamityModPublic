@@ -1,4 +1,5 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -7,26 +8,30 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class SnakeEyes : ModItem
+	public class SnakeEyes : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Snake Eyes");
+			Tooltip.SetDefault("Summons a mechanical watcher that zaps and flies around enemies.");
 		}
 
 		public override void SetDefaults()
 		{
 			item.shootSpeed = 10f;
-			item.damage = 15;
+			item.damage = 75;
 			item.mana = 12;
 			item.width = 38;
 			item.height = 24;
-			item.useTime = item.useAnimation = 30;
+			item.useTime = item.useAnimation = 15;
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.noMelee = true;
 			item.knockBack = 3f;
-			item.value = CalamityGlobalItem.Rarity3BuyPrice;
-			item.rare = ItemRarityID.Orange;
+
+			item.value = CalamityGlobalItem.RarityTurquoiseBuyPrice;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+
 			item.UseSound = SoundID.Item15;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<SnakeEyesSummon>();
@@ -43,10 +48,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 7);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
-			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 7);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
+			recipe.AddIngredient(ItemID.LunarBar, 4);
+			recipe.AddIngredient(ModContent.ItemType<GodspawnHelixStaff>());
+			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items.Placeables.Banners;
 using CalamityMod.Items.Tools.ClimateChange;
@@ -40,7 +41,26 @@ namespace CalamityMod.NPCs.NormalNPCs
                 npc.buffImmune[k] = true;
             }
             npc.buffImmune[BuffID.Ichor] = false;
-            npc.buffImmune[BuffID.CursedInferno] = false;
+            npc.buffImmune[ModContent.BuffType<MarkedforDeath>()] = false;
+			npc.buffImmune[BuffID.Frostburn] = false;
+			npc.buffImmune[BuffID.CursedInferno] = false;
+            npc.buffImmune[BuffID.Daybreak] = false;
+			npc.buffImmune[BuffID.StardustMinionBleed] = false;
+			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
+			npc.buffImmune[BuffID.Oiled] = false;
+			npc.buffImmune[BuffID.BetsysCurse] = false;
+			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
+			npc.buffImmune[ModContent.BuffType<GodSlayerInferno>()] = false;
+            npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
+            npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<HolyFlames>()] = false;
+            npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
+            npc.buffImmune[ModContent.BuffType<Plague>()] = false;
+            npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
+            npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
+            npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.knockBackResist = 0f;
             npc.value = Item.buyPrice(0, 1, 50, 0);
             npc.noGravity = true;
@@ -136,7 +156,7 @@ namespace CalamityMod.NPCs.NormalNPCs
                     num624 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Fire, 0f, 0f, 100, default, 2f);
                     Main.dust[num624].velocity *= 2f;
                 }
-				npc.ExplosionGores(3);
+				CalamityUtils.ExplosionGores(npc.Center, 3);
             }
         }
 

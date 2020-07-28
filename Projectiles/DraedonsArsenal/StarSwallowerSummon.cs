@@ -137,7 +137,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 FallThroughYPoint = player.Top.Y;
             }
 
-            AntiStickyMovement(0.05f);
+            projectile.MinionAntiClump();
             ManipulateFrames(minimumFrame, maximumFrame);
         }
 
@@ -228,7 +228,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public void NPCTargetingAI(NPC potentialTarget, Player player)
         {
             HandleHop(potentialTarget.Center);
-            if (Collision.CanHitLine(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, projectile.height) && AcidShootCooldown <= 0f)
+            if (Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, projectile.height) && AcidShootCooldown <= 0f)
             {
                 AcidShootTimer++;
                 ReleasingAcid = AcidShootTimer >= 16 && AcidShootTimer <= 44;
@@ -240,12 +240,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 {
                     Vector2 spawnPosition = projectile.Center + Vector2.UnitX * 8f * projectile.spriteDirection;
 
-                    float shootSpeed = 9f;
+                    float shootSpeed = 14f;
                     float gravity = -StarSwallowerAcid.Gravity;
                     float distance = Vector2.Distance(spawnPosition, potentialTarget.Center);
                     float angle = 0.5f * (float)Math.Asin(MathHelper.Clamp(gravity * distance / (float)Math.Pow(shootSpeed, 2), -1f, 1f));
 
-                    Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.04f);
+                    Vector2 velocity = new Vector2(0f, -shootSpeed).RotatedBy(angle).RotatedByRandom(0.015f);
                     velocity.X *= (potentialTarget.Center.X - projectile.Center.X < 0).ToDirectionInt();
 
                     projectile.spriteDirection = (potentialTarget.Center.X - projectile.Center.X > 0).ToDirectionInt();
@@ -261,41 +261,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 if (AcidShootTimer > 48)
                 {
                     AcidShootTimer = 0;
-                    AcidShootCooldown = 30f;
+                    AcidShootCooldown = 10f;
                     projectile.netUpdate = true;
                 }
             }
             else if (AcidShootCooldown > 0f)
                 AcidShootCooldown--;
-            projectile.velocity.X *= 0.935f;
-        }
-        public void AntiStickyMovement(float antiStickAcceleration = 0.05f)
-        {
-            for (int index = 0; index < Main.projectile.Length; index++)
-            {
-                Projectile proj = Main.projectile[index];
-                if (index != projectile.whoAmI &&
-                    proj.active && proj.owner == projectile.owner &&
-                    proj.type == projectile.type && Math.Abs(projectile.position.X - proj.position.X) + Math.Abs(projectile.position.Y - proj.position.Y) < projectile.width)
-                {
-                    if (projectile.position.X < proj.position.X)
-                    {
-                        projectile.velocity.X -= antiStickAcceleration;
-                    }
-                    else
-                    {
-                        projectile.velocity.X += antiStickAcceleration;
-                    }
-                    if (projectile.position.Y < proj.position.Y)
-                    {
-                        projectile.velocity.Y -= antiStickAcceleration;
-                    }
-                    else
-                    {
-                        projectile.velocity.Y += antiStickAcceleration;
-                    }
-                }
-            }
+            projectile.velocity.X *= 0.8f;
         }
         public void ManipulateFrames(int minimumFrame, int maximumFrame)
         {

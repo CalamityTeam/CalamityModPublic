@@ -69,6 +69,7 @@ namespace CalamityMod.World
         public static bool deactivateStupidFuckingBullshit = false; //Force Boss Rush to inactive
         public static int bossRushStage = 0; //Boss Rush Stage
         public static int bossRushSpawnCountdown = 180; //Delay before another Boss Rush boss can spawn
+		public static int bossRushHostileProjKillCounter = 0;
 
         //Death Mode natural boss spawns
         public static int bossSpawnCountdown = 0; //Death Mode natural boss spawn countdown
@@ -136,9 +137,23 @@ namespace CalamityMod.World
         public static int[] SChestY = new int[10];
         public static bool roxShrinePlaced = false;
 
-		//Spawned NPCs
+		//Town NPC bools
         public static bool spawnedBandit = false;
         public static bool spawnedCirrus = false;
+		public static bool foundHomePermafrost = false;
+		public static bool guideName = false;
+		public static bool wizardName = false;
+		public static bool steampunkerName = false;
+		public static bool stylistName = false;
+		public static bool witchDoctorName = false;
+		public static bool taxCollectorName = false;
+		public static bool pirateName = false;
+		public static bool mechanicName = false;
+		public static bool armsDealerName = false;
+		public static bool dryadName = false;
+		public static bool nurseName = false;
+		public static bool anglerName = false;
+		public static bool clothierName = false;
 
         #region Downed Bools
         public static bool downedBossAny = false; //Any boss
@@ -173,6 +188,7 @@ namespace CalamityMod.World
         public static bool downedSCal = false;
         public static bool downedGSS = false;
         public static bool downedCLAM = false;
+        public static bool downedCLAMHardMode = false;
         public static bool downedBetsy = false; //Betsy
 
         public static bool downedEoCAcidRain = false;
@@ -211,6 +227,7 @@ namespace CalamityMod.World
             bossRushActive = false;
             bossRushSpawnCountdown = 180;
             bossSpawnCountdown = 0;
+			bossRushHostileProjKillCounter = 0;
 			deathBossSpawnCooldown = 0;
             bossType = 0;
 			newAltarX = 0;
@@ -219,6 +236,20 @@ namespace CalamityMod.World
             abyssSide = false;
 			spawnedBandit = false;
 			spawnedCirrus = false;
+			foundHomePermafrost = false;
+			guideName = false;
+			wizardName = false;
+			steampunkerName = false;
+			stylistName = false;
+			witchDoctorName = false;
+			taxCollectorName = false;
+			pirateName = false;
+			mechanicName = false;
+			armsDealerName = false;
+			dryadName = false;
+			nurseName = false;
+			anglerName = false;
+			clothierName = false;
             downedDesertScourge = false;
             downedAquaticScourge = false;
             downedHiveMind = false;
@@ -240,6 +271,7 @@ namespace CalamityMod.World
             buffedEclipse = false;
             downedSCal = false;
             downedCLAM = false;
+            downedCLAMHardMode = false;
             downedBumble = false;
             downedCrabulon = false;
             downedBetsy = false;
@@ -355,6 +387,8 @@ namespace CalamityMod.World
                 downed.Add("bossRushActive");
             if (downedCLAM)
                 downed.Add("clam");
+            if (downedCLAMHardMode)
+                downed.Add("clamHardmode");
             if (dragonScalesBought)
                 downed.Add("scales");
             if (rainingAcid)
@@ -363,6 +397,34 @@ namespace CalamityMod.World
                 downed.Add("bandit");
             if (spawnedCirrus)
                 downed.Add("drunkPrincess");
+            if (foundHomePermafrost)
+                downed.Add("archmageHome");
+            if (guideName)
+                downed.Add("guideName");
+            if (wizardName)
+                downed.Add("wizardName");
+            if (steampunkerName)
+                downed.Add("steampunkerName");
+            if (stylistName)
+                downed.Add("stylistName");
+            if (witchDoctorName)
+                downed.Add("witchDoctorName");
+            if (taxCollectorName)
+                downed.Add("taxCollectorName");
+            if (pirateName)
+                downed.Add("pirateName");
+            if (mechanicName)
+                downed.Add("mechanicName");
+            if (armsDealerName)
+                downed.Add("armsDealerName");
+            if (dryadName)
+                downed.Add("dryadName");
+            if (nurseName)
+                downed.Add("nurseName");
+            if (anglerName)
+                downed.Add("anglerName");
+            if (clothierName)
+                downed.Add("clothierName");
             if (downedEoCAcidRain)
                 downed.Add("eocRain");
             if (downedAquaticScourgeAcidRain)
@@ -443,10 +505,25 @@ namespace CalamityMod.World
             abyssSide = downed.Contains("abyssSide");
             bossRushActive = downed.Contains("bossRushActive");
             downedCLAM = downed.Contains("clam");
+            downedCLAMHardMode = downed.Contains("clamHardmode");
             dragonScalesBought = downed.Contains("scales");
             rainingAcid = downed.Contains("acidRain");
             spawnedBandit = downed.Contains("bandit");
             spawnedCirrus = downed.Contains("drunkPrincess");
+            foundHomePermafrost = downed.Contains("archmageHome");
+			guideName = downed.Contains("guideName");
+			wizardName = downed.Contains("wizardName");
+			steampunkerName = downed.Contains("stylistName");
+			stylistName = downed.Contains("stylistName");
+			witchDoctorName = downed.Contains("witchDoctorName");
+			taxCollectorName = downed.Contains("taxCollectorName");
+			pirateName = downed.Contains("pirateName");
+			mechanicName = downed.Contains("mechanicName");
+			armsDealerName = downed.Contains("armsDealerName");
+			dryadName = downed.Contains("dryadName");
+			nurseName = downed.Contains("nurseName");
+			anglerName = downed.Contains("anglerName");
+			clothierName = downed.Contains("clothierName");
             downedEoCAcidRain = downed.Contains("eocRain");
             downedAquaticScourgeAcidRain = downed.Contains("hmRain");
             triedToSummonOldDuke = downed.Contains("spawnedBoomer");
@@ -547,11 +624,31 @@ namespace CalamityMod.World
                 forcedRainAlready = flags8[0];
                 forcedDownpourWithTear = flags8[1];
                 downedSecondSentinels = flags8[2];
-                _ = flags8[3];
-                _ = flags8[4];
-                _ = flags8[5];
-                _ = flags8[6];
-                _ = flags8[7];
+                foundHomePermafrost = flags8[3];
+                downedCLAMHardMode = flags8[4];
+                guideName = flags8[5];
+                wizardName = flags8[6];
+                steampunkerName = flags8[7];
+
+                BitsByte flags9 = reader.ReadByte();
+                stylistName = flags9[0];
+                witchDoctorName = flags9[1];
+                taxCollectorName = flags9[2];
+                pirateName = flags9[3];
+                mechanicName = flags9[4];
+                armsDealerName = flags9[5];
+                dryadName = flags9[6];
+                nurseName = flags9[7];
+
+                BitsByte flags10 = reader.ReadByte();
+                anglerName = flags10[0];
+                clothierName = flags10[1];
+                _ = flags10[2];
+                _ = flags10[3];
+                _ = flags10[4];
+                _ = flags10[5];
+                _ = flags10[6];
+                _ = flags10[7];
             }
             else
             {
@@ -638,11 +735,31 @@ namespace CalamityMod.World
             flags8[0] = forcedRainAlready;
             flags8[1] = forcedDownpourWithTear;
             flags8[2] = downedSecondSentinels;
-            flags8[3] = false;
-            flags8[4] = false;
-            flags8[5] = false;
-            flags8[6] = false;
-            flags8[7] = false;
+            flags8[3] = foundHomePermafrost;
+            flags8[4] = downedCLAMHardMode;
+            flags8[5] = guideName;
+            flags8[6] = wizardName;
+            flags8[7] = steampunkerName;
+
+            BitsByte flags9 = new BitsByte();
+            flags9[0] = stylistName;
+            flags9[1] = witchDoctorName;
+            flags9[2] = taxCollectorName;
+            flags9[3] = pirateName;
+            flags9[4] = mechanicName;
+            flags9[5] = armsDealerName;
+            flags9[6] = dryadName;
+            flags9[7] = nurseName;
+
+            BitsByte flags10 = new BitsByte();
+            flags10[0] = anglerName;
+            flags10[1] = clothierName;
+            flags10[2] = false;
+            flags10[3] = false;
+            flags10[4] = false;
+            flags10[5] = false;
+            flags10[6] = false;
+            flags10[7] = false;
 
             writer.Write(flags);
             writer.Write(flags2);
@@ -652,6 +769,8 @@ namespace CalamityMod.World
             writer.Write(flags6);
             writer.Write(flags7);
             writer.Write(flags8);
+            writer.Write(flags9);
+            writer.Write(flags10);
             writer.Write(abyssChasmBottom);
             writer.Write(acidRainPoints);
             writer.Write(Reforges);
@@ -737,11 +856,31 @@ namespace CalamityMod.World
             forcedRainAlready = flags8[0];
             forcedDownpourWithTear = flags8[1];
             downedSecondSentinels = flags8[2];
-            _ = flags8[3];
-            _ = flags8[4];
-            _ = flags8[5];
-            _ = flags8[6];
-            _ = flags8[7];
+            foundHomePermafrost = flags8[3];
+            downedCLAMHardMode = flags8[4];
+			guideName = flags8[5];
+			wizardName = flags8[6];
+			steampunkerName = flags8[7];
+
+			BitsByte flags9 = reader.ReadByte();
+			stylistName = flags9[0];
+			witchDoctorName = flags9[1];
+			taxCollectorName = flags9[2];
+			pirateName = flags9[3];
+			mechanicName = flags9[4];
+			armsDealerName = flags9[5];
+			dryadName = flags9[6];
+			nurseName = flags9[7];
+
+			BitsByte flags10 = reader.ReadByte();
+			anglerName = flags10[0];
+			clothierName = flags10[1];
+			_ = flags10[2];
+			_ = flags10[3];
+			_ = flags10[4];
+			_ = flags10[5];
+			_ = flags10[6];
+			_ = flags10[7];
 
             abyssChasmBottom = reader.ReadInt32();
             acidRainPoints = reader.ReadInt32();
@@ -904,17 +1043,29 @@ namespace CalamityMod.World
                 }));
 
 
-                tasks.Insert(FinalIndex + 3, new PassLegacy("DraedonThings", (GenerationProgress progress) =>
+                tasks.Insert(FinalIndex + 3, new PassLegacy("Rust and Dust", (GenerationProgress progress) =>
                 {
                     List<Point> workshopPositions = new List<Point>();
-                    for (int i = 0; i < 10; i++)
+                    int workshopCount = Main.maxTilesX / 1200;
+                    int labCount = Main.maxTilesX / 1800;
+                    DraedonStructures.DraedonsLogWorkshopIndex = WorldGen.genRand.Next(workshopCount);
+
+                    for (int i = 0; i < workshopCount; i++)
                     {
-                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions);
+                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions, "Workshop");
+                        DraedonStructures.CurrentWorkshopIndex = i;
                         workshopPositions.Add(placementPosition);
+
+                        DraedonStructures.PlaceWorkshop(out Point placementPosition2, workshopPositions, "Workshop 2");
+                        DraedonStructures.CurrentWorkshopIndex = i;
+                        workshopPositions.Add(placementPosition2);
                     }
-                    for (int i = 0; i < 4; i++)
+                    for (int i = 0; i < labCount; i++)
                     {
-                        DraedonStructures.PlacePlagueLab(out Point placementPosition2, workshopPositions);
+                        DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions, "Research Facility");
+                        workshopPositions.Add(placementPosition);
+
+                        DraedonStructures.PlaceResearchFacility(out Point placementPosition2, workshopPositions, "Research Facility 2");
                         workshopPositions.Add(placementPosition2);
                     }
                 }));
@@ -1394,7 +1545,7 @@ namespace CalamityMod.World
                         // Spawn bosses
                         if (Main.netMode != NetmodeID.MultiplayerClient)
                         {
-                            Main.PlaySound(SoundID.Roar, player.position, 0);
+							bool playSpecialSound = false;
                             switch (bossRushStage)
                             {
                                 case 0:
@@ -1418,6 +1569,7 @@ namespace CalamityMod.World
                                     ChangeTime(true);
                                     int npc = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.Golem, 1);
 									Main.npc[npc].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc);
                                     break;
                                 case 6:
                                     ChangeTime(true);
@@ -1455,6 +1607,7 @@ namespace CalamityMod.World
                                     ChangeTime(false);
 									int npc6 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.SkeletronHead, 1);
 									Main.npc[npc6].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc6);
 									break;
                                 case 15:
                                     ChangeTime(true);
@@ -1472,6 +1625,7 @@ namespace CalamityMod.World
                                     int npc2 = NPC.NewNPC((int)player.Center.X, (int)player.Center.Y - 400, NPCID.CultistBoss, 1);
                                     Main.npc[npc2].direction = Main.npc[npc2].spriteDirection = Math.Sign(player.Center.X - player.Center.X - 90f);
 									Main.npc[npc2].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc2);
 									break;
                                 case 19:
                                     for (int doom = 0; doom < Main.maxNPCs; doom++)
@@ -1486,6 +1640,7 @@ namespace CalamityMod.World
                                     }
                                     int npc3 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<CrabulonIdle>(), 1);
 									Main.npc[npc3].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc3);
 									break;
                                 case 20:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.Plantera);
@@ -1506,12 +1661,16 @@ namespace CalamityMod.World
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Signus>());
                                     break;
                                 case 26:
+									playSpecialSound = true;
+									Main.PlaySound(SoundID.Roar, player.position, 2);
                                     int npc4 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<RavagerBody>(), 1);
 									Main.npc[npc4].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc4);
 									break;
                                 case 27:
                                     int npc5 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), NPCID.DukeFishron, 1);
 									Main.npc[npc5].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc5);
 									break;
                                 case 28:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.MoonLordCore);
@@ -1538,6 +1697,7 @@ namespace CalamityMod.World
 								case 34:
 									int npc7 = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-100, 101)), (int)(player.position.Y - 400f), ModContent.NPCType<OldDuke>(), 1);
 									Main.npc[npc7].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(npc7);
 									break;
 								case 35:
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGod>());
@@ -1546,7 +1706,11 @@ namespace CalamityMod.World
                                     break;
                                 case 36:
                                     ChangeTime(true);
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Providence>());
+									playSpecialSound = true;
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/ProvidenceSpawn"), player.Center);
+									int prov = NPC.NewNPC((int)(player.position.X + Main.rand.Next(-500, 501)), (int)(player.position.Y - 250f), ModContent.NPCType<Providence>(), 1);
+									Main.npc[prov].timeLeft *= 20;
+									CalamityUtils.BossAwakenMessage(prov);
                                     break;
                                 case 37:
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SupremeCalamitas>());
@@ -1556,9 +1720,13 @@ namespace CalamityMod.World
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<Yharon>());
                                     break;
                                 case 39:
+									playSpecialSound = true;
+									Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/DevourerSpawn"), player.Center);
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<DevourerofGodsHeadS>());
                                     break;
                             }
+							if (!playSpecialSound)
+								Main.PlaySound(SoundID.Roar, player.position, 0);
                         }
                     }
                 }
@@ -1578,6 +1746,19 @@ namespace CalamityMod.World
                     }
                 }
             }
+			if (bossRushHostileProjKillCounter > 0)
+			{
+				bossRushHostileProjKillCounter--;
+				if (bossRushHostileProjKillCounter == 1)
+					CalamityUtils.KillAllHostileProjectiles();
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.BRHostileProjKillSync);
+                    netMessage.Write(bossRushHostileProjKillCounter);
+                    netMessage.Send();
+                }
+			}
 
             if (DoGSecondStageCountdown > 0)
             {
@@ -1683,7 +1864,16 @@ namespace CalamityMod.World
                 }
             }
 			if (ArmoredDiggerSpawnCooldown > 0)
+			{
 				ArmoredDiggerSpawnCooldown--;
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write((byte)CalamityModMessageType.ArmoredDiggerCountdownSync);
+                    netMessage.Write(ArmoredDiggerSpawnCooldown);
+                    netMessage.Send();
+                }
+			}
 
             if (Main.dayTime && Main.hardMode)
             {

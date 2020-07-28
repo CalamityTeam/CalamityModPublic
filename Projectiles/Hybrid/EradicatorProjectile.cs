@@ -34,7 +34,7 @@ namespace CalamityMod.Projectiles.Hybrid
         public override void AI()
         {
             Lighting.AddLight(projectile.Center, 0.35f, 0f, 0.25f);
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 8f, 20, ModContent.ProjectileType<NebulaShot>());
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 300f, 6f, 8f, 6, ModContent.ProjectileType<NebulaShot>(), 1D, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

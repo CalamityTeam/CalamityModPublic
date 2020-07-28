@@ -9,7 +9,6 @@ namespace CalamityMod.Projectiles.Summon
 	public class MagicRifle : ModProjectile
 	{
 		private int counter = 0;
-		private bool canHome = false;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Rifle");
@@ -39,11 +38,16 @@ namespace CalamityMod.Projectiles.Summon
 			projectile.MinionAntiClump();
 
 			//Try not to do anything at first
-			if (counter <= 30)
+			counter++;
+			if (counter == 30)
 			{
-				counter++;
-				canHome = true;
+				projectile.netUpdate = true;
 			}
+			else if (counter < 30)
+			{
+				return;
+			}
+
 			float homingRange = MagicHat.Range;
 			Vector2 targetVec = projectile.position;
 			Vector2 half = new Vector2(0.5f);
@@ -52,7 +56,7 @@ namespace CalamityMod.Projectiles.Summon
 			if (player.HasMinionAttackTargetNPC)
 			{
 				NPC npc = Main.npc[player.MinionAttackTargetNPC];
-				if (npc.CanBeChasedBy(projectile, false) && canHome)
+				if (npc.CanBeChasedBy(projectile, false))
 				{
 					//Adding a check on the NPC's size allows it to target big things like Providence
 					Vector2 sizeCheck = npc.position + npc.Size * half;
@@ -66,12 +70,12 @@ namespace CalamityMod.Projectiles.Summon
 					}
 				}
 			}
-			else
+			if (!foundTarget)
 			{
 				for (int npcIndex = 0; npcIndex < Main.maxNPCs; npcIndex++)
 				{
 					NPC npc = Main.npc[npcIndex];
-					if (npc.CanBeChasedBy(projectile, false) && canHome)
+					if (npc.CanBeChasedBy(projectile, false))
 					{
 						Vector2 sizeCheck = npc.position + npc.Size * half;
 						float targetDist = Vector2.Distance(npc.Center, projectile.Center);

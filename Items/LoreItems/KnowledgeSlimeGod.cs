@@ -1,3 +1,4 @@
+using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using Terraria;
@@ -32,10 +33,13 @@ namespace CalamityMod.Items.LoreItems
 
         public override void UpdateInventory(Player player)
         {
-            if (player.mount.Active || !item.favorited)
+            CalamityPlayer modPlayer = player.Calamity();
+            if (player.mount.Active || !item.favorited || modPlayer.slimeGodLoreProcessed)
                 return;
 
-            if (player.dashDelay < 0)
+            modPlayer.slimeGodLoreProcessed = true;
+
+            if (player.dashDelay < 0 || (player.velocity.Length() >= 11f && CalamityPlayer.areThereAnyDamnBosses)) //If you go over 52.8 mph
                 player.velocity.X *= 0.9f;
 
             player.slippy2 = true;

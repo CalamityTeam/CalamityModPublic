@@ -37,9 +37,6 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.PureGreen;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-5, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-5, 0);
     }
 }

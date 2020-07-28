@@ -1,6 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
+using CalamityMod.Items.Placeables.Plates;
 using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.DataStructures;

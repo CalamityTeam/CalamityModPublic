@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
                     if (projectile.ai[1] == 0f)
                     {
                         float num550 = 24f; //12
-                        Vector2 vector43 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
+                        Vector2 vector43 = projectile.Center;
                         float num551 = num535 - vector43.X;
                         float num552 = num536 - vector43.Y;
                         float num553 = (float)Math.Sqrt((double)(num551 * num551 + num552 * num552));
@@ -85,9 +85,9 @@ namespace CalamityMod.Projectiles.Summon
                     float num16 = 0.5f;
                     projectile.tileCollide = false;
                     int num17 = 100;
-                    Vector2 vector3 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-                    float num18 = Main.player[projectile.owner].position.X + (float)(Main.player[projectile.owner].width / 2) - vector3.X;
-                    float num19 = Main.player[projectile.owner].position.Y + (float)(Main.player[projectile.owner].height / 2) - vector3.Y;
+                    Vector2 vector3 = projectile.Center;
+                    float num18 = Main.player[projectile.owner].Center.X - vector3.X;
+                    float num19 = Main.player[projectile.owner].Center.Y - vector3.Y;
                     num19 += (float)Main.rand.Next(-10, 21);
                     num18 += (float)Main.rand.Next(-10, 21);
                     num18 += (float)(60 * -(float)Main.player[projectile.owner].direction);

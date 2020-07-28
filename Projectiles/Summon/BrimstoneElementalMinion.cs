@@ -15,7 +15,7 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Big Busty Rose");
+            DisplayName.SetDefault("Brimstone Elemental");
             Main.projFrames[projectile.type] = 4;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -96,7 +96,7 @@ namespace CalamityMod.Projectiles.Summon
             float num = (float)Main.rand.Next(90, 111) * 0.01f;
             num *= Main.essScale;
             Lighting.AddLight(projectile.Center, 1.25f * num, 0f * num, 0.5f * num);
-            if ((double)Math.Abs(projectile.velocity.X) > 0.2)
+            if (Math.Abs(projectile.velocity.X) > 0.2f)
             {
                 projectile.spriteDirection = -projectile.direction;
             }
@@ -126,7 +126,7 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else
+            if (!flag25)
             {
                 for (int num645 = 0; num645 < Main.maxNPCs; num645++)
                 {

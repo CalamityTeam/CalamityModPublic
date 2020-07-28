@@ -25,7 +25,7 @@ namespace CalamityMod.NPCs.TownNPCs
             "Penelope", "Marisa", "Maribel",
             "Valerie", "Jessica", "Rowan",
             "Jessie", "Jade", "Hearn",
-            "Amber", "Anne", "Indiana",
+            "Amber", "Anne", "Indiana", "Xplizzy"
         };
 
         public override void SetStaticDefaults()
@@ -71,9 +71,10 @@ namespace CalamityMod.NPCs.TownNPCs
             for (int k = 0; k < Main.maxPlayers; k++)
             {
                 Player player = Main.player[k];
-                if (player.active && player.InventoryHas(ItemID.PlatinumCoin))
+				bool rich = player.InventoryHas(ItemID.PlatinumCoin) || player.PortableStorageHas(ItemID.PlatinumCoin);
+                if (player.active && rich)
                 {
-                    return NPC.downedBoss3;
+                    return NPC.downedBoss3 || CalamityWorld.spawnedBandit;
                 }
             }
             return CalamityWorld.spawnedBandit;
@@ -251,6 +252,8 @@ namespace CalamityMod.NPCs.TownNPCs
             nextSlot++;
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<OldDie>());
             shop.item[nextSlot].shopCustomPrice = Item.buyPrice(0, 40, 0, 0);
+            nextSlot++;
+            shop.item[nextSlot].SetDefaults(ItemID.TigerClimbingGear);
             nextSlot++;
             if (CalamityWorld.downedSlimeGod)
             {

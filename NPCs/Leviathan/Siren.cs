@@ -68,6 +68,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.buffImmune[ModContent.BuffType<Nightwither>()] = false;
             npc.buffImmune[ModContent.BuffType<Plague>()] = false;
             npc.buffImmune[ModContent.BuffType<Shred>()] = false;
+            npc.buffImmune[ModContent.BuffType<WarCleave>()] = false;
             npc.buffImmune[ModContent.BuffType<WhisperingDeath>()] = false;
             npc.buffImmune[ModContent.BuffType<SilvaStun>()] = false;
             npc.buffImmune[ModContent.BuffType<SulphuricPoisoning>()] = false;
@@ -129,9 +130,9 @@ namespace CalamityMod.NPCs.Leviathan
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
 			bool isNotOcean = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
 			float lifeRatio = npc.life / (float)npc.lifeMax;
-			float bubbleVelocity = CalamityWorld.bossRushActive ? 10f : 5f;
+			float bubbleVelocity = CalamityWorld.bossRushActive ? 16f : death ? 8f : revenge ? 7f : expertMode ? 6f : 5f;
 			if (!leviAlive)
-				bubbleVelocity += 1.5f * (1f - lifeRatio);
+				bubbleVelocity += 2f * (1f - lifeRatio);
 
 			npc.damage = npc.defDamage;
 
@@ -140,7 +141,7 @@ namespace CalamityMod.NPCs.Leviathan
 			// Phases
 			bool phase2 = lifeRatio < 0.7f;
             bool phase3 = lifeRatio < 0.4f;
-			bool phase4 = lifeRatio < 0.1f;
+			bool phase4 = lifeRatio < 0.2f;
 
             // Spawn Leviathan and Clones, change music
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -155,7 +156,8 @@ namespace CalamityMod.NPCs.Leviathan
                         else
                             music = MusicID.Boss3;
 
-						NPC.NewNPC((int)vector.X, (int)vector.Y + 480, ModContent.NPCType<Leviathan>(), 1);
+						int levi = NPC.NewNPC((int)vector.X, (int)vector.Y + 480, ModContent.NPCType<Leviathan>(), 1);
+						CalamityUtils.BossAwakenMessage(levi);
 						spawnedLevi = true;
                     }
                 }
@@ -591,8 +593,9 @@ namespace CalamityMod.NPCs.Leviathan
                 if (npc.ai[1] >= (revenge ? 45f : 60f))
                 {
                     forceChargeFrames = true;
-                    npc.ai[0] = npc.ai[2] >= ((leviAlive && !phase4) ? 2f : 3f) ? -1f : 4f;
-                    npc.ai[1] = npc.ai[2] >= ((leviAlive && !phase4) ? 2f : 3f) ? 3f : 0f;
+					float aiInterval = (leviAlive && !phase4) ? 2f : 3f;
+					npc.ai[0] = (npc.ai[2] >= aiInterval) ? -1f : 4f;
+                    npc.ai[1] = (npc.ai[2] >= aiInterval) ? 3f : 0f;
                     npc.localAI[0] = 0f;
 
                     // Velocity and rotation

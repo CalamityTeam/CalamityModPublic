@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 8;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -189,7 +189,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     offsetMultiplier = new Vector2(1f, -1f);
                     break;
             }
-            if (Time % 30f == 0f)
+            if (Time % 20f == 0f)
             {
                 if (projectile.ai[1] > 0 && Main.myPlayer == projectile.owner)
                 {
@@ -198,6 +198,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     laser.timeLeft *= 2;
                     laser.tileCollide = false;
                     laser.netUpdate = true;
+                    laser.Calamity().forceMinion = true;
                 }
                 projectile.ai[1]++;
                 OldCenter = projectile.Center;
@@ -205,8 +206,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             else
             {
                 EyeOutwardness = MathHelper.Lerp(EyeOutwardness, 1f, 0.15f);
-                EyeRotation = EyeRotation.AngleTowards(projectile.AngleTo(npc.Center), MathHelper.TwoPi / 30f);
-                projectile.Center = Vector2.SmoothStep(OldCenter, npc.Center + (new Vector2(300f) + projectile.Size * 0.5f) * offsetMultiplier, Time % 30f / 30f);
+                EyeRotation = EyeRotation.AngleTowards(projectile.AngleTo(npc.Center), MathHelper.TwoPi / 20f);
+                projectile.Center = Vector2.SmoothStep(OldCenter, npc.Center + (new Vector2(300f) + projectile.Size * 0.5f) * offsetMultiplier, Time % 20f / 20f);
             }
         }
         public void GenerateAfterimageDust()

@@ -11,6 +11,7 @@ using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
+using CalamityMod.Schematics;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
 using CalamityMod.Tiles.Astral;
@@ -1598,11 +1599,37 @@ namespace CalamityMod.World
                     }
                 }
             }
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 NetMessage.SendTileSquare(-1, i, j, 40, TileChangeType.None);
                 if (CanAstralBiomeSpawn())
+                {
                     DoAstralConversion(new Point(i, j));
+                    int checkWidth = 180;
+                    float averageHeight = 0f;
+                    float lowestHeight = 0f;
+                    for (int x = i - checkWidth / 2; x < i + checkWidth / 2; x++)
+                    {
+                        int y = j - 200;
+                        while (!CalamityUtils.ParanoidTileRetrieval(x, y).active() || CalamityUtils.ParanoidTileRetrieval(x, y).type == TileID.Trees)
+                        {
+                            y++;
+                            if (y > j - 10)
+                                break;
+                        }
+                        lowestHeight = (int)MathHelper.Max(lowestHeight, y);
+                        averageHeight += y;
+                    }
+                    lowestHeight -= 36f;
+                    averageHeight /= checkWidth;
+                    float height = lowestHeight;
+
+                    // If there's a sudden change between the average and lowest height (which is indicative of holes/chasms), go with the average.
+                    if (Math.Abs(lowestHeight - averageHeight) > 50f)
+                        height = averageHeight;
+                    SchematicPlacementHelpers.PlaceStructure("Astral Beacon", new Point(i, (int)height - 20), SchematicPlacementHelpers.PlacementAnchorType.Center);
+                }
             }
             return true;
         }
@@ -2278,8 +2305,8 @@ namespace CalamityMod.World
         #region EvilIsland
         public static void EvilIsland(int i, int j)
         {
-            double num = (double)WorldGen.genRand.Next(100, 150); //100 150
-            float num2 = (float)WorldGen.genRand.Next(20, 30); //20 30
+            double num = (double)WorldGen.genRand.Next(100, 150);
+            float num2 = (float)WorldGen.genRand.Next(20, 30);
             int num3 = i;
             int num4 = i;
             int num5 = i;
@@ -4187,10 +4214,10 @@ namespace CalamityMod.World
                         }
                     }
                 }
-                if (num <= 2f && vector.Y < (Main.rockLayer + Main.maxTilesY * 0.3))
+                /*if (num <= 2f && vector.Y < (Main.rockLayer + Main.maxTilesY * 0.3))
                 {
                     num = 2f;
-                }
+                }*/
                 vector += vector2;
                 vector2.X += WorldGen.genRand.Next(-1, 2) * 0.01f;
                 if (vector2.X > 0.02)

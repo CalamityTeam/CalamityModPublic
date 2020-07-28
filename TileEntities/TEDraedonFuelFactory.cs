@@ -30,7 +30,8 @@ namespace CalamityMod.TileEntities
             }
 
             Time++;
-            if (Time % 5 == 4 && Main.tileFrame[Main.tile[Position.X, Position.Y].type] == 43)
+            bool rightTimeToMakeCell = Time % 5 == 4 && Main.tileFrame[Main.tile[Position.X, Position.Y].type] == 43;
+            if (HeldItem.stack < HeldItem.maxStack && rightTimeToMakeCell)
             {
                 HeldItem.stack++;
             }

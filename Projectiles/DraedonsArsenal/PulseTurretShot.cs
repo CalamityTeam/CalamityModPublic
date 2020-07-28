@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
@@ -12,18 +13,20 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pulse Bolt");
+            ProjectileID.Sets.SentryShot[projectile.type] = true;
 		}
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
+            projectile.width = 10;
+            projectile.height = 10;
             projectile.friendly = true;
-            projectile.ranged = true;
+            projectile.minion = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 600;
             projectile.Calamity().hasInorganicEnemyHitBoost = true;
             projectile.Calamity().inorganicEnemyHitBoost = 0.002f;
+			projectile.extraUpdates = 1;
         }
 
         public override void AI()
@@ -42,7 +45,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             if (projectile.ai[1] == 1f)
             {
-                NPC potentialTarget = projectile.Center.MinionHoming(850f, Main.player[projectile.owner]);
+                NPC potentialTarget = projectile.Center.MinionHoming(850f, Main.player[projectile.owner], false);
                 if (potentialTarget != null)
                 {
                     float speed = projectile.velocity.Length();

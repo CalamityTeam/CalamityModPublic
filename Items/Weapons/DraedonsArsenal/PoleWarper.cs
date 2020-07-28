@@ -1,5 +1,7 @@
 using CalamityMod.Items.Materials;
+using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -7,27 +9,30 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
-    public class PoleWarper : ModItem
+	public class PoleWarper : ModItem
 	{
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pole Warper");
-			Tooltip.SetDefault("Summons two floating magnets which repel each other");
+			Tooltip.SetDefault("Summons two floating magnets that repel each other");
 		}
 
 		public override void SetDefaults()
 		{
 			item.shootSpeed = 10f;
-			item.damage = 38;
+			item.damage = 700;
 			item.mana = 12;
 			item.width = 38;
 			item.height = 24;
-			item.useTime = item.useAnimation = 30;
+			item.useTime = item.useAnimation = 10;
 			item.useStyle = ItemUseStyleID.HoldingUp;
 			item.noMelee = true;
 			item.knockBack = 8f;
-			item.value = CalamityGlobalItem.Rarity4BuyPrice;
-			item.rare = 4;
+
+			item.value = CalamityGlobalItem.RarityVioletBuyPrice;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
+
 			item.UseSound = SoundID.Item15;
 			item.autoReuse = true;
 			item.shoot = ModContent.ProjectileType<PoleWarperSummon>();
@@ -71,12 +76,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 6);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 6);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofEleum>(), 3);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofCinder>(), 3);
-			recipe.AddIngredient(ModContent.ItemType<EssenceofChaos>(), 3);
-			recipe.AddTile(TileID.Anvils);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 25);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
+			recipe.AddIngredient(ModContent.ItemType<DazzlingStabberStaff>());
+			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
 		}

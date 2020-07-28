@@ -13,8 +13,8 @@ namespace CalamityMod.UI
         public int Page = 0;
         public int ArrowClickCooldown;
         public bool HoveringOverBook = false;
+        public int TotalLinesPerPage => (int)Math.Ceiling(16 * Main.screenHeight / 1440f - 1);
         public const int TextStartOffsetX = 40;
-        public const int TotalLinesPerPage = 16;
         public override void Update()
         {
             if (Active)
@@ -44,6 +44,8 @@ namespace CalamityMod.UI
             Vector2 scale = new Vector2(xScale, 1f) * new Vector2(Main.screenWidth, Main.screenHeight) / pageTexture.Size();
             scale *= 0.5f;
 
+            float xResolutionScale = Main.screenWidth / 2560f;
+            float yResolutionScale = Main.screenHeight / 1440f;
             float bookScale = 0.75f;
 
             scale *= bookScale;
@@ -69,23 +71,38 @@ namespace CalamityMod.UI
                 }
             }
 
-            string placeholderText = "This is placeholder text. Yell at the lore writers to make something for this that pertains to Draedon and Co.";
+            string placeholderText = "A GOD DOES NOT FEAR DEATH ";
+            for (int i = 0; i < 7; i++)
+            {
+                placeholderText += placeholderText;
+            }
 
             // Create text and arrows.
             if (FadeTime >= FadeTimeMax - 4 && Active)
             {
                 int textWidth = (int)(xScale * 2 * pageTexture.Width) - TextStartOffsetX;
+                textWidth = (int)(textWidth * xResolutionScale);
                 List<string> dialogLines = Utils.WordwrapString(placeholderText, Main.fontMouseText, textWidth, 250, out _).ToList();
                 dialogLines.RemoveAll(text => string.IsNullOrEmpty(text));
 
                 int totalPages = dialogLines.Count / (TotalLinesPerPage * 2 + 2);
 
+                // Ensure the page number doesn't become nonsensical as a result of a resolution change (such as by resizing the game).
+                if (Page < 0)
+                    Page = 0;
+                if (Page > totalPages)
+                    Page = totalPages;
+
                 // Draw arrows.
                 if (Page > 0)
                 {
                     Texture2D pageArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogArrow");
-                    Vector2 bottomLeft = new Vector2(Main.screenWidth / 2 - pageTexture.Width * 2 - 36, yPageTop + pageTexture.Height + 32);
+                    Vector2 offset = new Vector2(-(int)(pageTexture.Width * xResolutionScale) * 2 - (int)(36 * xResolutionScale), (int)(pageTexture.Height * yResolutionScale) + (int)(52 * yResolutionScale));
+                    Vector2 bottomLeft = new Vector2(Main.screenWidth / 2, yPageTop);
+                    bottomLeft += offset;
                     Rectangle arrowRectangle = new Rectangle((int)bottomLeft.X, (int)bottomLeft.Y, pageArrowTexture.Width, pageArrowTexture.Height);
+                    arrowRectangle.Width = (int)(arrowRectangle.Width * xResolutionScale);
+                    arrowRectangle.Height = (int)(arrowRectangle.Height * yResolutionScale);
                     if (mouseRectangle.Intersects(arrowRectangle))
                     {
                         pageArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogArrowHover");
@@ -103,15 +120,19 @@ namespace CalamityMod.UI
                                      Color.White,
                                      0f,
                                      Vector2.Zero,
-                                     1f,
+                                     new Vector2(xResolutionScale, yResolutionScale),
                                      SpriteEffects.FlipHorizontally,
                                      0f);
                 }
                 if (Page < totalPages)
                 {
                     Texture2D pageArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogArrow");
-                    Vector2 bottomRight = new Vector2(Main.screenWidth / 2 + pageTexture.Width * 2 + 10, yPageTop + pageTexture.Height + 32);
-                    Rectangle arrowRectangle = new Rectangle((int)bottomRight.X, (int)bottomRight.Y, pageArrowTexture.Width, pageArrowTexture.Height);
+                    Vector2 offset = new Vector2((int)(pageTexture.Width * xResolutionScale) * 2 + (int)(10 * xResolutionScale), (int)(pageTexture.Height * yResolutionScale) + (int)(52 * yResolutionScale));
+                    Vector2 bottomRight = new Vector2(Main.screenWidth / 2, yPageTop);
+                    bottomRight += offset;
+                    Rectangle arrowRectangle = new Rectangle((int)bottomRight.X, (int)bottomRight.Y, pageArrowTexture.Width, pageArrowTexture.Height); ;
+                    arrowRectangle.Width = (int)(arrowRectangle.Width * xResolutionScale);
+                    arrowRectangle.Height = (int)(arrowRectangle.Height * yResolutionScale);
                     if (mouseRectangle.Intersects(arrowRectangle))
                     {
                         pageArrowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/UI/DraedonsLogArrowHover");
@@ -129,7 +150,7 @@ namespace CalamityMod.UI
                                      Color.White,
                                      0f,
                                      Vector2.Zero,
-                                     1f,
+                                     new Vector2(xResolutionScale, yResolutionScale),
                                      SpriteEffects.None,
                                      0f);
                 }
@@ -143,12 +164,12 @@ namespace CalamityMod.UI
                     bool onNextPage = i - startingLine > TotalLinesPerPage;
                     if (dialogLines[i] != null)
                     {
-                        int textDrawPositionX = Main.screenWidth / 2 - pageTexture.Width * 2 - TextStartOffsetX;
-                        int textDrawPositionY = 50 + (i - startingLine) * 24 + (int)yPageTop;
+                        int textDrawPositionX = (int)(Main.screenWidth / 2 - 50 * xResolutionScale) - (int)(pageTexture.Width * 2 * xResolutionScale);
+                        int textDrawPositionY = (int)(50 * yResolutionScale) + (i - startingLine) * 24 + (int)yPageTop;
                         if (onNextPage)
                         {
-                            textDrawPositionX = Main.screenWidth / 2 + (int)(TextStartOffsetX * 1.5);
-                            textDrawPositionY = 50 + (i - startingLine - (TotalLinesPerPage + 1)) * 24 + (int)yPageTop;
+                            textDrawPositionX = (int)(Main.screenWidth / 2 + 16 * xResolutionScale) + (int)(TextStartOffsetX * 1.5 * xResolutionScale);
+                            textDrawPositionY = (int)(50 * yResolutionScale) + (i - startingLine - (TotalLinesPerPage + 1)) * 24 + (int)yPageTop;
                         }
 
                         Color drawColor = Color.Lerp(Color.Cyan, Color.DarkCyan, (float)Math.Cos(i * 0.4) * 0.5f + 0.5f);

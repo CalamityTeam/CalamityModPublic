@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.Magic
 
         public override void AI()
         {
-			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 150f, 6f, 6f, 2, ModContent.ProjectileType<FabBolt>());
+			CalamityGlobalProjectile.MagnetSphereHitscan(projectile, 150f, 6f, 6f, 2, ModContent.ProjectileType<FabBolt>(), 1D, true);
         }
     }
 }

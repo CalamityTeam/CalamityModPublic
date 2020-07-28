@@ -364,7 +364,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
 							if (Main.netMode != NetmodeID.MultiplayerClient)
 							{
-								if (npc.ai[1] % 10f == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
+								if (npc.ai[1] % 15f == 0f && Vector2.Distance(player.Center, vectorCenter) > 160f)
 								{
 									if (expertMode && Main.rand.NextBool(2))
 									{
@@ -446,7 +446,7 @@ namespace CalamityMod.NPCs.SlimeGod
 				{
 					if (Main.netMode != NetmodeID.MultiplayerClient && Vector2.Distance(player.Center, vectorCenter) > 160f)
 					{
-						if (npc.ai[1] % 20f == 0f)
+						if (npc.ai[1] % 40f == 0f)
 						{
 							if (expertMode && Main.rand.NextBool(2))
 							{
@@ -528,14 +528,10 @@ namespace CalamityMod.NPCs.SlimeGod
 				}
             }
 
-            float num1372 = 6f;
-            if (phase2 || death)
+            float num1372 = death ? 14f : revenge ? 11f : expertMode ? 8.5f : 6f;
+            if (phase2)
             {
-                num1372 = 14f;
-            }
-            else if (revenge)
-            {
-                num1372 = 10f;
+                num1372 = revenge ? 14f : expertMode ? 12.5f : 11f;
             }
             if (CalamityWorld.bossRushActive || player.gravDir == -1f)
             {
