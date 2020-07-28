@@ -5608,14 +5608,15 @@ namespace CalamityMod.CalPlayer
             #endregion
 
             #region MultiplicativeReductions
+
             // Fearmonger armor reduces the summoner cross-class nerf
 			// Forbidden armor reduces said nerf when holding the respective helmet's preferred weapon type
             // Profaned Soul Crystal encourages use of other weapons, nerfing the damage would not make sense.
+
             bool forbidden = player.head == ArmorIDs.Head.AncientBattleArmor && player.body == ArmorIDs.Body.AncientBattleArmor && player.legs == ArmorIDs.Legs.AncientBattleArmor;
 			bool reducedNerf = fearmongerSet || (forbidden && heldItem.magic);
-			double summonNerfMult = 0.5;
-			if (reducedNerf)
-				summonNerfMult = 0.75;
+
+			double summonNerfMult = reducedNerf ? 0.75 : 0.5;
             if (isSummon && !profanedCrystalBuffs)
             {
 				if (heldItem.type > ItemID.None)
@@ -5629,8 +5630,13 @@ namespace CalamityMod.CalPlayer
 					}
 				}
             }
+
             if (proj.ranged)
             {
+				// Nerfed in prehardmode due to bullet damage being a balance meme
+				if (heldItem.type == ModContent.ItemType<HalibutCannon>() && !Main.hardMode)
+					damage = (int)(damage * 0.5);
+
                 switch (proj.type)
                 {
                     case ProjectileID.CrystalShard:
@@ -5643,13 +5649,17 @@ namespace CalamityMod.CalPlayer
                         damage = (int)(damage * 0.7);
                         break;
                 }
+
                 if (proj.type == ModContent.ProjectileType<AcidBulletProj>() && heldItem.type == ModContent.ItemType<P90>())
                     damage = (int)(damage * 0.75);
             }
+
             if (proj.type == ProjectileID.SpectreWrath && player.ghostHurt)
                 damage = (int)(damage * 0.7);
+
             if (yharonLore)
                 damage = (int)(damage * 0.75);
+
             #endregion
 
             if (tarraMage && crit && proj.magic)
