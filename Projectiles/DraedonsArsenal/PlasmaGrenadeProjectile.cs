@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             {
                 if (Main.myPlayer == projectile.owner)
                 {
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MassivePlasmaExplosion>(), projectile.damage * 2, projectile.knockBack * 2f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<MassivePlasmaExplosion>(), projectile.damage, projectile.knockBack * 2f, projectile.owner);
                 }
                 if (!Main.dedServ)
                 {

@@ -7,6 +7,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 {
     public class HydraulicVoltCrasherProjectile : ModProjectile
     {
+		private int chargeCooldown = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydraulic Volt Crasher");
@@ -37,6 +39,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     projectile.frame = 0;
                 }
             }
+			// Decrement charge cooldown
+			if (chargeCooldown > 0)
+				chargeCooldown = 0;
             // Play idle sounds every so often.
             if (projectile.soundDelay <= 0)
             {
@@ -101,6 +106,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaBolt"), target.Center);
+			if (chargeCooldown > 0)
+				return;
+			chargeCooldown = 60;
             TryToSuperchargeNPC(target);
             for (int i = 0; i < Main.npc.Length; i++)
             {

@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 460;
+            item.damage = 306;
             item.mana = 40;
             item.magic = true;
             item.width = 48;
@@ -62,7 +62,7 @@ namespace CalamityMod.Items.Weapons.Magic
 		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
 		{
 			if (player.altFunctionUse == 2)
-				mult *= 0.125f;
+				mult *= 0.25f;
 		}
 
 		public override float UseTimeMultiplier	(Player player)
@@ -76,11 +76,11 @@ namespace CalamityMod.Items.Weapons.Magic
         {
             if (player.altFunctionUse == 2)
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PlasmaBolt>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<PlasmaBolt>(), damage, knockBack, player.whoAmI);
             }
             else
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<PlasmaShot>(), (int)(damage * 0.75f), knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             }
             return false;
         }
