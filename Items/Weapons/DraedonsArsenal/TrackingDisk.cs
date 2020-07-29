@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 7);
             recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
             recipe.AddIngredient(ItemID.MeteoriteBar, 4);
             recipe.AddTile(TileID.Anvils);
