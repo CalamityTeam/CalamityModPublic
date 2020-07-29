@@ -1,12 +1,12 @@
-﻿using Terraria.ID;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ModLoader;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Ranged
 {
-    public class GodSlayerSlugMain : ModProjectile
+	public class GodSlayerSlugMain : ModProjectile
     {
         private const int Lifetime = 600;
         private const int NoDrawFrames = 2;
@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Ranged
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Collision.HitTiles(projectile.position, projectile.velocity, projectile.width, projectile.height);
-            Main.PlaySound(0, (int)projectile.Center.X, (int)projectile.Center.Y, 1, 1f, 0f);
+            Main.PlaySound(SoundID.Dig, projectile.Center, 1);
             return true;
         }
     }
