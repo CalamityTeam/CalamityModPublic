@@ -39,6 +39,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             item.shootSpeed = 16f;
             item.shoot = ModContent.ProjectileType<SystemBaneProjectile>();
+
+			item.Calamity().Chargeable = true;
+			item.Calamity().ChargeMax = 135;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] < item.stack;

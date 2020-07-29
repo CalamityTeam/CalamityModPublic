@@ -34,6 +34,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.shoot = ModContent.ProjectileType<GalvanizingGlaiveProjectile>();
             item.shootSpeed = 21f;
+
+			item.Calamity().Chargeable = true;
+			item.Calamity().ChargeMax = 135;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

@@ -30,6 +30,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.useTime = 90;
 			item.useAnimation = 90;
 			item.autoReuse = true;
+			item.mana = 30;
 
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/TeslaCannonFire");

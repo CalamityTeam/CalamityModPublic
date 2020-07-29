@@ -29,6 +29,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.useTime = 45;
 			item.useAnimation = 45;
 			item.autoReuse = true;
+			item.mana = 24;
 
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PlasmaCasterFire");
@@ -52,6 +53,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			if (player.altFunctionUse == 2)
 				return 3f;
 			return 1f;
+		}
+
+		public override void ModifyManaCost(Player player, ref float reduce, ref float mult)
+		{
+			if (player.altFunctionUse == 2)
+				mult /= 3f;
 		}
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
