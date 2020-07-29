@@ -59,13 +59,12 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.tarraSet = true;
             modPlayer.tarraSummon = true;
-            player.setBonus = "+1 max minion and 55% increased minion damage\n" +
+            player.setBonus = "55% increased minion damage\n" +
                 "Reduces enemy spawn rates\n" +
                 "Increased heart pickup range\n" +
                 "Enemies have a chance to drop extra hearts on death\n" +
                 "Summons a life aura around you that damages nearby enemies";
             player.minionDamage += 0.55f;
-            player.maxMinions++;
         }
 
         public override void UpdateEquip(Player player)
