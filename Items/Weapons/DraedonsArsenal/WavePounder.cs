@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         {
             DisplayName.SetDefault("Wave Pounder");
             Tooltip.SetDefault("Throws a bomb which explodes into a forceful shockwave\n" +
-                               "Stealth Strikes cause the bomb to have a much more powerful explosion effect");
+                               "Stealth Strikes emit absurdly powerful shockwaves");
         }
 
         public override void SafeSetDefaults()
