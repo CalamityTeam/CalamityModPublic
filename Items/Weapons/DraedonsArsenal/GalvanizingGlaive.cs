@@ -12,7 +12,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Galvanizing Glaive");
-            Tooltip.SetDefault("Swings a spear that spawns magic a flux on enemy hits and releases energy when reeling back");
+            Tooltip.SetDefault("Swings a spear which envelops struck foes in an energy field\n" + "When done swinging, the spear discharges an extra pulse of energy");
         }
 
         public override void SetDefaults()
