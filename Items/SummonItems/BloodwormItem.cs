@@ -9,7 +9,7 @@ namespace CalamityMod.Items.SummonItems
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bloodworm");
-        }
+		}
 
         public override void SetDefaults()
         {
@@ -18,7 +18,7 @@ namespace CalamityMod.Items.SummonItems
             item.maxStack = 20;
             item.rare = 10;
             item.Calamity().customRarity = CalamityRarity.PureGreen;
-            item.bait = 69420;
+            item.bait = 4444;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.autoReuse = true;
             item.useTurn = true;
