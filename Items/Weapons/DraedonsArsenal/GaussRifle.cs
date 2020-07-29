@@ -54,7 +54,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
 			recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 5);
 			recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 5);
-			recipe.AddIngredient(ModContent.ItemType<SpectreRifle>());
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

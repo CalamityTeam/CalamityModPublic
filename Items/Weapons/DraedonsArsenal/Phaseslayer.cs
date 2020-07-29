@@ -65,7 +65,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 25);
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			recipe.AddRecipeGroup("AnyPhasesaber");
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();

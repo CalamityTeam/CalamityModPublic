@@ -52,8 +52,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 1);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 5);
             recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 1);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this, 999);

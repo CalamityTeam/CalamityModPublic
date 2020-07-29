@@ -1,5 +1,4 @@
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -8,6 +7,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
+	// still awkward that the item called Plasma Rifle is the same class and exact same tier as this item
 	public class PlasmaCaster : ModItem
 	{
 		public const int BaseDamage = 1100;
@@ -87,12 +87,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 15);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 18);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
 			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
 			recipe.AddIngredient(ItemID.LunarBar, 4);
-			// still awkward that the item called Plasma Rifle is the same class and exact same tier as this item
-			recipe.AddIngredient(ModContent.ItemType<Wingman>());
 			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

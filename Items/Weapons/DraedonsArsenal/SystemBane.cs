@@ -52,11 +52,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 4);
-            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4); // Less materials are used than unusual because this projectile is stackable.
-            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 1);
+            recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 3); // Less materials are used than unusual because this projectile is stackable.
             recipe.AddIngredient(ModContent.ItemType<BarofLife>(), 1);
-            recipe.AddIngredient(ItemID.SpikyBall, 20);
+            recipe.AddIngredient(ModContent.ItemType<InfectedArmorPlating>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
