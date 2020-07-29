@@ -42,7 +42,6 @@ namespace CalamityMod.NPCs.OldDuke
 			npc.DeathSound = SoundID.NPCDeath11;
             npc.noGravity = true;
             npc.noTileCollide = true;
-            npc.behindTiles = true;
 		}
 
 		public override void SendExtraAI(BinaryWriter writer)

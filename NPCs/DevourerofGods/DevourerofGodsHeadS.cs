@@ -228,6 +228,8 @@ namespace CalamityMod.NPCs.DevourerofGods
             {
 				if (!halfLife)
 				{
+					Teleport(player);
+
 					string key = "Mods.CalamityMod.EdgyBossText11";
 					Color messageColor = Color.Cyan;
 					if (Main.netMode == NetmodeID.SinglePlayer)

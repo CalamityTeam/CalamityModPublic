@@ -229,7 +229,6 @@ namespace CalamityMod.NPCs.Ravager
 						if (npc.localAI[1] >= 600f)
 						{
 							npc.localAI[1] = 0f;
-							npc.TargetClosest(true);
 							if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height))
 							{
 								float velocity = CalamityWorld.bossRushActive ? 10f : 7f;
@@ -548,7 +547,7 @@ namespace CalamityMod.NPCs.Ravager
                 }
                 else
                 {
-                    npc.TargetClosest(true);
+					npc.TargetClosest(true);
 
 					// Fall through
 					if (!player.dead && expertMode)

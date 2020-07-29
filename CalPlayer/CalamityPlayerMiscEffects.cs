@@ -3780,6 +3780,13 @@ namespace CalamityMod.CalPlayer
 				if (player.wingTimeMax < 50000)
 					player.wingTimeMax = 50000;
 			}
+
+			// Do not apply reduced aggro if there are any bosses alive and it's singleplayer
+			if (CalamityPlayer.areThereAnyDamnBosses && Main.netMode == NetmodeID.SinglePlayer)
+			{
+				if (player.aggro < 0)
+					player.aggro = 0;
+			}
 		}
 		#endregion
 
