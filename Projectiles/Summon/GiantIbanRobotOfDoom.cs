@@ -28,6 +28,11 @@ namespace CalamityMod.Projectiles.Summon
                 FrameY = value % 7;
             }
         }
+        public float ClickCooldown
+        {
+            get => projectile.ai[0];
+            set => projectile.ai[0] = value;
+        }
         public bool LeftBracketActive = false;
         public bool RightBracketActive = true; // This is supposed to be the default bracket, according to Iban. Ask him before changing this.
         public bool BottomBracketActive = false;
@@ -45,11 +50,9 @@ namespace CalamityMod.Projectiles.Summon
         /// This cooldown is set in <see cref="CalamityGlobalItem.PerformAndromedaAttacks"/>
         /// </summary>
         public int LaserCooldown = 0;
-        public static Vector2 LightningShootOffset;
-        public const int SpecialLightningBaseDamage = 5600;
+        public const int LaserBaseDamage = 21000;
         public const int RegicideBaseDamageSmall = 9487;
         public const int RegicideBaseDamageLarge = 22250;
-        public const int LaserBaseDamage = 21000;
 
         public override void SetStaticDefaults()
         {
@@ -107,7 +110,7 @@ namespace CalamityMod.Projectiles.Summon
             if (LaserCooldown > 0)
             {
                 LaserCooldown--;
-                LaserBeam(player);
+                FireLaserBeam(player);
             }
         }
         public void ManipulatePlayerValues(Player player)
@@ -160,9 +163,9 @@ namespace CalamityMod.Projectiles.Summon
         }
         public void RegisterRightClick(Player player)
         {
-            if (Main.mouseRight && projectile.ai[0] <= 0f)
+            if (Main.mouseRight && ClickCooldown <= 0f)
             {
-                projectile.ai[0] = 30f;
+                ClickCooldown = 30f;
                 // Exit the charge mode early.
                 if (RightIconCooldown > RightIconAttackTime)
                 {
@@ -198,9 +201,9 @@ namespace CalamityMod.Projectiles.Summon
                     }
                 }
             }
-            else if (projectile.ai[0] > 0f)
+            else if (ClickCooldown > 0f)
             {
-                projectile.ai[0]--;
+                ClickCooldown--;
             }
         }
         public void SetFrames(Player player)
@@ -341,7 +344,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.spriteDirection = (Math.Cos(Main.projectile[laserBeamIndex].velocity.ToRotation()) > 0).ToDirectionInt(); // ai[1] is the blade's starting rotation
             }
         }
-        public void LaserBeam(Player player)
+        public void FireLaserBeam(Player player)
         {
             if (LaserCooldown % (AndromedaDeathRay.TrueTimeLeft - 10) == (AndromedaDeathRay.TrueTimeLeft - 11))
             {

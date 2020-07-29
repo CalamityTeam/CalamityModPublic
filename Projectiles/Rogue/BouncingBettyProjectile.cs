@@ -20,29 +20,26 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.penetrate = 3;
             projectile.Calamity().rogue = true;
         }
-        //This is definitely not a near copy of the Blast Barrel nosiree :>
         private void Explode()
         {
             Main.PlaySound(SoundID.Item14, projectile.Center);
-            bool stealthS = projectile.Calamity().stealthStrike;
-            Projectile.NewProjectile(projectile.Center, new Vector2(0f, 0f), ModContent.ProjectileType<BettyExplosion>(), projectile.damage, 8f, projectile.owner);
-            if (stealthS)
+            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BettyExplosion>(), projectile.damage, 8f, projectile.owner);
+            if (projectile.Calamity().stealthStrike)
             {
                 int projectileCount = 12;
                 for (int i = 0; i < projectileCount; i++)
                 {
                     if (Main.rand.NextBool(2))
                     {
-                        Vector2 shrapnelVelocity = (Vector2.UnitY * (-6f + Main.rand.NextFloat(-6f, 2f))).RotatedByRandom((double)MathHelper.ToRadians(30f));
-                        Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity,
-                            ModContent.ProjectileType<BouncingBettyShrapnel>(),(int)(projectile.damage * 0.5f), 3f, projectile.owner);
+                        Vector2 shrapnelVelocity = (Vector2.UnitY * Main.rand.NextFloat(-12f, -4f)).RotatedByRandom(MathHelper.ToRadians(30f));
+                        Projectile.NewProjectile(projectile.Center, projectile.velocity + shrapnelVelocity, ModContent.ProjectileType<BouncingBettyShrapnel>(), (int)(projectile.damage * 0.5f), 3f, projectile.owner);
                     }
                     else
                     {
-                        Vector2 fireVelocity = (Vector2.UnitY * (-6f + Main.rand.NextFloat(-6f, 2f))).RotatedByRandom((double)MathHelper.ToRadians(40f));
-                        int fireIndex = Projectile.NewProjectile(projectile.Center, projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.6f), 1f, projectile.owner);
-                        Main.projectile[fireIndex].localNPCHitCooldown = 9;
-                        Main.projectile[fireIndex].timeLeft = 240;
+                        Vector2 fireVelocity = (Vector2.UnitY * Main.rand.NextFloat(-12f, -4f)).RotatedByRandom(MathHelper.ToRadians(40f));
+                        Projectile fire = Projectile.NewProjectileDirect(projectile.Center, projectile.velocity + fireVelocity, ModContent.ProjectileType<TotalityFire>(), (int)(projectile.damage * 0.6f), 1f, projectile.owner);
+                        fire.localNPCHitCooldown = 9;
+                        fire.timeLeft = 240;
                     }
                 }
             }

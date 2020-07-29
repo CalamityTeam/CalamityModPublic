@@ -112,7 +112,7 @@ namespace CalamityMod.Projectiles.Summon
                 int type = Utils.SelectRandom(Main.rand, ModContent.ProjectileType<BoneMatter>(), ModContent.ProjectileType<BoneMatter2>());
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, type, projectile.damage, projectile.knockBack, projectile.owner);
             }
-            if (potentialTarget == null)
+            if (potentialTarget is null)
             {
                 if (Math.Abs(player.Center.X - projectile.Center.X + 40f * projectile.minionPos) > 160f)
                 {
@@ -135,7 +135,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             else
             {
-                if (Math.Abs(potentialTarget.Center.X - projectile.Center.X + 40f) > 40f)
+                if (Math.Abs(potentialTarget.Center.X - projectile.Center.X + (int)MathHelper.Min(potentialTarget.width / 2, 40f)) > (int)MathHelper.Min(potentialTarget.width / 2, 40f))
                 {
                     projectile.velocity.X += Main.rand.NextFloat(0.08f, 0.15f) * (potentialTarget.Center.X - projectile.Center.X > 0f).ToDirectionInt();
                     projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -16f, 16f);
@@ -149,15 +149,12 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.Center = player.Center;
                     projectile.netUpdate = true;
                 }
+                projectile.MinionAntiClump(0.075f);
             }
             if (projectile.velocity.X > 0.25f)
-            {
                 projectile.spriteDirection = 1;
-            }
             else if (projectile.velocity.X < -0.25f)
-            {
                 projectile.spriteDirection = -1;
-            }
         }
         public bool HoleBelow()
         {
