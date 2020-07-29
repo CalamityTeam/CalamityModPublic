@@ -778,6 +778,17 @@ namespace CalamityMod.Items
 
         #region Use Item Changes
 
+        public override bool UseItem(Item item, Player player)
+        {
+            // Use charge on swing instead of on shoot if the item doesn't shoot anything.
+            if (item.type >= ItemID.Count && item.Calamity().Chargeable && item.Calamity().CurrentCharge > 0 && Main.rand.NextBool(120 / (int)MathHelper.Max(1, item.useAnimation)) && item.shoot == ProjectileID.None)
+            {
+                if (player.itemAnimation == 1)
+                    CurrentCharge--;
+            }
+            return base.UseItem(item, player);
+        }
+
         public override bool AltFunctionUse(Item item, Player player)
         {
             if (player.Calamity().profanedCrystalBuffs && item.pick == 0 && item.axe == 0 && item.hammer == 0 && item.autoReuse && (item.Calamity().rogue || item.magic || item.ranged || item.melee))

@@ -12,11 +12,11 @@ namespace CalamityMod.UI
 {
 	public class DraedonsItemChargerUI
     {
-        public static int RectangleWidth => (int)(39 / Main.GameViewMatrix.Zoom.X);
-        public static int RectangleHeight => (int)(39 / Main.GameViewMatrix.Zoom.Y);
+        public static int RectangleWidth => (int)(38 / Main.GameViewMatrix.Zoom.X);
+        public static int RectangleHeight => (int)(36 / Main.GameViewMatrix.Zoom.Y);
         public static Vector2 ChargerPosition => new Vector2(Main.LocalPlayer.Calamity().CurrentlyViewedChargerX, Main.LocalPlayer.Calamity().CurrentlyViewedChargerY);
-        public static Rectangle FuelIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 24, (int)ChargerPosition.Y - RectangleHeight - 44, RectangleWidth, RectangleHeight);
-        public static Rectangle ChargingItemIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 24, (int)ChargerPosition.Y - RectangleHeight / 2 - 84, RectangleWidth, RectangleHeight);
+        public static Rectangle FuelIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 24, (int)ChargerPosition.Y - RectangleHeight / 2 - 44, RectangleWidth, RectangleHeight);
+        public static Rectangle ChargingItemIconBounds => new Rectangle((int)ChargerPosition.X - RectangleWidth / 2 + 24, (int)ChargerPosition.Y - RectangleHeight / 2 - 90, RectangleWidth, RectangleHeight);
         public const float IconScale = 0.7f;
         public static void Draw(SpriteBatch spriteBatch)
         {
@@ -36,7 +36,7 @@ namespace CalamityMod.UI
                 DrawItemSlot(spriteBatch, ref fuel, ChargerPosition + new Vector2(24f, -44f) - Main.screenPosition);
 
                 // Draw the item being charged as an inventory slot.
-                DrawWeaponSlot(spriteBatch, ref itemBeingCharged, ChargerPosition + new Vector2(24f, -84f) - Main.screenPosition);
+                DrawWeaponSlot(spriteBatch, ref itemBeingCharged, ChargerPosition + new Vector2(24f, -90f) - Main.screenPosition);
 
                 Rectangle mouseRectangle = new Rectangle((int)Main.MouseWorld.X, (int)Main.MouseWorld.Y, 2, 2);
                 bool cooldownComplete = depositWithdrawCooldown == 0;
