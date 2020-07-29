@@ -185,20 +185,7 @@ namespace CalamityMod.NPCs.AquaticScourge
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticScourgeMask>(), 7);
 
                 // Fishing
-                DropHelper.DropItemChance(npc, ItemID.AnglerTackleBag, 18);
-                DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 12);
-                DropHelper.DropItemChance(npc, ItemID.TackleBox, 12);
-                DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 12);
-                DropHelper.DropItemChance(npc, ItemID.FishermansGuide, 9);
-                DropHelper.DropItemChance(npc, ItemID.WeatherRadio, 9);
-                DropHelper.DropItemChance(npc, ItemID.Sextant, 9);
-                DropHelper.DropItemChance(npc, ItemID.AnglerHat, 4);
-                DropHelper.DropItemChance(npc, ItemID.AnglerVest, 4);
-                DropHelper.DropItemChance(npc, ItemID.AnglerPants, 4);
-                DropHelper.DropItemChance(npc, ItemID.FishingPotion, 4, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.SonarPotion, 4, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.CratePotion, 4, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.GoldenBugNet, 15, 1, 1);
+                DropHelper.DropItem(npc, ModContent.ItemType<BleachedAnglingKit>());
             }
 
             // If Aquatic Scourge has not yet been killed, notify players of buffed Acid Rain

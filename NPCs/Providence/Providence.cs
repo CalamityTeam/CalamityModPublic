@@ -4,6 +4,7 @@ using CalamityMod.Dusts;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
 using CalamityMod.Items.Armor.Vanity;
+using CalamityMod.Items.Dyes;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
@@ -16,20 +17,20 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.Summon;
+using CalamityMod.Projectiles.Typeless;
 using CalamityMod.Tiles.FurnitureProfaned;
 using CalamityMod.Tiles.Ores;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using CalamityMod.Items.Dyes;
-using CalamityMod.Projectiles.Summon;
-using CalamityMod.Projectiles.Typeless;
 
 namespace CalamityMod.NPCs.Providence
 {
@@ -45,7 +46,7 @@ namespace CalamityMod.NPCs.Providence
         private int immuneTimer = 300;
         private int frameUsed = 0;
         private int healTimer = 0;
-        private bool challenge = Main.expertMode && Main.netMode == NetmodeID.SinglePlayer; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
+        internal bool challenge = Main.expertMode/* && Main.netMode == NetmodeID.SinglePlayer*/; //Used to determine if Profaned Soul Crystal should drop, couldn't figure out mp mems always dropping it so challenge is singleplayer only.
 		internal bool hasTakenDaytimeDamage = false;
 
 		public static float normalDR = 0.35f;
@@ -192,6 +193,7 @@ namespace CalamityMod.NPCs.Providence
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive || nightTime;
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive || nightTime;
 			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive || nightTime;
+			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive);
 
 			// Projectile damage values
 			bool scaleExpertProjectileDamage = Main.expertMode && !nightTime;
@@ -231,7 +233,7 @@ namespace CalamityMod.NPCs.Providence
 			float baseSpearRate = 18f;
 			float spearRate = 1f + spearRateIncrease;
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (enraged)
 				spearRate += enragedSpearRateIncrease;
 
 			if (CalamityWorld.bossRushActive)
@@ -415,8 +417,6 @@ namespace CalamityMod.NPCs.Providence
             npc.Calamity().DR = (npc.ai[0] == 2f || npc.ai[0] == 5f || npc.ai[0] == 7f || spawnAnimation) ?
 				cocoonDR : delayAttacks ?
 				MathHelper.Lerp(normalDR, cocoonDR, npc.localAI[2] / attackDelayAfterCocoon) : normalDR;
-
-			npc.Calamity().DR = 0f;
 
 			// Movement
 			if (npc.ai[0] != 2f && npc.ai[0] != 5f)
@@ -757,7 +757,7 @@ namespace CalamityMod.NPCs.Providence
 
 					int shootBoost = death ? 3 : (int)(4f * (1f - lifeRatio));
 					int num856 = (expertMode ? 24 : 26) - shootBoost;
-					if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (enraged)
 						num856 = 20;
 
 					num856 = (int)(num856 * attackRateMult);
@@ -774,7 +774,7 @@ namespace CalamityMod.NPCs.Providence
 
 						float velocityBoost = death ? 2.5f : 2.5f * (1f - lifeRatio);
 						float num860 = (expertMode ? 10.25f : 9f) + velocityBoost;
-						if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+						if (enraged)
 							num860 = 12.75f;
 
 						if (revenge)
@@ -1048,7 +1048,7 @@ namespace CalamityMod.NPCs.Providence
 
 					int shootBoost = death ? 9 : (int)(10f * (1f - lifeRatio));
 					int num864 = (expertMode ? 73 : 77) - shootBoost;
-					if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+					if (enraged)
 						num864 = 63;
 
 					num864 = (int)(num864 * attackRateMult);
@@ -1179,17 +1179,17 @@ namespace CalamityMod.NPCs.Providence
 						if (npc.ai[2] >= 80f)
 							num1220 = 1;
 
-						for (int num1221 = 0; num1221 < 1 + num1220; num1221++)
+						for (int d = 0; d < 1 + num1220; d++)
 						{
-							float num1223 = 1.2f;
-							if (num1221 % 2 == 1)
-								num1223 = 2.8f;
+							float scalar = 1.2f;
+							if (d % 2 == 1)
+								scalar = 2.8f;
 
 							Vector2 vector199 = new Vector2(vector.X, vector.Y + 32f) + ((float)Main.rand.NextDouble() * MathHelper.TwoPi).ToRotationVector2() * value19 / 2f;
-							int num1224 = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, dustType, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
-							Main.dust[num1224].velocity = Vector2.Normalize(vector - vector199) * 3.5f * (10f - num1220 * 2f) / 10f;
-							Main.dust[num1224].noGravity = true;
-							Main.dust[num1224].scale = num1223;
+							int index = Dust.NewDust(vector199 - Vector2.One * 8f, 16, 16, dustType, npc.velocity.X / 2f, npc.velocity.Y / 2f, 0, default, 1f);
+							Main.dust[index].velocity = Vector2.Normalize(vector - vector199) * 3.5f * (10f - num1220 * 2f) / 10f;
+							Main.dust[index].noGravity = true;
+							Main.dust[index].scale = scalar;
 						}
 					}
 				}
@@ -1207,20 +1207,20 @@ namespace CalamityMod.NPCs.Providence
 						{
 							npc.TargetClosest(false);
 
-							Vector2 vector200 = player.Center - vector;
-							vector200.Normalize();
+							Vector2 velocity = player.Center - vector;
+							velocity.Normalize();
 
 							float num1225 = -1f;
-							if (vector200.X < 0f)
+							if (velocity.X < 0f)
 								num1225 = 1f;
 
-							vector200 = vector200.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f, default);
-							Projectile.NewProjectile(vector.X, vector.Y + 32f, vector200.X, vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
+							velocity = velocity.RotatedBy(-(double)num1225 * MathHelper.TwoPi / 6f, default);
+							Projectile.NewProjectile(vector.X, vector.Y + 32f, velocity.X, velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
 							if (revenge)
-								Projectile.NewProjectile(vector.X, vector.Y + 32f, -vector200.X, -vector200.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
+								Projectile.NewProjectile(vector.X, vector.Y + 32f, -velocity.X, -velocity.Y, ModContent.ProjectileType<ProvidenceHolyRay>(), holyLaserDamage, 0f, Main.myPlayer, -num1225 * MathHelper.TwoPi / rotation, npc.whoAmI);
 
-							npc.ai[3] = (vector200.ToRotation() + MathHelper.TwoPi + MathHelper.Pi) * num1225;
+							npc.ai[3] = (velocity.ToRotation() + MathHelper.TwoPi + MathHelper.Pi) * num1225;
 							npc.netUpdate = true;
 						}
 					}
@@ -1264,11 +1264,11 @@ namespace CalamityMod.NPCs.Providence
 			npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedProvidence);
 
 			// Accessories clientside only in Expert
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), true, biomeType != 2 && Main.expertMode);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), true, biomeType == 2 && Main.expertMode);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), Main.expertMode, biomeType != 2);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), Main.expertMode, biomeType == 2);
 
 			// Drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
-			bool shouldDrop = challenge || (Main.expertMode && Main.rand.NextBool(CalamityWorld.downedSCal ? 10 : 200));
+			bool shouldDrop = challenge/* || (Main.expertMode && Main.rand.NextBool(CalamityWorld.downedSCal ? 10 : 200))*/;
 			DropHelper.DropItemCondition(npc, ModContent.ItemType<ProfanedSoulCrystal>(), true, shouldDrop);
 
 			// Special drop for defeating her at night
@@ -1292,8 +1292,6 @@ namespace CalamityMod.NPCs.Providence
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), biomeType != 2);
-				DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), biomeType == 2);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
@@ -1341,8 +1339,8 @@ namespace CalamityMod.NPCs.Providence
 
         private void SpawnLootBox()
         {
-            int tileCenterX = (int)(npc.position.X + (npc.width / 2)) / 16;
-            int tileCenterY = (int)(npc.position.Y + (npc.height / 2)) / 16;
+            int tileCenterX = (int)npc.Center.X / 16;
+            int tileCenterY = (int)npc.Center.Y / 16;
             int halfBox = npc.width / 2 / 16 + 1;
             for (int x = tileCenterX - halfBox; x <= tileCenterX + halfBox; x++)
             {
@@ -1573,13 +1571,31 @@ namespace CalamityMod.NPCs.Providence
 
 			if (challenge)
 			{
-				bool goldenGun = projectile.type == ModContent.ProjectileType<GoldenGunProj>();
-				bool allowedClass = projectile.minion || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);
-				bool allowedDamage = allowedClass && damage <= (npc.lifeMax * 0.005f); //0.5% max hp
+				List<int> exceptionList = new List<int>()
+				{
+					ModContent.ProjectileType<GoldenGunProj>(),
+					ModContent.ProjectileType<MiniGuardianDefense>(),
+					ModContent.ProjectileType<MiniGuardianAttack>(),
+					ModContent.ProjectileType<SilvaCrystalExplosion>(),
+					ModContent.ProjectileType<GhostlyMine>()
+				};
+
+				bool allowedClass = projectile.IsSummon() || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);
+				bool allowedDamage = allowedClass && damage <= (npc.lifeMax * 0.001f); //0.1% max hp
 				bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;
-				if ((!goldenGun && !allowedDamage && projectile.type != ModContent.ProjectileType<MiniGuardianDefense>() && projectile.type != ModContent.ProjectileType<MiniGuardianAttack>()) || !allowedBabs)
+
+				if ((exceptionList.TrueForAll(x => projectile.type != x) && !allowedDamage) || !allowedBabs)
 				{
 					challenge = false;
+
+					if (Main.netMode != NetmodeID.SinglePlayer)
+					{
+						var netMessage = mod.GetPacket();
+						netMessage.Write((byte)CalamityModMessageType.PSCChallengeSync);
+						netMessage.Write((byte)npc.whoAmI);
+						netMessage.Write(challenge);
+						netMessage.Send();
+					}
 				}
 			}
         }
@@ -1599,7 +1615,18 @@ namespace CalamityMod.NPCs.Providence
 			}
 
 			if (challenge)
+			{
 				challenge = false;
+
+				if (Main.netMode != NetmodeID.SinglePlayer)
+				{
+					var netMessage = mod.GetPacket();
+					netMessage.Write((byte)CalamityModMessageType.PSCChallengeSync);
+					netMessage.Write((byte)npc.whoAmI);
+					netMessage.Write(challenge);
+					netMessage.Send();
+				}
+			}
         }
 
         public override void HitEffect(int hitDirection, double damage)
@@ -1621,29 +1648,27 @@ namespace CalamityMod.NPCs.Providence
                 Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/Providence2"), 1f);
                 Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/Providence3"), 1f);
                 Gore.NewGore(npc.position, npc.velocity * randomSpread * Main.rand.NextFloat(), mod.GetGoreSlot("Gores/Providence4"), 1f);
-                npc.position.X = npc.position.X + (npc.width / 2);
-                npc.position.Y = npc.position.Y + (npc.height / 2);
+                npc.position = npc.Center;
                 npc.width = 400;
                 npc.height = 350;
-                npc.position.X = npc.position.X - (npc.width / 2);
-                npc.position.Y = npc.position.Y - (npc.height / 2);
-                for (int num621 = 0; num621 < 60; num621++)
+				npc.position -= npc.Size * 0.5f;
+                for (int d = 0; d < 60; d++)
                 {
-                    int num622 = Dust.NewDust(npc.position, npc.width, npc.height, dustType, 0f, 0f, 100, default, 2f);
-                    Main.dust[num622].velocity *= 3f;
+                    int fire = Dust.NewDust(npc.position, npc.width, npc.height, dustType, 0f, 0f, 100, default, 2f);
+                    Main.dust[fire].velocity *= 3f;
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num622].scale = 0.5f;
-                        Main.dust[num622].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
+                        Main.dust[fire].scale = 0.5f;
+                        Main.dust[fire].fadeIn = 1f + Main.rand.Next(10) * 0.1f;
                     }
                 }
-                for (int num623 = 0; num623 < 90; num623++)
+                for (int d = 0; d < 90; d++)
                 {
-                    int num624 = Dust.NewDust(npc.position, npc.width, npc.height, dustType, 0f, 0f, 100, default, 3f);
-                    Main.dust[num624].noGravity = true;
-                    Main.dust[num624].velocity *= 5f;
-                    num624 = Dust.NewDust(npc.position, npc.width, npc.height, dustType, 0f, 0f, 100, default, 2f);
-                    Main.dust[num624].velocity *= 2f;
+                    int fire = Dust.NewDust(npc.position, npc.width, npc.height, dustType, 0f, 0f, 100, default, 3f);
+                    Main.dust[fire].noGravity = true;
+                    Main.dust[fire].velocity *= 5f;
+                    fire = Dust.NewDust(npc.position, npc.width, npc.height, dustType, 0f, 0f, 100, default, 2f);
+                    Main.dust[fire].velocity *= 2f;
                 }
             }
         }
