@@ -44,19 +44,8 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Materials
-            int barMin = CalamityWorld.downedProvidence ? 7 : 2;
-            int barMax = CalamityWorld.downedProvidence ? 12 : 3;
-            int coreMin = CalamityWorld.downedProvidence ? 2 : 1;
-            int coreMax = CalamityWorld.downedProvidence ? 4 : 3;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 60, 70);
-            DropHelper.DropItem(player, ModContent.ItemType<VerstaltiteBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<DraedonBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CruptixBar>(), barMin, barMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofCinder>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofEleum>(), coreMin, coreMax);
-            DropHelper.DropItem(player, ModContent.ItemType<CoreofChaos>(), coreMin, coreMax);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<BarofLife>(), CalamityWorld.downedProvidence);
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CoreofCalamity>(), CalamityWorld.downedProvidence, 0.5f);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<FleshyGeodeT1>(), !CalamityWorld.downedProvidence);
+            DropHelper.DropItemCondition(player, ModContent.ItemType<FleshyGeodeT2>(), CalamityWorld.downedProvidence);
 
             // Weapons
             DropHelper.DropItemChance(player, ModContent.ItemType<UltimusCleaver>(), 3);

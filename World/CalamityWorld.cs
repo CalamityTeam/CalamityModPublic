@@ -1380,15 +1380,21 @@ namespace CalamityMod.World
 								{
 									Tile tile = Main.tile[x, y];
 									bool growTile = tenebris ? (tile.active() && tile.type == ModContent.TileType<PlantyMush>()) : (!tile.active() && tile.liquid >= 128);
+                                    bool isSunkenSeaTile = tileType == ModContent.TileType<Navystone>() || tileType == ModContent.TileType<EutrophicSand>() || tileType == ModContent.TileType<SeaPrism>();
 									bool meetsAdditionalGrowConditions = tile.slope() == 0 && !tile.halfBrick() && !tile.lava();
-									if (growTile && meetsAdditionalGrowConditions)
+
+                                    if (growTile && meetsAdditionalGrowConditions)
 									{
 										int tileType2 = ModContent.TileType<SeaPrismCrystals>();
 
-										if (tileType == ModContent.TileType<Voidstone>())
+                                        if (tileType == ModContent.TileType<Voidstone>())
 											tileType2 = ModContent.TileType<LumenylCrystals>();
 
-										if (CanPlaceBasedOnProximity(x, y, tileType2) || tenebris)
+                                        bool canPlaceBasedOnAttached = true;
+                                        if (tileType2 == ModContent.TileType<SeaPrismCrystals>() && !isSunkenSeaTile)
+                                            canPlaceBasedOnAttached = false;
+
+                                        if (canPlaceBasedOnAttached && (CanPlaceBasedOnProximity(x, y, tileType2) || tenebris))
 										{
 											tile.type = tenebris ? (ushort)tileType : (ushort)tileType2;
 

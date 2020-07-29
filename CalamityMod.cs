@@ -4127,6 +4127,10 @@ namespace CalamityMod
                         byte npcIndex3 = reader.ReadByte();
                         (Main.npc[npcIndex3].modNPC as Providence).hasTakenDaytimeDamage = reader.ReadBoolean();
                         break;
+                    case CalamityModMessageType.PSCChallengeSync:
+                        byte npcIndex4 = reader.ReadByte();
+                        (Main.npc[npcIndex4].modNPC as Providence).challenge = reader.ReadBoolean();
+                        break;
 
                     default:
                         Logger.Error($"Failed to parse Calamity packet: No Calamity packet exists with ID {msgType}.");
@@ -4215,6 +4219,7 @@ namespace CalamityMod
         SpawnSuperDummy,
 		SyncCalamityNPCAIArray,
         ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
+        PSCChallengeSync, // See above
         DraedonGeneratorStackSync,
         DraedonChargerSync,
         DraedonFieldGeneratorSync
