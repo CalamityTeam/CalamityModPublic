@@ -12,7 +12,7 @@ namespace CalamityMod.NPCs.Leviathan
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Parasea");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[npc.type] = 4;
         }
 
         public override void SetDefaults()
