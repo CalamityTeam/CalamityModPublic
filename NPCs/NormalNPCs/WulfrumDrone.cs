@@ -119,7 +119,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 Dust dust = Dust.NewDustPerfect(npc.Bottom, 229);
                 dust.color = Color.Green;
-                dust.scale = 0.9f;
+                dust.scale = 0.675f;
             }
         }
 
@@ -139,7 +139,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
                 return 0f;
 
-            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.05f : 0.2f) * pylonMult;
+            return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.05f : 0.14f) * pylonMult;
         }
 
         public override void HitEffect(int hitDirection, double damage)

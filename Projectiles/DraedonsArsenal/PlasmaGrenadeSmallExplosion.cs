@@ -6,21 +6,20 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
-	public class MassivePlasmaExplosion : ModProjectile
+	public class PlasmaGrenadeSmallExplosion : ModProjectile
 	{
 		public float Time
 		{
 			get => projectile.ai[0];
 			set => projectile.ai[0] = value;
 		}
-		private float lightAmt = 1f;
 
 		public int frameX = 0;
 		public int frameY = 0;
-		private const int horizontalFrames = 4;
-		private const int verticalFrames = 5;
+		private const int horizontalFrames = 2;
+		private const int verticalFrames = 7;
 		private const int frameLength = 5;
-		private const float radius = 191.5f;
+		private const float radius = 139.5f;
 
 		public override void SetStaticDefaults()
 		{
@@ -29,13 +28,13 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
 		public override void SetDefaults()
 		{
-			projectile.width = projectile.height = 383;
+			projectile.width = projectile.height = 279;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
-      projectile.tileCollide = false;
+			projectile.tileCollide = false;
 			projectile.Calamity().rogue = true;
-			projectile.usesIDStaticNPCImmunity = true;
-			projectile.idStaticNPCHitCooldown = frameLength * horizontalFrames * verticalFrames / 2;
+			projectile.usesLocalNPCImmunity = true;
+			projectile.localNPCHitCooldown = -1;
 		}
 
 		public override void AI()
@@ -54,17 +53,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 					projectile.Kill();
 				}
 			}
-
-			Lighting.AddLight(projectile.Center, Color.White.ToVector3() * 4f * lightAmt);
-			if (projectile.localAI[0] == 0f)
-			{
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/FlareSound"), projectile.Center);
-				projectile.localAI[0] = 1f;
-			}
-			lightAmt = (float)Math.Sin(Time / 37 * MathHelper.Pi) * 2f;
-			if (lightAmt > 1f)
-				lightAmt = 1f;
-			Time++;
 		}
 
 		public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)

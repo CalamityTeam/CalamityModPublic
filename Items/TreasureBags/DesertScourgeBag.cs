@@ -63,19 +63,7 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<DesertScourgeMask>(), 7);
 
             // Fishing
-            DropHelper.DropItemChance(player, ItemID.HighTestFishingLine, 12);
-            DropHelper.DropItemChance(player, ItemID.TackleBox, 12);
-            DropHelper.DropItemChance(player, ItemID.AnglerEarring, 12);
-            DropHelper.DropItemChance(player, ItemID.FishermansGuide, 9);
-            DropHelper.DropItemChance(player, ItemID.WeatherRadio, 9);
-            DropHelper.DropItemChance(player, ItemID.Sextant, 9);
-            DropHelper.DropItemChance(player, ItemID.AnglerHat, 4);
-            DropHelper.DropItemChance(player, ItemID.AnglerVest, 4);
-            DropHelper.DropItemChance(player, ItemID.AnglerPants, 4);
-            DropHelper.DropItemChance(player, ItemID.FishingPotion, 4, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.SonarPotion, 4, 2, 3);
-            DropHelper.DropItemChance(player, ItemID.CratePotion, 4, 2, 3);
-            DropHelper.DropItemCondition(player, ItemID.GoldenBugNet, NPC.downedBoss3, 18, 1, 1);
+			DropHelper.DropItem(player, ModContent.ItemType<SandyAnglingKit>());
         }
     }
 }

@@ -1831,7 +1831,7 @@ namespace CalamityMod
             if (!WorldGen.InWorld(x, y))
                 return new Tile();
             Tile tile = Main.tile[x, y];
-            if (tile == null)
+            if (tile is null)
             {
                 tile = new Tile();
                 Main.tile[x, y] = tile;

@@ -90,6 +90,7 @@ namespace CalamityMod.Projectiles.Boss
 			}
 
 			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
 			Lighting.AddLight(projectile.Center, 3f, 0f, 0f);
 
@@ -128,6 +129,9 @@ namespace CalamityMod.Projectiles.Boss
 					projectile.netUpdate = true;
 				}
 			}
+
+			if (death)
+				return;
 
 			// Fly away from other brimstone monsters
 			float pushForce = 0.05f;

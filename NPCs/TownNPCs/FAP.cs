@@ -167,13 +167,6 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("My booze will always be better than " + Main.npc[tavernKeep].GivenName + "'s, and nobody can convince me otherwise.");
             }
 
-			// Doesn't seem like a necessary line
-			/*
-            int dryad = NPC.FindFirstNPC(NPCID.Dryad);
-            if (dryad != -1)
-                dialogue.Add(Main.npc[dryad].GivenName + " is cool too, but she'd outlive me.");
-				*/
-
             int permadong = NPC.FindFirstNPC(ModContent.NPCType<DILF>());
             if (permadong != -1)
                 dialogue.Add("I never realized how well-endowed " + Main.npc[permadong].GivenName + " was. It had to be the largest icicle I had ever seen.");
@@ -184,7 +177,8 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("You still can't stop me from trying to move in with " + Main.npc[waifu].GivenName + ".");
                 dialogue.Add("I love it when " + Main.npc[waifu].GivenName + "'s hands get sticky from all that...wax.");
                 dialogue.Add(Main.npc[waifu].GivenName + " works wonders for my hair...among other things.");
-            }
+				dialogue.Add("Ever since " + Main.npc[waifu].GivenName + " moved in I haven't been drinking as much...it's a weird feeling.");
+			}
 
             if (Main.player[Main.myPlayer].Calamity().chibii)
                 dialogue.Add("Is that a toy? Looks like something I'd carry around if I was 5 years old.");
