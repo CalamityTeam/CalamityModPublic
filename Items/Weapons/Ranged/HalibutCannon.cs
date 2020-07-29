@@ -40,19 +40,19 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
 			float damageMult = 0f + // 1
-					(NPC.downedBoss1 ? 1f : 0f) + // 2
-					(NPC.downedBoss2 ? 1f : 0f) + // 3
-					(NPC.downedBoss3 ? 1f : 0f) + // 4
-					(Main.hardMode ? 1f : 0f) + // 5
-					(NPC.downedMechBossAny ? 1f : 0f) + // 6
-					(NPC.downedPlantBoss ? 1f : 0f) + // 7
-					(NPC.downedGolemBoss ? 1f : 0f) + // 8
-					(NPC.downedAncientCultist ? 1f : 0f) + // 9
-					(NPC.downedMoonlord ? 6f : 0f) + // 15
-					(CalamityWorld.downedProvidence ? 3f : 0f) + // 18
-					(CalamityWorld.downedPolterghast ? 6f : 0f) + // 24
-					(CalamityWorld.downedDoG ? 12f : 0f) + // 36
-					(CalamityWorld.downedYharon ? 20f : 0f); // 56
+					(NPC.downedBoss1 ? 0.5f : 0f) +
+					(NPC.downedBoss2 ? 0.5f : 0f) +
+					(NPC.downedBoss3 ? 0.5f : 0f) +
+					(Main.hardMode ? 0.5f : 0f) +
+					(NPC.downedMechBossAny ? 0.5f : 0f) +
+					(NPC.downedPlantBoss ? 0.5f : 0f) +
+					(NPC.downedGolemBoss ? 0.5f : 0f) +
+					(NPC.downedAncientCultist ? 0.5f : 0f) +
+					(NPC.downedMoonlord ? 3f : 0f) +
+					(CalamityWorld.downedProvidence ? 1.5f : 0f) +
+					(CalamityWorld.downedPolterghast ? 3f : 0f) +
+					(CalamityWorld.downedDoG ? 6f : 0f) +
+					(CalamityWorld.downedYharon ? 10f : 0f);
 			mult += damageMult;
 		}
 

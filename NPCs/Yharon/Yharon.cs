@@ -220,7 +220,7 @@ namespace CalamityMod.NPCs.Yharon
                     return;
                 }
 
-				if (phaseOneLoot)
+				if (phaseOneLoot && !CalamityWorld.bossRushActive)
 				{
 					npc.boss = false;
 
