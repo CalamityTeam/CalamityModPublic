@@ -53,7 +53,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 4);
 			recipe.AddIngredient(ModContent.ItemType<AerialiteBar>(), 4);
 			recipe.AddIngredient(ItemID.MeteoriteBar, 4);
-			recipe.AddIngredient(ItemID.Frog);
 			recipe.AddTile(TileID.Anvils);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

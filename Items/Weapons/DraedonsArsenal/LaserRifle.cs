@@ -71,7 +71,6 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 15);
 			recipe.AddIngredient(ModContent.ItemType<UeliaceBar>(), 8);
 			recipe.AddIngredient(ItemID.LunarBar, 4);
-			recipe.AddIngredient(ItemID.SniperRifle);
 			recipe.AddTile(TileID.LunarCraftingStation);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

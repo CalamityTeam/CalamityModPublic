@@ -55,6 +55,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 12);
 			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 8);
 			recipe.AddIngredient(ItemID.HallowedBar, 10);
+			recipe.AddIngredient(ItemID.SoulofFright, 20);
 			recipe.AddTile(TileID.MythrilAnvil);
 			recipe.SetResult(this);
 			recipe.AddRecipe();

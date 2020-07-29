@@ -68,11 +68,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void AddRecipes()
 		{
 			ModRecipe recipe = new ModRecipe(mod);
-			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 16);
-			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 24);
+			recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 20);
+			recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 20);
 			recipe.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
-			// The only arsenal weapon that is an upgrade of another arsenal weapon (and it makes sense).
-			recipe.AddIngredient(ModContent.ItemType<PulsePistol>());
 			recipe.AddTile(ModContent.TileType<DraedonsForge>());
 			recipe.SetResult(this);
 			recipe.AddRecipe();
