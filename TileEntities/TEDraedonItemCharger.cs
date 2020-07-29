@@ -78,8 +78,11 @@ namespace CalamityMod.TileEntities
                 netMessage.Write(Main.LocalPlayer.Calamity().CurrentlyViewedCharger.ID);
                 netMessage.Write(FuelItem.type);
                 netMessage.Write(FuelItem.stack);
+                netMessage.WriteVector2(FuelItem.position);
                 netMessage.Write(ItemBeingCharged.type);
                 netMessage.Write(ItemBeingCharged.stack);
+                netMessage.Write(ItemBeingCharged.prefix);
+                netMessage.WriteVector2(ItemBeingCharged.position);
                 netMessage.Write(Charge);
                 netMessage.Write(ActiveTimer);
                 netMessage.Send();
@@ -144,6 +147,8 @@ namespace CalamityMod.TileEntities
         }
         public override void Update()
         {
+            FuelItem.favorited = false;
+            ItemBeingCharged.favorited = false;
             Time++;
             if (Time % 60 == 0)
             {
@@ -193,8 +198,11 @@ namespace CalamityMod.TileEntities
             writer.Write(ID);
             writer.Write(FuelItem.type);
             writer.Write(FuelItem.stack);
+            writer.WriteVector2(FuelItem.position);
             writer.Write(ItemBeingCharged.type);
             writer.Write(ItemBeingCharged.stack);
+            writer.Write(ItemBeingCharged.prefix);
+            writer.WriteVector2(ItemBeingCharged.position);
             writer.Write(Charge);
             writer.Write(ActiveTimer);
         }
@@ -204,9 +212,11 @@ namespace CalamityMod.TileEntities
             FuelItem.type = reader.ReadInt32();
             FuelItem.SetDefaults(FuelItem.type);
             FuelItem.stack = reader.ReadInt32();
-            ItemBeingCharged.type = reader.ReadInt32();
-            ItemBeingCharged.SetDefaults(FuelItem.type);
+            FuelItem.position = reader.ReadVector2();
+            ItemBeingCharged.SetDefaults(reader.ReadInt32());
             ItemBeingCharged.stack = reader.ReadInt32();
+            ItemBeingCharged.prefix = reader.ReadByte();
+            ItemBeingCharged.position = reader.ReadVector2();
             Charge = reader.ReadInt32();
             ActiveTimer = reader.ReadInt32();
         }
@@ -219,10 +229,12 @@ namespace CalamityMod.TileEntities
                 ["StackFuel"] = FuelItem.stack,
                 ["PrefixFuel"] = FuelItem.prefix,
                 ["NetIDFuel"] = FuelItem.active && FuelItem.stack > 0 ? FuelItem.netID : 0,
+                ["FuelPosition"] = FuelItem.position,
 
                 ["TypeNotFuel"] = ItemBeingCharged.type,
                 ["StackNotFuel"] = ItemBeingCharged.stack,
                 ["PrefixNotFuel"] = ItemBeingCharged.prefix,
+                ["PositionNotFuel"] = ItemBeingCharged.position,
                 ["Charge"] = Charge,
                 ["NetIDNotFuel"] = ItemBeingCharged.active && FuelItem.stack > 0 ? FuelItem.netID : 0
             };
@@ -235,10 +247,12 @@ namespace CalamityMod.TileEntities
             FuelItem.stack = tag.GetInt("StackFuel");
             FuelItem.prefix = tag.GetByte("PrefixFuel");
             FuelItem.netID = tag.GetInt("NetIDFuel");
+            FuelItem.position = tag.Get<Vector2>("FuelPosition");
 
             ItemBeingCharged.SetDefaults(tag.GetInt("TypeNotFuel"));
             ItemBeingCharged.stack = tag.GetInt("StackNotFuel");
             ItemBeingCharged.prefix = tag.GetByte("PrefixNotFuel");
+            ItemBeingCharged.position = tag.Get<Vector2>("PositionNotFuel");
             if (ItemBeingCharged.type > ItemID.Count)
             {
                 Charge = tag.GetInt("Charge");

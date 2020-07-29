@@ -93,7 +93,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             List<NPC> potentialTargets = new List<NPC>();
             for (int i = 0; i < Main.npc.Length; i++)
             {
-                bool legalTarget = Main.npc[i] != target && Main.npc[i].active;
+                bool legalTarget = Main.npc[i] != target && Main.npc[i].active && Main.npc[i].CanBeChasedBy(null);
                 float distanceToTarget = projectile.Distance(Main.npc[i].Center);
                 if (legalTarget && distanceToTarget < minDistance && !NPCsAlreadyHit.Contains(Main.npc[i]))
                 {

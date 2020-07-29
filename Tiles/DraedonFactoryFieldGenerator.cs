@@ -85,12 +85,12 @@ namespace CalamityMod.Tiles
                 for (int k = 0; k < pointsToDraw.Length; k++)
                 {
                     float angle = k / (float)pointsToDraw.Length * MathHelper.TwoPi;
-                    pointsToDraw[k] = angle.ToRotationVector2() * 1000f;
+                    pointsToDraw[k] = angle.ToRotationVector2() * TEDraedonFieldGenerator.Radius;
                     pointsToDraw[k] += drawOffset;
                     pointsToDraw[k] += Main.rand.NextVector2Circular(1f, 1f);
 
                     angle = (k + 1) % pointsToDraw.Length / (float)pointsToDraw.Length * MathHelper.TwoPi;
-                    pointsToDraw[(k + 1) % pointsToDraw.Length] = angle.ToRotationVector2() * 1000f;
+                    pointsToDraw[(k + 1) % pointsToDraw.Length] = angle.ToRotationVector2() * TEDraedonFieldGenerator.Radius;
                     pointsToDraw[(k + 1) % pointsToDraw.Length] += drawOffset;
                     pointsToDraw[(k + 1) % pointsToDraw.Length] += Main.rand.NextVector2Circular(1f, 1f);
 
@@ -101,18 +101,18 @@ namespace CalamityMod.Tiles
 
                     DelegateMethods.c_1 = Color.Cyan;
                     DelegateMethods.f_1 = 1f;
-                    DelegateMethods.c_1 *= Utils.InverseLerp(1600f, 1000f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
-                        Utils.InverseLerp(1000f, 660f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
-                    DelegateMethods.f_1 *= Utils.InverseLerp(1600f, 1000f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
-                        Utils.InverseLerp(1000f, 660f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
+                    DelegateMethods.c_1 *= Utils.InverseLerp(TEDraedonFieldGenerator.Radius, TEDraedonFieldGenerator.Radius - 300f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(TEDraedonFieldGenerator.Radius, TEDraedonFieldGenerator.Radius - 300f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
+                    DelegateMethods.f_1 *= Utils.InverseLerp(TEDraedonFieldGenerator.Radius, TEDraedonFieldGenerator.Radius - 300f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(TEDraedonFieldGenerator.Radius, TEDraedonFieldGenerator.Radius - 300f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
                     Utils.DrawLaser(spriteBatch, laserTexture, pointsToDraw[k], pointsToDraw[(k + 1) % pointsToDraw.Length], new Vector2(0.3f), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
 
                     DelegateMethods.c_1 = Color.White * 0.7f;
                     DelegateMethods.f_1 = 0.7f;
-                    DelegateMethods.c_1 *= Utils.InverseLerp(1600f, 1000f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
-                        Utils.InverseLerp(1000f, 660f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
-                    DelegateMethods.f_1 *= Utils.InverseLerp(1600f, 1000f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
-                        Utils.InverseLerp(1000f, 660f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
+                    DelegateMethods.c_1 *= Utils.InverseLerp(TEDraedonFieldGenerator.Radius, TEDraedonFieldGenerator.Radius - 300f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(TEDraedonFieldGenerator.Radius, TEDraedonFieldGenerator.Radius - 300f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
+                    DelegateMethods.f_1 *= Utils.InverseLerp(TEDraedonFieldGenerator.Radius, TEDraedonFieldGenerator.Radius - 300f, Math.Abs(positionWorldCoords.X - player.Center.X), true) *
+                        Utils.InverseLerp(TEDraedonFieldGenerator.Radius, TEDraedonFieldGenerator.Radius - 300f, Math.Abs(positionWorldCoords.Y - player.Center.Y), true);
                     Utils.DrawLaser(spriteBatch, laserTexture, pointsToDraw[k], pointsToDraw[(k + 1) % pointsToDraw.Length], new Vector2(0.6f), new Utils.LaserLineFraming(DelegateMethods.LightningLaserDraw));
                 }
             }
