@@ -138,7 +138,7 @@ namespace CalamityMod.Projectiles.Summon
             Vector2 vector = projectile.position;
             float num10 = 3000f; //300
             bool flag = false;
-            Vector2 center = Main.player[projectile.owner].Center;
+            Vector2 center = player.Center;
             Vector2 value = new Vector2(0.5f);
             value.Y = 0f;
 			int targetIndex = -1;
