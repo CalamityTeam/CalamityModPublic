@@ -60,7 +60,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                     projectile.velocity = Vector2.Zero;
                 else ArcToTarget(potentialTarget);
             }
-            // Sometimes randomly update the velocity to make it look like 
+            // Sometimes randomly update the velocity to make it look like it's actually lightning instead of just a line
             if (Main.rand.NextBool(10))
             {
                 projectile.velocity = projectile.velocity.RotatedByRandom(0.52f);
