@@ -74,9 +74,10 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             else
             {
                 CalamityGlobalProjectile.ExpandHitboxBy(projectile, 360);
-				projectile.usesLocalNPCImmunity = true;
-				projectile.localNPCHitCooldown = 10;
-                projectile.Damage();
+                if (Main.myPlayer == projectile.owner)
+                {
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<PlasmaGrenadeSmallExplosion>(), projectile.damage, projectile.knockBack, projectile.owner);
+                }
                 if (!Main.dedServ)
                 {
                     for (int i = 0; i < 120; i++)
