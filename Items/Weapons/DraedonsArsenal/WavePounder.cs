@@ -39,6 +39,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
             item.shootSpeed = 16f;
             item.shoot = ModContent.ProjectileType<WavePounderProjectile>();
+
+			item.Calamity().Chargeable = true;
+			item.Calamity().ChargeMax = 190;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
