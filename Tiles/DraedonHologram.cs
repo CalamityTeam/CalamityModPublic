@@ -5,12 +5,12 @@ using Terraria.ID;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
+using CalamityMod.TileEntities;
 
 namespace CalamityMod.Tiles
 {
     public class DraedonHologram : ModTile
     {
-        public bool CloseToPlayer = false;
         public const int Width = 6;
         public const int Height = 7;
         public const int IdleFrames = 8;
@@ -29,6 +29,7 @@ namespace CalamityMod.Tiles
             {
                 TileObjectData.newTile.CoordinateHeights[i] = 16;
             }
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEDraedonHologram>().Hook_AfterPlacement, -1, 0, true);
             TileObjectData.addTile(Type);
             animationFrameHeight = 112;
 
@@ -37,24 +38,20 @@ namespace CalamityMod.Tiles
             minPick = 100;
             AddMapEntry(new Color(99, 131, 199));
         }
-        public override void NearbyEffects(int i, int j, bool closer)
+
+        public TEDraedonHologram RetrieveTileEntity(int i, int j)
         {
-            CloseToPlayer = closer;
-        }
-        public override void AnimateTile(ref int frame, ref int frameCounter)
-        {
-            if (frameCounter++ % 6 == 5)
+            int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
+            int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
+            if (!TileEntity.ByPosition.ContainsKey(new Point16(left, top)))
             {
-                frame++;
-                if (frame >= (!CloseToPlayer ? 5 : FrameCount))
-                {
-                    if (!CloseToPlayer && frame > 8)
-                        frame = 7;
-                    else
-                        frame = !CloseToPlayer ? 0 : TalkingFrames;
-                }
+                TileEntity.ByPosition[new Point16(left, top)] = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEDraedonHologram>());
+                TileEntity.ByPosition[new Point16(left, top)].Position = new Point16(left, top);
             }
+            return (TEDraedonHologram)TileEntity.ByPosition[new Point16(left, top)];
         }
+
+
         public override bool NewRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
@@ -72,13 +69,45 @@ namespace CalamityMod.Tiles
             }
             return true;
         }
+
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
+            int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
+            int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
+            Tile trackTile = Main.tile[i, j];
+            int time = (int)(Main.GlobalTime * 60);
+            TEDraedonHologram tileEntity = RetrieveTileEntity(i, j);
+            tileEntity.CloseToPlayer = false;
+            foreach (var player in Main.player)
+            {
+                if (!player.active)
+                    continue;
+                if (player.Distance(new Point(left, top).ToWorldCoordinates()) < 560f)
+                {
+                    tileEntity.CloseToPlayer = true;
+                    break;
+                }
+            }
+            bool closeToPlayer = tileEntity.CloseToPlayer;
+            int frame = time / 5 % FrameCount;
+            if (closeToPlayer)
+            {
+                if (frame <= IdleFrames)
+                    frame += IdleFrames;
+                if (frame >= FrameCount)
+                    frame = IdleFrames + frame % TalkingFrames;
+            }
+            else
+            {
+                frame %= IdleFrames;
+                if (frame >= IdleFrames - 2)
+                    frame -= IdleFrames - 2;
+            }
+
             int xPos = Main.tile[i, j].frameX;
             int yPos = Main.tile[i, j].frameY;
-            Tile trackTile = Main.tile[i, j];
-            xPos += Main.tileFrame[trackTile.type] / 8 * 96;
-            yPos += Main.tileFrame[trackTile.type] % 8 * 112;
+            xPos += frame / 8 * 96;
+            yPos += frame % 8 * 112;
             Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonHologram");
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;

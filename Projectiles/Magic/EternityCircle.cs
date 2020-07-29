@@ -7,6 +7,29 @@ namespace CalamityMod.Projectiles.Magic
 {
     public class EternityCircle : ModProjectile
     {
+        public int TargetNPCIndex
+        {
+            get => (int)projectile.ai[0];
+            set => projectile.ai[0] = value;
+        }
+        public float SinusoidalPositionAngle
+        {
+            get => projectile.ai[1];
+            set => projectile.ai[1] = value;
+        }
+        public float SinusoidalOffsetAngle
+        {
+            get => projectile.localAI[0];
+            set => projectile.localAI[0] = value;
+        }
+        public int HeldBookIndex
+        {
+            get => (int)projectile.localAI[1];
+            set => projectile.localAI[1] = value;
+        }
+        public const float TargetOffsetRadius = 595f;
+        public const float SinusoidalOffsetAngleIncrement = 0.54f;
+        public static readonly float SinusoidalPositionAngleIncrement = MathHelper.ToRadians(3.5f);
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eternity");
@@ -18,47 +41,53 @@ namespace CalamityMod.Projectiles.Magic
             projectile.height = 2;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.timeLeft = EternityHex.trueTimeLeft;
+            projectile.timeLeft = EternityHex.Lifetime;
             projectile.alpha = 255;
             projectile.magic = true;
         }
 
         public override void AI()
         {
-            // Circle around the enemy
-            if (!Main.npc[(int)projectile.ai[0]].active || Main.npc[(int)projectile.ai[0]].dontTakeDamage)
+            NPC target = Main.npc[TargetNPCIndex];
+
+            // Delete the circle if any necessary components are incorrect/would cause errors.
+            if (HeldBookIndex >= Main.projectile.Length || SinusoidalOffsetAngle < 0)
+            {
+                projectile.Kill();
+                return;
+            }
+            if (!Main.projectile[HeldBookIndex].active)
+            {
+                projectile.Kill();
+                return;
+            }
+
+            // Delete the circle if the target cannot be damaged.
+            if (!target.active || target.dontTakeDamage)
             {
                 projectile.active = false;
             }
-            if (projectile.localAI[0] == 0f)
+            
+            // Assign an offset angle if it has a default value.
+            if (SinusoidalOffsetAngle == 0f)
             {
-                projectile.localAI[0] = Main.rand.NextFloat(MathHelper.TwoPi);
-            }
-            projectile.position = Main.npc[(int)projectile.ai[0]].Center + projectile.ai[1].ToRotationVector2() * 670f;
-            projectile.ai[1] += MathHelper.ToRadians(3.5f);
-
-            projectile.localAI[0] += 0.18f;
-
-            if (projectile.localAI[1] >= Main.projectile.Length || projectile.localAI[0] < 0)
-            {
-                projectile.Kill();
-                return;
+                SinusoidalOffsetAngle = Main.rand.NextFloat(MathHelper.TwoPi);
             }
 
-            Projectile book = Main.projectile[(int)projectile.localAI[1]];
+            // Circle around the enemy.
+            projectile.position = target.Center + SinusoidalPositionAngle.ToRotationVector2() * TargetOffsetRadius;
 
-            if (!book.active)
-            {
-                projectile.Kill();
-                return;
-            }
+            SinusoidalPositionAngle += SinusoidalPositionAngleIncrement;
+            SinusoidalOffsetAngle += SinusoidalOffsetAngleIncrement;
 
-            float angle = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            float pulse = (float)Math.Sin(projectile.localAI[0] * 3f);
+            // Generate helical dust based on a time based sine.
+            float pulse = (float)Math.Sin(SinusoidalOffsetAngle);
             float radius = 8f;
-            Vector2 offset = angle.ToRotationVector2() * pulse * radius;
+            Vector2 offset = Vector2.UnitY * pulse * radius;
+
             Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 132, Vector2.Zero);
             dust.noGravity = true;
+
             dust = Dust.NewDustPerfect(projectile.Center - offset, 133, Vector2.Zero);
             dust.noGravity = true;
         }

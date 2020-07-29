@@ -22,7 +22,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 12f;
             item.width = 56;
             item.height = 24;
-            item.damage = 99;
+            item.damage = 70;
             item.hammer = 230;
             item.UseSound = SoundID.Item23;
 
@@ -46,7 +46,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             recipe.AddIngredient(ModContent.ItemType<MysteriousCircuitry>(), 8);
             recipe.AddIngredient(ModContent.ItemType<DubiousPlating>(), 12);
             recipe.AddIngredient(ItemID.HallowedBar, 10);
-            recipe.AddIngredient(ItemID.SoulofMight, 20);
+            recipe.AddIngredient(ItemID.SoulofSight, 20);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();

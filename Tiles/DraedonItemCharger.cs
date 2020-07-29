@@ -67,6 +67,7 @@ namespace CalamityMod.Tiles
             {
                 int idx = Item.NewItem(new Vector2(i, j) * 16f, charger.ItemBeingCharged.type, charger.ItemBeingCharged.stack);
                 Main.item[idx].Calamity().CurrentCharge = charger.Charge;
+                Main.item[idx].prefix = charger.ItemBeingCharged.prefix;
             }
             charger.Kill(left, top);
         }

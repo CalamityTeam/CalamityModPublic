@@ -4098,8 +4098,11 @@ namespace CalamityMod
                         int entityID = reader.ReadInt32();
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.type = reader.ReadInt32();
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.position = reader.ReadVector2();
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.type = reader.ReadInt32();
                         (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.prefix = reader.ReadByte();
+                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.position = reader.ReadVector2();
                         int currentCharge = reader.ReadInt32();
                         if (currentCharge != -1)
                         {
@@ -4123,6 +4126,10 @@ namespace CalamityMod
                     case CalamityModMessageType.ProvidenceDyeConditionSync:
                         byte npcIndex3 = reader.ReadByte();
                         (Main.npc[npcIndex3].modNPC as Providence).hasTakenDaytimeDamage = reader.ReadBoolean();
+                        break;
+                    case CalamityModMessageType.PSCChallengeSync:
+                        byte npcIndex4 = reader.ReadByte();
+                        (Main.npc[npcIndex4].modNPC as Providence).challenge = reader.ReadBoolean();
                         break;
 
                     default:
@@ -4212,6 +4219,7 @@ namespace CalamityMod
         SpawnSuperDummy,
 		SyncCalamityNPCAIArray,
         ProvidenceDyeConditionSync, // We shouldn't fucking need this. Die in a hole, Multiplayer.
+        PSCChallengeSync, // See above
         DraedonGeneratorStackSync,
         DraedonChargerSync,
         DraedonFieldGeneratorSync

@@ -7,24 +7,6 @@ namespace CalamityMod.World
 {
     public class SmallBiomes : ModWorld
     {
-        public static void PlaceIceTomb()
-        {
-            int x = Main.maxTilesX;
-            int y = Main.maxTilesY;
-
-            for (int k = 0; k < (int)((double)(x * y) * 50E-05); k++)
-            {
-                int tilesX = WorldGen.genRand.Next(0, x);
-                int tilesY = WorldGen.genRand.Next((int)(y * .4f), (int)(y * .5f));
-
-                if (Main.tile[tilesX, tilesY].type == TileID.SnowBlock || Main.tile[tilesX, tilesY].type == TileID.IceBlock)
-                {
-                    WorldGenerationMethods.IceTomb(tilesX, tilesY);
-                    break;
-                }
-            }
-        }
-
         public static void PlaceEvilIsland()
         {
             int x = Main.maxTilesX;
@@ -170,9 +152,6 @@ namespace CalamityMod.World
                     break;
                 }
             }
-
-            //Murasama Shrine
-            WorldGenerationMethods.SpecialHut(TileID.HellstoneBrick, TileID.Hellstone, WallID.HellstoneBrick, 8, WorldGen.genRand.Next((int)(x * 0.97), (int)(x * 0.98)), y - 60);
         }
     }
 }

@@ -85,6 +85,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
         }
 
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            damage -= target.defense / 7;
+        }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
 			projectile.damage /= 3;

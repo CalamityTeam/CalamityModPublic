@@ -503,19 +503,7 @@ namespace CalamityMod.NPCs.DesertScourge
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DesertScourgeMask>(), 7);
 
                 // Fishing
-                DropHelper.DropItemChance(npc, ItemID.HighTestFishingLine, 15);
-                DropHelper.DropItemChance(npc, ItemID.TackleBox, 15);
-                DropHelper.DropItemChance(npc, ItemID.AnglerEarring, 15);
-                DropHelper.DropItemChance(npc, ItemID.FishermansGuide, 10);
-                DropHelper.DropItemChance(npc, ItemID.WeatherRadio, 10);
-                DropHelper.DropItemChance(npc, ItemID.Sextant, 10);
-                DropHelper.DropItemChance(npc, ItemID.AnglerHat, 5);
-                DropHelper.DropItemChance(npc, ItemID.AnglerVest, 5);
-                DropHelper.DropItemChance(npc, ItemID.AnglerPants, 5);
-                DropHelper.DropItemChance(npc, ItemID.FishingPotion, 5, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.SonarPotion, 5, 2, 3);
-                DropHelper.DropItemChance(npc, ItemID.CratePotion, 5, 2, 3);
-                DropHelper.DropItemCondition(npc, ItemID.GoldenBugNet, NPC.downedBoss3, 20, 1, 1);
+                DropHelper.DropItem(npc, ModContent.ItemType<SandyAnglingKit>());
             }
 
             // If Desert Scourge has not been killed yet, notify players that the Sunken Sea is open and Sandstorms can happen

@@ -9,8 +9,8 @@ namespace CalamityMod.Buffs.Summon
     {
         public override void SetDefaults()
         {
-            DisplayName.SetDefault("Siren");
-            Description.SetDefault("The siren will protect you");
+            DisplayName.SetDefault("Anahita");
+            Description.SetDefault("Anahita will protect you");
             Main.buffNoTimeDisplay[Type] = true;
             Main.buffNoSave[Type] = true;
         }

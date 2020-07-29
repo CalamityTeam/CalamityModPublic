@@ -8,14 +8,14 @@ namespace CalamityMod.UI
     public static class PopupGUIManager
     {
         private static readonly List<PopupGUI> gUIs = new List<PopupGUI>();
-        public static DraedonsLogUI DraedonLogGUI;
+        public static DraedonLogSunkenSeaGUI DraedonLogSunkenSeaGUI;
         public static bool GUIActive(PopupGUI gui) => gui.Active || gui.FadeTime > 0;
         public static bool AnyGUIsActive => gUIs.Any(GUIActive);
         public static PopupGUI GetActiveGUI => gUIs.FirstOrDefault(GUIActive);
         public static void SuspendAll()
         {
-            DraedonLogGUI.Active = false;
-            DraedonLogGUI.FadeTime = 0;
+            DraedonLogSunkenSeaGUI.Active = false;
+            DraedonLogSunkenSeaGUI.FadeTime = 0;
         }
         public static void UpdateAndDraw(SpriteBatch spriteBatch)
         {
@@ -43,12 +43,12 @@ namespace CalamityMod.UI
         }
         public static void LoadGUIs()
         {
-            DraedonLogGUI = new DraedonsLogUI();
-            gUIs.Add(DraedonLogGUI);
+            DraedonLogSunkenSeaGUI = new DraedonLogSunkenSeaGUI();
+            gUIs.Add(DraedonLogSunkenSeaGUI);
         }
         public static void UnloadGUIs()
         {
-            DraedonLogGUI = null;
+            DraedonLogSunkenSeaGUI = null;
             gUIs.Clear();
         }
     }

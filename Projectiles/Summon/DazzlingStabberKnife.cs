@@ -8,6 +8,8 @@ namespace CalamityMod.Projectiles.Summon
 {
     public class DazzlingStabberKnife : ModProjectile
     {
+        public const float HomingSpeed = 17f;
+        public const float HomingInertia = 20f;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Knife");
@@ -34,7 +36,7 @@ namespace CalamityMod.Projectiles.Summon
             {
                 if (projectile.Distance(potentialTarget.Center) > 70f)
                 {
-                    projectile.velocity = (projectile.velocity * 19f + projectile.DirectionTo(potentialTarget.Center) * 17f) / 20f;
+                    projectile.velocity = (projectile.velocity * (HomingInertia - 1f) + projectile.DirectionTo(potentialTarget.Center) * HomingSpeed) / HomingInertia;
                 }
             }
         }

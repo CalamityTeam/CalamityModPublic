@@ -26,7 +26,6 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.penetrate = 3;
             projectile.melee = true;
             projectile.tileCollide = false;
-            projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.timeLeft = Lifetime;
             projectile.localNPCHitCooldown = 6;
@@ -41,6 +40,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 projectile.velocity = (projectile.velocity * 7f + projectile.DirectionTo(potentialTarget.Center) * 24f) / 8f;
             }
             projectile.frameCounter++;
+        }
+
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            damage -= target.defense / 4;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

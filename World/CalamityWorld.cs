@@ -30,6 +30,7 @@ using CalamityMod.NPCs.StormWeaver;
 using CalamityMod.NPCs.SupremeCalamitas;
 using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
+using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Schematics;
 using CalamityMod.Tiles;
 using CalamityMod.Tiles.Abyss;
@@ -63,6 +64,7 @@ namespace CalamityMod.World
         public static int ArmoredDiggerSpawnCooldown = 0;
         public static int MoneyStolenByBandit = 0;
         public static int Reforges;
+        public static Dictionary<int, ScreenShakeSpot> ScreenShakeSpots = new Dictionary<int, ScreenShakeSpot>();
 
         //Boss Rush
         public static bool bossRushActive = false; //Whether Boss Rush is active or not
@@ -932,12 +934,6 @@ namespace CalamityMod.World
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
             if (ShiniesIndex != -1)
             {
-                tasks.Insert(ShiniesIndex + 1, new PassLegacy("IceTomb", delegate (GenerationProgress progress)
-                {
-                    progress.Message = "Ice Tomb";
-                    SmallBiomes.PlaceIceTomb();
-                }));
-
                 tasks.Insert(ShiniesIndex + 2, new PassLegacy("EvilIsland", delegate (GenerationProgress progress)
                 {
                     progress.Message = "Evil Island";
@@ -1046,27 +1042,30 @@ namespace CalamityMod.World
                 tasks.Insert(FinalIndex + 3, new PassLegacy("Rust and Dust", (GenerationProgress progress) =>
                 {
                     List<Point> workshopPositions = new List<Point>();
-                    int workshopCount = Main.maxTilesX / 1200;
-                    int labCount = Main.maxTilesX / 1800;
-                    DraedonStructures.DraedonsLogWorkshopIndex = WorldGen.genRand.Next(workshopCount);
+                    int workshopCount = Main.maxTilesX / 900;
+                    int labCount = Main.maxTilesX / 1500;
+
+                    DraedonStructures.PlaceHellLab(out Point hellPlacementPosition, workshopPositions);
+                    workshopPositions.Add(hellPlacementPosition);
+
+                    DraedonStructures.PlaceSunkenSeaLab(out Point sunkenSeaPlacementPosition, workshopPositions);
+                    workshopPositions.Add(sunkenSeaPlacementPosition);
+
+                    DraedonStructures.PlaceIceLab(out Point icePlacementPosition, workshopPositions);
+                    workshopPositions.Add(icePlacementPosition);
+
+                    DraedonStructures.PlacePlagueLab(out Point plaguePlacementPosition, workshopPositions);
+                    workshopPositions.Add(plaguePlacementPosition);
 
                     for (int i = 0; i < workshopCount; i++)
                     {
-                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions, "Workshop");
-                        DraedonStructures.CurrentWorkshopIndex = i;
+                        DraedonStructures.PlaceWorkshop(out Point placementPosition, workshopPositions);
                         workshopPositions.Add(placementPosition);
-
-                        DraedonStructures.PlaceWorkshop(out Point placementPosition2, workshopPositions, "Workshop 2");
-                        DraedonStructures.CurrentWorkshopIndex = i;
-                        workshopPositions.Add(placementPosition2);
                     }
                     for (int i = 0; i < labCount; i++)
                     {
-                        DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions, "Research Facility");
+                        DraedonStructures.PlaceResearchFacility(out Point placementPosition, workshopPositions);
                         workshopPositions.Add(placementPosition);
-
-                        DraedonStructures.PlaceResearchFacility(out Point placementPosition2, workshopPositions, "Research Facility 2");
-                        workshopPositions.Add(placementPosition2);
                     }
                 }));
 
@@ -1381,15 +1380,21 @@ namespace CalamityMod.World
 								{
 									Tile tile = Main.tile[x, y];
 									bool growTile = tenebris ? (tile.active() && tile.type == ModContent.TileType<PlantyMush>()) : (!tile.active() && tile.liquid >= 128);
+                                    bool isSunkenSeaTile = tileType == ModContent.TileType<Navystone>() || tileType == ModContent.TileType<EutrophicSand>() || tileType == ModContent.TileType<SeaPrism>();
 									bool meetsAdditionalGrowConditions = tile.slope() == 0 && !tile.halfBrick() && !tile.lava();
-									if (growTile && meetsAdditionalGrowConditions)
+
+                                    if (growTile && meetsAdditionalGrowConditions)
 									{
 										int tileType2 = ModContent.TileType<SeaPrismCrystals>();
 
-										if (tileType == ModContent.TileType<Voidstone>())
+                                        if (tileType == ModContent.TileType<Voidstone>())
 											tileType2 = ModContent.TileType<LumenylCrystals>();
 
-										if (CanPlaceBasedOnProximity(x, y, tileType2) || tenebris)
+                                        bool canPlaceBasedOnAttached = true;
+                                        if (tileType2 == ModContent.TileType<SeaPrismCrystals>() && !isSunkenSeaTile)
+                                            canPlaceBasedOnAttached = false;
+
+                                        if (canPlaceBasedOnAttached && (CanPlaceBasedOnProximity(x, y, tileType2) || tenebris))
 										{
 											tile.type = tenebris ? (ushort)tileType : (ushort)tileType2;
 

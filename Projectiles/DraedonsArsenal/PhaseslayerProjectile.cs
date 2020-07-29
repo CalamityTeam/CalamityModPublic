@@ -20,7 +20,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		public const float DamageUpdateResponsiveness = 0.08f;
 
 		// When the accumuluated "charge exhaustion" meter reaches this value, the Phaseslayer item loses one point of charge.
-		public const float ChargeLossBreakpoint = 300f;
+		public const float ChargeLossBreakpoint = 180f;
 
 		public const int SwordBeamCooldown = 15;
 		private const float MaximumMouseRange = 360f;
@@ -106,6 +106,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			ManipulateFrames();
 			HandleSwordBeams(player, deltaAngle);
 			HandleFadeout();
+		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			damage -= target.defense / 4;
 		}
 
 		private void ManipulatePlayer(Player player)
@@ -246,7 +251,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				if (Main.myPlayer == player.whoAmI)
 				{
 					Vector2 velocity = projectile.rotation.ToRotationVector2() * 20f;
-					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PhaseslayerBeam>(), projectile.damage, 0f, player.whoAmI);
+					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PhaseslayerBeam>(), projectile.damage / 3, 0f, player.whoAmI);
 				}
 
 				// The sound delay doubles as the sword beam's cooldown.

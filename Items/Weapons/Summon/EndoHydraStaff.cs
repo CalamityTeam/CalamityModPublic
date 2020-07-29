@@ -55,7 +55,7 @@ namespace CalamityMod.Items.Weapons.Summon
                 }
                 if (bodyExists)
                 {
-                    Projectile head = Projectile.NewProjectileDirect(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
+                    Projectile.NewProjectileDirect(player.Center, Vector2.One.RotatedByRandom(MathHelper.TwoPi), ModContent.ProjectileType<EndoHydraHead>(), damage, knockBack, player.whoAmI, bodyIndex);
                 }
                 else
                 {
