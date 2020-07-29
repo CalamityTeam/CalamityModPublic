@@ -29,6 +29,37 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
+			//only 3 tornado can exist at a time
+            projectile.localAI[1] += 1f;
+            if (projectile.localAI[1] >= 10f)
+            {
+                projectile.localAI[1] = 0f;
+                int projCount = 0;
+                int oldestTornado = 0;
+                float tornadoAge = 0f;
+                int projType = projectile.type;
+                for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
+                {
+					Projectile proj = Main.projectile[projIndex];
+                    if (proj.active && proj.owner == projectile.owner && proj.type == projType && proj.ai[0] < 900f)
+                    {
+                        projCount++;
+                        if (proj.ai[0] > tornadoAge)
+                        {
+                            oldestTornado = projIndex;
+                            tornadoAge = proj.ai[0];
+                        }
+                    }
+                }
+                if (projCount > 3)
+                {
+                    Main.projectile[oldestTornado].netUpdate = true;
+                    Main.projectile[oldestTornado].ai[0] = 36000f;
+                    Main.projectile[oldestTornado].damage = 0;
+                    return;
+                }
+            }
+
             float num1125 = 900f;
             if (projectile.soundDelay == 0)
             {
