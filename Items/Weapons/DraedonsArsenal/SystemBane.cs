@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("System Bane");
-            Tooltip.SetDefault("Releases an unstable weapon that sticks to the ground and shocks nearby enemies with electricity\n" +
+            Tooltip.SetDefault("Hurls an unstable device which sticks to the ground and shocks nearby enemies with lightning\n" +
                                "Stealth Strikes cause the weapon to emit an electrical field that shocks enemies within\n" +
                                "Stacks up to 5");
         }
