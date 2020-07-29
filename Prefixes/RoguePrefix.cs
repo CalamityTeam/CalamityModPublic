@@ -62,7 +62,7 @@ namespace CalamityMod.Prefixes
 		public override void Apply(Item item)
 		{
 			ModItem moddedItem = item.modItem;
-			if(moddedItem != null && moddedItem is RogueWeapon rogueWep)
+			if (moddedItem != null && moddedItem is RogueWeapon rogueWep)
 			{
 				rogueWep.StealthStrikeDamage = stealthDmgMult;
 			}
