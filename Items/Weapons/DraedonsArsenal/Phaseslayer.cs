@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
 	public class Phaseslayer : ModItem
 	{
-		public const int Damage = 19000;
+		public const int Damage = 11970;
 		// When below this percentage of charge, the sword is small instead of big.
 		public const float SizeChargeThreshold = 0.33f;
 		public const float SmallDamageMultiplier = 0.66f;
