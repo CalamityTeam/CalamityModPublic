@@ -92,12 +92,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-			projectile.damage /= 3;
+			projectile.damage = (int)(projectile.damage * 0.6);
 		}
 
         public override void OnHitPvp(Player target, int damage, bool crit)
         {
-			projectile.damage /= 3;
+			projectile.damage = (int)(projectile.damage * 0.6);
 		}
     }
 }
