@@ -196,7 +196,9 @@ namespace CalamityMod.World
             };
             if (!hasPlacedMurasama)
             {
-                contents.Insert(0, new ChestItem(ModContent.ItemType<Murasama>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogHell>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<Murasama>(), 1));
+                contents.Insert(2, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {
@@ -333,7 +335,8 @@ namespace CalamityMod.World
             };
             if (!hasPlacedLogAndSchematic)
             {
-                contents.Insert(0, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSnowBiome>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
             }
             // If it's a frozen chest.
             if (type == TileID.Containers)
@@ -414,7 +417,8 @@ namespace CalamityMod.World
             };
             if (!hasPlacedLogAndSchematic)
             {
-                contents.Insert(0, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogJungle>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {
@@ -498,11 +502,13 @@ namespace CalamityMod.World
             };
 
 			Mod thorium = ModLoader.GetMod("ThoriumMod");
-			CalamityUtils.AddWithCondition<ChestItem>(contents, thorium.ItemType("MarineKelpPlanterBox"), thorium != null);
+            if (thorium != null)
+                contents.Add(new ChestItem(thorium.ItemType("MarineKelpPlanterBox"), WorldGen.genRand.Next(5, 9 + 1)));
 
             if (!hasPlacedLogAndSchematic)
             {
-                contents.Insert(0, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogPlanetoid>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {

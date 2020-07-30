@@ -9802,7 +9802,6 @@ namespace CalamityMod.CalPlayer
                     GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(GetCurrentMoonlightDyeColor());
                 }
             }
-            Main.blockInput = PopupGUIManager.AnyGUIsActive;
         }
 
 		public static readonly PlayerLayer Tail = new PlayerLayer("CalamityMod", "Tail", PlayerLayer.BackAcc, delegate (PlayerDrawInfo drawInfo)

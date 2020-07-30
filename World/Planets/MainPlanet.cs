@@ -36,8 +36,6 @@ namespace CalamityMod.World.Planets
         {
             Circle planetoid = new Circle(origin.ToVector2() * 16f + new Vector2(8f), radius * 16f);
 
-            ushort LabTile = TileID.StoneSlab;
-            byte LabWall = WallID.StoneSlab;
             bool labLeftSide = _random.NextBool();
             int corridorLength = (int)(radius * _random.NextFloat(0.7f, 0.8f));
 
@@ -107,7 +105,7 @@ namespace CalamityMod.World.Planets
                 new Actions.SetFrames(true)
             }));
 
-            bool hasPlacedLogAndSchematic = true;
+            bool hasPlacedLogAndSchematic = false;
             SchematicPlacementHelpers.PlaceStructure("Planetoid Laboratory", new Point(origin.X - 33, origin.Y - 17), SchematicPlacementHelpers.PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, DraedonStructures.FillPlanetoidLaboratoryChest);
 
             //PLACE BREAKABLE GRASS AND TREES

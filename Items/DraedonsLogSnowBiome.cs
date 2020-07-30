@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items
 {
-    public class DraedonsLogSunkenSea : ModItem
+    public class DraedonsLogSnowBiome : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draedon's Log - Study on Sunken Aquatic Life");
+            DisplayName.SetDefault("Draedon's Log - The Frozen Wasteland");
             Tooltip.SetDefault("Click to view its contents");
         }
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Items
         public override bool UseItem(Player player)
         {
             if (Main.myPlayer == player.whoAmI)
-                PopupGUIManager.FlipActivityOfGUIWithType(typeof(DraedonLogSunkenSeaGUI));
+                PopupGUIManager.FlipActivityOfGUIWithType(typeof(DraedonLogSnowBiomeGUI));
             return true;
         }
     }
