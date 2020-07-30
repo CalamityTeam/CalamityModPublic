@@ -222,34 +222,34 @@ namespace CalamityMod.TileEntities
         }
         public override TagCompound Save()
         {
-            return new TagCompound
+            TagCompound tag = new TagCompound
             {
                 ["ID"] = ID, // Don't ask me why, but the ID doesn't get saved in MP otherwise.
-                ["TypeFuel"] = FuelItem.type,
                 ["StackFuel"] = FuelItem.stack,
                 ["PrefixFuel"] = FuelItem.prefix,
                 ["NetIDFuel"] = FuelItem.active && FuelItem.stack > 0 ? FuelItem.netID : 0,
                 ["FuelPosition"] = FuelItem.position,
 
-                ["TypeNotFuel"] = ItemBeingCharged.type,
                 ["StackNotFuel"] = ItemBeingCharged.stack,
                 ["PrefixNotFuel"] = ItemBeingCharged.prefix,
                 ["PositionNotFuel"] = ItemBeingCharged.position,
                 ["Charge"] = Charge,
                 ["NetIDNotFuel"] = ItemBeingCharged.active && FuelItem.stack > 0 ? FuelItem.netID : 0
             };
+            CalamityUtils.SaveModItem(tag, FuelItem, 0);
+            CalamityUtils.SaveModItem(tag, ItemBeingCharged, 1);
+            return tag;
         }
         public override void Load(TagCompound tag)
         {
             ID = tag.GetInt("ID");
-            FuelItem = new Item();
-            FuelItem.SetDefaults(tag.GetInt("TypeFuel"));
+            FuelItem = CalamityUtils.LoadModItem(tag, 0);
             FuelItem.stack = tag.GetInt("StackFuel");
             FuelItem.prefix = tag.GetByte("PrefixFuel");
             FuelItem.netID = tag.GetInt("NetIDFuel");
             FuelItem.position = tag.Get<Vector2>("FuelPosition");
 
-            ItemBeingCharged.SetDefaults(tag.GetInt("TypeNotFuel"));
+            ItemBeingCharged = CalamityUtils.LoadModItem(tag, 1);
             ItemBeingCharged.stack = tag.GetInt("StackNotFuel");
             ItemBeingCharged.prefix = tag.GetByte("PrefixNotFuel");
             ItemBeingCharged.position = tag.Get<Vector2>("PositionNotFuel");

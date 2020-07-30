@@ -283,37 +283,34 @@ namespace CalamityMod.World
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             ColorTileCombination[,] schematic = TileMaps[mapKey];
 
-        TryAgain:
-            int placementPositionX = WorldGen.genRand.Next(200, Main.maxTilesX - 200);
-            int placementPositionY = WorldGen.genRand.Next(CalamityWorld.SunkenSeaLocation.Bottom + 20, Main.maxTilesX - 200);
-
-            placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-            int sunkenTilesInArea = 0;
-            int xCheckArea = 35;
-
-            // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
-            float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-            for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+            do
             {
-                for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                int placementPositionX = WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Left - 20, WorldGen.UndergroundDesertLocation.Left + 10);
+                if (WorldGen.genRand.NextBool(2))
+                    placementPositionX = WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Right - 10, WorldGen.UndergroundDesertLocation.Right + 20);
+                int sunkenSeaHeight = WorldGen.UndergroundDesertLocation.Height / 2;
+                int placementPositionY = WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Bottom + sunkenSeaHeight - 25, WorldGen.UndergroundDesertLocation.Bottom + sunkenSeaHeight + 10);
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                int xCheckArea = 25;
+                bool shouldAvoidArea = false;
+
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
                 {
-                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                    if (tile.active())
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
-                        if (tile.type == ModContent.TileType<EutrophicSand>() || tile.type == ModContent.TileType<Navystone>() || tile.type == ModContent.TileType<SeaPrism>())
-                            sunkenTilesInArea++;
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        if (ShouldAvoidLocation(new Point(x, y)))
+                            shouldAvoidArea = true;
                     }
                 }
-            }
-            // Stay near the sunken sea, but don't collide with it.
-            if (sunkenTilesInArea < 10 || sunkenTilesInArea >= 250)
-            {
                 tries++;
-                if (tries > 50000)
-                    return;
-                goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
+                if (!shouldAvoidArea)
+                    break;
             }
+            while (tries < 50000);
 
             bool hasPlacedLogAndSchematic = false;
             PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, FillSunkenSeaLaboratoryChest);

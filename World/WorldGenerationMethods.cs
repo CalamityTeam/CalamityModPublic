@@ -1628,7 +1628,8 @@ namespace CalamityMod.World
                     // If there's a sudden change between the average and lowest height (which is indicative of holes/chasms), go with the average.
                     if (Math.Abs(lowestHeight - averageHeight) > 50f)
                         height = averageHeight;
-                    SchematicPlacementHelpers.PlaceStructure("Astral Beacon", new Point(i, (int)height - 20), SchematicPlacementHelpers.PlacementAnchorType.Center);
+
+                    SchematicPlacementHelpers.PlaceStructure("Astral Beacon", new Point(i, (int)height - 30), SchematicPlacementHelpers.PlacementAnchorType.Center);
                 }
             }
             return true;
