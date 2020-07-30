@@ -996,15 +996,18 @@ namespace CalamityMod.Items
 				teleportLocation.X -= (float)(player.width / 2);
 				if (teleportLocation.X > 50f && teleportLocation.X < (float)(Main.maxTilesX * 16 - 50) && teleportLocation.Y > 50f && teleportLocation.Y < (float)(Main.maxTilesY * 16 - 50))
 				{
-					if (!Collision.SolidCollision(teleportLocation, player.width, player.height))
+					int x = (int)teleportLocation.X / 16;
+					int y = (int)teleportLocation.Y / 16;
+					bool templeCheck = (Main.tile[x, y].wall != WallID.LihzahrdBrickUnsafe || y <= Main.worldSurface || NPC.downedPlantBoss)
+					if (templeCheck && !Collision.SolidCollision(teleportLocation, player.width, player.height))
 					{
 						int duration = CalamityPlayer.chaosStateDuration;
 						if (CalamityPlayer.areThereAnyDamnBosses || CalamityPlayer.areThereAnyDamnEvents)
 							duration = CalamityPlayer.chaosStateDurationBoss;
 						if (modPlayer.eScarfCooldown)
-							duration = (int)(CalamityPlayer.chaosStateDuration * 1.5);
+							duration = (int)(duration * 1.5);
 						else if (modPlayer.scarfCooldown)
-							duration = CalamityPlayer.chaosStateDuration * 2;
+							duration *= 2;
 						player.AddBuff(BuffID.ChaosState, duration, true);
 					}
 				}

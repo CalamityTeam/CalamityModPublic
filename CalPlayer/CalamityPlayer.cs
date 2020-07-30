@@ -2681,9 +2681,9 @@ namespace CalamityMod.CalPlayer
 							if (areThereAnyDamnBosses || areThereAnyDamnEvents)
 								duration = chaosStateDurationBoss;
 							if (eScarfCooldown)
-								duration = (int)(chaosStateDuration * 1.5);
+								duration = (int)(duration * 1.5);
 							else if (scarfCooldown)
-								duration = chaosStateDuration * 2;
+								duration *= 2;
 							player.AddBuff(BuffID.ChaosState, duration, true);
                         }
                     }
@@ -2736,9 +2736,9 @@ namespace CalamityMod.CalPlayer
 							if (areThereAnyDamnBosses || areThereAnyDamnEvents)
 								duration = chaosStateDurationBoss;
 							if (eScarfCooldown)
-								duration = (int)(chaosStateDuration * 1.5);
+								duration = (int)(duration * 1.5);
 							else if (scarfCooldown)
-								duration = chaosStateDuration * 2;
+								duration *= 2;
 							player.AddBuff(BuffID.ChaosState, duration, true);
 
                             int numDust = 40;
