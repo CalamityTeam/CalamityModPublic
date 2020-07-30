@@ -60,6 +60,10 @@ namespace CalamityMod.NPCs.AcidRain
         {
             npc.TargetClosest(false);
             Player player = Main.player[npc.target];
+
+            // Slow down over time on the X axis (to prevent endless sliding as a result of KB)
+            npc.velocity.X *= 0.96f;
+
             // Hover on the top of the water
             if (npc.wet)
             {
