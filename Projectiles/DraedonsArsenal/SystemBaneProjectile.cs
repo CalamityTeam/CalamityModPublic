@@ -38,6 +38,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 
         public override void AI()
         {
+			projectile.StickToTiles(false, true);
+
             Time++;
             projectile.rotation = projectile.velocity.ToRotation();
             if (projectile.velocity.Y < 15f)
