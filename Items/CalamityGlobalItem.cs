@@ -998,7 +998,7 @@ namespace CalamityMod.Items
 				{
 					int x = (int)teleportLocation.X / 16;
 					int y = (int)teleportLocation.Y / 16;
-					bool templeCheck = (Main.tile[x, y].wall != WallID.LihzahrdBrickUnsafe || y <= Main.worldSurface || NPC.downedPlantBoss)
+					bool templeCheck = Main.tile[x, y].wall != WallID.LihzahrdBrickUnsafe || y <= Main.worldSurface || NPC.downedPlantBoss;
 					if (templeCheck && !Collision.SolidCollision(teleportLocation, player.width, player.height))
 					{
 						int duration = CalamityPlayer.chaosStateDuration;
