@@ -496,6 +496,10 @@ namespace CalamityMod.World
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
+
+			Mod thorium = ModLoader.GetMod("ThoriumMod");
+			CalamityUtils.AddWithCondition<ChestItem>(contents, thorium.ItemType("MarineKelpPlanterBox"), thorium != null);
+
             if (!hasPlacedLogAndSchematic)
             {
                 contents.Insert(0, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
