@@ -13,7 +13,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		{
 			DisplayName.SetDefault("Heavy Laser Rifle");
 			Tooltip.SetDefault("Laser weapon used by heavy infantry units in Yharim's army\n" +
-				"Incredibly accurate, but lacks the power to punch through defensive targets");
+							   "Deals less damage against enemies with high defense");
 		}
 
 		public override void SetDefaults()

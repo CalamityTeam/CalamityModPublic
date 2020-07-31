@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Gauss Pistol");
-			Tooltip.SetDefault("Fires a devastating high velocity blast with extreme knockback");
+			Tooltip.SetDefault("A simple pistol that utilizes magic power, a weapon for the more magically adapt.\n" +
+			"Fires a devastating high velocity blast with extreme knockback");
 		}
 
 		public override void SetDefaults()

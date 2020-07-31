@@ -11,7 +11,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Taser");
-			Tooltip.SetDefault("Shoots a hook that attaches to enemies and electrocutes them before returning");
+			Tooltip.SetDefault("A slow, simple electric weapon, meant only for low ranking guards.\n" +
+			"Shoots a hook that attaches to enemies and electrocutes them before returning");
 		}
 
 		public override void SetDefaults()

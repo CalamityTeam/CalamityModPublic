@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		{
 			DisplayName.SetDefault("Gatling Laser");
 			Tooltip.SetDefault("Large laser cannon used primarily by Yharim's fleet and base defense force\n" +
-							   "Highly accurate, but lacks the power to punch through defensive targets");
+							   "Deals less damage against enemies with high defense");
 		}
 
 		public override void SetDefaults()
