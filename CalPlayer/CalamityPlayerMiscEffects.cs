@@ -3308,12 +3308,7 @@ namespace CalamityMod.CalPlayer
 						// Occasionally spawn cute sparks so it looks like an electrical aura
 						if (Main.rand.NextBool(10))
 						{
-							Vector2 velocity = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-							while (velocity.X == 0f && velocity.Y == 0f)
-								velocity = new Vector2((float)Main.rand.Next(-50, 51), (float)Main.rand.Next(-50, 51));
-
-							velocity.Normalize();
-							velocity *= (float)Main.rand.Next(30, 61) * 0.1f;
+							Vector2 velocity = CalamityUtils.RandomVelocity(50f, 30f, 60f);
 							int spark = Projectile.NewProjectile(npc.Center, velocity, ModContent.ProjectileType<EutrophicSpark>(), damage / 2, 0f, player.whoAmI, 0f, 0f);
 							Main.projectile[spark].Calamity().forceTypeless = true;
 							Main.projectile[spark].localNPCHitCooldown = -2;

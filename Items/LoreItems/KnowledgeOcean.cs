@@ -14,7 +14,7 @@ namespace CalamityMod.Items.LoreItems
             DisplayName.SetDefault("The Ocean");
             Tooltip.SetDefault("Take care to not disturb the deep waters of this world.\n" +
                 "You may awaken something more terrifying than death itself.\n" +
-                "Favorite this item to prevent the mysterious siren lure from spawning.");
+                "Favorite this item to prevent the mysterious water elemental from spawning.");
         }
 
         public override void SetDefaults()

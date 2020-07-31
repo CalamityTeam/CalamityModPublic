@@ -68,8 +68,8 @@ namespace CalamityMod.Projectiles.Ranged
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
-            int width = (int)MathHelper.Max(targetHitbox.Width, 150);
-            int height = (int)MathHelper.Max(targetHitbox.Height, 150);
+            int width = (int)MathHelper.Min(targetHitbox.Width, 150);
+            int height = (int)MathHelper.Min(targetHitbox.Height, 150);
             CalamityGlobalProjectile.ExpandHitboxBy(projectile, width, height);
             return null;
         }

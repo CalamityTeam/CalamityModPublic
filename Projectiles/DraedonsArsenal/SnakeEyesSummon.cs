@@ -89,12 +89,12 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 }
                 NPCMovement(potentialTarget);
             }
-            if (!SufferingFromSeparationAnxiety && projectile.Distance(player.Center) > (potentialTarget == null ? 360f : 1500f))
+            if (!SufferingFromSeparationAnxiety && projectile.Distance(player.Center) > (potentialTarget is null ? 360f : 1500f))
             {
                 SufferingFromSeparationAnxiety = true;
                 projectile.netUpdate = true;
             }
-            else if (SufferingFromSeparationAnxiety && projectile.Distance(player.Center) < (potentialTarget == null ? 10f : 120f))
+            else if (SufferingFromSeparationAnxiety && projectile.Distance(player.Center) < (potentialTarget is null ? 10f : 120f))
             {
                 SufferingFromSeparationAnxiety = false;
                 projectile.netUpdate = true;

@@ -12,7 +12,10 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Galvanizing Glaive");
-            Tooltip.SetDefault("Swings a spear which envelops struck foes in an energy field\n" + "When done swinging, the spear discharges an extra pulse of energy");
+            Tooltip.SetDefault("Its use as a tool is to quickly separate a single object into two. That is also its use as a weapon.\n" +
+			"Swings a spear which envelops struck foes in an energy field\n" + 
+			"When done swinging, the spear discharges an extra pulse of energy\n" +
+			"Deals more damage against enemies with high defenses");
         }
 
         public override void SetDefaults()
@@ -34,6 +37,9 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
             item.shoot = ModContent.ProjectileType<GalvanizingGlaiveProjectile>();
             item.shootSpeed = 21f;
+
+			item.Calamity().Chargeable = true;
+			item.Calamity().ChargeMax = 135;
         }
 
         public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;

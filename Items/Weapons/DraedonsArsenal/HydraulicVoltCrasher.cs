@@ -10,7 +10,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydraulic Volt Crasher");
-            Tooltip.SetDefault("An electrically charged jackhammer which shocks all nearby foes on hit");
+            Tooltip.SetDefault("Good for both stamping metal plates and instantly fusing them, as well as crushing enemies.\n" +
+			"An electrically charged jackhammer which shocks all nearby foes on hit");
         }
 
         public override void SetDefaults()

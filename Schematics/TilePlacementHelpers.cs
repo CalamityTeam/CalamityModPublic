@@ -42,6 +42,8 @@ namespace CalamityMod.Schematics
         }
         public static void PlaceStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, Action<Chest> chestInteraction = null)
         {
+            if (!TileMaps.ContainsKey(mapKey))
+                return;
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             ColorTileCombination[,] schematic = TileMaps[mapKey];
 			Tile[,] oldTiles = new Tile[schematic.GetLength(0), schematic.GetLength(1)];

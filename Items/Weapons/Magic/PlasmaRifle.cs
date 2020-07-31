@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Weapons.Magic
 
         public override void SetDefaults()
         {
-            item.damage = 306;
+            item.damage = 183;
             item.mana = 40;
             item.magic = true;
             item.width = 48;
@@ -36,15 +36,9 @@ namespace CalamityMod.Items.Weapons.Magic
             item.Calamity().customRarity = CalamityRarity.Turquoise;
         }
 
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-10, 0);
-        }
+        public override Vector2? HoldoutOffset() => new Vector2(-10, 0);
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
@@ -80,7 +74,7 @@ namespace CalamityMod.Items.Weapons.Magic
             }
             else
             {
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, (int)(damage * 0.8571), knockBack, player.whoAmI);
             }
             return false;
         }

@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.width = 8;
             projectile.height = 8;
             projectile.friendly = true;
-            projectile.minion = true;
+            projectile.Calamity().rogue = true;
             projectile.penetrate = 1;
             projectile.timeLeft = Lifetime;
             projectile.extraUpdates = 1;

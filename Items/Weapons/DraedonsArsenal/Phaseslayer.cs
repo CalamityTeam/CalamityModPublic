@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
 	public class Phaseslayer : ModItem
 	{
-		public const int Damage = 19000;
+		public const int Damage = 11970;
 		// When below this percentage of charge, the sword is small instead of big.
 		public const float SizeChargeThreshold = 0.33f;
 		public const float SmallDamageMultiplier = 0.66f;
@@ -18,9 +18,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Phaseslayer");
-			Tooltip.SetDefault("Wield a colossal laser blade which is controlled by the cursor\n" +
+			Tooltip.SetDefault("A rough prototype of the Murasama blade, it is formed entirely from laser energy.\n" +
+							   "Wield a colossal laser blade which is controlled by the cursor\n" +
 							   "Faster swings deal more damage and release sword beams\n" +
-							   "When at low charge, the blade is smaller and weaker");
+							   "When at low charge, the blade is smaller and weaker\n" +
+							   "Deals less damage against enemies with high defense");
 		}
 		public override void SetDefaults()
 		{
@@ -50,7 +52,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.channel = true;
 		}
 
-		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0;
+		public override bool CanUseItem(Player player) => player.ownedProjectileCounts[item.shoot] <= 0 && item.Calamity().CurrentCharge > 0;
 
 		public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{

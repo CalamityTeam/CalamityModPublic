@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
             Rectangle frame = bladeTexture.Frame(1, 5, 0, projectile.frameCounter / 4 % 5);
-            var drawData2 = new DrawData(bladeTexture, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, bladeTexture.Size() * 0.5f, projectile.scale * 1.2f, SpriteEffects.None, 0);
+            var drawData2 = new DrawData(bladeTexture, projectile.Center - Main.screenPosition, frame, Color.White, projectile.rotation, bladeTexture.Size() / new Vector2(1f, 5f) * 0.5f, projectile.scale * 1.2f, SpriteEffects.None, 0);
             distortationShader.Apply(drawData2);
             drawData2.Draw(spriteBatch);
 

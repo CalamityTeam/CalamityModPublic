@@ -89,7 +89,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 totalEnergyParticlesToSpawn = 4;
                 RingDustEffect(projectile.Center, 1.6f, 1.4f, 7f, 2.6f);
                 CalamityGlobalProjectile.ExpandHitboxBy(projectile, 160);
+				projectile.damage /= 2;
                 projectile.Damage();
+				projectile.damage *= 2;
             }
 
             for (int i = 0; i < totalEnergyParticlesToSpawn; i++)

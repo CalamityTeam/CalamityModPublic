@@ -53,6 +53,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -62,6 +63,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 
 namespace CalamityMod
@@ -3782,6 +3784,28 @@ namespace CalamityMod
 			int num4 = Math.Max(0, Math.Min(tileRectangle.Bottom, Main.maxTilesY));
 			return new Rectangle(num, num2, num3 - num, num4 - num2);
 		}
-		#endregion
-	}
+
+        public static void SaveModItem(TagCompound tag, Item itemToSave, int itemIndex = 0)
+        {
+            tag.Add($"mod{itemIndex}", itemToSave.modItem?.mod?.Name ?? string.Empty);
+            tag.Add($"name{itemIndex}", itemToSave.modItem?.Name ?? string.Empty);
+        }
+
+        public static Item LoadModItem(TagCompound tag, int itemIndex = 0)
+        {
+            string modName = tag.GetString($"mod{itemIndex}");
+            string itemName = tag.GetString($"name{itemIndex}");
+            int type = ModLoader.GetMod(modName)?.ItemType(itemName) ?? 0;
+            Item item = new Item();
+            if (type > 0)
+            {
+                item.netDefaults(type);
+                item.modItem.Load(tag.GetCompound("data"));
+                object[] loadGlobalsParameters = new object[] { item, tag.GetList<TagCompound>("globalData") };
+                typeof(ItemIO).GetMethod("LoadGlobals", BindingFlags.Static | BindingFlags.NonPublic, null, new Type[] { typeof(Item), typeof(IList<TagCompound>) }, null).Invoke(null, loadGlobalsParameters);
+            }
+            return item;
+        }
+        #endregion
+    }
 }
