@@ -9,8 +9,8 @@ namespace CalamityMod.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Charger Test Item");
-            Tooltip.SetDefault("Charges all Draedon's Arnsenal weapons in your inventory\n" +
-                               "If this makes it into a public release someone screwed up");
+            Tooltip.SetDefault("Testing/Cheat Item" +
+                               "Charges all Draedon's Arsenal weapons in your inventory");
         }
 
         public override void SetDefaults()

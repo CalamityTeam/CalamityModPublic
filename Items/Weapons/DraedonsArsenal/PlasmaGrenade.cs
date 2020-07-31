@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Plasma Grenade");
-            Tooltip.SetDefault("Each grenade contains a heavily condensed and heated amount of plasma. Use with care.\n" +
+            Tooltip.SetDefault("Each grenade contains a heavily condensed and heated unit of plasma. Use with care.\n" +
 							   "Throws a grenade that explodes into plasma on collision\n" +
                                "Stealth strikes explode violently on collision into a vaporizing blast\n" +
 							   "Deals more damage against enemies with high defenses");

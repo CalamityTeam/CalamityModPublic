@@ -15,20 +15,18 @@ namespace CalamityMod.UI
 		{
 			List<string> potentialDiaglogOptions = new List<string>()
 			{
-				"Welcome to the Draedon Research Institute. Please wear your ID badge at all times.",
-				"If you have any questions just remember what I said before you arrived in this world. Test on your own recognizance.",
+				"To any personnel engaged in the laboratories. Please wear your steel engraved ID badge at all times. It is the easiest method to discern your body if any accidents do occur.",
 				"To experiment is to fail. To fail is to learn. To learn is to advance.",
 				"Apparent danger while researching serves only to enhance the research experience.",
 
-				"Reminder that all Laser Focus Lattices must be sterilized and deep cleaned after field tests.",
+				"Laser-type weapon prototypes are incredibly lethal and are not to be used within presentation halls.",
 				"High-energy plasma emissions have adverse effects on both flesh and metal. Do not attempt to handle vented plasma.",
-				"Electric shocks from military equipment are intended to be fatal. If you survive such a shock, please report to 7-Delta for Elite Systems testing.",
+				"Electric shocks from military equipment are intended to be fatal. If you survive such a shock, that is a clear indicator that the device is not functioning properly. Please report any such cases.",
 				"All employees are hereby notified that they will be held accountable for any collateral damage caused by Gauss weapon fire, even during sanctioned testing exercises.",
-				"Security Field Emitters will vaporize all unauthorized equipment and personnel. Please leave personal effects in the designated lockers off-site.",
+				"Security Field Emitters will vaporize all unauthorized equipment and personnel. Please leave personal effects in the designated lockers off-site. This also means: Do not bring any family members who are not enlisted as personnel.",
 
-				"All choosing to enroll in Elite Systems testing must report to sector 7-Delta for authorization and optimization.",
-				"Unauthorized entrance to core testing facilities will result in a trespasser tag on your profile followed by death.",
-				"This lab's power grid has been fatally compromised. Abort research immediately and proceed to designated exit teleporters.",
+				"If one does manage to breach restricted testing facilities, do at least record any unexpected burns, lacerations, bruising, fractur... ...trauma, shocks and otherwise. Thank you.",
+				"The power grid has been... ...eavily compromised. Abort research and proceed to the emergency exits located at... ...and egress with haste.",
 				"Notify the Security Department of any aggressive local fauna immediately."
 			};
 			if (NPC.downedAncientCultist)

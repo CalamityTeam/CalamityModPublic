@@ -16,7 +16,7 @@ namespace CalamityMod.UI
                            "should be possible, as it is saturated with cursed, twisted souls, courtesy of that Witch.";
                 case 1:
                     return "What a terrible abomination and yet an enticing subject. Not unlike the fusion of spirits which haunts the dungeons, this entity is formed not of one, but a multitude of sinners. " +
-                           "What holds different for it however, is that the limitations caused by the artificiality of the dungeon’s existence do not apply to it. It is the laws of hell which brought them together " +
+                           "What holds different for it however, is that the limitations caused by the artificiality of the dungeon's existence do not apply to it. It is the laws of hell which brought them together " +
                            "into a single overlord of the underworld. And when an innocent life is sacrificed... Their hunger, which appears to be in tune with the afterlife, surges.";
                 default:
                     return "A blade completely inundated with my surroundings during the time of its creation. It was tempered by the fires which are fueled by spirits, and formed in the magma I draw into my laboratories. " +

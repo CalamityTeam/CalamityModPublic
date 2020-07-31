@@ -15,7 +15,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 		{
 			DisplayName.SetDefault("Pole Warper");
 			Tooltip.SetDefault("Magnetic devices which tear at foes by propelling themselves off their opposite counterparts. Incredibly dangerous.\n" +
-			"Summons two floating magnets that repel each other");
+			"Summons a pair of floating magnets that repel each other and relentlessly swarm enemies");
 		}
 
 		public override void SetDefaults()
