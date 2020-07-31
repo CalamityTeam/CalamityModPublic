@@ -12,7 +12,7 @@ namespace CalamityMod.UI
             {
                 case 0:
                     return "The entire landscape is a constant source of geothermal energy, and heat for a forge. If it was not entirely uninhabitable save for demons and spirits, I would conduct much more of my " +
-                           "research in the bowels of the earth. Where I have actively chosen not to settle however, is in the crags of the underworld. There, the magma is… uncooperative and far more corrosive than " +
+                           "research in the bowels of the earth. Where I have actively chosen not to settle however, is in the crags of the underworld. There, the magma is... uncooperative and far more corrosive than " +
                            "should be possible, as it is saturated with cursed, twisted souls, courtesy of that Witch.";
                 case 1:
                     return "What a terrible abomination and yet an enticing subject. Not unlike the fusion of spirits which haunts the dungeons, this entity is formed not of one, but a multitude of sinners. " +
