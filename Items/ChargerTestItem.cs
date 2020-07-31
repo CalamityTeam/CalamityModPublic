@@ -9,7 +9,7 @@ namespace CalamityMod.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Charger Test Item");
-            Tooltip.SetDefault("Testing/Cheat Item" +
+            Tooltip.SetDefault("Testing/Cheat Item\n" +
                                "Charges all Draedon's Arsenal weapons in your inventory");
         }
 
@@ -21,10 +21,10 @@ namespace CalamityMod.Items
             item.Calamity().customRarity = CalamityRarity.DraedonRust;
 
             item.consumable = false;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
+            item.useStyle = ItemUseStyleID.HoldingUp;
+            item.useTime = 29;
+            item.useAnimation = 29;
+            item.autoReuse = false;
             item.useTurn = true;
         }
 
