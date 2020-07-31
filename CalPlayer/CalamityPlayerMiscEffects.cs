@@ -106,8 +106,9 @@ namespace CalamityMod.CalPlayer
 		{
 			if (CalamityWorld.revenge)
 			{
+				// This effect is way too annoying during the fight so I disabled it - Fab
 				// Signus headcrab effect
-				if (CalamityGlobalNPC.signus != -1)
+				/*if (CalamityGlobalNPC.signus != -1)
 				{
 					if (Main.npc[CalamityGlobalNPC.signus].active)
 					{
@@ -149,12 +150,12 @@ namespace CalamityMod.CalPlayer
 							if (!modPlayer.ZoneAbyss && !player.headcovered)
 							{
 								float screenObstructionAmt = MathHelper.Clamp(signusDarkness, 0f, 0.63f);
-								float targetValue = MathHelper.Clamp(screenObstructionAmt * 0.45f, 0.1f, 0.2f);
+								float targetValue = MathHelper.Clamp(screenObstructionAmt * 0.33f, 0.1f, 0.2f);
 								ScreenObstruction.screenObstruction = MathHelper.Lerp(ScreenObstruction.screenObstruction, screenObstructionAmt, targetValue);
 							}
 						}
 					}
-				}
+				}*/
 
 				// Adjusts the life steal cap in rev/death
 				float lifeStealCap = CalamityWorld.death ? 50f : 60f;
