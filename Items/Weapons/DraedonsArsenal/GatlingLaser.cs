@@ -1,4 +1,3 @@
-
 using CalamityMod.Items.Materials;
 using CalamityMod.Projectiles.DraedonsArsenal;
 using Microsoft.Xna.Framework;
@@ -29,7 +28,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			item.noUseGraphic = true;
 			item.autoReuse = false;
 			item.channel = true;
-			item.mana = 15;
+			item.mana = 4;
 
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/GatlingLaserFireStart");
@@ -54,16 +53,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			return false;
 		}
 
-		// Disable vanilla ammo consumption
-		public override bool ConsumeAmmo(Player player)
-		{
-			return false;
-		}
-
-		public override Vector2? HoldoutOffset()
-		{
-			return new Vector2(-20, 0);
-		}
+		public override Vector2? HoldoutOffset() => new Vector2(-20, 0);
 
 		public override void AddRecipes()
 		{
