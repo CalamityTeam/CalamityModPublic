@@ -1579,8 +1579,6 @@ namespace CalamityMod.World
                                 case 6:
                                     ChangeTime(true);
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss>());
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss2>());
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<ProfanedGuardianBoss3>());
                                     break;
                                 case 7:
                                     NPC.SpawnOnPlayer(closestPlayer, NPCID.EaterofWorldsHead);
@@ -1705,8 +1703,6 @@ namespace CalamityMod.World
 									CalamityUtils.BossAwakenMessage(npc7);
 									break;
 								case 35:
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGod>());
-                                    NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGodRun>());
                                     NPC.SpawnOnPlayer(closestPlayer, ModContent.NPCType<SlimeGodCore>());
                                     break;
                                 case 36:

@@ -17,7 +17,7 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void SetDefaults()
         {
-            item.damage = 1;
+            item.damage = 12;
             item.ranged = true;
             item.width = 108;
             item.height = 54;
@@ -39,20 +39,15 @@ namespace CalamityMod.Items.Weapons.Ranged
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
 		{
-			float damageMult = 0f + // 1
-					(NPC.downedBoss1 ? 0.5f : 0f) +
-					(NPC.downedBoss2 ? 0.5f : 0f) +
-					(NPC.downedBoss3 ? 0.5f : 0f) +
-					(Main.hardMode ? 0.5f : 0f) +
-					(NPC.downedMechBossAny ? 0.5f : 0f) +
-					(NPC.downedPlantBoss ? 0.5f : 0f) +
-					(NPC.downedGolemBoss ? 0.5f : 0f) +
-					(NPC.downedAncientCultist ? 0.5f : 0f) +
-					(NPC.downedMoonlord ? 3f : 0f) +
-					(CalamityWorld.downedProvidence ? 1.5f : 0f) +
-					(CalamityWorld.downedPolterghast ? 3f : 0f) +
-					(CalamityWorld.downedDoG ? 6f : 0f) +
-					(CalamityWorld.downedYharon ? 10f : 0f);
+			float damageMult = 0f +
+					(NPC.downedPlantBoss ? 0.1f : 0f) +
+					(NPC.downedGolemBoss ? 0.1f : 0f) +
+					(NPC.downedAncientCultist ? 0.2f : 0f) +
+					(NPC.downedMoonlord ? 1f : 0f) +
+					(CalamityWorld.downedProvidence ? 0.15f : 0f) +
+					(CalamityWorld.downedPolterghast ? 0.3f : 0f) +
+					(CalamityWorld.downedDoG ? 0.6f : 0f) +
+					(CalamityWorld.downedYharon ? 1f : 0f);
 			mult += damageMult;
 		}
 
@@ -64,7 +59,7 @@ namespace CalamityMod.Items.Weapons.Ranged
                 float SpeedX = speedX + Main.rand.Next(-10, 11) * 0.05f;
                 float SpeedY = speedY + Main.rand.Next(-10, 11) * 0.05f;
                 int shot = Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, damage, knockBack, player.whoAmI, 0f, 0f);
-                Main.projectile[shot].timeLeft = 180;
+                Main.projectile[shot].timeLeft = 120;
             }
             return false;
         }

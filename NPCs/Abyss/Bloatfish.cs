@@ -189,7 +189,7 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, 1000000, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
             DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 10, 20);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas, 2, 5, 7);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<DepthCells>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 2, 3);

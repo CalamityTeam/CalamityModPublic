@@ -456,7 +456,8 @@ namespace CalamityMod.NPCs.Abyss
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticHood);
 				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticRobe);
 			}
-            if (Main.rand.NextBool(10000) && CalamityWorld.revenge)
+			int chance = CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100;
+            if (Main.rand.NextBool(chance) && CalamityWorld.revenge)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
             }

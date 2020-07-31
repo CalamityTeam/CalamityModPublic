@@ -3543,7 +3543,7 @@ namespace CalamityMod.NPCs
 			{
 				float num472 = npc.Center.X;
 				float num473 = npc.Center.Y;
-				float num474 = (death ? 275f : (float)(275D * (1D - lifeRatio))) * tileEnrageMult;
+				float num474 = (death ? 250f : (float)(250D * (1D - lifeRatio))) * tileEnrageMult;
 				if (!player.ZoneDungeon)
 					num474 *= 1.25f;
 
@@ -3756,7 +3756,7 @@ namespace CalamityMod.NPCs
 			}
 
 			// If dragonfolly is off screen, enrage for the next couple attacks
-			if (Vector2.Distance(player.Center, vector) > 960f)
+			if (Vector2.Distance(player.Center, vector) > 1200f)
 				npc.localAI[2] = 2f;
 
 			// Enrage scale
@@ -4033,7 +4033,7 @@ namespace CalamityMod.NPCs
 								if (phase2)
 								{
 									Main.PlaySound(SoundID.Item102, (int)player.position.X, (int)player.position.Y);
-									int totalProjectiles = phase3 ? 5 : 3;
+									int totalProjectiles = phase3 ? 4 : 3;
 									float radians = MathHelper.TwoPi / totalProjectiles;
 									int distance = 560;
 									for (int i = 0; i < totalProjectiles; i++)
@@ -4057,7 +4057,7 @@ namespace CalamityMod.NPCs
 									npc.localAI[2] -= 1f;
 
 								Main.PlaySound(SoundID.Item102, (int)player.position.X, (int)player.position.Y);
-								int totalProjectiles = phase2 ? 6 : 9;
+								int totalProjectiles = phase2 ? 5 : 6;
 								float radians = MathHelper.TwoPi / totalProjectiles;
 								int distance = phase2 ? 720 : 880;
 								for (int i = 0; i < totalProjectiles; i++)
@@ -4367,7 +4367,9 @@ namespace CalamityMod.NPCs
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
 						Vector2 vector7 = npc.rotation.ToRotationVector2() * (Vector2.UnitX * npc.direction) * (npc.width + 20) / 2f + vector;
-						float ai0 = (phase3 ? 1f : 0f) + (enrageScale - 1);
+						float ai0 = (phase3 ? 2f : 0f) + (enrageScale - 1);
+						if (ai0 > 3f)
+							ai0 = 3f;
 						Projectile.NewProjectile(vector7.X, vector7.Y, 0f, 0f, ModContent.ProjectileType<BirbAuraFlare>(), 0, 0f, Main.myPlayer, ai0, npc.target + 1);
 					}
 				}

@@ -1,7 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Placeables.Plates;
+using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,10 +21,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 28;
             item.height = 28;
-            item.accessory = true;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Turquoise;
-            item.value = CalamityGlobalItem.Rarity12BuyPrice;
+			item.accessory = true;
+			item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.Turquoise;
+			item.value = CalamityGlobalItem.Rarity12BuyPrice;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)
@@ -36,10 +36,10 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<Navyplate>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
-            recipe.AddTile(TileID.DemonAltar);
+			recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
+			recipe.AddIngredient(ModContent.ItemType<Navyplate>(), 25);
+			recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+			recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
