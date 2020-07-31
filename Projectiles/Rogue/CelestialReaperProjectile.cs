@@ -45,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
                 framesNeeded /= 6f - projectile.penetrate + 1f; // The addition of 1 is to prevent division by zero. The more hits, the more afterimages.
                 if (projectile.timeLeft % (int)framesNeeded == 0f)
                 {
-                    Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<CelestialReaperAfterimage>(), projectile.damage / 3, projectile.knockBack / 3f, projectile.owner);
+                    Projectile.NewProjectile(projectile.Center, projectile.velocity, ModContent.ProjectileType<CelestialReaperAfterimage>(), projectile.damage / 2, projectile.knockBack / 2f, projectile.owner);
                 }
             }
         }
