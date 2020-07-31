@@ -117,9 +117,9 @@ namespace CalamityMod.Projectiles.Boss
 				float y = num231 * 16 + 900;
 				Vector2 laserVelocity = new Vector2(x, 160f) - new Vector2(x, y);
 				int damage = Main.expertMode ? 75 : 100;
-				if (projectile.ai[0] >= 1f)
+				if (projectile.ai[0] >= 2f)
 				{
-					x += 750f;
+					x += 1000f;
 					if ((int)(x / 16f) > Main.maxTilesX - 10)
 					{
 						x = (Main.maxTilesX - 10) * 16f;
@@ -130,7 +130,7 @@ namespace CalamityMod.Projectiles.Boss
 					Main.projectile[num237].timeLeft = 900;
 					Main.projectile[num237].netUpdate = true;
 
-					x -= 1500f;
+					x -= 2000f;
 					if ((int)(x / 16f) < 10)
 					{
 						x = 160f;

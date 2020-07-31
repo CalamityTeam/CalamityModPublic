@@ -37,17 +37,9 @@ namespace CalamityMod.Items.SummonItems
         {
             Main.PlaySound(SoundID.Roar, player.position, 0);
 			if (Main.netMode != NetmodeID.MultiplayerClient)
-			{
 				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SlimeGodCore>());
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SlimeGod>());
-				NPC.SpawnOnPlayer(player.whoAmI, ModContent.NPCType<SlimeGodRun>());
-			}
 			else
-			{
 				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<SlimeGodCore>());
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<SlimeGod>());
-				NetMessage.SendData(MessageID.SpawnBoss, -1, -1, null, player.whoAmI, ModContent.NPCType<SlimeGodRun>());
-			}
 
 			return true;
         }

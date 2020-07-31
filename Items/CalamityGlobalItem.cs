@@ -786,6 +786,10 @@ namespace CalamityMod.Items
                 if (player.itemAnimation == 1)
                     CurrentCharge--;
             }
+			if (item.type == ItemID.BottledHoney)
+			{
+				player.AddBuff(BuffID.Honey, 7200);
+			}
             return base.UseItem(item, player);
         }
 
@@ -1187,6 +1191,16 @@ namespace CalamityMod.Items
                 }
             }*/
 
+			if (item.type == ItemID.BottledHoney)
+			{
+				foreach (TooltipLine line2 in tooltips)
+				{
+					if (line2.mod == "Terraria" && line2.Name == "HealLife")
+					{
+						line2.text += "\nGrants the Honey buff for 2 minutes";
+					}
+				}
+			}
             if (item.type == ItemID.RodofDiscord)
 			{
 				foreach (TooltipLine line2 in tooltips)

@@ -114,7 +114,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed King Slime AI
-        public static bool BuffedKingSlimeAI(NPC npc, Mod mod, bool chaos)
+        public static bool BuffedKingSlimeAI(NPC npc, Mod mod)
         {
             // Variables
             float num234 = 1f;
@@ -559,7 +559,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Eye of Cthulhu AI
-        public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedEyeofCthulhuAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
@@ -1376,7 +1376,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Eater of Worlds AI
-        public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod, bool chaos)
+        public static bool BuffedEaterofWorldsAI(NPC npc, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
@@ -1934,7 +1934,7 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Buffed Brain of Cthulhu AI
-		public static bool BuffedBrainofCthulhuAI(NPC npc, bool enraged, Mod mod, bool chaos)
+		public static bool BuffedBrainofCthulhuAI(NPC npc, bool enraged, Mod mod)
         {
             // whoAmI variable
             NPC.crimsonBoss = npc.whoAmI;
@@ -2497,7 +2497,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedCreeperAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedCreeperAI(NPC npc, bool enraged, Mod mod)
         {
             // Despawn if Brain is gone
             if (NPC.crimsonBoss < 0)
@@ -2621,7 +2621,7 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Buffed Queen Bee AI
-		public static bool BuffedQueenBeeAI(NPC npc, Mod mod, bool chaos)
+		public static bool BuffedQueenBeeAI(NPC npc, Mod mod)
 		{
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
@@ -3252,7 +3252,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Skeletron AI
-        public static bool BuffedSkeletronAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedSkeletronAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
@@ -3700,7 +3700,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedSkeletronHandAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedSkeletronHandAI(NPC npc, bool enraged, Mod mod)
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -3916,7 +3916,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Wall of Flesh AI
-        public static bool BuffedWallofFleshAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedWallofFleshAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
@@ -4285,7 +4285,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedWallofFleshEyeAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedWallofFleshEyeAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
@@ -4415,7 +4415,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Destroyer AI
-        public static bool BuffedDestroyerAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedDestroyerAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
@@ -5295,7 +5295,7 @@ namespace CalamityMod.NPCs
 		#endregion
 
 		#region Buffed Twins AI
-		public static bool BuffedRetinazerAI(NPC npc, bool enraged, Mod mod, bool chaos)
+		public static bool BuffedRetinazerAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
@@ -5996,7 +5996,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedSpazmatismAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedSpazmatismAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
@@ -6749,7 +6749,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Skeletron Prime AI
-        public static bool BuffedSkeletronPrimeAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedSkeletronPrimeAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
             bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
@@ -7344,7 +7344,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedPrimeLaserAI(NPC npc, Mod mod, bool chaos)
+        public static bool BuffedPrimeLaserAI(NPC npc, Mod mod)
         {
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
@@ -7582,7 +7582,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedPrimeCannonAI(NPC npc, Mod mod, bool chaos)
+        public static bool BuffedPrimeCannonAI(NPC npc, Mod mod)
         {
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
@@ -7838,7 +7838,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedPrimeViceAI(NPC npc, Mod mod, bool chaos)
+        public static bool BuffedPrimeViceAI(NPC npc, Mod mod)
         {
             // Direction
             npc.spriteDirection = -(int)npc.ai[0];
@@ -8147,7 +8147,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedPrimeSawAI(NPC npc, Mod mod, bool chaos)
+        public static bool BuffedPrimeSawAI(NPC npc, Mod mod)
         {
             Vector2 vector50 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
             float num462 = Main.npc[(int)npc.ai[1]].position.X + (Main.npc[(int)npc.ai[1]].width / 2) - 200f * npc.ai[0] - vector50.X;
@@ -8431,7 +8431,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Plantera AI
-        public static bool BuffedPlanteraAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedPlanteraAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
@@ -8458,6 +8458,9 @@ namespace CalamityMod.NPCs
 			if (tentaclesDead)
 				speedUpDistance -= 300f * (1f - lifeRatio);
 			bool speedUp = Vector2.Distance(Main.player[npc.target].Center, npc.Center) > speedUpDistance; // 30 or 40 tile distance
+
+			// The base distance each tentacle ring spreads out from Plantera
+			float tentacleRingDistance = 60f;
 
             // Despawn
             if (Main.player[npc.target].dead)
@@ -8691,18 +8694,18 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[0] == 1f)
 					{
 						npc.localAI[0] = 2f;
-						int totalTentacles = (int)(6 * tileEnrageMult);
+						int totalTentacles = 6;
 						float radians = MathHelper.TwoPi / totalTentacles;
 						for (int i = 0; i < totalTentacles; i++)
 						{
-							Vector2 vector255 = new Vector2(0f, -65f * totalTentacles).RotatedBy(radians * i);
+							Vector2 vector255 = new Vector2(0f, -tentacleRingDistance * totalTentacles).RotatedBy(radians * i);
 							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, vector255.X, vector255.Y, 1f, 0f, 255);
 						}
 					}
 				}
 
                 // Adjust stats
-                npc.defense = 42;
+                npc.defense = 42 + tentacleCount * 5;
                 npc.damage = npc.defDamage;
                 if (enrage)
                 {
@@ -8761,10 +8764,10 @@ namespace CalamityMod.NPCs
                                     if (Main.projectile[i].active && Main.projectile[i].type == ProjectileID.ThornBall)
                                         thornBallCount++;
 
-                                    if (thornBallCount > 2)
+                                    if (thornBallCount > 1)
                                         break;
                                 }
-                                if (thornBallCount < 3)
+                                if (thornBallCount < 2)
                                 {
                                     damage = 34;
                                     npc.localAI[1] = -120f;
@@ -8792,7 +8795,7 @@ namespace CalamityMod.NPCs
             else
             {
                 // Adjust stats
-                npc.defense = 21;
+                npc.defense = 21 + tentacleCount * 5;
                 npc.damage = (int)(npc.defDamage * 1.4f);
 				npc.chaseable = true;
 				if (enrage)
@@ -8817,21 +8820,14 @@ namespace CalamityMod.NPCs
 					if (phase4 && npc.localAI[0] == 3f)
 					{
 						npc.localAI[0] = 4f;
-						int totalTentacles = (int)(8 * tileEnrageMult);
+						int totalTentacles = 8;
 						float radians = MathHelper.TwoPi / totalTentacles;
 						for (int i = 0; i < totalTentacles; i++)
 						{
-							Vector2 vector255 = new Vector2(0f, -65f * totalTentacles).RotatedBy(radians * i);
-							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, vector255.X, vector255.Y, 2f, 0f, 255);
+							Vector2 vector255 = new Vector2(0f, -tentacleRingDistance * totalTentacles).RotatedBy(radians * i);
+							NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, NPCID.PlanterasTentacle, npc.whoAmI, vector255.X, vector255.Y, 1f, 0f, 255);
 						}
 					}
-				}
-
-				// If tentacles are alive, gain high defense
-				if (!tentaclesDead && !phase4)
-				{
-					npc.defense = 99;
-					npc.chaseable = false;
 				}
 
                 // Spawn gore
@@ -9024,7 +9020,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedPlanterasHookAI(NPC npc, Mod mod, bool chaos)
+        public static bool BuffedPlanterasHookAI(NPC npc, Mod mod)
         {
             // Variables
             bool enrage = false;
@@ -9174,7 +9170,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedPlanterasTentacleAI(NPC npc, Mod mod, bool chaos)
+        public static bool BuffedPlanterasTentacleAI(NPC npc, Mod mod)
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -9218,22 +9214,30 @@ namespace CalamityMod.NPCs
 					if (npc.localAI[0] <= 0f)
 					{
 						npc.localAI[0] = Main.rand.Next(120, 480);
-						npc.ai[0] = Main.rand.Next(-100, 101) * tileEnrageMult;
-						npc.ai[1] = Main.rand.Next(-100, 101) * tileEnrageMult;
+						npc.ai[0] = Main.rand.Next(-100, 101);
+						npc.ai[1] = Main.rand.Next(-100, 101);
 						npc.netUpdate = true;
 					}
 				}
 			}
 			else
-				npc.knockBackResist = 0.25f;
+				npc.knockBackResist = 0f;
 
             // Target
             npc.TargetClosest(true);
 
             // Velocity and acceleration
-            float num779 = (CalamityWorld.bossRushActive ? 1f : 0.5f) * tileEnrageMult;
+            float num779 = CalamityWorld.bossRushActive ? 1.2f : 0.8f;
             float num781 = death ? 1f : 1f - npc.life / (float)npc.lifeMax;
-            float num780 = ((CalamityWorld.bossRushActive ? 300f : 200f) + (num781 * 50f)) * tileEnrageMult;
+            float num780 = (CalamityWorld.bossRushActive ? 300f : 200f) + (num781 * 50f);
+			float deceleration = 0.8f;
+
+			if (npc.ai[2] == 1f)
+			{
+				num779 *= 2f;
+				num780 *= 2f;
+				deceleration = 0.7f;
+			}
 
             // Despawn if Plantera is gone
             if (!Main.npc[num778].active || NPC.plantBoss < 0)
@@ -9258,28 +9262,28 @@ namespace CalamityMod.NPCs
             {
                 npc.velocity.X += num779;
                 if (npc.velocity.X < 0f && num786 > 0f)
-                    npc.velocity.X *= 0.9f;
+                    npc.velocity.X *= deceleration;
             }
             else if (npc.position.X > num782 + num786)
             {
                 npc.velocity.X -= num779;
                 if (npc.velocity.X > 0f && num786 < 0f)
-                    npc.velocity.X *= 0.9f;
+                    npc.velocity.X *= deceleration;
             }
             if (npc.position.Y < num783 + num787)
             {
                 npc.velocity.Y += num779;
                 if (npc.velocity.Y < 0f && num787 > 0f)
-                    npc.velocity.Y *= 0.9f;
+                    npc.velocity.Y *= deceleration;
             }
             else if (npc.position.Y > num783 + num787)
             {
                 npc.velocity.Y -= num779;
                 if (npc.velocity.Y > 0f && num787 < 0f)
-                    npc.velocity.Y *= 0.9f;
+                    npc.velocity.Y *= deceleration;
             }
 
-			float velocityLimit = 8f * tileEnrageMult;
+			float velocityLimit = npc.ai[2] == 1f ? 18f : 12f;
             if (npc.velocity.X > velocityLimit)
                 npc.velocity.X = velocityLimit;
             if (npc.velocity.X < -velocityLimit)
@@ -9305,7 +9309,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Golem AI
-        public static bool BuffedGolemAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedGolemAI(NPC npc, bool enraged, Mod mod)
         {
             // whoAmI variable
             NPC.golemBoss = npc.whoAmI;
@@ -9659,7 +9663,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedGolemHeadAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedGolemHeadAI(NPC npc, bool enraged, Mod mod)
         {
             // Don't collide
             npc.noTileCollide = true;
@@ -9905,7 +9909,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-        public static bool BuffedGolemHeadFreeAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedGolemHeadFreeAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -10202,7 +10206,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Duke Fishron AI
-        public static bool BuffedDukeFishronAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedDukeFishronAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -11156,7 +11160,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Cultist AI
-        public static bool BuffedCultistAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedCultistAI(NPC npc, bool enraged, Mod mod)
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
@@ -12206,7 +12210,7 @@ namespace CalamityMod.NPCs
             return false;
         }
 
-		public static bool BuffedAncientLightAI(NPC npc, Mod mod, bool chaos)
+		public static bool BuffedAncientLightAI(NPC npc, Mod mod)
 		{
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 
@@ -12293,7 +12297,7 @@ namespace CalamityMod.NPCs
 			return false;
 		}
 
-		public static bool BuffedAncientDoomAI(NPC npc, Mod mod, bool chaos)
+		public static bool BuffedAncientDoomAI(NPC npc, Mod mod)
         {
 			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
 			npc.damage = npc.defDamage = 0;
@@ -12388,7 +12392,7 @@ namespace CalamityMod.NPCs
         #endregion
 
         #region Buffed Moon Lord AI
-        public static bool BuffedMoonLordAI(NPC npc, bool enraged, Mod mod, bool chaos)
+        public static bool BuffedMoonLordAI(NPC npc, bool enraged, Mod mod)
         {
 			CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 

@@ -452,15 +452,6 @@ namespace CalamityMod.CalPlayer
 
 			// Last Debuffs
 
-			if (player.lifeRegen > 0)
-			{
-				if (modPlayer.plaguebringerGoliathLore)
-					player.lifeRegen /= 2;
-
-				if (modPlayer.eaterOfWorldsLore)
-					player.lifeRegen /= 2;
-			}
-
 			if (CalamityWorld.ironHeart || modPlayer.omegaBlueChestplate || modPlayer.godSlayerCooldown || player.ownedProjectileCounts[ModContent.ProjectileType<BloodBoilerFire>()] > 0)
             {
                 if (player.lifeRegen > 0)
@@ -886,6 +877,15 @@ namespace CalamityMod.CalPlayer
 						}
 					}
 				}
+			}
+
+			if (player.lifeRegen > 0)
+			{
+				if (modPlayer.plaguebringerGoliathLore)
+					player.lifeRegen /= 2;
+
+				if (modPlayer.eaterOfWorldsLore)
+					player.lifeRegen /= 2;
 			}
 
 			if (CalamityWorld.bossRushActive)

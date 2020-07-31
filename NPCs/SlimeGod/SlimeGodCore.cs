@@ -24,7 +24,8 @@ namespace CalamityMod.NPCs.SlimeGod
 	[AutoloadBossHead]
     public class SlimeGodCore : ModNPC
     {
-		int buffedSlime = 0;
+		private bool slimesSpawned = false;
+		private int buffedSlime = 0;
 
         public override void SetStaticDefaults()
         {
@@ -98,9 +99,15 @@ namespace CalamityMod.NPCs.SlimeGod
 			Player player = Main.player[npc.target];
 
 			Vector2 vectorCenter = npc.Center;
+			if (Main.netMode != NetmodeID.MultiplayerClient && !slimesSpawned)
+			{
+				slimesSpawned = true;
+				NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<SlimeGod>());
+				NPC.NewNPC((int)vectorCenter.X, (int)vectorCenter.Y, ModContent.NPCType<SlimeGodRun>());
+			}
 
 			// Emit dust
-            int randomDust = Main.rand.NextBool(2) ? 173 : 260;
+			int randomDust = Main.rand.NextBool(2) ? 173 : 260;
             int num658 = Dust.NewDust(npc.position, npc.width, npc.height, randomDust, npc.velocity.X, npc.velocity.Y, 255, new Color(0, 80, 255, 80), npc.scale * 1.5f);
             Main.dust[num658].noGravity = true;
             Main.dust[num658].velocity *= 0.5f;

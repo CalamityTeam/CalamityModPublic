@@ -1747,77 +1747,74 @@ namespace CalamityMod.NPCs
 
 			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
-				Mod chaos = ModLoader.GetMod("ChaosMod");
-				bool chaosMode = chaos != null;
-
 				switch (npc.type)
                 {
                     case NPCID.KingSlime:
-                        return CalamityGlobalAI.BuffedKingSlimeAI(npc, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedKingSlimeAI(npc, mod);
 
                     case NPCID.EyeofCthulhu:
-                        return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedEyeofCthulhuAI(npc, enraged > 0, mod);
 
                     case NPCID.EaterofWorldsHead:
                     case NPCID.EaterofWorldsBody:
                     case NPCID.EaterofWorldsTail:
-                        return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedEaterofWorldsAI(npc, mod);
 
                     case NPCID.BrainofCthulhu:
-                        return CalamityGlobalAI.BuffedBrainofCthulhuAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedBrainofCthulhuAI(npc, enraged > 0, mod);
                     case NPCID.Creeper:
-                        return CalamityGlobalAI.BuffedCreeperAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedCreeperAI(npc, enraged > 0, mod);
 
                     case NPCID.QueenBee:
-                        return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedQueenBeeAI(npc, mod);
 
                     case NPCID.SkeletronHand:
-                        return CalamityGlobalAI.BuffedSkeletronHandAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedSkeletronHandAI(npc, enraged > 0, mod);
                     case NPCID.SkeletronHead:
-                        return CalamityGlobalAI.BuffedSkeletronAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedSkeletronAI(npc, enraged > 0, mod);
 
                     case NPCID.WallofFlesh:
-                        return CalamityGlobalAI.BuffedWallofFleshAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedWallofFleshAI(npc, enraged > 0, mod);
                     case NPCID.WallofFleshEye:
-                        return CalamityGlobalAI.BuffedWallofFleshEyeAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedWallofFleshEyeAI(npc, enraged > 0, mod);
 
                     case NPCID.TheDestroyer:
                     case NPCID.TheDestroyerBody:
                     case NPCID.TheDestroyerTail:
-                        return CalamityGlobalAI.BuffedDestroyerAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedDestroyerAI(npc, enraged > 0, mod);
 
                     case NPCID.Retinazer:
-                        return CalamityGlobalAI.BuffedRetinazerAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedRetinazerAI(npc, enraged > 0, mod);
                     case NPCID.Spazmatism:
-                        return CalamityGlobalAI.BuffedSpazmatismAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedSpazmatismAI(npc, enraged > 0, mod);
 
                     case NPCID.SkeletronPrime:
-                        return CalamityGlobalAI.BuffedSkeletronPrimeAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedSkeletronPrimeAI(npc, enraged > 0, mod);
                     case NPCID.PrimeLaser:
-                        return CalamityGlobalAI.BuffedPrimeLaserAI(npc, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedPrimeLaserAI(npc, mod);
                     case NPCID.PrimeCannon:
-                        return CalamityGlobalAI.BuffedPrimeCannonAI(npc, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedPrimeCannonAI(npc, mod);
                     case NPCID.PrimeVice:
-                        return CalamityGlobalAI.BuffedPrimeViceAI(npc, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedPrimeViceAI(npc, mod);
                     case NPCID.PrimeSaw:
-                        return CalamityGlobalAI.BuffedPrimeSawAI(npc, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedPrimeSawAI(npc, mod);
 
                     case NPCID.Plantera:
-                        return CalamityGlobalAI.BuffedPlanteraAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedPlanteraAI(npc, enraged > 0, mod);
                     case NPCID.PlanterasHook:
-                        return CalamityGlobalAI.BuffedPlanterasHookAI(npc, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedPlanterasHookAI(npc, mod);
                     case NPCID.PlanterasTentacle:
-                        return CalamityGlobalAI.BuffedPlanterasTentacleAI(npc, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedPlanterasTentacleAI(npc, mod);
 
                     case NPCID.Golem:
-                        return CalamityGlobalAI.BuffedGolemAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedGolemAI(npc, enraged > 0, mod);
                     case NPCID.GolemHead:
-                        return CalamityGlobalAI.BuffedGolemHeadAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedGolemHeadAI(npc, enraged > 0, mod);
                     case NPCID.GolemHeadFree:
-                        return CalamityGlobalAI.BuffedGolemHeadFreeAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedGolemHeadFreeAI(npc, enraged > 0, mod);
 
                     case NPCID.DukeFishron:
-                        return CalamityGlobalAI.BuffedDukeFishronAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedDukeFishronAI(npc, enraged > 0, mod);
 
                     case NPCID.Pumpking:
                         if (CalamityWorld.downedDoG)
@@ -1853,18 +1850,18 @@ namespace CalamityMod.NPCs
 
                     case NPCID.CultistBoss:
                     case NPCID.CultistBossClone:
-                        return CalamityGlobalAI.BuffedCultistAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedCultistAI(npc, enraged > 0, mod);
 					case NPCID.AncientLight:
-						return CalamityGlobalAI.BuffedAncientLightAI(npc, mod, chaosMode);
+						return CalamityGlobalAI.BuffedAncientLightAI(npc, mod);
 					case NPCID.AncientDoom:
-                        return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedAncientDoomAI(npc, mod);
 
                     case NPCID.MoonLordCore:
                     case NPCID.MoonLordHand:
                     case NPCID.MoonLordHead:
 					case NPCID.MoonLordFreeEye:
 					case NPCID.MoonLordLeechBlob:
-                        return CalamityGlobalAI.BuffedMoonLordAI(npc, enraged > 0, mod, chaosMode);
+                        return CalamityGlobalAI.BuffedMoonLordAI(npc, enraged > 0, mod);
 
 					default:
                         break;
@@ -2482,7 +2479,7 @@ namespace CalamityMod.NPCs
                     case NPCID.Guide:
 						if (CalamityWorld.guideName)
 							break;
-                        switch (Main.rand.Next(39)) // 34 guide names
+                        switch (Main.rand.Next(38)) // 34 guide names
                         {
                             case 0:
                                 npc.GivenName = "Lapp";
@@ -2502,11 +2499,6 @@ namespace CalamityMod.NPCs
                             case 3:
                                 npc.GivenName = "Neoplasmatic";
 								CalamityWorld.guideName = true;
-                                break;
-
-                            case 4:
-                                npc.GivenName = "Devin";
-                                CalamityWorld.guideName = true;
                                 break;
 
                             default:

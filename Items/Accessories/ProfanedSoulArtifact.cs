@@ -1,7 +1,7 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables.Ores;
 using CalamityMod.Items.Placeables.Plates;
+using CalamityMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -26,10 +26,10 @@ namespace CalamityMod.Items.Accessories
         {
             item.width = 32;
             item.height = 40;
-            item.accessory = true;
-            item.rare = ItemRarityID.Red;
-            item.Calamity().customRarity = CalamityRarity.Dedicated;
             item.value = CalamityGlobalItem.Rarity12BuyPrice;
+            item.rare = 10;
+            item.accessory = true;
+            item.Calamity().customRarity = CalamityRarity.Dedicated;
         }
 
         public override bool CanEquipAccessory(Player player, int slot)
@@ -46,9 +46,10 @@ namespace CalamityMod.Items.Accessories
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<Chaosplate>(), 25);
-            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<Cinderplate>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
+            recipe.AddIngredient(ModContent.ItemType<DivineGeode>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<ExodiumClusterOre>(), 15);
             recipe.AddTile(TileID.DemonAltar);
             recipe.SetResult(this);
             recipe.AddRecipe();
