@@ -16,7 +16,7 @@ namespace CalamityMod.UI
                            "capabilities of life simply given more time.";
                 case 1:
                     return "I do not care much for the interstellar, or the cosmos. Though I have traversed it, there is still plenty in my own world to manage and discover at this time. Even if I once inhabited a " +
-                           "different planet, the Lord’s wishes that I provide him machinery were the only condition that I needed to leave it and settle elsewhere. Once I have discovered and dissected every part of " +
+                           "different planet, the Lord's wishes that I provide him machinery were the only condition that I needed to leave it and settle elsewhere. Once I have discovered and dissected every part of " +
                            "this place, perhaps then, I could look up towards the macroscopic.";
                 default:
                     return "The bloated cosmic worm, though I understand why the Lord decides to employ it given he can control it, is a disgusting existence. However the idea of creating an armor suited to it in every " +

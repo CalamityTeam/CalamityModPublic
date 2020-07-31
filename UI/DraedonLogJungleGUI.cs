@@ -13,7 +13,7 @@ namespace CalamityMod.UI
                 case 0:
                     return "As I record this, it would not be a stretch to call the jungle the hub of this planet. All is centered around it, and none know not of it. It brings me no small amount of " +
                            "unease to see the uncomfortable, raw forms of the living beings who pass through on their journeys above. Fortunately these labs provide everything I need in my research and more. " +
-                           "There is no need to ever visit the surface, save for summons on the Lord’s orders.";
+                           "There is no need to ever visit the surface, save for summons on the Lord's orders.";
                 case 1:
                     return "A virus, capable of devouring and converting almost anything. And nanotechnology, constructed painstakingly for the sake of control. Development was swift, and every piece fell into " +
                            "place almost eerily, forming an abhorrent existence. I struggle to think of practical applications which would be friendly to common life forms. However, it is not a major concern. Many " +
