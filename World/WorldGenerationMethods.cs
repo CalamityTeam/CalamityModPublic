@@ -1432,6 +1432,11 @@ namespace CalamityMod.World
             {
                 return false;
             }
+            // Avoid the dungeon so that the beacon doesn't eat it.
+            if (Math.Abs(i - Main.dungeonX) < 65)
+            {
+                return false;
+            }
             if (j < 50 || j > Main.maxTilesY - 50)
             {
                 return false;
