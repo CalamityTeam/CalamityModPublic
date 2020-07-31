@@ -56,16 +56,19 @@ namespace CalamityMod.TileEntities
         }
         public override TagCompound Save()
         {
-            return new TagCompound
+            TagCompound tag = new TagCompound
             {
                 ["Type"] = HeldItem.type,
                 ["Stack"] = HeldItem.stack,
                 ["Prefix"] = HeldItem.prefix,
                 ["NetID"] = HeldItem.active && HeldItem.stack > 0 ? HeldItem.netID : 0,
             };
+            CalamityUtils.SaveModItem(tag, HeldItem);
+            return tag;
         }
         public override void Load(TagCompound tag)
         {
+            HeldItem = CalamityUtils.LoadModItem(tag);
             HeldItem.type = tag.GetInt("Type");
             HeldItem.stack = tag.GetInt("Stack");
             HeldItem.prefix = tag.GetByte("Prefix");

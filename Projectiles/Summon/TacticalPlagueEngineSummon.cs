@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon
             }
             NPC potentialTarget = projectile.Center.MinionHoming(1560f, player);
 
-            if (potentialTarget == null || !player.HasAmmo(FalseGun, false))
+            if (potentialTarget is null || !player.HasAmmo(FalseGun, false))
             {
                 float acceleration = 0.1f;
                 Vector2 distanceVector = player.Center - projectile.Center;

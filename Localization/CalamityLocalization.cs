@@ -124,8 +124,8 @@ namespace CalamityMod.Localization
                 new [] { "DefiledText", "Your soul is mine..." },
                 new [] { "DefiledText2", "Your soul is yours once more..." },
 
-                new [] { "IronHeartText", "Iron Heart is active, don't die." },
-                new [] { "IronHeartText2", "Iron Heart is not active, you can die again." },
+                new [] { "IronHeartText", "Iron Heart is active, healing is disabled." },
+                new [] { "IronHeartText2", "Iron Heart is not active, healing is restored." },
 
                 new [] { "FlameText", "The air is getting warmer around you." },
 

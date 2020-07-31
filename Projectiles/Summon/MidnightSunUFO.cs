@@ -139,6 +139,13 @@ namespace CalamityMod.Projectiles.Summon
             {
                 projectile.velocity = (projectile.velocity * 15f + projectile.DirectionTo(player.Center - new Vector2(player.direction * -80f, 160f)) * 19f) / 16f;
 
+                Vector2 distanceVector = player.Center - projectile.Center;
+                if (distanceVector.Length() > DistanceToCheck * 1.5f)
+                {
+                    projectile.Center = player.Center;
+                    projectile.netUpdate = true;
+                }
+
 				projectile.MinionAntiClump(0.35f);
                 projectile.rotation = projectile.velocity.X * 0.03f;
             }

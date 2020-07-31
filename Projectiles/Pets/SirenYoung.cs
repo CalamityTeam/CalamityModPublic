@@ -51,7 +51,8 @@ namespace CalamityMod.Projectiles.Pets
             {
                 projectile.timeLeft = 2;
             }
-			if (sleepyTimer < 180)
+			bool sleepy = sleepyTimer >= 180;
+			if (!sleepy)
 			{
 				projectile.frameCounter++;
 				if (projectile.frameCounter > 6)
@@ -71,7 +72,7 @@ namespace CalamityMod.Projectiles.Pets
 			{
 				if (projectile.frame >= 16)
 				{
-					projectile.frame = sleepyTimer >= 180 ? 16 : 8;
+					projectile.frame = sleepy ? 16 : 8;
 				}
 			}
             underwater = player.IsUnderwater() || modPlayer.leviathanAndSirenLore;
@@ -92,7 +93,7 @@ namespace CalamityMod.Projectiles.Pets
             }
 			else
 			{
-				if (sleepyTimer < 180)
+				if (!sleepy)
 				{
 					sleepyTimer++;
 					lightLevel = 1;
@@ -116,126 +117,114 @@ namespace CalamityMod.Projectiles.Pets
 					break;
 			}
 			
-            float num23 = 0.2f;
-            float num24 = 5f;
-            Vector2 vector4 = new Vector2(projectile.position.X + (float)projectile.width * 0.5f, projectile.position.Y + (float)projectile.height * 0.5f);
-            float num25 = player.position.X + (float)(player.width / 2) - vector4.X;
-            float num26 = player.position.Y + player.gfxOffY + (float)(player.height / 2) - vector4.Y;
-            if (player.controlLeft && sleepyTimer < 180)
+            float velAdjustment = 0.2f;
+            float speedLimit = 5f;
+			Vector2 playerVec = player.Center - projectile.Center;
+			playerVec.Y += player.gfxOffY;
+            if (player.controlLeft && !sleepy)
             {
-                num25 -= 120f;
+                playerVec.X -= 120f;
             }
-            else if (player.controlRight && sleepyTimer < 180)
+            else if (player.controlRight && !sleepy)
             {
-                num25 += 120f;
+                playerVec.X += 120f;
             }
-            if (player.controlDown && sleepyTimer < 180)
+            if (player.controlDown && !sleepy)
             {
-                num26 += 120f;
+                playerVec.Y += 120f;
             }
             else
             {
-                if (player.controlUp && sleepyTimer < 180)
+                if (player.controlUp && !sleepy)
                 {
-                    num26 -= 120f;
+                    playerVec.Y -= 120f;
                 }
-                num26 -= 60f;
+                playerVec.Y -= 60f;
             }
-            float num27 = (float)Math.Sqrt((double)(num25 * num25 + num26 * num26));
-            if (num27 > 1000f)
+
+            if (projectile.velocity.X < -0.25f || (player.controlLeft && !sleepy))
             {
-                projectile.position.X += num25;
-                projectile.position.Y += num26;
+                projectile.direction = -1; //face left
+            }
+            else if (projectile.velocity.X > 0.25f || (player.controlRight && !sleepy))
+            {
+                projectile.direction = 1; //face right
+            }
+            projectile.spriteDirection = projectile.direction;
+
+            float playerDist = playerVec.Length();
+            if (playerDist > 1000f)
+            {
+                projectile.position.X += playerVec.X;
+                projectile.position.Y += playerVec.Y;
             }
             if (projectile.localAI[0] == 1f)
             {
-                if (num27 < 10f && Math.Abs(player.velocity.X) + Math.Abs(player.velocity.Y) < num24 && player.velocity.Y == 0f)
+                if (playerDist < 10f && player.velocity.Length() < speedLimit && player.velocity.Y == 0f)
                 {
                     projectile.localAI[0] = 0f;
                 }
-                num24 = 12f;
-                if (num27 < num24)
+                speedLimit = 12f;
+                if (playerDist < speedLimit)
                 {
-                    projectile.velocity.X = num25;
-                    projectile.velocity.Y = num26;
+                    projectile.velocity = playerVec;
                 }
                 else
                 {
-                    num27 = num24 / num27;
-                    projectile.velocity.X = num25 * num27;
-                    projectile.velocity.Y = num26 * num27;
+                    playerDist = speedLimit / playerDist;
+                    projectile.velocity = playerVec * playerDist;
                 }
-                if (projectile.velocity.X > 0.5f)
-                {
-                    projectile.direction = -1;
-                }
-                else if (projectile.velocity.X < -0.5f)
-                {
-                    projectile.direction = 1;
-                }
-                projectile.spriteDirection = projectile.direction;
                 projectile.rotation = projectile.velocity.X * 0.05f;
                 return;
             }
-            if (num27 > 200f)
+            if (playerDist > 200f)
             {
                 projectile.localAI[0] = 1f;
             }
-            if (projectile.velocity.X > 0.5f)
+            if (playerDist < 10f)
             {
-                projectile.direction = -1;
-            }
-            else if (projectile.velocity.X < -0.5f)
-            {
-                projectile.direction = 1;
-            }
-            projectile.spriteDirection = projectile.direction;
-            if (num27 < 10f)
-            {
-                projectile.velocity.X = num25;
-                projectile.velocity.Y = num26;
+                projectile.velocity.X = playerVec.X;
+                projectile.velocity.Y = playerVec.Y;
                 projectile.rotation = projectile.velocity.X * 0.05f;
-                if (num27 < num24)
+                if (playerDist < speedLimit)
                 {
                     projectile.position += projectile.velocity;
                     projectile.velocity *= 0f;
-                    num23 = 0f;
+                    velAdjustment = 0f;
                 }
-                projectile.direction = -player.direction;
             }
-            num27 = num24 / num27;
-            num25 *= num27;
-            num26 *= num27;
-            if (projectile.velocity.X < num25)
+            playerDist = speedLimit / playerDist;
+            playerVec *= playerDist;
+            if (projectile.velocity.X < playerVec.X)
             {
-                projectile.velocity.X += num23;
+                projectile.velocity.X += velAdjustment;
                 if (projectile.velocity.X < 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X * 0.99f;
+                    projectile.velocity.X *= 0.99f;
                 }
             }
-            if (projectile.velocity.X > num25)
+            if (projectile.velocity.X > playerVec.X)
             {
-                projectile.velocity.X -= num23;
+                projectile.velocity.X -= velAdjustment;
                 if (projectile.velocity.X > 0f)
                 {
-                    projectile.velocity.X = projectile.velocity.X * 0.99f;
+                    projectile.velocity.X *= 0.99f;
                 }
             }
-            if (projectile.velocity.Y < num26)
+            if (projectile.velocity.Y < playerVec.Y)
             {
-                projectile.velocity.Y += num23;
+                projectile.velocity.Y += velAdjustment;
                 if (projectile.velocity.Y < 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y * 0.99f;
+                    projectile.velocity.Y *= 0.99f;
                 }
             }
-            if (projectile.velocity.Y > num26)
+            if (projectile.velocity.Y > playerVec.Y)
             {
-                projectile.velocity.Y -= num23;
+                projectile.velocity.Y -= velAdjustment;
                 if (projectile.velocity.Y > 0f)
                 {
-                    projectile.velocity.Y = projectile.velocity.Y * 0.99f;
+                    projectile.velocity.Y *= 0.99f;
                 }
             }
             if (projectile.velocity.X != 0f || projectile.velocity.Y != 0f)

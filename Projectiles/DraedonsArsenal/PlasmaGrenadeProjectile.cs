@@ -16,7 +16,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
         public const float MaxFallSpeed = 12f;
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Web Ball");
+            DisplayName.SetDefault("Plasma Grenade");
         }
 
         public override void SetDefaults()
@@ -46,6 +46,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
             Time++;
         }
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			damage += target.defense / 4;
+		}
 
         public override void Kill(int timeLeft)
         {

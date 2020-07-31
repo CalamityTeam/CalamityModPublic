@@ -8,7 +8,7 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Laboratory Console");
+            DisplayName.SetDefault("Laboratory Display");
         }
 
         public override void SetDefaults()

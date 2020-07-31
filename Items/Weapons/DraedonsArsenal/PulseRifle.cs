@@ -10,13 +10,12 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 {
     public class PulseRifle : ModItem
 	{
-		private int BaseDamage = 4500;
+		private int BaseDamage = 5900;
 
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Pulse Rifle");
-			Tooltip.SetDefault("Draedon's high-efficiency electromagnetic pulse rifle\n" +
-				"Incredibly accurate pulse weapon, crafted and wielded by Draedon to defend against his own creations\n" +
+			Tooltip.SetDefault("Draedon's former pulse rifle, used in emergencies for creations which turned against him.\n" +
 				"When the pulse hits a target it will arc to another nearby target\n" +
 				"Inflicts exceptional damage against inorganic targets");
 		}

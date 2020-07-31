@@ -12,7 +12,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pulse Dragon");
-            Tooltip.SetDefault("Throws two dragon heads that emit electrical fields");
+            Tooltip.SetDefault("Heavy duty flails, each containing a powerful generator which is activated upon launch.\n" +
+			"Throws two dragon heads that emit electrical fields");
         }
 
         public override void SetDefaults()

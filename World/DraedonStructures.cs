@@ -196,7 +196,9 @@ namespace CalamityMod.World
             };
             if (!hasPlacedMurasama)
             {
-                contents.Insert(0, new ChestItem(ModContent.ItemType<Murasama>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogHell>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<Murasama>(), 1));
+                contents.Insert(2, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {
@@ -283,37 +285,34 @@ namespace CalamityMod.World
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             ColorTileCombination[,] schematic = TileMaps[mapKey];
 
-        TryAgain:
-            int placementPositionX = WorldGen.genRand.Next(200, Main.maxTilesX - 200);
-            int placementPositionY = WorldGen.genRand.Next(CalamityWorld.SunkenSeaLocation.Bottom + 20, Main.maxTilesX - 200);
-
-            placementPoint = new Point(placementPositionX, placementPositionY);
-            Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
-            int sunkenTilesInArea = 0;
-            int xCheckArea = 35;
-
-            // new Vector2 is used here since a lambda expression cannot capture a ref, out, or in parameter.
-            float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
-            for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
+            do
             {
-                for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
+                int placementPositionX = WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Left - 20, WorldGen.UndergroundDesertLocation.Left + 10);
+                if (WorldGen.genRand.NextBool(2))
+                    placementPositionX = WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Right - 10, WorldGen.UndergroundDesertLocation.Right + 20);
+                int sunkenSeaHeight = WorldGen.UndergroundDesertLocation.Height / 2;
+                int placementPositionY = WorldGen.genRand.Next(WorldGen.UndergroundDesertLocation.Bottom + sunkenSeaHeight - 25, WorldGen.UndergroundDesertLocation.Bottom + sunkenSeaHeight + 10);
+
+                placementPoint = new Point(placementPositionX, placementPositionY);
+                Vector2 schematicSize = new Vector2(TileMaps[mapKey].GetLength(0), TileMaps[mapKey].GetLength(1));
+                int xCheckArea = 25;
+                bool shouldAvoidArea = false;
+
+                float totalTiles = (schematicSize.X + xCheckArea * 2) * schematicSize.Y;
+                for (int x = placementPoint.X - xCheckArea; x < placementPoint.X + schematicSize.X + xCheckArea; x++)
                 {
-                    Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
-                    if (tile.active())
+                    for (int y = placementPoint.Y; y < placementPoint.Y + schematicSize.Y; y++)
                     {
-                        if (tile.type == ModContent.TileType<EutrophicSand>() || tile.type == ModContent.TileType<Navystone>() || tile.type == ModContent.TileType<SeaPrism>())
-                            sunkenTilesInArea++;
+                        Tile tile = CalamityUtils.ParanoidTileRetrieval(x, y);
+                        if (ShouldAvoidLocation(new Point(x, y), false))
+                            shouldAvoidArea = true;
                     }
                 }
-            }
-            // Stay near the sunken sea, but don't collide with it.
-            if (sunkenTilesInArea < 10 || sunkenTilesInArea >= 250)
-            {
                 tries++;
-                if (tries > 50000)
-                    return;
-                goto TryAgain; // Try again elsewhere if the correct conditions are not met. (Yes, I'm using a goto. Please don't kill me)
+                if (!shouldAvoidArea)
+                    break;
             }
+            while (tries < 50000);
 
             bool hasPlacedLogAndSchematic = false;
             PlaceStructure(mapKey, new Point(placementPoint.X, placementPoint.Y), PlacementAnchorType.TopLeft, ref hasPlacedLogAndSchematic, FillSunkenSeaLaboratoryChest);
@@ -336,7 +335,8 @@ namespace CalamityMod.World
             };
             if (!hasPlacedLogAndSchematic)
             {
-                contents.Insert(0, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogSnowBiome>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
             }
             // If it's a frozen chest.
             if (type == TileID.Containers)
@@ -417,7 +417,8 @@ namespace CalamityMod.World
             };
             if (!hasPlacedLogAndSchematic)
             {
-                contents.Insert(0, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogJungle>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {
@@ -481,19 +482,33 @@ namespace CalamityMod.World
         public static void FillPlanetoidLaboratoryChest(Chest chest, int type, bool hasPlacedLogAndSchematic)
         {
             int potionType = Utils.SelectRandom(WorldGen.genRand, ItemID.EndurancePotion, ItemID.GravitationPotion, ItemID.HeartreachPotion, ItemID.LifeforcePotion);
+
             List<ChestItem> contents = new List<ChestItem>()
             {
                 new ChestItem(ModContent.ItemType<DubiousPlating>(), WorldGen.genRand.Next(8, 14 + 1)),
                 new ChestItem(ModContent.ItemType<MysteriousCircuitry>(), WorldGen.genRand.Next(7, 12 + 1)),
+                new ChestItem(ItemID.HerbBag, WorldGen.genRand.Next(12, 17 + 1)),
+                new ChestItem(ItemID.CorruptPlanterBox, WorldGen.genRand.Next(5, 9 + 1)),
+                new ChestItem(ItemID.DayBloomPlanterBox, WorldGen.genRand.Next(5, 9 + 1)),
+                new ChestItem(ItemID.FireBlossomPlanterBox, WorldGen.genRand.Next(5, 9 + 1)),
+                new ChestItem(ItemID.MoonglowPlanterBox, WorldGen.genRand.Next(5, 9 + 1)),
+                new ChestItem(ItemID.ShiverthornPlanterBox, WorldGen.genRand.Next(5, 9 + 1)),
+                new ChestItem(ItemID.WaterleafPlanterBox, WorldGen.genRand.Next(5, 9 + 1)),
                 new ChestItem(ItemID.Torch, WorldGen.genRand.Next(15, 29 + 1)),
                 new ChestItem(ItemID.GoldCoin, WorldGen.genRand.Next(5, 11 + 1)),
                 new ChestItem(ItemID.HealingPotion, WorldGen.genRand.Next(5, 7 + 1)),
                 new ChestItem(ItemID.Bomb, WorldGen.genRand.Next(6, 7 + 1)),
                 new ChestItem(potionType, WorldGen.genRand.Next(3, 5 + 1)),
             };
+
+			Mod thorium = ModLoader.GetMod("ThoriumMod");
+            if (thorium != null)
+                contents.Add(new ChestItem(thorium.ItemType("MarineKelpPlanterBox"), WorldGen.genRand.Next(5, 9 + 1)));
+
             if (!hasPlacedLogAndSchematic)
             {
-                contents.Insert(0, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
+                contents.Insert(0, new ChestItem(ModContent.ItemType<DraedonsLogPlanetoid>(), 1));
+                contents.Insert(1, new ChestItem(ModContent.ItemType<EncryptedSchematic>(), 1));
             }
             for (int i = 0; i < contents.Count; i++)
             {

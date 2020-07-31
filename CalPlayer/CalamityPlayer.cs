@@ -2681,9 +2681,9 @@ namespace CalamityMod.CalPlayer
 							if (areThereAnyDamnBosses || areThereAnyDamnEvents)
 								duration = chaosStateDurationBoss;
 							if (eScarfCooldown)
-								duration = (int)(chaosStateDuration * 1.5);
+								duration = (int)(duration * 1.5);
 							else if (scarfCooldown)
-								duration = chaosStateDuration * 2;
+								duration *= 2;
 							player.AddBuff(BuffID.ChaosState, duration, true);
                         }
                     }
@@ -2736,9 +2736,9 @@ namespace CalamityMod.CalPlayer
 							if (areThereAnyDamnBosses || areThereAnyDamnEvents)
 								duration = chaosStateDurationBoss;
 							if (eScarfCooldown)
-								duration = (int)(chaosStateDuration * 1.5);
+								duration = (int)(duration * 1.5);
 							else if (scarfCooldown)
-								duration = chaosStateDuration * 2;
+								duration *= 2;
 							player.AddBuff(BuffID.ChaosState, duration, true);
 
                             int numDust = 40;
@@ -3848,7 +3848,7 @@ namespace CalamityMod.CalPlayer
         #region Rogue Mirrors
         public void AbyssMirrorEvade()
         {
-            if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown)
+            if (player.whoAmI == Main.myPlayer && abyssalMirror && !abyssalMirrorCooldown && !eclipseMirror)
             {
                 player.AddBuff(ModContent.BuffType<AbyssalMirrorCooldown>(), 1200);
                 player.immune = true;
@@ -3863,7 +3863,7 @@ namespace CalamityMod.CalPlayer
 
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaActivation"), (int)Main.player[Main.myPlayer].position.X, (int)Main.player[Main.myPlayer].position.Y);
 
-                for (int i = 0; i < 50; i++)
+                for (int i = 0; i < 10; i++)
                 {
                     int lumenyl = Projectile.NewProjectile(player.Center.X, player.Center.Y, Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f), ModContent.ProjectileType<AbyssalMirrorProjectile>(), (int)(55 * player.RogueDamage()), 0, player.whoAmI);
                     Main.projectile[lumenyl].rotation = Main.rand.NextFloat(0, 360);
@@ -7839,7 +7839,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
-            if (inkBomb)
+            if (inkBomb && !abyssalMirror && !eclipseMirror)
             {
                 if (player.whoAmI == Main.myPlayer && !inkBombCooldown)
                 {
@@ -9807,7 +9807,6 @@ namespace CalamityMod.CalPlayer
                     GameShaders.Armor.GetSecondaryShader(player.dye[i].dye, player)?.UseColor(GetCurrentMoonlightDyeColor());
                 }
             }
-            Main.blockInput = PopupGUIManager.AnyGUIsActive;
         }
 
 		public static readonly PlayerLayer Tail = new PlayerLayer("CalamityMod", "Tail", PlayerLayer.BackAcc, delegate (PlayerDrawInfo drawInfo)

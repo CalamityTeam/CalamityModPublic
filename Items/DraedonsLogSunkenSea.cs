@@ -26,9 +26,7 @@ namespace CalamityMod.Items
         public override bool UseItem(Player player)
         {
             if (Main.myPlayer == player.whoAmI)
-            {
-                PopupGUIManager.DraedonLogSunkenSeaGUI.Active = !PopupGUIManager.DraedonLogSunkenSeaGUI.Active;
-            }
+                PopupGUIManager.FlipActivityOfGUIWithType(typeof(DraedonLogSunkenSeaGUI));
             return true;
         }
     }

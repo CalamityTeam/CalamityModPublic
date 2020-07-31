@@ -13,13 +13,14 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Wave Pounder");
-            Tooltip.SetDefault("Throws a bomb which explodes into a forceful shockwave\n" +
-                               "Stealth Strikes emit absurdly powerful shockwaves");
+            Tooltip.SetDefault("It utilizes its power to send heavy shockwaves throughout the area, causing agonizing internal damage.\n" +
+							   "Throws a bomb which explodes into a forceful shockwave\n" +
+                               "Stealth strikes emit absurdly powerful shockwaves");
         }
 
         public override void SafeSetDefaults()
         {
-            item.damage = 100;
+            item.damage = 50;
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;

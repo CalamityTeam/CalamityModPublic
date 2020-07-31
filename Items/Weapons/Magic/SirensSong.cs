@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Weapons.Magic
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Siren's Song");
+            DisplayName.SetDefault("Anahita's Song");
             Tooltip.SetDefault("Casts slow-moving treble clefs that confuse enemies");
         }
 

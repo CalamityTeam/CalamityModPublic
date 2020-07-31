@@ -32,10 +32,15 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			projectile.width = projectile.height = 383;
 			projectile.friendly = true;
 			projectile.penetrate = -1;
-      projectile.tileCollide = false;
+			projectile.tileCollide = false;
 			projectile.Calamity().rogue = true;
 			projectile.usesIDStaticNPCImmunity = true;
 			projectile.idStaticNPCHitCooldown = frameLength * horizontalFrames * verticalFrames / 2;
+		}
+
+		public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		{
+			damage += target.defense / 4;
 		}
 
 		public override void AI()
