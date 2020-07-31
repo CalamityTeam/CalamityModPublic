@@ -100,6 +100,15 @@ namespace CalamityMod
 				case "great sand shark":
 					return CalamityWorld.downedGSS;
 
+				case "sirenleviathan":
+				case "siren leviathan":
+				case "sirenandleviathan":
+				case "siren and leviathan":
+				case "the siren and the leviathan":
+				case "siren":
+				case "thesiren":
+				case "the siren":
+
 				case "anahita":
 				case "leviathan":
 				case "theleviathan":
