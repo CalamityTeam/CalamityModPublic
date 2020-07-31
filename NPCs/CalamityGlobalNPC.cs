@@ -2479,7 +2479,7 @@ namespace CalamityMod.NPCs
                     case NPCID.Guide:
 						if (CalamityWorld.guideName)
 							break;
-                        switch (Main.rand.Next(38)) // 34 guide names
+                        switch (Main.rand.Next(39)) // 34 guide names
                         {
                             case 0:
                                 npc.GivenName = "Lapp";
@@ -2501,7 +2501,12 @@ namespace CalamityMod.NPCs
 								CalamityWorld.guideName = true;
                                 break;
 
-                            default:
+							case 4:
+								npc.GivenName = "Devin";
+								CalamityWorld.guideName = true;
+								break;
+
+							default:
 								CalamityWorld.guideName = true;
                                 break;
                         }
