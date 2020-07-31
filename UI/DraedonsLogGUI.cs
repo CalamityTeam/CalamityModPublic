@@ -179,7 +179,7 @@ namespace CalamityMod.UI
             Vector2 drawPosition;
             drawPosition.X = Main.screenWidth / 2 + (int)(285f * xResolutionScale);
             drawPosition.Y = yPageTop;
-            Vector2 scale = new Vector2(360f * xResolutionScale, MathHelper.Clamp(360f * yAspectRatio * yResolutionScale, 330f, 400f));
+            Vector2 scale = new Vector2(360f * xResolutionScale, MathHelper.Clamp(360f * yAspectRatio, 330f, 400f) * yResolutionScale);
             scale /= texture.Size();
             drawPosition.Y += texture.Height * 0.4f * scale.Y;
             spriteBatch.Draw(texture, drawPosition, null, Color.White, 0f, new Vector2(texture.Width * 0.5f, 0f), scale, SpriteEffects.None, 0f);
