@@ -1483,6 +1483,20 @@ namespace CalamityMod.NPCs
 
 			if (CalamityWorld.bossRushActive)
 			{
+				if (npc.life <= npc.lifeMax * 0.05)
+				{
+					npc.life = 0;
+					npc.HitEffect(0, 10.0);
+					npc.checkDead();
+					npc.NPCLoot();
+
+					for (int n = 0; n < Main.maxNPCs; n++)
+					{
+						if (Main.npc[n].aiStyle == npc.aiStyle)
+							Main.npc[n].active = false;
+					}
+				}
+
 				// Check if other segments are still alive, if not, die
 				if (npc.type > NPCID.EaterofWorldsHead)
 				{
