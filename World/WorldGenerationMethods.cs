@@ -1433,7 +1433,7 @@ namespace CalamityMod.World
                 return false;
             }
             // Avoid the dungeon so that the beacon doesn't eat it.
-            if (Math.Abs(i - Main.dungeonX) < 65)
+            if (Math.Abs(i - WorldGen.dungeonX) < 65)
             {
                 return false;
             }
@@ -1617,7 +1617,7 @@ namespace CalamityMod.World
                     for (int x = i - checkWidth / 2; x < i + checkWidth / 2; x++)
                     {
                         int y = j - 200;
-                        while (!CalamityUtils.ParanoidTileRetrieval(x, y).active() || CalamityUtils.ParanoidTileRetrieval(x, y).type == TileID.Trees)
+                        while (!Main.tileSolid[CalamityUtils.ParanoidTileRetrieval(x, y).type] || !CalamityUtils.ParanoidTileRetrieval(x, y).active())
                         {
                             y++;
                             if (y > j - 10)
@@ -1626,7 +1626,7 @@ namespace CalamityMod.World
                         lowestHeight = (int)MathHelper.Max(lowestHeight, y);
                         averageHeight += y;
                     }
-                    lowestHeight -= 36f;
+                    lowestHeight -= 35f;
                     averageHeight /= checkWidth;
                     float height = lowestHeight;
 
@@ -1634,7 +1634,10 @@ namespace CalamityMod.World
                     if (Math.Abs(lowestHeight - averageHeight) > 50f)
                         height = averageHeight;
 
+                    // WorldGen.gen prevents NewItem from working, and thus prevents a bunch of dumb items from being spawned immediately and deleting the WoF/Aureus loot in the process.
+                    WorldGen.gen = true;
                     SchematicPlacementHelpers.PlaceStructure("Astral Beacon", new Point(i, (int)height - 30), SchematicPlacementHelpers.PlacementAnchorType.Center);
+                    WorldGen.gen = false;
                 }
             }
             return true;
