@@ -45,7 +45,7 @@ namespace CalamityMod.NPCs
 {
 	public class CalamityGlobalNPCLoot : GlobalNPC
     {
-		public static int halibutCannonBaseDropChance = 10000;
+		public static int halibutCannonBaseDropChance = 100000;
 
         #region Instance Per Entity
         public override bool InstancePerEntity => false;
