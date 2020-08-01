@@ -2653,15 +2653,16 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.giantPearl)
 			{
-				if (Main.netMode != NetmodeID.MultiplayerClient)
+				if (Main.netMode != NetmodeID.MultiplayerClient && !CalamityPlayer.areThereAnyDamnBosses)
 				{
 					for (int m = 0; m < Main.maxNPCs; m++)
 					{
-						if (Main.npc[m].active && !Main.npc[m].friendly)
+						NPC npc = Main.npc[m];
+						if (npc.active && !npc.friendly && npc.chaseable && !npc.dontTakeDamage && !npc.immortal)
 						{
-							float distance = (Main.npc[m].Center - player.Center).Length();
+							float distance = (npc.Center - player.Center).Length();
 							if (distance < 120f)
-								Main.npc[m].AddBuff(ModContent.BuffType<PearlAura>(), 20, false);
+								npc.AddBuff(ModContent.BuffType<PearlAura>(), 20, false);
 						}
 					}
 				}

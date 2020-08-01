@@ -7586,9 +7586,10 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 27);
                     for (int m = 0; m < Main.maxNPCs; m++)
                     {
-                        if (Main.npc[m].active && !Main.npc[m].friendly)
-                        {
-                            float npcDist = (Main.npc[m].Center - player.Center).Length();
+						NPC npc = Main.npc[m];
+						if (npc.active && !npc.friendly && npc.chaseable && !npc.dontTakeDamage && !npc.immortal)
+						{
+                            float npcDist = (npc.Center - player.Center).Length();
                             float freezeDist = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
                             if (freezeDist > 500f)
                             {
@@ -7605,7 +7606,7 @@ namespace CalamityMod.CalPlayer
                             if (npcDist < freezeDist)
                             {
                                 float duration = (float)Main.rand.Next(90 + (int)damage / 3, 240 + (int)damage / 2);
-                                Main.npc[m].AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
+                                npc.AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
                             }
                         }
                     }
@@ -7614,9 +7615,10 @@ namespace CalamityMod.CalPlayer
                 {
                     for (int m = 0; m < Main.maxNPCs; m++)
                     {
-                        if (Main.npc[m].active && !Main.npc[m].friendly)
-                        {
-                            float npcDist = (Main.npc[m].Center - player.Center).Length();
+						NPC npc = Main.npc[m];
+						if (npc.active && !npc.friendly && npc.chaseable && !npc.dontTakeDamage && !npc.immortal)
+						{
+                            float npcDist = (npc.Center - player.Center).Length();
                             float range = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
                             if (range > 500f)
                             {
@@ -7633,13 +7635,13 @@ namespace CalamityMod.CalPlayer
                             if (npcDist < range)
                             {
                                 float duration = (float)Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
-                                Main.npc[m].AddBuff(BuffID.Confused, (int)duration, false);
+                                npc.AddBuff(BuffID.Confused, (int)duration, false);
 								if (amalgam)
 								{
-									Main.npc[m].AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)duration, false);
-									Main.npc[m].AddBuff(ModContent.BuffType<GodSlayerInferno>(), (int)duration, false);
-									Main.npc[m].AddBuff(ModContent.BuffType<SulphuricPoisoning>(), (int)duration, false);
-									Main.npc[m].AddBuff(ModContent.BuffType<Irradiated>(), (int)duration, false);
+									npc.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)duration, false);
+									npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), (int)duration, false);
+									npc.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), (int)duration, false);
+									npc.AddBuff(ModContent.BuffType<Irradiated>(), (int)duration, false);
 								}
                             }
                         }
