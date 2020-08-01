@@ -1340,7 +1340,9 @@ namespace CalamityMod.CalPlayer
 						for (int l = 0; l < Main.maxNPCs; l++)
 						{
 							NPC npc = Main.npc[l];
-							if (npc.active && !npc.friendly && npc.damage > 0 && !npc.dontTakeDamage && !npc.buffImmune[buffType] && Vector2.Distance(player.Center, npc.Center) <= freezeDist)
+							if (!npc.active || npc.friendly || npc.damage <= 0 || npc.dontTakeDamage)
+								continue;
+							if (!npc.buffImmune[buffType] && Vector2.Distance(player.Center, npc.Center) <= freezeDist)
 							{
 								if (npc.FindBuffIndex(buffType) == -1)
 									npc.AddBuff(buffType, 120, false);
@@ -1693,7 +1695,9 @@ namespace CalamityMod.CalPlayer
 				for (int i = 0; i < Main.maxNPCs; i++)
 				{
 					NPC npc = Main.npc[i];
-					if (npc.active && !npc.dontTakeDamage && !npc.friendly && !npc.townNPC && npc.immune[player.whoAmI] <= 0 && npc.damage > 0)
+					if (!npc.active || npc.friendly || npc.damage <= 0 || npc.dontTakeDamage)
+						continue;
+					if (!npc.townNPC && npc.immune[player.whoAmI] <= 0 && npc.damage > 0)
 					{
 						Rectangle rect = npc.getRect();
 						if (sVeilRectangle.Intersects(rect) && (npc.noTileCollide || player.CanHit(npc)))
@@ -2658,12 +2662,11 @@ namespace CalamityMod.CalPlayer
 					for (int m = 0; m < Main.maxNPCs; m++)
 					{
 						NPC npc = Main.npc[m];
-						if (npc.active && !npc.friendly && npc.chaseable && !npc.dontTakeDamage && !npc.immortal)
-						{
-							float distance = (npc.Center - player.Center).Length();
-							if (distance < 120f)
-								npc.AddBuff(ModContent.BuffType<PearlAura>(), 20, false);
-						}
+						if (!npc.active || npc.friendly || npc.dontTakeDamage)
+							continue;
+						float distance = (npc.Center - player.Center).Length();
+						if (distance < 120f)
+							npc.AddBuff(ModContent.BuffType<PearlAura>(), 20, false);
 					}
 				}
 			}
