@@ -2,7 +2,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 namespace CalamityMod.Projectiles.DraedonsArsenal
 {
@@ -28,11 +30,14 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             get => projectile.ai[1];
             set => projectile.ai[1] = value;
         }
-        public const int SpinTime = 60;
-        public const int TotalSpins = 5;
+        public float SwingDirection
+        {
+            get => projectile.localAI[0];
+            set => projectile.localAI[0] = value;
+        }
         public const int ChargeTime = 25;
         public const int ReelbackTime = 25;
-        public const int Lifetime = SpinTime + ChargeTime + ReelbackTime;
+        public const int Lifetime = ChargeTime + ReelbackTime;
         public const float MaximumPossibleOutwardness = 72f;
         public override void SetStaticDefaults()
         {
@@ -53,6 +58,16 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.tileCollide = true;
         }
 
+        public override void SendExtraAI(BinaryWriter writer)
+        {
+            writer.Write(SwingDirection);
+        }
+
+        public override void ReceiveExtraAI(BinaryReader reader)
+        {
+            SwingDirection = reader.ReadSingle();
+        }
+
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
@@ -67,20 +82,11 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.spriteDirection = projectile.direction;
             ManipulatePlayer(player);
 
-            if (projectile.timeLeft >= Lifetime - SpinTime)
+            if (projectile.timeLeft >= Lifetime - ChargeTime)
             {
-                float time = Utils.InverseLerp(Lifetime, Lifetime - SpinTime, projectile.timeLeft);
-                float offsetAngle = time * MathHelper.TwoPi * TotalSpins + InitialRotation; // Spin several times.
-                projectile.Center = player.Center + offsetAngle.ToRotationVector2().RotatedBy(InitialRotation) * 60f;
-                projectile.rotation = InitialRotation + offsetAngle;
-                projectile.velocity = Vector2.Zero;
-                projectile.tileCollide = false;
-            }
-            else if (projectile.timeLeft >= Lifetime - SpinTime - ChargeTime)
-            {
-                float time = Utils.InverseLerp(Lifetime - SpinTime, Lifetime - SpinTime - ChargeTime, projectile.timeLeft, true);
-                float offsetAngle = MathHelper.Lerp(-1.8f, 1.8f, time); // Set the range of the offset to -1.8 and 1.8 based off of the time.
-                offsetAngle *= (Math.Cos(InitialRotation) > 0).ToDirectionInt(); // Incorporate direction into the offset angle.
+                float time = Utils.InverseLerp(Lifetime, Lifetime - ChargeTime, projectile.timeLeft, true);
+                float offsetAngle = MathHelper.Lerp(-1.1f, 1.5f, time); // Set the range of the offset to -1.8 and 1.8 based off of the time.
+                offsetAngle *= projectile.localAI[0]; // Incorporate direction into the offset angle.
 
                 projectile.velocity = InitialRotation.ToRotationVector2().RotatedBy(offsetAngle) * 29f;
 
@@ -100,6 +106,8 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
 
             GenerateIdleDust();
+            if (projectile.timeLeft % 4 == 3 && projectile.Distance(player.Center) > 40f)
+                SpawnElectricFields();
         }
 
         public void ManipulatePlayer(Player player)
@@ -120,6 +128,16 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 dust.velocity = Vector2.Zero;
                 dust.noGravity = true;
             }
+        }
+
+        public void SpawnElectricFields()
+        {
+            if (Main.myPlayer != projectile.owner)
+                return;
+            Projectile field = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, projectile.damage, projectile.knockBack, projectile.owner);
+            field.Calamity().forceMelee = true;
+            field.usesIDStaticNPCImmunity = true;
+            field.idStaticNPCHitCooldown = 6;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -149,7 +167,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             };
             for (int i = 0; i < 20; i++)
             {
-                Vector2 offset = Vector2.UnitX * (Math.Cos(InitialRotation) > 0).ToDirectionInt();
+                Vector2 offset = Vector2.UnitX * -SwingDirection;
                 offset *= Outwardness * (float)Math.Sin(i / 20f * MathHelper.Pi);
                 offset *= Utils.InverseLerp(0f, 300f, player.Distance(Vector2.Lerp(mountedCenter, projectile.Center, i / 20f) + offset), true);
                 bezierPoints.Add(Vector2.Lerp(mountedCenter, projectile.Center, i / 20f) + offset);

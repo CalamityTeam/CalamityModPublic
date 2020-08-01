@@ -12,6 +12,7 @@ namespace CalamityMod.Items.Weapons.Ranged
         {
             DisplayName.SetDefault("Halibut Cannon");
             Tooltip.SetDefault("Becomes more powerful as you progress\n" +
+                "(Yes, it's still overpowered)\n" +
                 "Revengeance drop");
         }
 
@@ -38,18 +39,18 @@ namespace CalamityMod.Items.Weapons.Ranged
         public override Vector2? HoldoutOffset() => new Vector2(-15, 0);
 
         public override void ModifyWeaponDamage(Player player, ref float add, ref float mult, ref float flat)
-		{
-			float damageMult = 0f +
-					(NPC.downedPlantBoss ? 0.1f : 0f) +
-					(NPC.downedGolemBoss ? 0.1f : 0f) +
-					(NPC.downedAncientCultist ? 0.2f : 0f) +
-					(NPC.downedMoonlord ? 1f : 0f) +
-					(CalamityWorld.downedProvidence ? 0.15f : 0f) +
-					(CalamityWorld.downedPolterghast ? 0.3f : 0f) +
-					(CalamityWorld.downedDoG ? 0.6f : 0f) +
-					(CalamityWorld.downedYharon ? 1f : 0f);
-			mult += damageMult;
-		}
+        {
+            float damageMult = 0f +
+                    (NPC.downedPlantBoss ? 0.1f : 0f) +
+                    (NPC.downedGolemBoss ? 0.1f : 0f) +
+                    (NPC.downedAncientCultist ? 0.2f : 0f) +
+                    (NPC.downedMoonlord ? 1f : 0f) +
+                    (CalamityWorld.downedProvidence ? 0.15f : 0f) +
+                    (CalamityWorld.downedPolterghast ? 0.3f : 0f) +
+                    (CalamityWorld.downedDoG ? 0.6f : 0f) +
+                    (CalamityWorld.downedYharon ? 1f : 0f);
+            mult += damageMult;
+        }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

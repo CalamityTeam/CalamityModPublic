@@ -33,8 +33,11 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
             item.knockBack = 9f;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.rare = 8;
+			
+            item.rare = ItemRarityID.Red;
+			item.Calamity().customRarity = CalamityRarity.DraedonRust;
             item.value = CalamityGlobalItem.Rarity8BuyPrice;
+			
             item.shoot = ModContent.ProjectileType<GalvanizingGlaiveProjectile>();
             item.shootSpeed = 21f;
 

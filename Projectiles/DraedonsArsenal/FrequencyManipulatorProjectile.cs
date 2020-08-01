@@ -25,7 +25,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             projectile.height = 34;
             projectile.friendly = true;
             projectile.timeLeft = 180;
-            projectile.penetrate = -1;
+            projectile.penetrate = 4;
             projectile.extraUpdates = 1;
             projectile.Calamity().rogue = true;
         }
