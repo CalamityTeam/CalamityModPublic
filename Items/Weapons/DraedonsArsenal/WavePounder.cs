@@ -20,7 +20,7 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 
         public override void SafeSetDefaults()
         {
-            item.damage = 50;
+            item.damage = 34;
             item.Calamity().rogue = true;
             item.noMelee = true;
             item.noUseGraphic = true;

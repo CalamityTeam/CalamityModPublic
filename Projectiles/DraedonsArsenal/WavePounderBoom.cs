@@ -56,7 +56,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 			projectile.tileCollide = false;
 			projectile.penetrate = -1;
 			projectile.usesLocalNPCImmunity = true;
-			projectile.localNPCHitCooldown = 8;
+			projectile.localNPCHitCooldown = 10;
 			projectile.timeLeft = Lifetime;
 		}
 
