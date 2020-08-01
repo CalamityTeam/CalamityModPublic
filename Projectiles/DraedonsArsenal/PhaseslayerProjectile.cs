@@ -23,7 +23,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		public const float ChargeLossBreakpoint = 180f;
 
 		public const int SwordBeamCooldown = 15;
-		public const float SwordBeamDamageMultiplier = 0.1f;
+		public const float SwordBeamDamageMultiplier = 0.15f;
 		private const float MaximumMouseRange = 360f;
 		private const float ProjCenterOffset = 36f;
 
