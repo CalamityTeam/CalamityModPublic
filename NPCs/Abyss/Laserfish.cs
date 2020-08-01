@@ -112,17 +112,8 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(CalamityGlobalNPCLoot.halibutCannonBaseDropChance) && CalamityWorld.revenge)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
-            }
-            if (CalamityWorld.downedCalamitas)
-            {
-                if (Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>());
-                }
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, CalamityGlobalNPCLoot.halibutCannonBaseDropChance, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 0.5f);
         }
 
         public override void HitEffect(int hitDirection, double damage)
