@@ -2447,6 +2447,20 @@ namespace CalamityMod.CalPlayer
 
             bool inAstral = ZoneAstral;
             player.ManageSpecialBiomeVisuals("CalamityMod:Astral", inAstral);
+
+            bool cryogenActive = NPC.AnyNPCs(ModContent.NPCType<Cryogen>());
+
+            if (SkyManager.Instance["CalamityMod:Cryogen"] != null && cryogenActive != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
+            {
+                if (cryogenActive)
+                {
+                    SkyManager.Instance.Activate("CalamityMod:Cryogen");
+                }
+                else
+                {
+                    SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
+                }
+            }
         }
 
         public override void UpdateBiomes()

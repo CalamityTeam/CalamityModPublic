@@ -337,6 +337,8 @@ namespace CalamityMod
             GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
             GameShaders.Misc["CalamityMod:LightDistortion"] = new MiscShaderData(new Ref<Effect>(LightDistortionShader), "DistortionPass");
 
+            SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
+
             RipperUI.Reset();
             AstralArcanumUI.Load(this);
 
