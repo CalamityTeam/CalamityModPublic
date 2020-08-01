@@ -1487,7 +1487,6 @@ namespace CalamityMod.NPCs
 				{
 					npc.life = 0;
 					npc.HitEffect(0, 10.0);
-					npc.checkDead();
 					npc.NPCLoot();
 
 					for (int n = 0; n < Main.maxNPCs; n++)
