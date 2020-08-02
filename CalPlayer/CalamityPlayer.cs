@@ -2447,6 +2447,20 @@ namespace CalamityMod.CalPlayer
 
             bool inAstral = ZoneAstral;
             player.ManageSpecialBiomeVisuals("CalamityMod:Astral", inAstral);
+
+            bool cryogenActive = NPC.AnyNPCs(ModContent.NPCType<Cryogen>());
+
+            if (SkyManager.Instance["CalamityMod:Cryogen"] != null && cryogenActive != SkyManager.Instance["CalamityMod:Cryogen"].IsActive())
+            {
+                if (cryogenActive)
+                {
+                    SkyManager.Instance.Activate("CalamityMod:Cryogen");
+                }
+                else
+                {
+                    SkyManager.Instance.Deactivate("CalamityMod:Cryogen");
+                }
+            }
         }
 
         public override void UpdateBiomes()
@@ -7586,63 +7600,63 @@ namespace CalamityMod.CalPlayer
                     Main.PlaySound(SoundID.Item, (int)player.position.X, (int)player.position.Y, 27);
                     for (int m = 0; m < Main.maxNPCs; m++)
                     {
-                        if (Main.npc[m].active && !Main.npc[m].friendly)
-                        {
-                            float npcDist = (Main.npc[m].Center - player.Center).Length();
-                            float freezeDist = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
-                            if (freezeDist > 500f)
-                            {
-                                freezeDist = 500f + (freezeDist - 500f) * 0.75f;
-                            }
-                            if (freezeDist > 700f)
-                            {
-                                freezeDist = 700f + (freezeDist - 700f) * 0.5f;
-                            }
-                            if (freezeDist > 900f)
-                            {
-                                freezeDist = 900f + (freezeDist - 900f) * 0.25f;
-                            }
-                            if (npcDist < freezeDist)
-                            {
-                                float duration = (float)Main.rand.Next(90 + (int)damage / 3, 240 + (int)damage / 2);
-                                Main.npc[m].AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
-                            }
-                        }
+						NPC npc = Main.npc[m];
+						if (!npc.active || npc.friendly || npc.dontTakeDamage)
+							continue;
+						float npcDist = (npc.Center - player.Center).Length();
+						float freezeDist = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
+						if (freezeDist > 500f)
+						{
+							freezeDist = 500f + (freezeDist - 500f) * 0.75f;
+						}
+						if (freezeDist > 700f)
+						{
+							freezeDist = 700f + (freezeDist - 700f) * 0.5f;
+						}
+						if (freezeDist > 900f)
+						{
+							freezeDist = 900f + (freezeDist - 900f) * 0.25f;
+						}
+						if (npcDist < freezeDist)
+						{
+							float duration = (float)Main.rand.Next(90 + (int)damage / 3, 240 + (int)damage / 2);
+							npc.AddBuff(ModContent.BuffType<GlacialState>(), (int)duration, false);
+						}
                     }
                 }
                 if (aBrain || amalgam)
                 {
                     for (int m = 0; m < Main.maxNPCs; m++)
                     {
-                        if (Main.npc[m].active && !Main.npc[m].friendly)
-                        {
-                            float npcDist = (Main.npc[m].Center - player.Center).Length();
-                            float range = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
-                            if (range > 500f)
-                            {
-                                range = 500f + (range - 500f) * 0.75f;
-                            }
-                            if (range > 700f)
-                            {
-                                range = 700f + (range - 700f) * 0.5f;
-                            }
-                            if (range > 900f)
-                            {
-                                range = 900f + (range - 900f) * 0.25f;
-                            }
-                            if (npcDist < range)
-                            {
-                                float duration = (float)Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
-                                Main.npc[m].AddBuff(BuffID.Confused, (int)duration, false);
-								if (amalgam)
-								{
-									Main.npc[m].AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)duration, false);
-									Main.npc[m].AddBuff(ModContent.BuffType<GodSlayerInferno>(), (int)duration, false);
-									Main.npc[m].AddBuff(ModContent.BuffType<SulphuricPoisoning>(), (int)duration, false);
-									Main.npc[m].AddBuff(ModContent.BuffType<Irradiated>(), (int)duration, false);
-								}
-                            }
-                        }
+						NPC npc = Main.npc[m];
+						if (!npc.active || npc.friendly || npc.dontTakeDamage)
+							continue;
+						float npcDist = (npc.Center - player.Center).Length();
+						float range = (float)Main.rand.Next(200 + (int)damage / 2, 301 + (int)damage * 2);
+						if (range > 500f)
+						{
+							range = 500f + (range - 500f) * 0.75f;
+						}
+						if (range > 700f)
+						{
+							range = 700f + (range - 700f) * 0.5f;
+						}
+						if (range > 900f)
+						{
+							range = 900f + (range - 900f) * 0.25f;
+						}
+						if (npcDist < range)
+						{
+							float duration = (float)Main.rand.Next(90 + (int)damage / 3, 300 + (int)damage / 2);
+							npc.AddBuff(BuffID.Confused, (int)duration, false);
+							if (amalgam)
+							{
+								npc.AddBuff(ModContent.BuffType<BrimstoneFlames>(), (int)duration, false);
+								npc.AddBuff(ModContent.BuffType<GodSlayerInferno>(), (int)duration, false);
+								npc.AddBuff(ModContent.BuffType<SulphuricPoisoning>(), (int)duration, false);
+								npc.AddBuff(ModContent.BuffType<Irradiated>(), (int)duration, false);
+							}
+						}
                     }
 					//Spawn the harmless brain images that are actually projectiles
                     Projectile.NewProjectile(player.Center.X + (float)Main.rand.Next(-40, 40), player.Center.Y - (float)Main.rand.Next(20, 60), player.velocity.X * 0.3f, player.velocity.Y * 0.3f, ProjectileID.BrainOfConfusion, 0, 0f, player.whoAmI, 0f, 0f);

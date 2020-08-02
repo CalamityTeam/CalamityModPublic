@@ -129,7 +129,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 !FlyUntilNearPlayer)
             {
                 FallThroughYPoint = potentialTarget.Top.Y;
-                NPCTargetingAI(potentialTarget, player);
+                NPCTargetingAI(potentialTarget);
             }
             else
             {
@@ -225,7 +225,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 HandleHop(player.Center);
             }
         }
-        public void NPCTargetingAI(NPC potentialTarget, Player player)
+        public void NPCTargetingAI(NPC potentialTarget)
         {
             HandleHop(potentialTarget.Center);
             if (Collision.CanHit(projectile.position, projectile.width, projectile.height, potentialTarget.position, potentialTarget.width, projectile.height) && AcidShootCooldown <= 0f)
@@ -236,7 +236,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 if (AcidShootTimer >= 20 &&
                     AcidShootTimer <= 44 &&
                     AcidShootTimer % 6 == 0 &&
-                    Main.netMode != NetmodeID.MultiplayerClient)
+                    Main.myPlayer == projectile.owner)
                 {
                     Vector2 spawnPosition = projectile.Center + Vector2.UnitX * 8f * projectile.spriteDirection;
 

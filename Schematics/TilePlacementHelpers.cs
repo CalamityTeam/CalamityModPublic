@@ -104,7 +104,15 @@ namespace CalamityMod.Schematics
                             WorldGen.PlaceTile(x, y, tile.type);
                         }
 
-                        Main.tile[x + xOffset, y + yOffset] = SchematicTileConversion(oldTiles[x, y], (Tile)tile.Clone(), schematic[x, y].InternalColor);
+                        if (tile.type == TileID.Trees || tile.type == TileID.PineTree || tile.type == TileID.Cactus)
+                        {
+                            ushort oldWall = oldTiles[x, y].wall;
+                            oldTiles[x, y] = new Tile
+                            {
+                                wall = oldWall
+                            };
+                        }
+                        else Main.tile[x + xOffset, y + yOffset] = SchematicTileConversion(oldTiles[x, y], (Tile)tile.Clone(), schematic[x, y].InternalColor);
 
                         Rectangle placeInArea = new Rectangle(x, y, schematic.GetLength(0), schematic.GetLength(1));
 
@@ -116,6 +124,8 @@ namespace CalamityMod.Schematics
         }
         public static void PlaceStructure(string mapKey, Point placementPosition, PlacementAnchorType placementAnchor, ref bool specialCondition, Action<Chest, int, bool> chestInteraction = null)
         {
+            LoadEverything(); // Just in case they weren't loaded properly beforehand.
+
             PilePlacementMaps.TryGetValue(mapKey, out PilePlacementFunction pilePlacementFunction);
             ColorTileCombination[,] schematic = TileMaps[mapKey];
             Tile[,] oldTiles = new Tile[schematic.GetLength(0), schematic.GetLength(1)];

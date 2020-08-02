@@ -153,60 +153,301 @@ namespace CalamityMod.Tiles
 
         // LATER -- clean up copied decompiled pot code here
         public override bool Drop(int i, int j, int type)
-        {
-            if (type == TileID.Pots || type == ModContent.TileType<AbyssalPots>() || type == ModContent.TileType<SulphurousPots>())
-            {
-                int x = Main.maxTilesX;
-                int y = Main.maxTilesY;
-                int genLimit = x / 2;
-                int abyssChasmSteps = y / 4;
-                int abyssChasmY = y - abyssChasmSteps + (int)(y * 0.055); //132 = 1932 large
-                if (y < 1500)
-                {
-                    abyssChasmY = y - abyssChasmSteps + (int)(y * 0.095); //114 = 1014 small
-                }
-                else if (y < 2100)
-                {
-                    abyssChasmY = y - abyssChasmSteps + (int)(y * 0.0735); //132 = 1482 medium
-                }
-                int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
+		{
+			if (type == ModContent.TileType<AbyssalPots>())
+			{
+				Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>(), 1, false, 0, false, false);
+			}
+			else if (type == ModContent.TileType<SulphurousPots>())
+			{
+				Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>(), 1, false, 0, false, false);
+			}
 
-                bool abyssPosX = false;
-                bool sulphurPosX = false;
-                bool abyssPosY = j <= abyssChasmY;
-                if (CalamityWorld.abyssSide)
-                {
-                    if (i < 380)
-                    {
-                        sulphurPosX = true;
-                    }
-                    if (i < abyssChasmX + 80)
-                    {
-                        abyssPosX = true;
-                    }
-                }
-                else
-                {
-                    if (i > Main.maxTilesX - 380)
-                    {
-                        sulphurPosX = true;
-                    }
-                    if (i > abyssChasmX - 80)
-                    {
-                        abyssPosX = true;
-                    }
-                }
+			// This is old pot code, kept here for legacy reasons with old worlds. Should be removed in a future update after a sufficient amount of time.
+			if (type == TileID.Pots)
+			{
+				int x = Main.maxTilesX;
+				int y = Main.maxTilesY;
+				int genLimit = x / 2;
+				int abyssChasmSteps = y / 4;
+				int abyssChasmY = y - abyssChasmSteps + (int)(y * 0.055); //132 = 1932 large
+				if (y < 1500)
+				{
+					abyssChasmY = y - abyssChasmSteps + (int)(y * 0.095); //114 = 1014 small
+				}
+				else if (y < 2100)
+				{
+					abyssChasmY = y - abyssChasmSteps + (int)(y * 0.0735); //132 = 1482 medium
+				}
+				int abyssChasmX = CalamityWorld.abyssSide ? genLimit - (genLimit - 135) : genLimit + (genLimit - 135);
+
+				bool abyssPosX = false;
+				bool sulphurPosX = false;
+				bool abyssPosY = j <= abyssChasmY;
+				if (CalamityWorld.abyssSide)
+				{
+					if (i < 380)
+					{
+						sulphurPosX = true;
+					}
+					if (i < abyssChasmX + 80)
+					{
+						abyssPosX = true;
+					}
+				}
+				else
+				{
+					if (i > Main.maxTilesX - 380)
+					{
+						sulphurPosX = true;
+					}
+					if (i > abyssChasmX - 80)
+					{
+						abyssPosX = true;
+					}
+				}
 				if (abyssPosX && abyssPosY)
 				{
-					Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<AbyssalTreasure>(), 1, false, 0, false, false);
+					if (Main.rand.NextBool(10))
+					{
+						int potionType = Utils.SelectRandom(WorldGen.genRand, new int[]
+						{
+							ItemID.SpelunkerPotion,
+							ItemID.MagicPowerPotion,
+							ItemID.ShinePotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.ObsidianSkinPotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.GravitationPotion,
+							ItemID.RegenerationPotion,
+							ModContent.ItemType<TriumphPotion>(),
+							ModContent.ItemType<AnechoicCoating>(),
+							ItemID.GillsPotion,
+							ItemID.EndurancePotion,
+							ItemID.HeartreachPotion,
+							ItemID.FlipperPotion,
+							ItemID.LifeforcePotion,
+							ItemID.InfernoPotion
+						});
+						Item.NewItem(i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
+					}
+					else
+					{
+						int lootType = Main.rand.Next(10); //0 to 9
+						if (lootType == 0) //spelunker glowsticks
+						{
+							int sglowstickAmt = Main.rand.Next(2, 6);
+							if (Main.expertMode)
+							{
+								sglowstickAmt += Main.rand.Next(1, 7);
+							}
+							Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SpelunkerGlowstick, sglowstickAmt, false, 0, false, false);
+						}
+						else if (lootType == 1) //hellfire arrows
+						{
+							int arrowAmt = Main.rand.Next(10, 21);
+							Item.NewItem(i * 16, j * 16, 16, 16, ItemID.HellfireArrow, arrowAmt, false, 0, false, false);
+						}
+						else if (lootType == 2) //stew
+						{
+							Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SunkenStew>(), 1, false, 0, false, false);
+						}
+						else if (lootType == 3) //sticky dynamite
+						{
+							Item.NewItem(i * 16, j * 16, 16, 16, ItemID.StickyDynamite, 1, false, 0, false, false);
+						}
+						else //money
+						{
+							float num13 = (float)(5000 + WorldGen.genRand.Next(-100, 101));
+							while ((int)num13 > 0)
+							{
+								if (num13 > 1000000f)
+								{
+									int ptCoinAmt = (int)(num13 / 1000000f);
+									if (ptCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										ptCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										ptCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(1000000 * ptCoinAmt);
+									Item.NewItem(i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
+								}
+								else if (num13 > 10000f)
+								{
+									int auCoinAmt = (int)(num13 / 10000f);
+									if (auCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										auCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										auCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(10000 * auCoinAmt);
+									Item.NewItem(i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
+								}
+								else if (num13 > 100f)
+								{
+									int agCoinAmt = (int)(num13 / 100f);
+									if (agCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										agCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										agCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(100 * agCoinAmt);
+									Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
+								}
+								else
+								{
+									int cuCoinAmt = (int)num13;
+									if (cuCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										cuCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										cuCoinAmt /= Main.rand.Next(4) + 1;
+									}
+									if (cuCoinAmt < 1)
+									{
+										cuCoinAmt = 1;
+									}
+									num13 -= (float)cuCoinAmt;
+									Item.NewItem(i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
+								}
+							}
+						}
+					}
 				}
-                else if (sulphurPosX)
-                {
-					Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<SulphuricTreasure>(), 1, false, 0, false, false);
-                }
-            }
-            return true;
-        }
+				else if (sulphurPosX)
+				{
+					if (Main.rand.NextBool(15))
+					{
+						int potionType = Utils.SelectRandom(WorldGen.genRand, new int[]
+						{
+							ItemID.SpelunkerPotion,
+							ItemID.MagicPowerPotion,
+							ItemID.ShinePotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.ObsidianSkinPotion,
+							ItemID.WaterWalkingPotion,
+							ItemID.GravitationPotion,
+							ItemID.RegenerationPotion,
+							ModContent.ItemType<TriumphPotion>(),
+							ModContent.ItemType<AnechoicCoating>(),
+							ItemID.GillsPotion,
+							ItemID.EndurancePotion,
+							ItemID.HeartreachPotion,
+							ItemID.FlipperPotion,
+							ItemID.LifeforcePotion,
+							ItemID.InfernoPotion
+						});
+						Item.NewItem(i * 16, j * 16, 16, 16, potionType, 1, false, 0, false, false);
+					}
+					else
+					{
+						int lootType = Main.rand.Next(10); //0 to 9
+						if (lootType == 0) //glowsticks
+						{
+							int glowstickAmt = Main.rand.Next(2, 6);
+							if (Main.expertMode)
+							{
+								glowstickAmt += Main.rand.Next(1, 7);
+							}
+							Item.NewItem(i * 16, j * 16, 16, 16, ItemID.Glowstick, glowstickAmt, false, 0, false, false);
+						}
+						else if (lootType == 1) //jesters arrows
+						{
+							int jArrowAmt = Main.rand.Next(10, 21);
+							Item.NewItem(i * 16, j * 16, 16, 16, ItemID.JestersArrow, jArrowAmt, false, 0, false, false);
+						}
+						else if (lootType == 2) //potion
+						{
+							Item.NewItem(i * 16, j * 16, 16, 16, ItemID.HealingPotion, 1, false, 0, false, false);
+						}
+						else if (lootType == 3) //bomb
+						{
+							int bombAmt = Main.rand.Next(5, 9);
+							Item.NewItem(i * 16, j * 16, 16, 16, ItemID.Bomb, bombAmt, false, 0, false, false);
+						}
+						else //money
+						{
+							float num13 = (float)(5000 + WorldGen.genRand.Next(-100, 101));
+							while ((int)num13 > 0)
+							{
+								if (num13 > 1000000f)
+								{
+									int ptCoinAmt = (int)(num13 / 1000000f);
+									if (ptCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										ptCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										ptCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(1000000 * ptCoinAmt);
+									Item.NewItem(i * 16, j * 16, 16, 16, ItemID.PlatinumCoin, ptCoinAmt, false, 0, false, false);
+								}
+								else if (num13 > 10000f)
+								{
+									int auCoinAmt = (int)(num13 / 10000f);
+									if (auCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										auCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										auCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(10000 * auCoinAmt);
+									Item.NewItem(i * 16, j * 16, 16, 16, ItemID.GoldCoin, auCoinAmt, false, 0, false, false);
+								}
+								else if (num13 > 100f)
+								{
+									int agCoinAmt = (int)(num13 / 100f);
+									if (agCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										agCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										agCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									num13 -= (float)(100 * agCoinAmt);
+									Item.NewItem(i * 16, j * 16, 16, 16, ItemID.SilverCoin, agCoinAmt, false, 0, false, false);
+								}
+								else
+								{
+									int cuCoinAmt = (int)num13;
+									if (cuCoinAmt > 50 && Main.rand.NextBool(2))
+									{
+										cuCoinAmt /= Main.rand.Next(3) + 1;
+									}
+									if (Main.rand.NextBool(2))
+									{
+										cuCoinAmt /= Main.rand.Next(4) + 1;
+									}
+									if (cuCoinAmt < 1)
+									{
+										cuCoinAmt = 1;
+									}
+									num13 -= (float)cuCoinAmt;
+									Item.NewItem(i * 16, j * 16, 16, 16, ItemID.CopperCoin, cuCoinAmt, false, 0, false, false);
+								}
+							}
+						}
+					}
+				}
+			}
+			return true;
+		}
 
 		public override void NearbyEffects(int i, int j, int type, bool closer)
 		{

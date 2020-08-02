@@ -23,6 +23,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 		public const float ChargeLossBreakpoint = 180f;
 
 		public const int SwordBeamCooldown = 15;
+		public const float SwordBeamDamageMultiplier = 0.15f;
 		private const float MaximumMouseRange = 360f;
 		private const float ProjCenterOffset = 36f;
 
@@ -251,7 +252,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
 				if (Main.myPlayer == player.whoAmI)
 				{
 					Vector2 velocity = projectile.rotation.ToRotationVector2() * 20f;
-					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PhaseslayerBeam>(), projectile.damage / 3, 0f, player.whoAmI);
+					Projectile.NewProjectile(projectile.Center, velocity, ModContent.ProjectileType<PhaseslayerBeam>(), (int)(projectile.damage * SwordBeamDamageMultiplier), 0f, player.whoAmI);
 				}
 
 				// The sound delay doubles as the sword beam's cooldown.
