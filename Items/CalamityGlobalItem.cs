@@ -2989,6 +2989,14 @@ Grants immunity to fire blocks, and temporary immunity to lava";
         }
         #endregion
 
+		#region Update Inventory
+		public override void UpdateInventory(Item item, Player player)
+		{
+			if (item.Calamity().rogue && item.consumable && item.prefix > 0)
+				item.prefix = 0;
+		}
+		#endregion
+
         #region Armor Set Changes
         public override string IsArmorSet(Item head, Item body, Item legs)
         {
