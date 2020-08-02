@@ -537,7 +537,7 @@ namespace CalamityMod.Items
                     }
                 }
             }
-			if (item.Calamity().rogue && item.consumable && item.prefix > 0)
+			if (item.Calamity().rogue && item.maxStack > 1 && item.prefix > 0)
 				item.prefix = 0;
             return true;
         }
