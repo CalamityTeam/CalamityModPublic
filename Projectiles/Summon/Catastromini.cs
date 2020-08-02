@@ -86,7 +86,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.frame = 0;
             }
 
-			projectile.ChargingMinionAI(Calamitamini.Range, Calamitamini.SeparationAnxietyMin, Calamitamini.SeparationAnxietyMax, Calamitamini.SafeDist, 0, 40f, 8f, -4f, 40f, 8f, false, true);
+			projectile.ChargingMinionAI(Calamitamini.Range, Calamitamini.SeparationAnxietyMin, Calamitamini.SeparationAnxietyMax, Calamitamini.SafeDist, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 8f, false, true);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

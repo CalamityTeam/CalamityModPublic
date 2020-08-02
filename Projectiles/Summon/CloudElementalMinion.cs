@@ -100,7 +100,7 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.frame = 0;
 			}
 
-			projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, -4f, 40f, 8f, false, true, 1, new Vector2(500f, -60f));
+			projectile.ChargingMinionAI(500f, 800f, 1200f, 400f, 0, 30f, 8f, 4f, new Vector2(500f, -60f), 40f, 8f, false, true, 1);
         }
     }
 }

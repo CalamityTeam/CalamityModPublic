@@ -77,7 +77,7 @@ namespace CalamityMod.Projectiles.Summon
 				projectile.frame = 0;
 			}
 			Lighting.AddLight(projectile.Center, 0.3f, 0f, 0.5f);
-			projectile.ChargingMinionAI(1200f, 1500f, 2400f, 150f, 0, 30f, 18f, -9f, 30f, 12f, true, true);
+			projectile.ChargingMinionAI(1200f, 1500f, 2400f, 150f, 0, 30f, 18f, 9f, new Vector2(0f, -60f), 30f, 12f, true, true);
 			bool flag64 = projectile.type == ModContent.ProjectileType<PurpleButterfly>();
 			player.AddBuff(ModContent.BuffType<ResurrectionButterflyBuff>(), 3600);
 			if (flag64)

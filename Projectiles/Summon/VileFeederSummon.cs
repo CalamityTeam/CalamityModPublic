@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Summon
 			{
 				if (eaterCooldown > 0)
 					eaterCooldown--;
-				projectile.ChargingMinionAI(640f, 1100f, 2400f, 150f, 0, 40f, 8f, 4f, 40f, 8f, false, false);
+				projectile.ChargingMinionAI(640f, 1100f, 2400f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 8f, false, false);
 				projectile.frameCounter++;
 				if (projectile.frameCounter > 3)
 				{
