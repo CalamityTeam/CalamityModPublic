@@ -59,8 +59,7 @@ namespace CalamityMod.Items.Weapons.Rogue
 		{
 			if (item.maxStack > 1)
 			{
-				if (pre == -3 || item.prefix > 0)
-					return false;
+				return false;
 			}
 			return null;
 		}

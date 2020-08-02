@@ -39,7 +39,9 @@ namespace CalamityMod.Items.Accessories
                 "Summons and empowers the profaned babs to fight alongside you\n" +
                 "You are no longer affected by burn out when hit\n" +
                 "Provides buffs depending on the time of day\n" +
-                "This line is modified below");
+                "Provides heat and cold protection in Death Mode\n" +
+				"Thinking back, it was a boring life\n" +
+				"[c/FFBF49:And so we burn it all in the name of purity]");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(8, 4));
         }
 
@@ -95,26 +97,16 @@ namespace CalamityMod.Items.Accessories
                         line.text = "[c/3a83e4:Transforms Magic attacks into a powerful splitting fireball for " + manaCost + " mana per cast]";
                     }
                 }
-				if (CalamityWorld.death)
+			}
+			if (CalamityWorld.downedSCal)
+			{
+				if (!CalamityWorld.death)
 				{
 					foreach (TooltipLine line in tooltips)
 					{
 						if (line.mod == "Terraria" && line.Name == "Tooltip11")
 						{
-							line.text = "Provides heat and cold protection in Death Mode\n" +
-										"Thinking back, it was a boring life\n" +
-										"[c/FFBF49:And so we burn it all in the name of purity]";
-						}
-					}
-				}
-				else
-				{
-					foreach (TooltipLine line in tooltips)
-					{
-						if (line.mod == "Terraria" && line.Name == "Tooltip11")
-						{
-							line.text = "Thinking back, it was a boring life\n" +
-										"[c/FFBF49:And so we burn it all in the name of purity]";
+							line.text = "";
 						}
 					}
 				}
