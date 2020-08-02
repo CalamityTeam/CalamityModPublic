@@ -3615,6 +3615,9 @@ namespace CalamityMod.CalPlayer
 
 			if (boomerDukeLore)
 				player.buffImmune[ModContent.BuffType<Irradiated>()] = false;
+
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
+                player.yoraiz0rEye = 0;
         }
         #endregion
 
@@ -3638,6 +3641,9 @@ namespace CalamityMod.CalPlayer
 
 			if (boomerDukeLore)
 				player.buffImmune[ModContent.BuffType<Irradiated>()] = false;
+
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<GiantIbanRobotOfDoom>()] > 0)
+                player.yoraiz0rEye = 0;
         }
 		#endregion
 
