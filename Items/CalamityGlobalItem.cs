@@ -537,6 +537,8 @@ namespace CalamityMod.Items
                     }
                 }
             }
+			if (item.Calamity().rogue && item.consumable && item.prefix > 0)
+				item.prefix = 0;
             return true;
         }
         #endregion
