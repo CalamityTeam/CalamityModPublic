@@ -7102,7 +7102,7 @@ namespace CalamityMod.CalPlayer
         #region Can Hit
         public override bool? CanHitNPC(Item item, NPC target)
         {
-            if (camper && player.StandingStill())
+            if (camper && !player.StandingStill())
             {
                 return false;
             }
@@ -7111,7 +7111,7 @@ namespace CalamityMod.CalPlayer
 
         public override bool? CanHitNPCWithProj(Projectile proj, NPC target)
         {
-            if (camper && player.StandingStill())
+            if (camper && !player.StandingStill())
             {
                 return false;
             }
@@ -10320,7 +10320,7 @@ namespace CalamityMod.CalPlayer
             }
             if (IBoots)
             {
-                if (player.velocity.Length() > 0.05f && !player.mount.Active)
+                if (!player.StandingStill() && !player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
@@ -10340,7 +10340,7 @@ namespace CalamityMod.CalPlayer
             }
             if (elysianFire)
             {
-                if (player.velocity.Length() > 0.05f && !player.mount.Active)
+                if (!player.StandingStill() > 0.05f && !player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
@@ -10360,7 +10360,7 @@ namespace CalamityMod.CalPlayer
             }
             if (dsSetBonus)
             {
-                if (player.velocity.Length() > 0.05f && !player.mount.Active)
+                if (!player.StandingStill() && !player.mount.Active)
                 {
                     if (Main.rand.NextBool(2) && drawInfo.shadow == 0f)
                     {
@@ -10380,7 +10380,7 @@ namespace CalamityMod.CalPlayer
             }
             if (auricSet)
             {
-                if (player.velocity.Length() > 0.05f && !player.mount.Active)
+                if (!player.StandingStill() && !player.mount.Active)
                 {
                     if (drawInfo.shadow == 0f)
                     {

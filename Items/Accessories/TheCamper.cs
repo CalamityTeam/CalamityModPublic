@@ -63,7 +63,7 @@ namespace CalamityMod.Items.Accessories
             Lighting.AddLight(player.Center, 0.825f, 0.66f, 0f);
             if (Main.myPlayer == player.whoAmI)
             {
-                if (Math.Abs(player.velocity.X) < 0.05f && Math.Abs(player.velocity.Y) < 0.05f)
+                if (player.StandingStill())
                 {
                     player.allDamage += 0.15f;
                     auraCounter++;
