@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             int item = Item.NewItem(npc.Center, npc.Size, ModContent.ItemType<EbonianGel>(), Main.rand.Next(15, 21), false, 0, false, false);
             Main.item[item].color = new Color(250, 50, 50, 255);
-            NetMessage.SendData(88, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
+            NetMessage.SendData(MessageID.ItemTweaker, -1, -1, null, item, 1f, 0f, 0f, 0, 0, 0);
 
             DropHelper.DropItem(npc, ItemID.Gel, 10, 14);
             DropHelper.DropItemCondition(npc, ModContent.ItemType<Carnage>(), NPC.downedBoss3, 0.01f, 1, 1);

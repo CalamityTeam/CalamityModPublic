@@ -458,11 +458,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TinHelmet);
-            if (Main.hardMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.MagicDagger);
-            }
+			DropHelper.DropItem(npc, ItemID.TinHelmet);
+			DropHelper.DropItemCondition(npc, ItemID.MagicDagger, Main.hardMode);
         }
     }
 }

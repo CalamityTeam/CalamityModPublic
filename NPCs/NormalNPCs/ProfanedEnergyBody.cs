@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UnholyEssence>(), Main.rand.Next(2, 5));
+			DropHelper.DropItem(npc, ModContent.ItemType<UnholyEssence>(), 2, 4);
         }
     }
 }

@@ -279,11 +279,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<UnholyEssence>(), Main.rand.Next(2, 5));
-            if (Main.rand.NextBool(15))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EnergyStaff>());
-            }
+			DropHelper.DropItem(npc, ModContent.ItemType<UnholyEssence>(), 2, 4);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EnergyStaff>(), 15);
         }
 
         public override void HitEffect(int hitDirection, double damage)

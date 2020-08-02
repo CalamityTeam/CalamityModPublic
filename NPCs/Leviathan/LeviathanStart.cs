@@ -77,7 +77,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 			npc.Opacity = MathHelper.Clamp(npc.ai[0] / 90f, 0f, 1f);
 
-			Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0f, 0.8f * npc.Opacity);
+			Lighting.AddLight((int)npc.Center.X / 16, (int)npc.Center.Y / 16, 0f, 0f, 0.8f * npc.Opacity);
 
             if (CalamityPlayer.areThereAnyDamnBosses)
                 npc.active = false;
@@ -89,17 +89,17 @@ namespace CalamityMod.NPCs.Leviathan
 			if (npc.spriteDirection == 1)
 				spriteEffects = SpriteEffects.FlipHorizontally;
 
-			Texture2D texture2D15 = Main.npcTexture[npc.type];
-			Vector2 vector11 = new Vector2(Main.npcTexture[npc.type].Width / 2, Main.npcTexture[npc.type].Height / 2);
+			Texture2D drawTex = Main.npcTexture[npc.type];
+			Vector2 origin = new Vector2(drawTex.Width / 2, drawTex.Height / 2);
 
-			Vector2 vector43 = npc.Center - Main.screenPosition;
-			vector43 -= new Vector2(texture2D15.Width, texture2D15.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
-			vector43 += vector11 * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, npc.GetAlpha(lightColor), npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			Vector2 drawPos = npc.Center - Main.screenPosition;
+			drawPos -= new Vector2(drawTex.Width, drawTex.Height / Main.npcFrameCount[npc.type]) * npc.scale / 2f;
+			drawPos += origin * npc.scale + new Vector2(0f, 4f + npc.gfxOffY);
+			spriteBatch.Draw(drawTex, drawPos, npc.frame, npc.GetAlpha(lightColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
-			texture2D15 = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanStartGlow");
+			drawTex = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanStartGlow");
 
-			spriteBatch.Draw(texture2D15, vector43, npc.frame, Color.White, npc.rotation, vector11, npc.scale, spriteEffects, 0f);
+			spriteBatch.Draw(drawTex, drawPos, npc.frame, Color.White, npc.rotation, origin, npc.scale, spriteEffects, 0f);
 
 			return false;
 		}
@@ -129,10 +129,7 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void NPCLoot()
         {
-            if (CalamityWorld.revenge && Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SirensHeart>());
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<SirensHeart>(), CalamityWorld.revenge, 0.25f);
         }
 
         public override void HitEffect(int hitDirection, double damage)

@@ -105,10 +105,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(5) && NPC.downedPlantBoss)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MantisClaws>());
-            }
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<MantisClaws>(), NPC.downedPlantBoss, 0.2f);
         }
 
         public override void HitEffect(int hitDirection, double damage)
