@@ -205,7 +205,7 @@ namespace CalamityMod.Projectiles.Summon
 								}
 
 								//let the projectile know it is sticking and the npc it is sticking too
-								projectile.ai[0] = 1f;
+								projectile.ai[0] = 3f;
 								projectile.Calamity().lineColor = npcIndex;
 
 								//follow the NPC
@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Summon
 								for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
 								{
 									Projectile proj = Main.projectile[projIndex];
-									if (projIndex != projectile.whoAmI && proj.active && proj.owner == Main.myPlayer && proj.type == projectile.type && proj.ai[0] == 1f && proj.Calamity().lineColor == npcIndex)
+									if (projIndex != projectile.whoAmI && proj.active && proj.owner == Main.myPlayer && proj.type == projectile.type && proj.ai[0] == 3f && proj.Calamity().lineColor == npcIndex)
 									{
 										array2[projCount++] = new Point(projIndex, proj.timeLeft);
 										if (projCount >= array2.Length)
