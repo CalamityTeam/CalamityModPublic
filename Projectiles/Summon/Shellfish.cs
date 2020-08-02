@@ -436,5 +436,7 @@ namespace CalamityMod.Projectiles.Summon
             target.buffImmune[ModContent.BuffType<ShellfishEating>()] = target.Calamity().DR >= 0.99f;
             target.AddBuff(ModContent.BuffType<ShellfishEating>(), 600000);
         }
+
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }

@@ -272,5 +272,7 @@ namespace CalamityMod.Projectiles.Summon
 		}
 
 		public override bool CanDamage() => projectile.ai[0] != 3f;
+
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 	}
 }
