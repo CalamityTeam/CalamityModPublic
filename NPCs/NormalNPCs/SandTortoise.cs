@@ -60,10 +60,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(10))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.TurtleShell);
-            }
+			DropHelper.DropItemChance(npc, ItemID.TurtleShell, 0.1f);
         }
     }
 }

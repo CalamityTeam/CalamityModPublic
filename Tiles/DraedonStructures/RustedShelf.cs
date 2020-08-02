@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.DraedonStructures
     {
         public override void SetDefaults()
         {
-            this.SetUpPlatform();
+            this.SetUpPlatform(true);
             soundType = SoundID.Tink;
             dustType = 32;
             AddMapEntry(new Color(128, 90, 77));

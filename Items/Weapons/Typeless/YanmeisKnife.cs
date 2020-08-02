@@ -58,6 +58,7 @@ namespace CalamityMod.Items.Weapons.Typeless
 			recipe.AddIngredient(ItemID.PsychoKnife);
 			recipe.AddIngredient(ItemID.Obsidian, 10);
 			recipe.AddIngredient(ItemID.IronBar, 20);
+            recipe.anyIronBar = true;
 			recipe.AddIngredient(ModContent.ItemType<PlagueCellCluster>(), 50);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);

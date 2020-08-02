@@ -139,15 +139,9 @@ namespace CalamityMod.NPCs.Astral
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>(), Main.rand.Next(2, 4));
-            if (Main.expertMode)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Stardust>());
-            }
-            if (CalamityWorld.downedAstrageldon && Main.rand.NextBool(7))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HivePod>());
-            }
+            DropHelper.DropItem(npc, ModContent.ItemType<Stardust>(), 2, 3);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Stardust>(), Main.expertMode);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HivePod>(), CalamityWorld.downedAstrageldon, 7, 1, 1);
         }
     }
 }

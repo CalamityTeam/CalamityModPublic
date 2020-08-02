@@ -20,6 +20,7 @@ namespace CalamityMod.Tiles
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
             TileObjectData.newTile.Height = 7;
             TileObjectData.newTile.Origin = new Point16(3, 6);

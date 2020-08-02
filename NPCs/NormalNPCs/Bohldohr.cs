@@ -65,7 +65,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (CalamityWorld.downedSCal)
             {
                 // RIP LORDE
-                // Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<NO>());
+                // DropHelper.DropItem(npc, ModContent.ItemType<NO>());
             }
             DropHelper.DropItem(npc, ItemID.LihzahrdBrick, 10, 30);
             DropHelper.DropItemChance(npc, ItemID.LunarTabletFragment, 7, 1, 3); //solar tablet fragment

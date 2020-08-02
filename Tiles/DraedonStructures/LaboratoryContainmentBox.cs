@@ -14,7 +14,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
             Main.tileSolidTop[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
