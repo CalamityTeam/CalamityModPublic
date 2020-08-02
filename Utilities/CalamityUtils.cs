@@ -1317,7 +1317,7 @@ namespace CalamityMod
 			}
 		}
 
-		public static void ChargingMinionAI(this Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging, int updateDifference = 1)
+		public static void ChargingMinionAI(this Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging, int updateDifference = 1, Vector2 returnOffset = new Vector2(0f, -60f))
 		{
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
@@ -1449,7 +1449,7 @@ namespace CalamityMod
 				}
 
 				//Player distance calculations
-				Vector2 playerVec = player.Center - projectile.Center + new Vector2(0f, -60f);
+				Vector2 playerVec = player.Center - projectile.Center + returnOffset;
 				float playerDist = playerVec.Length();
 
 				//If the minion is actively returning, move faster
