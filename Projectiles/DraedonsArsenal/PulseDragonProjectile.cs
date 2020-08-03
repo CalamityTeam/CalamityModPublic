@@ -106,7 +106,7 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
             }
 
             GenerateIdleDust();
-            if (projectile.timeLeft % 4 == 3 && projectile.Distance(player.Center) > 40f)
+            if (projectile.timeLeft % 3 == 2 && projectile.Distance(player.Center) > 40f)
                 SpawnElectricFields();
         }
 
@@ -136,8 +136,9 @@ namespace CalamityMod.Projectiles.DraedonsArsenal
                 return;
             Projectile field = Projectile.NewProjectileDirect(projectile.Center, Vector2.Zero, ProjectileID.Electrosphere, projectile.damage, projectile.knockBack, projectile.owner);
             field.Calamity().forceMelee = true;
-            field.usesIDStaticNPCImmunity = true;
-            field.idStaticNPCHitCooldown = 6;
+            field.usesLocalNPCImmunity = true;
+            field.localNPCHitCooldown = 3;
+            field.timeLeft = 12;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
