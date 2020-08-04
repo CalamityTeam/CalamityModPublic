@@ -143,25 +143,26 @@ namespace CalamityMod.NPCs.Leviathan
             bool phase3 = lifeRatio < 0.4f;
 			bool phase4 = lifeRatio < 0.2f;
 
-            // Spawn Leviathan and Clones, change music
-            if (Main.netMode != NetmodeID.MultiplayerClient)
-            {
-                if (phase3)
-                {
-                    if (!spawnedLevi)
-                    {
-                        Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
-                        if (calamityModMusic != null)
-                            music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
-                        else
-                            music = MusicID.Boss3;
+			// Spawn Leviathan and change music
+			if (phase3)
+			{
+				if (!spawnedLevi)
+				{
+					Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
+					if (calamityModMusic != null)
+						music = calamityModMusic.GetSoundSlot(SoundType.Music, "Sounds/Music/LeviathanAndSiren");
+					else
+						music = MusicID.Boss3;
 
-						int levi = NPC.NewNPC((int)vector.X, (int)vector.Y + 480, ModContent.NPCType<Leviathan>(), 1);
-						CalamityUtils.BossAwakenMessage(levi);
-						spawnedLevi = true;
-                    }
-                }
-            }
+					if (Main.netMode != NetmodeID.MultiplayerClient)
+					{
+						NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<Leviathan>(), 1);
+						//CalamityUtils.BossAwakenMessage(levi);
+					}
+
+					spawnedLevi = true;
+				}
+			}
 
 			// Ice Shield
 			if (npc.localAI[2] < 3f)

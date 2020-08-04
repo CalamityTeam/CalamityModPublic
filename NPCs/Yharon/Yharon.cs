@@ -47,7 +47,7 @@ namespace CalamityMod.NPCs.Yharon
 
         public static float Phase1_DR = 0.24f;
         public static float Phase2_DR = 0.26f;
-		public static float ChargeTelegraph_DR = 0.75f;
+		public static float ChargeTelegraph_DR = 0.4f;
         public static float EnragedDR = 0.9f;
 
         public override void SetStaticDefaults()
