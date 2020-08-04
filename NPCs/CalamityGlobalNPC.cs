@@ -3903,7 +3903,7 @@ namespace CalamityMod.NPCs
 
             if (modPlayer.sGenerator)
             {
-                if (isSummon && npc.damage > 0)
+                if (isSummon && (npc.damage > 0 || npc.boss))
                 {
 					int buffType = Utils.SelectRandom(Main.rand, new int[]
 					{
@@ -3917,7 +3917,7 @@ namespace CalamityMod.NPCs
 
             if (modPlayer.hallowedRune)
             {
-                if (isSummon && npc.damage > 0)
+                if (isSummon && (npc.damage > 0 || npc.boss))
                 {
 					int buffType = Utils.SelectRandom(Main.rand, new int[]
 					{
@@ -3931,13 +3931,13 @@ namespace CalamityMod.NPCs
 
             if (modPlayer.bloodflareSet)
             {
-                if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life < npc.lifeMax * 0.5) &&
+                if (!npc.SpawnedFromStatue && (npc.damage > 0 || npc.boss) && (npc.life < npc.lifeMax * 0.5) &&
                     modPlayer.bloodflareHeartTimer <= 0)
                 {
                     modPlayer.bloodflareHeartTimer = 180;
                     DropHelper.DropItem(npc, ItemID.Heart);
                 }
-                else if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life > npc.lifeMax * 0.5) &&
+                else if (!npc.SpawnedFromStatue && (npc.damage > 0 || npc.boss) && (npc.life > npc.lifeMax * 0.5) &&
                     modPlayer.bloodflareManaTimer <= 0)
                 {
                     modPlayer.bloodflareManaTimer = 180;
