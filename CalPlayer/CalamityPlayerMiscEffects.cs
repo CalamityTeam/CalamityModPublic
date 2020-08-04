@@ -3056,7 +3056,7 @@ namespace CalamityMod.CalPlayer
 			if (modPlayer.thirdSageH && !player.dead && modPlayer.healToFull)
 				player.statLife = player.statLifeMax2;
 
-			if (modPlayer.pinkCandle)
+			if (modPlayer.pinkCandle && !CalamityWorld.ironHeart)
 			{
 				// Every frame, add up 1/60th of the healing value (0.4% max HP per second)
 				modPlayer.pinkCandleHealFraction += player.statLifeMax2 * 0.004 / 60;
