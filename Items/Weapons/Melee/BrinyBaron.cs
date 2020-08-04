@@ -19,26 +19,24 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.width = 62;
             item.damage = 75;
-            item.melee = true;
-            item.useAnimation = item.useTime = 15;
-            item.useTurn = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4f;
-            item.UseSound = SoundID.Item1;
+            item.useAnimation = item.useTime = 15;
+            item.melee = true;
+            item.useTurn = true;
             item.autoReuse = true;
-            item.height = 62;
+            item.shootSpeed = 4f;
+
+            item.width = 100;
+            item.height = 102;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.UseSound = SoundID.Item1;
             item.value = Item.buyPrice(0, 80, 0, 0);
             item.rare = ItemRarityID.Yellow;
-            item.shootSpeed = 4f;
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
-        public override bool AltFunctionUse(Player player)
-        {
-            return true;
-        }
+        public override bool AltFunctionUse(Player player) => true;
 
         public override bool CanUseItem(Player player)
         {
@@ -82,12 +80,12 @@ namespace CalamityMod.Items.Weapons.Melee
 
         public override void OnHitNPC(Player player, NPC target, int damage, float knockback, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * player.MeleeDamage() * 0.5f), knockback, player.whoAmI);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * player.MeleeDamage() * 0.5f), knockback, player.whoAmI);
         }
 
         public override void OnHitPvp(Player player, Player target, int damage, bool crit)
         {
-            Projectile.NewProjectile(target.Center.X, target.Center.Y, 0f, 0f, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * player.MeleeDamage() * 0.5f), item.knockBack, player.whoAmI);
+            Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<BrinyTyphoonBubble>(), (int)(item.damage * player.MeleeDamage() * 0.5f), item.knockBack, player.whoAmI);
         }
     }
 }
