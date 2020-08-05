@@ -4094,29 +4094,28 @@ namespace CalamityMod
                             NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
                         break;
                     case CalamityModMessageType.DraedonGeneratorStackSync:
-                        (TileEntity.ByID[reader.ReadInt32()] as TEDraedonFuelFactory).HeldItem.stack = reader.ReadInt32();
+                        int entityID = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonFuelFactory).HeldItem.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonFuelFactory).HeldItem.stack = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.DraedonChargerSync:
-                        int entityID = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.type = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.stack = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.position = reader.ReadVector2();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.type = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.stack = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.prefix = reader.ReadByte();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.position = reader.ReadVector2();
-                        int currentCharge = reader.ReadInt32();
-                        if (currentCharge != -1)
-                        {
-                            (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.Calamity().CurrentCharge = currentCharge;
-                        }
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ActiveTimer = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).DepositWithdrawCooldown = reader.ReadInt32();
+                        int entityID2 = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).FuelItem.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).FuelItem.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).FuelItem.position = reader.ReadVector2();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.prefix = reader.ReadByte();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.position = reader.ReadVector2();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).Charge = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ChargeMax = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ActiveTimer = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).DepositWithdrawCooldown = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.DraedonFieldGeneratorSync:
-                        int entityID2 = reader.ReadInt32();
-                        (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).Time = reader.ReadInt32();
-                        (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).ActiveTimer = reader.ReadInt32();
+                        int entityID3 = reader.ReadInt32();
+                        (TileEntity.ByID[entityID3] as TEDraedonFieldGenerator).Time = reader.ReadInt32();
+                        (TileEntity.ByID[entityID3] as TEDraedonFieldGenerator).ActiveTimer = reader.ReadInt32();
                         break;
 					case CalamityModMessageType.SyncCalamityNPCAIArray:
 						byte npcIndex2 = reader.ReadByte();
