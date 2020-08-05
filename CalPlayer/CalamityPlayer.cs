@@ -3173,14 +3173,14 @@ namespace CalamityMod.CalPlayer
                 vector = new Vector2((float)num2, (float)num3) * 16f + new Vector2((float)(-(float)width / 2 + 8), (float)-(float)player.height);
                 if (!Collision.SolidCollision(vector, width, player.height))
                 {
-                    if (Main.tile[num2, num3] == null)
+                    if (Main.tile[num2, num3] is null)
                     {
                         Main.tile[num2, num3] = new Tile();
                     }
                     int i = 0;
                     while (i < 100)
                     {
-                        if (Main.tile[num2, num3 + i] == null)
+                        if (Main.tile[num2, num3 + i] is null)
                         {
                             Main.tile[num2, num3 + i] = new Tile();
                         }
@@ -3266,14 +3266,14 @@ namespace CalamityMod.CalPlayer
                 vector = new Vector2((float)num2, (float)num3) * 16f + new Vector2((float)(-(float)width / 2 + 8), (float)-(float)player.height);
                 if (!Collision.SolidCollision(vector, width, player.height))
                 {
-                    if (Main.tile[num2, num3] == null)
+                    if (Main.tile[num2, num3] is null)
                     {
                         Main.tile[num2, num3] = new Tile();
                     }
                     int i = 0;
                     while (i < 100)
                     {
-                        if (Main.tile[num2, num3 + i] == null)
+                        if (Main.tile[num2, num3 + i] is null)
                         {
                             Main.tile[num2, num3 + i] = new Tile();
                         }
@@ -6275,7 +6275,7 @@ namespace CalamityMod.CalPlayer
 						continue;
 
 					Tile tile = Main.tile[i, j];
-					if (tile == null || !tile.active())
+					if (tile is null || !tile.active())
 						continue;
 
 					if (tile.type == TileID.Banners && (tile.frameX >= 396 || tile.frameY >= 54))

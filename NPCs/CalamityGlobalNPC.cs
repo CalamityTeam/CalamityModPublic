@@ -1240,7 +1240,7 @@ namespace CalamityMod.NPCs
         #region Special Drawing
         public static void DrawGlowmask(NPC npc, SpriteBatch spriteBatch, Texture2D texture = null, bool invertedDirection = false, Vector2 offset = default)
         {
-            if (texture == null)
+            if (texture is null)
                 texture = Main.npcTexture[npc.type];
             SpriteEffects effects = npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (invertedDirection)
@@ -1274,7 +1274,7 @@ namespace CalamityMod.NPCs
             }
 
             // Set the rotation calculation to a predefined value. The null default is solely so that 
-            if (rotationCalculation == null)
+            if (rotationCalculation is null)
             {
                 rotationCalculation = (nPC, afterimageIndex) => nPC.rotation;
             }
@@ -6671,7 +6671,7 @@ namespace CalamityMod.NPCs
                 {
                     for (int j = y - 1; j <= y + 1; j++)
                     {
-                        if (Main.tile[i, j] == null)
+                        if (Main.tile[i, j] is null)
                         {
                             return;
                         }
