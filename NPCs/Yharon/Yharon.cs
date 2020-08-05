@@ -434,6 +434,9 @@ namespace CalamityMod.NPCs.Yharon
 			bool bulletHell = npc.ai[0] == 8f || npc.ai[0] == 15f;
 			npc.Calamity().DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : Phase1_DR);
 
+			if (bulletHell)
+				npc.damage = 0;
+
             // Trigger spawn effects
             if (npc.localAI[0] == 0f)
             {
@@ -1615,7 +1618,10 @@ namespace CalamityMod.NPCs.Yharon
 			bool bulletHell = npc.ai[0] == 5f;
 			npc.Calamity().DR = protectionBoost ? EnragedDR : ((chargeTelegraph || bulletHell) ? ChargeTelegraph_DR : Phase2_DR);
 
-            int projectileDamage = expertMode ? 110 : 125;
+			if (bulletHell)
+				npc.damage = 0;
+
+			int projectileDamage = expertMode ? 110 : 125;
             if (secondPhasePhase == 4)
                 projectileDamage = (int)(projectileDamage * 1.1);
 

@@ -4214,8 +4214,14 @@ namespace CalamityMod.NPCs
         #region Edit Spawn Pool
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
+			bool calamityBiomeZone = spawnInfo.player.Calamity().ZoneAbyss ||
+				spawnInfo.player.Calamity().ZoneCalamity ||
+				spawnInfo.player.Calamity().ZoneSulphur ||
+				spawnInfo.player.Calamity().ZoneSunkenSea ||
+				(spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp);
+
 			// Spawn Green Jellyfish in prehm and Blue Jellyfish in hardmode
-			if (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.water)
+			if (spawnInfo.player.ZoneRockLayerHeight && spawnInfo.water && !calamityBiomeZone)
 			{
 				if (!Main.hardMode)
 					pool[NPCID.GreenJellyfish] = SpawnCondition.CaveJellyfish.Chance * 0.5f;
@@ -4230,11 +4236,7 @@ namespace CalamityMod.NPCs
 					pool[NPCID.TruffleWorm] = SpawnCondition.OverworldMushroom.Chance * 0.5f;
 			}
 
-			if (spawnInfo.player.Calamity().ZoneAbyss ||
-                spawnInfo.player.Calamity().ZoneCalamity ||
-                spawnInfo.player.Calamity().ZoneSulphur ||
-                spawnInfo.player.Calamity().ZoneSunkenSea ||
-                (spawnInfo.player.Calamity().ZoneAstral && !NPC.LunarApocalypseIsUp))
+			if (calamityBiomeZone)
             {
                 pool[0] = 0f;
             }
