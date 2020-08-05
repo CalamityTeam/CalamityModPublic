@@ -38,6 +38,9 @@ namespace CalamityMod.Tiles
             AddMapEntry(new Color(67, 72, 81), name);
             animationFrameHeight = 68;
         }
+
+        public override bool CanExplode(int i, int j) => false;
+
         public TEDraedonFuelFactory RetrieveTileEntity(int i, int j)
         {
             // This is very fucking important. ByID and ByPostion can apparently be different and as a result using both together is fucking unreliable.

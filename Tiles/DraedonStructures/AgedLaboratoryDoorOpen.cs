@@ -39,6 +39,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             dustType = 8;
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public override bool HasSmartInteract() => true;
 
         public override bool NewRightClick(int i, int j)

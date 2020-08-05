@@ -41,6 +41,8 @@ namespace CalamityMod.Tiles
             AddMapEntry(new Color(99, 131, 199));
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public TEDraedonHologram RetrieveTileEntity(int i, int j)
         {
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;

@@ -24,6 +24,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             AddMapEntry(Color.DimGray, name);
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 182);

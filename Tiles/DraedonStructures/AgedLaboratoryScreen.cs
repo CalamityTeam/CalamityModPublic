@@ -24,6 +24,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             dustType = 8;
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;

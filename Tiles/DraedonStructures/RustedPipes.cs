@@ -21,6 +21,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             AddMapEntry(new Color(128, 90, 77));
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public override void PlaceInWorld(int i, int j, Item item)
         {
             Main.PlaySound(SoundID.Item,i * 16, j * 16, 52, 0.75f, -0.5f);

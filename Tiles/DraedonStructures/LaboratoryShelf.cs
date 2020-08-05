@@ -18,6 +18,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             adjTiles = new int[] { TileID.Platforms };
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public override void PostSetDefaults()
         {
             Main.tileNoSunLight[Type] = false;
