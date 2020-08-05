@@ -19477,16 +19477,16 @@ namespace CalamityMod.NPCs
             bool canOpenDoors = false;
             if (npc.velocity.Y == 0f)
             {
-                int num161 = (int)(npc.position.Y + (float)npc.height + 7f) / 16;
-                int arg_A8FB_0 = (int)npc.position.X / 16;
-                int num162 = (int)(npc.position.X + (float)npc.width) / 16;
-                for (int num163 = arg_A8FB_0; num163 <= num162; num163++)
+                int j = (int)(npc.position.Y + (float)npc.height + 7f) / 16;
+                int npcLeft = (int)npc.position.X / 16;
+                int npcRight = (int)(npc.position.X + (float)npc.width) / 16;
+                for (int i = npcLeft; i <= npcRight; i++)
                 {
-                    if (Main.tile[num163, num161] == null)
+                    if (Main.tile[i, j] is null)
                     {
                         return false;
                     }
-                    if (Main.tile[num163, num161].nactive() && Main.tileSolid[(int)Main.tile[num163, num161].type])
+                    if (Main.tile[i, j].nactive() && Main.tileSolid[Main.tile[i, j].type])
                     {
                         canOpenDoors = true;
                         break;
@@ -19512,23 +19512,23 @@ namespace CalamityMod.NPCs
                 positionDelta.X += npc.velocity.X;
                 int x = (int)((positionDelta.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * velocitySign)) / 16f);
                 int y = (int)((positionDelta.Y + (float)npc.height - 1f) / 16f);
-                if (Main.tile[x, y] == null)
+                if (Main.tile[x, y] is null)
                 {
                     Main.tile[x, y] = new Tile();
                 }
-                if (Main.tile[x, y - 1] == null)
+                if (Main.tile[x, y - 1] is null)
                 {
                     Main.tile[x, y - 1] = new Tile();
                 }
-                if (Main.tile[x, y - 2] == null)
+                if (Main.tile[x, y - 2] is null)
                 {
                     Main.tile[x, y - 2] = new Tile();
                 }
-                if (Main.tile[x, y - 3] == null)
+                if (Main.tile[x, y - 3] is null)
                 {
                     Main.tile[x, y - 3] = new Tile();
                 }
-                if (Main.tile[x, y + 1] == null)
+                if (Main.tile[x, y + 1] is null)
                 {
                     Main.tile[x, y + 1] = new Tile();
                 }
@@ -19593,7 +19593,7 @@ namespace CalamityMod.NPCs
             }
             if (canOpenDoors)
             {
-                int x = (int)((npc.position.X + (float)(npc.width / 2) + (float)(15 * npc.direction)) / 16f);
+                int x = (int)((npc.Center.X + (float)(15 * npc.direction)) / 16f);
                 int y = (int)((npc.position.Y + (float)npc.height - 15f) / 16f);
                 if (npcType == NPCID.Clown || npcType == NPCID.BlackRecluse || npcType == NPCID.WallCreeper || npcType == NPCID.LihzahrdCrawler || npcType == NPCID.JungleCreeper || npcType == NPCID.BloodCrawler || npcType == NPCID.AnomuraFungus || npcType == NPCID.MushiLadybug || npcType == NPCID.Paladin || npcType == NPCID.Scutlix || npcType == NPCID.VortexRifleman || npcType == NPCID.VortexHornet || npcType == NPCID.VortexHornetQueen || npcType == NPCID.WalkingAntlion || npcType == NPCID.SolarDrakomire || npcType == NPCID.DesertScorpionWalk || npcType == NPCID.DesertBeast)
                 {
@@ -19693,7 +19693,7 @@ namespace CalamityMod.NPCs
                                         NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 0, (float)x, (float)(y - 1), (float)npc.direction, 0, 0, 0);
                                     }
                                 }
-                                if (Main.tile[x, y - 1].type == 388)
+                                if (Main.tile[x, y - 1].type == TileID.TallGateClosed)
                                 {
                                     bool flag25 = WorldGen.ShiftTallGate(x, y - 1, false);
                                     if (!flag25)

@@ -6945,6 +6945,13 @@ namespace CalamityMod.CalPlayer
 									reduceDamage = true;
 								}
 								break;
+
+							case ProjectileID.HappyBomb:
+								if (bannerNPCType == NPCID.Clown)
+								{
+									reduceDamage = true;
+								}
+								break;
 						}
 					}
 
