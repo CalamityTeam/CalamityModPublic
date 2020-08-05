@@ -156,8 +156,8 @@ namespace CalamityMod.NPCs.Leviathan
 
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<Leviathan>(), 1);
-						//CalamityUtils.BossAwakenMessage(levi);
+						int levi = NPC.NewNPC((int)vector.X, (int)vector.Y, ModContent.NPCType<Leviathan>(), npc.whoAmI);
+						CalamityUtils.BossAwakenMessage(levi);
 					}
 
 					spawnedLevi = true;
