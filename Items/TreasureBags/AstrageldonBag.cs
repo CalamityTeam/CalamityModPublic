@@ -54,6 +54,8 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemChance(player, ModContent.ItemType<AlulaAustralis>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<BorealisBomber>(), 3);
             DropHelper.DropItemChance(player, ModContent.ItemType<AuroradicalThrow>(), 3);
+            float leonidChance = DropHelper.LegendaryDropRateFloat;
+            DropHelper.DropItemCondition(player, ModContent.ItemType<LeonidProgenitor>(), CalamityWorld.revenge, leonidChance);
 
             // Equipment
             DropHelper.DropItemCondition(player, ModContent.ItemType<SquishyBeanMount>(), CalamityWorld.revenge && NPC.downedMoonlord);
