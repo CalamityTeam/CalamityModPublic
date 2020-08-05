@@ -735,23 +735,17 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void FindFrame(int frameHeight)
         {
-            Texture2D texture = Main.npcTexture[npc.type];
             if (npc.ai[0] > 2f || forceChargeFrames)
-			{
                 frameUsed = 1;
-			}
             else
-			{
                 frameUsed = 0;
-			}
-			int frameY = texture.Height / Main.npcFrameCount[npc.type];
-			int timeBetweenFrames = 8;
 
+			int timeBetweenFrames = 8;
             npc.frameCounter++;
 			if (npc.frameCounter > timeBetweenFrames * Main.npcFrameCount[npc.type])
 				npc.frameCounter = 0;
 
-			npc.frame.Y = frameY * (int)(npc.frameCounter / timeBetweenFrames);
+			npc.frame.Y = frameHeight * (int)(npc.frameCounter / timeBetweenFrames);
 			if (npc.frame.Y >= frameHeight * Main.npcFrameCount[npc.type])
 				npc.frame.Y = 0;
 
