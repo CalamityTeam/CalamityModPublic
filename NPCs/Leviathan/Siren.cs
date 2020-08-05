@@ -19,7 +19,6 @@ namespace CalamityMod.NPCs.Leviathan
         private bool spawnedLevi = false;
         private bool forceChargeFrames = false;
         private int frameUsed = 0;
-		private static Texture2D sirenStabTexture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenStabbing");
 
 		//IMPORTANT: Do NOT remove the empty space on the sprites.  This is intentional for framing.  The sprite is centered and hitbox is fine already.
 
@@ -294,7 +293,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 					if (npc.position.Y > Main.worldSurface * 16.0)
 					{
-						for (int x = 0; x < 200; x++)
+						for (int x = 0; x < Main.maxNPCs; x++)
 						{
 							if (Main.npc[x].type == ModContent.NPCType<Leviathan>())
 							{
@@ -720,7 +719,7 @@ namespace CalamityMod.NPCs.Leviathan
 					texture = Main.npcTexture[npc.type];
 					break;
 				case 1:
-					texture = sirenStabTexture;
+					texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/SirenStabbing");
 					break;
 			}
 
