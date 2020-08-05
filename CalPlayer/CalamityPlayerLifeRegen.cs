@@ -704,7 +704,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegenTime = 1800;
             }
 
-			if (modPlayer.etherealExtorter || player.ZoneGlowshroom)
+			if (modPlayer.etherealExtorter && player.ZoneGlowshroom)
 				player.lifeRegen += 1;
 
 			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
