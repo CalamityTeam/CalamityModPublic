@@ -16,7 +16,8 @@ namespace CalamityMod.Items.Armor
         {
             DisplayName.SetDefault("Reaver Helmet");
             Tooltip.SetDefault("10% increased pick speed\n" +
-                "Temporary immunity to lava and can move freely through liquids");
+                "Temporary immunity to lava and can move freely through liquids\n" +
+				"Provides heat protection in Death Mode");
         }
 
         public override void SetDefaults()
@@ -30,14 +31,13 @@ namespace CalamityMod.Items.Armor
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death)
+			if (!CalamityWorld.death)
 			{
 				foreach (TooltipLine line2 in list)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip1")
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip2")
 					{
-						line2.text = "Temporary immunity to lava and can move freely through liquids\n" +
-						"Provides heat protection in Death Mode";
+						line2.text = "";
 					}
 				}
 			}

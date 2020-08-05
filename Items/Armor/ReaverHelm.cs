@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Armor
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reaver Helm");
-            Tooltip.SetDefault("15% increased melee damage, 10% increased melee speed, and 5% increased melee critical strike chance\n" +
-                "10% increased movement speed and can move freely through liquids");
+            Tooltip.SetDefault("10% increased damage reduction but 30% decreased damage");
         }
 
         public override void SetDefaults()
@@ -23,7 +22,7 @@ namespace CalamityMod.Items.Armor
             item.height = 30;
             item.value = Item.buyPrice(0, 30, 0, 0);
             item.rare = 7;
-            item.defense = 25; //58
+            item.defense = 40; //58
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
@@ -41,21 +40,18 @@ namespace CalamityMod.Items.Armor
         {
             CalamityPlayer modPlayer = player.Calamity();
             player.thorns += 0.33f;
+            player.moveSpeed -= 0.2f;
             modPlayer.reaverBlast = true;
-            player.setBonus = "5% increased melee damage\n" +
-                "Melee projectiles explode on hit\n" +
-                "Reaver thorns\n" +
-                "Rage activates when you are damaged";
-            player.meleeDamage += 0.05f;
+            player.setBonus = "20% decreased movement speed\n" +
+			"Enemy damage is reflected and summons a thorn spike\n" +
+			"Reaver Rage activates when you are damaged";
+			//Reaver Rage provides 30% damage to offset the helm "bonus", 5 def, and 5% melee speed.
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.ignoreWater = true;
-            player.meleeDamage += 0.15f;
-            player.meleeCrit += 5;
-            player.meleeSpeed += 0.1f;
-            player.moveSpeed += 0.1f;
+			player.allDamage -= 0.3f;
+			player.endurance += 0.1f;
         }
 
         public override void AddRecipes()

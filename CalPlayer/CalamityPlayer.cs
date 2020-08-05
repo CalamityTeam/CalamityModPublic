@@ -677,6 +677,8 @@ namespace CalamityMod.CalPlayer
         public int brimflameFrenzyTimer = 0;
         public bool reaverSpore = false;
         public bool reaverDoubleTap = false;
+        public bool reaverRegen = false;
+        public int reaverRegenCooldown = 0;
         public bool flamethrowerBoost = false;
         public bool hoverboardBoost = false; //hoverboard + shroomite visage
         public bool shadeRegen = false;
@@ -1666,6 +1668,7 @@ namespace CalamityMod.CalPlayer
             brimflameFrenzyCooldown = false;
 
             reaverSpore = false;
+			reaverRegen = false;
             reaverDoubleTap = false;
             reaverBlast = false;
             reaverBurst = false;
@@ -2319,6 +2322,8 @@ namespace CalamityMod.CalPlayer
 			brimflameFrenzyTimer = 0;
             reaverSpore = false;
             reaverDoubleTap = false;
+			reaverRegen = false;
+			reaverRegenCooldown = 0;
             shadeRegen = false;
             dsSetBonus = false;
             titanHeartSet = false;
@@ -4611,13 +4616,6 @@ namespace CalamityMod.CalPlayer
                     if (Main.rand.NextBool(3))
                     {
                         Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 58, player.velocity.X * 0.2f + player.direction * 3f, player.velocity.Y * 0.2f, 100, default, 1.25f);
-                    }
-                }
-                if (reaverBlast)
-                {
-                    if (Main.rand.NextBool(3))
-                    {
-                        Dust.NewDust(new Vector2(hitbox.X, hitbox.Y), hitbox.Width, hitbox.Height, 74, player.velocity.X * 0.2f + player.direction * 3f, player.velocity.Y * 0.2f, 100, default, 0.75f);
                     }
                 }
                 if (dsSetBonus)
@@ -8170,6 +8168,17 @@ namespace CalamityMod.CalPlayer
                             Main.projectile[rspore2].usesLocalNPCImmunity = true;
                             Main.projectile[rspore2].localNPCHitCooldown = 60;
                         }
+                    }
+                }
+            }
+            else if (reaverBlast) //Defense and DR Helm
+            {
+                if (damage > 0)
+                {
+                    int rDamage = (int)(80 * player.AverageDamage());
+                    if (player.whoAmI == Main.myPlayer)
+                    {
+						Projectile.NewProjectile(player.Center.X, player.position.Y + 36f, 0f, -18f, ModContent.ProjectileType<ReaverThornBase>(), rDamage, 0f, player.whoAmI, 0f, 0f);
                     }
                 }
             }

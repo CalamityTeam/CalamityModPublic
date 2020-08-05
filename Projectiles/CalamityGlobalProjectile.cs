@@ -1586,11 +1586,6 @@ namespace CalamityMod.Projectiles
                     Main.projectile[plague].Calamity().forceTypeless = true;
                 }
 
-                if (modPlayer.reaverBlast && projectile.melee)
-                {
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<ReaverBlast>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.2, 30), 0f, projectile.owner, 0f, 0f);
-                }
-
                 if (projectile.magic)
                 {
                     if (modPlayer.silvaMage && projectile.penetrate == 1 && Main.rand.Next(0, 100) >= 97)

@@ -744,6 +744,16 @@ namespace CalamityMod.CalPlayer
 			else
 				modPlayer.pinkCandleHealFraction = 0D;
 
+			if (modPlayer.reaverRegen && modPlayer.reaverRegenCooldown >= 60)
+			{
+				modPlayer.reaverRegenCooldown = 0;
+				if (player.statLife != player.statLifeMax2 && !CalamityWorld.ironHeart)
+					player.statLife += 1;
+			}
+
+			if (modPlayer.reaverSpore)
+				player.lifeRegen += 3;
+
 			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
 			if (!player.shinyStone)
 			{

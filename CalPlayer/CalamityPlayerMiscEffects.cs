@@ -1032,6 +1032,10 @@ namespace CalamityMod.CalPlayer
 				modPlayer.canFireReaverRangedProjectile = true;
 				modPlayer.canFireAtaxiaRogueProjectile = true;
 			}
+			if (modPlayer.reaverRegenCooldown < 60 && modPlayer.reaverRegen)
+				modPlayer.reaverRegenCooldown++;
+			else
+				modPlayer.reaverRegenCooldown = 0;
 			if (modPlayer.roverDrive)
 			{
 				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))
@@ -2667,8 +2671,8 @@ namespace CalamityMod.CalPlayer
 
 			if (modPlayer.rRage)
 			{
-				player.allDamage += 0.05f;
-				player.moveSpeed += 0.05f;
+				player.allDamage += 0.3f;
+				player.statDefense += 5;
 			}
 
 			if (modPlayer.xRage)
