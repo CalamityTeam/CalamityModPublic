@@ -4222,6 +4222,9 @@ namespace CalamityMod.CalPlayer
         public override void OnRespawn(Player player)
         {
             thirdSageH = true;
+
+            // The player rotation can be off if the player dies at the right time when using Final Dawn.
+            player.fullRotation = 0f;
         }
         #endregion
 

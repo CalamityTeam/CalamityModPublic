@@ -64,6 +64,18 @@ namespace CalamityMod.Projectiles.Rogue
                 projectile.localAI[0] = 1;
             }
 
+            // Kill any hooks from the projectile owner.
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                Projectile proj = Main.projectile[i];
+
+                if (!proj.active || proj.owner != player.whoAmI || proj.aiStyle != 7)
+                    continue;
+
+                if (proj.aiStyle == 7)
+                    proj.Kill();
+            }
+
             projectile.spriteDirection = projectile.velocity.X > 0 ? 1 : -1;
             projectile.rotation += 0.25f * projectile.direction;
             player.Center = projectile.Center;
@@ -71,7 +83,7 @@ namespace CalamityMod.Projectiles.Rogue
             player.fullRotation = projectile.rotation;
             player.direction = projectile.direction;
             player.heldProj = projectile.whoAmI;
-            player.bodyFrame.Y = 1 * player.bodyFrame.Height;
+            player.bodyFrame.Y = player.bodyFrame.Height;
             player.immuneNoBlink = true;
             player.immuneTime = 10;
 
