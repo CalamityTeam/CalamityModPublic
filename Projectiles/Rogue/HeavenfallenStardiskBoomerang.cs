@@ -46,7 +46,7 @@ namespace CalamityMod.Projectiles.Rogue
 						int energyAmt = Main.rand.Next(1, 4); //1 to 3 energy
 						for (int n = 0; n < energyAmt; n++)
 						{
-							CalamityUtils.ProjectileRain(targetPos, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner);
+							CalamityUtils.ProjectileRain(projectile.Center, 400f, 100f, 500f, 800f, 29f, ModContent.ProjectileType<HeavenfallenEnergy>(), (int)(projectile.damage * 0.4), projectile.knockBack * 0.4f, projectile.owner);
 						}
 					}
 				}
