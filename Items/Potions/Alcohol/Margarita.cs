@@ -2,6 +2,7 @@ using CalamityMod.Buffs.Alcohol;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -38,19 +39,10 @@ Reduces defense by 6 and life regen by 1");
             item.value = Item.buyPrice(0, 23, 30, 0);
         }
 
-		public override bool CanUseItem(Player player) => player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
-
         public override bool CanUseItem(Player player)
         {
-            if (player.Calamity().bloodPactBoost)
-            {
-                item.healLife = 300;
-            }
-            else
-            {
-                item.healLife = 200;
-            }
-            return base.CanUseItem(player);
+			item.healLife = player.Calamity().bloodPactBoost ? 300 : 200;
+            return player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
         }
 
 		public override bool UseItem(Player player)

@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.Alcohol;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 

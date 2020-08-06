@@ -38,19 +38,10 @@ Grants Well Fed");
 			item.value = Item.buyPrice(0, 2, 0, 0);
 		}
 
-		public override bool CanUseItem(Player player) => player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
-
         public override bool CanUseItem(Player player)
         {
-            if (player.Calamity().bloodPactBoost)
-            {
-                item.healLife = 180;
-            }
-            else
-            {
-                item.healLife = 120;
-            }
-            return base.CanUseItem(player);
+			item.healLife = player.Calamity().bloodPactBoost ? 180 : 120;
+            return player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
         }
 
 		public override bool UseItem(Player player)

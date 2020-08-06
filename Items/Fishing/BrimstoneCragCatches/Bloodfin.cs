@@ -1,9 +1,10 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using CalamityMod.Buffs.Potions;
 using CalamityMod.World;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.GameInput;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Fishing.BrimstoneCragCatches
 {
@@ -37,19 +38,10 @@ The life regen boost is stronger if below 75% health");
 			item.buffTime = 600;
         }
 
-		public override bool CanUseItem(Player player) => player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
-
         public override bool CanUseItem(Player player)
         {
-            if (player.Calamity().bloodPactBoost)
-            {
-                item.healLife = 360;
-            }
-            else
-            {
-                item.healLife = 240;
-            }
-            return base.CanUseItem(player);
+			item.healLife = player.Calamity().bloodPactBoost ? 360 : 240;
+            return player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
         }
 
 		public override bool UseItem(Player player)
