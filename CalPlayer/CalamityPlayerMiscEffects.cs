@@ -3471,7 +3471,8 @@ namespace CalamityMod.CalPlayer
 					player.lavaMax += 420;
 					player.lavaRose = true;
 					player.fireWalk = true;
-					player.buffImmune[ModContent.BuffType<HolyFlames>()] = true;
+					player.buffImmune[ModContent.BuffType<HolyFlames>()] = Main.dayTime;
+					player.buffImmune[ModContent.BuffType<Nightwither>()] = !Main.dayTime;
 					player.buffImmune[BuffID.OnFire] = true;
 					player.buffImmune[BuffID.Burning] = true;
 					player.buffImmune[BuffID.Daybreak] = true;
