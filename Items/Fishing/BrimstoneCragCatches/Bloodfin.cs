@@ -33,45 +33,46 @@ The life regen boost is stronger if below 75% health");
             item.consumable = true;
             item.healLife = 240;
             item.potion = true;
+			item.buffType = ModContent.BuffType<BloodfinBoost>();
+			item.buffTime = 600;
         }
 
-        public override bool CanUseItem(Player player) => player.FindBuffIndex(BuffID.PotionSickness) == -1;
+		public override bool CanUseItem(Player player) => player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
 
-        public override void OnConsumeItem(Player player)
+        public override bool CanUseItem(Player player)
         {
-			int healAmt = CalamityWorld.ironHeart ? 0 : 240;
-			if (player.Calamity().bloodPactBoost)
-				healAmt = (int)(healAmt * 1.5);
-            player.statLife += healAmt;
-            if (player.statLife > player.statLifeMax2)
+            if (player.Calamity().bloodPactBoost)
             {
-                player.statLife = player.statLifeMax2;
+                item.healLife = 360;
             }
-            if (Main.myPlayer == player.whoAmI)
+            else
             {
-				if (!CalamityWorld.ironHeart)
-					player.HealEffect(healAmt, true);
+                item.healLife = 240;
             }
-            player.AddBuff(ModContent.BuffType<BloodfinBoost>(), 600);
-
-			//So you can't just spam with quick buff
-            player.ClearBuff(BuffID.PotionSickness);
-            player.AddBuff(BuffID.PotionSickness, player.pStone ? 2700 : 3600);
+            return base.CanUseItem(player);
         }
 
-        // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.
-        public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
-        {
-            healValue = 0;
-        }
+		public override bool UseItem(Player player)
+		{
+			if (PlayerInput.Triggers.JustPressed.QuickBuff)
+			{
+				int healAmt = CalamityWorld.ironHeart ? 0 : item.healLife;
+				player.statLife += healAmt;
+				if (player.statLife > player.statLifeMax2)
+				{
+					player.statLife = player.statLifeMax2;
+				}
+				if (Main.myPlayer == player.whoAmI)
+				{
+					if (!CalamityWorld.ironHeart)
+						player.HealEffect(healAmt, true);
+				}
+			}
+            player.AddBuff(ModContent.BuffType<BloodfinBoost>(), item.buffTime);
 
-        // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-			float healMult = 1f;
-			if (Main.player[Main.myPlayer].Calamity().bloodPactBoost)
-				healMult = 1.5f;
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : (int)(item.healLife * healMult)) + " life";
+			// fixes hardcoded potion sickness duration from quick heal (see CalamityPlayerMiscEffects.cs)
+			player.Calamity().potionTimer = 2;
+			return true;
         }
     }
 }

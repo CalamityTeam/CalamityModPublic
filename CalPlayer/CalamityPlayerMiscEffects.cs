@@ -989,6 +989,10 @@ namespace CalamityMod.CalPlayer
 				modPlayer.dogTextCooldown--;
 			if (modPlayer.titanCooldown > 0)
 				modPlayer.titanCooldown--;
+			if (modPlayer.potionTimer > 0)
+				modPlayer.potionTimer--;
+			if (modPlayer.potionTimerR > 0)
+				modPlayer.potionTimerR--;
 			if (modPlayer.roverDrive)
 			{
 				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))
@@ -3729,6 +3733,17 @@ namespace CalamityMod.CalPlayer
 					player.meleeDamage += 0.1f;
 					player.meleeCrit += 5;
 				}
+			}
+
+			if (modPlayer.potionTimer > 0 && player.potionDelay == 0)
+				player.potionDelay = modPlayer.potionTimer;
+			if (modPlayer.potionTimer == 1)
+			{
+				int duration = modPlayer.potionTimerR > 0 ? 3000 : 3600;
+				if (player.pStone)
+					duration = (int)(duration * 0.75);
+				player.ClearBuff(BuffID.PotionSickness);
+				player.AddBuff(BuffID.PotionSickness, duration);
 			}
 
 			if (CalamityConfig.Instance.Proficiency)

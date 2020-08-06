@@ -122,6 +122,8 @@ namespace CalamityMod.CalPlayer
 		public double projectileDamageReduction = 0D;
 		public bool brimlashBusterBoost = false;
 		public float animusBoost = 1f;
+		public int potionTimer = 0;
+		public int potionTimerR = 0;
 		#endregion
 
         public int CurrentlyViewedFactoryX = -1;
@@ -2364,6 +2366,8 @@ namespace CalamityMod.CalPlayer
             lastProjectileHit = null;
 			brimlashBusterBoost = false;
 			animusBoost = 1f;
+			potionTimer = 0;
+			potionTimerR = 0;
 
             if (CalamityWorld.bossRushActive)
             {
@@ -8608,10 +8612,10 @@ namespace CalamityMod.CalPlayer
                     num7 = 14f; //14
 					if (statisTimer % 5 == 0)
 					{
-						int scythe = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), (int)(500 * player.AverageDamage()), 5f, player.whoAmI, 1f);
-						Main.projectile[scythe].Calamity().rogue = false;
+						int scythe = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), (int)(500 * player.AverageDamage()), 5f, player.whoAmI);
+						Main.projectile[scythe].Calamity().forceTypeless = true;
 						Main.projectile[scythe].usesIDStaticNPCImmunity = true;
-						Main.projectile[scythe].idStaticNPCHitCooldown = 10 * Main.projectile[scythe].extraUpdates;
+						Main.projectile[scythe].idStaticNPCHitCooldown = 10;
 					}
                 }
                 else if (dashMod == 8) //Plaguebringer armor

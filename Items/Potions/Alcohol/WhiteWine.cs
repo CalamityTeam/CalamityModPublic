@@ -33,9 +33,23 @@ Reduces defense by 6 and life regen by 1");
             item.value = Item.buyPrice(0, 16, 60, 0);
         }
 
-        public override void OnConsumeItem(Player player)
-        {
-            player.AddBuff(ModContent.BuffType<WhiteWineBuff>(), 10800);
-        }
+		public override bool UseItem(Player player)
+		{
+			if (PlayerInput.Triggers.JustPressed.QuickBuff)
+			{
+				player.statMana += item.healMana;
+				if (player.statMana > player.statManaMax2)
+				{
+					player.statMana = player.statManaMax2;
+				}
+				player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
+				if (Main.myPlayer == player.whoAmI)
+				{
+					player.ManaEffect(item.healMana);
+				}
+			}
+            player.AddBuff(ModContent.BuffType<WhiteWineBuff>(), item.buffTime);
+			return true;
+		}
     }
 }
