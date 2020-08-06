@@ -1667,10 +1667,14 @@ namespace CalamityMod.Projectiles
                 }
                 if (projectile.IsSummon())
                 {
-                    if (modPlayer.profanedCrystalBuffs || (modPlayer.pArtifact && !modPlayer.profanedCrystal))
+                    if (modPlayer.pArtifact && !modPlayer.profanedCrystal)
                     {
-                        target.AddBuff(BuffType<HolyFlames>(), modPlayer.profanedCrystalBuffs ? 600 : 300);
+                        target.AddBuff(BuffType<HolyFlames>(), 300);
                     }
+					if (modPlayer.profanedCrystalBuffs)
+					{
+						target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
+					}
 
                     if (modPlayer.tearMinions)
                     {
