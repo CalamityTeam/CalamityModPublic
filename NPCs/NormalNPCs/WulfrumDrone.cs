@@ -70,6 +70,27 @@ namespace CalamityMod.NPCs.NormalNPCs
 
             Player player = Main.player[npc.target];
 
+            bool farFromPlayer = npc.Distance(player.Center) > 640f;
+            bool obstanceInFrontOfPlayer = !Collision.CanHitLine(npc.position, npc.width, npc.height, player.position, player.width, player.height);
+
+            if (npc.target < 0 || npc.target >= 255 || farFromPlayer || obstanceInFrontOfPlayer || player.dead || !player.active)
+            {
+                npc.TargetClosest(false);
+                player = Main.player[npc.target];
+                farFromPlayer = npc.Distance(player.Center) > 640f;
+                obstanceInFrontOfPlayer = !Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
+                // Fly away if there is no living target, or the closest target is too far away.
+                if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
+                {
+                    npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
+                    npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                    npc.noTileCollide = true;
+                    return;
+                }
+            }
+
+            npc.noTileCollide = !farFromPlayer;
+
             if (Supercharged)
             {
                 SuperchargeTimer--;
