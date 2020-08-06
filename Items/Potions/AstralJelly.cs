@@ -9,7 +9,7 @@ namespace CalamityMod.Items.Potions
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aureus Cell");
-            Tooltip.SetDefault("Gives mana regeneration and magic power for 6 minutes");
+            Tooltip.SetDefault("Grants increased mana regeneration and magic power");
         }
 
         public override void SetDefaults()
@@ -30,10 +30,24 @@ namespace CalamityMod.Items.Potions
             item.buffTime = 21600;
         }
 
-        public override void OnConsumeItem(Player player)
-        {
-            player.AddBuff(BuffID.MagicPower, 21600);
-            player.AddBuff(BuffID.ManaRegeneration, 21600);
-        }
+		public override bool UseItem(Player player)
+		{
+			if (PlayerInput.Triggers.JustPressed.QuickBuff)
+			{
+				player.statMana += item.healMana;
+				if (player.statMana > player.statManaMax2)
+				{
+					player.statMana = player.statManaMax2;
+				}
+				player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
+				if (Main.myPlayer == player.whoAmI)
+				{
+					player.ManaEffect(item.healMana);
+				}
+			}
+            player.AddBuff(BuffID.MagicPower, item.buffTime);
+            player.AddBuff(BuffID.ManaRegeneration, item.buffTime);
+			return true;
+		}
     }
 }
