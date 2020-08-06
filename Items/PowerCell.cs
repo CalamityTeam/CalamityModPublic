@@ -29,6 +29,7 @@ namespace CalamityMod.Items
             item.useTime = 5;
             item.autoReuse = true;
             item.useTurn = true;
+            item.value = Item.sellPrice(0, 0, 0, 20);
         }
 
         public override void ExtractinatorUse(ref int resultType, ref int resultStack)
