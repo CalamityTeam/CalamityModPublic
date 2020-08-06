@@ -13,8 +13,7 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grape Beer");
-            Tooltip.SetDefault(@"Restores 100 mana
-This crap is abhorrent but you might like it
+            Tooltip.SetDefault(@"This crap is abhorrent but you might like it
 Reduces defense by 2 and movement speed by 5%");
         }
 
