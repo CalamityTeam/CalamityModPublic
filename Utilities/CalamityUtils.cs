@@ -825,6 +825,18 @@ namespace CalamityMod
             }
         }
 
+        public static void KillShootProjectileMany(Player player, params int[] projTypes)
+        {
+            for (int x = 0; x < Main.maxProjectiles; x++)
+            {
+                Projectile proj = Main.projectile[x];
+                if (proj.active && proj.owner == player.whoAmI && projTypes.Contains(proj.type))
+                {
+                    projectile.Kill();
+                }
+            }
+        }
+
         public static int FindFirstProjectile(int Type)
         {
 			int index = -1;

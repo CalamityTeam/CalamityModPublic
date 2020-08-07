@@ -56,17 +56,15 @@ namespace CalamityMod.Items.Weapons.Summon
             if (player.altFunctionUse != 2)
             {
                 player.itemTime = item.useTime;
-                Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
-                vector2.X = Main.mouseX + Main.screenPosition.X;
-                vector2.Y = Main.mouseY + Main.screenPosition.Y;
-                for (int x = 0; x < Main.projectile.Length; x++)
-                {
-                    Projectile projectile = Main.projectile[x];
-                    if (projectile.active && projectile.owner == player.whoAmI && (projectile.type == ModContent.ProjectileType<EndoCooperBody>() || projectile.type == ModContent.ProjectileType<EndoCooperLimbs>() || projectile.type == ModContent.ProjectileType<EndoBeam>()))
-                    {
-                        projectile.Kill();
-                    }
-                }
+                Vector2 source = player.RotatedRelativePoint(player.MountedCenter, true);
+                source.X = Main.mouseX + Main.screenPosition.X;
+                source.Y = Main.mouseY + Main.screenPosition.Y;
+				CalamityUtils.KillShootProjectileMany(player, new int[]
+				{
+					type,
+					ModContent.ProjectileType<EndoCooperLimbs>(),
+					ModContent.ProjectileType<EndoBeam>()
+				});
                 float dmgMult = 1f;
 				if (AttackMode == 0) //lasers
 					dmgMult = 0.65f;
@@ -76,8 +74,8 @@ namespace CalamityMod.Items.Weapons.Summon
 					dmgMult = 0.95f;
 				if (AttackMode == 3) //flamethrower
 					dmgMult = 0.9f;
-                int body = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, type, (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, 0f);
-                int limbs = Projectile.NewProjectile(vector2.X, vector2.Y, 0f, 0f, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, body);
+                int body = Projectile.NewProjectile(source, Vector2.Zero, type, (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, 0f);
+                int limbs = Projectile.NewProjectile(source, Vector2.Zero, ModContent.ProjectileType<EndoCooperLimbs>(), (int)(damage * dmgMult), knockBack, player.whoAmI, AttackMode, body);
                 Main.projectile[body].ai[1] = limbs;
                 AttackMode++;
                 if (AttackMode > 3)

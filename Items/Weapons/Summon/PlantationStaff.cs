@@ -55,6 +55,8 @@ namespace CalamityMod.Items.Weapons.Summon
 		{
 			if (player.altFunctionUse != 2)
 			{
+				CalamityUtils.KillShootProjectileMany(player, new int[] { type, ModContent.ProjectileType<PlantTentacle>() });
+
 				float speed = item.shootSpeed;
 				player.itemTime = item.useTime;
 				Vector2 playerPos = player.RotatedRelativePoint(player.MountedCenter, true);
