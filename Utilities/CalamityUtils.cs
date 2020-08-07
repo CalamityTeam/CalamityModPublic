@@ -818,7 +818,7 @@ namespace CalamityMod
                 Projectile proj = Main.projectile[x];
                 if (proj.active && proj.owner == player.whoAmI && proj.type == projType)
                 {
-                    projectile.Kill();
+                    proj.Kill();
 					if (shouldBreak)
 						break;
                 }
@@ -832,7 +832,7 @@ namespace CalamityMod
                 Projectile proj = Main.projectile[x];
                 if (proj.active && proj.owner == player.whoAmI && projTypes.Contains(proj.type))
                 {
-                    projectile.Kill();
+                    proj.Kill();
                 }
             }
         }
