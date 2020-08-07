@@ -14,7 +14,7 @@ namespace CalamityMod.Items.Accessories.Wings
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exodus Wings");
-            Tooltip.SetDefault("Highly radioactive\n" +
+            Tooltip.SetDefault("Pulsing with an alien heartbeat\n" +
                 "Horizontal speed: 8.5\n" +
                 "Acceleration multiplier: 2\n" +
                 "Good vertical speed\n" +
