@@ -39,7 +39,7 @@ namespace CalamityMod.NPCs.NormalNPCs
             {
                 return 0f;
             }
-            return SpawnCondition.TownCritter.Chance * 0.01f;
+            return SpawnCondition.TownCritter.Chance * 0.005f;
         }
 
         public override void FindFrame(int frameHeight)
