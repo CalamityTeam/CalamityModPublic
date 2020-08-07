@@ -347,6 +347,125 @@ namespace CalamityMod.Projectiles
                     return false;
                 }
 
+				// Change the stupid homing eyes
+				else if (projectile.type == ProjectileID.PhantasmalEye)
+				{
+					projectile.alpha -= 40;
+					if (projectile.alpha < 0)
+					{
+						projectile.alpha = 0;
+					}
+					if (projectile.ai[0] == 0f)
+					{
+						projectile.localAI[0] += 1f;
+						if (projectile.localAI[0] >= 45f)
+						{
+							projectile.localAI[0] = 0f;
+							projectile.ai[0] = 1f;
+							projectile.ai[1] = 0f - projectile.ai[1];
+							projectile.netUpdate = true;
+						}
+						projectile.velocity.X = projectile.velocity.RotatedBy(projectile.ai[1]).X;
+						projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -6f, 6f);
+						projectile.velocity.Y -= 0.08f;
+						if (projectile.velocity.Y > 0f)
+						{
+							projectile.velocity.Y -= 0.2f;
+						}
+						if (projectile.velocity.Y < -7f)
+						{
+							projectile.velocity.Y = -7f;
+						}
+					}
+					else if (projectile.ai[0] == 1f)
+					{
+						projectile.localAI[0] += 1f;
+						if (projectile.localAI[0] >= 90f)
+						{
+							projectile.localAI[0] = 0f;
+							projectile.ai[0] = 2f;
+							projectile.ai[1] = Player.FindClosest(projectile.position, projectile.width, projectile.height);
+							projectile.netUpdate = true;
+						}
+						projectile.velocity.X = projectile.velocity.RotatedBy(projectile.ai[1]).X;
+						projectile.velocity.X = MathHelper.Clamp(projectile.velocity.X, -6f, 6f);
+						projectile.velocity.Y -= 0.08f;
+						if (projectile.velocity.Y > 0f)
+						{
+							projectile.velocity.Y -= 0.2f;
+						}
+						if (projectile.velocity.Y < -7f)
+						{
+							projectile.velocity.Y = -7f;
+						}
+					}
+					else if (projectile.ai[0] == 2f)
+					{
+						projectile.localAI[0] += 1f;
+						if (projectile.localAI[0] >= 60f)
+						{
+							projectile.localAI[0] = 0f;
+							projectile.ai[0] = 3f;
+							projectile.netUpdate = true;
+						}
+						Vector2 value23 = Main.player[(int)projectile.ai[1]].Center - projectile.Center;
+						value23.Normalize();
+						value23 *= 12f;
+						value23 = Vector2.Lerp(projectile.velocity, value23, 0.6f);
+						float num675 = 0.4f;
+						if (projectile.velocity.X < value23.X)
+						{
+							projectile.velocity.X += num675;
+							if (projectile.velocity.X < 0f && value23.X > 0f)
+							{
+								projectile.velocity.X += num675;
+							}
+						}
+						else if (projectile.velocity.X > value23.X)
+						{
+							projectile.velocity.X -= num675;
+							if (projectile.velocity.X > 0f && value23.X < 0f)
+							{
+								projectile.velocity.X -= num675;
+							}
+						}
+						if (projectile.velocity.Y < value23.Y)
+						{
+							projectile.velocity.Y += num675;
+							if (projectile.velocity.Y < 0f && value23.Y > 0f)
+							{
+								projectile.velocity.Y += num675;
+							}
+						}
+						else if (projectile.velocity.Y > value23.Y)
+						{
+							projectile.velocity.Y -= num675;
+							if (projectile.velocity.Y > 0f && value23.Y < 0f)
+							{
+								projectile.velocity.Y -= num675;
+							}
+						}
+					}
+					else if (projectile.ai[0] == 3f)
+					{
+						Vector2 value23 = Main.player[(int)projectile.ai[1]].Center - projectile.Center;
+						if (value23.Length() < 30f)
+						{
+							projectile.Kill();
+							return false;
+						}
+						if (projectile.velocity.Length() < 18f)
+							projectile.velocity *= 1.01f;
+					}
+					if (projectile.alpha < 40)
+					{
+						int num676 = Dust.NewDust(projectile.Center - Vector2.One * 5f, 10, 10, 229, (0f - projectile.velocity.X) / 3f, (0f - projectile.velocity.Y) / 3f, 150, Color.Transparent, 1.2f);
+						Main.dust[num676].noGravity = true;
+					}
+					projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+					return false;
+				}
+
                 // Moon Lord Deathray
                 else if (projectile.type == ProjectileID.PhantasmalDeathray)
                 {
