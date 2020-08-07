@@ -3140,7 +3140,7 @@ namespace CalamityMod.NPCs
 
 				if (flyAtTarget)
 				{
-					float speedMultiplier = doubleWormPhase ? (phase5 ? 1.3f : phase4 ? 1.25f : 1.2f) : 1f;
+					float speedMultiplier = doubleWormPhase ? (phase5 ? 1.25f : phase4 ? 1.2f : 1.15f) : 1f;
 					speed *= speedMultiplier;
 				}
 

@@ -354,7 +354,7 @@ namespace CalamityMod.NPCs.SunkenSea
         {
             if (spawnInfo.player.Calamity().ZoneSunkenSea && spawnInfo.water && CalamityWorld.downedDesertScourge && !NPC.AnyNPCs(ModContent.NPCType<GiantClam>()))
             {
-                return SpawnCondition.CaveJellyfish.Chance * 0.12f;
+                return SpawnCondition.CaveJellyfish.Chance * 0.24f;
             }
             return 0f;
         }

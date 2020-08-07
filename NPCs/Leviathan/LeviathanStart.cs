@@ -137,21 +137,18 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void HitEffect(int hitDirection, double damage)
         {
-            if (npc.life > 0)
-            {
-                for (int k = 0; k < 5; k++)
-                {
-                    Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
-                }
-            }
-            else
-            {
-                if (Main.netMode != NetmodeID.MultiplayerClient)
-                {
-                    int siren = NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Siren>(), npc.whoAmI);
-					CalamityUtils.BossAwakenMessage(siren);
-                }
-            }
+			if (npc.life > 0)
+			{
+				for (int k = 0; k < 5; k++)
+				{
+					Dust.NewDust(npc.position, npc.width, npc.height, DustID.Blood, hitDirection, -1f, 0, default, 1f);
+				}
+			}
+			else if (Main.netMode != NetmodeID.MultiplayerClient)
+			{
+				int siren = NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<Siren>(), npc.whoAmI);
+				CalamityUtils.BossAwakenMessage(siren);
+			}
         }
     }
 }

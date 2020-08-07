@@ -1,3 +1,4 @@
+using CalamityMod.Buffs.DamageOverTime;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -19,6 +20,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.height = 5;
             projectile.hostile = true;
             projectile.ignoreWater = true;
+			projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.penetrate = 1;
             projectile.extraUpdates = 4;
@@ -36,40 +38,51 @@ namespace CalamityMod.Projectiles.Boss
             projectile.localAI[0] = reader.ReadSingle();
         }
 
-        public override void AI()
-        {
-            if (projectile.ai[0] == 0f)
-            {
-                projectile.ai[0] = 1f;
-                Main.PlaySound(SoundID.Item12, (int)projectile.Center.X, (int)projectile.Center.Y);
-            }
-            if (projectile.alpha > 0)
-            {
-                projectile.alpha -= 25;
-            }
-            if (projectile.alpha < 0)
-            {
-                projectile.alpha = 0;
-            }
-            float num55 = 50f;
-            float num56 = 1.5f;
-            if (projectile.ai[1] == 0f)
-            {
-                projectile.localAI[0] += num56;
-                if (projectile.localAI[0] > num55)
-                {
-                    projectile.localAI[0] = num55;
-                }
-            }
-            else
-            {
-                projectile.localAI[0] -= num56;
-                if (projectile.localAI[0] <= 0f)
-                {
-                    projectile.Kill();
-                }
-            }
-        }
+		public override void AI()
+		{
+			if (projectile.localAI[1] == 0f)
+			{
+				projectile.localAI[1] = 1f;
+				Main.PlaySound(SoundID.Item12, (int)projectile.Center.X, (int)projectile.Center.Y);
+			}
+			bool xIntersects = false;
+			bool yIntersects = false;
+			if (projectile.velocity.X < 0f && projectile.position.X < projectile.ai[0])
+			{
+				xIntersects = true;
+			}
+			if (projectile.velocity.X > 0f && projectile.position.X > projectile.ai[0])
+			{
+				xIntersects = true;
+			}
+			if (projectile.velocity.Y < 0f && projectile.position.Y < projectile.ai[1])
+			{
+				yIntersects = true;
+			}
+			if (projectile.velocity.Y > 0f && projectile.position.Y > projectile.ai[1])
+			{
+				yIntersects = true;
+			}
+			if (xIntersects && yIntersects)
+			{
+				projectile.tileCollide = true;
+			}
+			if (projectile.alpha > 0)
+			{
+				projectile.alpha -= 25;
+			}
+			if (projectile.alpha < 0)
+			{
+				projectile.alpha = 0;
+			}
+			float num55 = 50f;
+			float num56 = 1.5f;
+			projectile.localAI[0] += num56;
+			if (projectile.localAI[0] > num55)
+			{
+				projectile.localAI[0] = num55;
+			}
+		}
 
         public override Color? GetAlpha(Color lightColor)
         {
@@ -93,10 +106,6 @@ namespace CalamityMod.Projectiles.Boss
                 Vector2 value7 = new Vector2(projectile.position.X - Main.screenPosition.X + num149 + (float)num148, projectile.position.Y - Main.screenPosition.Y + (float)(projectile.height / 2) + projectile.gfxOffY);
                 float num162 = 50f;
                 float scaleFactor = 1.5f;
-                if (projectile.ai[1] == 1f)
-                {
-                    num162 = (float)(int)projectile.localAI[0];
-                }
                 for (int num163 = 1; num163 <= (int)projectile.localAI[0]; num163++)
                 {
                     Vector2 value8 = Vector2.Normalize(projectile.velocity) * (float)num163 * scaleFactor;
@@ -109,7 +118,12 @@ namespace CalamityMod.Projectiles.Boss
             return false;
         }
 
-        public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
+		public override void OnHitPlayer(Player target, int damage, bool crit)
+		{
+			target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 120);
+		}
+
+		public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)	
         {
 			target.Calamity().lastProjectileHit = projectile;
 		}

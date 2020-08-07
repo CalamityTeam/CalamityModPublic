@@ -162,7 +162,7 @@ namespace CalamityMod.NPCs.Ravager
             }
             else if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<RavagerHead2>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                NPC.NewNPC((int)npc.Center.X, (int)npc.position.Y + npc.height, ModContent.NPCType<RavagerHead2>(), npc.whoAmI);
             }
         }
     }

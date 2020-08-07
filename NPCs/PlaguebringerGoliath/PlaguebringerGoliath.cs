@@ -1111,7 +1111,6 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
 
         public override void FindFrame(int frameHeight)
         {
-
             int width = !charging ? (532 / 2) : (644 / 2);
             int height = !charging ? (768 / 3) : (636 / 3);
             npc.frameCounter += 1.0;

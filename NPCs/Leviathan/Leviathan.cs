@@ -727,11 +727,10 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void FindFrame(int frameHeight)
         {
-            Texture2D texture = Main.npcTexture[npc.type];
-			int verticalFrameCount = 3;
 			int horizontalFrameCount = 2;
-            int height = texture.Height / verticalFrameCount;
-            int width = texture.Width / horizontalFrameCount;
+			int verticalFrameCount = 3;
+			int width = 2022 / horizontalFrameCount;
+			int height = 1458 / verticalFrameCount;
 			int timeBetweenFrames = 8;
 
             if (!initialised)
