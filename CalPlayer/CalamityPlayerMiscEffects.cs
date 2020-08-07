@@ -993,6 +993,10 @@ namespace CalamityMod.CalPlayer
 				modPlayer.potionTimer--;
 			if (modPlayer.potionTimerR > 0)
 				modPlayer.potionTimerR--;
+			if (modPlayer.omegaBlueCooldown > 0)
+				modPlayer.omegaBlueCooldown--;
+			if (modPlayer.plagueReaperCooldown > 0)
+				modPlayer.plagueReaperCooldown--;
 			if (modPlayer.roverDrive)
 			{
 				if (modPlayer.roverDriveTimer < CalamityUtils.SecondsToFrames(30f))
@@ -1849,6 +1853,47 @@ namespace CalamityMod.CalPlayer
 						Main.dust[d].velocity *= 6.6f;
 					}
 				}
+			}
+
+			if (!modPlayer.brimflameSet && modPlayer.brimflameFrenzy)
+			{
+				modPlayer.brimflameFrenzy = false;
+				player.ClearBuff(ModContent.BuffType<BrimflameFrenzyBuff>());
+				player.AddBuff(ModContent.BuffType<BrimflameFrenzyCooldown>(), 30 * 60, true);
+			}
+			if (!modPlayer.bloodflareMelee && modPlayer.bloodflareFrenzy)
+			{
+				modPlayer.bloodflareFrenzy = false;
+				player.ClearBuff(ModContent.BuffType<BloodflareBloodFrenzy>());
+				player.AddBuff(ModContent.BuffType<BloodflareBloodFrenzyCooldown>(), 1800, false);
+			}
+			if (!modPlayer.tarraMelee && modPlayer.tarragonCloak)
+			{
+				modPlayer.tarragonCloak = false;
+				player.ClearBuff(ModContent.BuffType<TarragonCloak>());
+				player.AddBuff(ModContent.BuffType<TarragonCloakCooldown>(), 600, false);
+			}
+			if (!modPlayer.tarraThrowing && modPlayer.tarragonImmunity)
+			{
+				modPlayer.tarragonImmunity = false;
+				player.ClearBuff(ModContent.BuffType<TarragonImmunity>());
+				player.AddBuff(ModContent.BuffType<TarragonImmunityCooldown>(), 600, false);
+			}
+			if (!modPlayer.omegaBlueSet && modPlayer.omegaBlueCooldown > 1500)
+			{
+				modPlayer.omegaBlueCooldown = 1500;
+				player.ClearBuff(ModContent.BuffType<AbyssalMadness>());
+				player.AddBuff(ModContent.BuffType<AbyssalMadnessCooldown>(), 1500, false);
+			}
+			if (!modPlayer.plagueReaper && modPlayer.plagueReaperCooldown > 1500)
+			{
+				modPlayer.plagueReaperCooldown = 1500;
+				player.AddBuff(ModContent.BuffType<PlagueBlackoutCooldown>(), 1500, false);
+			}
+			if (!modPlayer.prismaticSet && modPlayer.prismaticLasers > 1800)
+			{
+				modPlayer.prismaticLasers = 1800;
+				player.AddBuff(ModContent.BuffType<PrismaticCooldown>(), CalamityUtils.SecondsToFrames(30f), true);
 			}
 		}
 		#endregion

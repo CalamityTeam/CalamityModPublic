@@ -50,27 +50,23 @@ namespace CalamityMod.Items.Armor
             modPlayer.plagueReaper = true;
             player.ammoCost75 = true;
 
-            if (modPlayer.plagueReaperCooldown > 0)
-            {
-				if (modPlayer.plagueReaperCooldown > 1500)
+			if (modPlayer.plagueReaperCooldown > 1500)
+			{
+				player.blind = true;
+				player.headcovered = true;
+				player.blackout = true;
+				player.rangedDamage += 1f; //100% ranged dmg and 30% crit
+				player.rangedCrit += 30;
+			}
+			if (modPlayer.plagueReaperCooldown == 1) //dust when ready to use again
+			{
+				for (int i = 0; i < 66; i++)
 				{
-                    player.blind = true;
-                    player.headcovered = true;
-                    player.blackout = true;
-					player.rangedDamage += 1f; //100% ranged dmg and 30% crit
-					player.rangedCrit += 30;
+					int d = Dust.NewDust(player.position, player.width, player.height, 89, 0, 0, 100, default, 1.5f);
+					Main.dust[d].noGravity = true;
+					Main.dust[d].velocity *= 6.6f;
 				}
-                if (modPlayer.plagueReaperCooldown == 1) //dust when ready to use again
-                {
-                    for (int i = 0; i < 66; i++)
-                    {
-                        int d = Dust.NewDust(player.position, player.width, player.height, 89, 0, 0, 100, default, 1.5f);
-                        Main.dust[d].noGravity = true;
-                        Main.dust[d].velocity *= 6.6f;
-                    }
-                }
-                modPlayer.plagueReaperCooldown--;
-            }
+			}
             if (modPlayer.plagueReaperCooldown == 1500)
             {
 				player.AddBuff(ModContent.BuffType<PlagueBlackoutCooldown>(), 1500, false);
