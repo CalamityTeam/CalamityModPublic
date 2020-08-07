@@ -38,14 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int x = 0; x < Main.maxProjectiles; x++)
-            {
-                Projectile proj = Main.projectile[x];
-                if (proj.active && proj.owner == player.whoAmI && proj.type == type)
-                {
-                    proj.Kill();
-                }
-            }
+			CalamityUtils.KillShootProjectiles(false, type, player);
             for (int i = 0; i < 3; i++)
             {
                 Projectile blossom = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 0f);

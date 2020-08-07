@@ -62,15 +62,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int x = 0; x < Main.projectile.Length; x++)
-            {
-                Projectile proj = Main.projectile[x];
-                if (proj.active && proj.owner == player.whoAmI && proj.type == type)
-                {
-                    proj.Kill();
-					break;
-                }
-            }
+			CalamityUtils.KillShootProjectiles(true, type, player);
             Projectile.NewProjectile(position, Vector2.Zero, type, damage, knockBack, player.whoAmI, siriusSlots, 30f);
             return false;
         }

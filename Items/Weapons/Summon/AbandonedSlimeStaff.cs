@@ -69,7 +69,7 @@ namespace CalamityMod.Items.Weapons.Summon
 					minionCount += projectile.minionSlots;
 				}
 			}
-			slimeSlots = (int)((double)player.maxMinions - minionCount);
+			slimeSlots = (int)(player.maxMinions - minionCount);
 		}
 
         public override bool CanUseItem(Player player)
@@ -79,14 +79,7 @@ namespace CalamityMod.Items.Weapons.Summon
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            for (int x = 0; x < Main.projectile.Length; x++)
-            {
-                Projectile projectile2 = Main.projectile[x];
-                if (projectile2.active && projectile2.owner == player.whoAmI && projectile2.type == ModContent.ProjectileType<AstrageldonSummon>())
-                {
-                    projectile2.Kill();
-                }
-            }
+			CalamityUtils.KillShootProjectiles(true, type, player);
 			float damageMult = ((float)Math.Log(slimeSlots, 8f)) + 1f;
 			float size = ((float)Math.Log(slimeSlots, 10f)) + 1f;
             position = Main.MouseWorld;

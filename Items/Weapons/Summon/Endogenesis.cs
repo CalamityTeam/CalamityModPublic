@@ -49,12 +49,7 @@ namespace CalamityMod.Items.Weapons.Summon
             item.Calamity().customRarity = CalamityRarity.ItemSpecific;
         }
 
-        public override bool CanUseItem(Player player)
-        {
-            if (player.maxMinions < 10f)
-                return false;
-            return true;
-        }
+        public override bool CanUseItem(Player player) => player.maxMinions >= 10f;
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
