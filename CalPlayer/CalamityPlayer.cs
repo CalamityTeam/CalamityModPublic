@@ -602,9 +602,12 @@ namespace CalamityMod.CalPlayer
         public bool meteorSet = false; //vanilla armor, for space gun nerf
         public bool victideSet = false;
         public bool sulfurSet = false;
+		public bool jumpAgainSulfur = false;
 		public int sulphurBubbleCooldown = 0;
         public bool aeroSet = false;
         public bool statigelSet = false;
+        public bool statigelJump = false;
+		public bool jumpAgainStatigel = false;
         public bool tarraSet = false;
         public bool tarraMelee = false;
         public bool tarragonCloak = false;
@@ -1662,6 +1665,7 @@ namespace CalamityMod.CalPlayer
             aeroSet = false;
 
             statigelSet = false;
+			statigelJump = false;
 
             titanHeartSet = false;
             titanHeartMask = false;
@@ -2318,7 +2322,11 @@ namespace CalamityMod.CalPlayer
             meteorSet = false; //vanilla armor, for Space Gun nerf
             victideSet = false;
             aeroSet = false;
+			sulfurSet = false;
+			jumpAgainSulfur = false;
             statigelSet = false;
+			statigelJump = false;
+			jumpAgainStatigel = false;
             tarraSet = false;
             tarraMelee = false;
             tarragonCloak = false;
@@ -3095,12 +3103,67 @@ namespace CalamityMod.CalPlayer
                     player.AddBuff(ModContent.BuffType<AdrenalineMode>(), AdrenalineDuration);
                 }
             }
-            if (sulfurSet && player.controlJump && player.justJumped && player.jumpAgainSandstorm && sulphurBubbleCooldown <= 0)
-            {
-                int bubble = Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), new Vector2(0f, 0f), ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
-                Main.projectile[bubble].Calamity().forceRogue = true;
-				sulphurBubbleCooldown = 20;
-            }
+
+			bool canJump = (!player.doubleJumpCloud || !player.jumpAgainCloud) &&
+			(!player.doubleJumpSandstorm || !player.jumpAgainSandstorm) &&
+			(!player.doubleJumpBlizzard || !player.jumpAgainBlizzard) &&
+			(!player.doubleJumpFart || !player.jumpAgainFart) &&
+			(!player.doubleJumpSail || !player.jumpAgainSail) &&
+			(!player.doubleJumpUnicorn || !player.jumpAgainUnicorn) &&
+			CalamityUtils.CountHookProj() <= 0;
+			if (PlayerInput.Triggers.JustPressed.Jump && player.position.Y != player.oldPosition.Y && canJump)
+			{
+				if (statigelJump && jumpAgainStatigel)
+				{
+					jumpAgainStatigel = false;
+					int offset = player.height;
+					if (player.gravDir == -1f)
+						offset = 0;
+					Main.PlaySound(SoundID.DoubleJump, (int)player.position.X, (int)player.position.Y, 1, 1f, 0f);
+					player.velocity.Y = -Player.jumpSpeed * player.gravDir;
+					player.jump = (int)(Player.jumpHeight * 1.25);
+					for (int d = 0; d < 30; ++d)
+					{
+						int goo = Dust.NewDust(new Vector2(player.position.X, player.position.Y + offset), player.width, 12, 4, player.velocity.X * 0.3f, player.velocity.Y * 0.3f, 100, new Color(0, 80, 255, 100), 1.5f);
+						if (d % 2 == 0)
+							Main.dust[goo].velocity.X += (float)Main.rand.Next(30, 71) * 0.1f;
+						else
+							Main.dust[goo].velocity.X -= (float)Main.rand.Next(30, 71) * 0.1f;
+						Main.dust[goo].velocity.Y += (float)Main.rand.Next(-10, 31) * 0.1f;
+						Main.dust[goo].noGravity = true;
+						Main.dust[goo].scale += (float)Main.rand.Next(-10, 41) * 0.01f;
+						Main.dust[goo].velocity *= Main.dust[goo].scale * 0.7f;
+					}
+				}
+				else if (sulfurSet && jumpAgainSulfur)
+				{
+					jumpAgainSulfur = false;
+					int offset = player.height;
+					if (player.gravDir == -1f)
+						offset = 0;
+					Main.PlaySound(SoundID.DoubleJump, (int)player.position.X, (int)player.position.Y, 1, 1f, 0f);
+					player.velocity.Y = -Player.jumpSpeed * player.gravDir;
+					player.jump = (int)(Player.jumpHeight * 1.5);
+					for (int d = 0; d < 30; ++d)
+					{
+						int sulfur = Dust.NewDust(new Vector2(player.position.X, player.position.Y + offset), player.width, 12, 31, player.velocity.X * 0.3f, player.velocity.Y * 0.3f, 100, default, 1.5f);
+						if (d % 2 == 0)
+							Main.dust[sulfur].velocity.X += (float)Main.rand.Next(30, 71) * 0.1f;
+						else
+							Main.dust[sulfur].velocity.X -= (float)Main.rand.Next(30, 71) * 0.1f;
+						Main.dust[sulfur].velocity.Y += (float)Main.rand.Next(-10, 31) * 0.1f;
+						Main.dust[sulfur].noGravity = true;
+						Main.dust[sulfur].scale += (float)Main.rand.Next(-10, 41) * 0.01f;
+						Main.dust[sulfur].velocity *= Main.dust[sulfur].scale * 0.7f;
+					}
+					if (sulphurBubbleCooldown <= 0)
+					{
+						int bubble = Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
+						Main.projectile[bubble].Calamity().forceRogue = true;
+						sulphurBubbleCooldown = 20;
+					}
+				}
+			}
         }
         #endregion
 

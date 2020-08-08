@@ -98,6 +98,9 @@ namespace CalamityMod.CalPlayer
 
 			// Rogue Mirrors
 			RogueMirrors(player, modPlayer);
+
+			// Double Jumps
+			DoubleJumps(player, modPlayer);
 		}
 		#endregion
 
@@ -3914,6 +3917,27 @@ namespace CalamityMod.CalPlayer
 						break;
 					}
 				}
+			}
+		}
+		#endregion
+
+		#region Double Jumps
+		private static void DoubleJumps(Player player, CalamityPlayer modPlayer)
+		{
+			if (CalamityUtils.CountHookProj() > 0)
+			{
+				modPlayer.jumpAgainSulfur = true;
+				modPlayer.jumpAgainStatigel = true;
+			}
+
+			bool mountCheck = true;
+			if (player.mount != null && player.mount.Active)
+				mountCheck = player.mount.BlockExtraJumps;
+
+			if (player.position.Y == player.oldPosition.Y && player.wingTime == player.wingTimeMax && mountCheck)
+			{
+				modPlayer.jumpAgainSulfur = true;
+				modPlayer.jumpAgainStatigel = true;
 			}
 		}
 		#endregion
