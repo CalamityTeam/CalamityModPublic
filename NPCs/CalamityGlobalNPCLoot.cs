@@ -1630,21 +1630,30 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.downedPolterghast)
                 possibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
 
-            if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type) && CalamityWorld.rainingAcid)
+            if (CalamityWorld.rainingAcid)
             {
-                CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
-                if (CalamityWorld.downedPolterghast)
+                if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type))
                 {
-                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    }
+
+                    // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
+                    Main.rainTime += Main.rand.Next(240, 300 + 1); // Add some time to the rain, so that it doesn't end mid-way.
                 }
-            }
-            Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : AcidRainEvent.PossibleMinibossesAS;
-            if (possibleMinibosses.Select(miniboss => miniboss.Key).Contains(npc.type))
-            {
-                CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
-                if (CalamityWorld.downedPolterghast)
+                Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : AcidRainEvent.PossibleMinibossesAS;
+                if (possibleMinibosses.Select(miniboss => miniboss.Key).Contains(npc.type))
                 {
-                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    }
+
+                    // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
+                    Main.rainTime += Main.rand.Next(1800, 2100 + 1); // Add some time to the rain, so that it doesn't end mid-way.
                 }
             }
 
