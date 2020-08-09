@@ -449,7 +449,7 @@ namespace CalamityMod.NPCs
 							npc.Calamity().shopAlertAnimFrame = 0;
 					}
 					int frameHeight = texture.Height / 5;
-					Rectangle animRect = new Rectangle(0, (frameHeight + 1) * npc.Calamity().shopAlertAnimFrame, texture.Width, frameHeight);
+					Rectangle animRect = new Rectangle(0, frameHeight * npc.Calamity().shopAlertAnimFrame, texture.Width, frameHeight);
 
 					spriteBatch.Draw(texture, drawPos - new Vector2(5f, drawPosY), animRect, Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
 				}
