@@ -96,7 +96,6 @@ namespace CalamityMod.Projectiles.Summon
             }
 
             float range = 1000f;
-			Vector2 half = new Vector2(0.5f);
 
 			//shouldn't need anti clump because there can only be one
 
@@ -111,12 +110,13 @@ namespace CalamityMod.Projectiles.Summon
 					NPC npc = Main.npc[player.MinionAttackTargetNPC];
 					if (npc.CanBeChasedBy(projectile, false))
 					{
-						Vector2 sizeCheck = npc.position + npc.Size * half;
+						float extraDist = (npc.width / 2) + (npc.height / 2);
+						//Calculate distance between target and the projectile to know if it's too far or not
 						float npcDist = Vector2.Distance(npc.Center, projectile.Center);
-						if (!foundTarget && npcDist < range)
+						if (!foundTarget && npcDist < (range + extraDist))
 						{
 							range = npcDist;
-							targetVec = sizeCheck;
+							targetVec = npc.Center;
 							foundTarget = true;
 						}
 					}
@@ -128,12 +128,13 @@ namespace CalamityMod.Projectiles.Summon
 						NPC npc = Main.npc[i];
 						if (npc.CanBeChasedBy(projectile, false))
 						{
-							Vector2 sizeCheck = npc.position + npc.Size * half;
+							float extraDist = (npc.width / 2) + (npc.height / 2);
+							//Calculate distance between target and the projectile to know if it's too far or not
 							float npcDist = Vector2.Distance(npc.Center, projectile.Center);
-							if (!foundTarget && npcDist < range)
+							if (!foundTarget && npcDist < (range + extraDist))
 							{
 								range = npcDist;
-								targetVec = sizeCheck;
+								targetVec = npc.Center;
 								foundTarget = true;
 							}
 						}
@@ -223,12 +224,13 @@ namespace CalamityMod.Projectiles.Summon
 					NPC npc = Main.npc[player.MinionAttackTargetNPC];
 					if (npc.CanBeChasedBy(projectile, false))
 					{
-						Vector2 sizeCheck = npc.position + npc.Size * half;
+						float extraDist = (npc.width / 2) + (npc.height / 2);
+						//Calculate distance between target and the projectile to know if it's too far or not
 						float npcDist = Vector2.Distance(npc.Center, projectile.Center);
-						if (!foundTarget && npcDist < range)
+						if (!foundTarget && npcDist < (range + extraDist))
 						{
 							range = npcDist;
-							targetVec = sizeCheck;
+							targetVec = npc.Center;
 							foundTarget = true;
 						}
 					}
@@ -240,12 +242,13 @@ namespace CalamityMod.Projectiles.Summon
 						NPC npc = Main.npc[num645];
 						if (npc.CanBeChasedBy(projectile, false))
 						{
-							Vector2 sizeCheck = npc.position + npc.Size * half;
+							float extraDist = (npc.width / 2) + (npc.height / 2);
+							//Calculate distance between target and the projectile to know if it's too far or not
 							float npcDist = Vector2.Distance(npc.Center, projectile.Center);
-							if (!foundTarget && npcDist < range)
+							if (!foundTarget && npcDist < (range + extraDist))
 							{
 								range = npcDist;
-								targetVec = sizeCheck;
+								targetVec = npc.Center;
 								foundTarget = true;
 							}
 						}
