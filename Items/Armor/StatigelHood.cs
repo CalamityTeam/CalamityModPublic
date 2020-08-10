@@ -42,7 +42,7 @@ namespace CalamityMod.Items.Armor
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
             modPlayer.slimeGod = true;
-            player.doubleJumpSail = true;
+			modPlayer.statigelJump = true;
 			Player.jumpHeight += 5;
 			player.jumpSpeedBoost += 1.5f;
             player.minionDamage += 0.18f;

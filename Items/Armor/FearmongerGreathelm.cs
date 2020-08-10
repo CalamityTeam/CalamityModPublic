@@ -31,10 +31,6 @@ namespace CalamityMod.Items.Armor
 
         public override void UpdateEquip(Player player)
         {
-            // Don't override the Yoraiz0r's Eye effect if the accessory itself is equipped
-            if (player.yoraiz0rEye == 0)
-                player.yoraiz0rEye = 3;
-
             player.statManaMax2 += 60;
             player.maxMinions += 2;
             player.minionDamage += 0.1f;

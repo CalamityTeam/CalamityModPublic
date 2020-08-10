@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Armor
 					"30% increased jump speed";
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.statigelSet = true;
-            player.doubleJumpSail = true;
+			modPlayer.statigelJump = true;
 			Player.jumpHeight += 5;
 			player.jumpSpeedBoost += 1.5f;
         }

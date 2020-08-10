@@ -1144,7 +1144,7 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePlaguebringerGoliath>(), true, !CalamityWorld.downedPlaguebringer);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPlaguebringer, 4, 2, 1);
 
-			npc.Calamity().SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedPlaguebringer);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedPlaguebringer);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)
