@@ -777,7 +777,9 @@ namespace CalamityMod.NPCs
                 if (npc.type != NPCType<HiveMindP2>() && npc.type != NPCType<Leviathan.Leviathan>() && npc.type != NPCType<StormWeaverHeadNaked>() &&
                     npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>() &&
                     npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
-                    npc.type != NPCType<DevourerofGodsTailS>() && npc.type != NPCType<CalamitasRun3>())
+                    npc.type != NPCType<DevourerofGodsTailS>() && npc.type != NPCType<CalamitasRun3>() &&
+					((npc.type != ModContent.NPCType<AstrumDeusHeadSpectral>() && npc.type != ModContent.NPCType<AstrumDeusBodySpectral>() &&
+					npc.type != ModContent.NPCType<AstrumDeusTailSpectral>()) && npc.Calamity().newAI[0] != 0f))
                 {
                     if (Main.netMode != NetmodeID.Server)
                     {
