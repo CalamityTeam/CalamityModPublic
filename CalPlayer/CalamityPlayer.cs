@@ -7200,7 +7200,7 @@ namespace CalamityMod.CalPlayer
         {
             if (veneratedLocket)
             {
-                if (item.Calamity().rogue)
+                if (item.Calamity().rogue && item.type != ModContent.ItemType<SylvanSlasher>())
                 {
                     float num72 = item.shootSpeed;
                     Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
