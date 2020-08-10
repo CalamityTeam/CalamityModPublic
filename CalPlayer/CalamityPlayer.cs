@@ -4352,7 +4352,7 @@ namespace CalamityMod.CalPlayer
                 acidRoundMultiplier = 1D;
             }
 			//Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
-			if (desertProwler && (item.ranged || item.type == ModContent.ItemType<PrismaticBreaker>()))
+			if (desertProwler && (item.ranged || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
 			{
 				flat += 1f;
 			}
