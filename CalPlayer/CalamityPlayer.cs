@@ -7496,13 +7496,9 @@ namespace CalamityMod.CalPlayer
 				damageMult += 1.25;
 			}
 
-            if (CalamityWorld.revenge)
-            {
-                if (player.chaosState)
-                    damageMult += 0.25;
-                if (player.onFire2)
-                    damageMult += 0.2;
-            }
+            // Equivalent to reducing the player's DR by 20% because they have Cursed Inferno.
+			if (CalamityWorld.revenge && player.onFire2)
+				damageMult += 0.2;
 
             damage = (int)(damage * damageMult);
             #endregion
