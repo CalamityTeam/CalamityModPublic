@@ -14,7 +14,6 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.AquaticScourge;
-using CalamityMod.NPCs.Astral;
 using CalamityMod.NPCs.AstrumDeus;
 using CalamityMod.NPCs.Bumblebirb;
 using CalamityMod.NPCs.Calamitas;
@@ -489,7 +488,7 @@ namespace CalamityMod.NPCs
                 CalamityUtils.KillAllHostileProjectiles();
 				CalamityWorld.bossRushHostileProjKillCounter = 3;
             }
-            else if (npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>())
+            else if (npc.type == ModContent.NPCType<AstrumDeusHeadSpectral>() && npc.Calamity().newAI[0] != 0f)
             {
                 CalamityWorld.bossRushStage = 30;
                 CalamityUtils.KillAllHostileProjectiles();

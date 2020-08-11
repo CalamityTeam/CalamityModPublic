@@ -504,7 +504,7 @@ namespace CalamityMod.NPCs.SlimeGod
                 }
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    int num660 = (int)((double)npc.lifeMax * 0.05);
+                    int num660 = (int)((double)npc.lifeMax * 0.15);
 					if ((float)(npc.life + num660) < bossLife)
 					{
 						bossLife = (float)npc.life;

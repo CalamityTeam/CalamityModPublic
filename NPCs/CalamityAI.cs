@@ -3009,8 +3009,8 @@ namespace CalamityMod.NPCs
 								Main.npc[lol].localAI[3] = 1f;
 
 							Main.npc[lol].realLife = npc.whoAmI;
-							Main.npc[lol].Calamity().newAI[0] = calamityGlobalNPC.newAI[0];
-							Main.npc[lol].Calamity().newAI[3] = calamityGlobalNPC.newAI[3];
+							Main.npc[lol].Calamity().newAI[0] = Main.npc[Previous].Calamity().newAI[0];
+							Main.npc[lol].Calamity().newAI[3] = Main.npc[Previous].Calamity().newAI[3];
 							if (Main.netMode == NetmodeID.Server)
 							{
 								var netMessage = mod.GetPacket();
