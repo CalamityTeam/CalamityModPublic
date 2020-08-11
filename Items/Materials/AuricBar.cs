@@ -44,9 +44,7 @@ namespace CalamityMod.Items.Materials
 			recipe.AddIngredient(ModContent.ItemType<BarofLife>());
             recipe.AddIngredient(ModContent.ItemType<AuricOre>(), 20);
 			recipe.AddIngredient(ModContent.ItemType<UnholyEssence>(), 2);
-			recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 2);
-			recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 2);
-			recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 2);
+			recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 1);
 			recipe.AddIngredient(ModContent.ItemType<CoreofCalamity>());
 			recipe.AddIngredient(ModContent.ItemType<GalacticaSingularity>());
 			recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());

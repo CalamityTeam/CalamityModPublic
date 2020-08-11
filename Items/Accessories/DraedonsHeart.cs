@@ -48,7 +48,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<StressPills>());
             recipe.AddIngredient(ModContent.ItemType<Laudanum>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddIngredient(ItemID.Nanites, 250);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);

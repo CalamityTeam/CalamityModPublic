@@ -103,9 +103,7 @@ This extra damage reduction ignores the soft cap";
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SpookyHelmet);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 8);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddIngredient(ItemID.SoulofFright, 8);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

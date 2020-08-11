@@ -35,8 +35,7 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 18);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 9);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 9);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
