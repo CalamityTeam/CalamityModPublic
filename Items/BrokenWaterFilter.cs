@@ -3,7 +3,7 @@ using CalamityMod.Items.Materials;
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-namespace CalamityMod.Items.Accessories
+namespace CalamityMod.Items
 {
     public class BrokenWaterFilter : ModItem
     {
@@ -28,7 +28,8 @@ namespace CalamityMod.Items.Accessories
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<SulfuricScale>(), 20);
-            recipe.AddRecipeGroup("IronBar", 10);
+            recipe.AddIngredient(ItemID.IronBar, 10);
+            recipe.anyIronBar = true;
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
