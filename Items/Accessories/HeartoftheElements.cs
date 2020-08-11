@@ -51,11 +51,10 @@ namespace CalamityMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-			//Don't do anything if the player fucked up somehow, somewhere
-			if (player.whoAmI != Main.myPlayer || player is null || player.dead)
-				return;
-
-            Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
+			if (player != null && !player.dead)
+			{
+				Lighting.AddLight((int)player.Center.X / 16, (int)player.Center.Y / 16, (float)Main.DiscoR / 255f, (float)Main.DiscoG / 255f, (float)Main.DiscoB / 255f);
+			}
             CalamityPlayer modPlayer = player.Calamity();
             modPlayer.allWaifus = !hideVisual;
             modPlayer.elementalHeart = true;
@@ -89,29 +88,32 @@ namespace CalamityMod.Items.Accessories
 				{
 					player.ClearBuff(BuffType<HotE>());
 				}
-				if (player.FindBuffIndex(BuffType<HotE>()) == -1)
+				if (player != null && player.whoAmI == Main.myPlayer && !player.dead)
 				{
-					player.AddBuff(BuffType<HotE>(), 3600, true);
-				}
-				if (player.ownedProjectileCounts[brimmy] < 1)
-				{
-					Projectile.NewProjectile(player.Center, velocity, brimmy, elementalDmg, kBack, player.whoAmI, 0f, 0f);
-				}
-				if (player.ownedProjectileCounts[siren] < 1)
-				{
-					Projectile.NewProjectile(player.Center, velocity, siren, elementalDmg, kBack, player.whoAmI, 0f, 0f);
-				}
-				if (player.ownedProjectileCounts[healer] < 1)
-				{
-					Projectile.NewProjectile(player.Center, velocity, healer, elementalDmg, kBack, player.whoAmI, 0f, 0f);
-				}
-				if (player.ownedProjectileCounts[sandy] < 1)
-				{
-					Projectile.NewProjectile(player.Center, velocity, sandy, elementalDmg, kBack, player.whoAmI, 0f, 0f);
-				}
-				if (player.ownedProjectileCounts[cloudy] < 1)
-				{
-					Projectile.NewProjectile(player.Center, velocity, cloudy, elementalDmg, kBack, player.whoAmI, 0f, 0f);
+					if (player.FindBuffIndex(BuffType<HotE>()) == -1)
+					{
+						player.AddBuff(BuffType<HotE>(), 3600, true);
+					}
+					if (player.ownedProjectileCounts[brimmy] < 1)
+					{
+						Projectile.NewProjectile(player.Center, velocity, brimmy, elementalDmg, kBack, player.whoAmI);
+					}
+					if (player.ownedProjectileCounts[siren] < 1)
+					{
+						Projectile.NewProjectile(player.Center, velocity, siren, elementalDmg, kBack, player.whoAmI);
+					}
+					if (player.ownedProjectileCounts[healer] < 1)
+					{
+						Projectile.NewProjectile(player.Center, velocity, healer, elementalDmg, kBack, player.whoAmI);
+					}
+					if (player.ownedProjectileCounts[sandy] < 1)
+					{
+						Projectile.NewProjectile(player.Center, velocity, sandy, elementalDmg, kBack, player.whoAmI);
+					}
+					if (player.ownedProjectileCounts[cloudy] < 1)
+					{
+						Projectile.NewProjectile(player.Center, velocity, cloudy, elementalDmg, kBack, player.whoAmI);
+					}
 				}
             }
             else
@@ -125,12 +127,12 @@ namespace CalamityMod.Items.Accessories
             }
 
 			//Flower Boots code
-            if (player.velocity.Y == 0f && player.grappling[0] == -1)
+            if (player != null && !player.dead && player.velocity.Y == 0f && player.grappling[0] == -1)
             {
                 int x = (int)player.Center.X / 16;
                 int y = (int)(player.position.Y + (float)player.height - 1f) / 16;
 				Tile tile = Main.tile[x, y];
-                if (tile == null)
+                if (tile is null)
                 {
                     tile = new Tile();
                 }
