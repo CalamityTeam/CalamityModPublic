@@ -10,7 +10,7 @@ namespace CalamityMod.NPCs.HiveMind
 	[AutoloadBossHead]
     public class HiveMind : ModNPC
     {
-        int burrowTimer = 720;
+        int burrowTimer = 420;
 
         public override void SetStaticDefaults()
         {
@@ -108,32 +108,27 @@ namespace CalamityMod.NPCs.HiveMind
             npc.noTileCollide = false;
             bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
             bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            CalamityGlobalNPC.hiveMind = npc.whoAmI;
+			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			CalamityGlobalNPC.hiveMind = npc.whoAmI;
+
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                if (revenge)
-                {
-                    npc.localAI[1] += 1f;
-                    if (npc.localAI[1] >= 600f)
-                    {
-                        npc.localAI[1] = 0f;
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveBlob>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
-                    }
-                }
                 if (npc.localAI[0] == 0f)
                 {
                     npc.localAI[0] = 1f;
-                    for (int num723 = 0; num723 < 5; num723++)
+					int maxBlobs = death ? 8 : revenge ? 7 : expertMode ? 6 : 5;
+                    for (int i = 0; i < maxBlobs; i++)
                     {
-                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveBlob>(), npc.whoAmI, 0f, 0f, 0f, 0f, 255);
+                        NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<HiveBlob>(), npc.whoAmI);
                     }
                 }
             }
+
             bool flag100 = false;
             int num568 = 0;
             if (expertMode)
             {
-                for (int num569 = 0; num569 < 200; num569++)
+                for (int num569 = 0; num569 < Main.maxNPCs; num569++)
                 {
                     if (Main.npc[num569].active && Main.npc[num569].type == ModContent.NPCType<DankCreeper>())
                     {
@@ -141,15 +136,13 @@ namespace CalamityMod.NPCs.HiveMind
                         num568++;
                     }
                 }
+
                 npc.defense += num568 * 25;
-            }
-            if (expertMode)
-            {
-                if (!flag100)
-                {
-                    npc.defense = 10;
-                }
-            }
+
+				if (!flag100)
+					npc.defense = npc.defDefense;
+			}
+
             if (npc.ai[3] == 0f && npc.life > 0)
             {
                 npc.ai[3] = npc.lifeMax;
@@ -162,19 +155,20 @@ namespace CalamityMod.NPCs.HiveMind
                     if ((npc.life + num660) < npc.ai[3])
                     {
                         npc.ai[3] = npc.life;
-                        int num661 = Main.rand.Next(3, 6);
-                        for (int num662 = 0; num662 < num661; num662++)
+						int maxSpawns = death ? 5 : revenge ? 4 : expertMode ? Main.rand.Next(3, 5) : Main.rand.Next(2, 4);
+						int maxDankSpawns = death ? Main.rand.Next(2, 4) : revenge ? 2 : expertMode ? Main.rand.Next(1, 3) : 1;
+						for (int num662 = 0; num662 < maxSpawns; num662++)
                         {
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
-                            int num663 = ModContent.NPCType<HiveBlob>();
-                            if (Main.rand.NextBool(3) || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            int type = ModContent.NPCType<HiveBlob>();
+                            if (NPC.CountNPCS(ModContent.NPCType<DankCreeper>()) < maxDankSpawns || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
                             {
-                                num663 = ModContent.NPCType<DankCreeper>();
+                                type = ModContent.NPCType<DankCreeper>();
                             }
-                            int num664 = NPC.NewNPC(x, y, num663, 0, 0f, 0f, 0f, 0f, 255);
-                            Main.npc[num664].SetDefaults(num663, -1f);
-                            if (Main.netMode == NetmodeID.Server && num664 < 200)
+                            int num664 = NPC.NewNPC(x, y, type);
+                            Main.npc[num664].SetDefaults(type);
+                            if (Main.netMode == NetmodeID.Server && num664 < Main.maxNPCs)
                             {
                                 NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, num664, 0f, 0f, 0f, 0, 0, 0);
                             }
@@ -183,10 +177,11 @@ namespace CalamityMod.NPCs.HiveMind
                     }
                 }
             }
+
             burrowTimer--;
             if (burrowTimer < -120)
             {
-                burrowTimer = 600;
+                burrowTimer = death ? 240 : revenge ? 300 : expertMode ? 360 : 420;
                 npc.scale = 1f;
                 npc.alpha = 0;
                 npc.dontTakeDamage = false;

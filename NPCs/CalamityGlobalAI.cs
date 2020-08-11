@@ -9226,7 +9226,7 @@ namespace CalamityMod.NPCs
 					npc.localAI[0] -= tileEnrageMult;
 					if (npc.localAI[0] <= 0f)
 					{
-						npc.localAI[0] = Main.rand.Next(120, 480);
+						npc.localAI[0] = Main.rand.Next(120, 481);
 						npc.ai[0] = Main.rand.Next(-100, 101);
 						npc.ai[1] = Main.rand.Next(-100, 101);
 						npc.netUpdate = true;
