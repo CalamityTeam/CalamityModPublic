@@ -78,7 +78,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (target.type == NPCID.TargetDummy)
                 return;
 
-			OnHitEffects(target.Center);
+			OnHitEffects(player, target.Center);
         }
 
         // On-hit, tosses out five homing projectiles. This is not like Holy Collider.
@@ -86,10 +86,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<Shadowflame>(), 480);
             target.AddBuff(BuffID.Ichor, 480);
-			OnHitEffects(target.Center);
+			OnHitEffects(player, target.Center);
         }
 
-		private void OnHitEffects(Vector2 targetPos)
+		private void OnHitEffects(Player player, Vector2 targetPos)
 		{
 
             // Individual true melee homing missiles deal 10% of the weapon's base damage.
