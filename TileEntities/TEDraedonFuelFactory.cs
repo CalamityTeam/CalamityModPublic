@@ -1,4 +1,4 @@
-using CalamityMod.Items;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Tiles;
 using System.IO;
 using Terraria;
