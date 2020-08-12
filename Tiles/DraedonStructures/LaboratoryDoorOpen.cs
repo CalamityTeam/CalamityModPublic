@@ -21,9 +21,12 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileWaterDeath[Type] = false;
             TileID.Sets.NotReallySolid[Type] = true;
             TileID.Sets.DrawsWalls[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
+            //TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
+            TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Origin = new Point16(0, 3);
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0);
@@ -37,33 +40,12 @@ namespace CalamityMod.Tiles.DraedonStructures
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.OpenDoor };
             dustType = 8;
+            closeDoorID = ModContent.TileType<LaboratoryDoorClosed>();
         }
 
         public override bool CanExplode(int i, int j) => false;
 
         public override bool HasSmartInteract() => true;
-
-        public override bool NewRightClick(int i, int j)
-        {
-            ushort type = (ushort)ModContent.TileType<LaboratoryDoorClosed>();
-            short frameY = 0;
-            for (int dy = -4; dy < 4; dy++)
-            {
-                if (Main.tile[i, j + dy].type == ModContent.TileType<LaboratoryDoorOpen>())
-                {
-                    if (Main.tile[i, j + dy] == null)
-                    {
-                        Main.tile[i, j + dy] = new Tile();
-                    }
-                    Main.tile[i, j + dy].type = type;
-                    Main.tile[i, j + dy].frameY = frameY;
-                    frameY += 16;
-                }
-            }
-
-            Main.PlaySound(SoundID.DoorClosed, i * 16, j * 16, 1, 1f, 0f);
-			return true;
-		}
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {

@@ -98,12 +98,13 @@ namespace CalamityMod.Projectiles.Rogue
 					// Stealth Strike
 					if (player.Calamity().StealthStrikeAvailable() && projectile.ai[1] != 1f)
 					{
-						Projectile.NewProjectile(player.Center,
+						int stealth = Projectile.NewProjectile(player.Center,
 												 player.DirectionTo(Main.MouseWorld) * 38f,
 												 ModContent.ProjectileType<FinalDawnThrow2>(),
 												 (int)(projectile.damage * 1.5f),
 												 projectile.knockBack,
 												 projectile.owner);
+						Main.projectile[stealth].Calamity().stealthStrike = true;
 						player.Calamity().ConsumeStealthByAttacking();
 					}
 					else
@@ -122,12 +123,13 @@ namespace CalamityMod.Projectiles.Rogue
 					// Stealth
 					if (player.Calamity().StealthStrikeAvailable() && projectile.ai[1] != 1f)
 					{
-						Projectile.NewProjectile(projectile.Center,
+						int stealth = Projectile.NewProjectile(projectile.Center,
 												 projectile.velocity,
 												 ModContent.ProjectileType<FinalDawnHorizontalSlash>(),
 												 (int)(projectile.damage * 1.5f),
 												 projectile.knockBack,
 												 projectile.owner);
+						Main.projectile[stealth].Calamity().stealthStrike = true;
 						player.Calamity().ConsumeStealthByAttacking();
 					}
 					else

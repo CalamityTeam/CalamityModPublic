@@ -3114,7 +3114,7 @@ namespace CalamityMod.CalPlayer
 			(!player.doubleJumpFart || !player.jumpAgainFart) &&
 			(!player.doubleJumpSail || !player.jumpAgainSail) &&
 			(!player.doubleJumpUnicorn || !player.jumpAgainUnicorn) &&
-			CalamityUtils.CountHookProj() <= 0;
+			CalamityUtils.CountHookProj() <= 0 && (player.rocketTime == 0 || player.wings > 0);
 			if (PlayerInput.Triggers.JustPressed.Jump && player.position.Y != player.oldPosition.Y && canJump)
 			{
 				if (statigelJump && jumpAgainStatigel)
@@ -4365,7 +4365,7 @@ namespace CalamityMod.CalPlayer
                 acidRoundMultiplier = 1D;
             }
 			//Prismatic Breaker is a weird hybrid melee-ranged weapon so include it too.  Why are you using desert prowler post-Yharon? don't ask me
-			if (desertProwler && (item.ranged || item.type == ModContent.ItemType<PrismaticBreaker>()))
+			if (desertProwler && (item.ranged || item.type == ModContent.ItemType<PrismaticBreaker>()) && item.ammo == AmmoID.None)
 			{
 				flat += 1f;
 			}
@@ -7220,7 +7220,7 @@ namespace CalamityMod.CalPlayer
         {
             if (veneratedLocket)
             {
-                if (item.Calamity().rogue)
+                if (item.Calamity().rogue && item.type != ModContent.ItemType<SylvanSlasher>())
                 {
                     float num72 = item.shootSpeed;
                     Vector2 vector2 = player.RotatedRelativePoint(player.MountedCenter, true);
@@ -7270,7 +7270,7 @@ namespace CalamityMod.CalPlayer
                     if (StealthStrikeAvailable())
                     {
                         int knifeCount = 15;
-                        int knifeDamage = 200;
+                        int knifeDamage = (int)(150 * player.RogueDamage());
                         float angleStep = MathHelper.TwoPi / knifeCount;
                         float speed = 15f;
 

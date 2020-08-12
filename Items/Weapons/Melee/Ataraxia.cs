@@ -78,22 +78,7 @@ namespace CalamityMod.Items.Weapons.Melee
             if (target.type == NPCID.TargetDummy)
                 return;
 
-            // Individual true melee homing missiles deal 10% of the weapon's base damage.
-            int numSplits = 5;
-            int trueMeleeID = ModContent.ProjectileType<AtaraxiaHoming>();
-            int trueMeleeDamage = (int)(0.1f * player.MeleeDamage());
-            float angleVariance = MathHelper.TwoPi / numSplits;
-            float spinOffsetAngle = MathHelper.Pi / (2f * numSplits);
-            Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
-
-            for (int i = 0; i < numSplits; ++i)
-            {
-                posVec = posVec.RotatedBy(angleVariance);
-                Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
-                velocity.Normalize();
-                velocity *= 8f;
-                Projectile.NewProjectile(target.Center + posVec, velocity, trueMeleeID, trueMeleeDamage, knockback, player.whoAmI, 0.0f, 0.0f);
-            }
+			OnHitEffects(player, target.Center);
         }
 
         // On-hit, tosses out five homing projectiles. This is not like Holy Collider.
@@ -101,11 +86,16 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             target.AddBuff(ModContent.BuffType<Shadowflame>(), 480);
             target.AddBuff(BuffID.Ichor, 480);
+			OnHitEffects(player, target.Center);
+        }
+
+		private void OnHitEffects(Player player, Vector2 targetPos)
+		{
 
             // Individual true melee homing missiles deal 10% of the weapon's base damage.
             int numSplits = 5;
             int trueMeleeID = ModContent.ProjectileType<AtaraxiaHoming>();
-            int trueMeleeDamage = (int)(0.1f * (int)(item.damage * (player.allDamage + player.meleeDamage - 1f)));
+            int trueMeleeDamage = (int)(0.1f * item.damage * player.MeleeDamage());
             float angleVariance = MathHelper.TwoPi / (float)numSplits;
             float spinOffsetAngle = MathHelper.Pi / (2f * numSplits);
             Vector2 posVec = new Vector2(8f, 0f).RotatedByRandom(MathHelper.TwoPi);
@@ -116,9 +106,9 @@ namespace CalamityMod.Items.Weapons.Melee
                 Vector2 velocity = new Vector2(posVec.X, posVec.Y).RotatedBy(spinOffsetAngle);
                 velocity.Normalize();
                 velocity *= 8f;
-                Projectile.NewProjectile(target.Center + posVec, velocity, trueMeleeID, trueMeleeDamage, item.knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(targetPos + posVec, velocity, trueMeleeID, trueMeleeDamage, item.knockBack, player.whoAmI, 0.0f, 0.0f);
             }
-        }
+		}
 
         // Spawn some fancy dust while swinging
         public override void MeleeEffects(Player player, Rectangle hitbox)

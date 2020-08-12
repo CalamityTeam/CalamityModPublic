@@ -3985,7 +3985,7 @@ namespace CalamityMod.CalPlayer
 		#region Double Jumps
 		private static void DoubleJumps(Player player, CalamityPlayer modPlayer)
 		{
-			if (CalamityUtils.CountHookProj() > 0)
+			if (CalamityUtils.CountHookProj() > 0 || player.sliding || player.autoJump && player.justJumped)
 			{
 				modPlayer.jumpAgainSulfur = true;
 				modPlayer.jumpAgainStatigel = true;

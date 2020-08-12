@@ -43,7 +43,6 @@ namespace CalamityMod.Projectiles.Summon
 
         public override void AI()
         {
-            bool flag64 = projectile.type == ModContent.ProjectileType<SandElementalMinion>();
             Player player = Main.player[projectile.owner];
             CalamityPlayer modPlayer = player.Calamity();
             if (!modPlayer.sandWaifu && !modPlayer.allWaifus)
@@ -51,6 +50,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.active = false;
                 return;
             }
+            bool flag64 = projectile.type == ModContent.ProjectileType<SandElementalMinion>();
             if (flag64)
             {
                 if (player.dead)

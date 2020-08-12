@@ -1379,7 +1379,6 @@ namespace CalamityMod
 			float maxDist = range;
 			Vector2 targetVec = projectile.position;
 			bool foundTarget = false;
-			Vector2 half = new Vector2(0.5f);
 			bool isButterfly = projectile.type == ModContent.ProjectileType<PurpleButterfly>();
 			//Prioritize the targeted enemy if possible
 			if (player.HasMinionAttackTargetNPC)
@@ -1389,16 +1388,17 @@ namespace CalamityMod
 				if (npc.CanBeChasedBy(projectile, false) || fishronCheck)
 				{
 					//Check the size of the target to make it easier to hit fat targets like Levi
-					Vector2 sizeCheck = npc.position + npc.Size * half;
+					float extraDist = (npc.width / 2) + (npc.height / 2);
+
 					float targetDist = Vector2.Distance(npc.Center, projectile.Center);
 					//Some minions will ignore tiles when choosing a target like Ice Claspers, others will not
 					bool canHit = true;
-					if (!tileVision)
-						canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
-					if (!foundTarget && targetDist < maxDist && canHit)
+					if (extraDist < maxDist && !tileVision)
+						canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+					if (!foundTarget && targetDist < (maxDist + extraDist) && canHit)
 					{
 						maxDist = targetDist;
-						targetVec = sizeCheck;
+						targetVec = npc.Center;
 						foundTarget = true;
 					}
 				}
@@ -1412,15 +1412,15 @@ namespace CalamityMod
 					bool fishronCheck = npc.type == NPCID.DukeFishron && npc.active && isButterfly;
 					if (npc.CanBeChasedBy(projectile, false) || fishronCheck)
 					{
-						Vector2 sizeCheck = npc.position + npc.Size * half;
+						float extraDist = (npc.width / 2) + (npc.height / 2);
 						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
 						bool canHit = true;
-						if (!tileVision)
-							canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
-						if (!foundTarget && targetDist < maxDist && canHit)
+						if (extraDist < maxDist && !tileVision)
+							canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+						if (!foundTarget && targetDist < (maxDist + extraDist) && canHit)
 						{
 							maxDist = targetDist;
-							targetVec = sizeCheck;
+							targetVec = npc.Center;
 							foundTarget = true;
 						}
 					}

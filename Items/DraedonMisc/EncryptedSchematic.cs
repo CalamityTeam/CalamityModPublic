@@ -1,7 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.DraedonMisc
 {
     public class EncryptedSchematic : ModItem
     {
