@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.Kill();
                 return;
             }
-            if (projectile.owner != Main.myPlayer && Time % player.ActiveItem().useTime == 0)
+            if (Time % player.ActiveItem().useTime == 0)
             {
                 int type = ProjectileID.WoodenArrowFriendly; // This doesn't really matter. It's overwritten anyway. But it is passed into the PickAmmo method.
                 float shotSpeed = player.ActiveItem().shootSpeed;
@@ -83,12 +83,18 @@ namespace CalamityMod.Projectiles.Ranged
                     float offsetAngle = Main.rand.NextFloat(0.2f, 0.5f) * Main.rand.NextBool(2).ToDirectionInt();
                     Vector2 sparkVelocity = projectile.DirectionTo(Main.MouseWorld).RotatedByRandom(0.5f) * 13f;
                     sparkVelocity = sparkVelocity.RotatedBy(offsetAngle);
-                    Projectile.NewProjectile(shotPosition, sparkVelocity, ModContent.ProjectileType<UltimaSpark>(), damage / 3, knockBack, projectile.owner);
+					if (projectile.owner != Main.myPlayer)
+					{
+						Projectile.NewProjectile(shotPosition, sparkVelocity, ModContent.ProjectileType<UltimaSpark>(), damage / 3, knockBack, projectile.owner);
+					}
                 }
                 knockBack = player.GetWeaponKnockback(player.ActiveItem(), knockBack);
 
-                Projectile.NewProjectile(shotPosition, shotVelocity, type, damage, knockBack, projectile.owner);
-                projectile.netUpdate = true;
+				if (projectile.owner != Main.myPlayer)
+				{
+					Projectile.NewProjectile(shotPosition, shotVelocity, type, damage, knockBack, projectile.owner);
+					projectile.netUpdate = true;
+				}
             }
         }
 
