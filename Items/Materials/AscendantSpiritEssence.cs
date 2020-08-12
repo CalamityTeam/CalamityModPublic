@@ -2,6 +2,7 @@
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 using CalamityMod.Tiles.Furniture.CraftingStations;
+using Terraria.ID;
 
 namespace CalamityMod.Items.Materials
 {
@@ -10,15 +11,14 @@ namespace CalamityMod.Items.Materials
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ascendant Spirit Essence");
-            Tooltip.SetDefault("Formed from the merging of powerful souls");
+            Tooltip.SetDefault("A catalyst of the highest caliber formed by fusing powerful souls");
             Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 6));
         }
 
         public override void Update(ref float gravity, ref float maxFallSpeed)
         {
-            float num = (float)Main.rand.Next(90, 111) * 0.01f;
-            num *= Main.essScale;
-            Lighting.AddLight((int)((item.position.X + (float)(item.width / 2)) / 16f), (int)((item.position.Y + (float)(item.height / 2)) / 16f), 1.2f * num, 0.4f * num, 0.8f);
+            float brightness = Main.essScale * Main.rand.NextFloat(0.9f, 1.1f);
+            Lighting.AddLight(item.Center, 1.2f * brightness, 0.4f * brightness, 0.8f);
         }
 
         public override void SetDefaults()
@@ -26,9 +26,9 @@ namespace CalamityMod.Items.Materials
             item.width = 32;
             item.height = 54;
             item.maxStack = 999;
-            item.rare = 10;
-            item.value = Item.sellPrice(gold: 25);
+            item.rare = ItemRarityID.Red;
             item.Calamity().customRarity = CalamityRarity.DarkBlue;
+            item.value = Item.sellPrice(gold: 25);
         }
         public override void AddRecipes()
         {
