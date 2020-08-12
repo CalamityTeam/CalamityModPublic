@@ -3162,7 +3162,7 @@ namespace CalamityMod.CalPlayer
 					}
 					if (sulphurBubbleCooldown <= 0)
 					{
-						int bubble = Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
+						int bubble = Projectile.NewProjectile(new Vector2(player.Center.X, player.position.Y + (player.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, player.whoAmI, 1f, 0f);
 						Main.projectile[bubble].Calamity().forceRogue = true;
 						sulphurBubbleCooldown = 20;
 					}
@@ -6255,7 +6255,7 @@ namespace CalamityMod.CalPlayer
 						int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
 						Main.dust[dustIndex].velocity *= 0.3f;
 					}
-					int damage2 = (int)(GaelsGreatsword.BaseDamage * Main.LocalPlayer.MeleeDamage());
+					int damage2 = (int)(GaelsGreatsword.BaseDamage * player.MeleeDamage());
 					proj.hostile = false;
 					proj.friendly = true;
 					proj.velocity *= -1f;
@@ -9930,52 +9930,44 @@ namespace CalamityMod.CalPlayer
 		public static readonly PlayerLayer ForbiddenCircletSign = new PlayerLayer("CalamityMod", "ForbiddenSigil", PlayerLayer.BackAcc, delegate (PlayerDrawInfo drawInfo)
 		{
 			DrawData drawData = new DrawData();
-			Player drawPlayer = drawInfo.drawPlayer;
-			CalamityPlayer modPlayer = drawPlayer.Calamity();
-			if (drawInfo.shadow != 0f || drawPlayer.dead || !modPlayer.forbiddenCirclet)
+			Player player = drawInfo.drawPlayer;
+			CalamityPlayer modPlayer = player.Calamity();
+			if (drawInfo.shadow != 0f || player.dead || !modPlayer.forbiddenCirclet)
 			{
 				return;
 			}
-			SpriteEffects spriteEffects = SpriteEffects.FlipHorizontally;
-			if (drawPlayer.gravDir == 1f)
+			SpriteEffects spriteEffects;
+			if (player.gravDir == 1f)
 			{
-				if (drawPlayer.direction == 1)
-				{
-					spriteEffects = SpriteEffects.None;
-				}
-				else
-				{
-					spriteEffects = SpriteEffects.FlipHorizontally;
-				}
+				spriteEffects = player.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 			}
 			else
 			{
-				if (drawPlayer.direction == 1)
-				{
-					spriteEffects = SpriteEffects.FlipVertically;
-				}
-				else
-				{
-					spriteEffects = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
-				}
+				spriteEffects = player.direction == 1 ? SpriteEffects.FlipVertically : SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
 			}
 			int dyeShader = 0;
-			if (drawPlayer.dye[1] != null)
-				dyeShader = (int)drawPlayer.dye[1].dye;
-			Microsoft.Xna.Framework.Color color12 = drawPlayer.GetImmuneAlphaPure(Lighting.GetColor((int)((double)drawInfo.position.X + (double)drawPlayer.width * 0.5) / 16, (int)((double)drawInfo.position.Y + (double)drawPlayer.height * 0.5) / 16, Microsoft.Xna.Framework.Color.White), drawInfo.shadow);
-			Microsoft.Xna.Framework.Color color19 = Microsoft.Xna.Framework.Color.Lerp(color12, Microsoft.Xna.Framework.Color.White, 0.7f);
+			if (player.dye[1] != null)
+				dyeShader = player.dye[1].dye;
+
 			Texture2D texture = Main.extraTexture[ExtrasID.ForbiddenSign];
 			Texture2D glowmask = Main.glowMaskTexture[GlowMaskID.ForbiddenSign];
-			int num24 = (int)(((float)((double)drawPlayer.miscCounter / 300 * MathHelper.TwoPi)).ToRotationVector2().Y * 6f);
-			float num25 = ((float)((double) drawPlayer.miscCounter / 75.0 * MathHelper.TwoPi)).ToRotationVector2().X * 4f;
-			Microsoft.Xna.Framework.Color color20 = new Microsoft.Xna.Framework.Color(80, 70, 40, 0) * (float) ((double) num25 / 8.0 + 0.5) * 0.8f;
-			Vector2 position = new Vector2((float)((double)drawInfo.position.X - (double)Main.screenPosition.X - (double)(drawPlayer.bodyFrame.Width / 2) + (double)(drawPlayer.width / 2)), (float)((double)drawInfo.position.Y - (double)Main.screenPosition.Y + (double)drawPlayer.height - (double)drawPlayer.bodyFrame.Height + 4.0)) + drawPlayer.bodyPosition + new Vector2((float)(drawPlayer.bodyFrame.Width / 2), (float)(drawPlayer.bodyFrame.Height / 2)) + new Vector2((float)(-drawPlayer.direction * 10), (float)(num24 - 20));
-			drawData = new DrawData(texture, position, new Microsoft.Xna.Framework.Rectangle?(), color19, drawPlayer.bodyRotation, texture.Size() / 2f, 1f, spriteEffects, 0);
+
+			int yVariance = (int)((player.miscCounter / 300f * MathHelper.TwoPi).ToRotationVector2().Y * 6f);
+			float xVariance = (player.miscCounter / 75f * MathHelper.TwoPi).ToRotationVector2().X * 4f;
+
+			Color lerpColor1 = player.GetImmuneAlphaPure(Lighting.GetColor((int)player.Center.X / 16, (int)player.Center.Y / 16, Microsoft.Xna.Framework.Color.White), player.shadow);
+			Color textureColor = Microsoft.Xna.Framework.Color.Lerp(lerpColor1, Microsoft.Xna.Framework.Color.White, 0.7f);
+			Color glowmaskColor = new Microsoft.Xna.Framework.Color(80, 70, 40, 0) * xVariance * 0.1f;
+
+			Vector2 drawPos = new Vector2(player.Center.X - Main.screenPosition.X - player.bodyFrame.Width / 2f, player.Bottom.Y - Main.screenPosition.Y - player.bodyFrame.Height + 4f) + player.bodyPosition + new Vector2(player.bodyFrame.Width / 2f, player.bodyFrame.Height / 2f) + new Vector2(-player.direction * 10, yVariance - (player.gravDir == 1f ? 20f : -20f));
+
+			drawData = new DrawData(texture, drawPos, new Microsoft.Xna.Framework.Rectangle?(), textureColor, player.bodyRotation, texture.Size() / 2f, 1f, spriteEffects, 0);
 			drawData.shader = dyeShader;
 			Main.playerDrawData.Add(drawData);
-			for (float num26 = 0.0f; num26 < 4f; ++num26)
+
+			for (int i = 0; i < 4; ++i)
 			{
-				drawData = new DrawData(glowmask, position + (num26 * MathHelper.PiOver2).ToRotationVector2() * num25, new Microsoft.Xna.Framework.Rectangle?(), color20, drawPlayer.bodyRotation, texture.Size() / 2f, 1f, spriteEffects, 0);
+				drawData = new DrawData(glowmask, drawPos + (i * MathHelper.PiOver2).ToRotationVector2() * xVariance, new Microsoft.Xna.Framework.Rectangle?(), glowmaskColor, player.bodyRotation, texture.Size() / 2f, 1f, spriteEffects, 0);
 				Main.playerDrawData.Add(drawData);
 			}
 		});
