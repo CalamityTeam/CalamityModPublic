@@ -143,8 +143,7 @@ namespace CalamityMod.Items.Weapons.Melee
             r.AddIngredient(ItemID.BrokenHeroSword);
 			r.AddIngredient(ModContent.ItemType<AuricBar>(), 4);
             r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 12);
-            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
+            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
             r.AddIngredient(ModContent.ItemType<DarksunFragment>(), 15);
             r.AddTile(ModContent.TileType<DraedonsForge>());
             r.SetResult(this);

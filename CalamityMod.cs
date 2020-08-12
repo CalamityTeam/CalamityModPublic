@@ -2402,6 +2402,7 @@ namespace CalamityMod
                 ModContent.ItemType<GalacticaSingularity>(),
                 ModContent.ItemType<NightmareFuel>(),
                 ModContent.ItemType<EndothermicEnergy>(),
+                ModContent.ItemType<AscendantSpiritEssence>(),
                 ModContent.ItemType<SoulofCryogen>(),
 
                 ModContent.ItemType<KnowledgeAquaticScourge>(),

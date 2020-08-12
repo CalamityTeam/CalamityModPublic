@@ -32,8 +32,7 @@ namespace CalamityMod.Items.Placeables.FurnitureSilva
             recipe.AddRecipeGroup("AnyGoldBar", 25);
             recipe.AddIngredient(ModContent.ItemType<DarksunFragment>());
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>());
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>());
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.SetResult(this, 400);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.AddRecipe();

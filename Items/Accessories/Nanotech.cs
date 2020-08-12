@@ -61,9 +61,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<RaidersTalisman>());
             recipe.AddIngredient(ModContent.ItemType<MoonstoneCrown>());
             recipe.AddIngredient(ModContent.ItemType<ElectriciansGlove>());
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 20);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 4);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
