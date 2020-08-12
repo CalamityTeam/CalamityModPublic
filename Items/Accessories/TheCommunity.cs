@@ -18,7 +18,7 @@ namespace CalamityMod.Items.Accessories
                 "Boosts your maximum flight time by 15%\n" +
                 "Thank you to all of my supporters that made this mod a reality\n" +
                 "Revengeance drop");
-            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 15));
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(5, 10));
         }
 
         public override void SetDefaults()
