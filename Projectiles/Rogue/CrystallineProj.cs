@@ -42,8 +42,8 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < numProj + 1; i++)
                     {
                         float AI1 = projectile.Calamity().stealthStrike ? 1f : 0f;
-                        Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                        Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Crystalline2>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, AI1);
+                        Vector2 perturbedSpeed = projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                        Projectile.NewProjectile(projectile.Center, perturbedSpeed, ModContent.ProjectileType<Crystalline2>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, AI1);
                     }
                 }
             }

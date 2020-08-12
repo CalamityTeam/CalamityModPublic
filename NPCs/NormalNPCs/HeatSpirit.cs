@@ -95,10 +95,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofChaos>());
-            }
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EssenceofChaos>(), 0.25f);
         }
     }
 }

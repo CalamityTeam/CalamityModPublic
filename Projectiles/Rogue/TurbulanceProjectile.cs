@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
 			projectile.ai[0]++;
-			projectile.tileCollide = projectile.ai[0] < 2f;
+			projectile.tileCollide = projectile.ai[0] >= 2f;
 
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(135f);
             if (projectile.spriteDirection == -1)

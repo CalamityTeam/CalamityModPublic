@@ -63,10 +63,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(2))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<BlightedLens>());
-            }
+			DropHelper.DropItemChance(npc, ModContent.ItemType<BlightedLens>(), 0.5f);
         }
     }
 }

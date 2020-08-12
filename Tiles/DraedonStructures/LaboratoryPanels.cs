@@ -21,5 +21,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             drop = ModContent.ItemType<Items.Placeables.DraedonStructures.LaboratoryPanels>();
             AddMapEntry(new Color(36, 35, 37));
         }
+
+        public override bool CanExplode(int i, int j) => false;
     }
 }

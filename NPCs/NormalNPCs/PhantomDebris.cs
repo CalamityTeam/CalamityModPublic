@@ -429,11 +429,8 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AncientBoneDust>());
-            if (NPC.downedMoonlord)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>());
-            }
+			DropHelper.DropItem(npc, ModContent.ItemType<AncientBoneDust>());
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Phantoplasm>(), NPC.downedMoonlord);
         }
     }
 }

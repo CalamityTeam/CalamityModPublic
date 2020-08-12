@@ -105,22 +105,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(3))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<AridArtifact>());
-            }
-            if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SlagMagnum>());
-            }
-            if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Aftershock>());
-            }
-            if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EarthenPike>());
-            }
+			DropHelper.DropItemChance(npc, ModContent.ItemType<AridArtifact>(), 3);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<SlagMagnum>(), 4);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<Aftershock>(), 4);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EarthenPike>(), 4);
         }
 
         public override void HitEffect(int hitDirection, double damage)

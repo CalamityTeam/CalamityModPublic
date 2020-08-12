@@ -28,8 +28,8 @@ namespace CalamityMod.Items.LoreItems
         public override void ModifyTooltips(List<TooltipLine> list)
         {
             bool autoJump = Main.player[Main.myPlayer].autoJump;
-			string hasJumpBoost = "Place in your inventory to gain 5% increased movement speed and 2% increased jump speed.";
-			string noJumpBoost = "Place in your inventory to gain 5% increased movement speed.";
+			string hasJumpBoost = "Favorite this item to gain 5% increased movement speed and 2% increased jump speed.";
+			string noJumpBoost = "Favorite this item to gain 5% increased movement speed.";
             foreach (TooltipLine line2 in list)
             {
                 if (line2.mod == "Terraria" && line2.Name == "Tooltip2")

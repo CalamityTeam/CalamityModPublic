@@ -2690,10 +2690,10 @@ namespace CalamityMod
 
             bossMinionList = new List<int>()
             {
+                NPCID.SlimeSpiked,
                 ModContent.NPCType<DesertScourgeHeadSmall>(),
                 ModContent.NPCType<DesertScourgeBodySmall>(),
                 ModContent.NPCType<DesertScourgeTailSmall>(),
-                NPCID.SlimeSpiked,
                 NPCID.ServantofCthulhu,
                 ModContent.NPCType<CrabShroom>(),
                 NPCID.EaterofWorldsHead,
@@ -2712,6 +2712,7 @@ namespace CalamityMod
                 ModContent.NPCType<HiveBlob>(),
                 ModContent.NPCType<HiveBlob2>(),
                 ModContent.NPCType<DankCreeper>(),
+                ModContent.NPCType<DarkHeart>(),
                 NPCID.SkeletronHand,
                 ModContent.NPCType<SlimeGod>(),
                 ModContent.NPCType<SlimeGodSplit>(),
@@ -2738,6 +2739,7 @@ namespace CalamityMod
                 NPCID.TheDestroyer,
                 NPCID.TheDestroyerBody,
                 NPCID.TheDestroyerTail,
+                NPCID.Probe,
                 ModContent.NPCType<AquaticScourgeHead>(),
                 ModContent.NPCType<AquaticScourgeBody>(),
                 ModContent.NPCType<AquaticScourgeBodyAlt>(),
@@ -2747,18 +2749,24 @@ namespace CalamityMod
                 ModContent.NPCType<LifeSeeker>(),
                 ModContent.NPCType<SoulSeeker>(),
                 NPCID.PlanterasTentacle,
-                ModContent.NPCType<AureusSpawn>(),
                 NPCID.Spore,
+                ModContent.NPCType<AureusSpawn>(),
                 NPCID.GolemHead,
                 NPCID.GolemHeadFree,
                 NPCID.GolemFistLeft,
                 NPCID.GolemFistRight,
                 ModContent.NPCType<PlagueMine>(),
                 ModContent.NPCType<PlagueHomingMissile>(),
+                ModContent.NPCType<PlagueBeeG>(),
+                ModContent.NPCType<PlagueBeeLargeG>(),
+                ModContent.NPCType<PlaguebringerShade>(),
+                NPCID.DetonatingBubble,
+                NPCID.Sharkron,
+                NPCID.Sharkron2,
                 ModContent.NPCType<RavagerClawLeft>(),
                 ModContent.NPCType<RavagerClawRight>(),
                 ModContent.NPCType<RavagerLegLeft>(),
-                ModContent.NPCType<RavagerLegLeft>(),
+                ModContent.NPCType<RavagerLegRight>(),
                 ModContent.NPCType<RavagerHead>(),
                 NPCID.CultistDragonHead,
                 NPCID.CultistDragonBody1,
@@ -2766,10 +2774,12 @@ namespace CalamityMod
                 NPCID.CultistDragonBody3,
                 NPCID.CultistDragonBody4,
                 NPCID.CultistDragonTail,
+                NPCID.CultistBossClone,
                 NPCID.AncientCultistSquidhead,
+                NPCID.AncientLight,
+                NPCID.AncientDoom,
                 NPCID.MoonLordFreeEye,
-                NPCID.MoonLordHand,
-                NPCID.MoonLordHead,
+                NPCID.MoonLordLeechBlob,
                 ModContent.NPCType<Bumblefuck2>(),
                 ModContent.NPCType<ProvSpawnOffense>(),
                 ModContent.NPCType<ProvSpawnDefense>(),
@@ -2778,6 +2788,7 @@ namespace CalamityMod
                 ModContent.NPCType<DarkEnergy2>(),
                 ModContent.NPCType<DarkEnergy3>(),
                 ModContent.NPCType<CosmicLantern>(),
+                ModContent.NPCType<SignusBomb>(),
                 ModContent.NPCType<StasisProbe>(),
                 ModContent.NPCType<StasisProbeNaked>(),
                 ModContent.NPCType<DevourerofGodsHead2>(),
@@ -2785,8 +2796,10 @@ namespace CalamityMod
                 ModContent.NPCType<DevourerofGodsTail2>(),
                 ModContent.NPCType<DetonatingFlare>(),
                 ModContent.NPCType<DetonatingFlare2>(),
+                ModContent.NPCType<SCalWormHeart>(),
                 ModContent.NPCType<SupremeCataclysm>(),
-                ModContent.NPCType<SupremeCatastrophe>()
+                ModContent.NPCType<SupremeCatastrophe>(),
+                ModContent.NPCType<SoulSeekerSupreme>()
             };
 
             Mod thorium = ModLoader.GetMod("ThoriumMod");
@@ -4155,29 +4168,28 @@ namespace CalamityMod
                             NPC.NewNPC(x, y, ModContent.NPCType<SuperDummyNPC>());
                         break;
                     case CalamityModMessageType.DraedonGeneratorStackSync:
-                        (TileEntity.ByID[reader.ReadInt32()] as TEDraedonFuelFactory).HeldItem.stack = reader.ReadInt32();
+                        int entityID = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonFuelFactory).HeldItem.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID] as TEDraedonFuelFactory).HeldItem.stack = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.DraedonChargerSync:
-                        int entityID = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.type = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.stack = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).FuelItem.position = reader.ReadVector2();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.type = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.stack = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.prefix = reader.ReadByte();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.position = reader.ReadVector2();
-                        int currentCharge = reader.ReadInt32();
-                        if (currentCharge != -1)
-                        {
-                            (TileEntity.ByID[entityID] as TEDraedonItemCharger).ItemBeingCharged.Calamity().CurrentCharge = currentCharge;
-                        }
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).ActiveTimer = reader.ReadInt32();
-                        (TileEntity.ByID[entityID] as TEDraedonItemCharger).DepositWithdrawCooldown = reader.ReadInt32();
+                        int entityID2 = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).FuelItem.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).FuelItem.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).FuelItem.position = reader.ReadVector2();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.type = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.stack = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.prefix = reader.ReadByte();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ItemBeingCharged.position = reader.ReadVector2();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).Charge = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ChargeMax = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).ActiveTimer = reader.ReadInt32();
+                        (TileEntity.ByID[entityID2] as TEDraedonItemCharger).DepositWithdrawCooldown = reader.ReadInt32();
                         break;
                     case CalamityModMessageType.DraedonFieldGeneratorSync:
-                        int entityID2 = reader.ReadInt32();
-                        (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).Time = reader.ReadInt32();
-                        (TileEntity.ByID[entityID2] as TEDraedonFieldGenerator).ActiveTimer = reader.ReadInt32();
+                        int entityID3 = reader.ReadInt32();
+                        (TileEntity.ByID[entityID3] as TEDraedonFieldGenerator).Time = reader.ReadInt32();
+                        (TileEntity.ByID[entityID3] as TEDraedonFieldGenerator).ActiveTimer = reader.ReadInt32();
                         break;
 					case CalamityModMessageType.SyncCalamityNPCAIArray:
 						byte npcIndex2 = reader.ReadByte();

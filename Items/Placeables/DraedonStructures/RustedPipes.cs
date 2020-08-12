@@ -25,7 +25,8 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.IronBar, 1);
+            recipe.AddIngredient(ItemID.IronBar);
+            recipe.anyIronBar = true;
             recipe.SetResult(this, 5);
             recipe.AddTile(TileID.Anvils);
             recipe.AddRecipe();

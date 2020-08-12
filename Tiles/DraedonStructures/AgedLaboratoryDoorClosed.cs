@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileBlockLight[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
             TileID.Sets.NotReallySolid[Type] = true;
             TileID.Sets.DrawsWalls[Type] = true;
@@ -42,6 +42,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             dustType = 8;
             openDoorID = ModContent.TileType<AgedLaboratoryDoorOpen>();
         }
+
+        public override bool CanExplode(int i, int j) => false;
 
         public override bool HasSmartInteract() => true;
 

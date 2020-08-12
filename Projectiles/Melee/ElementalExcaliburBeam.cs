@@ -10,6 +10,7 @@ namespace CalamityMod.Projectiles.Melee
     public class ElementalExcaliburBeam : ModProjectile
     {
         private int alpha = 50;
+		private bool playedSound = false;
 
         public override void SetStaticDefaults()
         {
@@ -27,9 +28,9 @@ namespace CalamityMod.Projectiles.Melee
             projectile.ignoreWater = true;
             projectile.penetrate = 3;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 4;
-            projectile.timeLeft = 600;
-            projectile.extraUpdates = 1;
+            projectile.localNPCHitCooldown = 8;
+            projectile.timeLeft = 1200;
+            projectile.extraUpdates = 3;
         }
 
         public override void SendExtraAI(BinaryWriter writer)
@@ -46,16 +47,16 @@ namespace CalamityMod.Projectiles.Melee
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.785f;
-            if (projectile.ai[1] == 0f)
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(45f);
+            if (!playedSound)
             {
-                projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item60, projectile.position);
+                Main.PlaySound(SoundID.Item60, projectile.Center);
+				playedSound = true;
             }
             if (projectile.localAI[0] == 0f)
             {
-                projectile.scale -= 0.02f;
-                projectile.alpha += 30;
+                projectile.scale -= 0.01f;
+                projectile.alpha += 15;
                 if (projectile.alpha >= 250)
                 {
                     projectile.alpha = 255;
@@ -64,8 +65,8 @@ namespace CalamityMod.Projectiles.Melee
             }
             else if (projectile.localAI[0] == 1f)
             {
-                projectile.scale += 0.02f;
-                projectile.alpha -= 30;
+                projectile.scale += 0.01f;
+                projectile.alpha -= 15;
                 if (projectile.alpha <= 0)
                 {
                     projectile.alpha = 0;
@@ -82,17 +83,17 @@ namespace CalamityMod.Projectiles.Melee
                 case 1: // Orange, curve back to player
                     color = new Color(255, 128, 0, alpha);
 
-                    int num123 = (int)Player.FindClosest(projectile.Center, 1, 1);
-                    projectile.ai[1] += 1f;
-                    if (projectile.ai[1] < 110f && projectile.ai[1] > 30f)
+                    int p = (int)Player.FindClosest(projectile.Center, 1, 1);
+					projectile.ai[1] += 1f;
+                    if (projectile.ai[1] < 220f && projectile.ai[1] > 60f)
                     {
-                        float scaleFactor2 = projectile.velocity.Length();
-                        Vector2 vector17 = Main.player[num123].Center - projectile.Center;
-                        vector17.Normalize();
-                        vector17 *= scaleFactor2;
-                        projectile.velocity = (projectile.velocity * 24f + vector17) / 25f;
+                        float homeSpeed = projectile.velocity.Length();
+                        Vector2 vecToPlayer = Main.player[p].Center - projectile.Center;
+                        vecToPlayer.Normalize();
+                        vecToPlayer *= homeSpeed;
+                        projectile.velocity = (projectile.velocity * 24f + vecToPlayer) / 25f;
                         projectile.velocity.Normalize();
-                        projectile.velocity *= scaleFactor2;
+                        projectile.velocity *= homeSpeed;
                     }
 
                     if (projectile.velocity.Length() < 24f)
@@ -106,7 +107,7 @@ namespace CalamityMod.Projectiles.Melee
                     color = new Color(255, 255, 0, alpha);
 
                     projectile.localAI[1] += 1f;
-                    if (projectile.localAI[1] >= 90f)
+                    if (projectile.localAI[1] >= 180f)
                     {
                         projectile.localAI[1] = 0f;
                         int numProj = 2;
@@ -115,8 +116,8 @@ namespace CalamityMod.Projectiles.Melee
                         {
                             for (int i = 0; i < numProj + 1; i++)
                             {
-                                Vector2 perturbedSpeed = new Vector2(projectile.velocity.X, projectile.velocity.Y).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X * 0.5f, perturbedSpeed.Y * 0.5f, ModContent.ProjectileType<ElementalExcaliburBeam>(), (int)((double)projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
+                                Vector2 perturbedSpeed = projectile.velocity.RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
+                                Projectile.NewProjectile(projectile.Center, perturbedSpeed * 0.5f, ModContent.ProjectileType<ElementalExcaliburBeam>(), (int)(projectile.damage * 0.5), projectile.knockBack * 0.5f, projectile.owner, 0f, 0f);
                             }
                         }
                         projectile.Kill();
@@ -127,19 +128,19 @@ namespace CalamityMod.Projectiles.Melee
                 case 3: // Lime, home in on player within certain distance
                     color = new Color(128, 255, 0, alpha);
 
-                    float num953 = 75f;
-                    float scaleFactor12 = 15f;
-                    float num954 = 80f;
+                    float inertia = 75f;
+                    float homingSpeed = 7.5f;
+                    float minDist = 80f;
                     if (Main.player[projectile.owner].active && !Main.player[projectile.owner].dead)
                     {
-                        if (projectile.Distance(Main.player[projectile.owner].Center) > num954)
+                        if (projectile.Distance(Main.player[projectile.owner].Center) > minDist)
                         {
-                            Vector2 vector102 = projectile.DirectionTo(Main.player[projectile.owner].Center);
-                            if (vector102.HasNaNs())
+                            Vector2 vecToPlayer = projectile.DirectionTo(Main.player[projectile.owner].Center);
+                            if (vecToPlayer.HasNaNs())
                             {
-                                vector102 = Vector2.UnitY;
+                                vecToPlayer = Vector2.UnitY;
                             }
-                            projectile.velocity = (projectile.velocity * (num953 - 1f) + vector102 * scaleFactor12) / num953;
+                            projectile.velocity = (projectile.velocity * (inertia - 1f) + vecToPlayer * homingSpeed) / inertia;
                         }
                     }
                     else
@@ -155,7 +156,7 @@ namespace CalamityMod.Projectiles.Melee
                 case 4: // Green, home in on enemies
                     color = new Color(0, 255, 0, alpha);
 
-					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 12f, 20f);
+					CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 6f, 20f);
 
                     break;
 
@@ -186,15 +187,15 @@ namespace CalamityMod.Projectiles.Melee
                     color = new Color(128, 0, 255, alpha);
 
                     projectile.localAI[1] += 1f;
-                    if (projectile.localAI[1] <= 20f)
+                    if (projectile.localAI[1] <= 40f)
                     {
                         projectile.velocity *= 0.95f;
                     }
-                    else if (projectile.localAI[1] > 20f && projectile.localAI[1] <= 39f)
+                    else if (projectile.localAI[1] > 40f && projectile.localAI[1] <= 79f)
                     {
                         projectile.velocity *= 1.05f;
                     }
-                    else if (projectile.localAI[1] == 40f)
+                    else if (projectile.localAI[1] == 80f)
                     {
                         projectile.localAI[1] = 0f;
                     }
@@ -221,11 +222,11 @@ namespace CalamityMod.Projectiles.Melee
                         projectile.velocity *= 0.33f;
                     }
                     projectile.localAI[1] += 1f;
-                    if (projectile.localAI[1] >= 91f)
+                    if (projectile.localAI[1] >= 181f)
                     {
                         projectile.localAI[1] = 1f;
                         if (Main.myPlayer == projectile.owner)
-                            Projectile.NewProjectile(projectile.Center.X + projectile.velocity.X, projectile.Center.Y + projectile.velocity.Y, projectile.velocity.X, projectile.velocity.Y, ModContent.ProjectileType<ElementalExcaliburBeam>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 10f, 0f);
+                            Projectile.NewProjectile(projectile.Center + projectile.velocity, projectile.velocity, ModContent.ProjectileType<ElementalExcaliburBeam>(), projectile.damage / 2, projectile.knockBack * 0.5f, projectile.owner, 10f, 0f);
                     }
 
                     break;
@@ -334,7 +335,7 @@ namespace CalamityMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.timeLeft > 595)
+            if (projectile.timeLeft > 1195)
                 return false;
 
             CalamityGlobalProjectile.DrawCenteredAndAfterimage(projectile, lightColor, ProjectileID.Sets.TrailingMode[projectile.type], 1);
@@ -344,12 +345,8 @@ namespace CalamityMod.Projectiles.Melee
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Item10, projectile.Center);
-            projectile.position = projectile.Center;
-            projectile.width = projectile.height = 64;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            projectile.maxPenetrate = -1;
-            projectile.penetrate = -1;
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 64);
+            projectile.maxPenetrate = projectile.penetrate = -1;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = 10;
             projectile.Damage();
@@ -380,19 +377,13 @@ namespace CalamityMod.Projectiles.Melee
 
                     for (int x = 0; x < 3; x++)
                     {
-                        float xPos = projectile.ai[0] > 0 ? projectile.position.X + 500 : projectile.position.X - 500;
-                        Vector2 vector2 = new Vector2(xPos, projectile.position.Y + Main.rand.Next(-500, 501));
-                        float num80 = xPos;
-                        float speedX = projectile.Center.X - vector2.X;
-                        float speedY = projectile.Center.Y - vector2.Y;
-                        float dir = (float)Math.Sqrt((double)(speedX * speedX + speedY * speedY));
-                        dir = 5 / num80;
-                        speedX *= dir * 150;
-                        speedY *= dir * 150;
-                        if (projectile.owner == Main.myPlayer)
-                        {
-                            Projectile.NewProjectile(vector2.X, vector2.Y, speedX, speedY, ModContent.ProjectileType<ElementalExcaliburBeam>(), (int)((double)projectile.damage * 0.2), 2f, projectile.owner, 5f, 0f);
-                        }
+						bool fromRight = x == 1;
+						if (x == 2)
+							fromRight = Main.rand.NextBool(2);
+						if (projectile.owner == Main.myPlayer)
+						{
+							CalamityUtils.ProjectileBarrage(projectile.Center, projectile.Center, fromRight, 500f, 500f, 0f, 500f, 5f, ModContent.ProjectileType<ElementalExcaliburBeam>(), (int)(projectile.damage * 0.2), projectile.knockBack * 0.2f, projectile.owner, false, 0f).ai[0] = 5f;
+						}
                     }
 
                     break;
@@ -416,19 +407,19 @@ namespace CalamityMod.Projectiles.Melee
                     break;
             }
 
-            for (int num193 = 0; num193 < 3; num193++)
+            for (int d = 0; d < 3; d++)
             {
                 int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 267, 0f, 0f, alpha, color, 1.5f);
                 Main.dust[dust].noGravity = true;
             }
-            for (int num194 = 0; num194 < 30; num194++)
+            for (int d = 0; d < 30; d++)
             {
-                int num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 267, 0f, 0f, alpha, color, 2.5f);
-                Main.dust[num195].noGravity = true;
-                Main.dust[num195].velocity *= 3f;
-                num195 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 267, 0f, 0f, alpha, color, 1.5f);
-                Main.dust[num195].velocity *= 2f;
-                Main.dust[num195].noGravity = true;
+                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 267, 0f, 0f, alpha, color, 2.5f);
+                Main.dust[dust].noGravity = true;
+                Main.dust[dust].velocity *= 3f;
+                dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 267, 0f, 0f, alpha, color, 1.5f);
+                Main.dust[dust].velocity *= 2f;
+                Main.dust[dust].noGravity = true;
             }
         }
     }

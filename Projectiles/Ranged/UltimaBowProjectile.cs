@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Ranged
                 projectile.Kill();
                 return;
             }
-            if (Main.netMode != NetmodeID.MultiplayerClient && Time % player.ActiveItem().useTime == 0)
+            if (projectile.owner == Main.myPlayer && Time % player.ActiveItem().useTime == 0)
             {
                 int type = ProjectileID.WoodenArrowFriendly; // This doesn't really matter. It's overwritten anyway. But it is passed into the PickAmmo method.
                 float shotSpeed = player.ActiveItem().shootSpeed;

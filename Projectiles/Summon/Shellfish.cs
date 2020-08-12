@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.Summon;
 using CalamityMod.CalPlayer;
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -51,20 +52,19 @@ namespace CalamityMod.Projectiles.Summon
             {
                 modProj.spawnedPlayerMinionDamageValue = player.MinionDamage();
                 modProj.spawnedPlayerMinionProjectileDamageValue = projectile.damage;
-                int num501 = 20;
-                for (int num502 = 0; num502 < num501; num502++)
+                int dustAmt = 20;
+                for (int d = 0; d < dustAmt; d++)
                 {
-                    int num503 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 33, 0f, 0f, 0, default, 1f);
-                    Main.dust[num503].velocity *= 2f;
-                    Main.dust[num503].scale *= 1.15f;
+                    int water = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y + 16f), projectile.width, projectile.height - 16, 33, 0f, 0f, 0, default, 1f);
+                    Main.dust[water].velocity *= 2f;
+                    Main.dust[water].scale *= 1.15f;
                 }
                 spawnDust = false;
             }
 			if (player.MinionDamage() != projectile.Calamity().spawnedPlayerMinionDamageValue)
 			{
 				int damage2 = (int)((float)modProj.spawnedPlayerMinionProjectileDamageValue /
-					modProj.spawnedPlayerMinionDamageValue *
-					player.MinionDamage());
+					modProj.spawnedPlayerMinionDamageValue * player.MinionDamage());
 				projectile.damage = damage2;
 			}
 
@@ -99,26 +99,17 @@ namespace CalamityMod.Projectiles.Summon
                 if (!fly)
                 {
                     projectile.tileCollide = true;
-                    Vector2 center2 = projectile.Center;
-                    Vector2 vector48 = player.Center - center2;
-                    float playerDistance = vector48.Length();
+                    Vector2 playerVec = player.Center - projectile.Center;
+                    float playerDistance = playerVec.Length();
                     if (projectile.velocity.Y == 0f && (projectile.velocity.X != 0f || playerDistance > 200f))
                     {
-                        switch (Main.rand.Next(1, 4))
-                        {
-
-                            case 1:
-                                projectile.velocity.Y -= 5f;
-                                break;
-
-                            case 2:
-                                projectile.velocity.Y -= 7.5f;
-                                break;
-
-                            case 3:
-                                projectile.velocity.Y -= 10f;
-                                break;
-                        }
+						float jumpHeight = Utils.SelectRandom(Main.rand, new float[]
+						{
+							5f,
+							7.5f,
+							10f
+						});
+						projectile.velocity.Y -= jumpHeight;
                     }
                     projectile.velocity.Y += 0.3f;
                     float maxDistance = 1000f;
@@ -141,13 +132,13 @@ namespace CalamityMod.Projectiles.Summon
 					{
 						for (int index = 0; index < Main.maxNPCs; index++)
 						{
-							NPC npcTarget = Main.npc[index];
-							if (npcTarget.CanBeChasedBy(projectile, false))
+							NPC npc = Main.npc[index];
+							if (npc.CanBeChasedBy(projectile, false))
 							{
-								float npcDist = Vector2.Distance(npcTarget.Center, projectile.Center);
+								float npcDist = Vector2.Distance(npc.Center, projectile.Center);
 								if (!chaseNPC && npcDist < maxDistance)
 								{
-									npcPositionX = npcTarget.Center.X;
+									npcPositionX = npc.Center.X;
 									chaseNPC = true;
 								}
 							}
@@ -157,17 +148,12 @@ namespace CalamityMod.Projectiles.Summon
                     {
                         if (npcPositionX - projectile.position.X > 0f)
                         {
-                            switch (Main.rand.Next(1, 2))
-                            {
-
-                                case 1:
-                                    projectile.velocity.X += 0.15f;
-                                    break;
-
-                                case 2:
-                                    projectile.velocity.X += 0.20f;
-                                    break;
-                            }
+							float rightDist = Utils.SelectRandom(Main.rand, new float[]
+							{
+								0.15f,
+								0.2f
+							});
+							projectile.velocity.X += rightDist;
 
                             if (projectile.velocity.X > 8f)
                             {
@@ -176,17 +162,12 @@ namespace CalamityMod.Projectiles.Summon
                         }
                         else
                         {
-                            switch (Main.rand.Next(1, 2))
-                            {
-
-                                case 1:
-                                    projectile.velocity.X -= 0.15f;
-                                    break;
-
-                                case 2:
-                                    projectile.velocity.X -= 0.20f;
-                                    break;
-                            }
+							float leftDist = Utils.SelectRandom(Main.rand, new float[]
+							{
+								0.15f,
+								0.2f
+							});
+							projectile.velocity.X -= leftDist;
 
                             if (projectile.velocity.X < -8f)
                             {
@@ -207,20 +188,13 @@ namespace CalamityMod.Projectiles.Summon
                         {
                             if (player.position.X - projectile.position.X > 0f)
                             {
-                                switch (Main.rand.Next(1, 4))
-                                {
-                                    case 1:
-                                        projectile.velocity.X += 0.05f;
-                                        break;
-
-                                    case 2:
-                                        projectile.velocity.X += 0.10f;
-                                        break;
-
-                                    case 3:
-                                        projectile.velocity.X += 0.15f;
-                                        break;
-                                }
+								float rightDist = Utils.SelectRandom(Main.rand, new float[]
+								{
+									0.05f,
+									0.1f,
+									0.15f
+								});
+								projectile.velocity.X += rightDist;
 
                                 if (projectile.velocity.X > 6f)
                                 {
@@ -229,20 +203,13 @@ namespace CalamityMod.Projectiles.Summon
                             }
                             else
                             {
-                                switch (Main.rand.Next(1, 4))
-                                {
-                                    case 1:
-                                        projectile.velocity.X -= 0.05f;
-                                        break;
-
-                                    case 2:
-                                        projectile.velocity.X -= 0.10f;
-                                        break;
-
-                                    case 3:
-                                        projectile.velocity.X -= 0.15f;
-                                        break;
-                                }
+								float leftDist = Utils.SelectRandom(Main.rand, new float[]
+								{
+									0.05f,
+									0.1f,
+									0.15f
+								});
+								projectile.velocity.X -= leftDist;
 
                                 if (projectile.velocity.X < -6f)
                                 {
@@ -256,39 +223,25 @@ namespace CalamityMod.Projectiles.Summon
                             {
                                 if (projectile.velocity.X > 0.5f)
                                 {
-                                    switch (Main.rand.Next(1, 4))
-                                    {
-                                        case 1:
-                                            projectile.velocity.X -= 0.05f;
-                                            break;
-
-                                        case 2:
-                                            projectile.velocity.X -= 0.10f;
-                                            break;
-
-                                        case 3:
-                                            projectile.velocity.X -= 0.15f;
-                                            break;
-                                    }
+									float leftDist = Utils.SelectRandom(Main.rand, new float[]
+									{
+										0.05f,
+										0.1f,
+										0.15f
+									});
+									projectile.velocity.X -= leftDist;
                                 }
                                 else if (projectile.velocity.X < -0.5f)
                                 {
-                                    switch (Main.rand.Next(1, 4))
-                                    {
-                                        case 1:
-                                            projectile.velocity.X += 0.05f;
-                                            break;
-
-                                        case 2:
-                                            projectile.velocity.X += 0.10f;
-                                            break;
-
-                                        case 3:
-                                            projectile.velocity.X += 0.15f;
-                                            break;
-                                    }
+									float rightDist = Utils.SelectRandom(Main.rand, new float[]
+									{
+										0.05f,
+										0.1f,
+										0.15f
+									});
+									projectile.velocity.X += rightDist;
                                 }
-                                else if (projectile.velocity.X < 0.5f && projectile.velocity.X > -0.5f)
+                                else if (Math.Abs(projectile.velocity.X) < 0.5f)
                                 {
                                     projectile.velocity.X = 0f;
                                 }
@@ -307,8 +260,7 @@ namespace CalamityMod.Projectiles.Summon
                     projectile.rotation = projectile.velocity.X * 0.03f;
                     if (playerDistance > 1500f)
                     {
-                        projectile.position.X = player.Center.X - (float)(projectile.width / 2);
-                        projectile.position.Y = player.Center.Y - (float)(projectile.height / 2);
+						projectile.Center = player.Center;
                         projectile.netUpdate = true;
                     }
                     if (playerDistance < 100f)
@@ -326,8 +278,8 @@ namespace CalamityMod.Projectiles.Summon
                             fly = false;
                             projectile.tileCollide = true;
                             projectile.rotation = 0;
-                            projectile.velocity.X *= 0.30f;
-                            projectile.velocity.Y *= 0.30f;
+                            projectile.velocity.X *= 0.3f;
+                            projectile.velocity.Y *= 0.3f;
                         }
                     }
                 }
@@ -351,7 +303,8 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     spawnDust = true;
                 }
-                int npcIndex = (int)projectile.ai[1];
+				int npcIndex = (int)projectile.ai[1];
+				NPC host = Main.npc[npcIndex];
                 if (projectile.localAI[0] >= 600000f) //tryna make it stay on there "forever" without glitching
                 {
                     breakAway = true;
@@ -360,13 +313,13 @@ namespace CalamityMod.Projectiles.Summon
                 {
                     breakAway = true;
                 }
-                else if (Main.npc[npcIndex].active && !Main.npc[npcIndex].dontTakeDamage && Main.npc[npcIndex].defense < 9999)
+                else if (host.active && !host.dontTakeDamage && host.defense < 9999)
                 {
-                    projectile.Center = Main.npc[npcIndex].Center - projectile.velocity * 2f;
-                    projectile.gfxOffY = Main.npc[npcIndex].gfxOffY;
+                    projectile.Center = host.Center - projectile.velocity * 2f;
+                    projectile.gfxOffY = host.gfxOffY;
                     if (spawnDust)
                     {
-                        Main.npc[npcIndex].HitEffect(0, 1.0);
+                        host.HitEffect(0, 1.0);
                     }
                 }
                 else
@@ -376,6 +329,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (breakAway)
                 {
                     projectile.ai[0] = 0f;
+					projectile.localAI[0] = 0f;
                     projectile.velocity.X = 0f;
                     projectile.velocity.Y = 0f;
                 }
@@ -426,7 +380,7 @@ namespace CalamityMod.Projectiles.Summon
 
 								//let the projectile know it is sticking and the npc it is sticking too
                                 projectile.ai[0] = 1f;
-                                projectile.ai[1] = (float)npcIndex;
+                                projectile.ai[1] = npcIndex;
 
 								//follow the NPC
                                 projectile.velocity = (npc.Center - projectile.Center) * 0.75f;
@@ -483,5 +437,7 @@ namespace CalamityMod.Projectiles.Summon
             target.buffImmune[ModContent.BuffType<ShellfishEating>()] = target.Calamity().DR >= 0.99f;
             target.AddBuff(ModContent.BuffType<ShellfishEating>(), 600000);
         }
+
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
     }
 }

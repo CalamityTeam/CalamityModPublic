@@ -217,6 +217,7 @@ namespace CalamityMod.Items.Mounts
 								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<Navystone>(), !CalamityWorld.downedDesertScourge);
 								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<SeaPrism>(), !CalamityWorld.downedDesertScourge);
 								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<SeaPrismCrystals>(), !CalamityWorld.downedDesertScourge);
+								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<CharredOre>(), !CalamityWorld.downedBrimstoneElemental);
 								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<AstralOre>(), !CalamityWorld.downedStarGod);
 
 								if (tile.active() && !player.noBuilding && !Main.tileContainer[tile.type] &&

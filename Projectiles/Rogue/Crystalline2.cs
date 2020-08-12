@@ -42,7 +42,7 @@ namespace CalamityMod.Projectiles.Rogue
                     for (int i = 0; i < numProj + 1; i++)
                     {
                         Vector2 perturbedSpeed = new Vector2(projectile.velocity.X * 0.8f, projectile.velocity.Y * 0.8f).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1)));
-                        int proj = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<Crystalline2>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 2f);
+                        int proj = Projectile.NewProjectile(projectile.Center, perturbedSpeed, ModContent.ProjectileType<Crystalline2>(), (int)(projectile.damage * 0.5f), projectile.knockBack, projectile.owner, 0f, 2f);
                         Main.projectile[proj].timeLeft = 20;
                     }
                 }
@@ -69,7 +69,8 @@ namespace CalamityMod.Projectiles.Rogue
                 for (int i = 0; i < 3; i++)
                 {
                     Vector2 projspeed = new Vector2(Main.rand.NextFloat(-8f, 8f), Main.rand.NextFloat(-8f, 8f));
-                    Projectile.NewProjectile(projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(projectile.damage * 0.4f), 2f, projectile.owner, 0f, 0f);
+					int shard = Projectile.NewProjectile(projectile.Center, projspeed, ProjectileID.CrystalShard, (int)(projectile.damage * 0.4f), 2f, projectile.owner);
+					Main.projectile[shard].Calamity().forceRogue = true;
                 }
             }
         }

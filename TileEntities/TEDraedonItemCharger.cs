@@ -59,6 +59,7 @@ namespace CalamityMod.TileEntities
         #region Fields
         public int Time;
         public int Charge;
+        public int ChargeMax;
         public int ActiveTimer;
         public int DepositWithdrawCooldown;
         public Item FuelItem = new Item();
@@ -75,7 +76,7 @@ namespace CalamityMod.TileEntities
             {
                 var netMessage = CalamityMod.Instance.GetPacket();
                 netMessage.Write((byte)CalamityModMessageType.DraedonChargerSync);
-                netMessage.Write(Main.LocalPlayer.Calamity().CurrentlyViewedCharger.ID);
+                netMessage.Write(ID);
                 netMessage.Write(FuelItem.type);
                 netMessage.Write(FuelItem.stack);
                 netMessage.WriteVector2(FuelItem.position);
@@ -84,7 +85,9 @@ namespace CalamityMod.TileEntities
                 netMessage.Write(ItemBeingCharged.prefix);
                 netMessage.WriteVector2(ItemBeingCharged.position);
                 netMessage.Write(Charge);
+                netMessage.Write(ChargeMax);
                 netMessage.Write(ActiveTimer);
+                netMessage.Write(DepositWithdrawCooldown);
                 netMessage.Send();
             }
         }
@@ -156,7 +159,7 @@ namespace CalamityMod.TileEntities
             }
             if (FuelItem.stack > 0 &&
                 ItemBeingCharged.stack > 0 &&
-                Charge < ItemBeingCharged.Calamity().ChargeMax)
+                Charge < ChargeMax)
             {
                 if (Time % 25 == 0)
                 {
@@ -204,6 +207,7 @@ namespace CalamityMod.TileEntities
             writer.Write(ItemBeingCharged.prefix);
             writer.WriteVector2(ItemBeingCharged.position);
             writer.Write(Charge);
+            writer.Write(ChargeMax);
             writer.Write(ActiveTimer);
         }
         public override void NetReceive(BinaryReader reader, bool lightReceive)
@@ -218,6 +222,7 @@ namespace CalamityMod.TileEntities
             ItemBeingCharged.prefix = reader.ReadByte();
             ItemBeingCharged.position = reader.ReadVector2();
             Charge = reader.ReadInt32();
+            ChargeMax = reader.ReadInt32();
             ActiveTimer = reader.ReadInt32();
         }
         public override TagCompound Save()
@@ -234,6 +239,7 @@ namespace CalamityMod.TileEntities
                 ["PrefixNotFuel"] = ItemBeingCharged.prefix,
                 ["PositionNotFuel"] = ItemBeingCharged.position,
                 ["Charge"] = Charge,
+                ["ChargeMax"] = ChargeMax,
                 ["NetIDNotFuel"] = ItemBeingCharged.active && FuelItem.stack > 0 ? FuelItem.netID : 0
             };
             CalamityUtils.SaveModItem(tag, FuelItem, 0);
@@ -256,6 +262,7 @@ namespace CalamityMod.TileEntities
             if (ItemBeingCharged.type > ItemID.Count)
             {
                 Charge = tag.GetInt("Charge");
+                ChargeMax = tag.GetInt("ChargeMax");
             }
             ItemBeingCharged.netID = tag.GetInt("NetIDNotFuel");
         }

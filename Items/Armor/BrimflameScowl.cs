@@ -58,7 +58,6 @@ namespace CalamityMod.Items.Armor
             player.buffImmune[BuffID.OnFire] = true;
             player.buffImmune[BuffID.Frostburn] = true;
             updateFrenzy(player);
-            
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

@@ -2,6 +2,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -19,7 +20,7 @@ namespace CalamityMod.Tiles
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEDraedonItemCharger>().Hook_AfterPlacement, -1, 0, true);
@@ -29,15 +30,20 @@ namespace CalamityMod.Tiles
             AddMapEntry(new Color(67, 72, 81), name);
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public TEDraedonItemCharger RetrieveTileEntity(int i, int j)
         {
+            // This is very fucking important. ByID and ByPostion can apparently be different and as a result using both together is fucking unreliable.
             int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
             int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
-            if (!TileEntity.ByPosition.ContainsKey(new Point16(left, top)))
+            if (!TileEntity.ByID.Any(tileEntity => tileEntity.Value.Position == new Point16(left, top)))
             {
-                TileEntity.ByPosition[new Point16(left, top)] = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEDraedonItemCharger>());
+                var factory = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEDraedonItemCharger>());
+                factory.Position = new Point16(left, top);
+                TileEntity.ByID[TileEntity.ByID.Count] = factory;
             }
-            return (TEDraedonItemCharger)TileEntity.ByPosition[new Point16(left, top)];
+            return (TEDraedonItemCharger)TileEntity.ByID.Where(tileEntity => tileEntity.Value.Position == new Point16(left, top)).First().Value;
         }
         public override bool CreateDust(int i, int j, ref int type)
         {

@@ -1753,7 +1753,7 @@ namespace CalamityMod.Projectiles
 						}
 						if (CalamityMod.spikyBallProjList.Contains(projectile.type))
 						{
-							int scythe = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 0f, 0f);
+							int scythe = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 1f, 0f);
             				Main.projectile[scythe].usesLocalNPCImmunity = true;
             				Main.projectile[scythe].localNPCHitCooldown = 10;
 							Main.projectile[scythe].penetrate = 2;
@@ -1786,10 +1786,14 @@ namespace CalamityMod.Projectiles
                 }
                 if (projectile.IsSummon())
                 {
-                    if (modPlayer.profanedCrystalBuffs || (modPlayer.pArtifact && !modPlayer.profanedCrystal))
+                    if (modPlayer.pArtifact && !modPlayer.profanedCrystal)
                     {
-                        target.AddBuff(BuffType<HolyFlames>(), modPlayer.profanedCrystalBuffs ? 600 : 300);
+                        target.AddBuff(BuffType<HolyFlames>(), 300);
                     }
+					if (modPlayer.profanedCrystalBuffs)
+					{
+						target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
+					}
 
                     if (modPlayer.tearMinions)
                     {

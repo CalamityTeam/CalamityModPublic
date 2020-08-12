@@ -20,6 +20,8 @@ namespace CalamityMod.Tiles
             chestDrop = ModContent.ItemType<AgedSecurityChest>();
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public override bool CreateDust(int i, int j, ref int type)
         {
             Dust.NewDust(new Vector2(i, j) * 16f, 16, 16, 226, 0f, 0f, 1, new Color(255, 255, 255), 1f);
