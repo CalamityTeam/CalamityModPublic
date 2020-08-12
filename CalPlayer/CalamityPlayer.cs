@@ -3110,7 +3110,7 @@ namespace CalamityMod.CalPlayer
 			(!player.doubleJumpFart || !player.jumpAgainFart) &&
 			(!player.doubleJumpSail || !player.jumpAgainSail) &&
 			(!player.doubleJumpUnicorn || !player.jumpAgainUnicorn) &&
-			CalamityUtils.CountHookProj() <= 0;
+			CalamityUtils.CountHookProj() <= 0 && (player.rocketTime == 0 || player.wings > 0);
 			if (PlayerInput.Triggers.JustPressed.Jump && player.position.Y != player.oldPosition.Y && canJump)
 			{
 				if (statigelJump && jumpAgainStatigel)
