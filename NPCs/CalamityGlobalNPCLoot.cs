@@ -196,6 +196,8 @@ namespace CalamityMod.NPCs
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeTwins>(), true, !NPC.downedMechBoss2);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss2, 4, 2, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
 
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
@@ -205,6 +207,8 @@ namespace CalamityMod.NPCs
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDestroyer>(), true, !NPC.downedMechBoss1);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss1, 4, 2, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
 
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3);
@@ -215,6 +219,8 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletronPrime>(), true, !NPC.downedMechBoss3);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<GoldBurdenBreaker>(), true, npc.ai[1] == 2f && CalamityWorld.revenge);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
 
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);
@@ -1629,21 +1635,30 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.downedPolterghast)
                 possibleEnemies = AcidRainEvent.PossibleEnemiesPolter;
 
-            if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type) && CalamityWorld.rainingAcid)
+            if (CalamityWorld.rainingAcid)
             {
-                CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
-                if (CalamityWorld.downedPolterghast)
+                if (possibleEnemies.Select(enemy => enemy.Key).Contains(npc.type))
                 {
-                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    CalamityWorld.acidRainPoints -= possibleEnemies[npc.type].InvasionContributionPoints;
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    }
+
+                    // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
+                    Main.rainTime += Main.rand.Next(240, 300 + 1); // Add some time to the rain, so that it doesn't end mid-way.
                 }
-            }
-            Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : AcidRainEvent.PossibleMinibossesAS;
-            if (possibleMinibosses.Select(miniboss => miniboss.Key).Contains(npc.type))
-            {
-                CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
-                if (CalamityWorld.downedPolterghast)
+                Dictionary<int, AcidRainSpawnData> possibleMinibosses = CalamityWorld.downedPolterghast ? AcidRainEvent.PossibleMinibossesPolter : AcidRainEvent.PossibleMinibossesAS;
+                if (possibleMinibosses.Select(miniboss => miniboss.Key).Contains(npc.type))
                 {
-                    CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    CalamityWorld.acidRainPoints -= possibleMinibosses[npc.type].InvasionContributionPoints;
+                    if (CalamityWorld.downedPolterghast)
+                    {
+                        CalamityWorld.acidRainPoints = (int)MathHelper.Max(1, CalamityWorld.acidRainPoints); // Cap at 1. The last point is for Old Duke.
+                    }
+
+                    // UpdateInvasion incorporates a world sync, so this is indeed synced as a result.
+                    Main.rainTime += Main.rand.Next(1800, 2100 + 1); // Add some time to the rain, so that it doesn't end mid-way.
                 }
             }
 

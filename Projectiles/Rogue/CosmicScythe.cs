@@ -35,9 +35,9 @@ namespace CalamityMod.Projectiles.Rogue
         public override void AI()
         {
             projectile.rotation += 0.5f * (float)projectile.direction;
-            int num469 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1f);
-            Main.dust[num469].noGravity = true;
-            Main.dust[num469].velocity *= 0f;
+            int shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 173, 0f, 0f, 100, default, 1f);
+            Main.dust[shadow].noGravity = true;
+            Main.dust[shadow].velocity *= 0f;
             projectile.velocity *= 0.95f;
             if (projectile.timeLeft == 400)
             {
@@ -55,7 +55,8 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(ModContent.BuffType<GodSlayerInferno>(), 60, false);
+			int buffType = projectile.ai[0] == 1f ? BuffID.ShadowFlame : ModContent.BuffType<GodSlayerInferno>();
+			target.AddBuff(buffType, 60, false);
             projectile.Kill();
         }
 
@@ -67,29 +68,25 @@ namespace CalamityMod.Projectiles.Rogue
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item14, (int)projectile.position.X, (int)projectile.position.Y);
-            projectile.position.X = projectile.position.X + (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y + (float)(projectile.height / 2);
-            projectile.width = projectile.height = 50;
-            projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-            projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
-            for (int num621 = 0; num621 < 4; num621++)
+            Main.PlaySound(SoundID.Item14, projectile.Center);
+			CalamityGlobalProjectile.ExpandHitboxBy(projectile, 50);
+            for (int d = 0; d < 4; d++)
             {
-                int num622 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, 0f, 0f, 100, default, 2f);
-                Main.dust[num622].velocity *= 3f;
+                int shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, default, 2f);
+                Main.dust[shadow].velocity *= 3f;
                 if (Main.rand.NextBool(2))
                 {
-                    Main.dust[num622].scale = 0.5f;
-                    Main.dust[num622].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
+                    Main.dust[shadow].scale = 0.5f;
+                    Main.dust[shadow].fadeIn = 1f + (float)Main.rand.Next(10) * 0.1f;
                 }
             }
-            for (int num623 = 0; num623 < 12; num623++)
+            for (int d = 0; d < 12; d++)
             {
-                int num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, 0f, 0f, 100, default, 3f);
-                Main.dust[num624].noGravity = true;
-                Main.dust[num624].velocity *= 5f;
-                num624 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 27, 0f, 0f, 100, default, 2f);
-                Main.dust[num624].velocity *= 2f;
+                int shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, default, 3f);
+                Main.dust[shadow].noGravity = true;
+                Main.dust[shadow].velocity *= 5f;
+                shadow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 27, 0f, 0f, 100, default, 2f);
+                Main.dust[shadow].velocity *= 2f;
             }
         }
     }

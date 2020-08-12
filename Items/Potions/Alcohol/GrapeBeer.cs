@@ -2,6 +2,7 @@ using CalamityMod.Buffs.Alcohol;
 using CalamityMod.World;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -12,8 +13,7 @@ namespace CalamityMod.Items.Potions.Alcohol
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grape Beer");
-            Tooltip.SetDefault(@"Restores 100 mana
-This crap is abhorrent but you might like it
+            Tooltip.SetDefault(@"This crap is abhorrent but you might like it
 Reduces defense by 2 and movement speed by 5%");
         }
 
@@ -29,6 +29,7 @@ Reduces defense by 2 and movement speed by 5%");
             item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item3;
             item.healLife = 100;
+            item.healMana = 100;
             item.consumable = true;
             item.potion = true;
             item.value = Item.buyPrice(0, 0, 65, 0);
@@ -36,47 +37,38 @@ Reduces defense by 2 and movement speed by 5%");
 
         public override bool CanUseItem(Player player)
         {
-            return player.FindBuffIndex(BuffID.PotionSickness) == -1;
+			item.healLife = player.Calamity().bloodPactBoost ? 150 : 100;
+            return player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
         }
 
-        public override void OnConsumeItem(Player player)
-        {
-			int healAmt = CalamityWorld.ironHeart ? 0 : 100;
-			if (player.Calamity().bloodPactBoost)
-				healAmt = (int)(healAmt * 1.5);
-            player.statLife += healAmt;
-            player.statMana += 100;
-            if (player.statLife > player.statLifeMax2)
-            {
-                player.statLife = player.statLifeMax2;
-            }
-            if (player.statMana > player.statManaMax2)
-            {
-                player.statMana = player.statManaMax2;
-            }
-            player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
-            if (Main.myPlayer == player.whoAmI)
-            {
-				if (!CalamityWorld.ironHeart)
-					player.HealEffect(healAmt, true);
-                player.ManaEffect(100);
-            }
+		public override bool UseItem(Player player)
+		{
+			if (PlayerInput.Triggers.JustPressed.QuickBuff)
+			{
+				int healAmt = CalamityWorld.ironHeart ? 0 : item.healLife;
+				player.statLife += healAmt;
+				player.statMana += item.healMana;
+				if (player.statLife > player.statLifeMax2)
+				{
+					player.statLife = player.statLifeMax2;
+				}
+				if (player.statMana > player.statManaMax2)
+				{
+					player.statMana = player.statManaMax2;
+				}
+				player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
+				if (Main.myPlayer == player.whoAmI)
+				{
+					if (!CalamityWorld.ironHeart)
+						player.HealEffect(healAmt, true);
+					player.ManaEffect(item.healMana);
+				}
+			}
             player.AddBuff(ModContent.BuffType<GrapeBeerBuff>(), 3600);
-        }
 
-        // Zeroes out the hardcoded healing function from having a healLife value. The item still heals in the UseItem hook.
-        public override void GetHealLife(Player player, bool quickHeal, ref int healValue)
-        {
-            healValue = 0;
-        }
-
-        // Forces the "Restores X life" tooltip to display the actual life restored instead of zero (due to the previous function).
-        public override void ModifyTooltips(List<TooltipLine> tooltips)
-        {
-			float healMult = 1f;
-			if (Main.player[Main.myPlayer].Calamity().bloodPactBoost)
-				healMult = 1.5f;
-            tooltips.Find(line => line.Name == "HealLife").text = "Restores " + (CalamityWorld.ironHeart ? 0 : (int)(item.healLife * healMult)) + " life";
+			// fixes hardcoded potion sickness duration from quick heal (see CalamityPlayerMiscEffects.cs)
+			player.Calamity().potionTimer = 2;
+			return true;
         }
     }
 }

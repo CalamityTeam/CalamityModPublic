@@ -17053,7 +17053,7 @@ namespace CalamityMod.NPCs
                         bool ableToRestart = false;
                         for (int i = tileAtCenterX - 1; i <= tileAtCenterX + 1; i++)
                         {
-                            if (Main.tile[i, tileAtBottom] == null)
+                            if (Main.tile[i, tileAtBottom] is null)
                             {
                                 Main.tile[tileAtCenterX, tileAtBottom] = new Tile();
                             }
@@ -19510,16 +19510,16 @@ namespace CalamityMod.NPCs
             bool canOpenDoors = false;
             if (npc.velocity.Y == 0f)
             {
-                int num161 = (int)(npc.position.Y + (float)npc.height + 7f) / 16;
-                int arg_A8FB_0 = (int)npc.position.X / 16;
-                int num162 = (int)(npc.position.X + (float)npc.width) / 16;
-                for (int num163 = arg_A8FB_0; num163 <= num162; num163++)
+                int j = (int)(npc.position.Y + (float)npc.height + 7f) / 16;
+                int npcLeft = (int)npc.position.X / 16;
+                int npcRight = (int)(npc.position.X + (float)npc.width) / 16;
+                for (int i = npcLeft; i <= npcRight; i++)
                 {
-                    if (Main.tile[num163, num161] == null)
+                    if (Main.tile[i, j] is null)
                     {
                         return false;
                     }
-                    if (Main.tile[num163, num161].nactive() && Main.tileSolid[(int)Main.tile[num163, num161].type])
+                    if (Main.tile[i, j].nactive() && Main.tileSolid[Main.tile[i, j].type])
                     {
                         canOpenDoors = true;
                         break;
@@ -19545,27 +19545,27 @@ namespace CalamityMod.NPCs
                 positionDelta.X += npc.velocity.X;
                 int x = (int)((positionDelta.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * velocitySign)) / 16f);
                 int y = (int)((positionDelta.Y + (float)npc.height - 1f) / 16f);
-                if (Main.tile[x, y] == null)
+                if (Main.tile[x, y] is null)
                 {
                     Main.tile[x, y] = new Tile();
                 }
-                if (Main.tile[x, y - 1] == null)
+                if (Main.tile[x, y - 1] is null)
                 {
                     Main.tile[x, y - 1] = new Tile();
                 }
-                if (Main.tile[x, y - 2] == null)
+                if (Main.tile[x, y - 2] is null)
                 {
                     Main.tile[x, y - 2] = new Tile();
                 }
-                if (Main.tile[x, y - 3] == null)
+                if (Main.tile[x, y - 3] is null)
                 {
                     Main.tile[x, y - 3] = new Tile();
                 }
-                if (Main.tile[x, y + 1] == null)
+                if (Main.tile[x, y + 1] is null)
                 {
                     Main.tile[x, y + 1] = new Tile();
                 }
-                if (Main.tile[x - velocitySign, y - 3] == null)
+                if (Main.tile[x - velocitySign, y - 3] is null)
                 {
                     Main.tile[x - velocitySign, y - 3] = new Tile();
                 }
@@ -19626,41 +19626,41 @@ namespace CalamityMod.NPCs
             }
             if (canOpenDoors)
             {
-                int x = (int)((npc.position.X + (float)(npc.width / 2) + (float)(15 * npc.direction)) / 16f);
+                int x = (int)((npc.Center.X + (float)(15 * npc.direction)) / 16f);
                 int y = (int)((npc.position.Y + (float)npc.height - 15f) / 16f);
                 if (npcType == NPCID.Clown || npcType == NPCID.BlackRecluse || npcType == NPCID.WallCreeper || npcType == NPCID.LihzahrdCrawler || npcType == NPCID.JungleCreeper || npcType == NPCID.BloodCrawler || npcType == NPCID.AnomuraFungus || npcType == NPCID.MushiLadybug || npcType == NPCID.Paladin || npcType == NPCID.Scutlix || npcType == NPCID.VortexRifleman || npcType == NPCID.VortexHornet || npcType == NPCID.VortexHornetQueen || npcType == NPCID.WalkingAntlion || npcType == NPCID.SolarDrakomire || npcType == NPCID.DesertScorpionWalk || npcType == NPCID.DesertBeast)
                 {
                     x = (int)((npc.position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 16) * npc.direction)) / 16f);
                 }
-                if (Main.tile[x, y] == null)
+                if (Main.tile[x, y] is null)
                 {
                     Main.tile[x, y] = new Tile();
                 }
-                if (Main.tile[x, y - 1] == null)
+                if (Main.tile[x, y - 1] is null)
                 {
                     Main.tile[x, y - 1] = new Tile();
                 }
-                if (Main.tile[x, y - 2] == null)
+                if (Main.tile[x, y - 2] is null)
                 {
                     Main.tile[x, y - 2] = new Tile();
                 }
-                if (Main.tile[x, y - 3] == null)
+                if (Main.tile[x, y - 3] is null)
                 {
                     Main.tile[x, y - 3] = new Tile();
                 }
-                if (Main.tile[x, y + 1] == null)
+                if (Main.tile[x, y + 1] is null)
                 {
                     Main.tile[x, y + 1] = new Tile();
                 }
-                if (Main.tile[x + npc.direction, y - 1] == null)
+                if (Main.tile[x + npc.direction, y - 1] is null)
                 {
                     Main.tile[x + npc.direction, y - 1] = new Tile();
                 }
-                if (Main.tile[x + npc.direction, y + 1] == null)
+                if (Main.tile[x + npc.direction, y + 1] is null)
                 {
                     Main.tile[x + npc.direction, y + 1] = new Tile();
                 }
-                if (Main.tile[x - npc.direction, y + 1] == null)
+                if (Main.tile[x - npc.direction, y + 1] is null)
                 {
                     Main.tile[x - npc.direction, y + 1] = new Tile();
                 }
@@ -19726,7 +19726,7 @@ namespace CalamityMod.NPCs
                                         NetMessage.SendData(MessageID.ChangeDoor, -1, -1, null, 0, (float)x, (float)(y - 1), (float)npc.direction, 0, 0, 0);
                                     }
                                 }
-                                if (Main.tile[x, y - 1].type == 388)
+                                if (Main.tile[x, y - 1].type == TileID.TallGateClosed)
                                 {
                                     bool flag25 = WorldGen.ShiftTallGate(x, y - 1, false);
                                     if (!flag25)
@@ -21485,7 +21485,7 @@ namespace CalamityMod.NPCs
                             }
                             else
                             {
-                                NPC.NewNPC((int)npc.position.X + npc.width / 2 + npc.direction * 8, (int)npc.position.Y + 20, 25, 0, 0f, 0f, 0f, 0f, 255);
+                                NPC.NewNPC((int)npc.position.X + npc.width / 2 + npc.direction * 8, (int)npc.position.Y + 20, NPCID.BurningSphere, 0, 0f, 0f, 0f, 0f, 255);
                             }
                         }
                     }
@@ -21601,7 +21601,7 @@ namespace CalamityMod.NPCs
                 return false;
             }
 
-            if (Main.tile[(int)npc.ai[0], (int)npc.ai[1]] == null)
+            if (Main.tile[(int)npc.ai[0], (int)npc.ai[1]] is null)
             {
                 Main.tile[(int)npc.ai[0], (int)npc.ai[1]] = new Tile();
             }
@@ -22255,15 +22255,15 @@ namespace CalamityMod.NPCs
                     }
                     int x = (int)npc.Center.Y / 16;
                     int y = (int)npc.Center.X / 16;
-                    if (Main.tile[x, y - 1] == null)
+                    if (Main.tile[x, y - 1] is null)
                     {
                         Main.tile[x, y - 1] = new Tile();
                     }
-                    if (Main.tile[x, y + 1] == null)
+                    if (Main.tile[x, y + 1] is null)
                     {
                         Main.tile[x, y + 1] = new Tile();
                     }
-                    if (Main.tile[x, y + 2] == null)
+                    if (Main.tile[x, y + 2] is null)
                     {
                         Main.tile[x, y + 2] = new Tile();
                     }
@@ -22513,15 +22513,15 @@ namespace CalamityMod.NPCs
                 }
                 int x = (int)npc.Center.X / 16;
                 int y = (int)npc.Center.Y / 16;
-                if (Main.tile[x, y - 1] == null)
+                if (Main.tile[x, y - 1] is null)
                 {
                     Main.tile[x, y - 1] = new Tile();
                 }
-                if (Main.tile[x, y + 1] == null)
+                if (Main.tile[x, y + 1] is null)
                 {
                     Main.tile[x, y + 1] = new Tile();
                 }
-                if (Main.tile[x, y + 2] == null)
+                if (Main.tile[x, y + 2] is null)
                 {
                     Main.tile[x, y + 2] = new Tile();
                 }
@@ -23119,7 +23119,7 @@ namespace CalamityMod.NPCs
 
             for (int num316 = num289; num316 < num289 + num290; num316++)
             {
-                if (Main.tile[num288, num316] == null)
+                if (Main.tile[num288, num316] is null)
                 {
                     Main.tile[num288, num316] = new Tile();
                 }
@@ -23139,7 +23139,7 @@ namespace CalamityMod.NPCs
                 bool flag25 = false;
                 for (int num317 = num289; num317 < num289 + num290 - 2; num317++)
                 {
-                    if (Main.tile[num288, num317] == null)
+                    if (Main.tile[num288, num317] is null)
                     {
                         Main.tile[num288, num317] = new Tile();
                     }
@@ -23156,7 +23156,7 @@ namespace CalamityMod.NPCs
             {
                 for (int num318 = num289 - 3; num318 < num289; num318++)
                 {
-                    if (Main.tile[num288, num318] == null)
+                    if (Main.tile[num288, num318] is null)
                     {
                         Main.tile[num288, num318] = new Tile();
                     }
@@ -23954,23 +23954,23 @@ namespace CalamityMod.NPCs
                 int num10 = (int)((position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 1) * num9)) / 16f);
                 int num11 = (int)((position.Y + (float)npc.height - 1f) / 16f);
 
-                if (Main.tile[num10, num11] == null)
+                if (Main.tile[num10, num11] is null)
                 {
                     Main.tile[num10, num11] = new Tile();
                 }
-                if (Main.tile[num10, num11 - 1] == null)
+                if (Main.tile[num10, num11 - 1] is null)
                 {
                     Main.tile[num10, num11 - 1] = new Tile();
                 }
-                if (Main.tile[num10, num11 - 2] == null)
+                if (Main.tile[num10, num11 - 2] is null)
                 {
                     Main.tile[num10, num11 - 2] = new Tile();
                 }
-                if (Main.tile[num10, num11 - 3] == null)
+                if (Main.tile[num10, num11 - 3] is null)
                 {
                     Main.tile[num10, num11 - 3] = new Tile();
                 }
-                if (Main.tile[num10, num11 + 1] == null)
+                if (Main.tile[num10, num11 + 1] is null)
                 {
                     Main.tile[num10, num11 + 1] = new Tile();
                 }
@@ -24011,36 +24011,36 @@ namespace CalamityMod.NPCs
                 int num14 = (int)((npc.position.X + (float)(npc.width / 2) + (float)((npc.width / 2 + 2) * npc.direction) + npc.velocity.X * 5f) / 16f);
                 int num15 = (int)((npc.position.Y + (float)npc.height - 15f) / 16f);
 
-                if (Main.tile[num14, num15] == null)
+                if (Main.tile[num14, num15] is null)
                 {
                     Main.tile[num14, num15] = new Tile();
                 }
-                if (Main.tile[num14, num15 - 1] == null)
+                if (Main.tile[num14, num15 - 1] is null)
                 {
                     Main.tile[num14, num15 - 1] = new Tile();
                 }
-                if (Main.tile[num14, num15 - 2] == null)
+                if (Main.tile[num14, num15 - 2] is null)
                 {
                     Main.tile[num14, num15 - 2] = new Tile();
                 }
-                if (Main.tile[num14, num15 - 3] == null)
+                if (Main.tile[num14, num15 - 3] is null)
                 {
                     Main.tile[num14, num15 - 3] = new Tile();
                 }
-                if (Main.tile[num14, num15 + 1] == null)
+                if (Main.tile[num14, num15 + 1] is null)
                 {
                     Main.tile[num14, num15 + 1] = new Tile();
                 }
 
-                if (Main.tile[num14 + npc.direction, num15 - 1] == null)
+                if (Main.tile[num14 + npc.direction, num15 - 1] is null)
                 {
                     Main.tile[num14 + npc.direction, num15 - 1] = new Tile();
                 }
-                if (Main.tile[num14 + npc.direction, num15 + 1] == null)
+                if (Main.tile[num14 + npc.direction, num15 + 1] is null)
                 {
                     Main.tile[num14 + npc.direction, num15 + 1] = new Tile();
                 }
-                if (Main.tile[num14 - npc.direction, num15 + 1] == null)
+                if (Main.tile[num14 - npc.direction, num15 + 1] is null)
                 {
                     Main.tile[num14 - npc.direction, num15 + 1] = new Tile();
                 }

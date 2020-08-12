@@ -23,7 +23,7 @@ namespace CalamityMod.Items.Mounts
             mountData.acceleration = 0.2f;
             mountData.jumpHeight = 10;
             mountData.jumpSpeed = 4f;
-            mountData.blockExtraJumps = false;
+            mountData.blockExtraJumps = true;
             mountData.totalFrames = 4;
             int[] array = new int[mountData.totalFrames];
             for (int l = 0; l < array.Length; l++)

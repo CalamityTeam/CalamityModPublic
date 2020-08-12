@@ -58,6 +58,7 @@ namespace CalamityMod.NPCs.Leviathan
 			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
 			npc.buffImmune[BuffID.Oiled] = false;
 			npc.buffImmune[BuffID.BoneJavelin] = false;
+			npc.buffImmune[BuffID.SoulDrain] = false;
 			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;

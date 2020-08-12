@@ -21,6 +21,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             AddMapEntry(new Color(91, 64, 56));
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             TileFraming.CustomMergeFrame(i, j, Type, ModContent.TileType<RustedPipes>());

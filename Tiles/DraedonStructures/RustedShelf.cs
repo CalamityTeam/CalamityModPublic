@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.DraedonStructures
     {
         public override void SetDefaults()
         {
-            this.SetUpPlatform();
+            this.SetUpPlatform(true);
             soundType = SoundID.Tink;
             dustType = 32;
             AddMapEntry(new Color(128, 90, 77));
@@ -17,6 +17,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Platforms };
         }
+
+        public override bool CanExplode(int i, int j) => false;
 
         public override void PostSetDefaults()
         {

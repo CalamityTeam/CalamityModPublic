@@ -94,20 +94,28 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             npc.knockBackResist = 0.1f;
 
-            if (npc.target < 0 || npc.target >= 255 || Main.player[npc.target].dead || !Main.player[npc.target].active)
+            Player player = Main.player[npc.target];
+
+            bool farFromPlayer = npc.Distance(player.Center) > 640f;
+            bool obstanceInFrontOfPlayer = !Collision.CanHitLine(npc.position, npc.width, npc.height, player.position, player.width, player.height);
+
+            if (npc.target < 0 || npc.target >= 255 || farFromPlayer || obstanceInFrontOfPlayer || player.dead || !player.active)
             {
                 npc.TargetClosest(false);
-
+                player = Main.player[npc.target];
+                farFromPlayer = npc.Distance(player.Center) > 640f;
+                obstanceInFrontOfPlayer = !Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height);
                 // Fly away if there is no living target, or the closest target is too far away.
-                if (Main.player[npc.target].dead || 
-                    !Main.player[npc.target].active ||
-                    npc.Distance(Main.player[npc.target].Center) > 1100f)
+                if (player.dead || !player.active || farFromPlayer || obstanceInFrontOfPlayer)
                 {
                     npc.velocity = Vector2.Lerp(npc.velocity, Vector2.UnitY * -8f, 0.1f);
                     npc.rotation = npc.rotation.AngleTowards(0f, MathHelper.ToRadians(15f));
+                    npc.noTileCollide = true;
                     return;
                 }
             }
+
+            npc.noTileCollide = !farFromPlayer;
 
             Lighting.AddLight(npc.Center - Vector2.UnitY * 8f, Color.Lime.ToVector3() * 1.5f);
 
@@ -131,7 +139,6 @@ namespace CalamityMod.NPCs.NormalNPCs
                 return;
             }
 
-            Player player = Main.player[npc.target];
             if (SearchDirection == 0f)
             {
                 if (Math.Abs(player.Center.X + SearchXOffset - npc.Center.X) < Math.Abs(player.Center.X - SearchXOffset - npc.Center.X))

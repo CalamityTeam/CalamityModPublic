@@ -129,9 +129,9 @@ namespace CalamityMod.NPCs.NormalNPCs
             if (spawnInfo.playerSafe || spawnInfo.player.Calamity().ZoneSulphur)
                 return 0f;
 
-            // Only spawn in the other thirds of the world bounds.
+            // Spawn less frequently in the inner third of the world.
             if (spawnInfo.playerFloorX > Main.maxTilesX * 0.333f && spawnInfo.playerFloorX < Main.maxTilesX - Main.maxTilesX * 0.333f)
-                return 0f;
+                return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.01f : 0.06f);
 
             return SpawnCondition.OverworldDaySlime.Chance * (Main.hardMode ? 0.06f : 0.15f);
         }

@@ -9,6 +9,7 @@ namespace CalamityMod.Projectiles.Rogue
 {
     public class SlickCaneProjectile : BaseSpearProjectile
     {
+		private bool initialized = false;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Slick Cane");
@@ -33,6 +34,17 @@ namespace CalamityMod.Projectiles.Rogue
         }
         public override SpearType SpearAiType => SpearType.GhastlyGlaiveSpear;
         public override float TravelSpeed => 8f;
+
+        public override bool PreAI()
+        {
+            // Initialization. Using the AI hook would override the base spear's code, and we don't want that.
+            if (!initialized)
+            {
+				Main.player[projectile.owner].Calamity().ConsumeStealthByAttacking();
+                initialized = true;
+            }
+            return true;
+        }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -84,7 +96,7 @@ namespace CalamityMod.Projectiles.Rogue
 						modifiedMoneyValue /= Main.rand.Next(3) + 1;
 					}
 					moneyValueToDrop -= 10000 * modifiedMoneyValue;
-					Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.GoldCoin, modifiedMoneyValue, false, 0, false, false);
+					DropHelper.DropItem(target, ItemID.GoldCoin, modifiedMoneyValue);
 				}
                 while (moneyValueToDrop > 100f)
 				{
@@ -98,7 +110,7 @@ namespace CalamityMod.Projectiles.Rogue
 						modifiedMoneyValue /= Main.rand.Next(3) + 1;
 					}
 					moneyValueToDrop -= 100 * modifiedMoneyValue;
-					Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.SilverCoin, modifiedMoneyValue, false, 0, false, false);
+					DropHelper.DropItem(target, ItemID.SilverCoin, modifiedMoneyValue);
 				}
                 while (moneyValueToDrop > 0f)
                 {
@@ -116,7 +128,7 @@ namespace CalamityMod.Projectiles.Rogue
 						modifiedMoneyValue = 1;
 					}
 					moneyValueToDrop -= modifiedMoneyValue;
-					Item.NewItem((int)target.position.X, (int)target.position.Y, target.width, target.height, ItemID.CopperCoin, modifiedMoneyValue, false, 0, false, false);
+					DropHelper.DropItem(target, ItemID.CopperCoin, modifiedMoneyValue);
 				}
 			}
         }

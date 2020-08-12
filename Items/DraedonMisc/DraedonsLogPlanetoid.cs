@@ -3,13 +3,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalamityMod.Items
+namespace CalamityMod.Items.DraedonMisc
 {
-    public class DraedonsLogJungle : ModItem
+    public class DraedonsLogPlanetoid : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Draedon's Log - The Jungle and Plague");
+            DisplayName.SetDefault("Draedon's Log - Space");
             Tooltip.SetDefault("Click to view its contents");
         }
 
@@ -26,7 +26,7 @@ namespace CalamityMod.Items
         public override bool UseItem(Player player)
         {
             if (Main.myPlayer == player.whoAmI)
-                PopupGUIManager.FlipActivityOfGUIWithType(typeof(DraedonLogJungleGUI));
+                PopupGUIManager.FlipActivityOfGUIWithType(typeof(DraedonLogPlanetoidGUI));
             return true;
         }
     }

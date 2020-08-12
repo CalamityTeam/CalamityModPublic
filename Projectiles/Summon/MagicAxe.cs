@@ -53,7 +53,7 @@ namespace CalamityMod.Projectiles.Summon
 				return;
 			}
 
-			projectile.ChargingMinionAI(MagicHat.Range, 1200f, 2500f, 400f, 1, 30f, 24f, -12f, 30f, 16f, true, true, 3);
+			projectile.ChargingMinionAI(MagicHat.Range, 1200f, 2500f, 400f, 1, 30f, 24f, 12f, new Vector2(0f, -60f), 30f, 16f, true, true, 3);
         }
 
         public override Color? GetAlpha(Color lightColor) => new Color(0, 255, 111, projectile.alpha);

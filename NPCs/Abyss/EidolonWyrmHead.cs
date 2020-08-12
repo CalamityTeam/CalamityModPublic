@@ -450,40 +450,19 @@ namespace CalamityMod.NPCs.Abyss
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Voidstone>(), Main.rand.Next(30, 41));
+            DropHelper.DropItem(npc, ModContent.ItemType<Voidstone>(), 30, 40);
 			if (Main.rand.NextBool(10))
 			{
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticHood);
-				Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.BlueLunaticRobe);
+				DropHelper.DropItem(npc, ItemID.BlueLunaticHood);
+				DropHelper.DropItem(npc, ItemID.BlueLunaticRobe);
 			}
 			int chance = CalamityGlobalNPCLoot.halibutCannonBaseDropChance / 100;
-            if (Main.rand.NextBool(chance) && CalamityWorld.revenge)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<HalibutCannon>());
-            }
-            if (CalamityWorld.downedPolterghast)
-            {
-                if (Main.rand.NextBool(3))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<SoulEdge>());
-                }
-                if (Main.rand.NextBool(3))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EidolicWail>());
-                }
-            }
-            if (CalamityWorld.downedCalamitas)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(6, 9));
-                if (Main.expertMode && Main.rand.NextBool(2))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Lumenite>(), Main.rand.Next(2, 4));
-                }
-            }
-            if (NPC.downedPlantBoss)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemID.Ectoplasm, Main.rand.Next(8, 13));
-            }
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<HalibutCannon>(), CalamityWorld.revenge, chance, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<SoulEdge>(), CalamityWorld.downedPolterghast, 3, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<EidolicWail>(), CalamityWorld.downedPolterghast, 3, 1, 1);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas, 1, 6, 8);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<Lumenite>(), CalamityWorld.downedCalamitas && Main.expertMode, 2, 2, 3);
+            DropHelper.DropItemCondition(npc, ItemID.Ectoplasm, NPC.downedPlantBoss, 1, 8, 12);
         }
 
         public override void HitEffect(int hitDirection, double damage)

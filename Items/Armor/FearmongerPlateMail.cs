@@ -39,9 +39,7 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.SpookyBreastplate);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 12);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
             recipe.AddIngredient(ItemID.SoulofFright, 12);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);

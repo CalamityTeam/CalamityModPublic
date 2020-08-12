@@ -811,6 +811,32 @@ namespace CalamityMod
             }
         }
 
+        public static void KillShootProjectiles(bool shouldBreak, int projType, Player player)
+        {
+            for (int x = 0; x < Main.maxProjectiles; x++)
+            {
+                Projectile proj = Main.projectile[x];
+                if (proj.active && proj.owner == player.whoAmI && proj.type == projType)
+                {
+                    proj.Kill();
+					if (shouldBreak)
+						break;
+                }
+            }
+        }
+
+        public static void KillShootProjectileMany(Player player, params int[] projTypes)
+        {
+            for (int x = 0; x < Main.maxProjectiles; x++)
+            {
+                Projectile proj = Main.projectile[x];
+                if (proj.active && proj.owner == player.whoAmI && projTypes.Contains(proj.type))
+                {
+                    proj.Kill();
+                }
+            }
+        }
+
         public static int FindFirstProjectile(int Type)
         {
 			int index = -1;
@@ -1317,7 +1343,7 @@ namespace CalamityMod
 			}
 		}
 
-		public static void ChargingMinionAI(this Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging, int updateDifference = 1)
+		public static void ChargingMinionAI(this Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, Vector2 returnOffset, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging, int updateDifference = 1)
 		{
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
@@ -1353,7 +1379,6 @@ namespace CalamityMod
 			float maxDist = range;
 			Vector2 targetVec = projectile.position;
 			bool foundTarget = false;
-			Vector2 half = new Vector2(0.5f);
 			bool isButterfly = projectile.type == ModContent.ProjectileType<PurpleButterfly>();
 			//Prioritize the targeted enemy if possible
 			if (player.HasMinionAttackTargetNPC)
@@ -1363,16 +1388,17 @@ namespace CalamityMod
 				if (npc.CanBeChasedBy(projectile, false) || fishronCheck)
 				{
 					//Check the size of the target to make it easier to hit fat targets like Levi
-					Vector2 sizeCheck = npc.position + npc.Size * half;
+					float extraDist = (npc.width / 2) + (npc.height / 2);
+
 					float targetDist = Vector2.Distance(npc.Center, projectile.Center);
 					//Some minions will ignore tiles when choosing a target like Ice Claspers, others will not
 					bool canHit = true;
-					if (!tileVision)
-						canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
-					if (!foundTarget && targetDist < maxDist && canHit)
+					if (extraDist < maxDist && !tileVision)
+						canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+					if (!foundTarget && targetDist < (maxDist + extraDist) && canHit)
 					{
 						maxDist = targetDist;
-						targetVec = sizeCheck;
+						targetVec = npc.Center;
 						foundTarget = true;
 					}
 				}
@@ -1386,15 +1412,15 @@ namespace CalamityMod
 					bool fishronCheck = npc.type == NPCID.DukeFishron && npc.active && isButterfly;
 					if (npc.CanBeChasedBy(projectile, false) || fishronCheck)
 					{
-						Vector2 sizeCheck = npc.position + npc.Size * half;
+						float extraDist = (npc.width / 2) + (npc.height / 2);
 						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
 						bool canHit = true;
-						if (!tileVision)
-							canHit = Collision.CanHitLine(projectile.position, projectile.width, projectile.height, npc.position, npc.width, npc.height);
-						if (!foundTarget && targetDist < maxDist && canHit)
+						if (extraDist < maxDist && !tileVision)
+							canHit = Collision.CanHit(projectile.Center, 1, 1, npc.Center, 1, 1);
+						if (!foundTarget && targetDist < (maxDist + extraDist) && canHit)
 						{
 							maxDist = targetDist;
-							targetVec = sizeCheck;
+							targetVec = npc.Center;
 							foundTarget = true;
 						}
 					}
@@ -1449,7 +1475,7 @@ namespace CalamityMod
 				}
 
 				//Player distance calculations
-				Vector2 playerVec = player.Center - projectile.Center + new Vector2(0f, -60f);
+				Vector2 playerVec = player.Center - projectile.Center + returnOffset;
 				float playerDist = playerVec.Length();
 
 				//If the minion is actively returning, move faster

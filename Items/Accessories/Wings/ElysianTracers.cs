@@ -106,7 +106,6 @@ namespace CalamityMod.Items.Accessories.Wings
             recipe.AddIngredient(ModContent.ItemType<InfinityBoots>());
             recipe.AddIngredient(ModContent.ItemType<ElysianWings>());
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 5);
             recipe.AddTile(TileID.LunarCraftingStation);
             recipe.SetResult(this);
             recipe.AddRecipe();

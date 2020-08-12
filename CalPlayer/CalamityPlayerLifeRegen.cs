@@ -704,7 +704,7 @@ namespace CalamityMod.CalPlayer
                     player.lifeRegenTime = 1800;
             }
 
-			if (modPlayer.etherealExtorter || player.ZoneGlowshroom)
+			if (modPlayer.etherealExtorter && player.ZoneGlowshroom)
 				player.lifeRegen += 1;
 
 			// Standing still healing bonuses (all exclusive with vanilla Shiny Stone)
@@ -725,17 +725,14 @@ namespace CalamityMod.CalPlayer
 						{
 							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30))
 							{
-								int num5 = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 200, default, 1f);
-								Main.dust[num5].noGravity = true;
-								Main.dust[num5].velocity *= 0.75f;
-								Main.dust[num5].fadeIn = 1.3f;
-								Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-								vector.Normalize();
-								vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-								Main.dust[num5].velocity = vector;
-								vector.Normalize();
-								vector *= 34f;
-								Main.dust[num5].position = player.Center - vector;
+								int regen = Dust.NewDust(player.position, player.width, player.height, 173, 0f, 0f, 200, default, 1f);
+								Main.dust[regen].noGravity = true;
+								Main.dust[regen].fadeIn = 1.3f;
+								Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+								Main.dust[regen].velocity = velocity;
+								velocity.Normalize();
+								velocity *= 34f;
+								Main.dust[regen].position = player.Center - velocity;
 							}
 						}
 					}
@@ -746,17 +743,14 @@ namespace CalamityMod.CalPlayer
 						{
 							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(30))
 							{
-								int num5 = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 200, new Color(150, Main.DiscoG, 255), 0.75f);
-								Main.dust[num5].noGravity = true;
-								Main.dust[num5].velocity *= 0.75f;
-								Main.dust[num5].fadeIn = 1.3f;
-								Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-								vector.Normalize();
-								vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-								Main.dust[num5].velocity = vector;
-								vector.Normalize();
-								vector *= 34f;
-								Main.dust[num5].position = player.Center - vector;
+								int regen = Dust.NewDust(player.position, player.width, player.height, 67, 0f, 0f, 200, new Color(150, Main.DiscoG, 255), 0.75f);
+								Main.dust[regen].noGravity = true;
+								Main.dust[regen].fadeIn = 1.3f;
+								Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+								Main.dust[regen].velocity = velocity;
+								velocity.Normalize();
+								velocity *= 34f;
+								Main.dust[regen].position = player.Center - velocity;
 							}
 						}
 					}
@@ -767,17 +761,14 @@ namespace CalamityMod.CalPlayer
 						{
 							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
 							{
-								int num5 = Dust.NewDust(player.position, player.width, player.height, 107, 0f, 0f, 200, default, 1f);
-								Main.dust[num5].noGravity = true;
-								Main.dust[num5].velocity *= 0.75f;
-								Main.dust[num5].fadeIn = 1.3f;
-								Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-								vector.Normalize();
-								vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-								Main.dust[num5].velocity = vector;
-								vector.Normalize();
-								vector *= 34f;
-								Main.dust[num5].position = player.Center - vector;
+								int regen = Dust.NewDust(player.position, player.width, player.height, 107, 0f, 0f, 200, default, 1f);
+								Main.dust[regen].noGravity = true;
+								Main.dust[regen].fadeIn = 1.3f;
+								Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+								Main.dust[regen].velocity = velocity;
+								velocity.Normalize();
+								velocity *= 34f;
+								Main.dust[regen].position = player.Center - velocity;
 							}
 						}
 					}
@@ -790,17 +781,14 @@ namespace CalamityMod.CalPlayer
 						{
 							if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
 							{
-								int num5 = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 200, default, 1f);
-								Main.dust[num5].noGravity = true;
-								Main.dust[num5].velocity *= 0.75f;
-								Main.dust[num5].fadeIn = 1.3f;
-								Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-								vector.Normalize();
-								vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-								Main.dust[num5].velocity = vector;
-								vector.Normalize();
-								vector *= 34f;
-								Main.dust[num5].position = player.Center - vector;
+								int regen = Dust.NewDust(player.position, player.width, player.height, 244, 0f, 0f, 200, default, 1f);
+								Main.dust[regen].noGravity = true;
+								Main.dust[regen].fadeIn = 1.3f;
+								Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+								Main.dust[regen].velocity = velocity;
+								velocity.Normalize();
+								velocity *= 34f;
+								Main.dust[regen].position = player.Center - velocity;
 							}
 						}
 					}
@@ -830,28 +818,27 @@ namespace CalamityMod.CalPlayer
 							player.lifeRegenCount++;
 						}
 					}
-					else if (modPlayer.camper && player.statLife < modPlayer.actualMaxLife)
-					{
-						float camperRegenMult = CalamityPlayer.areThereAnyDamnBosses ? 1.3f : 1.75f;
-						int camperCap = CalamityPlayer.areThereAnyDamnBosses ? 20 : 30;
-						player.lifeRegen = (int)((player.lifeRegen * 2) * camperRegenMult);
-						player.lifeRegenCount = player.lifeRegenCount > camperCap ? player.lifeRegenCount : camperCap;
-						player.lifeRegenCount++;
-						if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
-						{
-							int num5 = Dust.NewDust(player.position, player.width, player.height, 12, 0f, 0f, 200, Color.OrangeRed, 1f);
-							Main.dust[num5].noGravity = true;
-							Main.dust[num5].velocity *= 0.75f;
-							Main.dust[num5].fadeIn = 1.3f;
-							Vector2 vector = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
-							vector.Normalize();
-							vector *= (float)Main.rand.Next(50, 100) * 0.04f;
-							Main.dust[num5].velocity = vector;
-							vector.Normalize();
-							vector *= 34f;
-							Main.dust[num5].position = player.Center - vector;
-						}
-					}
+				}
+			}
+
+			// The Camper regen boost activates while moving so it can stack with Shiny Stone like effects
+			if (modPlayer.camper && player.statLife < modPlayer.actualMaxLife && !player.StandingStill())
+			{
+				float camperRegenMult = CalamityPlayer.areThereAnyDamnBosses ? 1.3f : 1.75f;
+				int camperCap = CalamityPlayer.areThereAnyDamnBosses ? 20 : 30;
+				player.lifeRegen = (int)((player.lifeRegen * 2) * camperRegenMult);
+				player.lifeRegenCount = player.lifeRegenCount > camperCap ? player.lifeRegenCount : camperCap;
+				player.lifeRegenCount++;
+				if (Main.rand.Next(30000) < player.lifeRegenTime || Main.rand.NextBool(2))
+				{
+					int regen = Dust.NewDust(player.position, player.width, player.height, 12, 0f, 0f, 200, Color.OrangeRed, 1f);
+					Main.dust[regen].noGravity = true;
+					Main.dust[regen].fadeIn = 1.3f;
+					Vector2 velocity = CalamityUtils.RandomVelocity(100f, 50f, 100f, 0.04f);
+					Main.dust[regen].velocity = velocity;
+					velocity.Normalize();
+					velocity *= 34f;
+					Main.dust[regen].position = player.Center - velocity;
 				}
 			}
 

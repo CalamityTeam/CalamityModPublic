@@ -1,3 +1,4 @@
+using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Tiles.Abyss;
@@ -170,6 +171,7 @@ namespace CalamityMod.World
 		public const float PerlinThreshold = 0.1f; // Be careful with this number
 		public static void CreateWater()
 		{
+			// Generate water underground.
 			int[] seeds = new int[PerlinIterations];
 			for (int i = 0; i < seeds.Length; i++)
 			{
@@ -201,6 +203,25 @@ namespace CalamityMod.World
 							};
 						}
 					}
+				}
+			}
+
+			// Generate water above-ground.
+			int startingDepth = (int)(WorldGen.genRand.Next(4, 8 + 1) * Main.maxTilesX / 4200f);
+			int endingDepth = (int)(WorldGen.genRand.Next(27, 35 + 1) * Main.maxTilesX / 4200f);
+			float waterFinishingAngle = WorldGen.genRand.NextFloat(MathHelper.ToRadians(145f), MathHelper.ToRadians(170f));
+			for (int x = 30; x < BiomeWidth - 30; x++)
+			{
+				float xRatio = (x - 30) / (BiomeWidth - 30f);
+				int trueX = CalamityWorld.abyssSide ? x : Main.maxTilesX - x;
+				for (int y = YStart; y <= YStart + (int)(Math.Sin((1f - xRatio) * waterFinishingAngle) * (endingDepth - startingDepth) + startingDepth); y++)
+				{
+					ushort oldWall = Main.tile[trueX, y].wall;
+					Main.tile[trueX, y] = new Tile()
+					{
+						wall = oldWall,
+						liquid = 255
+					};
 				}
 			}
 		}
@@ -264,7 +285,7 @@ namespace CalamityMod.World
 		#endregion
 
 		#region Generating Islands
-		public const int IslandCount = 4;
+		public const int IslandCount = 6;
 		public const int IslandXPadding = 20;
 
 		public const int IslandMinWidth = 15;
@@ -273,7 +294,6 @@ namespace CalamityMod.World
 		public const int IslandMinDepth = 5;
 		public const int IslandMaxDepth = 10;
 
-		public const int CragmawIslandCount = 2;
 		public static void SettleWater()
 		{
 			Liquid.QuickWater(3, -1, -1);

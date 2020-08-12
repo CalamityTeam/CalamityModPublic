@@ -15,7 +15,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Width = 4;
@@ -38,6 +38,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             name.SetDefault("Aged Terminal");
             AddMapEntry(Color.DarkSlateGray, name);
         }
+
+        public override bool CanExplode(int i, int j) => false;
 
         public override bool CreateDust(int i, int j, ref int type)
         {

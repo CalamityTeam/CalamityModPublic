@@ -33,12 +33,8 @@ namespace CalamityMod.Items.Placeables.DraedonStructures
             recipe.AddTile(TileID.HeavyWorkBench);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LaboratoryShelf>(), 2);
-            recipe.SetResult(this, 1);
-            recipe.AddRecipe();
-            recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<LaboratoryPanelWall>(), 4);
-            recipe.SetResult(this, 1);
+            recipe.SetResult(this);
             recipe.AddTile(TileID.WorkBenches);
             recipe.AddRecipe();
         }

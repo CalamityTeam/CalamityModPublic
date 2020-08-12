@@ -13,6 +13,10 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileBlockLight[Type] = true;
 
             CalamityUtils.MergeWithGeneral(Type);
+			CalamityUtils.SetMerge(Type, ModContent.TileType<LaboratoryDoorOpen>());
+			CalamityUtils.SetMerge(Type, ModContent.TileType<LaboratoryDoorClosed>());
+			CalamityUtils.SetMerge(Type, ModContent.TileType<AgedLaboratoryDoorOpen>());
+			CalamityUtils.SetMerge(Type, ModContent.TileType<AgedLaboratoryDoorClosed>());
 
             soundType = SoundID.Tink;
             dustType = 19;
@@ -20,6 +24,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             drop = ModContent.ItemType<Items.Placeables.DraedonStructures.HazardChevronPanels> ();
             AddMapEntry(new Color(163, 150, 73));
         }
+
+        public override bool CanExplode(int i, int j) => false;
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {

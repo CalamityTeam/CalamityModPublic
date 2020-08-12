@@ -97,8 +97,8 @@ namespace CalamityMod.Items.Accessories
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<TheAbsorber>());
             recipe.AddIngredient(ModContent.ItemType<AmbrosialAmpoule>());
-            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 15);
-            recipe.AddIngredient(ModContent.ItemType<Phantoplasm>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

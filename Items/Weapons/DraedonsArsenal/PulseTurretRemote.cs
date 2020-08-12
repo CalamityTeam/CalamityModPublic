@@ -14,7 +14,8 @@ namespace CalamityMod.Items.Weapons.DraedonsArsenal
 			DisplayName.SetDefault("Pulse Turret Remote");
 			Tooltip.SetDefault("A device used to defend against the weaker, less cognizant rogue creations of Draedon.\n" +
 							   "Summons a pulse turret which eradicates nearby foes with focused energy blasts\n" +
-							   "Especially effective against inorganic targets");
+							   "Especially effective against inorganic targets\n" +
+							   "Only one pulse turret may exist at a time");
 		}
 
 		public override void SetDefaults()

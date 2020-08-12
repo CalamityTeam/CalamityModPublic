@@ -47,7 +47,7 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             int proj = Projectile.NewProjectile(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             Main.projectile[proj].Calamity().forceRogue = true;
-			Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
+            Main.projectile[proj].Calamity().stealthStrike = player.Calamity().StealthStrikeAvailable();
             return false;
         }
 
@@ -55,11 +55,10 @@ namespace CalamityMod.Items.Weapons.Rogue
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddIngredient(ModContent.ItemType<StellarContemptRogue>());
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            r.AddIngredient(ModContent.ItemType<NightmareFuel>(), 10);
-            r.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 10);
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
+            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddRecipe();
         }
     }
