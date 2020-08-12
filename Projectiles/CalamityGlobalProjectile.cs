@@ -171,7 +171,30 @@ namespace CalamityMod.Projectiles
 
             if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
-                if (projectile.type == ProjectileID.PoisonSeedPlantera)
+				if (projectile.type == ProjectileID.DeathLaser && projectile.ai[0] == 1f)
+				{
+					projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
+					Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, 0f, 0f);
+
+					if (projectile.alpha > 0)
+						projectile.alpha -= 125;
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+
+					if (projectile.localAI[1] == 0f)
+					{
+						Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
+						projectile.localAI[1] = 1f;
+					}
+
+					if (projectile.velocity.Length() < 18f)
+						projectile.velocity *= 1.0025f;
+
+					return false;
+				}
+
+                else if (projectile.type == ProjectileID.PoisonSeedPlantera)
                 {
                     projectile.frameCounter++;
                     if (projectile.frameCounter > 1)

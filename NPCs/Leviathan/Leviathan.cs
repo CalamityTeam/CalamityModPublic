@@ -727,10 +727,19 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void FindFrame(int frameHeight)
         {
+			Texture2D texture = Main.npcTexture[npc.type];
+			if (npc.ai[0] == 1f || npc.Calamity().newAI[3] < 180f)
+			{
+				texture = Main.npcTexture[npc.type];
+			}
+			else
+			{
+				texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAttack");
+			}
 			int horizontalFrameCount = 2;
 			int verticalFrameCount = 3;
-			int width = 2022 / horizontalFrameCount;
-			int height = 1458 / verticalFrameCount;
+			int width = texture.Width / horizontalFrameCount;
+			int height = texture.Height / verticalFrameCount;
 			int timeBetweenFrames = 8;
 
             if (!initialised)
