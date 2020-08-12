@@ -43,7 +43,7 @@ namespace CalamityMod.Items.Armor
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 23);
-            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 3);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

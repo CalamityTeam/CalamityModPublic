@@ -1,5 +1,6 @@
 using CalamityMod.CalPlayer;
 using CalamityMod.Items.Materials;
+using CalamityMod.Tiles.Furniture.CraftingStations;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -7,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod.Items.Accessories
 {
-	public class DraedonsHeart : ModItem
+    public class DraedonsHeart : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -36,8 +37,8 @@ namespace CalamityMod.Items.Accessories
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             CalamityPlayer modPlayer = player.Calamity();
-			modPlayer.laudanum = true;
-			modPlayer.stressPills = true;
+            modPlayer.laudanum = true;
+            modPlayer.stressPills = true;
             modPlayer.draedonsHeart = true;
         }
 
@@ -50,7 +51,7 @@ namespace CalamityMod.Items.Accessories
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
             recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddIngredient(ItemID.Nanites, 250);
-            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

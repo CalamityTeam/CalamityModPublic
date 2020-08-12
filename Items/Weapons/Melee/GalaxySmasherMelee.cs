@@ -54,10 +54,10 @@ namespace CalamityMod.Items.Weapons.Melee
         {
             ModRecipe r = new ModRecipe(mod);
             r.SetResult(this);
-            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddIngredient(ModContent.ItemType<StellarContemptMelee>());
-            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 10);
-            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
+            r.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 5);
+            r.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
+            r.AddTile(ModContent.TileType<DraedonsForge>());
             r.AddRecipe();
         }
     }
