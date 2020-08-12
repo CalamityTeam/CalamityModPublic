@@ -196,6 +196,8 @@ namespace CalamityMod.NPCs
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeTwins>(), true, !NPC.downedMechBoss2);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss2, 4, 2, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
 
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || NPC.downedMechBoss2 || !NPC.downedMechBoss3);
@@ -205,6 +207,8 @@ namespace CalamityMod.NPCs
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeDestroyer>(), true, !NPC.downedMechBoss1);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss1, 4, 2, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
 
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3);
@@ -215,6 +219,8 @@ namespace CalamityMod.NPCs
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeSkeletronPrime>(), true, !NPC.downedMechBoss3);
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<GoldBurdenBreaker>(), true, npc.ai[1] == 2f && CalamityWorld.revenge);
                 DropHelper.DropResidentEvilAmmo(npc, NPC.downedMechBoss3, 4, 2, 1);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<MysteriousCircuitry>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
+                DropHelper.DropItemCondition(npc, ModContent.ItemType<DubiousPlating>(), CalamityGlobalNPC.DraedonMayhem, 1f, 8, 16);
 
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.DD2Bartender, NPCID.Stylist, NPCID.Truffle, ModContent.NPCType<THIEF>() }, NPC.downedMechBossAny);
 				CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Stylist, ModContent.NPCType<DILF>(), ModContent.NPCType<FAP>(), ModContent.NPCType<THIEF>() }, !NPC.downedMechBoss1 || !NPC.downedMechBoss2 || NPC.downedMechBoss3);

@@ -89,7 +89,7 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Phantoplasm>(), Main.rand.Next(1, 3));
+			DropHelper.DropItem(npc, ModContent.ItemType<Phantoplasm>(), 1, 2);
         }
     }
 }

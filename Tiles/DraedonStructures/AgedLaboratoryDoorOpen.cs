@@ -17,7 +17,7 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileBlockLight[Type] = true;
             Main.tileSolid[Type] = false;
             Main.tileNoAttach[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
             TileID.Sets.NotReallySolid[Type] = true;
             TileID.Sets.DrawsWalls[Type] = true;
@@ -38,6 +38,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             adjTiles = new int[] { TileID.OpenDoor };
             dustType = 8;
         }
+
+        public override bool CanExplode(int i, int j) => false;
 
         public override bool HasSmartInteract() => true;
 

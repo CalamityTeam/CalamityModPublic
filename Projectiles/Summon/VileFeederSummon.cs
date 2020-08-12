@@ -88,7 +88,7 @@ namespace CalamityMod.Projectiles.Summon
 			{
 				if (eaterCooldown > 0)
 					eaterCooldown--;
-				projectile.ChargingMinionAI(640f, 1100f, 2400f, 150f, 0, 40f, 8f, 4f, 40f, 8f, false, false);
+				projectile.ChargingMinionAI(640f, 1100f, 2400f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 8f, false, false);
 				projectile.frameCounter++;
 				if (projectile.frameCounter > 3)
 				{
@@ -205,7 +205,7 @@ namespace CalamityMod.Projectiles.Summon
 								}
 
 								//let the projectile know it is sticking and the npc it is sticking too
-								projectile.ai[0] = 1f;
+								projectile.ai[0] = 3f;
 								projectile.Calamity().lineColor = npcIndex;
 
 								//follow the NPC
@@ -219,7 +219,7 @@ namespace CalamityMod.Projectiles.Summon
 								for (int projIndex = 0; projIndex < Main.maxProjectiles; projIndex++)
 								{
 									Projectile proj = Main.projectile[projIndex];
-									if (projIndex != projectile.whoAmI && proj.active && proj.owner == Main.myPlayer && proj.type == projectile.type && proj.ai[0] == 1f && proj.Calamity().lineColor == npcIndex)
+									if (projIndex != projectile.whoAmI && proj.active && proj.owner == Main.myPlayer && proj.type == projectile.type && proj.ai[0] == 3f && proj.Calamity().lineColor == npcIndex)
 									{
 										array2[projCount++] = new Point(projIndex, proj.timeLeft);
 										if (projCount >= array2.Length)
@@ -272,5 +272,7 @@ namespace CalamityMod.Projectiles.Summon
 		}
 
 		public override bool CanDamage() => projectile.ai[0] != 3f;
+
+        public override bool OnTileCollide(Vector2 oldVelocity) => false;
 	}
 }

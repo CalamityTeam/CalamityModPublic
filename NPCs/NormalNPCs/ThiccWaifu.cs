@@ -306,26 +306,10 @@ namespace CalamityMod.NPCs.NormalNPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EssenceofCinder>(), Main.rand.Next(2, 4));
-            if (Main.rand.NextBool(100) && CalamityWorld.downedProvidence)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<Thunderstorm>());
-            }
-            if (Main.expertMode)
-            {
-                if (Main.rand.NextBool(3))
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EyeoftheStorm>());
-                }
-            }
-            else if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EyeoftheStorm>());
-            }
-            if (Main.rand.NextBool(5))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<StormSaber>());
-            }
+			DropHelper.DropItem(npc, ModContent.ItemType<EssenceofCinder>(), 2, 3);
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<Thunderstorm>(), CalamityWorld.downedProvidence, 100, 1, 1);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EyeoftheStorm>(), Main.expertMode ? 3 : 4);
+			DropHelper.DropItemChance(npc, ModContent.ItemType<StormSaber>(), 5);
         }
     }
 }

@@ -14,6 +14,8 @@ namespace CalamityMod.UI
         {
             if (Main.LocalPlayer.Calamity().CurrentlyViewedFactory != null)
             {
+                var time = Terraria.DataStructures.TileEntity.ByID;
+                var stack = Main.LocalPlayer.Calamity().CurrentlyViewedFactory;
                 if (Main.LocalPlayer.chest != -1)
                 {
                     Main.LocalPlayer.Calamity().CurrentlyViewedFactory = null;
@@ -35,14 +37,6 @@ namespace CalamityMod.UI
                     bool alreadyUsedItem = UseFuel(ref Main.mouseItem, ref fuel);
                     if (!alreadyUsedItem)
                         UseFuel(ref Main.LocalPlayer.inventory[Main.LocalPlayer.selectedItem], ref fuel);
-                    if (Main.netMode == NetmodeID.MultiplayerClient)
-                    {
-                        var netMessage = CalamityMod.Instance.GetPacket();
-                        netMessage.Write((byte)CalamityModMessageType.DraedonGeneratorStackSync);
-                        netMessage.Write(Main.LocalPlayer.Calamity().CurrentlyViewedFactory.ID);
-                        netMessage.Write(fuel.stack);
-                        netMessage.Send();
-                    }
                     Main.instance.MouseTextHackZoom(""); // Since HoverItem is active, we don't need to input anything into this method.
                     Main.blockMouse = Main.LocalPlayer.ActiveItem().pick <= 0; // Block mouse input if hovering over the item UI and not holding a pickaxe.
                 }

@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
@@ -136,8 +137,16 @@ namespace CalamityMod.Projectiles.Hybrid
 						player.addDPS((int)damage);
 					}
 				}
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PwnagehammerHoming").WithVolume(1f), projectile.Center);
-				Main.PlaySound(SoundID.Item14.WithVolume(.75f), projectile.position);
+				SoundEffectInstance sound1 = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PwnagehammerHoming"), projectile.Center);
+				if (sound1 != null)
+				{
+					sound1.Volume = 0.6f;
+				}
+				SoundEffectInstance sound2 = Main.PlaySound(SoundID.Item14, projectile.Center);
+				if (sound2 != null)
+				{
+					sound2.Volume = 0.45f;
+				}
 			}
 			else
 			{
@@ -169,9 +178,17 @@ namespace CalamityMod.Projectiles.Hybrid
 						player.addDPS((int)damage);
 					}
 				}
-
-				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PwnagehammerSound").WithVolume(1f).WithPitchVariance(.08f), projectile.Center);
-				Main.PlaySound(SoundID.Item14.WithVolume(.60f), projectile.position);
+				SoundEffectInstance sound1 = Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/PwnagehammerSound"), projectile.Center);
+				if (sound1 != null)
+				{
+					sound1.Volume = 0.37f;
+					sound1.Pitch = Main.rand.NextFloat(-0.08f, 0.08f);
+				}
+				SoundEffectInstance sound2 = Main.PlaySound(SoundID.Item14, projectile.Center);
+				if (sound2 != null)
+				{
+					sound2.Volume = 0.22f;
+				}
 			}
 		}
 

@@ -10,7 +10,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wulfrum Hood");
+            DisplayName.SetDefault("Wulfrum Visage");
             Tooltip.SetDefault("3% increased magic damage");
         }
 

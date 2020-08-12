@@ -811,6 +811,32 @@ namespace CalamityMod
             }
         }
 
+        public static void KillShootProjectiles(bool shouldBreak, int projType, Player player)
+        {
+            for (int x = 0; x < Main.maxProjectiles; x++)
+            {
+                Projectile proj = Main.projectile[x];
+                if (proj.active && proj.owner == player.whoAmI && proj.type == projType)
+                {
+                    proj.Kill();
+					if (shouldBreak)
+						break;
+                }
+            }
+        }
+
+        public static void KillShootProjectileMany(Player player, params int[] projTypes)
+        {
+            for (int x = 0; x < Main.maxProjectiles; x++)
+            {
+                Projectile proj = Main.projectile[x];
+                if (proj.active && proj.owner == player.whoAmI && projTypes.Contains(proj.type))
+                {
+                    proj.Kill();
+                }
+            }
+        }
+
         public static int FindFirstProjectile(int Type)
         {
 			int index = -1;
@@ -1317,7 +1343,7 @@ namespace CalamityMod
 			}
 		}
 
-		public static void ChargingMinionAI(this Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging, int updateDifference = 1)
+		public static void ChargingMinionAI(this Projectile projectile, float range, float maxPlayerDist, float extraMaxPlayerDist, float safeDist, int initialUpdates, float chargeDelayTime, float goToSpeed, float goBackSpeed, Vector2 returnOffset, float chargeCounterMax, float chargeSpeed, bool tileVision, bool ignoreTilesWhenCharging, int updateDifference = 1)
 		{
 			Player player = Main.player[projectile.owner];
 			CalamityPlayer modPlayer = player.Calamity();
@@ -1449,7 +1475,7 @@ namespace CalamityMod
 				}
 
 				//Player distance calculations
-				Vector2 playerVec = player.Center - projectile.Center + new Vector2(0f, -60f);
+				Vector2 playerVec = player.Center - projectile.Center + returnOffset;
 				float playerDist = playerVec.Length();
 
 				//If the minion is actively returning, move faster

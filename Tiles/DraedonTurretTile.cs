@@ -29,7 +29,7 @@ namespace CalamityMod.Tiles
             AddMapEntry(new Color(67, 72, 81), name);
             soundType = SoundID.Item;
             soundStyle = 14;
-            minPick = 65;
+            minPick = 55;
         }
 
         public override bool CanExplode(int i, int j) => false;

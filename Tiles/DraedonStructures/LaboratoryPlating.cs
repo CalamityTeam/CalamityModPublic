@@ -21,6 +21,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             AddMapEntry(new Color(162, 157, 150));
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             return TileFraming.BetterGemsparkFraming(i, j, resetFrame);

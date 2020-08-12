@@ -1203,7 +1203,7 @@ namespace CalamityMod.NPCs
         #region Special Drawing
         public static void DrawGlowmask(NPC npc, SpriteBatch spriteBatch, Texture2D texture = null, bool invertedDirection = false, Vector2 offset = default)
         {
-            if (texture == null)
+            if (texture is null)
                 texture = Main.npcTexture[npc.type];
             SpriteEffects effects = npc.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             if (invertedDirection)
@@ -1237,7 +1237,7 @@ namespace CalamityMod.NPCs
             }
 
             // Set the rotation calculation to a predefined value. The null default is solely so that 
-            if (rotationCalculation == null)
+            if (rotationCalculation is null)
             {
                 rotationCalculation = (nPC, afterimageIndex) => nPC.rotation;
             }
@@ -3601,7 +3601,7 @@ namespace CalamityMod.NPCs
 
             if (modPlayer.sGenerator)
             {
-                if (isSummon && npc.damage > 0)
+                if (isSummon && (npc.damage > 0 || npc.boss))
                 {
 					int buffType = Utils.SelectRandom(Main.rand, new int[]
 					{
@@ -3615,7 +3615,7 @@ namespace CalamityMod.NPCs
 
             if (modPlayer.hallowedRune)
             {
-                if (isSummon && npc.damage > 0)
+                if (isSummon && (npc.damage > 0 || npc.boss))
                 {
 					int buffType = Utils.SelectRandom(Main.rand, new int[]
 					{
@@ -3629,13 +3629,13 @@ namespace CalamityMod.NPCs
 
             if (modPlayer.bloodflareSet)
             {
-                if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life < npc.lifeMax * 0.5) &&
+                if (!npc.SpawnedFromStatue && (npc.damage > 0 || npc.boss) && (npc.life < npc.lifeMax * 0.5) &&
                     modPlayer.bloodflareHeartTimer <= 0)
                 {
                     modPlayer.bloodflareHeartTimer = 180;
                     DropHelper.DropItem(npc, ItemID.Heart);
                 }
-                else if (!npc.SpawnedFromStatue && npc.damage > 0 && (npc.life > npc.lifeMax * 0.5) &&
+                else if (!npc.SpawnedFromStatue && (npc.damage > 0 || npc.boss) && (npc.life > npc.lifeMax * 0.5) &&
                     modPlayer.bloodflareManaTimer <= 0)
                 {
                     modPlayer.bloodflareManaTimer = 180;
@@ -5359,7 +5359,7 @@ namespace CalamityMod.NPCs
                 {
                     for (int j = y - 1; j <= y + 1; j++)
                     {
-                        if (Main.tile[i, j] == null)
+                        if (Main.tile[i, j] is null)
                         {
                             return;
                         }

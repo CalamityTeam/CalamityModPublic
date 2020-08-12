@@ -39,7 +39,7 @@ namespace CalamityMod.Projectiles.Rogue
         {
             if (projectile.localAI[0] == 0f)
             {
-                RemainingBounces = projectile.Calamity().stealthStrike ? 1 : 3;
+                RemainingBounces = projectile.Calamity().stealthStrike ? 3 : 1;
                 projectile.localAI[0] = 1f;
             }
             projectile.rotation += Math.Sign(projectile.velocity.X) * MathHelper.ToRadians(8f);

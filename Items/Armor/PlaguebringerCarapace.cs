@@ -30,7 +30,7 @@ namespace CalamityMod.Items.Armor
         public override void UpdateEquip(Player player)
         {
             player.Calamity().plaguebringerCarapace = true;
-            player.maxMinions += 2;
+            player.maxMinions += 1;
             player.minionDamage += 0.12f;
             player.Calamity().reducedPlagueDmg = true;
         }

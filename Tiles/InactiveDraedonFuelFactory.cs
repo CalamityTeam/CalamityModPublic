@@ -16,7 +16,7 @@ namespace CalamityMod.Tiles
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileTable[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Width = 4;
@@ -30,6 +30,8 @@ namespace CalamityMod.Tiles
             name.SetDefault("Inactive Fuel Factory");
             AddMapEntry(new Color(67, 72, 81), name);
         }
+
+        public override bool CanExplode(int i, int j) => false;
 
         public override bool CreateDust(int i, int j, ref int type)
         {

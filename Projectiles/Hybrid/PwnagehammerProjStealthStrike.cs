@@ -44,9 +44,16 @@ namespace CalamityMod.Projectiles.Hybrid
 			else if (projectile.ai[0] < 44f)
 			{
 				NPC target = Main.npc[(int)projectile.ai[1]];
-				float velConst = 3f;
-				projectile.velocity = new Vector2((target.Center.X - projectile.Center.X) / velConst, (target.Center.Y - projectile.Center.Y) / velConst);
-				projectile.rotation += MathHelper.ToRadians(48f) * projectile.localAI[0];
+				if (!target.CanBeChasedBy(projectile, false))
+				{
+					projectile.Kill();
+				}
+				else
+				{
+					float velConst = 3f;
+					projectile.velocity = new Vector2((target.Center.X - projectile.Center.X) / velConst, (target.Center.Y - projectile.Center.Y) / velConst);
+					projectile.rotation += MathHelper.ToRadians(48f) * projectile.localAI[0];
+				}
 			}
 
 			if (Main.rand.NextBool(2))

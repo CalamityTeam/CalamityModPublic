@@ -98,11 +98,8 @@ namespace CalamityMod.NPCs.SunkenSea
 
         public override void NPCLoot()
         {
-            if (Main.rand.NextBool(4))
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<EutrophicScimitar>());
-            }
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<PrismShard>(), Main.rand.Next(5, 10));
+			DropHelper.DropItemChance(npc, ModContent.ItemType<EutrophicScimitar>(), 0.25f);
+			DropHelper.DropItem(npc, ModContent.ItemType<PrismShard>(), 5, 9);
         }
 
         public override void HitEffect(int hitDirection, double damage)
