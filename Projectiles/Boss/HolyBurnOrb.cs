@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
+using CalamityMod.Events;
 
 namespace CalamityMod.Projectiles.Boss
 {
@@ -52,7 +53,7 @@ namespace CalamityMod.Projectiles.Boss
             if (num491 < 50f && !Main.player[num487].dead && projectile.position.X < Main.player[num487].position.X + Main.player[num487].width && projectile.position.X + projectile.width > Main.player[num487].position.X && projectile.position.Y < Main.player[num487].position.Y + Main.player[num487].height && projectile.position.Y + projectile.height > Main.player[num487].position.Y)
             {
                 int num492 = expertMode ? -150 : -100;
-                if (CalamityWorld.death || CalamityWorld.bossRushActive)
+                if (CalamityWorld.death || BossRushEvent.BossRushActive)
                     num492 = -200;
 				if (!Main.dayTime)
 					num492 = -300;

@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +23,7 @@ namespace CalamityMod.NPCs.Crabulon
             npc.width = 14;
             npc.height = 14;
             npc.lifeMax = 25;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 150000;
             }
@@ -46,7 +47,7 @@ namespace CalamityMod.NPCs.Crabulon
         public override void AI()
         {
             Lighting.AddLight((int)((npc.position.X + (npc.width / 2)) / 16f), (int)((npc.position.Y + (npc.height / 2)) / 16f), 0f, 0.2f, 0.4f);
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             float speed = revenge ? 1.25f : 1f;
             Player player = Main.player[npc.target];
             npc.velocity.Y += 0.02f;
@@ -61,7 +62,7 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     npc.velocity.X *= 0.98f;
                 }
-                npc.velocity.X += (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+                npc.velocity.X += (BossRushEvent.BossRushActive ? 0.2f : 0.1f);
             }
             else if (npc.position.X > player.position.X + player.width)
             {
@@ -69,9 +70,9 @@ namespace CalamityMod.NPCs.Crabulon
                 {
                     npc.velocity.X *= 0.98f;
                 }
-                npc.velocity.X -= (CalamityWorld.bossRushActive ? 0.2f : 0.1f);
+                npc.velocity.X -= (BossRushEvent.BossRushActive ? 0.2f : 0.1f);
             }
-            if (npc.velocity.X > (CalamityWorld.bossRushActive ? 15f : 5f) || npc.velocity.X < (CalamityWorld.bossRushActive ? -15f : -5f))
+            if (npc.velocity.X > (BossRushEvent.BossRushActive ? 15f : 5f) || npc.velocity.X < (BossRushEvent.BossRushActive ? -15f : -5f))
             {
                 npc.velocity.X *= 0.97f;
             }

@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -106,8 +107,8 @@ namespace CalamityMod.NPCs.HiveMind
 
             npc.noGravity = false;
             npc.noTileCollide = false;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             CalamityGlobalNPC.hiveMind = npc.whoAmI;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
@@ -168,7 +169,7 @@ namespace CalamityMod.NPCs.HiveMind
                             int x = (int)(npc.position.X + Main.rand.Next(npc.width - 32));
                             int y = (int)(npc.position.Y + Main.rand.Next(npc.height - 32));
                             int num663 = ModContent.NPCType<HiveBlob>();
-                            if (Main.rand.NextBool(3) || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (Main.rand.NextBool(3) || npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                             {
                                 num663 = ModContent.NPCType<DankCreeper>();
                             }

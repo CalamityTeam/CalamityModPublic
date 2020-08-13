@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.NPCs.Providence;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -64,13 +65,13 @@ namespace CalamityMod.Projectiles.Boss
 
             float num801 = 1f;
             projectile.localAI[0] += 1f;
-            if (projectile.localAI[0] >= ((CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 100f : 180f))
+            if (projectile.localAI[0] >= ((CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 100f : 180f))
             {
                 projectile.Kill();
                 return;
             }
 
-            projectile.scale = (float)Math.Sin(projectile.localAI[0] * 3.14159274f / ((CalamityWorld.revenge || CalamityWorld.bossRushActive) ? 100f : 180f)) * 10f * num801;
+            projectile.scale = (float)Math.Sin(projectile.localAI[0] * 3.14159274f / ((CalamityWorld.revenge || BossRushEvent.BossRushActive) ? 100f : 180f)) * 10f * num801;
             if (projectile.scale > num801)
             {
                 projectile.scale = num801;

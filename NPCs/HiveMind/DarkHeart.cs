@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -23,13 +24,13 @@ namespace CalamityMod.NPCs.HiveMind
             npc.height = 32;
             npc.defense = 2;
             npc.lifeMax = 150;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 18000;
             }
             npc.aiStyle = -1;
             aiType = -1;
-            npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.4f;
+            npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.4f;
             npc.noGravity = true;
             npc.canGhostHeal = false;
             npc.chaseable = false;
@@ -51,7 +52,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.TargetClosest(true);
             float num1164 = revenge ? 4.5f : 4f;
             float num1165 = revenge ? 0.8f : 0.75f;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 num1164 *= 2f;
                 num1165 *= 2f;

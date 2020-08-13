@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -78,8 +79,8 @@ namespace CalamityMod.NPCs.DesertScourge
 			}
 
 			Player player = Main.player[npc.target];
-			npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
+			npc.dontTakeDamage = !player.ZoneDesert && !BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
             if (!Main.npc[(int)npc.ai[1]].active)
             {
                 npc.life = 0;
@@ -97,7 +98,7 @@ namespace CalamityMod.NPCs.DesertScourge
             if (Main.netMode != NetmodeID.MultiplayerClient && revenge)
             {
                 npc.localAI[0] += (float)Main.rand.Next(4);
-                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                 {
                     npc.localAI[0] += 4f;
                 }
@@ -112,13 +113,13 @@ namespace CalamityMod.NPCs.DesertScourge
                         float num944 = (float)Math.Sqrt((double)(num942 * num942 + num943 * num943));
                         int projectileType = ModContent.ProjectileType<SandBlast>();
                         int damage = 12;
-                        float num941 = CalamityWorld.bossRushActive ? 12f : 6f;
+                        float num941 = BossRushEvent.BossRushActive ? 12f : 6f;
                         num944 = num941 / num944;
                         num942 *= num944;
                         num943 *= num944;
                         vector104.X += num942 * 5f;
                         vector104.Y += num943 * 5f;
-                        if (Main.rand.NextBool(2) || CalamityWorld.bossRushActive)
+                        if (Main.rand.NextBool(2) || BossRushEvent.BossRushActive)
                         {
                             Projectile.NewProjectile(vector104.X, vector104.Y, num942, num943, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
                         }

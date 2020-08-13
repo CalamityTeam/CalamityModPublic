@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.NPCs.SlimeGod;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -33,7 +34,7 @@ namespace CalamityMod.Items.DifficultyItems
 
         public override bool CanUseItem(Player player)
         {
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 return false;
             }

@@ -2,6 +2,7 @@ using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.ILEditing;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Vanity;
@@ -250,6 +251,7 @@ namespace CalamityMod
             }
 
             ILChanges.Initialize();
+            BossRushEvent.Load();
             thorium = ModLoader.GetMod("ThoriumMod");
 
             BossHealthBarManager.Load(this);
@@ -350,6 +352,7 @@ namespace CalamityMod
             SchematicLoader.LoadEverything();
 
             PopupGUIManager.LoadGUIs();
+            InvasionProgressUIManager.LoadGUIs();
         }
         #endregion
 
@@ -459,6 +462,8 @@ namespace CalamityMod
 			Instance = null;
 
             PopupGUIManager.UnloadGUIs();
+            InvasionProgressUIManager.UnloadGUIs();
+            BossRushEvent.Unload();
             SchematicLoader.UnloadEverything();
             BossHealthBarManager.Unload();
             base.Unload();
@@ -3418,16 +3423,13 @@ namespace CalamityMod
                 }, InterfaceScaleType.None));
             }
 
-            // Invasion UI (used for Acid Rain)
+            // Invasion UIs.
             int invasionIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Diagnose Net");
             if (invasionIndex != -1)
             {
-                layers.Insert(invasionIndex, new LegacyGameInterfaceLayer("Acid Rain Invasion UI", () =>
+                layers.Insert(invasionIndex, new LegacyGameInterfaceLayer("Calamity Invasion UIs", () =>
                 {
-                    if (CalamityWorld.rainingAcid)
-                    {
-                        AcidRainUI.Draw(Main.spriteBatch);
-                    }
+                    InvasionProgressUIManager.UpdateAndDraw(Main.spriteBatch);
                     return true;
                 }, InterfaceScaleType.None));
             }
@@ -4002,7 +4004,7 @@ namespace CalamityMod
                         break;
                     case CalamityModMessageType.BossRushStage:
                         int stage = reader.ReadInt32();
-                        CalamityWorld.bossRushStage = stage;
+                        BossRushEvent.BossRushStage = stage;
                         break;
                     case CalamityModMessageType.AdrenalineSync:
                         Main.player[reader.ReadInt32()].Calamity().HandleAdrenaline(reader);

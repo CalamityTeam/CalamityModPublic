@@ -31,10 +31,11 @@ namespace CalamityMod.Events
     }
     public class AcidRainEvent
     {
-        // A partially bright pale-ish cyan with a hint of yellow.
-        public static readonly Color TextColor = new Color(115, 194, 147);
-
         public static int MaxNuclearToadCount = 5; // To prevent the things from spamming. This happens frequently in pre-HM.
+
+        // A partially bright pale-ish cyan with a hint of yellow.
+
+        public static readonly Color TextColor = new Color(115, 194, 147);
 
         public const int InvasionNoKillPersistTime = 14400; // How long the invasion persists, in frames, if nothing is killed.
 
@@ -147,7 +148,7 @@ namespace CalamityMod.Events
         /// </summary>
         public static void TryStartEvent(bool forceRain = false)
         {
-            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode && !CalamityWorld.downedAquaticScourge) || CalamityWorld.bossRushActive)
+            if (CalamityWorld.rainingAcid || (!NPC.downedBoss1 && !Main.hardMode && !CalamityWorld.downedAquaticScourge) || BossRushEvent.BossRushActive)
                 return;
             int playerCount = 0;
             for (int i = 0; i < Main.player.Length; i++)

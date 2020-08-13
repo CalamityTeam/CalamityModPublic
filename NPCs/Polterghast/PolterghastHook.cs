@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -65,9 +66,9 @@ namespace CalamityMod.NPCs.Polterghast
             // Bools
             bool speedBoost = false;
             bool despawnBoost = false;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
 			// Despawn if Polter is gone
 			if (CalamityGlobalNPC.ghostBoss < 0 || !Main.npc[CalamityGlobalNPC.ghostBoss].active)
@@ -96,7 +97,7 @@ namespace CalamityMod.NPCs.Polterghast
 
 			// Despawn
 			if (CalamityGlobalNPC.ghostBoss != -1 && !player.ZoneDungeon &&
-                player.position.Y < Main.worldSurface * 16.0 && !CalamityWorld.bossRushActive)
+                player.position.Y < Main.worldSurface * 16.0 && !BossRushEvent.BossRushActive)
             {
                 despawnTimer--;
                 if (despawnTimer <= 0)
@@ -151,7 +152,7 @@ namespace CalamityMod.NPCs.Polterghast
 
                     if (Main.netMode != NetmodeID.MultiplayerClient && npc.ai[2] == 20f)
                     {
-                        float num151 = (CalamityWorld.bossRushActive ? 7f : 5f) * tileEnrageMult;
+                        float num151 = (BossRushEvent.BossRushActive ? 7f : 5f) * tileEnrageMult;
 						int num152 = expertMode ? 48 : 60;
                         int num153 = ModContent.ProjectileType<PhantomShot>();
                         num149 = num151 / num149;

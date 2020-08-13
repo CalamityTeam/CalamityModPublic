@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -24,7 +25,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.width = 25;
             npc.height = 25;
             npc.lifeMax = 75;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 13000;
             }
@@ -166,7 +167,7 @@ namespace CalamityMod.NPCs.HiveMind
                     if (Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
                     {
                         float num941 = revenge ? 6f : 5f; //speed
-                        if (CalamityWorld.death || CalamityWorld.bossRushActive)
+                        if (CalamityWorld.death || BossRushEvent.BossRushActive)
                         {
                             num941 = 7f;
                         }

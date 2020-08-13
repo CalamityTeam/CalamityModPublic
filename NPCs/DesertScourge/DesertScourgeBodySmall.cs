@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -20,7 +21,7 @@ namespace CalamityMod.NPCs.DesertScourge
             npc.height = 40;
             npc.defense = 4;
             npc.lifeMax = 800;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 350000;
             }

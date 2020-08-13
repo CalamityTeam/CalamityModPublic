@@ -24,6 +24,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
+using CalamityMod.Events;
 
 namespace CalamityMod.NPCs.SupremeCalamitas
 {
@@ -226,10 +227,10 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             CalamityMod.StopRain();
 
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive);
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool enraged = npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive);
 			Vector2 vectorCenter = npc.Center;
 
 			// Get a target
@@ -396,7 +397,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             }
             else
             {
-                global.DR = CalamityWorld.bossRushActive ? bossRushDR : CalamityWorld.death ? deathDR : normalDR;
+                global.DR = BossRushEvent.BossRushActive ? bossRushDR : CalamityWorld.death ? deathDR : normalDR;
                 global.unbreakableDR = false;
                 if (startFifthAttack)
                     global.DR *= 1.2f;

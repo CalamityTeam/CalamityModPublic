@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,13 +25,13 @@ namespace CalamityMod.NPCs.Calamitas
             npc.height = 30;
             npc.defense = 8;
             npc.lifeMax = 200;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 30000;
             }
             npc.aiStyle = 5;
             aiType = NPCID.Probe;
-            npc.knockBackResist = CalamityWorld.bossRushActive ? 0f : 0.25f;
+            npc.knockBackResist = BossRushEvent.BossRushActive ? 0f : 0.25f;
             npc.noGravity = true;
             npc.noTileCollide = true;
             npc.canGhostHeal = false;

@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Items.Tools.ClimateChange;
 using CalamityMod.NPCs;
@@ -196,7 +197,7 @@ namespace CalamityMod
         {
             npc.lifeMax = normal;
 
-            if (bossRush.HasValue && CalamityWorld.bossRushActive)
+            if (bossRush.HasValue && BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = bossRush.Value;
             }
@@ -216,7 +217,7 @@ namespace CalamityMod
 		{
 			npc.Calamity().DR = normal;
 
-			if (bossRush.HasValue && CalamityWorld.bossRushActive)
+			if (bossRush.HasValue && BossRushEvent.BossRushActive)
 			{
 				npc.Calamity().DR = bossRush.Value;
 			}
@@ -559,6 +560,14 @@ namespace CalamityMod
 				NetMessage.BroadcastChatMessage(NetworkText.FromKey("Announcement.HasAwoken", new object[]{Main.npc[npcIndex].GetTypeNetName()}), new Color(175, 75, 255));
 			}
 		}
+
+        public static void DisplayTextFromLocalizationKey(string key, Color textColor)
+        {
+            if (Main.netMode == NetmodeID.SinglePlayer)
+                Main.NewText(Language.GetTextValue(key), textColor);
+            else if (Main.netMode == NetmodeID.Server)
+                NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), textColor);
+        }
 
 		/// Inflict typical exo weapon debuffs. Duration multiplier optional.
 		/// </summary>

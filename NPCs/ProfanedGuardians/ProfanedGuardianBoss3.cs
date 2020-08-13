@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -102,7 +103,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 			bool isHell = player.ZoneUnderworldHeight;
 
             // Become immune over time if target isn't in hell or hallow
-            if (!isHoly && !isHell && !CalamityWorld.bossRushActive)
+            if (!isHoly && !isHell && !BossRushEvent.BossRushActive)
             {
                 if (immuneTimer > 0)
                     immuneTimer--;

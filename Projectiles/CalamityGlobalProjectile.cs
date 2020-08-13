@@ -2,6 +2,7 @@ using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.NPCs.NormalNPCs;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.Projectiles.Healing;
@@ -169,7 +170,7 @@ namespace CalamityMod.Projectiles
 				return false;
 			}
 
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 if (projectile.type == ProjectileID.PoisonSeedPlantera)
                 {

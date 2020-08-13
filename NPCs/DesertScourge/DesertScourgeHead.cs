@@ -1,4 +1,5 @@
-﻿using CalamityMod.Items.Accessories;
+﻿using CalamityMod.Events;
+using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -80,8 +81,8 @@ namespace CalamityMod.NPCs.DesertScourge
 
         public override void AI()
         {
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -95,13 +96,13 @@ namespace CalamityMod.NPCs.DesertScourge
 				turnSpeed += death ? 0.06f : 0.06f * (1f - lifeRatio);
 			}
 
-			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+			if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
 			}
 
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
 			{
 				speed *= 1.25f;
 				turnSpeed *= 1.25f;
@@ -118,7 +119,7 @@ namespace CalamityMod.NPCs.DesertScourge
             }
 			Player player = Main.player[npc.target];
 
-			npc.dontTakeDamage = !player.ZoneDesert && !CalamityWorld.bossRushActive;
+			npc.dontTakeDamage = !player.ZoneDesert && !BossRushEvent.BossRushActive;
 
 			npc.velocity.Length();
             npc.alpha -= 42;
@@ -198,8 +199,8 @@ namespace CalamityMod.NPCs.DesertScourge
             {
                 npc.localAI[1] = 1f;
                 Rectangle rectangle12 = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-                int num954 = (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive)) ? 500 : 1000;
-                if (CalamityWorld.bossRushActive)
+                int num954 = (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive)) ? 500 : 1000;
+                if (BossRushEvent.BossRushActive)
                     num954 /= 2;
 
                 bool flag95 = true;

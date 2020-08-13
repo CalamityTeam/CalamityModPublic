@@ -58,7 +58,7 @@ namespace CalamityMod.NPCs.AquaticScourge
             npc.netAlways = true;
             bossBag = ModContent.ItemType<AquaticScourgeBag>();
 
-			if (CalamityWorld.death || CalamityWorld.bossRushActive)
+			if (CalamityWorld.death || BossRushEvent.BossRushActive)
 				npc.scale = 1.2f;
 			else if (CalamityWorld.revenge)
 				npc.scale = 1.15f;
@@ -80,7 +80,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
         public override void AI()
         {
-			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || CalamityWorld.bossRushActive)
+			if (npc.justHit || npc.life <= npc.lifeMax * 0.99 || BossRushEvent.BossRushActive)
 			{
 				Mod calamityModMusic = ModLoader.GetMod("CalamityModMusic");
 				if (calamityModMusic != null)

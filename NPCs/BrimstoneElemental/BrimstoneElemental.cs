@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -39,7 +40,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             npc.value = Item.buyPrice(0, 12, 0, 0);
             npc.LifeMaxNERB(30000, 41000, 6500000);
 			npc.DR_NERD(0.15f);
-            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 4;

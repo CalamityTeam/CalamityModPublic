@@ -1,5 +1,6 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -108,9 +109,9 @@ namespace CalamityMod.NPCs.Leviathan
 
             CalamityGlobalNPC.leviathan = npc.whoAmI;
 
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
             Vector2 vector = npc.Center;
 
 			// Is in spawning animation
@@ -164,7 +165,7 @@ namespace CalamityMod.NPCs.Leviathan
             Player player = Main.player[npc.target];
 
             bool flag6 = player.position.Y < 800f || player.position.Y > Main.worldSurface * 16.0 || (player.position.X > 6400f && player.position.X < (Main.maxTilesX * 16 - 6400));
-            npc.dontTakeDamage = (flag6 && !CalamityWorld.bossRushActive) || spawnAnimation;
+            npc.dontTakeDamage = (flag6 && !BossRushEvent.BossRushActive) || spawnAnimation;
 
             if (!player.active || player.dead || Vector2.Distance(player.Center, vector) > 5600f)
             {
@@ -233,7 +234,7 @@ namespace CalamityMod.NPCs.Leviathan
 						num412 += death ? 3.5f : 3.5f * (1f - lifeRatio);
 						num413 += death ? 0.1f : 0.1f * (1f - lifeRatio);
 					}
-                    if (CalamityWorld.bossRushActive)
+                    if (BossRushEvent.BossRushActive)
                     {
                         num412 *= 1.5f;
                         num413 *= 1.5f;
@@ -325,7 +326,7 @@ namespace CalamityMod.NPCs.Leviathan
 									num419 = 33;
                                 }
 
-                                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                                     num418 = 22f;
 
 								if (!sirenAlive || phase4)
@@ -334,7 +335,7 @@ namespace CalamityMod.NPCs.Leviathan
 									num419 += expertMode ? 3 : 4;
 								}
 
-								if (CalamityWorld.bossRushActive)
+								if (BossRushEvent.BossRushActive)
                                     num418 *= 1.5f;
 
                                 num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
@@ -402,7 +403,7 @@ namespace CalamityMod.NPCs.Leviathan
 							num1063 += death ? 4f : 4f * (1f - lifeRatio);
 							num1064 += death ? 0.03f : 0.03f * (1f - lifeRatio);
 						}
-						if (CalamityWorld.bossRushActive)
+						if (BossRushEvent.BossRushActive)
                         {
                             num1063 *= 1.5f;
                             num1064 *= 1.5f;
@@ -494,10 +495,10 @@ namespace CalamityMod.NPCs.Leviathan
 							if (revenge && (!sirenAlive || phase4))
 								num1044 += death ? 6f : 6f * (1f - lifeRatio);
 
-                            if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                            if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                                 num1044 += 4f;
 
-                            if (CalamityWorld.bossRushActive)
+                            if (BossRushEvent.BossRushActive)
                                 num1044 *= 1.25f;
 
                             Vector2 vector117 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
@@ -520,12 +521,12 @@ namespace CalamityMod.NPCs.Leviathan
 							num1049 += death ? 0.1f : 0.1f * (1f - lifeRatio);
 						}
 
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                         {
                             num1048 += 3f;
                             num1049 += 0.2f;
                         }
-                        if (CalamityWorld.bossRushActive)
+                        if (BossRushEvent.BossRushActive)
                         {
                             num1048 *= 1.25f;
                             num1049 *= 1.25f;

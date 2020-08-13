@@ -38,8 +38,6 @@ namespace CalamityMod.CalPlayer
         {
             int totalTime = Main.dayTime ? 54000 : 32400;
             float transitionTime = 5400;
-            //Color dayColor = new Color(255, 163, 56);
-            //Color nightColor = new Color(24, 134, 198);
             float interval = Utils.InverseLerp(0f, transitionTime, (float)Main.time, true) + Utils.InverseLerp(totalTime - transitionTime, totalTime, (float)Main.time, true);
             if (Main.dayTime)
             {
@@ -52,10 +50,7 @@ namespace CalamityMod.CalPlayer
                 else
                     drawColor = dayColor;
             }
-            else
-            {
-                drawColor = nightColor;
-            }
+            else drawColor = nightColor;
         }
 
         public static Color GetCurrentMoonlightDyeColor(float angleOffset = 0f)
@@ -81,8 +76,8 @@ namespace CalamityMod.CalPlayer
             {
                 Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/IceShield");
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
-                int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
-                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.Cyan, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, 0);
+                int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y);
+                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.Cyan, 0f, texture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
                 Main.playerDrawData.Add(data);
             }
             if (modPlayer.amidiasBlessing)
@@ -90,7 +85,7 @@ namespace CalamityMod.CalPlayer
                 Texture2D texture = ModContent.GetTexture("CalamityMod/ExtraTextures/AmidiasBubble");
                 int drawX = (int)(drawInfo.position.X + drawPlayer.width / 2f - Main.screenPosition.X);
                 int drawY = (int)(drawInfo.position.Y + drawPlayer.height / 2f - Main.screenPosition.Y); //4
-                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.White, 0f, new Vector2(texture.Width / 2f, texture.Height / 2f), 1f, SpriteEffects.None, 0);
+                DrawData data = new DrawData(texture, new Vector2(drawX, drawY), null, Color.White, 0f, texture.Size() * 0.5f, 1f, SpriteEffects.None, 0);
                 Main.playerDrawData.Add(data);
             }
         });
@@ -127,8 +122,8 @@ namespace CalamityMod.CalPlayer
                 for (int i = 0; i < drawPlayer.Calamity().KameiOldPositions.Length; i++)
                 {
                     float completionRatio = i / (float)drawPlayer.Calamity().KameiOldPositions.Length;
-                    float scale = MathHelper.Lerp(1f, 0.5f, i / (float)drawPlayer.Calamity().KameiOldPositions.Length);
-                    float opacity = MathHelper.Lerp(0.25f, 0.08f, i / (float)drawPlayer.Calamity().KameiOldPositions.Length);
+                    float scale = MathHelper.Lerp(1f, 0.5f, completionRatio);
+                    float opacity = MathHelper.Lerp(0.25f, 0.08f, completionRatio);
                     List<DrawData> afterimages = new List<DrawData>();
                     for (int j = 0; j < existingDrawData.Count; j++)
                     {
@@ -180,14 +175,14 @@ namespace CalamityMod.CalPlayer
 
                         float rotation = drawPlayer.itemRotation + MathHelper.PiOver4 * (float)drawPlayer.direction;
                         int xOffset = 0;
-                        Vector2 origin = new Vector2(0f, (float)Main.itemTexture[currentlyHeldItem.type].Height);
+                        Vector2 origin = new Vector2(0f, Main.itemTexture[currentlyHeldItem.type].Height);
 
                         if (drawPlayer.gravDir == -1f)
                         {
                             if (drawPlayer.direction == -1)
                             {
                                 rotation += MathHelper.PiOver2;
-                                origin = new Vector2((float)Main.itemTexture[currentlyHeldItem.type].Width, 0f);
+                                origin = new Vector2(Main.itemTexture[currentlyHeldItem.type].Width, 0f);
                                 xOffset -= Main.itemTexture[currentlyHeldItem.type].Width;
                             }
                             else
@@ -198,7 +193,7 @@ namespace CalamityMod.CalPlayer
                         }
                         else if (drawPlayer.direction == -1)
                         {
-                            origin = new Vector2((float)Main.itemTexture[currentlyHeldItem.type].Width, (float)Main.itemTexture[currentlyHeldItem.type].Height);
+                            origin = new Vector2(Main.itemTexture[currentlyHeldItem.type].Width, (float)Main.itemTexture[currentlyHeldItem.type].Height);
                             xOffset -= Main.itemTexture[currentlyHeldItem.type].Width;
                         }
 
@@ -345,9 +340,8 @@ namespace CalamityMod.CalPlayer
 			Player drawPlayer = drawInfo.drawPlayer;
 			CalamityPlayer modPlayer = drawPlayer.Calamity();
 			if (drawInfo.shadow != 0f || drawPlayer.dead || !modPlayer.forbiddenCirclet)
-			{
 				return;
-			}
+
 			SpriteEffects spriteEffects;
             if (drawPlayer.direction == 1)
                 spriteEffects = SpriteEffects.None;
@@ -471,24 +465,21 @@ namespace CalamityMod.CalPlayer
             int totalMoonlightDyes = drawPlayer.dye.Count(dyeItem => dyeItem.type == ModContent.ItemType<ProfanedMoonlightDye>());
             if (totalMoonlightDyes <= 0)
                 return;
-            float auroraCount = 12 + (int)MathHelper.Clamp(totalMoonlightDyes, 0f, 4f) * 2;
+            float auroraCount = 5 + (int)MathHelper.Clamp(totalMoonlightDyes, 0f, 4f) * 2;
             float opacity = MathHelper.Clamp(totalMoonlightDyes / 3f, 0f, 1f);
 
-            if (Main.dayTime)
-                opacity *= 0.4f;
-            else
-                opacity *= 0.25f;
+            opacity *= Main.dayTime ? 0.4f : 0.25f;
 
-            float time01 = Main.GlobalTime % 3f / 3f;
+            float time = Main.GlobalTime % 3f / 3f;
             Texture2D auroraTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/AuroraTexture");
             for (int i = 0; i < auroraCount; i++)
             {
                 float incrementOffsetAngle = MathHelper.TwoPi * i / auroraCount;
-                float timeOffset = (float)Math.Sin(time01 * MathHelper.TwoPi + incrementOffsetAngle * 2f);
+                float xOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f) * 20f;
+                float yOffset = (float)Math.Sin(time * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
                 float rotation = (float)Math.Sin(incrementOffsetAngle) * MathHelper.Pi / 12f;
-                float yOffset = (float)Math.Sin(time01 * MathHelper.TwoPi + incrementOffsetAngle * 2f + MathHelper.ToRadians(60f)) * 6f;
                 Color color = GetCurrentMoonlightDyeColor(incrementOffsetAngle);
-                Vector2 offset = new Vector2(20f * timeOffset, yOffset - 14f);
+                Vector2 offset = new Vector2(xOffset, yOffset - 14f);
                 DrawData drawData = new DrawData(auroraTexture,
                                  drawPlayer.Top + offset - Main.screenPosition,
                                  null,
@@ -498,7 +489,6 @@ namespace CalamityMod.CalPlayer
                                  0.135f,
                                  SpriteEffects.None,
                                  1);
-
                 Main.playerDrawData.Add(drawData);
             }
         });

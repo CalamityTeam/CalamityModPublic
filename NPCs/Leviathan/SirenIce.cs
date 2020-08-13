@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System.IO;
@@ -26,7 +27,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.defense = 10;
 			npc.DR_NERD(0.5f);
             npc.lifeMax = 650;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 10000;
             }

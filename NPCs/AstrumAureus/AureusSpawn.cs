@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,7 +34,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             global.DR = 0.999999f;
             global.unbreakableDR = true;
             npc.lifeMax = Main.expertMode ? 1007 : 1012;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 1002;
             }
@@ -91,7 +92,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                     npc.life = 0;
                     return;
                 }
-                float num1372 = CalamityWorld.bossRushActive ? 24f : 18f;
+                float num1372 = BossRushEvent.BossRushActive ? 24f : 18f;
                 Vector2 vector167 = new Vector2(npc.Center.X + (float)(npc.direction * 20), npc.Center.Y + 6f);
                 float num1373 = Main.player[npc.target].position.X + (float)Main.player[npc.target].width * 0.5f - vector167.X;
                 float num1374 = Main.player[npc.target].Center.Y - vector167.Y;
@@ -103,7 +104,7 @@ namespace CalamityMod.NPCs.AstrumAureus
                 npc.velocity.Y = (npc.velocity.Y * 50f + num1374) / 51f;
                 return;
             }
-            float num1446 = CalamityWorld.bossRushActive ? 10f : 7f;
+            float num1446 = BossRushEvent.BossRushActive ? 10f : 7f;
             int num1447 = 480;
             float num244;
             if (npc.localAI[1] == 1f)

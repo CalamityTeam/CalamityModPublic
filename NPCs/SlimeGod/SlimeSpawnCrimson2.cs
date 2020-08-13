@@ -1,3 +1,4 @@
+using CalamityMod.Events;
 using CalamityMod.Projectiles.Enemy;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
@@ -26,7 +27,7 @@ namespace CalamityMod.NPCs.SlimeGod
             npc.height = 30;
             npc.defense = 6;
             npc.lifeMax = 130;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 npc.lifeMax = 120000;
             }

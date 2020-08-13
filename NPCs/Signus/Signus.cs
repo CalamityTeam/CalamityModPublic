@@ -1,6 +1,7 @@
 ﻿using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -115,9 +116,9 @@ namespace CalamityMod.NPCs.Signus
         {
 			CalamityGlobalNPC.signus = npc.whoAmI;
 
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
 
 			Vector2 vectorCenter = npc.Center;
 
@@ -213,7 +214,7 @@ namespace CalamityMod.NPCs.Signus
                 if (expertMode)
                     speed += death ? 4f : 4f * (float)(1D - lifeRatio);
 
-                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                     speed += 3f;
 
                 float num795 = player.Center.X - vectorCenter.X;
@@ -388,7 +389,7 @@ namespace CalamityMod.NPCs.Signus
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         float num1070 = 15f;
-                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+                        if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
                         {
                             num1070 += 3f;
                         }
@@ -409,7 +410,7 @@ namespace CalamityMod.NPCs.Signus
                     {
                         npc.velocity.Y *= 0.975f;
                     }
-                    npc.velocity.Y -= CalamityWorld.bossRushActive ? 0.15f : 0.1f;
+                    npc.velocity.Y -= BossRushEvent.BossRushActive ? 0.15f : 0.1f;
                     if (npc.velocity.Y > 3f)
                     {
                         npc.velocity.Y = 3f;
@@ -421,7 +422,7 @@ namespace CalamityMod.NPCs.Signus
                     {
                         npc.velocity.Y *= 0.975f;
                     }
-                    npc.velocity.Y += CalamityWorld.bossRushActive ? 0.15f : 0.1f;
+                    npc.velocity.Y += BossRushEvent.BossRushActive ? 0.15f : 0.1f;
                     if (npc.velocity.Y < -3f)
                     {
                         npc.velocity.Y = -3f;
@@ -433,7 +434,7 @@ namespace CalamityMod.NPCs.Signus
                     {
                         npc.velocity.X *= 0.98f;
                     }
-                    npc.velocity.X -= CalamityWorld.bossRushActive ? 0.15f : 0.1f;
+                    npc.velocity.X -= BossRushEvent.BossRushActive ? 0.15f : 0.1f;
                     if (npc.velocity.X > 8f)
                     {
                         npc.velocity.X = 8f;
@@ -445,7 +446,7 @@ namespace CalamityMod.NPCs.Signus
                     {
                         npc.velocity.X *= 0.98f;
                     }
-                    npc.velocity.X += CalamityWorld.bossRushActive ? 0.15f : 0.1f;
+                    npc.velocity.X += BossRushEvent.BossRushActive ? 0.15f : 0.1f;
                     if (npc.velocity.X < -8f)
                     {
                         npc.velocity.X = -8f;

@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using System;
@@ -60,7 +61,7 @@ namespace CalamityMod.NPCs.Ravager
 
             if (Math.Abs(npc.velocity.X) > 0.5f)
             {
-                if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+                if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
                 {
                     npc.damage = 400;
                 }

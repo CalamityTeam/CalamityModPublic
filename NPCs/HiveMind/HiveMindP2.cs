@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -118,7 +119,7 @@ namespace CalamityMod.NPCs.HiveMind
                 driftSpeed = 4f;
                 driftBoost = 1f;
             }
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 lungeRots = 0.4;
                 minimumDriftTime = 20;
@@ -274,7 +275,7 @@ namespace CalamityMod.NPCs.HiveMind
             npc.alpha = 0;
             phase2timer = 0;
             deceleration = npc.velocity / 255f * reelbackFade;
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 state = 2;
                 Main.PlaySound(SoundID.ForceRoar, (int)npc.Center.X, (int)npc.Center.Y, -1, 1f, 0f);
@@ -304,7 +305,7 @@ namespace CalamityMod.NPCs.HiveMind
 
 			Player player = Main.player[npc.target];
 
-			npc.dontTakeDamage = (player.ZoneCorrupt || CalamityWorld.bossRushActive) ? false : true;
+			npc.dontTakeDamage = (player.ZoneCorrupt || BossRushEvent.BossRushActive) ? false : true;
 
             CalamityGlobalNPC.hiveMind = npc.whoAmI;
 
@@ -327,9 +328,9 @@ namespace CalamityMod.NPCs.HiveMind
                     if (nextState == 0)
                     {
 						npc.TargetClosest(true);
-						if ((CalamityWorld.revenge && (double)npc.life < (double)npc.lifeMax * 0.66) || CalamityWorld.death || CalamityWorld.bossRushActive)
+						if ((CalamityWorld.revenge && (double)npc.life < (double)npc.lifeMax * 0.66) || CalamityWorld.death || BossRushEvent.BossRushActive)
                         {
-							if (CalamityWorld.death || CalamityWorld.bossRushActive)
+							if (CalamityWorld.death || BossRushEvent.BossRushActive)
 							{
 								do
 									nextState = Main.rand.Next(3, 6);
@@ -423,7 +424,7 @@ namespace CalamityMod.NPCs.HiveMind
                     else
                     {
                         npc.velocity.Normalize();
-                        if (Main.expertMode || CalamityWorld.bossRushActive) //variable velocity in expert and up
+                        if (Main.expertMode || BossRushEvent.BossRushActive) //variable velocity in expert and up
                         {
                             npc.velocity *= driftSpeed + driftBoost * (npc.lifeMax - npc.life) / npc.lifeMax;
                         }
@@ -473,7 +474,7 @@ namespace CalamityMod.NPCs.HiveMind
                         npc.alpha = 255;
                         npc.velocity = Vector2.Zero;
                         dashStarted = false;
-                        if ((CalamityWorld.revenge && (double)npc.life < (double)npc.lifeMax * 0.66) || CalamityWorld.death || CalamityWorld.bossRushActive)
+                        if ((CalamityWorld.revenge && (double)npc.life < (double)npc.lifeMax * 0.66) || CalamityWorld.death || BossRushEvent.BossRushActive)
                         {
 							state = nextState;
                             nextState = 0;
@@ -570,7 +571,7 @@ namespace CalamityMod.NPCs.HiveMind
                                 {
                                     if (npc.ai[0] == 2 || npc.ai[0] == 4)
                                     {
-                                        if ((Main.expertMode || CalamityWorld.bossRushActive) && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
+                                        if ((Main.expertMode || BossRushEvent.BossRushActive) && !NPC.AnyNPCs(ModContent.NPCType<DarkHeart>()))
                                         {
                                             NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<DarkHeart>());
                                         }

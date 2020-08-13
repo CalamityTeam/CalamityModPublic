@@ -715,7 +715,7 @@ namespace CalamityMod.NPCs
             // Exo Freeze, Glacial State and Temporal Sadness don't work on bosses or other specific enemies.
             if (!npc.boss && !CalamityMod.movementImpairImmuneList.Contains(npc.type))
             {
-                if (eFreeze > 0 && !CalamityWorld.bossRushActive)
+                if (eFreeze > 0 && !BossRushEvent.BossRushActive)
                 {
                     npc.velocity.X = 0f;
                     npc.velocity.Y += 0.1f;
@@ -828,7 +828,7 @@ namespace CalamityMod.NPCs
 
             DebuffImmunities(npc);
 
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 BossRushStatChanges(npc, mod);
             }
@@ -869,7 +869,7 @@ namespace CalamityMod.NPCs
 				npc.buffImmune[BuffID.Slow] = true;
 			}
 
-			if (DestroyerIDs.Contains(npc.type) || (EaterofWorldsIDs.Contains(npc.type) && CalamityWorld.bossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
+			if (DestroyerIDs.Contains(npc.type) || (EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive) || npc.type == NPCID.DD2EterniaCrystal || npc.townNPC || npc.type == NPCID.SpikeBall || npc.type == NPCID.BlazingWheel)
 			{
 				for (int k = 0; k < npc.buffImmune.Length; k++)
 				{
@@ -1486,8 +1486,8 @@ namespace CalamityMod.NPCs
         public override bool StrikeNPC(NPC npc, ref double damage, int defense, ref float knockback, int hitDirection, ref bool crit)
         {
 			// Damage reduction on spawn
-			bool destroyerResist = DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || CalamityWorld.bossRushActive);
-			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && CalamityWorld.bossRushActive;
+			bool destroyerResist = DestroyerIDs.Contains(npc.type) && (CalamityWorld.revenge || BossRushEvent.BossRushActive);
+			bool eaterofWorldsResist = EaterofWorldsIDs.Contains(npc.type) && BossRushEvent.BossRushActive;
 			if (destroyerResist || eaterofWorldsResist || AstrumDeusIDs.Contains(npc.type))
 			{
 				if (newAI[1] < 600f || (newAI[2] > 0f && DestroyerIDs.Contains(npc.type)))
@@ -1503,7 +1503,7 @@ namespace CalamityMod.NPCs
 			}
 
             // Override hand/head eye 'death' code and use custom 'death' code instead, this is here just in case the AI code fails
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 if (npc.type == NPCID.MoonLordHand || npc.type == NPCID.MoonLordHead)
                 {
@@ -1578,7 +1578,7 @@ namespace CalamityMod.NPCs
                 effectiveDR = 0f;
 
 			// Calculate extra DR based on kill time, similar to the Hush boss from The Binding of Isaac
-			if (KillTime > 0 && AITimer < KillTime && !CalamityWorld.bossRushActive)
+			if (KillTime > 0 && AITimer < KillTime && !BossRushEvent.BossRushActive)
 			{
                 float DRScalar = !GetDownedBossVariable(npc.type) || CalamityConfig.Instance.FullPowerReactiveBossDR ? 1.5f : 1f;
 
@@ -1742,10 +1742,10 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityWorld.bossRushActive && !npc.friendly && !npc.townNPC)
+            if (BossRushEvent.BossRushActive && !npc.friendly && !npc.townNPC)
                 BossRushForceDespawnOtherNPCs(npc, mod);
 
-			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
 				switch (npc.type)
                 {
@@ -2735,7 +2735,7 @@ namespace CalamityMod.NPCs
         #region Boss Rush Force Despawn Other NPCs
         private void BossRushForceDespawnOtherNPCs(NPC npc, Mod mod)
         {
-            switch (CalamityWorld.bossRushStage)
+            switch (BossRushEvent.BossRushStage)
             {
                 case 0:
                     if (npc.type != NPCID.QueenBee)
@@ -3174,9 +3174,9 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive;
+                bool configBossRushBoost = CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive;
 
                 switch (npc.type)
                 {
@@ -3289,7 +3289,7 @@ namespace CalamityMod.NPCs
 					npc.velocity *= 0.9f;
 			}
 
-            if (!CalamityWorld.bossRushActive)
+            if (!BossRushEvent.BossRushActive)
             {
                 if (silvaStun > 0 || eutrophication > 0)
                     npc.velocity = Vector2.Zero;
@@ -4319,7 +4319,7 @@ namespace CalamityMod.NPCs
         #region Drawing
         public override void FindFrame(NPC npc, int frameHeight)
         {
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 if (npc.type == NPCID.SkeletronPrime)
                 {
@@ -4648,7 +4648,7 @@ namespace CalamityMod.NPCs
                 return new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB, npc.alpha);
             }
 
-            if (enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
             {
                 return new Color(200, 50, 50, npc.alpha);
             }
@@ -4960,7 +4960,7 @@ namespace CalamityMod.NPCs
 				}
 			}
 
-			if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+			if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 if (npc.type == NPCID.SkeletronPrime)
                 {
@@ -5021,7 +5021,7 @@ namespace CalamityMod.NPCs
 
         public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
         {
-            if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
+            if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
                 // His afterimages I can't get to work, so fuck it
                 if (npc.type == NPCID.SkeletronPrime)

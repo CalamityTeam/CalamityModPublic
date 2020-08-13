@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -81,7 +82,7 @@ namespace CalamityMod.NPCs.Signus
 
 			bool revenge = CalamityWorld.revenge;
 			float playerDistNormMult = revenge ? 24f : 22f;
-			if (CalamityWorld.bossRushActive)
+			if (BossRushEvent.BossRushActive)
 				playerDistNormMult = 30f;
             CalamityAI.DungeonSpiritAI(npc, mod, playerDistNormMult, 0f, true);
         }

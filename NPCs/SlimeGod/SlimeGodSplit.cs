@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.TreasureBags;
 using CalamityMod.Projectiles.Boss;
 using CalamityMod.World;
@@ -68,9 +69,9 @@ namespace CalamityMod.NPCs.SlimeGod
 				CalamityGlobalNPC.slimeGodPurple = npc.whoAmI;
 			}
 
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive || npc.localAI[1] == 1f;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive || npc.localAI[1] == 1f;
 			Vector2 vector = npc.Center;
 
 			npc.defense = npc.defDefense;
@@ -133,7 +134,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					npc.localAI[0] = 0f;
 					if (expertMode && Main.rand.NextBool(2))
 					{
-						float num179 = CalamityWorld.bossRushActive ? 12f : 8f;
+						float num179 = BossRushEvent.BossRushActive ? 12f : 8f;
 						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
 						float num181 = Math.Abs(num180) * 0.1f;
@@ -159,7 +160,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					}
 					else
 					{
-						float num179 = CalamityWorld.bossRushActive ? 12f : 8f;
+						float num179 = BossRushEvent.BossRushActive ? 12f : 8f;
 						Vector2 value9 = new Vector2(npc.position.X + (float)npc.width * 0.5f, npc.position.Y + (float)npc.height * 0.5f);
 						float num180 = player.position.X + (float)player.width * 0.5f - value9.X;
 						float num181 = Math.Abs(num180) * 0.1f;
@@ -210,7 +211,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.velocity.X *= 0.8f;
                     npc.ai[1] += flag100 ? 1f : 2f;
                     float num1879 = 40f;
-                    float num1880 = CalamityWorld.bossRushActive ? 16f : 5f;
+                    float num1880 = BossRushEvent.BossRushActive ? 16f : 5f;
 					if (revenge)
 					{
 						float moveBoost = death ? 10f : 10f * (1f - (float)npc.life / (float)npc.lifeMax);
@@ -259,7 +260,7 @@ namespace CalamityMod.NPCs.SlimeGod
 						case 1:
 							npc.ai[0] = 3f;
 							npc.noTileCollide = true;
-							npc.velocity.Y = CalamityWorld.bossRushActive ? -13f : -9f;
+							npc.velocity.Y = BossRushEvent.BossRushActive ? -13f : -9f;
 							break;
 						case 2:
 							npc.ai[0] = 5f;
@@ -305,7 +306,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     npc.ai[1] += 1f;
                     vector272 = player.Center - vector;
                     vector272.Normalize();
-                    vector272 *= CalamityWorld.bossRushActive ? 13f : 9f;
+                    vector272 *= BossRushEvent.BossRushActive ? 13f : 9f;
                     npc.velocity = (npc.velocity * 4f + vector272) / 5f;
                     if (npc.ai[1] > 12f)
                     {
@@ -324,7 +325,7 @@ namespace CalamityMod.NPCs.SlimeGod
                         return;
                     }
                     vector272.Normalize();
-                    vector272 *= CalamityWorld.bossRushActive ? 19f : 13f;
+                    vector272 *= BossRushEvent.BossRushActive ? 19f : 13f;
                     npc.velocity = (npc.velocity * 5f + vector272) / 6f;
                 }
             }
@@ -388,7 +389,7 @@ namespace CalamityMod.NPCs.SlimeGod
                     if (value74.Length() > 10f)
                     {
                         value74.Normalize();
-                        value74 *= CalamityWorld.bossRushActive ? 23f : 15f;
+                        value74 *= BossRushEvent.BossRushActive ? 23f : 15f;
                     }
                     npc.velocity = (npc.velocity * 4f + value74) / 5f;
                     return;
@@ -432,7 +433,7 @@ namespace CalamityMod.NPCs.SlimeGod
                             {
                                 npc.velocity.Y -= 2f;
                             }
-                            npc.velocity.X = (float)((CalamityWorld.bossRushActive ? 23 : 15) * npc.direction);
+                            npc.velocity.X = (float)((BossRushEvent.BossRushActive ? 23 : 15) * npc.direction);
                             npc.ai[2] += 1f;
                         }
                     }

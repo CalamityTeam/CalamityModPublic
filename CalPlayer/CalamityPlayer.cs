@@ -66,6 +66,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using CalamityMod.Projectiles.DraedonsArsenal;
+using CalamityMod.Events;
 
 namespace CalamityMod.CalPlayer
 {
@@ -1338,7 +1339,7 @@ namespace CalamityMod.CalPlayer
                 player.extraAccessorySlots = 1;
             if (extraAccessoryML && player.extraAccessory && (Main.expertMode || Main.gameMenu))
                 player.extraAccessorySlots = 2;
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 if (CalamityConfig.Instance.BossRushAccessoryCurse)
                 {
@@ -2365,18 +2366,18 @@ namespace CalamityMod.CalPlayer
 			brimlashBusterBoost = false;
 			animusBoost = 1f;
 
-            if (CalamityWorld.bossRushActive)
+            if (BossRushEvent.BossRushActive)
             {
                 if (!CalamityGlobalNPC.AnyLivingPlayers())
                 {
-                    CalamityWorld.bossRushActive = false;
-                    CalamityWorld.bossRushStage = 0;
+                    BossRushEvent.BossRushActive = false;
+                    BossRushEvent.BossRushStage = 0;
                     CalamityMod.UpdateServerBoolean();
                     if (Main.netMode == NetmodeID.Server)
                     {
                         var netMessage = mod.GetPacket();
                         netMessage.Write((byte)CalamityModMessageType.BossRushStage);
-                        netMessage.Write(CalamityWorld.bossRushStage);
+                        netMessage.Write(BossRushEvent.BossRushStage);
                         netMessage.Send();
                     }
                     for (int doom = 0; doom < Main.maxNPCs; doom++)
@@ -3636,7 +3637,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-            if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
+            if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
 				DashExploitFix(true);
 
             if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
@@ -3659,7 +3660,7 @@ namespace CalamityMod.CalPlayer
             if (weakPetrification)
                 WeakPetrification();
 
-			if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && CalamityWorld.bossRushActive))
+			if (player.mount.Active || player.mount.Cart || (CalamityConfig.Instance.BossRushDashCurse && BossRushEvent.BossRushActive))
 				DashExploitFix(true);
 
 			if (silvaCountdown > 0 && hasSilvaEffect && silvaSet)
@@ -5989,8 +5990,8 @@ namespace CalamityMod.CalPlayer
 		#region Modify Hit By NPC
 		public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
 		{
-			int bossRushDamage = (Main.expertMode ? 500 : 300) + (CalamityWorld.bossRushStage * 2);
-			if (CalamityWorld.bossRushActive)
+			int bossRushDamage = (Main.expertMode ? 500 : 300) + (BossRushEvent.BossRushStage * 2);
+			if (BossRushEvent.BossRushActive)
 			{
 				if (damage < bossRushDamage)
 					damage = bossRushDamage;
@@ -6276,8 +6277,8 @@ namespace CalamityMod.CalPlayer
 				damage = (int)(damage * damageMultiplier);
 			}
 
-			int bossRushDamage = (Main.expertMode ? 125 : 150) + (CalamityWorld.bossRushStage / 2);
-			if (CalamityWorld.bossRushActive)
+			int bossRushDamage = (Main.expertMode ? 125 : 150) + (BossRushEvent.BossRushStage / 2);
+			if (BossRushEvent.BossRushActive)
 			{
 				if (damage < bossRushDamage)
 					damage = bossRushDamage;
@@ -7377,9 +7378,9 @@ namespace CalamityMod.CalPlayer
         #region Pre Hurt
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if (CalamityWorld.armageddon || SCalLore || (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0))
+            if (CalamityWorld.armageddon || SCalLore || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
             {
-                if (areThereAnyDamnBosses || SCalLore || (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0))
+                if (areThereAnyDamnBosses || SCalLore || (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0))
                 {
                     if (SCalLore)
                     {
@@ -7764,7 +7765,7 @@ namespace CalamityMod.CalPlayer
                         iFramesToAdd += 10;
                     }
                 }
-                if (CalamityWorld.bossRushActive && CalamityConfig.Instance.BossRushImmunityFrameCurse)
+                if (BossRushEvent.BossRushActive && CalamityConfig.Instance.BossRushImmunityFrameCurse)
                 {
                     bossRushImmunityFrameCurseTimer = 300 + player.immuneTime;
                 }
@@ -8167,7 +8168,7 @@ namespace CalamityMod.CalPlayer
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " failed the challenge at hand.");
             }
-            else if (CalamityWorld.bossRushActive && bossRushImmunityFrameCurseTimer > 0)
+            else if (BossRushEvent.BossRushActive && bossRushImmunityFrameCurseTimer > 0)
             {
                 damageSource = PlayerDeathReason.ByCustomReason(player.name + " was destroyed by a mysterious force.");
             }

@@ -1,6 +1,7 @@
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Dusts;
+using CalamityMod.Events;
 using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.World;
@@ -30,7 +31,7 @@ namespace CalamityMod.NPCs.Calamitas
             npc.defense = 10;
 			npc.DR_NERD(0.15f);
             npc.LifeMaxNERB(9000, 13200, 800000);
-            if (CalamityWorld.downedProvidence && !CalamityWorld.bossRushActive)
+            if (CalamityWorld.downedProvidence && !BossRushEvent.BossRushActive)
             {
                 npc.damage *= 3;
                 npc.defense *= 5;

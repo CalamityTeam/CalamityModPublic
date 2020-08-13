@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using CalamityMod.Events;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
@@ -80,10 +81,10 @@ namespace CalamityMod.NPCs.Perforator
 			npc.TargetClosest(true);
 			Player player = Main.player[npc.target];
 
-			bool isCrimson = player.ZoneCrimson || CalamityWorld.bossRushActive;
-			bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-			bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+			bool isCrimson = player.ZoneCrimson || BossRushEvent.BossRushActive;
+			bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+			bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			if (!player.active || player.dead || Vector2.Distance(player.Center, npc.Center) > 5600f)
 			{
@@ -191,7 +192,7 @@ namespace CalamityMod.NPCs.Perforator
 			{
 				if (wormsAlive == 1)
 				{
-					Movement(player, 4f, 1f, (CalamityWorld.bossRushActive ? 0.2f : 0.15f), 160f, 300f, 400f, false);
+					Movement(player, 4f, 1f, (BossRushEvent.BossRushActive ? 0.2f : 0.15f), 160f, 300f, 400f, false);
 					npc.ai[0] = 0f;
 				}
 				else
@@ -200,19 +201,19 @@ namespace CalamityMod.NPCs.Perforator
 					{
 						if (large || death)
 						{
-							Movement(player, 5f, 1.5f, (CalamityWorld.bossRushActive ? 0.195f : 0.13f), 360f, 10f, 50f, true);
+							Movement(player, 5f, 1.5f, (BossRushEvent.BossRushActive ? 0.195f : 0.13f), 360f, 10f, 50f, true);
 						}
 						else if (medium)
 						{
-							Movement(player, 6f, 2f, (CalamityWorld.bossRushActive ? 0.18f : 0.12f), 340f, 15f, 50f, true);
+							Movement(player, 6f, 2f, (BossRushEvent.BossRushActive ? 0.18f : 0.12f), 340f, 15f, 50f, true);
 						}
 						else if (small)
 						{
-							Movement(player, 7f, 2.5f, (CalamityWorld.bossRushActive ? 0.165f : 0.11f), 320f, 20f, 50f, true);
+							Movement(player, 7f, 2.5f, (BossRushEvent.BossRushActive ? 0.165f : 0.11f), 320f, 20f, 50f, true);
 						}
 						else
 						{
-							Movement(player, 8f, 3f, (CalamityWorld.bossRushActive ? 0.15f : 0.1f), 300f, 25f, 50f, true);
+							Movement(player, 8f, 3f, (BossRushEvent.BossRushActive ? 0.15f : 0.1f), 300f, 25f, 50f, true);
 						}
 					}
 					else

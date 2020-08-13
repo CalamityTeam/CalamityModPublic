@@ -1,5 +1,6 @@
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Events;
 using CalamityMod.Items.Armor.Vanity;
 using CalamityMod.Items.LoreItems;
 using CalamityMod.Items.Materials;
@@ -88,9 +89,9 @@ namespace CalamityMod.NPCs.SlimeGod
         {
             CalamityGlobalNPC.slimeGod = npc.whoAmI;
 
-            bool expertMode = Main.expertMode || CalamityWorld.bossRushActive;
-            bool revenge = CalamityWorld.revenge || CalamityWorld.bossRushActive;
-			bool death = CalamityWorld.death || CalamityWorld.bossRushActive;
+            bool expertMode = Main.expertMode || BossRushEvent.BossRushActive;
+            bool revenge = CalamityWorld.revenge || BossRushEvent.BossRushActive;
+			bool death = CalamityWorld.death || BossRushEvent.BossRushActive;
 
 			// Percent life remaining
 			float lifeRatio = npc.life / (float)npc.lifeMax;
@@ -244,7 +245,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					Vector2 goToVector = buffedSlime == 1 ? purpleSlimeVector : redSlimeVector;
 
 					Vector2 goToPosition = goToVector - vectorCenter;
-					npc.velocity = Vector2.Normalize(goToPosition) * (CalamityWorld.bossRushActive ? 24f : 16f);
+					npc.velocity = Vector2.Normalize(goToPosition) * (BossRushEvent.BossRushActive ? 24f : 16f);
 
 					bool slimeDead = false;
 					if (goToVector == purpleSlimeVector)
@@ -376,7 +377,7 @@ namespace CalamityMod.NPCs.SlimeGod
 									if (expertMode && Main.rand.NextBool(2))
 									{
 										float num179 = revenge ? 2f : 3f;
-										if (CalamityWorld.bossRushActive)
+										if (BossRushEvent.BossRushActive)
 											num179 = 12f;
 										Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 										float num180 = player.position.X + player.width * 0.5f - value9.X;
@@ -411,7 +412,7 @@ namespace CalamityMod.NPCs.SlimeGod
 									else
 									{
 										float num179 = revenge ? 6f : 5f;
-										if (CalamityWorld.bossRushActive)
+										if (BossRushEvent.BossRushActive)
 											num179 = 12f;
 										Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 										float num180 = player.position.X + player.width * 0.5f - value9.X;
@@ -458,7 +459,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							if (expertMode && Main.rand.NextBool(2))
 							{
 								float num179 = revenge ? 2f : 3f;
-								if (CalamityWorld.bossRushActive)
+								if (BossRushEvent.BossRushActive)
 									num179 = 12f;
 								Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 								float num180 = player.position.X + player.width * 0.5f - value9.X;
@@ -493,7 +494,7 @@ namespace CalamityMod.NPCs.SlimeGod
 							else
 							{
 								float num179 = revenge ? 6f : 5f;
-								if (CalamityWorld.bossRushActive)
+								if (BossRushEvent.BossRushActive)
 									num179 = 12f;
 								Vector2 value9 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
 								float num180 = player.position.X + player.width * 0.5f - value9.X;
@@ -540,11 +541,11 @@ namespace CalamityMod.NPCs.SlimeGod
             {
                 num1372 = revenge ? 14f : expertMode ? 12.5f : 11f;
             }
-            if (CalamityWorld.bossRushActive || player.gravDir == -1f)
+            if (BossRushEvent.BossRushActive || player.gravDir == -1f)
             {
                 num1372 = 22f;
             }
-            if (npc.Calamity().enraged > 0 || player.gravDir == -1f || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
+            if (npc.Calamity().enraged > 0 || player.gravDir == -1f || (CalamityConfig.Instance.BossRushXerocCurse && BossRushEvent.BossRushActive))
             {
                 num1372 += 8f;
             }

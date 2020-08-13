@@ -688,6 +688,7 @@ namespace CalamityMod.World
 
 			// Place the shrine atop a pedestal.
 			int roomCenterX = roomBounds.Center.X;
+			int roomTop = roomBounds.Top;
 			int roomBottom = roomBounds.Bottom;
 			int shrinePedestalWidth = roomBounds.Width / 6 + WorldGen.genRand.Next(6);
 
@@ -720,6 +721,31 @@ namespace CalamityMod.World
 			// And place the shrine.
 			CalamityWorld.newAltarX = roomCenterX - 1;
 			CalamityWorld.newAltarY = roomBottom - calculateHeightFromOutwardness(0) - 2;
+
+			// Place some lanterns on the top of the room.
+			for (int dx = 6; dx < roomBounds.Width - 6; dx += 10)
+			{
+				WorldGen.PlaceTile(roomBounds.Left + dx, roomTop + 1, TileID.HangingLanterns, style: 20);
+			}
+
+			int totalTables = roomBounds.Width / 8;
+			int tries = 0;
+			for (int i = 0; i < totalTables; i++)
+			{
+				tries++;
+				if (tries >= 1600)
+					break;
+				int x = WorldGen.genRand.Next(5, roomBounds.Width - 5) + roomBounds.Left;
+				WorldGen.PlaceTile(x, roomBottom - 1, TileID.Tables, style: 9);
+
+				// Try again if the table failed to place.
+				if (Main.tile[x, roomBottom - 1].type != TileID.Tables)
+				{
+					i--;
+					continue;
+				}
+				WorldGen.PlaceTile(x, roomBottom - 3, TileID.Candles, style: 11);
+			}
 		}
 
 		public static void NewJungleTemplePart2()
@@ -767,11 +793,11 @@ namespace CalamityMod.World
 			placementAttempts = 0;
 			while (totalChestsToPlace > 0f)
 			{
-				int randomPointInRoomX = WorldGen.genRand.Next(templeLeft, templeRight);
-				int randomPointInRoomY = WorldGen.genRand.Next(templeTop, templeBottom);
-				if (Main.tile[randomPointInRoomX, randomPointInRoomY].wall == WallID.LihzahrdBrickUnsafe &&
-					!Main.tile[randomPointInRoomX, randomPointInRoomY].active() && 
-					WorldGen.AddBuriedChest(randomPointInRoomX, randomPointInRoomY, ItemID.LihzahrdPowerCell, true, 16))
+				int randomPointInTempleX = WorldGen.genRand.Next(templeLeft, templeRight);
+				int randomPointInTempleY = WorldGen.genRand.Next(templeTop, templeBottom);
+				if (Main.tile[randomPointInTempleX, randomPointInTempleY].wall == WallID.LihzahrdBrickUnsafe &&
+					!Main.tile[randomPointInTempleX, randomPointInTempleY].active() && 
+					WorldGen.AddBuriedChest(randomPointInTempleX, randomPointInTempleY, ItemID.LihzahrdPowerCell, true, 16))
 				{
 					totalChestsToPlace--;
 					placementAttempts = 0;
@@ -786,12 +812,12 @@ namespace CalamityMod.World
 			while (totalStatuesToPlace > 0f)
 			{
 				placementAttempts++;
-				int randomPointInRoomX = WorldGen.genRand.Next(templeLeft, templeRight);
-				int randomPointInRoomY = WorldGen.genRand.Next(templeTop, templeBottom);
-				if (Main.tile[randomPointInRoomX, randomPointInRoomY].wall == WallID.LihzahrdBrickUnsafe && !Main.tile[randomPointInRoomX, randomPointInRoomY].active())
+				int randomPointInTempleX = WorldGen.genRand.Next(templeLeft, templeRight);
+				int randomPointInTempleY = WorldGen.genRand.Next(templeTop, templeBottom);
+				if (Main.tile[randomPointInTempleX, randomPointInTempleY].wall == WallID.LihzahrdBrickUnsafe && !Main.tile[randomPointInTempleX, randomPointInTempleY].active())
 				{
-					int statuePlacementPositionY = randomPointInRoomY;
-					while (!Main.tile[randomPointInRoomX, statuePlacementPositionY].active())
+					int statuePlacementPositionY = randomPointInTempleY;
+					while (!Main.tile[randomPointInTempleX, statuePlacementPositionY].active())
 					{
 						statuePlacementPositionY++;
 						if (statuePlacementPositionY > templeBottom)
@@ -802,8 +828,8 @@ namespace CalamityMod.World
 					statuePlacementPositionY--;
 					if (statuePlacementPositionY <= templeBottom)
 					{
-						WorldGen.PlaceTile(randomPointInRoomX, statuePlacementPositionY, TileID.Statues, true, false, -1, WorldGen.genRand.Next(43, 46));
-						if (Main.tile[randomPointInRoomX, statuePlacementPositionY].type == TileID.Statues)
+						WorldGen.PlaceTile(randomPointInTempleX, statuePlacementPositionY, TileID.Statues, true, false, -1, WorldGen.genRand.Next(43, 46));
+						if (Main.tile[randomPointInTempleX, statuePlacementPositionY].type == TileID.Statues)
 						{
 							totalStatuesToPlace--;
 						}
@@ -811,18 +837,18 @@ namespace CalamityMod.World
 				}
 			}
 
-			float totalFurnitureElementsToPlace = totalRooms * 1.6f;
+			float totalFurnitureElementsToPlace = totalRooms * 1.1f;
 
 			placementAttempts = 0;
 			while (totalFurnitureElementsToPlace > 0f)
 			{
 				placementAttempts++;
-				int randomPointInRoomX = WorldGen.genRand.Next(templeLeft, templeRight);
-				int randomPointInRoomY = WorldGen.genRand.Next(templeTop, templeBottom);
-				if (Main.tile[randomPointInRoomX, randomPointInRoomY].wall == WallID.LihzahrdBrickUnsafe && !Main.tile[randomPointInRoomX, randomPointInRoomY].active())
+				int randomPointInTempleX = WorldGen.genRand.Next(templeLeft, templeRight);
+				int randomPointInTempleY = WorldGen.genRand.Next(templeTop, templeBottom);
+				if (Main.tile[randomPointInTempleX, randomPointInTempleY].wall == WallID.LihzahrdBrickUnsafe && !Main.tile[randomPointInTempleX, randomPointInTempleY].active())
 				{
-					int furniturePlacementPositionY = randomPointInRoomY;
-					while (!Main.tile[randomPointInRoomX, furniturePlacementPositionY].active())
+					int furniturePlacementPositionY = randomPointInTempleY;
+					while (!Main.tile[randomPointInTempleX, furniturePlacementPositionY].active())
 					{
 						furniturePlacementPositionY++;
 						if (furniturePlacementPositionY > templeBottom)
@@ -833,30 +859,29 @@ namespace CalamityMod.World
 					furniturePlacementPositionY--;
 					if (furniturePlacementPositionY <= templeBottom)
 					{
-						int totalRooms0 = WorldGen.genRand.Next(3);
-						if (totalRooms0 == 0)
+						switch (WorldGen.genRand.Next(3))
 						{
-							WorldGen.PlaceTile(randomPointInRoomX, furniturePlacementPositionY, TileID.WorkBenches, true, false, -1, 10);
-							if (Main.tile[randomPointInRoomX, furniturePlacementPositionY].type == TileID.WorkBenches)
-							{
-								totalFurnitureElementsToPlace--;
-							}
-						}
-						else if (totalRooms0 == 1)
-						{
-							WorldGen.PlaceTile(randomPointInRoomX, furniturePlacementPositionY, TileID.Tables, true, false, -1, 9);
-							if (Main.tile[randomPointInRoomX, furniturePlacementPositionY].type == TileID.Tables)
-							{
-								totalFurnitureElementsToPlace--;
-							}
-						}
-						else if (totalRooms0 == 2)
-						{
-							WorldGen.PlaceTile(randomPointInRoomX, furniturePlacementPositionY, TileID.Chairs, true, false, -1, 12);
-							if (Main.tile[randomPointInRoomX, furniturePlacementPositionY].type == TileID.Chairs)
-							{
-								totalFurnitureElementsToPlace--;
-							}
+							case 0:
+								WorldGen.PlaceTile(randomPointInTempleX, furniturePlacementPositionY, TileID.WorkBenches, true, false, -1, 10);
+								if (Main.tile[randomPointInTempleX, furniturePlacementPositionY].type == TileID.WorkBenches)
+								{
+									totalFurnitureElementsToPlace--;
+								}
+								break;
+							case 1:
+								WorldGen.PlaceTile(randomPointInTempleX, furniturePlacementPositionY, TileID.Tables, true, false, -1, 9);
+								if (Main.tile[randomPointInTempleX, furniturePlacementPositionY].type == TileID.Tables)
+								{
+									totalFurnitureElementsToPlace--;
+								}
+								break;
+							case 2:
+								WorldGen.PlaceTile(randomPointInTempleX, furniturePlacementPositionY, TileID.Chairs, true, false, -1, 12);
+								if (Main.tile[randomPointInTempleX, furniturePlacementPositionY].type == TileID.Chairs)
+								{
+									totalFurnitureElementsToPlace--;
+								}
+								break;
 						}
 					}
 				}
