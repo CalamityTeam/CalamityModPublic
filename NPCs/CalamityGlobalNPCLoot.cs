@@ -300,7 +300,7 @@ namespace CalamityMod.NPCs
 
                 // Mark Betsy as dead (Vanilla does not keep track of her)
                 CalamityWorld.downedBetsy = true;
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
             else if (npc.type == NPCID.DukeFishron)
             {
@@ -539,7 +539,7 @@ namespace CalamityMod.NPCs
                 if (!CalamityPlayer.areThereAnyDamnBosses)
                 {
                     CalamityGlobalNPC.DraedonMayhem = false;
-                    CalamityMod.UpdateServerBoolean();
+                    CalamityNetcode.SyncWorld();
                 }
             }
 
@@ -824,31 +824,31 @@ namespace CalamityMod.NPCs
             }
 
             // Every type of demon eye counts for Black Lenses
-            if (CalamityMod.demonEyeList.Contains(npc.type))
+            if (CalamityLists.demonEyeList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ItemID.BlackLens, DropHelper.DefiledDropRateInt);
             }
 
             // Every type of Skeleton counts for the Bone Sword
-            if (CalamityMod.skeletonList.Contains(npc.type) && npc.type != NPCID.ArmoredSkeleton && npc.type != NPCID.HeavySkeleton && npc.type != NPCID.SkeletonArcher && npc.type != NPCID.GreekSkeleton)
+            if (CalamityLists.skeletonList.Contains(npc.type) && npc.type != NPCID.ArmoredSkeleton && npc.type != NPCID.HeavySkeleton && npc.type != NPCID.SkeletonArcher && npc.type != NPCID.GreekSkeleton)
             {
                 DropHelper.DropItemChance(npc, ItemID.BoneSword, DropHelper.DefiledDropRateInt);
             }
 
             // Every type of Angry Bones counts for the Clothier Voodoo Doll
-            if (CalamityMod.angryBonesList.Contains(npc.type))
+            if (CalamityLists.angryBonesList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ItemID.ClothierVoodooDoll, DropHelper.DefiledDropRateInt);
             }
 
             // Every type of hornet AND moss hornet can drop Bezoar
-            if (CalamityMod.hornetList.Contains(npc.type) || CalamityMod.mossHornetList.Contains(npc.type))
+            if (CalamityLists.hornetList.Contains(npc.type) || CalamityLists.mossHornetList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ItemID.Bezoar, DropHelper.DefiledDropRateInt);
             }
 
             // Every type of moss hornet can drop Tattered Bee Wings
-            if (CalamityMod.mossHornetList.Contains(npc.type))
+            if (CalamityLists.mossHornetList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ItemID.TatteredBeeWing, DropHelper.DefiledDropRateInt);
             }
@@ -1265,14 +1265,14 @@ namespace CalamityMod.NPCs
             }
 
             // Every type of Moss Hornet counts for the Needler
-            if (CalamityMod.mossHornetList.Contains(npc.type))
+            if (CalamityLists.mossHornetList.Contains(npc.type))
             {
                 int needlerDropRate = Main.expertMode ? 20 : 25;
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Needler>(), needlerDropRate);
             }
 
             // Every type of Skeleton counts for the Waraxe and Ancient Bone Dust
-            if (CalamityMod.skeletonList.Contains(npc.type))
+            if (CalamityLists.skeletonList.Contains(npc.type))
             {
                 DropHelper.DropItemCondition(npc, ModContent.ItemType<Waraxe>(), !Main.hardMode, Main.expertMode ? 15 : 20, 1, 1);
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AncientBoneDust>(), Main.expertMode ? 4 : 5);
@@ -1530,13 +1530,13 @@ namespace CalamityMod.NPCs
             }
 
             // All hardmode dungeon enemies drop Ectoblood
-            if (CalamityMod.dungeonEnemyBuffList.Contains(npc.type))
+            if (CalamityLists.dungeonEnemyBuffList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Ectoblood>(), 2, 1, Main.expertMode ? 3 : 1);
             }
 
             // Every type of moss hornet can drop stingers
-            if (CalamityMod.mossHornetList.Contains(npc.type))
+            if (CalamityLists.mossHornetList.Contains(npc.type))
             {
                 DropHelper.DropItemChance(npc, ItemID.Stinger, Main.expertMode ? 1f : 0.6666f);
             }
@@ -1578,7 +1578,7 @@ namespace CalamityMod.NPCs
 			if (npc.boss && !CalamityWorld.downedBossAny)
 			{
 				CalamityWorld.downedBossAny = true;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
 
 			// Nightmare Fuel, Endothermic Energy and Darksun Fragments
@@ -1647,7 +1647,7 @@ namespace CalamityMod.NPCs
 
 				// Mark a buffed Mothron as killed (allowing access to Yharon P2)
 				CalamityWorld.downedBuffedMothron = true;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
 		}
         #endregion

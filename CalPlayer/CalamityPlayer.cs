@@ -2372,7 +2372,7 @@ namespace CalamityMod.CalPlayer
                 {
                     BossRushEvent.BossRushActive = false;
                     BossRushEvent.BossRushStage = 0;
-                    CalamityMod.UpdateServerBoolean();
+                    CalamityNetcode.SyncWorld();
                     if (Main.netMode == NetmodeID.Server)
                     {
                         var netMessage = mod.GetPacket();
@@ -4288,23 +4288,23 @@ namespace CalamityMod.CalPlayer
             {
                 add += GaelsGreatsword.BaseDamage / (float)GaelsGreatsword.BaseDamage - 1f;
             }
-            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || CalamityMod.flamethrowerList.Contains(item.type)))
+            if (flamethrowerBoost && item.ranged && (item.useAmmo == 23 || CalamityLists.flamethrowerList.Contains(item.type)))
             {
                 add += hoverboardBoost ? 0.35f : 0.25f;
             }
-            if (cinnamonRoll && CalamityMod.fireWeaponList.Contains(item.type))
+            if (cinnamonRoll && CalamityLists.fireWeaponList.Contains(item.type))
             {
                 add += 0.15f;
             }
-            if (evergreenGin && CalamityMod.natureWeaponList.Contains(item.type))
+            if (evergreenGin && CalamityLists.natureWeaponList.Contains(item.type))
             {
                 add += 0.15f;
             }
-            if (fireball && CalamityMod.fireWeaponList.Contains(item.type))
+            if (fireball && CalamityLists.fireWeaponList.Contains(item.type))
             {
                 add += 0.1f;
             }
-            if (eskimoSet && CalamityMod.iceWeaponList.Contains(item.type))
+            if (eskimoSet && CalamityLists.iceWeaponList.Contains(item.type))
             {
                 add += 0.1f;
             }
@@ -4758,7 +4758,7 @@ namespace CalamityMod.CalPlayer
                 {
 					CalamityUtils.Inflict246DebuffsNPC(target, ModContent.BuffType<DemonFlames>());
                 }
-                if ((plaguebringerCarapace || uberBees) && CalamityMod.friendlyBeeList.Contains(proj.type))
+                if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
                 {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
                 }
@@ -4866,7 +4866,7 @@ namespace CalamityMod.CalPlayer
                         {
                             target.AddBuff(BuffID.Midas, 120, false);
                         }
-                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
+                        if (ZoneCalamity && CalamityLists.fireWeaponList.Contains(player.ActiveItem().type))
                         {
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
@@ -5099,7 +5099,7 @@ namespace CalamityMod.CalPlayer
                 {
 					CalamityUtils.Inflict246DebuffsPvp(target, ModContent.BuffType<CrushDepth>());
                 }
-                if ((plaguebringerCarapace || uberBees) && CalamityMod.friendlyBeeList.Contains(proj.type))
+                if ((plaguebringerCarapace || uberBees) && CalamityLists.friendlyBeeList.Contains(proj.type))
                 {
                     target.AddBuff(ModContent.BuffType<Plague>(), 360);
                 }
@@ -5207,7 +5207,7 @@ namespace CalamityMod.CalPlayer
                         {
                             target.AddBuff(BuffID.Midas, 120, false);
                         }*/
-                        if (ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
+                        if (ZoneCalamity && CalamityLists.fireWeaponList.Contains(player.ActiveItem().type))
                         {
                             target.AddBuff(ModContent.BuffType<AbyssalFlames>(), 240, false);
                         }
@@ -5628,7 +5628,7 @@ namespace CalamityMod.CalPlayer
                 int defenseAdd = (int)(target.defense * 0.05 * (proj.damage / 50D) * acidRoundMultiplier); //100 defense * 0.05 = 5
                 damage += defenseAdd;
             }
-            if (uberBees && CalamityMod.friendlyBeeList.Contains(proj.type))
+            if (uberBees && CalamityLists.friendlyBeeList.Contains(proj.type))
             {
                 damage += Main.rand.Next(20, 31);
             }
@@ -5662,7 +5662,7 @@ namespace CalamityMod.CalPlayer
             }
             if (proj.Calamity().rogue && etherealExtorter)
             {
-                if (CalamityMod.boomerangProjList.Contains(proj.type) && player.ZoneCorrupt)
+                if (CalamityLists.boomerangProjList.Contains(proj.type) && player.ZoneCorrupt)
                 {
 					penetrateAmt += 6;
                 }
@@ -6059,7 +6059,7 @@ namespace CalamityMod.CalPlayer
 
 			if (beeResist)
 			{
-				if (CalamityMod.beeEnemyList.Contains(npc.type))
+				if (CalamityLists.beeEnemyList.Contains(npc.type))
 					contactDamageReduction += 0.25;
 			}
 
@@ -6202,7 +6202,7 @@ namespace CalamityMod.CalPlayer
         #region Modify Hit By Proj
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
         {
-			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
 			{
 				if (player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>()
 					&& proj.active && proj.hostile && player.altFunctionUse == 2 && Main.rand.NextBool(2))
@@ -6250,23 +6250,23 @@ namespace CalamityMod.CalPlayer
 			if (CalamityWorld.revenge)
 			{
 				double damageMultiplier = 1D;
-				if (CalamityMod.revengeanceProjectileBuffList25Percent.Contains(proj.type))
+				if (CalamityLists.revengeanceProjectileBuffList25Percent.Contains(proj.type))
 				{
 					damageMultiplier += 0.25;
 				}
-				else if (CalamityMod.revengeanceProjectileBuffList20Percent.Contains(proj.type))
+				else if (CalamityLists.revengeanceProjectileBuffList20Percent.Contains(proj.type))
 				{
 					damageMultiplier += 0.2;
 				}
-				else if (CalamityMod.revengeanceProjectileBuffList15Percent.Contains(proj.type))
+				else if (CalamityLists.revengeanceProjectileBuffList15Percent.Contains(proj.type))
 				{
 					damageMultiplier += 0.15;
 				}
-				else if (CalamityMod.revengeanceProjectileBuffList10Percent.Contains(proj.type))
+				else if (CalamityLists.revengeanceProjectileBuffList10Percent.Contains(proj.type))
 				{
 					damageMultiplier += 0.1;
 				}
-				else if (CalamityMod.revengeanceProjectileBuffList5Percent.Contains(proj.type))
+				else if (CalamityLists.revengeanceProjectileBuffList5Percent.Contains(proj.type))
 				{
 					damageMultiplier += 0.05;
 				}
@@ -6344,13 +6344,13 @@ namespace CalamityMod.CalPlayer
 
             if (beeResist)
             {
-                if (CalamityMod.beeProjectileList.Contains(proj.type))
+                if (CalamityLists.beeProjectileList.Contains(proj.type))
                     projectileDamageReduction += 0.25;
             }
 
             if (Main.hardMode && Main.expertMode && !CalamityWorld.spawnedHardBoss && proj.active && !proj.friendly && proj.hostile && damage > 0)
             {
-                if (CalamityMod.hardModeNerfList.Contains(proj.type))
+                if (CalamityLists.hardModeNerfList.Contains(proj.type))
                     projectileDamageReduction += 0.25;
             }
 
@@ -6446,7 +6446,7 @@ namespace CalamityMod.CalPlayer
 
 			if (player.whoAmI == Main.myPlayer && gainRageCooldown <= 0)
             {
-                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && !CalamityMod.trapProjectileList.Contains(proj.type))
+                if (CalamityWorld.revenge && CalamityConfig.Instance.Rippers && !CalamityLists.trapProjectileList.Contains(proj.type))
                 {
                     gainRageCooldown = 60;
                     int stressGain = damage * (profanedRage ? 3 : 2);
@@ -6615,7 +6615,7 @@ namespace CalamityMod.CalPlayer
 						switch (proj.type)
 						{
 							case ProjectileID.Stinger:
-								if (CalamityMod.hornetList.Contains(bannerNPCType) || CalamityMod.mossHornetList.Contains(bannerNPCType))
+								if (CalamityLists.hornetList.Contains(bannerNPCType) || CalamityLists.mossHornetList.Contains(bannerNPCType))
 								{
 									reduceDamage = !NPC.AnyNPCs(NPCID.QueenBee);
 								}
@@ -7086,7 +7086,7 @@ namespace CalamityMod.CalPlayer
 					player.AddBuff(ModContent.BuffType<Horror>(), 180);
 				}
 			}
-			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
+			if (CalamityLists.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))
 			{
 				if (projRef && proj.active && !proj.friendly && proj.hostile && damage > 0 && Main.rand.NextBool(20))
 				{
@@ -9648,7 +9648,7 @@ namespace CalamityMod.CalPlayer
                     stealthGenMoving += 0.15f;
             }
 
-            if (CalamityMod.daggerList.Contains(player.ActiveItem().type) && player.invis)
+            if (CalamityLists.daggerList.Contains(player.ActiveItem().type) && player.invis)
             {
                 stealthGenStandstill += 0.08f;
                 stealthGenMoving += 0.08f;

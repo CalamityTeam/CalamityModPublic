@@ -668,7 +668,7 @@ namespace CalamityMod.NPCs.StormWeaver
 			if (CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
 				CalamityWorld.downedSentinel2 = true;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
         }
 

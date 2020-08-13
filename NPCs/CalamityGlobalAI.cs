@@ -3039,14 +3039,14 @@ namespace CalamityMod.NPCs
 					Main.PlaySound(SoundID.NPCHit1, (int)npc.position.X, (int)npc.position.Y);
 					if (Main.netMode != NetmodeID.MultiplayerClient)
 					{
-						int hornetAmt = CalamityMod.hornetList.Count;
+						int hornetAmt = CalamityLists.hornetList.Count;
 						int spawnType = Main.rand.Next(210, 212);
 						if (npc.life < npc.lifeMax * 0.66 || death)
 							spawnType = 210;
 
 						int random = death ? 5 : 6;
 						if (Main.rand.Next(random) == 0)
-							spawnType = CalamityMod.hornetList[Main.rand.Next(hornetAmt)];
+							spawnType = CalamityLists.hornetList[Main.rand.Next(hornetAmt)];
 
 						int spawn = NPC.NewNPC((int)vector76.X, (int)vector76.Y, spawnType, 0, 0f, 0f, 0f, 0f, 255);
 
@@ -3054,7 +3054,7 @@ namespace CalamityMod.NPCs
 						Main.npc[spawn].velocity.Normalize();
 						Main.npc[spawn].velocity *= 5f;
 
-						if (!CalamityMod.hornetList.Contains(spawnType))
+						if (!CalamityLists.hornetList.Contains(spawnType))
 							Main.npc[spawn].localAI[0] = 60f;
 
 						Main.npc[spawn].netUpdate = true;
@@ -5096,7 +5096,7 @@ namespace CalamityMod.NPCs
 						num422 = 0.175f;
 					}
 					// Reduce acceleration if target is holding a true melee weapon
-					if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+					if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 					{
 						num422 *= 0.5f;
 					}
@@ -5206,7 +5206,7 @@ namespace CalamityMod.NPCs
 					num431 = 0.25f;
 				}
 				// Reduce acceleration if target is holding a true melee weapon
-				if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+				if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 				{
 					num431 *= 0.5f;
 				}
@@ -5628,7 +5628,7 @@ namespace CalamityMod.NPCs
 
 					// Reduce acceleration if target is holding a true melee weapon
 					Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
-					if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+					if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 					{
 						num400 *= 0.5f;
 					}
@@ -5742,7 +5742,7 @@ namespace CalamityMod.NPCs
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = Main.player[npc.target].inventory[Main.player[npc.target].selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num410 *= 0.5f;
 						}

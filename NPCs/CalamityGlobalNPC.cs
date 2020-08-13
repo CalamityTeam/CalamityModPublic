@@ -713,7 +713,7 @@ namespace CalamityMod.NPCs
             }
 
             // Exo Freeze, Glacial State and Temporal Sadness don't work on bosses or other specific enemies.
-            if (!npc.boss && !CalamityMod.movementImpairImmuneList.Contains(npc.type))
+            if (!npc.boss && !CalamityLists.movementImpairImmuneList.Contains(npc.type))
             {
                 if (eFreeze > 0 && !BossRushEvent.BossRushActive)
                 {
@@ -857,7 +857,7 @@ namespace CalamityMod.NPCs
         #region Debuff Immunities
         private void DebuffImmunities(NPC npc)
         {
-			if (CalamityMod.enemyImmunityList.Contains(npc.type) || npc.boss)
+			if (CalamityLists.enemyImmunityList.Contains(npc.type) || npc.boss)
 			{
 				npc.buffImmune[BuffType<GlacialState>()] = true;
 				npc.buffImmune[BuffType<TemporalSadness>()] = true;
@@ -1114,7 +1114,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityMod.revengeanceLifeStealExceptionList.Contains(npc.type))
+            if (CalamityLists.revengeanceLifeStealExceptionList.Contains(npc.type))
             {
                 npc.canGhostHeal = false;
             }
@@ -1163,14 +1163,14 @@ namespace CalamityMod.NPCs
 
             if (CalamityWorld.downedDoG)
             {
-                if (CalamityMod.pumpkinMoonBuffList.Contains(npc.type))
+                if (CalamityLists.pumpkinMoonBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 7.5);
                     npc.damage += 160;
                     npc.life = npc.lifeMax;
                     npc.defDamage = npc.damage;
                 }
-                else if (CalamityMod.frostMoonBuffList.Contains(npc.type))
+                else if (CalamityLists.frostMoonBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 6.0);
                     npc.damage += 160;
@@ -1179,7 +1179,7 @@ namespace CalamityMod.NPCs
                 }
             }
 
-            if (CalamityMod.eclipseBuffList.Contains(npc.type) && CalamityWorld.buffedEclipse)
+            if (CalamityLists.eclipseBuffList.Contains(npc.type) && CalamityWorld.buffedEclipse)
             {
                 npc.lifeMax = (int)(npc.lifeMax * 32.5);
                 npc.damage += 210;
@@ -1189,7 +1189,7 @@ namespace CalamityMod.NPCs
 
             if (NPC.downedMoonlord)
             {
-                if (CalamityMod.dungeonEnemyBuffList.Contains(npc.type))
+                if (CalamityLists.dungeonEnemyBuffList.Contains(npc.type))
                 {
                     npc.lifeMax = (int)(npc.lifeMax * 2.5);
                     npc.damage += 150;
@@ -1201,23 +1201,23 @@ namespace CalamityMod.NPCs
             if (CalamityWorld.revenge)
             {
 				double damageMultiplier = 1D;
-                if (CalamityMod.revengeanceEnemyBuffList25Percent.Contains(npc.type))
+                if (CalamityLists.revengeanceEnemyBuffList25Percent.Contains(npc.type))
                 {
 					damageMultiplier += 0.25;
                 }
-				else if (CalamityMod.revengeanceEnemyBuffList20Percent.Contains(npc.type))
+				else if (CalamityLists.revengeanceEnemyBuffList20Percent.Contains(npc.type))
 				{
 					damageMultiplier += 0.2;
 				}
-				else if (CalamityMod.revengeanceEnemyBuffList15Percent.Contains(npc.type))
+				else if (CalamityLists.revengeanceEnemyBuffList15Percent.Contains(npc.type))
 				{
 					damageMultiplier += 0.15;
 				}
-				else if (CalamityMod.revengeanceEnemyBuffList10Percent.Contains(npc.type))
+				else if (CalamityLists.revengeanceEnemyBuffList10Percent.Contains(npc.type))
 				{
 					damageMultiplier += 0.1;
 				}
-				else if (CalamityMod.revengeanceEnemyBuffList5Percent.Contains(npc.type))
+				else if (CalamityLists.revengeanceEnemyBuffList5Percent.Contains(npc.type))
 				{
 					damageMultiplier += 0.05;
 				}
@@ -1229,7 +1229,7 @@ namespace CalamityMod.NPCs
 				npc.defDamage = npc.damage;
 			}
 
-            if ((npc.boss && npc.type != NPCID.MartianSaucerCore && npc.type < NPCID.Count) || CalamityMod.bossHPScaleList.Contains(npc.type))
+            if ((npc.boss && npc.type != NPCID.MartianSaucerCore && npc.type < NPCID.Count) || CalamityLists.bossHPScaleList.Contains(npc.type))
             {
                 double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
                 npc.lifeMax += (int)(npc.lifeMax * HPBoost);
@@ -1316,7 +1316,7 @@ namespace CalamityMod.NPCs
                 return;
             }
 
-            if (((npc.boss || CalamityMod.bossScaleList.Contains(npc.type)) && npc.type < NPCID.Count) ||
+            if (((npc.boss || CalamityLists.bossScaleList.Contains(npc.type)) && npc.type < NPCID.Count) ||
                 (npc.modNPC != null && npc.modNPC.mod.Name.Equals("CalamityMod")))
             {
                 double scalar;
@@ -3170,7 +3170,7 @@ namespace CalamityMod.NPCs
                     npc.type == NPCType<RavagerBody>() || npc.type == NPCID.DukeFishron || npc.type == NPCID.CultistBoss || npc.type == NPCID.Golem)
                 {
                     CalamityWorld.spawnedHardBoss = true;
-                    CalamityMod.UpdateServerBoolean();
+                    CalamityNetcode.SyncWorld();
                 }
             }
 
@@ -3273,7 +3273,7 @@ namespace CalamityMod.NPCs
 				ladHearts--;
 
             // Bosses and any specific other NPCs are completely immune to having their movement impaired.
-            if (npc.boss || CalamityMod.movementImpairImmuneList.Contains(npc.type))
+            if (npc.boss || CalamityLists.movementImpairImmuneList.Contains(npc.type))
                 return;
 
             if (kamiFlu > 0)
@@ -4665,7 +4665,7 @@ namespace CalamityMod.NPCs
         {
 			if (npc.type != NPCID.BrainofCthulhu && (npc.type != NPCID.DukeFishron || npc.ai[0] <= 9f))
 			{
-				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type) || CalamityMod.needsDebuffIconDisplayList.Contains(npc.type)))
+				if (CalamityConfig.Instance.DebuffDisplay && (npc.boss || BossHealthBarManager.MinibossHPBarList.Contains(npc.type) || BossHealthBarManager.OneToMany.ContainsKey(npc.type) || CalamityLists.needsDebuffIconDisplayList.Contains(npc.type)))
 				{
 					List<Texture2D> buffTextureList = new List<Texture2D>();
 
@@ -6261,7 +6261,7 @@ namespace CalamityMod.NPCs
             if (target.damage > 0 && !target.boss && !target.friendly && !target.dontTakeDamage &&
                 target.type != NPCID.MourningWood && target.type != NPCID.Everscream && target.type != NPCID.SantaNK1 &&
                 target.type != NPCType<Reaper>() && target.type != NPCType<Mauler>() && target.type != NPCType<EidolonWyrmHead>() &&
-                target.type != NPCType<EidolonWyrmHeadHuge>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityMod.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
+                target.type != NPCType<EidolonWyrmHeadHuge>() && target.type != NPCType<ColossalSquid>() && target.type != NPCID.DD2Betsy && !CalamityLists.enemyImmunityList.Contains(target.type) && !AcidRainEvent.AllMinibosses.Contains(target.type))
             {
                 return true;
             }

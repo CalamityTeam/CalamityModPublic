@@ -223,7 +223,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
             if (Main.slimeRain)
             {
                 Main.StopSlimeRain(true);
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
             CalamityMod.StopRain();
 
@@ -1259,7 +1259,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num824 *= 0.5f;
 						}
@@ -1446,7 +1446,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num413 *= 0.5f;
 						}
@@ -1539,7 +1539,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num833 *= 0.5f;
 						}
@@ -1803,7 +1803,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num824 *= 0.5f;
 						}
@@ -1987,7 +1987,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num413 *= 0.5f;
 						}
@@ -2080,7 +2080,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
 						// Reduce acceleration if target is holding a true melee weapon
 						Item targetSelectedItem = player.inventory[player.selectedItem];
-						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityMod.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
+						if (targetSelectedItem.melee && (targetSelectedItem.shoot == 0 || CalamityLists.trueMeleeProjectileList.Contains(targetSelectedItem.shoot)))
 						{
 							num833 *= 0.5f;
 						}
@@ -2237,7 +2237,7 @@ namespace CalamityMod.NPCs.SupremeCalamitas
 
             // Mark Supreme Calamitas as dead
             CalamityWorld.downedSCal = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
         #endregion
 

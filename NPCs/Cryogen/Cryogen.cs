@@ -1099,7 +1099,7 @@ namespace CalamityMod.NPCs.Cryogen
 
             // Mark Cryogen as dead
             CalamityWorld.downedCryogen = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

@@ -403,7 +403,7 @@ namespace CalamityMod.CalPlayer
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
                     int hasBuff = player.buffType[l];
-                    lesserEffect = CalamityMod.alcoholList.Contains(hasBuff);
+                    lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
                 }
 
                 if (lesserEffect)
@@ -431,7 +431,7 @@ namespace CalamityMod.CalPlayer
                 for (int l = 0; l < Player.MaxBuffs; l++)
                 {
                     int hasBuff = player.buffType[l];
-                    lesserEffect = CalamityMod.alcoholList.Contains(hasBuff);
+                    lesserEffect = CalamityLists.alcoholList.Contains(hasBuff);
                 }
 
                 if (lesserEffect)
@@ -665,7 +665,7 @@ namespace CalamityMod.CalPlayer
 				for (int l = 0; l < Player.MaxBuffs; l++)
 				{
 					int hasBuff = player.buffType[l];
-					bool shouldAffect = CalamityMod.alcoholList.Contains(hasBuff);
+					bool shouldAffect = CalamityLists.alcoholList.Contains(hasBuff);
 					if (shouldAffect)
 						lesserEffect = true;
 				}

@@ -1062,7 +1062,7 @@ namespace CalamityMod.NPCs.DevourerofGods
 
             // Mark DoG as dead
             CalamityWorld.downedDoG = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         // Can only hit the target if within certain distance

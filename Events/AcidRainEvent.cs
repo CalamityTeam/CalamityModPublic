@@ -176,7 +176,7 @@ namespace CalamityMod.Events
                     Main.rainTime = Main.weatherCounter;
                     Main.maxRaining = 0.89f;
                     CalamityWorld.forcedDownpourWithTear = true;
-                    CalamityMod.UpdateServerBoolean();
+                    CalamityNetcode.SyncWorld();
                 }
                 CalamityWorld.triedToSummonOldDuke = false;
                 CalamityWorld.timeSinceAcidRainKill = 0; // Reset the kill cooldown, just in case.
@@ -214,7 +214,7 @@ namespace CalamityMod.Events
                     CalamityWorld.triedToSummonOldDuke = false;
                     CalamityMod.StopRain();
                 }
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
 
                 // You will be tempted to turn this into a single if conditional.
                 // Don't do this. Doing so has caused so much misery, with various things being read instead

@@ -269,7 +269,7 @@ namespace CalamityMod.Events
                     CalamityWorld.bossRushHostileProjKillCounter = 3;
                     BossRushActive = false;
 
-                    CalamityMod.UpdateServerBoolean();
+                    CalamityNetcode.SyncWorld();
                     if (Main.netMode == NetmodeID.Server)
                     {
                         var netMessage = CalamityMod.Instance.GetPacket();

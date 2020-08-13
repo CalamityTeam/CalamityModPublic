@@ -787,14 +787,14 @@ namespace CalamityMod.NPCs.Signus
 
 				// Mark DoG fight sentinels as dead
 				CalamityWorld.downedSecondSentinels = true;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
 
 			// Mark Signus as dead
 			if (CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
 				CalamityWorld.downedSentinel3 = true;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
         }
 

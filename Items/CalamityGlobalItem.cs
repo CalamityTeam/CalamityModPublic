@@ -113,32 +113,32 @@ namespace CalamityMod.Items
             if (item.type >= ItemID.GreenSolution && item.type <= ItemID.RedSolution)
                 item.value = Item.buyPrice(0, 0, 5, 0);
 
-            if (CalamityMod.weaponAutoreuseList?.Contains(item.type) ?? false)
+            if (CalamityLists.weaponAutoreuseList?.Contains(item.type) ?? false)
                 item.autoReuse = true;
 
             if (item.type == ItemID.PsychoKnife || item.type == ItemID.TaxCollectorsStickOfDoom)
                 item.damage *= 4;
             else if (item.type == ItemID.SpectreStaff)
                 item.damage *= 3;
-            else if (CalamityMod.doubleDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.doubleDamageBuffList?.Contains(item.type) ?? false)
                 item.damage *= 2;
             else if (item.type == ItemID.RainbowRod)
                 item.damage = (int)(item.damage * 1.75);
-            else if (CalamityMod.sixtySixDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.sixtySixDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.66);
-            else if (CalamityMod.fiftyDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.fiftyDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.5);
-            else if (CalamityMod.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.thirtyThreeDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.33);
-            else if (CalamityMod.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.twentyFiveDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.25);
-            else if (CalamityMod.twentyDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.twentyDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.2);
-            else if (CalamityMod.tenDamageBuffList?.Contains(item.type) ?? false)
+            else if (CalamityLists.tenDamageBuffList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 1.1);
-            else if (CalamityMod.tenDamageNerfList?.Contains(item.type) ?? false)
+            else if (CalamityLists.tenDamageNerfList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 0.9);
-            else if (CalamityMod.quarterDamageNerfList?.Contains(item.type) ?? false)
+            else if (CalamityLists.quarterDamageNerfList?.Contains(item.type) ?? false)
                 item.damage = (int)(item.damage * 0.75);
             else if (item.type == ItemID.BlizzardStaff)
                 item.damage = (int)(item.damage * 0.7);
@@ -174,9 +174,9 @@ namespace CalamityMod.Items
             else if (item.type == ItemID.HallowedGreaves)
                 item.defense = 13; //2 more defense
 
-			if (CalamityMod.noGravityList.Contains(item.type))
+			if (CalamityLists.noGravityList.Contains(item.type))
 				ItemID.Sets.ItemNoGravity[item.type] = true;
-			if (CalamityMod.lavaFishList.Contains(item.type))
+			if (CalamityLists.lavaFishList.Contains(item.type))
 				ItemID.Sets.CanFishInLava[item.type] = true;
 
 			// not expert because ML drops it in normal so that it can be used with the lore item
@@ -3607,7 +3607,7 @@ Grants immunity to fire blocks, and temporary immunity to lava";
 		#region PostUpdate
 		public override void PostUpdate(Item item)
 		{
-			if (CalamityMod.forceItemList?.Contains(item.type) ?? false)
+			if (CalamityLists.forceItemList?.Contains(item.type) ?? false)
 			{
 				CalamityUtils.ForceItemIntoWorld(item);
 			}

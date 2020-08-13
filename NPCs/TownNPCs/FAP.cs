@@ -197,7 +197,7 @@ namespace CalamityMod.NPCs.TownNPCs
                 dialogue.Add("If I was a magical horse, I'd be out in space swirling cocktails, as I watch space worms battle for my enjoyment.");
             }
 
-			IList<string> donorList = new List<string>(CalamityMod.donatorList);
+			IList<string> donorList = new List<string>(CalamityLists.donatorList);
 			string[] donors = new string[12];
 			for (int i = 0; i < 12; i++)
 			{

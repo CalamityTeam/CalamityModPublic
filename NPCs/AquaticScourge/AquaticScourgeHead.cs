@@ -211,7 +211,7 @@ namespace CalamityMod.NPCs.AquaticScourge
 
             // Mark Aquatic Scourge as dead
             CalamityWorld.downedAquaticScourge = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

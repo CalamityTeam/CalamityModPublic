@@ -665,7 +665,7 @@ namespace CalamityMod.NPCs.Crabulon
 
             // Mark Crabulon as dead
             CalamityWorld.downedCrabulon = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

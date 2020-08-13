@@ -411,7 +411,7 @@ namespace CalamityMod.CalPlayer
 					for (int l = 0; l < Player.MaxBuffs; l++)
 					{
 						int hasBuff = player.buffType[l];
-						if (player.buffTime[l] > 2 && CalamityMod.debuffList.Contains(hasBuff))
+						if (player.buffTime[l] > 2 && CalamityLists.debuffList.Contains(hasBuff))
 						{
 							player.buffTime[l]--;
 						}
@@ -422,7 +422,7 @@ namespace CalamityMod.CalPlayer
 			// Immunity to most debuffs
 			if (modPlayer.invincible)
 			{
-				foreach (int debuff in CalamityMod.debuffList)
+				foreach (int debuff in CalamityLists.debuffList)
 					player.buffImmune[debuff] = true;
 			}
 
@@ -1003,7 +1003,7 @@ namespace CalamityMod.CalPlayer
 			// Silva invincibility effects
 			if (modPlayer.silvaCountdown > 0 && modPlayer.hasSilvaEffect && modPlayer.silvaSet)
 			{
-				foreach (int debuff in CalamityMod.debuffList)
+				foreach (int debuff in CalamityLists.debuffList)
 					player.buffImmune[debuff] = true;
 
 				player.buffImmune[ModContent.BuffType<VulnerabilityHex>()] = true;
@@ -1076,7 +1076,7 @@ namespace CalamityMod.CalPlayer
 							player.AddBuff(ModContent.BuffType<TarragonImmunityCooldown>(), 1500, false);
 					}
 
-					bool shouldAffect = CalamityMod.debuffList.Contains(hasBuff);
+					bool shouldAffect = CalamityLists.debuffList.Contains(hasBuff);
 					if (shouldAffect)
 						modPlayer.throwingDamage += 0.1f;
 				}
@@ -2672,22 +2672,22 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (CalamityMod.scopedWeaponList.Contains(player.ActiveItem().type))
+			if (CalamityLists.scopedWeaponList.Contains(player.ActiveItem().type))
 				player.scope = true;
 
-			if (CalamityMod.highTestFishList.Contains(player.ActiveItem().type))
+			if (CalamityLists.highTestFishList.Contains(player.ActiveItem().type))
 				player.accFishingLine = true;
 
-			if (CalamityMod.boomerangList.Contains(player.ActiveItem().type) && player.invis)
+			if (CalamityLists.boomerangList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingDamage += 0.1f;
 
-			if (CalamityMod.javelinList.Contains(player.ActiveItem().type) && player.invis)
+			if (CalamityLists.javelinList.Contains(player.ActiveItem().type) && player.invis)
 				player.armorPenetration += 5;
 
-			if (CalamityMod.flaskBombList.Contains(player.ActiveItem().type) && player.invis)
+			if (CalamityLists.flaskBombList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingVelocity += 0.1f;
 
-			if (CalamityMod.spikyBallList.Contains(player.ActiveItem().type) && player.invis)
+			if (CalamityLists.spikyBallList.Contains(player.ActiveItem().type) && player.invis)
 				modPlayer.throwingCrit += 10;
 
 			if (modPlayer.planarSpeedBoost != 0)
@@ -2713,10 +2713,10 @@ namespace CalamityMod.CalPlayer
 					!modPlayer.ZoneSunkenSea && !player.ZoneSnow && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly &&
 					!player.ZoneDesert && !player.ZoneUndergroundDesert && !player.ZoneGlowshroom && !player.ZoneDungeon && !player.ZoneBeach && !player.ZoneMeteor;
 
-				if (player.ZoneUnderworldHeight && !modPlayer.ZoneCalamity && CalamityMod.fireWeaponList.Contains(player.ActiveItem().type))
+				if (player.ZoneUnderworldHeight && !modPlayer.ZoneCalamity && CalamityLists.fireWeaponList.Contains(player.ActiveItem().type))
 					player.endurance += 0.03f;
 
-				if ((player.ZoneDesert || player.ZoneUndergroundDesert) && CalamityMod.daggerList.Contains(player.ActiveItem().type))
+				if ((player.ZoneDesert || player.ZoneUndergroundDesert) && CalamityLists.daggerList.Contains(player.ActiveItem().type))
 					player.scope = true;
 
 				if (modPlayer.ZoneSunkenSea)
@@ -2725,7 +2725,7 @@ namespace CalamityMod.CalPlayer
 					player.ignoreWater = true;
 				}
 
-				if (player.ZoneSnow && CalamityMod.iceWeaponList.Contains(player.ActiveItem().type))
+				if (player.ZoneSnow && CalamityLists.iceWeaponList.Contains(player.ActiveItem().type))
 					player.statDefense += 5;
 
 				if (modPlayer.ZoneAstral)
@@ -2734,7 +2734,7 @@ namespace CalamityMod.CalPlayer
 						player.wingTimeMax = (int)(player.wingTimeMax * 1.05);
 				}
 
-				if (player.ZoneJungle && CalamityMod.natureWeaponList.Contains(player.ActiveItem().type))
+				if (player.ZoneJungle && CalamityLists.natureWeaponList.Contains(player.ActiveItem().type))
 					player.AddBuff(BuffID.DryadsWard, 5, true); // Dryad's Blessing
 
 				if (modPlayer.ZoneAbyss)
@@ -2754,7 +2754,7 @@ namespace CalamityMod.CalPlayer
 					player.endurance += 0.05f;
 				}
 
-				if (player.ZoneRockLayerHeight && ZoneForest && CalamityMod.flaskBombList.Contains(player.ActiveItem().type))
+				if (player.ZoneRockLayerHeight && ZoneForest && CalamityLists.flaskBombList.Contains(player.ActiveItem().type))
 					player.blackBelt = true;
 
 				if (player.ZoneHoly)

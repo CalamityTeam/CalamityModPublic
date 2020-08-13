@@ -89,7 +89,7 @@ namespace CalamityMod.Items.DifficultyItems
                     NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
                 }
 
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
             else
             {
@@ -135,7 +135,7 @@ namespace CalamityMod.Items.DifficultyItems
                 }
                 CalamityWorld.DoGSecondStageCountdown = 0;
 
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
                 if (Main.netMode == NetmodeID.Server)
                 {
                     var netMessage = mod.GetPacket();

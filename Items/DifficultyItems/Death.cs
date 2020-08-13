@@ -92,7 +92,7 @@ namespace CalamityMod.Items.DifficultyItems
             }
             CalamityWorld.DoGSecondStageCountdown = 0;
 
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
 
             if (Main.netMode == NetmodeID.Server)
             {

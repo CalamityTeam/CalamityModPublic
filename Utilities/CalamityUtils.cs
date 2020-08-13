@@ -57,6 +57,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using Terraria;
 using Terraria.DataStructures;
@@ -806,7 +807,7 @@ namespace CalamityMod
 
         public static int CountHookProj() => Main.projectile.Count(proj => Main.projHook[proj.type] && proj.ai[0] == 2f && proj.active && proj.owner == Main.myPlayer);
 
-        public static bool IsSummon(this Projectile proj) => proj.minion || proj.sentry || CalamityMod.projectileMinionList.Contains(proj.type) || ProjectileID.Sets.MinionShot[proj.type] || ProjectileID.Sets.SentryShot[proj.type];
+        public static bool IsSummon(this Projectile proj) => proj.minion || proj.sentry || CalamityLists.projectileMinionList.Contains(proj.type) || ProjectileID.Sets.MinionShot[proj.type] || ProjectileID.Sets.SentryShot[proj.type];
 
         public static void KillAllHostileProjectiles()
         {
@@ -3647,7 +3648,7 @@ namespace CalamityMod
             Main.raining = true;
 			if (torrentialTear)
 				TorrentialTear.AdjustRainSeverity(false);
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public static void StartSandstorm()
@@ -3793,13 +3794,59 @@ namespace CalamityMod
 			int num4 = Math.Max(0, Math.Min(tileRectangle.Bottom, Main.maxTilesY));
 			return new Rectangle(num, num2, num3 - num, num4 - num2);
 		}
+        #endregion
 
+        #region Saving, Loading, and Sending Utilities
+
+        /// <summary>
+        /// Binary serializes an object and returns the resultant byte array buffer.
+        /// </summary>
+        /// <param name="toSerialize">The object that is to be serialized.</param>
+        /// <returns>The buffer.</returns>
+        public static byte[] SerializeObject(object toSerialize)
+        {
+            byte[] buffer;
+            using (var stream = new MemoryStream())
+            {
+                new BinaryFormatter().Serialize(stream, toSerialize);
+                buffer = stream.ToArray();
+            }
+            return buffer;
+        }
+
+        /// <summary>
+        /// Deserializes a binary serialized buffer and returns the original object.
+        /// </summary>
+        /// <param name="buffer">The buffer.</param>
+        /// <returns>The object that was serialized.</returns>
+        public static object DeserializeObject(byte[] buffer)
+        {
+            object deserializedData;
+            using (var stream = new MemoryStream(buffer))
+            {
+                deserializedData = new BinaryFormatter().Deserialize(stream);
+            }
+            return deserializedData;
+        }
+
+        /// <summary>
+        /// Saves a mod item and appends the data to a <see cref="TagCompound"/>.
+        /// </summary>
+        /// <param name="tag">The tag to append to.</param>
+        /// <param name="itemToSave">The item to save.</param>
+        /// <param name="itemIndex">A number used for discerning the item out of multiple items.</param>
         public static void SaveModItem(TagCompound tag, Item itemToSave, int itemIndex = 0)
         {
             tag.Add($"mod{itemIndex}", itemToSave.modItem?.mod?.Name ?? string.Empty);
             tag.Add($"name{itemIndex}", itemToSave.modItem?.Name ?? string.Empty);
         }
 
+        /// <summary>
+        /// Loads a mod item from a <see cref="TagCompound"/>.
+        /// </summary>
+        /// <param name="tag">The tag that contains the original item.</param>
+        /// <param name="itemIndex">The number used to discern the item out of potentially multiple.</param>
+        /// <returns>The original item.</returns>
         public static Item LoadModItem(TagCompound tag, int itemIndex = 0)
         {
             string modName = tag.GetString($"mod{itemIndex}");

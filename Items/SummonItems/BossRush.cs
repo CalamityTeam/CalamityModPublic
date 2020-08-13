@@ -62,7 +62,7 @@ namespace CalamityMod.Items.SummonItems
                 BossRushEvent.BossRushActive = false;
             }
 
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             if (Main.netMode == NetmodeID.Server)
             {
                 var netMessage = mod.GetPacket();

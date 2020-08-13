@@ -625,7 +625,7 @@ namespace CalamityMod.CalPlayer
             list.Add(MiscEffects);
 
             // Remove shoe drawing effects if special legs are meant to be drawn.
-            if (CalamityMod.legOverrideList.Contains(player.legs))
+            if (CalamityLists.legOverrideList.Contains(player.legs))
                 list[list.IndexOf(PlayerLayer.ShoeAcc)].visible = false;
 
             if (player.Calamity().fab || player.Calamity().crysthamyr || player.Calamity().onyxExcavator)

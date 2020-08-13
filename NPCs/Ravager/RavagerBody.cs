@@ -828,7 +828,7 @@ namespace CalamityMod.NPCs.Ravager
 
             // Mark Ravager as dead
             CalamityWorld.downedScavenger = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
     }
 }

@@ -441,7 +441,7 @@ namespace CalamityMod.NPCs.ProfanedGuardians
 
 			// Mark the Profaned Guardians as dead
 			CalamityWorld.downedGuardians = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

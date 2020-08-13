@@ -1106,7 +1106,7 @@ namespace CalamityMod.World
             {
                 BossRushEvent.DeactivateStupidFuckingBullshit = true;
                 BossRushEvent.BossRushActive = false;
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
 
             // Attempt to start the acid rain at the 4:29AM
@@ -1114,7 +1114,7 @@ namespace CalamityMod.World
             if (Main.time == 32399 && !Main.dayTime && Main.rand.NextBool(moreRain ? 3 : 300) && !Main.LocalPlayer.Calamity().noStupidNaturalARSpawns)
             {
                 AcidRainEvent.TryStartEvent();
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
 			if (NPC.downedBoss1 && !downedEoCAcidRain && !forcedRainAlready)
 			{
@@ -1126,7 +1126,7 @@ namespace CalamityMod.World
 						{
 							forcedRainAlready = true;
 							AcidRainEvent.TryStartEvent();
-							CalamityMod.UpdateServerBoolean();
+							CalamityNetcode.SyncWorld();
 						}
 					}
 				}
@@ -1134,7 +1134,7 @@ namespace CalamityMod.World
 			if (forceRainTimer == 1)
 			{
 				AcidRainEvent.TryStartEvent();
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
 			if (forceRainTimer > 0)
 				forceRainTimer--;
@@ -1172,7 +1172,7 @@ namespace CalamityMod.World
                                 // Makes rain pour at its maximum intensity (but only after an idiot meanders into the Sulphurous Sea)
                                 // You'll never catch me, Fabs, Not when I shift into MAXIMUM OVERDRIVE!!
                                 startAcidicDownpour = true;
-                                CalamityMod.UpdateServerBoolean();
+                                CalamityNetcode.SyncWorld();
                                 break;
                             }
                         }
@@ -1183,7 +1183,7 @@ namespace CalamityMod.World
                 if (Main.raining && NPC.AnyNPCs(ModContent.NPCType<OldDuke>()))
                 {
                     Main.raining = false;
-                    CalamityMod.UpdateServerBoolean();
+                    CalamityNetcode.SyncWorld();
                 }
 
                 // If the rain stops for whatever reason, end the invasion.
@@ -1986,7 +1986,7 @@ namespace CalamityMod.World
         {
             Main.time = 0.0;
             Main.dayTime = day;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
         #endregion
 

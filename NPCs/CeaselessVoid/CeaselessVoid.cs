@@ -175,7 +175,7 @@ namespace CalamityMod.NPCs.CeaselessVoid
 			if (CalamityWorld.DoGSecondStageCountdown <= 0)
 			{
 				CalamityWorld.downedSentinel1 = true;
-				CalamityMod.UpdateServerBoolean();
+				CalamityNetcode.SyncWorld();
 			}
         }
 

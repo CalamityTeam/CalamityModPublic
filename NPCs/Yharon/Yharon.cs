@@ -2791,7 +2791,7 @@ namespace CalamityMod.NPCs.Yharon
             if (!startSecondAI && !CalamityWorld.buffedEclipse)
             {
                 CalamityWorld.buffedEclipse = true;
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
 
                 string key = "Mods.CalamityMod.DargonBossText";
                 Color messageColor = Color.Orange;
@@ -2861,7 +2861,7 @@ namespace CalamityMod.NPCs.Yharon
 
                 // Mark Yharon as dead
                 CalamityWorld.downedYharon = true;
-                CalamityMod.UpdateServerBoolean();
+                CalamityNetcode.SyncWorld();
             }
         }
 

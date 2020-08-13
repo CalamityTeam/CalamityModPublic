@@ -222,7 +222,7 @@ namespace CalamityMod.NPCs.Calamitas
 
             // Mark Calamitas as dead
             CalamityWorld.downedCalamitas = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void BossLoot(ref string name, ref int potionType)

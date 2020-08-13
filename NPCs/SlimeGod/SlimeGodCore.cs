@@ -700,7 +700,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
             // Mark the Slime God as dead
             CalamityWorld.downedSlimeGod = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void HitEffect(int hitDirection, double damage)

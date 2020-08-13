@@ -441,7 +441,7 @@ namespace CalamityMod.NPCs.Bumblebirb
 
             // Mark The Dragonfolly as dead
             CalamityWorld.downedBumble = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)

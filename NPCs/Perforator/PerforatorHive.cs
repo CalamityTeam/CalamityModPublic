@@ -420,7 +420,7 @@ namespace CalamityMod.NPCs.Perforator
 
             // Mark The Perforator Hive as dead
             CalamityWorld.downedPerforator = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
         public override void HitEffect(int hitDirection, double damage)

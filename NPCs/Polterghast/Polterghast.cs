@@ -883,7 +883,7 @@ namespace CalamityMod.NPCs.Polterghast
 
             // Mark Polterghast as dead
             CalamityWorld.downedPolterghast = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
         }
 
 		public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -34,7 +34,7 @@ namespace CalamityMod.Items.Tools.ClimateChange
         public override bool UseItem(Player player)
         {
             Main.bloodMoon = true;
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
             return true;
         }
 

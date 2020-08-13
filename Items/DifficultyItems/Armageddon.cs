@@ -74,7 +74,7 @@ namespace CalamityMod.Items.DifficultyItems
                 NetMessage.BroadcastChatMessage(NetworkText.FromKey(key), messageColor);
             }
 
-            CalamityMod.UpdateServerBoolean();
+            CalamityNetcode.SyncWorld();
 
             if (Main.netMode == NetmodeID.Server)
             {
