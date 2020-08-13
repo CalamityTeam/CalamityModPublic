@@ -4934,6 +4934,7 @@ namespace CalamityMod.CalPlayer
                     }
                 }
             }
+			proj.Calamity().stealthStrikeHitCount++;
         }
         #endregion
 
@@ -5811,7 +5812,7 @@ namespace CalamityMod.CalPlayer
                         Projectile.NewProjectile(target.Center, velocity, ModContent.ProjectileType<UnstableSpark>(), (int)(damage * 0.15), 0f, player.whoAmI);
                     }
                 }
-                if (electricianGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue)
+                if (electricianGlove && proj.Calamity().stealthStrike && proj.Calamity().rogue && proj.Calamity().stealthStrikeHitCount < 5)
                 {
                     for (int s = 0; s < 3; s++)
                     {
@@ -5880,7 +5881,7 @@ namespace CalamityMod.CalPlayer
                         Main.projectile[fire].netUpdate = true;
                     }
                 }
-                if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || proj.Calamity().stealthStrike) && proj.type != ModContent.ProjectileType<UmbraphileBoom>())
+                if (umbraphileSet && proj.Calamity().rogue && (Main.rand.NextBool(4) || (proj.Calamity().stealthStrike && proj.Calamity().stealthStrikeHitCount < 5)) && proj.type != ModContent.ProjectileType<UmbraphileBoom>())
                 {
                     Projectile.NewProjectile(proj.Center, Vector2.Zero, ModContent.ProjectileType<UmbraphileBoom>(), CalamityUtils.DamageSoftCap(proj.damage * 0.25, 50), 0f, player.whoAmI);
                 }
