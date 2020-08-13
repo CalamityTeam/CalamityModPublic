@@ -2,6 +2,7 @@ using CalamityMod.Buffs.Alcohol;
 using CalamityMod.Buffs.DamageOverTime;
 using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.CalPlayer;
+using CalamityMod.Effects;
 using CalamityMod.Events;
 using CalamityMod.ILEditing;
 using CalamityMod.Items.Accessories;
@@ -116,7 +117,7 @@ namespace CalamityMod
         public static int ghostKillCount = 0;
         public static int sharkKillCount = 0;
 
-		// Textures & Shaders
+		// Textures
         public static Texture2D heartOriginal2;
 		public static Texture2D heartOriginal;
 		public static Texture2D rainOriginal;
@@ -125,10 +126,6 @@ namespace CalamityMod
 		public static Texture2D AstralCactusTexture;
         public static Texture2D AstralCactusGlowTexture;
         public static Texture2D AstralSky;
-        public static Effect CustomShader;
-        public static Effect LightShader;
-        public static Effect TentacleShader;
-        public static Effect LightDistortionShader;
 
         // DR data structure
         public static SortedDictionary<int, float> DRValues;
@@ -222,10 +219,6 @@ namespace CalamityMod
             AstralCactusTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactus");
             AstralCactusGlowTexture = ModContent.GetTexture("CalamityMod/ExtraTextures/Tiles/AstralCactusGlow");
             AstralSky = ModContent.GetTexture("CalamityMod/ExtraTextures/AstralSky");
-            CustomShader = GetEffect("Effects/CustomShader");
-            LightShader = GetEffect("Effects/LightBurstShader");
-            TentacleShader = GetEffect("Effects/TentacleShader");
-            LightDistortionShader = GetEffect("Effects/DistortionShader");
 
             Filters.Scene["CalamityMod:DevourerofGodsHead"] = new Filter(new DoGScreenShaderData("FilterMiniTower").UseColor(0.4f, 0.1f, 1.0f).UseOpacity(0.5f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:DevourerofGodsHead"] = new DoGSky();
@@ -254,16 +247,10 @@ namespace CalamityMod
 			Filters.Scene["CalamityMod:Signus"] = new Filter(new SignusScreenShaderData("FilterMiniTower").UseColor(0.35f, 0.1f, 0.55f).UseOpacity(0.35f), EffectPriority.VeryHigh);
 			SkyManager.Instance["CalamityMod:Signus"] = new SignusSky();
 
-            Filters.Scene["CalamityMod:Astral"] = new Filter(new AstralScreenShaderData(new Ref<Effect>(CustomShader), "AstralPass").UseColor(0.18f, 0.08f, 0.24f), EffectPriority.VeryHigh);
             SkyManager.Instance["CalamityMod:Astral"] = new AstralSky();
-
-            Filters.Scene["CalamityMod:LightBurst"] = new Filter(new ScreenShaderData(new Ref<Effect>(LightShader), "BurstPass"), EffectPriority.VeryHigh);
-            Filters.Scene["CalamityMod:LightBurst"].Load();
-
-            GameShaders.Misc["CalamityMod:SubsumingTentacle"] = new MiscShaderData(new Ref<Effect>(TentacleShader), "BurstPass");
-            GameShaders.Misc["CalamityMod:LightDistortion"] = new MiscShaderData(new Ref<Effect>(LightDistortionShader), "DistortionPass");
-
             SkyManager.Instance["CalamityMod:Cryogen"] = new CryogenSky();
+
+            CalamityShaders.LoadShaders();
 
             RipperUI.Reset();
             AstralArcanumUI.Load(this);
