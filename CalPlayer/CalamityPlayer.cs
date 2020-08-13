@@ -604,6 +604,7 @@ namespace CalamityMod.CalPlayer
         public bool meteorSet = false; //vanilla armor, for space gun nerf
         public bool victideSet = false;
         public bool sulfurSet = false;
+        public bool sulfurJump = false;
 		public bool jumpAgainSulfur = false;
 		public int sulphurBubbleCooldown = 0;
         public bool aeroSet = false;
@@ -1663,6 +1664,7 @@ namespace CalamityMod.CalPlayer
             victideSet = false;
 
             sulfurSet = false;
+			sulfurJump = false;
 
             aeroSet = false;
 
@@ -2325,6 +2327,7 @@ namespace CalamityMod.CalPlayer
             victideSet = false;
             aeroSet = false;
 			sulfurSet = false;
+			sulfurJump = false;
 			jumpAgainSulfur = false;
             statigelSet = false;
 			statigelJump = false;
@@ -3139,7 +3142,7 @@ namespace CalamityMod.CalPlayer
 						Main.dust[goo].velocity *= Main.dust[goo].scale * 0.7f;
 					}
 				}
-				else if (sulfurSet && jumpAgainSulfur)
+				else if (sulfurJump && jumpAgainSulfur)
 				{
 					jumpAgainSulfur = false;
 					int offset = player.height;
@@ -7408,6 +7411,10 @@ namespace CalamityMod.CalPlayer
             player.doubleJumpCloud = false;
             player.doubleJumpSandstorm = false;
             player.doubleJumpBlizzard = false;
+			player.doubleJumpSail = false;
+			player.doubleJumpFart = false;
+			statigelJump = false;
+			sulfurJump = false;
             player.rocketBoots = 0;
             player.jumpBoost = false;
             player.slowFall = false;
