@@ -1,5 +1,6 @@
-using Terraria;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -21,9 +22,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 180;
-
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40;
         }
 
         public override void AI()

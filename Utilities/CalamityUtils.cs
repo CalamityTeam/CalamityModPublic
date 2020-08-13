@@ -1686,10 +1686,7 @@ namespace CalamityMod
 			if (player.lifeMagnet)
 				homingSpeed *= 1.5f;
 
-			Vector2 projPos = new Vector2(projectile.Center.X, projectile.Center.Y);
-			float xDist = player.Center.X - projPos.X;
-			float yDist = player.Center.Y - projPos.Y;
-			Vector2 playerVector = new Vector2(xDist, yDist);
+			Vector2 playerVector = player.Center - projectile.Center;
 			float playerDist = playerVector.Length();
 			if (playerDist < 50f && projectile.position.X < player.position.X + player.width && projectile.position.X + projectile.width > player.position.X && projectile.position.Y < player.position.Y + player.height && projectile.position.Y + projectile.height > player.position.Y)
 			{
@@ -1721,6 +1718,139 @@ namespace CalamityMod
 				playerVector.Y *= playerDist;
 				projectile.velocity.X = (projectile.velocity.X * N + playerVector.X) / (N + 1f);
 				projectile.velocity.Y = (projectile.velocity.Y * N + playerVector.Y) / (N + 1f);
+			}
+		}
+
+		public static void ExplodeandDestroyTiles(Projectile projectile, int explosionRadius, bool checkExplosions, List<int> tilesToCheck, List<int> wallsToCheck)
+		{
+			int minTileX = (int)projectile.position.X / 16 - explosionRadius;
+			int maxTileX = (int)projectile.position.X / 16 + explosionRadius;
+			int minTileY = (int)projectile.position.Y / 16 - explosionRadius;
+			int maxTileY = (int)projectile.position.Y / 16 + explosionRadius;
+			if (minTileX < 0)
+			{
+				minTileX = 0;
+			}
+			if (maxTileX > Main.maxTilesX)
+			{
+				maxTileX = Main.maxTilesX;
+			}
+			if (minTileY < 0)
+			{
+				minTileY = 0;
+			}
+			if (maxTileY > Main.maxTilesY)
+			{
+				maxTileY = Main.maxTilesY;
+			}
+
+			bool canKillWalls = false;
+			for (int x = minTileX; x <= maxTileX; x++)
+			{
+				for (int y = minTileY; y <= maxTileY; y++)
+				{
+					Vector2 explodeArea = new Vector2(Math.Abs(x - projectile.position.X / 16f), Math.Abs(y - projectile.position.Y / 16f));
+					float distance = explodeArea.Length();
+					if (distance < explosionRadius && Main.tile[x, y] != null && Main.tile[x, y].wall == WallID.None)
+					{
+						canKillWalls = true;
+						break;
+					}
+				}
+			}
+
+			List<int> tileExcludeList = new List<int>()
+			{
+				TileID.DemonAltar,
+				TileID.ElderCrystalStand
+			};
+            for (int i = 0; i < tilesToCheck.Count; ++i)
+				tileExcludeList.Add(tilesToCheck[i]);
+			List<int> wallExcludeList = new List<int>();
+            for (int i = 0; i < wallsToCheck.Count; ++i)
+				wallExcludeList.Add(wallsToCheck[i]);
+
+			List<int> explosionCheckList = new List<int>()
+			{
+				TileID.DemonAltar,
+				TileID.Cobalt,
+				TileID.Mythril,
+				TileID.Adamantite,
+				TileID.Palladium,
+				TileID.Orichalcum,
+				TileID.Titanium,
+				TileID.Chlorophyte,
+				TileID.LihzahrdBrick,
+				TileID.LihzahrdAltar,
+				TileID.DesertFossil
+			};
+			CalamityUtils.AddWithCondition<int>(explosionCheckList, TileID.Hellstone, !Main.hardMode);
+
+			for (int i = minTileX; i <= maxTileX; i++)
+			{
+				for (int j = minTileY; j <= maxTileY; j++)
+				{
+					Tile tile = Main.tile[i, j];
+					bool t = 1 == 1; bool f = 1 == 2;
+
+					Vector2 explodeArea = new Vector2(Math.Abs(i - projectile.position.X / 16f), Math.Abs(j - projectile.position.Y / 16f));
+					float distance = explodeArea.Length();
+					if (distance < explosionRadius)
+					{
+						bool canKillTile = true;
+						if (tile != null && tile.active())
+						{
+							if (checkExplosions)
+							{
+								if (Main.tileDungeon[tile.type] || explosionCheckList.Contains(tile.type))
+								{
+									canKillTile = false;
+								}
+								if (!TileLoader.CanExplode(i, j))
+								{
+									canKillTile = false;
+								}
+							}
+							if (Main.tileContainer[tile.type])
+								canKillTile = false;
+							if (!TileLoader.CanKillTile(i, j, tile.type, ref t) || !TileLoader.CanKillTile(i, j, tile.type, ref f))
+								canKillTile = false;
+							if (tileExcludeList.Contains(tile.type))
+								canKillTile = false;
+
+							if (canKillTile)
+							{
+								WorldGen.KillTile(i, j, false, false, false);
+								if (!tile.active() && Main.netMode != NetmodeID.SinglePlayer)
+								{
+									NetMessage.SendData(MessageID.TileChange, -1, -1, null, 0, i, j, 0f, 0, 0, 0);
+								}
+							}
+						}
+						if (canKillTile)
+						{
+							for (int x = i - 1; x <= i + 1; x++)
+							{
+								for (int y = j - 1; y <= j + 1; y++)
+								{
+									bool canExplode = true;
+									if (checkExplosions)
+										canExplode = WallLoader.CanExplode(x, y, Main.tile[x, y].wall);
+									if (wallExcludeList.Any() && wallExcludeList.Contains(Main.tile[x, y].wall))
+										canKillWalls = false;
+									if (Main.tile[x, y] != null && Main.tile[x, y].wall > WallID.None && canKillWalls && canExplode)
+									{
+										WorldGen.KillWall(x, y, false);
+										if (Main.tile[x, y].wall == WallID.None && Main.netMode != NetmodeID.SinglePlayer)
+										{
+											NetMessage.SendData(MessageID.TileChange, -1, -1, null, 2, x, y, 0f, 0, 0, 0);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			}
 		}
         #endregion
