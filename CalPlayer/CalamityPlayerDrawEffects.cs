@@ -361,9 +361,10 @@ namespace CalamityMod.CalPlayer
 			float offsetY = (float)Math.Sin(drawPlayer.miscCounter / 300f * MathHelper.TwoPi) * 6f;
 			float sinusoidalTime = (float)Math.Cos(drawPlayer.miscCounter / 75f * MathHelper.TwoPi);
             Color afterimageColor = new Color(80, 70, 40, 0) * (sinusoidalTime * 0.5f + 0.5f) * 0.8f;
+			float gravCheckOffset = drawPlayer.gravDir != 1f ? -20f : 20f;
 
 			Vector2 position = new Vector2(drawInfo.position.X - drawPlayer.bodyFrame.Width / 2 + drawPlayer.width / 2, drawInfo.position.Y + drawPlayer.height - drawPlayer.bodyFrame.Height + 4f) + drawPlayer.bodyPosition;
-            position += new Vector2(drawPlayer.bodyFrame.Width / 2, drawPlayer.bodyFrame.Height / 2) + new Vector2(-drawPlayer.direction * 10, offsetY - 20);
+            position += new Vector2(drawPlayer.bodyFrame.Width / 2, drawPlayer.bodyFrame.Height / 2) + new Vector2(-drawPlayer.direction * 10, offsetY - gravCheckOffset);
             position -= Main.screenPosition;
 
             // Draw the original sign-
