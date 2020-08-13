@@ -3165,7 +3165,7 @@ namespace CalamityMod.CalPlayer
 					}
 					if (sulphurBubbleCooldown <= 0)
 					{
-						int bubble = Projectile.NewProjectile(new Vector2(Main.LocalPlayer.position.X, Main.LocalPlayer.position.Y + (Main.LocalPlayer.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, Main.LocalPlayer.whoAmI, 1f, 0f);
+						int bubble = Projectile.NewProjectile(new Vector2(player.position.X, player.position.Y + (player.gravDir == -1f ? 20 : -20)), Vector2.Zero, ModContent.ProjectileType<SulphuricAcidBubbleFriendly>(), (int)(20f * player.RogueDamage()), 0f, player.whoAmI, 1f, 0f);
 						Main.projectile[bubble].Calamity().forceRogue = true;
 						sulphurBubbleCooldown = 20;
 					}
@@ -6258,7 +6258,7 @@ namespace CalamityMod.CalPlayer
 						int dustIndex = Dust.NewDust(proj.position, proj.width, proj.height, 31, 0f, 0f, 0, default, 1f);
 						Main.dust[dustIndex].velocity *= 0.3f;
 					}
-					int damage2 = (int)(GaelsGreatsword.BaseDamage * Main.LocalPlayer.MeleeDamage());
+					int damage2 = (int)(GaelsGreatsword.BaseDamage * player.MeleeDamage());
 					proj.hostile = false;
 					proj.friendly = true;
 					proj.velocity *= -1f;
