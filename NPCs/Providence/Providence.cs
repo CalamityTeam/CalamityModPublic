@@ -1262,9 +1262,9 @@ namespace CalamityMod.NPCs.Providence
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedProvidence);
 
-			// Accessories clientside only in Expert
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), Main.expertMode, biomeType != 2);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), Main.expertMode, biomeType == 2);
+			// Accessories clientside only in Expert. Both drop if she is defeated at night.
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), Main.expertMode, biomeType != 2 || !hasTakenDaytimeDamage);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), Main.expertMode, biomeType == 2 || !hasTakenDaytimeDamage);
 
 			// Drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
 			bool shouldDrop = challenge/* || (Main.expertMode && Main.rand.NextBool(CalamityWorld.downedSCal ? 10 : 200))*/;
