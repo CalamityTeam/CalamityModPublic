@@ -34,12 +34,13 @@ namespace CalamityMod.TileEntities
 
 		public override void Update()
 		{
-			HeldItem.favorited = false;
-			if (HeldItem.type != ModContent.ItemType<PowerCell>())
+			if (HeldItem is null || HeldItem.type != ModContent.ItemType<PowerCell>())
 			{
+				HeldItem = new Item();
 				HeldItem.SetDefaults(ModContent.ItemType<PowerCell>());
 				HeldItem.stack = 0;
 			}
+			HeldItem.favorited = false;
 			Time++;
 			// Sometimes the item gets fucked up and it gets a maxStack of 0. Using it as a max can be unreliable as a result.
 			bool rightTimeToMakeCell = Time % 5 == 4 && Main.tileFrame[Main.tile[Position.X, Position.Y].type] == 43;

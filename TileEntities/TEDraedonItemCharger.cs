@@ -150,6 +150,19 @@ namespace CalamityMod.TileEntities
         }
         public override void Update()
         {
+            if (FuelItem is null || FuelItem.type != ModContent.ItemType<PowerCell>())
+            {
+                FuelItem = new Item();
+                FuelItem.SetDefaults(ModContent.ItemType<PowerCell>());
+                FuelItem.stack = 0;
+                ClientToServerSync();
+            }
+            if (ItemBeingCharged is null)
+            {
+                ItemBeingCharged = new Item();
+                ItemBeingCharged.stack = 0;
+                ClientToServerSync();
+            }
             FuelItem.favorited = false;
             ItemBeingCharged.favorited = false;
             Time++;
