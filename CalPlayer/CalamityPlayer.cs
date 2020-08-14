@@ -2824,7 +2824,7 @@ namespace CalamityMod.CalPlayer
                         {
                             brimflameFrenzy = true;
                             player.AddBuff(ModContent.BuffType<BrimflameFrenzyBuff>(), 10 * 60, true);
-                            Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BrimflameAbility"), player.Center);
                             for (int num502 = 0; num502 < 36; num502++)
                             {
                                 int dust = Dust.NewDust(new Vector2(player.position.X, player.position.Y + 16f), player.width, player.height - 16, (int)CalamityDusts.Brimstone, 0f, 0f, 0, default, 1f);
@@ -2901,7 +2901,7 @@ namespace CalamityMod.CalPlayer
                         player.AddBuff(ModContent.BuffType<AbyssalMadness>(), 300, false);
                     }
                     omegaBlueCooldown = 1800;
-                    Main.PlaySound(SoundID.Zombie, (int)player.position.X, (int)player.position.Y, 104);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OmegaBlueAbility"), player.Center);
                     for (int i = 0; i < 66; i++)
                     {
                         int d = Dust.NewDust(player.position, player.width, player.height, 20, 0, 0, 100, Color.Transparent, 2.6f);
@@ -2948,7 +2948,10 @@ namespace CalamityMod.CalPlayer
                     }
                 }
                 if (plagueReaper && plagueReaperCooldown <= 0)
+				{
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueReaperAbility"), player.Center);
                     plagueReaperCooldown = 1800;
+				}
 				if (forbiddenCirclet && forbiddenCooldown <= 0)
 				{
 					forbiddenCooldown = 45;
@@ -3012,7 +3015,7 @@ namespace CalamityMod.CalPlayer
                 if (gaelRageCooldown == 0 && player.ActiveItem().type == ModContent.ItemType<GaelsGreatsword>() &&
                     rage > 0)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), (int)player.position.X, (int)player.position.Y);
+                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/SilvaDispel"), player.Center);
                     for (int i = 0; i < 3; i++)
                     {
                         Dust.NewDust(player.position, 120, 120, 218, 0f, 0f, 100, default, 1.5f);
