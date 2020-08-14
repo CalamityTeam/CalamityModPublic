@@ -104,12 +104,16 @@ namespace CalamityMod.Projectiles
 					projectile.penetrate = projectile.maxPenetrate = 1;
 					break;
 
-				case ProjectileID.Spazmamini:
 				case ProjectileID.Retanimini:
 				case ProjectileID.MiniRetinaLaser:
 					projectile.localNPCHitCooldown = 10;
 					projectile.usesLocalNPCImmunity = true;
 					projectile.usesIDStaticNPCImmunity = false;
+					break;
+
+				case ProjectileID.Spazmamini:
+					projectile.usesIDStaticNPCImmunity = true;
+					projectile.idStaticNPCHitCooldown = 12;
 					break;
 				default:
 					break;
