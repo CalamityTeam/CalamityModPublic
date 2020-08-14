@@ -262,7 +262,7 @@ namespace CalamityMod.Projectiles.Summon
                         for (int i = 0; i < Main.rand.Next(1,4); i++)
                         {
 							Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-							int spark = Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), (int)(StormjawStaff.BaseDamage * player.MinionDamage()), projectile.knockBack, projectile.owner);
+							int spark = Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), projectile.damage, projectile.knockBack, projectile.owner);
 							Main.projectile[spark].Calamity().forceMinion = true;
 							Main.projectile[spark].timeLeft = 120;
 							Main.projectile[spark].penetrate = 3;
@@ -506,7 +506,7 @@ namespace CalamityMod.Projectiles.Summon
 									for (int j = 0; j < Main.rand.Next(1,4); j++)
 									{
 										Vector2 sparkS = new Vector2(Main.rand.NextFloat(-5f, 5f), Main.rand.NextFloat(-5f, 5f));
-										int spark = Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), (int)(StormjawStaff.BaseDamage * player.MinionDamage()), projectile.knockBack, projectile.owner);
+										int spark = Projectile.NewProjectile(projectile.Center, sparkS, ModContent.ProjectileType<Spark>(), projectile.damage, projectile.knockBack, projectile.owner);
 										Main.projectile[spark].Calamity().forceMinion = true;
 										Main.projectile[spark].timeLeft = 120;
 										Main.projectile[spark].penetrate = 3;
@@ -536,5 +536,7 @@ namespace CalamityMod.Projectiles.Summon
 			int index = Gore.NewGore(projectile.Center, new Vector2(0f, 0f), Main.rand.Next(61, 64), projectile.scale);
 			Main.gore[index].velocity *= 0.1f;
         }
+
+        public override bool CanDamage() => false;
     }
 }
