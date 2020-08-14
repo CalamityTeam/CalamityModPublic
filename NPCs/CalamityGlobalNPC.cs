@@ -347,7 +347,8 @@ namespace CalamityMod.NPCs
 			ProjectileID.BombFish,
 			ProjectileID.Beenade,
 			ProjectileID.Bee,
-			ProjectileID.GiantBee
+			ProjectileID.GiantBee,
+			ProjectileType<AeroExplosive>()
 			//ProjectileID.ScarabBomb
 		};
 
