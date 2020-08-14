@@ -4388,7 +4388,7 @@ namespace CalamityMod.NPCs
                 // Percent life remaining
                 float lifeRatio = Main.npc[Main.wof].life / (float)Main.npc[Main.wof].lifeMax;
 
-				float shootBoost = death ? 3f : 4f * (1f - lifeRatio);
+				float shootBoost = death ? 1.5f : 1.5f * (1f - lifeRatio);
 				npc.localAI[1] += 1f + shootBoost;
 
                 if (npc.localAI[2] == 0f)
@@ -4399,7 +4399,7 @@ namespace CalamityMod.NPCs
                         npc.localAI[1] = 0f;
                     }
                 }
-                else if (npc.localAI[1] > 45f && Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+                else if (npc.localAI[1] > 45f)
                 {
                     npc.localAI[1] = 0f;
                     npc.localAI[2] += 1f;
@@ -4409,7 +4409,7 @@ namespace CalamityMod.NPCs
                     if (flag30)
                     {
                         bool phase2 = lifeRatio < 0.5 || death;
-                        float velocity = 9f + shootBoost;
+                        float velocity = 3f + shootBoost;
                         if (CalamityWorld.bossRushActive)
                             velocity *= 1.5f;
 
@@ -4427,7 +4427,13 @@ namespace CalamityMod.NPCs
                         num358 *= num359;
                         vector38.X += num357;
                         vector38.Y += num358;
-                        Projectile.NewProjectile(vector38.X, vector38.Y, num357, num358, projectileType, damage, 0f, Main.myPlayer, 0f, 0f);
+
+                        int proj = Projectile.NewProjectile(vector38.X, vector38.Y, num357, num358, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
+						Main.projectile[proj].timeLeft = 900;
+
+						if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
+							Main.projectile[proj].tileCollide = false;
+
                     }
                 }
             }

@@ -163,8 +163,7 @@ namespace CalamityMod.NPCs.Polterghast
             float num730 = 0f;
             float num731 = 0f;
             int num732 = 0;
-            int num;
-            for (int num733 = 0; num733 < 200; num733 = num + 1)
+            for (int num733 = 0; num733 < Main.maxNPCs; num733++)
             {
                 if (Main.npc[num733].active && Main.npc[num733].type == ModContent.NPCType<PolterghastHook>())
                 {
@@ -175,7 +174,6 @@ namespace CalamityMod.NPCs.Polterghast
                     if (num732 > 3)
                         break;
                 }
-                num = num733;
             }
             num730 /= num732;
             num731 /= num732;
@@ -315,13 +313,13 @@ namespace CalamityMod.NPCs.Polterghast
 			// Scale multiplier based on nearby active tiles
 			float tileEnrageMult = 1f;
 			if (nearbyActiveTiles < 800)
-				tileEnrageMult += (800 - nearbyActiveTiles) * 0.001f; // Ranges from 1f to 1.8f
+				tileEnrageMult += (800 - nearbyActiveTiles) * 0.00075f; // Ranges from 1f to 1.6f
 
 			// Used to inform clone and hooks about number of active tiles nearby
 			npc.ai[3] = tileEnrageMult;
 
 			// Increase projectile fire rate based on number of nearby active tiles
-			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 2f, 1f - ((tileEnrageMult - 1f) / 0.8f));
+			float projectileFireRateMultiplier = MathHelper.Lerp(1f, 2f, 1f - ((tileEnrageMult - 1f) / 0.6f));
 
 			// Increase projectile time left based on number of nearby active tiles
 			int baseProjectileTimeLeft = (int)(1200f * tileEnrageMult);
