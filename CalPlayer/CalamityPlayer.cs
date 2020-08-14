@@ -123,7 +123,6 @@ namespace CalamityMod.CalPlayer
 		public bool brimlashBusterBoost = false;
 		public float animusBoost = 1f;
 		public int potionTimer = 0;
-		public int potionTimerR = 0;
 		#endregion
 
         public int CurrentlyViewedFactoryX = -1;
@@ -2378,7 +2377,6 @@ namespace CalamityMod.CalPlayer
 			brimlashBusterBoost = false;
 			animusBoost = 1f;
 			potionTimer = 0;
-			potionTimerR = 0;
 
             if (CalamityWorld.bossRushActive)
             {

@@ -790,6 +790,93 @@ namespace CalamityMod
             }
             return hitbox;
         }
+
+		/*public static Item QuickHealCheck(Player player)
+		{
+			int missingHealth = player.statLifeMax2 - player.statLife;
+			Item bestHealingItem = null;
+			int negMaxLife = -player.statLifeMax2;
+			for (int index = 0; index < Main.maxInventory; ++index)
+			{
+				Item healingItem = player.inventory[index];
+				if (healingItem.stack > 0 && healingItem.type > 0 && (healingItem.potion && healingItem.healLife > 0))
+				{
+					int wastedHealing = healingItem.healLife - missingHealth;
+					if (negMaxLife < 0)
+					{
+						if (wastedHealing > negMaxLife)
+						{
+							bestHealingItem = healingItem;
+							negMaxLife = wastedHealing;
+						}
+					}
+				else if (wastedHealing < negMaxLife && wastedHealing >= 0)
+				{
+					bestHealingItem = healingItem;
+					negMaxLife = wastedHealing;
+				}
+			}
+			return bestHealingItem;
+		}*/
+
+		public static void ConsumeItemViaQuickBuff(Player player, Item item, int buffType, int buffTime, bool reducedPotionSickness)
+		{
+			bool showsOver = false;
+			for (int l = 0; l < Player.MaxBuffs; l++)
+			{
+				int hasBuff = player.buffType[l];
+				if (player.buffTime[l] > 0 && hasBuff == buffType)
+					showsOver = true;
+			}
+
+			if (!showsOver)
+			{
+				Main.PlaySound(item.UseSound, player.Center);
+
+				int healAmt = player.Calamity().bloodPactBoost ? (int)(item.healLife * 1.5) : item.healLife;
+				if (CalamityWorld.ironHeart)
+					healAmt = 0;
+				if (healAmt > 0 && player.QuickHeal_GetItemToUse() != null)
+				{
+					if (player.QuickHeal_GetItemToUse().type != item.type)
+						healAmt = 0;
+				}
+
+				player.statLife += healAmt;
+				player.statMana += item.healMana;
+				if (player.statMana > player.statManaMax2)
+				{
+					player.statMana = player.statManaMax2;
+				}
+				if (player.statLife > player.statLifeMax2)
+				{
+					player.statLife = player.statLifeMax2;
+				}
+				if (item.healMana > 0)
+					player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
+				if (Main.myPlayer == player.whoAmI)
+				{
+					if (healAmt > 0)
+						player.HealEffect(healAmt, true);
+					if (item.healMana > 0)
+						player.ManaEffect(item.healMana);
+				}
+				if (item.potion)
+				{
+					int duration = reducedPotionSickness ? 3000 : 3600;
+					if (player.pStone)
+						duration = (int)(duration * 0.75);
+					player.AddBuff(BuffID.PotionSickness, duration);
+				}
+
+				player.AddBuff(buffType, buffTime);
+
+				--item.stack;
+				if (item.stack <= 0)
+					item.TurnToAir();
+				Recipe.FindRecipes();
+			}
+		}
         #endregion
 
         #region Projectile Utilities

@@ -34,14 +34,7 @@ Reduces life regen by 1");
 
         public override bool CanUseItem(Player player)
         {
-            if (player.Calamity().baguette)
-            {
-                item.healLife = 250;
-            }
-            else
-            {
-                item.healLife = 200;
-            }
+			item.healLife = player.Calamity().baguette ? 250 : 200;
             return base.CanUseItem(player);
         }
 
