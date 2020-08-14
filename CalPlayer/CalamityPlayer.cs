@@ -7067,6 +7067,7 @@ namespace CalamityMod.CalPlayer
 				else if (npc.type == NPCID.AncientDoom)
 				{
 					player.AddBuff(ModContent.BuffType<Horror>(), 180);
+					player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
 				}
 				else if (npc.type == NPCID.AncientLight)
 				{
@@ -7134,6 +7135,11 @@ namespace CalamityMod.CalPlayer
 				else if (proj.type == ProjectileID.AncientDoomProjectile)
 				{
 					player.AddBuff(ModContent.BuffType<Horror>(), 180);
+					player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
+				}
+				else if (proj.type == ProjectileID.CultistBossFireBallClone)
+				{
+					player.AddBuff(ModContent.BuffType<Shadowflame>(), 120);
 				}
 			}
 			if (CalamityMod.projectileDestroyExceptionList.TrueForAll(x => proj.type != x))

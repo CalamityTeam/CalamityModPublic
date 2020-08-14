@@ -9959,6 +9959,8 @@ namespace CalamityMod.NPCs
         {
             CalamityGlobalNPC calamityGlobalNPC = npc.Calamity();
 
+			npc.damage = 0;
+
             // Die if body is gone
             if (NPC.golemBoss < 0)
             {
