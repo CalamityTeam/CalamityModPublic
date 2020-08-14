@@ -744,7 +744,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.VortexDebuff, 240, true);
+            player.AddBuff(BuffID.VortexDebuff, 180, true);
             if (CalamityWorld.revenge)
             {
                 player.AddBuff(ModContent.BuffType<Horror>(), 120, true);
