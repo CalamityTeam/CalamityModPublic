@@ -4418,17 +4418,11 @@ namespace CalamityMod.NPCs
 							damage += 2;
 						int projectileType = phase2 ? ProjectileID.DeathLaser : ProjectileID.EyeLaser;
 
-                        vector38 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                        num357 = Main.player[npc.target].position.X + Main.player[npc.target].width * 0.5f - vector38.X;
-                        num358 = Main.player[npc.target].position.Y + Main.player[npc.target].height * 0.5f - vector38.Y;
-                        num359 = (float)Math.Sqrt(num357 * num357 + num358 * num358);
-                        num359 = velocity / num359;
-                        num357 *= num359;
-                        num358 *= num359;
-                        vector38.X += num357;
-                        vector38.Y += num358;
+						float laserSpawnDistance = 30f;
+						Vector2 projectileVelocity = Vector2.Normalize(Main.player[npc.target].Center + Main.player[npc.target].velocity * 20f - npc.Center) * velocity;
+						Vector2 projectileSpawn = npc.Center + projectileVelocity * laserSpawnDistance;
 
-                        int proj = Projectile.NewProjectile(vector38.X, vector38.Y, num357, num358, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
+						int proj = Projectile.NewProjectile(projectileSpawn, projectileVelocity, projectileType, damage, 0f, Main.myPlayer, 1f, 0f);
 						Main.projectile[proj].timeLeft = 900;
 
 						if (!Collision.CanHit(npc.position, npc.width, npc.height, Main.player[npc.target].position, Main.player[npc.target].width, Main.player[npc.target].height))
