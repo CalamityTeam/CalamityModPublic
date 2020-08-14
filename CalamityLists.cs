@@ -69,7 +69,7 @@ using Terraria.ModLoader;
 
 namespace CalamityMod
 {
-    public class CalamityLists : Mod
+    public class CalamityLists
     {
         public static IList<string> donatorList;
         public static List<int> trueMeleeProjectileList; // DO NOT, EVER, DELETE THIS LIST, OR I WILL COME FOR YOU :D
