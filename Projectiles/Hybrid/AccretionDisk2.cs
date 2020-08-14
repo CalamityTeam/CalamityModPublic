@@ -34,11 +34,10 @@ namespace CalamityMod.Projectiles.Hybrid
         {
             if (Main.rand.NextBool(10))
             {
-                int num250 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.5f);
+                int num250 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 0.5f);
                 Main.dust[num250].noGravity = true;
                 Main.dust[num250].velocity *= 0f;
             }
-            Lighting.AddLight(projectile.Center, 0.15f, 1f, 0.25f);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
