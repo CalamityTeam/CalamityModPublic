@@ -181,7 +181,7 @@ namespace CalamityMod.NPCs.Leviathan
 
 					if (npc.position.Y > Main.worldSurface * 16.0)
                     {
-                        for (int x = 0; x < 200; x++)
+                        for (int x = 0; x < Main.maxNPCs; x++)
                         {
                             if (Main.npc[x].type == ModContent.NPCType<Siren>())
                             {
@@ -241,12 +241,12 @@ namespace CalamityMod.NPCs.Leviathan
                     }
 
                     int num414 = 1;
-                    if (npc.position.X + (npc.width / 2) < player.position.X + player.width)
+                    if (npc.Center.X < player.position.X + player.width)
                         num414 = -1;
 
-                    Vector2 vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num415 = player.position.X + (player.width / 2) + (num414 * ((sirenAlive && !phase4) ? 1000f : 800f)) - vector40.X;
-                    float num416 = player.position.Y + (player.height / 2) - vector40.Y;
+                    Vector2 vector40 = npc.Center;
+                    float num415 = player.Center.X + (num414 * ((sirenAlive && !phase4) ? 1000f : 800f)) - vector40.X;
+                    float num416 = player.Center.Y - vector40.Y;
                     float num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
                     num417 = num412 / num417;
                     num415 *= num417;
@@ -310,41 +310,42 @@ namespace CalamityMod.NPCs.Leviathan
                         if (npc.ai[2] >= 75f)
                         {
                             npc.ai[2] = 0f;
-                            vector40 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f + 20f);
-                            num415 = player.position.X + (player.width / 2) - vector40.X;
-                            num416 = player.position.Y + (player.height / 2) - vector40.Y;
+                            vector40 = new Vector2(npc.Center.X, npc.Center.Y + 20f);
+                            num415 = player.Center.X - vector40.X;
+                            num416 = player.Center.Y - vector40.Y;
 
                             if (Main.netMode != NetmodeID.MultiplayerClient)
                             {
-                                float num418 = (sirenAlive && !phase4 && !death) ? 13.5f : 16f;
-                                int num419 = 40;
-                                int num420 = ModContent.ProjectileType<LeviathanBomb>();
+                                float speed = (sirenAlive && !phase4 && !death) ? 13.5f : 16f;
+                                int dmg = 40;
+                                int projType = ModContent.ProjectileType<LeviathanBomb>();
 
                                 if (expertMode)
                                 {
-                                    num418 = (sirenAlive && !phase4 && !death) ? 14f : 17f;
-									num419 = 33;
+                                    speed = (sirenAlive && !phase4 && !death) ? 14f : 17f;
+									dmg = 33;
                                 }
 
                                 if (npc.Calamity().enraged > 0 || (CalamityConfig.Instance.BossRushXerocCurse && CalamityWorld.bossRushActive))
-                                    num418 = 22f;
+                                    speed = 22f;
 
 								if (!sirenAlive || phase4)
 								{
-									num418 += 3f * (1f - lifeRatio);
-									num419 += expertMode ? 3 : 4;
+									speed += 3f * (1f - lifeRatio);
+									dmg += expertMode ? 3 : 4;
 								}
 
 								if (CalamityWorld.bossRushActive)
-                                    num418 *= 1.5f;
+                                    speed *= 1.5f;
 
                                 num417 = (float)Math.Sqrt(num415 * num415 + num416 * num416);
-                                num417 = num418 / num417;
+                                num417 = speed / num417;
                                 num415 *= num417;
                                 num416 *= num417;
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
-                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, num420, num419, 0f, Main.myPlayer, 0f, 0f);
+                                Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
+								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LeviathanRoarMeteor"), npc.Center);
                             }
                         }
                     }
@@ -353,15 +354,15 @@ namespace CalamityMod.NPCs.Leviathan
                 {
                     npc.TargetClosest(true);
 
-                    Vector2 vector119 = new Vector2(npc.position.X + (npc.width / 2), npc.position.Y + npc.height * 0.8f);
-                    Vector2 vector120 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                    float num1058 = player.position.X + (player.width / 2) - vector120.X;
-                    float num1059 = player.position.Y + (player.height / 2) - vector120.Y;
+                    Vector2 vector119 = new Vector2(npc.Center.X, npc.position.Y + npc.height * 0.8f);
+                    Vector2 vector120 = npc.Center;
+                    float num1058 = player.Center.X - vector120.X;
+                    float num1059 = player.Center.Y - vector120.Y;
                     float num1060 = (float)Math.Sqrt(num1058 * num1058 + num1059 * num1059);
 
                     npc.ai[1] += 1f;
 					int num638 = 0;
-					for (int num639 = 0; num639 < 255; num639++)
+					for (int num639 = 0; num639 < Main.maxPlayers; num639++)
 					{
 						if (Main.player[num639].active && !Main.player[num639].dead && (vector - Main.player[num639].Center).Length() < 1000f)
 							num638++;
@@ -410,8 +411,8 @@ namespace CalamityMod.NPCs.Leviathan
                         }
 
                         vector120 = vector119;
-                        num1058 = player.position.X + (player.width / 2) - vector120.X;
-                        num1059 = player.position.Y + (player.height / 2) - vector120.Y;
+                        num1058 = player.Center.X - vector120.X;
+                        num1059 = player.Center.Y - vector120.Y;
                         num1060 = (float)Math.Sqrt(num1058 * num1058 + num1059 * num1059);
                         num1060 = num1063 / num1060;
 
@@ -501,15 +502,16 @@ namespace CalamityMod.NPCs.Leviathan
                             if (CalamityWorld.bossRushActive)
                                 num1044 *= 1.25f;
 
-                            Vector2 vector117 = new Vector2(npc.position.X + npc.width * 0.5f, npc.position.Y + npc.height * 0.5f);
-                            float num1045 = player.position.X + (player.width / 2) - vector117.X;
-                            float num1046 = player.position.Y + (player.height / 2) - vector117.Y;
+                            Vector2 vector117 = npc.Center;
+                            float num1045 = player.Center.X - vector117.X;
+                            float num1046 = player.Center.Y - vector117.Y;
                             float num1047 = (float)Math.Sqrt(num1045 * num1045 + num1046 * num1046);
                             num1047 = num1044 / num1047;
                             npc.velocity.X = num1045 * num1047;
                             npc.velocity.Y = num1046 * num1047;
                             npc.spriteDirection = npc.direction;
-                            Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, soundChoiceRage);
+							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LeviathanRoarCharge"), npc.Center);
+                            //Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, soundChoiceRage);
                             return;
                         }
 
@@ -532,7 +534,7 @@ namespace CalamityMod.NPCs.Leviathan
                             num1049 *= 1.25f;
                         }
 
-                        if (npc.position.Y + (npc.height / 2) < (player.position.Y + (player.height / 2)))
+                        if (npc.Center.Y < player.Center.Y)
                             npc.velocity.Y += num1049;
                         else
                             npc.velocity.Y -= num1049;
@@ -542,9 +544,9 @@ namespace CalamityMod.NPCs.Leviathan
                         if (npc.velocity.Y > num1048)
                             npc.velocity.Y = num1048;
 
-                        if (Math.Abs(npc.position.X + (npc.width / 2) - (player.position.X + (player.width / 2))) > chargeDistance + 200f)
+                        if (Math.Abs(npc.Center.X - player.Center.X) > chargeDistance + 200f)
                             npc.velocity.X += num1049 * npc.direction;
-                        else if (Math.Abs(npc.position.X + (npc.width / 2) - (player.position.X + (player.width / 2))) < chargeDistance)
+                        else if (Math.Abs(npc.Center.X - player.Center.X) < chargeDistance)
                             npc.velocity.X -= num1049 * npc.direction;
                         else
                             npc.velocity.X *= 0.8f;
@@ -566,9 +568,9 @@ namespace CalamityMod.NPCs.Leviathan
                         npc.spriteDirection = npc.direction;
 
                         int num1051 = 1;
-                        if (npc.position.X + (npc.width / 2) < player.position.X + (player.width / 2))
+                        if (npc.Center.X < player.Center.X)
                             num1051 = -1;
-                        if (npc.direction == num1051 && Math.Abs(npc.position.X + (npc.width / 2) - (player.position.X + (player.width / 2))) > chargeDistance)
+                        if (npc.direction == num1051 && Math.Abs(npc.Center.X - player.Center.X) > chargeDistance)
                             npc.ai[2] = 1f;
 
                         if (npc.ai[2] != 1f)
