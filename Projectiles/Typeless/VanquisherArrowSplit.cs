@@ -26,7 +26,7 @@ namespace CalamityMod.Projectiles.Typeless
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
 			CalamityGlobalProjectile.HomeInOnNPC(projectile, false, 600f, 20f, 20f);
         }
 
@@ -39,8 +39,8 @@ namespace CalamityMod.Projectiles.Typeless
 				if (projectile.timeLeft < 85)
 				{
 					byte b2 = (byte)(projectile.timeLeft * 3);
-					byte a2 = (byte)(100f * ((float)b2 / 255f));
-					color = new Color((int)b2, (int)b2, (int)b2, (int)a2);
+					byte a2 = (byte)(100f * (b2 / 255f));
+					color = new Color(b2, b2, b2, a2);
 				}
 				Rectangle frame = new Rectangle(0, 0, Main.projectileTexture[projectile.type].Width, Main.projectileTexture[projectile.type].Height);
 				spriteBatch.Draw(ModContent.GetTexture("CalamityMod/Projectiles/Typeless/VanquisherArrowSplitGlow"), projectile.Center - Main.screenPosition, frame, color, projectile.rotation, projectile.Size / 2, 1f, SpriteEffects.None, 0f);
@@ -52,8 +52,8 @@ namespace CalamityMod.Projectiles.Typeless
             if (projectile.timeLeft < 85)
             {
                 byte b2 = (byte)(projectile.timeLeft * 3);
-                byte a2 = (byte)(100f * ((float)b2 / 255f));
-                return new Color((int)b2, (int)b2, (int)b2, (int)a2);
+                byte a2 = (byte)(100f * (b2 / 255f));
+                return new Color(b2, b2, b2, a2);
             }
             return new Color(0, 0, 0, 0);
         }
