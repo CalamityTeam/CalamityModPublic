@@ -345,7 +345,6 @@ namespace CalamityMod.NPCs.Leviathan
                                 vector40.X += num415 * 4f;
                                 vector40.Y += num416 * 4f;
                                 Projectile.NewProjectile(vector40.X, vector40.Y, num415, num416, projType, dmg, 0f, Main.myPlayer, 0f, 0f);
-								Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LeviathanRoarMeteor"), npc.Center);
                             }
                         }
                     }
@@ -511,7 +510,6 @@ namespace CalamityMod.NPCs.Leviathan
                             npc.velocity.Y = num1046 * num1047;
                             npc.spriteDirection = npc.direction;
 							Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LeviathanRoarCharge"), npc.Center);
-                            //Main.PlaySound(SoundID.Zombie, (int)npc.Center.X, (int)npc.Center.Y, soundChoiceRage);
                             return;
                         }
 
