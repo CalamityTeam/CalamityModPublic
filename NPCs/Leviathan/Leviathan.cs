@@ -40,7 +40,7 @@ namespace CalamityMod.NPCs.Leviathan
             npc.height = 300;
             npc.defense = 40;
 			npc.DR_NERD(0.35f);
-            npc.LifeMaxNERB(69000, 90700, 7000000);
+            npc.LifeMaxNERB(55200, 72560, 6000000);
             double HPBoost = CalamityConfig.Instance.BossHealthBoost * 0.01;
             npc.lifeMax += (int)(npc.lifeMax * HPBoost);
             npc.knockBackResist = 0f;
@@ -728,10 +728,19 @@ namespace CalamityMod.NPCs.Leviathan
 
         public override void FindFrame(int frameHeight)
         {
+			Texture2D texture = Main.npcTexture[npc.type];
+			if (npc.ai[0] == 1f || npc.Calamity().newAI[3] < 180f)
+			{
+				texture = Main.npcTexture[npc.type];
+			}
+			else
+			{
+				texture = ModContent.GetTexture("CalamityMod/NPCs/Leviathan/LeviathanAttack");
+			}
 			int horizontalFrameCount = 2;
 			int verticalFrameCount = 3;
-			int width = 2022 / horizontalFrameCount;
-			int height = 1458 / verticalFrameCount;
+			int width = texture.Width / horizontalFrameCount;
+			int height = texture.Height / verticalFrameCount;
 			int timeBetweenFrames = 8;
 
             if (!initialised)

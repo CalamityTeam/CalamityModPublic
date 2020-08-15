@@ -1,4 +1,5 @@
 using CalamityMod.Buffs.StatDebuffs;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -27,9 +28,14 @@ namespace CalamityMod.Projectiles.Boss
             projectile.velocity *= 0.99f;
         }
 
-        public override void Kill(int timeLeft)
+		public override Color? GetAlpha(Color lightColor)
+		{
+			return new Color(255, 255, 255, projectile.alpha);
+		}
+
+		public override void Kill(int timeLeft)
         {
-            Lighting.AddLight((int)((projectile.position.X + (float)(projectile.width / 2)) / 16f), (int)((projectile.position.Y + (float)(projectile.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
+            Lighting.AddLight((int)((projectile.position.X + (projectile.width / 2)) / 16f), (int)((projectile.position.Y + (projectile.height / 2)) / 16f), 0.01f, 0.25f, 0.25f);
             Main.PlaySound(SoundID.Item27, projectile.position);
             float spread = 60f * 0.0174f;
             double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
