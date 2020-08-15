@@ -9,7 +9,7 @@ namespace CalamityMod.UI
 {
     public class AcidRainUI : InvasionProgressUI
     {
-        public override bool IsActive => (CalamityWorld.rainingAcid || CalamityWorld.acidRainExtraDrawTime > 0) && Main.LocalPlayer.Calamity().ZoneSulphur;
+        public override bool IsActive => CalamityWorld.rainingAcid && Main.LocalPlayer.Calamity().ZoneSulphur;
         public override float CompletionRatio => 1f - CalamityWorld.AcidRainCompletionRatio;
         public override string InvasionName => "Acid Rain";
         public override Color InvasionBarColor => AcidRainEvent.TextColor;
