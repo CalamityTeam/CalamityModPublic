@@ -21,7 +21,6 @@ namespace CalamityMod.Tiles.DraedonStructures
             Main.tileWaterDeath[Type] = false;
             TileID.Sets.NotReallySolid[Type] = true;
             TileID.Sets.DrawsWalls[Type] = true;
-            //TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
@@ -42,6 +41,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             dustType = 8;
             closeDoorID = ModContent.TileType<AgedLaboratoryDoorClosed>();
         }
+
+        public override bool Slope(int i, int j) => false;
 
         public override bool CanExplode(int i, int j) => false;
 

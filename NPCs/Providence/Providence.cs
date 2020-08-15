@@ -1262,9 +1262,9 @@ namespace CalamityMod.NPCs.Providence
 
 			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedProvidence);
 
-			// Accessories clientside only in Expert
-			DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), Main.expertMode, biomeType != 2);
-            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), Main.expertMode, biomeType == 2);
+			// Accessories clientside only in Expert. Both drop if she is defeated at night.
+			DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianWings>(), Main.expertMode, biomeType != 2 || !hasTakenDaytimeDamage);
+            DropHelper.DropItemCondition(npc, ModContent.ItemType<ElysianAegis>(), Main.expertMode, biomeType == 2 || !hasTakenDaytimeDamage);
 
 			// Drops pre-scal, cannot be sold, does nothing aka purely vanity. Requires at least expert for consistency with other post scal dev items.
 			bool shouldDrop = challenge/* || (Main.expertMode && Main.rand.NextBool(CalamityWorld.downedSCal ? 10 : 200))*/;
@@ -1556,16 +1556,21 @@ namespace CalamityMod.NPCs.Providence
 
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
-			bool oldDaytimeDamageCheck = hasTakenDaytimeDamage;
-			hasTakenDaytimeDamage = Main.dayTime;
-
-			if (oldDaytimeDamageCheck != hasTakenDaytimeDamage && Main.netMode != NetmodeID.SinglePlayer)
+			if (!hasTakenDaytimeDamage)
 			{
-				var netMessage = mod.GetPacket();
-				netMessage.Write((byte)CalamityModMessageType.ProvidenceDyeConditionSync);
-				netMessage.Write((byte)npc.whoAmI);
-				netMessage.Write(hasTakenDaytimeDamage);
-				netMessage.Send();
+				if (Main.dayTime)
+				{
+					hasTakenDaytimeDamage = true;
+
+					if (Main.netMode != NetmodeID.SinglePlayer)
+					{
+						var netMessage = mod.GetPacket();
+						netMessage.Write((byte)CalamityModMessageType.ProvidenceDyeConditionSync);
+						netMessage.Write((byte)npc.whoAmI);
+						netMessage.Write(hasTakenDaytimeDamage);
+						netMessage.Send();
+					}
+				}
 			}
 
 			if (challenge)
@@ -1601,16 +1606,21 @@ namespace CalamityMod.NPCs.Providence
 
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
 		{
-			bool oldDaytimeDamageCheck = hasTakenDaytimeDamage;
-			hasTakenDaytimeDamage = Main.dayTime;
-
-			if (oldDaytimeDamageCheck != hasTakenDaytimeDamage && Main.netMode != NetmodeID.SinglePlayer)
+			if (!hasTakenDaytimeDamage)
 			{
-				var netMessage = mod.GetPacket();
-				netMessage.Write((byte)CalamityModMessageType.ProvidenceDyeConditionSync);
-				netMessage.Write((byte)npc.whoAmI);
-				netMessage.Write(hasTakenDaytimeDamage);
-				netMessage.Send();
+				if (Main.dayTime)
+				{
+					hasTakenDaytimeDamage = true;
+
+					if (Main.netMode != NetmodeID.SinglePlayer)
+					{
+						var netMessage = mod.GetPacket();
+						netMessage.Write((byte)CalamityModMessageType.ProvidenceDyeConditionSync);
+						netMessage.Write((byte)npc.whoAmI);
+						netMessage.Write(hasTakenDaytimeDamage);
+						netMessage.Send();
+					}
+				}
 			}
 
 			if (challenge)

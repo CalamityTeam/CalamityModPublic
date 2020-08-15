@@ -1,5 +1,6 @@
-using Terraria;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalamityMod.Projectiles.Rogue
@@ -21,9 +22,6 @@ namespace CalamityMod.Projectiles.Rogue
             projectile.Calamity().rogue = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 180;
-
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 40;
         }
 
         public override void AI()
@@ -47,7 +45,7 @@ namespace CalamityMod.Projectiles.Rogue
 				return;
 
 			//glass-pot break sound
-			Main.PlaySound(13, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
+			Main.PlaySound(SoundID.Shatter, (int)projectile.position.X, (int)projectile.position.Y, 1, 1f, 0f);
 
             int blackhole = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<SealedSingularityBlackhole>(), projectile.damage, projectile.knockBack, projectile.owner, projectile.Calamity().stealthStrike ? -180f : 0f, 0f);
 			Main.projectile[blackhole].Center = projectile.Center;

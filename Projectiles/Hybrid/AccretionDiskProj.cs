@@ -35,7 +35,7 @@ namespace CalamityMod.Projectiles.Hybrid
 
 		public override void AI()
 		{
-			if (Main.rand.NextBool(2))
+			if (Main.rand.NextBool(3))
 			{
 				int rainbow = Dust.NewDust(projectile.position, projectile.width, projectile.height, 66, (float)(projectile.direction * 2), 0f, 150, new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB), 1.3f);
 				Main.dust[rainbow].noGravity = true;
@@ -74,9 +74,10 @@ namespace CalamityMod.Projectiles.Hybrid
 			if (homeIn)
 			{
 				projectile.localAI[0] += 1f;
-				if (projectile.localAI[0] % 8f == 0f && Main.rand.NextBool(3))
+				if (projectile.localAI[0] % 10f == 0f && Main.rand.NextBool(5))
 				{
-					if (projectile.owner == Main.myPlayer)
+					int splitProj = ModContent.ProjectileType<AccretionDisk2>();
+					if (projectile.owner == Main.myPlayer && Main.player[projectile.owner].ownedProjectileCounts[splitProj] < 25)
 					{
 						float spread = 45f * 0.0174f;
 						double startAngle = Math.Atan2(projectile.velocity.X, projectile.velocity.Y) - spread / 2;
@@ -85,10 +86,10 @@ namespace CalamityMod.Projectiles.Hybrid
 						for (int i = 0; i < 4; i++)
 						{
 							offsetAngle = startAngle + deltaAngle * (i + i * i) / 2f + 32f * i;
-							int disk = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AccretionDisk2>(), projectile.damage, projectile.knockBack, projectile.owner);
+							int disk = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(Math.Sin(offsetAngle) * 5f), (float)(Math.Cos(offsetAngle) * 5f), splitProj, projectile.damage, projectile.knockBack, projectile.owner);
 							Main.projectile[disk].Calamity().forceMelee = projectile.melee;
 							Main.projectile[disk].Calamity().forceRogue = projectile.Calamity().rogue;
-							int disk2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), ModContent.ProjectileType<AccretionDisk2>(), projectile.damage, projectile.knockBack, projectile.owner);
+							int disk2 = Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, (float)(-Math.Sin(offsetAngle) * 5f), (float)(-Math.Cos(offsetAngle) * 5f), splitProj, projectile.damage, projectile.knockBack, projectile.owner);
 							Main.projectile[disk2].Calamity().forceMelee = projectile.melee;
 							Main.projectile[disk2].Calamity().forceRogue = projectile.Calamity().rogue;
 						}

@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             DisplayName.SetDefault("Caustic Staff");
             Tooltip.SetDefault("Summons a mini dragon to fight for you\n" +
-                               "The dragon inflicts several debilitating debuffs");
+                               "The dragon can inflict several debilitating debuffs if you hold a summon weapon or tool");
         }
 
         public override void SetDefaults()
@@ -38,7 +38,7 @@ namespace CalamityMod.Items.Weapons.Summon
         {
             if (player.altFunctionUse != 2)
             {
-                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(Main.MouseWorld, Vector2.Zero, type, damage, knockBack, player.whoAmI, 0f, 1f);
             }
             return false;
         }

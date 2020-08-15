@@ -205,23 +205,19 @@ namespace CalamityMod.Items.Mounts
 
 							if (tileDist < mineHeight)
 							{
+								bool t = 1 == 1;
+								bool f = 1 == 2;
+								bool canBreakTileCheck = TileLoader.CanKillTile(x, y, tile.type, ref t) && TileLoader.CanKillTile(x, y, tile.type, ref f);
 								List<int> tileExcludeList = new List<int>()
 								{ 
-									ModContent.TileType<ArenaTile>(),
 									ModContent.TileType<AbyssGravel>(),
 									ModContent.TileType<Voidstone>(),
 									TileID.DemonAltar,
 									TileID.ElderCrystalStand
 								};
-								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<EutrophicSand>(), !CalamityWorld.downedDesertScourge);
-								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<Navystone>(), !CalamityWorld.downedDesertScourge);
-								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<SeaPrism>(), !CalamityWorld.downedDesertScourge);
-								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<SeaPrismCrystals>(), !CalamityWorld.downedDesertScourge);
-								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<CharredOre>(), !CalamityWorld.downedBrimstoneElemental);
-								CalamityUtils.AddWithCondition<int>(tileExcludeList, ModContent.TileType<AstralOre>(), !CalamityWorld.downedStarGod);
 
 								if (tile.active() && !player.noBuilding && !Main.tileContainer[tile.type] &&
-									tileExcludeList.TrueForAll(z => tile.type != z) && pickReq < highestPickPower)
+									tileExcludeList.TrueForAll(z => tile.type != z) && pickReq < highestPickPower && canBreakTileCheck)
 								{
 									WorldGen.KillTile(x, y, false, false, false);
 									if (!Main.tile[x, y].active() && Main.netMode != NetmodeID.SinglePlayer)

@@ -7,7 +7,10 @@ using CalamityMod.Buffs.Summon;
 using CalamityMod.Dusts;
 using CalamityMod.Items.Armor;
 using CalamityMod.Items.Fishing.AstralCatches;
+using CalamityMod.Items.Fishing.BrimstoneCragCatches;
 using CalamityMod.Items.Fishing.FishingRods;
+using CalamityMod.Items.Potions;
+using CalamityMod.Items.Potions.Alcohol;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.NPCs;
@@ -30,6 +33,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent.Events;
+using Terraria.GameInput;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -101,6 +105,9 @@ namespace CalamityMod.CalPlayer
 
 			// Double Jumps
 			DoubleJumps(player, modPlayer);
+
+			// Potions (Quick Buff && Potion Sickness)
+			HandlePotions(player, modPlayer);
 		}
 		#endregion
 
@@ -992,10 +999,6 @@ namespace CalamityMod.CalPlayer
 				modPlayer.dogTextCooldown--;
 			if (modPlayer.titanCooldown > 0)
 				modPlayer.titanCooldown--;
-			if (modPlayer.potionTimer > 0)
-				modPlayer.potionTimer--;
-			if (modPlayer.potionTimerR > 0)
-				modPlayer.potionTimerR--;
 			if (modPlayer.omegaBlueCooldown > 0)
 				modPlayer.omegaBlueCooldown--;
 			if (modPlayer.plagueReaperCooldown > 0)
@@ -3784,17 +3787,6 @@ namespace CalamityMod.CalPlayer
 				}
 			}
 
-			if (modPlayer.potionTimer > 0 && player.potionDelay == 0)
-				player.potionDelay = modPlayer.potionTimer;
-			if (modPlayer.potionTimer == 1)
-			{
-				int duration = modPlayer.potionTimerR > 0 ? 3000 : 3600;
-				if (player.pStone)
-					duration = (int)(duration * 0.75);
-				player.ClearBuff(BuffID.PotionSickness);
-				player.AddBuff(BuffID.PotionSickness, duration);
-			}
-
 			if (CalamityConfig.Instance.Proficiency)
 				modPlayer.GetStatBonuses();
 
@@ -3999,6 +3991,48 @@ namespace CalamityMod.CalPlayer
 			{
 				modPlayer.jumpAgainSulfur = true;
 				modPlayer.jumpAgainStatigel = true;
+			}
+		}
+		#endregion
+
+		#region Potion Handling
+		private static void HandlePotions(Player player, CalamityPlayer modPlayer)
+		{
+			if (modPlayer.potionTimer > 0)
+				modPlayer.potionTimer--;
+			if (modPlayer.potionTimer > 0 && player.potionDelay == 0)
+				player.potionDelay = modPlayer.potionTimer;
+			if (modPlayer.potionTimer == 1)
+			{
+				//Reduced duration than normal
+				int duration = 3000;
+				if (player.pStone)
+					duration = (int)(duration * 0.75);
+				player.ClearBuff(BuffID.PotionSickness);
+				player.AddBuff(BuffID.PotionSickness, duration);
+			}
+			//To speed up testing, but shouldn't affect public anyways
+			if (player.buffTime[BuffID.PotionSickness] == 0)
+				player.potionDelay = 0;
+
+			if (PlayerInput.Triggers.JustPressed.QuickBuff)
+			{
+				for (int i = 0; i < Main.maxInventory; ++i)
+				{
+					Item item = player.inventory[i];
+
+					if (player.potionDelay > 0 && modPlayer.potionTimer > 0)
+						continue;
+					if (item is null || item.stack <= 0)
+						continue;
+
+					if (item.type == ModContent.ItemType<SunkenStew>())
+						CalamityUtils.ConsumeItemViaQuickBuff(player, item, SunkenStew.BuffType, SunkenStew.BuffDuration, true);
+					if (item.type == ModContent.ItemType<Margarita>())
+						CalamityUtils.ConsumeItemViaQuickBuff(player, item, Margarita.BuffType, Margarita.BuffDuration, false);
+					if (item.type == ModContent.ItemType<Bloodfin>())
+						CalamityUtils.ConsumeItemViaQuickBuff(player, item, Bloodfin.BuffType, Bloodfin.BuffDuration, false);
+				}
 			}
 		}
 		#endregion

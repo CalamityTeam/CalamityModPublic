@@ -33,6 +33,11 @@ namespace CalamityMod.Tiles.Abyss
             return false;
         }
 
+        public override bool CanExplode(int i, int j)
+        {
+            return false;
+        }
+
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             int uniqueAnimationFrameX = 0;

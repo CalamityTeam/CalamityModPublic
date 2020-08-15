@@ -569,38 +569,27 @@ namespace CalamityMod.NPCs
 
             if (shellfishVore > 0)
             {
-                if (npc.lifeRegen > 0)
-                {
-                    npc.lifeRegen = 0;
-                }
-
                 int projectileCount = 0;
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
                     if (Main.projectile[j].active &&
                         (Main.projectile[j].type == ProjectileType<Shellfish>()) &&
-                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI &&
-                        projectileCount < 5)
+                        Main.projectile[j].ai[0] == 1f && Main.projectile[j].ai[1] == npc.whoAmI)
                     {
                         projectileCount++;
+						if (projectileCount >= 5)
+						{
+							projectileCount = 5;
+							break;
+						}
                     }
                 }
 
-                npc.lifeRegen -= projectileCount * 250;
-
-                if (damage < projectileCount * 50)
-                {
-                    damage = projectileCount * 50;
-                }
+				ApplyDPSDebuff(shellfishVore, projectileCount * 250, projectileCount * 50, ref npc.lifeRegen, ref damage);
             }
 
             if (clamDebuff > 0)
             {
-                if (npc.lifeRegen > 0)
-                {
-                    npc.lifeRegen = 0;
-                }
-
                 int projectileCount = 0;
                 for (int j = 0; j < Main.maxProjectiles; j++)
                 {
@@ -613,12 +602,7 @@ namespace CalamityMod.NPCs
                     }
                 }
 
-                npc.lifeRegen -= projectileCount * 15;
-
-                if (damage < projectileCount * 3)
-                {
-                    damage = projectileCount * 3;
-                }
+				ApplyDPSDebuff(clamDebuff, projectileCount * 15, projectileCount * 3, ref npc.lifeRegen, ref damage);
             }
 
             if (cDepth > 0)
@@ -778,8 +762,8 @@ namespace CalamityMod.NPCs
                     npc.type != NPCType<StormWeaverBodyNaked>() && npc.type != NPCType<StormWeaverTailNaked>() &&
                     npc.type != NPCType<DevourerofGodsHeadS>() && npc.type != NPCType<DevourerofGodsBodyS>() &&
                     npc.type != NPCType<DevourerofGodsTailS>() && npc.type != NPCType<CalamitasRun3>() &&
-					((npc.type != ModContent.NPCType<AstrumDeusHeadSpectral>() && npc.type != ModContent.NPCType<AstrumDeusBodySpectral>() &&
-					npc.type != ModContent.NPCType<AstrumDeusTailSpectral>()) && npc.Calamity().newAI[0] != 0f))
+					((npc.type != NPCType<AstrumDeusHeadSpectral>() && npc.type != NPCType<AstrumDeusBodySpectral>() &&
+					npc.type != NPCType<AstrumDeusTailSpectral>()) && npc.Calamity().newAI[0] != 0f))
                 {
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -3781,7 +3765,7 @@ namespace CalamityMod.NPCs
                     spawnRate = (int)(spawnRate * 0.7);
                     maxSpawns = (int)(maxSpawns * 1.2f);
 
-                    if (player.Calamity().ZoneSulphur && !player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
+                    if (!player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
                     {
                         if (AcidRainEvent.AnyRainMinibosses)
                         {
@@ -3865,6 +3849,15 @@ namespace CalamityMod.NPCs
                 spawnRate = (int)(spawnRate * 0.2);
                 maxSpawns = (int)(maxSpawns * 5f);
             }
+			if (NPC.AnyNPCs(NPCType<WulfrumPylon>()))
+			{
+				int otherWulfrumEnemies = NPC.CountNPCS(NPCType<WulfrumDrone>()) + NPC.CountNPCS(NPCType<WulfrumGyrator>()) + NPC.CountNPCS(NPCType<WulfrumHovercraft>()) + NPC.CountNPCS(NPCType<WulfrumRover>());
+				if (otherWulfrumEnemies < 4)
+				{
+					spawnRate = (int)(spawnRate * 0.8);
+					maxSpawns = (int)(maxSpawns * 1.2f);
+				}
+			}
 
 			// Reductions
 			if (player.Calamity().hiveMindLore)
