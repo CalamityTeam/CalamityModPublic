@@ -66,6 +66,7 @@ namespace CalamityMod.Items.Armor
 					Main.dust[d].noGravity = true;
 					Main.dust[d].velocity *= 6.6f;
 				}
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/PlagueReaperRecharge"), player.Center);
 			}
             if (modPlayer.plagueReaperCooldown == 1500)
             {

@@ -75,6 +75,7 @@ namespace CalamityMod.Items.Armor
 					Main.dust[d].fadeIn = 1f;
 					Main.dust[d].velocity *= 6.6f;
 				}
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/OmegaBlueRecharge"), player.Center);
 			}
             if (player.Calamity().omegaBlueCooldown == 1500)
             {
