@@ -244,7 +244,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					Vector2 goToVector = buffedSlime == 1 ? purpleSlimeVector : redSlimeVector;
 
 					Vector2 goToPosition = goToVector - vectorCenter;
-					npc.velocity = Vector2.Normalize(goToPosition) * (CalamityWorld.bossRushActive ? 24f : 16f);
+					npc.velocity = Vector2.Normalize(goToPosition) * 24f;
 
 					bool slimeDead = false;
 					if (goToVector == purpleSlimeVector)
