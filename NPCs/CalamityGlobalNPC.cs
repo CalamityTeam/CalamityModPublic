@@ -3765,7 +3765,7 @@ namespace CalamityMod.NPCs
                     spawnRate = (int)(spawnRate * 0.7);
                     maxSpawns = (int)(maxSpawns * 1.2f);
 
-                    if (player.Calamity().ZoneSulphur && !player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
+                    if (!player.Calamity().ZoneAbyss && CalamityWorld.rainingAcid)
                     {
                         if (AcidRainEvent.AnyRainMinibosses)
                         {
