@@ -227,7 +227,10 @@ namespace CalamityMod.TileEntities
         public override void NetReceive(BinaryReader reader, bool lightReceive)
         {
             ID = reader.ReadInt32();
-            FuelItem.type = reader.ReadInt32();
+            FuelItem = new Item
+            {
+                type = reader.ReadInt32()
+            };
             FuelItem.SetDefaults(FuelItem.type);
             FuelItem.stack = reader.ReadInt32();
             FuelItem.position = reader.ReadVector2();

@@ -4010,9 +4010,20 @@ namespace CalamityMod
         {
             string modName = tag.GetString($"mod{itemIndex}");
             string itemName = tag.GetString($"name{itemIndex}");
-            int type = ModLoader.GetMod(modName)?.ItemType(itemName) ?? 0;
             Item item = new Item();
-            if (type > 0)
+
+            // Don't bother checking any further if something is an empty string.
+            // Doing the checks below would result in checking for a mod with an empty string for a name.
+            // This can cause highly unpredictable/unstable behavior, such as the game crashing when you hover
+            // over the item in the GUI.
+            if (string.IsNullOrEmpty(modName) || string.IsNullOrEmpty(itemName))
+            {
+                item.type = ItemID.None;
+                return item;
+            }
+
+            int type = ModLoader.GetMod(modName)?.ItemType(itemName) ?? ItemID.None;
+            if (type > ItemID.None)
             {
                 item.netDefaults(type);
                 item.modItem.Load(tag.GetCompound("data"));

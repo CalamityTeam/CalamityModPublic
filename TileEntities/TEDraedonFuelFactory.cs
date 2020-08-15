@@ -81,9 +81,8 @@ namespace CalamityMod.TileEntities
 		{
 			TagCompound tag = new TagCompound
 			{
-				["Type"] = HeldItem.type,
 				["Stack"] = HeldItem.stack,
-				["Prefix"] = HeldItem.prefix
+				["Prefix"] = HeldItem.prefix,
 			};
 			CalamityUtils.SaveModItem(tag, HeldItem);
 			return tag;
@@ -92,7 +91,6 @@ namespace CalamityMod.TileEntities
 		public override void Load(TagCompound tag)
 		{
 			HeldItem = CalamityUtils.LoadModItem(tag);
-			HeldItem.type = tag.GetInt("Type");
 			HeldItem.stack = tag.GetInt("Stack");
 			HeldItem.prefix = tag.GetByte("Prefix");
 		}
@@ -108,7 +106,11 @@ namespace CalamityMod.TileEntities
 		public override void NetReceive(BinaryReader reader, bool lightReceive)
 		{
 			Time = reader.ReadInt32();
-			HeldItem.type = reader.ReadInt32();
+			HeldItem = new Item
+			{
+				type = reader.ReadInt32()
+			};
+			HeldItem.SetDefaults(HeldItem.type);
 			HeldItem.stack = reader.ReadInt32();
 			HeldItem.prefix = reader.ReadByte();
 		}
