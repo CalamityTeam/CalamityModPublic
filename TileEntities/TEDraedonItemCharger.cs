@@ -1,4 +1,5 @@
 using CalamityMod.Items;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
