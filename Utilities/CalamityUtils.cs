@@ -791,34 +791,6 @@ namespace CalamityMod
             return hitbox;
         }
 
-		/*public static Item QuickHealCheck(Player player)
-		{
-			int missingHealth = player.statLifeMax2 - player.statLife;
-			Item bestHealingItem = null;
-			int negMaxLife = -player.statLifeMax2;
-			for (int index = 0; index < Main.maxInventory; ++index)
-			{
-				Item healingItem = player.inventory[index];
-				if (healingItem.stack > 0 && healingItem.type > 0 && (healingItem.potion && healingItem.healLife > 0))
-				{
-					int wastedHealing = healingItem.healLife - missingHealth;
-					if (negMaxLife < 0)
-					{
-						if (wastedHealing > negMaxLife)
-						{
-							bestHealingItem = healingItem;
-							negMaxLife = wastedHealing;
-						}
-					}
-				else if (wastedHealing < negMaxLife && wastedHealing >= 0)
-				{
-					bestHealingItem = healingItem;
-					negMaxLife = wastedHealing;
-				}
-			}
-			return bestHealingItem;
-		}*/
-
 		public static void ConsumeItemViaQuickBuff(Player player, Item item, int buffType, int buffTime, bool reducedPotionSickness)
 		{
 			bool showsOver = false;
