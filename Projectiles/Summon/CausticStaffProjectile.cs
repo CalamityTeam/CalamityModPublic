@@ -66,19 +66,24 @@ namespace CalamityMod.Projectiles.Summon
 				switch ((int)projectile.ai[0])
 				{
 					case 0:
-						target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
+						if (target.Calamity().marked <= 0)
+							target.AddBuff(ModContent.BuffType<MarkedforDeath>(), duration);
 						break;
 					case 1:
-						target.AddBuff(BuffID.Ichor, duration);
+						if (!target.ichor)
+							target.AddBuff(BuffID.Ichor, duration);
 						break;
 					case 2:
-						target.AddBuff(BuffID.Venom, duration);
+						if (!target.venom)
+							target.AddBuff(BuffID.Venom, duration);
 						break;
 					case 3:
-						target.AddBuff(BuffID.CursedInferno, duration);
+						if (!target.onFire2)
+							target.AddBuff(BuffID.CursedInferno, duration);
 						break;
 					case 4:
-						target.AddBuff(BuffID.OnFire, duration);
+						if (!target.onFire)
+							target.AddBuff(BuffID.OnFire, duration);
 						break;
 					default:
 						break;
