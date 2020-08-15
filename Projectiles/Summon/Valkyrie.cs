@@ -83,7 +83,7 @@ namespace CalamityMod.Projectiles.Summon
                 projectile.spriteDirection = -projectile.direction;
             }
 
-			projectile.ChargingMinionAI(700f, 800f, 1200f, 150f, 0, 40f, 8f, -4f, 40f, 8f, false, true);
+			projectile.ChargingMinionAI(700f, 800f, 1200f, 150f, 0, 40f, 8f, 4f, new Vector2(0f, -60f), 40f, 8f, false, true);
 
 			//Give off some light
             float lightScalar = (float)Main.rand.Next(90, 111) * 0.01f;

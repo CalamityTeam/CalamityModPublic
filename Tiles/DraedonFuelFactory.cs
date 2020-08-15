@@ -2,6 +2,7 @@ using CalamityMod.Items.Placeables;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -13,6 +14,8 @@ namespace CalamityMod.Tiles
 {
     public class DraedonFuelFactory : ModTile
     {
+        public const int Width = 4;
+        public const int Height = 4;
         public const int CellCreationDelay = 600;
         public const int TotalFrames = 45;
         public override void SetDefaults()
@@ -20,22 +23,36 @@ namespace CalamityMod.Tiles
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            Main.tileTable[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             Main.tileWaterDeath[Type] = false;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.Width = 4;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.Origin = new Point16(0, 3);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
-            TileObjectData.newTile.CoordinatePadding = 0;
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<TEDraedonFuelFactory>().Hook_AfterPlacement, -1, 0, true);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Fuel Factory");
             AddMapEntry(new Color(67, 72, 81), name);
             animationFrameHeight = 68;
+        }
+
+        public override bool CanExplode(int i, int j) => false;
+
+        public TEDraedonFuelFactory RetrieveTileEntity(int i, int j)
+        {
+            // This is very fucking important. ByID and ByPostion can apparently be different and as a result using both together is fucking unreliable.
+            int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
+            int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
+            if (!TileEntity.ByID.Any(tileEntity => tileEntity.Value.Position == new Point16(left, top)))
+            {
+                var factory = ModTileEntity.ConstructFromType(ModContent.TileEntityType<TEDraedonFuelFactory>());
+                factory.Position = new Point16(left, top);
+                TileEntity.ByID[TileEntity.ByID.Count] = factory;
+            }
+            return (TEDraedonFuelFactory)TileEntity.ByID.Where(tileEntity => tileEntity.Value.Position == new Point16(left, top)).First().Value;
         }
 
         public override bool CreateDust(int i, int j, ref int type)
@@ -54,10 +71,10 @@ namespace CalamityMod.Tiles
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, ModContent.ItemType<DraedonsFuelFactoryItem>());
-            int left = i - Main.tile[i, j].frameX % 64 / 16;
-            int top = j - Main.tile[i, j].frameY % 64 / 16;
+            int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
+            int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
 
-            TEDraedonFuelFactory factory = (TEDraedonFuelFactory)TileEntity.ByID[ModContent.GetInstance<TEDraedonFuelFactory>().Find(left, top)];
+            TEDraedonFuelFactory factory = RetrieveTileEntity(i, j);
             if (factory.HeldItem.stack > 0)
             {
                 Item.NewItem(new Vector2(i, j) * 16f, factory.HeldItem.type, factory.HeldItem.stack);
@@ -90,11 +107,11 @@ namespace CalamityMod.Tiles
 
         public override bool NewRightClick(int i, int j)
         {
-            int left = i - Main.tile[i, j].frameX % 64 / 16;
-            int top = j - Main.tile[i, j].frameY % 64 / 16;
+            int left = i - Main.tile[i, j].frameX % (Width * 18) / 18;
+            int top = j - Main.tile[i, j].frameY % (Height * 18) / 18;
 
             Player player = Main.LocalPlayer;
-            TEDraedonFuelFactory factory = (TEDraedonFuelFactory)TileEntity.ByID[ModContent.GetInstance<TEDraedonFuelFactory>().Find(left, top)];
+            TEDraedonFuelFactory factory = RetrieveTileEntity(i, j);
             Main.mouseRightRelease = false;
 
             if (player.sign >= 0)
@@ -134,11 +151,11 @@ namespace CalamityMod.Tiles
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
+            Tile trackTile = Main.tile[i, j];
             int xPos = Main.tile[i, j].frameX;
             int yPos = Main.tile[i, j].frameY;
-            Tile trackTile = Main.tile[i, j];
-            xPos += Main.tileFrame[trackTile.type] / 15 * 64;
-            yPos += Main.tileFrame[trackTile.type] % 15 * 68;
+            xPos += Main.tileFrame[trackTile.type] / 15 * 72;
+            yPos += Main.tileFrame[trackTile.type] % 15 * 72;
             Texture2D glowmask = ModContent.GetTexture("CalamityMod/Tiles/DraedonFuelFactory");
             Vector2 offset = Main.drawToScreen ? Vector2.Zero : new Vector2(Main.offScreenRange);
             Vector2 drawOffset = new Vector2(i * 16 - Main.screenPosition.X, j * 16 - Main.screenPosition.Y) + offset;

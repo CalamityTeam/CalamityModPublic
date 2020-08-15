@@ -77,8 +77,7 @@ namespace CalamityMod.Items.Armor
             recipe.AddIngredient(ModContent.ItemType<EffulgentFeather>(), 5);
             recipe.AddRecipeGroup("AnyGoldBar", 5);
             recipe.AddIngredient(ModContent.ItemType<Tenebris>(), 6);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 14);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 14);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>(), 2);
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

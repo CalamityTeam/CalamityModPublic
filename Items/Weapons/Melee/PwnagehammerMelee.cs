@@ -44,7 +44,7 @@ namespace CalamityMod.Items.Weapons.Melee
 			{
 				position += yeetOffset;
 			}
-            Projectile.NewProjectile(position, speed, type, damage, knockBack, player.whoAmI, Main.rand.NextBool(5) ? 1f : 0f);
+            Projectile.NewProjectile(position, speed, type, damage, knockBack, player.whoAmI, Main.rand.NextBool(5) ? 1f : -1f);
             return false;
         }
 

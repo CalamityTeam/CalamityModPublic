@@ -1,4 +1,4 @@
-using CalamityMod.Items;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -203,8 +203,8 @@ namespace CalamityMod.UI
                     return false;
                 if (!itemToUse.Calamity().Chargeable)
                     return false;
-                byte prefix = chargeItem.prefix;
                 charger.Charge = itemToUse.Calamity().CurrentCharge;
+                charger.ChargeMax = itemToUse.Calamity().ChargeMax;
                 chargeItem = itemToUse.Clone();
                 itemToUse = new Item();
                 return true;

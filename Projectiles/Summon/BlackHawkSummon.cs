@@ -83,9 +83,9 @@ namespace CalamityMod.Projectiles.Summon
 			}
 
 			//Set up buff and timeLeft
-			bool flag64 = projectile.type == ModContent.ProjectileType<BlackHawkSummon>();
+			bool correctMinion = projectile.type == ModContent.ProjectileType<BlackHawkSummon>();
 			player.AddBuff(ModContent.BuffType<BlackHawkBuff>(), 3600);
-			if (flag64)
+			if (correctMinion)
 			{
 				if (player.dead)
 				{
@@ -102,7 +102,6 @@ namespace CalamityMod.Projectiles.Summon
 
 			float maxDistance = 700f;
 			Vector2 targetVec = projectile.position;
-			Vector2 half = new Vector2(0.5f);
 			bool foundTarget = false;
 			//If targeting something, prioritize that enemy
 			if (player.HasMinionAttackTargetNPC)
@@ -110,14 +109,13 @@ namespace CalamityMod.Projectiles.Summon
 				NPC npc = Main.npc[player.MinionAttackTargetNPC];
 				if (npc.CanBeChasedBy(projectile, false))
 				{
-					//Adding a check on the NPC's size allows it to target big things like Providence
-					Vector2 sizeCheck = npc.position + npc.Size * half;
+					float extraDist = (npc.width / 2) + (npc.height / 2);
 					//Calculate distance between target and the projectile to know if it's too far or not
 					float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-					if (!foundTarget && targetDist < maxDistance)
+					if (!foundTarget && targetDist < (maxDistance + extraDist))
 					{
 						maxDistance = targetDist;
-						targetVec = sizeCheck;
+						targetVec = npc.Center;
 						foundTarget = true;
 					}
 				}
@@ -129,12 +127,13 @@ namespace CalamityMod.Projectiles.Summon
 					NPC npc = Main.npc[npcIndex];
 					if (npc.CanBeChasedBy(projectile, false))
 					{
-						Vector2 sizeCheck = npc.position + npc.Size * half;
+						float extraDist = (npc.width / 2) + (npc.height / 2);
+						//Calculate distance between target and the projectile to know if it's too far or not
 						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-						if (!foundTarget && targetDist < maxDistance)
+						if (!foundTarget && targetDist < (maxDistance + extraDist))
 						{
 							maxDistance = targetDist;
-							targetVec = sizeCheck;
+							targetVec = npc.Center;
 							foundTarget = true;
 						}
 					}

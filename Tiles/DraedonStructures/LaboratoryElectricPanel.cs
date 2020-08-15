@@ -12,7 +12,7 @@ namespace CalamityMod.Tiles.DraedonStructures
         public override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
-            Main.tileLavaDeath[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3Wall);
             TileObjectData.newTile.Width = 2;
             TileObjectData.newTile.Height = 2;
@@ -33,6 +33,8 @@ namespace CalamityMod.Tiles.DraedonStructures
             AddMapEntry(Color.DimGray, name);
             dustType = 8;
         }
+
+        public override bool CanExplode(int i, int j) => false;
 
         public override void NumDust(int i, int j, bool fail, ref int num)
         {

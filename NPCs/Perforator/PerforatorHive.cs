@@ -375,7 +375,7 @@ namespace CalamityMod.NPCs.Perforator
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgePerforators>(), true, !CalamityWorld.downedPerforator);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedPerforator, 2, 0, 0);
 
-			npc.Calamity().SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Dryad }, CalamityWorld.downedPerforator);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

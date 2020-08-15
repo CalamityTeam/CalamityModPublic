@@ -62,7 +62,7 @@ namespace CalamityMod.Projectiles.Ranged
                 {
                     if (projectile.owner == Main.myPlayer)
                     {
-						CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, x > 4, 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.1), 1f, projectile.owner);
+						CalamityUtils.ProjectileBarrage(projectile.Center, targetPos, x > 4, 500f, 500f, 0f, 500f, 10f, ModContent.ProjectileType<AMR2>(), (int)(projectile.damage * 0.1), projectile.knockBack * 0.1f, projectile.owner);
 					}
                 }
             }

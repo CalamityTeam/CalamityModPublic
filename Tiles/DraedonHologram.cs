@@ -1,11 +1,12 @@
+using CalamityMod.Items.Placeables.Furniture;
+using CalamityMod.TileEntities;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
-using CalamityMod.TileEntities;
 
 namespace CalamityMod.Tiles
 {
@@ -20,6 +21,7 @@ namespace CalamityMod.Tiles
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
+            Main.tileLavaDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
             TileObjectData.newTile.Height = 7;
             TileObjectData.newTile.Origin = new Point16(3, 6);
@@ -38,6 +40,8 @@ namespace CalamityMod.Tiles
             minPick = 100;
             AddMapEntry(new Color(99, 131, 199));
         }
+
+        public override bool CanExplode(int i, int j) => false;
 
         public TEDraedonHologram RetrieveTileEntity(int i, int j)
         {
@@ -118,6 +122,11 @@ namespace CalamityMod.Tiles
             else if (trackTile.halfBrick())
                 spriteBatch.Draw(glowmask, drawOffset + Vector2.UnitY * 8f, new Rectangle(xPos, yPos, 16, 16), drawColor, 0.0f, Vector2.Zero, 1f, SpriteEffects.None, 0.0f);
             return false;
+        }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            Item.NewItem(i * 16, j * 16, 16, 32, ModContent.ItemType<HolographicDisplayBox>());
         }
     }
 }

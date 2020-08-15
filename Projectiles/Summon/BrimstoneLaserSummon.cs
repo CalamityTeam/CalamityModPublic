@@ -34,8 +34,7 @@ namespace CalamityMod.Projectiles.Summon
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.5f / 255f, (255 - projectile.alpha) * 0.05f / 255f, (255 - projectile.alpha) * 0.05f / 255f);
             projectile.velocity.X *= 1.05f;
             projectile.velocity.Y *= 1.05f;
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
-            projectile.velocity.Y += projectile.ai[0];
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -48,9 +47,6 @@ namespace CalamityMod.Projectiles.Summon
             target.AddBuff(ModContent.BuffType<BrimstoneFlames>(), 120);
         }
 
-        public override Color? GetAlpha(Color lightColor)
-        {
-            return new Color(250, 50, 50, projectile.alpha);
-        }
+        public override Color? GetAlpha(Color lightColor) => new Color(250, 50, 50, projectile.alpha);
     }
 }

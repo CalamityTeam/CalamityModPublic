@@ -103,9 +103,11 @@ namespace CalamityMod.Projectiles.Summon
                 NPC npc = Main.npc[player.MinionAttackTargetNPC];
                 if (npc.CanBeChasedBy(projectile, false))
                 {
-                    float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-                    if (!foundTarget && targetDist < detectRange)
-                    {
+					float extraDist = (npc.width / 2) + (npc.height / 2);
+					//Calculate distance between target and the projectile to know if it's too far or not
+					float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+					if (!foundTarget && targetDist < (detectRange + extraDist))
+					{
                         detectRange = targetDist;
                         targetVec = npc.Center;
                         foundTarget = true;
@@ -120,9 +122,11 @@ namespace CalamityMod.Projectiles.Summon
                     NPC npc = Main.npc[npcIndex];
                     if (npc.CanBeChasedBy(projectile, false))
                     {
-                        float targetDist = Vector2.Distance(npc.Center, projectile.Center);
-                        if (!foundTarget && targetDist < detectRange)
-                        {
+						float extraDist = (npc.width / 2) + (npc.height / 2);
+						//Calculate distance between target and the projectile to know if it's too far or not
+						float targetDist = Vector2.Distance(npc.Center, projectile.Center);
+						if (!foundTarget && targetDist < (detectRange + extraDist))
+						{
                             detectRange = targetDist;
                             targetVec = npc.Center;
                             foundTarget = true;
@@ -206,18 +210,15 @@ namespace CalamityMod.Projectiles.Summon
             else
             {
                 projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi;
-				for (int index = 0; index < 1; index++)
-				{
-					int dustType = Main.rand.NextBool(3) ? 56 : 242;
-					float num370 = projectile.velocity.X / 3f * (float)index;
-					float num371 = projectile.velocity.Y / 3f * (float)index;
-					int num372 = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
-					Dust dust = Main.dust[num372];
-					dust.position.X = projectile.Center.X - num370;
-					dust.position.Y = projectile.Center.Y - num371;
-					dust.velocity *= 0f;
-					dust.scale = 0.5f;
-				}
+				int dustType = Main.rand.NextBool(3) ? 56 : 242;
+				float xVelOffset = projectile.velocity.X / 3f;
+				float yVelOffset = projectile.velocity.Y / 3f;
+				int trail = Dust.NewDust(projectile.position, projectile.width, projectile.height, dustType, 0f, 0f, 0, default, 1f);
+				Dust dust = Main.dust[trail];
+				dust.position.X = projectile.Center.X - xVelOffset;
+				dust.position.Y = projectile.Center.Y - yVelOffset;
+				dust.velocity *= 0f;
+				dust.scale = 0.5f;
             }
             if (projectile.ai[1] > 0f)
             {
@@ -234,7 +235,7 @@ namespace CalamityMod.Projectiles.Summon
                 if (foundTarget && projectile.ai[1] == 0f)
                 {
                     //play cool sound
-                    Main.PlaySound(SoundID.Item20, (int)projectile.position.X, (int)projectile.position.Y);
+                    Main.PlaySound(SoundID.Item20, projectile.Center);
                     projectile.ai[1] += 2f;
                     if (Main.myPlayer == projectile.owner)
                     {

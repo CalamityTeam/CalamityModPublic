@@ -16,6 +16,8 @@ namespace CalamityMod.Walls.DraedonStructures
             AddMapEntry(new Color(63, 57, 56));
         }
 
+        public override bool CanExplode(int i, int j) => false;
+
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;

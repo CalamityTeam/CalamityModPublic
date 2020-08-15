@@ -66,6 +66,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
 			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
 			npc.buffImmune[BuffID.Oiled] = false;
 			npc.buffImmune[BuffID.BoneJavelin] = false;
+			npc.buffImmune[BuffID.SoulDrain] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
 			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
@@ -183,7 +184,7 @@ namespace CalamityMod.NPCs.BrimstoneElemental
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeBrimstoneElemental>(), true, !CalamityWorld.downedBrimstoneElemental);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedBrimstoneElemental, 4, 2, 1);
 
-			npc.Calamity().SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard }, CalamityWorld.downedBrimstoneElemental);
 
 			if (!Main.expertMode)
             {

@@ -424,6 +424,8 @@ namespace CalamityMod.NPCs.NormalNPCs
         {
             DropHelper.DropItemChance(npc, ModContent.ItemType<DraedonsRemote>(), 3);
             DropHelper.DropItem(npc, ModContent.ItemType<DemonicBoneAsh>(), 2, 4);
+            DropHelper.DropItem(npc, ModContent.ItemType<MysteriousCircuitry>(), 4, 8);
+            DropHelper.DropItem(npc, ModContent.ItemType<DubiousPlating>(), 4, 8);
         }
     }
 }

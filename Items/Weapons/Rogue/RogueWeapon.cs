@@ -55,6 +55,15 @@ namespace CalamityMod.Items.Weapons.Rogue
 			return true;
 		}
 
+		public override bool? PrefixChance(int pre, UnifiedRandom rand)
+		{
+			if (item.maxStack > 1)
+			{
+				return false;
+			}
+			return null;
+		}
+
 		public sealed override void SetDefaults()
 		{
 			SafeSetDefaults();

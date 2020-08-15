@@ -56,12 +56,10 @@ namespace CalamityMod.Projectiles.Typeless
             {
                 projectile.localAI[1] = 0;
             }
-			if (Main.myPlayer != projectile.owner)
-				projectile.Kill();
             Player player = Main.player[projectile.owner];
             Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.01f / 255f);
             projectile.Center = player.Center;
-			if (player.dead || player is null)
+			if (player is null || player.dead)
 			{
 				player.Calamity().blunderBooster = false;
 				projectile.Kill();

@@ -802,7 +802,7 @@ namespace CalamityMod.NPCs.Ravager
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeRavager>(), true, !CalamityWorld.downedScavenger);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedScavenger, 4, 2, 1);
 
-			npc.Calamity().SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedScavenger);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.WitchDoctor }, CalamityWorld.downedScavenger);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

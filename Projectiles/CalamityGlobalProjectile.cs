@@ -172,7 +172,53 @@ namespace CalamityMod.Projectiles
 
             if (CalamityWorld.revenge || BossRushEvent.BossRushActive)
             {
-                if (projectile.type == ProjectileID.PoisonSeedPlantera)
+				if (projectile.type == ProjectileID.EyeLaser && projectile.ai[0] == 1f)
+				{
+					projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
+					Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.3f / 255f, 0f, (255 - projectile.alpha) * 0.3f / 255f);
+
+					if (projectile.alpha > 0)
+						projectile.alpha -= 125;
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+
+					if (projectile.localAI[1] == 0f)
+					{
+						Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
+						projectile.localAI[1] = 1f;
+					}
+
+					if (projectile.velocity.Length() < 18f)
+						projectile.velocity *= 1.0025f;
+
+					return false;
+				}
+
+				else if (projectile.type == ProjectileID.DeathLaser && projectile.ai[0] == 1f)
+				{
+					projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
+					Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, 0f, 0f);
+
+					if (projectile.alpha > 0)
+						projectile.alpha -= 125;
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+
+					if (projectile.localAI[1] == 0f)
+					{
+						Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
+						projectile.localAI[1] = 1f;
+					}
+
+					if (projectile.velocity.Length() < 18f)
+						projectile.velocity *= 1.0025f;
+
+					return false;
+				}
+
+                else if (projectile.type == ProjectileID.PoisonSeedPlantera)
                 {
                     projectile.frameCounter++;
                     if (projectile.frameCounter > 1)
@@ -1754,7 +1800,7 @@ namespace CalamityMod.Projectiles
 						}
 						if (CalamityLists.spikyBallProjList.Contains(projectile.type))
 						{
-							int scythe = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 0f, 0f);
+							int scythe = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CosmicScythe>(), CalamityUtils.DamageSoftCap(projectile.damage * 0.05, 60), 3f, projectile.owner, 1f, 0f);
             				Main.projectile[scythe].usesLocalNPCImmunity = true;
             				Main.projectile[scythe].localNPCHitCooldown = 10;
 							Main.projectile[scythe].penetrate = 2;
@@ -1787,10 +1833,14 @@ namespace CalamityMod.Projectiles
                 }
                 if (projectile.IsSummon())
                 {
-                    if (modPlayer.profanedCrystalBuffs || (modPlayer.pArtifact && !modPlayer.profanedCrystal))
+                    if (modPlayer.pArtifact && !modPlayer.profanedCrystal)
                     {
-                        target.AddBuff(BuffType<HolyFlames>(), modPlayer.profanedCrystalBuffs ? 600 : 300);
+                        target.AddBuff(BuffType<HolyFlames>(), 300);
                     }
+					if (modPlayer.profanedCrystalBuffs)
+					{
+						target.AddBuff(Main.dayTime ? BuffType<HolyFlames>() : BuffType<Nightwither>(), 600);
+					}
 
                     if (modPlayer.tearMinions)
                     {
@@ -2308,7 +2358,7 @@ namespace CalamityMod.Projectiles
 						int projectile2 = Projectile.NewProjectile(value.X, value.Y, velocity.X, velocity.Y, spawnedProjectile, (int)(projectile.damage * damageMult), projectile.knockBack, projectile.owner, 0f, 0f);
 
 						if (projectile.type == ProjectileType<CnidarianYoyo>() || projectile.type == ProjectileType<GodsGambitYoyo>() ||
-							projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>() || (projectile.type == ProjectileType<EradicatorProjectile>() && projectile.melee))
+							projectile.type == ProjectileType<ShimmersparkYoyo>() || projectile.type == ProjectileType<VerdantYoyo>())
 							Main.projectile[projectile2].Calamity().forceMelee = true;
 					}
 				}

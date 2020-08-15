@@ -67,6 +67,7 @@ namespace CalamityMod.NPCs.AstrumAureus
 			npc.buffImmune[BuffID.Oiled] = false;
 			npc.buffImmune[BuffID.BoneJavelin] = false;
 			npc.buffImmune[BuffID.Venom] = false;
+			npc.buffImmune[BuffID.SoulDrain] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
             npc.buffImmune[ModContent.BuffType<DemonFlames>()] = false;
@@ -349,7 +350,7 @@ namespace CalamityMod.NPCs.AstrumAureus
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeAstrumAureus>(), true, !CalamityWorld.downedAstrageldon);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedAstrageldon, 4, 2, 1);
 
-			npc.Calamity().SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { NPCID.Wizard, ModContent.NPCType<FAP>() }, CalamityWorld.downedAstrageldon);
 
 			// All other drops are contained in the bag, so they only drop directly on Normal
 			if (!Main.expertMode)

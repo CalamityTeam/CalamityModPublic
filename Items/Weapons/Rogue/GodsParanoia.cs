@@ -90,8 +90,7 @@ Right click to delete all existing spiky balls");
 
             recipe.AddIngredient(ItemID.SpikyBall, 200);
             recipe.AddIngredient(ModContent.ItemType<CosmiliteBar>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<NightmareFuel>(), 2);
-            recipe.AddIngredient(ModContent.ItemType<EndothermicEnergy>(), 2);
+            recipe.AddIngredient(ModContent.ItemType<AscendantSpiritEssence>());
             recipe.AddTile(ModContent.TileType<DraedonsForge>());
             recipe.SetResult(this);
             recipe.AddRecipe();

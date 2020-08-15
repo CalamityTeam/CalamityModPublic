@@ -1,4 +1,4 @@
-using CalamityMod.Items;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Materials;
 using CalamityMod.Items.Weapons.Melee;
 using CalamityMod.Schematics;

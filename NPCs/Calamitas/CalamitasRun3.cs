@@ -70,6 +70,7 @@ namespace CalamityMod.NPCs.Calamitas
 			npc.buffImmune[BuffID.DryadsWardDebuff] = false;
 			npc.buffImmune[BuffID.Oiled] = false;
 			npc.buffImmune[BuffID.BoneJavelin] = false;
+			npc.buffImmune[BuffID.SoulDrain] = false;
             npc.buffImmune[ModContent.BuffType<AbyssalFlames>()] = false;
 			npc.buffImmune[ModContent.BuffType<AstralInfectionDebuff>()] = false;
             npc.buffImmune[ModContent.BuffType<ArmorCrunch>()] = false;
@@ -182,7 +183,7 @@ namespace CalamityMod.NPCs.Calamitas
             DropHelper.DropItemCondition(npc, ModContent.ItemType<KnowledgeCalamitasClone>(), !CalamityWorld.downedCalamitas);
             DropHelper.DropResidentEvilAmmo(npc, CalamityWorld.downedCalamitas, 4, 2, 1);
 
-			npc.Calamity().SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
+			CalamityGlobalTownNPC.SetNewShopVariable(new int[] { ModContent.NPCType<THIEF>() }, CalamityWorld.downedCalamitas);
 
 			if (!Main.expertMode)
             {
