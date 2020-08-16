@@ -4011,9 +4011,6 @@ namespace CalamityMod.CalPlayer
 				player.ClearBuff(BuffID.PotionSickness);
 				player.AddBuff(BuffID.PotionSickness, duration);
 			}
-			//To speed up testing, but shouldn't affect public anyways
-			if (player.buffTime[BuffID.PotionSickness] == 0)
-				player.potionDelay = 0;
 
 			if (PlayerInput.Triggers.JustPressed.QuickBuff)
 			{
