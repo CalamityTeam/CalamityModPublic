@@ -1586,7 +1586,8 @@ namespace CalamityMod.NPCs.Providence
 				};
 
 				bool allowedClass = projectile.IsSummon() || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);
-				bool allowedDamage = allowedClass && damage <= (npc.lifeMax * 0.001f); //0.1% max hp
+				bool allowedDamage = allowedClass && damage <= 75; //Flat 75 regardless of difficulty.
+				//Absorber on-hit effects likely won't proc this but Deific Amulet and Astral Bulwark stars will proc this.
 				bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;
 
 				if ((exceptionList.TrueForAll(x => projectile.type != x) && !allowedDamage) || !allowedBabs)
