@@ -1531,6 +1531,9 @@ namespace CalamityMod.NPCs
 			{
                 float DRScalar = !GetDownedBossVariable(npc.type) || CalamityConfig.Instance.FullPowerReactiveBossDR ? 1.5f : 1f;
 
+				/*if (Main.masterMode)
+					DRScalar = 5f;*/
+
                 // Boost Providence timed DR during the night
                 if (npc.type == NPCType<Providence.Providence>() && !Main.dayTime)
                     DRScalar = 10f;
@@ -1731,6 +1734,9 @@ namespace CalamityMod.NPCs
                     case NPCID.TheDestroyerBody:
                     case NPCID.TheDestroyerTail:
                         return CalamityGlobalAI.BuffedDestroyerAI(npc, enraged > 0, mod);
+
+					case NPCID.Probe:
+						return CalamityGlobalAI.BuffedProbeAI(npc, mod);
 
                     case NPCID.Retinazer:
                         return CalamityGlobalAI.BuffedRetinazerAI(npc, enraged > 0, mod);

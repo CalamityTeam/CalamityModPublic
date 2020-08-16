@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
 using Terraria.GameContent;
 using Terraria.GameContent.Events;
 using Terraria.ID;
@@ -4984,6 +4986,173 @@ namespace CalamityMod.NPCs
 
             return false;
         }
+
+		public static bool BuffedProbeAI(NPC npc, Mod mod)
+		{
+			if (npc.target < 0 || npc.target <= 255 || Main.player[npc.target].dead)
+				npc.TargetClosest();
+
+			NPCAimedTarget targetData = npc.GetTargetData();
+			bool targetDead = false;
+			if (targetData.Type == NPCTargetType.Player)
+				targetDead = Main.player[npc.target].dead;
+
+			float velocity = 6f;
+			float acceleration = 0.05f;
+
+			Vector2 vector = npc.Center;
+			float num4 = targetData.Center.X;
+			float num5 = targetData.Center.Y;
+			num4 = (int)(num4 / 8f) * 8;
+			num5 = (int)(num5 / 8f) * 8;
+			vector.X = (int)(vector.X / 8f) * 8;
+			vector.Y = (int)(vector.Y / 8f) * 8;
+			num4 -= vector.X;
+			num5 -= vector.Y;
+			float distanceFromTarget = (float)Math.Sqrt(num4 * num4 + num5 * num5);
+			float distance2 = distanceFromTarget;
+
+			bool farAwayFromTarget = false;
+			if (distanceFromTarget > 600f)
+				farAwayFromTarget = true;
+
+			if (distanceFromTarget == 0f)
+			{
+				num4 = npc.velocity.X;
+				num5 = npc.velocity.Y;
+			}
+			else
+			{
+				distanceFromTarget = velocity / distanceFromTarget;
+				num4 *= distanceFromTarget;
+				num5 *= distanceFromTarget;
+			}
+
+			for (int i = 0; i < Main.maxNPCs; i++)
+			{
+				if (i != npc.whoAmI && Main.npc[i].active && Main.npc[i].type == npc.type)
+				{
+					Vector2 value42 = Main.npc[i].Center - npc.Center;
+					if (value42.Length() < (npc.width + npc.height))
+					{
+						value42.Normalize();
+						value42 *= -0.1f;
+						npc.velocity += value42;
+						Main.npc[i].velocity -= value42;
+					}
+				}
+			}
+
+			if (distance2 > 100f)
+			{
+				npc.ai[0] += 1f;
+				if (npc.ai[0] > 0f)
+					npc.velocity.Y += 0.023f;
+				else
+					npc.velocity.Y -= 0.023f;
+
+				if (npc.ai[0] < -100f || npc.ai[0] > 100f)
+					npc.velocity.X += 0.023f;
+				else
+					npc.velocity.X -= 0.023f;
+
+				if (npc.ai[0] > 200f)
+					npc.ai[0] = -200f;
+			}
+
+			if (targetDead || Main.dayTime)
+			{
+				num4 = npc.direction * velocity / 2f;
+				num5 = -velocity / 2f;
+			}
+
+			if (npc.velocity.X < num4)
+				npc.velocity.X += acceleration;
+			else if (npc.velocity.X > num4)
+				npc.velocity.X -= acceleration;
+
+			if (npc.velocity.Y < num5)
+				npc.velocity.Y += acceleration;
+			else if (npc.velocity.Y > num5)
+				npc.velocity.Y -= acceleration;
+
+			npc.localAI[0] += 1f;
+			if (npc.justHit)
+				npc.localAI[0] = 0f;
+
+			if (Main.netMode != NetmodeID.MultiplayerClient && npc.localAI[0] >= 240f)
+			{
+				npc.localAI[0] = 0f;
+				if (targetData.Type != 0 && Collision.CanHit(npc.position, npc.width, npc.height, targetData.Position, targetData.Width, targetData.Height))
+				{
+					int damage = Main.expertMode ? 22 : 25;
+					Projectile.NewProjectile(vector.X, vector.Y, num4, num5, ProjectileID.PinkLaser, damage, 0f, Main.myPlayer);
+				}
+			}
+
+			int num11 = (int)npc.Center.Y;
+			int i2 = (int)npc.Center.X / 16;
+			num11 /= 16;
+			if (!WorldGen.SolidTile(i2, num11))
+				Lighting.AddLight((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f), 0.3f, 0.1f, 0.05f);
+
+			if (num4 > 0f)
+			{
+				npc.spriteDirection = 1;
+				npc.rotation = (float)Math.Atan2(num5, num4);
+			}
+			if (num4 < 0f)
+			{
+				npc.spriteDirection = -1;
+				npc.rotation = (float)Math.Atan2(num5, num4) + MathHelper.Pi;
+			}
+
+			float num12 = -0.7f;
+			if (npc.collideX)
+			{
+				npc.netUpdate = true;
+				npc.velocity.X = npc.oldVelocity.X * num12;
+				if (npc.direction == -1 && npc.velocity.X > 0f && npc.velocity.X < 2f)
+					npc.velocity.X = 2f;
+				if (npc.direction == 1 && npc.velocity.X < 0f && npc.velocity.X > -2f)
+					npc.velocity.X = -2f;
+			}
+
+			if (npc.collideY)
+			{
+				npc.netUpdate = true;
+				npc.velocity.Y = npc.oldVelocity.Y * num12;
+				if (npc.velocity.Y > 0f && npc.velocity.Y < 1.5)
+					npc.velocity.Y = 2f;
+				if (npc.velocity.Y < 0f && npc.velocity.Y > -1.5)
+					npc.velocity.Y = -2f;
+			}
+
+			if (farAwayFromTarget)
+			{
+				if ((npc.velocity.X > 0f && num4 > 0f) || (npc.velocity.X < 0f && num4 < 0f))
+				{
+					if (Math.Abs(npc.velocity.X) < 12f)
+						npc.velocity.X *= 1.05f;
+				}
+				else
+					npc.velocity.X *= 0.9f;
+			}
+
+			if (targetDead || Main.dayTime)
+			{
+				npc.velocity.Y -= acceleration * 2f;
+				if (npc.timeLeft > 10)
+					npc.timeLeft = 10;
+			}
+
+			if (((npc.velocity.X > 0f && npc.oldVelocity.X < 0f) || (npc.velocity.X < 0f && npc.oldVelocity.X > 0f) || (npc.velocity.Y > 0f && npc.oldVelocity.Y < 0f) || (npc.velocity.Y < 0f && npc.oldVelocity.Y > 0f)) && !npc.justHit)
+			{
+				npc.netUpdate = true;
+			}
+
+			return false;
+		}
 		#endregion
 
 		// Only used for Normal and Expert Mode
