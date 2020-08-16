@@ -13,15 +13,16 @@ namespace CalamityMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Rampart of Deities");
-            Tooltip.SetDefault("Taking damage makes you move very fast for a short time\n" +
-                "Increases armor penetration by 20 and immune time after being struck\n" +
+            Tooltip.SetDefault("Taking damage grants boosted movement speed for a short time\n" +
+                "Causes stars to fall and gives increased immune time when damaged\n" +
+                "Increases armor penetration by 20 and reduces the cooldown of healing potions\n" +
                 "Provides light underwater and provides a small amount of light in the abyss\n" +
-                "Causes stars to fall when damaged\n" +
                 "Absorbs 25% of damage done to players on your team\n" +
-                "Only active above 25% life\n" +
-                "Grants immunity to knockback and reduces the cooldown of healing potions\n" +
+                "This effect is only active above 25% life\n" +
+                "Grants immunity to knockback\n" +
                 "Puts a shell around the owner when below 50% life that reduces damage\n" +
-                "The shell becomes more powerful when below 15% life and reduces damage even further");
+                "The shell becomes more powerful when below 15% life and reduces damage even further\n" +
+				"Provides heat and cold protection in Death Mode");
         }
 
         public override void SetDefaults()
@@ -36,14 +37,13 @@ namespace CalamityMod.Items.Accessories
 
         public override void ModifyTooltips(List<TooltipLine> list)
         {
-			if (CalamityWorld.death)
+			if (!CalamityWorld.death)
 			{
 				foreach (TooltipLine line2 in list)
 				{
-					if (line2.mod == "Terraria" && line2.Name == "Tooltip8")
+					if (line2.mod == "Terraria" && line2.Name == "Tooltip9")
 					{
-						line2.text = "The shell becomes more powerful when below 15% life and reduces damage even further\n" +
-						"Provides heat and cold protection in Death Mode";
+						line2.text = "";
 					}
 				}
 			}
