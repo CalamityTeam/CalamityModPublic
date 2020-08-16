@@ -754,13 +754,47 @@ namespace CalamityMod.NPCs.HiveMind
                     DropHelper.DropItemSpray(npc, ItemID.CursedFlame, 10, 20);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PerfectDark>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<LeechingDagger>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Shadethrower>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ShadowdropStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ShaderainStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DankStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RotBall>(), 4, 25, 50);
+				int[] weapons = new int[] {
+					ModContent.ItemType<PerfectDark>(),
+					ModContent.ItemType<LeechingDagger>(),
+					ModContent.ItemType<Shadethrower>(),
+					ModContent.ItemType<ShadowdropStaff>(),
+					ModContent.ItemType<ShaderainStaff>(),
+					ModContent.ItemType<DankStaff>(),
+					ModContent.ItemType<RotBall>()
+				};
+
+				bool droppedWeapon = false;
+				int least = 1;
+				int most = 1;
+				for (int i = 0; i < weapons.Length; i++)
+				{
+					if (weapons[i] == ModContent.ItemType<RotBall>())
+					{
+						least = 25;
+						most = 50;
+					}
+					if (DropHelper.DropItemChance(npc, weapons[i], 4, least, most) > 0)
+						droppedWeapon = true;
+				}
+
+				if (!droppedWeapon)
+				{
+					// Can't choose anything from an empty array.
+					if (weapons is null || weapons.Length == 0)
+						goto SKIPDROPS;
+
+					// Choose which item to drop.
+					int itemID = Main.rand.Next(weapons);
+					if (itemID == ModContent.ItemType<RotBall>())
+					{
+						least = 25;
+						most = 50;
+					}
+
+					DropHelper.DropItem(npc, itemID, least, most);
+				}
+				SKIPDROPS:
 
 				//Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<FilthyGlove>(), 4);

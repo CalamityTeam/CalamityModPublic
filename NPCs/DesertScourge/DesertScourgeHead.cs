@@ -12,6 +12,7 @@ using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.TownNPCs;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 using System.Reflection;
 using Terraria;
@@ -482,17 +483,42 @@ namespace CalamityMod.NPCs.DesertScourge
                 DropHelper.DropItem(npc, ItemID.Starfish, 5, 9);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AquaticDischarge>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Barinade>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StormSpray>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SeaboundStaff>(), 4);
-                float f = Main.rand.NextFloat();
-                bool replaceWithRare = f <= DropHelper.RareVariantDropRateFloat; // 1/40 chance overall of getting Dune Hopper
-                if (f < 0.25f) // 1/4 chance of getting Scourge of the Desert OR Dune Hopper replacing it
-                {
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<ScourgeoftheDesert>(), !replaceWithRare);
-                    DropHelper.DropItemCondition(npc, ModContent.ItemType<DuneHopper>(), replaceWithRare);
-                }
+				// Scourge of the Desert is separate due to RIV drop interactions
+				int[] weapons = new int[] {
+					ModContent.ItemType<AquaticDischarge>(),
+					ModContent.ItemType<Barinade>(),
+					ModContent.ItemType<StormSpray>(),
+					ModContent.ItemType<SeaboundStaff>()
+				};
+
+				bool droppedWeapon = false;
+				for (int i = 0; i < weapons.Length; i++)
+				{
+					if (DropHelper.DropItemChance(npc, weapons[i], 4) > 0)
+						droppedWeapon = true;
+				}
+
+				if (DropHelper.DropItemRIV(npc, ModContent.ItemType<ScourgeoftheDesert>(), ModContent.ItemType<DuneHopper>(), 0.25f, DropHelper.RareVariantDropRateFloat))
+					droppedWeapon = true;
+
+				if (!droppedWeapon)
+				{
+					// Can't choose anything from an empty array.
+					if (weapons is null || weapons.Length == 0)
+						goto SKIPDROPS;
+
+					// Resize the array and add the last weapon
+					Array.Resize(ref weapons, weapons.Length + 1);
+					weapons[weapons.Length - 1] = ModContent.ItemType<ScourgeoftheDesert>();
+
+					// Choose which item to drop.
+					int itemID = Main.rand.Next(weapons);
+					if (itemID == ModContent.ItemType<ScourgeoftheDesert>() && Main.rand.NextBool(DropHelper.RareVariantDropRateInt))
+						itemID = ModContent.ItemType<DuneHopper>();
+
+					DropHelper.DropItem(npc, itemID);
+				}
+				SKIPDROPS:
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<AeroStone>(), 10);

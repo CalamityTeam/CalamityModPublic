@@ -48,9 +48,10 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 25, 35);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Brimlance>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SeethingDischarge>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DormantBrimseeker>(), 3);
+			DropHelper.DropWeaponSet(player, 3,
+				ModContent.ItemType<Brimlance>(),
+				ModContent.ItemType<SeethingDischarge>(),
+				ModContent.ItemType<DormantBrimseeker>());
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<Abaddon>());

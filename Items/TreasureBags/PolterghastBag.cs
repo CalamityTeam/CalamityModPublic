@@ -56,13 +56,14 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<Phantoplasm>(), 20, 30);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<TerrorBlade>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BansheeHook>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DaemonsFlame>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<FatesReveal>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GhastlyVisage>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<EtherealSubjugator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GhoulishGouger>(), 3);
+			DropHelper.DropWeaponSet(player, 3,
+				ModContent.ItemType<TerrorBlade>(),
+				ModContent.ItemType<BansheeHook>(),
+				ModContent.ItemType<DaemonsFlame>(),
+				ModContent.ItemType<FatesReveal>(),
+				ModContent.ItemType<GhastlyVisage>(),
+				ModContent.ItemType<EtherealSubjugator>(),
+				ModContent.ItemType<GhoulishGouger>());
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<Affliction>());

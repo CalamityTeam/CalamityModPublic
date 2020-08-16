@@ -51,12 +51,14 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.FrostCore);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Avalanche>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GlacialCrusher>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<EffluviumBow>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BittercoldStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SnowstormStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Icebreaker>(), 3);
+			DropHelper.DropWeaponSet(player, 3,
+				ModContent.ItemType<Avalanche>(),
+				ModContent.ItemType<GlacialCrusher>(),
+				ModContent.ItemType<EffluviumBow>(),
+				ModContent.ItemType<BittercoldStaff>(),
+				ModContent.ItemType<SnowstormStaff>(),
+				ModContent.ItemType<Icebreaker>());
+
             float divinityChance = DropHelper.LegendaryDropRateFloat;
             DropHelper.DropItemCondition(player, ModContent.ItemType<ColdDivinity>(), CalamityWorld.revenge, divinityChance);
 

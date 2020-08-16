@@ -1155,17 +1155,18 @@ namespace CalamityMod.NPCs.PlaguebringerGoliath
                 DropHelper.DropItemSpray(npc, ItemID.Stinger, 3, 5);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<VirulentKatana>(), 4); // Virulence
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DiseasedPike>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ThePlaguebringer>(), 4); // Pandemic
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Malevolence>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PestilentDefiler>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheHive>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<MepheticSprayer>(), 4); // Blight Spewer
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PlagueStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheSyringe>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<FuelCellBundle>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<InfectedRemote>(), 4);
+				DropHelper.DropWeaponSet(npc, 4,
+					ModContent.ItemType<VirulentKatana>(), // Virulence
+					ModContent.ItemType<DiseasedPike>(),
+					ModContent.ItemType<ThePlaguebringer>(), // Pandemic
+					ModContent.ItemType<Malevolence>(),
+					ModContent.ItemType<PestilentDefiler>(),
+					ModContent.ItemType<TheHive>(),
+					ModContent.ItemType<MepheticSprayer>(), // Blight Spewer
+					ModContent.ItemType<PlagueStaff>(),
+					ModContent.ItemType<TheSyringe>(),
+					ModContent.ItemType<FuelCellBundle>(),
+					ModContent.ItemType<InfectedRemote>());
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<BloomStone>(), 10);

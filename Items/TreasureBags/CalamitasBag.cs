@@ -48,10 +48,11 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 35, 45);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheEyeofCalamitas>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Animosity>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CalamitasInferno>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BlightedEyeStaff>(), 3);
+			DropHelper.DropWeaponSet(player, 3,
+				ModContent.ItemType<TheEyeofCalamitas>(),
+				ModContent.ItemType<Animosity>(),
+				ModContent.ItemType<CalamitasInferno>(),
+				ModContent.ItemType<BlightedEyeStaff>());
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<CalamityRing>());

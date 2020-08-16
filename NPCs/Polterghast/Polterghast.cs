@@ -842,13 +842,14 @@ namespace CalamityMod.NPCs.Polterghast
                 DropHelper.DropItemChance(npc, ModContent.ItemType<PolterghastMask>(), 7);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TerrorBlade>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BansheeHook>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DaemonsFlame>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<FatesReveal>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GhastlyVisage>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<EtherealSubjugator>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GhoulishGouger>(), 4);
+				DropHelper.DropWeaponSet(npc, 4,
+					ModContent.ItemType<TerrorBlade>(),
+					ModContent.ItemType<BansheeHook>(),
+					ModContent.ItemType<DaemonsFlame>(),
+					ModContent.ItemType<FatesReveal>(),
+					ModContent.ItemType<GhastlyVisage>(),
+					ModContent.ItemType<EtherealSubjugator>(),
+					ModContent.ItemType<GhoulishGouger>());
             }
 
             // If Polterghast has not been killed, notify players about the Abyss minibosses now dropping items

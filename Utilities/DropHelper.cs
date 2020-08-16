@@ -240,7 +240,8 @@ namespace CalamityMod
         /// <param name="rareID">The ID of the RIV to drop.</param>
         /// <param name="itemChance">The chance that one of the two will drop. A decimal number <= 1.0.</param>
         /// <param name="rareChance">The chance that the RIV will drop. A decimal number <= 1.0.</param>
-        public static void DropItemRIV(NPC npc, int itemID, int rareID, float itemChance, float rareChance)
+        /// <returns>Whether an item was spawned.</returns>
+        public static bool DropItemRIV(NPC npc, int itemID, int rareID, float itemChance, float rareChance)
         {
 			float f = Main.rand.NextFloat();
 			bool replaceWithRare = f <= rareChance; // 1/X chance overall of getting RIV
@@ -248,7 +249,9 @@ namespace CalamityMod
 			{
 				DropItemCondition(npc, itemID, !replaceWithRare);
 				DropItemCondition(npc, rareID, replaceWithRare);
+				return true;
 			}
+			return false;
         }
 
         /// <summary>
@@ -259,7 +262,8 @@ namespace CalamityMod
         /// <param name="rareID">The ID of the RIV to drop.</param>
         /// <param name="itemChance">The chance that one of the two will drop. A decimal number <= 1.0.</param>
         /// <param name="rareChance">The chance that the RIV will drop. A decimal number <= 1.0.</param>
-        public static void DropItemRIV(Player player, int itemID, int rareID, float itemChance, float rareChance)
+        /// <returns>Whether an item was spawned.</returns>
+        public static bool DropItemRIV(Player player, int itemID, int rareID, float itemChance, float rareChance)
         {
 			float f = Main.rand.NextFloat();
 			bool replaceWithRare = f <= rareChance; // 1/X chance overall of getting RIV
@@ -267,7 +271,9 @@ namespace CalamityMod
 			{
 				DropItemCondition(player, itemID, !replaceWithRare);
 				DropItemCondition(player, rareID, replaceWithRare);
+				return true;
 			}
+			return false;
         }
         #endregion
 
@@ -781,6 +787,96 @@ namespace CalamityMod
         public static bool DropItemFromSetCondition(Player p, bool condition, float chance, params int[] itemIDs)
         {
             return condition ? DropItemFromSetChance(p, chance, itemIDs) : false;
+        }
+        #endregion
+
+        #region Weapon Set Drops
+        /// <summary>
+        /// Rolls for each item in an array to drop with a certain chance. If it fails every roll, it will drop one random item from the array. Optionally spawns one copy of this drop per player.
+        /// </summary>
+        /// <param name="npc">The NPC which should drop the item.</param>
+        /// <param name="dropPerPlayer">Whether the drop should be "instanced" (each player gets their own copy).</param>
+        /// <param name="chance">1 in X chance to drop the item.</param>
+        /// <param name="itemIDs">The array of items to choose from. If it's null or empty, nothing will be dropped.</param>
+        /// <returns>Whether an item was dropped.</returns>
+        public static bool DropWeaponSet(NPC npc, bool dropPerPlayer, int chance, params int[] itemIDs)
+        {
+            // Can't choose anything from an empty array.
+            if (itemIDs is null || itemIDs.Length == 0)
+                return false;
+
+			bool droppedWeapon = false;
+			for (int i = 0; i < itemIDs.Length; i++)
+			{
+				if (DropItemChance(npc, itemIDs[i], dropPerPlayer, chance) > 0)
+					droppedWeapon = true;
+			}
+			DropItemFromSetCondition(npc, dropPerPlayer, !droppedWeapon, itemIDs);
+
+            return true;
+        }
+
+        /// <param name="chance">The chance that the items will spawn. A decimal number <= 1.0.</param>
+        public static bool DropWeaponSet(NPC npc, bool dropPerPlayer, float chance, params int[] itemIDs)
+        {
+            // Can't choose anything from an empty array.
+            if (itemIDs is null || itemIDs.Length == 0)
+                return false;
+
+			bool droppedWeapon = false;
+			for (int i = 0; i < itemIDs.Length; i++)
+			{
+				if (DropItemChance(npc, itemIDs[i], dropPerPlayer, chance) > 0)
+					droppedWeapon = true;
+			}
+			DropItemFromSetCondition(npc, dropPerPlayer, !droppedWeapon, itemIDs);
+
+            return true;
+        }
+
+        public static bool DropWeaponSet(NPC npc, int chance, params int[] itemIDs)
+        {
+            return DropWeaponSet(npc, false, chance, itemIDs);
+        }
+
+        public static bool DropWeaponSet(NPC npc, float chance, params int[] itemIDs)
+        {
+            return DropWeaponSet(npc, false, chance, itemIDs);
+        }
+
+        /// <param name="player">The Player which should drop the item.</param>
+        public static bool DropWeaponSet(Player player, int chance, params int[] itemIDs)
+        {
+            // Can't choose anything from an empty array.
+            if (itemIDs is null || itemIDs.Length == 0)
+                return false;
+
+			bool droppedWeapon = false;
+			for (int i = 0; i < itemIDs.Length; i++)
+			{
+				if (DropItemChance(player, itemIDs[i], chance) > 0)
+					droppedWeapon = true;
+			}
+			DropItemFromSetCondition(player, !droppedWeapon, itemIDs);
+
+            return true;
+        }
+
+        public static bool DropWeaponSet(Player player, float chance, params int[] itemIDs)
+        {
+            // Can't choose anything from an empty array.
+            if (itemIDs is null || itemIDs.Length == 0)
+                return false;
+
+			bool droppedWeapon = false;
+			for (int i = 0; i < itemIDs.Length; i++)
+			{
+				if (DropItemChance(player, itemIDs[i], chance) > 0)
+					droppedWeapon = true;
+			}
+			DropItemFromSetCondition(player, !droppedWeapon, itemIDs);
+
+            return true;
         }
         #endregion
     }

@@ -43,14 +43,15 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<DragonRage>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheBurningSky>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DragonsBreath>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ChickenCannon>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<PhoenixFlameBarrage>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<AngryChickenStaff>(), 3); // Yharon Kindle Staff
-            DropHelper.DropItemChance(player, ModContent.ItemType<ProfanedTrident>(), 3); // Infernal Spear
-            DropHelper.DropItemChance(player, ModContent.ItemType<FinalDawn>(), 3);
+			DropHelper.DropWeaponSet(player, 3,
+				ModContent.ItemType<DragonRage>(),
+				ModContent.ItemType<TheBurningSky>(),
+				ModContent.ItemType<DragonsBreath>(),
+				ModContent.ItemType<ChickenCannon>(),
+				ModContent.ItemType<PhoenixFlameBarrage>(),
+				ModContent.ItemType<AngryChickenStaff>(), // Yharon Kindle Staff
+				ModContent.ItemType<ProfanedTrident>(), // Infernal Spear
+				ModContent.ItemType<FinalDawn>());
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<YharimsGift>());

@@ -13,6 +13,7 @@ using CalamityMod.NPCs.DevourerofGods;
 using CalamityMod.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -60,19 +61,47 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<CosmiliteBrick>(), 200, 320);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Excelsus>(), 3);
-            float dischargeChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicDischarge>(), CalamityWorld.revenge, dischargeChance);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheObliterator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Deathwind>(), 3);
+			int[] weapons = new int[] {
+				ModContent.ItemType<Excelsus>(),
+				ModContent.ItemType<TheObliterator>(),
+				ModContent.ItemType<Deathwind>(),
+				ModContent.ItemType<DeathhailStaff>(),
+				ModContent.ItemType<StaffoftheMechworm>()
+			};
+
+			bool droppedWeapon = false;
+			for (int i = 0; i < weapons.Length; i++)
+			{
+				if (DropHelper.DropItemChance(player, weapons[i], 3) > 0)
+					droppedWeapon = true;
+			}
+
+			if (DropHelper.DropItemFromSetChance(player, 0.3333f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>()))
+				droppedWeapon = true;
+
+			if (!droppedWeapon)
+			{
+				// Can't choose anything from an empty array.
+				if (weapons is null || weapons.Length == 0)
+					goto SKIPDROPS;
+
+				// Resize the array and add the last weapon
+				Array.Resize(ref weapons, weapons.Length + 1);
+				weapons[weapons.Length - 1] = ModContent.ItemType<Eradicator>();
+
+				// Choose which item to drop.
+				int itemID = Main.rand.Next(weapons);
+				if (itemID == ModContent.ItemType<Eradicator>() && Main.rand.NextBool(2))
+					itemID = ModContent.ItemType<EradicatorMelee>();
+
+				DropHelper.DropItem(player, itemID);
+			}
+			SKIPDROPS:
+
             DropHelper.DropItemChance(player, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
             DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DeathhailStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<StaffoftheMechworm>(), 3);
-			if (Main.rand.NextBool(3))
-			{
-				DropHelper.DropItemFromSetChance(player, 1f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>());
-			}
+            float dischargeChance = DropHelper.LegendaryDropRateFloat;
+            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicDischarge>(), CalamityWorld.revenge, dischargeChance);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());

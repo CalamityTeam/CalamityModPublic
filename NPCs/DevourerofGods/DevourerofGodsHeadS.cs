@@ -1026,14 +1026,42 @@ namespace CalamityMod.NPCs.DevourerofGods
                 DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Excelsus>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheObliterator>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Deathwind>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DeathhailStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StaffoftheMechworm>(), 4);
-				DropHelper.DropItemFromSetChance(npc, 0.25f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>());
+				int[] weapons = new int[] {
+					ModContent.ItemType<Excelsus>(),
+					ModContent.ItemType<TheObliterator>(),
+					ModContent.ItemType<Deathwind>(),
+					ModContent.ItemType<DeathhailStaff>(),
+					ModContent.ItemType<StaffoftheMechworm>()
+				};
+
+				bool droppedWeapon = false;
+				for (int i = 0; i < weapons.Length; i++)
+				{
+					if (DropHelper.DropItemChance(npc, weapons[i], 4) > 0)
+						droppedWeapon = true;
+				}
+
+				if (DropHelper.DropItemFromSetChance(npc, 0.25f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>()))
+					droppedWeapon = true;
+
+				if (!droppedWeapon)
+				{
+					// Can't choose anything from an empty array.
+					if (weapons is null || weapons.Length == 0)
+						goto SKIPDROPS;
+
+					// Resize the array and add the last weapon
+					Array.Resize(ref weapons, weapons.Length + 1);
+					weapons[weapons.Length - 1] = ModContent.ItemType<Eradicator>();
+
+					// Choose which item to drop.
+					int itemID = Main.rand.Next(weapons);
+					if (itemID == ModContent.ItemType<Eradicator>() && Main.rand.NextBool(2))
+						itemID = ModContent.ItemType<EradicatorMelee>();
+
+					DropHelper.DropItem(npc, itemID);
+				}
+				SKIPDROPS:
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);

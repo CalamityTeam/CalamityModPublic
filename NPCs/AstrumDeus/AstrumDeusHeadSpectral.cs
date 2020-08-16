@@ -234,11 +234,13 @@ namespace CalamityMod.NPCs.AstrumDeus
                 DropHelper.DropItemSpray(npc, ItemID.FallenStar, 80, 150);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheMicrowave>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StarSputter>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Starfall>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GodspawnHelixStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RegulusRiot>(), 4);
+				DropHelper.DropWeaponSet(npc, 4,
+					ModContent.ItemType<TheMicrowave>(),
+					ModContent.ItemType<StarSputter>(),
+					ModContent.ItemType<Starfall>(),
+					ModContent.ItemType<GodspawnHelixStaff>(),
+					ModContent.ItemType<RegulusRiot>());
+
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment

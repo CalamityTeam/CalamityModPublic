@@ -48,14 +48,48 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ItemID.Ichor, Main.hardMode, 15, 30);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<VeinBurster>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodyRupture>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SausageMaker>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Aorta>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Eviscerator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodBath>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<BloodClotStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ToothBall>(), 3, 50, 75);
+			int[] weapons = new int[] {
+				ModContent.ItemType<VeinBurster>(),
+				ModContent.ItemType<BloodyRupture>(),
+				ModContent.ItemType<SausageMaker>(),
+				ModContent.ItemType<Aorta>(),
+				ModContent.ItemType<Eviscerator>(),
+				ModContent.ItemType<BloodBath>(),
+				ModContent.ItemType<BloodClotStaff>(),
+				ModContent.ItemType<ToothBall>()
+			};
+
+			bool droppedWeapon = false;
+			int least = 1;
+			int most = 1;
+			for (int i = 0; i < weapons.Length; i++)
+			{
+				if (weapons[i] == ModContent.ItemType<ToothBall>())
+				{
+					least = 50;
+					most = 75;
+				}
+				if (DropHelper.DropItemChance(player, weapons[i], 3, least, most) > 0)
+					droppedWeapon = true;
+			}
+
+			if (!droppedWeapon)
+			{
+				// Can't choose anything from an empty array.
+				if (weapons is null || weapons.Length == 0)
+					goto SKIPDROPS;
+
+				// Choose which item to drop.
+				int itemID = Main.rand.Next(weapons);
+				if (itemID == ModContent.ItemType<ToothBall>())
+				{
+					least = 50;
+					most = 75;
+				}
+
+				DropHelper.DropItem(player, itemID, least, most);
+			}
+			SKIPDROPS:
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<BloodyWormTooth>());

@@ -7,6 +7,7 @@ using CalamityMod.Items.Weapons.Ranged;
 using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.NPCs.DesertScourge;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -47,11 +48,42 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.Starfish, 7, 11);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<AquaticDischarge>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Barinade>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<StormSpray>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SeaboundStaff>(), 3);
-			DropHelper.DropItemRIV(player, ModContent.ItemType<ScourgeoftheDesert>(), ModContent.ItemType<DuneHopper>(), 0.3333f, DropHelper.RareVariantDropRateFloat);
+			// Scourge of the Desert is separate due to RIV drop interactions
+			int[] weapons = new int[] {
+				ModContent.ItemType<AquaticDischarge>(),
+				ModContent.ItemType<Barinade>(),
+				ModContent.ItemType<StormSpray>(),
+				ModContent.ItemType<SeaboundStaff>()
+			};
+
+			bool droppedWeapon = false;
+			for (int i = 0; i < weapons.Length; i++)
+			{
+				if (DropHelper.DropItemChance(player, weapons[i], 3) > 0)
+					droppedWeapon = true;
+			}
+
+			if (DropHelper.DropItemRIV(player, ModContent.ItemType<ScourgeoftheDesert>(), ModContent.ItemType<DuneHopper>(), 0.3333f, DropHelper.RareVariantDropRateFloat))
+				droppedWeapon = true;
+
+			if (!droppedWeapon)
+			{
+				// Can't choose anything from an empty array.
+				if (weapons is null || weapons.Length == 0)
+					goto SKIPDROPS;
+
+				// Resize the array and add the last weapon
+				Array.Resize(ref weapons, weapons.Length + 1);
+				weapons[weapons.Length - 1] = ModContent.ItemType<ScourgeoftheDesert>();
+
+				// Choose which item to drop.
+				int itemID = Main.rand.Next(weapons);
+				if (itemID == ModContent.ItemType<ScourgeoftheDesert>() && Main.rand.NextBool(DropHelper.RareVariantDropRateInt))
+					itemID = ModContent.ItemType<DuneHopper>();
+
+				DropHelper.DropItem(player, itemID);
+			}
+			SKIPDROPS:
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<OceanCrest>());

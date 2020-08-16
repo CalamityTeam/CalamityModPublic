@@ -426,9 +426,10 @@ namespace CalamityMod.NPCs.Bumblebirb
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<EffulgentFeather>(), 11, 17);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GildedProboscis>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GoldenEagle>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<RougeSlash>(), 4);
+				DropHelper.DropWeaponSet(npc, 4,
+					ModContent.ItemType<GildedProboscis>(),
+					ModContent.ItemType<GoldenEagle>(),
+					ModContent.ItemType<RougeSlash>());
                 DropHelper.DropItemChance(npc, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
 
                 // Equipment

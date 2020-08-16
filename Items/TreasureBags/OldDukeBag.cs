@@ -43,12 +43,13 @@ namespace CalamityMod.Items.TreasureBags
             player.TryGettingDevArmor();
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<InsidiousImpaler>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SepticSkewer>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<FetidEmesis>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<VitriolicViper>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<ToxicantTwister>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CadaverousCarrion>(), 3);
+			DropHelper.DropWeaponSet(player, 3,
+				ModContent.ItemType<InsidiousImpaler>(),
+				ModContent.ItemType<SepticSkewer>(),
+				ModContent.ItemType<FetidEmesis>(),
+				ModContent.ItemType<VitriolicViper>(),
+				ModContent.ItemType<ToxicantTwister>(),
+				ModContent.ItemType<CadaverousCarrion>());
 
             // Equipment
             DropHelper.DropItemChance(player, ModContent.ItemType<DukeScales>(), 10);

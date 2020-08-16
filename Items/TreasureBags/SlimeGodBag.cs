@@ -45,11 +45,12 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<PurifiedGel>(), 35, 55);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<OverloadedBlaster>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<AbyssalTome>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<EldritchTome>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CorroslimeStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CrimslimeStaff>(), 3);
+			DropHelper.DropWeaponSet(player, 3,
+				ModContent.ItemType<OverloadedBlaster>(),
+				ModContent.ItemType<AbyssalTome>(),
+				ModContent.ItemType<EldritchTome>(),
+				ModContent.ItemType<CorroslimeStaff>(),
+				ModContent.ItemType<CrimslimeStaff>());
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<ManaOverloader>());

@@ -1281,13 +1281,14 @@ namespace CalamityMod.NPCs.Providence
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<DivineGeode>(), 15, 20);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<HolyCollider>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SolarFlare>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TelluricGlare>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BlissfulBombardier>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PurgeGuzzler>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<MoltenAmputator>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DazzlingStabberStaff>(), 4);
+				DropHelper.DropWeaponSet(npc, 4,
+					ModContent.ItemType<HolyCollider>(),
+					ModContent.ItemType<SolarFlare>(),
+					ModContent.ItemType<TelluricGlare>(),
+					ModContent.ItemType<BlissfulBombardier>(),
+					ModContent.ItemType<PurgeGuzzler>(),
+					ModContent.ItemType<MoltenAmputator>(),
+					ModContent.ItemType<DazzlingStabberStaff>());
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);

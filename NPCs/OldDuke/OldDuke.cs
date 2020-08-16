@@ -381,12 +381,13 @@ namespace CalamityMod.NPCs.OldDuke
 			if (!Main.expertMode)
             {
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<InsidiousImpaler>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SepticSkewer>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<FetidEmesis>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<VitriolicViper>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ToxicantTwister>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CadaverousCarrion>(), 4);
+				DropHelper.DropWeaponSet(npc, 4,
+					ModContent.ItemType<InsidiousImpaler>(),
+					ModContent.ItemType<SepticSkewer>(),
+					ModContent.ItemType<FetidEmesis>(),
+					ModContent.ItemType<VitriolicViper>(),
+					ModContent.ItemType<ToxicantTwister>(),
+					ModContent.ItemType<CadaverousCarrion>());
 
 				//Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DukeScales>(), 10);

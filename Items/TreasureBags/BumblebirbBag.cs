@@ -43,9 +43,11 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<EffulgentFeather>(), 15, 21);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<GildedProboscis>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GoldenEagle>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<RougeSlash>(), 3);
+			DropHelper.DropWeaponSet(player, 3,
+				ModContent.ItemType<GildedProboscis>(),
+				ModContent.ItemType<GoldenEagle>(),
+				ModContent.ItemType<RougeSlash>());
+
             DropHelper.DropItemChance(player, ModContent.ItemType<Swordsplosion>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment

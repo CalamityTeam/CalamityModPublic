@@ -47,11 +47,13 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ItemID.FallenStar, 100, 180);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheMicrowave>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<StarSputter>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Starfall>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<GodspawnHelixStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<RegulusRiot>(), 3);
+			DropHelper.DropWeaponSet(player, 3,
+				ModContent.ItemType<TheMicrowave>(),
+				ModContent.ItemType<StarSputter>(),
+				ModContent.ItemType<Starfall>(),
+				ModContent.ItemType<GodspawnHelixStaff>(),
+				ModContent.ItemType<RegulusRiot>());
+
             DropHelper.DropItemChance(player, ModContent.ItemType<Quasar>(), DropHelper.RareVariantDropRateInt);
 
             // Equipment
