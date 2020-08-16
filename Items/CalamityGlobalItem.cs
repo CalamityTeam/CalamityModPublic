@@ -935,14 +935,7 @@ namespace CalamityMod.Items
             }
             if (item.type == ItemID.MonkStaffT1)
             {
-                for (int i = 0; i < Main.maxProjectiles; ++i)
-                {
-                    if (Main.projectile[i].active && Main.projectile[i].owner == Main.myPlayer && Main.projectile[i].type == item.shoot)
-                    {
-                        return false;
-                    }
-                }
-                return true;
+                return player.ownedProjectileCounts[item.shoot] <= 0;
             }
             if (item.type == ItemID.InvisibilityPotion && player.FindBuffIndex(ModContent.BuffType<ShadowBuff>()) > -1)
             {
