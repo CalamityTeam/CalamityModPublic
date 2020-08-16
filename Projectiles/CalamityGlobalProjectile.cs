@@ -1889,7 +1889,7 @@ namespace CalamityMod.Projectiles
 
 					//Priorities: Nucleogenesis => Starbuster Core => Nuclear Rod => Jelly-Charged Battery
 					List<int> summonExceptionList = new List<int>()
-					{ 
+					{
 						ProjectileType<EnergyOrb>(),
 						ProjectileType<IrradiatedAura>(),
 						ProjectileType<SummonAstralExplosion>(),
