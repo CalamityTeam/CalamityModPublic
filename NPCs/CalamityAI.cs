@@ -3390,7 +3390,7 @@ namespace CalamityMod.NPCs
 							int num946 = ModContent.ProjectileType<DeusMine>();
 							int proj = Projectile.NewProjectile(npc.Center, Vector2.Zero, num946, num945, 0f, Main.myPlayer, 0f, 0f);
 							if (doubleWormPhase)
-								Main.projectile[proj].timeLeft = 510;
+								Main.projectile[proj].timeLeft = 720;
 						}
 					}
 				}
