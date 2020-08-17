@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurnitureEutrophic
     {
         public override void SetDefaults()
         {
-            this.SetUpChest();
+            this.SetUpChest(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Eutrophic Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);
