@@ -30,9 +30,9 @@ namespace CalamityMod.Items.Weapons.Ranged
             item.rare = 2;
             item.UseSound = SoundID.Item5;
             item.autoReuse = true;
-            item.shoot = ProjectileID.PurificationPowder;
+            item.shoot = ModContent.ProjectileType<BoltArrow>();
             item.shootSpeed = 14f;
-            item.useAmmo = 40;
+            item.useAmmo = AmmoID.Arrow;
         }
 
         /*public void OverhaulInit()

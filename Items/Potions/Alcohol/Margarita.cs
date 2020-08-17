@@ -10,12 +10,16 @@ namespace CalamityMod.Items.Potions.Alcohol
 {
     public class Margarita : ModItem
     {
+		public static int BuffType = ModContent.BuffType<MargaritaBuff>();
+		public static int BuffDuration = 10800;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Margarita");
             Tooltip.SetDefault(@"One of the best drinks ever created, enjoy it while it lasts
 Reduces the duration of most debuffs
-Reduces defense by 6 and life regen by 1");
+Reduces defense by 6 and life regen by 1
+3 minute duration");
         }
 
         public override void SetDefaults()
@@ -33,45 +37,12 @@ Reduces defense by 6 and life regen by 1");
             item.potion = true;
             item.healLife = 200;
             item.healMana = 200;
-            item.buffType = ModContent.BuffType<MargaritaBuff>();
-            item.buffTime = 10800;
             item.value = Item.buyPrice(0, 23, 30, 0);
         }
 
-        public override bool CanUseItem(Player player)
+        public override void OnConsumeItem(Player player)
         {
-			item.healLife = player.Calamity().bloodPactBoost ? 300 : 200;
-            return player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
-        }
-
-		public override bool UseItem(Player player)
-		{
-			if (PlayerInput.Triggers.JustPressed.QuickBuff)
-			{
-				int healAmt = CalamityWorld.ironHeart ? 0 : item.healLife;
-				player.statLife += healAmt;
-				player.statMana += item.healMana;
-				if (player.statLife > player.statLifeMax2)
-				{
-					player.statLife = player.statLifeMax2;
-				}
-				if (player.statMana > player.statManaMax2)
-				{
-					player.statMana = player.statManaMax2;
-				}
-				player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
-				if (Main.myPlayer == player.whoAmI)
-				{
-					if (!CalamityWorld.ironHeart)
-						player.HealEffect(healAmt, true);
-					player.ManaEffect(item.healMana);
-				}
-			}
-            player.AddBuff(ModContent.BuffType<MargaritaBuff>(), item.buffTime);
-
-			// fixes hardcoded potion sickness duration from quick heal (see CalamityPlayerMiscEffects.cs)
-			player.Calamity().potionTimer = 2;
-			return true;
+            player.AddBuff(BuffType, BuffDuration);
         }
     }
 }

@@ -64,7 +64,7 @@ namespace CalamityMod.Projectiles.Rogue
                 {
                     previousNPCs.Add(i);
                 }
-                if (!npc.friendly && !npc.townNPC && npc.active && !npc.dontTakeDamage && npc.chaseable && npc != target && !hasHitNPC)
+                if (npc.CanBeChasedBy(projectile, false) && npc != target && !hasHitNPC)
                 {
                     float dist = (projectile.Center - npc.Center).Length();
                     if (dist < minDist)

@@ -1,4 +1,5 @@
 using CalamityMod.Items;
+using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Tiles;
 using Microsoft.Xna.Framework;
@@ -150,6 +151,19 @@ namespace CalamityMod.TileEntities
         }
         public override void Update()
         {
+            if (FuelItem is null || FuelItem.type != ModContent.ItemType<PowerCell>())
+            {
+                FuelItem = new Item();
+                FuelItem.SetDefaults(ModContent.ItemType<PowerCell>());
+                FuelItem.stack = 0;
+                ClientToServerSync();
+            }
+            if (ItemBeingCharged is null)
+            {
+                ItemBeingCharged = new Item();
+                ItemBeingCharged.stack = 0;
+                ClientToServerSync();
+            }
             FuelItem.favorited = false;
             ItemBeingCharged.favorited = false;
             Time++;
@@ -213,7 +227,10 @@ namespace CalamityMod.TileEntities
         public override void NetReceive(BinaryReader reader, bool lightReceive)
         {
             ID = reader.ReadInt32();
-            FuelItem.type = reader.ReadInt32();
+            FuelItem = new Item
+            {
+                type = reader.ReadInt32()
+            };
             FuelItem.SetDefaults(FuelItem.type);
             FuelItem.stack = reader.ReadInt32();
             FuelItem.position = reader.ReadVector2();

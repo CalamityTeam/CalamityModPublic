@@ -35,40 +35,9 @@ Reduces defense by 2 and movement speed by 5%");
             item.value = Item.buyPrice(0, 0, 65, 0);
         }
 
-        public override bool CanUseItem(Player player)
+        public override void OnConsumeItem(Player player)
         {
-			item.healLife = player.Calamity().bloodPactBoost ? 150 : 100;
-            return player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
-        }
-
-		public override bool UseItem(Player player)
-		{
-			if (PlayerInput.Triggers.JustPressed.QuickBuff)
-			{
-				int healAmt = CalamityWorld.ironHeart ? 0 : item.healLife;
-				player.statLife += healAmt;
-				player.statMana += item.healMana;
-				if (player.statLife > player.statLifeMax2)
-				{
-					player.statLife = player.statLifeMax2;
-				}
-				if (player.statMana > player.statManaMax2)
-				{
-					player.statMana = player.statManaMax2;
-				}
-				player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
-				if (Main.myPlayer == player.whoAmI)
-				{
-					if (!CalamityWorld.ironHeart)
-						player.HealEffect(healAmt, true);
-					player.ManaEffect(item.healMana);
-				}
-			}
-            player.AddBuff(ModContent.BuffType<GrapeBeerBuff>(), 3600);
-
-			// fixes hardcoded potion sickness duration from quick heal (see CalamityPlayerMiscEffects.cs)
-			player.Calamity().potionTimer = 2;
-			return true;
+            player.AddBuff(ModContent.BuffType<GrapeBeerBuff>(), 900);
         }
     }
 }

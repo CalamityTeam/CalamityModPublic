@@ -41,11 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
 			if (projectile.ai[0] > 120f)
 			{
 				projectile.scale *= 0.98f;
-				projectile.position = projectile.Center;
-				projectile.width = (int)(projectile.width * projectile.scale);
-				projectile.height = (int)(projectile.height * projectile.scale);
-				projectile.position.X = projectile.position.X - (float)(projectile.width / 2);
-				projectile.position.Y = projectile.position.Y - (float)(projectile.height / 2);
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, projectile.scale);
 				if (projectile.scale <= 0.05f)
 					projectile.Kill();
 			}

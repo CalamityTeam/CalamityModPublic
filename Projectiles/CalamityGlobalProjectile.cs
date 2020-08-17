@@ -66,6 +66,7 @@ namespace CalamityMod.Projectiles
 
         // Counters and Timers
         private int counter = 0;
+		public int stealthStrikeHitCount = 0;
 
         public int lineColor = 0; //Note: Although this was intended for fishing line colors, I use this as an AI variable a lot because vanilla only has 4 that sometimes are already in use.  ~Ben
         public bool extorterBoost = false;
@@ -104,12 +105,16 @@ namespace CalamityMod.Projectiles
 					projectile.penetrate = projectile.maxPenetrate = 1;
 					break;
 
-				case ProjectileID.Spazmamini:
 				case ProjectileID.Retanimini:
 				case ProjectileID.MiniRetinaLaser:
 					projectile.localNPCHitCooldown = 10;
 					projectile.usesLocalNPCImmunity = true;
 					projectile.usesIDStaticNPCImmunity = false;
+					break;
+
+				case ProjectileID.Spazmamini:
+					projectile.usesIDStaticNPCImmunity = true;
+					projectile.idStaticNPCHitCooldown = 12;
 					break;
 				default:
 					break;
@@ -1687,7 +1692,7 @@ namespace CalamityMod.Projectiles
 
 					SKIPXEROC:
 
-                    if (modPlayer.featherCrown && stealthStrike && modPlayer.featherCrownCooldown <= 0)
+                    if (modPlayer.featherCrown && stealthStrike && modPlayer.featherCrownCooldown <= 0 && stealthStrikeHitCount < 5)
                     {
                         for (int i = 0; i < 6; i++)
                         {
@@ -1702,7 +1707,7 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-                    if (modPlayer.moonCrown && stealthStrike && modPlayer.moonCrownCooldown <= 0)
+                    if (modPlayer.moonCrown && stealthStrike && modPlayer.moonCrownCooldown <= 0 && stealthStrikeHitCount < 5)
                     {
                         for (int i = 0; i < 6; i++)
                         {
@@ -1715,7 +1720,7 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-                    if (modPlayer.nanotech && stealthStrike && modPlayer.nanoFlareCooldown <= 0)
+                    if (modPlayer.nanotech && stealthStrike && modPlayer.nanoFlareCooldown <= 0 && stealthStrikeHitCount < 5)
                     {
                         for (int i = 0; i < 6; i++)
                         {
@@ -1728,7 +1733,7 @@ namespace CalamityMod.Projectiles
                         }
                     }
 
-					if (modPlayer.forbiddenCirclet && stealthStrike && modPlayer.forbiddenCooldown <= 0)
+					if (modPlayer.forbiddenCirclet && stealthStrike && modPlayer.forbiddenCooldown <= 0 && stealthStrikeHitCount < 5)
 					{
 						for (int index2 = 0; index2 < 6; index2++)
 						{
@@ -1742,7 +1747,7 @@ namespace CalamityMod.Projectiles
 						}
 					}
 
-					if (modPlayer.titanHeartSet && stealthStrike && modPlayer.titanCooldown <= 0)
+					if (modPlayer.titanHeartSet && stealthStrike && modPlayer.titanCooldown <= 0 && stealthStrikeHitCount < 5)
 					{
 						int dmg = (int)(85 + (projectile.damage * 0.05f));
 						int boom = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ProjectileType<SabatonBoom>(), dmg, projectile.knockBack, projectile.owner, 0f, 0f);
@@ -1758,7 +1763,7 @@ namespace CalamityMod.Projectiles
 						modPlayer.titanCooldown = 15;
 					}
 
-					if (modPlayer.corrosiveSpine && projectile.type != ProjectileType<Corrocloud1>() && projectile.type != ProjectileType<Corrocloud2>() && projectile.type != ProjectileType<Corrocloud3>())
+					if (modPlayer.corrosiveSpine && projectile.type != ProjectileType<Corrocloud1>() && projectile.type != ProjectileType<Corrocloud2>() && projectile.type != ProjectileType<Corrocloud3>() && stealthStrikeHitCount < 5)
 					{
 						for (int i = 0; i < 3; i++)
 						{
@@ -1789,7 +1794,7 @@ namespace CalamityMod.Projectiles
 						target.AddBuff(BuffID.Venom, 240);
 					}
 
-					if (modPlayer.shadow && modPlayer.shadowPotCooldown <= 0)
+					if (modPlayer.shadow && modPlayer.shadowPotCooldown <= 0 && stealthStrikeHitCount < 5)
 					{
 						if (CalamityLists.javelinProjList.Contains(projectile.type))
 						{

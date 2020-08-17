@@ -41,8 +41,7 @@ namespace CalamityMod.Projectiles.Rogue
 			{
 				projectile.scale *= 0.95f;
 				projectile.Opacity *= 0.95f;
-				projectile.height = (int)(projectile.height * projectile.scale);
-				projectile.width = (int)(projectile.width * projectile.scale);
+				CalamityGlobalProjectile.ExpandHitboxBy(projectile, projectile.scale);
 			}
 			if (projectile.scale <= 0.05f)
 			{
