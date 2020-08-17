@@ -3389,8 +3389,6 @@ namespace CalamityMod.NPCs
 							int num945 = expertMode ? CalamityUtils.GetMasterModeProjectileDamage(45, 1.5) : 60;
 							int num946 = ModContent.ProjectileType<DeusMine>();
 							int proj = Projectile.NewProjectile(npc.Center, Vector2.Zero, num946, num945, 0f, Main.myPlayer, 0f, 0f);
-							if (doubleWormPhase)
-								Main.projectile[proj].timeLeft = 720;
 						}
 					}
 				}
