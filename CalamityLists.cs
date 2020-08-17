@@ -1735,7 +1735,6 @@ namespace CalamityMod
                 ModContent.ProjectileType<ButcherKnife>(),
                 ModContent.ProjectileType<TerraDiskProjectile>(),
                 ModContent.ProjectileType<TerraDiskProjectile2>(),
-                ModContent.ProjectileType<ToxicantTwisterProjectile>(),
                 ModContent.ProjectileType<ToxicantTwisterTwoPointZero>()
             };
 
