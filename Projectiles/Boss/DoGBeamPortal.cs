@@ -127,11 +127,7 @@ namespace CalamityMod.Projectiles.Boss
 
         public override bool CanHitPlayer(Player target)
 		{
-            if (projectile.timeLeft < 85)
-            {
-                return false;
-            }
-            return true;
+            return false;
         }
 
         public override Color? GetAlpha(Color lightColor)
