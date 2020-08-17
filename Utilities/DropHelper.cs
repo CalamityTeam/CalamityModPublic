@@ -86,6 +86,31 @@ namespace CalamityMod
         public static WeightedItemStack WeightStack(this int itemID, int min, int max) => WeightStack(itemID, DefaultWeight, min, max);
         public static WeightedItemStack WeightStack(this int itemID, float weight, int min, int max) => new WeightedItemStack(itemID, weight, min, max);
 
+        // Separated implementation used so weighted random code isn't duplicated in two places.
+        private static WeightedItemStack RollWeightedRandom(WeightedItemStack[] stacks)
+        {
+            int i;
+            float[] breakpoints = new float[stacks.Length];
+            float totalWeight = 0f;
+
+            // Assign breakpoints based on the cumulative sum of weights thus far.
+            // Error check invalid weights by giving them an unbelievably small drop chance.
+            for (i = 0; i < stacks.Length; ++i)
+            {
+                float w = stacks[i].weight;
+                if (w <= 0f || float.IsNaN(w) || float.IsInfinity(w))
+                    w = MinisiculeWeight;
+                breakpoints[i] = totalWeight += w;
+            }
+
+            // Iterate through the breakpoints until you find the first one that is surpassed. Drop that item.
+            float needle = Main.rand.NextFloat(totalWeight);
+            i = 0;
+            while (needle > breakpoints[i])
+                ++i;
+            return stacks[i];
+        }
+
         /// <summary>
         /// Chooses an item (or stack of items) from an array of drop definitions and drops it from the given NPC.<br></br>
         /// Each item is given a certain weight to spawn. Optionally spawns one copy of this drop per player.
@@ -100,26 +125,8 @@ namespace CalamityMod
             if (stacks is null || stacks.Length == 0)
                 return 0;
 
-            int i;
-            float[] breakpoints = new float[stacks.Length];
-            float totalWeight = 0f;
-
-            // Assign breakpoints based on the cumulative sum of weights thus far.
-            // Error check invalid weights by giving them an unbelievably small drop chance.
-            for (i = 0; i < stacks.Length; ++i)
-            {
-                float w = stacks[i].weight;
-                if (w <= 0f || float.IsNaN(w) || float.IsInfinity(w))
-                    w = MinisiculeWeight;
-                breakpoints[i] = totalWeight += w;
-            } 
-
-            // Iterate through the breakpoints until you find the first one that is surpassed. Drop that item.
-            float needle = Main.rand.NextFloat(totalWeight);
-            i = 0;
-            while (needle > breakpoints[i])
-                ++i;
-            return DropItem(npc, stacks[i].itemID, dropPerPlayer, stacks[i].minQuantity, stacks[i].maxQuantity);
+            WeightedItemStack stk = RollWeightedRandom(stacks);
+            return DropItem(npc, stk.itemID, dropPerPlayer, stk.minQuantity, stk.maxQuantity);
         }
 
         /// <summary>
@@ -147,26 +154,77 @@ namespace CalamityMod
             if (stacks is null || stacks.Length == 0)
                 return 0;
 
-            int i;
-            float[] breakpoints = new float[stacks.Length];
-            float totalWeight = 0f;
+            WeightedItemStack stk = RollWeightedRandom(stacks);
+            return DropItem(p, stk.itemID, stk.minQuantity, stk.maxQuantity);
+        }
 
-            // Assign breakpoints based on the cumulative sum of weights thus far.
-            // Error check invalid weights by giving them an unbelievably small drop chance.
-            for (i = 0; i < stacks.Length; ++i)
+        /// <summary>
+        /// Rolls for each item (or stack of items) in an array of drop definitions to drop at their defined chances.<br></br>
+        /// Always drops at least one of the defined stacks. Optionally spawns one copy of these drops per player.
+        /// </summary>
+        /// <param name="npc">The NPC which should drop the items.</param>
+        /// <param name="dropPerPlayer">Whether the drops should be "instanced" (each player gets their own copy).</param>
+        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
+        /// <returns>The number of items dropped.</returns>
+        public static int DropEntireWeightedSet(NPC npc, bool dropPerPlayer, params WeightedItemStack[] stacks)
+        {
+            int numDrops = 0;
+
+            // Can't choose anything from an empty array.
+            if (stacks is null || stacks.Length == 0)
+                return numDrops;
+
+            for (int i = 0; i < stacks.Length; ++i)
             {
-                float w = stacks[i].weight;
-                if (w <= 0f || float.IsNaN(w) || float.IsInfinity(w))
-                    w = MinisiculeWeight;
-                breakpoints[i] = totalWeight += w;
+                WeightedItemStack stk = stacks[i];
+                numDrops += DropItemChance(npc, stk.itemID, dropPerPlayer, stk.weight, stk.minQuantity, stk.maxQuantity);
             }
 
-            // Iterate through the breakpoints until you find the first one that is surpassed. Drop that item.
-            float needle = Main.rand.NextFloat(totalWeight);
-            i = 0;
-            while (needle > breakpoints[i])
-                ++i;
-            return DropItem(p, stacks[i].itemID, stacks[i].minQuantity, stacks[i].maxQuantity);
+            // If nothing at all was dropped, drop one thing at (weighted) random.
+            if (numDrops <= 0)
+                numDrops += DropItemFromWeightedSet(npc, dropPerPlayer, stacks);
+
+            return numDrops;
+        }
+
+        /// <summary>
+        /// Rolls for each item (or stack of items) in an array of drop definitions to drop at their defined chances.<br></br>
+        /// Always drops at least one of the defined stacks.
+        /// </summary>
+        /// <param name="npc">The NPC which should drop the items.</param>
+        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
+        /// <returns>The number of items dropped.</returns>
+        public static int DropEntireWeightedSet(NPC npc, params WeightedItemStack[] stacks)
+        {
+            return DropEntireWeightedSet(npc, false, stacks);
+        }
+
+        /// <summary>
+        /// Rolls for each item (or stack of items) in an array of drop definitions to drop at their defined chances.<br></br>
+        /// Always drops at least one of the defined stacks.
+        /// </summary>
+        /// <param name="p">The player which should receive the item(s).</param>
+        /// <param name="stacks">The array of drop definitions to choose from. If it's null or empty, nothing will be dropped.</param>
+        /// <returns>The number of items dropped.</returns>
+        public static int DropEntireWeightedSet(Player p, params WeightedItemStack[] stacks)
+        {
+            int numDrops = 0;
+
+            // Can't choose anything from an empty array.
+            if (stacks is null || stacks.Length == 0)
+                return numDrops;
+
+            for (int i = 0; i < stacks.Length; ++i)
+            {
+                WeightedItemStack stk = stacks[i];
+                numDrops += DropItemChance(p, stk.itemID, stk.weight, stk.minQuantity, stk.maxQuantity);
+            }
+
+            // If nothing at all was dropped, drop one thing at (weighted) random.
+            if (numDrops <= 0)
+                numDrops += DropItemFromWeightedSet(p, stacks);
+
+            return numDrops;
         }
         #endregion
 
