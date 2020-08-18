@@ -55,7 +55,7 @@ namespace CalamityMod.Projectiles.Magic
                 Main.harpNote = projectile.ai[0];
                 Main.PlaySound(SoundID.Item26, projectile.position);
             }
-            Lighting.AddLight(projectile.Center, 0f, 1.2f, 0f);
+            Lighting.AddLight(projectile.Center, 0f, 0f, 1.2f);
             if (projectile.velocity.X > 0f)
                 projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X);
             else

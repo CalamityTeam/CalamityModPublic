@@ -790,6 +790,65 @@ namespace CalamityMod
             }
             return hitbox;
         }
+
+		public static void ConsumeItemViaQuickBuff(Player player, Item item, int buffType, int buffTime, bool reducedPotionSickness)
+		{
+			bool showsOver = false;
+			for (int l = 0; l < Player.MaxBuffs; l++)
+			{
+				int hasBuff = player.buffType[l];
+				if (player.buffTime[l] > 0 && hasBuff == buffType)
+					showsOver = true;
+			}
+
+			if (!showsOver)
+			{
+				Main.PlaySound(item.UseSound, player.Center);
+
+				int healAmt = player.Calamity().bloodPactBoost ? (int)(item.healLife * 1.5) : item.healLife;
+				if (CalamityWorld.ironHeart)
+					healAmt = 0;
+				if (healAmt > 0 && player.QuickHeal_GetItemToUse() != null)
+				{
+					if (player.QuickHeal_GetItemToUse().type != item.type)
+						healAmt = 0;
+				}
+
+				player.statLife += healAmt;
+				player.statMana += item.healMana;
+				if (player.statMana > player.statManaMax2)
+				{
+					player.statMana = player.statManaMax2;
+				}
+				if (player.statLife > player.statLifeMax2)
+				{
+					player.statLife = player.statLifeMax2;
+				}
+				if (item.healMana > 0)
+					player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
+				if (Main.myPlayer == player.whoAmI)
+				{
+					if (healAmt > 0)
+						player.HealEffect(healAmt, true);
+					if (item.healMana > 0)
+						player.ManaEffect(item.healMana);
+				}
+				if (item.potion)
+				{
+					int duration = reducedPotionSickness ? 3000 : 3600;
+					if (player.pStone)
+						duration = (int)(duration * 0.75);
+					player.AddBuff(BuffID.PotionSickness, duration);
+				}
+
+				player.AddBuff(buffType, buffTime);
+
+				--item.stack;
+				if (item.stack <= 0)
+					item.TurnToAir();
+				Recipe.FindRecipes();
+			}
+		}
         #endregion
 
         #region Projectile Utilities
@@ -2970,7 +3029,7 @@ namespace CalamityMod
         /// Extension which initializes a ModTile to be a chest.
         /// </summary>
         /// <param name="mt">The ModTile which is being initialized.</param>
-        internal static void SetUpChest(this ModTile mt)
+        internal static void SetUpChest(this ModTile mt, bool offset = false)
         {
             Main.tileSpelunker[mt.Type] = true;
             Main.tileContainer[mt.Type] = true;
@@ -2981,6 +3040,8 @@ namespace CalamityMod
             Main.tileValue[mt.Type] = 500;
             TileID.Sets.HasOutlines[mt.Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+			if (offset)
+				TileObjectData.newTile.DrawYOffset = 4;
             TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
@@ -3951,9 +4012,20 @@ namespace CalamityMod
         {
             string modName = tag.GetString($"mod{itemIndex}");
             string itemName = tag.GetString($"name{itemIndex}");
-            int type = ModLoader.GetMod(modName)?.ItemType(itemName) ?? 0;
             Item item = new Item();
-            if (type > 0)
+
+            // Don't bother checking any further if something is an empty string.
+            // Doing the checks below would result in checking for a mod with an empty string for a name.
+            // This can cause highly unpredictable/unstable behavior, such as the game crashing when you hover
+            // over the item in the GUI.
+            if (string.IsNullOrEmpty(modName) || string.IsNullOrEmpty(itemName))
+            {
+                item.type = ItemID.None;
+                return item;
+            }
+
+            int type = ModLoader.GetMod(modName)?.ItemType(itemName) ?? ItemID.None;
+            if (type > ItemID.None)
             {
                 item.netDefaults(type);
                 item.modItem.Load(tag.GetCompound("data"));

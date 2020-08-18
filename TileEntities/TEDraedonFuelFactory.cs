@@ -34,12 +34,13 @@ namespace CalamityMod.TileEntities
 
 		public override void Update()
 		{
-			HeldItem.favorited = false;
-			if (HeldItem.type != ModContent.ItemType<PowerCell>())
+			if (HeldItem is null || HeldItem.type != ModContent.ItemType<PowerCell>())
 			{
+				HeldItem = new Item();
 				HeldItem.SetDefaults(ModContent.ItemType<PowerCell>());
 				HeldItem.stack = 0;
 			}
+			HeldItem.favorited = false;
 			Time++;
 			// Sometimes the item gets fucked up and it gets a maxStack of 0. Using it as a max can be unreliable as a result.
 			bool rightTimeToMakeCell = Time % 5 == 4 && Main.tileFrame[Main.tile[Position.X, Position.Y].type] == 43;
@@ -80,9 +81,8 @@ namespace CalamityMod.TileEntities
 		{
 			TagCompound tag = new TagCompound
 			{
-				["Type"] = HeldItem.type,
 				["Stack"] = HeldItem.stack,
-				["Prefix"] = HeldItem.prefix
+				["Prefix"] = HeldItem.prefix,
 			};
 			CalamityUtils.SaveModItem(tag, HeldItem);
 			return tag;
@@ -91,7 +91,6 @@ namespace CalamityMod.TileEntities
 		public override void Load(TagCompound tag)
 		{
 			HeldItem = CalamityUtils.LoadModItem(tag);
-			HeldItem.type = tag.GetInt("Type");
 			HeldItem.stack = tag.GetInt("Stack");
 			HeldItem.prefix = tag.GetByte("Prefix");
 		}
@@ -107,7 +106,11 @@ namespace CalamityMod.TileEntities
 		public override void NetReceive(BinaryReader reader, bool lightReceive)
 		{
 			Time = reader.ReadInt32();
-			HeldItem.type = reader.ReadInt32();
+			HeldItem = new Item
+			{
+				type = reader.ReadInt32()
+			};
+			HeldItem.SetDefaults(HeldItem.type);
 			HeldItem.stack = reader.ReadInt32();
 			HeldItem.prefix = reader.ReadByte();
 		}

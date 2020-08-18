@@ -193,10 +193,13 @@ namespace CalamityMod.NPCs.Calamitas
 				DropHelper.DropItemCondition(npc, ModContent.ItemType<Bloodstone>(), CalamityWorld.downedProvidence, 1f, 30, 40);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheEyeofCalamitas>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Animosity>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CalamitasInferno>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BlightedEyeStaff>(), 4);
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<TheEyeofCalamitas>(w),
+                    DropHelper.WeightStack<Animosity>(w),
+                    DropHelper.WeightStack<CalamitasInferno>(w),
+                    DropHelper.WeightStack<BlightedEyeStaff>(w)
+                );
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ChaosStone>(), 10);

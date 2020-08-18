@@ -49,7 +49,7 @@ namespace CalamityMod.Projectiles.Boss
             if (projectile.ai[1] == 0f)
             {
                 projectile.ai[1] = 1f;
-                Main.PlaySound(SoundID.Item73, projectile.position);
+				Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/LeviathanRoarMeteor"), projectile.Center);
             }
             projectile.localAI[0] += 1f;
             if (projectile.localAI[0] == 12f)

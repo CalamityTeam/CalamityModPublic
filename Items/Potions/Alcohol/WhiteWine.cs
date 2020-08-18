@@ -49,7 +49,7 @@ Reduces defense by 6 and life regen by 1");
 					player.ManaEffect(item.healMana);
 				}
 			}
-            player.AddBuff(ModContent.BuffType<WhiteWineBuff>(), item.buffTime);
+            player.AddBuff(item.buffType, item.buffTime);
 			return true;
 		}
     }

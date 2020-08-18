@@ -2808,14 +2808,17 @@ namespace CalamityMod.NPCs.Yharon
             if (!Main.expertMode)
             {
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DragonRage>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheBurningSky>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DragonsBreath>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ChickenCannon>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PhoenixFlameBarrage>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AngryChickenStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<ProfanedTrident>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<FinalDawn>(), 4);
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<DragonRage>(w),
+                    DropHelper.WeightStack<TheBurningSky>(w),
+                    DropHelper.WeightStack<DragonsBreath>(w),
+                    DropHelper.WeightStack<ChickenCannon>(w),
+                    DropHelper.WeightStack<PhoenixFlameBarrage>(w),
+                    DropHelper.WeightStack<AngryChickenStaff>(w), // Yharon Kindle Staff
+                    DropHelper.WeightStack<ProfanedTrident>(w), // Infernal Spear
+                    DropHelper.WeightStack<FinalDawn>(w)
+                );
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<YharonMask>(), 7);

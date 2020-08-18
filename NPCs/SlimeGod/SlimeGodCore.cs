@@ -244,7 +244,7 @@ namespace CalamityMod.NPCs.SlimeGod
 					Vector2 goToVector = buffedSlime == 1 ? purpleSlimeVector : redSlimeVector;
 
 					Vector2 goToPosition = goToVector - vectorCenter;
-					npc.velocity = Vector2.Normalize(goToPosition) * (CalamityWorld.bossRushActive ? 24f : 16f);
+					npc.velocity = Vector2.Normalize(goToPosition) * 24f;
 
 					bool slimeDead = false;
 					if (goToVector == purpleSlimeVector)
@@ -684,15 +684,18 @@ namespace CalamityMod.NPCs.SlimeGod
                 // Materials
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<PurifiedGel>(), 30, 45);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<OverloadedBlaster>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<AbyssalTome>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<EldritchTome>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CorroslimeStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<CrimslimeStaff>(), 4);
+				// Weapons
+				float w = DropHelper.DirectWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<OverloadedBlaster>(w),
+					DropHelper.WeightStack<AbyssalTome>(w),
+					DropHelper.WeightStack<EldritchTome>(w),
+					DropHelper.WeightStack<CorroslimeStaff>(w),
+					DropHelper.WeightStack<CrimslimeStaff>(w)
+				);
 
-                // Vanity
-                DropHelper.DropItemFromSetChance(npc, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
+				// Vanity
+				DropHelper.DropItemFromSetChance(npc, 0.142857f, ModContent.ItemType<SlimeGodMask>(), ModContent.ItemType<SlimeGodMask2>());
 
                 // Other
             }
@@ -744,7 +747,7 @@ namespace CalamityMod.NPCs.SlimeGod
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-            player.AddBuff(BuffID.VortexDebuff, 240, true);
+            player.AddBuff(BuffID.VortexDebuff, 180, true);
             if (CalamityWorld.revenge)
             {
                 player.AddBuff(ModContent.BuffType<Horror>(), 120, true);

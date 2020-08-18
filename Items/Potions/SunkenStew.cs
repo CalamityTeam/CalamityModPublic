@@ -11,11 +11,15 @@ namespace CalamityMod.Items.Potions
 {
 	public class SunkenStew : ModItem
 	{
+		public static int BuffType = BuffID.WellFed;
+		public static int BuffDuration = 216000;
+
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Hadal Stew");
 			Tooltip.SetDefault(@"Only gives 50 (37 with Philosopher's Stone) seconds of Potion Sickness
-Grants Well Fed");
+Grants Well Fed
+60 minute duration");
 		}
 
 		public override void SetDefaults()
@@ -31,8 +35,6 @@ Grants Well Fed");
 			item.UseSound = SoundID.Item3;
 			item.consumable = true;
 			item.potion = true;
-			item.buffType = BuffID.WellFed;
-			item.buffTime = 216000;
 			item.healLife = 120;
 			item.healMana = 150;
 			item.value = Item.buyPrice(0, 2, 0, 0);
@@ -40,38 +42,14 @@ Grants Well Fed");
 
         public override bool CanUseItem(Player player)
         {
-			item.healLife = player.Calamity().bloodPactBoost ? 180 : 120;
             return player.potionDelay <= 0 && player.Calamity().potionTimer <= 0;
         }
 
 		public override bool UseItem(Player player)
 		{
-			if (PlayerInput.Triggers.JustPressed.QuickBuff)
-			{
-				int healAmt = CalamityWorld.ironHeart ? 0 : item.healLife;
-				player.statLife += healAmt;
-				player.statMana += item.healMana;
-				if (player.statLife > player.statLifeMax2)
-				{
-					player.statLife = player.statLifeMax2;
-				}
-				if (player.statMana > player.statManaMax2)
-				{
-					player.statMana = player.statManaMax2;
-				}
-				player.AddBuff(BuffID.ManaSickness, Player.manaSickTime, true);
-				if (Main.myPlayer == player.whoAmI)
-				{
-					if (!CalamityWorld.ironHeart)
-						player.HealEffect(healAmt, true);
-					player.ManaEffect(item.healMana);
-				}
-			}
-
+            player.AddBuff(BuffType, BuffDuration);
 			// fixes hardcoded potion sickness duration from quick heal (see CalamityPlayerMiscEffects.cs)
 			player.Calamity().potionTimer = 2;
-			player.Calamity().potionTimerR = 2;
-			player.AddBuff(BuffID.WellFed, item.buffTime);
 			return true;
 		}
 

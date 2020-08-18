@@ -31,8 +31,8 @@ namespace CalamityMod.Items.Weapons.Typeless
 			item.magic = true;
 			item.autoReuse = true;
 
-			item.width = 118;
-			item.height = 38;
+			item.width = 134;
+			item.height = 44;
 			item.noMelee = true;
 			item.useStyle = ItemUseStyleID.HoldingOut;
 			item.UseSound = mod.GetLegacySoundSlot(SoundType.Item, "Sounds/Item/LaserCannon");

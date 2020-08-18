@@ -1059,12 +1059,15 @@ namespace CalamityMod.NPCs.Cryogen
                 DropHelper.DropItem(npc, ItemID.FrostCore);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Avalanche>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<GlacialCrusher>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<EffluviumBow>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BittercoldStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SnowstormStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Icebreaker>(), 4);
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<Avalanche>(w),
+                    DropHelper.WeightStack<GlacialCrusher>(w),
+                    DropHelper.WeightStack<EffluviumBow>(w),
+                    DropHelper.WeightStack<BittercoldStaff>(w),
+                    DropHelper.WeightStack<SnowstormStaff>(w),
+                    DropHelper.WeightStack<Icebreaker>(w)
+                );
 
                 // Equipment
                 DropHelper.DropItemChance(npc, ModContent.ItemType<CryoStone>(), 10);

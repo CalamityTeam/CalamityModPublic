@@ -874,9 +874,9 @@ namespace CalamityMod
 			setBonus = setBonus.ToLower();
 
 			// Desert Prowler
-			if (setBonus == "desert prowler" || setBonus == "desert prowler")
+			if (setBonus == "desertprowler" || setBonus == "desert prowler")
 			{
-				mp.snowRuffianSet = enabled;
+				mp.desertProwler = enabled;
 				return true;
 			}
 

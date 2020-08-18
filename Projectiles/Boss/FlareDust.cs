@@ -30,7 +30,7 @@ namespace CalamityMod.Projectiles.Boss
             projectile.ignoreWater = true;
             projectile.tileCollide = false;
             projectile.penetrate = -1;
-            projectile.timeLeft = 560;
+            projectile.timeLeft = 680;
             cooldownSlot = 1;
         }
 
@@ -61,9 +61,7 @@ namespace CalamityMod.Projectiles.Boss
                 projectile.frameCounter = 0;
             }
             if (projectile.frame > 3)
-            {
                 projectile.frame = 0;
-            }
 
             Lighting.AddLight(projectile.Center, 0.5f, 0.25f, 0f);
 
@@ -77,18 +75,20 @@ namespace CalamityMod.Projectiles.Boss
 				start = false;
 			}
 
-			double rad = MathHelper.ToRadians(projectile.ai[1]);
-
 			float amount = projectile.localAI[0] / 120f;
 			if (amount > 1f)
 				amount = 1f;
-
 			distance += MathHelper.Lerp(1f, 9f, amount);
 
-			int timeGateValue = 180;
-			if (projectile.timeLeft < timeGateValue)
-				distance += 6f;
+			if (projectile.timeLeft < 380)
+			{
+				float amount2 = (projectile.localAI[0] - 300f) / 240f;
+				if (amount2 > 1f)
+					amount2 = 1f;
+				distance += MathHelper.Lerp(1f, 9f, amount2);
+			}
 
+			double rad = MathHelper.ToRadians(projectile.ai[1]);
 			if (projectile.ai[0] == 0f)
 			{
 				projectile.position.X = startingPosX - (int)(Math.Sin(rad) * distance) - projectile.width / 2;

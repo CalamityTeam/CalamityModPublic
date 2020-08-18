@@ -104,12 +104,16 @@ namespace CalamityMod.Projectiles
 					projectile.penetrate = projectile.maxPenetrate = 1;
 					break;
 
-				case ProjectileID.Spazmamini:
 				case ProjectileID.Retanimini:
 				case ProjectileID.MiniRetinaLaser:
 					projectile.localNPCHitCooldown = 10;
 					projectile.usesLocalNPCImmunity = true;
 					projectile.usesIDStaticNPCImmunity = false;
+					break;
+
+				case ProjectileID.Spazmamini:
+					projectile.usesIDStaticNPCImmunity = true;
+					projectile.idStaticNPCHitCooldown = 12;
 					break;
 				default:
 					break;
@@ -172,7 +176,53 @@ namespace CalamityMod.Projectiles
 
             if (CalamityWorld.revenge || CalamityWorld.bossRushActive)
             {
-                if (projectile.type == ProjectileID.PoisonSeedPlantera)
+				if (projectile.type == ProjectileID.EyeLaser && projectile.ai[0] == 1f)
+				{
+					projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
+					Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.3f / 255f, 0f, (255 - projectile.alpha) * 0.3f / 255f);
+
+					if (projectile.alpha > 0)
+						projectile.alpha -= 125;
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+
+					if (projectile.localAI[1] == 0f)
+					{
+						Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
+						projectile.localAI[1] = 1f;
+					}
+
+					if (projectile.velocity.Length() < 18f)
+						projectile.velocity *= 1.0025f;
+
+					return false;
+				}
+
+				else if (projectile.type == ProjectileID.DeathLaser && projectile.ai[0] == 1f)
+				{
+					projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + MathHelper.PiOver2;
+
+					Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.75f / 255f, 0f, 0f);
+
+					if (projectile.alpha > 0)
+						projectile.alpha -= 125;
+					if (projectile.alpha < 0)
+						projectile.alpha = 0;
+
+					if (projectile.localAI[1] == 0f)
+					{
+						Main.PlaySound(SoundID.Item33, (int)projectile.position.X, (int)projectile.position.Y);
+						projectile.localAI[1] = 1f;
+					}
+
+					if (projectile.velocity.Length() < 18f)
+						projectile.velocity *= 1.0025f;
+
+					return false;
+				}
+
+                else if (projectile.type == ProjectileID.PoisonSeedPlantera)
                 {
                     projectile.frameCounter++;
                     if (projectile.frameCounter > 1)
@@ -1130,7 +1180,7 @@ namespace CalamityMod.Projectiles
 			CalamityPlayer modPlayer = player.Calamity();
 
 			// Set crit here to avoid issues with projectiles that change class types in PreAI and AI
-			if (defCrit == 0 && !projectile.npcProj && !projectile.trap)
+			if (defCrit == 0 && !projectile.npcProj && !projectile.trap && Main.myPlayer == projectile.owner)
 			{
 				if (projectile.melee)
 					defCrit = modPlayer.critStats[0];
@@ -1839,7 +1889,7 @@ namespace CalamityMod.Projectiles
 
 					//Priorities: Nucleogenesis => Starbuster Core => Nuclear Rod => Jelly-Charged Battery
 					List<int> summonExceptionList = new List<int>()
-					{ 
+					{
 						ProjectileType<EnergyOrb>(),
 						ProjectileType<IrradiatedAura>(),
 						ProjectileType<SummonAstralExplosion>(),

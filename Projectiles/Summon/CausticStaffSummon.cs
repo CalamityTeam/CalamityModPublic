@@ -10,6 +10,7 @@ namespace CalamityMod.Projectiles.Summon
     public class CausticStaffSummon : ModProjectile
     {
         public bool initialized = false;
+		private float debuffToInflict = 0f;
 
         public override void SetStaticDefaults()
         {
@@ -286,7 +287,10 @@ namespace CalamityMod.Projectiles.Summon
 			float speedMult = 16f;
 			targetVec.Normalize();
 			targetVec *= speedMult;
-			int spike = Projectile.NewProjectile(projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), projectile.damage, projectile.knockBack, projectile.owner, 0f, 0f);
+			int spike = Projectile.NewProjectile(projectile.Center, targetVec, ModContent.ProjectileType<CausticStaffProjectile>(), projectile.damage, projectile.knockBack, projectile.owner, debuffToInflict, 0f);
+			debuffToInflict++;
+			if (debuffToInflict >= 5f)
+				debuffToInflict = 0f;
 			Main.projectile[spike].netUpdate = true;
 			projectile.netUpdate = true;
 		}

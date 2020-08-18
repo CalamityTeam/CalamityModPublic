@@ -317,11 +317,8 @@ namespace CalamityMod.NPCs
 			}
 
 			// Despawn
-			bool notOcean = player.position.Y < 400f ||
-				player.position.Y > Main.worldSurface * 16.0 ||
-				(player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680));
-
-			if (player.dead || (notOcean && !CalamityWorld.bossRushActive && !player.Calamity().ZoneSulphur))
+			bool notOcean = player.position.X > 7680f && player.position.X < (Main.maxTilesX * 16 - 7680);
+			if (player.dead || player.Calamity().ZoneAbyss || (notOcean && !CalamityWorld.bossRushActive && !player.Calamity().ZoneSulphur))
 			{
 				calamityGlobalNPC.newAI[1] = 1f;
 				npc.TargetClosest(false);
@@ -3391,7 +3388,7 @@ namespace CalamityMod.NPCs
 						{
 							int num945 = expertMode ? CalamityUtils.GetMasterModeProjectileDamage(45, 1.5) : 60;
 							int num946 = ModContent.ProjectileType<DeusMine>();
-							Projectile.NewProjectile(npc.Center, Vector2.Zero, num946, num945, 0f, Main.myPlayer, 0f, 0f);
+							int proj = Projectile.NewProjectile(npc.Center, Vector2.Zero, num946, num945, 0f, Main.myPlayer, 0f, 0f);
 						}
 					}
 				}

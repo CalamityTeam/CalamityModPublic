@@ -1280,17 +1280,20 @@ namespace CalamityMod.NPCs.Providence
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<UnholyEssence>(), 20, 30);
                 DropHelper.DropItemSpray(npc, ModContent.ItemType<DivineGeode>(), 15, 20);
 
-                // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<HolyCollider>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SolarFlare>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TelluricGlare>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<BlissfulBombardier>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<PurgeGuzzler>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<MoltenAmputator>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DazzlingStabberStaff>(), 4);
+				// Weapons
+				float w = DropHelper.DirectWeaponDropRateFloat;
+				DropHelper.DropEntireWeightedSet(npc,
+					DropHelper.WeightStack<HolyCollider>(w),
+					DropHelper.WeightStack<SolarFlare>(w),
+					DropHelper.WeightStack<TelluricGlare>(w),
+					DropHelper.WeightStack<BlissfulBombardier>(w),
+					DropHelper.WeightStack<PurgeGuzzler>(w),
+					DropHelper.WeightStack<DazzlingStabberStaff>(w),
+					DropHelper.WeightStack<MoltenAmputator>(w)
+				);
 
-                // Equipment
-                DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
+				// Equipment
+				DropHelper.DropItemChance(npc, ModContent.ItemType<SamuraiBadge>(), 40);
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<ProvidenceMask>(), 7);
@@ -1556,16 +1559,21 @@ namespace CalamityMod.NPCs.Providence
 
         public override void OnHitByProjectile(Projectile projectile, int damage, float knockback, bool crit)
         {
-			bool oldDaytimeDamageCheck = hasTakenDaytimeDamage;
-			hasTakenDaytimeDamage = Main.dayTime;
-
-			if (oldDaytimeDamageCheck != hasTakenDaytimeDamage && Main.netMode != NetmodeID.SinglePlayer)
+			if (!hasTakenDaytimeDamage)
 			{
-				var netMessage = mod.GetPacket();
-				netMessage.Write((byte)CalamityModMessageType.ProvidenceDyeConditionSync);
-				netMessage.Write((byte)npc.whoAmI);
-				netMessage.Write(hasTakenDaytimeDamage);
-				netMessage.Send();
+				if (Main.dayTime)
+				{
+					hasTakenDaytimeDamage = true;
+
+					if (Main.netMode != NetmodeID.SinglePlayer)
+					{
+						var netMessage = mod.GetPacket();
+						netMessage.Write((byte)CalamityModMessageType.ProvidenceDyeConditionSync);
+						netMessage.Write((byte)npc.whoAmI);
+						netMessage.Write(hasTakenDaytimeDamage);
+						netMessage.Send();
+					}
+				}
 			}
 
 			if (challenge)
@@ -1580,7 +1588,8 @@ namespace CalamityMod.NPCs.Providence
 				};
 
 				bool allowedClass = projectile.IsSummon() || (!projectile.melee && !projectile.ranged && !projectile.magic && !projectile.thrown && !projectile.Calamity().rogue);
-				bool allowedDamage = allowedClass && damage <= (npc.lifeMax * 0.001f); //0.1% max hp
+				bool allowedDamage = allowedClass && damage <= 75; //Flat 75 regardless of difficulty.
+				//Absorber on-hit effects likely won't proc this but Deific Amulet and Astral Bulwark stars will proc this.
 				bool allowedBabs = Main.player[projectile.owner].Calamity().pArtifact && !Main.player[projectile.owner].Calamity().profanedCrystalBuffs;
 
 				if ((exceptionList.TrueForAll(x => projectile.type != x) && !allowedDamage) || !allowedBabs)
@@ -1601,16 +1610,21 @@ namespace CalamityMod.NPCs.Providence
 
         public override void OnHitByItem(Player player, Item item, int damage, float knockback, bool crit)
 		{
-			bool oldDaytimeDamageCheck = hasTakenDaytimeDamage;
-			hasTakenDaytimeDamage = Main.dayTime;
-
-			if (oldDaytimeDamageCheck != hasTakenDaytimeDamage && Main.netMode != NetmodeID.SinglePlayer)
+			if (!hasTakenDaytimeDamage)
 			{
-				var netMessage = mod.GetPacket();
-				netMessage.Write((byte)CalamityModMessageType.ProvidenceDyeConditionSync);
-				netMessage.Write((byte)npc.whoAmI);
-				netMessage.Write(hasTakenDaytimeDamage);
-				netMessage.Send();
+				if (Main.dayTime)
+				{
+					hasTakenDaytimeDamage = true;
+
+					if (Main.netMode != NetmodeID.SinglePlayer)
+					{
+						var netMessage = mod.GetPacket();
+						netMessage.Write((byte)CalamityModMessageType.ProvidenceDyeConditionSync);
+						netMessage.Write((byte)npc.whoAmI);
+						netMessage.Write(hasTakenDaytimeDamage);
+						netMessage.Send();
+					}
+				}
 			}
 
 			if (challenge)
