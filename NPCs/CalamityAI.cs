@@ -74,7 +74,7 @@ namespace CalamityMod.NPCs
 			bool doSpiral = false;
 			if (head && calamityGlobalNPC.newAI[0] == 1f && calamityGlobalNPC.newAI[2] == 1f && revenge)
 			{
-				float ai3 = 600f;
+				float ai3 = 690f;
 				calamityGlobalNPC.newAI[3] += 1f;
 				doSpiral = calamityGlobalNPC.newAI[1] == 0f && calamityGlobalNPC.newAI[3] >= ai3;
 				if (doSpiral)
@@ -84,7 +84,7 @@ namespace CalamityMod.NPCs
 
 					// Barf out enemies
 					int variable = 10;
-					if (calamityGlobalNPC.newAI[3] % 60f == 0f && npcPosX > variable && npcPosY > variable && npcPosX < Main.maxTilesX - variable && npcPosY < Main.maxTilesY - variable)
+					if (calamityGlobalNPC.newAI[3] % 30f == 0f && npcPosX > variable && npcPosY > variable && npcPosX < Main.maxTilesX - variable && npcPosY < Main.maxTilesY - variable)
 					{
 						Main.PlaySound(4, (int)npc.position.X, (int)npc.position.Y, 13);
 
@@ -117,7 +117,7 @@ namespace CalamityMod.NPCs
 					npc.rotation = (float)Math.Atan2(npc.velocity.Y, npc.velocity.X) + MathHelper.PiOver2;
 
 					// Reset and charge at target
-					if (calamityGlobalNPC.newAI[3] >= ai3 + 180f)
+					if (calamityGlobalNPC.newAI[3] >= ai3 + 90f)
 					{
 						npc.TargetClosest(true);
 						calamityGlobalNPC.newAI[3] = 0f;
