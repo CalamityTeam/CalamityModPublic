@@ -275,10 +275,7 @@ namespace CalamityMod.CalPlayer
         public float throwingDamage = 1f;
         public float throwingVelocity = 1f;
         public int throwingCrit = 0;
-        public bool throwingAmmoCost75 = false;
-        public bool throwingAmmoCost66 = false;
-        public bool throwingAmmoCost55 = false;
-        public bool throwingAmmoCost50 = false;
+		public float throwingAmmoCost = 1f;
         #endregion
 
         #region Mount
@@ -1363,10 +1360,7 @@ namespace CalamityMod.CalPlayer
             throwingDamage = 1f;
             throwingVelocity = 1f;
             throwingCrit = 0;
-            throwingAmmoCost75 = false;
-            throwingAmmoCost66 = false;
-            throwingAmmoCost55 = false;
-            throwingAmmoCost50 = false;
+			throwingAmmoCost = 1f;
 			accStealthGenBoost = 0f;
 
 			trueMeleeDamage = 0D;
@@ -2133,10 +2127,7 @@ namespace CalamityMod.CalPlayer
             throwingDamage = 1f;
             throwingVelocity = 1f;
             throwingCrit = 0;
-            throwingAmmoCost75 = false;
-            throwingAmmoCost66 = false;
-            throwingAmmoCost55 = false;
-            throwingAmmoCost50 = false;
+			throwingAmmoCost = 1f;
             #endregion
 
             #region UI
