@@ -11,7 +11,7 @@ namespace CalamityMod.Items.Armor
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Omega Blue Leggings");
+            DisplayName.SetDefault("Omega Blue Appendages");
             Tooltip.SetDefault(@"30% increased movement speed
 12% increased damage and 8% increased critical strike chance");
         }

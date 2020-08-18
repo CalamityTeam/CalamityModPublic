@@ -991,6 +991,10 @@ namespace CalamityMod.CalPlayer
         public bool meldTransformation;
         public bool meldTransformationForce;
         public bool meldTransformationPower;
+        public bool omegaBlueTransformationPrevious;
+        public bool omegaBlueTransformation;
+        public bool omegaBlueTransformationForce;
+        public bool omegaBlueTransformationPower;
 		#endregion
 
 		#region SavingAndLoading
@@ -1980,6 +1984,9 @@ namespace CalamityMod.CalPlayer
 
             meldTransformationPrevious = meldTransformation;
             meldTransformation = meldTransformationForce = meldTransformationPower = false;
+
+            omegaBlueTransformationPrevious = omegaBlueTransformation;
+            omegaBlueTransformation = omegaBlueTransformationForce = omegaBlueTransformationPower = false;
 
             rageModeActive = false;
             adrenalineModeActive = false;
@@ -7379,6 +7386,10 @@ namespace CalamityMod.CalPlayer
                 player.legs = mod.GetEquipSlot("MeldTransformationLegs", EquipType.Legs);
                 player.body = mod.GetEquipSlot("MeldTransformationBody", EquipType.Body);
                 player.head = mod.GetEquipSlot("MeldTransformationHead", EquipType.Head);
+            }
+            else if ((omegaBlueTransformationPower || omegaBlueTransformationForce) && omegaBlueCooldown > 1500)
+            {
+                player.head = mod.GetEquipSlot("OmegaBlueTransformationHead", EquipType.Head);
             }
 			else
 			{
