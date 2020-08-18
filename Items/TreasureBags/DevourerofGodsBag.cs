@@ -60,19 +60,20 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItem(player, ModContent.ItemType<CosmiliteBrick>(), 200, 320);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<Excelsus>(), 3);
-            float dischargeChance = DropHelper.LegendaryDropRateFloat;
-            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicDischarge>(), CalamityWorld.revenge, dischargeChance);
-            DropHelper.DropItemChance(player, ModContent.ItemType<TheObliterator>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Deathwind>(), 3);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<Excelsus>(w),
+                DropHelper.WeightStack<TheObliterator>(w),
+                DropHelper.WeightStack<Deathwind>(w),
+                DropHelper.WeightStack<DeathhailStaff>(w),
+                DropHelper.WeightStack<StaffoftheMechworm>(w),
+                Main.rand.NextBool() ? DropHelper.WeightStack<EradicatorMelee>(w) : DropHelper.WeightStack<Eradicator>(w)
+            );
+
             DropHelper.DropItemChance(player, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
             DropHelper.DropItemChance(player, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
-            DropHelper.DropItemChance(player, ModContent.ItemType<DeathhailStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<StaffoftheMechworm>(), 3);
-			if (Main.rand.NextBool(3))
-			{
-				DropHelper.DropItemFromSetChance(player, 1f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>());
-			}
+            float dischargeChance = DropHelper.LegendaryDropRateFloat;
+            DropHelper.DropItemCondition(player, ModContent.ItemType<CosmicDischarge>(), CalamityWorld.revenge, dischargeChance);
 
             // Equipment
             DropHelper.DropItem(player, ModContent.ItemType<NebulousCore>());

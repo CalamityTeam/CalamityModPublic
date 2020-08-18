@@ -22,7 +22,6 @@ namespace CalamityMod.Items.Weapons.Summon
                                "On right click, summons a duplicate ring around the targeted enemy, which slowly converges before exploding\n" +
                                "Minion damage bonuses apply to this weapon twice for more damage\n" +
                                "Revengeance Drop");
-            Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()

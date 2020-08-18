@@ -9,7 +9,7 @@ namespace CalamityMod.Tiles.FurniturePlaguedPlate
     {
         public override void SetDefaults()
         {
-            this.SetUpChest();
+            this.SetUpChest(true);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Plagued Chest");
             AddMapEntry(new Color(191, 142, 111), name, MapChestName);

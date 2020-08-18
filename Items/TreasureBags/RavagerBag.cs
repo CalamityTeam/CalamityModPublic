@@ -48,11 +48,15 @@ namespace CalamityMod.Items.TreasureBags
             DropHelper.DropItemCondition(player, ModContent.ItemType<FleshyGeodeT2>(), CalamityWorld.downedProvidence);
 
             // Weapons
-            DropHelper.DropItemChance(player, ModContent.ItemType<UltimusCleaver>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<RealmRavager>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<Hematemesis>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<SpikecragStaff>(), 3);
-            DropHelper.DropItemChance(player, ModContent.ItemType<CraniumSmasher>(), 3);
+            float w = DropHelper.BagWeaponDropRateFloat;
+            DropHelper.DropEntireWeightedSet(player,
+                DropHelper.WeightStack<UltimusCleaver>(w),
+                DropHelper.WeightStack<RealmRavager>(w),
+                DropHelper.WeightStack<Hematemesis>(w),
+                DropHelper.WeightStack<SpikecragStaff>(w),
+                DropHelper.WeightStack<CraniumSmasher>(w)
+            );
+
             DropHelper.DropItemFromSetChance(player, 0.05f, ModContent.ItemType<CorpusAvertorMelee>(), ModContent.ItemType<CorpusAvertor>());
 
             // Equipment

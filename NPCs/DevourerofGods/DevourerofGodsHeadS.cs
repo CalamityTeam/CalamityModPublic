@@ -1026,14 +1026,15 @@ namespace CalamityMod.NPCs.DevourerofGods
                 DropHelper.DropItem(npc, ModContent.ItemType<CosmiliteBrick>(), 150, 250);
 
                 // Weapons
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Excelsus>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<TheObliterator>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Deathwind>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Skullmasher>(), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<Norfleet>(), DropHelper.RareVariantDropRateInt);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<DeathhailStaff>(), 4);
-                DropHelper.DropItemChance(npc, ModContent.ItemType<StaffoftheMechworm>(), 4);
-				DropHelper.DropItemFromSetChance(npc, 0.25f, ModContent.ItemType<EradicatorMelee>(), ModContent.ItemType<Eradicator>());
+                float w = DropHelper.DirectWeaponDropRateFloat;
+                DropHelper.DropEntireWeightedSet(npc,
+                    DropHelper.WeightStack<Excelsus>(w),
+                    DropHelper.WeightStack<TheObliterator>(w),
+                    DropHelper.WeightStack<Deathwind>(w),
+                    DropHelper.WeightStack<DeathhailStaff>(w),
+                    DropHelper.WeightStack<StaffoftheMechworm>(w),
+                    Main.rand.NextBool() ? DropHelper.WeightStack<EradicatorMelee>(w) : DropHelper.WeightStack<Eradicator>(w)
+                );
 
                 // Vanity
                 DropHelper.DropItemChance(npc, ModContent.ItemType<DevourerofGodsMask>(), 7);
